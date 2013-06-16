@@ -1,0 +1,100 @@
+<html>
+<head>
+
+<title>首页</title>
+<@h.easyui />
+</head>
+<link href="${ctx}/css/main.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="${ctx}/js/frame/main.js" ></script>
+<script>
+		jQuery(function(){
+			var p = jQuery('body').layout('panel','west').panel({
+				onCollapse:function(){
+					//alert('collapse');
+				}
+			});
+			setTimeout(function(){
+				jQuery('body').layout('collapse','east');
+			},0);
+		});
+		
+		
+		
+	</script>
+	
+
+</head>
+<body class="easyui-layout">
+		<div region="north" class="north-back-main" style="height:125px" border="false">
+			<div class="top">
+				<div class="logo"></div>
+			    <ul class="fun">
+			    	<li class="f_1"><a href="#"></a></li>
+			        <li class="f_2"><a href="#"></a></li>
+			    </ul>
+				 <ul class="nav">
+						<li>
+						    	<a href="#">常用菜单1</a>
+						    	<a href="#">常用菜单2</a>
+						    	<a href="#">常用菜单3</a>
+						    	<a href="#">常用菜单4</a>
+						</li>
+			    </ul>
+			    <ul class="user">
+			    	<li>XXX  你好</li>
+			    </ul>
+			</div>
+		</div>
+		
+		
+		
+	<div region="west" id="easyui-west" split="true" title="主菜单" style="width:150px;">
+	  <div class="easyui-accordion" id="easyui_west_accordion" fit="true" border="false">
+		      
+		     <div title="测试数据">
+		       <ul class="sub icon_4">
+		           <li><a href="####" onClick="f_newTab('数据库日志','${ctx}/auditlog/list/pre');">数据库日志</a></li>
+		          
+		           <li><a href="####" onClick="f_newTab('用户管理','${ctx}/users/list/pre');">用户管理</a></li>
+		          
+		        </ul>
+		     </div>
+		     
+		     
+		
+		</div>
+	</div>
+	<div region="east" split="true" title="East" style="width:100px;padding:10px;">east region</div>
+
+	<div region="center">
+		<div id="easyui_center_tabs" class="easyui-tabs" fit="true" border="true">
+		  <div id="firstTab" title="首页" style="padding:10px;overflow:hidden;"> 
+		    <div style="margin-top:20px;">
+		             更新了spring 至3.2.2版本<br/>
+		             项目中包含演示sql语句,auditlog为必须表,默认每年一张分表,用于记录的操作日志<br/>
+		             约定每个数据库只有一个Dao,可以配置多个数据库,自带一个数据库的实现<br/>
+		             gencode 为 rapid-generator 项目的模版文件,可直接生成前后台逻辑,详见 rapid-generator代码生成器的模版文件<br/>
+		             org.iu9.frame.interceptor.FWInterceptor 为全局拦截器,自行添加权限过滤等操作 <br />
+		             目前支持 mssql和mysql,主键支持自增和字符串 <br />
+		             实现分表注解,使用方法参考auditlog</br>
+		             
+		             此版本可用于生成环境......
+		             
+		    </div>
+		  </div>
+		 </div>
+	</div>
+	
+		<div region="south" class="south-back-main" style="height:26px" border="false">
+			<table width="100%" cellpadding="0" cellspacing="0" border="0">
+					<tr>
+						<td align="center">2012©  版权所有 &nbsp;&nbsp;<a href="#">
+									帮助关于
+							</a></td>
+					</tr>
+			</table>
+		</div>
+	
+	
+</body>
+</html>
