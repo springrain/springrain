@@ -1,4 +1,10 @@
 ﻿
-运行rapid-gen.bat用于再输入gen user_info用于生成测试代码
+运行rapid-gen.bat用于再输入gen users 用于生成代码
 
-主要配置文件为generator.xml,里面可以修改数据库连接
+主要配置文件为generator.xml,里面可以修改数据库连接,以及java包名文件路径名称
+
+di_car/freemarker  对应拷贝到 WebROOT/WEB-INF/freemarker
+di_car/js          对应拷贝到 WebROOT/js
+di_car/src_main    对应拷贝到 src 
+
+
