@@ -80,6 +80,7 @@ jQuery(document).ready(function(){
 				<!--first_end_export-->
 				
 				<!--start_export-->
+				  ${r"<#if"} datas??&&((datas?size)>0)>
 					${r"<#list"} datas as data>
 						<tr>
 				<!--start_no_export-->
@@ -121,6 +122,7 @@ jQuery(document).ready(function(){
 							
 						</tr>
 					${r"</#list>"}
+					 ${r"</#if>"}
 				</table>
 			 <!--end_export-->
 			</dd>
