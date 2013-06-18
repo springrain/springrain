@@ -71,7 +71,7 @@ public class ${className}Controller  extends BaseController {
 		// ==构造分页请求
 		Page page = newPage(request);
 		// ==执行分页查询
-		List<${className}> datas=${classNameLower}Service.findListDateByFinder(null,page,${className}.class,${classNameLower});
+		List<${className}> datas=${classNameLower}Service.findListDataByFinder(null,page,${className}.class,${classNameLower});
 		model.addAttribute("page", page);
 		model.addAttribute("datas",datas);
 		model.addAttribute("${classNameLower}",${classNameLower});
