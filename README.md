@@ -6,3 +6,5 @@
 
 http://git.oschina.net/chunanyong/spring9iu/tree/master/9iuspring/gencode
 
+#sql脚本
+http://git.oschina.net/chunanyong/spring9iu/tree/master/9iuspring/sql
