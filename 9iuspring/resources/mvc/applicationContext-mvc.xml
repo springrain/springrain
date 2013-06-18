@@ -15,6 +15,13 @@
 		http://www.springframework.org/schema/aop
 		http://www.springframework.org/schema/aop/spring-aop-3.0.xsd"
 	default-lazy-init="false">
+	
+	<!-- 只扫描Controller 注解 -->
+		<context:component-scan base-package="org.iu9"
+		use-default-filters="false">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
 
 	<mvc:resources mapping="/images/**" location="/images/" />
 	<mvc:resources mapping="/js/**" location="/js/" />
@@ -31,17 +38,7 @@
 <property name="noqx"  value="/login"/> 
 </bean>
 
-	<bean id="freemarkerConfiguration"
-		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
-		<property name="location" value="classpath:freemarker.properties" />
-	</bean>
-	<!-- freemarker config -->
-	<bean id="freeMarkerConfigurer"
-		class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
-		<property name="templateLoaderPath" value="/WEB-INF/freemarker/" />
-		<property name="defaultEncoding" value="UTF-8" />
-		<property name="freemarkerSettings" ref="freemarkerConfiguration" />
-	</bean>
+	
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
 		<property name="requestContextAttribute" value="ctp" />
@@ -70,5 +67,6 @@
 		<property name="maxUploadSize" value="10485760" /> <!-- 最大文件大小，-1为无限止(-1) -->
 	</bean>
 
+<import resource="classpath*:mvc/applicationContext-mvc-share.xml" />
 
 </beans>

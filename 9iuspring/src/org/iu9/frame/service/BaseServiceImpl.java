@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Resource;
-
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.apache.commons.lang3.StringUtils;
 import org.iu9.frame.common.BaseLogger;
 import org.iu9.frame.dao.IBaseJdbcDao;
@@ -26,7 +26,6 @@ import org.iu9.frame.util.Finder;
 import org.iu9.frame.util.GlobalStatic;
 import org.iu9.frame.util.Page;
 import org.iu9.frame.util.SpringUtils;
-import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
 import freemarker.template.Template;
 /**
