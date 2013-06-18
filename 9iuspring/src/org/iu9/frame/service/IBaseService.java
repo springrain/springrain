@@ -210,7 +210,7 @@ public interface IBaseService {
  * @return
  * @throws Exception
  */
-	public <T> List<T>  findListDateByFinder(Finder finder,Page page,Class<T> clazz,Object queryBean)  throws Exception;
+	public <T> List<T>  findListDataByFinder(Finder finder,Page page,Class<T> clazz,Object queryBean)  throws Exception;
 
 
     /**

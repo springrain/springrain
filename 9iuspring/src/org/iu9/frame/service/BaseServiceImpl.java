@@ -167,7 +167,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 	
 	
 	@Override
-	public <T> List<T> findListDateByFinder(Finder finder, Page page,
+	public <T> List<T> findListDataByFinder(Finder finder, Page page,
 			Class<T> clazz, Object queryBean) throws Exception {
 		return getBaseDao().findListDateByFinder(finder, page, clazz, queryBean);
 	}
@@ -183,7 +183,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 		page.setPageSize(GlobalStatic.excelPageSize);
 		page.setPageIndex(1);
 		List<T> datas = baseService
-				.findListDateByFinder(finder, page, clazz, queryBean);
+				.findListDataByFinder(finder, page, clazz, queryBean);
 		map.put("datas", datas);
 		String fileName = UUID.randomUUID().toString();
 		String tempFFilepath = GlobalStatic.tempRootpath + "/" + fileName
@@ -215,7 +215,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 				end = true;
 			}
 			page.setPageIndex(i);
-			datas = baseService.findListDateByFinder(finder, page, clazz, queryBean);
+			datas = baseService.findListDataByFinder(finder, page, clazz, queryBean);
 			map.put("datas", datas);
 			CreateExceFile(template, ffile, excelFile, first, end, map);
 		}

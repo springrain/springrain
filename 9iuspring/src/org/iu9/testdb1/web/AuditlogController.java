@@ -84,7 +84,7 @@ public class AuditlogController  extends BaseController {
 		// ==构造分页请求
 		Page page = newPage(request);
 		// ==执行分页查询
-		List<AuditLog> datas=auditlogService.findListDateByFinder(null,page,AuditLog.class,auditLog);
+		List<AuditLog> datas=auditlogService.findListDataByFinder(null,page,AuditLog.class,auditLog);
 		model.addAttribute("page", page);
 		model.addAttribute("datas",datas);
 		model.addAttribute("auditlog",auditLog);

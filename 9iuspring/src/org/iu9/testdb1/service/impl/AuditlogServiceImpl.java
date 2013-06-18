@@ -66,9 +66,9 @@ public class AuditlogServiceImpl extends BaseTestdb1ServiceImpl implements IAudi
  * @throws Exception
  */
         @Override
-    public <T> List<T> findListDateByFinder(Finder finder, Page page, Class<T> clazz,
+    public <T> List<T> findListDataByFinder(Finder finder, Page page, Class<T> clazz,
 			Object o) throws Exception{
-			 return super.findListDateByFinder(finder,page,clazz,o);
+			 return super.findListDataByFinder(finder,page,clazz,o);
 			}
 	/**
 	 * 根据查询列表的宏,导出Excel
