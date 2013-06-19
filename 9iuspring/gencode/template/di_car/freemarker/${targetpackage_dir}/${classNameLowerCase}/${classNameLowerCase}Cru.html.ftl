@@ -1,4 +1,4 @@
-﻿<#assign className = table.className>   
+<#assign className = table.className>   
 <#assign classNameLower = className?uncap_first>  
 <#assign classNameLowerCase = className?lower_case>
 <#assign from = basepackage?last_index_of(".")>

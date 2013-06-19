@@ -44,7 +44,7 @@ public class ${className}  extends BaseEntity {
 	 */
 	private ${column.javaType} ${column.columnNameFirstLower};
 	</#list>
-	//columns END
+	//columns END  数据库字段结束
 	
 	//concstructor
 	<@generateConstructor className/>
