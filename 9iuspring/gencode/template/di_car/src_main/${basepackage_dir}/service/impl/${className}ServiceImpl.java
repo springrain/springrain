@@ -49,7 +49,7 @@ public class ${className}ServiceImpl extends BaseTestdb1ServiceImpl implements I
  * @throws Exception
  */
         @Override
-    public <T> List<T> findListDateByFinder(Finder finder, Page page, Class<T> clazz,
+    public <T> List<T> findListDataByFinder(Finder finder, Page page, Class<T> clazz,
 			Object o) throws Exception{
 			 return super.findListDateByFinder(finder,page,clazz,o);
 			}
