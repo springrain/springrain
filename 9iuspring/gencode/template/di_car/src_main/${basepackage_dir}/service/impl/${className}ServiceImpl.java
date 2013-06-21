@@ -51,7 +51,7 @@ public class ${className}ServiceImpl extends BaseTestdb1ServiceImpl implements I
         @Override
     public <T> List<T> findListDataByFinder(Finder finder, Page page, Class<T> clazz,
 			Object o) throws Exception{
-			 return super.findListDateByFinder(finder,page,clazz,o);
+			 return super.findListDataByFinder(finder,page,clazz,o);
 			}
 	/**
 	 * 根据查询列表的宏,导出Excel
