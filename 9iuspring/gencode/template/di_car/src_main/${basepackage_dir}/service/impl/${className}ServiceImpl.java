@@ -22,12 +22,12 @@ public class ${className}ServiceImpl extends BaseTestdb1ServiceImpl implements I
    
     @Override
 	public String  save${className}(${className} entity) throws Exception{
-	       return (String) super.save(entity);
+	       return super.save(entity).toString();
 	}
 
     @Override
 	public String  saveorupdate${className}(${className} entity) throws Exception{
-	       return (String) super.saveorupdate(entity);
+	       return super.saveorupdate(entity).toString();
 	}
 	
 	@Override
