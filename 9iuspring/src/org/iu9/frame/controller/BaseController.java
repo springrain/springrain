@@ -163,6 +163,7 @@ public class BaseController extends BaseLogger {
 	
 	@ExceptionHandler
 	public String exp(HttpServletRequest request,Exception e){
+		e.printStackTrace();
 		request.setAttribute("e", e);
 		logger.error(e);
 		return "/error";
