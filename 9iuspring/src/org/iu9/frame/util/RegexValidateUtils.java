@@ -2,6 +2,7 @@ package org.iu9.frame.util;
 
 
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
@@ -134,7 +135,21 @@ public class RegexValidateUtils {
         return false;
 	}
 	
-	
+	/**
+	 * 获取 order by 开始位置
+	 * @param orderbysql
+	 * @return
+	 */
+	public static int getOrderByIndex(String orderbysql){
+		int index=-1;
+		 String regStr="\\s+(order)\\s+(by)";
+		 Pattern pattern=Pattern.compile(regStr);
+		 Matcher matcher=pattern.matcher(orderbysql);
+		 if(matcher.find()){
+			 index=matcher.start();
+		 }
+		 return index;
+	}
 	
 	 
 	

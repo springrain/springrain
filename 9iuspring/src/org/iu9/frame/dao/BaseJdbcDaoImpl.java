@@ -27,6 +27,7 @@ import org.iu9.frame.util.EntityInfo;
 import org.iu9.frame.util.Finder;
 import org.iu9.frame.util.GlobalStatic;
 import org.iu9.frame.util.Page;
+import org.iu9.frame.util.RegexValidateUtils;
 import org.iu9.frame.util.SecUtils;
 import org.iu9.frame.util.WhereSQLInfo;
 import org.springframework.dao.DataAccessException;
@@ -154,7 +155,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 			finder.append(" WHERE 1=1 ");
 			getFinderWhereByQueryBean(finder, queryBean);
 		}
-		int _index = finder.getSql().toLowerCase().indexOf(" order by ");
+		int _index = RegexValidateUtils.getOrderByIndex(finder.getSql().toLowerCase());
 		if (_index > 0) {
 			finder.setSql(finder.getSql().substring(0, _index));
 		}
@@ -169,17 +170,15 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		if (StringUtils.isNotBlank(order)) {
 			order = order.trim();
 			// String[] orders=order.split(",");
-			boolean istrue = true;
-			if (order.indexOf(" ") > -1) {// 有空格的order by 认为是异常的,主要是防止注入
-				istrue = false;
+			if (order.indexOf(" ") > -1||order.indexOf(";") > -1) {//  认为是异常的,主要是防止注入
+				return null;
 			}
 			/*
 			 * for(String s:orders){ if(allDBFields.contains(s)==false){
 			 * istrue=false; break; } }
 			 */
 
-			if (istrue
-					&& (finder.getSql().toLowerCase().contains(" order by ") == false)) {
+			if  ( RegexValidateUtils.getOrderByIndex(finder.getSql().toLowerCase())<0) {
 				finder.append(" order by ").append(order);
 			}
 			if (StringUtils.isNotBlank(sort)) {
@@ -265,14 +264,13 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		Map<String, Object> paramMap = finder.getParams();
 
 		// 查询sql、统计sql不能为空
-		if (StringUtils.isBlank(sql))
+		if (StringUtils.isBlank(sql)){
 			return null;
-
-		if (sql.toLowerCase().indexOf(" order by ") > -1) {
+		}
+		if ( RegexValidateUtils.getOrderByIndex(sql.toLowerCase()) > -1) {
 			if (StringUtils.isBlank(orderSql)) {
-				orderSql = sql.substring(sql.toLowerCase()
-						.indexOf(" order by "));
-				sql = sql.substring(0, sql.toLowerCase().indexOf(" order by "));
+				orderSql = sql.substring(RegexValidateUtils.getOrderByIndex(sql.toLowerCase()));
+				sql = sql.substring(0, RegexValidateUtils.getOrderByIndex(sql.toLowerCase()));
 			}
 		} else {
 			orderSql = " order by id";
@@ -288,16 +286,29 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		Integer count = null;
 
 		if (finder.getCountFinder() == null) {
-		String countSql = new String(sql);
-		int order_int = countSql.toLowerCase().lastIndexOf(" order ");
-		if (order_int > 1) {
-			countSql = countSql.substring(0, order_int);
-		}
-		countSql="SELECT count(*) FROM ("+countSql+") as temp_frame_noob_table_name";
-		count = getJdbc().queryForInt(countSql, paramMap);
-		} else {
-			count = queryForObject(finder.getCountFinder(), Integer.class);
-		}
+			/*
+			String countSql = "select count(*) "
+					+ sql.substring(sql.toLowerCase().lastIndexOf("from"));
+			int order_int = countSql.toLowerCase().lastIndexOf("order ");
+			int group_int = countSql.toLowerCase().lastIndexOf("group ");
+			if (order_int > 1) {
+				countSql = countSql.substring(0, order_int);
+			}
+			if (group_int > 1) {
+				countSql = countSql.substring(0, group_int);
+			}
+			count = getJdbc().queryForInt(countSql, paramMap);
+			*/
+			String countSql = new String(sql);
+			int order_int = RegexValidateUtils.getOrderByIndex(countSql.toLowerCase());
+			if (order_int > 1) {
+				countSql = countSql.substring(0, order_int);
+			}
+			countSql="SELECT count(*) FROM ("+countSql+") as temp_frame_noob_table_name";
+			count = getJdbc().queryForInt(countSql, paramMap);
+			} else {
+				count = queryForObject(finder.getCountFinder(), Integer.class);
+			}
 
 		// 设置分页参数
 		int pageSize = page.getPageSize();
@@ -314,8 +325,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 			int index = sql.toLowerCase().indexOf("select");
 			sql = sql.substring(index + 6, sql.length());
 		}
-		String clums = " "
-				+ sql.substring(0, sql.toLowerCase().lastIndexOf("from")) + " ";
+		//String clums = " "+ sql.substring(0, sql.toLowerCase().lastIndexOf("from")) + " ";
 
 		// 分页语句
 		StringBuffer sb = new StringBuffer();
@@ -451,11 +461,14 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	@Override
 	public Object save(Object entity) throws Exception {
 		Object id = saveNoLog(entity);
-		IAuditLog auditLog = getAuditLog();
+
 		String tableExt = ClassUtils.getTableExt(entity);
-		if (StringUtils.isNotBlank(tableExt)) {
-			auditLog.setExt(tableExt);
+		if (StringUtils.isBlank(tableExt)) {
+			int year = Calendar.getInstance().get(Calendar.YEAR);
+			tableExt = GlobalStatic.tableExt + year;
 		}
+
+		IAuditLog auditLog = getAuditLog();
 		auditLog.setOperationClass(entity.getClass().getName());
 		auditLog.setOperationType(GlobalStatic.dataSave);
 		auditLog.setOperatorName(SessionUser.getUserName());
@@ -526,9 +539,12 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		auditLog.setPreValue(old_entity.toString());
 		auditLog.setCurValue(entity.toString());
 
-		if (StringUtils.isNotBlank(tableExt)) {
-			auditLog.setExt(tableExt);
+		String audit_tableExt = tableExt;
+		if (StringUtils.isBlank(tableExt)) {
+			int year = Calendar.getInstance().get(Calendar.YEAR);
+			audit_tableExt = GlobalStatic.tableExt + year;
 		}
+		auditLog.setExt(audit_tableExt);
 
 		// 更新entity
 		Integer hang = getJdbc().update(sql.toString(), paramMap);
@@ -629,10 +645,11 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		 * if(clazz.equals(IAuditLog.class)){ update(finder); return; }
 		 */
 		/**
-		 * 删除还有个 bug,就是删除分表的数据,日志记录有问题,默认是日志的当前年分表.</br>
-		 * 具体实现可以是ID的前四位是记录所属的年份,例如  2013,这一点根据实际业务实现吧
+		 * 删除还有个 bug,就是删除分表的数据,日志记录有问题 没有分表
 		 */
 
+		int year = Calendar.getInstance().get(Calendar.YEAR);
+		String tableExt = GlobalStatic.tableExt + year;
 
 		Object findEntityByID = findByID(id, clazz);
 		IAuditLog auditLog = getAuditLog();
@@ -642,6 +659,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		auditLog.setOperationClassId(id.toString());
 		auditLog.setOperationTime(new Date());
 		auditLog.setPreValue(findEntityByID.toString());
+		auditLog.setExt(tableExt);
 		auditLog.setCurValue("无");
 		// 保存日志
 		saveNoLog(auditLog);
