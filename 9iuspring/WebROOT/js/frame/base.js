@@ -12,7 +12,7 @@ function f_newTab(tabTitle,tabHref){
 	var tabId=now.getTime();
 	var iframeId="_iframe_"+tabId;
 	var _fid=getCurrIframeId();
-     jQuery.cookie(iframeId,_fid);
+ 	jQuery.cookie(iframeId,_fid,{path:"/"});
 	top.parent.newTab(tabId,iframeId,tabTitle,tabHref);
 }
 
