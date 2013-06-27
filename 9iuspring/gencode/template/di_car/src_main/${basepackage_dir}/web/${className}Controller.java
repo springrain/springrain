@@ -68,12 +68,15 @@ public class ${className}Controller  extends BaseController {
 	*/
 	@RequestMapping("/list")
 	public String list(HttpServletRequest request, Model model,${className} ${classNameLower}) throws Exception{
-		// ==构造分页请求
+		// ==构造分页对象
 		Page page = newPage(request);
 		// ==执行分页查询
 		List<${className}> datas=${classNameLower}Service.findListDataByFinder(null,page,${className}.class,${classNameLower});
+		// ==分页对象封装到前台
 		model.addAttribute("page", page);
+		// ==列表数据封装到前台
 		model.addAttribute("datas",datas);
+		// ==把查询条件重新分装到前台
 		model.addAttribute("${classNameLower}",${classNameLower});
 		return listurl;
 	}
@@ -231,6 +234,7 @@ public class ${className}Controller  extends BaseController {
 		String order=request.getParameter("order");
 		String sort=request.getParameter("sort");
 		if(StringUtils.isBlank(order)){
+		//默认页面排序 字段
 		  order="id";
 		}
 		if(StringUtils.isBlank(sort)){
