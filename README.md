@@ -30,15 +30,16 @@ struts 和 spring mvc 相比,个人感觉还是有点差距的.
 //@Test  查询基本类型
 public void testObject() throws Exception{
         Finder finder=new Finder("select id from [Users] where 1=1 ");
-        finder.append("and userId=:userId").setParam("userId", 6);
-Integer id = baseTestdb1Service.queryForObject(finder, Integer.class);
+        finder.append("and id=:userId").setParam("userId", "admin");
+String id = baseTestdb1Service.queryForObject(finder, String.class);
 System.out.println(id);
 
 }
 
 //@Test 查询一个对象
 public void testObjectUser() throws Exception{
-        Finder finder=new Finder("select * from Users where id=6 order by id");
+        Finder finder=new Finder("select * from Users where id=:userId order by id");
+        finder.setParam("userId", "admin");
         Users u = baseTestdb1Service.queryForObject(finder, Users.class);
     System.out.println(u.getName());
 
