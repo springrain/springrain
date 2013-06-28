@@ -265,13 +265,18 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 			fos = new FileOutputStream(excelFile, true);
 			osw = new OutputStreamWriter(fos, "UTF-8");
 			bw = new BufferedWriter(osw);
+			if(first){//如果是第一次,输出编码格式,防止 office 乱码
+				bw.write("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">");
+			}
 
 			String line = null;
 
 			boolean iswrite = false;
 			while ((line = br.readLine()) != null) {
+				
 				if (StringUtils.isBlank(line))
 					continue;
+			
 
 				line = line.trim();
 				if (line.startsWith("<!--first_") && first == false) {
