@@ -6,6 +6,8 @@ http://git.oschina.net/chunanyong/spring9iu/tree/master/9iuspring/gencode
 
 #sql脚本
 http://git.oschina.net/chunanyong/spring9iu/tree/master/9iuspring/sql
+#文档
+http://git.oschina.net/chunanyong/spring9iu/raw/master/9iuspring/doc/9iuspring.pdf
 
 9iuspring是spring的极简封装,spring一站式开发的范例,spring的强大灵活+jfinal的开发效率
 
