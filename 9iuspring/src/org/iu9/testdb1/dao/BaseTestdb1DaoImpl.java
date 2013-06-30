@@ -3,6 +3,7 @@ package org.iu9.testdb1.dao;
 import javax.annotation.Resource;
 
 import org.iu9.frame.dao.BaseJdbcDaoImpl;
+import org.iu9.frame.dao.dialect.IDialect;
 import org.iu9.frame.entity.IAuditLog;
 import org.iu9.testdb1.entity.AuditLog;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -29,6 +30,9 @@ public class BaseTestdb1DaoImpl extends BaseJdbcDaoImpl implements IBaseTestdb1D
 	 */
 	@Resource
 	public SimpleJdbcCall jdbcCall;
+	
+	@Resource
+	public IDialect mysqlDialect;
 
 	public BaseTestdb1DaoImpl() {
 	}
@@ -57,5 +61,11 @@ public class BaseTestdb1DaoImpl extends BaseJdbcDaoImpl implements IBaseTestdb1D
 	public IAuditLog getAuditLog() {
 		return new AuditLog();
 	}
+
+
+@Override
+public IDialect getDialect() {
+	return mysqlDialect;
+}
 
 }

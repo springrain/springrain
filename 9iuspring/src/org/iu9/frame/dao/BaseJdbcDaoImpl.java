@@ -2,8 +2,6 @@ package org.iu9.frame.dao;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
@@ -21,6 +19,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.iu9.frame.common.BaseLogger;
 import org.iu9.frame.common.SessionUser;
+import org.iu9.frame.dao.dialect.IDialect;
 import org.iu9.frame.entity.IAuditLog;
 import org.iu9.frame.util.ClassUtils;
 import org.iu9.frame.util.EntityInfo;
@@ -43,44 +42,60 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
 /**
- * 基础的Dao父类,所有的Dao都必须继承此类,每个数据库都需要一个实现.</br> 
+ * 基础的Dao父类,所有的Dao都必须继承此类,每个数据库都需要一个实现.</br>
  * 
- * 例如 testdb1数据的实现类是org.iu9.testdb1.dao.BaseTestdb1DaoImpl,testdb2数据的实现类是org.iu9.testdb2.dao.Basetestdb2DaoImpl</br>
+ * 例如
+ * testdb1数据的实现类是org.iu9.testdb1.dao.BaseTestdb1DaoImpl,testdb2数据的实现类是org.iu9.
+ * testdb2.dao.Basetestdb2DaoImpl</br>
  * 
  * @copyright {@link 9iu.org}
  * @author 9iuspring<Auto generate>
- * @version  2013-03-19 11:08:15
+ * @version 2013-03-19 11:08:15
  * @see org.iu9.frame.dao.BaseJdbcDaoImpl
  */
 public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		IBaseJdbcDao {
-	private static List<Class> baseClassList = new ArrayList<Class>();
 	private String dataBaseType = null;
 	private String dataBaseVersion = null;
 	private List<String> dataBaseAllTables;
 
-	public BaseJdbcDaoImpl() {
-	}
+	/**
+	 * 抽象方法.每个数据库的代理Dao都必须实现.在多库情况下,用于区分底层数据库的连接对象,对数据库进行增删改查.</br> 例如:oa_human
+	 * 数据库的代理Dao com.centfor.cerp.dao.BaseCerpDaoImpl 实现返回的是spring的bean
+	 * jdbc.</br> datalog 数据库的代理Dao com.centfor.datalog.dao.BaseDataLogDaoImpl
+	 * 实现返回的是spring的bean jdbc_datalog.</br>
+	 * 
+	 * @return
+	 */
+	public abstract NamedParameterJdbcTemplate getJdbc();
 
 	/**
-	 * 初始化基础的对象类型,用于查询一个字段时的判断映射</br> 主要用于spring jdbc对返回值的映射方法.</br>
-	 * 例如:只查询返回UserId(Integer),不需要使用特殊的封装映射类, 查询返回User对象 就需要使用
-	 * ParameterizedBeanPropertyRowMapper映射类
+	 * 抽象方法.每个数据库的代理Dao都必须实现.在多库情况下,用于区分数据库实例的日志记录表,主要是为了兼容日志表(auditlog)的主键生成方式,
+	 * UUID和自增.</br> oa_human 数据库的auditlog 是自增,datalog是UUID
+	 * 
+	 * @return
 	 */
-	static {
-		baseClassList.add(BigInteger.class);
-		baseClassList.add(Integer.class);
-		baseClassList.add(String.class);
-		baseClassList.add(BigDecimal.class);
-		baseClassList.add(Long.class);
-		baseClassList.add(Double.class);
-		baseClassList.add(Float.class);
-		baseClassList.add(Boolean.class);
-		baseClassList.add(Short.class);
-		baseClassList.add(Date.class);
-		baseClassList.add(java.sql.Date.class);
-		baseClassList.add(java.sql.Time.class);
-		baseClassList.add(java.sql.Timestamp.class);
+	public abstract IAuditLog getAuditLog();
+
+	/**
+	 * 抽象方法.每个数据库的代理Dao都必须实现.在多库情况下,用于区分底层数据库的连接对象,调用数据库的函数和存储过程.</br>
+	 * 例如:oa_human 数据库的代理Dao com.centfor.cerp.dao.BaseCerpDaoImpl
+	 * 实现返回的是spring的bean jdbcCall.</br> datalog 数据库的代理Dao
+	 * com.centfor.datalog.dao.BaseDataLogDaoImpl 实现返回的是spring的bean
+	 * jdbcCall_datalog.</br>
+	 * 
+	 * @return
+	 */
+	public abstract SimpleJdbcCall getJdbcCall();
+
+	/**
+	 * 获取数据库方言
+	 * 
+	 * @return
+	 */
+	public abstract IDialect getDialect();
+
+	public BaseJdbcDaoImpl() {
 	}
 
 	@Override
@@ -127,8 +142,8 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 			return null;
 		finder.setPageSql(pageSql);
 
-		if (baseClassList.contains(clazz)) {
-			if (getDataBaseType() == null || getDataBaseType().equals("mssql")) {
+		if (ClassUtils.isBaseType(clazz)) {
+			if (getDialect().isRowNumber()) {
 				return getJdbc().query(pageSql, finder.getParams(),
 						new CFSingleColumnRowMapper(clazz));
 			} else {
@@ -144,11 +159,12 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	@Override
 	public <T> List<T> findListDateByFinder(Finder finder, Page page,
 			Class<T> clazz, Object queryBean) throws Exception {
-		EntityInfo entityInfoByEntity = ClassUtils.getEntityInfoByEntity(queryBean);
-		String tableName=entityInfoByEntity.getTableName();
-		String tableExt=entityInfoByEntity.getTableExt();
-		if(StringUtils.isNotBlank(tableExt)){
-			tableName=tableName+tableExt;
+		EntityInfo entityInfoByEntity = ClassUtils
+				.getEntityInfoByEntity(queryBean);
+		String tableName = entityInfoByEntity.getTableName();
+		String tableExt = entityInfoByEntity.getTableExt();
+		if (StringUtils.isNotBlank(tableExt)) {
+			tableName = tableName + tableExt;
 		}
 		if (finder == null) {
 			finder = new Finder("SELECT * FROM " + tableName);
@@ -170,7 +186,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		if (StringUtils.isNotBlank(order)) {
 			order = order.trim();
 			// String[] orders=order.split(",");
-			if (order.indexOf(" ") > -1||order.indexOf(";") > -1) {//  认为是异常的,主要是防止注入
+			if (order.indexOf(" ") > -1 || order.indexOf(";") > -1) {// 认为是异常的,主要是防止注入
 				return null;
 			}
 			/*
@@ -178,7 +194,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 			 * istrue=false; break; } }
 			 */
 
-			if  ( RegexValidateUtils.getOrderByIndex(finder.getSql())<0) {
+			if (RegexValidateUtils.getOrderByIndex(finder.getSql()) < 0) {
 				finder.append(" order by ").append(order);
 			}
 			if (StringUtils.isNotBlank(sort)) {
@@ -205,11 +221,12 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 			throws Exception {
 		List<WhereSQLInfo> whereSQLInfo = ClassUtils.getWhereSQLInfo(o
 				.getClass());
-		
-		Object alias_o=ClassUtils.getPropertieValue(GlobalStatic.frameTableAlias, o);
-		String alias=null;
-		if(alias_o!=null){
-			alias=alias_o.toString();
+
+		Object alias_o = ClassUtils.getPropertieValue(
+				GlobalStatic.frameTableAlias, o);
+		String alias = null;
+		if (alias_o != null) {
+			alias = alias_o.toString();
 		}
 
 		if (CollectionUtils.isNotEmpty(whereSQLInfo)) {
@@ -220,8 +237,8 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 					continue;
 				}
 				String wheresql = whereinfo.getWheresql();
-				if(StringUtils.isNotBlank(alias)){
-					wheresql=alias+"."+wheresql;
+				if (StringUtils.isNotBlank(alias)) {
+					wheresql = alias + "." + wheresql;
 				}
 				String pname = wheresql.substring(wheresql.indexOf(":") + 1);
 				if (wheresql.toLowerCase().contains(" like ")) {
@@ -264,12 +281,13 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		Map<String, Object> paramMap = finder.getParams();
 
 		// 查询sql、统计sql不能为空
-		if (StringUtils.isBlank(sql)){
+		if (StringUtils.isBlank(sql)) {
 			return null;
 		}
-		if ( RegexValidateUtils.getOrderByIndex(sql) > -1) {
+		if (RegexValidateUtils.getOrderByIndex(sql) > -1) {
 			if (StringUtils.isBlank(orderSql)) {
-				orderSql = sql.substring(RegexValidateUtils.getOrderByIndex(sql));
+				orderSql = sql.substring(RegexValidateUtils
+						.getOrderByIndex(sql));
 				sql = sql.substring(0, RegexValidateUtils.getOrderByIndex(sql));
 			}
 		} else {
@@ -286,70 +304,24 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		Integer count = null;
 
 		if (finder.getCountFinder() == null) {
-			/*
-			String countSql = "select count(*) "
-					+ sql.substring(sql.toLowerCase().lastIndexOf("from"));
-			int order_int = countSql.toLowerCase().lastIndexOf("order ");
-			int group_int = countSql.toLowerCase().lastIndexOf("group ");
-			if (order_int > 1) {
-				countSql = countSql.substring(0, order_int);
-			}
-			if (group_int > 1) {
-				countSql = countSql.substring(0, group_int);
-			}
-			count = getJdbc().queryForInt(countSql, paramMap);
-			*/
 			String countSql = new String(sql);
 			int order_int = RegexValidateUtils.getOrderByIndex(countSql);
 			if (order_int > 1) {
 				countSql = countSql.substring(0, order_int);
 			}
-			countSql="SELECT count(*) FROM ("+countSql+") as temp_frame_noob_table_name";
+			countSql = "SELECT count(*) FROM (" + countSql
+					+ ") as temp_frame_noob_table_name";
 			count = getJdbc().queryForInt(countSql, paramMap);
-			} else {
-				count = queryForObject(finder.getCountFinder(), Integer.class);
-			}
-
-		// 设置分页参数
-		int pageSize = page.getPageSize();
-		int pageNo = page.getPageIndex();
+		} else {
+			count = queryForObject(finder.getCountFinder(), Integer.class);
+		}
 		// 记录总行数(区分是否使用占位符)
-
 		if (count == 0) {
 			return null;
 		} else {
 			page.setTotalCount(count);
 		}
-		// 去掉select
-		if (sql.toLowerCase().indexOf("select") != -1) {
-			int index = sql.toLowerCase().indexOf("select");
-			sql = sql.substring(index + 6, sql.length());
-		}
-		//String clums = " "+ sql.substring(0, sql.toLowerCase().lastIndexOf("from")) + " ";
-
-		// 分页语句
-		StringBuffer sb = new StringBuffer();
-
-		if (getDataBaseType() == null || getDataBaseType().equals("mssql")) {
-			sb.append("SELECT TOP ");
-			sb.append(pageSize);
-			sb.append(" * from (SELECT ROW_NUMBER() OVER (");
-			sb.append(orderSql);
-			sb.append(") AS mssqlserver_row_number,");
-			sb.append(sql);
-			sb.append("  ) A WHERE mssqlserver_row_number > ");
-			sb.append(pageSize * (pageNo - 1));
-			sb.append(" order by mssqlserver_row_number ");
-		} else if (getDataBaseType().equals("mysql")) {
-			sb.append("SELECT  ");
-			sb.append(sql);
-			if (StringUtils.isNotBlank(orderSql))
-				sb.append(orderSql);
-			sb.append(" limit ").append(pageSize * (pageNo - 1)).append(",")
-					.append(pageSize);
-		}
-
-		return sb.toString();
+		return getDialect().getPageSql(sql, orderSql, page);
 	}
 
 	@Override
@@ -357,13 +329,11 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 
 		T t = null;
 		try {
-			if (baseClassList.contains(clazz)) {
-
+			if (ClassUtils.isBaseType(clazz)) {
 				t = (T) getJdbc().queryForObject(finder.getSql(),
 						finder.getParams(), clazz);
 
 			} else {
-
 				t = (T) getJdbc().queryForObject(finder.getSql(),
 						finder.getParams(),
 						ParameterizedBeanPropertyRowMapper.newInstance(clazz));
@@ -401,7 +371,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		 * if(StringUtils.isNotBlank(groupName)){ tableExt=(String)
 		 * ClassUtils.getPropertieValue(groupName, entity); }
 		 */
-		StringBuffer sql = new StringBuffer("INSERT ").append(tableName)
+		StringBuffer sql = new StringBuffer("INSERT INTO ").append(tableName)
 				.append(tableExt).append("(");
 
 		StringBuffer valueSql = new StringBuffer(" values(");
@@ -776,8 +746,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	 * @throws Exception
 	 */
 	@Override
-	public <T> List<T> queryForList(T entity, Page page)
-			throws Exception {
+	public <T> List<T> queryForList(T entity, Page page) throws Exception {
 		String tableName = getTableNameByEntity(entity);
 		Finder finder = new Finder("SELECT * FROM ");
 		finder.append(tableName).append("  WHERE 1=1 ");
@@ -785,37 +754,6 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		return (List<T>) queryForList(finder, entity.getClass(), page);
 
 	}
-
-	
-
-	/**
-	 * 抽象方法.每个数据库的代理Dao都必须实现.在多库情况下,用于区分底层数据库的连接对象,对数据库进行增删改查.</br> 例如:oa_human
-	 * 数据库的代理Dao com.centfor.cerp.dao.BaseCerpDaoImpl 实现返回的是spring的bean
-	 * jdbc.</br> datalog 数据库的代理Dao com.centfor.datalog.dao.BaseDataLogDaoImpl
-	 * 实现返回的是spring的bean jdbc_datalog.</br>
-	 * 
-	 * @return
-	 */
-	public abstract NamedParameterJdbcTemplate getJdbc();
-
-	/**
-	 * 抽象方法.每个数据库的代理Dao都必须实现.在多库情况下,用于区分数据库实例的日志记录表,主要是为了兼容日志表(auditlog)的主键生成方式,
-	 * UUID和自增.</br> oa_human 数据库的auditlog 是自增,datalog是UUID
-	 * 
-	 * @return
-	 */
-	public abstract IAuditLog getAuditLog();
-
-	/**
-	 * 抽象方法.每个数据库的代理Dao都必须实现.在多库情况下,用于区分底层数据库的连接对象,调用数据库的函数和存储过程.</br>
-	 * 例如:oa_human 数据库的代理Dao com.centfor.cerp.dao.BaseCerpDaoImpl
-	 * 实现返回的是spring的bean jdbcCall.</br> datalog 数据库的代理Dao
-	 * com.centfor.datalog.dao.BaseDataLogDaoImpl 实现返回的是spring的bean
-	 * jdbcCall_datalog.</br>
-	 * 
-	 * @return
-	 */
-	public abstract SimpleJdbcCall getJdbcCall();
 
 	@Override
 	public String getDataBaseVersion() {

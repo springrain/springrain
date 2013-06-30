@@ -381,6 +381,22 @@ public class ClassUtils {
 		return _obj;
 		
 	}
+	/**
+	 * 是否是java的基本类型
+	 * @param clazz
+	 * @return
+	 */
+	public static  boolean isBaseType(Class clazz){
+		if(clazz==null){
+			return false;
+		}
+		String className=clazz.getName().toLowerCase().trim();
+		if(className.startsWith("java.")){
+			return true;
+		}else{
+			return false;
+		}
+	}
 	
 	
 }

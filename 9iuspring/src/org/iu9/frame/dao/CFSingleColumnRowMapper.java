@@ -35,7 +35,7 @@ public class CFSingleColumnRowMapper<T> extends SingleColumnRowMapper<T>{
 		// Extract column value from JDBC ResultSet.
 		int columnIndex=1;
 		String columnName=rsmd.getColumnName(columnIndex);
-		if("mssqlserver_row_number".equals(columnName)){
+		if("frame_page_sql_row_number".equals(columnName.toLowerCase())){
 			columnIndex=2;
 		}
 		
