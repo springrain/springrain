@@ -288,17 +288,13 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		Integer count = null;
 
 		if (finder.getCountFinder() == null) {
-			String countSql = "select count(*) "
-					+ sql.substring(sql.toLowerCase().lastIndexOf("from"));
-			int order_int = countSql.toLowerCase().lastIndexOf("order ");
-			int group_int = countSql.toLowerCase().lastIndexOf("group ");
-			if (order_int > 1) {
-				countSql = countSql.substring(0, order_int);
-			}
-			if (group_int > 1) {
-				countSql = countSql.substring(0, group_int);
-			}
-			count = getJdbc().queryForInt(countSql, paramMap);
+		String countSql = "";
+		int order_int = sql.toLowerCase().lastIndexOf(" order ");
+		if (order_int > 1) {
+			countSql = sql.substring(0, order_int);
+		}
+		countSql="SELECT count(*) FROM ("+countSql+") as temp_frame_noob_table_name";
+		count = getJdbc().queryForInt(countSql, paramMap);
 		} else {
 			count = queryForObject(finder.getCountFinder(), Integer.class);
 		}
