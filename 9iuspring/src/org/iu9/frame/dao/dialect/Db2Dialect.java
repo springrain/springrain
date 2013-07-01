@@ -22,7 +22,7 @@ public class Db2Dialect implements IDialect {
   StringBuffer sb=new StringBuffer();
 	sb.append("SELECT * from (SELECT ROWNUMBER() OVER (");
 	sb.append(orderby);
-	sb.append(") AS frame_page_sql_row_number,");
+	sb.append(")  frame_page_sql_row_number,");
 	sb.append(sql);
 	sb.append("  ) frame_sql_temp_table WHERE frame_sql_temp_table.frame_page_sql_row_number >= ");
 	sb.append(satrt).append(" and frame_sql_temp_table.frame_page_sql_row_number<=").append(end);

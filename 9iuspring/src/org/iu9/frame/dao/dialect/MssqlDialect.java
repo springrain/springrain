@@ -23,7 +23,7 @@ public class MssqlDialect implements IDialect {
 	sb.append(pageSize);
 	sb.append(" * from (SELECT ROW_NUMBER() OVER (");
 	sb.append(orderby);
-	sb.append(") AS frame_page_sql_row_number,");
+	sb.append(")  frame_page_sql_row_number,");
 	sb.append(sql);
 	sb.append("  ) frame_sql_temp_table WHERE frame_page_sql_row_number > ");
 	sb.append(pageSize * (pageNo - 1));
