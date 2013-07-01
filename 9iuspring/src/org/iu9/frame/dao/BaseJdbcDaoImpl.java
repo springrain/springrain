@@ -309,7 +309,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 			if (order_int > 1) {
 				countSql = countSql.substring(0, order_int);
 			}
-			countSql = "SELECT count(*) FROM (" + countSql+ ")";
+			countSql = "SELECT count(*) as frame_row_count FROM (" + countSql+ ") temp_frame_noob_table_name WHERE　１＝１ ";
 			count = getJdbc().queryForInt(countSql, paramMap);
 		} else {
 			count = queryForObject(finder.getCountFinder(), Integer.class);
