@@ -58,6 +58,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	private String dataBaseType = null;
 	private String dataBaseVersion = null;
 	private List<String> dataBaseAllTables;
+	private String oracle="oracle";
 
 	/**
 	 * 抽象方法.每个数据库的代理Dao都必须实现.在多库情况下,用于区分底层数据库的连接对象,对数据库进行增删改查.</br> 例如:testdb1
@@ -387,7 +388,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		StringBuffer valueSql = new StringBuffer(" values(");
 
 		Class<?> returnType = null;
-
+         String _idName=null;
 		for (int i = 0; i < fdNames.size(); i++) {
 			String fdName = fdNames.get(i);// 字段名称
 			// fd.setAccessible(true);
@@ -398,6 +399,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 			Object _defaultId=getDefaultId(entity);
 			if (getMethod.isAnnotationPresent(Id.class)) {// 如果是ID,自动生成UUID
 				returnType = getMethod.getReturnType();
+				_idName=fdName;
 				Object _getId = ClassUtils.getPKValue(entity); // 主键
 				if(_getId==null&&_defaultId!=null){
 					setMethod.invoke(entity, _defaultId);
@@ -438,7 +440,11 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		} else {
 			KeyHolder keyHolder = new GeneratedKeyHolder();
 			SqlParameterSource ss = new MapSqlParameterSource(paramMap);
-			getJdbc().update(sql.toString(), ss, keyHolder);
+			if(StringUtils.isNotBlank(_idName)&&isOracle()){
+			getJdbc().update(sql.toString(), ss, keyHolder,new String[]{_idName});
+			}else{
+				getJdbc().update(sql.toString(), ss, keyHolder);
+			}
 			return keyHolder.getKey().longValue();
 		}
 	}
@@ -843,5 +849,16 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 				});
 		return dataBaseAllTables;
 	}
-
+	/**
+	 * 是否是 oracle 数据库
+	 * @return
+	 */
+private boolean isOracle(){
+	if(oracle.equals(getDialect().getDataDaseType().toLowerCase())){
+		return true;
+	}else{
+		return false;
+	}
+	
+}
 }
