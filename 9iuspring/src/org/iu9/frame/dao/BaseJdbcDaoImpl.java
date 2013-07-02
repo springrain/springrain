@@ -61,10 +61,11 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	private List<String> dataBaseAllTables;
 
 	/**
-	 * 抽象方法.每个数据库的代理Dao都必须实现.在多库情况下,用于区分底层数据库的连接对象,对数据库进行增删改查.</br> 
-	 * 例如:testdb1数据库的代理Dao  org.iu9.testdb1.dao.BaseTestdb1DaoImpll 实现返回的是spring的beanjdbc.</br>
-	 *  testdb2 数据库的代理Dao  org.iu9.testdb2.dao.BaseTestdb2DaoImpl
-	 * 实现返回的是spring的bean jdbc_testdb2.</br>
+	 * 抽象方法.每个数据库的代理Dao都必须实现.在多库情况下,用于区分底层数据库的连接对象,对数据库进行增删改查.</br>
+	 * 例如:testdb1数据库的代理Dao org.iu9.testdb1.dao.BaseTestdb1DaoImpll
+	 * 实现返回的是spring的beanjdbc.</br> testdb2 数据库的代理Dao
+	 * org.iu9.testdb2.dao.BaseTestdb2DaoImpl 实现返回的是spring的bean
+	 * jdbc_testdb2.</br>
 	 * 
 	 * @return
 	 */
@@ -72,8 +73,8 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 
 	/**
 	 * 抽象方法.每个数据库的代理Dao都必须实现.在多库情况下,用于区分数据库实例的日志记录表,
-	 * 主要是为了兼容日志表(auditlog)的主键生成方式,UUID和自增.</br>
-	 *  testdb1 数据库的auditlog 是自增,testdb2 数据库的 auditlog 是UUID
+	 * 主要是为了兼容日志表(auditlog)的主键生成方式,UUID和自增.</br> testdb1 数据库的auditlog
+	 * 是自增,testdb2 数据库的 auditlog 是UUID
 	 * 
 	 * @return
 	 */
@@ -81,19 +82,19 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 
 	/**
 	 * 抽象方法.每个数据库的代理Dao都必须实现.在多库情况下,用于区分底层数据库的连接对象,调用数据库的函数和存储过程.</br>
-	 * 例如:testdb1 数据库的代理Dao org.iu9.testdb1.dao.BaseTestdb1DaoImpl 实现返回的是spring的bean jdbcCall.</br>
-	 *  datalog 数据库的代理Dao org.iu9.testdb2.dao.BaseTestdb2DaoImpl 实现返回的是spring的beanjdbcCall_testdb2.</br>
+	 * 例如:testdb1 数据库的代理Dao org.iu9.testdb1.dao.BaseTestdb1DaoImpl
+	 * 实现返回的是spring的bean jdbcCall.</br> datalog 数据库的代理Dao
+	 * org.iu9.testdb2.dao.BaseTestdb2DaoImpl
+	 * 实现返回的是spring的beanjdbcCall_testdb2.</br>
 	 * 
 	 * @return
 	 */
 	public abstract SimpleJdbcCall getJdbcCall();
 
 	/**
-	 * 获取数据库方言,Dao 中注入spring bean.</br>
-	 * 例如mysql的实现是 mysqlDialect.
-	 * oracle的实现是 oracleDialect.
-	 * 如果使用了sequence 在entity使用@PKSequence实现自增
-	 * 详见 org.iu9.frame.dao.dialect.IDialect的实现
+	 * 获取数据库方言,Dao 中注入spring bean.</br> 例如mysql的实现是 mysqlDialect. oracle的实现是
+	 * oracleDialect. 如果使用了sequence 在entity使用@PKSequence实现自增 详见
+	 * org.iu9.frame.dao.dialect.IDialect的实现
 	 * 
 	 * @return
 	 */
@@ -381,6 +382,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		StringBuffer valueSql = new StringBuffer(" values(");
 
 		Class<?> returnType = null;
+		boolean isSequence = false;
 		for (int i = 0; i < fdNames.size(); i++) {
 			String fdName = fdNames.get(i);// 字段名称
 			// fd.setAccessible(true);
@@ -394,6 +396,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 					if (returnType == String.class) {
 						setMethod.invoke(entity, id);
 					} else if (getMethod.isAnnotationPresent(PKSequence.class)) {// 如果包含主键序列注解
+						isSequence = true;
 						PKSequence sequenceAnnotation = getMethod
 								.getAnnotation(PKSequence.class);
 						String _sequence_value = sequenceAnnotation.name();
@@ -437,12 +440,13 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		} else {
 			KeyHolder keyHolder = new GeneratedKeyHolder();
 			SqlParameterSource ss = new MapSqlParameterSource(paramMap);
-			String _pkName=entityInfo.getPkName();
-			if(StringUtils.isNotBlank(_pkName)&&isOracle()){
-				getJdbc().update(sql.toString(), ss, keyHolder,new String[]{_pkName});
-				}else{
-					getJdbc().update(sql.toString(), ss, keyHolder);
-				}
+			String _pkName = entityInfo.getPkName();
+			if (StringUtils.isNotBlank(_pkName) && isSequence) {
+				getJdbc().update(sql.toString(), ss, keyHolder,
+						new String[] { _pkName });
+			} else {
+				getJdbc().update(sql.toString(), ss, keyHolder);
+			}
 			return keyHolder.getKey();
 		}
 	}
@@ -849,14 +853,15 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	}
 	/**
 	 * 是否是 oracle 数据库
+	 * 
 	 * @return
 	 */
-private boolean isOracle(){
-	if("oracle".equals(getDialect().getDataDaseType().toLowerCase())){
-		return true;
-	}else{
-		return false;
-	}
-	
-}
+	/*
+	 * private boolean isOracle(){
+	 * if("oracle".equals(getDialect().getDataDaseType().toLowerCase())){ return
+	 * true; }else{ return false; }
+	 * 
+	 * 
+	 * }
+	 */
 }
