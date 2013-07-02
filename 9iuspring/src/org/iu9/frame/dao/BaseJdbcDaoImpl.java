@@ -89,8 +89,9 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	public abstract SimpleJdbcCall getJdbcCall();
 
 	/**
-	 * 获取数据库方言
-	 * 
+	 * 获取数据库方言,Dao 中注入 spring bean.</br>
+	 * mysqlDialect 是mysql的方言,springBean的name,可以参考 IDialect的实现.</br>
+	 * 如果是oracle的Sequence 可以在Dao中重写 getDefaultId(Object)   返回主键Id
 	 * @return
 	 */
 	public abstract IDialect getDialect();

@@ -30,7 +30,9 @@ public class BaseTestdb1DaoImpl extends BaseJdbcDaoImpl implements IBaseTestdb1D
 	 */
 	@Resource
 	public SimpleJdbcCall jdbcCall;
-	
+/**
+ * mysqlDialect 是mysql的方言,springBean的name,可以参考 IDialect的实现
+ */
 	@Resource
 	public IDialect mysqlDialect;
 
