@@ -61,9 +61,9 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	private List<String> dataBaseAllTables;
 
 	/**
-	 * 抽象方法.每个数据库的代理Dao都必须实现.在多库情况下,用于区分底层数据库的连接对象,对数据库进行增删改查.</br> 例如:testdb1
-	 * 数据库的代理Dao  org.iu9.testdb1.dao.BaseTestdb1DaoImpll 实现返回的是spring的bean
-	 * jdbc.</br> testdb2 数据库的代理Dao  org.iu9.testdb2.dao.BaseTestdb2DaoImpl
+	 * 抽象方法.每个数据库的代理Dao都必须实现.在多库情况下,用于区分底层数据库的连接对象,对数据库进行增删改查.</br> 
+	 * 例如:testdb1数据库的代理Dao  org.iu9.testdb1.dao.BaseTestdb1DaoImpll 实现返回的是spring的beanjdbc.</br>
+	 *  testdb2 数据库的代理Dao  org.iu9.testdb2.dao.BaseTestdb2DaoImpl
 	 * 实现返回的是spring的bean jdbc_testdb2.</br>
 	 * 
 	 * @return
@@ -71,8 +71,9 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	public abstract NamedParameterJdbcTemplate getJdbc();
 
 	/**
-	 * 抽象方法.每个数据库的代理Dao都必须实现.在多库情况下,用于区分数据库实例的日志记录表,主要是为了兼容日志表(auditlog)的主键生成方式,
-	 * UUID和自增.</br> testdb1 数据库的auditlog 是自增,testdb2 数据库的 auditlog 是UUID
+	 * 抽象方法.每个数据库的代理Dao都必须实现.在多库情况下,用于区分数据库实例的日志记录表,
+	 * 主要是为了兼容日志表(auditlog)的主键生成方式,UUID和自增.</br>
+	 *  testdb1 数据库的auditlog 是自增,testdb2 数据库的 auditlog 是UUID
 	 * 
 	 * @return
 	 */
@@ -80,17 +81,19 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 
 	/**
 	 * 抽象方法.每个数据库的代理Dao都必须实现.在多库情况下,用于区分底层数据库的连接对象,调用数据库的函数和存储过程.</br>
-	 * 例如:testdb1 数据库的代理Dao org.iu9.testdb1.dao.BaseTestdb1DaoImpl
-	 * 实现返回的是spring的bean jdbcCall.</br> datalog 数据库的代理Dao
-	 * org.iu9.testdb2.dao.BaseTestdb2DaoImpl 实现返回的是spring的bean
-	 * jdbcCall_testdb2.</br>
+	 * 例如:testdb1 数据库的代理Dao org.iu9.testdb1.dao.BaseTestdb1DaoImpl 实现返回的是spring的bean jdbcCall.</br>
+	 *  datalog 数据库的代理Dao org.iu9.testdb2.dao.BaseTestdb2DaoImpl 实现返回的是spring的beanjdbcCall_testdb2.</br>
 	 * 
 	 * @return
 	 */
 	public abstract SimpleJdbcCall getJdbcCall();
 
 	/**
-	 * 获取数据库方言
+	 * 获取数据库方言,Dao 中注入spring bean.</br>
+	 * 例如mysql的实现是 mysqlDialect.
+	 * oracle的实现是 oracleDialect.
+	 * 如果使用了sequence 在entity使用@PKSequence实现自增
+	 * 详见 org.iu9.frame.dao.dialect.IDialect的实现
 	 * 
 	 * @return
 	 */
