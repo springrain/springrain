@@ -99,6 +99,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	 * 获取默认主键,主要是为了处理 oracle等Sequence产生的主键
 	 * @param entity
 	 * @return
+	 * @throws Exception
 	 */
 	public Object getDefaultId(Object entity)throws Exception{
 		return null;
