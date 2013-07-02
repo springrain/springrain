@@ -1,10 +1,13 @@
 package org.iu9.testdb1.dao;
 
+import java.math.BigDecimal;
+
 import javax.annotation.Resource;
 
 import org.iu9.frame.dao.BaseJdbcDaoImpl;
 import org.iu9.frame.dao.dialect.IDialect;
 import org.iu9.frame.entity.IAuditLog;
+import org.iu9.frame.util.Finder;
 import org.iu9.testdb1.entity.AuditLog;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
@@ -30,11 +33,15 @@ public class BaseTestdb1DaoImpl extends BaseJdbcDaoImpl implements IBaseTestdb1D
 	 */
 	@Resource
 	public SimpleJdbcCall jdbcCall;
-/**
- * mysqlDialect 是mysql的方言,springBean的name,可以参考 IDialect的实现
- */
+    /**
+     * mysqlDialect 是mysql的方言,springBean的name,可以参考 IDialect的实现
+     */
 	@Resource
 	public IDialect mysqlDialect;
+	@Override
+	public IDialect getDialect() {
+		return mysqlDialect;
+	}
 
 	public BaseTestdb1DaoImpl() {
 	}
@@ -63,11 +70,17 @@ public class BaseTestdb1DaoImpl extends BaseJdbcDaoImpl implements IBaseTestdb1D
 	public IAuditLog getAuditLog() {
 		return new AuditLog();
 	}
-
-
-@Override
-public IDialect getDialect() {
-	return mysqlDialect;
-}
+	
+	/**
+	 * oracle 使用sequence 代码样例子
+	 */
+	/*
+	@Override
+	public Object getDefaultId(Object entity) throws Exception{
+		Finder finder=new Finder("SELECT empseq.NEXTVAL FROM DUAL");
+		BigDecimal id=super.queryForObject(finder, BigDecimal.class);
+		return id;
+	}
+*/
 
 }

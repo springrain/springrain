@@ -100,7 +100,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	 * @param entity
 	 * @return
 	 */
-	public Object getDefaultId(Object entity){
+	public Object getDefaultId(Object entity)throws Exception{
 		return null;
 	}
 	
