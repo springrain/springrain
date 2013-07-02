@@ -1,7 +1,5 @@
 package org.iu9.testdb1.dao;
 
-import java.math.BigDecimal;
-
 import javax.annotation.Resource;
 
 import org.iu9.frame.dao.BaseJdbcDaoImpl;
@@ -74,12 +72,12 @@ public class BaseTestdb1DaoImpl extends BaseJdbcDaoImpl implements IBaseTestdb1D
 	/**
 	 * oracle 使用sequence 代码样例子
 	 */
-	
+	/*
 	@Override
 	public Object getDefaultId(Object entity) throws Exception{
 		Finder finder=new Finder("SELECT empseq.NEXTVAL FROM DUAL");
 		Number id=super.queryForObject(finder, Number.class);
 		return id;
 	}
-
+*/
 }
