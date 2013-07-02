@@ -94,6 +94,15 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	 * @return
 	 */
 	public abstract IDialect getDialect();
+	/**
+	 * 获取默认主键,主要是为了处理 oracle等Sequence产生的主键
+	 * @param entity
+	 * @return
+	 */
+	public Object getDefaultId(Object entity){
+		return null;
+	}
+	
 
 	public BaseJdbcDaoImpl() {
 	}
@@ -384,9 +393,14 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 
 			Method getMethod = pd.getReadMethod();// 获得get方法
 			Method setMethod = pd.getWriteMethod();// set 方法
+			Object _defaultId=getDefaultId(entity);
 			if (getMethod.isAnnotationPresent(Id.class)) {// 如果是ID,自动生成UUID
 				returnType = getMethod.getReturnType();
 				Object _getId = ClassUtils.getPKValue(entity); // 主键
+				if(_getId==null&&_defaultId!=null){
+					setMethod.invoke(entity, _defaultId);
+					_getId=_defaultId;
+				}
 				if (_getId == null) {
 					if (returnType == String.class) {
 						setMethod.invoke(entity, id);
