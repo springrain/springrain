@@ -16,7 +16,7 @@
 	<entry key="namespace">ftl</entry>
 	
 	<!-- 输出的代码路径 -->
-	<entry key="outRoot">.\generator-output</entry>
+	<entry key="outRoot">./generator-output</entry>
 
 	<!-- 需要移除的表名前缀,使用逗号进行分隔多个前缀,示例值: t_,v_ -->
 	<entry key="tableRemovePrefixes"></entry>
