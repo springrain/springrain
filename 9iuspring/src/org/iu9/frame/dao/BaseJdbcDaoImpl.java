@@ -17,6 +17,7 @@ import javax.persistence.Id;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.iu9.frame.annotation.PKSequence;
 import org.iu9.frame.common.BaseLogger;
 import org.iu9.frame.common.SessionUser;
 import org.iu9.frame.dao.dialect.IDialect;
@@ -58,7 +59,6 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	private String dataBaseType = null;
 	private String dataBaseVersion = null;
 	private List<String> dataBaseAllTables;
-	private String oracle="oracle";
 
 	/**
 	 * 抽象方法.每个数据库的代理Dao都必须实现.在多库情况下,用于区分底层数据库的连接对象,对数据库进行增删改查.</br> 例如:testdb1
@@ -90,22 +90,11 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	public abstract SimpleJdbcCall getJdbcCall();
 
 	/**
-	 * 获取数据库方言,Dao 中注入 spring bean.</br>
-	 * mysqlDialect 是mysql的方言,springBean的name,可以参考 IDialect的实现.</br>
-	 * 如果是oracle的Sequence 可以在Dao中重写 getDefaultId(Object)   返回主键Id
+	 * 获取数据库方言
+	 * 
 	 * @return
 	 */
 	public abstract IDialect getDialect();
-	/**
-	 * 获取默认主键,主要是为了处理 oracle等Sequence产生的主键
-	 * @param entity
-	 * @return
-	 * @throws Exception
-	 */
-	public Object getDefaultId(Object entity)throws Exception{
-		return null;
-	}
-	
 
 	public BaseJdbcDaoImpl() {
 	}
@@ -321,7 +310,8 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 			if (order_int > 1) {
 				countSql = countSql.substring(0, order_int);
 			}
-			countSql = "SELECT count(*)  frame_row_count FROM (" + countSql+ ") temp_frame_noob_table_name WHERE 1=1 ";
+			countSql = "SELECT count(*)  frame_row_count FROM (" + countSql
+					+ ") temp_frame_noob_table_name WHERE 1=1 ";
 			count = getJdbc().queryForInt(countSql, paramMap);
 		} else {
 			count = queryForObject(finder.getCountFinder(), Integer.class);
@@ -388,26 +378,30 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		StringBuffer valueSql = new StringBuffer(" values(");
 
 		Class<?> returnType = null;
-         String _idName=null;
 		for (int i = 0; i < fdNames.size(); i++) {
 			String fdName = fdNames.get(i);// 字段名称
 			// fd.setAccessible(true);
 			PropertyDescriptor pd = new PropertyDescriptor(fdName, clazz);
-
 			Method getMethod = pd.getReadMethod();// 获得get方法
 			Method setMethod = pd.getWriteMethod();// set 方法
-			Object _defaultId=getDefaultId(entity);
 			if (getMethod.isAnnotationPresent(Id.class)) {// 如果是ID,自动生成UUID
 				returnType = getMethod.getReturnType();
-				_idName=fdName;
 				Object _getId = ClassUtils.getPKValue(entity); // 主键
-				if(_getId==null&&_defaultId!=null){
-					setMethod.invoke(entity, _defaultId);
-					_getId=_defaultId;
-				}
 				if (_getId == null) {
 					if (returnType == String.class) {
 						setMethod.invoke(entity, id);
+					} else if (getMethod.isAnnotationPresent(PKSequence.class)) {// 如果包含主键序列注解
+						PKSequence sequenceAnnotation = getMethod
+								.getAnnotation(PKSequence.class);
+						String _sequence_value = sequenceAnnotation.name();
+						if ((i + 1) == fdNames.size()) {
+							sql.append(fdName).append(")");
+							valueSql.append(_sequence_value).append(")");
+							break;
+						}
+						sql.append(fdName).append(",");
+						valueSql.append(_sequence_value).append(",");
+						continue;
 					} else {
 						continue;
 					}
@@ -440,12 +434,13 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		} else {
 			KeyHolder keyHolder = new GeneratedKeyHolder();
 			SqlParameterSource ss = new MapSqlParameterSource(paramMap);
-			if(StringUtils.isNotBlank(_idName)&&isOracle()){
-			getJdbc().update(sql.toString(), ss, keyHolder,new String[]{_idName});
-			}else{
-				getJdbc().update(sql.toString(), ss, keyHolder);
-			}
-			return keyHolder.getKey().longValue();
+			String _pkName=entityInfo.getPkName();
+			if(StringUtils.isNotBlank(_pkName)&&isOracle()){
+				getJdbc().update(sql.toString(), ss, keyHolder,new String[]{_pkName});
+				}else{
+					getJdbc().update(sql.toString(), ss, keyHolder);
+				}
+			return keyHolder.getKey();
 		}
 	}
 
@@ -854,7 +849,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	 * @return
 	 */
 private boolean isOracle(){
-	if(oracle.equals(getDialect().getDataDaseType().toLowerCase())){
+	if("oracle".equals(getDialect().getDataDaseType().toLowerCase())){
 		return true;
 	}else{
 		return false;

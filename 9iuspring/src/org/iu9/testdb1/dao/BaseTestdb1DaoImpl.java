@@ -5,7 +5,6 @@ import javax.annotation.Resource;
 import org.iu9.frame.dao.BaseJdbcDaoImpl;
 import org.iu9.frame.dao.dialect.IDialect;
 import org.iu9.frame.entity.IAuditLog;
-import org.iu9.frame.util.Finder;
 import org.iu9.testdb1.entity.AuditLog;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
@@ -69,15 +68,5 @@ public class BaseTestdb1DaoImpl extends BaseJdbcDaoImpl implements IBaseTestdb1D
 		return new AuditLog();
 	}
 	
-	/**
-	 * oracle 使用sequence 代码样例子
-	 */
-	/*
-	@Override
-	public Object getDefaultId(Object entity) throws Exception{
-		Finder finder=new Finder("SELECT empseq.NEXTVAL FROM DUAL");
-		Number id=super.queryForObject(finder, Number.class);
-		return id;
-	}
-*/
+
 }
