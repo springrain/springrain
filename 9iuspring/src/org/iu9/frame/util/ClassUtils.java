@@ -20,6 +20,7 @@ import javax.persistence.Transient;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.iu9.frame.annotation.PKSequence;
 import org.iu9.frame.annotation.TableGroup;
 import org.iu9.frame.annotation.WhereSQL;
 
@@ -87,7 +88,21 @@ public class ClassUtils {
 		return null;
 
     	info.setFdNames(fields);
-    	info.setPkName(ClassUtils.getPKName(clazz));
+    	 for(String fdName:fields){
+ 			boolean ispk= isAnnotation(clazz,fdName,Id.class);
+ 			if(ispk==true){
+ 				info.setPkName(fdName);
+ 			  boolean isSequence=	 isAnnotation(clazz,fdName,PKSequence.class);
+ 			  if(isSequence){
+ 					PropertyDescriptor pd = new PropertyDescriptor(fdName, clazz);
+ 					Method getMethod = pd.getReadMethod();// 获得get方法
+ 					PKSequence sequenceAnnotation = getMethod.getAnnotation(PKSequence.class);
+ 					info.setPksequence(sequenceAnnotation.name());
+ 			  }
+ 				break;
+ 			}
+ 		 }
+    	
     	
    	 if(clazz.isAnnotationPresent(TableGroup.class)){
    		info.setGroup(true);
@@ -308,30 +323,7 @@ public class ClassUtils {
 		return fdNameSet;
 	}
 	
-	/**
-	 * 获取数据库表的主键列名
-	 * @param clazz
-	 * @return
-	 * @throws Exception
-	 */
-	public static String getPKName(Class clazz) throws Exception{
-		 Set<String> allNames=getAllFieldNames(clazz);
-	     if(CollectionUtils.isEmpty(allNames))
-	    	 return null;
-	     
-	     String id="id";
-	    
-		 List<String> list=new ArrayList<String>();	
-	     
-		 for(String fdName:allNames){
-			boolean ispk= isAnnotation(clazz,fdName,Id.class);
-			if(ispk==true){
-				id=fdName;
-				break;
-			}
-		 }
-			return id;
-	}
+	
 	/**
 	 * 获得主键的值
 	 * @param clazz

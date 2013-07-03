@@ -17,7 +17,6 @@ import javax.persistence.Id;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.iu9.frame.annotation.PKSequence;
 import org.iu9.frame.common.BaseLogger;
 import org.iu9.frame.common.SessionUser;
 import org.iu9.frame.dao.dialect.IDialect;
@@ -395,11 +394,8 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 				if (_getId == null) {
 					if (returnType == String.class) {
 						setMethod.invoke(entity, id);
-					} else if (getMethod.isAnnotationPresent(PKSequence.class)) {// 如果包含主键序列注解
-						isSequence = true;
-						PKSequence sequenceAnnotation = getMethod
-								.getAnnotation(PKSequence.class);
-						String _sequence_value = sequenceAnnotation.name();
+					} else if (StringUtils.isNotBlank(entityInfo.getPksequence())) {// 如果包含主键序列注解
+						String _sequence_value = entityInfo.getPksequence();
 						if ((i + 1) == fdNames.size()) {
 							sql.append(fdName).append(")");
 							valueSql.append(_sequence_value).append(")");

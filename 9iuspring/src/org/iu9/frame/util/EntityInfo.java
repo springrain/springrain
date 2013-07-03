@@ -23,6 +23,10 @@ public class EntityInfo {
 	private List<String> fdNames=null;
 	
 	private boolean isGroup=false;
+	/**
+	 * 主键序列
+	 */
+	private String pksequence=null;
 	
 	/**
 	 * 数据库的表名
@@ -95,6 +99,12 @@ public class EntityInfo {
 	}
 	public void setGroup(boolean isGroup) {
 		this.isGroup = isGroup;
+	}
+	public String getPksequence() {
+		return pksequence;
+	}
+	public void setPksequence(String pksequence) {
+		this.pksequence = pksequence;
 	}
 
 
