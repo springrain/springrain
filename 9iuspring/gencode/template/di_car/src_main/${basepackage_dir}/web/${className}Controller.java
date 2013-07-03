@@ -76,7 +76,7 @@ public class ${className}Controller  extends BaseController {
 		model.addAttribute("page", page);
 		// ==列表数据封装到前台
 		model.addAttribute("datas",datas);
-		// ==把查询条件重新分装到前台
+		// ==把查询条件重新封装到前台
 		model.addAttribute("${classNameLower}",${classNameLower});
 		return listurl;
 	}
