@@ -347,7 +347,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		Class clazz = entity.getClass();
 		// entity信息
 		EntityInfo entityInfo = ClassUtils.getEntityInfoByEntity(entity);
-		List<String> fdNames = entityInfo.getFdNames();
+		List<String> fdNames = ClassUtils.getAllDBFields(clazz);
 		Map paramMap = new HashMap();// 对象内的参数
 		String id = SecUtils.getUUID();// 主键
 
@@ -457,7 +457,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		Class clazz = entity.getClass();
 		//entity的信息
 		EntityInfo entityInfo = ClassUtils.getEntityInfoByEntity(entity);
-		List<String> fdNames = entityInfo.getFdNames();
+		List<String> fdNames = ClassUtils.getAllDBFields(clazz);
 		Map paramMap = new HashMap();// 对象内的参数
 
 		String tableName = entityInfo.getTableName();

@@ -8,11 +8,11 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -37,11 +37,15 @@ import org.iu9.frame.annotation.WhereSQL;
 public class ClassUtils {
 	
 	
-	
-	public static Map<String,EntityInfo> staticEntitymap=new  HashMap<String,EntityInfo>();
-	
-	public static Map<String, List<WhereSQLInfo>> staticWhereSQLmap=new  HashMap<String, List<WhereSQLInfo>>();
-	
+	//缓存 entity的字段信息
+	public static Map<String,EntityInfo> staticEntitymap=new  ConcurrentHashMap<String,EntityInfo>();
+	//缓存 所有的WhereSql注解
+	public static Map<String, List<WhereSQLInfo>> staticWhereSQLmap=new  ConcurrentHashMap<String, List<WhereSQLInfo>>();
+	//缓存 所有的字段
+	public static Map<String, Set<String>> allFieldmap=new  ConcurrentHashMap<String, Set<String>>();
+	//缓存 说有的数据库字段
+	public static Map<String, List<String>> allDBFieldmap=new  ConcurrentHashMap<String, List<String>>();
+
 	
 	/**
 	 * 添加一个EntityInfo 信息,用于缓存.
@@ -86,8 +90,6 @@ public class ClassUtils {
 		List<String> fields = ClassUtils.getAllDBFields(clazz);
     	if(fields==null)
 		return null;
-
-    	info.setFdNames(fields);
     	 for(String fdName:fields){
  			boolean ispk= isAnnotation(clazz,fdName,Id.class);
  			if(ispk==true){
@@ -187,11 +189,18 @@ public class ClassUtils {
 	 * @throws Exception
 	 */
 	public static Set<String> getAllFieldNames(Class clazz) throws Exception{
-		if(clazz==null)
+		if(clazz==null){
 			return null;
-		Set<String> fdNameSet=new HashSet<String>();
-		fdNameSet=	recursionFiled(clazz,fdNameSet);
-		return fdNameSet;
+		}
+		String className=clazz.getName();
+		boolean iskey=allFieldmap.containsKey(className);
+		if(iskey){
+		 return  allFieldmap.get(className);
+		}
+		Set<String>	allSet=new HashSet<String>();
+		allSet=	recursionFiled(clazz,allSet);
+		allFieldmap.put(className, allSet);
+		return allSet;
 	}
 	
 	
@@ -205,22 +214,28 @@ public class ClassUtils {
 	 */
 	public static List<String> getAllDBFields(Class clazz) throws Exception{
 		
-		if(clazz==null)
+		if(clazz==null){
 			return null;
+		}
+		String className=clazz.getName();
+		boolean iskey=allDBFieldmap.containsKey(className);
+		if(iskey){
+			return allDBFieldmap.get(className);
+		}
 		
-     Set<String> allNames=getAllFieldNames(clazz);
+		Set<String> allNames = getAllFieldNames(clazz);
      if(CollectionUtils.isEmpty(allNames))
     	 return null;
     
-	 List<String> list=new ArrayList<String>();	
-     
+     List<String>   dbList=new ArrayList<String>();
 	 for(String fdName:allNames){
 		boolean isDB= isAnnotation(clazz,fdName,Transient.class);
 		if(isDB==false){
-			list.add(fdName);
+			dbList.add(fdName);
 		}
 	 }
-		return list;
+	 allDBFieldmap.put(className, dbList);
+		return dbList;
 	}
 	
 	

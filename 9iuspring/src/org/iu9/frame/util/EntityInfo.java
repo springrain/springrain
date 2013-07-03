@@ -1,7 +1,7 @@
 package org.iu9.frame.util;
 
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 /**
 * 记录缓存数据库一个表对应的Entity的信息
 *
@@ -19,8 +19,7 @@ public class EntityInfo {
 	private Map<String,String> sqlmap=null;
 	
 	private String pkName=null;
-	
-	private List<String> fdNames=null;
+
 	
 	private boolean isGroup=false;
 	/**
@@ -58,16 +57,7 @@ public class EntityInfo {
 	public void setFiledsName(String filedName) {
 		this.filedsName = filedName;
 	}
-	/**
-	 * 返回数据的所有字段
-	 * @return List
-	 */
-	public List<String> getFdNames() {
-		return fdNames;
-	}
-	public void setFdNames(List<String> fdNames) {
-		this.fdNames = fdNames;
-	}
+	
 	/**
 	 * 数据库分表的后缀名 例如 _history_2012
 	 * @return
