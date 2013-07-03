@@ -1,7 +1,6 @@
 package org.iu9.frame.util;
 
 import java.util.Map;
-import java.util.Set;
 /**
 * 记录缓存数据库一个表对应的Entity的信息
 *

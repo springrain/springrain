@@ -43,7 +43,7 @@ public class ClassUtils {
 	public static Map<String, List<WhereSQLInfo>> staticWhereSQLmap=new  ConcurrentHashMap<String, List<WhereSQLInfo>>();
 	//缓存 所有的字段
 	public static Map<String, Set<String>> allFieldmap=new  ConcurrentHashMap<String, Set<String>>();
-	//缓存 说有的数据库字段
+	//缓存 所有的数据库字段
 	public static Map<String, List<String>> allDBFieldmap=new  ConcurrentHashMap<String, List<String>>();
 
 	
@@ -309,9 +309,9 @@ public class ClassUtils {
 	 */
 	public static String getGroupName(Object o) throws Exception{
 		Class clazz=o.getClass();
-		if(clazz.isAnnotationPresent(TableGroup.class)==false)
+		if(clazz.isAnnotationPresent(TableGroup.class)==false){
 			return "";
-		
+		}
 		TableGroup group =	(TableGroup)clazz.getAnnotation(TableGroup.class);
 		String p=group.name();
 		return p;
