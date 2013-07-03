@@ -2,10 +2,6 @@ package org.iu9.frame.dao;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -29,10 +25,8 @@ import org.iu9.frame.util.Page;
 import org.iu9.frame.util.RegexValidateUtils;
 import org.iu9.frame.util.SecUtils;
 import org.iu9.frame.util.WhereSQLInfo;
-import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
-import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -773,7 +767,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		return (List<T>) queryForList(finder, entity.getClass(), page);
 
 	}
-
+	/*
 	@Override
 	public String getDataBaseVersion() {
 		if (dataBaseVersion != null) {
@@ -817,8 +811,6 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 			this.dataBaseType = "sybase";
 		}
 
-		// System.out.println(driverName+":"+dataBaseType);
-
 		return dataBaseType;
 	}
 
@@ -837,7 +829,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 						// "SYNONYM"
 						String[] types = { "TABLE" };
 						ResultSet tabs = dbMetaData.getTables(null, null, null,
-								types/* 只要表就好了 */);
+								types);//只要表就好了 
 						while (tabs.next()) {
 							// 只要表名这一列
 							tables.add(tabs.getString("TABLE_NAME"));
@@ -847,17 +839,5 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 				});
 		return dataBaseAllTables;
 	}
-	/**
-	 * 是否是 oracle 数据库
-	 * 
-	 * @return
-	 */
-	/*
-	 * private boolean isOracle(){
-	 * if("oracle".equals(getDialect().getDataDaseType().toLowerCase())){ return
-	 * true; }else{ return false; }
-	 * 
-	 * 
-	 * }
-	 */
+	*/
 }

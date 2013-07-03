@@ -262,17 +262,17 @@ public interface IBaseJdbcDao {
 	 * 获取数据库的版本
 	 * @return
 	 */
-	public String getDataBaseVersion();
+	//public String getDataBaseVersion();
 	/**
 	 * 获取数据库的类型
 	 * @return
 	 */
-	public String getDataBaseType() ;
+	//public String getDataBaseType() ;
 	/**
 	 * 获取数据库所有的表
 	 * @return
 	 */
-	public List<String> getDataBaseAllTables();
+	//public List<String> getDataBaseAllTables();
 	
 	
 	
