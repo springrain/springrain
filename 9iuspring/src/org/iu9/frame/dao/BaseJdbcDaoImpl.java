@@ -49,10 +49,7 @@ import org.springframework.jdbc.support.KeyHolder;
  */
 public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		IBaseJdbcDao {
-	//private String dataBaseType = null;
-	//private String dataBaseVersion = null;
-	//private List<String> dataBaseAllTables;
-
+	
 	/**
 	 * 抽象方法.每个数据库的代理Dao都必须实现.在多库情况下,用于区分底层数据库的连接对象,对数据库进行增删改查.</br>
 	 * 例如:testdb1数据库的代理Dao org.iu9.testdb1.dao.BaseTestdb1DaoImpll
@@ -173,7 +170,6 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		if (_index > 0) {
 			finder.setSql(finder.getSql().substring(0, _index));
 		}
-		// getFinderWhereByQueryBean(finder, o);
 
 		if (page == null) {
 			return this.queryForList(finder, clazz, page);
@@ -183,14 +179,9 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		String order = page.getOrder();
 		if (StringUtils.isNotBlank(order)) {
 			order = order.trim();
-			// String[] orders=order.split(",");
 			if (order.indexOf(" ") > -1 || order.indexOf(";") > -1) {// 认为是异常的,主要是防止注入
 				return null;
 			}
-			/*
-			 * for(String s:orders){ if(allDBFields.contains(s)==false){
-			 * istrue=false; break; } }
-			 */
 
 			if (RegexValidateUtils.getOrderByIndex(finder.getSql()) < 0) {
 				finder.append(" order by ").append(order);
@@ -354,8 +345,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	@SuppressWarnings("unchecked")
 	private Object saveNoLog(Object entity) throws Exception {
 		Class clazz = entity.getClass();
-		// 所有和数据库对应的字段
-		// List<String> fdNames = ClassUtils.getAllDBFields(clazz);
+		// entity信息
 		EntityInfo entityInfo = ClassUtils.getEntityInfoByEntity(entity);
 		List<String> fdNames = entityInfo.getFdNames();
 		Map paramMap = new HashMap();// 对象内的参数
@@ -365,10 +355,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 
 		// 获取 分表的扩展
 		String tableExt = entityInfo.getTableExt();
-		/*
-		 * if(StringUtils.isNotBlank(groupName)){ tableExt=(String)
-		 * ClassUtils.getPropertieValue(groupName, entity); }
-		 */
+
 		StringBuffer sql = new StringBuffer("INSERT INTO ").append(tableName)
 				.append(tableExt).append("(");
 
@@ -468,8 +455,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	@Override
 	public Integer update(Object entity) throws Exception {
 		Class clazz = entity.getClass();
-		// 所有和数据库对应的字段
-		// List<String> fdNames = ClassUtils.getAllDBFields(clazz);
+		//entity的信息
 		EntityInfo entityInfo = ClassUtils.getEntityInfoByEntity(entity);
 		List<String> fdNames = entityInfo.getFdNames();
 		Map paramMap = new HashMap();// 对象内的参数
@@ -490,7 +476,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 			PropertyDescriptor pd = new PropertyDescriptor(fdName, clazz);
 
 			Method getMethod = pd.getReadMethod();// 获得get方法
-			Method setMethod = pd.getWriteMethod();// set 方法
+			//Method setMethod = pd.getWriteMethod();// set 方法
 
 			Object fdValue = getMethod.invoke(entity);// 执行get方法返回一个Object, 字段值
 			paramMap.put(fdName, fdValue);
@@ -546,8 +532,6 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	public <T> T findByID(Object id, Class<T> clazz, String tableExt)
 			throws Exception {
 		EntityInfo entityInfo = ClassUtils.getEntityInfoByClass(clazz);
-		// String tableName=ClassUtils.getTableName(clazz);
-		// String idName=ClassUtils.getPKName(clazz);
 		String tableName = entityInfo.getTableName();
 		String idName = entityInfo.getPkName();
 		if (StringUtils.isNotBlank(tableExt)) {
@@ -624,9 +608,6 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		Finder finder = new Finder(sql);
 		finder.setParam("id", id);
 
-		/*
-		 * if(clazz.equals(IAuditLog.class)){ update(finder); return; }
-		 */
 		/**
 		 * 删除还有个 bug,就是删除分表的数据,日志记录有问题 没有分表
 		 */
@@ -767,7 +748,11 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		return (List<T>) queryForList(finder, entity.getClass(), page);
 
 	}
+	
 	/*
+	 //private String dataBaseType = null;
+	//private String dataBaseVersion = null;
+	//private List<String> dataBaseAllTables;
 	@Override
 	public String getDataBaseVersion() {
 		if (dataBaseVersion != null) {
