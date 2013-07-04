@@ -5,18 +5,19 @@ package ${basepackage}.entity;
 
 <#list table.columns as column>
 	<#if column.isDateTimeColumn>
-import org.iu9.frame.util.DateUtils;
+import com.centfor.frame.util.DateUtils;
 import java.text.ParseException;
 	<#break/>
 	</#if>
 </#list>
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import org.iu9.frame.annotation.WhereSQL;
+import com.centfor.frame.annotation.WhereSQL;
 
-import org.iu9.frame.entity.BaseEntity;
+import com.centfor.frame.entity.BaseEntity;
 <#include "/copyright_class.include" >
 @Table(name="${table.sqlName}")
 public class ${className}  extends BaseEntity {
@@ -44,7 +45,7 @@ public class ${className}  extends BaseEntity {
 	 */
 	private ${column.javaType} ${column.columnNameFirstLower};
 	</#list>
-	//columns END  数据库字段结束
+	//columns END 数据库字段结束
 	
 	//concstructor
 	<@generateConstructor className/>
@@ -55,7 +56,7 @@ public class ${className}  extends BaseEntity {
 	public String toString() {
 		return new StringBuffer()
 		<#list table.columns as column>
-			.append("${column.columnAlias}[").append(get${column.columnName}()).append("],")
+			.append("${column.columnAlias}[").append(get${column.columnNameFirstUpper}()).append("],")
 		</#list>
 			.toString();
 	}
@@ -63,7 +64,7 @@ public class ${className}  extends BaseEntity {
 	public int hashCode() {
 		return new HashCodeBuilder()
 		<#list table.pkColumns as column>
-			.append(get${column.columnName}())
+			.append(get${column.columnNameFirstLower}())
 		</#list>
 			.toHashCode();
 	}
@@ -74,7 +75,7 @@ public class ${className}  extends BaseEntity {
 		${className} other = (${className})obj;
 		return new EqualsBuilder()
 			<#list table.pkColumns as column>
-			.append(get${column.columnName}(),other.get${column.columnName}())
+			.append(get${column.columnNameFirstLower}(),other.get${column.columnNameFirstLower}())
 			</#list>
 			.isEquals();
 	}
@@ -85,24 +86,24 @@ public class ${className}  extends BaseEntity {
 	<#list table.columns as column>
 		<#if column.isDateTimeColumn>
 		/*
-	public String get${column.columnName}String() {
-		return DateUtils.convertDate2String(FORMAT_${column.constantName}, get${column.columnName}());
+	public String get${column.columnNameFirstLower}String() {
+		return DateUtils.convertDate2String(FORMAT_${column.constantName}, get${column.columnNameFirstLower}());
 	}
-	public void set${column.columnName}String(String value) throws ParseException{
-		set${column.columnName}(DateUtils.convertString2Date(FORMAT_${column.constantName},value));
+	public void set${column.columnNameFirstLower}String(String value) throws ParseException{
+		set${column.columnNameFirstLower}(DateUtils.convertString2Date(FORMAT_${column.constantName},value));
 	}*/
 	
 		</#if>	
-	public void set${column.columnName}(${column.javaType} value) {
-		this.${column.columnNameLower} = value;
+	public void set${column.columnNameFirstUpper}(${column.javaType} value) {
+		this.${column.columnNameFirstLower} = value;
 	}
 	
-	<#if column.columnNameLower=="id">
+	<#if column.isPk()>
 	@Id
 	</#if>
-     @WhereSQL(sql="${column.columnNameLower}=:${className}_${column.columnNameLower}")
-	public ${column.javaType} get${column.columnName}() {
-		return this.${column.columnNameLower};
+     @WhereSQL(sql="${column.columnNameFirstLower}=:${className}_${column.columnNameFirstLower}")
+	public ${column.javaType} get${column.columnNameFirstUpper}() {
+		return this.${column.columnNameFirstLower};
 	}
 	</#list>
 </#macro>
