@@ -16,70 +16,83 @@ ${r"<@h.easyui />"}
 </#list>
 </head>
 
+
 <script type="text/javascript">
-<!--
-jQuery(document).ready(function(){
-     //初始化 排序图标
-    initSortTable("listDataTable","searchForm");
-	//添加颜色改变
-	mouseTrColor("listDataTable");
-	
-});
-//-->
-</script>
+	 $(function(){
+         var pg = $("#listDataTable").datagrid("getPager");   
+         if(pg)   
+         {   
+            $(pg).pagination({   
+                 onBeforeRefresh:function(){   
+
+                 },   
+                 onRefresh:function(pageNumber,pageSize){   
+                	  document.getElementById("pageIndex").value=pageNumber;
+                      document["searchForm"].submit();
+                 },   
+                 onChangePageSize:function(){   
+                 },   
+                 onSelectPage:function(pageNumber,pageSize){   
+                        document.getElementById("pageIndex").value=pageNumber;
+                        document["searchForm"].submit();
+                 }   
+            });   
+         }  
+     });
+	 
+ </script>
 
 <body>
-<!-- 操作菜单 -->
-	<div class="head">
-		<div class="path">${tableName!''} &gt; ${tableName!''}</div>
-	</div>
-	<div class="contents">
-<!-- 查询 -->
-<form name="searchForm" id="searchForm" method="post" action="${r"${ctx}"}/${classNameLowerCase}/list" >
+
+<div class="easyui-layout" style="width: 100%; height: 100%;" data-options="fit:true">
+	<div data-options="region:'north',title:'查询条件',border:false"  style="height:100%;overflow: hidden; margin:0px;padding:0px;">
+			
+<form name="searchForm" id="searchForm" method="post" action="${r"${ctx}"}/${classNameLowerCase}/list"  style="margin:0px;padding:0px; width: 100%;height: 100%">
 <input type="hidden" name="pageIndex" id="pageIndex" value="${r"${(page.pageIndex)!'1'}"}" />
 <input type="hidden" name="commTabId" id="commTabId" value="${r"${commTabId!''}"}"  />
 <input type="hidden" name="sort" id="page_sort" value="${r"${(page.sort)!'desc'}"}"  />
 <input type="hidden" name="order" id="page_order" value="${r"${(page.order)!'id'}"}"  />
-			<table border="1" class="tb_2">
-			<tr>
-				<td>名称:<input type="text" id="name"  name="name" value="${r"${("}${classNameLowerCase}${r".name)!''}"}" class="inp_2" /></td>
-				<td>
-					<a href="javascript:submitForm('searchForm');"  class="btn_1" ></a>
-				</td>
-			</tr>
-		</table>
-		</form>
-		
+			  <table class="tb_2">
+                       <tr>
+                                <td>名称:<input type="text" id="name"  name="name" value="${(users.name)!''}" class="inp_2" /></td>
+                                <td>
+                                    <a href="javascript:submitForm('searchForm');"  class="btn_1" ></a>
+                                </td>
+                       </tr>
+                </table>
+ </form>
+	 </div>
+    <div data-options="region:'center',title:'${classNameLowerCase}列表', border:false" style="margin:0px;padding:0px;">			
 <!-- 数据列表 -->
-		<dl class="box_1">
-			<dt>
-				<div>数据</div>
-				<a class="a_1" href="javascript:export_excel('searchForm');">导出</a><div class="img_2"></div>
-				<a class="a_3" href="javascript:f_newTab('add_${classNameLowerCase}','${r"${ctx}"}/${classNameLowerCase}/update/pre');">添加</a><div class="img_2"></div>
-				<a class="a_0" href="javascript:delMulti();">删除选中</a><div class="img_2"></div>
-			</dt>
-			<dd>
-			
 			
 			<!--start_export-->
-				<table  id="listDataTable" border="1" class="tb_2">
+				<table id="listDataTable" class="easyui-datagrid" border="false"
+					fit="true" fitColumns="false" idField="id" sortName="id"
+					sortOrder="asc" pagination="true" pageSize="10"
+					pageList="[10]" nowrap="false"
+					checkOnSelect="false" selectOnCheck="false" loadMsg="正在为您加载数据"
+					toolbar="#auditlog_toolbar">
+					
 			<!--end_no_export-->
 			<!--first_start_export-->
-					<tr id="table_first_tr"  bgcolor="#F1F1F1" >
+			     <thead>
+					<tr id="table_first_tr">
 					<!--first_start_no_export-->
-						<th><input type="checkbox" name="check_all" id="check_all"/></th>
-						<th width="70px;">操作</th>
+						<th field="id" data-options="checkbox : true"><input type="checkbox" name="check_all" id="check_all"/></th>
+						<th field="action" width="80" align="center">操作</th>
 					<!--first_end_no_export-->
 					<#list table.columns as column>
 						<#if !column.pk>
-						<th id="th_${column.columnNameLower}" >${column.columnAlias}</th>
+						<th field="${column.columnNameLower}"  width="80" align="center" >${column.columnAlias}</th>
 						</#if>
 					</#list>
 						
 					</tr>
+				</thead>
 				<!--first_end_export-->
 				
 				<!--start_export-->
+				<tbody>
 				  ${r"<#if"} datas??&&((datas?size)>0)>
 					${r"<#list"} datas as data>
 						<tr>
@@ -123,14 +136,19 @@ jQuery(document).ready(function(){
 						</tr>
 					${r"</#list>"}
 					 ${r"</#if>"}
+				</tbody>
 				</table>
 			 <!--end_export-->
-			</dd>
-${r"<#if page??>"}		
-<!-- 分页 -->
-	  ${r"<@h.pagetoolbar page=page formName='searchForm'/>"}
-${r"</#if>"}
-		</dl>
-	</div>
+			 </div>
+</div>
+
+<!-- 工具条 -->
+<div id="auditlog_toolbar" style="display: none;">
+	<a class="easyui-linkbutton"  data-options="iconCls:'icon-undo',plain:true" style="float: left;" href="javascript:export_excel('searchForm');"  >导出</a>
+    <div class="datagrid-btn-separator"></div>
+    <a class="easyui-linkbutton"  data-options="iconCls:'icon-add',plain:true"  style="float: left;" href="javascript:f_newTab('add_${classNameLowerCase}','${r"${ctx}"}/${classNameLowerCase}/update/pre');">添加</a>
+    <div class="datagrid-btn-separator"></div>
+    <a class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true"  href="javascript:delMulti();">删除选中</a>
+</div>
 </body>
 </html>

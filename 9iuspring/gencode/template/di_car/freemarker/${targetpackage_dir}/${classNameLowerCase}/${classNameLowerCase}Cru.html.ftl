@@ -8,12 +8,17 @@ ${r"<@h.easyui />"}
 <script type="text/javascript" src="${r"${ctx}"}/js/${rootPagefloder}/${classNameLowerCase}/${classNameLowerCase}Cru.js"></script>
 <#list table.columns as datecolumn>
 	<#if datecolumn.isDateTimeColumn>	
-		<script type="text/javascript" src="${r"${ctx}"}/my97/WdatePicker.js"></script>
+		<script type="text/javascript" src="${r"${ctx}"}/js/my97/WdatePicker.js"></script>
 		<#break>
 	</#if>
 </#list>
+<body>
 
-
+<div class="easyui-layout" style="width: 100%; height: 100%;"
+    data-options="fit:true">
+    <div data-options="region:'center',title:'Auditlog &gt; add_auditlog'" style="padding: 2px;">
+        <div class="easyui-layout" data-options="fit : true,border : false">
+            <div data-options="region:'center',border:false">
 <form id="updateForm" name="updateForm"  method="post" action="${r"${ctx}"}/${classNameLowerCase}/update" >
 <input type="hidden" name="commTabId" id="commTabId" value="${r"${commTabId!''}"}"  />
 <!--input  hidden  Start-->
@@ -64,5 +69,11 @@ ${r"<@h.easyui />"}
 			</#if>
 		</#list>
 	</table>
-	<input type="button" onclick="submitUpdateForm();" class="btn_7"/>
-</form>
+					<input type="button" onclick="submitUpdateForm();" class="btn_7"/>
+				</form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
