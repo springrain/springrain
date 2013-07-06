@@ -19,6 +19,26 @@ CREATE TABLE `auditlog_history_2013` (
 -- Records of auditlog
 -- ----------------------------
 
+
+-- ----------------------------
+-- Table structure for `t_subsystem`
+-- ----------------------------
+DROP TABLE IF EXISTS `t_subsystem`;
+CREATE TABLE `t_subsystem` (
+  `id` varchar(40) NOT NULL COMMENT '子系统编号',
+  `name` varchar(60) DEFAULT NULL COMMENT '子系统名称',
+  `sortno` int(11) DEFAULT NULL COMMENT '子系统排序',
+  `uri` text COMMENT '子系统访问路径',
+  `remark` text COMMENT '备注',
+  `state` varchar(2) DEFAULT NULL COMMENT '状态(0:不可用1:可用)',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='子系统';
+alter table t_subsystem comment '子系统';
+-- ----------------------------
+-- Records of t_subsystem
+-- ----------------------------
+
+
 -- ----------------------------
 -- Table structure for `t_menu`
 -- ----------------------------
@@ -79,24 +99,6 @@ CREATE TABLE `t_role` (
 alter table t_role comment '角色表';
 -- ----------------------------
 -- Records of t_role
--- ----------------------------
-
--- ----------------------------
--- Table structure for `t_subsystem`
--- ----------------------------
-DROP TABLE IF EXISTS `t_subsystem`;
-CREATE TABLE `t_subsystem` (
-  `id` varchar(40) NOT NULL COMMENT '子系统编号',
-  `name` varchar(60) DEFAULT NULL COMMENT '子系统名称',
-  `sortno` int(11) DEFAULT NULL COMMENT '子系统排序',
-  `uri` text COMMENT '子系统访问路径',
-  `remark` text COMMENT '备注',
-  `state` varchar(2) DEFAULT NULL COMMENT '状态(0:不可用1:可用)',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='子系统';
-alter table t_subsystem comment '子系统';
--- ----------------------------
--- Records of t_subsystem
 -- ----------------------------
 
 -- ----------------------------
