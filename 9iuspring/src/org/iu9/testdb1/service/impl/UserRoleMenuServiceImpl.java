@@ -27,7 +27,7 @@ public class UserRoleMenuServiceImpl extends BaseTestdb1ServiceImpl implements I
 			return null;
 		}
 		
-		Finder finder=new Finder("SELECT r.* from t_role r,t_user_role as re where re.userId=:userId and re.roleId=r.id");
+		Finder finder=new Finder("SELECT r.* from t_role r,t_user_role  re where re.userId=:userId and re.roleId=r.id");
 		finder.setParam("userId", userId);
 		return super.queryForList(finder, Role.class);
 	}
@@ -37,7 +37,7 @@ public class UserRoleMenuServiceImpl extends BaseTestdb1ServiceImpl implements I
 		if(StringUtils.isBlank(roleId)){
 			return null;
 		}
-		Finder finder=new Finder("SELECT m.* from t_menu m,t_role_menu as re where re.roleId=:roleId and re.menuId=m.id ");
+		Finder finder=new Finder("SELECT m.* from t_menu m,t_role_menu  re where re.roleId=:roleId and re.menuId=m.id ");
 		finder.setParam("roleId", roleId);
 		return super.queryForList(finder, Menu.class);
 	}
@@ -48,7 +48,7 @@ public class UserRoleMenuServiceImpl extends BaseTestdb1ServiceImpl implements I
 			return null;
 		}
 		
-		Finder finder=new Finder("SELECT u.* from t_user u,t_user_role as re where re.roleId=:roleId and re.userId=u.id");
+		Finder finder=new Finder("SELECT u.* from t_user u,t_user_role  re where re.roleId=:roleId and re.userId=u.id");
 		finder.setParam("roleId", roleId);
 		return super.queryForList(finder, User.class);
 	}
@@ -59,7 +59,7 @@ public class UserRoleMenuServiceImpl extends BaseTestdb1ServiceImpl implements I
 			return null;
 		}
 		
-		Finder finder=new Finder("SELECT m.* from t_menu m,t_role_menu as rm,re_user_role as ur where ur.userId=:userId and ur.roleId=rm.roleId and m.id=rm.menuId ");
+		Finder finder=new Finder("SELECT m.* from t_menu m,t_role_menu  rm,re_user_role  ur where ur.userId=:userId and ur.roleId=rm.roleId and m.id=rm.menuId ");
 		finder.setParam("userId", userId);
 		return super.queryForList(finder, Menu.class);
 		
