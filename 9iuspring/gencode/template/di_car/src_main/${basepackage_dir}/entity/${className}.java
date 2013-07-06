@@ -15,9 +15,9 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import com.centfor.frame.annotation.WhereSQL;
+import org.iu9.frame.annotation.WhereSQL;
 
-import com.centfor.frame.entity.BaseEntity;
+import org.iu9.frame.entity.BaseEntity;
 <#include "/copyright_class.include" >
 @Table(name="${table.sqlName}")
 public class ${className}  extends BaseEntity {
@@ -64,7 +64,7 @@ public class ${className}  extends BaseEntity {
 	public int hashCode() {
 		return new HashCodeBuilder()
 		<#list table.pkColumns as column>
-			.append(get${column.columnNameFirstLower}())
+			.append(get${column.columnNameFirstUpper}())
 		</#list>
 			.toHashCode();
 	}
@@ -75,7 +75,7 @@ public class ${className}  extends BaseEntity {
 		${className} other = (${className})obj;
 		return new EqualsBuilder()
 			<#list table.pkColumns as column>
-			.append(get${column.columnNameFirstLower}(),other.get${column.columnNameFirstLower}())
+			.append(get${column.columnNameFirstUpper}(),other.get${column.columnNameFirstUpper}())
 			</#list>
 			.isEquals();
 	}
