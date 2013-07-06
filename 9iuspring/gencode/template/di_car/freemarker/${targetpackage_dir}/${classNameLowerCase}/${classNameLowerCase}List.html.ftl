@@ -8,7 +8,7 @@
 ${r"<@h.easyui />"}
 <script type="text/javascript" src="${r"${ctx}"}/js/plugins/jquery.checkbox.js"></script>
 <script type="text/javascript" src="${r"${ctx}"}/js/${rootPagefloder}/${classNameLowerCase}/${classNameLowerCase}.js"></script>
-<script type="text/javascript" src="${ctx}/js/frame/list.js"></script>
+<script type="text/javascript" src="${r"${ctx}"}/js/frame/list.js"></script>
 	<#list table.columns as column>
 	<#if column.isDateTimeColumn>	
 		<script type="text/javascript" src="${r"${ctx}"}/js/my97/WdatePicker.js"></script>
