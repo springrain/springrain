@@ -12,17 +12,17 @@ import org.iu9.frame.entity.BaseEntity;
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author 9iuspring<Auto generate>
- * @version  2013-07-06 15:28:17
- * @see org.iu9.testdb1.entity.Torg
+ * @version  2013-07-06 16:02:58
+ * @see org.iu9.testdb1.entity.Org
  */
 @Table(name="t_org")
-public class Torg  extends BaseEntity {
+public class Org  extends BaseEntity {
 	
 	private static final long serialVersionUID = 1L;
 
 	//alias
 	/*
-	public static final String TABLE_ALIAS = "Torg";
+	public static final String TABLE_ALIAS = "Org";
 	public static final String ALIAS_ID = "编号";
 	public static final String ALIAS_NAME = "名称";
 	public static final String ALIAS_COMCODE = "代码";
@@ -81,10 +81,10 @@ public class Torg  extends BaseEntity {
 	
 	//concstructor
 
-	public Torg(){
+	public Org(){
 	}
 
-	public Torg(
+	public Org(
 		java.lang.String id
 	){
 		this.id = id;
@@ -96,7 +96,7 @@ public class Torg  extends BaseEntity {
 	}
 	
 	@Id
-     @WhereSQL(sql="id=:Torg_id")
+     @WhereSQL(sql="id=:Org_id")
 	public java.lang.String getId() {
 		return this.id;
 	}
@@ -104,7 +104,7 @@ public class Torg  extends BaseEntity {
 		this.name = value;
 	}
 	
-     @WhereSQL(sql="name=:Torg_name")
+     @WhereSQL(sql="name=:Org_name")
 	public java.lang.String getName() {
 		return this.name;
 	}
@@ -112,7 +112,7 @@ public class Torg  extends BaseEntity {
 		this.comcode = value;
 	}
 	
-     @WhereSQL(sql="comcode=:Torg_comcode")
+     @WhereSQL(sql="comcode=:Org_comcode")
 	public java.lang.String getComcode() {
 		return this.comcode;
 	}
@@ -120,7 +120,7 @@ public class Torg  extends BaseEntity {
 		this.pid = value;
 	}
 	
-     @WhereSQL(sql="pid=:Torg_pid")
+     @WhereSQL(sql="pid=:Org_pid")
 	public java.lang.String getPid() {
 		return this.pid;
 	}
@@ -128,7 +128,7 @@ public class Torg  extends BaseEntity {
 		this.sysid = value;
 	}
 	
-     @WhereSQL(sql="sysid=:Torg_sysid")
+     @WhereSQL(sql="sysid=:Org_sysid")
 	public java.lang.String getSysid() {
 		return this.sysid;
 	}
@@ -136,7 +136,7 @@ public class Torg  extends BaseEntity {
 		this.type = value;
 	}
 	
-     @WhereSQL(sql="type=:Torg_type")
+     @WhereSQL(sql="type=:Org_type")
 	public java.lang.Integer getType() {
 		return this.type;
 	}
@@ -144,7 +144,7 @@ public class Torg  extends BaseEntity {
 		this.leaf = value;
 	}
 	
-     @WhereSQL(sql="leaf=:Torg_leaf")
+     @WhereSQL(sql="leaf=:Org_leaf")
 	public java.lang.Integer getLeaf() {
 		return this.leaf;
 	}
@@ -152,7 +152,7 @@ public class Torg  extends BaseEntity {
 		this.sortno = value;
 	}
 	
-     @WhereSQL(sql="sortno=:Torg_sortno")
+     @WhereSQL(sql="sortno=:Org_sortno")
 	public java.lang.Integer getSortno() {
 		return this.sortno;
 	}
@@ -160,7 +160,7 @@ public class Torg  extends BaseEntity {
 		this.description = value;
 	}
 	
-     @WhereSQL(sql="description=:Torg_description")
+     @WhereSQL(sql="description=:Org_description")
 	public java.lang.String getDescription() {
 		return this.description;
 	}
@@ -168,7 +168,7 @@ public class Torg  extends BaseEntity {
 		this.state = value;
 	}
 	
-     @WhereSQL(sql="state=:Torg_state")
+     @WhereSQL(sql="state=:Org_state")
 	public java.lang.Integer getState() {
 		return this.state;
 	}
@@ -195,9 +195,9 @@ public class Torg  extends BaseEntity {
 	}
 	
 	public boolean equals(Object obj) {
-		if(obj instanceof Torg == false) return false;
+		if(obj instanceof Org == false) return false;
 		if(this == obj) return true;
-		Torg other = (Torg)obj;
+		Org other = (Org)obj;
 		return new EqualsBuilder()
 			.append(getId(),other.getId())
 			.isEquals();

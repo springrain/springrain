@@ -1,28 +1,27 @@
 package org.iu9.testdb1.entity;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import org.iu9.frame.annotation.WhereSQL;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.iu9.frame.annotation.WhereSQL;
 import org.iu9.frame.entity.BaseEntity;
 /**
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author 9iuspring<Auto generate>
- * @version  2013-07-06 15:28:17
- * @see org.iu9.testdb1.entity.Trole
+ * @version  2013-07-06 16:02:59
+ * @see org.iu9.testdb1.entity.Role
  */
 @Table(name="t_role")
-public class Trole  extends BaseEntity {
+public class Role  extends BaseEntity {
 	
 	private static final long serialVersionUID = 1L;
 
 	//alias
 	/*
-	public static final String TABLE_ALIAS = "Trole";
+	public static final String TABLE_ALIAS = "Role";
 	public static final String ALIAS_ID = "角色ID";
 	public static final String ALIAS_NAME = "角色名称";
 	public static final String ALIAS_PERMISSIONS = "权限";
@@ -61,10 +60,10 @@ public class Trole  extends BaseEntity {
 	
 	//concstructor
 
-	public Trole(){
+	public Role(){
 	}
 
-	public Trole(
+	public Role(
 		java.lang.String id
 	){
 		this.id = id;
@@ -76,7 +75,7 @@ public class Trole  extends BaseEntity {
 	}
 	
 	@Id
-     @WhereSQL(sql="id=:Trole_id")
+     @WhereSQL(sql="id=:Role_id")
 	public java.lang.String getId() {
 		return this.id;
 	}
@@ -84,7 +83,7 @@ public class Trole  extends BaseEntity {
 		this.name = value;
 	}
 	
-     @WhereSQL(sql="name=:Trole_name")
+     @WhereSQL(sql="name=:Role_name")
 	public java.lang.String getName() {
 		return this.name;
 	}
@@ -92,7 +91,7 @@ public class Trole  extends BaseEntity {
 		this.permissions = value;
 	}
 	
-     @WhereSQL(sql="permissions=:Trole_permissions")
+     @WhereSQL(sql="permissions=:Role_permissions")
 	public java.lang.String getPermissions() {
 		return this.permissions;
 	}
@@ -100,7 +99,7 @@ public class Trole  extends BaseEntity {
 		this.pid = value;
 	}
 	
-     @WhereSQL(sql="pid=:Trole_pid")
+     @WhereSQL(sql="pid=:Role_pid")
 	public java.lang.String getPid() {
 		return this.pid;
 	}
@@ -108,7 +107,7 @@ public class Trole  extends BaseEntity {
 		this.remark = value;
 	}
 	
-     @WhereSQL(sql="remark=:Trole_remark")
+     @WhereSQL(sql="remark=:Role_remark")
 	public java.lang.String getRemark() {
 		return this.remark;
 	}
@@ -116,7 +115,7 @@ public class Trole  extends BaseEntity {
 		this.state = value;
 	}
 	
-     @WhereSQL(sql="state=:Trole_state")
+     @WhereSQL(sql="state=:Role_state")
 	public java.lang.Integer getState() {
 		return this.state;
 	}
@@ -139,9 +138,9 @@ public class Trole  extends BaseEntity {
 	}
 	
 	public boolean equals(Object obj) {
-		if(obj instanceof Trole == false) return false;
+		if(obj instanceof Role == false) return false;
 		if(this == obj) return true;
-		Trole other = (Trole)obj;
+		Role other = (Role)obj;
 		return new EqualsBuilder()
 			.append(getId(),other.getId())
 			.isEquals();

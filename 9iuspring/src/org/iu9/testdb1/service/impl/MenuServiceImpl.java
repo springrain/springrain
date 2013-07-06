@@ -1,45 +1,44 @@
 package org.iu9.testdb1.service.impl;
 
-import javax.annotation.Resource;
-import org.springframework.stereotype.Service;
-import org.iu9.testdb1.service.BaseTestdb1ServiceImpl;
-import org.iu9.testdb1.entity.Tmenu;
-import org.iu9.testdb1.service.ITmenuService;
-import java.util.List;
 import java.io.File;
+import java.util.List;
+
 import org.iu9.frame.service.IBaseService;
-import org.iu9.frame.util.Page;
 import org.iu9.frame.util.Finder;
-import org.iu9.frame.entity.IBaseEntity;
+import org.iu9.frame.util.Page;
+import org.iu9.testdb1.entity.Menu;
+import org.iu9.testdb1.service.BaseTestdb1ServiceImpl;
+import org.iu9.testdb1.service.IMenuService;
+import org.springframework.stereotype.Service;
 
 /**
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author 9iuspring<Auto generate>
- * @version  2013-07-06 15:28:16
- * @see org.iu9.testdb1.service.impl.Tmenu
+ * @version  2013-07-06 16:02:58
+ * @see org.iu9.testdb1.service.impl.Menu
  */
-@Service("tmenuService")
-public class TmenuServiceImpl extends BaseTestdb1ServiceImpl implements ITmenuService {
+@Service("menuService")
+public class MenuServiceImpl extends BaseTestdb1ServiceImpl implements IMenuService {
 
    
     @Override
-	public String  saveTmenu(Tmenu entity) throws Exception{
+	public String  saveMenu(Menu entity) throws Exception{
 	       return super.save(entity).toString();
 	}
 
     @Override
-	public String  saveorupdateTmenu(Tmenu entity) throws Exception{
+	public String  saveorupdateMenu(Menu entity) throws Exception{
 	       return super.saveorupdate(entity).toString();
 	}
 	
 	@Override
-    public Integer updateTmenu(Tmenu entity) throws Exception{
+    public Integer updateMenu(Menu entity) throws Exception{
 	return super.update(entity);
     }
     @Override
-	public Tmenu findTmenuById(Object id) throws Exception{
-	 return super.findById(id,Tmenu.class);
+	public Menu findMenuById(Object id) throws Exception{
+	 return super.findById(id,Menu.class);
 	}
 
 /**

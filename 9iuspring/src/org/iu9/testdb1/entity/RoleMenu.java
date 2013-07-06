@@ -1,28 +1,27 @@
 package org.iu9.testdb1.entity;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import org.iu9.frame.annotation.WhereSQL;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.iu9.frame.annotation.WhereSQL;
 import org.iu9.frame.entity.BaseEntity;
 /**
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author 9iuspring<Auto generate>
- * @version  2013-07-06 15:28:17
- * @see org.iu9.testdb1.entity.TroleMenu
+ * @version  2013-07-06 16:02:59
+ * @see org.iu9.testdb1.entity.RoleMenu
  */
 @Table(name="t_role_menu")
-public class TroleMenu  extends BaseEntity {
+public class RoleMenu  extends BaseEntity {
 	
 	private static final long serialVersionUID = 1L;
 
 	//alias
 	/*
-	public static final String TABLE_ALIAS = "TroleMenu";
+	public static final String TABLE_ALIAS = "RoleMenu";
 	public static final String ALIAS_ID = "编号";
 	public static final String ALIAS_ROLEID = "角色编号";
 	public static final String ALIAS_MENUID = "菜单编号";
@@ -46,10 +45,10 @@ public class TroleMenu  extends BaseEntity {
 	
 	//concstructor
 
-	public TroleMenu(){
+	public RoleMenu(){
 	}
 
-	public TroleMenu(
+	public RoleMenu(
 		java.lang.String id
 	){
 		this.id = id;
@@ -61,7 +60,7 @@ public class TroleMenu  extends BaseEntity {
 	}
 	
 	@Id
-     @WhereSQL(sql="id=:TroleMenu_id")
+     @WhereSQL(sql="id=:RoleMenu_id")
 	public java.lang.String getId() {
 		return this.id;
 	}
@@ -69,7 +68,7 @@ public class TroleMenu  extends BaseEntity {
 		this.roleId = value;
 	}
 	
-     @WhereSQL(sql="roleId=:TroleMenu_roleId")
+     @WhereSQL(sql="roleId=:RoleMenu_roleId")
 	public java.lang.String getRoleId() {
 		return this.roleId;
 	}
@@ -77,7 +76,7 @@ public class TroleMenu  extends BaseEntity {
 		this.menuId = value;
 	}
 	
-     @WhereSQL(sql="menuId=:TroleMenu_menuId")
+     @WhereSQL(sql="menuId=:RoleMenu_menuId")
 	public java.lang.String getMenuId() {
 		return this.menuId;
 	}
@@ -97,9 +96,9 @@ public class TroleMenu  extends BaseEntity {
 	}
 	
 	public boolean equals(Object obj) {
-		if(obj instanceof TroleMenu == false) return false;
+		if(obj instanceof RoleMenu == false) return false;
 		if(this == obj) return true;
-		TroleMenu other = (TroleMenu)obj;
+		RoleMenu other = (RoleMenu)obj;
 		return new EqualsBuilder()
 			.append(getId(),other.getId())
 			.isEquals();

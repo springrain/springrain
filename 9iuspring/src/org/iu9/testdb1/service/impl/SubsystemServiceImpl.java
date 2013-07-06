@@ -1,45 +1,44 @@
 package org.iu9.testdb1.service.impl;
 
-import javax.annotation.Resource;
-import org.springframework.stereotype.Service;
-import org.iu9.testdb1.service.BaseTestdb1ServiceImpl;
-import org.iu9.testdb1.entity.Trole;
-import org.iu9.testdb1.service.ITroleService;
-import java.util.List;
 import java.io.File;
+import java.util.List;
+
 import org.iu9.frame.service.IBaseService;
-import org.iu9.frame.util.Page;
 import org.iu9.frame.util.Finder;
-import org.iu9.frame.entity.IBaseEntity;
+import org.iu9.frame.util.Page;
+import org.iu9.testdb1.entity.Subsystem;
+import org.iu9.testdb1.service.BaseTestdb1ServiceImpl;
+import org.iu9.testdb1.service.ISubsystemService;
+import org.springframework.stereotype.Service;
 
 /**
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author 9iuspring<Auto generate>
- * @version  2013-07-06 15:28:17
- * @see org.iu9.testdb1.service.impl.Trole
+ * @version  2013-07-06 16:03:00
+ * @see org.iu9.testdb1.service.impl.Subsystem
  */
-@Service("troleService")
-public class TroleServiceImpl extends BaseTestdb1ServiceImpl implements ITroleService {
+@Service("subsystemService")
+public class SubsystemServiceImpl extends BaseTestdb1ServiceImpl implements ISubsystemService {
 
    
     @Override
-	public String  saveTrole(Trole entity) throws Exception{
+	public String  saveSubsystem(Subsystem entity) throws Exception{
 	       return super.save(entity).toString();
 	}
 
     @Override
-	public String  saveorupdateTrole(Trole entity) throws Exception{
+	public String  saveorupdateSubsystem(Subsystem entity) throws Exception{
 	       return super.saveorupdate(entity).toString();
 	}
 	
 	@Override
-    public Integer updateTrole(Trole entity) throws Exception{
+    public Integer updateSubsystem(Subsystem entity) throws Exception{
 	return super.update(entity);
     }
     @Override
-	public Trole findTroleById(Object id) throws Exception{
-	 return super.findById(id,Trole.class);
+	public Subsystem findSubsystemById(Object id) throws Exception{
+	 return super.findById(id,Subsystem.class);
 	}
 
 /**

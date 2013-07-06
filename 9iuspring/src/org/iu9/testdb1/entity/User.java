@@ -1,28 +1,27 @@
 package org.iu9.testdb1.entity;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import org.iu9.frame.annotation.WhereSQL;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.iu9.frame.annotation.WhereSQL;
 import org.iu9.frame.entity.BaseEntity;
 /**
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author 9iuspring<Auto generate>
- * @version  2013-07-06 15:28:18
- * @see org.iu9.testdb1.entity.Tuser
+ * @version  2013-07-06 16:03:00
+ * @see org.iu9.testdb1.entity.User
  */
 @Table(name="t_user")
-public class Tuser  extends BaseEntity {
+public class User  extends BaseEntity {
 	
 	private static final long serialVersionUID = 1L;
 
 	//alias
 	/*
-	public static final String TABLE_ALIAS = "Tuser";
+	public static final String TABLE_ALIAS = "User";
 	public static final String ALIAS_ID = "编号";
 	public static final String ALIAS_NAME = "姓名";
 	public static final String ALIAS_CODE = "代码";
@@ -96,10 +95,10 @@ public class Tuser  extends BaseEntity {
 	
 	//concstructor
 
-	public Tuser(){
+	public User(){
 	}
 
-	public Tuser(
+	public User(
 		java.lang.String id
 	){
 		this.id = id;
@@ -111,7 +110,7 @@ public class Tuser  extends BaseEntity {
 	}
 	
 	@Id
-     @WhereSQL(sql="id=:Tuser_id")
+     @WhereSQL(sql="id=:User_id")
 	public java.lang.String getId() {
 		return this.id;
 	}
@@ -119,7 +118,7 @@ public class Tuser  extends BaseEntity {
 		this.name = value;
 	}
 	
-     @WhereSQL(sql="name=:Tuser_name")
+     @WhereSQL(sql="name=:User_name")
 	public java.lang.String getName() {
 		return this.name;
 	}
@@ -127,7 +126,7 @@ public class Tuser  extends BaseEntity {
 		this.code = value;
 	}
 	
-     @WhereSQL(sql="code=:Tuser_code")
+     @WhereSQL(sql="code=:User_code")
 	public java.lang.String getCode() {
 		return this.code;
 	}
@@ -135,7 +134,7 @@ public class Tuser  extends BaseEntity {
 		this.account = value;
 	}
 	
-     @WhereSQL(sql="account=:Tuser_account")
+     @WhereSQL(sql="account=:User_account")
 	public java.lang.String getAccount() {
 		return this.account;
 	}
@@ -143,7 +142,7 @@ public class Tuser  extends BaseEntity {
 		this.password = value;
 	}
 	
-     @WhereSQL(sql="password=:Tuser_password")
+     @WhereSQL(sql="password=:User_password")
 	public java.lang.String getPassword() {
 		return this.password;
 	}
@@ -151,7 +150,7 @@ public class Tuser  extends BaseEntity {
 		this.salt = value;
 	}
 	
-     @WhereSQL(sql="salt=:Tuser_salt")
+     @WhereSQL(sql="salt=:User_salt")
 	public java.lang.String getSalt() {
 		return this.salt;
 	}
@@ -159,7 +158,7 @@ public class Tuser  extends BaseEntity {
 		this.age = value;
 	}
 	
-     @WhereSQL(sql="age=:Tuser_age")
+     @WhereSQL(sql="age=:User_age")
 	public java.lang.Integer getAge() {
 		return this.age;
 	}
@@ -167,7 +166,7 @@ public class Tuser  extends BaseEntity {
 		this.sex = value;
 	}
 	
-     @WhereSQL(sql="sex=:Tuser_sex")
+     @WhereSQL(sql="sex=:User_sex")
 	public java.lang.Integer getSex() {
 		return this.sex;
 	}
@@ -175,7 +174,7 @@ public class Tuser  extends BaseEntity {
 		this.phone = value;
 	}
 	
-     @WhereSQL(sql="phone=:Tuser_phone")
+     @WhereSQL(sql="phone=:User_phone")
 	public java.lang.String getPhone() {
 		return this.phone;
 	}
@@ -183,7 +182,7 @@ public class Tuser  extends BaseEntity {
 		this.mobile = value;
 	}
 	
-     @WhereSQL(sql="mobile=:Tuser_mobile")
+     @WhereSQL(sql="mobile=:User_mobile")
 	public java.lang.String getMobile() {
 		return this.mobile;
 	}
@@ -191,7 +190,7 @@ public class Tuser  extends BaseEntity {
 		this.eamil = value;
 	}
 	
-     @WhereSQL(sql="eamil=:Tuser_eamil")
+     @WhereSQL(sql="eamil=:User_eamil")
 	public java.lang.String getEamil() {
 		return this.eamil;
 	}
@@ -199,7 +198,7 @@ public class Tuser  extends BaseEntity {
 		this.address = value;
 	}
 	
-     @WhereSQL(sql="address=:Tuser_address")
+     @WhereSQL(sql="address=:User_address")
 	public java.lang.String getAddress() {
 		return this.address;
 	}
@@ -207,7 +206,7 @@ public class Tuser  extends BaseEntity {
 		this.state = value;
 	}
 	
-     @WhereSQL(sql="state=:Tuser_state")
+     @WhereSQL(sql="state=:User_state")
 	public java.lang.Integer getState() {
 		return this.state;
 	}
@@ -237,9 +236,9 @@ public class Tuser  extends BaseEntity {
 	}
 	
 	public boolean equals(Object obj) {
-		if(obj instanceof Tuser == false) return false;
+		if(obj instanceof User == false) return false;
 		if(this == obj) return true;
-		Tuser other = (Tuser)obj;
+		User other = (User)obj;
 		return new EqualsBuilder()
 			.append(getId(),other.getId())
 			.isEquals();

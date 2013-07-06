@@ -1,28 +1,27 @@
 package org.iu9.testdb1.entity;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import org.iu9.frame.annotation.WhereSQL;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.iu9.frame.annotation.WhereSQL;
 import org.iu9.frame.entity.BaseEntity;
 /**
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author 9iuspring<Auto generate>
- * @version  2013-07-06 15:28:18
- * @see org.iu9.testdb1.entity.TuserOrg
+ * @version  2013-07-06 16:03:00
+ * @see org.iu9.testdb1.entity.UserOrg
  */
 @Table(name="t_user_org")
-public class TuserOrg  extends BaseEntity {
+public class UserOrg  extends BaseEntity {
 	
 	private static final long serialVersionUID = 1L;
 
 	//alias
 	/*
-	public static final String TABLE_ALIAS = "TuserOrg";
+	public static final String TABLE_ALIAS = "UserOrg";
 	public static final String ALIAS_ID = "编号";
 	public static final String ALIAS_USERID = "用户编号";
 	public static final String ALIAS_ORGID = "机构编号";
@@ -51,10 +50,10 @@ public class TuserOrg  extends BaseEntity {
 	
 	//concstructor
 
-	public TuserOrg(){
+	public UserOrg(){
 	}
 
-	public TuserOrg(
+	public UserOrg(
 		java.lang.String id
 	){
 		this.id = id;
@@ -66,7 +65,7 @@ public class TuserOrg  extends BaseEntity {
 	}
 	
 	@Id
-     @WhereSQL(sql="id=:TuserOrg_id")
+     @WhereSQL(sql="id=:UserOrg_id")
 	public java.lang.String getId() {
 		return this.id;
 	}
@@ -74,7 +73,7 @@ public class TuserOrg  extends BaseEntity {
 		this.userId = value;
 	}
 	
-     @WhereSQL(sql="userId=:TuserOrg_userId")
+     @WhereSQL(sql="userId=:UserOrg_userId")
 	public java.lang.String getUserId() {
 		return this.userId;
 	}
@@ -82,7 +81,7 @@ public class TuserOrg  extends BaseEntity {
 		this.orgId = value;
 	}
 	
-     @WhereSQL(sql="orgId=:TuserOrg_orgId")
+     @WhereSQL(sql="orgId=:UserOrg_orgId")
 	public java.lang.String getOrgId() {
 		return this.orgId;
 	}
@@ -90,7 +89,7 @@ public class TuserOrg  extends BaseEntity {
 		this.manager = value;
 	}
 	
-     @WhereSQL(sql="manager=:TuserOrg_manager")
+     @WhereSQL(sql="manager=:UserOrg_manager")
 	public java.lang.Integer getManager() {
 		return this.manager;
 	}
@@ -111,9 +110,9 @@ public class TuserOrg  extends BaseEntity {
 	}
 	
 	public boolean equals(Object obj) {
-		if(obj instanceof TuserOrg == false) return false;
+		if(obj instanceof UserOrg == false) return false;
 		if(this == obj) return true;
-		TuserOrg other = (TuserOrg)obj;
+		UserOrg other = (UserOrg)obj;
 		return new EqualsBuilder()
 			.append(getId(),other.getId())
 			.isEquals();

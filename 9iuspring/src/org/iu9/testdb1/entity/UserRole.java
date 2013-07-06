@@ -1,28 +1,27 @@
 package org.iu9.testdb1.entity;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import org.iu9.frame.annotation.WhereSQL;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.iu9.frame.annotation.WhereSQL;
 import org.iu9.frame.entity.BaseEntity;
 /**
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author 9iuspring<Auto generate>
- * @version  2013-07-06 15:28:18
- * @see org.iu9.testdb1.entity.TuserRole
+ * @version  2013-07-06 16:03:00
+ * @see org.iu9.testdb1.entity.UserRole
  */
 @Table(name="t_user_role")
-public class TuserRole  extends BaseEntity {
+public class UserRole  extends BaseEntity {
 	
 	private static final long serialVersionUID = 1L;
 
 	//alias
 	/*
-	public static final String TABLE_ALIAS = "TuserRole";
+	public static final String TABLE_ALIAS = "UserRole";
 	public static final String ALIAS_ID = "编号";
 	public static final String ALIAS_USERID = "用户编号";
 	public static final String ALIAS_ROLEID = "角色编号";
@@ -46,10 +45,10 @@ public class TuserRole  extends BaseEntity {
 	
 	//concstructor
 
-	public TuserRole(){
+	public UserRole(){
 	}
 
-	public TuserRole(
+	public UserRole(
 		java.lang.String id
 	){
 		this.id = id;
@@ -61,7 +60,7 @@ public class TuserRole  extends BaseEntity {
 	}
 	
 	@Id
-     @WhereSQL(sql="id=:TuserRole_id")
+     @WhereSQL(sql="id=:UserRole_id")
 	public java.lang.String getId() {
 		return this.id;
 	}
@@ -69,7 +68,7 @@ public class TuserRole  extends BaseEntity {
 		this.userId = value;
 	}
 	
-     @WhereSQL(sql="userId=:TuserRole_userId")
+     @WhereSQL(sql="userId=:UserRole_userId")
 	public java.lang.String getUserId() {
 		return this.userId;
 	}
@@ -77,7 +76,7 @@ public class TuserRole  extends BaseEntity {
 		this.roleId = value;
 	}
 	
-     @WhereSQL(sql="roleId=:TuserRole_roleId")
+     @WhereSQL(sql="roleId=:UserRole_roleId")
 	public java.lang.String getRoleId() {
 		return this.roleId;
 	}
@@ -97,9 +96,9 @@ public class TuserRole  extends BaseEntity {
 	}
 	
 	public boolean equals(Object obj) {
-		if(obj instanceof TuserRole == false) return false;
+		if(obj instanceof UserRole == false) return false;
 		if(this == obj) return true;
-		TuserRole other = (TuserRole)obj;
+		UserRole other = (UserRole)obj;
 		return new EqualsBuilder()
 			.append(getId(),other.getId())
 			.isEquals();

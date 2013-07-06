@@ -1,45 +1,44 @@
 package org.iu9.testdb1.service.impl;
 
-import javax.annotation.Resource;
-import org.springframework.stereotype.Service;
-import org.iu9.testdb1.service.BaseTestdb1ServiceImpl;
-import org.iu9.testdb1.entity.Tuser;
-import org.iu9.testdb1.service.ITuserService;
-import java.util.List;
 import java.io.File;
+import java.util.List;
+
 import org.iu9.frame.service.IBaseService;
-import org.iu9.frame.util.Page;
 import org.iu9.frame.util.Finder;
-import org.iu9.frame.entity.IBaseEntity;
+import org.iu9.frame.util.Page;
+import org.iu9.testdb1.entity.User;
+import org.iu9.testdb1.service.BaseTestdb1ServiceImpl;
+import org.iu9.testdb1.service.IUserService;
+import org.springframework.stereotype.Service;
 
 /**
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author 9iuspring<Auto generate>
- * @version  2013-07-06 15:28:18
- * @see org.iu9.testdb1.service.impl.Tuser
+ * @version  2013-07-06 16:03:00
+ * @see org.iu9.testdb1.service.impl.User
  */
-@Service("tuserService")
-public class TuserServiceImpl extends BaseTestdb1ServiceImpl implements ITuserService {
+@Service("userService")
+public class UserServiceImpl extends BaseTestdb1ServiceImpl implements IUserService {
 
    
     @Override
-	public String  saveTuser(Tuser entity) throws Exception{
+	public String  saveUser(User entity) throws Exception{
 	       return super.save(entity).toString();
 	}
 
     @Override
-	public String  saveorupdateTuser(Tuser entity) throws Exception{
+	public String  saveorupdateUser(User entity) throws Exception{
 	       return super.saveorupdate(entity).toString();
 	}
 	
 	@Override
-    public Integer updateTuser(Tuser entity) throws Exception{
+    public Integer updateUser(User entity) throws Exception{
 	return super.update(entity);
     }
     @Override
-	public Tuser findTuserById(Object id) throws Exception{
-	 return super.findById(id,Tuser.class);
+	public User findUserById(Object id) throws Exception{
+	 return super.findById(id,User.class);
 	}
 
 /**

@@ -1,28 +1,27 @@
 package org.iu9.testdb1.entity;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import org.iu9.frame.annotation.WhereSQL;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.iu9.frame.annotation.WhereSQL;
 import org.iu9.frame.entity.BaseEntity;
 /**
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author 9iuspring<Auto generate>
- * @version  2013-07-06 15:28:16
- * @see org.iu9.testdb1.entity.Tmenu
+ * @version  2013-07-06 16:02:58
+ * @see org.iu9.testdb1.entity.Menu
  */
 @Table(name="t_menu")
-public class Tmenu  extends BaseEntity {
+public class Menu  extends BaseEntity {
 	
 	private static final long serialVersionUID = 1L;
 
 	//alias
 	/*
-	public static final String TABLE_ALIAS = "Tmenu";
+	public static final String TABLE_ALIAS = "Menu";
 	public static final String ALIAS_ID = "id";
 	public static final String ALIAS_NAME = "name";
 	public static final String ALIAS_PID = "pid";
@@ -71,10 +70,10 @@ public class Tmenu  extends BaseEntity {
 	
 	//concstructor
 
-	public Tmenu(){
+	public Menu(){
 	}
 
-	public Tmenu(
+	public Menu(
 		java.lang.String id
 	){
 		this.id = id;
@@ -86,7 +85,7 @@ public class Tmenu  extends BaseEntity {
 	}
 	
 	@Id
-     @WhereSQL(sql="id=:Tmenu_id")
+     @WhereSQL(sql="id=:Menu_id")
 	public java.lang.String getId() {
 		return this.id;
 	}
@@ -94,7 +93,7 @@ public class Tmenu  extends BaseEntity {
 		this.name = value;
 	}
 	
-     @WhereSQL(sql="name=:Tmenu_name")
+     @WhereSQL(sql="name=:Menu_name")
 	public java.lang.String getName() {
 		return this.name;
 	}
@@ -102,7 +101,7 @@ public class Tmenu  extends BaseEntity {
 		this.pid = value;
 	}
 	
-     @WhereSQL(sql="pid=:Tmenu_pid")
+     @WhereSQL(sql="pid=:Menu_pid")
 	public java.lang.String getPid() {
 		return this.pid;
 	}
@@ -110,7 +109,7 @@ public class Tmenu  extends BaseEntity {
 		this.description = value;
 	}
 	
-     @WhereSQL(sql="description=:Tmenu_description")
+     @WhereSQL(sql="description=:Menu_description")
 	public java.lang.String getDescription() {
 		return this.description;
 	}
@@ -118,7 +117,7 @@ public class Tmenu  extends BaseEntity {
 		this.pageurl = value;
 	}
 	
-     @WhereSQL(sql="pageurl=:Tmenu_pageurl")
+     @WhereSQL(sql="pageurl=:Menu_pageurl")
 	public java.lang.String getPageurl() {
 		return this.pageurl;
 	}
@@ -126,7 +125,7 @@ public class Tmenu  extends BaseEntity {
 		this.type = value;
 	}
 	
-     @WhereSQL(sql="type=:Tmenu_type")
+     @WhereSQL(sql="type=:Menu_type")
 	public java.lang.Integer getType() {
 		return this.type;
 	}
@@ -134,7 +133,7 @@ public class Tmenu  extends BaseEntity {
 		this.systemId = value;
 	}
 	
-     @WhereSQL(sql="systemId=:Tmenu_systemId")
+     @WhereSQL(sql="systemId=:Menu_systemId")
 	public java.lang.String getSystemId() {
 		return this.systemId;
 	}
@@ -142,7 +141,7 @@ public class Tmenu  extends BaseEntity {
 		this.state = value;
 	}
 	
-     @WhereSQL(sql="state=:Tmenu_state")
+     @WhereSQL(sql="state=:Menu_state")
 	public java.lang.Integer getState() {
 		return this.state;
 	}
@@ -167,9 +166,9 @@ public class Tmenu  extends BaseEntity {
 	}
 	
 	public boolean equals(Object obj) {
-		if(obj instanceof Tmenu == false) return false;
+		if(obj instanceof Menu == false) return false;
 		if(this == obj) return true;
-		Tmenu other = (Tmenu)obj;
+		Menu other = (Menu)obj;
 		return new EqualsBuilder()
 			.append(getId(),other.getId())
 			.isEquals();

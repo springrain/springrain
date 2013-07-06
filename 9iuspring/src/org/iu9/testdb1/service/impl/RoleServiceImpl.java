@@ -6,39 +6,39 @@ import java.util.List;
 import org.iu9.frame.service.IBaseService;
 import org.iu9.frame.util.Finder;
 import org.iu9.frame.util.Page;
-import org.iu9.testdb1.entity.TuserRole;
+import org.iu9.testdb1.entity.Role;
 import org.iu9.testdb1.service.BaseTestdb1ServiceImpl;
-import org.iu9.testdb1.service.ITuserRoleMenuService;
+import org.iu9.testdb1.service.IRoleService;
 import org.springframework.stereotype.Service;
 
 /**
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author 9iuspring<Auto generate>
- * @version  2013-07-06 15:28:18
- * @see org.iu9.testdb1.service.impl.TuserRole
+ * @version  2013-07-06 16:02:59
+ * @see org.iu9.testdb1.service.impl.Role
  */
-@Service("tuserRoleService")
-public class TuserRoleServiceImpl extends BaseTestdb1ServiceImpl implements ITuserRoleMenuService {
+@Service("roleService")
+public class RoleServiceImpl extends BaseTestdb1ServiceImpl implements IRoleService {
 
    
     @Override
-	public String  saveTuserRole(TuserRole entity) throws Exception{
+	public String  saveRole(Role entity) throws Exception{
 	       return super.save(entity).toString();
 	}
 
     @Override
-	public String  saveorupdateTuserRole(TuserRole entity) throws Exception{
+	public String  saveorupdateRole(Role entity) throws Exception{
 	       return super.saveorupdate(entity).toString();
 	}
 	
 	@Override
-    public Integer updateTuserRole(TuserRole entity) throws Exception{
+    public Integer updateRole(Role entity) throws Exception{
 	return super.update(entity);
     }
     @Override
-	public TuserRole findTuserRoleById(Object id) throws Exception{
-	 return super.findById(id,TuserRole.class);
+	public Role findRoleById(Object id) throws Exception{
+	 return super.findById(id,Role.class);
 	}
 
 /**

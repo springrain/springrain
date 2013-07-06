@@ -1,28 +1,27 @@
 package org.iu9.testdb1.entity;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import org.iu9.frame.annotation.WhereSQL;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.iu9.frame.annotation.WhereSQL;
 import org.iu9.frame.entity.BaseEntity;
 /**
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author 9iuspring<Auto generate>
- * @version  2013-07-06 15:28:18
- * @see org.iu9.testdb1.entity.Tsubsystem
+ * @version  2013-07-06 16:03:00
+ * @see org.iu9.testdb1.entity.Subsystem
  */
 @Table(name="t_subsystem")
-public class Tsubsystem  extends BaseEntity {
+public class Subsystem  extends BaseEntity {
 	
 	private static final long serialVersionUID = 1L;
 
 	//alias
 	/*
-	public static final String TABLE_ALIAS = "Tsubsystem";
+	public static final String TABLE_ALIAS = "Subsystem";
 	public static final String ALIAS_ID = "子系统编号";
 	public static final String ALIAS_NAME = "子系统名称";
 	public static final String ALIAS_SORTNO = "子系统排序";
@@ -61,10 +60,10 @@ public class Tsubsystem  extends BaseEntity {
 	
 	//concstructor
 
-	public Tsubsystem(){
+	public Subsystem(){
 	}
 
-	public Tsubsystem(
+	public Subsystem(
 		java.lang.String id
 	){
 		this.id = id;
@@ -76,7 +75,7 @@ public class Tsubsystem  extends BaseEntity {
 	}
 	
 	@Id
-     @WhereSQL(sql="id=:Tsubsystem_id")
+     @WhereSQL(sql="id=:Subsystem_id")
 	public java.lang.String getId() {
 		return this.id;
 	}
@@ -84,7 +83,7 @@ public class Tsubsystem  extends BaseEntity {
 		this.name = value;
 	}
 	
-     @WhereSQL(sql="name=:Tsubsystem_name")
+     @WhereSQL(sql="name=:Subsystem_name")
 	public java.lang.String getName() {
 		return this.name;
 	}
@@ -92,7 +91,7 @@ public class Tsubsystem  extends BaseEntity {
 		this.sortno = value;
 	}
 	
-     @WhereSQL(sql="sortno=:Tsubsystem_sortno")
+     @WhereSQL(sql="sortno=:Subsystem_sortno")
 	public java.lang.Integer getSortno() {
 		return this.sortno;
 	}
@@ -100,7 +99,7 @@ public class Tsubsystem  extends BaseEntity {
 		this.uri = value;
 	}
 	
-     @WhereSQL(sql="uri=:Tsubsystem_uri")
+     @WhereSQL(sql="uri=:Subsystem_uri")
 	public java.lang.String getUri() {
 		return this.uri;
 	}
@@ -108,7 +107,7 @@ public class Tsubsystem  extends BaseEntity {
 		this.remark = value;
 	}
 	
-     @WhereSQL(sql="remark=:Tsubsystem_remark")
+     @WhereSQL(sql="remark=:Subsystem_remark")
 	public java.lang.String getRemark() {
 		return this.remark;
 	}
@@ -116,7 +115,7 @@ public class Tsubsystem  extends BaseEntity {
 		this.state = value;
 	}
 	
-     @WhereSQL(sql="state=:Tsubsystem_state")
+     @WhereSQL(sql="state=:Subsystem_state")
 	public java.lang.String getState() {
 		return this.state;
 	}
@@ -139,9 +138,9 @@ public class Tsubsystem  extends BaseEntity {
 	}
 	
 	public boolean equals(Object obj) {
-		if(obj instanceof Tsubsystem == false) return false;
+		if(obj instanceof Subsystem == false) return false;
 		if(this == obj) return true;
-		Tsubsystem other = (Tsubsystem)obj;
+		Subsystem other = (Subsystem)obj;
 		return new EqualsBuilder()
 			.append(getId(),other.getId())
 			.isEquals();
