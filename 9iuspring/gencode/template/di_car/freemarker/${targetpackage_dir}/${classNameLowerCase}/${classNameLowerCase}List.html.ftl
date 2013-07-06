@@ -84,7 +84,7 @@ ${r"<@h.easyui />"}
 					<!--first_end_no_export-->
 					<#list table.columns as column>
 						<#if !column.pk>
-						<th field="${column.columnNameLower}"  width="80" align="center" >${column.columnAlias}</th>
+						<th field="${column.columnNameLower}" >${column.columnAlias}</th>
 						</#if>
 					</#list>
 						

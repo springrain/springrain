@@ -8,7 +8,7 @@ ${r"<@h.easyui />"}
 <script type="text/javascript" src="${r"${ctx}"}/js/${rootPagefloder}/${classNameLowerCase}/${classNameLowerCase}Cru.js"></script>
 <#list table.columns as datecolumn>
 	<#if datecolumn.isDateTimeColumn>	
-		<script type="text/javascript" src="${r"${ctx}"}/my97/WdatePicker.js"></script>
+		<script type="text/javascript" src="${r"${ctx}"}/js/my97/WdatePicker.js"></script>
 		<#break>
 	</#if>
 </#list>
