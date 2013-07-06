@@ -72,7 +72,7 @@ ${r"<@h.easyui />"}
 					sortOrder="asc" pagination="true" pageSize="10"
 					pageList="[10]" nowrap="false"
 					checkOnSelect="false" selectOnCheck="false" loadMsg="正在为您加载数据"
-					toolbar="#auditlog_toolbar">
+					toolbar="#springrain_list_toolbar">
 					
 			<!--end_no_export-->
 			<!--first_start_export-->
@@ -84,7 +84,7 @@ ${r"<@h.easyui />"}
 					<!--first_end_no_export-->
 					<#list table.columns as column>
 						<#if !column.pk>
-						<th field="${column.columnNameLower}" >${column.columnAlias}</th>
+						<th field="${column.columnNameLower}"  align="center"  >${column.columnAlias}</th>
 						</#if>
 					</#list>
 						
@@ -144,7 +144,7 @@ ${r"<@h.easyui />"}
 </div>
 
 <!-- 工具条 -->
-<div id="auditlog_toolbar" style="display: none;">
+<div id="springrain_list_toolbar" style="display: none;">
 	<a class="easyui-linkbutton"  data-options="iconCls:'icon-undo',plain:true" style="float: left;" href="javascript:export_excel('searchForm');"  >导出</a>
     <div class="datagrid-btn-separator"></div>
     <a class="easyui-linkbutton"  data-options="iconCls:'icon-add',plain:true"  style="float: left;" href="javascript:f_newTab('add_${classNameLowerCase}','${r"${ctx}"}/${classNameLowerCase}/update/pre');">添加</a>
