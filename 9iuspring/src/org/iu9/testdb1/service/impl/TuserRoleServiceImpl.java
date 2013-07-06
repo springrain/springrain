@@ -8,7 +8,7 @@ import org.iu9.frame.util.Finder;
 import org.iu9.frame.util.Page;
 import org.iu9.testdb1.entity.TuserRole;
 import org.iu9.testdb1.service.BaseTestdb1ServiceImpl;
-import org.iu9.testdb1.service.ITuserRoleService;
+import org.iu9.testdb1.service.ITuserRoleMenuService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
  * @see org.iu9.testdb1.service.impl.TuserRole
  */
 @Service("tuserRoleService")
-public class TuserRoleServiceImpl extends BaseTestdb1ServiceImpl implements ITuserRoleService {
+public class TuserRoleServiceImpl extends BaseTestdb1ServiceImpl implements ITuserRoleMenuService {
 
    
     @Override

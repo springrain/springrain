@@ -9,7 +9,7 @@ import org.iu9.testdb1.entity.TuserRole;
  * @version  2013-07-06 15:28:18
  * @see org.iu9.testdb1.service.TuserRole
  */
-public interface ITuserRoleService extends IBaseTestdb1Service {
+public interface ITuserRoleMenuService extends IBaseTestdb1Service {
 /**
 	 * 保存 
 	 * @param entity
