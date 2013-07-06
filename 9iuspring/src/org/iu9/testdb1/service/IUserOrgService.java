@@ -22,7 +22,7 @@ public interface IUserOrgService extends IBaseTestdb1Service {
 	 * @return
 	 * @throws Exception
 	 */
-	List<User> findUsersByOrgId(String orgId) throws Exception;
+	List<User> findUserByOrgId(String orgId) throws Exception;
 
 	
 	/**
@@ -31,7 +31,7 @@ public interface IUserOrgService extends IBaseTestdb1Service {
 	 * @return
 	 * @throws Exception
 	 */
-	List<User> findAllUsersByOrgId(String orgId) throws Exception;
+	List<User> findAllUserByOrgId(String orgId) throws Exception;
 	
 	/**
 	 * 根据用户ID 查找所在的部门

@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 public class UserOrgServiceImpl extends BaseTestdb1ServiceImpl implements IUserOrgService {
 
 	@Override
-	public List<User> findUsersByOrgId(String orgId) throws Exception {
+	public List<User> findUserByOrgId(String orgId) throws Exception {
 		if(StringUtils.isBlank(orgId)){
 			return null;
 		}
@@ -31,7 +31,7 @@ public class UserOrgServiceImpl extends BaseTestdb1ServiceImpl implements IUserO
 	}
 
 	@Override
-	public List<User> findAllUsersByOrgId(String orgId) throws Exception {
+	public List<User> findAllUserByOrgId(String orgId) throws Exception {
 		if(StringUtils.isBlank(orgId)){
 			return null;
 		}
