@@ -24,7 +24,10 @@ public class DbAuthRealm extends AuthorizingRealm {
 	public Logger logger=Logger.getLogger(getClass());
 	@Resource
 	IUserRoleMenuService  userRoleMenuService;
-	 public DbAuthRealm() {}
+	 public DbAuthRealm() {
+		// super.setAuthenticationCacheName(authenticationCacheName);
+		 
+	 }
 	/**
 	 public DbAuthRealm() {
 	       super();
