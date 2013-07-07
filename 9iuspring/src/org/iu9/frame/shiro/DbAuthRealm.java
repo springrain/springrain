@@ -4,13 +4,12 @@ import javax.annotation.Resource;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.SecurityUtils;
+import org.apache.log4j.Logger;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -22,10 +21,11 @@ import org.springframework.stereotype.Component;
 //认证数据库存储
 @Component("myRealm")
 public class DbAuthRealm extends AuthorizingRealm {
-
+	public Logger logger=Logger.getLogger(getClass());
 	@Resource
 	IUserRoleMenuService  userRoleMenuService;
-	
+	 public DbAuthRealm() {}
+	/**
 	 public DbAuthRealm() {
 	       super();
 	       // 设置认证token的实现类为用户名密码模式
@@ -59,17 +59,20 @@ public class DbAuthRealm extends AuthorizingRealm {
 	       });
 	    }
 	
+	 */
 	 //授权
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-		 String userId = (String) principalCollection.fromRealm(getName()).iterator().next();
+		
+		  ShiroUser shiroUser = (ShiroUser) principalCollection.getPrimaryPrincipal();  
+		 //String userId = (String) principalCollection.fromRealm(getName()).iterator().next();
+		  String userId=shiroUser.getId();
 	       //取当前用户
 	       User user=null;
 		try {
 			user = userRoleMenuService.findUserAndMenu(userId);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(e);
 		}
 	       //添加角色及权限信息
 	       SimpleAuthorizationInfo sazi = new SimpleAuthorizationInfo();
@@ -83,21 +86,25 @@ public class DbAuthRealm extends AuthorizingRealm {
 	protected AuthenticationInfo doGetAuthenticationInfo(
 			AuthenticationToken token) throws AuthenticationException {
 		  UsernamePasswordToken upToken = (UsernamePasswordToken) token;
+		  String pwd = new String(upToken.getPassword());
+          if(StringUtils.isNotBlank(pwd)){
+        	  pwd=  DigestUtils.md5Hex(pwd);
+          }
+          
 		  
 	       //调用业务方法
 	       User user=null;
 		try {
-			user = userRoleMenuService.findById(upToken.getUsername(), User.class);
+			user = userRoleMenuService.findLoginUser(upToken.getUsername(), pwd);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(e);
 		}
 	 
 	       if(user != null) {
 	           //要放在作用域中的东西，请在这里进行操作
 	          // SecurityUtils.getSubject().getSession().setAttribute("c_user", user);
-	           
-	           return new SimpleAuthenticationInfo(user.getId(),user.getPassword(), this.getName());
+	    	   //byte[] salt = EncodeUtils.decodeHex(user.getSalt());  
+	          return new SimpleAuthenticationInfo(new ShiroUser(user),user.getPassword(), this.getName());
 	       }
 	       //认证没有通过
 	       return null;

@@ -99,13 +99,13 @@ public class UserRoleMenuServiceImpl extends BaseTestdb1ServiceImpl implements I
 	}
 
 	@Override
-	public String findLoginUserId(String account, String password) throws Exception {
+	public User findLoginUser(String account, String password) throws Exception {
 		if(StringUtils.isBlank(account)||StringUtils.isBlank(password)){
 			return null;
 		}
-       Finder finder=new Finder("SELECT id FROM T_user WHERE state=1 and account=:account and password=:password");
+       Finder finder=new Finder("SELECT * FROM T_user WHERE state=1 and account=:account and password=:password");
        finder.setParam("account", account).setParam("password", password);
-		return super.queryForObject(finder, String.class);
+		return super.queryForObject(finder, User.class);
 	}
 
 	@Override

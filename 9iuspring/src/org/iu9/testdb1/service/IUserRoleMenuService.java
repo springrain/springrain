@@ -65,7 +65,7 @@ public interface IUserRoleMenuService extends IBaseTestdb1Service {
 	 * @return
 	 * @throws Exception 
 	 */
-	String findLoginUserId(String account,String password) throws Exception;
+	User findLoginUser(String account,String password) throws Exception;
 	
 /**
  * 查询数据库所有的角色和对应的菜单
