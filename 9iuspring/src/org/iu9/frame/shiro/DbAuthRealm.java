@@ -64,7 +64,7 @@ public class DbAuthRealm extends AuthorizingRealm {
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
 		
-		  ShiroUser shiroUser = (ShiroUser) principalCollection.getPrimaryPrincipal();  
+		  User shiroUser = (User) principalCollection.getPrimaryPrincipal();  
 		 //String userId = (String) principalCollection.fromRealm(getName()).iterator().next();
 		  String userId=shiroUser.getId();
 	       //取当前用户
@@ -104,7 +104,7 @@ public class DbAuthRealm extends AuthorizingRealm {
 	           //要放在作用域中的东西，请在这里进行操作
 	          // SecurityUtils.getSubject().getSession().setAttribute("c_user", user);
 	    	   //byte[] salt = EncodeUtils.decodeHex(user.getSalt());  
-	          return new SimpleAuthenticationInfo(new ShiroUser(user),user.getPassword(), this.getName());
+	          return new SimpleAuthenticationInfo(user,user.getPassword(), this.getName());
 	       }
 	       //认证没有通过
 	       return null;
