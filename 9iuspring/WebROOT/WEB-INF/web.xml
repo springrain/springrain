@@ -40,11 +40,7 @@
       <param-value>UTF-8</param-value>
     </init-param>
   </filter>
-  <!-- 浏览器不支持put,delete等method,由该filter将/blog?_method=delete转换为标准的http delete方法 --> 
-  <filter>
-    <filter-name>httpMethodFilter</filter-name>
-    <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
-  </filter>
+  
   
    <filter>
        <filter-name>shiroFilter</filter-name>
@@ -55,18 +51,28 @@
        </init-param>
     </filter>
   
+  
+  <!-- 浏览器不支持put,delete等method,由该filter将/blog?_method=delete转换为标准的http delete方法 --> 
+  <filter>
+    <filter-name>httpMethodFilter</filter-name>
+    <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+  </filter>
+  
+    <filter-mapping>
+    <filter-name>encodingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  
+    <filter-mapping>
+       <filter-name>shiroFilter</filter-name>
+       <url-pattern>/*</url-pattern>
+ </filter-mapping>
   <filter-mapping>
     <filter-name>httpMethodFilter</filter-name>
     <servlet-name>9iuspring</servlet-name>
   </filter-mapping>
-  <filter-mapping>
-    <filter-name>encodingFilter</filter-name>
-    <url-pattern>/*</url-pattern>
-  </filter-mapping>
-  <filter-mapping>
-       <filter-name>shiroFilter</filter-name>
-       <url-pattern>/*</url-pattern>
- </filter-mapping>
+
+
 
 
     
