@@ -90,10 +90,10 @@ DROP TABLE IF EXISTS `t_role`;
 CREATE TABLE `t_role` (
   `id` varchar(40) NOT NULL COMMENT '角色ID',
   `name` varchar(60) DEFAULT NULL COMMENT '角色名称',
-  `permissions` varchar(255) DEFAULT NULL COMMENT '权限',
+  `code` varchar(255) DEFAULT NULL COMMENT '权限编码',
   `pid` varchar(40) DEFAULT NULL COMMENT '所属部门',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
-  `state` int(11) DEFAULT NULL COMMENT '状态(0:禁用2:启用)',
+  `state` int(11) DEFAULT NULL COMMENT '状态(0:禁用1:启用)',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色';
 alter table t_role comment '角色表';

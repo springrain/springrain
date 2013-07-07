@@ -3,12 +3,17 @@ package org.iu9.testdb1.service.impl;
 import java.io.File;
 import java.util.List;
 
+import javax.annotation.Resource;
+
+import org.apache.commons.lang3.StringUtils;
 import org.iu9.frame.service.IBaseService;
 import org.iu9.frame.util.Finder;
 import org.iu9.frame.util.Page;
+import org.iu9.testdb1.entity.Menu;
 import org.iu9.testdb1.entity.Role;
 import org.iu9.testdb1.service.BaseTestdb1ServiceImpl;
 import org.iu9.testdb1.service.IRoleService;
+import org.iu9.testdb1.service.IUserRoleMenuService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -20,7 +25,8 @@ import org.springframework.stereotype.Service;
  */
 @Service("roleService")
 public class RoleServiceImpl extends BaseTestdb1ServiceImpl implements IRoleService {
-
+	@Resource
+private IUserRoleMenuService userRoleMenuService;
    
     @Override
 	public String  saveRole(Role entity) throws Exception{
@@ -72,5 +78,6 @@ public class RoleServiceImpl extends BaseTestdb1ServiceImpl implements IRoleServ
 			throws Exception {
 			 return super.findDataExportExcel(finder,ftlurl,page,clazz,baseService,o);
 		}
-		
+
+
 }

@@ -1,8 +1,14 @@
 package org.iu9.testdb1.entity;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.iu9.frame.annotation.WhereSQL;
@@ -92,6 +98,10 @@ public class User  extends BaseEntity {
 	 */
 	private java.lang.Integer state;
 	//columns END 数据库字段结束
+	
+	private List<Role> roles;
+	
+	private Set<Menu> menus;
 	
 	//concstructor
 
@@ -211,6 +221,9 @@ public class User  extends BaseEntity {
 		return this.state;
 	}
 	
+     
+     
+     
 	public String toString() {
 		return new StringBuffer()
 			.append("编号[").append(getId()).append("],")
@@ -242,6 +255,52 @@ public class User  extends BaseEntity {
 		return new EqualsBuilder()
 			.append(getId(),other.getId())
 			.isEquals();
+	}
+
+	@Transient
+	public List<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
+
+	@Transient
+	public Set<Menu> getMenus() {
+		return menus;
+	}
+
+	public void setMenus(Set<Menu> menus) {
+		this.menus = menus;
+	}
+	@Transient
+	public Set<String> getRolesAsString(){
+	
+		List<Role> list = getRoles();
+		if(CollectionUtils.isEmpty(list)){
+			return null;
+		}
+		Set<String> set=new HashSet<String>();
+		for(Role r:list){
+			set.add(r.getCode());
+		}
+	
+		return set;
+	}
+	
+	@Transient
+	public  Set<String> getPermissionsAsString(){
+		Set<Menu> setMenu = getMenus();
+		if(CollectionUtils.isEmpty(setMenu)){
+			return null;
+		}
+		
+		Set<String> set=new HashSet<String>();
+		for(Menu m:setMenu){
+			set.add(m.getPageurl());
+		}
+		return set;
 	}
 }
 

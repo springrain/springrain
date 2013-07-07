@@ -1,7 +1,10 @@
 package org.iu9.testdb1.entity;
 
+import java.util.List;
+
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -40,10 +43,10 @@ public class Role  extends BaseEntity {
 	 * 角色名称
 	 */
 	private java.lang.String name;
-	/**
-	 * 权限
+	/** 
+	 * 角色编码，用于生成权限框架的惟一标识权限
 	 */
-	private java.lang.String permissions;
+	private java.lang.String code;
 	/**
 	 * 所属部门
 	 */
@@ -53,10 +56,12 @@ public class Role  extends BaseEntity {
 	 */
 	private java.lang.String remark;
 	/**
-	 * 状态(0:禁用2:启用)
+	 * 状态(0:禁用1:启用)
 	 */
 	private java.lang.Integer state;
 	//columns END 数据库字段结束
+	
+	private List<Menu> menus;
 	
 	//concstructor
 
@@ -87,14 +92,7 @@ public class Role  extends BaseEntity {
 	public java.lang.String getName() {
 		return this.name;
 	}
-	public void setPermissions(java.lang.String value) {
-		this.permissions = value;
-	}
-	
-     @WhereSQL(sql="permissions=:Role_permissions")
-	public java.lang.String getPermissions() {
-		return this.permissions;
-	}
+
 	public void setPid(java.lang.String value) {
 		this.pid = value;
 	}
@@ -124,10 +122,10 @@ public class Role  extends BaseEntity {
 		return new StringBuffer()
 			.append("角色ID[").append(getId()).append("],")
 			.append("角色名称[").append(getName()).append("],")
-			.append("权限[").append(getPermissions()).append("],")
+			.append("权限编码[").append(getCode()).append("],")
 			.append("所属部门[").append(getPid()).append("],")
 			.append("备注[").append(getRemark()).append("],")
-			.append("状态(0:禁用2:启用)[").append(getState()).append("],")
+			.append("状态(0:禁用1:启用)[").append(getState()).append("],")
 			.toString();
 	}
 	
@@ -144,6 +142,23 @@ public class Role  extends BaseEntity {
 		return new EqualsBuilder()
 			.append(getId(),other.getId())
 			.isEquals();
+	}
+
+	@Transient
+	public List<Menu> getMenus() {
+		return menus;
+	}
+
+	public void setMenus(List<Menu> menus) {
+		this.menus = menus;
+	}
+
+	public java.lang.String getCode() {
+		return code;
+	}
+
+	public void setCode(java.lang.String code) {
+		this.code = code;
 	}
 }
 

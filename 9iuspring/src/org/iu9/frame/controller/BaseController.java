@@ -132,12 +132,8 @@ public class BaseController extends BaseLogger {
  */
 	@RequestMapping(value = "/index")
 	public String index(Model model) throws Exception {
-		boolean isPC=(Boolean) SessionUser.getSession().getAttribute("cerp_session_pc");
-		if(isPC){
 			return "/index";
-		}else{
-			return "/mobile_index";
-		}
+		
 	}
 	
 	@RequestMapping(value = "/login")

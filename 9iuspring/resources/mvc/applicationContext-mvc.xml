@@ -30,7 +30,9 @@
 <mvc:view-controller path="/" view-name="index"/>
 	
 		<bean id="handlerMapping" class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+		<!--  
 		<property name="interceptors" ref="fwinterceptor"/>
+		-->
 	</bean>
 
 <bean id="fwinterceptor"  class="org.iu9.frame.interceptor.FWInterceptor">

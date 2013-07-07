@@ -19,7 +19,7 @@
 	<entry key="outRoot">generator-output</entry>
 
 	<!-- 需要移除的表名前缀,使用逗号进行分隔多个前缀,示例值: t_,v_ -->
-	<entry key="tableRemovePrefixes"></entry>
+	<entry key="tableRemovePrefixes">t_</entry>
 		
 	<!-- oracle,MSSQL需要指定jdbc.schema,其它数据库忽略此项配置  -->
 	<entry key="jdbc.schema"></entry>

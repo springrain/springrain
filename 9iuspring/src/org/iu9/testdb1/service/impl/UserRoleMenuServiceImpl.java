@@ -1,7 +1,10 @@
 package org.iu9.testdb1.service.impl;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.iu9.frame.util.Finder;
 import org.iu9.testdb1.entity.Menu;
@@ -37,7 +40,7 @@ public class UserRoleMenuServiceImpl extends BaseTestdb1ServiceImpl implements I
 		if(StringUtils.isBlank(roleId)){
 			return null;
 		}
-		Finder finder=new Finder("SELECT m.* from t_menu m,t_role_menu  re where re.roleId=:roleId and re.menuId=m.id ");
+		Finder finder=new Finder("SELECT m.* from t_menu m,t_role_menu  re where re.roleId=:roleId and re.menuId=m.id  ");
 		finder.setParam("roleId", roleId);
 		return super.queryForList(finder, Menu.class);
 	}
@@ -64,6 +67,60 @@ public class UserRoleMenuServiceImpl extends BaseTestdb1ServiceImpl implements I
 		return super.queryForList(finder, Menu.class);
 		
 	}
-	
+	@Override
+	public Role findRoleAndMenu(String roleId) throws Exception {
+		if(StringUtils.isBlank(roleId)){
+			return null;
+		}
+		Role role =super.findById(roleId, Role.class);
+		if(role==null){
+			return null;
+		}
+		List<Menu> menus = findMenuByRoleId(roleId);
+		role.setMenus(menus);
+		return role;
+	}
+
+	@Override
+	public User findUserAndMenu(String userId) throws Exception {
+		User user=super.findById(userId, User.class);
+		List<Role> roles = findRoleByUserId(userId);
+		if(CollectionUtils.isEmpty(roles)){
+			return user;
+		}
+		Set<Menu> menus=new HashSet<Menu>();
+		for(Role r:roles){
+		  r=findRoleAndMenu(r.getId());
+		  menus.addAll(r.getMenus());
+		}
+		user.setRoles(roles);
+		user.setMenus(menus);
+		return user;
+	}
+
+	@Override
+	public String findLoginUserId(String account, String password) throws Exception {
+		if(StringUtils.isBlank(account)||StringUtils.isBlank(password)){
+			return null;
+		}
+       Finder finder=new Finder("SELECT id FROM T_user WHERE state=1 and account=:account and password=:password");
+       finder.setParam("account", account).setParam("password", password);
+		return super.queryForObject(finder, String.class);
+	}
+
+	@Override
+	public List<Role> findAllRoleAndMenu() throws Exception {
+		Finder f_role=new Finder("SELECT * FROM t_role where state=1 ");
+		List<Role> listRole = super.queryForList(f_role,Role.class);
+		if(CollectionUtils.isEmpty(listRole)){
+			return null;
+		}
+		for(Role r:listRole){
+			List<Menu> menus = findMenuByRoleId(r.getId());
+			r.setMenus(menus);
+		}
+		return listRole;
+	}
+		
 	
 }
