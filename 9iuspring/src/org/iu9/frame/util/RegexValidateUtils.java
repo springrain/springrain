@@ -5,6 +5,8 @@ package org.iu9.frame.util;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
+
 
 /**
 *正则表达式工具类
@@ -142,9 +144,12 @@ public class RegexValidateUtils {
 	 */
 	public static int getOrderByIndex(String orderbysql){
 		int index=-1;
+		if(StringUtils.isBlank(orderbysql)){
+			return index;
+		}
 		 String regStr="\\s+(order)\\s+(by)";
 		 Pattern pattern=Pattern.compile(regStr);
-		 Matcher matcher=pattern.matcher(orderbysql);
+		 Matcher matcher=pattern.matcher(orderbysql.toLowerCase());
 		 if(matcher.find()){
 			 index=matcher.start();
 		 }

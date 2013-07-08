@@ -155,7 +155,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 			finder.append(" WHERE 1=1 ");
 			getFinderWhereByQueryBean(finder, queryBean);
 		}
-		int _index = RegexValidateUtils.getOrderByIndex(finder.getSql().toLowerCase());
+		int _index = RegexValidateUtils.getOrderByIndex(finder.getSql());
 		if (_index > 0) {
 			finder.setSql(finder.getSql().substring(0, _index));
 		}
@@ -178,7 +178,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 			 * istrue=false; break; } }
 			 */
 
-			if  ( RegexValidateUtils.getOrderByIndex(finder.getSql().toLowerCase())<0) {
+			if  ( RegexValidateUtils.getOrderByIndex(finder.getSql())<0) {
 				finder.append(" order by ").append(order);
 			}
 			if (StringUtils.isNotBlank(sort)) {
@@ -267,10 +267,10 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		if (StringUtils.isBlank(sql)){
 			return null;
 		}
-		if ( RegexValidateUtils.getOrderByIndex(sql.toLowerCase()) > -1) {
+		if ( RegexValidateUtils.getOrderByIndex(sql) > -1) {
 			if (StringUtils.isBlank(orderSql)) {
-				orderSql = sql.substring(RegexValidateUtils.getOrderByIndex(sql.toLowerCase()));
-				sql = sql.substring(0, RegexValidateUtils.getOrderByIndex(sql.toLowerCase()));
+				orderSql = sql.substring(RegexValidateUtils.getOrderByIndex(sql));
+				sql = sql.substring(0, RegexValidateUtils.getOrderByIndex(sql));
 			}
 		} else {
 			orderSql = " order by id";
@@ -300,7 +300,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 			count = getJdbc().queryForInt(countSql, paramMap);
 			*/
 			String countSql = new String(sql);
-			int order_int = RegexValidateUtils.getOrderByIndex(countSql.toLowerCase());
+			int order_int = RegexValidateUtils.getOrderByIndex(countSql);
 			if (order_int > 1) {
 				countSql = countSql.substring(0, order_int);
 			}
