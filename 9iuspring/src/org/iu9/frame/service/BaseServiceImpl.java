@@ -17,11 +17,11 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Resource;
+
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.apache.commons.lang3.StringUtils;
 import org.iu9.frame.common.BaseLogger;
 import org.iu9.frame.dao.IBaseJdbcDao;
-import org.iu9.frame.entity.IBaseEntity;
 import org.iu9.frame.util.Finder;
 import org.iu9.frame.util.GlobalStatic;
 import org.iu9.frame.util.Page;
@@ -174,7 +174,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 
 	@Override
 	public <T> File findDataExportExcel(Finder finder, String ftlurl,
-			Page page, Class<T> clazz, IBaseService baseService, Object queryBean)
+			Page page, Class<T> clazz, Object queryBean)
 			throws Exception {
 		Map map = new HashMap();
 		map.put(GlobalStatic.exportexcel, true);// 设置导出excel变量
@@ -182,8 +182,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 				.getTemplate(ftlurl + GlobalStatic.freemarkerSuffix);
 		page.setPageSize(GlobalStatic.excelPageSize);
 		page.setPageIndex(1);
-		List<T> datas = baseService
-				.findListDataByFinder(finder, page, clazz, queryBean);
+		List<T> datas = findListDataByFinder(finder, page, clazz, queryBean);
 		map.put("datas", datas);
 		String fileName = UUID.randomUUID().toString();
 		String tempFFilepath = GlobalStatic.tempRootpath + "/" + fileName
@@ -215,7 +214,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 				end = true;
 			}
 			page.setPageIndex(i);
-			datas = baseService.findListDataByFinder(finder, page, clazz, queryBean);
+			datas = findListDataByFinder(finder, page, clazz, queryBean);
 			map.put("datas", datas);
 			CreateExceFile(template, ffile, excelFile, first, end, map);
 		}
@@ -350,12 +349,12 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 	}
 
 	@Override
-	public Object save(IBaseEntity entity) throws Exception {
+	public Object save(Object entity) throws Exception {
 		return getBaseDao().save(entity);
 	}
 
 	@Override
-	public Integer update(IBaseEntity entity) throws Exception {
+	public Integer update(Object entity) throws Exception {
 		return getBaseDao().update(entity);
 	}
 
@@ -365,7 +364,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 	}
 
 	@Override
-	public Object saveorupdate(IBaseEntity entity) throws Exception {
+	public Object saveorupdate(Object entity) throws Exception {
 		return getBaseDao().saveorupdate(entity);
 	}
 

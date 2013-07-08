@@ -21,18 +21,21 @@ public class ${className}ServiceImpl extends BaseTestdb1ServiceImpl implements I
 
    
     @Override
-	public String  save${className}(${className} entity) throws Exception{
-	       return super.save(entity).toString();
+	public String  save(Object entity) throws Exception{
+    	${className} ${classNameLower}=(${className}) entity;
+	       return super.save(${classNameLower}).toString();
 	}
 
     @Override
-	public String  saveorupdate${className}(${className} entity) throws Exception{
-	       return super.saveorupdate(entity).toString();
+	public String  saveorupdate(Object entity) throws Exception{
+		${className} ${classNameLower}=(${className}) entity;
+	       return super.saveorupdate(${classNameLower}).toString();
 	}
 	
 	@Override
-    public Integer update${className}(${className} entity) throws Exception{
-	return super.update(entity);
+    public Integer update(Object entity) throws Exception{
+		${className} ${classNameLower}=(${className}) entity;
+	return super.update(${classNameLower});
     }
     @Override
 	public ${className} find${className}ById(Object id) throws Exception{
@@ -66,9 +69,9 @@ public class ${className}ServiceImpl extends BaseTestdb1ServiceImpl implements I
 	 */
 		@Override
 	public <T> File findDataExportExcel(Finder finder,String ftlurl, Page page,
-			Class<T> clazz, IBaseService baseService, Object o)
+			Class<T> clazz, Object o)
 			throws Exception {
-			 return super.findDataExportExcel(finder,ftlurl,page,clazz,baseService,o);
+			 return super.findDataExportExcel(finder,ftlurl,page,clazz,o);
 		}
 		
 }

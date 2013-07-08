@@ -96,7 +96,7 @@ public class AuditlogController  extends BaseController {
 		// ==构造分页请求
 		Page page = newPage(request);
 	
-		File file = auditlogService.findDataExportExcel(null,listurl, page,AuditLog.class,auditlogService,auditLog);
+		File file = auditlogService.findDataExportExcel(null,listurl, page,AuditLog.class,auditLog);
 		String fileName="auditlog"+GlobalStatic.excelext;
 		downFile(response, file, fileName,true);
 		return;

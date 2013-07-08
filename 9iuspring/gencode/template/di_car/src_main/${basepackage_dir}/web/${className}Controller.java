@@ -102,7 +102,7 @@ public class ${className}Controller  extends BaseController {
 		// ==构造分页请求
 		Page page = newPage(request);
 	
-		File file = ${classNameLower}Service.findDataExportExcel(null,listurl, page,${className}.class,${classNameLower}Service,${classNameLower});
+		File file = ${classNameLower}Service.findDataExportExcel(null,listurl, page,${className}.class,${classNameLower});
 		String fileName="${classNameLower}"+GlobalStatic.excelext;
 		downFile(response, file, fileName,true);
 		return;
@@ -140,7 +140,7 @@ public class ${className}Controller  extends BaseController {
 				${classNameLower}.set${column.columnName}(SecUtils.getUUID());
 			</#list>
 			try {
-				${classNameLower}Service.save${className}(${classNameLower});
+				${classNameLower}Service.save(${classNameLower});
 				model.addAttribute(message, MessageUtils.ADD_SUCCESS);
 				return messageurl;
 			} catch (Exception e) {
@@ -153,7 +153,7 @@ public class ${className}Controller  extends BaseController {
 			<#list table.pkColumns as column>
 				${classNameLower}.set${column.columnName}(${classNameLower}.getId());
 			</#list>
-				${classNameLower}Service.update${className}(${classNameLower});
+				${classNameLower}Service.update(${classNameLower});
 				model.addAttribute(message, MessageUtils.EDIT_SUCCESS);
 				return messageurl;
 			} catch (Exception e) {

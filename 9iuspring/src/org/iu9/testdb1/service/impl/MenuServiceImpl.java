@@ -3,7 +3,6 @@ package org.iu9.testdb1.service.impl;
 import java.io.File;
 import java.util.List;
 
-import org.iu9.frame.service.IBaseService;
 import org.iu9.frame.util.Finder;
 import org.iu9.frame.util.Page;
 import org.iu9.testdb1.entity.Menu;
@@ -61,16 +60,15 @@ public class MenuServiceImpl extends BaseTestdb1ServiceImpl implements IMenuServ
 	 * @param ftlurl 类表的模版宏
 	 * @param page 分页对象
 	 * @param clazz 要查询的对象
-	 * @param baseService service 调用
 	 * @param o  querybean
 	 * @return
 	 * @throws Exception
 	 */
 		@Override
 	public <T> File findDataExportExcel(Finder finder,String ftlurl, Page page,
-			Class<T> clazz, IBaseService baseService, Object o)
+			Class<T> clazz, Object o)
 			throws Exception {
-			 return super.findDataExportExcel(finder,ftlurl,page,clazz,baseService,o);
+			 return super.findDataExportExcel(finder,ftlurl,page,clazz,o);
 		}
 		
 }

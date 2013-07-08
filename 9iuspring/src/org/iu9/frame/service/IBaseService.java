@@ -8,7 +8,6 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
-import org.iu9.frame.entity.IBaseEntity;
 import org.iu9.frame.util.Finder;
 import org.iu9.frame.util.Page;
 import org.iu9.frame.util.SpringUtils;
@@ -43,13 +42,12 @@ public interface IBaseService {
 	 * @param ftlurl 类表的模版宏
 	 * @param page 分页对象
 	 * @param clazz 要查询的对象
-	 * @param baseService service 调用
 	 * @param queryBean  querybean
 	 * @return
 	 * @throws Exception
 	 */
 	
-	public<T> File findDataExportExcel(Finder finder,String ftlurl,Page page,Class<T> clazz, IBaseService baseService,Object queryBean) throws Exception;
+	public<T> File findDataExportExcel(Finder finder,String ftlurl,Page page,Class<T> clazz, Object queryBean) throws Exception;
 	
 	
 	/**
@@ -219,14 +217,14 @@ public interface IBaseService {
      * @param clazz
      * @return
      */
-	public  Object save( IBaseEntity entity) throws Exception;
+	public  Object save( Object entity) throws Exception;
 	 /**
      * 更新一个对象
      * @param <T>
      * @param clazz
      * @return
      */
-	public  Integer update( IBaseEntity entity) throws Exception;
+	public  Integer update( Object entity) throws Exception;
 
 	
 	
@@ -261,7 +259,7 @@ public interface IBaseService {
 	 * @param entity
 	 * @return
 	 */
-	public Object saveorupdate(IBaseEntity entity) throws Exception ;
+	public Object saveorupdate(Object entity) throws Exception ;
 	
 	
 	/**
