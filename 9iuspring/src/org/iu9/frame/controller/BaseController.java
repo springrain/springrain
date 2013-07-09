@@ -13,15 +13,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.iu9.frame.common.BaseLogger;
-import org.iu9.frame.common.SessionUser;
 import org.iu9.frame.util.DateUtils;
+import org.iu9.testdb1.entity.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * 基础的Controller,所有的Controller必须继承此类
@@ -136,17 +140,35 @@ public class BaseController extends BaseLogger {
 		
 	}
 	
-	@RequestMapping(value = "/login")
+	@RequestMapping(value = "/login",method=RequestMethod.GET)
 	public String login(Model model,HttpServletRequest request) throws Exception {
-		String loginType=request.getParameter("logintype");
-		if(StringUtils.isNotEmpty(loginType)){
-			if("pc".equals(loginType)){
-				request.getSession().setAttribute("cerp_session_pc", true);
-			}
-		
+		if(SecurityUtils.getSubject().isAuthenticated()){
+			return "redirect:/index";
 		}
 		return "/login";
 	}
+	@RequestMapping(value = "/login",method=RequestMethod.POST)
+	public String loginPost(User currUser,Model model,HttpServletRequest request) throws Exception {
+		Subject user = SecurityUtils.getSubject();
+		UsernamePasswordToken token = new UsernamePasswordToken(currUser.getAccount(),currUser.getPassword());
+		//token.setRememberMe(true);
+		user.login(token);
+		return "redirect:/index";
+	}
+	
+	/**
+	 * 没有权限
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/unauth")
+	public String unauth(Model model) throws Exception {
+			return "/unauth";
+		
+	}
+	
+	
 	@RequestMapping(value = "/mobilelogin")
 	public String mobilelogin(Model model) throws Exception {
 		return "/mobilelogin";

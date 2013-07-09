@@ -103,8 +103,8 @@ public class UserRoleMenuServiceImpl extends BaseTestdb1ServiceImpl implements I
 		if(StringUtils.isBlank(account)||StringUtils.isBlank(password)){
 			return null;
 		}
-       Finder finder=new Finder("SELECT * FROM T_user WHERE state=1 and account=:account and password=:password");
-       finder.setParam("account", account).setParam("password", password);
+       Finder finder=new Finder("SELECT * FROM T_user WHERE state=1 and account=:account ");
+       finder.setParam("account", account);//.setParam("password", password);
 		return super.queryForObject(finder, User.class);
 	}
 

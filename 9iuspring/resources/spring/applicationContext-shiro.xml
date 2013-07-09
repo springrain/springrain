@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="
@@ -15,34 +14,42 @@
 		http://www.springframework.org/schema/aop/spring-aop-3.0.xsd"
 	default-lazy-init="false">
 
-	
- 
-    <!-- 权限管理器-->
-    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-       <property name="realms">
-           <list>
-              <ref bean="myRealm"/>
-           </list>
-       </property>
-    </bean>
- 
-    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean" depends-on="roleOrFilter">
-    
-       <property name="securityManager" ref="securityManager"/>
- 
-       <property name="loginUrl"  value="/login"/>
-       <property name="successUrl"  value="/index"/>
-       <property name="unauthorizedUrl"  value="/commons/unauth"/>
-       
-       <!-- 读取自定义权限内容-->
-       <property name="filterChainDefinitions"  value="#{authService.loadFilterChainDefinitions()}"/>   
-       <property name="filters">
-           <map>
-              <entry key="roleOrFilter" value-ref="roleOrFilter">
-              </entry>
-           </map>
-       </property>
-    </bean>
- 
-    <bean id="lifecycleBeanPostProcessor"  class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+
+	<!-- 权限管理器 -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="shiroDbRealm" />
+	</bean>
+
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean"
+		depends-on="frameperms">
+
+		<property name="securityManager" ref="securityManager" />
+
+		<property name="loginUrl" value="/login" />
+		<property name="successUrl" value="/index" />
+		<property name="unauthorizedUrl" value="/unauth" />
+
+		<property name="filterChainDefinitions">
+			<value>
+				/js/** = anon
+			   /css/** = anon
+			   /images/** = anon
+			   /login** = anon
+			   /unauth = anon
+			    /index = authc
+				/logout = logout
+				/** = authc,frameperms
+
+			</value>
+		</property>
+		<property name="filters">
+			<map>
+				<entry key="frameperms" value-ref="frameperms">
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
 </beans>

@@ -1,7 +1,8 @@
 
+
 SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
--- Table structure for `auditlog`
+-- Table structure for `auditlog_history_2013`
 -- ----------------------------
 DROP TABLE IF EXISTS `auditlog_history_2013`;
 CREATE TABLE `auditlog_history_2013` (
@@ -15,29 +16,10 @@ CREATE TABLE `auditlog_history_2013` (
   `operationClassID` varchar(50) DEFAULT NULL COMMENT '记录ID',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
--- ----------------------------
--- Records of auditlog
--- ----------------------------
-
 
 -- ----------------------------
--- Table structure for `t_subsystem`
+-- Records of auditlog_history_2013
 -- ----------------------------
-DROP TABLE IF EXISTS `t_subsystem`;
-CREATE TABLE `t_subsystem` (
-  `id` varchar(40) NOT NULL COMMENT '子系统编号',
-  `name` varchar(60) DEFAULT NULL COMMENT '子系统名称',
-  `sortno` int(11) DEFAULT NULL COMMENT '子系统排序',
-  `uri` text COMMENT '子系统访问路径',
-  `remark` text COMMENT '备注',
-  `state` varchar(2) DEFAULT NULL COMMENT '状态(0:不可用1:可用)',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='子系统';
-alter table t_subsystem comment '子系统';
--- ----------------------------
--- Records of t_subsystem
--- ----------------------------
-
 
 -- ----------------------------
 -- Table structure for `t_menu`
@@ -52,14 +34,15 @@ CREATE TABLE `t_menu` (
   `type` int(11) DEFAULT NULL COMMENT '0.普通资源1.菜单资源',
   `systemId` varchar(40) DEFAULT NULL,
   `state` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-alter table t_menu comment '菜单表';
+  PRIMARY KEY (`id`),
+  KEY `fk_t_menu_systemid_t_subsystem_id` (`systemId`),
+  CONSTRAINT `fk_t_menu_systemid_t_subsystem_id` FOREIGN KEY (`systemId`) REFERENCES `t_subsystem` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='菜单表';
 
-alter table t_menu add constraint fk_t_menu_systemid_t_subsystem_id foreign key (systemId) references t_subsystem(id);
 -- ----------------------------
 -- Records of t_menu
 -- ----------------------------
+INSERT INTO `t_menu` VALUES ('auditlog_list', '日志查看', null, null, '/auditlog/list', '0', null, '1');
 
 -- ----------------------------
 -- Table structure for `t_org`
@@ -78,7 +61,7 @@ CREATE TABLE `t_org` (
   `state` int(11) DEFAULT NULL COMMENT '0.失效 1.有效',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='组织机构';
-alter table t_org comment '组织机构';
+
 -- ----------------------------
 -- Records of t_org
 -- ----------------------------
@@ -95,10 +78,49 @@ CREATE TABLE `t_role` (
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
   `state` int(11) DEFAULT NULL COMMENT '状态(0:禁用1:启用)',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色';
-alter table t_role comment '角色表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色表';
+
 -- ----------------------------
 -- Records of t_role
+-- ----------------------------
+INSERT INTO `t_role` VALUES ('admin', '管理员', 'admin', null, null, null);
+
+-- ----------------------------
+-- Table structure for `t_role_menu`
+-- ----------------------------
+DROP TABLE IF EXISTS `t_role_menu`;
+CREATE TABLE `t_role_menu` (
+  `id` varchar(40) NOT NULL COMMENT '编号',
+  `roleId` varchar(40) NOT NULL COMMENT '角色编号',
+  `menuId` varchar(40) NOT NULL COMMENT '菜单编号',
+  PRIMARY KEY (`id`),
+  KEY `fk_t_role_menu_roleId_t_role_id` (`roleId`),
+  KEY `fk_t_role_menu_menuId_t_menu_id` (`menuId`),
+  CONSTRAINT `fk_t_role_menu_menuId_t_menu_id` FOREIGN KEY (`menuId`) REFERENCES `t_menu` (`id`),
+  CONSTRAINT `fk_t_role_menu_roleId_t_role_id` FOREIGN KEY (`roleId`) REFERENCES `t_role` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色菜单表';
+
+-- ----------------------------
+-- Records of t_role_menu
+-- ----------------------------
+INSERT INTO `t_role_menu` VALUES ('auditlog_list_admin', 'admin', 'auditlog_list');
+
+-- ----------------------------
+-- Table structure for `t_subsystem`
+-- ----------------------------
+DROP TABLE IF EXISTS `t_subsystem`;
+CREATE TABLE `t_subsystem` (
+  `id` varchar(40) NOT NULL COMMENT '子系统编号',
+  `name` varchar(60) DEFAULT NULL COMMENT '子系统名称',
+  `sortno` int(11) DEFAULT NULL COMMENT '子系统排序',
+  `uri` text COMMENT '子系统访问路径',
+  `remark` text COMMENT '备注',
+  `state` varchar(2) DEFAULT NULL COMMENT '状态(0:不可用1:可用)',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='子系统';
+
+-- ----------------------------
+-- Records of t_subsystem
 -- ----------------------------
 
 -- ----------------------------
@@ -121,29 +143,11 @@ CREATE TABLE `t_user` (
   `state` int(11) DEFAULT NULL COMMENT '0.无效1.有效',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表';
-alter table t_user comment '用户表';
+
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
-
--- ----------------------------
--- Table structure for `t_role_menu`
--- ----------------------------
-DROP TABLE IF EXISTS `t_role_menu`;
-CREATE TABLE `t_role_menu` (
-  `id` varchar(40) NOT NULL COMMENT '编号',
-  `roleId` varchar(40) NOT NULL COMMENT '角色编号',
-  `menuId` varchar(40) NOT NULL COMMENT '菜单编号',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-alter table t_role_menu comment '角色菜单表';
-alter table t_role_menu add constraint fk_t_role_menu_roleId_t_role_id foreign key (roleId) references t_role(id);
-alter table t_role_menu add constraint fk_t_role_menu_menuId_t_menu_id foreign key (menuId) references t_menu(id);
-
-
--- ----------------------------
--- Records of t_role_menu
--- ----------------------------
+INSERT INTO `t_user` VALUES ('admin', 'admin', 'admin', 'admin', 'admin', null, null, null, null, null, null, null, '1');
 
 -- ----------------------------
 -- Table structure for `t_user_org`
@@ -154,11 +158,13 @@ CREATE TABLE `t_user_org` (
   `userId` varchar(40) NOT NULL COMMENT '用户编号',
   `orgId` varchar(40) NOT NULL COMMENT '机构编号',
   `manager` int(11) NOT NULL COMMENT '0.不是1.是',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `fk_t_user_org_userId_t_user_id` (`userId`),
+  KEY `fk_t_user_org_orgId_t_org_id` (`orgId`),
+  CONSTRAINT `fk_t_user_org_orgId_t_org_id` FOREIGN KEY (`orgId`) REFERENCES `t_org` (`id`),
+  CONSTRAINT `fk_t_user_org_userId_t_user_id` FOREIGN KEY (`userId`) REFERENCES `t_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户机构表';
-alter table t_user_org comment '用户机构表';
-alter table t_user_org add constraint fk_t_user_org_userId_t_user_id foreign key (userId) references t_user(id);
-alter table t_user_org add constraint fk_t_user_org_orgId_t_org_id foreign key (orgId) references t_org(id);
+
 -- ----------------------------
 -- Records of t_user_org
 -- ----------------------------
@@ -171,11 +177,14 @@ CREATE TABLE `t_user_role` (
   `id` varchar(40) NOT NULL COMMENT '编号',
   `userId` varchar(40) NOT NULL COMMENT '用户编号',
   `roleId` varchar(40) NOT NULL COMMENT '角色编号',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-alter table t_user_role comment '用户角色表';
-alter table t_user_role add constraint fk_t_user_role_userId_t_user_id foreign key (userId) references t_user(id);
-alter table t_user_role add constraint fk_t_user_role_roleId_t_role_id foreign key (roleId) references t_role(id);
+  PRIMARY KEY (`id`),
+  KEY `fk_t_user_role_userId_t_user_id` (`userId`),
+  KEY `fk_t_user_role_roleId_t_role_id` (`roleId`),
+  CONSTRAINT `fk_t_user_role_roleId_t_role_id` FOREIGN KEY (`roleId`) REFERENCES `t_role` (`id`),
+  CONSTRAINT `fk_t_user_role_userId_t_user_id` FOREIGN KEY (`userId`) REFERENCES `t_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户角色表';
+
 -- ----------------------------
 -- Records of t_user_role
 -- ----------------------------
+INSERT INTO `t_user_role` VALUES ('admin_admin', 'admin', 'admin');
