@@ -12,13 +12,8 @@ ${r"<@h.easyui />"}
 		<#break>
 	</#if>
 </#list>
-<body>
 
-<div class="easyui-layout" style="width: 100%; height: 100%;"
-    data-options="fit:true">
-    <div data-options="region:'center',title:'${tableName!''} &gt; ${tableName!''}'" style="padding: 2px;">
-        <div class="easyui-layout" data-options="fit : true,border : false">
-            <div data-options="region:'center',border:false">
+
 <form id="updateForm" name="updateForm"  method="post" action="${r"${ctx}"}/${classNameLowerCase}/update" >
 <input type="hidden" name="commTabId" id="commTabId" value="${r"${commTabId!''}"}"  />
 <!--input  hidden  Start-->
@@ -38,7 +33,7 @@ ${r"<@h.easyui />"}
 				<th><#if !column.nullable><span >*</span></#if>${column.columnAlias}:</th>	
 				<#if column.isDateTimeColumn>
 					<!--日期型-->
-					<#assign columnDataValue = "(("+classNameLower+"."+column.columnNameLower+")!\"0000-00-00\")?date">
+					<#assign columnDataValue = "(("+classNameLower+"."+column.columnNameLower+")?string('yyyy-MM-dd'))!'' ">
 					<td>
 					<input type="text" id="${column.columnNameLower}" name="${column.columnNameLower}" 
 					<#if !column.nullable> class="easyui-validatebox" data-options="required:true" </#if> 
@@ -69,11 +64,5 @@ ${r"<@h.easyui />"}
 			</#if>
 		</#list>
 	</table>
-					<input type="button" onclick="submitUpdateForm();" class="btn_7"/>
-				</form>
-            </div>
-        </div>
-    </div>
-</div>
-</body>
-</html>
+	<input type="button" onclick="submitUpdateForm();" class="btn_7"/>
+</form>
