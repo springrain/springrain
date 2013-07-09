@@ -39,7 +39,7 @@
 			   /unauth = anon
 			    /index = authc
 				/logout = logout
-				/** = authc,frameperms
+				/** = user,frameperms
 
 			</value>
 		</property>
