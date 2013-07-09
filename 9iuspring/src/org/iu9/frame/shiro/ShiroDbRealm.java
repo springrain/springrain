@@ -69,7 +69,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		// 调用业务方法
 		User user = null;
 		try {
-			user = userRoleMenuService.findLoginUser(upToken.getUsername(), new String(upToken.getPassword()));
+			user = userRoleMenuService.findLoginUser(upToken.getUsername(), null);
 		} catch (Exception e) {
 			logger.error(e);
 		}

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.iu9.frame.common.BaseLogger;
@@ -152,7 +153,15 @@ public class BaseController extends BaseLogger {
 		Subject user = SecurityUtils.getSubject();
 		UsernamePasswordToken token = new UsernamePasswordToken(currUser.getAccount(),currUser.getPassword());
 		//token.setRememberMe(true);
+		try{
 		user.login(token);
+	}catch(IncorrectCredentialsException e){
+		model.addAttribute("message", "账号或密码错误");
+		return "/login";
+	}catch(Exception e){
+		model.addAttribute("message", "账号或密码错误");
+		return "/login";
+	}
 		
 		return "redirect:/index";
 	}
