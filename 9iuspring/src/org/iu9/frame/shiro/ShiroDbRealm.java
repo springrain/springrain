@@ -1,5 +1,6 @@
 package org.iu9.frame.shiro;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
@@ -8,6 +9,7 @@ import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -22,7 +24,9 @@ public class ShiroDbRealm extends AuthorizingRealm {
 	public Logger logger = Logger.getLogger(getClass());
 	@Resource
 	IUserRoleMenuService userRoleMenuService;
-
+	public static final String HASH_ALGORITHM = "MD5";
+	public static final int HASH_INTERATIONS = 1;
+	private static final int SALT_SIZE = 8;
 	public ShiroDbRealm() {
 		// super.setAuthenticationCacheName(authenticationCacheName);
 
@@ -80,5 +84,14 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		// 认证没有通过
 		return null;
 	}
+	/**
+	 * 设定Password校验的Hash算法与迭代次数.
+	 */
+	@PostConstruct
+	public void initCredentialsMatcher() {
+		HashedCredentialsMatcher matcher = new HashedCredentialsMatcher(HASH_ALGORITHM);
+		matcher.setHashIterations(HASH_INTERATIONS);
 
+		setCredentialsMatcher(matcher);
+	}
 }

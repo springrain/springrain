@@ -147,7 +147,7 @@ CREATE TABLE `t_user` (
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
-INSERT INTO `t_user` VALUES ('admin', 'admin', 'admin', 'admin', 'admin', null, null, null, null, null, null, null, '1');
+INSERT INTO `t_user` VALUES ('admin', 'admin', 'admin', 'admin', '21232f297a57a5a743894a0e4a801fc3', null, null, null, null, null, null, null, '1');
 
 -- ----------------------------
 -- Table structure for `t_user_org`

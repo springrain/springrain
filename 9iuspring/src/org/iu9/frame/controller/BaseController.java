@@ -153,6 +153,7 @@ public class BaseController extends BaseLogger {
 		UsernamePasswordToken token = new UsernamePasswordToken(currUser.getAccount(),currUser.getPassword());
 		//token.setRememberMe(true);
 		user.login(token);
+		
 		return "redirect:/index";
 	}
 	
