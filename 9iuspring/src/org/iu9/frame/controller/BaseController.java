@@ -169,16 +169,24 @@ public class BaseController extends BaseLogger {
 		
 	}
 	
+	/**
+	 * 退出
+	 * @param request
+	 */
+	@RequestMapping(value="/logout")
+    public void logout(HttpServletRequest request){
+        Subject subject = SecurityUtils.getSubject();
+        if (subject != null) {           
+            subject.logout();
+        }
+        request.getSession().invalidate();
+    }
 	
 	@RequestMapping(value = "/mobilelogin")
 	public String mobilelogin(Model model) throws Exception {
 		return "/mobilelogin";
 	}
 	
-	@RequestMapping(value = "/noqx")
-	public String noqx(Model model) throws Exception {
-		return "/noqx";
-	}
 	
 	@ExceptionHandler
 	public String exp(HttpServletRequest request,Exception e){
