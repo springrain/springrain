@@ -21,15 +21,14 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.util.WebUtils;
 import org.iu9.frame.common.BaseLogger;
 import org.iu9.frame.util.CaptchaUtils;
 import org.iu9.frame.util.DateUtils;
 import org.iu9.frame.util.GlobalStatic;
 import org.iu9.testdb1.entity.User;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -159,10 +158,24 @@ public class BaseController extends BaseLogger {
 		return "/login";
 	}
 	@RequestMapping(value = "/login",method=RequestMethod.POST)
-	public String loginPost(User currUser,Model model,HttpServletRequest request) throws Exception {
+	public String loginPost(User currUser,HttpSession session,Model model,HttpServletRequest request) throws Exception {
 		Subject user = SecurityUtils.getSubject();
+		  String code = (String) session.getAttribute(GlobalStatic.DEFAULT_CAPTCHA_PARAM);
+		  if(StringUtils.isNotBlank(code)){
+			  code=code.toLowerCase().toString();
+		  }
+		String submitCode = WebUtils.getCleanParam(request, GlobalStatic.DEFAULT_CAPTCHA_PARAM);
+		  if(StringUtils.isNotBlank(submitCode)){
+			  submitCode=submitCode.toLowerCase().toString();
+		  }
+		if (StringUtils.isBlank(submitCode) ||StringUtils.isBlank(code)||!code.equals(submitCode)) {
+			model.addAttribute("message", "验证码错误!");
+			return "/login";
+        }
+		
 		UsernamePasswordToken token = new UsernamePasswordToken(currUser.getAccount(),currUser.getPassword());
-		//token.setRememberMe(true);
+		
+		token.setRememberMe(true);
 		try{
 		user.login(token);
 	}catch(IncorrectCredentialsException e){
@@ -218,14 +231,14 @@ public class BaseController extends BaseLogger {
 	/**
 	 * 生成验证码
 	 * 
-	 * @return byte[]
+	 * @return
 	 * @throws IOException 
 	 */
 	@RequestMapping("/getCaptcha")
 	public void getCaptcha(HttpSession session,HttpServletResponse response) throws IOException {
 
 		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.IMAGE_GIF);
+		headers.setContentType(MediaType.IMAGE_JPEG);
 
 		CaptchaUtils tool = new CaptchaUtils();
 		StringBuffer code = new StringBuffer();

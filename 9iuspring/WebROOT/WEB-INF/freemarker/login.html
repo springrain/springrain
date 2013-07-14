@@ -23,7 +23,7 @@
 					<div class="pwd">
 						<input type="password" class="text" name="password" id="password" onmouseover="this.focus()" onfocus="this.select()" value="admin" />
 					</div>
-					 <div >
+			
                     	<select class="selection" name="rememberMe" id="filter_EQI_state" size="25">
 			           		<option value="">
 								无
@@ -39,20 +39,19 @@
 			                </option>
 			           </select>
 			           
-                	</div>
-                	
-					  <#if showCaptcha??&& showCaptcha>
+            
+		
 	                
 	                	<label >
 	                    	验证码:
 	                    </label>
-	                    <div >
+	                  
 	                    	<input type="text" name="captcha" id="captcha" class="text_input_big" size="8" />
 	                    	<img id="captchaImg" src="${ctx}/getCaptcha" width="70" height="28"  align="absmiddle"/>
 	                    	<a href="javascript:reloadValidateCode();">看不请?</a>
-	                	</div>
+	                	
 	                
-                </#if>
+         
 					
 					<div class="right">
 						<input type="submit" class="submit" title="登录" value=""/>

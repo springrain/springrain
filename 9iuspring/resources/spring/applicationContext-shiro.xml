@@ -39,7 +39,7 @@
 			   /getCaptcha=anon
 			   /index = authc
 			   /logout = logout
-				/login** = frameCaptchaLogin
+				/login** = anon
 				/** = user,frameperms
 
 			</value>
