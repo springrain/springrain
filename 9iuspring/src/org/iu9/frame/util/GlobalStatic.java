@@ -19,5 +19,22 @@ public class GlobalStatic {
 	public static final String tableExt="_history_";
 	public static final String frameTableAlias="frameTableAlias";
 	
+	/**
+	 * 默认验证码参数名称
+	 */
+	public static final String DEFAULT_CAPTCHA_PARAM = "captcha";
+
+	/**
+	 * 登录次数超出allowLoginNum时，存储在session记录是否展示验证码的key默认名称
+	 */
+	public static final String DEFAULT_SHOW_CAPTCHA_KEY_ATTRIBUTE = "showCaptcha";
+
+	/**
+	 * 默认在session中存储的登录次数名称
+	 */
+	public static final String DEFAULT_LOGIN_NUM_KEY_ATTRIBUTE = "loginNum";
+	  //允许登录次数，当登录次数大于该数值时，会在页面中显示验证码
+	public static final Integer allowLoginNum=1;
+	
 
 }

@@ -1,16 +1,20 @@
 package org.iu9.frame.controller;
 
+import java.awt.image.BufferedImage;
 import java.beans.PropertyEditorSupport;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
@@ -18,8 +22,14 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.iu9.frame.common.BaseLogger;
+import org.iu9.frame.util.CaptchaUtils;
 import org.iu9.frame.util.DateUtils;
+import org.iu9.frame.util.GlobalStatic;
 import org.iu9.testdb1.entity.User;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -205,7 +215,28 @@ public class BaseController extends BaseLogger {
 		return "/error";
 	}
 	
-	
+	/**
+	 * 生成验证码
+	 * 
+	 * @return byte[]
+	 * @throws IOException 
+	 */
+	@RequestMapping("/getCaptcha")
+	public void getCaptcha(HttpSession session,HttpServletResponse response) throws IOException {
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.IMAGE_GIF);
+
+		CaptchaUtils tool = new CaptchaUtils();
+		StringBuffer code = new StringBuffer();
+		BufferedImage image = tool.genRandomCodeImage(code);
+		session.removeAttribute(GlobalStatic.DEFAULT_CAPTCHA_PARAM);
+		session.setAttribute(GlobalStatic.DEFAULT_CAPTCHA_PARAM, code.toString());
+
+		// 将内存中的图片通过流动形式输出到客户端
+		ImageIO.write(image, "JPEG", response.getOutputStream());
+		return;
+	}
 	
 	
 

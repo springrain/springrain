@@ -35,18 +35,19 @@
 				/js/** = anon
 			   /css/** = anon
 			   /images/** = anon
-			   /login** = anon
 			   /unauth = anon
-			    /index = authc
-				/logout = logout
+			   /getCaptcha=anon
+			   /index = authc
+			   /logout = logout
+				/login** = frameCaptchaLogin
 				/** = user,frameperms
 
 			</value>
 		</property>
 		<property name="filters">
 			<map>
-				<entry key="frameperms" value-ref="frameperms">
-				</entry>
+				<entry key="frameperms" value-ref="frameperms"></entry>
+				<entry key="frameCaptchaLogin" value-ref="frameCaptchaLogin"></entry>
 			</map>
 		</property>
 	</bean>
