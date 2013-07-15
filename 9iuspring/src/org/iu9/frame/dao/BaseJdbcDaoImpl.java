@@ -476,7 +476,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 			} else {
 				getJdbc().update(sql.toString(), ss, keyHolder);
 			}
-			return keyHolder.getKey();
+			return keyHolder.getKey().longValue();
 		}
 	}
 
