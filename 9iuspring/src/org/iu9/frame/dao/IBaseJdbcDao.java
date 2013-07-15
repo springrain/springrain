@@ -114,7 +114,14 @@ public interface IBaseJdbcDao {
 	public List<Map<String,Object>> queryForList(Finder finder)  throws Exception ;
 	
 	
-	
+/**
+ *  返回结果是List<Map>
+ * @param finder
+ * @param page
+ * @return
+ * @throws Exception
+ */
+	public List<Map<String,Object>> queryForList(Finder finder,Page page)  throws Exception ;
 	
 	
 	

@@ -109,7 +109,6 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	private void logInfoSql(String sql){
 		if(showsql()){
 			logger.error(sql);
-			
 		}
 	}
 
@@ -151,6 +150,24 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 
 		return map;
 	}
+	
+	
+	@Override
+	public List<Map<String, Object>> queryForList(Finder finder,Page page) throws Exception {
+		String pageSql = getPageSql(page, finder);
+		if (pageSql == null)
+			return null;
+		finder.setPageSql(pageSql);
+
+		//打印sql
+		logInfoSql(pageSql);
+
+				return getJdbc().queryForList(pageSql, finder.getParams());
+		
+	}
+
+	
+	
 
 	@Override
 	public Integer update(Finder finder) throws Exception {

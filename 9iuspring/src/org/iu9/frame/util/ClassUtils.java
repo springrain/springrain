@@ -389,6 +389,56 @@ public class ClassUtils {
 		
 	}
 	/**
+	 * 设置实体类的属性值
+	 * @param p
+	 * @param o
+	 * @return
+	 * @throws Exception
+	 */
+	public static Object setPropertieValue(String p,Object o,Object value) throws Exception{
+		Object _obj=null;
+		for(Class<?> clazz = o.getClass(); clazz != Object.class;  clazz = clazz.getSuperclass()) {
+			 PropertyDescriptor pd = new PropertyDescriptor(p, clazz);
+				Method setMethod = pd.getWriteMethod();// 获得set方法
+				if(setMethod!=null){
+					setMethod.invoke(o, value);  
+					break;
+				}
+			
+		}
+		
+		return _obj;
+		
+	}
+	
+	/**
+	 * 获取字段的返回类型
+	 * @param p
+	 * @param o
+	 * @return
+	 * @throws Exception
+	 */
+	public static String getReturnType(String p,Object o) throws Exception{
+		
+		String  returnType=null;
+		for(Class<?> clazz = o.getClass(); clazz != Object.class;  clazz = clazz.getSuperclass()) {
+			 PropertyDescriptor pd = new PropertyDescriptor(p, clazz);
+				Method getMethod = pd.getReadMethod();// 获得get方法
+				if(getMethod!=null){
+					returnType= getMethod.getReturnType().getName();
+					break;
+				}
+			
+		}
+		
+		return returnType;
+	}
+	
+	
+	
+	
+	
+	/**
 	 * 是否是java的基本类型
 	 * @param clazz
 	 * @return

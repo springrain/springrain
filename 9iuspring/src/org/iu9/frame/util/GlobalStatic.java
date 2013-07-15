@@ -9,13 +9,13 @@ package org.iu9.frame.util;
 public class GlobalStatic {
 	public static final String tempRootpath = System.getProperty("user.dir") + "/temp/";
 	public static final int excelPageSize=1000;
+	public static final  String suffix=".html";
 	public static final String excelext=".xls";
 	public static final String exportexcel="exportexcel";//是否是导出操作的key
-	public static final String freemarkerSuffix=".html";
 	public static final String dataUpdate="更新";
 	public static final String dataSave="保存";
 	public static final String dataDelete="删除";
-	public static final String cacheKey="9iucache";
+	public static final String cacheKey="centforcache";
 	public static final String tableExt="_history_";
 	public static final String frameTableAlias="frameTableAlias";
 	

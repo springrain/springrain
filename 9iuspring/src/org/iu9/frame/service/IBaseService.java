@@ -8,6 +8,7 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
+import org.iu9.frame.entity.IBaseEntity;
 import org.iu9.frame.util.Finder;
 import org.iu9.frame.util.Page;
 import org.iu9.frame.util.SpringUtils;
@@ -42,12 +43,13 @@ public interface IBaseService {
 	 * @param ftlurl 类表的模版宏
 	 * @param page 分页对象
 	 * @param clazz 要查询的对象
+	 * @param baseService service 调用
 	 * @param queryBean  querybean
 	 * @return
 	 * @throws Exception
 	 */
 	
-	public<T> File findDataExportExcel(Finder finder,String ftlurl,Page page,Class<T> clazz, Object queryBean) throws Exception;
+	public<T> File findDataExportExcel(Finder finder,String ftlurl,Page page,Class<T> clazz,  Object queryBean) throws Exception;
 	
 	
 	/**
@@ -122,7 +124,14 @@ public interface IBaseService {
 	 */
 	public List<Map<String,Object>> queryForList(Finder finder)  throws Exception ;
 	
-	
+	/**
+	 * 分页查询 返回 List<Map>
+	 * @param finder
+	 * @param page
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String,Object>>  queryForList(Finder finder,Page page) throws Exception ;
 	
 	
 
@@ -162,7 +171,7 @@ public interface IBaseService {
 	 * @return
 	 * @throws Exception
 	 */
-	public <T> List<T> queryForList(T entity,Page page) throws Exception ;
+	public <T> List<T> queryForListByEntity(T entity,Page page) throws Exception ;
 	
 	
 
@@ -224,7 +233,7 @@ public interface IBaseService {
      * @param clazz
      * @return
      */
-	public  Integer update( Object entity) throws Exception;
+	public  Integer update( IBaseEntity entity) throws Exception;
 
 	
 	
@@ -270,6 +279,23 @@ public interface IBaseService {
 	 * @throws Exception
 	 */
 	public Finder getFinderWhereByQueryBean(Finder finder,Object o) throws Exception;
+	
+	/**
+	 * 导入Excle文件
+	 * @param excel
+	 * @param clazz
+	 * @return
+	 * @throws Exception
+	 */
+	public <T> String saveImportExcelFile(File excel,Class<T> clazz)throws Exception;
+	
+	/**
+	 * Excel 导入时会循环调用该方法
+	 * @param entity
+	 * @return
+	 * @throws Exception
+	 */
+   public String saveFromExcel(Object entity) throws Exception;
 
 
 }

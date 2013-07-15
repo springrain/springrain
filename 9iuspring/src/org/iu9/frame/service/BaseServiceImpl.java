@@ -11,6 +11,8 @@ import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,14 +20,21 @@ import java.util.UUID;
 
 import javax.annotation.Resource;
 
-import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
+import jxl.Cell;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.iu9.frame.common.BaseLogger;
 import org.iu9.frame.dao.IBaseJdbcDao;
+import org.iu9.frame.entity.IBaseEntity;
+import org.iu9.frame.util.ClassUtils;
+import org.iu9.frame.util.DateUtils;
+import org.iu9.frame.util.ExcelUtils;
 import org.iu9.frame.util.Finder;
 import org.iu9.frame.util.GlobalStatic;
 import org.iu9.frame.util.Page;
 import org.iu9.frame.util.SpringUtils;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
 import freemarker.template.Template;
 /**
@@ -44,7 +53,6 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 	private SpringUtils springUtils;
 	@Resource
 	FreeMarkerConfigurer freeMarkerConfigurer;
-	
 
 	public abstract IBaseJdbcDao getBaseDao();
 
@@ -135,7 +143,11 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 			throws Exception {
 		return getBaseDao().queryForList(finder, clazz, page);
 	}
-
+	@Override
+	public  List<Map<String, Object>> queryForList(Finder finder, Page page)
+			throws Exception {
+		return getBaseDao().queryForList(finder, page);
+	}
 	/**
 	 * Entity作为查询的query bean,并返回Entity
 	 * @param entity
@@ -157,7 +169,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 	 * @throws Exception
 	 */
 	@Override
-	public <T> List<T> queryForList(T entity,Page page) throws Exception {
+	public <T> List<T> queryForListByEntity(T entity,Page page) throws Exception {
 		return getBaseDao().queryForList(entity, page);
 		
 	}
@@ -174,12 +186,12 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 
 	@Override
 	public <T> File findDataExportExcel(Finder finder, String ftlurl,
-			Page page, Class<T> clazz, Object queryBean)
+			Page page, Class<T> clazz,   Object queryBean)
 			throws Exception {
 		Map map = new HashMap();
 		map.put(GlobalStatic.exportexcel, true);// 设置导出excel变量
 		Template template = freeMarkerConfigurer.getConfiguration()
-				.getTemplate(ftlurl + GlobalStatic.freemarkerSuffix);
+				.getTemplate(ftlurl + GlobalStatic.suffix);
 		page.setPageSize(GlobalStatic.excelPageSize);
 		page.setPageIndex(1);
 		List<T> datas = findListDataByFinder(finder, page, clazz, queryBean);
@@ -194,8 +206,6 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 			tempfdir.mkdirs();
 		}
 
-	
-		
 		
 		File ffile = new File(tempFFilepath);
 
@@ -267,15 +277,12 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 			if(first){//如果是第一次,输出编码格式,防止 office 乱码
 				bw.write("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">");
 			}
-
 			String line = null;
 
 			boolean iswrite = false;
 			while ((line = br.readLine()) != null) {
-				
 				if (StringUtils.isBlank(line))
 					continue;
-			
 
 				line = line.trim();
 				if (line.startsWith("<!--first_") && first == false) {
@@ -354,7 +361,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 	}
 
 	@Override
-	public Integer update(Object entity) throws Exception {
+	public Integer update(IBaseEntity entity) throws Exception {
 		return getBaseDao().update(entity);
 	}
 
@@ -398,5 +405,114 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 	public Finder getFinderWhereByQueryBean(Finder finder,Object o) throws Exception{
 		return getBaseDao().getFinderWhereByQueryBean(finder, o);
 	}
+	
+	@Override
+	public <T> String saveImportExcelFile(File excelFile, Class<T> clazz) throws Exception {
+		List<Cell[]> excel = ExcelUtils.getExcle(excelFile);
+		if(CollectionUtils.isEmpty(excel)){
+			return null;
+		}
+		Map<Integer,String> map=new HashMap<Integer,String>();
+		Cell[] title = excel.get(0);
+		if(title==null||title.length<1){
+			return null;
+		}
+		//封装字段
+		for(int i=0;i<title.length;i++){
+			map.put(i, title[i].getContents());
+		}
+		
+		
+		for(int j=2;j<excel.size();j++){
+			Cell[] cells = excel.get(j);
+			T r= clazz.newInstance();
+			for(int m=0;m<cells.length;m++){
+				Cell cell=cells[m];
+				String name=map.get(m);
+				String value=cell.getContents().trim();
+				String className=ClassUtils.getReturnType(name, r).toLowerCase();
+				if(className.contains(".string")){
+					try{
+					ClassUtils.setPropertieValue(name, r, value);
+					}catch(Exception e){
+						throw new Exception("第"+(j+1)+"行,第"+(m+1)+"列:"+name+" 类型错误!");
+					}
+				}else if(className.contains(".date")){
+					try{
+					value=value.replace("/", "-");
+					Date d=DateUtils.convertString2Date(value);
+					
+						ClassUtils.setPropertieValue(name, r, d);
+						}catch(Exception e){
+							throw new Exception("第"+(j+1)+"行,第"+(m+1)+"列:"+name+" 类型错误!");
+						}
+					
+				}else if(className.contains(".double")){
+					try{
+					Double db=null;
+					if(StringUtils.isNotBlank(value)){
+					 db=Double.valueOf(value);
+					}
+						ClassUtils.setPropertieValue(name, r, db);
+						}catch(Exception e){
+							throw new Exception("第"+(j+1)+"行,第"+(m+1)+"列:"+name+" 类型错误!");
+						}
+				}else if(className.contains(".float")){
+					try{
+					Float f=null;
+					if(StringUtils.isNotBlank(value)){
+						 f=Float.valueOf(value);
+						}
+					ClassUtils.setPropertieValue(name, r, f);
+				}catch(Exception e){
+					throw new Exception("第"+(j+1)+"行,第"+(m+1)+"列:"+name+" 类型错误!");
+				}
+					
+					
+				}else if(className.contains(".integer")){
+					try{
+					Integer _i=null;
+					
+					if(StringUtils.isNotBlank(value)){
+						 _i=Integer.valueOf(value);
+						}
+					
+					ClassUtils.setPropertieValue(name, r, _i);
+				}catch(Exception e){
+					throw new Exception("第"+(j+1)+"行,第"+(m+1)+"列:"+name+" 类型错误!");
+				}
+				}
+				
+				else if(className.contains(".bigdecimal")){
+					try{
+					BigDecimal bd=null;
+					if(StringUtils.isNotBlank(value)){
+						bd=new BigDecimal(value);
+						}
+					ClassUtils.setPropertieValue(name, r, bd);
+				}catch(Exception e){
+					throw new Exception("第"+(j+1)+"行,第"+(m+1)+"列:"+name+" 类型错误!");
+				}
+				}
+			
+			}
+			try{
+			saveFromExcel(r);
+		}catch(Exception e){
+			throw new Exception("第"+(j+1)+"行,保存失败");
+		}
+		}
+		if(excelFile.exists()){
+			excelFile.delete();
+		}
+		return null;
+	}
+
+	@Override
+	public String saveFromExcel(Object entity) throws Exception {
+		return save(entity).toString();
+	}
+
+	
 
 }
