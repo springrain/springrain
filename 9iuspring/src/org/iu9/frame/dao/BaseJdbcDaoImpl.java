@@ -835,7 +835,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	 * @throws Exception
 	 */
 	@Override
-	public <T> List<T> queryForList(T entity, Page page) throws Exception {
+	public <T> List<T> queryForListByEntity(T entity, Page page) throws Exception {
 		String tableName = getTableNameByEntity(entity);
 		Finder finder = new Finder("SELECT * FROM ");
 		finder.append(tableName).append("  WHERE 1=1 ");

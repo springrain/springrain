@@ -144,14 +144,14 @@ public interface IBaseJdbcDao {
 	 */
 	public <T> T queryForObject(T entity) throws Exception ;
 	
-	/**
-	 *  Entity作为查询的query bean,并返回Entity
-	 * @param entity
-	 * @param page 分页对象
-	 * @return
-	 * @throws Exception
-	 */
-	public <T> List<T> queryForList(T entity,Page page) throws Exception ;
+/**
+ *  Entity作为查询的query bean,并返回Entity
+ * @param entity
+ * @param page
+ * @return
+ * @throws Exception
+ */
+	public <T> List<T> queryForListByEntity(T entity,Page page) throws Exception ;
 	
 	
 

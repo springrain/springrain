@@ -170,7 +170,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 	 */
 	@Override
 	public <T> List<T> queryForListByEntity(T entity,Page page) throws Exception {
-		return getBaseDao().queryForList(entity, page);
+		return getBaseDao().queryForListByEntity(entity, page);
 		
 	}
 
