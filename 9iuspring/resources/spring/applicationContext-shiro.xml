@@ -47,7 +47,6 @@
 		<property name="filters">
 			<map>
 				<entry key="frameperms" value-ref="frameperms"></entry>
-				<entry key="frameCaptchaLogin" value-ref="frameCaptchaLogin"></entry>
 			</map>
 		</property>
 	</bean>
