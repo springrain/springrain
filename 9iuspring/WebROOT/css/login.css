@@ -52,6 +52,7 @@ select{
    width:140px;
    height:22px;
 }
+
 input.submit{
    width:57px;
    height:26px;
@@ -74,6 +75,14 @@ input.submit:hover{
 	width: 175px;
 	padding-top: 2px;
 	padding-left:25px;
+}
+
+.captcha {
+    float: left;
+    display:block;
+    position: relative;
+    top: 342px;
+    left: 205px;
 }
 div.msg{
    line-height:25px;
