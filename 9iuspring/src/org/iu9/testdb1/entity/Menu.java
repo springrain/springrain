@@ -1,5 +1,7 @@
 package org.iu9.testdb1.entity;
 
+import java.util.List;
+
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -67,6 +69,9 @@ public class Menu  extends BaseEntity {
 	 */
 	private java.lang.Integer state;
 	//columns END 数据库字段结束
+	
+	//
+	private List<Menu> leaf;
 	
 	//concstructor
 
@@ -172,6 +177,14 @@ public class Menu  extends BaseEntity {
 		return new EqualsBuilder()
 			.append(getId(),other.getId())
 			.isEquals();
+	}
+
+	public List<Menu> getLeaf() {
+		return leaf;
+	}
+
+	public void setLeaf(List<Menu> leaf) {
+		this.leaf = leaf;
 	}
 }
 

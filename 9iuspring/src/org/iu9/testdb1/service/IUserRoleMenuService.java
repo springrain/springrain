@@ -74,4 +74,13 @@ public interface IUserRoleMenuService extends IBaseTestdb1Service {
  */
 	List<Role> findAllRoleAndMenu()throws Exception;
 	
+	/**
+	 * 递归获取 menuID 下的所有菜单
+	 * @param menuId
+	 * @return
+	 * @throws Exception
+	 */
+	Menu findMenuAndLeaf(String menuId)throws Exception;
+	
+	
 }
