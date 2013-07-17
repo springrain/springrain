@@ -8,7 +8,7 @@ package org.iu9.frame.util;
  * @see org.iu9.frame.util.Page
  */
 public class Page {
-	public static final int DEFAULT_PAGE_SIZE = 20;
+	public static final int DEFAULT_PAGE_SIZE = 10;
 	/** 页码,从1开始 */
 	private int pageIndex;
 	/** 每页多少行 */

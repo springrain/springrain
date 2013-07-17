@@ -1,0 +1,205 @@
+<script type="text/javascript">
+    $(function() {
+        $('#menu_treegrid').treegrid({
+            url : '${ctx}/menu/list/pre',
+            fit : true,// 是否允许表格自动缩放，以适应父容器
+            fitColumns : true,// 当为true时，自动展开/合同列的大小，以适应的宽度，防止横向滚动.
+            border : false,// 是否显示边框
+            idField : 'id',
+            treeField : 'name',
+            parentField : 'pid',
+            cascadeCheck :false,
+            loadMsg : "正在为您加载数据", //加载数据时向用户展示的语句
+            frozenColumns : [ [ {
+                field : 'id',
+                title : 'ID',
+                hidden : true
+            },{
+                field : 'name',
+                title : '菜单名称',
+                width : 150
+            } ] ],
+            columns : [ [ {
+                field : 'pageurl',
+                title : '页面访问地址'
+            }, {
+                field : 'description',
+                title : '菜单描述'
+            },{
+                field : 'type',
+                title : '菜单类型',
+                formatter : function(value, row, index) {
+                    if (value == '1') {
+                        return '菜单资源';
+                    } else if(value == '0') {
+                        return '普通资源';
+                    }
+                }
+            },{
+                field : 'systemId',
+                title : '子系统'
+            },{
+                field : 'state',
+                title : '状态',
+                formatter : function(value, row, index) {
+                    if (value == '1') {
+                        return '有效';
+                    } else if(value == '0') {
+                        return '无效';
+                    }
+                }
+            },{
+                field : 'action',
+                title : '动作',
+                width : 100,
+                formatter : function(value, row, index) {
+                    return formatString(
+                            '<img onclick="menu_editFun(\'{0}\');" src="{1}"/>&nbsp;'
+                            +'<img onclick="menu_deleteFun(\'{2}\');" src="{3}"/>',
+                            row.id,
+                            '${ctx}/js/easyui/themes/icons/pencil.png',
+                            row.id,
+                            '${ctx}/js/easyui/themes/icons/cancel.png'
+                            );
+                }
+            }] ],
+            toolbar : '#menu_toolbar'
+
+        });
+    });
+    
+    //添加
+    function menu_appendFun() {
+        $('<div/>').dialog({
+            href : '${ctx}/menu/show',
+            width : 700,
+            height : 300,
+            modal : true,
+            title : '新增用户',
+            buttons : [ {
+                text : '添加',
+                iconCls : 'icon-add',
+                handler : function() {
+                    var d = $(this).closest('.window-body');
+                    $('#menu_updateForm').form('submit', {
+                        url : '${ctx}/menu/update',
+                        success : function(result) {
+                            try {
+                                var r = $.parseJSON(result);
+                                if (r.success) {
+                                    $('#menu_treegrid').treegrid('reload');    // 刷新数据   
+                                    d.dialog('destroy');
+                                }
+                                $.messager.show({
+                                    title : '提示',
+                                    msg : r.message
+                                });
+                            } catch (e) {
+                                $.messager.alert('提示', result);
+                            }
+                        }
+                    });
+                }
+            } ],
+            onClose : function() {
+                $(this).dialog('destroy');
+            }
+        });
+    }
+    
+    //修改
+    function menu_editFun(id) {
+    	if (id != undefined) {
+            $('#menu_treegrid').treegrid('select', id);
+        }
+        var node = $('#menu_treegrid').treegrid('getSelected');
+        $('<div/>').dialog({
+            href : '${ctx}/menu/show',
+            width : 600,
+            height : 300,
+            modal : true,
+            title : '编辑用户',
+            buttons : [ {
+                text : '编辑',
+                iconCls : 'icon-edit',
+                handler : function() {
+                    var d = $(this).closest('.window-body');
+                    $('#menu_updateForm').form('submit', {
+                        url : '${ctx}/account/dept/update',
+                        success : function(result) {
+                            try {
+                                var r = $.parseJSON(result);
+                                if (r.success) {
+                                    $('#menu_treegrid').treegrid('reload');    // 刷新数据   
+                                    d.dialog('destroy');
+                                }
+                                $.messager.show({
+                                    title : '提示',
+                                    msg : r.message
+                                });
+                            } catch (e) {
+                                $.messager.alert('提示', result);
+                            }
+                        }
+                    });
+                }
+            } ],
+            onClose : function() {
+                $(this).dialog('destroy');
+            },
+            onLoad : function() {
+                $('#menu_updateForm').form('load', node);
+            }
+        });
+    }
+    
+     //单个删除
+    function menu_deleteFun(id) {
+        if (id != undefined) {
+            $('#menu_treegrid').treegrid('select', id);
+        }
+        var node = $('#menu_treegrid').treegrid('getSelected');
+        if (node) {
+            $.messager.confirm('询问', '您确定要删除此条数据？', function(b) {
+                if (b) {
+                    $.ajax({
+                        url : '${ctx}/menu/delMulti',
+                        cache : false,
+                        dataType : 'JSON',
+                        data : {
+                            "records" : node.id
+                        },
+                        success : function(r) {
+                            if (r.success) {
+                                $('#menu_treegrid').treegrid('reload');
+                            }
+                            $.messager.show({
+                                msg : r.message,
+                                title : '提示'
+                            });
+                        }
+                    });
+                }
+            });
+        }
+    }
+    
+</script>
+
+
+<!-- 界面布局  -->
+<div class="easyui-layout" style="width: 100%; height: 100%;" data-options="fit:true">
+    <div data-options="region:'center',title:'菜单列表'" style="padding: 2px;">
+        <div class="easyui-layout" data-options="fit : true,border : false">
+            <div data-options="region:'center',border:false">
+                <table id="menu_treegrid"></table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- 工具条 -->
+<div id="menu_toolbar" style="display: none;">
+    <a href="javascript:void(0);" onclick="menu_appendFun();" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" style="width:auto;">增加</a>
+</div>

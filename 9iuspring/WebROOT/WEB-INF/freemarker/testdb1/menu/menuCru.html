@@ -1,0 +1,61 @@
+﻿<script type="text/javascript">
+ $(function(){
+	 $('#pid').combotree({
+         url : '${ctx}/menu/list/pre',
+         parentField : 'pid',
+         lines : true,
+         panelHeight : 'auto'
+     });
+ });    
+</script>
+<div align="center">
+    <form id="menu_updateForm">
+        <!--input  hidden  Start-->
+        <input type="hidden" name="id" />
+        <!--input  hidden  End-->
+        <table class="tb_6">  
+            <tr>
+                <th>菜单名称:</th>
+                    <td>
+                    <input type="text" id="name" name="name"  style="width:140px;" />
+                    </td>   
+            </tr>
+            <tr>
+                <th>菜单名称:</th>
+                    <td>
+                    <select id="pid" name="pid" style="width: 140px;"></select>
+                    </td>   
+            </tr>
+             <tr>
+                <th>页面访问地址:</th>
+                    <td>
+                    <input type="text" id="pageurl" name="pageurl"  style="width:140px;" />
+                    </td>   
+            </tr>
+            <tr>
+                <th>菜单描述:</th>
+                    <td>
+                    <input type="text" id="description" name="description"  style="width:140px;"  />
+                    </td>   
+            </tr>
+            <tr>
+                <th>菜单类型:</th>
+                    <td>
+                    <select id="type" name="type" style="width:140px;">  
+                        <option value="1">菜单资源</option>  
+                        <option value="0">普通资源</option>  
+                    </select>
+                    </td>   
+            </tr>
+            <tr>
+                <th>状态</th>
+                <td>
+                    <select  id="state" name="state"  style="width:140px;">  
+                        <option value="1">有效</option>  
+                        <option value="0">无效</option>  
+                    </select>
+                </td>
+            </tr>
+         </table>
+    </form>
+</div>

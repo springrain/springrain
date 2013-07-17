@@ -43,7 +43,7 @@ CREATE TABLE `t_menu` (
 -- Records of t_menu
 -- ----------------------------
 INSERT INTO `t_menu` VALUES ('auditlog_list', '日志查看', null, null, '/auditlog/list', '0', null, '1');
-
+INSERT INTO `t_menu` VALUES ('menu_list', '菜单管理', NULL, NULL, '/menu/list', '0', NULL, '1');
 -- ----------------------------
 -- Table structure for `t_org`
 -- ----------------------------
@@ -104,6 +104,7 @@ CREATE TABLE `t_role_menu` (
 -- Records of t_role_menu
 -- ----------------------------
 INSERT INTO `t_role_menu` VALUES ('auditlog_list_admin', 'admin', 'auditlog_list');
+INSERT INTO `t_role_menu` VALUES ('menu_list_admin', 'admin', 'menu_list');
 
 -- ----------------------------
 -- Table structure for `t_subsystem`

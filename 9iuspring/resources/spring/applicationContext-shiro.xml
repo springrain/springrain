@@ -32,15 +32,16 @@
 
 		<property name="filterChainDefinitions">
 			<value>
-				/js/** = anon
+			    /js/** = anon
 			   /css/** = anon
 			   /images/** = anon
 			   /unauth = anon
 			   /getCaptcha=anon
 			   /index = authc
 			   /logout = logout
-				/login** = anon
-				/** = user,frameperms
+			   /login** = anon
+			   /menu/** =anon
+			   /** = user,frameperms
 
 			</value>
 		</property>

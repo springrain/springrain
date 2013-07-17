@@ -1,5 +1,7 @@
 package org.iu9.testdb1.service;
 
+import java.util.List;
+
 import org.iu9.testdb1.entity.Menu;
 
 /**
@@ -38,6 +40,19 @@ public interface IMenuService extends IBaseTestdb1Service {
 	 * @throws Exception
 	 */
 	Menu findMenuById(Object id) throws Exception;
+	
+	
+	/**
+	 * 
+	 * @Title: findListById
+	 * @Description: 根据ID查找
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 * @return List<Menu>
+	 * @throws
+	 */
+	List<Menu> findListById(Object id) throws Exception;
 	
 	
 }

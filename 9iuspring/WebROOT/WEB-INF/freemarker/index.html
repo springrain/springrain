@@ -1,100 +1,103 @@
 <html>
 <head>
-
 <title>首页</title>
 <@h.easyui />
 </head>
-<link href="${ctx}/css/main.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="${ctx}/js/frame/main.js" ></script>
-<script>
-		jQuery(function(){
-			var p = jQuery('body').layout('panel','west').panel({
-				onCollapse:function(){
-					//alert('collapse');
-				}
-			});
-			setTimeout(function(){
-				jQuery('body').layout('collapse','east');
-			},0);
-		});
-		
-		
-		
-	</script>
-	
-
-</head>
 <body class="easyui-layout">
-		<div region="north" class="north-back-main" style="height:125px" border="false">
-			<div class="top">
-				<div class="logo"></div>
-			    <ul class="fun">
-			    	<li class="f_1"><a href="#"></a></li>
-			        <li class="f_2"><a href="${ctx}/logout"></a></li>
-			    </ul>
-				 <ul class="nav">
-						<li>
-						    	<a href="#">常用菜单1</a>
-						    	<a href="#">常用菜单2</a>
-						    	<a href="#">常用菜单3</a>
-						    	<a href="#">常用菜单4</a>
-						</li>
-			    </ul>
-			    <ul class="user">
-			    	<li>XXX  你好</li>
-			    </ul>
-			</div>
-		</div>
-		
-		
-		
-	<div region="west" id="easyui-west" split="true" title="主菜单" style="width:150px;">
-	  <div class="easyui-accordion" id="easyui_west_accordion" fit="true" border="false">
-		      
-		     <div title="测试数据">
-		       <ul class="sub icon_4">
-		           <li><a href="####" onClick="f_newTab('数据库日志','${ctx}/auditlog/list/pre');">数据库日志</a></li>
-		          
-		           <li><a href="####" onClick="f_newTab('用户管理','${ctx}/users/list/pre');">用户管理</a></li>
-		          
-		        </ul>
-		     </div>
-		     
-		     
-		
-		</div>
-	</div>
-	<div region="east" split="true" title="East" style="width:100px;padding:10px;">east region</div>
-
-	<div region="center">
-		<div id="easyui_center_tabs" class="easyui-tabs" fit="true" border="true">
-		  <div id="firstTab" title="首页" style="padding:10px;overflow:hidden;"> 
-		    <div style="margin-top:20px;">
-		             更新了spring 至3.2.2版本<br/>
-		             项目中包含演示sql语句,auditlog为必须表,默认每年一张分表,用于记录的操作日志<br/>
-		             约定每个数据库只有一个Dao,可以配置多个数据库,自带一个数据库的实现<br/>
-		             gencode 为 rapid-generator 项目的模版文件,可直接生成前后台逻辑,详见 rapid-generator代码生成器的模版文件<br/>
-		             org.iu9.frame.interceptor.FWInterceptor 为全局拦截器,自行添加权限过滤等操作 <br />
-		             目前支持 mssql和mysql,主键支持自增和字符串 <br />
-		             实现分表注解,使用方法参考auditlog</br>
-		             
-		             此版本可用于生成环境......
-		             
-		    </div>
-		  </div>
-		 </div>
-	</div>
-	
-		<div region="south" class="south-back-main" style="height:26px" border="false">
-			<table width="100%" cellpadding="0" cellspacing="0" border="0">
-					<tr>
-						<td align="center">2012©  版权所有 &nbsp;&nbsp;<a href="#">
-									帮助关于
-							</a></td>
-					</tr>
-			</table>
-		</div>
-	
-	
+    <noscript>您的浏览器不支持JavaScript,请检查您的浏览器版本或者安全设置,谢谢！</noscript>
+    <!-- 北布局开始 -->
+    <div id="springrain-index-north" data-options="region:'north', border:true" style="height:100%;width:100%;background:#F2F2F2;height: 85px; padding: 1px; overflow: hidden; position: relative;">
+      <div id="sessionInfoDiv" style="position: absolute; right: 0px; top: 0px;" class="alert alert-info">
+      </div>
+    <div style="position: absolute; right: 0px; bottom: 0px;">
+        <a href="javascript:void(0);" class="easyui-menubutton" data-options="menu:'#layout_north_kzmbMenu',iconCls:'icon-help'">控制面板</a> 
+        <a href="javascript:void(0);" class="easyui-menubutton" data-options="menu:'#layout_north_zxMenu',iconCls:'icon-back'">注销</a>
+        <!-- 菜单开始 -->
+            <div id="layout_north_kzmbMenu" style="width: 100px; display: none;">
+                <div onclick="editCurrentUserPwd();">修改密码</div>
+                <div class="menu-sep"></div>
+                <div onclick="currentUserRole();">个人信息</div>
+            </div>
+            <div id="layout_north_zxMenu" style="width: 100px; display: none;">
+                <div class="menu-sep"></div>
+                <div onclick="logoutFun(true);">退出系统</div>
+            </div>
+        <!-- 菜单结束 -->
+    </div>
+    </div>
+    <!-- 北布局结束 -->
+    <!-- 西布局开始 -->
+    <div data-options="region:'west', split:true, title:'导航'" style="width: 200px;">
+        <div id="springrain-index-menuTree" class="easyui-accordion" data-options="fit:true,border:false">
+            <div  title="后台管理">
+                <ul id="menuTree"></ul> 
+            </div>
+        </div>
+    </div>
+    <!-- 西布局结束 -->
+    <!-- 中布局开始 -->
+    <div id="springrain-index-center" data-options="region:'center'" style="padding-button: 5px;">
+<!--         <div id="easyui_center_tabs" class="easyui-tabs" fit="true" border="true">
+          <div id="firstTab" title="首页" style="padding:10px;overflow:hidden;"> 
+            <div style="margin-top:20px;">
+                                 更新了spring 至3.2.2版本<br/>
+                                 项目中包含演示sql语句,auditlog为必须表,默认每年一张分表,用于记录的操作日志<br/>
+                                 约定每个数据库只有一个Dao,可以配置多个数据库,自带一个数据库的实现<br/>
+                                 gencode 为 rapid-generator 项目的模版文件,可直接生成前后台逻辑,详见 rapid-generator代码生成器的模版文件<br/>
+                                 org.iu9.frame.interceptor.FWInterceptor 为全局拦截器,自行添加权限过滤等操作 <br />
+                                 目前支持 mssql和mysql,主键支持自增和字符串 <br />
+                                 实现分表注解,使用方法参考auditlog</br>
+                                 
+                                 此版本可用于生成环境......
+                     
+            </div>
+          </div>
+         </div> -->
+    </div>
+    <!-- 中布局结束 -->
+    
+    <!-- 南部布局开始  -->
+        <div  data-options="region:'south',border:false"  style="height:26px" >
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                        <td align="center">2012©  版权所有 &nbsp;&nbsp;
+                        <a href="#">帮助关于 </a></td>
+                    </tr>
+            </table>
+        </div>
+    <!-- 南部布局结束 -->
+    
+    
+    <!-- menu begin -->
+    <div id="springrain-index-tabsMenu" class="easyui-menu"
+        style="width: 150px; display: none;">
+        <div name="m-updateTab">刷新</div>
+        <div class="menu-sep"></div>
+        <div name="m-closeTab">关闭</div>
+        <div name="m-closeAllTab">全部关闭</div>
+        <div name="m-closeOtherTab">除此之外全部关闭</div>
+        <div class="menu-sep"></div>
+        <div name="m-closeThisLeft">当前页左侧全部关闭</div>
+        <div name="m-closeThisRight">当前页右侧全部关闭</div>
+    </div>
+    <!-- menu end -->
+    
+    <!-- springrainindex-dialog开始 -->
+    <div id="springrain-index-dialog" class="easyui-dialog" data-options="closed:'true'"></div>
+    <!-- springrainindex-dialog结束 -->
 </body>
+<script type="text/javascript">
+    $(function() {
+        createTabPanel();
+        $('#menuTree').tree({ 
+            url:"${ctx}/menu/leftMenu",
+            onClick: function(node){
+                createTab(node.text,"${ctx}"+node.attributes.url,'',true);
+            }
+        });  
+    });
+    $(window).load(function() {
+        springrain.stopProgressBar();
+    });
+</script>
 </html>
