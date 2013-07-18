@@ -6,6 +6,7 @@ org.iu9.frame.dao.dialect
 org.iu9.frame.entity
 org.iu9.frame.interceptor
 org.iu9.frame.service
+org.iu9.frame.shiro
 org.iu9.frame.util
 org.iu9.testdb1.dao
 org.iu9.testdb1.entity
