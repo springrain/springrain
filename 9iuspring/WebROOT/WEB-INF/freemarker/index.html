@@ -99,5 +99,13 @@
     $(window).load(function() {
         springrain.stopProgressBar();
     });
+    
+    function logoutFun(){
+    	myconfirm("确定退出系统?",function(){
+    		 self.location="${ctx}/logout";
+    	});
+    }
+    
+    
 </script>
 </html>
