@@ -3,9 +3,6 @@
 <title>系统登录 - springrain</title>
 <link rel="stylesheet" type="text/css" href="${ctx}/css/login.css" />
 <script type="text/javascript">
-	function CheckForm() {
-		return true;
-	}
 	function reloadValidateCode() {
 		document.getElementById("captchaImg").src="${ctx}/getCaptcha?date =" + new Date() + Math.floor(Math.random()*24);
 		//$("#captchaImg").attr("src","${ctx}/getCaptcha?date = " + new Date() + Math.floor(Math.random()*24));
@@ -13,7 +10,7 @@
 </script>
 </head>
 <body onload="javascript:document.form1.password.focus();" scroll="auto">
-	<form name="form1" method="post" action="login" autocomplete="off" onsubmit="return CheckForm();">
+	<form name="form1" method="post" action="login" autocomplete="off">
 		<div id="logo">
 			<div id="form">
 				<div class="left">
@@ -23,22 +20,18 @@
 					<div class="pwd">
 						<input type="password" class="text" name="password" id="password" onmouseover="this.focus()" onfocus="this.select()" value="admin" />
 					</div>
+					<div class="pwd">
+                        <label> 验证码: </label>
+                       <input type="text" name="captcha" id="captcha" class="text_input_big" size="8" /> 
+                       <br><br>
+                       <img id="captchaImg" src="${ctx}/getCaptcha" width="70" height="28"  /> 
+                       <a href="javascript:reloadValidateCode();">看不请?</a>
+                   </div>
 					<div class="right">
 						<input type="submit" class="submit" title="登录" value=""/>
 					</div>
 				</div>
-				<div class="captcha">
-                        <select class="selection" name="rememberMe" id="filter_EQI_state">
-                            <option value="">无</option>
-                            <option value="25200">在一周内</option>
-                            <option value="2592000">在一个月内</option>
-                            <option value="31536000">在一个年内</option>
-                        </select> 
-                        <label> 验证码: </label>
-                       <input type="text" name="captcha" id="captcha" class="text_input_big" size="8" /> 
-                       <img id="captchaImg" src="${ctx}/getCaptcha" width="70" height="28"  /> 
-                       <a href="javascript:reloadValidateCode();">看不请?</a>
-                    </div>
+				
 			</div>
 		</div>
 	</form>

@@ -69,7 +69,7 @@ public class UserRoleMenuServiceImpl extends BaseTestdb1ServiceImpl implements
 		}
 
 		Finder finder = new Finder(
-				"SELECT m.* from t_menu m,t_role_menu  rm,re_user_role  ur where ur.userId=:userId and ur.roleId=rm.roleId and m.id=rm.menuId ");
+				"SELECT m.* from t_menu m,t_role_menu  rm,t_user_role  ur where ur.userId=:userId and ur.roleId=rm.roleId and m.id=rm.menuId ");
 		finder.setParam("userId", userId);
 		return super.queryForList(finder, Menu.class);
 
