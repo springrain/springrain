@@ -54,15 +54,7 @@ public interface IBaseJdbcDao {
 	
 	
 	
-	/**
-	 * 调用数据库函数   返回结果是 List<Entity>
-	 * @param finder
-	 * @param clazz
-	 * @return
-	 * @throws Exception
-	 */
-	public <T> List<T> queryForListByFunciton(Finder finder, Class<T> clazz) throws Exception;
-	
+
 	
 	/**
 	 * 调用数据库存储过程  返回指定 对象

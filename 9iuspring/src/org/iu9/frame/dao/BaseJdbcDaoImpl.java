@@ -127,7 +127,9 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	public <T> List<T> queryForListByProc(Finder finder, Class<T> clazz)
 			throws Exception {
 		String procName = finder.getProcName();
-		return null;
+		Map params=finder.getParams();
+		List<T> list= (List<T>) getJdbcCall().withProcedureName(procName).execute(clazz, params);
+		return list;
 	}
 
 	@Override
@@ -724,12 +726,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	
 	}
 
-	@Override
-	public <T> List<T> queryForListByFunciton(Finder finder, Class<T> clazz)
-			throws Exception {
 
-		throw new Exception("不好意思,方法未实现!");
-	}
 
 	@Override
 	public <T> List<T> queryForListByFunction(Finder finder, Class<T> clazz)
