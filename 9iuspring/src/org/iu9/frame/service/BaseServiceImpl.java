@@ -375,10 +375,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 		return getBaseDao().saveorupdate(entity);
 	}
 
-	public <T> List<T> queryForListByFunciton(Finder finder, Class<T> clazz)
-			throws Exception {
-		return getBaseDao().queryForListByFunciton(finder, clazz);
-	}
+	
 
 	public <T> T queryForObjectByProc(Finder finder, Class<T> clazz)
 			throws Exception {
