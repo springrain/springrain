@@ -281,7 +281,10 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 				if (StringUtils.isNotBlank(alias)) {
 					wheresql = alias + "." + wheresql;
 				}
-				String pname = wheresql.substring(wheresql.indexOf(":") + 1);
+				String pname = wheresql.substring(wheresql.indexOf(":") + 1).trim();
+				if(wheresql.toLowerCase().contains(" in ")&&pname.endsWith(")")){
+					pname=pname.substring(0,pname.length()-1).trim();
+				}
 				if (wheresql.toLowerCase().contains(" like ")) {
 					boolean qian = pname.trim().startsWith("%");
 					boolean hou = pname.trim().endsWith("%");
