@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -179,6 +180,7 @@ public class Menu  extends BaseEntity {
 			.isEquals();
 	}
 
+	@Transient
 	public List<Menu> getLeaf() {
 		return leaf;
 	}
