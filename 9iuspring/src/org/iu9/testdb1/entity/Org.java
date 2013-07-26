@@ -1,12 +1,11 @@
 package org.iu9.testdb1.entity;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import org.iu9.frame.annotation.WhereSQL;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.iu9.frame.annotation.WhereSQL;
 import org.iu9.frame.entity.BaseEntity;
 /**
  * TODO 在此加入类描述
@@ -76,7 +75,7 @@ public class Org  extends BaseEntity {
 	/**
 	 * 0.失效 1.有效
 	 */
-	private java.lang.Integer state;
+	private java.lang.String state;
 	//columns END 数据库字段结束
 	
 	//concstructor
@@ -164,12 +163,12 @@ public class Org  extends BaseEntity {
 	public java.lang.String getDescription() {
 		return this.description;
 	}
-	public void setState(java.lang.Integer value) {
+	public void setState(String value) {
 		this.state = value;
 	}
 	
      @WhereSQL(sql="state=:Org_state")
-	public java.lang.Integer getState() {
+	public String getState() {
 		return this.state;
 	}
 	

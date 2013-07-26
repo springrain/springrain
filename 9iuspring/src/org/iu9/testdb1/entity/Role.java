@@ -58,7 +58,7 @@ public class Role  extends BaseEntity {
 	/**
 	 * 状态(0:禁用1:启用)
 	 */
-	private java.lang.Integer state;
+	private java.lang.String state;
 	//columns END 数据库字段结束
 	
 	private List<Menu> menus;
@@ -109,12 +109,12 @@ public class Role  extends BaseEntity {
 	public java.lang.String getRemark() {
 		return this.remark;
 	}
-	public void setState(java.lang.Integer value) {
+	public void setState(String value) {
 		this.state = value;
 	}
 	
      @WhereSQL(sql="state=:Role_state")
-	public java.lang.Integer getState() {
+	public String getState() {
 		return this.state;
 	}
 	

@@ -96,7 +96,7 @@ public class User  extends BaseEntity {
 	/**
 	 * 0.无效1.有效
 	 */
-	private java.lang.Integer state;
+	private java.lang.String state;
 	//columns END 数据库字段结束
 	
 	private List<Role> roles;
@@ -212,12 +212,12 @@ public class User  extends BaseEntity {
 	public java.lang.String getAddress() {
 		return this.address;
 	}
-	public void setState(java.lang.Integer value) {
+	public void setState(String value) {
 		this.state = value;
 	}
 	
      @WhereSQL(sql="state=:User_state")
-	public java.lang.Integer getState() {
+	public String getState() {
 		return this.state;
 	}
 	

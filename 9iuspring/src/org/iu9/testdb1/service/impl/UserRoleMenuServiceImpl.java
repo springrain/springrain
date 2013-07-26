@@ -112,7 +112,7 @@ public class UserRoleMenuServiceImpl extends BaseTestdb1ServiceImpl implements
 			return null;
 		}
 		Finder finder = new Finder(
-				"SELECT * FROM T_user WHERE state=1 and account=:account ");
+				"SELECT * FROM T_user WHERE state='是' and account=:account ");
 		finder.setParam("account", account);
 		if (StringUtils.isNotBlank(password)) {
 			finder.append(" and password=:password ").setParam("password",
@@ -123,7 +123,7 @@ public class UserRoleMenuServiceImpl extends BaseTestdb1ServiceImpl implements
 
 	@Override
 	public List<Role> findAllRoleAndMenu() throws Exception {
-		Finder f_role = new Finder("SELECT * FROM t_role where state=1 ");
+		Finder f_role = new Finder("SELECT * FROM t_role where state='是' ");
 		List<Role> listRole = super.queryForList(f_role, Role.class);
 		if (CollectionUtils.isEmpty(listRole)) {
 			return null;
