@@ -33,7 +33,7 @@ CREATE TABLE `t_menu` (
   `pageurl` text,
   `type` int(11) DEFAULT NULL COMMENT '0.普通资源1.菜单资源',
   `systemId` varchar(40) DEFAULT NULL,
-  `state` int(11) DEFAULT NULL,
+ `state` varchar(2) DEFAULT '是' COMMENT '状态,是否可用(0:否1:是)',
   PRIMARY KEY (`id`),
   KEY `fk_t_menu_systemid_t_subsystem_id` (`systemId`),
   CONSTRAINT `fk_t_menu_systemid_t_subsystem_id` FOREIGN KEY (`systemId`) REFERENCES `t_subsystem` (`id`)
@@ -58,7 +58,7 @@ CREATE TABLE `t_org` (
   `leaf` int(11) DEFAULT NULL COMMENT '叶子节点(0:树枝节点;1:叶子节点)',
   `sortno` int(11) DEFAULT NULL COMMENT '排序号',
   `description` text COMMENT '描述',
-  `state` int(11) DEFAULT NULL COMMENT '0.失效 1.有效',
+  `state` varchar(2) DEFAULT '是' COMMENT '状态,是否可用(0:否1:是)',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='组织机构';
 
@@ -76,7 +76,7 @@ CREATE TABLE `t_role` (
   `code` varchar(255) DEFAULT NULL COMMENT '权限编码',
   `pid` varchar(40) DEFAULT NULL COMMENT '所属部门',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
-  `state` int(11) DEFAULT NULL COMMENT '状态(0:禁用1:启用)',
+  `state` varchar(2) DEFAULT '是' COMMENT '状态,是否可用(0:否1:是)',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色表';
 
@@ -116,12 +116,29 @@ CREATE TABLE `t_subsystem` (
   `sortno` int(11) DEFAULT NULL COMMENT '子系统排序',
   `uri` text COMMENT '子系统访问路径',
   `remark` text COMMENT '备注',
-  `state` varchar(2) DEFAULT NULL COMMENT '状态(0:不可用1:可用)',
+   `state` varchar(2) DEFAULT '是' COMMENT '状态,是否可用(0:否1:是)',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='子系统';
 
 -- ----------------------------
 -- Records of t_subsystem
+-- ----------------------------
+
+
+-- ----------------------------
+-- Table structure for `t_grade`
+-- ----------------------------
+DROP TABLE IF EXISTS `t_grade`;
+CREATE TABLE `t_grade` (
+  `id` varchar(40) NOT NULL COMMENT '级别Id',
+  `name` varchar(60) DEFAULT NULL COMMENT '级别名称',
+  `remark` text COMMENT '备注',
+  `state` varchar(2) DEFAULT '是' COMMENT '状态,是否可用(0:否1:是)',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='级别';
+
+-- ----------------------------
+-- Records of t_grade
 -- ----------------------------
 
 -- ----------------------------
@@ -136,19 +153,21 @@ CREATE TABLE `t_user` (
   `password` varchar(40) DEFAULT NULL COMMENT '密码',
   `salt` varchar(60) DEFAULT NULL COMMENT '密码校验码',
   `age` int(11) DEFAULT NULL COMMENT '年龄',
-  `sex` int(11) DEFAULT NULL COMMENT '0.女1.男',
+  `sex`  varchar(2)  DEFAULT '男' COMMENT '性别',
   `phone` varchar(16) DEFAULT NULL COMMENT '电话号码',
   `mobile` varchar(16) DEFAULT NULL COMMENT '手机号码',
   `eamil` varchar(60) DEFAULT NULL COMMENT '邮箱',
   `address` varchar(255) DEFAULT NULL COMMENT '地址',
-  `state` int(11) DEFAULT NULL COMMENT '0.无效1.有效',
-  PRIMARY KEY (`id`)
+    `gradeId` varchar(40) DEFAULT null COMMENT '级别',
+  `state` varchar(2) DEFAULT '是' COMMENT '状态,是否可用(0:否1:是)',
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_t_user_gradeId_t_grade_id` FOREIGN KEY (`gradeId`) REFERENCES `t_grade` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
-INSERT INTO `t_user` VALUES ('admin', 'admin', 'admin', 'admin', '21232f297a57a5a743894a0e4a801fc3', null, null, null, null, null, null, null, '1');
+INSERT INTO `t_user` VALUES ('admin', 'admin', 'admin', 'admin', '21232f297a57a5a743894a0e4a801fc3', null, null, null, null, null, null, null, null,'是');
 
 -- ----------------------------
 -- Table structure for `t_user_org`
