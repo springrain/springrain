@@ -18,7 +18,7 @@ public class SpringTest  {
 	private IBaseTestdb1Service baseTestdb1Service;
 	
 	@Test
-	public void testRfyMonthSave() throws Exception{
+	public void testSelectUser() throws Exception{
 		Finder finder=new Finder("SELECT * FROM t_user WHERE  id=:id order by id desc ");
 		finder.setParam("id", "admin");
 		User user = baseTestdb1Service.queryForObject(finder,User.class);
