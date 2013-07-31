@@ -13,10 +13,8 @@ import org.iu9.frame.controller.BaseController;
 import org.iu9.frame.shiro.ShiroUser;
 import org.iu9.frame.util.Json;
 import org.iu9.frame.util.MessageUtils;
-import org.iu9.frame.util.Page;
 import org.iu9.frame.util.SecUtils;
 import org.iu9.testdb1.entity.Menu;
-import org.iu9.testdb1.entity.User;
 import org.iu9.testdb1.service.IMenuService;
 import org.iu9.testdb1.service.IUserRoleMenuService;
 import org.springframework.stereotype.Controller;
@@ -45,7 +43,7 @@ public class MenuController  extends BaseController {
 	private IMenuService menuService;
 	
 	@Resource
-	private IUserRoleMenuService userRoleService;
+	private IUserRoleMenuService userRoleMenuService;
 	
 	private String listurl="/testdb1/menu/menuList";  //菜单列表路径
 	
@@ -225,7 +223,7 @@ public class MenuController  extends BaseController {
 			return null;
 		}
 		try {
-			List<Menu> listMenu=userRoleService.findMenuByUserId(user.getId());
+			List<Menu> listMenu=userRoleMenuService.findMenuByUserId(user.getId());
 			for (Menu menu : listMenu) {
 				Map<String,Object> node = new HashMap<String, Object>();
 				Map<String,Object> attributes=new HashMap<String, Object>();
