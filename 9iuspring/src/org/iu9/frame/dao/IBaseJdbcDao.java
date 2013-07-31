@@ -199,7 +199,7 @@ public interface IBaseJdbcDao {
 	 * @return
 	 * @throws Exception
 	 */
-	public <T> List<T>  findListDateByFinder(Finder finder,Page page,Class<T> clazz,Object queryBean) throws Exception;
+	public <T> List<T>  findListDataByFinder(Finder finder,Page page,Class<T> clazz,Object queryBean) throws Exception;
     /**
      * 保存一个对象
      * @param <T>

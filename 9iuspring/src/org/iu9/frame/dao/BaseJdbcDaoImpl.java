@@ -204,7 +204,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	}
 
 	@Override
-	public <T> List<T> findListDateByFinder(Finder finder, Page page,
+	public <T> List<T> findListDataByFinder(Finder finder, Page page,
 			Class<T> clazz, Object queryBean) throws Exception {
 		EntityInfo entityInfoByEntity = ClassUtils
 				.getEntityInfoByEntity(queryBean);

@@ -181,7 +181,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 	@Override
 	public <T> List<T> findListDataByFinder(Finder finder, Page page,
 			Class<T> clazz, Object queryBean) throws Exception {
-		return getBaseDao().findListDateByFinder(finder, page, clazz, queryBean);
+		return getBaseDao().findListDataByFinder(finder, page, clazz, queryBean);
 	}
 
 	@Override
