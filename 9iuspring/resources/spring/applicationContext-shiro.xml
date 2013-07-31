@@ -37,11 +37,11 @@
 			   /images/** = anon
 			   /unauth = anon
 			   /getCaptcha=anon
-			   /index = authc
+			   	/login= anon
+			   /index = user
+			   /menu/leftMenu=user
 			   /logout = logout
-			   /login** = anon
-			   /menu/** =anon
-			   /** = user,frameperms
+			   /** = user
 
 			</value>
 		</property>
