@@ -1,148 +1,193 @@
-/*==============================================================*/
-/* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2013/7/3 22:55:07                            */
-/*==============================================================*/
+/*
+Navicat MySQL Data Transfer
+
+Source Server         : 10.0.0.9
+Source Server Version : 50528
+Source Host           : 10.0.0.9:3306
+Source Database       : testdb2
+
+Target Server Type    : MYSQL
+Target Server Version : 50528
+File Encoding         : 65001
+
+Date: 2013-08-03 10:57:30
+*/
+
+SET FOREIGN_KEY_CHECKS=0;
+-- ----------------------------
+-- Table structure for `auditlog`
+-- ----------------------------
+DROP TABLE IF EXISTS `auditlog_history_2013`;
+CREATE TABLE `auditlog_history_2013` (
+  `id` varchar(40) NOT NULL COMMENT 'ID',
+  `operationType` varchar(50) DEFAULT NULL COMMENT 'æ“ä½œç±»å‹',
+  `operatorName` varchar(50) DEFAULT NULL COMMENT 'æ“ä½œäººå§“å',
+  `preValue` varchar(8000) DEFAULT NULL COMMENT 'æ—§å€¼',
+  `curValue` varchar(8000) DEFAULT NULL COMMENT 'æ–°å€¼',
+  `operationTime` datetime DEFAULT NULL COMMENT 'æ“ä½œæ—¶é—´',
+  `operationClass` varchar(500) DEFAULT NULL COMMENT 'æ“ä½œç±»',
+  `operationClassID` varchar(50) DEFAULT NULL COMMENT 'è®°å½•ID',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- ----------------------------
+-- Records of auditlog
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `t_menu`
+-- ----------------------------
+DROP TABLE IF EXISTS `t_menu`;
+CREATE TABLE `t_menu` (
+  `id` varchar(40) NOT NULL,
+  `name` varchar(60) DEFAULT NULL,
+  `pid` varchar(40) DEFAULT NULL,
+  `description` text,
+  `pageurl` text,
+  `type` int(11) DEFAULT NULL COMMENT '0.æ™®é€šèµ„æº1.èœå•èµ„æº',
+  `systemId` varchar(40) DEFAULT NULL,
+  `state` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+alter table t_menu comment 'èœå•è¡¨';
+
+alter table t_menu add constraint fk_t_menu_systemid_t_subsystem_id foreign key (systemId) references t_subsystem(id);
+-- ----------------------------
+-- Records of t_menu
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `t_org`
+-- ----------------------------
+DROP TABLE IF EXISTS `t_org`;
+CREATE TABLE `t_org` (
+  `id` varchar(40) NOT NULL COMMENT 'ç¼–å·',
+  `name` varchar(60) DEFAULT NULL COMMENT 'åç§°',
+  `comcode` varchar(40) DEFAULT NULL COMMENT 'ä»£ç ',
+  `pid` varchar(40) DEFAULT NULL COMMENT 'ä¸Šçº§éƒ¨é—¨ID',
+  `sysid` varchar(40) DEFAULT NULL COMMENT 'å­ç³»ç»ŸID',
+  `type` int(11) DEFAULT NULL COMMENT '0,ç»„ç»‡æœºæ„ 1.éƒ¨é—¨',
+  `leaf` int(11) DEFAULT NULL COMMENT 'å¶å­èŠ‚ç‚¹(0:æ ‘æèŠ‚ç‚¹;1:å¶å­èŠ‚ç‚¹)',
+  `sortno` int(11) DEFAULT NULL COMMENT 'æ’åºå·',
+  `description` text COMMENT 'æè¿°',
+  `state` int(11) DEFAULT NULL COMMENT '0.å¤±æ•ˆ 1.æœ‰æ•ˆ',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ç»„ç»‡æœºæ„';
+alter table t_org comment 'ç»„ç»‡æœºæ„';
+-- ----------------------------
+-- Records of t_org
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `t_role`
+-- ----------------------------
+DROP TABLE IF EXISTS `t_role`;
+CREATE TABLE `t_role` (
+  `id` varchar(40) NOT NULL COMMENT 'è§’è‰²ID',
+  `name` varchar(60) DEFAULT NULL COMMENT 'è§’è‰²åç§°',
+  `permissions` varchar(255) DEFAULT NULL COMMENT 'æƒé™',
+  `pid` varchar(40) DEFAULT NULL COMMENT 'æ‰€å±éƒ¨é—¨',
+  `remark` varchar(255) DEFAULT NULL COMMENT 'å¤‡æ³¨',
+  `state` int(11) DEFAULT NULL COMMENT 'çŠ¶æ€(0:ç¦ç”¨2:å¯ç”¨)',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='è§’è‰²';
+alter table t_role comment 'è§’è‰²è¡¨';
+-- ----------------------------
+-- Records of t_role
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `t_subsystem`
+-- ----------------------------
+DROP TABLE IF EXISTS `t_subsystem`;
+CREATE TABLE `t_subsystem` (
+  `id` varchar(40) NOT NULL COMMENT 'å­ç³»ç»Ÿç¼–å·',
+  `name` varchar(60) DEFAULT NULL COMMENT 'å­ç³»ç»Ÿåç§°',
+  `sortno` int(11) DEFAULT NULL COMMENT 'å­ç³»ç»Ÿæ’åº',
+  `uri` text COMMENT 'å­ç³»ç»Ÿè®¿é—®è·¯å¾„',
+  `remark` text COMMENT 'å¤‡æ³¨',
+  `state` varchar(2) DEFAULT NULL COMMENT 'çŠ¶æ€(0:ä¸å¯ç”¨1:å¯ç”¨)',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='å­ç³»ç»Ÿ';
+alter table t_subsystem comment 'å­ç³»ç»Ÿ';
+-- ----------------------------
+-- Records of t_subsystem
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `t_user`
+-- ----------------------------
+DROP TABLE IF EXISTS `t_user`;
+CREATE TABLE `t_user` (
+  `id` varchar(40) NOT NULL COMMENT 'ç¼–å·',
+  `name` varchar(30) DEFAULT NULL COMMENT 'å§“å',
+  `code` varchar(40) DEFAULT NULL COMMENT 'ä»£ç ',
+  `account` varchar(40) DEFAULT NULL COMMENT 'è´¦å·',
+  `password` varchar(40) DEFAULT NULL COMMENT 'å¯†ç ',
+  `salt` varchar(60) DEFAULT NULL COMMENT 'å¯†ç æ ¡éªŒç ',
+  `age` int(11) DEFAULT NULL COMMENT 'å¹´é¾„',
+  `sex` int(11) DEFAULT NULL COMMENT '0.å¥³1.ç”·',
+  `phone` varchar(16) DEFAULT NULL COMMENT 'ç”µè¯å·ç ',
+  `mobile` varchar(16) DEFAULT NULL COMMENT 'æ‰‹æœºå·ç ',
+  `eamil` varchar(60) DEFAULT NULL COMMENT 'é‚®ç®±',
+  `address` varchar(255) DEFAULT NULL COMMENT 'åœ°å€',
+  `state` int(11) DEFAULT NULL COMMENT '0.æ— æ•ˆ1.æœ‰æ•ˆ',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ç”¨æˆ·è¡¨';
+alter table t_user comment 'ç”¨æˆ·è¡¨';
+-- ----------------------------
+-- Records of t_user
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `t_role_menu`
+-- ----------------------------
+DROP TABLE IF EXISTS `t_role_menu`;
+CREATE TABLE `t_role_menu` (
+  `id` varchar(40) NOT NULL COMMENT 'ç¼–å·',
+  `roleId` varchar(40) NOT NULL COMMENT 'è§’è‰²ç¼–å·',
+  `menuId` varchar(40) NOT NULL COMMENT 'èœå•ç¼–å·',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+alter table t_role_menu comment 'è§’è‰²èœå•è¡¨';
+alter table t_role_menu add constraint fk_t_role_menu_roleId_t_role_id foreign key (roleId) references t_role(id);
+alter table t_role_menu add constraint fk_t_role_menu_menuId_t_menu_id foreign key (menuId) references t_menu(id);
 
 
-drop table if exists T_USERS;
+-- ----------------------------
+-- Records of t_role_menu
+-- ----------------------------
 
-drop table if exists t_menu;
+-- ----------------------------
+-- Table structure for `t_user_org`
+-- ----------------------------
+DROP TABLE IF EXISTS `t_user_org`;
+CREATE TABLE `t_user_org` (
+  `id` varchar(40) NOT NULL COMMENT 'ç¼–å·',
+  `userId` varchar(40) NOT NULL COMMENT 'ç”¨æˆ·ç¼–å·',
+  `orgId` varchar(40) NOT NULL COMMENT 'æœºæ„ç¼–å·',
+  `manager` int(11) NOT NULL COMMENT '0.ä¸æ˜¯1.æ˜¯',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ç”¨æˆ·æœºæ„è¡¨';
+alter table t_user_org comment 'ç”¨æˆ·æœºæ„è¡¨';
+alter table t_user_org add constraint fk_t_user_org_userId_t_user_id foreign key (userId) references t_user(id);
+alter table t_user_org add constraint fk_t_user_org_orgId_t_org_id foreign key (orgId) references t_org(id);
+-- ----------------------------
+-- Records of t_user_org
+-- ----------------------------
 
-drop table if exists t_organization;
-
-drop table if exists t_role;
-
-drop table if exists t_subsystem;
-
-drop table if exists t_user_menu;
-
-drop table if exists t_user_org;
-
-drop table if exists t_user_role;
-
-/*==============================================================*/
-/* Table: T_USERS                                               */
-/*==============================================================*/
-create table T_USERS
-(
-   id                   varchar(40) not null comment '±àºÅ',
-   name                 varchar(30) comment 'ĞÕÃû',
-   code                 varchar(40) comment '´úÂë',
-   account              varchar(40) comment 'ÕËºÅ',
-   password             varchar(40) comment 'ÃÜÂë',
-   salt                 varchar(60) comment 'ÃÜÂëĞ£ÑéÂë',
-   age                  int comment 'ÄêÁä',
-   sex                  int comment '0.Å®1.ÄĞ',
-   phone                varchar(16) comment 'µç»°ºÅÂë',
-   mobile               varchar(16) comment 'ÊÖ»úºÅÂë',
-   eamil                varchar(60) comment 'ÓÊÏä',
-   address              varchar(255) comment 'µØÖ·',
-   state                int comment '0.ÎŞĞ§1.ÓĞĞ§',
-   primary key (id)
-);
-
-alter table T_USERS comment 'ÓÃ»§±í';
-
-/*==============================================================*/
-/* Table: t_menu                                                */
-/*==============================================================*/
-create table t_menu
-(
-   id                   varchar(40) not null,
-   name                 varchar(60),
-   pid                  varchar(40),
-   description          text,
-   pageurl              text,
-   type                 0.ÆÕÍ¨×ÊÔ´1.²Ëµ¥×ÊÔ´,
-   state                int,
-   primary key (id)
-);
-
-/*==============================================================*/
-/* Table: t_organization                                        */
-/*==============================================================*/
-create table t_organization
-(
-   id                   varchar(40) not null comment '±àºÅ',
-   name                 varchar(60) comment 'Ãû³Æ',
-   comcode              varchar(40) comment '´úÂë',
-   pid                  varchar(40) comment 'ÉÏ¼¶²¿ÃÅID',
-   sysid                varchar(40) comment '×ÓÏµÍ³ID',
-   type                 int comment '0,×éÖ¯»ú¹¹ 1.²¿ÃÅ',
-   leaf                 int comment 'Ò¶×Ó½Úµã(0:Ê÷Ö¦½Úµã;1:Ò¶×Ó½Úµã)',
-   sortno               int comment 'ÅÅĞòºÅ',
-   description          text comment 'ÃèÊö',
-   state                int comment '0.Ê§Ğ§ 1.ÓĞĞ§',
-   primary key (id)
-);
-
-alter table t_organization comment '×éÖ¯»ú¹¹';
-
-/*==============================================================*/
-/* Table: t_role                                                */
-/*==============================================================*/
-create table t_role
-(
-   id                   varchar(40) not null comment '½ÇÉ«ID',
-   name                 varchar(60) comment '½ÇÉ«Ãû³Æ',
-   permissions          varchar(255) comment 'È¨ÏŞ',
-   pid                  varchar(40) comment 'ËùÊô²¿ÃÅ',
-   remark               varchar(255) comment '±¸×¢',
-   state                int comment '×´Ì¬(0:½ûÓÃ2:ÆôÓÃ)',
-   primary key (id)
-);
-
-alter table t_role comment '½ÇÉ«';
-
-/*==============================================================*/
-/* Table: t_subsystem                                           */
-/*==============================================================*/
-create table t_subsystem
-(
-   id                   varchar(40) not null comment '×ÓÏµÍ³±àºÅ',
-   name                 varchar(60) comment '×ÓÏµÍ³Ãû³Æ',
-   sortno               int comment '×ÓÏµÍ³ÅÅĞò',
-   uri                  text comment '×ÓÏµÍ³·ÃÎÊÂ·¾¶',
-   remark               text comment '±¸×¢',
-   state                varchar(2) comment '×´Ì¬(0:²»¿ÉÓÃ1:¿ÉÓÃ)',
-   primary key (id)
-);
-
-alter table t_subsystem comment '×ÓÏµÍ³';
-
-/*==============================================================*/
-/* Table: t_user_menu                                           */
-/*==============================================================*/
-create table t_user_menu
-(
-   id                   varchar(40) not null comment '±àºÅ',
-   role_id              varchar(40) comment '½ÇÉ«±àºÅ',
-   menu_id              varchar(40) comment '²Ëµ¥±àºÅ',
-   primary key (id)
-);
-
-/*==============================================================*/
-/* Table: t_user_org                                            */
-/*==============================================================*/
-create table t_user_org
-(
-   id                   varchar(40) not null comment '±àºÅ',
-   user_id              varchar(40) comment 'ÓÃ»§±àºÅ',
-   org_id               varchar(40) comment '»ú¹¹±àºÅ',
-   ismanager            int comment '0.²»ÊÇ1.ÊÇ',
-   primary key (id)
-);
-
-alter table t_user_org comment 'ÓÃ»§»ú¹¹±í';
-
-/*==============================================================*/
-/* Table: t_user_role                                           */
-/*==============================================================*/
-create table t_user_role
-(
-   id                   varchar(40) not null comment '±àºÅ',
-   user_id              varchar(40) comment 'ÓÃ»§±àºÅ',
-   role_id              varchar(40) comment '½ÇÉ«±àºÅ',
-   primary key (id)
-);
-
+-- ----------------------------
+-- Table structure for `t_user_role`
+-- ----------------------------
+DROP TABLE IF EXISTS `t_user_role`;
+CREATE TABLE `t_user_role` (
+  `id` varchar(40) NOT NULL COMMENT 'ç¼–å·',
+  `userId` varchar(40) NOT NULL COMMENT 'ç”¨æˆ·ç¼–å·',
+  `roleId` varchar(40) NOT NULL COMMENT 'è§’è‰²ç¼–å·',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+alter table t_user_role comment 'ç”¨æˆ·è§’è‰²è¡¨';
+alter table t_user_role add constraint fk_t_user_role_userId_t_user_id foreign key (userId) references t_user(id);
+alter table t_user_role add constraint fk_t_user_role_roleId_t_role_id foreign key (roleId) references t_role(id);
+-- ----------------------------
+-- Records of t_user_role
+-- ----------------------------

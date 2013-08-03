@@ -19,7 +19,7 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `auditlog_history_2013`;
 CREATE TABLE `auditlog_history_2013` (
-  `id` varchar(50) NOT NULL COMMENT 'ID',
+  `id` varchar(40) NOT NULL COMMENT 'ID',
   `operationType` varchar(50) DEFAULT NULL COMMENT '操作类型',
   `operatorName` varchar(50) DEFAULT NULL COMMENT '操作人姓名',
   `preValue` varchar(8000) DEFAULT NULL COMMENT '旧值',
