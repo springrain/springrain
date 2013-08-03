@@ -61,15 +61,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	 */
 	public abstract NamedParameterJdbcTemplate getJdbc();
 
-	/**
-	 * 抽象方法.每个数据库的代理Dao都必须实现.在多库情况下,用于区分数据库实例的日志记录表,
-	 * 主要是为了兼容日志表(auditlog)的主键生成方式,UUID和自增.</br> testdb1 数据库的auditlog
-	 * 是自增,testdb2 数据库的 auditlog 是UUID
-	 * 
-	 * @return
-	 */
-	public abstract IAuditLog getAuditLog();
-
+	
 	/**
 	 * 抽象方法.每个数据库的代理Dao都必须实现.在多库情况下,用于区分底层数据库的连接对象,调用数据库的函数和存储过程.</br>
 	 * 例如:testdb1 数据库的代理Dao org.iu9.testdb1.dao.BaseTestdb1DaoImpl
@@ -89,6 +81,38 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	 * @return
 	 */
 	public abstract IDialect getDialect();
+	
+	
+	/**
+	 * 默认(return null)不记录日志,在多库情况下,用于区分数据库实例的日志记录表,
+	 * 主要是为了兼容日志表(auditlog)的主键生成方式,UUID和自增.</br> testdb1 数据库的auditlog
+	 * 是自增,testdb2 数据库的 auditlog 是UUID
+	 * 
+	 * @return
+	 */
+	
+	public  IAuditLog getAuditLog(){
+		return null;
+	}
+	/**
+	 * 是否打印sql语句,默认false
+	 * @return
+	 */
+	public boolean showsql(){
+		return false;
+	}
+	
+	/**
+	 * 打印sql
+	 * @param sql
+	 */
+	private void logInfoSql(String sql){
+		if(showsql()){
+			logger.error(sql);
+			
+		}
+	}
+
 
 	public BaseJdbcDaoImpl() {
 	}
@@ -109,6 +133,8 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 
 	@Override
 	public List<Map<String, Object>> queryForList(Finder finder) {
+		//打印sql
+		logInfoSql(finder.getSql());
 		return getJdbc().queryForList(finder.getSql(), finder.getParams());
 	}
 
@@ -116,6 +142,8 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	public Map<String, Object> queryForObject(Finder finder) throws Exception {
 		Map<String, Object> map = null;
 		try {
+			//打印sql
+			logInfoSql(finder.getSql());
 			map = getJdbc().queryForMap(finder.getSql(), finder.getParams());
 		} catch (EmptyResultDataAccessException e) {
 			map = null;
@@ -126,6 +154,8 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 
 	@Override
 	public Integer update(Finder finder) throws Exception {
+		//打印sql
+		logInfoSql(finder.getSql());
 		return getJdbc().update(finder.getSql(), finder.getParams());
 	}
 
@@ -137,6 +167,9 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 			return null;
 		finder.setPageSql(pageSql);
 
+		//打印sql
+		logInfoSql(pageSql);
+		
 		if (ClassUtils.isBaseType(clazz)) {
 			if (getDialect().isRowNumber()) {
 				return getJdbc().query(pageSql, finder.getParams(),
@@ -315,7 +348,8 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 
 	@Override
 	public <T> T queryForObject(Finder finder, Class<T> clazz) throws Exception {
-
+		//打印sql
+		logInfoSql(finder.getSql());
 		T t = null;
 		try {
 			if (ClassUtils.isBaseType(clazz)) {
@@ -409,7 +443,8 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 
 		}
 		sql.append(valueSql);// sql语句
-
+		//打印sql
+		logInfoSql(sql.toString());
 		if (returnType == String.class) {
 			getJdbc().update(sql.toString(), paramMap);
 			return id;
@@ -431,6 +466,10 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	@Override
 	public Object save(Object entity) throws Exception {
 		Object id = saveNoLog(entity);
+		IAuditLog auditLog = getAuditLog();
+		if(auditLog==null){
+			return id;
+		}
 
 		String tableExt = ClassUtils.getTableExt(entity);
 		if (StringUtils.isBlank(tableExt)) {
@@ -438,7 +477,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 			tableExt = GlobalStatic.tableExt + year;
 		}
 
-		IAuditLog auditLog = getAuditLog();
+		
 		auditLog.setOperationClass(entity.getClass().getName());
 		auditLog.setOperationType(GlobalStatic.dataSave);
 		auditLog.setOperatorName(SessionUser.getUserName());
@@ -451,6 +490,10 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 
 		return id;
 	}
+	
+	
+	
+	
 
 	@Override
 	public Integer update(Object entity) throws Exception {
@@ -498,8 +541,21 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 
 		sql.append(whereSQL);
 
-		Object old_entity = findByID(id, clazz, tableExt);
+	
+		//打印sql
+		logInfoSql(sql.toString());
+	
+		Object old_entity =null;
 		IAuditLog auditLog = getAuditLog();
+		if(auditLog!=null){
+			old_entity = findByID(id, clazz, tableExt);
+		}
+		// 更新entity
+		Integer hang = getJdbc().update(sql.toString(), paramMap);
+		if(auditLog==null){
+			return hang;
+		}
+		
 		auditLog.setOperationClass(entity.getClass().getName());
 		auditLog.setOperationType(GlobalStatic.dataUpdate);
 		auditLog.setOperatorName(SessionUser.getUserName());
@@ -515,8 +571,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		}
 		auditLog.setExt(audit_tableExt);
 
-		// 更新entity
-		Integer hang = getJdbc().update(sql.toString(), paramMap);
+		
 		// 保存日志
 		saveNoLog(auditLog);
 		return hang;
@@ -540,6 +595,8 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		String sql = "SELECT * FROM " + tableName + " WHERE " + idName + "=:id";
 		Finder finder = new Finder(sql);
 		finder.setParam("id", id);
+		//打印sql
+		logInfoSql(finder.getSql());
 		return queryForObject(finder, clazz);
 	}
 
@@ -607,6 +664,24 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		String sql = "Delete FROM " + tableName + " WHERE " + idName + "=:id";
 		Finder finder = new Finder(sql);
 		finder.setParam("id", id);
+		
+		
+		
+		IAuditLog auditLog = getAuditLog();
+		Object findEntityByID =null;
+		
+		if(auditLog!=null){
+			findEntityByID = findByID(id, clazz);
+		}
+		//打印sql
+		logInfoSql(finder.getSql());
+		update(finder);
+		
+		if(auditLog==null){
+			return;
+		}
+		
+	
 
 		/**
 		 * 删除还有个 bug,就是删除分表的数据,日志记录有问题 没有分表
@@ -615,8 +690,9 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		int year = Calendar.getInstance().get(Calendar.YEAR);
 		String tableExt = GlobalStatic.tableExt + year;
 
-		Object findEntityByID = findByID(id, clazz);
-		IAuditLog auditLog = getAuditLog();
+	
+	
+	
 		auditLog.setOperationClass(clazz.getName());
 		auditLog.setOperationType(GlobalStatic.dataDelete);
 		auditLog.setOperatorName(SessionUser.getUserName());
@@ -628,7 +704,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		// 保存日志
 		saveNoLog(auditLog);
 
-		update(finder);
+	
 	}
 
 	@Override
@@ -709,6 +785,8 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		Finder finder = new Finder("SELECT * FROM ");
 		finder.append(tableName).append("  WHERE 1=1 ");
 		getFinderWhereByQueryBean(finder, entity);
+		//打印sql
+		logInfoSql(finder.getSql());
 		return (T) queryForObject(finder, entity.getClass());
 
 	}
@@ -745,6 +823,8 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		Finder finder = new Finder("SELECT * FROM ");
 		finder.append(tableName).append("  WHERE 1=1 ");
 		getFinderWhereByQueryBean(finder, entity);
+		//打印sql
+		logInfoSql(finder.getSql());
 		return (List<T>) queryForList(finder, entity.getClass(), page);
 
 	}
