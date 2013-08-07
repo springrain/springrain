@@ -25,12 +25,9 @@
 		</property>
 	</bean>
 
-	<!-- Spring Bean 的工具类 -->
+
 	
-	<!--  
-	<bean id="springUtils " class="org.iu9.frame.util.SpringUtils" />
-	<context:component-scan base-package="org.iu9"    name-generator="org.iu9.frame.common.SpringAnnotationBeanNameGenerator" />  
-	-->
+
 		<!-- 扫描的包路径 去掉mvc的注解-->
 	<context:component-scan base-package="org.iu9">
 	<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>

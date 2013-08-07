@@ -5,19 +5,19 @@ package ${basepackage}.service.impl;
 
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
-import org.iu9.testdb1.service.BaseTestdb1ServiceImpl;
+import org.springrain.demo.service.BasedemoServiceImpl;
 import ${basepackage}.entity.${className};
 import ${basepackage}.service.I${className}Service;
 import java.util.List;
 import java.io.File;
-import org.iu9.frame.service.IBaseService;
-import org.iu9.frame.util.Page;
-import org.iu9.frame.util.Finder;
-import org.iu9.frame.entity.IBaseEntity;
+import org.springrainframe.service.IBaseService;
+import org.springrainframe.util.Page;
+import org.springrainframe.util.Finder;
+import org.springrainframe.entity.IBaseEntity;
 
 <#include "/copyright_class.include" >
 @Service("${classNameLower}Service")
-public class ${className}ServiceImpl extends BaseTestdb1ServiceImpl implements I${className}Service {
+public class ${className}ServiceImpl extends BasedemoServiceImpl implements I${className}Service {
 
    
 	  @Override

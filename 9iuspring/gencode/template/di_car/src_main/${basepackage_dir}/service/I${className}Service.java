@@ -6,7 +6,7 @@ package ${basepackage}.service;
 import ${basepackage}.entity.${className};
 
 <#include "/copyright_class.include" >
-public interface I${className}Service extends IBaseTestdb1Service {
+public interface I${className}Service extends IBasedemoService {
 
 	/**
 	 * 根据ID查找

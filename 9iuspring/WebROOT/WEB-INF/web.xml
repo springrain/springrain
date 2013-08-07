@@ -17,7 +17,7 @@
   
     
   <servlet>
-    <servlet-name>9iuspring</servlet-name>
+    <servlet-name>springrain</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
     <init-param>
       <param-name>contextConfigLocation</param-name>
@@ -27,7 +27,7 @@
   </servlet>
 	
     <servlet-mapping>
-    <servlet-name>9iuspring</servlet-name>
+    <servlet-name>springrain</servlet-name>
     <url-pattern>/*</url-pattern>
   </servlet-mapping>
   
@@ -73,7 +73,7 @@
  </filter-mapping>
   <filter-mapping>
     <filter-name>httpMethodFilter</filter-name>
-    <servlet-name>9iuspring</servlet-name>
+    <servlet-name>springrain</servlet-name>
   </filter-mapping>
 
 

@@ -40,7 +40,7 @@
 	<aop:config>
 		<!-- 切面事务操作-->
 		<aop:pointcut id="servicePointcut"
-			expression="execution(* org.iu9.testdb1..*Service.*(..))" />
+			expression="execution(* org.springrain.demo..*Service.*(..))" />
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="servicePointcut" />
 	</aop:config>
 

@@ -22,17 +22,17 @@
 
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"    destroy-method="close">
 		<property name="driverClassName">
-			<value>${db.testdb1.driver}</value>
+			<value>${db.demo.driver}</value>
 		</property>
 		<property name="url">
-			<value>${db.testdb1.url}</value>
+			<value>${db.demo.url}</value>
 		</property>
 
 		<property name="username">
-			<value>${db.testdb1.username}</value>
+			<value>${db.demo.username}</value>
 		</property>
 		<property name="password">
-			<value>${db.testdb1.password}</value>
+			<value>${db.demo.password}</value>
 		</property>
 	<property name="proxyFilters">
         <list>

@@ -55,11 +55,11 @@ body { _height:100%; _overflow-y:auto; padding-top:30px; color:#222; font-family
 .box_2 { background:url(../images/IGS_44.jpg) repeat-x;   line-height:32px; color:#222; height:31px; list-style:none; overflow:hidden; border:#D6D6D6 1px solid; border-top:none; padding-left:10px;}
 .box_2 li { float:left; height:31px; margin:0 10px; line-height:34px; overflow:hidden; cursor:default;}
 .box_2 a { color:#000; text-decoration:none; line-height:34px; display:block;}
-.box_2 li.home { background:url(../images/9iuspring_65.jpg) 0px 10px no-repeat; text-indent:20px; color:#666;}
-.box_2 li.pageUP { background:url(../images/9iuspring_67.jpg) 0px 10px no-repeat; text-indent:15px; color:#666;}
-.box_2 li.pageDown { background:url(../images/9iuspring_70.jpg) 42px 10px no-repeat; color:#666; width:55px;}
-.box_2 li.end { background:url(../images/9iuspring_72.jpg) 30px 10px no-repeat; color:#666; width:45px;}
-.box_2 li.swipe { background:url(../images/9iuspring_75.jpg) 0px 10px no-repeat; text-indent:17px;}
+.box_2 li.home { background:url(../images/springrain_65.jpg) 0px 10px no-repeat; text-indent:20px; color:#666;}
+.box_2 li.pageUP { background:url(../images/springrain_67.jpg) 0px 10px no-repeat; text-indent:15px; color:#666;}
+.box_2 li.pageDown { background:url(../images/springrain_70.jpg) 42px 10px no-repeat; color:#666; width:55px;}
+.box_2 li.end { background:url(../images/springrain_72.jpg) 30px 10px no-repeat; color:#666; width:45px;}
+.box_2 li.swipe { background:url(../images/springrain_75.jpg) 0px 10px no-repeat; text-indent:17px;}
 .box_2 a:hover { color:#C00;}
 
 .center { text-align:center;}

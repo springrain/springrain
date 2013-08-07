@@ -30,17 +30,8 @@
 <mvc:view-controller path="/" view-name="index"/>
 	
 		<bean id="handlerMapping" class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
-		<!--  
-		<property name="interceptors" ref="fwinterceptor"/>
-		-->
 	</bean>
 
-<bean id="fwinterceptor"  class="org.iu9.frame.interceptor.FWInterceptor">
-<property name="loginurl"  value="/login"/> 
-<property name="noqx"  value="/login"/> 
-</bean>
-
-	
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
 		<property name="requestContextAttribute" value="ctp" />

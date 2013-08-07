@@ -8,8 +8,8 @@ package  ${basepackage}.web;
 import java.util.Date;
 import java.util.List;
 import java.io.File;
-import org.iu9.frame.util.Page;
-import org.iu9.frame.util.GlobalStatic;
+import org.springrainframe.util.Page;
+import org.springrainframe.util.GlobalStatic;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,10 +27,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import ${basepackage}.entity.${className};
 import ${basepackage}.service.I${className}Service;
-import org.iu9.frame.controller.BaseController;
-import org.iu9.frame.util.MessageUtils;
-import org.iu9.frame.util.CFReturnObject;
-import org.iu9.frame.util.SecUtils;
+import org.springrainframe.controller.BaseController;
+import org.springrainframe.util.MessageUtils;
+import org.springrainframe.util.CFReturnObject;
+import org.springrainframe.util.SecUtils;
 <#assign myParentDir="web">
 
 

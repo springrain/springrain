@@ -7,9 +7,9 @@
 		2.可以引用环境变量: ${env.JAVA_HOME} or System.properties: ${user.home},property之间也可以相互引用
 	</comment>
 	<!-- 代码基本的包路径 -->
-	<entry key="basepackage">org.iu9.testdb1</entry>
+	<entry key="basepackage">org.springrain.demo</entry>
 	<!-- js 和 freemarker 包名称  -->
-	<entry key="targetpackage">testdb1</entry>
+	<entry key="targetpackage">demo</entry>
 	
 	
 	<!-- jsp namespace: web/${namespace}/${className}/list.jsp -->
@@ -40,7 +40,7 @@
 	<entry key="jdbc.password">root</entry>
 	<!-- Mysql -->
 
-	<entry key="jdbc.url">jdbc:mysql://127.0.0.1:3306/testdb1?useUnicode=true&amp;characterEncoding=UTF-8</entry>
+	<entry key="jdbc.url">jdbc:mysql://127.0.0.1:3306/demo?useUnicode=true&amp;characterEncoding=UTF-8</entry>
 	<entry key="jdbc.driver">com.mysql.jdbc.Driver</entry>
 
 	
@@ -66,7 +66,7 @@
 
 	<!-- JTDs for SQLServer -->
 	<!--
-	<entry key="jdbc.url">jdbc:jtds:sqlserver://127.0.0.1:1433/testdb1</entry>
+	<entry key="jdbc.url">jdbc:jtds:sqlserver://127.0.0.1:1433/demo</entry>
 	<entry key="jdbc.driver">net.sourceforge.jtds.jdbc.Driver</entry>
 	-->
 
