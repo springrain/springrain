@@ -102,16 +102,25 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		return false;
 	}
 	
+	public  String getUserName(){
+		return SessionUser.getUserName();
+	}
+	
+	
+	
 	/**
 	 * 打印sql
 	 * @param sql
 	 */
 	private void logInfoSql(String sql){
 		if(showsql()){
-			logger.error(sql);
+			System.out.println(sql);
 		}
 	}
 
+	
+	
+	
 
 	public BaseJdbcDaoImpl() {
 	}
@@ -206,18 +215,24 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	@Override
 	public <T> List<T> findListDataByFinder(Finder finder, Page page,
 			Class<T> clazz, Object queryBean) throws Exception {
-		EntityInfo entityInfoByEntity = ClassUtils
-				.getEntityInfoByEntity(queryBean);
-		String tableName = entityInfoByEntity.getTableName();
-		String tableExt = entityInfoByEntity.getTableExt();
-		if (StringUtils.isNotBlank(tableExt)) {
-			tableName = tableName + tableExt;
-		}
+	
 		if (finder == null) {
+			EntityInfo entityInfoByEntity = ClassUtils
+					.getEntityInfoByEntity(queryBean);
+			String tableName = entityInfoByEntity.getTableName();
+			String tableExt = entityInfoByEntity.getTableExt();
+			if (StringUtils.isNotBlank(tableExt)) {
+				tableName = tableName + tableExt;
+			}
 			finder = new Finder("SELECT * FROM " + tableName);
 			finder.append(" WHERE 1=1 ");
+		
+		}
+		
+		if(queryBean!=null){
 			getFinderWhereByQueryBean(finder, queryBean);
 		}
+		
 		int _index = RegexValidateUtils.getOrderByIndex(finder.getSql());
 		if (_index > 0) {
 			finder.setSql(finder.getSql().substring(0, _index));
@@ -227,6 +242,20 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 			return this.queryForList(finder, clazz, page);
 		}
 
+	   //根据page的参数 添加 order by
+		getFinderOrderBy(finder, page);
+
+		List<T> datas = this.queryForList(finder, clazz, page);
+		if (datas == null) {
+			datas = new ArrayList<T>();
+		}
+		return datas;
+	}
+	@Override
+	public Finder getFinderOrderBy(Finder finder,Page page) throws Exception{
+		if(finder==null||page==null){
+			return finder;
+		}
 		String sort = page.getSort();
 		String order = page.getOrder();
 		if (StringUtils.isNotBlank(order)) {
@@ -249,13 +278,10 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 			}
 
 		}
-
-		List<T> datas = this.queryForList(finder, clazz, page);
-		if (datas == null) {
-			datas = new ArrayList<T>();
-		}
-		return datas;
+		return finder;
 	}
+	
+	
 
 	@Override
 	public Finder getFinderWhereByQueryBean(Finder finder, Object o)
@@ -285,6 +311,8 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 				if(wheresql.toLowerCase().contains(" in ")&&pname.endsWith(")")){
 					pname=pname.substring(0,pname.length()-1).trim();
 				}
+				
+				
 				if (wheresql.toLowerCase().contains(" like ")) {
 					boolean qian = pname.trim().startsWith("%");
 					boolean hou = pname.trim().endsWith("%");
@@ -492,6 +520,10 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		if(auditLog==null){
 			return id;
 		}
+		if(ClassUtils.isNotLog(entity.getClass())){
+			return id;
+		}
+		
 
 		String tableExt = ClassUtils.getTableExt(entity);
 		if (StringUtils.isBlank(tableExt)) {
@@ -502,7 +534,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		
 		auditLog.setOperationClass(entity.getClass().getName());
 		auditLog.setOperationType(GlobalStatic.dataSave);
-		auditLog.setOperatorName(SessionUser.getUserName());
+		auditLog.setOperatorName(getUserName());
 		auditLog.setOperationClassId(id.toString());
 		auditLog.setOperationTime(new Date());
 		auditLog.setCurValue(entity.toString());
@@ -577,10 +609,13 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		if(auditLog==null){
 			return hang;
 		}
+		if(ClassUtils.isNotLog(entity.getClass())){
+			return hang;
+		}
 		
 		auditLog.setOperationClass(entity.getClass().getName());
 		auditLog.setOperationType(GlobalStatic.dataUpdate);
-		auditLog.setOperatorName(SessionUser.getUserName());
+		auditLog.setOperatorName(getUserName());
 		auditLog.setOperationClassId(id.toString());
 		auditLog.setOperationTime(new Date());
 		auditLog.setPreValue(old_entity.toString());
@@ -702,7 +737,9 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		if(auditLog==null){
 			return;
 		}
-		
+		if(ClassUtils.isNotLog(clazz)){
+			return ;
+		}
 	
 
 		/**
@@ -717,7 +754,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	
 		auditLog.setOperationClass(clazz.getName());
 		auditLog.setOperationType(GlobalStatic.dataDelete);
-		auditLog.setOperatorName(SessionUser.getUserName());
+		auditLog.setOperatorName(getUserName());
 		auditLog.setOperationClassId(id.toString());
 		auditLog.setOperationTime(new Date());
 		auditLog.setPreValue(findEntityByID.toString());
@@ -729,7 +766,29 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	
 	}
 
+	
+	@Override
+	public void deleteByIds(List ids, Class clazz) throws Exception {
+		if (CollectionUtils.isEmpty(ids))
+			return;
+		EntityInfo entityInfo = ClassUtils.getEntityInfoByClass(clazz);
+		String tableName = entityInfo.getTableName();
+		String idName = entityInfo.getPkName();
+		String sql = "Delete FROM " + tableName + " WHERE " + idName + " in (:ids)";
+		Finder finder = new Finder(sql);
+		finder.setParam("ids", ids);
+		update(finder);
 
+	
+	}
+	
+	
+	@Override
+	public <T> List<T> queryForListByFunciton(Finder finder, Class<T> clazz)
+			throws Exception {
+
+		throw new Exception("不好意思,方法未实现!");
+	}
 
 	@Override
 	public <T> List<T> queryForListByFunction(Finder finder, Class<T> clazz)

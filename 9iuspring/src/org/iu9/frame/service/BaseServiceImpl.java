@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +30,7 @@ import org.iu9.frame.dao.IBaseJdbcDao;
 import org.iu9.frame.entity.IBaseEntity;
 import org.iu9.frame.util.ClassUtils;
 import org.iu9.frame.util.DateUtils;
+import org.iu9.frame.util.EntityInfo;
 import org.iu9.frame.util.ExcelUtils;
 import org.iu9.frame.util.Finder;
 import org.iu9.frame.util.GlobalStatic;
@@ -95,8 +97,6 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 	public Object queryObjectByFunction(Finder finder) {
 		return getBaseDao().queryObjectByFunction(finder);
 	}
-	
-	
 
 	@Override
 	public <T> T findById(Object id, Class<T> clazz, String tableExt)
@@ -134,8 +134,28 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 
 	@Override
 	public void deleteById(Object id, Class clazz) throws Exception {
-
 		getBaseDao().deleteById(id, clazz);
+	}
+
+	@Override
+	public void deleteByIds(List ids, Class clazz) throws Exception {
+		getBaseDao().deleteByIds(ids, clazz);
+	}
+
+	@Override
+	public void deleteByEntity(IBaseEntity entity) throws Exception {
+		EntityInfo entityInfoByEntity = ClassUtils
+				.getEntityInfoByEntity(entity);
+		String tableName = entityInfoByEntity.getTableName();
+		String tableExt = entityInfoByEntity.getTableExt();
+		if (StringUtils.isNotBlank(tableExt)) {
+			tableName = tableName + tableExt;
+		}
+
+		Finder finder = new Finder("DELETE FROM ");
+		finder.append(tableName).append(" WHERE 1=1 ");
+		getFinderWhereByQueryBean(finder, entity);
+		getBaseDao().update(finder);
 	}
 
 	@Override
@@ -143,13 +163,16 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 			throws Exception {
 		return getBaseDao().queryForList(finder, clazz, page);
 	}
+
 	@Override
-	public  List<Map<String, Object>> queryForList(Finder finder, Page page)
+	public List<Map<String, Object>> queryForList(Finder finder, Page page)
 			throws Exception {
 		return getBaseDao().queryForList(finder, page);
 	}
+
 	/**
 	 * Entity作为查询的query bean,并返回Entity
+	 * 
 	 * @param entity
 	 * @return
 	 * @throws Exception
@@ -157,44 +180,42 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 	@Override
 	public <T> T queryForObject(T entity) throws Exception {
 		return getBaseDao().queryForObject(entity);
-		
-		
+
 	}
 
 	/**
-	 *  Entity作为查询的query bean,并返回Entity
+	 * Entity作为查询的query bean,并返回Entity
+	 * 
 	 * @param entity
-	 * @param page 分页对象
+	 * @param page
+	 *            分页对象
 	 * @return
 	 * @throws Exception
 	 */
 	@Override
-	public <T> List<T> queryForListByEntity(T entity,Page page) throws Exception {
+	public <T> List<T> queryForListByEntity(T entity, Page page)
+			throws Exception {
 		return getBaseDao().queryForListByEntity(entity, page);
-		
+
 	}
 
-
-	
-	
-	
 	@Override
 	public <T> List<T> findListDataByFinder(Finder finder, Page page,
 			Class<T> clazz, Object queryBean) throws Exception {
-		return getBaseDao().findListDataByFinder(finder, page, clazz, queryBean);
+		return getBaseDao()
+				.findListDataByFinder(finder, page, clazz, queryBean);
 	}
 
 	@Override
 	public <T> File findDataExportExcel(Finder finder, String ftlurl,
-			Page page, Class<T> clazz,   Object queryBean)
-			throws Exception {
+			Page page, Class<T> clazz, Object queryBean) throws Exception {
 		Map map = new HashMap();
 		map.put(GlobalStatic.exportexcel, true);// 设置导出excel变量
 		Template template = freeMarkerConfigurer.getConfiguration()
 				.getTemplate(ftlurl + GlobalStatic.suffix);
 		page.setPageSize(GlobalStatic.excelPageSize);
 		page.setPageIndex(1);
-		List<T> datas = findListDataByFinder(finder, page, clazz, queryBean);
+		List datas = findListDataByFinder(finder, page, clazz, queryBean);
 		map.put("datas", datas);
 		String fileName = UUID.randomUUID().toString();
 		String tempFFilepath = GlobalStatic.tempRootpath + "/" + fileName
@@ -206,7 +227,6 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 			tempfdir.mkdirs();
 		}
 
-		
 		File ffile = new File(tempFFilepath);
 
 		File excelFile = new File(tempExcelpath);
@@ -257,9 +277,9 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 			logger.error(e);
 			throw new Exception("生成freemarker页面错误");
 		} finally {
-			if(out!=null){
-			out.flush();
-			out.close();
+			if (out != null) {
+				out.flush();
+				out.close();
 			}
 		}
 
@@ -270,11 +290,11 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 		BufferedWriter bw = null;
 		try {
 			in = new FileInputStream(ffile);
-			br = new BufferedReader(new InputStreamReader(in,"UTF-8"));
+			br = new BufferedReader(new InputStreamReader(in, "UTF-8"));
 			fos = new FileOutputStream(excelFile, true);
 			osw = new OutputStreamWriter(fos, "UTF-8");
 			bw = new BufferedWriter(osw);
-			if(first){//如果是第一次,输出编码格式,防止 office 乱码
+			if (first) {// 如果是第一次,输出编码格式,防止 office 乱码
 				bw.write("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">");
 			}
 			String line = null;
@@ -340,16 +360,16 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 			logger.error(e);
 			throw new Exception("追加xlsx内容错误");
 		} finally {
-			if(bw!=null)
-			bw.close();
-			if(osw!=null)
-			osw.close();
-			if(fos!=null)
-			fos.close();
-			if(br!=null)
-			br.close();
-			if(in!=null)
-			in.close();
+			if (bw != null)
+				bw.close();
+			if (osw != null)
+				osw.close();
+			if (fos != null)
+				fos.close();
+			if (br != null)
+				br.close();
+			if (in != null)
+				in.close();
 		}
 
 		return excelFile;
@@ -375,8 +395,6 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 		return getBaseDao().saveorupdate(entity);
 	}
 
-	
-
 	public <T> T queryForObjectByProc(Finder finder, Class<T> clazz)
 			throws Exception {
 		return getBaseDao().queryForObjectByProc(finder, clazz);
@@ -391,125 +409,211 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 			throws Exception {
 		return getBaseDao().queryForListByFunction(finder, clazz);
 	}
-	
+
 	/**
 	 * 根据查询的queryBean,拼接Finder 的 Where条件,只包含 and 条件,用于普通查询
+	 * 
 	 * @param finder
 	 * @param o
 	 * @return
 	 * @throws Exception
 	 */
-	public Finder getFinderWhereByQueryBean(Finder finder,Object o) throws Exception{
+	@Override
+	public Finder getFinderWhereByQueryBean(Finder finder, Object o)
+			throws Exception {
 		return getBaseDao().getFinderWhereByQueryBean(finder, o);
 	}
+	@Override
+	public Finder getFinderOrderBy(Finder finder,Page page)	throws Exception{
+		return getBaseDao().getFinderOrderBy(finder, page);
+	}
+	
+	
 	
 	@Override
-	public <T> String saveImportExcelFile(File excelFile, Class<T> clazz) throws Exception {
+	public <T> String saveImportExcelFile(File excelFile, Class<T> clazz,
+			boolean istest) throws Exception {
+		StringBuffer message = new StringBuffer();
 		List<Cell[]> excel = ExcelUtils.getExcle(excelFile);
-		if(CollectionUtils.isEmpty(excel)){
-			return null;
+		if (CollectionUtils.isEmpty(excel)) {
+			return "Excel文件没有sheet!";
 		}
-		Map<Integer,String> map=new HashMap<Integer,String>();
+		Map<Integer, String> map = new HashMap<Integer, String>();
 		Cell[] title = excel.get(0);
-		if(title==null||title.length<1){
-			return null;
+		if (title == null || title.length < 1) {
+			return "表头没有数据!";
 		}
-		//封装字段
-		for(int i=0;i<title.length;i++){
+		List<String> listTitle=new ArrayList<String>();
+		// 封装字段
+		for (int i = 0; i < title.length; i++) {
 			map.put(i, title[i].getContents());
+			listTitle.add(title[i].getContents());
 		}
-		
-		
-		for(int j=2;j<excel.size();j++){
+
+		for (int j = 2; j < excel.size(); j++) {
 			Cell[] cells = excel.get(j);
-			T r= clazz.newInstance();
-			for(int m=0;m<cells.length;m++){
-				Cell cell=cells[m];
-				String name=map.get(m);
-				String value=cell.getContents().trim();
-				String className=ClassUtils.getReturnType(name, r).toLowerCase();
-				if(className.contains(".string")){
-					try{
-					ClassUtils.setPropertieValue(name, r, value);
-					}catch(Exception e){
-						throw new Exception("第"+(j+1)+"行,第"+(m+1)+"列:"+name+" 类型错误!");
+			T r = clazz.newInstance();
+			for (int m = 0; m < cells.length; m++) {
+				Object o = r;
+				Cell cell = cells[m];
+				String name = map.get(m);
+				try {
+					if (name.contains(".")) {
+						String[] strs = name.split("\\.");
+						// 获取最后的属性名称
+						name = strs[strs.length - 1];
+						// 循环获取实体对象
+						for (int i = 0; i < strs.length - 1; i++) {
+							o = ClassUtils.getPropertieValue(strs[i], o);
+						}
 					}
-				}else if(className.contains(".date")){
-					try{
-					value=value.replace("/", "-");
-					Date d=DateUtils.convertString2Date(value);
-					
-						ClassUtils.setPropertieValue(name, r, d);
-						}catch(Exception e){
-							throw new Exception("第"+(j+1)+"行,第"+(m+1)+"列:"+name+" 类型错误!");
-						}
-					
-				}else if(className.contains(".double")){
-					try{
-					Double db=null;
-					if(StringUtils.isNotBlank(value)){
-					 db=Double.valueOf(value);
+				} catch (Exception e) {
+					String s = "第" + (m + 1) + "列列名有错误," + name + " 类型错误!";
+					if (istest) {
+						message.append(s).append("</br>");
+					} else {
+						throw new Exception(s);
 					}
-						ClassUtils.setPropertieValue(name, r, db);
-						}catch(Exception e){
-							throw new Exception("第"+(j+1)+"行,第"+(m+1)+"列:"+name+" 类型错误!");
+				}
+				String value = cell.getContents().trim();
+				String className = ClassUtils.getReturnType(name, o)
+						.toLowerCase();
+				if (className.contains(".string")) {
+					try {
+						ClassUtils.setPropertieValue(name, o, value);
+					} catch (Exception e) {
+						String s = "第" + (j + 1) + "行,第" + (m + 1) + "列:"+ name + " 类型错误!";
+						if (istest) {
+							message.append(s).append("</br>");
+						} else {
+							throw new Exception(s);
 						}
-				}else if(className.contains(".float")){
-					try{
-					Float f=null;
-					if(StringUtils.isNotBlank(value)){
-						 f=Float.valueOf(value);
+					}
+				} else if (className.contains(".date")) {
+					try {
+						value = value.replace("/", "-");
+						Date d = DateUtils.convertString2Date(value);
+
+						ClassUtils.setPropertieValue(name, o, d);
+					} catch (Exception e) {
+						String s = "第" + (j + 1) + "行,第" + (m + 1) + "列:"+ name + " 类型错误!";
+						if (istest) {
+							message.append(s).append("</br>");
+						} else {
+							throw new Exception(s);
 						}
-					ClassUtils.setPropertieValue(name, r, f);
-				}catch(Exception e){
-					throw new Exception("第"+(j+1)+"行,第"+(m+1)+"列:"+name+" 类型错误!");
-				}
-					
-					
-				}else if(className.contains(".integer")){
-					try{
-					Integer _i=null;
-					
-					if(StringUtils.isNotBlank(value)){
-						 _i=Integer.valueOf(value);
+					}
+
+				} else if (className.contains(".double")) {
+					try {
+						Double db = null;
+						if (StringUtils.isNotBlank(value)) {
+							db = Double.valueOf(value);
 						}
-					
-					ClassUtils.setPropertieValue(name, r, _i);
-				}catch(Exception e){
-					throw new Exception("第"+(j+1)+"行,第"+(m+1)+"列:"+name+" 类型错误!");
-				}
-				}
-				
-				else if(className.contains(".bigdecimal")){
-					try{
-					BigDecimal bd=null;
-					if(StringUtils.isNotBlank(value)){
-						bd=new BigDecimal(value);
+						ClassUtils.setPropertieValue(name, o, db);
+					} catch (Exception e) {
+						String s = "第" + (j + 1) + "行,第" + (m + 1) + "列:"+ name + " 类型错误!";
+						if (istest) {
+							message.append(s).append("</br>");
+						} else {
+							throw new Exception(s);
 						}
-					ClassUtils.setPropertieValue(name, r, bd);
-				}catch(Exception e){
-					throw new Exception("第"+(j+1)+"行,第"+(m+1)+"列:"+name+" 类型错误!");
+					}
+				} else if (className.contains(".float")) {
+					try {
+						Float f = null;
+						if (StringUtils.isNotBlank(value)) {
+							f = Float.valueOf(value);
+						}
+						ClassUtils.setPropertieValue(name, o, f);
+					} catch (Exception e) {
+						String s = "第" + (j + 1) + "行,第" + (m + 1) + "列:"+ name + " 类型错误!";
+						if (istest) {
+							message.append(s).append("</br>");
+						} else {
+							throw new Exception(s);
+						}
+					}
+
+				} else if (className.contains(".integer")) {
+					try {
+						Integer _i = null;
+
+						if (StringUtils.isNotBlank(value)) {
+							_i = Integer.valueOf(value);
+						}
+
+						ClassUtils.setPropertieValue(name, o, _i);
+					} catch (Exception e) {
+						String s = "第" + (j + 1) + "行,第" + (m + 1) + "列:"+ name + " 类型错误!";
+						if (istest) {
+							message.append(s).append("</br>");
+						} else {
+							throw new Exception(s);
+						}
+					}
 				}
+
+				else if (className.contains(".bigdecimal")) {
+					try {
+						BigDecimal bd = null;
+						if (StringUtils.isNotBlank(value)) {
+							bd = new BigDecimal(value);
+						}
+						ClassUtils.setPropertieValue(name, o, bd);
+					} catch (Exception e) {
+						String s = "第" + (j + 1) + "行,第" + (m + 1) + "列:"+ name + " 类型错误!";
+						if (istest) {
+							message.append(s).append("</br>");
+						} else {
+							throw new Exception(s);
+						}
+					}
 				}
-			
+
 			}
-			try{
-			saveFromExcel(r);
-		}catch(Exception e){
-			throw new Exception("第"+(j+1)+"行,保存失败");
+			try {
+				String s=saveFromExcel(r, (j + 1), istest, listTitle);
+				if(istest&&StringUtils.isNotBlank(s)){
+					message.append(s).append("</br>");
+				}
+			} catch (Exception e) {
+				throw new Exception("第" + (j + 1) + "行,保存失败");
+			}
 		}
-		}
-		if(excelFile.exists()){
+		if (excelFile.exists()&&(istest==false)) {
 			excelFile.delete();
 		}
-		return null;
+		if(StringUtils.isBlank(message.toString())){
+			return null;
+		}
+		if (excelFile.exists()&&istest&&StringUtils.isNotBlank(message.toString())) {
+			excelFile.delete();
+		}
+		
+		
+		return message.toString();
+
 	}
 
 	@Override
-	public String saveFromExcel(Object entity) throws Exception {
-		return save(entity).toString();
+	public <T> String saveImportExcelFile(File excelFile, Class<T> clazz)
+			throws Exception {
+		String message = saveImportExcelFile(excelFile, clazz, true);
+		if (StringUtils.isNotBlank(message)) {
+			return message;
+		}
+		return saveImportExcelFile(excelFile, clazz, false);
+
 	}
 
-	
+	@Override
+	public String saveFromExcel(Object entity, int index, boolean istest,
+			List<String> listTitle) throws Exception {
+		if(istest){
+			return null;
+		}
+		return save(entity).toString();
+	}
 
 }

@@ -1,6 +1,7 @@
 package org.iu9.testdb1.service;
 
 import java.io.File;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -43,9 +44,14 @@ public class BaseTestdb1ServiceImpl extends BaseServiceImpl implements IBaseTest
 	 * @throws Exception
 	 */
 	
-   public String saveFromExcel(Object entity) throws Exception{
-	   return super.saveFromExcel(entity);
-   }
+	@Override
+	public String saveFromExcel(Object entity, int index, boolean istest,
+			List<String> listTitle) throws Exception {
+		if(istest){
+			return null;
+		}
+		return save(entity).toString();
+	}
 
    @Override
 	public Integer update(Finder finder) throws Exception {

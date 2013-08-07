@@ -2,17 +2,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>系统登录 - springrain</title>
+<title>系统登录</title>
 <link rel="stylesheet" type="text/css" href="${ctx}/css/login.css" />
 <!--[if lte IE 8]>
 <style ty="text/css">
 .inputText {padding:6px;border:none 0;background:url(images/sprites.png) no-repeat;}
-.formVCode .inputText {padding:1px 5px;background-position:0 -44px;}
+.formVCode .inputText {padding:1px 5px;background:url(images/validateCode.png) no-repeat;}
 </style>
 <![endif]-->
 <script type="text/javascript">
     function reloadValidateCode() {
-        document.getElementById("captchaImg").src="${ctx}/getCaptcha?date =" + new Date() + Math.floor(Math.random()*24);
+        document.getElementById("captchaImg").src="${ctx}/getCaptcha?date =" + new Date().getTime();
         //$("#captchaImg").attr("src","${ctx}/getCaptcha?date = " + new Date() + Math.floor(Math.random()*24));
     }
 </script>
@@ -51,7 +51,7 @@
 									   <a style="cursor: pointer" href="javascript:reloadValidateCode();">刷新</a>
 									  </span>
 									 </label></li>
-								<li><label> <input type="checkbox" name="" value="记住我" id="" class="check" />&nbsp;记住我
+								<li><label> <input type="checkbox"  name="rememberme"  value="true"  id="rememberme"  class="check" />&nbsp;记住我&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:red">${message!''}</span>
 								</label></li>
 							</ul>
 							<p class="btnWrap">
@@ -74,7 +74,7 @@
 		</div>
 	   </div>
 		<div class="foot">
-			<p class="copyright">@2013 Springrain Corporation.版权所有</p>
+			<p class="copyright">@2013 centfor Corporation.版权所有</p>
 		</div>
 </body>
 </html>

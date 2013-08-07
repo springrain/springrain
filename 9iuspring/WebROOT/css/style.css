@@ -19,6 +19,7 @@ body { _height:100%; _overflow-y:auto; padding-top:30px; color:#222; font-family
 
 .btn_1, .btn_2, .btn_3, .btn_7, .btn_8, .btn_9, .btn_10, .btn_11, .btn_12 ,.btn_13{ width:92px; height:28px; border:0; display:inline-block; cursor:pointer; vertical-align:middle; color:#FFF; font-weight:bold;}
 .btn_1 { background:url(../images/ui20120918_52.jpg) no-repeat;}
+.btn_search{  background:url(../images/ui_btn_search.jpg) no-repeat; width:92px; height:28px; line-height:28px; letter-spacing:4px; padding-left:15px; border:0; display:inline-block; cursor:pointer; vertical-align:middle; color:#FFF; font-weight:bold;}
 .btn_2 { background:url(../images/ui20120918_03.jpg) no-repeat;}
 .btn_3 { background:url(../images/ui20120918_05.jpg) no-repeat;}
 .btn_4, .btn_5, .btn_6 { width:80px; height:31px; border:0; cursor:pointer;}

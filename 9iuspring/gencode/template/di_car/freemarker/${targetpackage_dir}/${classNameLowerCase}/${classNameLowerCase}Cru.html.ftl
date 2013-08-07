@@ -6,12 +6,22 @@
 
 ${r"<@h.easyui />"}
 <script type="text/javascript" src="${r"${ctx}"}/js/${rootPagefloder}/${classNameLowerCase}/${classNameLowerCase}Cru.js"></script>
+
 <#list table.columns as datecolumn>
 	<#if datecolumn.isDateTimeColumn>	
 		<script type="text/javascript" src="${r"${ctx}"}/js/my97/WdatePicker.js"></script>
 		<#break>
 	</#if>
 </#list>
+
+
+<script type="text/javascript">
+<!--
+jQuery(document).ready(function(){
+
+});
+//-->
+</script>
 
 
 <form id="updateForm" name="updateForm"  method="post" action="${r"${ctx}"}/${classNameLowerCase}/update" >

@@ -2,6 +2,46 @@
 <head>
 <title>首页</title>
 <@h.easyui />
+<script type="text/javascript" src="${ctx}/js/zTree/js/jquery.ztree.core-3.5.min.js"></script>
+<link type="text/css" rel="stylesheet" href="${ctx}/js/zTree/css/zTreeStyle/zTreeStyle.css" />
+<script type="text/javascript" src="${ctx}/js/zTree/js/jquery.ztree.excheck-3.5.min.js"></script>  
+<script type="text/javascript">
+//zTree
+var setting = {  
+ async: {enable: true,type:'post',url:"${ctx}/menu/leftMenu"},     
+ data: {simpleData: {enable: true,idKey: "id",pIdKey: "pid",rootPId: 0},key:{name:'text'}},                      
+ callback: {       
+  onClick: zTreeOnClick,
+  onAsyncSuccess:zTreeOnAsyncSuccess
+ }  
+};  
+function zTreeOnClick(event, treeId, treeNode) {
+	var id=treeNode.id;
+	var url=treeNode.attributes.url;
+	var name=treeNode.text;
+	if(treeNode.pid==0){
+		return false;
+	}
+	qxTabAdd("tab_"+id,"iframe_"+id,name,ctx+url,true);
+};
+function zTreeOnAsyncSuccess(event, treeId, treeNode, msg) {
+	//展开全部
+	/*
+	var treeObj = $.fn.zTree.getZTreeObj("leftmenu");
+	treeObj.expandAll(true);
+	*/
+	//展开第一个
+	var treeObj = $.fn.zTree.getZTreeObj("leftmenu");
+	var nodes = treeObj.getNodes();
+	if (nodes.length>0) {
+		treeObj.expandNode(nodes[0], true, true, true);
+	}
+};
+$(document).ready(function(){//初始化ztree对象       
+ $.fn.zTree.init($("#leftmenu"), setting);  
+
+});  
+</script>
 </head>
 <body class="easyui-layout">
     <noscript>您的浏览器不支持JavaScript,请检查您的浏览器版本或者安全设置,谢谢！</noscript>
@@ -11,48 +51,35 @@
       </div>
     <div style="position: absolute; right: 0px; bottom: 0px;">
         <a href="javascript:void(0);" class="easyui-menubutton" data-options="menu:'#layout_north_kzmbMenu',iconCls:'icon-help'">控制面板</a> 
-        <a href="javascript:void(0);" class="easyui-menubutton" data-options="menu:'#layout_north_zxMenu',iconCls:'icon-back'">注销</a>
+        <a href="javascript:logoutFun(true);" class="easyui-linkbutton"  plain="true"  iconCls="icon-back">注销</a>
         <!-- 菜单开始 -->
             <div id="layout_north_kzmbMenu" style="width: 100px; display: none;">
                 <div onclick="editCurrentUserPwd();">修改密码</div>
                 <div class="menu-sep"></div>
                 <div onclick="currentUserRole();">个人信息</div>
             </div>
-            <div id="layout_north_zxMenu" style="width: 100px; display: none;">
-                <div class="menu-sep"></div>
-                <div onclick="logoutFun(true);">退出系统</div>
-            </div>
+            
         <!-- 菜单结束 -->
     </div>
     </div>
     <!-- 北布局结束 -->
     <!-- 西布局开始 -->
-    <div data-options="region:'west', split:true, title:'导航'" style="width: 200px;">
-        <div id="springrain-index-menuTree" class="easyui-accordion" data-options="fit:true,border:false">
-            <div  title="后台管理">
-                <ul id="menuTree"></ul> 
-            </div>
+    <div data-options="region:'west', split:true, title:'欢迎您！${currUserName!''}'" style="width: 200px;">
+        <div id="springrain-index-menuTree" class="zTreeDemoBackground left" id="menuTree">
+           		<ul id="leftmenu" class="ztree"></ul>
         </div>
     </div>
     <!-- 西布局结束 -->
     <!-- 中布局开始 -->
     <div id="springrain-index-center" data-options="region:'center'" style="padding-button: 5px;">
-<!--         <div id="easyui_center_tabs" class="easyui-tabs" fit="true" border="true">
+          <div id="systemTabs" class="easyui-tabs" fit="true" border="true">
           <div id="firstTab" title="首页" style="padding:10px;overflow:hidden;"> 
             <div style="margin-top:20px;">
-                                 更新了spring 至3.2.2版本<br/>
-                                 项目中包含演示sql语句,auditlog为必须表,默认每年一张分表,用于记录的操作日志<br/>
-                                 约定每个数据库只有一个Dao,可以配置多个数据库,自带一个数据库的实现<br/>
-                                 gencode 为 rapid-generator 项目的模版文件,可直接生成前后台逻辑,详见 rapid-generator代码生成器的模版文件<br/>
-                                 org.iu9.frame.interceptor.FWInterceptor 为全局拦截器,自行添加权限过滤等操作 <br />
-                                 目前支持 mssql和mysql,主键支持自增和字符串 <br />
-                                 实现分表注解,使用方法参考auditlog</br>
-                                 
-                                 此版本可用于生成环境......
+                             哇咔咔,我是主页.
                      
             </div>
           </div>
-         </div> -->
+         </div>  
     </div>
     <!-- 中布局结束 -->
     
@@ -66,8 +93,6 @@
             </table>
         </div>
     <!-- 南部布局结束 -->
-    
-    
     <!-- menu begin -->
     <div id="springrain-index-tabsMenu" class="easyui-menu"
         style="width: 150px; display: none;">
@@ -81,31 +106,51 @@
         <div name="m-closeThisRight">当前页右侧全部关闭</div>
     </div>
     <!-- menu end -->
-    
     <!-- springrainindex-dialog开始 -->
     <div id="springrain-index-dialog" class="easyui-dialog" data-options="closed:'true'"></div>
     <!-- springrainindex-dialog结束 -->
 </body>
 <script type="text/javascript">
     $(function() {
-        createTabPanel();
-        $('#menuTree').tree({ 
+       /*
+    	$('#menuTree').tree({ 
             url:"${ctx}/menu/leftMenu",
             onClick: function(node){
-                createTab(node.text,"${ctx}"+node.attributes.url,'',true);
+               	qxTabAdd("tab_"+node.id,"iframe_"+node.id,node.text,ctx+node.attributes.url,true);
             }
-        });  
+        });*/  
     });
-    $(window).load(function() {
-        springrain.stopProgressBar();
-    });
-    
     function logoutFun(){
     	myconfirm("确定退出系统?",function(){
     		 self.location="${ctx}/logout";
     	});
     }
-    
-    
+    function qxTabAdd(tabId,iframeId,tabTitle,tabHref,isCloseMenu){
+    	//var nowDate = new Date();
+       //	tabTitle=tabTitle+nowDate.getTime();
+    	var content = '<iframe  scrolling="yes"    id="'+iframeId+'"  class="tabIframe" frameborder="0" src="'
+    		+ tabHref
+    		+ '" style="width:100%;height:100%;"></iframe>';
+    	var systemTabs = jQuery('#systemTabs'); 
+    	var title = jQuery.trim(tabTitle);
+    	if (systemTabs.tabs('exists', title)) {
+    		systemTabs.tabs('select', title);
+    		return;
+    	}		
+    	jQuery('#systemTabs').tabs('add', {
+    			id : "tabs_" + tabId,
+    			title : tabTitle,
+    			content : content,
+    			closable : true
+    		});	
+    	if(isCloseMenu | false){
+    		jQuery('#systemTabs').tabs('close',{forceClose:true});
+    	}
+    };
+    //关闭
+    function qxTabClose(){
+		var currTitle=jQuery('#systemTabs').tabs("getSelected").panel('options').title;
+		jQuery('#systemTabs').tabs('close',currTitle);
+	}
 </script>
 </html>

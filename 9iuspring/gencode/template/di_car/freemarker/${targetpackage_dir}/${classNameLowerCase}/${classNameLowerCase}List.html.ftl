@@ -31,7 +31,7 @@ jQuery(document).ready(function(){
 <body>
 <!-- 操作菜单 -->
 	<div class="head">
-		<div class="path">${tableName!''} &gt; ${tableName!''}</div>
+		<div class="path">${tableName!''}管理</div>
 	</div>
 	<div class="contents">
 <!-- 查询 -->
@@ -40,11 +40,21 @@ jQuery(document).ready(function(){
 <input type="hidden" name="commTabId" id="commTabId" value="${r"${commTabId!''}"}"  />
 <input type="hidden" name="sort" id="page_sort" value="${r"${(page.sort)!'desc'}"}"  />
 <input type="hidden" name="order" id="page_order" value="${r"${(page.order)!'id'}"}"  />
-			<table border="1" class="tb_2">
+		<table class="tb_2">
 			<tr>
-				<td>名称:<input type="text" id="name"  name="name" value="${r"${("}${classNameLowerCase}${r".name)!''}"}" class="inp_2" /></td>
+			
+			<#list table.columns as column>
+			<#if !column.pk>
+			<#if column.isDateTimeColumn>
+			<#assign columnDataValue = "(("+classNameLower+"."+column.columnNameLower+")?string('yyyy-MM-dd'))!'' ">
+			  <td>${column.columnAlias}:<input type="text" id="${column.columnNameFirstLower}" name="${column.columnNameFirstLower}"  onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" readonly="readonly" value="${r"${"}${columnDataValue}${r"}"}"   class="inp_2" /></td>
+			<#else>
+	         <td>${column.columnAlias}:<input type="text" id="${column.columnNameFirstLower}" name="${column.columnNameFirstLower}"  value="${r"${"}(${classNameLower}.${column.columnNameLower})!''${r"}"}"   class="inp_2" /></td>
+	         </#if>
+			 </#if>
+		   </#list>
 				<td>
-					<a href="javascript:submitForm('searchForm');"  class="btn_1" ></a>
+					<input type="button" onclick="submitForm('searchForm');"  value="搜 索" class="btn_search"  />  
 				</td>
 			</tr>
 		</table>
@@ -54,8 +64,8 @@ jQuery(document).ready(function(){
 		<dl class="box_1">
 			<dt>
 				<div>数据</div>
-				<a class="a_1" href="javascript:export_excel('searchForm');">导出</a><div class="img_2"></div>
-				<a class="a_3" href="javascript:f_newTab('add_${classNameLowerCase}','${r"${ctx}"}/${classNameLowerCase}/update/pre');">添加</a><div class="img_2"></div>
+				<a class="a_1" href="javascript:export_excel('searchForm');">导出</a><div class="img_2" ></div>
+				<a class="a_3" href="javascript:f_newTab('add_${classNameLowerCase}','add_${classNameLowerCase}','add_${classNameLowerCase}','${r"${ctx}"}/${classNameLowerCase}/update/pre');">添加</a><div class="img_2" ></div>
 				<a class="a_0" href="javascript:delMulti();">删除选中</a><div class="img_2"></div>
 			</dt>
 			<dd>
@@ -68,7 +78,7 @@ jQuery(document).ready(function(){
 					<tr id="table_first_tr"  bgcolor="#F1F1F1" >
 					<!--first_start_no_export-->
 						<th><input type="checkbox" name="check_all" id="check_all"/></th>
-						<th width="70px;">操作</th>
+						<th width="100px;">操作</th>
 					<!--first_end_no_export-->
 					<#list table.columns as column>
 						<#if !column.pk>
@@ -80,7 +90,7 @@ jQuery(document).ready(function(){
 				<!--first_end_export-->
 				
 				<!--start_export-->
-				  ${r"<#if"} datas??&&((datas?size)>0)>
+				   ${r"<#if"} datas??&&((datas?size)>0)>
 					${r"<#list"} datas as data>
 						<tr>
 				<!--start_no_export-->
@@ -91,8 +101,8 @@ jQuery(document).ready(function(){
 						${r'</#if>'}
 						
 						<td style="text-align:center;">
-								<a href="javascript:f_newTab('${r"${data.id}"}','${r"${ctx}"}/${classNameLowerCase}/update/pre?id=${r"${data.id}"}');">修改</a>
-								  /  <a href="javascript:del${className}('${r"${data.id}"}');">删除</a>
+								<a href="javascript:f_newTab('${r"${data.id}_update"}','${r"${data.id}_update"}','${r"${data.id}_update"}','${r"${ctx}"}/${classNameLowerCase}/update/pre?id=${r"${data.id}"}');">修改</a>
+								  /  <a href="javascript:del${className}('${r"${data.id}"}');">删除</a>/<a href="javascript:f_newTab('${r"${data.id}_look"}','${r"${data.id}_look"}','${r"${data.id}_look"}','${r"${ctx}"}/${classNameLowerCase}/look?id=${r"${data.id}"}');">查看</a>
 						</td>
 				<!--end_no_export-->
 						

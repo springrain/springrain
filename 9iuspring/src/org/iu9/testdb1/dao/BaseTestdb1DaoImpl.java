@@ -61,10 +61,11 @@ public class BaseTestdb1DaoImpl extends BaseJdbcDaoImpl implements IBaseTestdb1D
 
 
 /**
- * 实现父类方法,返回记录日志的Entity接口实现
+ * 实现父类方法,返回记录日志的Entity接口实现,reutrn null 则代表不记录日志
  */
 	@Override
 	public IAuditLog getAuditLog() {
+		//return null;
 		return new AuditLog();
 	}
 	

@@ -37,7 +37,7 @@ import org.iu9.frame.util.SecUtils;
 <#include "/copyright_class.include" >
 @Controller
 @RequestMapping(value="/${classNameLowerCase}")
-public class ${className}Controller  extends BaseController {
+public class ${className}Controller  extends BaseController  {
 	@Resource
 	private I${className}Service ${classNameLower}Service;
 	
@@ -68,34 +68,15 @@ public class ${className}Controller  extends BaseController {
 	*/
 	@RequestMapping("/list")
 	public String list(HttpServletRequest request, Model model,${className} ${classNameLower}) throws Exception{
-		// ==构造分页对象
+		// ==构造分页请求
 		Page page = newPage(request);
 		// ==执行分页查询
 		List<${className}> datas=${classNameLower}Service.findListDataByFinder(null,page,${className}.class,${classNameLower});
-		// ==分页对象封装到前台
 		model.addAttribute("page", page);
-		// ==列表数据封装到前台
 		model.addAttribute("datas",datas);
-		// ==把查询条件重新封装到前台
 		model.addAttribute("${classNameLower}",${classNameLower});
 		return listurl;
 	}
-	
-	
-	/**
-	* 进入${classNameLowerCase} Web页面后直接展现第一页数据,用于初始化发访问,可以设置默认的查询条件
-	*
-	* @param request
-	* @param model
-	* @return
-	* @author Mr.Hao<Auto generate>
-	* @version <#if now??> ${now?string('yyyy-MM-dd HH:mm:ss')}</#if>
-	*/
-	@RequestMapping("/list/pre")
-	public String listpre(HttpServletRequest request, Model model,${className} ${classNameLower}) throws Exception{
-		return list(request, model,${classNameLower});
-	}
-	
 	
 	@RequestMapping("/list/export")
 	public void listexport(HttpServletRequest request,HttpServletResponse response, Model model,${className} ${classNameLower}) throws Exception{
@@ -111,14 +92,25 @@ public class ${className}Controller  extends BaseController {
 	/**
 	 * 查看操作
 	 */
-	@RequestMapping(value="/show")
-	public String show(Model model,HttpServletRequest request,HttpServletResponse response) throws Exception {
+	@RequestMapping(value="/look")
+	public String look(Model model,HttpServletRequest request,HttpServletResponse response) throws Exception {
+	
+	     <#if pkJavaType=="java.lang.String">
 		${pkJavaType} id=request.getParameter("id");
 		if(StringUtils.isNotBlank(id)){
+		<#else>
+		  String  strId=request.getParameter("id");
+		  ${pkJavaType} id=null;
+		  if(StringUtils.isNotBlank(strId)){
+			 id= ${pkJavaType}.valueOf(strId.trim());
+			}
+		
+		</#if>
+		
 		  ${className} ${classNameLower} = ${classNameLower}Service.find${className}ById(id);
 		   model.addAttribute("${classNameLower}",${classNameLower});
 		}
-		return "/${rootPagefloder}/${classNameLowerCase}/${classNameLowerCase}Cru";
+		return "/${rootPagefloder}/${classNameLowerCase}/${classNameLowerCase}Look";
 	}
 	
 	/**
@@ -135,7 +127,11 @@ public class ${className}Controller  extends BaseController {
 	*/
 	@RequestMapping("/update")
 	public String saveorupdate(Model model,${className} ${classNameLower},HttpServletRequest request,HttpServletResponse response) throws Exception{
+		  <#if pkJavaType=="java.lang.String">
 		if(StringUtils.isBlank(${classNameLower}.getId())){// 新增
+		<#else>
+		if(${classNameLower}.getId()!=null){// 新增
+		</#if>
 			<#list table.pkColumns as column>
 				${classNameLower}.set${column.columnName}(SecUtils.getUUID());
 			</#list>
@@ -170,8 +166,17 @@ public class ${className}Controller  extends BaseController {
 	 */
 	@RequestMapping(value="/update/pre")
 	public String edit(Model model,HttpServletRequest request,HttpServletResponse response)  throws Exception{
+		  <#if pkJavaType=="java.lang.String">
 		${pkJavaType} id=request.getParameter("id");
 		if(StringUtils.isNotBlank(id)){
+		<#else>
+		  String  strId=request.getParameter("id");
+		  ${pkJavaType} id=null;
+		  if(StringUtils.isNotBlank(strId)){
+			 id= ${pkJavaType}.valueOf(strId.trim());
+			}
+		
+		</#if>
 		   ${className} ${classNameLower} = ${classNameLower}Service.find${className}ById(id);
 		   model.addAttribute("${classNameLower}",${classNameLower});
 		}
@@ -185,10 +190,18 @@ public class ${className}Controller  extends BaseController {
 	public @ResponseBody CFReturnObject destroy(HttpServletRequest request) throws Exception {
 		// 执行删除
 		try {
-			${pkJavaType} id=request.getParameter("id");
-		    if(StringUtils.isNotBlank(id)){
-			    ${classNameLower}Service.deleteById(id,${className}.class);
-			    return new CFReturnObject(CFReturnObject.SUCCESS, MessageUtils.DELETE_SUCCESS);
+	   <#if pkJavaType=="java.lang.String">
+		${pkJavaType} id=request.getParameter("id");
+		if(StringUtils.isNotBlank(id)){
+		<#else>
+		  String  strId=request.getParameter("id");
+		  ${pkJavaType} id=null;
+		  if(StringUtils.isNotBlank(strId)){
+			 id= ${pkJavaType}.valueOf(strId.trim());
+			}
+		</#if>
+			${classNameLower}Service.deleteById(id,${className}.class);
+			return new CFReturnObject(CFReturnObject.SUCCESS, MessageUtils.DELETE_SUCCESS);
 			}else{
 			    return new CFReturnObject(CFReturnObject.WARNING, MessageUtils.DELETE_WARNING);
 			}
@@ -212,21 +225,64 @@ public class ${className}Controller  extends BaseController {
 	CFReturnObject delMultiRecords(HttpServletRequest request, Model model) {
 		String records = request.getParameter("records");
 		String[] rs = records.split(",");
-		int i = 0;
-		for (String str : rs) {
-			try {
-				${classNameLower}Service.deleteById(str,${className}.class);
-			} catch (Exception e) {
-				if (i > 0) {
-					return new CFReturnObject(CFReturnObject.ERROR, MessageUtils.DELETE_ALL_WARNING);
-				}
-				return new CFReturnObject(CFReturnObject.ERROR, MessageUtils.DELETE_ALL_FAIL);
-			}
-			i++;
+		if(rs==null||rs.length<1){
+		return new CFReturnObject(CFReturnObject.SUCCESS, MessageUtils.DELETE_ALL_SUCCESS);
+		}
+		try {
+		List<String> ids = Arrays.asList(rs);
+		${classNameLower}Service.deleteByIds(ids,${className}.class);
+		}
+		catch (Exception e) {
+			return new CFReturnObject(CFReturnObject.ERROR, MessageUtils.DELETE_ALL_FAIL);
+		
 		}
 		return new CFReturnObject(CFReturnObject.SUCCESS, MessageUtils.DELETE_ALL_SUCCESS);
 	}
-	
+		/**
+	 *  上传文件
+	 * @param uploadFile
+	 * @param request
+	 * @param model
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/upload")
+	public @ResponseBody Map<String,String> upload(@RequestParam MultipartFile uploadFile,
+			HttpServletRequest request, Model model,
+			HttpServletResponse response) throws Exception {
+		String info = "";
+		File destFile = null;
+
+		try {
+			String uploadDirPath = request.getSession().getServletContext()
+					.getRealPath("/upload");
+			File dir = new File(uploadDirPath);
+			if (dir.exists() == false) {
+				dir.mkdirs();
+			}
+			destFile = new File(uploadDirPath + "/"
+					+ uploadFile.getOriginalFilename());
+			FileCopyUtils.copy(uploadFile.getBytes(), destFile);
+		} catch (IOException e) {
+			logger.error(e);
+			info = "上传失败,文件处理异常.";
+		}
+
+		try {
+			info=${classNameLower}Service.saveImportExcelFile(destFile,${className}.class);
+		} catch (Exception e) {
+		    logger.error(e);
+			info = e.getMessage();
+		}
+		if (StringUtils.isBlank(info)) {
+			info = "数据导入成功....";
+		}
+	  Map<String,String> map=new HashMap<String,String>();
+	  map.put("msg", info);
+	  return map;
+
+	}
 	
 	private Page newPage(HttpServletRequest request){
 		//==获取分页信息
@@ -234,7 +290,6 @@ public class ${className}Controller  extends BaseController {
 		String order=request.getParameter("order");
 		String sort=request.getParameter("sort");
 		if(StringUtils.isBlank(order)){
-		//默认页面排序 字段
 		  order="id";
 		}
 		if(StringUtils.isBlank(sort)){
@@ -247,3 +302,4 @@ public class ${className}Controller  extends BaseController {
 		return page;
 	}
 }
+

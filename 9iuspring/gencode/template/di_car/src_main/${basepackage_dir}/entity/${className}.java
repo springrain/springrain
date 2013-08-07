@@ -5,14 +5,14 @@ package ${basepackage}.entity;
 
 <#list table.columns as column>
 	<#if column.isDateTimeColumn>
-import com.centfor.frame.util.DateUtils;
+import org.iu9.frame.util.DateUtils;
 import java.text.ParseException;
 	<#break/>
 	</#if>
 </#list>
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import org.apache.commons.lang3.StringUtils;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import org.iu9.frame.annotation.WhereSQL;
@@ -95,6 +95,11 @@ public class ${className}  extends BaseEntity {
 	
 		</#if>	
 	public void set${column.columnNameFirstUpper}(${column.javaType} value) {
+	     <#if column.javaType=="java.lang.String">
+		    if(StringUtils.isNotBlank(value)){
+			 value=value.trim();
+			}
+		 </#if>
 		this.${column.columnNameFirstLower} = value;
 	}
 	

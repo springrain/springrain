@@ -7,18 +7,22 @@ function submitForm(formName){
 }
 
 
-function f_newTab(tabTitle,tabHref){
-	var now=new Date();
-	var tabId=now.getTime();
-	var iframeId="_iframe_"+tabId;
-	var _fid=getCurrIframeId();
- 	jQuery.cookie(iframeId,_fid,{path:"/"});
-	top.parent.newTab(tabId,iframeId,tabTitle,tabHref);
+function f_newTab(tabId,iframeId,tabTitle,tabHref){
+	 try{
+		var _fid=getCurrIframeId();
+	     //jQuery.cookie(iframeId,_fid,{ expires:1000,path:"/"});
+		jQuery.cookie(iframeId,_fid,{path:"/"});
+		top.parent.qxTabAdd(tabId,iframeId,tabTitle,tabHref,false);
+	 }catch(err){
+	 	 window.location.href=tabHref;
+		 //window.open(tabHref,"_blank" ,"resizable:true");
+		// window.open(tabHref,"_blank");
+	 }
 }
 
 function getCurrIframeId(){
 	var id=null;
-	   jQuery.each(jQuery("iframe",jQuery(self.parent.document.getElementById("easyui_center_tabs"))),function(i,_iframe){
+	   jQuery.each(jQuery("iframe",jQuery(self.parent.document.getElementById("systemTabs"))),function(i,_iframe){
 	            if(window==_iframe.contentWindow){
 	            	id= _iframe.id;
 	             return false;
@@ -33,13 +37,14 @@ function reloadParentFrame(){
 	try{
 	var _fid=getCurrIframeId();
 	var pid=  jQuery.cookie(_fid);
-	//alert(pid);
 	
-	var _iframe=  jQuery("iframe[id='"+pid+"']",jQuery(self.parent.document.getElementById("easyui_center_tabs"))).get(0);
+	var _iframe=  jQuery("iframe[id='"+pid+"']",jQuery(self.parent.document.getElementById("systemTabs"))).get(0);
+	//清除cookie
+         //  jQuery.cookie(_fid,null);
           _iframe.contentWindow.location.reload();
           
 	}catch(e){
-		alert(e);
+		
 	}
 		
     

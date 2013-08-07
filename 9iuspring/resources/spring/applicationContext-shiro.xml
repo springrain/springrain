@@ -15,8 +15,7 @@
 	default-lazy-init="false">
 
 
-
-	<!-- 权限管理器 -->
+<!-- 权限管理器 -->
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
 		<property name="realm" ref="shiroDbRealm" />
 	</bean>
@@ -37,12 +36,12 @@
 			   /images/** = anon
 			   /unauth = anon
 			   /getCaptcha=anon
-			   	/login= anon
+			   	/login = anon
 			   /index = user
-			   /menu/leftMenu=user
 			   /logout = logout
-			   /** = user
-
+			   /menu/leftMenu=user
+			    /**/ajax/** = user
+			   /** = user,frameperms
 			</value>
 		</property>
 		<property name="filters">

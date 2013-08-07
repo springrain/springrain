@@ -60,7 +60,6 @@ public interface IBaseService {
 	 * @throws Exception
 	 */
 	public <T> List<T> queryForList(Finder finder, Class<T> clazz) throws Exception;
-
 	
 	/**
 	 * 调用数据库函数  查询结果是 List<Entity>
@@ -257,6 +256,21 @@ public interface IBaseService {
 	public void deleteById(Object id,Class clazz) throws Exception;
 	
 	/**
+	 * 根据ID批量删除
+	 * @param ids
+	 * @param clazz
+	 * @throws Exception
+	 */
+	public void deleteByIds(List ids,Class clazz) throws Exception;
+	
+	/**
+	 * 根据Entity 删除
+	 * @param IBaseEntity entity
+	 * @throws Exception
+	 */
+	public void deleteByEntity(IBaseEntity entity) throws Exception;
+	
+	/**
 	 * 判断主键是否有值 save or update 对象
 	 * @param entity
 	 * @return
@@ -272,7 +286,14 @@ public interface IBaseService {
 	 * @throws Exception
 	 */
 	public Finder getFinderWhereByQueryBean(Finder finder,Object o) throws Exception;
-	
+	/**
+	 * 根据page对象中sort和order 添加order by 排序,一般用于前台传递的自定义排序
+	 * 
+	 * @param finder
+	 * @param page
+	 * @return
+	 */
+	Finder getFinderOrderBy(Finder finder, Page page) throws Exception;
 	/**
 	 * 导入Excle文件
 	 * @param excel
@@ -282,13 +303,28 @@ public interface IBaseService {
 	 */
 	public <T> String saveImportExcelFile(File excel,Class<T> clazz)throws Exception;
 	
+	
 	/**
-	 * Excel 导入时会循环调用该方法
-	 * @param entity
+	 * 导入Excle文件
+	 * @param excel
+	 * @param clazz
 	 * @return
 	 * @throws Exception
 	 */
-   public String saveFromExcel(Object entity) throws Exception;
+	public <T> String saveImportExcelFile(File excel,Class<T> clazz,boolean istest)throws Exception;
+	
+	
+	
+	/**
+	 * Excel 导入时会循环调用该方法
+	 * @param entity
+	 * @param index TODO
+	 * @param listTitle TODO
+	 * @param issave TODO
+	 * @return
+	 * @throws Exception
+	 */
+   public String saveFromExcel(Object entity, int index, boolean istest, List<String> listTitle) throws Exception;
 
 
 }

@@ -11,8 +11,8 @@ import java.lang.annotation.Target;
 
 /**
  *  用于Entity的注解,当主键值为空时,主要是用于数据库sequence取值
- * @copyright {@link erp.centfor.com}
- * @author centfor<zhengyongsheng@centfor.com>
+ * @copyright {@link 9iu.org}
+ * @author 9iuspring<9iuorg@gmail.com>
  * @version  2013-03-19 11:08:15
  * @see com.centfor.frame.annotation.PKSequence
  */
