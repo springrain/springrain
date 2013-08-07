@@ -12,12 +12,10 @@
 	       try{
 	           var mesg = "${(message)!''}";
 	           	 if(mesg != null && mesg != "")
-	             	alert(mesg);
+	           	alert(mesg);
 	           	try{
-	           		//刷新列表
 	           		reloadParentFrame();
-	           		top.parent.closeActiveTab();
-
+	         	   self.parent.qxTabClose();
 	           	}catch(e){
 	           	//alert(e);
 	           	} 
