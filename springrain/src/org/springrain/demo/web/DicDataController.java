@@ -26,6 +26,7 @@ import org.springrain.demo.entity.DicData;
 import org.springrain.demo.service.IDicDataService;
 import org.springrain.frame.controller.BaseController;
 import org.springrain.frame.util.CFReturnObject;
+import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.MessageUtils;
 import org.springrain.frame.util.Page;
@@ -247,28 +248,17 @@ public class DicDataController  extends BaseController {
 		return datas;
 		
 	}	
-	@RequestMapping("/{pathtypekey}/ajax/findDic_forQxColumns")
-	public @ResponseBody List<Map<String, Object>> findAjaxForQxColumn(@PathVariable String pathtypekey)throws Exception{
-		if(StringUtils.isBlank(pathtypekey)){
-			return null;
-		}
-		List<String> list=dicDataService.findAjax(pathtypekey);
-		if(CollectionUtils.isEmpty(list)){
-			return null;
-		}
-		List<Map<String, Object>> datas=new ArrayList<Map<String,Object>>();
-		Map<String, Object> map=null;
-		for(String str:list){
-			map=new HashMap<String, Object>();
-			map.put("text", str+"-查看");
-			datas.add(map);
-			map=new HashMap<String, Object>();
-			map.put("text", str+"-修改");
-			datas.add(map);
-		}
-		return datas;
+	
+	@RequestMapping(value="/{pathtypekey}/ajax/findjson")
+	public @ResponseBody List<DicData> findAjaxJSON(@PathVariable String pathtypekey)throws Exception{
+		org.springrain.frame.util.Finder finder=new Finder("select * from t_dic_data where state='是' and typekey=:typekey ");
+		finder.setParam("typekey", pathtypekey);
+		List<DicData> dicdatas=dicDataService.queryForList(finder, DicData.class);
+		return dicdatas;
 		
-	}	
+	}
+	
+	
 	
 	private Page newPage(HttpServletRequest request){
 		//==获取分页信息

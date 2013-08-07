@@ -16,9 +16,7 @@ public class BaseEntity  implements IBaseEntity {
 
 	private static final long serialVersionUID = 1L;
 	
-	private int page = 1;     //页数
 
-	private int rows = 10;	  //行数
 	
 	/**
 	 * 表的别名,用于处理复杂的where 条件拼接
@@ -47,33 +45,7 @@ public class BaseEntity  implements IBaseEntity {
 		this.frameTableAlias = frameTableAlias;
 	}
 
-	/**
-	 * @return 获取 page
-	 */
-	public int getPage() {
-		return page;
-	}
-
-	/**
-	 * @param 设置 page
-	 */
-	public void setPage(int page) {
-		this.page = page;
-	}
-
-	/**
-	 * @return 获取 rows
-	 */
-	public int getRows() {
-		return rows;
-	}
-
-	/**
-	 * @param 设置 rows
-	 */
-	public void setRows(int rows) {
-		this.rows = rows;
-	}
+	
 
 	
 }

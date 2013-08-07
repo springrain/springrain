@@ -72,7 +72,7 @@ public class UserController  extends BaseController {
 		// ==构造分页请求
 		Page page = newPage(request);
 		// ==执行分页查询
-		Finder finder=new Finder("select tu.*,tg.name as gradeName from t_user tu,t_grade tg where tu.gradeId=tg.id");
+		Finder finder=new Finder("select tu.*,tg.name as gradeName from t_user tu,t_dic_data tg where tu.gradeId=tg.id and tg.typekey='grade' ");
 		user.setFrameTableAlias("tu");
 		List<User> datas=userService.findListDataByFinder(finder,page,User.class,user);
 		model.addAttribute("page", page);

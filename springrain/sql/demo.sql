@@ -177,8 +177,7 @@ CREATE TABLE `t_user` (
    `firePhone` varchar(30) DEFAULT NULL COMMENT '紧急联系电话',
  `description` varchar(2000) DEFAULT NULL COMMENT '备注',
   `state` varchar(10) DEFAULT '是' COMMENT '是否有效,是/否/离职',
-  PRIMARY KEY (`id`),
-  CONSTRAINT `fk_t_user_gradeId_t_grade_id` FOREIGN KEY (`gradeId`) REFERENCES `t_grade` (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户';
 
 -- ----------------------------
@@ -273,6 +272,17 @@ insert into t_menu values('t_org_delete','删除部门', 't_org_list', null,'/or
 INSERT INTO `t_role_menu` VALUES ('t_org_delMulti_admin', 'admin', 't_org_delMulti');
 INSERT INTO `t_role_menu` VALUES ('t_org_delete_admin', 'admin', 't_org_delete');
 
+insert into t_menu values('t_user_list','用户管理', 'business_manager', null,'/user/list','1','是');
+insert into t_menu values('t_user_update','修改用户', 't_user_list', null,'/user/update','0','是');
+insert into t_menu values('t_user_look','查看用户', 't_user_list', null,'/user/look','0','是');
+INSERT INTO `t_role_menu` VALUES ('t_user_list_admin', 'admin', 't_user_list');
+INSERT INTO `t_role_menu` VALUES ('t_user_update_admin', 'admin', 't_user_update');
+INSERT INTO `t_role_menu` VALUES ('t_user_look_admin', 'admin', 't_user_look');
+insert into t_menu values('t_user_delMulti','批量删除用户', 't_user_list', null,'/user/delMulti','0','是');
+insert into t_menu values('t_user_delete','删除用户', 't_user_list', null,'/user/delete','0','是');
+INSERT INTO `t_role_menu` VALUES ('t_user_delMulti_admin', 'admin', 't_user_delMulti');
+INSERT INTO `t_role_menu` VALUES ('t_user_delete_admin', 'admin', 't_user_delete');
+
 
 insert into t_menu values('t_role_list','角色管理', 'dic_manager', null,'/role/list','1','是');
 insert into t_menu values('t_role_update','修改角色', 't_role_list', null,'/role/update','0','是');
@@ -286,16 +296,7 @@ INSERT INTO `t_role_menu` VALUES ('t_role_delMulti_admin', 'admin', 't_role_delM
 INSERT INTO `t_role_menu` VALUES ('t_role_delete_admin', 'admin', 't_role_delete');
 
 
-insert into t_menu values('t_user_list','用户管理', 'system_manager', null,'/user/list','1','是');
-insert into t_menu values('t_user_update','修改用户', 't_user_list', null,'/user/update','0','是');
-insert into t_menu values('t_user_look','查看用户', 't_user_list', null,'/user/look','0','是');
-INSERT INTO `t_role_menu` VALUES ('t_user_list_admin', 'admin', 't_user_list');
-INSERT INTO `t_role_menu` VALUES ('t_user_update_admin', 'admin', 't_user_update');
-INSERT INTO `t_role_menu` VALUES ('t_user_look_admin', 'admin', 't_user_look');
-insert into t_menu values('t_user_delMulti','批量删除用户', 't_user_list', null,'/user/delMulti','0','是');
-insert into t_menu values('t_user_delete','删除用户', 't_user_list', null,'/user/delete','0','是');
-INSERT INTO `t_role_menu` VALUES ('t_user_delMulti_admin', 'admin', 't_user_delMulti');
-INSERT INTO `t_role_menu` VALUES ('t_user_delete_admin', 'admin', 't_user_delete');
+
 
 
 insert into t_menu values('t_dic_data_xueli_list','学历管理', 'dic_manager', null,'/dicdata/xueli/list','1','是');

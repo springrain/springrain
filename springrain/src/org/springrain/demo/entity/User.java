@@ -113,18 +113,7 @@ public class User  extends BaseEntity {
 	 * 学历
 	 */
 	private java.lang.String eduName;
-	/**
-	 * 入职日期
-	 */
-	private java.util.Date entryDate;
-	/**
-	 * 转正日期
-	 */
-	private java.util.Date startDate;
-	/**
-	 * 离职日期
-	 */
-	private java.util.Date endDate;
+
 	/**
 	 * 紧急联系人
 	 */
@@ -336,29 +325,7 @@ public class User  extends BaseEntity {
 			this.eduName = eduName;
 		}
 
-		public java.util.Date getEntryDate() {
-			return entryDate;
-		}
-
-		public void setEntryDate(java.util.Date entryDate) {
-			this.entryDate = entryDate;
-		}
-
-		public java.util.Date getStartDate() {
-			return startDate;
-		}
-
-		public void setStartDate(java.util.Date startDate) {
-			this.startDate = startDate;
-		}
-
-		public java.util.Date getEndDate() {
-			return endDate;
-		}
-
-		public void setEndDate(java.util.Date endDate) {
-			this.endDate = endDate;
-		}
+		
 
 		public void setFireName(java.lang.String value) {
 			    if(StringUtils.isNotBlank(value)){
@@ -421,9 +388,6 @@ public class User  extends BaseEntity {
 			.append("地址[").append(getAddress()).append("],")
 			.append("级别[").append(getGradeId()).append("],")
 			.append("学历[").append(getEduName()).append("],")
-			.append("入职日期[").append(getEntryDate()).append("],")
-			.append("转正日期[").append(getStartDate()).append("],")
-			.append("离职日期[").append(getEndDate()).append("],")
 			.append("紧急联系人[").append(getFireName()).append("],")
 			.append("紧急联系电话[").append(getFirePhone()).append("],")
 			.append("备注[").append(getDescription()).append("],")

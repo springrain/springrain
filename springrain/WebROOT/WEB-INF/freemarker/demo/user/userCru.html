@@ -1,8 +1,8 @@
 
 <@h.easyui />
 <script type="text/javascript" src="${ctx}/js/demo/user/userCru.js"></script>
-<script type="text/javascript" src="${ctx}/js/common/jquery.checkbox.js"></script>  
-<script type="text/javascript" src="${ctx}/js/common/jquery.dmselect.js"></script>  
+<script type="text/javascript" src="${ctx}/js/plugins/jquery.checkbox.js"></script>  
+<script type="text/javascript" src="${ctx}/js/plugins/jquery.dmselect.js"></script>  
 
 <script type="text/javascript">
 jQuery(document).ready(function(){
@@ -17,7 +17,7 @@ jQuery(document).ready(function(){
 		jQuery('#state').val(state);
 	</#if>
 	
-	addOption("gradeId","${ctx}/grade/ajax/find_grade_json",'name','id',gradeId);
+	addOption("gradeId","${ctx}/dicdata/grade/ajax/findjson",'name','id',gradeId);
 	jQuery("#roleIdNames").dmselect("${ctx}/role/ajax/find_role_json",{hiddenId:"roleIds",checkboxName:"role_id",id:"id",ajaxValue:"name"});
 	
 	//addOption("roleId","${ctx}/role/find_role_json",'name','id',gradeId);
@@ -171,9 +171,9 @@ if(flag){
 					<td>
 					<input type="text" id="description" name="description" value="${(user.description)!''}" maxlength="65535"    />
 					</td>	
-				
+				<th></th><td></td>
 			</tr>
-			<tr style="border:none"><td colspan="4" align="right" style="text-align: right;border:none"><input type="button" onclick="submitUpdateForm();" class="btn_7"/></td></tr>
+			
 	</table>
-	
+	<input type="button" onclick="submitUpdateForm();" class="btn_7"/>
 </form>
