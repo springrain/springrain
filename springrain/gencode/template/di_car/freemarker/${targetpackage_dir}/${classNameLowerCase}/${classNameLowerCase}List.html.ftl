@@ -64,9 +64,15 @@ jQuery(document).ready(function(){
 		<dl class="box_1">
 			<dt>
 				<div>数据</div>
+				${r"<@shiro.hasPermission"} name="/${classNameLowerCase}/list/export" >
 				<a class="a_1" href="javascript:export_excel('searchForm');">导出</a><div class="img_2" ></div>
+				${r"</@shiro.hasPermission>"}
+				${r"<@shiro.hasPermission"} name="/${classNameLowerCase}/update" >
 				<a class="a_3" href="javascript:f_newTab('add_${classNameLowerCase}','add_${classNameLowerCase}','add_${classNameLowerCase}','${r"${ctx}"}/${classNameLowerCase}/update/pre');">添加</a><div class="img_2" ></div>
+				${r"</@shiro.hasPermission>"}
+				${r"<@shiro.hasPermission"} name="/${classNameLowerCase}/delMulti" >
 				<a class="a_0" href="javascript:delMulti();">删除选中</a><div class="img_2"></div>
+				${r"</@shiro.hasPermission>"}
 			</dt>
 			<dd>
 			
