@@ -16,13 +16,13 @@ import org.springrain.frame.util.Finder;
 public class BaseDemoServiceImpl extends BaseServiceImpl implements IBaseDemoService {
 	
 	@Resource
-	IBaseJdbcDao baseSpringrainDao;
+	IBaseJdbcDao baseDemoDao;
 	
 	public BaseDemoServiceImpl(){}
 
 	@Override
 	public IBaseJdbcDao getBaseDao() {
-		return baseSpringrainDao;
+		return baseDemoDao;
 	}
 
 	/**

@@ -1,15 +1,11 @@
 package org.springrain.demo.service.impl;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
-import org.springrain.demo.entity.Role;
 import org.springrain.demo.entity.User;
 import org.springrain.demo.service.BaseDemoServiceImpl;
 import org.springrain.demo.service.IUserService;
