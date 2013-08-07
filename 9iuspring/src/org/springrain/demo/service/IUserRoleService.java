@@ -12,7 +12,7 @@ import org.springrain.frame.util.Page;
  * @version  2013-07-29 11:36:48
  * @see org.springrain.demo.service.UserRole
  */
-public interface IUserRoleService extends IBaseSpringrainService {
+public interface IUserRoleService extends IBaseDemoService {
 	
 	/**
 	 * 根据ID查找

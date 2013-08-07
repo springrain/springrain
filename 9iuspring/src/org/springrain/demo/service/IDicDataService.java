@@ -12,7 +12,7 @@ import org.springrain.frame.util.Page;
  * @version  2013-07-31 15:56:45
  * @see org.springrain.demo.service.DicData
  */
-public interface IDicDataService extends IBaseSpringrainService {
+public interface IDicDataService extends IBaseDemoService {
 	
 	/**
 	 * 根据ID查找

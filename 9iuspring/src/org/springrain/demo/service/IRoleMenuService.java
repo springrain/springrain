@@ -12,7 +12,7 @@ import org.springrain.frame.util.Page;
  * @version  2013-07-29 11:36:47
  * @see org.springrain.demo.service.RoleMenu
  */
-public interface IRoleMenuService extends IBaseSpringrainService {
+public interface IRoleMenuService extends IBaseDemoService {
 	
 	/**
 	 * 根据ID查找

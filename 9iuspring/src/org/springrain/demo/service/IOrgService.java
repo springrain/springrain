@@ -9,7 +9,7 @@ import org.springrain.demo.entity.Org;
  * @version  2013-07-06 16:02:58
  * @see org.springrain.demo.service.Org
  */
-public interface IOrgService extends IBaseSpringrainService {
+public interface IOrgService extends IBaseDemoService {
 /**
 	 * 保存 
 	 * @param entity

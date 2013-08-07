@@ -2,7 +2,7 @@ package org.springrain.demo.service.impl;
 
 import org.springframework.stereotype.Service;
 import org.springrain.frame.service.IBaseService;
-import org.springrain.demo.service.BaseSpringrainServiceImpl;
+import org.springrain.demo.service.BaseDemoServiceImpl;
 import org.springrain.demo.entity.RoleMenu;
 import org.springrain.demo.service.IRoleMenuService;
 import java.util.List;
@@ -20,7 +20,7 @@ import org.springrain.frame.util.Finder;
  * @see org.springrain.demo.service.impl.RoleMenu
  */
 @Service("roleMenuService")
-public class RoleMenuServiceImpl extends BaseSpringrainServiceImpl implements IRoleMenuService {
+public class RoleMenuServiceImpl extends BaseDemoServiceImpl implements IRoleMenuService {
 
    
     @Override

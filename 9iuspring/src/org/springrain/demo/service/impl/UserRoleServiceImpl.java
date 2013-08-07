@@ -2,7 +2,7 @@ package org.springrain.demo.service.impl;
 
 import org.springframework.stereotype.Service;
 import org.springrain.frame.service.IBaseService;
-import org.springrain.demo.service.BaseSpringrainServiceImpl;
+import org.springrain.demo.service.BaseDemoServiceImpl;
 import org.springrain.demo.entity.UserRole;
 import org.springrain.demo.service.IUserRoleService;
 import java.util.List;
@@ -20,7 +20,7 @@ import org.springrain.frame.util.Finder;
  * @see org.springrain.demo.service.impl.UserRole
  */
 @Service("userRoleService")
-public class UserRoleServiceImpl extends BaseSpringrainServiceImpl implements IUserRoleService {
+public class UserRoleServiceImpl extends BaseDemoServiceImpl implements IUserRoleService {
 
    
     @Override

@@ -11,7 +11,7 @@ import org.springrain.demo.entity.Menu;
  * @version  2013-07-06 16:02:58
  * @see org.springrain.demo.service.Menu
  */
-public interface IMenuService extends IBaseSpringrainService {
+public interface IMenuService extends IBaseDemoService {
 /**
 	 * 保存 
 	 * @param entity

@@ -12,7 +12,7 @@ import org.springrain.frame.util.Page;
  * @version  2013-07-29 11:36:44
  * @see org.springrain.demo.service.Fwlog
  */
-public interface IFwlogService extends IBaseSpringrainService {
+public interface IFwlogService extends IBaseDemoService {
 	
 	/**
 	 * 根据ID查找

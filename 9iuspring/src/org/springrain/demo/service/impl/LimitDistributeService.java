@@ -6,13 +6,13 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import org.springrain.demo.service.BaseSpringrainServiceImpl;
+import org.springrain.demo.service.BaseDemoServiceImpl;
 import org.springrain.demo.service.ILimitDistributeService;
 import org.springrain.frame.dao.IBaseJdbcDao;
 import org.springrain.frame.util.Finder;
 
 @Service("limitDistributeService")
-public class LimitDistributeService extends BaseSpringrainServiceImpl implements ILimitDistributeService{
+public class LimitDistributeService extends BaseDemoServiceImpl implements ILimitDistributeService{
 
 	@Resource
 	IBaseJdbcDao basedhxDao;

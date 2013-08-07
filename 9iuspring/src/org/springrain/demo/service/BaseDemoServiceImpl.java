@@ -12,13 +12,13 @@ import org.springrain.frame.service.BaseServiceImpl;
 import org.springrain.frame.util.Finder;
 
 
-@Service("baseSpringrainService")
-public class BaseSpringrainServiceImpl extends BaseServiceImpl implements IBaseSpringrainService {
+@Service("baseDemoService")
+public class BaseDemoServiceImpl extends BaseServiceImpl implements IBaseDemoService {
 	
 	@Resource
 	IBaseJdbcDao baseSpringrainDao;
 	
-	public BaseSpringrainServiceImpl(){}
+	public BaseDemoServiceImpl(){}
 
 	@Override
 	public IBaseJdbcDao getBaseDao() {

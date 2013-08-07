@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import org.springrain.demo.entity.Fwlog;
-import org.springrain.demo.service.BaseSpringrainServiceImpl;
+import org.springrain.demo.service.BaseDemoServiceImpl;
 import org.springrain.demo.service.IFwlogService;
 import org.springrain.frame.entity.IBaseEntity;
 import org.springrain.frame.util.Finder;
@@ -21,7 +21,7 @@ import org.springrain.frame.util.Page;
  * @see org.springrain.demo.service.impl.Fwlog
  */
 @Service("fwlogService")
-public class FwlogServiceImpl extends BaseSpringrainServiceImpl implements IFwlogService {
+public class FwlogServiceImpl extends BaseDemoServiceImpl implements IFwlogService {
 
    
     @Override

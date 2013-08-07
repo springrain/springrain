@@ -11,7 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springrain.demo.entity.Role;
 import org.springrain.demo.entity.User;
-import org.springrain.demo.service.BaseSpringrainServiceImpl;
+import org.springrain.demo.service.BaseDemoServiceImpl;
 import org.springrain.demo.service.IUserService;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.Page;
@@ -24,7 +24,7 @@ import org.springrain.frame.util.Page;
  * @see org.springrain.demo.service.impl.User
  */
 @Service("userService")
-public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserService {
+public class UserServiceImpl extends BaseDemoServiceImpl implements IUserService {
 
    
     @Override

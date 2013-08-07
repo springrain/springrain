@@ -7,8 +7,8 @@ import org.springrain.frame.dao.IBaseJdbcDao;
  * @copyright {@link 9iu.org}
  * @author springrain<Auto generate>
  * @version  2013-03-19 11:08:15
- * @see org.springrain.demo.dao.BaseSpringrainDaoImpl
+ * @see org.springrain.demo.dao.BaseDemoDaoImpl
  */
-public interface IBaseSpringrainDao extends IBaseJdbcDao {
+public interface IBaseDemoDao extends IBaseJdbcDao {
 
 }

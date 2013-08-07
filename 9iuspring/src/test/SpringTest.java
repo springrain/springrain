@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springrain.demo.entity.User;
-import org.springrain.demo.service.IBaseSpringrainService;
+import org.springrain.demo.service.IBaseDemoService;
 import org.springrain.frame.util.Finder;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -15,7 +15,7 @@ import org.springrain.frame.util.Finder;
 public class SpringTest  {
 	
 	@Resource
-	private IBaseSpringrainService basedemoService;
+	private IBaseDemoService basedemoService;
 	
 	@Test
 	public void testSelectUser() throws Exception{

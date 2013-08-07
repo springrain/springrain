@@ -5,7 +5,7 @@ package ${basepackage}.entity;
 
 <#list table.columns as column>
 	<#if column.isDateTimeColumn>
-import org.springrainframe.util.DateUtils;
+import org.springrain.frame.util.DateUtils;
 import java.text.ParseException;
 	<#break/>
 	</#if>
@@ -15,9 +15,9 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.StringUtils;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import org.springrainframe.annotation.WhereSQL;
+import org.springrain.frame.annotation.WhereSQL;
 
-import org.springrainframe.entity.BaseEntity;
+import org.springrain.frame.entity.BaseEntity;
 <#include "/copyright_class.include" >
 @Table(name="${table.sqlName}")
 public class ${className}  extends BaseEntity {

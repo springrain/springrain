@@ -8,7 +8,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import org.springrain.demo.entity.Role;
-import org.springrain.demo.service.BaseSpringrainServiceImpl;
+import org.springrain.demo.service.BaseDemoServiceImpl;
 import org.springrain.demo.service.IRoleService;
 import org.springrain.demo.service.IUserRoleMenuService;
 import org.springrain.frame.util.Finder;
@@ -22,7 +22,7 @@ import org.springrain.frame.util.Page;
  * @see org.springrain.demo.service.impl.Role
  */
 @Service("roleService")
-public class RoleServiceImpl extends BaseSpringrainServiceImpl implements IRoleService {
+public class RoleServiceImpl extends BaseDemoServiceImpl implements IRoleService {
 	@Resource
 private IUserRoleMenuService userRoleMenuService;
    

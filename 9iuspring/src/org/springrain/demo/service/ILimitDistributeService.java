@@ -12,7 +12,7 @@ import org.springrain.frame.util.Page;
  * @version  2013-07-29 11:36:44
  * @see org.springrain.demo.service.Fwlog
  */
-public interface ILimitDistributeService extends IBaseSpringrainService {
+public interface ILimitDistributeService extends IBaseDemoService {
 	
 public void update(String roleId,String[] menus)throws Exception;	
 	

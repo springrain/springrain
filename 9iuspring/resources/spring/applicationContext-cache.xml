@@ -28,7 +28,7 @@
 			<set>
 				<bean
 					class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
-					<property name="name" value="9iucache" />
+					<property name="name" value="springraincache" />
 				</bean>
 				
 			</set>

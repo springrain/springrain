@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springrain.demo.entity.Menu;
 import org.springrain.demo.entity.Role;
 import org.springrain.demo.entity.User;
-import org.springrain.demo.service.BaseSpringrainServiceImpl;
+import org.springrain.demo.service.BaseDemoServiceImpl;
 import org.springrain.demo.service.IUserRoleMenuService;
 import org.springrain.frame.util.Finder;
 
@@ -24,7 +24,7 @@ import org.springrain.frame.util.Finder;
  * @see org.springrain.demo.service.impl.UserRole
  */
 @Service("userRoleMenuService")
-public class UserRoleMenuServiceImpl extends BaseSpringrainServiceImpl implements
+public class UserRoleMenuServiceImpl extends BaseDemoServiceImpl implements
 		IUserRoleMenuService {
 
 	@Override

@@ -14,7 +14,7 @@ import org.springrain.demo.entity.User;
  * @version  2013-07-06 16:03:00
  * @see org.springrain.demo.service.UserRole
  */
-public interface IUserRoleMenuService extends IBaseSpringrainService {
+public interface IUserRoleMenuService extends IBaseDemoService {
 /**
  * 根据用户ID 获取角色
  * @param UserId

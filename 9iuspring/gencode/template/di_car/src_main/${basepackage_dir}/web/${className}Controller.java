@@ -8,8 +8,11 @@ package  ${basepackage}.web;
 import java.util.Date;
 import java.util.List;
 import java.io.File;
-import org.springrainframe.util.Page;
-import org.springrainframe.util.GlobalStatic;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,20 +27,25 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.util.FileCopyUtils;
 
 import ${basepackage}.entity.${className};
 import ${basepackage}.service.I${className}Service;
-import org.springrainframe.controller.BaseController;
-import org.springrainframe.util.MessageUtils;
-import org.springrainframe.util.CFReturnObject;
-import org.springrainframe.util.SecUtils;
+import org.springrain.frame.controller.BaseController;
+import org.springrain.frame.util.MessageUtils;
+import org.springrain.frame.util.CFReturnObject;
+import org.springrain.frame.util.SecUtils;
+import org.springrain.frame.util.GlobalStatic;
+import org.springrain.frame.util.Page;
 <#assign myParentDir="web">
 
 
 <#include "/copyright_class.include" >
 @Controller
 @RequestMapping(value="/${classNameLowerCase}")
-public class ${className}Controller  extends BaseController  {
+public class ${className}Controller  extends BaseController {
 	@Resource
 	private I${className}Service ${classNameLower}Service;
 	
@@ -302,4 +310,3 @@ public class ${className}Controller  extends BaseController  {
 		return page;
 	}
 }
-

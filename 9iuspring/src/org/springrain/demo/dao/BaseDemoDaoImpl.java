@@ -15,10 +15,10 @@ import org.springrain.frame.entity.IAuditLog;
  * @copyright {@link 9iu.org}
  * @author springrain<Auto generate>
  * @version  2013-03-19 11:08:15
- * @see org.springrain.demo.dao.BaseSpringrainDaoImpl
+ * @see org.springrain.demo.dao.BaseDemoDaoImpl
  */
-@Repository("baseSpringrainDao")
-public class BaseSpringrainDaoImpl extends BaseJdbcDaoImpl implements IBaseSpringrainDao{
+@Repository("baseDemoDao")
+public class BaseDemoDaoImpl extends BaseJdbcDaoImpl implements IBaseDemoDao{
 
 	/**
 	 * demo  数据库的jdbc,对应 spring配置的 jdbc bean
@@ -40,7 +40,7 @@ public class BaseSpringrainDaoImpl extends BaseJdbcDaoImpl implements IBaseSprin
 		return mysqlDialect;
 	}
 
-	public BaseSpringrainDaoImpl() {
+	public BaseDemoDaoImpl() {
 	}
 
 

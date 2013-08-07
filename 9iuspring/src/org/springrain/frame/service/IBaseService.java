@@ -16,7 +16,7 @@ import org.springrain.frame.util.SpringUtils;
 
 /**
  * 基础的Service接口,所有的Service都必须实现此接口,每个数据库都需要一个实现.</br> 
- * 例如 demo数据的实现接口是org.springrain.demo.service.IBaseCerpService,demo2数据的实现接口是org.springraindemo2.service.IBasedemo2Service</br>
+ * 例如 demo数据的实现接口是org.springrain.demo.service.IBaseSpringrainService,demo2数据的实现接口是org.springraindemo2.service.IBasedemo2Service</br>
  * 
  * @copyright {@link 9iu.org}
  * @author springrain<Auto generate>

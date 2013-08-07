@@ -29,7 +29,7 @@
 	
 
 		<!-- 扫描的包路径 去掉mvc的注解-->
-	<context:component-scan base-package="org.iu9">
+	<context:component-scan base-package="org.springrain">
 	<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 </context:component-scan>
 </beans>

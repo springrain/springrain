@@ -3,7 +3,7 @@ package org.springrain.demo.service.impl;
 import org.springframework.stereotype.Service;
 
 import org.springrain.frame.service.IBaseService;
-import org.springrain.demo.service.BaseSpringrainServiceImpl;
+import org.springrain.demo.service.BaseDemoServiceImpl;
 import org.springrain.demo.entity.DicData;
 import org.springrain.demo.service.IDicDataService;
 
@@ -23,7 +23,7 @@ import org.springrain.frame.util.Finder;
  * @see org.springrain.demo.service.impl.DicData
  */
 @Service("dicDataService")
-public class DicDataServiceImpl extends BaseSpringrainServiceImpl implements IDicDataService {
+public class DicDataServiceImpl extends BaseDemoServiceImpl implements IDicDataService {
 
    
     @Override

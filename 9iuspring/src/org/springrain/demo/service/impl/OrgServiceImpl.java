@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import org.springrain.demo.entity.Org;
-import org.springrain.demo.service.BaseSpringrainServiceImpl;
+import org.springrain.demo.service.BaseDemoServiceImpl;
 import org.springrain.demo.service.IOrgService;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.Page;
@@ -19,7 +19,7 @@ import org.springrain.frame.util.Page;
  * @see org.springrain.demo.service.impl.Org
  */
 @Service("orgService")
-public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgService {
+public class OrgServiceImpl extends BaseDemoServiceImpl implements IOrgService {
 
    
     @Override

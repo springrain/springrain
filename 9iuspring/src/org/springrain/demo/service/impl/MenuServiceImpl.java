@@ -10,7 +10,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import org.springrain.demo.entity.Menu;
-import org.springrain.demo.service.BaseSpringrainServiceImpl;
+import org.springrain.demo.service.BaseDemoServiceImpl;
 import org.springrain.demo.service.IMenuService;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
@@ -25,7 +25,7 @@ import org.springrain.frame.util.Page;
  * @see org.springrain.demo.service.impl.Menu
  */
 @Service("menuService")
-public class MenuServiceImpl extends BaseSpringrainServiceImpl implements
+public class MenuServiceImpl extends BaseDemoServiceImpl implements
 		IMenuService {
 
 	@Override
