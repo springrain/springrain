@@ -1,8 +1,8 @@
 package org.springrain.frame.common;
 
-import javax.servlet.http.HttpSession;
-
-import org.springrain.frame.interceptor.FWInterceptor;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
+import org.springrain.frame.shiro.ShiroUser;
 
 
 
@@ -19,39 +19,51 @@ public class SessionUser {
 	public SessionUser() {
 	}
 
-	public static HttpSession getSession() {
-		HttpSession session = FWInterceptor.sessionLocal.get();
-		return session;
+	public static ShiroUser getShiroUser() {
+		Subject user = SecurityUtils.getSubject();
+		if(user==null){
+			return null;
+		}
+		ShiroUser shiroUser = (ShiroUser) user.getPrincipals().getPrimaryPrincipal();
+		if(shiroUser==null){
+			return null;
+		}
+		return shiroUser;
 	}
 	
-	private static String getSessionAttribute(String key){
-		HttpSession session = FWInterceptor.sessionLocal.get();
-		if(session==null)
-		return null;
-		Object obj =  session.getAttribute(key);
-		if(obj!=null)
-			return obj.toString();
-		return null;
-	}
+
 
 	public static  String getUserId() {
-		return getSessionAttribute("9iu_session_userId");
+		ShiroUser shiroUser=getShiroUser();
+		if(shiroUser==null){
+			return null;
+		}
+		return shiroUser.getId();
 	}
 
 	public static String getUserCode() {
-		return getSessionAttribute("9iu_session_userCode");
+		ShiroUser shiroUser=getShiroUser();
+		if(shiroUser==null){
+			return null;
+		}
+		return shiroUser.getAccount();
 	
 	}
 
 	public static String getUserName() {
-		return getSessionAttribute("9iu_session_userName");
+		ShiroUser shiroUser=getShiroUser();
+		if(shiroUser==null){
+			return null;
+		}
+		return shiroUser.getName();
 	}
 
 	public static String getEmail() {
-		return getSessionAttribute("9iu_session_email");
+		ShiroUser shiroUser=getShiroUser();
+		if(shiroUser==null){
+			return null;
+		}
+		return shiroUser.getEamil();
 	}
-
-	
-
 
 }
