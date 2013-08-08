@@ -15,13 +15,13 @@ import org.springrain.frame.util.Finder;
 public class SpringTest  {
 	
 	@Resource
-	private IBaseDemoService basedemoService;
+	private IBaseDemoService baseDemoService;
 	
 	@Test
 	public void testSelectUser() throws Exception{
 		Finder finder=new Finder("SELECT * FROM t_user WHERE  id=:id order by id desc ");
 		finder.setParam("id", "admin");
-		User user = basedemoService.queryForObject(finder,User.class);
+		User user = baseDemoService.queryForObject(finder,User.class);
 		System.out.println(user.getName());
 	}
 
