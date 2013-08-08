@@ -182,8 +182,6 @@ public class ${className}Controller  extends BaseController {
 		  ${pkJavaType} id=null;
 		  if(StringUtils.isNotBlank(strId)){
 			 id= ${pkJavaType}.valueOf(strId.trim());
-			}
-		
 		</#if>
 		   ${className} ${classNameLower} = ${classNameLower}Service.find${className}ById(id);
 		   model.addAttribute("${classNameLower}",${classNameLower});
