@@ -1,17 +1,17 @@
-项目名为9iuspring,因git@osc不支持数字开头的项目名称,所以用了 spring9iu,我的个人博客是 9iu.org,项目因此得名
+项目名为springrain[春雨]我的个人博客是 9iu.org
 #文档
-http://git.oschina.net/chunanyong/spring9iu/raw/master/9iuspring/doc/9iuspring.pdf
+http://git.oschina.net/chunanyong/springrain/raw/master/springrain/doc/springrain.pdf
 #代码生成器
-http://git.oschina.net/chunanyong/spring9iu/tree/master/9iuspring/gencode
+http://git.oschina.net/chunanyong/springrain/tree/master/springrain/gencode
 #sql脚本
-http://git.oschina.net/chunanyong/spring9iu/tree/master/9iuspring/sql
+http://git.oschina.net/chunanyong/springrain/tree/master/springrain/sql
 
 
-9iuspring是spring的极简封装,spring一站式开发的范例,spring的强大灵活+jfinal的开发效率
+springrain是spring的极简封装,spring一站式开发的范例,spring的强大灵活+jfinal的开发效率
 
-9iuspring本身就是一个完整的eclipse项目,spring一站式开发的范例,包含spring core,spring jdbc,spring mvc.可以认为就是一个spring的demo.
+springrain本身就是一个完整的eclipse项目,spring一站式开发的范例,包含spring core,spring jdbc,spring mvc.可以认为就是一个spring的demo.
 
-9iuspring 自带一个代码生成器,能够生成对表的增删改查的逻辑代码,以及前台页面样式和js文件
+springrain 自带一个代码生成器,能够生成对表的增删改查的逻辑代码,以及前台页面样式和js文件
 
 spring良好的扩展性,集成度,IOC,AOP事务,已经是项目的基础条件.
 
