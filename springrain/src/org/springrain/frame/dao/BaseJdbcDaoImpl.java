@@ -119,7 +119,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	}
 
 	
-	
+
 	
 
 	public BaseJdbcDaoImpl() {
@@ -520,7 +520,9 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		if(auditLog==null){
 			return id;
 		}
-		if(ClassUtils.isNotLog(entity.getClass())){
+		
+		EntityInfo entityInfo = ClassUtils.getEntityInfoByClass(entity.getClass());
+		if(entityInfo.isNotLog()){
 			return id;
 		}
 		
@@ -609,9 +611,12 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		if(auditLog==null){
 			return hang;
 		}
-		if(ClassUtils.isNotLog(entity.getClass())){
+		
+		if(entityInfo.isNotLog()){
 			return hang;
 		}
+		
+	
 		
 		auditLog.setOperationClass(entity.getClass().getName());
 		auditLog.setOperationType(GlobalStatic.dataUpdate);
@@ -737,11 +742,10 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		if(auditLog==null){
 			return;
 		}
-		if(ClassUtils.isNotLog(clazz)){
+		
+		if(entityInfo.isNotLog()){
 			return ;
 		}
-	
-
 		/**
 		 * 删除还有个 bug,就是删除分表的数据,日志记录有问题 没有分表
 		 */

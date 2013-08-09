@@ -42,8 +42,6 @@ public class ClassUtils {
 	public static Map<String,EntityInfo> staticEntitymap=new  ConcurrentHashMap<String,EntityInfo>();
 	//缓存 所有的WhereSql注解
 	public static Map<String, List<WhereSQLInfo>> staticWhereSQLmap=new  ConcurrentHashMap<String, List<WhereSQLInfo>>();
-	//缓存 所有的NOLog注解
-	public static Map<String, Boolean> staticNotLogmap=new  ConcurrentHashMap<String, Boolean>();
 	//缓存 所有的字段
 	public static Map<String, Set<String>> allFieldmap=new  ConcurrentHashMap<String, Set<String>>();
 	//缓存 所有的数据库字段
@@ -113,8 +111,10 @@ public class ClassUtils {
    	 if(clazz.isAnnotationPresent(TableGroup.class)){
    		info.setGroup(true);
 	 }
-    	
-    	staticEntitymap.put(className,info);
+ 	 if(clazz.isAnnotationPresent(NotLog.class)){
+    		info.setNotLog(true);
+ 	 }
+   	     	staticEntitymap.put(className,info);
 		return staticEntitymap.get(className);
 	}
 	/**
@@ -437,28 +437,6 @@ public class ClassUtils {
 		
 		return returnType;
 	}
-	
-	public static boolean isNotLog(Class clazz){
-		if(clazz==null){
-			return true;
-		}
-		String className=clazz.getName();
-		boolean iskey=staticNotLogmap.containsKey(className);
-		if(iskey){
-			return staticNotLogmap.get(className);
-		}
-
-		
-		 if(clazz.isAnnotationPresent(NotLog.class)){
-			 staticNotLogmap.put(className, true);
-			 return true;
-		 }else{
-			 staticNotLogmap.put(className, false);
-			 return false;
-		 }
-		
-	}
-	
 	
 	
 	/**

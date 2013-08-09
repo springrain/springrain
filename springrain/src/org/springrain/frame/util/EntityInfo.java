@@ -25,6 +25,10 @@ public class EntityInfo {
 	 * 主键序列
 	 */
 	private String pksequence=null;
+	/**
+	 * 是否不记录日志,默认false 为记录
+	 */
+	private boolean notLog=false;
 	
 	/**
 	 * 数据库的表名
@@ -94,6 +98,12 @@ public class EntityInfo {
 	}
 	public void setPksequence(String pksequence) {
 		this.pksequence = pksequence;
+	}
+	public boolean isNotLog() {
+		return notLog;
+	}
+	public void setNotLog(boolean notLog) {
+		this.notLog = notLog;
 	}
 
 
