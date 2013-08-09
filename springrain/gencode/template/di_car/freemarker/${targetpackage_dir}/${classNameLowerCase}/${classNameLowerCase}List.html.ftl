@@ -46,10 +46,10 @@ jQuery(document).ready(function(){
 			<#list table.columns as column>
 			<#if !column.pk>
 			<#if column.isDateTimeColumn>
-			<#assign columnDataValue = "(("+classNameLower+"."+column.columnNameLower+")?string('yyyy-MM-dd'))!'' ">
+			<#assign columnDataValue = "(("+classNameLower+"."+column.columnNameFirstLower+")?string('yyyy-MM-dd'))!'' ">
 			  <td>${column.columnAlias}:<input type="text" id="${column.columnNameFirstLower}" name="${column.columnNameFirstLower}"  onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" readonly="readonly" value="${r"${"}${columnDataValue}${r"}"}"   class="inp_2" /></td>
 			<#else>
-	         <td>${column.columnAlias}:<input type="text" id="${column.columnNameFirstLower}" name="${column.columnNameFirstLower}"  value="${r"${"}(${classNameLower}.${column.columnNameLower})!''${r"}"}"   class="inp_2" /></td>
+	         <td>${column.columnAlias}:<input type="text" id="${column.columnNameFirstLower}" name="${column.columnNameFirstLower}"  value="${r"${"}(${classNameLower}.${column.columnNameFirstLower})!''${r"}"}"   class="inp_2" /></td>
 	         </#if>
 			 </#if>
 		   </#list>
@@ -88,7 +88,7 @@ jQuery(document).ready(function(){
 					<!--first_end_no_export-->
 					<#list table.columns as column>
 						<#if !column.pk>
-						<th id="th_${column.columnNameLower}" >${column.columnAlias}</th>
+						<th id="th_${column.columnNameFirstLower}" >${column.columnAlias}</th>
 						</#if>
 					</#list>
 						
@@ -107,8 +107,8 @@ jQuery(document).ready(function(){
 						${r'</#if>'}
 						
 						<td style="text-align:center;">
-								<a href="javascript:f_newTab('${r"${data.id}_update"}','${r"${data.id}_update"}','${r"${data.id}_update"}','${r"${ctx}"}/${classNameLowerCase}/update/pre?id=${r"${data.id}"}');">修改</a>
-								  /  <a href="javascript:del${className}('${r"${data.id}"}');">删除</a>/<a href="javascript:f_newTab('${r"${data.id}_look"}','${r"${data.id}_look"}','${r"${data.id}_look"}','${r"${ctx}"}/${classNameLowerCase}/look?id=${r"${data.id}"}');">查看</a>
+								<a href="javascript:f_newTab('${r"${data.id}_update"}','${r"${data.id}_update"}','${r"${data.id}_update"}','${r"${ctx}"}/${classNameLowerCase}/update/pre?${table.pkColumn.columnNameFirstLower}=${r"${data.id}"}');">修改</a>
+								  /  <a href="javascript:del${className}('${r"${data.id}"}');">删除</a>/<a href="javascript:f_newTab('${r"${data.id}_look"}','${r"${data.id}_look"}','${r"${data.id}_look"}','${r"${ctx}"}/${classNameLowerCase}/look?${table.pkColumn.columnNameFirstLower}=${r"${data.id}"}');">查看</a>
 						</td>
 				<!--end_no_export-->
 						
@@ -117,20 +117,20 @@ jQuery(document).ready(function(){
 							<td >
 								<#if column.isDateTimeColumn>
 								<!--日期型-->
-									<#assign columnDataValue = "((data."+column.columnNameLower+")?string('yyyy-MM-dd'))!''"> 
+									<#assign columnDataValue = "((data."+column.columnNameFirstLower+")?string('yyyy-MM-dd'))!''"> 
 							${r"${"}${columnDataValue}${r"}"}
 								<#elseif column.javaType == 'java.lang.Boolean'>
 									<!--布尔型-->
-									<#assign columnBooleanValue = "(data."+column.columnNameLower+")">
+									<#assign columnBooleanValue = "(data."+column.columnNameFirstLower+")">
 									${r'<#if'} ${columnBooleanValue}?? && ${columnBooleanValue} >
 							真
 									${r'<#else>'}
 							假
 									${r'</#if>'}
 								<#elseif column.isNumberColumn>
-								${r"${(data."}${column.columnNameLower}${r")!0}"}
+								${r"${(data."}${column.columnNameFirstLower}${r")!0}"}
 								<#else>
-								${r"${(data."}${column.columnNameLower}${r")!''}"}
+								${r"${(data."}${column.columnNameFirstLower}${r")!''}"}
 								</#if>
 							</td>
 							</#if>

@@ -104,17 +104,14 @@ public class ${className}Controller  extends BaseController {
 	public String look(Model model,HttpServletRequest request,HttpServletResponse response) throws Exception {
 	
 	     <#if pkJavaType=="java.lang.String">
-		${pkJavaType} id=request.getParameter("id");
+		${pkJavaType} id=request.getParameter("${table.pkColumn.columnNameFirstLower}");
 		if(StringUtils.isNotBlank(id)){
 		<#else>
-		  String  strId=request.getParameter("id");
+		  String  strId=request.getParameter("${table.pkColumn.columnNameFirstLower}");
 		  ${pkJavaType} id=null;
 		  if(StringUtils.isNotBlank(strId)){
 			 id= ${pkJavaType}.valueOf(strId.trim());
-			}
-		
 		</#if>
-		
 		  ${className} ${classNameLower} = ${classNameLower}Service.find${className}ById(id);
 		   model.addAttribute("${classNameLower}",${classNameLower});
 		}
@@ -136,13 +133,11 @@ public class ${className}Controller  extends BaseController {
 	@RequestMapping("/update")
 	public String saveorupdate(Model model,${className} ${classNameLower},HttpServletRequest request,HttpServletResponse response) throws Exception{
 		  <#if pkJavaType=="java.lang.String">
-		if(StringUtils.isBlank(${classNameLower}.getId())){// 新增
+		if(StringUtils.isBlank(${classNameLower}.get${table.pkColumn.columnNameFirstUpper}())){// 新增
 		<#else>
-		if(${classNameLower}.getId()!=null){// 新增
+		if(${classNameLower}.get${table.pkColumn.columnNameFirstUpper}()!=null){// 新增
 		</#if>
-			<#list table.pkColumns as column>
-				${classNameLower}.set${column.columnName}(SecUtils.getUUID());
-			</#list>
+				${classNameLower}.set${table.pkColumn.columnNameFirstUpper}(SecUtils.getUUID());
 			try {
 				${classNameLower}Service.save(${classNameLower});
 				model.addAttribute(message, MessageUtils.ADD_SUCCESS);
@@ -155,7 +150,7 @@ public class ${className}Controller  extends BaseController {
 		} else {// 修改
 			try {
 			<#list table.pkColumns as column>
-				${classNameLower}.set${column.columnName}(${classNameLower}.getId());
+				${classNameLower}.set${column.columnName}(${classNameLower}.get${table.pkColumn.columnNameFirstUpper}());
 			</#list>
 				${classNameLower}Service.update(${classNameLower});
 				model.addAttribute(message, MessageUtils.EDIT_SUCCESS);
@@ -175,10 +170,10 @@ public class ${className}Controller  extends BaseController {
 	@RequestMapping(value="/update/pre")
 	public String edit(Model model,HttpServletRequest request,HttpServletResponse response)  throws Exception{
 		  <#if pkJavaType=="java.lang.String">
-		${pkJavaType} id=request.getParameter("id");
+		${pkJavaType} id=request.getParameter("${table.pkColumn.columnNameFirstLower}");
 		if(StringUtils.isNotBlank(id)){
 		<#else>
-		  String  strId=request.getParameter("id");
+		  String  strId=request.getParameter("${table.pkColumn.columnNameFirstLower}");
 		  ${pkJavaType} id=null;
 		  if(StringUtils.isNotBlank(strId)){
 			 id= ${pkJavaType}.valueOf(strId.trim());
@@ -197,14 +192,13 @@ public class ${className}Controller  extends BaseController {
 		// 执行删除
 		try {
 	   <#if pkJavaType=="java.lang.String">
-		${pkJavaType} id=request.getParameter("id");
+		${pkJavaType} id=request.getParameter("${table.pkColumn.columnNameFirstLower}");
 		if(StringUtils.isNotBlank(id)){
 		<#else>
-		  String  strId=request.getParameter("id");
+		  String  strId=request.getParameter("${table.pkColumn.columnNameFirstLower}");
 		  ${pkJavaType} id=null;
 		  if(StringUtils.isNotBlank(strId)){
 			 id= ${pkJavaType}.valueOf(strId.trim());
-			}
 		</#if>
 			${classNameLower}Service.deleteById(id,${className}.class);
 			return new CFReturnObject(CFReturnObject.SUCCESS, MessageUtils.DELETE_SUCCESS);
@@ -296,7 +290,7 @@ public class ${className}Controller  extends BaseController {
 		String order=request.getParameter("order");
 		String sort=request.getParameter("sort");
 		if(StringUtils.isBlank(order)){
-		  order="id";
+		  order="${table.pkColumn.columnNameFirstLower}";
 		}
 		if(StringUtils.isBlank(sort)){
 		  sort="desc";
