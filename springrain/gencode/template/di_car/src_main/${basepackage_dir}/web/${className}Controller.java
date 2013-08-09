@@ -134,10 +134,11 @@ public class ${className}Controller  extends BaseController {
 	public String saveorupdate(Model model,${className} ${classNameLower},HttpServletRequest request,HttpServletResponse response) throws Exception{
 		  <#if pkJavaType=="java.lang.String">
 		if(StringUtils.isBlank(${classNameLower}.get${table.pkColumn.columnNameFirstUpper}())){// 新增
+		${classNameLower}.set${table.pkColumn.columnNameFirstUpper}(SecUtils.getUUID());
 		<#else>
-		if(${classNameLower}.get${table.pkColumn.columnNameFirstUpper}()!=null){// 新增
+		if(${classNameLower}.get${table.pkColumn.columnNameFirstUpper}()==null){// 新增
 		</#if>
-				${classNameLower}.set${table.pkColumn.columnNameFirstUpper}(SecUtils.getUUID());
+				
 			try {
 				${classNameLower}Service.save(${classNameLower});
 				model.addAttribute(message, MessageUtils.ADD_SUCCESS);
@@ -150,7 +151,7 @@ public class ${className}Controller  extends BaseController {
 		} else {// 修改
 			try {
 			<#list table.pkColumns as column>
-				${classNameLower}.set${column.columnName}(${classNameLower}.get${table.pkColumn.columnNameFirstUpper}());
+				${classNameLower}.set${column.columnNameFirstUpper}(${classNameLower}.get${column.columnNameFirstUpper}());
 			</#list>
 				${classNameLower}Service.update(${classNameLower});
 				model.addAttribute(message, MessageUtils.EDIT_SUCCESS);
