@@ -41,6 +41,10 @@ $(document).ready(function(){//初始化ztree对象
  $.fn.zTree.init($("#leftmenu"), setting);  
 
 });  
+
+function backupdb(){
+	self.location="${ctx}/dbmanager/backup";
+}
 </script>
 </head>
 <body class="easyui-layout">
@@ -57,6 +61,7 @@ $(document).ready(function(){//初始化ztree对象
                 <div onclick="editCurrentUserPwd();">修改密码</div>
                 <div class="menu-sep"></div>
                 <div onclick="currentUserRole();">个人信息</div>
+                <div onclick="backupdb();">备份数据</div>
             </div>
             
         <!-- 菜单结束 -->

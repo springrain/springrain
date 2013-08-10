@@ -25,7 +25,14 @@
 		</property>
 	</bean>
 
-
+<bean id="dbutils" class="org.springrain.frame.util.DBUtils">
+		<property name="backupcmd">
+			<value>${db.demo.backupcmd}</value>
+		</property>
+	<property name="backupfilepath">
+			<value>${db.demo.backupfilepath}</value>
+		</property>
+</bean>
 	
 
 		<!-- 扫描的包路径 去掉mvc的注解-->
