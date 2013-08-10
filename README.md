@@ -71,7 +71,7 @@ public void testProc() throws Exception{
 public void testFunction() throws Exception{
         Finder finder=new Finder();
         finder.setFunName("fun_userId");
-        finder.setParam("userId", 6);
+        finder.setParam("userId", "admin");
         String userName= baseDemoService.queryForObjectByByFunction(finder,String.class);
         System.out.println(userName);
         
