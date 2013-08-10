@@ -18,7 +18,13 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.stereotype.Component;
 import org.springrain.demo.entity.User;
 import org.springrain.demo.service.IUserRoleMenuService;
-
+/**
+ * 关于shiro的缓存,我在这里说下.<br/>
+ * 可以禁用shiro的缓存,调用spring的缓存,这样就省去了缓存的整合.<br/>
+ * 其他框架遇到缓存问题,同样的思路解决.
+ * @author 9iu.org
+ *
+ */
 //认证数据库存储
 @Component("shiroDbRealm")
 public class ShiroDbRealm extends AuthorizingRealm {
