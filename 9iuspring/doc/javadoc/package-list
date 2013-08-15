@@ -2,6 +2,7 @@ org.iu9.frame.annotation
 org.iu9.frame.common
 org.iu9.frame.controller
 org.iu9.frame.dao
+org.iu9.frame.dao.dialect
 org.iu9.frame.entity
 org.iu9.frame.interceptor
 org.iu9.frame.service
