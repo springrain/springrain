@@ -4,6 +4,7 @@ package org.springrain.frame.shiro;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -48,17 +49,19 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		// String userId = (String)
 		// principalCollection.fromRealm(getName()).iterator().next();
 		String userId = shiroUser.getId();
-		// 取当前用户
-		User user = null;
-		try {
-			user = userRoleMenuService.findUserAndMenu(userId);
-		} catch (Exception e) {
-			logger.error(e);
+		if(StringUtils.isBlank(userId)){
+			return null;
 		}
 		// 添加角色及权限信息
 		SimpleAuthorizationInfo sazi = new SimpleAuthorizationInfo();
-		sazi.addRoles(user.getRolesAsString());
-		sazi.addStringPermissions(user.getPermissionsAsString());
+		try {
+			sazi.addRoles(userRoleMenuService.getRolesAsString(userId));
+			sazi.addStringPermissions(userRoleMenuService.getPermissionsAsString(userId));
+		} catch (Exception e) {
+			logger.error(e);
+		}
+	
+		
 		return sazi;
 	}
 

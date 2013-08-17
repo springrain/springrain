@@ -23,7 +23,6 @@ import org.springrain.demo.dto.MenuZTreeJSON;
 import org.springrain.demo.entity.Menu;
 import org.springrain.demo.entity.Role;
 import org.springrain.demo.entity.RoleMenu;
-import org.springrain.demo.service.ILimitDistributeService;
 import org.springrain.demo.service.IUserRoleMenuService;
 import org.springrain.frame.controller.BaseController;
 import org.springrain.frame.shiro.ShiroUser;
@@ -47,8 +46,7 @@ import org.springrain.frame.util.Page;
 @RequestMapping(value="/limit")
 public class LimtDistributeController  extends BaseController {
 	
-	@Resource
-	private ILimitDistributeService limitDistributeService;
+
 	
 	@Resource
 	private IUserRoleMenuService userRoleMenuService;
@@ -70,7 +68,7 @@ public class LimtDistributeController  extends BaseController {
 	public String list(Model model,Menu menu) throws Exception{
 		List<LimtDto> datas=new ArrayList<LimtDto>();
 		Finder finder=new Finder("select * from t_role");
-		List<Map<String, Object>> lists=limitDistributeService.queryForList(finder);
+		List<Map<String, Object>> lists=userRoleMenuService.queryForList(finder);
 		LimtDto dto=null;
 		for(Map<String, Object> map:lists){
 			dto=new LimtDto();
@@ -153,7 +151,7 @@ public class LimtDistributeController  extends BaseController {
 			return messageurl;
 		}
 		try {
-			limitDistributeService.update(roleId, menus);
+			userRoleMenuService.updateRoleMenu(roleId, menus);
 			model.addAttribute(message, "权限修改成功!");
 		} catch (Exception e) {
 			model.addAttribute(message, MessageUtils.EDIT_WARING);
@@ -170,14 +168,14 @@ public class LimtDistributeController  extends BaseController {
 		java.lang.String id=request.getParameter("id");
 		if(StringUtils.isNotBlank(id)){
 			Finder finder=new Finder("select * from t_menu where state='是'");
-			List<Menu> menus=limitDistributeService.queryForList(finder, Menu.class);
+			List<Menu> menus=userRoleMenuService.queryForList(finder, Menu.class);
 			model.addAttribute("menus", menus);
 			
 			
 		   finder=new Finder("select * from t_role_menu rm where rm.roleId=:roleId");
 		   finder.setParam("roleId", id);
-		   List<RoleMenu> roleMenus=limitDistributeService.queryForList(finder, RoleMenu.class);
-		   Role role = limitDistributeService.findById(id, Role.class);
+		   List<RoleMenu> roleMenus=userRoleMenuService.queryForList(finder, RoleMenu.class);
+		   Role role = userRoleMenuService.findById(id, Role.class);
 		   model.addAttribute("roleMenus", roleMenus);
 		   model.addAttribute("role", role);
 		}
@@ -185,8 +183,8 @@ public class LimtDistributeController  extends BaseController {
 	}
 	@RequestMapping(value="/ajax/menu_json")
 	public @ResponseBody List<MenuZTreeJSON> findMenuZTreeJSONs()throws Exception{
-		Finder finder=new Finder("select * from t_menu where state='是'");
-		List<Menu> menus=limitDistributeService.queryForList(finder, Menu.class);
+		Finder finder=new Finder("select * from t_menu where state='是' ");
+		List<Menu> menus=userRoleMenuService.queryForList(finder, Menu.class);
 		List<MenuZTreeJSON> datas=null;
 		if(CollectionUtils.isEmpty(menus)){
 			return null;
@@ -222,7 +220,7 @@ public class LimtDistributeController  extends BaseController {
 		int i = 0;
 		for (String str : rs) {
 			try {
-				limitDistributeService.deleteById(str,Menu.class);
+				userRoleMenuService.deleteById(str,Menu.class);
 			} catch (Exception e) {
 				e.printStackTrace();
 				if (i > 0) {

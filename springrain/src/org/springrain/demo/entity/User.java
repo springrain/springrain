@@ -132,9 +132,7 @@ public class User  extends BaseEntity {
 	private java.lang.String state;
 	//columns END 数据库字段结束
 	
-	private List<Role> roles;
-	
-	private Set<Menu> menus;
+
 	private String roleIds;
 	private String roleIdNames;
 	private String gradeName;
@@ -409,54 +407,9 @@ public class User  extends BaseEntity {
 				.append(getId(),other.getId())
 				.isEquals();
 		}
-	@Transient
-	public List<Role> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(List<Role> roles) {
-		this.roles = roles;
-	}
-
-	@Transient
-	public Set<Menu> getMenus() {
-		return menus;
-	}
-
-	public void setMenus(Set<Menu> menus) {
-		this.menus = menus;
-	}
-	@Transient
-	public Set<String> getRolesAsString(){
 	
-		List<Role> list = getRoles();
-		if(CollectionUtils.isEmpty(list)){
-			return null;
-		}
-		Set<String> set=new HashSet<String>();
-		for(Role r:list){
-			set.add(r.getCode());
-		}
 	
-		return set;
-	}
 	
-	@Transient
-	public  Set<String> getPermissionsAsString(){
-		Set<Menu> setMenu = getMenus();
-		if(CollectionUtils.isEmpty(setMenu)){
-			return null;
-		}
-		
-		Set<String> set=new HashSet<String>();
-		for(Menu m:setMenu){
-			if(StringUtils.isBlank(m.getPageurl())){
-				continue;
-			}
-			set.add(m.getPageurl());
-		}
-		return set;
-	}
 }
 
 	

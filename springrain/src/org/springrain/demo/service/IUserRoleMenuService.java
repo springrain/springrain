@@ -1,6 +1,7 @@
 package org.springrain.demo.service;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springrain.demo.entity.Menu;
 import org.springrain.demo.entity.Role;
@@ -51,13 +52,7 @@ public interface IUserRoleMenuService extends IBaseDemoService {
 	 */
 	Role findRoleAndMenu(String roleId)throws Exception;
 	
-	/**
-	 * 根据UserId 查询用户信息,并包括用户的url权限
-	 * @param userId
-	 * @return
-	 * @throws Exception
-	 */
-	User findUserAndMenu(String userId) throws Exception;
+
 	/**
 	 * 根据账号密码 验证是否能够登陆
 	 * @param account
@@ -81,6 +76,28 @@ public interface IUserRoleMenuService extends IBaseDemoService {
 	 * @throws Exception
 	 */
 	Menu findMenuAndLeaf(String menuId)throws Exception;
+	/**
+	 * 更新角色和menu的对应关系
+	 * @param roleId
+	 * @param menus
+	 * @throws Exception
+	 */
+  void updateRoleMenu(String roleId,String[] menus)throws Exception;
+  /**
+   * 根据UserId 获取用户的角色
+   * @param userId
+   * @return
+   * @throws Exception
+   */
+  
+	Set<String> getRolesAsString(String userId) throws Exception;
+	/**
+	 * 根据用户Id 获取所有的权限
+	 * @param userId
+	 * @return
+	 * @throws Exception
+	 */
+Set<String> getPermissionsAsString(String userId) throws Exception;	
 	
 	
 }

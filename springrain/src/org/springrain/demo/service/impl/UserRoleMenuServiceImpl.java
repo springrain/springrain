@@ -1,19 +1,24 @@
 package org.springrain.demo.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
-
 import org.springrain.demo.entity.Menu;
 import org.springrain.demo.entity.Role;
 import org.springrain.demo.entity.User;
 import org.springrain.demo.service.BaseDemoServiceImpl;
 import org.springrain.demo.service.IUserRoleMenuService;
 import org.springrain.frame.util.Finder;
+import org.springrain.frame.util.GlobalStatic;
 
 /**
  * TODO 在此加入类描述
@@ -28,18 +33,47 @@ public class UserRoleMenuServiceImpl extends BaseDemoServiceImpl implements
 		IUserRoleMenuService {
 
 	@Override
+	@Cacheable(value = GlobalStatic.cacheKey, key = "'findRoleByUserId_'+#userId")
 	public List<Role> findRoleByUserId(String userId) throws Exception {
 		if (StringUtils.isBlank(userId)) {
 			return null;
 		}
-
 		Finder finder = new Finder(
 				"SELECT r.* from t_role r,t_user_role  re where re.userId=:userId and re.roleId=r.id");
 		finder.setParam("userId", userId);
 		return super.queryForList(finder, Role.class);
 	}
+	@Override
+	@Cacheable(value = GlobalStatic.cacheKey, key = "'getRolesAsString_'+#userId")
+	public Set<String> getRolesAsString(String userId)throws Exception {
+		List<Role> list = findRoleByUserId(userId);
+		if(CollectionUtils.isEmpty(list)){
+			return null;
+		}
+		Set<String> set=new HashSet<String>();
+		for(Role r:list){
+			set.add(r.getCode());
+		}
+		return set;
+	}
+	@Override
+	public  Set<String> getPermissionsAsString(String userId) throws Exception {
+		List<Menu> setMenu = findAllMenuByUserId(userId);
+		if(CollectionUtils.isEmpty(setMenu)){
+			return null;
+		}
+		Set<String> set=new HashSet<String>();
+		for(Menu m:setMenu){
+			if(StringUtils.isBlank(m.getPageurl())){
+				continue;
+			}
+			set.add(m.getPageurl());
+		}
+		return set;
+	}
 
 	@Override
+	@Cacheable(value = GlobalStatic.cacheKey, key = "'findMenuByRoleId_'+#roleId")
 	public List<Menu> findMenuByRoleId(String roleId) throws Exception {
 		if (StringUtils.isBlank(roleId)) {
 			return null;
@@ -51,6 +85,7 @@ public class UserRoleMenuServiceImpl extends BaseDemoServiceImpl implements
 	}
 
 	@Override
+	@Cacheable(value = GlobalStatic.cacheKey, key = "'findUserByRoleId_'+#roleId")
 	public List<User> findUserByRoleId(String roleId) throws Exception {
 		if (StringUtils.isBlank(roleId)) {
 			return null;
@@ -63,19 +98,55 @@ public class UserRoleMenuServiceImpl extends BaseDemoServiceImpl implements
 	}
 
 	@Override
+
 	public List<Menu> findMenuByUserId(String userId) throws Exception {
 		if (StringUtils.isBlank(userId)) {
 			return null;
 		}
-
+		/*
 		Finder finder = new Finder(
-				"SELECT m.* from t_menu m,t_role_menu  rm,t_user_role  ur where ur.userId=:userId and ur.roleId=rm.roleId and m.id=rm.menuId ").append(" and m.type=1 and m.state='是'");
+				"SELECT m.* from t_menu m,t_role_menu  rm,t_user_role  ur where ur.userId=:userId and ur.roleId=rm.roleId and m.id=rm.menuId  and m.type=1 and m.state='是'");
 		finder.setParam("userId", userId);
 		return super.queryForList(finder, Menu.class);
+		*/
+		List<Menu> list = findAllMenuByUserId(userId);
+		if(CollectionUtils.isEmpty(list)){
+			return null;
+		}
+		for( int i=0;i<list.size();i++){
+			Menu m=list.get(i);
+			if((m.getType()-0)==0){
+				list.remove(i);
+				--i;
+			}
+		}
+		
+		return list;
 
 	}
+	private List<Menu> findAllMenuByUserId(String userId) throws Exception {
+		if (StringUtils.isBlank(userId)) {
+			return null;
+		}
+		
+		List<Role> roles = findRoleByUserId(userId);
+		if(CollectionUtils.isEmpty(roles)){
+			return null;
+		}
+		List<Menu> list=new ArrayList<Menu>();
+		for(Role role:roles){
+			List<Menu> menus = findMenuByRoleId(role.getId());
+			if(CollectionUtils.isEmpty(menus)){
+				continue;
+			}
+			list.addAll(menus);
+		}
+		
+		return list;
 
+	}
 	@Override
+	@Cacheable(value = GlobalStatic.cacheKey, key = "'findRoleAndMenu_'+#roleId")
 	public Role findRoleAndMenu(String roleId) throws Exception {
 		if (StringUtils.isBlank(roleId)) {
 			return null;
@@ -89,22 +160,7 @@ public class UserRoleMenuServiceImpl extends BaseDemoServiceImpl implements
 		return role;
 	}
 
-	@Override
-	public User findUserAndMenu(String userId) throws Exception {
-		User user = super.findById(userId, User.class);
-		List<Role> roles = findRoleByUserId(userId);
-		if (CollectionUtils.isEmpty(roles)) {
-			return user;
-		}
-		Set<Menu> menus = new HashSet<Menu>();
-		for (Role r : roles) {
-			r = findRoleAndMenu(r.getId());
-			menus.addAll(r.getMenus());
-		}
-		user.setRoles(roles);
-		user.setMenus(menus);
-		return user;
-	}
+
 
 	@Override
 	public User findLoginUser(String account, String password) throws Exception {
@@ -122,6 +178,7 @@ public class UserRoleMenuServiceImpl extends BaseDemoServiceImpl implements
 	}
 
 	@Override
+	@Cacheable(value = GlobalStatic.cacheKey, key = "'findAllRoleAndMenu'")
 	public List<Role> findAllRoleAndMenu() throws Exception {
 		Finder f_role = new Finder("SELECT * FROM t_role where state='是' ");
 		List<Role> listRole = super.queryForList(f_role, Role.class);
@@ -168,6 +225,24 @@ public class UserRoleMenuServiceImpl extends BaseDemoServiceImpl implements
 		}
 		
 		return menu;
+	}
+	
+	@Override
+	@Caching(evict={@CacheEvict(value = GlobalStatic.cacheKey,key = "'findMenuByRoleId_'+#roleId"),@CacheEvict(value = GlobalStatic.cacheKey,key = "'findRoleAndMenu_'+#roleId"),@CacheEvict(value = GlobalStatic.cacheKey,key = "'findAllRoleAndMenu'")})
+	public void updateRoleMenu(String roleId,String[] menus) throws Exception {
+		// TODO Auto-generated method stub
+		//删除现在的中间权限表
+				Finder finder=new Finder("delete from t_role_menu  where roleId=:roleId ");
+				finder.setParam("roleId", roleId);
+				this.update(finder);
+				//新加权限
+				finder=new Finder("insert into t_role_menu(id,roleId,menuId) values(:id,:roleId,:menuId)");
+				for(String menuId:menus){
+					finder.setParam("id", UUID.randomUUID().toString());
+					finder.setParam("roleId", roleId);
+					finder.setParam("menuId", menuId);
+					this.update(finder);
+				}
 	}
 
 }

@@ -5,11 +5,14 @@ import java.util.List;
 import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springrain.demo.entity.User;
 import org.springrain.demo.service.BaseDemoServiceImpl;
 import org.springrain.demo.service.IUserService;
 import org.springrain.frame.util.Finder;
+import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.Page;
 
 /**
@@ -76,6 +79,7 @@ public class UserServiceImpl extends BaseDemoServiceImpl implements IUserService
 		
 
 	@Override
+	@Caching(evict={@CacheEvict(value = GlobalStatic.cacheKey,key = "'findRoleByUserId_'+#userId"),@CacheEvict(value = GlobalStatic.cacheKey,key = "'getRolesAsString_'+#userId"),@CacheEvict(value = GlobalStatic.cacheKey,key = "'findUserByRoleId_'+#userId"),@CacheEvict(value = GlobalStatic.cacheKey,key = "'findAllRoleAndMenu'")})
 	public void updateRoleUser(String userId, String roleId) throws Exception {
 		//删除
 		Finder finder=new Finder("delete from t_user_role where userId=:userId");
