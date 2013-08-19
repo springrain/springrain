@@ -18,9 +18,9 @@
 	default-lazy-init="false">
 
 
-	<!-- 启用缓存注解功能，这个是必须的，否则注解不会生效，另外，该注解一定要声明在spring主配置文件中才会生效 -->
-	<cache:annotation-driven cache-manager="cacheManager" />
-
+	<!-- 启用缓存注解功能，这个是必须的，否则注解不会生效 -->
+	<cache:annotation-driven cache-manager="cacheManager" mode="aspectj" proxy-target-class="true" />
+    <aop:aspectj-autoproxy proxy-target-class="true"/>  
 
 	<!-- spring自己的换管理器，这里定义了两个缓存位置名称 ，既注解中的value -->
 	<bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
