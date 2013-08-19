@@ -230,9 +230,6 @@ INSERT INTO `t_role_menu` VALUES ('system_manager_admin', 'admin', 'system_manag
 INSERT INTO `t_role_menu` VALUES ('business_manager_admin', 'admin', 'business_manager');
 INSERT INTO `t_role_menu` VALUES ('dic_manager_admin', 'admin', 'dic_manager');
 
-insert into t_menu values('dbmanagerbackup','备份数据', null, null,'/dbmanager/backup','0','是');
-INSERT INTO `t_role_menu` VALUES ('dbmanagerbackup_admin', 'admin', 'dbmanagerbackup');
-
 
 INSERT INTO `t_menu` VALUES ('limtDistribute_list', '权限分配', 'system_manager', null, '/limit/list', '1', '是');
 INSERT INTO `t_menu` VALUES ('limtDistribute_update', '修改权限', 'limtDistribute_list', null, '/limit/update', '0', '是');
