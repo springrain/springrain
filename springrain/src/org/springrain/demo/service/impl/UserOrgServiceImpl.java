@@ -26,7 +26,7 @@ public class UserOrgServiceImpl extends BaseDemoServiceImpl implements IUserOrgS
 		if(StringUtils.isBlank(orgId)){
 			return null;
 		}
-		Finder finder=new Finder("SELECT u.* FROM T_user  u,T_user_org re where re.userId=u.id and re.orgId=:orgId");
+		Finder finder=new Finder("SELECT u.* FROM t_user  u,t_user_org re where re.userId=u.id and re.orgId=:orgId");
 		finder.setParam("orgId", orgId);
 		return super.queryForList(finder,User.class);
 	}
@@ -36,11 +36,11 @@ public class UserOrgServiceImpl extends BaseDemoServiceImpl implements IUserOrgS
 		if(StringUtils.isBlank(orgId)){
 			return null;
 		}
-		Finder f_code=new Finder("SELECT comcode FROM T_org where id=:orgId ");
+		Finder f_code=new Finder("SELECT comcode FROM t_org where id=:orgId ");
 		f_code.setParam("orgId", orgId);
 		String comcode=super.queryForObject(f_code, String.class);
 		
-		Finder finder=new Finder("SELECT u.* FROM T_user u,T_user_org re re,T_org org WHERE org.id=re.orgId and u.id=re.userId and org.comcode like :comcode");
+		Finder finder=new Finder("SELECT u.* FROM t_user u,t_user_org re re,t_org org WHERE org.id=re.orgId and u.id=re.userId and org.comcode like :comcode");
 		finder.setParam("comcode", comcode+"%");
 		return super.queryForList(finder,User.class);
 	}
@@ -50,14 +50,14 @@ public class UserOrgServiceImpl extends BaseDemoServiceImpl implements IUserOrgS
 		if(StringUtils.isBlank(userId)){
 			return null;
 		}
-		Finder finder=new Finder("SELECT org.* FROM  T_user_org re re,T_org org  WHERE re.userId=:userId and org.id=re.orgId  ");
+		Finder finder=new Finder("SELECT org.* FROM  t_user_org re re,t_org org  WHERE re.userId=:userId and org.id=re.orgId  ");
 		finder.setParam("userId", userId);
 		return super.queryForList(finder, Org.class);
 	}
 
 	@Override
 	public User findManagerByOrgId(String orgId) throws Exception {
-		Finder finder=new Finder("SELECT u.* FROM T_user u,T_user_org re re WHERE re.orgId=:orgId and u.id=re.userId  ");
+		Finder finder=new Finder("SELECT u.* FROM t_user u,t_user_org re re WHERE re.orgId=:orgId and u.id=re.userId  ");
 		finder.setParam("orgId", orgId);
 		return super.queryForObject(finder, User.class);
 	}
