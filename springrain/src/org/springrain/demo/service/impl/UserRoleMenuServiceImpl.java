@@ -154,7 +154,7 @@ public class UserRoleMenuServiceImpl extends BaseDemoServiceImpl implements
 			return null;
 		}
 		Finder finder = new Finder(
-				"SELECT * FROM T_user WHERE state='是' and account=:account ");
+				"SELECT * FROM t_user WHERE state='是' and account=:account ");
 		finder.setParam("account", account);
 		if (StringUtils.isNotBlank(password)) {
 			finder.append(" and password=:password ").setParam("password",
