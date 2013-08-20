@@ -16,6 +16,8 @@
 		http://www.springframework.org/schema/aop/spring-aop-3.0.xsd"
 	default-lazy-init="false">
 	
+	 <mvc:annotation-driven />
+	 
 	<!-- 只扫描Controller 注解 -->
 		<context:component-scan base-package="org.springrain"
 		use-default-filters="false">
@@ -29,8 +31,7 @@
 
 <mvc:view-controller path="/" view-name="index"/>
 	
-		<bean id="handlerMapping" class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
-	</bean>
+	
 
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
