@@ -60,10 +60,10 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	private List<String> dataBaseAllTables;
 
 	/**
-	 * 抽象方法.每个数据库的代理Dao都必须实现.在多库情况下,用于区分底层数据库的连接对象,对数据库进行增删改查.</br> 例如:oa_human
-	 * 数据库的代理Dao com.centfor.cerp.dao.BaseCerpDaoImpl 实现返回的是spring的bean
-	 * jdbc.</br> datalog 数据库的代理Dao com.centfor.datalog.dao.BaseDataLogDaoImpl
-	 * 实现返回的是spring的bean jdbc_datalog.</br>
+	 * 抽象方法.每个数据库的代理Dao都必须实现.在多库情况下,用于区分底层数据库的连接对象,对数据库进行增删改查.</br> 例如:testdb1
+	 * 数据库的代理Dao  org.iu9.testdb1.dao.BaseTestdb1DaoImpll 实现返回的是spring的bean
+	 * jdbc.</br> testdb2 数据库的代理Dao  org.iu9.testdb2.dao.BaseTestdb2DaoImpl
+	 * 实现返回的是spring的bean jdbc_testdb2.</br>
 	 * 
 	 * @return
 	 */
@@ -71,7 +71,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 
 	/**
 	 * 抽象方法.每个数据库的代理Dao都必须实现.在多库情况下,用于区分数据库实例的日志记录表,主要是为了兼容日志表(auditlog)的主键生成方式,
-	 * UUID和自增.</br> oa_human 数据库的auditlog 是自增,datalog是UUID
+	 * UUID和自增.</br> testdb1 数据库的auditlog 是自增,testdb2 数据库的 auditlog 是UUID
 	 * 
 	 * @return
 	 */
@@ -79,10 +79,10 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 
 	/**
 	 * 抽象方法.每个数据库的代理Dao都必须实现.在多库情况下,用于区分底层数据库的连接对象,调用数据库的函数和存储过程.</br>
-	 * 例如:oa_human 数据库的代理Dao com.centfor.cerp.dao.BaseCerpDaoImpl
+	 * 例如:testdb1 数据库的代理Dao org.iu9.testdb1.dao.BaseTestdb1DaoImpl
 	 * 实现返回的是spring的bean jdbcCall.</br> datalog 数据库的代理Dao
-	 * com.centfor.datalog.dao.BaseDataLogDaoImpl 实现返回的是spring的bean
-	 * jdbcCall_datalog.</br>
+	 * org.iu9.testdb2.dao.BaseTestdb2DaoImpl 实现返回的是spring的bean
+	 * jdbcCall_testdb2.</br>
 	 * 
 	 * @return
 	 */
