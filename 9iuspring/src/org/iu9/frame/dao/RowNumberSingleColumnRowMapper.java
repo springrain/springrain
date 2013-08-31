@@ -7,8 +7,10 @@ import java.sql.SQLException;
 import org.springframework.dao.TypeMismatchDataAccessException;
 import org.springframework.jdbc.core.SingleColumnRowMapper;
 /**
- * 映射简单类型
- * @author caomei
+ * 映射java基本类型
+ * @copyright {@link 9iu.org}
+ * @author 9iuspring<Auto generate>
+ * @version 2013-03-19 11:08:15
  * @param <T>
  */
 public class RowNumberSingleColumnRowMapper<T> extends SingleColumnRowMapper<T>{
