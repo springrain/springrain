@@ -11,14 +11,14 @@ import org.springframework.jdbc.core.SingleColumnRowMapper;
  * @author caomei
  * @param <T>
  */
-public class CFSingleColumnRowMapper<T> extends SingleColumnRowMapper<T>{
+public class RowNumberSingleColumnRowMapper<T> extends SingleColumnRowMapper<T>{
 	private Class<T> requiredType;
 	
-	public CFSingleColumnRowMapper(){
+	public RowNumberSingleColumnRowMapper(){
 		
 	}
 	
-	public CFSingleColumnRowMapper (Class<T> requiredType) {
+	public RowNumberSingleColumnRowMapper (Class<T> requiredType) {
 		this.requiredType = requiredType;
 	}
 	@Override

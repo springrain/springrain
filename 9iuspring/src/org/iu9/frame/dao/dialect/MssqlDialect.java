@@ -18,7 +18,7 @@ public class MssqlDialect implements IDialect {
 		sql = sql.substring(6);
 	}
 	
-  StringBuffer sb=new StringBuffer(sql);
+  StringBuffer sb=new StringBuffer();
 	sb.append("SELECT TOP ");
 	sb.append(pageSize);
 	sb.append(" * from (SELECT ROW_NUMBER() OVER (");

@@ -145,7 +145,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		if (ClassUtils.isBaseType(clazz)) {
 			if (getDialect().isRowNumber()) {
 				return getJdbc().query(pageSql, finder.getParams(),
-						new CFSingleColumnRowMapper(clazz));
+						new RowNumberSingleColumnRowMapper(clazz));
 			} else {
 				return getJdbc().queryForList(pageSql, finder.getParams(),
 						clazz);
