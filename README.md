@@ -1,4 +1,6 @@
 项目名为springrain[春雨]我的个人博客是 9iu.org
+#demo
+http://springrain.9iu.org
 #文档
 http://git.oschina.net/chunanyong/springrain/raw/master/springrain/doc/springrain.pdf
 #代码生成器
