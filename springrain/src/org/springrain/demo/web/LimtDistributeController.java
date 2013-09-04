@@ -155,7 +155,6 @@ public class LimtDistributeController  extends BaseController {
 			model.addAttribute(message, "权限修改成功!");
 		} catch (Exception e) {
 			model.addAttribute(message, MessageUtils.EDIT_WARING);
-			// TODO: handle exception
 		}
 		return messageurl;
 	}
@@ -167,7 +166,8 @@ public class LimtDistributeController  extends BaseController {
 	public String edit(Model model,HttpServletRequest request,HttpServletResponse response)  throws Exception{
 		java.lang.String id=request.getParameter("id");
 		if(StringUtils.isNotBlank(id)){
-			Finder finder=new Finder("select * from t_menu where state='是'");
+			Finder finder=new Finder("select * from t_menu where state=:state");
+			finder.setParam("state", "是");
 			List<Menu> menus=userRoleMenuService.queryForList(finder, Menu.class);
 			model.addAttribute("menus", menus);
 			
@@ -183,7 +183,8 @@ public class LimtDistributeController  extends BaseController {
 	}
 	@RequestMapping(value="/ajax/menu_json")
 	public @ResponseBody List<MenuZTreeJSON> findMenuZTreeJSONs()throws Exception{
-		Finder finder=new Finder("select * from t_menu where state='是' ");
+		Finder finder=new Finder("select * from t_menu where state=:state ");
+		finder.setParam("state", "是");
 		List<Menu> menus=userRoleMenuService.queryForList(finder, Menu.class);
 		List<MenuZTreeJSON> datas=null;
 		if(CollectionUtils.isEmpty(menus)){

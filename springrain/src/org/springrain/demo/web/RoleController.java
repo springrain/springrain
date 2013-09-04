@@ -230,7 +230,8 @@ public class RoleController  extends BaseController {
 	 */
 	@RequestMapping(value="/ajax/find_role_json")
 	public @ResponseBody List<Role> findAjaxJSON()throws Exception{
-		Finder finder=new Finder("select * from t_role where state='是'");
+		Finder finder=new Finder("select * from t_role where state=:state ");
+		finder.setParam("state", "是");
 		List<Role> grades=roleService.queryForList(finder, Role.class);
 		return grades;
 	}

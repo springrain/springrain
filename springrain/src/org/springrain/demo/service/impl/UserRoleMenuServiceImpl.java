@@ -106,8 +106,8 @@ public class UserRoleMenuServiceImpl extends BaseDemoServiceImpl implements
 		}
 		
 		Finder finder = new Finder(
-				"SELECT m.* from t_menu m,t_role_menu  rm,t_user_role  ur where ur.userId=:userId and ur.roleId=rm.roleId and m.id=rm.menuId  and m.type=1 and m.state='是'");
-		finder.setParam("userId", userId);
+				"SELECT m.* from t_menu m,t_role_menu  rm,t_user_role  ur where ur.userId=:userId and ur.roleId=rm.roleId and m.id=rm.menuId  and m.type=1 and m.state=:state");
+		finder.setParam("userId", userId).setParam("state", "是");
 		return super.queryForList(finder, Menu.class);
 	}
 	private List<Menu> findAllMenuByUserId(String userId) throws Exception {
@@ -154,8 +154,8 @@ public class UserRoleMenuServiceImpl extends BaseDemoServiceImpl implements
 			return null;
 		}
 		Finder finder = new Finder(
-				"SELECT * FROM t_user WHERE state='是' and account=:account ");
-		finder.setParam("account", account);
+				"SELECT * FROM t_user WHERE state=:state and account=:account ");
+		finder.setParam("account", account).setParam("state", "是");
 		if (StringUtils.isNotBlank(password)) {
 			finder.append(" and password=:password ").setParam("password",
 					password);
@@ -166,7 +166,8 @@ public class UserRoleMenuServiceImpl extends BaseDemoServiceImpl implements
 	@Override
 	@Cacheable(value = GlobalStatic.cacheKey, key = "'findAllRoleAndMenu'")
 	public List<Role> findAllRoleAndMenu() throws Exception {
-		Finder f_role = new Finder("SELECT * FROM t_role where state='是' ");
+		Finder f_role = new Finder("SELECT * FROM t_role where state=:state ");
+		f_role.setParam("state", "是");
 		List<Role> listRole = super.queryForList(f_role, Role.class);
 		if (CollectionUtils.isEmpty(listRole)) {
 			return null;

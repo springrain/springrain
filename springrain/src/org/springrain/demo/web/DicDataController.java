@@ -251,8 +251,8 @@ public class DicDataController  extends BaseController {
 	
 	@RequestMapping(value="/{pathtypekey}/ajax/findjson")
 	public @ResponseBody List<DicData> findAjaxJSON(@PathVariable String pathtypekey)throws Exception{
-		org.springrain.frame.util.Finder finder=new Finder("select * from t_dic_data where state='是' and typekey=:typekey ");
-		finder.setParam("typekey", pathtypekey);
+		org.springrain.frame.util.Finder finder=new Finder("select * from t_dic_data where state=:state and typekey=:typekey ");
+		finder.setParam("typekey", pathtypekey).setParam("state", "是");
 		List<DicData> dicdatas=dicDataService.queryForList(finder, DicData.class);
 		return dicdatas;
 		
