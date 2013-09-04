@@ -1,15 +1,11 @@
 package org.springrain.frame.dao;
 
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.persistence.Id;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -18,6 +14,7 @@ import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.jdbc.core.simple.ParameterizedBeanPropertyRowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -110,17 +107,14 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	
 	/**
 	 * 打印sql
+	 * 
 	 * @param sql
 	 */
-	private void logInfoSql(String sql){
-		if(showsql()){
+	private void logInfoSql(String sql) {
+		if (showsql()) {
 			System.out.println(sql);
 		}
 	}
-
-	
-
-	
 
 	public BaseJdbcDaoImpl() {
 	}
@@ -136,14 +130,19 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	public <T> List<T> queryForListByProc(Finder finder, Class<T> clazz)
 			throws Exception {
 		String procName = finder.getProcName();
-		Map params=finder.getParams();
-		List<T> list= (List<T>) getJdbcCall().withProcedureName(procName).execute(clazz, params);
-		return list;
+		Map params = finder.getParams();
+		if (params != null) {
+			return (List<T>) getJdbcCall().withProcedureName(procName).execute(
+					clazz, params);
+		}
+
+		return (List<T>) getJdbcCall().withProcedureName(procName).execute(
+				clazz);
 	}
 
 	@Override
 	public List<Map<String, Object>> queryForList(Finder finder) {
-		//打印sql
+		// 打印sql
 		logInfoSql(finder.getSql());
 		return getJdbc().queryForList(finder.getSql(), finder.getParams());
 	}
@@ -152,7 +151,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	public Map<String, Object> queryForObject(Finder finder) throws Exception {
 		Map<String, Object> map = null;
 		try {
-			//打印sql
+			// 打印sql
 			logInfoSql(finder.getSql());
 			map = getJdbc().queryForMap(finder.getSql(), finder.getParams());
 		} catch (EmptyResultDataAccessException e) {
@@ -161,28 +160,25 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 
 		return map;
 	}
-	
-	
+
 	@Override
-	public List<Map<String, Object>> queryForList(Finder finder,Page page) throws Exception {
+	public List<Map<String, Object>> queryForList(Finder finder, Page page)
+			throws Exception {
 		String pageSql = getPageSql(page, finder);
 		if (pageSql == null)
 			return null;
 		finder.setPageSql(pageSql);
 
-		//打印sql
+		// 打印sql
 		logInfoSql(pageSql);
 
-				return getJdbc().queryForList(pageSql, finder.getParams());
-		
-	}
+		return getJdbc().queryForList(pageSql, finder.getParams());
 
-	
-	
+	}
 
 	@Override
 	public Integer update(Finder finder) throws Exception {
-		//打印sql
+		// 打印sql
 		logInfoSql(finder.getSql());
 		return getJdbc().update(finder.getSql(), finder.getParams());
 	}
@@ -195,9 +191,9 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 			return null;
 		finder.setPageSql(pageSql);
 
-		//打印sql
+		// 打印sql
 		logInfoSql(pageSql);
-		
+
 		if (ClassUtils.isBaseType(clazz)) {
 			if (getDialect().isRowNumber()) {
 				return getJdbc().query(pageSql, finder.getParams(),
@@ -215,7 +211,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	@Override
 	public <T> List<T> findListDataByFinder(Finder finder, Page page,
 			Class<T> clazz, Object queryBean) throws Exception {
-	
+
 		if (finder == null) {
 			EntityInfo entityInfoByEntity = ClassUtils
 					.getEntityInfoByEntity(queryBean);
@@ -226,13 +222,13 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 			}
 			finder = new Finder("SELECT * FROM " + tableName);
 			finder.append(" WHERE 1=1 ");
-		
+
 		}
-		
-		if(queryBean!=null){
+
+		if (queryBean != null) {
 			getFinderWhereByQueryBean(finder, queryBean);
 		}
-		
+
 		int _index = RegexValidateUtils.getOrderByIndex(finder.getSql());
 		if (_index > 0) {
 			finder.setSql(finder.getSql().substring(0, _index));
@@ -242,7 +238,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 			return this.queryForList(finder, clazz, page);
 		}
 
-	   //根据page的参数 添加 order by
+		// 根据page的参数 添加 order by
 		getFinderOrderBy(finder, page);
 
 		List<T> datas = this.queryForList(finder, clazz, page);
@@ -251,9 +247,10 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		}
 		return datas;
 	}
+
 	@Override
-	public Finder getFinderOrderBy(Finder finder,Page page) throws Exception{
-		if(finder==null||page==null){
+	public Finder getFinderOrderBy(Finder finder, Page page) throws Exception {
+		if (finder == null || page == null) {
 			return finder;
 		}
 		String sort = page.getSort();
@@ -280,8 +277,6 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		}
 		return finder;
 	}
-	
-	
 
 	@Override
 	public Finder getFinderWhereByQueryBean(Finder finder, Object o)
@@ -307,12 +302,13 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 				if (StringUtils.isNotBlank(alias)) {
 					wheresql = alias + "." + wheresql;
 				}
-				String pname = wheresql.substring(wheresql.indexOf(":") + 1).trim();
-				if(wheresql.toLowerCase().contains(" in ")&&pname.endsWith(")")){
-					pname=pname.substring(0,pname.length()-1).trim();
+				String pname = wheresql.substring(wheresql.indexOf(":") + 1)
+						.trim();
+				if (wheresql.toLowerCase().contains(" in ")
+						&& pname.endsWith(")")) {
+					pname = pname.substring(0, pname.length() - 1).trim();
 				}
-				
-				
+
 				if (wheresql.toLowerCase().contains(" like ")) {
 					boolean qian = pname.trim().startsWith("%");
 					boolean hou = pname.trim().endsWith("%");
@@ -398,7 +394,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 
 	@Override
 	public <T> T queryForObject(Finder finder, Class<T> clazz) throws Exception {
-		//打印sql
+		// 打印sql
 		logInfoSql(finder.getSql());
 		T t = null;
 		try {
@@ -418,25 +414,17 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		return t;
 
 	}
-
-	/**
-	 * 保存一个实体类,不记录日志
-	 * 
-	 * @param entity
-	 * @return
-	 * @throws Exception
-	 */
-	@SuppressWarnings("unchecked")
-	private Object saveNoLog(Object entity) throws Exception {
+	
+	
+	private String warpsavesql(Object entity,Map paramMap,Boolean isSequence) throws Exception{
 		Class clazz = entity.getClass();
 		// entity信息
 		EntityInfo entityInfo = ClassUtils.getEntityInfoByEntity(entity);
 		List<String> fdNames = ClassUtils.getAllDBFields(clazz);
-		Map paramMap = new HashMap();// 对象内的参数
 		String id = SecUtils.getUUID();// 主键
-
 		String tableName = entityInfo.getTableName();
-
+		Class<?> returnType = entityInfo.getPkReturnType();
+		String pkName = entityInfo.getPkName();
 		// 获取 分表的扩展
 		String tableExt = entityInfo.getTableExt();
 
@@ -444,22 +432,18 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 				.append(tableExt).append("(");
 
 		StringBuffer valueSql = new StringBuffer(" values(");
-
-		Class<?> returnType = null;
-		boolean isSequence = false;
+	
 		for (int i = 0; i < fdNames.size(); i++) {
 			String fdName = fdNames.get(i);// 字段名称
 			// fd.setAccessible(true);
-			PropertyDescriptor pd = new PropertyDescriptor(fdName, clazz);
-			Method getMethod = pd.getReadMethod();// 获得get方法
-			Method setMethod = pd.getWriteMethod();// set 方法
-			if (getMethod.isAnnotationPresent(Id.class)) {// 如果是ID,自动生成UUID
-				returnType = getMethod.getReturnType();
+
+			if (fdName.equals(pkName)) {// 如果是ID,自动生成UUID
 				Object _getId = ClassUtils.getPKValue(entity); // 主键
 				if (_getId == null) {
 					if (returnType == String.class) {
-						setMethod.invoke(entity, id);
-					} else if (StringUtils.isNotBlank(entityInfo.getPksequence())) {// 如果包含主键序列注解
+						ClassUtils.setPropertieValue(pkName, entity, id);
+					} else if (StringUtils.isNotBlank(entityInfo
+							.getPksequence())) {// 如果包含主键序列注解
 						String _sequence_value = entityInfo.getPksequence();
 						if ((i + 1) == fdNames.size()) {
 							sql.append(fdName).append(")");
@@ -478,8 +462,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 			}
 
 			String mapKey = ":" + fdName;// 占位符
-
-			Object fdValue = getMethod.invoke(entity);// 执行get方法返回一个Object, 字段值
+			Object fdValue = ClassUtils.getPropertieValue(fdName, entity);
 			paramMap.put(fdName, fdValue);
 
 			if ((i + 1) == fdNames.size()) {
@@ -493,10 +476,36 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 
 		}
 		sql.append(valueSql);// sql语句
-		//打印sql
-		logInfoSql(sql.toString());
+		return sql.toString();
+	}
+	
+
+	/**
+	 * 保存一个实体类,不记录日志
+	 * 
+	 * @param entity
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	private Object saveNoLog(Object entity) throws Exception {
+		Class clazz = entity.getClass();
+		// entity信息
+		EntityInfo entityInfo = ClassUtils.getEntityInfoByEntity(entity);
+		List<String> fdNames = ClassUtils.getAllDBFields(clazz);
+		String id = SecUtils.getUUID();// 主键
+		String tableName = entityInfo.getTableName();
+		// 获取 分表的扩展
+		String tableExt = entityInfo.getTableExt();
+		Class<?> returnType = entityInfo.getPkReturnType();
+		String pkName = entityInfo.getPkName();
+		Map paramMap=new HashMap();
+		Boolean isSequence=false;
+	String sql=warpsavesql(entity, paramMap,isSequence);
+		// 打印sql
+		logInfoSql(sql);
 		if (returnType == String.class) {
-			getJdbc().update(sql.toString(), paramMap);
+			getJdbc().update(sql, paramMap);
 			return id;
 
 		} else {
@@ -504,10 +513,10 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 			SqlParameterSource ss = new MapSqlParameterSource(paramMap);
 			String _pkName = entityInfo.getPkName();
 			if (StringUtils.isNotBlank(_pkName) && isSequence) {
-				getJdbc().update(sql.toString(), ss, keyHolder,
+				getJdbc().update(sql, ss, keyHolder,
 						new String[] { _pkName });
 			} else {
-				getJdbc().update(sql.toString(), ss, keyHolder);
+				getJdbc().update(sql, ss, keyHolder);
 			}
 			return keyHolder.getKey().longValue();
 		}
@@ -517,15 +526,15 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	public Object save(Object entity) throws Exception {
 		Object id = saveNoLog(entity);
 		IAuditLog auditLog = getAuditLog();
-		if(auditLog==null){
+		if (auditLog == null) {
 			return id;
 		}
-		
-		EntityInfo entityInfo = ClassUtils.getEntityInfoByClass(entity.getClass());
-		if(entityInfo.isNotLog()){
+
+		EntityInfo entityInfo = ClassUtils.getEntityInfoByClass(entity
+				.getClass());
+		if (entityInfo.isNotLog()) {
 			return id;
 		}
-		
 
 		String tableExt = ClassUtils.getTableExt(entity);
 		if (StringUtils.isBlank(tableExt)) {
@@ -533,7 +542,6 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 			tableExt = GlobalStatic.tableExt + year;
 		}
 
-		
 		auditLog.setOperationClass(entity.getClass().getName());
 		auditLog.setOperationType(GlobalStatic.dataSave);
 		auditLog.setOperatorName(getUserName());
@@ -546,43 +554,80 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 
 		return id;
 	}
-	
-	
-	
-	
 
 	@Override
-	public Integer update(Object entity) throws Exception {
+	public List<Integer> update(List list) throws Exception {
+		if (CollectionUtils.isEmpty(list)) {
+			return null;
+		}
+		List<Integer> updateList = new ArrayList<Integer>();
+		Map[] maps = new HashMap[list.size()];
+		String sql = null;
+		for (int i = 0; i < list.size(); i++) {
+			Map paramMap = new HashMap();
+			sql = warpupdatesql(list.get(i), paramMap);
+			maps[i] = paramMap;
+		}
+		int[] batchUpdate = getJdbc().batchUpdate(sql,
+				SqlParameterSourceUtils.createBatch(maps));
+
+		if (batchUpdate.length < 1) {
+			return updateList;
+		}
+		for (int i : batchUpdate) {
+			updateList.add(i);
+		}
+		return updateList;
+	}
+
+	@Override
+	public List<Integer>  save(List list) throws Exception {
+		if (CollectionUtils.isEmpty(list)) {
+			return null;
+		}
+
+		List<Integer> updateList = new ArrayList<Integer>();
+		Map[] maps = new HashMap[list.size()];
+		String sql = null;
+		for (int i = 0; i < list.size(); i++) {
+			Map paramMap = new HashMap();
+			sql = warpsavesql( list.get(i), paramMap,false);
+			maps[i] = paramMap;
+		}
+		int[] batchUpdate = getJdbc().batchUpdate(sql,
+				SqlParameterSourceUtils.createBatch(maps));
+
+		if (batchUpdate.length < 1) {
+			return updateList;
+		}
+		for (int i : batchUpdate) {
+			updateList.add(i);
+		}
+		return updateList;
+	}
+
+	private String warpupdatesql(Object entity, Map paramMap) throws Exception {
 		Class clazz = entity.getClass();
-		//entity的信息
+		// entity的信息
 		EntityInfo entityInfo = ClassUtils.getEntityInfoByEntity(entity);
 		List<String> fdNames = ClassUtils.getAllDBFields(clazz);
-		Map paramMap = new HashMap();// 对象内的参数
-
 		String tableName = entityInfo.getTableName();
+
+		String pkName = entityInfo.getPkName();
 
 		// 获取 分表的扩展
 		String tableExt = entityInfo.getTableExt();
-
 		StringBuffer sql = new StringBuffer("UPDATE ").append(tableName)
 				.append(tableExt).append("  SET  ");
 
 		StringBuffer whereSQL = new StringBuffer(" WHERE ");
-		Object id = null;
 		for (int i = 0; i < fdNames.size(); i++) {
 			String fdName = fdNames.get(i);// 字段名称
-			// fd.setAccessible(true);
-			PropertyDescriptor pd = new PropertyDescriptor(fdName, clazz);
-
-			Method getMethod = pd.getReadMethod();// 获得get方法
-			//Method setMethod = pd.getWriteMethod();// set 方法
-
-			Object fdValue = getMethod.invoke(entity);// 执行get方法返回一个Object, 字段值
+			Object fdValue = ClassUtils.getPropertieValue(fdName, entity);
 			paramMap.put(fdName, fdValue);
-			if (ClassUtils.isAnnotation(clazz, fdName, Id.class)) {// 如果是ID,生成
-																	// WHERE 条件
+			if (fdName.equals(pkName)) {// 如果是ID,生成
+				// WHERE 条件
 				whereSQL.append(fdName).append("=:").append(fdName);
-				id = fdValue;
 				if (fdNames.size() > 1)// 至少还有一个字段!!!!
 					continue;
 			}
@@ -591,33 +636,43 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 				sql.append(fdName).append("=:").append(fdName);
 				break;
 			}
-
 			sql.append(fdName).append("=:").append(fdName).append(",");
 		}
 
 		sql.append(whereSQL);
+		return sql.toString();
+	}
 
-	
-		//打印sql
+	@Override
+	public Integer update(Object entity) throws Exception {
+		Class clazz = entity.getClass();
+		// entity的信息
+		EntityInfo entityInfo = ClassUtils.getEntityInfoByEntity(entity);
+		List<String> fdNames = ClassUtils.getAllDBFields(clazz);
+		String tableName = entityInfo.getTableName();
+		// 获取 分表的扩展
+		String tableExt = entityInfo.getTableExt();
+		Map paramMap = new HashMap();
+		String sql = warpupdatesql(entity, paramMap);
+		Object id = ClassUtils.getPKValue(entity);
+		// 打印sql
 		logInfoSql(sql.toString());
-	
-		Object old_entity =null;
+
+		Object old_entity = null;
 		IAuditLog auditLog = getAuditLog();
-		if(auditLog!=null){
+		if (auditLog != null) {
 			old_entity = findByID(id, clazz, tableExt);
 		}
 		// 更新entity
 		Integer hang = getJdbc().update(sql.toString(), paramMap);
-		if(auditLog==null){
+		if (auditLog == null) {
 			return hang;
 		}
-		
-		if(entityInfo.isNotLog()){
+
+		if (entityInfo.isNotLog()) {
 			return hang;
 		}
-		
-	
-		
+
 		auditLog.setOperationClass(entity.getClass().getName());
 		auditLog.setOperationType(GlobalStatic.dataUpdate);
 		auditLog.setOperatorName(getUserName());
@@ -633,7 +688,6 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		}
 		auditLog.setExt(audit_tableExt);
 
-		
 		// 保存日志
 		saveNoLog(auditLog);
 		return hang;
@@ -657,7 +711,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		String sql = "SELECT * FROM " + tableName + " WHERE " + idName + "=:id";
 		Finder finder = new Finder(sql);
 		finder.setParam("id", id);
-		//打印sql
+		// 打印sql
 		logInfoSql(finder.getSql());
 		return queryForObject(finder, clazz);
 	}
@@ -673,6 +727,69 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	}
 
 	@Override
+	public void deleteById(Object id, Class clazz) throws Exception {
+		if (id == null)
+			return;
+		EntityInfo entityInfo = ClassUtils.getEntityInfoByClass(clazz);
+		String tableName = entityInfo.getTableName();
+		String idName = entityInfo.getPkName();
+		String sql = "Delete FROM " + tableName + " WHERE " + idName + "=:id";
+		Finder finder = new Finder(sql);
+		finder.setParam("id", id);
+
+		IAuditLog auditLog = getAuditLog();
+		Object findEntityByID = null;
+
+		if (auditLog != null) {
+			findEntityByID = findByID(id, clazz);
+		}
+		// 打印sql
+		logInfoSql(finder.getSql());
+		update(finder);
+
+		if (auditLog == null) {
+			return;
+		}
+
+		if (entityInfo.isNotLog()) {
+			return;
+		}
+		/**
+		 * 删除还有个 bug,就是删除分表的数据,日志记录有问题 没有分表
+		 */
+
+		int year = Calendar.getInstance().get(Calendar.YEAR);
+		String tableExt = GlobalStatic.tableExt + year;
+
+		auditLog.setOperationClass(clazz.getName());
+		auditLog.setOperationType(GlobalStatic.dataDelete);
+		auditLog.setOperatorName(getUserName());
+		auditLog.setOperationClassId(id.toString());
+		auditLog.setOperationTime(new Date());
+		auditLog.setPreValue(findEntityByID.toString());
+		auditLog.setExt(tableExt);
+		auditLog.setCurValue("无");
+		// 保存日志
+		saveNoLog(auditLog);
+
+	}
+
+	@Override
+	public void deleteByIds(List ids, Class clazz) throws Exception {
+		if (CollectionUtils.isEmpty(ids))
+			return;
+		EntityInfo entityInfo = ClassUtils.getEntityInfoByClass(clazz);
+		String tableName = entityInfo.getTableName();
+		String idName = entityInfo.getPkName();
+		String sql = "Delete FROM " + tableName + " WHERE " + idName
+				+ " in (:ids)";
+		Finder finder = new Finder(sql);
+		finder.setParam("ids", ids);
+		update(finder);
+
+	}
+
+	@Override
 	public Object queryObjectByFunction(Finder finder) {
 		String funName = finder.getFunName();
 		Object o = null;
@@ -680,16 +797,16 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 			return null;
 		}
 		Map<String, Object> params = finder.getParams();
-		if (params == null) {
-			throw new InvalidDataAccessApiUsageException(
-					"参数不能为空,大哥,spring jdbc 没有你期望的方法,你可以自己封装一个啊!");
-		} else {
-			try {
-				return getJdbcCall().withFunctionName(funName).execute(params);
-			} catch (EmptyResultDataAccessException e) {
-				o = null;
-			}
+		try {
+			if (params == null) {
+				throw new InvalidDataAccessApiUsageException(
+						"参数不能为空,大哥,spring jdbc 没有你期望的方法,你可以自己封装一个啊!");
+			} else {
 
+				return getJdbcCall().withFunctionName(funName).execute(params);
+			}
+		} catch (EmptyResultDataAccessException e) {
+			o = null;
 		}
 		return o;
 	}
@@ -702,103 +819,23 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 			return null;
 		}
 		Map<String, Object> params = finder.getParams();
-		if (params == null) {
-			throw new InvalidDataAccessApiUsageException(
-					"参数不能为空,大哥,spring jdbc 没有你期望的方法,你可以自己封装一个啊!");
-
-		} else {
-			try {
+		try {
+			if (params == null) {
+				throw new InvalidDataAccessApiUsageException("参数不能为空,大哥,spring jdbc 没有你期望的方法,你可以自己封装一个啊!");
+			} else {
 				map = getJdbcCall().withProcedureName(procName).execute(params);
-			} catch (EmptyResultDataAccessException e) {
-				map = null;
 			}
+		} catch (EmptyResultDataAccessException e) {
+			map = null;
 		}
 		return map;
 	}
 
 	@Override
-	public void deleteById(Object id, Class clazz) throws Exception {
-		if (id == null)
-			return;
-		EntityInfo entityInfo = ClassUtils.getEntityInfoByClass(clazz);
-		String tableName = entityInfo.getTableName();
-		String idName = entityInfo.getPkName();
-		String sql = "Delete FROM " + tableName + " WHERE " + idName + "=:id";
-		Finder finder = new Finder(sql);
-		finder.setParam("id", id);
-		
-		
-		
-		IAuditLog auditLog = getAuditLog();
-		Object findEntityByID =null;
-		
-		if(auditLog!=null){
-			findEntityByID = findByID(id, clazz);
-		}
-		//打印sql
-		logInfoSql(finder.getSql());
-		update(finder);
-		
-		if(auditLog==null){
-			return;
-		}
-		
-		if(entityInfo.isNotLog()){
-			return ;
-		}
-		/**
-		 * 删除还有个 bug,就是删除分表的数据,日志记录有问题 没有分表
-		 */
-
-		int year = Calendar.getInstance().get(Calendar.YEAR);
-		String tableExt = GlobalStatic.tableExt + year;
-
-	
-	
-	
-		auditLog.setOperationClass(clazz.getName());
-		auditLog.setOperationType(GlobalStatic.dataDelete);
-		auditLog.setOperatorName(getUserName());
-		auditLog.setOperationClassId(id.toString());
-		auditLog.setOperationTime(new Date());
-		auditLog.setPreValue(findEntityByID.toString());
-		auditLog.setExt(tableExt);
-		auditLog.setCurValue("无");
-		// 保存日志
-		saveNoLog(auditLog);
-
-	
-	}
-
-	
-	@Override
-	public void deleteByIds(List ids, Class clazz) throws Exception {
-		if (CollectionUtils.isEmpty(ids))
-			return;
-		EntityInfo entityInfo = ClassUtils.getEntityInfoByClass(clazz);
-		String tableName = entityInfo.getTableName();
-		String idName = entityInfo.getPkName();
-		String sql = "Delete FROM " + tableName + " WHERE " + idName + " in (:ids)";
-		Finder finder = new Finder(sql);
-		finder.setParam("ids", ids);
-		update(finder);
-
-	
-	}
-	
-	
-	@Override
-	public <T> List<T> queryForListByFunciton(Finder finder, Class<T> clazz)
-			throws Exception {
-
-		throw new Exception("不好意思,方法未实现!");
-	}
-
-	@Override
 	public <T> List<T> queryForListByFunction(Finder finder, Class<T> clazz)
-			throws Exception {
+			throws Exception {	
 		throw new Exception("不好意思,方法未实现!");
-	}
+			}
 
 	@Override
 	public <T> T queryForObjectByProc(Finder finder, Class<T> clazz)
@@ -809,18 +846,17 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 			return null;
 		}
 		Map<String, Object> params = finder.getParams();
-		if (params == null) {
-			throw new InvalidDataAccessApiUsageException(
-					"参数不能为空,大哥,spring jdbc 没有你期望的方法,你可以自己封装一个啊!");
+		try {
+			if (params == null) {
+				throw new InvalidDataAccessApiUsageException(
+						"参数不能为空,大哥,spring jdbc 没有你期望的方法,你可以自己封装一个啊!");
 
-		} else {
-			try {
+			} else {
 				t = (T) getJdbcCall().withProcedureName(procName).execute(
 						clazz, params);
-			} catch (EmptyResultDataAccessException e) {
-				t = null;
 			}
-
+		} catch (EmptyResultDataAccessException e) {
+			t = null;
 		}
 
 		return t;
@@ -835,17 +871,17 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 			return null;
 		}
 		Map<String, Object> params = finder.getParams();
-		if (params == null) {
-			throw new InvalidDataAccessApiUsageException(
-					"参数不能为空,大哥,spring jdbc 没有你期望的方法,你可以自己封装一个啊!");
+		try {
+			if (params == null) {
+				throw new InvalidDataAccessApiUsageException(
+						"参数不能为空,大哥,spring jdbc 没有你期望的方法,你可以自己封装一个啊!");
 
-		} else {
-			try {
+			} else {
 				t = getJdbcCall().withFunctionName(funName).executeFunction(
 						clazz, params);
-			} catch (EmptyResultDataAccessException e) {
-				t = null;
 			}
+		} catch (EmptyResultDataAccessException e) {
+			t = null;
 		}
 		return t;
 	}
@@ -865,7 +901,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		Finder finder = new Finder("SELECT * FROM ");
 		finder.append(tableName).append("  WHERE 1=1 ");
 		getFinderWhereByQueryBean(finder, entity);
-		//打印sql
+		// 打印sql
 		logInfoSql(finder.getSql());
 		return (T) queryForObject(finder, entity.getClass());
 
@@ -898,91 +934,59 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	 * @throws Exception
 	 */
 	@Override
-	public <T> List<T> queryForListByEntity(T entity, Page page) throws Exception {
+	public <T> List<T> queryForListByEntity(T entity, Page page)
+			throws Exception {
 		String tableName = getTableNameByEntity(entity);
 		Finder finder = new Finder("SELECT * FROM ");
 		finder.append(tableName).append("  WHERE 1=1 ");
 		getFinderWhereByQueryBean(finder, entity);
-		//打印sql
+		// 打印sql
 		logInfoSql(finder.getSql());
 		return (List<T>) queryForList(finder, entity.getClass(), page);
 
 	}
-	
+
 	/*
-	 //private String dataBaseType = null;
-	//private String dataBaseVersion = null;
-	//private List<String> dataBaseAllTables;
-	@Override
-	public String getDataBaseVersion() {
-		if (dataBaseVersion != null) {
-			return dataBaseVersion;
-		}
-		getDataBaseType();
-		return dataBaseVersion;
-	}
-
-	@Override
-	public String getDataBaseType() {
-		if (dataBaseType != null) {
-			return dataBaseType;
-		}
-		String databaseProductName = getJdbc().getJdbcOperations().execute(
-				new ConnectionCallback<String>() {
-					public String doInConnection(Connection connection)
-							throws SQLException, DataAccessException {
-						String databaseProductName = connection.getMetaData()
-								.getDatabaseProductName();
-						dataBaseVersion = connection.getMetaData()
-								.getDatabaseProductVersion();
-						return databaseProductName;
-					}
-				});
-		if (databaseProductName == null) {
-			throw new NullPointerException("dataBase DriverName is null");
-		}
-		databaseProductName = databaseProductName.trim().toLowerCase();
-		if (databaseProductName.contains("mysql")) {
-			this.dataBaseType = "mysql";
-		} else if (databaseProductName.contains("oracle")) {
-			this.dataBaseType = "oracle";
-		} else if (databaseProductName.contains("db2")) {
-			this.dataBaseType = "db2";
-		} else if (databaseProductName.contains("sqlserver")) {
-			this.dataBaseType = "mssql";
-		} else if (databaseProductName.contains("jtds")) {
-			this.dataBaseType = "mssql";
-		} else if (databaseProductName.contains("sybase")) {
-			this.dataBaseType = "sybase";
-		}
-
-		return dataBaseType;
-	}
-
-	@Override
-	public List<String> getDataBaseAllTables() {
-		if (dataBaseAllTables != null)
-			return dataBaseAllTables;
-		dataBaseAllTables = getJdbc().getJdbcOperations().execute(
-				new ConnectionCallback<List<String>>() {
-					public List<String> doInConnection(Connection connection)
-							throws SQLException, DataAccessException {
-						List<String> tables = new ArrayList<String>();
-						DatabaseMetaData dbMetaData = connection.getMetaData();
-						// 可为:"TABLE", "VIEW", "SYSTEM   TABLE",
-						// "GLOBAL   TEMPORARY", "LOCAL   TEMPORARY", "ALIAS",
-						// "SYNONYM"
-						String[] types = { "TABLE" };
-						ResultSet tabs = dbMetaData.getTables(null, null, null,
-								types);//只要表就好了 
-						while (tabs.next()) {
-							// 只要表名这一列
-							tables.add(tabs.getString("TABLE_NAME"));
-						}
-						return tables;
-					}
-				});
-		return dataBaseAllTables;
-	}
-	*/
+	 * //private String dataBaseType = null; //private String dataBaseVersion =
+	 * null; //private List<String> dataBaseAllTables;
+	 * 
+	 * @Override public String getDataBaseVersion() { if (dataBaseVersion !=
+	 * null) { return dataBaseVersion; } getDataBaseType(); return
+	 * dataBaseVersion; }
+	 * 
+	 * @Override public String getDataBaseType() { if (dataBaseType != null) {
+	 * return dataBaseType; } String databaseProductName =
+	 * getJdbc().getJdbcOperations().execute( new ConnectionCallback<String>() {
+	 * public String doInConnection(Connection connection) throws SQLException,
+	 * DataAccessException { String databaseProductName =
+	 * connection.getMetaData() .getDatabaseProductName(); dataBaseVersion =
+	 * connection.getMetaData() .getDatabaseProductVersion(); return
+	 * databaseProductName; } }); if (databaseProductName == null) { throw new
+	 * NullPointerException("dataBase DriverName is null"); }
+	 * databaseProductName = databaseProductName.trim().toLowerCase(); if
+	 * (databaseProductName.contains("mysql")) { this.dataBaseType = "mysql"; }
+	 * else if (databaseProductName.contains("oracle")) { this.dataBaseType =
+	 * "oracle"; } else if (databaseProductName.contains("db2")) {
+	 * this.dataBaseType = "db2"; } else if
+	 * (databaseProductName.contains("sqlserver")) { this.dataBaseType =
+	 * "mssql"; } else if (databaseProductName.contains("jtds")) {
+	 * this.dataBaseType = "mssql"; } else if
+	 * (databaseProductName.contains("sybase")) { this.dataBaseType = "sybase";
+	 * }
+	 * 
+	 * return dataBaseType; }
+	 * 
+	 * @Override public List<String> getDataBaseAllTables() { if
+	 * (dataBaseAllTables != null) return dataBaseAllTables; dataBaseAllTables =
+	 * getJdbc().getJdbcOperations().execute( new
+	 * ConnectionCallback<List<String>>() { public List<String>
+	 * doInConnection(Connection connection) throws SQLException,
+	 * DataAccessException { List<String> tables = new ArrayList<String>();
+	 * DatabaseMetaData dbMetaData = connection.getMetaData(); // 可为:"TABLE",
+	 * "VIEW", "SYSTEM   TABLE", // "GLOBAL   TEMPORARY", "LOCAL   TEMPORARY",
+	 * "ALIAS", // "SYNONYM" String[] types = { "TABLE" }; ResultSet tabs =
+	 * dbMetaData.getTables(null, null, null, types);//只要表就好了 while
+	 * (tabs.next()) { // 只要表名这一列 tables.add(tabs.getString("TABLE_NAME")); }
+	 * return tables; } }); return dataBaseAllTables; }
+	 */
 }

@@ -97,6 +97,8 @@ public class ClassUtils {
  			if(ispk==true){
  				info.setPkName(fdName);
  			  boolean isSequence=	 isAnnotation(clazz,fdName,PKSequence.class);
+ 			 Class returnType = getReturnType(fdName, clazz);
+ 			info.setPkReturnType(returnType);
  			  if(isSequence){
  					PropertyDescriptor pd = new PropertyDescriptor(fdName, clazz);
  					Method getMethod = pd.getReadMethod();// 获得get方法
@@ -311,7 +313,8 @@ public class ClassUtils {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String getGroupName(Object o) throws Exception{
+	@Deprecated
+	public static String getGroupPropertyName(Object o) throws Exception{
 		Class clazz=o.getClass();
 		if(clazz.isAnnotationPresent(TableGroup.class)==false){
 			return "";
@@ -351,22 +354,8 @@ public class ClassUtils {
 	 */
 	public static Object getPKValue(Object o) throws Exception{
 		Class clazz=o.getClass();
-		 Set<String> allNames=getAllFieldNames(clazz);
-	     if(CollectionUtils.isEmpty(allNames))
-	    	 return null;
-	     
-	     String id="id";
-	    
-		 List<String> list=new ArrayList<String>();	
-	     
-		 for(String fdName:allNames){
-			boolean ispk= isAnnotation(clazz,fdName,Id.class);
-			if(ispk){
-				id=fdName;
-				break;
-			}
-		 }
-			return getPropertieValue(id,o) ;
+	     String id=getEntityInfoByClass(clazz).getPkName();
+		return getPropertieValue(id,o) ;
 			
 	}
 	
@@ -380,12 +369,16 @@ public class ClassUtils {
 	public static Object getPropertieValue(String p,Object o) throws Exception{
 		Object _obj=null;
 		for(Class<?> clazz = o.getClass(); clazz != Object.class;  clazz = clazz.getSuperclass()) {
+			try{
 			 PropertyDescriptor pd = new PropertyDescriptor(p, clazz);
 				Method getMethod = pd.getReadMethod();// 获得get方法
 				if(getMethod!=null){
 					_obj= getMethod.invoke(o);
 					break;
 				}
+			}catch(Exception e){
+				return null;
+			}
 			
 		}
 		
@@ -422,14 +415,14 @@ public class ClassUtils {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String getReturnType(String p,Object o) throws Exception{
+	public static Class getReturnType(String p,Class _clazz) throws Exception{
 		
-		String  returnType=null;
-		for(Class<?> clazz = o.getClass(); clazz != Object.class;  clazz = clazz.getSuperclass()) {
+		Class  returnType=null;
+		for(Class<?> clazz = _clazz; clazz != Object.class;  clazz = clazz.getSuperclass()) {
 			 PropertyDescriptor pd = new PropertyDescriptor(p, clazz);
 				Method getMethod = pd.getReadMethod();// 获得get方法
 				if(getMethod!=null){
-					returnType= getMethod.getReturnType().getName();
+					returnType= getMethod.getReturnType();
 					break;
 				}
 			
@@ -437,7 +430,6 @@ public class ClassUtils {
 		
 		return returnType;
 	}
-	
 	
 	/**
 	 * 是否是java的基本类型
@@ -448,7 +440,7 @@ public class ClassUtils {
 		if(clazz==null){
 			return false;
 		}
-		String className=clazz.getName().toLowerCase().trim();
+		String className=clazz.getName().toLowerCase();
 		if(className.startsWith("java.")){
 			return true;
 		}else{

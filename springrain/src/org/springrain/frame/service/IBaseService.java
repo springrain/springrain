@@ -219,6 +219,17 @@ public interface IBaseService {
      * @return
      */
 	public  Object save( Object entity) throws Exception;
+	
+	
+	/**
+	 * 批量更新
+	 * @param list
+	 * @return List
+	 * @throws Exception
+	 */
+		public List<Integer>  save(List list) throws Exception;
+	
+	
 	 /**
      * 更新一个对象
      * @param <T>
@@ -228,6 +239,13 @@ public interface IBaseService {
 	public  Integer update( IBaseEntity entity) throws Exception;
 
 	
+	/**
+	 * 批量更新对象
+	 * @param list
+	 * @return
+	 * @throws Exception
+	 */
+	public  List<Integer> update(List list) throws Exception;
 	
 	/**
 	 * 根据ID 查询对象

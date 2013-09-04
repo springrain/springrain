@@ -56,16 +56,6 @@ public interface IBaseJdbcDao {
 	public <T> List<T> queryForListByFunction(Finder finder, Class<T> clazz)
 			throws Exception;
 
-	/**
-	 * 调用数据库函数 返回结果是 List<Entity>
-	 * 
-	 * @param finder
-	 * @param clazz
-	 * @return
-	 * @throws Exception
-	 */
-	public <T> List<T> queryForListByFunciton(Finder finder, Class<T> clazz)
-			throws Exception;
 
 	/**
 	 * 调用数据库存储过程 返回指定 对象
@@ -223,6 +213,15 @@ public interface IBaseJdbcDao {
 	 * @return
 	 */
 	public Object save(Object entity) throws Exception;
+	
+	
+/**
+ * 批量更新
+ * @param list
+ * @return List
+ * @throws Exception
+ */
+	public List<Integer>  save(List list) throws Exception;
 
 	/**
 	 * 更新一个对象
@@ -232,6 +231,16 @@ public interface IBaseJdbcDao {
 	 * @return
 	 */
 	public Integer update(Object entity) throws Exception;
+	
+	
+	/**
+	 * 批量更新对象
+	 * @param list
+	 * @return
+	 * @throws Exception
+	 */
+	public  List<Integer> update(List list) throws Exception;
+
 
 	/**
 	 * 根据Id 删除

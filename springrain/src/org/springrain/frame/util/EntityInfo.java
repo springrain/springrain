@@ -16,6 +16,9 @@ public class EntityInfo {
 	private String filedsName=null;
 	private String tableExt="";
 	private Map<String,String> sqlmap=null;
+
+	private Class<?> pkReturnType;
+	
 	
 	private String pkName=null;
 
@@ -104,6 +107,12 @@ public class EntityInfo {
 	}
 	public void setNotLog(boolean notLog) {
 		this.notLog = notLog;
+	}
+	public Class getPkReturnType() {
+		return pkReturnType;
+	}
+	public void setPkReturnType(Class pkReturnType) {
+		this.pkReturnType = pkReturnType;
 	}
 
 

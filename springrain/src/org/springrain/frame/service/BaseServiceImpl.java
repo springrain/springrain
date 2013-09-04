@@ -379,10 +379,18 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 	public Object save(Object entity) throws Exception {
 		return getBaseDao().save(entity);
 	}
-
+	@Override
+	public List<Integer> save(List list) throws Exception {
+		return getBaseDao().save(list);
+	}
 	@Override
 	public Integer update(IBaseEntity entity) throws Exception {
 		return getBaseDao().update(entity);
+	}
+	
+	@Override
+	public List<Integer> update(List list) throws Exception {
+		return getBaseDao().update(list);
 	}
 
 	@Override
@@ -476,9 +484,9 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 					}
 				}
 				String value = cell.getContents().trim();
-				String className = ClassUtils.getReturnType(name, o)
-						.toLowerCase();
-				if (className.contains(".string")) {
+				Class className = ClassUtils.getReturnType(name, o.getClass());
+					
+				if (className==String.class) {
 					try {
 						ClassUtils.setPropertieValue(name, o, value);
 					} catch (Exception e) {
@@ -489,7 +497,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 							throw new Exception(s);
 						}
 					}
-				} else if (className.contains(".date")) {
+				} else if (className==Date.class) {
 					try {
 						value = value.replace("/", "-");
 						Date d = DateUtils.convertString2Date(value);
@@ -504,7 +512,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 						}
 					}
 
-				} else if (className.contains(".double")) {
+				} else if (className==Double.class) {
 					try {
 						Double db = null;
 						if (StringUtils.isNotBlank(value)) {
@@ -519,7 +527,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 							throw new Exception(s);
 						}
 					}
-				} else if (className.contains(".float")) {
+				} else if (className==Float.class) {
 					try {
 						Float f = null;
 						if (StringUtils.isNotBlank(value)) {
@@ -535,7 +543,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 						}
 					}
 
-				} else if (className.contains(".integer")) {
+				} else if (className==Integer.class) {
 					try {
 						Integer _i = null;
 
@@ -554,7 +562,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 					}
 				}
 
-				else if (className.contains(".bigdecimal")) {
+				else if (className==BigDecimal.class) {
 					try {
 						BigDecimal bd = null;
 						if (StringUtils.isNotBlank(value)) {
