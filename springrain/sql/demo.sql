@@ -341,6 +341,35 @@ INSERT INTO `t_role_menu` VALUES ('t_dic_data_grade_delete_admin', 'admin', 't_d
 
 
 
+DROP TABLE IF EXISTS `blog`;
+CREATE TABLE `blog` (
+  `id` int(11) NOT NULL auto_increment COMMENT '序号',
+  `title` varchar(200) NOT NULL COMMENT '标题',
+  `content` mediumtext NOT NULL  COMMENT '内容',
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='博客';
+
+
+INSERT INTO `blog` VALUES ('1', 'JFinal Demo Title here', 'JFinal Demo Content here');
+INSERT INTO `blog` VALUES ('2', 'test 1', 'test 1');
+INSERT INTO `blog` VALUES ('3', 'test 2', 'test 2');
+INSERT INTO `blog` VALUES ('4', 'test 3', 'test 3');
+INSERT INTO `blog` VALUES ('5', 'test 4', 'test 4');
+
+INSERT INTO t_menu values('blog_list','博客管理', 'business_manager', null,'/blog/list','1','是');
+INSERT INTO t_menu values('blog_update','修改博客', 'blog_list', null,'/blog/update','0','是');
+INSERT INTO t_menu values('blog_look','查看博客', 'blog_list', null,'/blog/look','0','是');
+INSERT INTO t_menu values('blog_export','导出博客', 'blog_list', null,'/blog/list/export','0','是');
+INSERT INTO t_menu values('blog_delMulti','批量删除博客', 'blog_list', null,'/blog/delMulti','0','是');
+INSERT INTO t_menu values('blog_delete','删除博客', 'blog_list', null,'/blog/delete','0','是');
+INSERT INTO t_menu values('blog_upload','导入博客', 'blog_list', null,'/blog/upload','0','是');
+INSERT INTO `t_role_menu` VALUES ('blog_list_admin', 'admin', 'blog_list');
+INSERT INTO `t_role_menu` VALUES ('blog_update_admin', 'admin', 'blog_update');
+INSERT INTO `t_role_menu` VALUES ('blog_look_admin', 'admin', 'blog_look');
+INSERT INTO `t_role_menu` VALUES ('blog_export_admin', 'admin', 'blog_export');
+INSERT INTO `t_role_menu` VALUES ('blog_delMulti_admin', 'admin', 'blog_delMulti');
+INSERT INTO `t_role_menu` VALUES ('blog_delete_admin', 'admin', 'blog_delete');
+INSERT INTO `t_role_menu` VALUES ('blog_upload_admin', 'admin', 'blog_upload');
 
 
 

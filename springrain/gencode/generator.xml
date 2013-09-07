@@ -40,7 +40,7 @@
 	<entry key="jdbc.password">root</entry>
 	<!-- Mysql -->
 
-	<entry key="jdbc.url">jdbc:mysql://10.0.0.9:3306/demo?useUnicode=true&amp;characterEncoding=UTF-8</entry>
+	<entry key="jdbc.url">jdbc:mysql://127.0.0.1:3306/demo?useUnicode=true&amp;characterEncoding=UTF-8</entry>
 	<entry key="jdbc.driver">com.mysql.jdbc.Driver</entry>
 
 	

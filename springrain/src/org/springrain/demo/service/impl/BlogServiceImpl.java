@@ -1,13 +1,10 @@
-<#assign myParentDir="service.impl">
-<#assign className = table.className>   
-<#assign classNameLower = className?uncap_first>  
-package ${basepackage}.service.impl;
+package org.springrain.demo.service.impl;
 
 import org.springframework.stereotype.Service;
 import org.springrain.frame.service.IBaseService;
 import org.springrain.demo.service.BaseDemoServiceImpl;
-import ${basepackage}.entity.${className};
-import ${basepackage}.service.I${className}Service;
+import org.springrain.demo.entity.Blog;
+import org.springrain.demo.service.IBlogService;
 import java.util.List;
 import java.io.File;
 import org.springrain.frame.entity.IBaseEntity;
@@ -15,31 +12,37 @@ import org.springrain.frame.util.Page;
 import org.springrain.frame.util.Finder;
 
 
-<#include "/copyright_class.include" >
-@Service("${classNameLower}Service")
-public class ${className}ServiceImpl extends BaseDemoServiceImpl implements I${className}Service {
+/**
+ * TODO 在此加入类描述
+ * @copyright {@link 9iu.org}
+ * @author springrain<Auto generate>
+ * @version  2013-09-07 09:45:01
+ * @see org.springrain.demo.service.impl.Blog
+ */
+@Service("blogService")
+public class BlogServiceImpl extends BaseDemoServiceImpl implements IBlogService {
 
    
     @Override
 	public String  save(Object entity ) throws Exception{
-	      ${className} ${classNameLower}=(${className}) entity;
-	       return super.save(${classNameLower}).toString();
+	      Blog blog=(Blog) entity;
+	       return super.save(blog).toString();
 	}
 
     @Override
 	public String  saveorupdate(Object entity ) throws Exception{
-	      ${className} ${classNameLower}=(${className}) entity;
-		 return super.saveorupdate(${classNameLower}).toString();
+	      Blog blog=(Blog) entity;
+		 return super.saveorupdate(blog).toString();
 	}
 	
 	@Override
     public Integer update(IBaseEntity entity ) throws Exception{
-	 ${className} ${classNameLower}=(${className}) entity;
-	return super.update(${classNameLower});
+	 Blog blog=(Blog) entity;
+	return super.update(blog);
     }
     @Override
-	public ${className} find${className}ById(Object id) throws Exception{
-	 return super.findById(id,${className}.class);
+	public Blog findBlogById(Object id) throws Exception{
+	 return super.findById(id,Blog.class);
 	}
 	
 /**
