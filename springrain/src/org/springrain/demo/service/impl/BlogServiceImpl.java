@@ -57,7 +57,17 @@ public class BlogServiceImpl extends BaseDemoServiceImpl implements IBlogService
         @Override
     public <T> List<T> findListDataByFinder(Finder finder, Page page, Class<T> clazz,
 			Object o) throws Exception{
-			 return super.findListDataByFinder(finder,page,clazz,o);
+        	/**
+          finder=new Finder("select * from blog where 1=1 ");
+          //拼装动态where 条件,当然,你也可以手动拼装
+          getFinderWhereByQueryBean(finder, o);
+          //拼装 动态 order by ,用于列表字段排序
+          getFinderOrderBy(finder, page);
+          return super.queryForList(finder, clazz, page);
+        **/
+          
+	 return super.findListDataByFinder(finder,page,clazz,o);
+          
 			}
 	/**
 	 * 根据查询列表的宏,导出Excel
