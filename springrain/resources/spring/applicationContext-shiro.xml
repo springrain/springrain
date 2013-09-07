@@ -36,7 +36,8 @@
 			   /images/** = anon
 			   /unauth = anon
 			   /getCaptcha=anon
-			   	/login = anon
+			   /login = anon
+			   	/favicon.ico = anon
 			   /index = user
 			   /logout = logout
 			   /menu/leftMenu=user
