@@ -10,7 +10,6 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springrain.demo.entity.Menu;
 import org.springrain.demo.entity.Role;
@@ -33,7 +32,7 @@ public class UserRoleMenuServiceImpl extends BaseDemoServiceImpl implements
 		IUserRoleMenuService {
 
 	@Override
-	@Cacheable(value = GlobalStatic.cacheKey, key = "'findRoleByUserId_'+#userId")
+	@Cacheable(value = GlobalStatic.qxCacheKey, key = "'findRoleByUserId_'+#userId")
 	public List<Role> findRoleByUserId(String userId) throws Exception {
 		if (StringUtils.isBlank(userId)) {
 			return null;
@@ -44,7 +43,7 @@ public class UserRoleMenuServiceImpl extends BaseDemoServiceImpl implements
 		return super.queryForList(finder, Role.class);
 	}
 	@Override
-	@Cacheable(value = GlobalStatic.cacheKey, key = "'getRolesAsString_'+#userId")
+	@Cacheable(value = GlobalStatic.qxCacheKey, key = "'getRolesAsString_'+#userId")
 	public Set<String> getRolesAsString(String userId)throws Exception {
 		List<Role> list = findRoleByUserId(userId);
 		if(CollectionUtils.isEmpty(list)){
@@ -57,7 +56,7 @@ public class UserRoleMenuServiceImpl extends BaseDemoServiceImpl implements
 		return set;
 	}
 	@Override
-	@Cacheable(value = GlobalStatic.cacheKey, key = "'getPermissionsAsString_'+#userId")
+	@Cacheable(value = GlobalStatic.qxCacheKey, key = "'getPermissionsAsString_'+#userId")
 	public  Set<String> getPermissionsAsString(String userId) throws Exception {
 		List<Menu> setMenu = findAllMenuByUserId(userId);
 		if(CollectionUtils.isEmpty(setMenu)){
@@ -74,7 +73,7 @@ public class UserRoleMenuServiceImpl extends BaseDemoServiceImpl implements
 	}
 
 	@Override
-	@Cacheable(value = GlobalStatic.cacheKey, key = "'findMenuByRoleId_'+#roleId")
+	@Cacheable(value = GlobalStatic.qxCacheKey, key = "'findMenuByRoleId_'+#roleId")
 	public List<Menu> findMenuByRoleId(String roleId) throws Exception {
 		if (StringUtils.isBlank(roleId)) {
 			return null;
@@ -86,7 +85,7 @@ public class UserRoleMenuServiceImpl extends BaseDemoServiceImpl implements
 	}
 
 	@Override
-	@Cacheable(value = GlobalStatic.cacheKey, key = "'findUserByRoleId_'+#roleId")
+	@Cacheable(value = GlobalStatic.qxCacheKey, key = "'findUserByRoleId_'+#roleId")
 	public List<User> findUserByRoleId(String roleId) throws Exception {
 		if (StringUtils.isBlank(roleId)) {
 			return null;
@@ -132,7 +131,7 @@ public class UserRoleMenuServiceImpl extends BaseDemoServiceImpl implements
 
 	}
 	@Override
-	@Cacheable(value = GlobalStatic.cacheKey, key = "'findRoleAndMenu_'+#roleId")
+	@Cacheable(value = GlobalStatic.qxCacheKey, key = "'findRoleAndMenu_'+#roleId")
 	public Role findRoleAndMenu(String roleId) throws Exception {
 		if (StringUtils.isBlank(roleId)) {
 			return null;
@@ -164,7 +163,7 @@ public class UserRoleMenuServiceImpl extends BaseDemoServiceImpl implements
 	}
 
 	@Override
-	@Cacheable(value = GlobalStatic.cacheKey, key = "'findAllRoleAndMenu'")
+	@Cacheable(value = GlobalStatic.qxCacheKey, key = "'findAllRoleAndMenu'")
 	public List<Role> findAllRoleAndMenu() throws Exception {
 		Finder f_role = new Finder("SELECT * FROM t_role where state=:state ");
 		f_role.setParam("state", "是");
@@ -215,7 +214,8 @@ public class UserRoleMenuServiceImpl extends BaseDemoServiceImpl implements
 	}
 	
 	@Override
-	@Caching(evict={@CacheEvict(value = GlobalStatic.cacheKey,key = "'findMenuByRoleId_'+#roleId"),@CacheEvict(value = GlobalStatic.cacheKey,key = "'findRoleAndMenu_'+#roleId"),@CacheEvict(value = GlobalStatic.cacheKey,key = "'findAllRoleAndMenu'")})
+	//@Caching(evict={@CacheEvict(value = GlobalStatic.qxCacheKey,key = "'findMenuByRoleId_'+#roleId"),@CacheEvict(value = GlobalStatic.qxCacheKey,key = "'findRoleAndMenu_'+#roleId"),@CacheEvict(value = GlobalStatic.qxCacheKey,key = "'findAllRoleAndMenu'")})
+	@CacheEvict(value=GlobalStatic.qxCacheKey,allEntries=true)  
 	public void updateRoleMenu(String roleId,String[] menus) throws Exception {
 		//删除现在的中间权限表
 				Finder finder=new Finder("delete from t_role_menu  where roleId=:roleId ");

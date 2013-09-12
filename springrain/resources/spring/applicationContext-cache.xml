@@ -29,6 +29,10 @@
 					class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
 					<property name="name" value="springraincache" />
 				</bean>
+				<bean
+					class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
+					<property name="name" value="springrainqxcache" />
+				</bean>
 			</set>
 		</property>
 	</bean>
