@@ -5,33 +5,34 @@ import java.util.Map;
 
 /**
  * 封装查询接口
+ * 
  * @copyright {@link 9iu.org}
  * @author springrain<Auto generate>
- * @version  2013-03-19 11:08:15
+ * @version 2013-03-19 11:08:15
  * @see org.springrain.frame.util.Finder
  */
 public class Finder {
-	private Map<String,Object> params=null;
-    private StringBuffer sql=new StringBuffer();
-   // private String countSql=null;
-    private String orderSql=null;
-    //存储过程
-    private String procName=null;
-    //函数
-    private String funName=null;
-    
-    private String pageSql=null;
-    //设置总条数查询的finder
-    private Finder countFinder=null;
-    
-    
-    public Finder(){}
-    
-    public Finder (String s){
-    	this.sql.append(s);
-    }
-    
-    /** 添加子句 */
+	private Map<String, Object> params = null;
+	private StringBuffer sql = new StringBuffer();
+	// private String countSql=null;
+	private String orderSql = null;
+	// 存储过程
+	private String procName = null;
+	// 函数
+	private String funName = null;
+
+	private String pageSql = null;
+	// 设置总条数查询的finder
+	private Finder countFinder = null;
+
+	public Finder() {
+	}
+
+	public Finder(String s) {
+		this.sql.append(s);
+	}
+
+	/** 添加子句 */
 	public Finder append(String s) {
 		sql.append(s);
 		return this;
@@ -45,8 +46,8 @@ public class Finder {
 	 * @return
 	 */
 	public Finder setParam(String param, Object value) {
-		if(params==null)
-			params=new HashMap<String,Object>();
+		if (params == null)
+			params = new HashMap<String, Object>();
 		params.put(param, value);
 		return this;
 	}
@@ -60,7 +61,7 @@ public class Finder {
 	}
 
 	public String getSql() {
-		if(sql==null)
+		if (sql == null)
 			return null;
 		return sql.toString();
 	}
@@ -68,8 +69,6 @@ public class Finder {
 	public void setSql(String sql) {
 		this.sql = new StringBuffer(sql);
 	}
-
-	
 
 	public String getOrderSql() {
 		return orderSql;
@@ -102,10 +101,12 @@ public class Finder {
 	public void setFunName(String funName) {
 		this.funName = funName;
 	}
-/**
- * 查询总条数的 Finder对象
- * @return Finder
- */
+
+	/**
+	 * 查询总条数的 Finder对象
+	 * 
+	 * @return Finder
+	 */
 	public Finder getCountFinder() {
 		return countFinder;
 	}
