@@ -145,10 +145,13 @@ public class LimtDistributeController  extends BaseController {
 	public String saveorupdate(Model model,Menu menu,HttpServletRequest request,HttpServletResponse response) throws Exception{
 		String roleId=request.getParameter("roleId");
 		String roleMenuIds=request.getParameter("roleMenuIds");
-		String[] menus=roleMenuIds.split(",");
+		String[] menus=null;
 		if(StringUtils.isBlank(roleId)){
-			model.addAttribute(message, null);
+			model.addAttribute(message, "修改失败,没这个岗位!");
 			return messageurl;
+		}
+		if(StringUtils.isNotBlank(roleMenuIds)){
+			menus=roleMenuIds.split(",");
 		}
 		try {
 			userRoleMenuService.updateRoleMenu(roleId, menus);
