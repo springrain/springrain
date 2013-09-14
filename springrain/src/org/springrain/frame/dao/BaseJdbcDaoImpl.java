@@ -535,13 +535,10 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		if (entityInfo.isNotLog()) {
 			return id;
 		}
-
-		String tableExt = ClassUtils.getTableExt(entity);
-		if (StringUtils.isBlank(tableExt)) {
-			int year = Calendar.getInstance().get(Calendar.YEAR);
-			tableExt = GlobalStatic.tableExt + year;
-		}
-
+	
+		
+		int year = Calendar.getInstance().get(Calendar.YEAR);
+		String	tableExt = GlobalStatic.tableExt + year;
 		auditLog.setOperationClass(entity.getClass().getName());
 		auditLog.setOperationType(GlobalStatic.dataSave);
 		auditLog.setOperatorName(getUserName());
@@ -681,13 +678,10 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		auditLog.setPreValue(old_entity.toString());
 		auditLog.setCurValue(entity.toString());
 
-		String audit_tableExt = tableExt;
-		if (StringUtils.isBlank(tableExt)) {
-			int year = Calendar.getInstance().get(Calendar.YEAR);
-			audit_tableExt = GlobalStatic.tableExt + year;
-		}
-		auditLog.setExt(audit_tableExt);
 
+		int year = Calendar.getInstance().get(Calendar.YEAR);
+		String	audit_tableExt = GlobalStatic.tableExt + year;
+		auditLog.setExt(audit_tableExt);
 		// 保存日志
 		saveNoLog(auditLog);
 		return hang;
