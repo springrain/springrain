@@ -251,6 +251,11 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 		if (ffile.exists()) {
 			ffile.delete();
 		}
+		
+		if(excelFile.exists()){
+			excelFile.setReadOnly();
+		}
+		
 		return excelFile;
 	}
 
