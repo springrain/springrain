@@ -493,7 +493,6 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		// entity信息
 		EntityInfo entityInfo = ClassUtils.getEntityInfoByEntity(entity);
 		List<String> fdNames = ClassUtils.getAllDBFields(clazz);
-		String id = SecUtils.getUUID();// 主键
 		String tableName = entityInfo.getTableName();
 		// 获取 分表的扩展
 		String tableExt = entityInfo.getTableExt();
@@ -505,8 +504,8 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		// 打印sql
 		logInfoSql(sql);
 		if (returnType == String.class) {
-			getJdbc().update(sql, paramMap);
-			return id;
+			Object id = ClassUtils.getPropertieValue(pkName, entity);
+			return id.toString();
 
 		} else {
 			KeyHolder keyHolder = new GeneratedKeyHolder();
