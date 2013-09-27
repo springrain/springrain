@@ -489,23 +489,17 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	 */
 	@SuppressWarnings("unchecked")
 	private Object saveNoLog(Object entity) throws Exception {
-		Class clazz = entity.getClass();
 		// entity信息
 		EntityInfo entityInfo = ClassUtils.getEntityInfoByEntity(entity);
-		List<String> fdNames = ClassUtils.getAllDBFields(clazz);
-		String tableName = entityInfo.getTableName();
-		// 获取 分表的扩展
-		String tableExt = entityInfo.getTableExt();
 		Class<?> returnType = entityInfo.getPkReturnType();
-		String pkName = entityInfo.getPkName();
 		Map paramMap=new HashMap();
 		Boolean isSequence=false;
 	String sql=warpsavesql(entity, paramMap,isSequence);
 		// 打印sql
 		logInfoSql(sql);
 		if (returnType == String.class) {
-			Object id = ClassUtils.getPropertieValue(pkName, entity);
-			return id.toString();
+			getJdbc().update(sql, paramMap);
+			return ClassUtils.getPKValue(entity).toString();
 
 		} else {
 			KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -644,8 +638,6 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		Class clazz = entity.getClass();
 		// entity的信息
 		EntityInfo entityInfo = ClassUtils.getEntityInfoByEntity(entity);
-		List<String> fdNames = ClassUtils.getAllDBFields(clazz);
-		String tableName = entityInfo.getTableName();
 		// 获取 分表的扩展
 		String tableExt = entityInfo.getTableExt();
 		Map paramMap = new HashMap();
