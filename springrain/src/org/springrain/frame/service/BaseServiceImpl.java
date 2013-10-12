@@ -52,9 +52,9 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 		IBaseService {
 
 	@Resource
-	private SpringUtils springUtils;
+	public SpringUtils springUtils;
 	@Resource
-	FreeMarkerConfigurer freeMarkerConfigurer;
+	public FreeMarkerConfigurer freeMarkerConfigurer;
 
 	public abstract IBaseJdbcDao getBaseDao();
 
