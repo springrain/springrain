@@ -185,7 +185,8 @@ public class BaseController extends BaseLogger {
 		model.addAttribute("message", "账号或密码错误");
 		return "/login";
 	}
-		
+		int timeout=session.getMaxInactiveInterval();
+		SecurityUtils.getSubject().getSession().setTimeout(timeout*1000);
 		return "redirect:/index";
 	}
 	
