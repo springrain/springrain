@@ -1,5 +1,7 @@
 package org.springrain.frame.cached;
 
+import java.util.List;
+
 
 public interface ICached {
 	/**
@@ -24,6 +26,14 @@ public interface ICached {
 	 * @throws Exception
 	 */
 	Object getCached(String key)throws Exception;
+	
+	/**
+	 * 根据 正则表达式key 获取 列表
+	 * @param keys
+	 * @return
+	 * @throws Exception
+	 */
+	List getKeys(String keys)throws Exception;
 	
 	
 }
