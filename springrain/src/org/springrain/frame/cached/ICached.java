@@ -18,7 +18,7 @@ public interface ICached {
 	 * @return
 	 * @throws Exception
 	 */
-	Object updateCached(String key,Object value)throws Exception;
+	Object updateCached(String key,Object value,Long expire)throws Exception;
 	/**
 	 * 获取缓存
 	 * @param key

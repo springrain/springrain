@@ -18,7 +18,7 @@ public class RedisShiroSessionDao extends AbstractSessionDAO {
 	@Override
 	public void update(Session session) throws UnknownSessionException {
 		try {
-			cached.updateCached(session.getId().toString(),session);
+			cached.updateCached(session.getId().toString(),session,session.getTimeout()/1000);
 		} catch (Exception e) {
 			logger.error(e);
 		}

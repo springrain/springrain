@@ -14,7 +14,8 @@ public class RedisCachedImpl implements ICached {
 	public RedisCachedImpl() {
 
 	}
-
+	// -1 - never expire
+	private int expire = -1;
 	private RedisTemplate<String, Object> redisTemplate;
 
 	@Override
@@ -31,12 +32,17 @@ public class RedisCachedImpl implements ICached {
 	}
 
 	@Override
-	public String updateCached(final String key, final Object session)
+	public String updateCached(final String key, final Object session,final Long expireSec)
 			throws Exception {
 		return (String) redisTemplate.execute(new RedisCallback<Object>() {
 			public String doInRedis(final RedisConnection connection)
 					throws DataAccessException {
 				connection.set(key.getBytes(), SerializeUtil.serialize(session));
+				if(expireSec!=null){
+					connection.expire(key.getBytes(), expireSec);
+				}else{
+					connection.expire(key.getBytes(), expire);
+				}
 				return key;
 			}
 		});
@@ -82,6 +88,14 @@ public class RedisCachedImpl implements ICached {
 
 			}
 		});
+	}
+
+	public int getExpire() {
+		return expire;
+	}
+
+	public void setExpire(int expire) {
+		this.expire = expire;
 	}
 
 }

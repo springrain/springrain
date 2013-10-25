@@ -53,6 +53,7 @@
 
 <bean id="redisCached" class="org.springrain.frame.cached.RedisCachedImpl">
 <property name="redisTemplate"   ref="redisTemplate" />
+  <property name="expire" value="86400"/>  
 </bean>
   -->
 	
