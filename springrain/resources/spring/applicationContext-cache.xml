@@ -39,8 +39,9 @@
 	</bean>
 	
 	
-	<!-- spring cache redis 扩展  -->
-	<!-- 
+
+<!--  redisCacheManager 用于spring 缓存, redisCached 为redis的工具类,用于业务的缓存. 基于redis分布的session共享也是基于这个redisCached -->
+<!--
 <bean id="redisCacheManager" class="org.springframework.data.redis.cache.RedisCacheManager" c:template-ref="redisTemplate" />
 <bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">  
         <property name="hostName" value="127.0.0.1"/>  
@@ -49,7 +50,11 @@
 <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">  
         <property name="connectionFactory" ref="jedisConnectionFactory"/>  
 </bean>  
- -->
+
+<bean id="redisCached" class="org.springrain.frame.cached.RedisCachedImpl">
+<property name="redisTemplate"   ref="redisTemplate" />
+</bean>
+  -->
 	
 	
 	

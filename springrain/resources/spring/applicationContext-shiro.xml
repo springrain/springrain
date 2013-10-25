@@ -15,10 +15,34 @@
 	default-lazy-init="false">
 
 
-<!-- 权限管理器 -->
+
+	<!-- 权限管理器 -->
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
 		<property name="realm" ref="shiroDbRealm" />
+		<!-- 用于session 集群缓存 -->
+		<!--
+		<property name="sessionManager" ref="sessionManager" />
+		  -->
 	</bean>
+	
+	
+
+<!--  sessionManager   用于集群session 共享-->	
+<!-- 
+<bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+    <property name="globalSessionTimeout" value="1800000"/>
+    <property name="sessionDAO" ref="redisShiroSessionDao"/>
+    <property name="sessionIdCookie" ref="sharesession"/>
+</bean>
+
+<bean id="sharesession" class="org.apache.shiro.web.servlet.SimpleCookie">
+    <constructor-arg name="name" value="SHAREJSESSIONID"/>
+</bean>
+
+<bean id="redisShiroSessionDao"  class="org.springrain.frame.shiro.RedisShiroSessionDao">
+<property name="cached" ref="redisCached" />
+</bean>
+ -->
 
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean"
 		depends-on="frameperms">
