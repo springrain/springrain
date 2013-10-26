@@ -19,6 +19,8 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.LockedAccountException;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.util.WebUtils;
@@ -176,15 +178,21 @@ public class BaseController extends BaseLogger {
 		UsernamePasswordToken token = new UsernamePasswordToken(currUser.getAccount(),currUser.getPassword());
 		
 		token.setRememberMe(true);
-		try{
-		user.login(token);
-	}catch(IncorrectCredentialsException e){
-		model.addAttribute("message", "账号或密码错误");
-		return "/login";
-	}catch(Exception e){
-		model.addAttribute("message", "账号或密码错误");
-		return "/login";
-	}
+		try {
+			user.login(token);
+		} catch (UnknownAccountException uae) {
+			model.addAttribute("message", "账号不存在!");
+			return "/login";
+		} catch (IncorrectCredentialsException ice) {
+			model.addAttribute("message", "密码错误!");
+			return "/login";
+		} catch (LockedAccountException lae) {
+			model.addAttribute("message", "账号被锁定!");
+			return "/login";
+		} catch (Exception e) {
+			model.addAttribute("message", "未知错误,请联系管理员.");
+			return "/login";
+		}
 		int timeout=session.getMaxInactiveInterval();
 		SecurityUtils.getSubject().getSession().setTimeout(timeout*1000);
 		return "redirect:/index";
