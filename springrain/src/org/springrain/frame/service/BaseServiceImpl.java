@@ -412,6 +412,11 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 			throws Exception {
 		return getBaseDao().queryForObjectByProc(finder, clazz);
 	}
+	
+	public <T> List<T> queryForListByProc(Finder finder, Class<T> clazz)
+			throws Exception {
+		return getBaseDao().queryForListByProc(finder, clazz);
+	}
 
 	public <T> T queryForObjectByByFunction(Finder finder, Class<T> clazz)
 			throws Exception {

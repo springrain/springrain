@@ -82,6 +82,19 @@ public interface IBaseService {
 	 */
 
 	public <T> T queryForObjectByProc(Finder finder, Class<T> clazz) throws Exception ;
+	
+	/**
+	 * 调用数据库存储过程  返回指定 对象
+	 * @param <T>
+	 * @param sql
+	 * @param paramMap
+	 * @param clazz
+	 * @return
+	 * @throws Exception
+	 */
+
+	public <T> List<T> queryForListByProc(Finder finder, Class<T> clazz) throws Exception ;
+	
 	/**
 	 *  调用数据库函数  返回指定 对象
 	 * @param <T>

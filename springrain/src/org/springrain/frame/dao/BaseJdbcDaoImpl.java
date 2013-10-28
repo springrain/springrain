@@ -11,6 +11,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -35,9 +36,8 @@ import org.springrain.frame.util.WhereSQLInfo;
 /**
  * 基础的Dao父类,所有的Dao都必须继承此类,每个数据库都需要一个实现.</br>
  * 
- * 例如
- * demo数据的实现类是org.springrain.demo.dao.BasedemoDaoImpl,demo2数据的实现类是org.springrain
- * demo2.dao.Basedemo2DaoImpl</br>
+ * 例如 demo数据的实现类是org.springrain.demo.dao.BasedemoDaoImpl,demo2数据的实现类是org.
+ * springrain demo2.dao.Basedemo2DaoImpl</br>
  * 
  * @copyright {@link 9iu.org}
  * @author springrain<Auto generate>
@@ -46,7 +46,8 @@ import org.springrain.frame.util.WhereSQLInfo;
  */
 public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		IBaseJdbcDao {
-	
+	private String frame_jdbc_call_key = "frame_jdbc_call_key";
+
 	/**
 	 * 抽象方法.每个数据库的代理Dao都必须实现.在多库情况下,用于区分底层数据库的连接对象,对数据库进行增删改查.</br>
 	 * 例如:demo数据库的代理Dao org.springrain.demo.dao.BasedemoDaoImpll
@@ -58,12 +59,10 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	 */
 	public abstract NamedParameterJdbcTemplate getJdbc();
 
-	
 	/**
-	 * 抽象方法.每个数据库的代理Dao都必须实现.在多库情况下,用于区分底层数据库的连接对象,调用数据库的函数和存储过程.</br>
-	 * 例如:demo 数据库的代理Dao org.springrain.demo.dao.BasedemoDaoImpl
-	 * 实现返回的是spring的bean jdbcCall.</br> datalog 数据库的代理Dao
-	 * org.springraindemo2.dao.Basedemo2DaoImpl
+	 * 抽象方法.每个数据库的代理Dao都必须实现.在多库情况下,用于区分底层数据库的连接对象,调用数据库的函数和存储过程.</br> 例如:demo
+	 * 数据库的代理Dao org.springrain.demo.dao.BasedemoDaoImpl 实现返回的是spring的bean
+	 * jdbcCall.</br> datalog 数据库的代理Dao org.springraindemo2.dao.Basedemo2DaoImpl
 	 * 实现返回的是spring的beanjdbcCall_demo2.</br>
 	 * 
 	 * @return
@@ -78,33 +77,32 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	 * @return
 	 */
 	public abstract IDialect getDialect();
-	
-	
+
 	/**
 	 * 默认(return null)不记录日志,在多库情况下,用于区分数据库实例的日志记录表,
-	 * 主要是为了兼容日志表(auditlog)的主键生成方式,UUID和自增.</br> demo 数据库的auditlog
-	 * 是自增,demo2 数据库的 auditlog 是UUID
+	 * 主要是为了兼容日志表(auditlog)的主键生成方式,UUID和自增.</br> demo 数据库的auditlog 是自增,demo2
+	 * 数据库的 auditlog 是UUID
 	 * 
 	 * @return
 	 */
-	
-	public  IAuditLog getAuditLog(){
+
+	public IAuditLog getAuditLog() {
 		return null;
 	}
+
 	/**
 	 * 是否打印sql语句,默认false
+	 * 
 	 * @return
 	 */
-	public boolean showsql(){
+	public boolean showsql() {
 		return false;
 	}
-	
-	public  String getUserName(){
+
+	public String getUserName() {
 		return SessionUser.getUserName();
 	}
-	
-	
-	
+
 	/**
 	 * 打印sql
 	 * 
@@ -130,14 +128,42 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	public <T> List<T> queryForListByProc(Finder finder, Class<T> clazz)
 			throws Exception {
 		String procName = finder.getProcName();
-		Map params = finder.getParams();
-		if (params != null) {
-			return (List<T>) getJdbcCall().withProcedureName(procName).execute(
-					clazz, params);
+		String functionName = finder.getFunName();
+
+		if (StringUtils.isBlank(procName) && StringUtils.isBlank(functionName)) {
+			throw new NullPointerException("存储过程和函数不能同时为空!");
 		}
 
-		return (List<T>) getJdbcCall().withProcedureName(procName).execute(
-				clazz);
+		Map params = finder.getParams();
+		Map<String, Object> m = new HashMap<String, Object>(0);
+		SimpleJdbcCall simpleJdbcCall = null;
+
+		if (StringUtils.isNotBlank(procName)) {
+			simpleJdbcCall = getJdbcCall().withProcedureName(procName);
+		} else {
+			simpleJdbcCall = getJdbcCall().withFunctionName(functionName);
+		}
+
+		if (params != null) {
+			if (ClassUtils.isBaseType(clazz)) {
+				m = simpleJdbcCall.returningResultSet(frame_jdbc_call_key,
+						new RowNumberSingleColumnRowMapper(clazz)).execute(
+						params);
+			} else {
+				m = simpleJdbcCall.returningResultSet(frame_jdbc_call_key,
+						BeanPropertyRowMapper.newInstance(clazz)).execute(
+						params);
+			}
+		} else {
+			if (ClassUtils.isBaseType(clazz)) {
+				m = simpleJdbcCall.returningResultSet(frame_jdbc_call_key,
+						new RowNumberSingleColumnRowMapper(clazz)).execute();
+			} else {
+				m = simpleJdbcCall.returningResultSet(frame_jdbc_call_key,
+						BeanPropertyRowMapper.newInstance(clazz)).execute();
+			}
+		}
+		return (List<T>) m.get(frame_jdbc_call_key);
 	}
 
 	@Override
@@ -414,9 +440,9 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		return t;
 
 	}
-	
-	
-	private String warpsavesql(Object entity,Map paramMap,Boolean isSequence) throws Exception{
+
+	private String warpsavesql(Object entity, Map paramMap, Boolean isSequence)
+			throws Exception {
 		Class clazz = entity.getClass();
 		// entity信息
 		EntityInfo entityInfo = ClassUtils.getEntityInfoByEntity(entity);
@@ -432,7 +458,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 				.append(tableExt).append("(");
 
 		StringBuffer valueSql = new StringBuffer(" values(");
-	
+
 		for (int i = 0; i < fdNames.size(); i++) {
 			String fdName = fdNames.get(i);// 字段名称
 			// fd.setAccessible(true);
@@ -478,7 +504,6 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		sql.append(valueSql);// sql语句
 		return sql.toString();
 	}
-	
 
 	/**
 	 * 保存一个实体类,不记录日志
@@ -492,9 +517,9 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		// entity信息
 		EntityInfo entityInfo = ClassUtils.getEntityInfoByEntity(entity);
 		Class<?> returnType = entityInfo.getPkReturnType();
-		Map paramMap=new HashMap();
-		Boolean isSequence=false;
-	String sql=warpsavesql(entity, paramMap,isSequence);
+		Map paramMap = new HashMap();
+		Boolean isSequence = false;
+		String sql = warpsavesql(entity, paramMap, isSequence);
 		// 打印sql
 		logInfoSql(sql);
 		if (returnType == String.class) {
@@ -506,8 +531,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 			SqlParameterSource ss = new MapSqlParameterSource(paramMap);
 			String _pkName = entityInfo.getPkName();
 			if (StringUtils.isNotBlank(_pkName) && isSequence) {
-				getJdbc().update(sql, ss, keyHolder,
-						new String[] { _pkName });
+				getJdbc().update(sql, ss, keyHolder, new String[] { _pkName });
 			} else {
 				getJdbc().update(sql, ss, keyHolder);
 			}
@@ -528,10 +552,9 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		if (entityInfo.isNotLog()) {
 			return id;
 		}
-	
-		
+
 		int year = Calendar.getInstance().get(Calendar.YEAR);
-		String	tableExt = GlobalStatic.tableExt + year;
+		String tableExt = GlobalStatic.tableExt + year;
 		auditLog.setOperationClass(entity.getClass().getName());
 		auditLog.setOperationType(GlobalStatic.dataSave);
 		auditLog.setOperatorName(getUserName());
@@ -571,7 +594,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	}
 
 	@Override
-	public List<Integer>  save(List list) throws Exception {
+	public List<Integer> save(List list) throws Exception {
 		if (CollectionUtils.isEmpty(list)) {
 			return null;
 		}
@@ -581,7 +604,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		String sql = null;
 		for (int i = 0; i < list.size(); i++) {
 			Map paramMap = new HashMap();
-			sql = warpsavesql( list.get(i), paramMap,false);
+			sql = warpsavesql(list.get(i), paramMap, false);
 			maps[i] = paramMap;
 		}
 		int[] batchUpdate = getJdbc().batchUpdate(sql,
@@ -669,9 +692,8 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		auditLog.setPreValue(old_entity.toString());
 		auditLog.setCurValue(entity.toString());
 
-
 		int year = Calendar.getInstance().get(Calendar.YEAR);
-		String	audit_tableExt = GlobalStatic.tableExt + year;
+		String audit_tableExt = GlobalStatic.tableExt + year;
 		auditLog.setExt(audit_tableExt);
 		// 保存日志
 		saveNoLog(auditLog);
@@ -806,7 +828,8 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		Map<String, Object> params = finder.getParams();
 		try {
 			if (params == null) {
-				throw new InvalidDataAccessApiUsageException("参数不能为空,大哥,spring jdbc 没有你期望的方法,你可以自己封装一个啊!");
+				throw new InvalidDataAccessApiUsageException(
+						"参数不能为空,大哥,spring jdbc 没有你期望的方法,你可以自己封装一个啊!");
 			} else {
 				map = getJdbcCall().withProcedureName(procName).execute(params);
 			}
@@ -818,9 +841,9 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 
 	@Override
 	public <T> List<T> queryForListByFunction(Finder finder, Class<T> clazz)
-			throws Exception {	
-		throw new Exception("不好意思,方法未实现!");
-			}
+			throws Exception {
+		return queryForListByProc(finder, clazz);
+	}
 
 	@Override
 	public <T> T queryForObjectByProc(Finder finder, Class<T> clazz)
