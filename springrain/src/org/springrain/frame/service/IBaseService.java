@@ -71,6 +71,25 @@ public interface IBaseService {
 	public <T> List<T> queryForListByFunction(Finder finder, Class<T> clazz) throws Exception;
 	
 	
+	
+	
+	/**
+	 * 调用数据库存储过程  查询结果是 List
+	 * @param finder
+	 * @return
+	 * @throws Exception
+	 */
+	public  List<Map<String,Object>> queryForListByProc(Finder finder) throws Exception;
+	
+	/**
+	 * 调用数据库函数  查询结果是 List
+	 * @param finder
+	 * @return
+	 * @throws Exception
+	 */
+	public  List<Map<String,Object>> queryForListByFunction(Finder finder) throws Exception;
+	
+	
 	/**
 	 * 调用数据库存储过程  返回指定 对象
 	 * @param <T>
@@ -110,16 +129,18 @@ public interface IBaseService {
 	 * 执行函数 返回执行结果为Map
 	 * @param finder
 	 * @return
+	 * @throws Exception 
 	 */
-	public Object queryObjectByFunction(Finder finder);
+	public Object queryObjectByFunction(Finder finder) throws Exception;
 	
 	
 	/**
 	 * 执行存储过程 返回执行结果为
 	 * @param finder
 	 * @return
+	 * @throws Exception 
 	 */
-	public Map<String,Object> queryObjectByProc(Finder finder);
+	public Map<String,Object> queryObjectByProc(Finder finder) throws Exception;
 	/**
 	 * 返回结果是List<Map>
 	 * @param sql

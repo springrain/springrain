@@ -89,7 +89,7 @@ public interface IBaseJdbcDao {
 	 * @param finder
 	 * @return
 	 */
-	public Object queryObjectByFunction(Finder finder);
+	public Map<String,Object> queryObjectByFunction(Finder finder)throws Exception;
 
 	/**
 	 * 执行存储过程 返回执行结果为
@@ -97,7 +97,27 @@ public interface IBaseJdbcDao {
 	 * @param finder
 	 * @return
 	 */
-	public Map<String, Object> queryObjectByProc(Finder finder);
+	public Map<String, Object> queryObjectByProc(Finder finder)throws Exception;
+	
+	
+	/**
+	 * 调用数据库存储过程  查询结果是 List
+	 * @param finder
+	 * @return
+	 * @throws Exception
+	 */
+	public  List<Map<String,Object>> queryForListByProc(Finder finder) throws Exception;
+	
+	/**
+	 * 调用数据库函数  查询结果是 List
+	 * @param finder
+	 * @return
+	 * @throws Exception
+	 */
+	public  List<Map<String,Object>> queryForListByFunction(Finder finder) throws Exception;
+	
+	
+	
 
 	/**
 	 * 返回结果是List<Map>

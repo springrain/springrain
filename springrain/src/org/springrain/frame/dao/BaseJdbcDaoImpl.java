@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.ColumnMapRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -164,6 +165,47 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 			}
 		}
 		return (List<T>) m.get(frame_jdbc_call_key);
+	}
+	
+	/**
+	 * 调用数据库存储过程  查询结果是 List
+	 * @param finder
+	 * @return
+	 * @throws Exception
+	 */
+	public  List<Map<String,Object>> queryForListByProc(Finder finder) throws Exception{
+		String procName = finder.getProcName();
+		String functionName = finder.getFunName();
+		if (StringUtils.isBlank(procName) && StringUtils.isBlank(functionName)) {
+			throw new NullPointerException("存储过程和函数不能同时为空!");
+		}
+		Map params = finder.getParams();
+		Map<String, Object> m = new HashMap<String, Object>(0);
+		SimpleJdbcCall simpleJdbcCall = null;
+
+		if (StringUtils.isNotBlank(procName)) {
+			simpleJdbcCall = getJdbcCall().withProcedureName(procName);
+		} else {
+			simpleJdbcCall = getJdbcCall().withFunctionName(functionName);
+		}
+
+		if (params != null) {
+				m = simpleJdbcCall.returningResultSet(frame_jdbc_call_key,new ColumnMapRowMapper()).execute(params);
+		} else {
+				m = simpleJdbcCall.returningResultSet(frame_jdbc_call_key,new ColumnMapRowMapper()).execute();
+		}
+		return  (List<Map<String, Object>>) m.get(frame_jdbc_call_key);
+	
+	}
+	
+	/**
+	 * 调用数据库函数  查询结果是 List
+	 * @param finder
+	 * @return
+	 * @throws Exception
+	 */
+	public  List<Map<String,Object>> queryForListByFunction(Finder finder) throws Exception{
+		return queryForListByProc(finder);
 	}
 
 	@Override
@@ -797,9 +839,9 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	}
 
 	@Override
-	public Object queryObjectByFunction(Finder finder) {
+	public Map<String,Object> queryObjectByFunction(Finder finder) throws Exception {
 		String funName = finder.getFunName();
-		Object o = null;
+		Map<String,Object>  o = null;
 		if (StringUtils.isEmpty(funName)) {
 			return null;
 		}
@@ -819,7 +861,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	}
 
 	@Override
-	public Map<String, Object> queryObjectByProc(Finder finder) {
+	public Map<String, Object> queryObjectByProc(Finder finder) throws Exception {
 		String procName = finder.getProcName();
 		Map<String, Object> map = null;
 		if (StringUtils.isEmpty(procName)) {

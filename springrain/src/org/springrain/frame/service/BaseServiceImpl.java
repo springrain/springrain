@@ -94,7 +94,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 	 * @return
 	 */
 	@Override
-	public Object queryObjectByFunction(Finder finder) {
+	public  Map<String, Object> queryObjectByFunction(Finder finder)  throws Exception{
 		return getBaseDao().queryObjectByFunction(finder);
 	}
 
@@ -111,9 +111,31 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 	 * @return
 	 */
 	@Override
-	public Map<String, Object> queryObjectByProc(Finder finder) {
+	public Map<String, Object> queryObjectByProc(Finder finder)  throws Exception{
 		return getBaseDao().queryObjectByProc(finder);
 	}
+	
+	/**
+	 * 调用数据库存储过程  查询结果是 List
+	 * @param finder
+	 * @return
+	 * @throws Exception
+	 */
+	public  List<Map<String,Object>> queryForListByProc(Finder finder) throws Exception{
+		return getBaseDao().queryForListByProc(finder);
+	}
+	
+	/**
+	 * 调用数据库函数  查询结果是 List
+	 * @param finder
+	 * @return
+	 * @throws Exception
+	 */
+	public  List<Map<String,Object>> queryForListByFunction(Finder finder) throws Exception{
+		return getBaseDao().queryForListByFunction(finder);
+	}
+	
+	
 
 	@Override
 	public <T> T queryForObject(Finder finder, Class<T> clazz) throws Exception {
