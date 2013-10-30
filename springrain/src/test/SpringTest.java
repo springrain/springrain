@@ -1,5 +1,8 @@
 package test;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.junit.Test;
@@ -17,12 +20,25 @@ public class SpringTest  {
 	@Resource
 	private IBaseDemoService baseDemoService;
 	
+	
 	@Test
 	public void testSelectUser() throws Exception{
 		Finder finder=new Finder("SELECT * FROM t_user WHERE  id=:id order by id desc ");
 		finder.setParam("id", "admin");
 		User user = baseDemoService.queryForObject(finder,User.class);
 		System.out.println(user.getName());
+	}
+	
+	
+	@Test
+	public void testCallProc() throws Exception{
+        Finder finder=new Finder("");
+		finder.setProcName("read_all_user");
+		List<Map<String, Object>> list = baseDemoService.queryForListByProc(finder);
+		for (Map m:list) {
+			System.out.println(m.get("name"));
+		}
+	
 	}
 
 }
