@@ -25,6 +25,8 @@ import jxl.Cell;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.jdbc.core.CallableStatementCreator;
+import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springrain.frame.common.BaseLogger;
 import org.springrain.frame.dao.IBaseJdbcDao;
@@ -655,5 +657,16 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 		}
 		return save(entity).toString();
 	}
+	
+	   /**
+		   * 执行 call 操作,执行存储过程,和数据库函数
+		   * @param callableStatementCreator
+		   * @param parameter
+		   * @return
+		   * @throws Exception
+		   */
+		 public Object executeCallBack(CallableStatementCreator callableStatementCreator,List<SqlParameter> parameter)throws Exception{
+		   return getBaseDao().executeCallBack(callableStatementCreator, parameter);
+	   }
 
 }

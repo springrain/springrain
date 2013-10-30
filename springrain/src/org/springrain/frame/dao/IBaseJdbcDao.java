@@ -7,6 +7,8 @@ package org.springrain.frame.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.jdbc.core.CallableStatementCreator;
+import org.springframework.jdbc.core.SqlParameter;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.Page;
 
@@ -319,6 +321,15 @@ public interface IBaseJdbcDao {
 	 */
 	public Finder getFinderWhereByQueryBean(Finder finder, Object o)
 			throws Exception;
+	
+	  /**
+	   * 执行 call 操作,执行存储过程,和数据库函数
+	   * @param callableStatementCreator
+	   * @param parameter
+	   * @return
+	   * @throws Exception
+	   */
+	 public Object executeCallBack(CallableStatementCreator callableStatementCreator,List<SqlParameter> parameter)throws Exception;
 
 	/**
 	 * 根据page对象中sort和order 添加order by 排序,一般用于前台传递的自定义排序

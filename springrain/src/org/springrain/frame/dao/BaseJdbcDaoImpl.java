@@ -10,9 +10,10 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.CallableStatementCreator;
 import org.springframework.jdbc.core.ColumnMapRowMapper;
+import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -166,14 +167,16 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		}
 		return (List<T>) m.get(frame_jdbc_call_key);
 	}
-	
+
 	/**
-	 * 调用数据库存储过程  查询结果是 List
+	 * 调用数据库存储过程 查询结果是 List
+	 * 
 	 * @param finder
 	 * @return
 	 * @throws Exception
 	 */
-	public  List<Map<String,Object>> queryForListByProc(Finder finder) throws Exception{
+	public List<Map<String, Object>> queryForListByProc(Finder finder)
+			throws Exception {
 		String procName = finder.getProcName();
 		String functionName = finder.getFunName();
 		if (StringUtils.isBlank(procName) && StringUtils.isBlank(functionName)) {
@@ -190,21 +193,25 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		}
 
 		if (params != null) {
-				m = simpleJdbcCall.returningResultSet(frame_jdbc_call_key,new ColumnMapRowMapper()).execute(params);
+			m = simpleJdbcCall.returningResultSet(frame_jdbc_call_key,
+					new ColumnMapRowMapper()).execute(params);
 		} else {
-				m = simpleJdbcCall.returningResultSet(frame_jdbc_call_key,new ColumnMapRowMapper()).execute();
+			m = simpleJdbcCall.returningResultSet(frame_jdbc_call_key,
+					new ColumnMapRowMapper()).execute();
 		}
-		return  (List<Map<String, Object>>) m.get(frame_jdbc_call_key);
-	
+		return (List<Map<String, Object>>) m.get(frame_jdbc_call_key);
+
 	}
-	
+
 	/**
-	 * 调用数据库函数  查询结果是 List
+	 * 调用数据库函数 查询结果是 List
+	 * 
 	 * @param finder
 	 * @return
 	 * @throws Exception
 	 */
-	public  List<Map<String,Object>> queryForListByFunction(Finder finder) throws Exception{
+	public List<Map<String, Object>> queryForListByFunction(Finder finder)
+			throws Exception {
 		return queryForListByProc(finder);
 	}
 
@@ -839,46 +846,38 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	}
 
 	@Override
-	public Map<String,Object> queryObjectByFunction(Finder finder) throws Exception {
-		String funName = finder.getFunName();
-		Map<String,Object>  o = null;
-		if (StringUtils.isEmpty(funName)) {
-			return null;
-		}
-		Map<String, Object> params = finder.getParams();
-		try {
-			if (params == null) {
-				throw new InvalidDataAccessApiUsageException(
-						"参数不能为空,大哥,spring jdbc 没有你期望的方法,你可以自己封装一个啊!");
-			} else {
-
-				return getJdbcCall().withFunctionName(funName).execute(params);
-			}
-		} catch (EmptyResultDataAccessException e) {
-			o = null;
-		}
-		return o;
+	public Map<String, Object> queryObjectByFunction(Finder finder)
+			throws Exception {
+		return queryObjectByProc(finder);
 	}
 
 	@Override
-	public Map<String, Object> queryObjectByProc(Finder finder) throws Exception {
+	public Map<String, Object> queryObjectByProc(Finder finder)
+			throws Exception {
 		String procName = finder.getProcName();
-		Map<String, Object> map = null;
-		if (StringUtils.isEmpty(procName)) {
-			return null;
+		String functionName = finder.getFunName();
+		if (StringUtils.isBlank(procName) && StringUtils.isBlank(functionName)) {
+			throw new NullPointerException("存储过程和函数不能同时为空!");
 		}
-		Map<String, Object> params = finder.getParams();
+		Map<String,Object> params = finder.getParams();
+		Map<String, Object> m = new HashMap<String, Object>(0);
+		SimpleJdbcCall simpleJdbcCall = null;
+
+		if (StringUtils.isNotBlank(procName)) {
+			simpleJdbcCall = getJdbcCall().withProcedureName(procName);
+		} else {
+			simpleJdbcCall = getJdbcCall().withFunctionName(functionName);
+		}
+
 		try {
 			if (params == null) {
-				throw new InvalidDataAccessApiUsageException(
-						"参数不能为空,大哥,spring jdbc 没有你期望的方法,你可以自己封装一个啊!");
-			} else {
-				map = getJdbcCall().withProcedureName(procName).execute(params);
+				params=new HashMap<String,Object>(0);
 			}
+			m= simpleJdbcCall.execute(params);
 		} catch (EmptyResultDataAccessException e) {
-			map = null;
+			m = null;
 		}
-		return map;
+		return m;
 	}
 
 	@Override
@@ -898,13 +897,11 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		Map<String, Object> params = finder.getParams();
 		try {
 			if (params == null) {
-				throw new InvalidDataAccessApiUsageException(
-						"参数不能为空,大哥,spring jdbc 没有你期望的方法,你可以自己封装一个啊!");
-
-			} else {
-				t = (T) getJdbcCall().withProcedureName(procName).execute(
-						clazz, params);
+				params = new HashMap<String, Object>(0);
 			}
+			t = (T) getJdbcCall().withProcedureName(procName).executeObject(
+					clazz, params);
+
 		} catch (EmptyResultDataAccessException e) {
 			t = null;
 		}
@@ -923,13 +920,11 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		Map<String, Object> params = finder.getParams();
 		try {
 			if (params == null) {
-				throw new InvalidDataAccessApiUsageException(
-						"参数不能为空,大哥,spring jdbc 没有你期望的方法,你可以自己封装一个啊!");
-
-			} else {
-				t = getJdbcCall().withFunctionName(funName).executeFunction(
-						clazz, params);
+				params = new HashMap<String, Object>(0);
 			}
+			t = getJdbcCall().withFunctionName(funName).executeFunction(clazz,
+					params);
+
 		} catch (EmptyResultDataAccessException e) {
 			t = null;
 		}
@@ -995,6 +990,17 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		return (List<T>) queryForList(finder, entity.getClass(), page);
 
 	}
+	  /**
+	   * 执行 call 操作,执行存储过程,和数据库函数
+	   * @param callableStatementCreator
+	   * @param parameter
+	   * @return
+	   * @throws Exception
+	   */
+	   public Object executeCallBack(CallableStatementCreator callableStatementCreator,List<SqlParameter> parameter)throws Exception{
+		return    getJdbc().getJdbcOperations().call(callableStatementCreator, parameter);
+		   
+	   }
 
 	/*
 	 * //private String dataBaseType = null; //private String dataBaseVersion =

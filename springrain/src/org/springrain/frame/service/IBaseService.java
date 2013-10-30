@@ -8,6 +8,8 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.jdbc.core.CallableStatementCreator;
+import org.springframework.jdbc.core.SqlParameter;
 import org.springrain.frame.entity.IBaseEntity;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.Page;
@@ -377,6 +379,14 @@ public interface IBaseService {
 	 * @throws Exception
 	 */
    public String saveFromExcel(Object entity, int index, boolean istest, List<String> listTitle) throws Exception;
+   /**
+	   * 执行 call 操作,执行存储过程,和数据库函数
+	   * @param callableStatementCreator
+	   * @param parameter
+	   * @return
+	   * @throws Exception
+	   */
+	 public Object executeCallBack(CallableStatementCreator callableStatementCreator,List<SqlParameter> parameter)throws Exception;
 
 
 }
