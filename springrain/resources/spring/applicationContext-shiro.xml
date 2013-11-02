@@ -34,7 +34,7 @@
 
 <!-- session 集群 -->
 <!-- 
-<bean id="shiroSessionDao"  class="com.centfor.pro.shiro.RedisShiroSessionDao">
+<bean id="shiroSessionDao"  class="org.springrain.frame.shiro.RedisShiroSessionDao">
 <property name="cached" ref="redisCached" />
 <property name="sessionprefix" value= "ss-" />
 </bean>
