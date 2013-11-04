@@ -6,8 +6,11 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.annotation.Resource;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -30,6 +33,8 @@ import org.springrain.frame.util.GlobalStatic;
 @Service("userRoleMenuService")
 public class UserRoleMenuServiceImpl extends BaseDemoServiceImpl implements
 		IUserRoleMenuService {
+	@Resource
+	private CacheManager shiroCacheManager;
 
 	@Override
 	@Cacheable(value = GlobalStatic.qxCacheKey, key = "'findRoleByUserId_'+#userId")
@@ -217,6 +222,9 @@ public class UserRoleMenuServiceImpl extends BaseDemoServiceImpl implements
 	//@Caching(evict={@CacheEvict(value = GlobalStatic.qxCacheKey,key = "'findMenuByRoleId_'+#roleId"),@CacheEvict(value = GlobalStatic.qxCacheKey,key = "'findRoleAndMenu_'+#roleId"),@CacheEvict(value = GlobalStatic.qxCacheKey,key = "'findAllRoleAndMenu'")})
 	@CacheEvict(value=GlobalStatic.qxCacheKey,allEntries=true)  
 	public void updateRoleMenu(String roleId,String[] menus) throws Exception {
+		//清理 shiro 权限缓存
+		shiroCacheManager.getCache(GlobalStatic.authorizationCacheName).clear();
+		
 		//删除现在的中间权限表
 				Finder finder=new Finder("delete from t_role_menu  where roleId=:roleId ");
 				finder.setParam("roleId", roleId);

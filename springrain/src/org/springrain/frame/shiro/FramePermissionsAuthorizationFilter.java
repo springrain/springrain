@@ -38,9 +38,8 @@ public class FramePermissionsAuthorizationFilter extends
 		Subject user = SecurityUtils.getSubject();
 		 ShiroUser shiroUser = (ShiroUser) user.getPrincipals().getPrimaryPrincipal();
 		Session session = user.getSession(false);
-		Cache<Object, Object> cache = shiroCacheManager.getCache(GlobalStatic.reloginCacheName);
-		String cachedSessionId = (String) cache.get(GlobalStatic.reloginCacheName+"-"+shiroUser.getAccount());
-		
+		Cache<Object, Object> cache = shiroCacheManager.getCache(GlobalStatic.authenticationCacheName);
+		String cachedSessionId = (String) cache.get(GlobalStatic.authenticationCacheName+"-"+shiroUser.getAccount());
 		String sessionId=(String) session.getId();
 		if(!sessionId.equals(cachedSessionId)){
 			user.logout();
