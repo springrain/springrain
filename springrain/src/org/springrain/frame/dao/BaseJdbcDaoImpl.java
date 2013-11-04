@@ -70,6 +70,23 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	 * @return
 	 */
 	public abstract SimpleJdbcCall getJdbcCall();
+	
+	
+/**
+ * 读写分离的读数据库
+ * @return
+ */
+	public  NamedParameterJdbcTemplate getReadJdbc(){
+		return getJdbc();
+	}
+	
+	/**
+	 * 读写分离的写数据库
+	 * @return
+	 */
+		public  NamedParameterJdbcTemplate getWriteJdbc(){
+			return getJdbc();
+		}
 
 	/**
 	 * 获取数据库方言,Dao 中注入spring bean.</br> 例如mysql的实现是 mysqlDialect. oracle的实现是
@@ -219,7 +236,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	public List<Map<String, Object>> queryForList(Finder finder) {
 		// 打印sql
 		logInfoSql(finder.getSql());
-		return getJdbc().queryForList(finder.getSql(), finder.getParams());
+		return getReadJdbc().queryForList(finder.getSql(), finder.getParams());
 	}
 
 	@Override
@@ -228,7 +245,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		try {
 			// 打印sql
 			logInfoSql(finder.getSql());
-			map = getJdbc().queryForMap(finder.getSql(), finder.getParams());
+			map = getReadJdbc().queryForMap(finder.getSql(), finder.getParams());
 		} catch (EmptyResultDataAccessException e) {
 			map = null;
 		}
@@ -247,7 +264,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		// 打印sql
 		logInfoSql(pageSql);
 
-		return getJdbc().queryForList(pageSql, finder.getParams());
+		return getReadJdbc().queryForList(pageSql, finder.getParams());
 
 	}
 
@@ -255,7 +272,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	public Integer update(Finder finder) throws Exception {
 		// 打印sql
 		logInfoSql(finder.getSql());
-		return getJdbc().update(finder.getSql(), finder.getParams());
+		return getWriteJdbc().update(finder.getSql(), finder.getParams());
 	}
 
 	@Override
@@ -271,14 +288,14 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 
 		if (ClassUtils.isBaseType(clazz)) {
 			if (getDialect().isRowNumber()) {
-				return getJdbc().query(pageSql, finder.getParams(),
+				return getReadJdbc().query(pageSql, finder.getParams(),
 						new RowNumberSingleColumnRowMapper(clazz));
 			} else {
-				return getJdbc().queryForList(pageSql, finder.getParams(),
+				return getReadJdbc().queryForList(pageSql, finder.getParams(),
 						clazz);
 			}
 		} else {
-			return getJdbc().query(pageSql, finder.getParams(),
+			return getReadJdbc().query(pageSql, finder.getParams(),
 					ParameterizedBeanPropertyRowMapper.newInstance(clazz));
 		}
 	}
@@ -454,7 +471,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 			}
 			countSql = "SELECT count(*)  frame_row_count FROM (" + countSql
 					+ ") temp_frame_noob_table_name WHERE 1=1 ";
-			count = getJdbc().queryForInt(countSql, paramMap);
+			count = getReadJdbc().queryForInt(countSql, paramMap);
 		} else {
 			count = queryForObject(finder.getCountFinder(), Integer.class);
 		}
@@ -474,11 +491,11 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		T t = null;
 		try {
 			if (ClassUtils.isBaseType(clazz)) {
-				t = (T) getJdbc().queryForObject(finder.getSql(),
+				t = (T) getReadJdbc().queryForObject(finder.getSql(),
 						finder.getParams(), clazz);
 
 			} else {
-				t = (T) getJdbc().queryForObject(finder.getSql(),
+				t = (T) getReadJdbc().queryForObject(finder.getSql(),
 						finder.getParams(),
 						ParameterizedBeanPropertyRowMapper.newInstance(clazz));
 			}
@@ -572,7 +589,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		// 打印sql
 		logInfoSql(sql);
 		if (returnType == String.class) {
-			getJdbc().update(sql, paramMap);
+			getWriteJdbc().update(sql, paramMap);
 			return ClassUtils.getPKValue(entity).toString();
 
 		} else {
@@ -580,9 +597,9 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 			SqlParameterSource ss = new MapSqlParameterSource(paramMap);
 			String _pkName = entityInfo.getPkName();
 			if (StringUtils.isNotBlank(_pkName) && isSequence) {
-				getJdbc().update(sql, ss, keyHolder, new String[] { _pkName });
+				getWriteJdbc().update(sql, ss, keyHolder, new String[] { _pkName });
 			} else {
-				getJdbc().update(sql, ss, keyHolder);
+				getWriteJdbc().update(sql, ss, keyHolder);
 			}
 			return keyHolder.getKey().longValue();
 		}
@@ -630,7 +647,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 			sql = warpupdatesql(list.get(i), paramMap);
 			maps[i] = paramMap;
 		}
-		int[] batchUpdate = getJdbc().batchUpdate(sql,
+		int[] batchUpdate = getWriteJdbc().batchUpdate(sql,
 				SqlParameterSourceUtils.createBatch(maps));
 
 		if (batchUpdate.length < 1) {
@@ -656,7 +673,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 			sql = warpsavesql(list.get(i), paramMap, false);
 			maps[i] = paramMap;
 		}
-		int[] batchUpdate = getJdbc().batchUpdate(sql,
+		int[] batchUpdate = getWriteJdbc().batchUpdate(sql,
 				SqlParameterSourceUtils.createBatch(maps));
 
 		if (batchUpdate.length < 1) {
@@ -724,7 +741,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 			old_entity = findByID(id, clazz, tableExt);
 		}
 		// 更新entity
-		Integer hang = getJdbc().update(sql.toString(), paramMap);
+		Integer hang = getWriteJdbc().update(sql.toString(), paramMap);
 		if (auditLog == null) {
 			return hang;
 		}
@@ -998,7 +1015,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	   * @throws Exception
 	   */
 	   public Object executeCallBack(CallableStatementCreator callableStatementCreator,List<SqlParameter> parameter)throws Exception{
-		return    getJdbc().getJdbcOperations().call(callableStatementCreator, parameter);
+		return    getWriteJdbc().getJdbcOperations().call(callableStatementCreator, parameter);
 		   
 	   }
 
