@@ -18,6 +18,7 @@
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
 		<property name="realm" ref="shiroDbRealm" />
 		<property name="sessionManager" ref="sessionManager" />
+		<property name="cacheManager" ref="shiroCacheManager" />
 	</bean>
 	
 <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
@@ -31,6 +32,7 @@
 </bean>
 
 <bean id="shiroSessionDao"  class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO" />
+<bean id="shiroCacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager" /> 
 
 <!-- session 集群 -->
 <!-- 

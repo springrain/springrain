@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -14,11 +15,15 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.cache.Cache;
+import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.stereotype.Component;
 import org.springrain.demo.entity.User;
 import org.springrain.demo.service.IUserRoleMenuService;
+import org.springrain.frame.util.GlobalStatic;
 /**
  * 关于shiro的缓存,我在这里说下.<br/>
  * 可以禁用shiro的缓存,调用spring的缓存,这样就省去了缓存的整合.<br/>
@@ -32,6 +37,10 @@ public class ShiroDbRealm extends AuthorizingRealm {
 	public Logger logger = Logger.getLogger(getClass());
 	@Resource
 	IUserRoleMenuService userRoleMenuService;
+	
+	@Resource
+	private CacheManager shiroCacheManager;
+	
 	public static final String HASH_ALGORITHM = "MD5";
 	public static final int HASH_INTERATIONS = 1;
 	private static final int SALT_SIZE = 8;
@@ -78,8 +87,9 @@ public class ShiroDbRealm extends AuthorizingRealm {
 */
 		// 调用业务方法
 		User user = null;
+		String userName=upToken.getUsername();
 		try {
-			user = userRoleMenuService.findLoginUser(upToken.getUsername(), null);
+			user = userRoleMenuService.findLoginUser(userName, null);
 		} catch (Exception e) {
 			logger.error(e);
 		}
@@ -89,7 +99,12 @@ public class ShiroDbRealm extends AuthorizingRealm {
 			// SecurityUtils.getSubject().getSession().setAttribute("c_user",
 			// user);
 			// byte[] salt = EncodeUtils.decodeHex(user.getSalt());
-			return new SimpleAuthenticationInfo(new ShiroUser(user),user.getPassword(),getName());
+			
+			Session session = SecurityUtils.getSubject().getSession(false);
+			AuthenticationInfo authinfo=	new SimpleAuthenticationInfo(new ShiroUser(user),user.getPassword(),getName());
+			Cache<Object, Object> cache = shiroCacheManager.getCache(GlobalStatic.reloginCacheName);
+			cache.put(GlobalStatic.reloginCacheName+"-"+userName, session.getId());
+			return authinfo;
 		}
 		// 认证没有通过
 		return null;

@@ -19,6 +19,9 @@ public class GlobalStatic {
 	public static final String qxCacheKey="springrainqxcache";
 	public static final String tableExt="_history_";
 	public static final String frameTableAlias="frameTableAlias";
+	//校验重复登录的cache name
+	public static final String reloginCacheName="reloginCacheName";
+	
 	
 	/**
 	 * 默认验证码参数名称

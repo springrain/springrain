@@ -12,12 +12,16 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.cache.Cache;
+import org.apache.shiro.cache.CacheManager;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authz.PermissionsAuthorizationFilter;
 import org.springframework.stereotype.Component;
 import org.springrain.demo.entity.Fwlog;
 import org.springrain.demo.service.IMenuService;
 import org.springrain.frame.util.DateUtils;
+import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.IPUtils;
 @Component("frameperms")
 public class FramePermissionsAuthorizationFilter extends
@@ -25,10 +29,25 @@ public class FramePermissionsAuthorizationFilter extends
 	public Logger logger=Logger.getLogger(getClass());
 	@Resource
 	private IMenuService menuService;
+	@Resource
+	private CacheManager shiroCacheManager;
 	
 	@Override
 	public boolean isAccessAllowed(ServletRequest request,
 			ServletResponse response, Object mappedValue) throws IOException {
+		Subject user = SecurityUtils.getSubject();
+		 ShiroUser shiroUser = (ShiroUser) user.getPrincipals().getPrimaryPrincipal();
+		Session session = user.getSession(false);
+		Cache<Object, Object> cache = shiroCacheManager.getCache(GlobalStatic.reloginCacheName);
+		String cachedSessionId = (String) cache.get(GlobalStatic.reloginCacheName+"-"+shiroUser.getAccount());
+		
+		String sessionId=(String) session.getId();
+		if(!sessionId.equals(cachedSessionId)){
+			user.logout();
+			
+		}
+		
+		
 		HttpServletRequest req = (HttpServletRequest) request;
 		Subject subject = getSubject(request, response);
 		String uri = req.getRequestURI();
@@ -55,8 +74,7 @@ public class FramePermissionsAuthorizationFilter extends
 		 fwlog.setFwUrl(requestURL);
 		 fwlog.setIsqx(isqx);
 		 fwlog.setIp(ip);
-			Subject user = SecurityUtils.getSubject();
-		 ShiroUser shiroUser = (ShiroUser) user.getPrincipals().getPrimaryPrincipal();
+	
 		fwlog.setUserCode(shiroUser.getAccount());
 		fwlog.setUserName(shiroUser.getName());
 		Date startDate=new Date();
