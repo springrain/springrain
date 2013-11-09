@@ -222,8 +222,9 @@ public class UserRoleMenuServiceImpl extends BaseDemoServiceImpl implements
 	//@Caching(evict={@CacheEvict(value = GlobalStatic.qxCacheKey,key = "'findMenuByRoleId_'+#roleId"),@CacheEvict(value = GlobalStatic.qxCacheKey,key = "'findRoleAndMenu_'+#roleId"),@CacheEvict(value = GlobalStatic.qxCacheKey,key = "'findAllRoleAndMenu'")})
 	@CacheEvict(value=GlobalStatic.qxCacheKey,allEntries=true)  
 	public void updateRoleMenu(String roleId,String[] menus) throws Exception {
-		//清理 shiro 权限缓存
+		
 		shiroCacheManager.getCache(GlobalStatic.authorizationCacheName).clear();
+		
 		
 		//删除现在的中间权限表
 				Finder finder=new Finder("delete from t_role_menu  where roleId=:roleId ");

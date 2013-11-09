@@ -36,10 +36,10 @@ public class FramePermissionsAuthorizationFilter extends
 	public boolean isAccessAllowed(ServletRequest request,
 			ServletResponse response, Object mappedValue) throws IOException {
 		Subject user = SecurityUtils.getSubject();
-		 ShiroUser shiroUser = (ShiroUser) user.getPrincipals().getPrimaryPrincipal();
+		 ShiroUser shiroUser = (ShiroUser) user.getPrincipal();
 		Session session = user.getSession(false);
 		Cache<Object, Object> cache = shiroCacheManager.getCache(GlobalStatic.authenticationCacheName);
-		String cachedSessionId = (String) cache.get(GlobalStatic.authenticationCacheName+"-"+shiroUser.getAccount());
+		String cachedSessionId = cache.get(GlobalStatic.authenticationCacheName+"-"+shiroUser.getAccount()).toString();
 		String sessionId=(String) session.getId();
 		if(!sessionId.equals(cachedSessionId)){
 			user.logout();

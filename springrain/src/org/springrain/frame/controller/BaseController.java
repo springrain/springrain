@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,6 +23,8 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.cache.Cache;
+import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.util.WebUtils;
 import org.springframework.http.HttpHeaders;
@@ -53,6 +56,9 @@ public class BaseController extends BaseLogger {
 	public String messageurl = "/common/message";
 
 	public String message = "message";
+	
+	@Resource
+	private CacheManager shiroCacheManager;
 
 /**
  * 初始化映射格式.
@@ -193,8 +199,12 @@ public class BaseController extends BaseLogger {
 			model.addAttribute("message", "未知错误,请联系管理员.");
 			return "/login";
 		}
-		int timeout=session.getMaxInactiveInterval();
-		SecurityUtils.getSubject().getSession().setTimeout(timeout*1000);
+	
+		String sessionId = session.getId();
+		
+		Cache<Object, Object> cache = shiroCacheManager.getCache(GlobalStatic.authenticationCacheName);
+		cache.put(GlobalStatic.authenticationCacheName+"-"+currUser.getAccount(), sessionId);
+		
 		return "redirect:/index";
 	}
 	

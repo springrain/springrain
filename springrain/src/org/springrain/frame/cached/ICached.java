@@ -1,6 +1,7 @@
 package org.springrain.frame.cached;
 
 import java.util.List;
+import java.util.Set;
 
 
 public interface ICached {
@@ -10,7 +11,7 @@ public interface ICached {
 	 * @return
 	 * @throws Exception
 	 */
-	String deleteCached(String key)throws Exception;
+	String deleteCached(byte[] key)throws Exception;
 	/**
 	 * 更新 缓存
 	 * @param key
@@ -18,14 +19,21 @@ public interface ICached {
 	 * @return
 	 * @throws Exception
 	 */
-	Object updateCached(String key,Object value,Long expire)throws Exception;
+	Object updateCached(byte[] key,byte[] value,Long expire)throws Exception;
 	/**
 	 * 获取缓存
 	 * @param key
 	 * @return
 	 * @throws Exception
 	 */
-	Object getCached(String key)throws Exception;
+	Object getCached(byte[] key)throws Exception;
+	/**
+	 * 根据 正则表达式key 获取 列表
+	 * @param keys
+	 * @return
+	 * @throws Exception
+	 */
+	Set getKeys(byte[] keys)throws Exception;
 	
 	/**
 	 * 根据 正则表达式key 获取 列表
@@ -33,7 +41,67 @@ public interface ICached {
 	 * @return
 	 * @throws Exception
 	 */
-	List getKeys(String keys)throws Exception;
+	Set getHashKeys(byte[] key)throws Exception;
 	
 	
+	
+	/**
+	 * 更新 缓存
+	 * @param key
+	 * @param value
+	 * @return
+	 * @throws Exception
+	 */
+	Boolean updateHashCached(byte[] key,byte[] mapkey,byte[] value,Long expire)throws Exception;
+	
+
+	/**
+	 * 获取缓存
+	 * @param key
+	 * @return
+	 * @throws Exception
+	 */
+	Object getHashCached(byte[] key,byte[] mapkey)throws Exception;
+	
+	
+	/**
+	 * 删除 缓存
+	 * @param key
+	 * @param value
+	 * @return
+	 * @throws Exception
+	 */
+	Long deleteHashCached(byte[] key,byte[] mapkey)throws Exception;
+	
+	/**
+	 * 获取 map的长度
+	 * @param key
+	 * @return
+	 * @throws Exception
+	 */
+	Long getHashSize(byte[] key)throws Exception;
+/**
+ * 获取 map中的所有值
+ * @param key
+ * @return
+ * @throws Exception
+ */
+	List getHashValues(byte[] key)throws Exception;
+	
+	
+	/**
+	 * 获取 map的长度
+	 * @param key
+	 * @return
+	 * @throws Exception
+	 */
+	Long getDBSize()throws Exception;
+	
+	/**
+	 * 获取 map的长度
+	 * @param key
+	 * @return
+	 * @throws Exception
+	 */
+	void clearDB()throws Exception;
 }

@@ -30,28 +30,24 @@
 <bean id="sharesession" class="org.apache.shiro.web.servlet.SimpleCookie">
     <constructor-arg name="name" value="SHAREJSESSIONID"/>
 </bean>
-
 <bean id="shiroSessionDao"  class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO" />
 <bean id="shiroCacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager" /> 
 
 <!-- session 集群 -->
 <!-- 
-<bean id="shiroSessionDao"  class="org.springrain.frame.shiro.RedisShiroSessionDao">
+<bean id="shiroCacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager" /> 
+
+<bean id="shiroCacheManager" class="org.springrain.frame.shiro.ShiroRedisCacheManager" > 
 <property name="cached" ref="redisCached" />
-<property name="sessionprefix" value= "ss-" />
 </bean>
  -->
 
-
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean"
 		depends-on="frameperms">
-
 		<property name="securityManager" ref="securityManager" />
-
 		<property name="loginUrl" value="/login" />
 		<property name="successUrl" value="/index" />
 		<property name="unauthorizedUrl" value="/unauth" />
-
 		<property name="filterChainDefinitions">
 			<value>
 			    /js/** = anon
