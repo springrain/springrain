@@ -12,7 +12,7 @@ import org.springrain.frame.util.SerializeUtil;
 public class ShiroRedisCache<K,V> extends BaseLogger implements Cache<K,V>    {
 private String name;
 private ICached cached;
-private final String SHIRO_REDIS_CACHE = "shiro_redis_cache-";
+
 public ShiroRedisCache(String name,ICached cached){
 	this.name=name;
 	this.cached=cached;
@@ -26,11 +26,17 @@ public ShiroRedisCache(String name,ICached cached){
  */
 private byte[] getByteKey(K key){
 	if(key instanceof String){
-		String preKey = this.SHIRO_REDIS_CACHE + key;
+		String preKey = key.toString();
 		return preKey.getBytes();
 	}else{
 		return SerializeUtil.serialize(key);
 	}
+}
+
+
+private byte[] getByteName(){
+		return name.getBytes();
+	
 }
 	
 @Override
@@ -40,7 +46,7 @@ public V get(K key) throws CacheException {
 		if (key == null) {
             return null;
         }else{
-        	V value= (V) cached.getCached(getByteKey(key));
+        	V value= (V) cached.getHashCached(getByteName(),getByteKey(key));
         	return value;
         }
 	} catch (Throwable t) {
@@ -53,7 +59,7 @@ public V get(K key) throws CacheException {
 public V put(K key, V value) throws CacheException {
 	logger.debug("根据key从存储 key [" + key + "]");
 	 try {
-		 	cached.updateCached(getByteKey(key), SerializeUtil.serialize(value),null);
+		 	cached.updateHashCached(getByteName(),getByteKey(key), SerializeUtil.serialize(value),null);
             return value;
         } catch (Throwable t) {
             throw new CacheException(t);
@@ -65,7 +71,7 @@ public V remove(K key) throws CacheException {
 	logger.debug("从redis中删除 key [" + key + "]");
 	try {
         V previous = get(key);
-        cached.deleteCached(getByteKey(key));
+        cached.deleteHashCached(getByteName(),getByteKey(key));
         return previous;
     } catch (Throwable t) {
         throw new CacheException(t);
@@ -76,7 +82,7 @@ public V remove(K key) throws CacheException {
 public void clear() throws CacheException {
 	logger.debug("从redis中删除所有元素");
 	try {
-        cached.clearDB();
+        cached.deleteCached(getByteName());
     } catch (Throwable t) {
         throw new CacheException(t);
     }
@@ -85,7 +91,7 @@ public void clear() throws CacheException {
 @Override
 public int size() {
 	try {
-		Long longSize = new Long(cached.getDBSize());
+		Long longSize = new Long(cached.getHashSize(getByteName()));
         return longSize.intValue();
     } catch (Throwable t) {
         throw new CacheException(t);
@@ -96,7 +102,7 @@ public int size() {
 @Override
 public Set<K> keys() {
 	try {
-        Set<K> keys = cached.getKeys((this.SHIRO_REDIS_CACHE + "*").getBytes());
+        Set<K> keys = cached.getHashKeys(getByteName());
       return keys;
     } catch (Throwable t) {
         throw new CacheException(t);
@@ -106,7 +112,7 @@ public Set<K> keys() {
 @Override
 public Collection<V> values() {
 	try {
-		Collection<V> values = cached.getKeys((this.SHIRO_REDIS_CACHE + "*").getBytes());
+		Collection<V> values = cached.getHashValues(getByteName());
       return values;
     } catch (Throwable t) {
         throw new CacheException(t);

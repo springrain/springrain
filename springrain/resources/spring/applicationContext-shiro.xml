@@ -31,12 +31,12 @@
     <constructor-arg name="name" value="SHAREJSESSIONID"/>
 </bean>
 <bean id="shiroSessionDao"  class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO" />
+
+<!-- 单机session -->
 <bean id="shiroCacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager" /> 
 
 <!-- session 集群 -->
 <!-- 
-<bean id="shiroCacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager" /> 
-
 <bean id="shiroCacheManager" class="org.springrain.frame.shiro.ShiroRedisCacheManager" > 
 <property name="cached" ref="redisCached" />
 </bean>
