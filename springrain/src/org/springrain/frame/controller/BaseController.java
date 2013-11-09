@@ -183,7 +183,13 @@ public class BaseController extends BaseLogger {
 		
 		UsernamePasswordToken token = new UsernamePasswordToken(currUser.getAccount(),currUser.getPassword());
 		
+		String rememberme=request.getParameter("rememberme");
+		if(StringUtils.isNotBlank(rememberme)){
 		token.setRememberMe(true);
+		}else{
+			token.setRememberMe(false);
+		}
+		
 		try {
 			user.login(token);
 		} catch (UnknownAccountException uae) {
