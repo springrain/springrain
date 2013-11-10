@@ -15,7 +15,6 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
-import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.session.Session;
@@ -24,13 +23,7 @@ import org.springframework.stereotype.Component;
 import org.springrain.demo.entity.User;
 import org.springrain.demo.service.IUserRoleMenuService;
 import org.springrain.frame.util.GlobalStatic;
-/**
- * 关于shiro的缓存,我在这里说下.<br/>
- * 可以禁用shiro的缓存,调用spring的缓存,这样就省去了缓存的整合.<br/>
- * 其他框架遇到缓存问题,同样的思路解决.
- * @author 9iu.org
- *
- */
+
 //认证数据库存储
 @Component("shiroDbRealm")
 public class ShiroDbRealm extends AuthorizingRealm {
