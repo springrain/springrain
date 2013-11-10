@@ -33,18 +33,18 @@
 	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/servlet-api.jar"/>
 	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/shiro-all-1.2.2.jar" sourcepath="D:/maven_library/repository/org/apache/shiro/shiro-all/1.2.2/shiro-all-1.2.2-sources.jar"/>
 	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/slf4j-api-1.7.5.jar"/>
-	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/spring-aop-3.2.4.RELEASE.jar"/>
-	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/spring-beans-3.2.4.RELEASE.jar"/>
-	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/spring-context-3.2.4.RELEASE.jar"/>
-	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/spring-context-support-3.2.4.RELEASE.jar"/>
-	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/spring-core-3.2.4.RELEASE.jar"/>
-	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/spring-expression-3.2.4.RELEASE.jar"/>
-	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/spring-jdbc-3.2.4.RELEASE.jar"/>
-	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/spring-test-3.2.4.RELEASE.jar"/>
-	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/spring-tx-3.2.4.RELEASE.jar"/>
-	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/spring-web-3.2.4.RELEASE.jar"/>
-	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/spring-webmvc-3.2.4.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/spring-data-redis-1.1.0.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/commons-pool-1.6.jar"/>
+	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/spring-aop-3.2.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/spring-beans-3.2.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/spring-context-3.2.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/spring-context-support-3.2.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/spring-core-3.2.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/spring-expression-3.2.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/spring-jdbc-3.2.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/spring-test-3.2.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/spring-tx-3.2.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/spring-web-3.2.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/spring-webmvc-3.2.5.RELEASE.jar"/>
 	<classpathentry kind="output" path="WebROOT/WEB-INF/classes"/>
 </classpath>

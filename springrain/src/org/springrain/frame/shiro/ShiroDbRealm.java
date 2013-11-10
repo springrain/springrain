@@ -46,7 +46,8 @@ public class ShiroDbRealm extends AuthorizingRealm {
 	private static final int SALT_SIZE = 8;
 	public ShiroDbRealm() {
 		//认证
-		 super.setAuthenticationCacheName(GlobalStatic.authenticationCacheName);
+		// super.setAuthenticationCacheName(GlobalStatic.authenticationCacheName);
+		super.setAuthenticationCachingEnabled(false);
 		 //授权
          super.setAuthorizationCacheName(GlobalStatic.authorizationCacheName);
 	}
@@ -104,8 +105,8 @@ public class ShiroDbRealm extends AuthorizingRealm {
 			
 			Session session = SecurityUtils.getSubject().getSession(false);
 			AuthenticationInfo authinfo=	new SimpleAuthenticationInfo(new ShiroUser(user),user.getPassword(),getName());
-			Cache<Object, Object> cache = shiroCacheManager.getCache(GlobalStatic.authenticationCacheName);
-			cache.put(GlobalStatic.authenticationCacheName+"-"+userName, session.getId());
+			//Cache<Object, Object> cache = shiroCacheManager.getCache(GlobalStatic.authenticationCacheName);
+			//cache.put(GlobalStatic.authenticationCacheName+"-"+userName, session.getId());
 			return authinfo;
 		}
 		// 认证没有通过

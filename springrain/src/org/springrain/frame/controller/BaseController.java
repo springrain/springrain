@@ -206,10 +206,10 @@ public class BaseController extends BaseLogger {
 			return "/login";
 		}
 	
-		String sessionId = session.getId();
+		//String sessionId = session.getId();
 		
-		Cache<Object, Object> cache = shiroCacheManager.getCache(GlobalStatic.authenticationCacheName);
-		cache.put(GlobalStatic.authenticationCacheName+"-"+currUser.getAccount(), sessionId);
+		//Cache<Object, Object> cache = shiroCacheManager.getCache(GlobalStatic.authenticationCacheName);
+		//cache.put(GlobalStatic.authenticationCacheName+"-"+currUser.getAccount(), sessionId);
 		
 		return "redirect:/index";
 	}

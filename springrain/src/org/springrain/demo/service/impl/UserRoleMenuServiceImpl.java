@@ -48,7 +48,7 @@ public class UserRoleMenuServiceImpl extends BaseDemoServiceImpl implements
 		return super.queryForList(finder, Role.class);
 	}
 	@Override
-	@Cacheable(value = GlobalStatic.qxCacheKey, key = "'getRolesAsString_'+#userId")
+	//@Cacheable(value = GlobalStatic.qxCacheKey, key = "'getRolesAsString_'+#userId")
 	public Set<String> getRolesAsString(String userId)throws Exception {
 		List<Role> list = findRoleByUserId(userId);
 		if(CollectionUtils.isEmpty(list)){
@@ -61,7 +61,7 @@ public class UserRoleMenuServiceImpl extends BaseDemoServiceImpl implements
 		return set;
 	}
 	@Override
-	@Cacheable(value = GlobalStatic.qxCacheKey, key = "'getPermissionsAsString_'+#userId")
+	//@Cacheable(value = GlobalStatic.qxCacheKey, key = "'getPermissionsAsString_'+#userId")
 	public  Set<String> getPermissionsAsString(String userId) throws Exception {
 		List<Menu> setMenu = findAllMenuByUserId(userId);
 		if(CollectionUtils.isEmpty(setMenu)){

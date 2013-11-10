@@ -21,7 +21,7 @@ public class GlobalStatic {
 	public static final String frameTableAlias="frameTableAlias";
 
 	//认证
-	public static final String reloginsession="shiro-reloginsession";
+	//public static final String reloginsession="shiro-reloginsession";
 	//认证
 	public static final String authenticationCacheName="shiro-authenticationCacheName";
 	//授权
