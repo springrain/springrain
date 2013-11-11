@@ -23,7 +23,6 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.util.WebUtils;
@@ -211,6 +210,16 @@ public class BaseController extends BaseLogger {
 		//Cache<Object, Object> cache = shiroCacheManager.getCache(GlobalStatic.authenticationCacheName);
 		//cache.put(GlobalStatic.authenticationCacheName+"-"+currUser.getAccount(), sessionId);
 		
+		/*
+		Cache<String, Object> cache = shiroCacheManager.getCache(GlobalStatic.shiroActiveSessionCacheName);
+		Serializable oldSessionId = (Serializable) cache.get(currUser.getAccount());
+		if(oldSessionId!=null){
+			Subject subject=new Subject.Builder().sessionId(oldSessionId).buildSubject();
+			subject.logout();
+		}
+		cache.put(currUser.getAccount(), session.getId());
+		*/
+		
 		return "redirect:/index";
 	}
 	
@@ -239,7 +248,7 @@ public class BaseController extends BaseLogger {
         if (subject != null) {           
             subject.logout();
         }
-        request.getSession().invalidate();
+        //request.getSession().invalidate();
     }
 	
 	@RequestMapping(value = "/mobilelogin")

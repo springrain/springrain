@@ -30,7 +30,7 @@ public class ShiroUser implements Serializable {
 	/**
 	 * 邮箱
 	 */
-	private java.lang.String eamil;
+	private java.lang.String email;
 	/**
 	 * 0.女1.男
 	 */
@@ -44,7 +44,7 @@ public class ShiroUser implements Serializable {
 		this.id = user.getId();
 		this.account = user.getAccount();
 		this.name = user.getName();
-		this.eamil = user.getEamil();
+		this.email = user.getEamil();
 		this.workno = user.getWorkno();
 		this.sex=user.getSex();
 	}
@@ -110,12 +110,12 @@ public class ShiroUser implements Serializable {
 		this.account = account;
 	}
 
-	public java.lang.String getEamil() {
-		return eamil;
+	public java.lang.String getEmail() {
+		return email;
 	}
 
-	public void setEamil(java.lang.String eamil) {
-		this.eamil = eamil;
+	public void setEmail(java.lang.String email) {
+		this.email = email;
 	}
 
 	public String getSex() {

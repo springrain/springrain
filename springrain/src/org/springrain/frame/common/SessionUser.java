@@ -24,7 +24,7 @@ public class SessionUser {
 		if(user==null){
 			return null;
 		}
-		ShiroUser shiroUser = (ShiroUser) user.getPrincipals().getPrimaryPrincipal();
+		ShiroUser shiroUser = (ShiroUser) user.getPrincipal();
 		if(shiroUser==null){
 			return null;
 		}
@@ -63,7 +63,7 @@ public class SessionUser {
 		if(shiroUser==null){
 			return null;
 		}
-		return shiroUser.getEamil();
+		return shiroUser.getEmail();
 	}
 
 }
