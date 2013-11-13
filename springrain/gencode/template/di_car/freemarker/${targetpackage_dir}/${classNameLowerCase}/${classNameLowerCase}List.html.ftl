@@ -1,3 +1,4 @@
+${r"<#escape x as x?html>"}
 <#assign className = table.className>   
 <#assign tableName = table.tableAlias>   
 <#assign classNameLower = className?uncap_first>  
@@ -150,3 +151,4 @@ ${r"</#if>"}
 	</div>
 </body>
 </html>
+${r"</#escape>"}

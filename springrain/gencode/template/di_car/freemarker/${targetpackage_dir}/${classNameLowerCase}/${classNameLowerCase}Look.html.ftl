@@ -1,3 +1,4 @@
+${r"<#escape x as x?html>"}
 <#assign className = table.className>   
 <#assign classNameLower = className?uncap_first>  
 <#assign classNameLowerCase = className?lower_case>
@@ -6,7 +7,7 @@
 
 ${r"<@h.easyui />"}
 
-
+<body>
 <input type="hidden" name="commTabId" id="commTabId" value="${r"${commTabId!''}"}"  />
 <!--input  hidden  Start-->
 	<#list table.columns as column>
@@ -40,4 +41,6 @@ ${r"<@h.easyui />"}
 			</#if>
 		</#list>
 	</table>
-	
+	</body>
+</html>
+${r"</#escape>"}

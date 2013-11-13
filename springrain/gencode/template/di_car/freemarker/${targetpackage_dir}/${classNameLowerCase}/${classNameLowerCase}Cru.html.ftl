@@ -1,3 +1,4 @@
+${r"<#escape x as x?html>"}
 <#assign className = table.className>   
 <#assign classNameLower = className?uncap_first>  
 <#assign classNameLowerCase = className?lower_case>
@@ -23,7 +24,7 @@ jQuery(document).ready(function(){
 //-->
 </script>
 
-
+<body>
 <form id="updateForm" name="updateForm"  method="post" action="${r"${ctx}"}/${classNameLowerCase}/update" >
 <input type="hidden" name="commTabId" id="commTabId" value="${r"${commTabId!''}"}"  />
 <!--input  hidden  Start-->
@@ -76,3 +77,6 @@ jQuery(document).ready(function(){
 	</table>
 	<input type="button" onclick="submitUpdateForm();" class="btn_7"/>
 </form>
+</body>
+</html>
+${r"</#escape>"}
