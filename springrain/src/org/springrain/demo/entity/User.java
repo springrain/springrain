@@ -100,7 +100,7 @@ public class User  extends BaseEntity {
 	/**
 	 * 邮箱
 	 */
-	private java.lang.String eamil;
+	private java.lang.String email;
 	/**
 	 * 地址
 	 */
@@ -282,16 +282,16 @@ public class User  extends BaseEntity {
 		public java.lang.String getMobile() {
 			return this.mobile;
 		}
-		public void setEamil(java.lang.String value) {
+		public void setEmail(java.lang.String value) {
 			    if(StringUtils.isNotBlank(value)){
 				 value=value.trim();
 				}
-			this.eamil = value;
+			this.email = value;
 		}
 		
-	     @WhereSQL(sql="eamil=:User_eamil")
-		public java.lang.String getEamil() {
-			return this.eamil;
+	     @WhereSQL(sql="eamil=:User_email")
+		public java.lang.String getEmail() {
+			return this.email;
 		}
 		public void setAddress(java.lang.String value) {
 			    if(StringUtils.isNotBlank(value)){
@@ -382,7 +382,7 @@ public class User  extends BaseEntity {
 			.append("性别[").append(getSex()).append("],")
 			.append("电话号码[").append(getPhone()).append("],")
 			.append("手机号码[").append(getMobile()).append("],")
-			.append("邮箱[").append(getEamil()).append("],")
+			.append("邮箱[").append(getEmail()).append("],")
 			.append("地址[").append(getAddress()).append("],")
 			.append("级别[").append(getGradeId()).append("],")
 			.append("学历[").append(getEduName()).append("],")

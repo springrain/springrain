@@ -169,7 +169,7 @@ CREATE TABLE `t_user` (
   `sex`  varchar(2)  DEFAULT '男' COMMENT '性别',
   `phone` varchar(16) DEFAULT NULL COMMENT '电话号码',
   `mobile` varchar(16) DEFAULT NULL COMMENT '手机号码',
-  `eamil` varchar(60) DEFAULT NULL COMMENT '邮箱',
+  `email` varchar(60) DEFAULT NULL COMMENT '邮箱',
   `address` varchar(255) DEFAULT NULL COMMENT '地址',
   `gradeId` varchar(40) DEFAULT null COMMENT '级别',
    `eduName` varchar(40) DEFAULT null COMMENT '学历',
