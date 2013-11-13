@@ -19,6 +19,10 @@ spring良好的扩展性,集成度,IOC,AOP事务,已经是项目的基础条件.
 
 项目只依赖spring,没有hibernate,struts,ibatis.
 
+使用shiro权限控制到按钮级
+
+结合shiro,redis实现了天然的分布式session共享
+
 hibernate太过复杂,运用不好就会造成很大影响,ibatis的优势就是把sql写入xml文件,利于数据库调优和sql语句管理.数据库调优可以使用druid直接输出比较慢的sql,比分析xml中的语句更直观,关于sql管理,springrain所有的sql语句都使用Finder封装,只要查看Finder在项目中的引用,就能查看项目中所有的sql语句,就此,ibatis的优势就很小了.
 
 struts 和 spring mvc 相比,个人感觉还是有点差距的.
