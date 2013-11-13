@@ -9,7 +9,7 @@ http://git.oschina.net/chunanyong/springrain/tree/master/springrain/gencode
 http://git.oschina.net/chunanyong/springrain/tree/master/springrain/sql
 
 
-springrain是spring的极简封装,spring一站式开发的范例,spring的强大灵活+jfinal的开发效率
+springrain是spring的极简封装,spring一站式开发的范例.
 
 springrain本身就是一个完整的eclipse项目,spring一站式开发的范例,包含spring core,spring jdbc,spring mvc.可以认为就是一个spring的demo.
 
@@ -18,8 +18,6 @@ springrain 自带一个代码生成器,能够生成对表的增删改查的逻�
 spring良好的扩展性,集成度,IOC,AOP事务,已经是项目的基础条件.
 
 项目只依赖spring,没有hibernate,struts,ibatis.
-
-理念和jfinal一致,提高开发效率.
 
 hibernate太过复杂,运用不好就会造成很大影响,ibatis的优势就是把sql写入xml文件,利于数据库调优和sql语句管理.数据库调优可以使用druid直接输出比较慢的sql,比分析xml中的语句更直观,关于sql管理,springrain所有的sql语句都使用Finder封装,只要查看Finder在项目中的引用,就能查看项目中所有的sql语句,就此,ibatis的优势就很小了.
 
