@@ -19,7 +19,6 @@
 	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/commons-logging-1.1.1.jar"/>
 	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/commons-logging-adapters-1.1.jar"/>
 	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/commons-logging-api-1.1.jar"/>
-	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/druid-0.2.25.jar"/>
 	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/freemarker-2.3.20.jar"/>
 	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/jackson-core-asl-1.9.12.jar"/>
 	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/jackson-mapper-asl-1.9.12.jar"/>
@@ -46,5 +45,6 @@
 	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/spring-tx-3.2.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/spring-web-3.2.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/spring-webmvc-3.2.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/druid-1.0.0.jar"/>
 	<classpathentry kind="output" path="WebROOT/WEB-INF/classes"/>
 </classpath>
