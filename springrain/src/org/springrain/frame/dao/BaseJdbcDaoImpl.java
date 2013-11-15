@@ -471,7 +471,8 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 			}
 			countSql = "SELECT count(*)  frame_row_count FROM (" + countSql
 					+ ") temp_frame_noob_table_name WHERE 1=1 ";
-			count = getReadJdbc().queryForInt(countSql, paramMap);
+			//count = getReadJdbc().queryForInt(countSql, paramMap);
+			count = getReadJdbc().queryForObject(countSql, paramMap, Integer.class);
 		} else {
 			count = queryForObject(finder.getCountFinder(), Integer.class);
 		}
