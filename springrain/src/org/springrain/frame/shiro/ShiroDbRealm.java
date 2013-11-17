@@ -103,7 +103,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 			// user);
 			// byte[] salt = EncodeUtils.decodeHex(user.getSalt());
 
-			Session session = SecurityUtils.getSubject().getSession(false);
+			//Session session = SecurityUtils.getSubject().getSession(false);
 			AuthenticationInfo authinfo = new SimpleAuthenticationInfo(
 					new ShiroUser(user), user.getPassword(), getName());
 			// Cache<Object, Object> cache =
