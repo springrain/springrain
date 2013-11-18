@@ -12,16 +12,13 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
-import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authz.PermissionsAuthorizationFilter;
 import org.springframework.stereotype.Component;
 import org.springrain.demo.entity.Fwlog;
 import org.springrain.demo.service.IMenuService;
 import org.springrain.frame.util.DateUtils;
-import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.IPUtils;
 @Component("frameperms")
 public class FramePermissionsAuthorizationFilter extends
@@ -63,7 +60,12 @@ public class FramePermissionsAuthorizationFilter extends
 		if(StringUtils.isBlank(uri)){
 			uri="/";
 		}
-		 boolean permitted = subject.isPermitted(uri);
+		 boolean permitted = false;
+		 if("/".equals(uri)){
+			 permitted=true;
+		 }else{
+		 permitted= subject.isPermitted(uri);
+		 }
 		 String isqx="否";
 		 if(permitted){
 			 isqx="是";
