@@ -5,11 +5,17 @@ import java.io.IOException;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.type.JavaType;
 
 public class JsonUtils {
-   static 	ObjectMapper mapper = new ObjectMapper();
+   static 	ObjectMapper mapper = null;
  
+   static{
+	   mapper = new ObjectMapper();
+	   //为 null 的不转换
+	   mapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL); 
+   }
  public static <T> T readValue(String content,Class<T> clazz) {
 	 T t=null;
 	try {
