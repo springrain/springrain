@@ -16,7 +16,14 @@
 		http://www.springframework.org/schema/aop/spring-aop.xsd"
 	default-lazy-init="false">
 	
-	 <mvc:annotation-driven />
+	<mvc:annotation-driven>
+		<mvc:message-converters register-defaults="true">
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+				<constructor-arg value="UTF-8" />
+			</bean>
+			<bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
+		</mvc:message-converters>
+	</mvc:annotation-driven>
 	 
 	<!-- 只扫描Controller 注解 -->
 		<context:component-scan base-package="org.springrain"
@@ -45,17 +52,6 @@
         <property name="suffix"  value=".jsp"/>  
         <property name="order" value="1" />
     </bean>  
-
-	<bean id="jacksonMessageConverter"
-		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
-	<bean
-		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
-		<property name="messageConverters">
-			<list>
-				<ref bean="jacksonMessageConverter" />
-			</list>
-		</property>
-	</bean>
 
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
