@@ -469,9 +469,22 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 			if (order_int > 1) {
 				countSql = countSql.substring(0, order_int);
 			}
-			countSql = "SELECT count(*)  frame_row_count FROM (" + countSql
-					+ ") temp_frame_noob_table_name WHERE 1=1 ";
-			//count = getReadJdbc().queryForInt(countSql, paramMap);
+			/**
+			 * 特殊关键字过滤, distinct ,union ,group by
+			 */
+			  if(countSql.toLowerCase().indexOf(" distinct ")>-1||countSql.toLowerCase().indexOf(" union ")>-1||RegexValidateUtils.getGroupByIndex(countSql)>-1){
+					countSql = "SELECT count(*)  frame_row_count FROM (" + countSql+ ") temp_frame_noob_table_name WHERE 1=1 ";
+			  }else{
+				 int fromIndex= RegexValidateUtils.getFromIndex(countSql);
+				  if(fromIndex>-1){
+					  countSql="SELECT COUNT(*) "+countSql.substring(fromIndex);
+				  }else{
+						countSql = "SELECT count(*)  frame_row_count FROM (" + countSql+ ") temp_frame_noob_table_name WHERE 1=1 ";
+				  }
+				  
+			  }
+			
+		
 			count = getReadJdbc().queryForObject(countSql, paramMap, Integer.class);
 		} else {
 			count = queryForObject(finder.getCountFinder(), Integer.class);

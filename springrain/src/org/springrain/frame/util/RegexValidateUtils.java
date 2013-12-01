@@ -156,6 +156,65 @@ public class RegexValidateUtils {
 		 return index;
 	}
 	
+	/**
+	 * 获取 group by 开始位置
+	 * @param groupbysql
+	 * @return
+	 */
+	public static int getGroupByIndex(String groupbysql){
+		int index=-1;
+		if(StringUtils.isBlank(groupbysql)){
+			return index;
+		}
+		 String regStr="\\s+(group)\\s+(by)";
+		 Pattern pattern=Pattern.compile(regStr);
+		 Matcher matcher=pattern.matcher(groupbysql.toLowerCase());
+		 if(matcher.find()){
+			 index=matcher.start();
+		 }
+		 return index;
+	}
+	/**
+	 * 获取 group by 开始位置
+	 * @param sql
+	 * @return
+	 */
+	public static int getFromIndex(String sql){
+		int index=-1;
+		if(StringUtils.isBlank(sql)){
+			return index;
+		}
+	
+		String s=replaceFrom(sql).toLowerCase();
+		
+		int startIndex=s.indexOf(" from ");
+		int lastIndex=s.lastIndexOf(" from ");
+		if(startIndex-lastIndex!=0){
+			 return index;
+		}
+		index=startIndex;
+		 return index;
+	}
+	
+	
+	/**
+	 * 去掉无用的 from
+	 * @param str
+	 * @return
+	 */
+	private static String replaceFrom(String str)
+	{
+		Pattern pt = Pattern.compile("\\(([\\s\\S]+?)\\)",Pattern.CASE_INSENSITIVE);
+		  Matcher matcher = pt.matcher(str);
+		  while(matcher.find())
+		  {
+			 String group = matcher.group(1);
+			 String t1=group.toLowerCase().replace(" from ", " abcd ");
+			 str = str.replace(group,t1);
+		  }
+		  return str;
+	}
+
 	 
 	
 	
@@ -173,6 +232,30 @@ public class RegexValidateUtils {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}*/
-		System.out.println(RegexValidateUtils.isFloat("-012416545.000"));
+		//System.out.println(RegexValidateUtils.isFloat("-012416545.000"));
+		 String countSql="select 1,(select id from ddddd) FROM abc1 where 1=1  and faa id in (select id from abc2)  distinct a order by   ";
+		 
+			int order_int = getOrderByIndex(countSql);
+			if (order_int > 1) {
+				countSql = countSql.substring(0, order_int);
+			}
+			
+			/**
+			 * 特殊关键字过滤, distinct ,union ,group by
+			 */
+			  if(countSql.toLowerCase().indexOf(" distinct ")>-1||countSql.toLowerCase().indexOf(" union ")>-1||RegexValidateUtils.getGroupByIndex(countSql)>-1){
+					countSql = "SELECT count(*)  frame_row_count FROM (" + countSql+ ") temp_frame_noob_table_name WHERE 1=1 ";
+			  }else{
+				 int fromIndex= RegexValidateUtils.getFromIndex(countSql);
+				  if(fromIndex>-1){
+					  countSql="SELECT COUNT(*) "+countSql.substring(fromIndex);
+				  }else{
+						countSql = "SELECT count(*)  frame_row_count FROM (" + countSql+ ") temp_frame_noob_table_name WHERE 1=1 ";
+				  }
+				  
+			  }
+		  
+		  System.out.println(countSql);
+		
 	}
 }
