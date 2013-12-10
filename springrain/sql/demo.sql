@@ -126,7 +126,7 @@ CREATE TABLE `t_role` (
   `id` varchar(40) NOT NULL COMMENT '角色ID',
   `name` varchar(60) DEFAULT NULL COMMENT '角色名称',
   `code` varchar(255) DEFAULT NULL COMMENT '权限编码',
-  `pid` varchar(40) DEFAULT NULL COMMENT '所属部门',
+  `pid` varchar(40) DEFAULT NULL COMMENT '上级角色ID',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
   `state` varchar(2) DEFAULT '是' COMMENT '是否有效(否/是)',
   PRIMARY KEY (`id`)
