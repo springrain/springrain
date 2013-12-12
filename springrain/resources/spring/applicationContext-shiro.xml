@@ -72,7 +72,6 @@
 				/js/** = anon
 				/css/** = anon
 				/images/** = anon
-				/myimg/**= anon
 				/unauth = anon
 				/getCaptcha=anon
 				/login = anon
