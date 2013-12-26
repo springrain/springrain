@@ -305,13 +305,9 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 			Class<T> clazz, Object queryBean) throws Exception {
 
 		if (finder == null) {
-			EntityInfo entityInfoByEntity = ClassUtils
-					.getEntityInfoByEntity(queryBean);
-			String tableName = entityInfoByEntity.getTableName();
-			String tableExt = entityInfoByEntity.getTableExt();
-			if (StringUtils.isNotBlank(tableExt)) {
-				tableName = tableName + tableExt;
-			}
+			
+	  	String	tableName=ClassUtils.getTableName(queryBean);
+			
 			finder = new Finder("SELECT * FROM " + tableName);
 			finder.append(" WHERE 1=1 ");
 
@@ -469,6 +465,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 			if (order_int > 1) {
 				countSql = countSql.substring(0, order_int);
 			}
+			
 			/**
 			 * 特殊关键字过滤, distinct ,union ,group by
 			 */
@@ -484,7 +481,11 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 				  
 			  }
 			
+			
+			
+			
 		
+			//count = getReadJdbc().queryForInt(countSql, paramMap);
 			count = getReadJdbc().queryForObject(countSql, paramMap, Integer.class);
 		} else {
 			count = queryForObject(finder.getCountFinder(), Integer.class);
@@ -633,8 +634,11 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 			return id;
 		}
 
-		int year = Calendar.getInstance().get(Calendar.YEAR);
-		String tableExt = GlobalStatic.tableExt + year;
+		String tableExt = ClassUtils.getTableExt(entity);
+		if (StringUtils.isBlank(tableExt)) {
+			int year = Calendar.getInstance().get(Calendar.YEAR);
+			tableExt = GlobalStatic.tableExt + year;
+		}
 		auditLog.setOperationClass(entity.getClass().getName());
 		auditLog.setOperationType(GlobalStatic.dataSave);
 		auditLog.setOperatorName(getUserName());
@@ -772,8 +776,11 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		auditLog.setPreValue(old_entity.toString());
 		auditLog.setCurValue(entity.toString());
 
-		int year = Calendar.getInstance().get(Calendar.YEAR);
-		String audit_tableExt = GlobalStatic.tableExt + year;
+		String audit_tableExt = tableExt;
+		if (StringUtils.isBlank(tableExt)) {
+			int year = Calendar.getInstance().get(Calendar.YEAR);
+			audit_tableExt = GlobalStatic.tableExt + year;
+		}
 		auditLog.setExt(audit_tableExt);
 		// 保存日志
 		saveNoLog(auditLog);
@@ -971,9 +978,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	 */
 	@Override
 	public <T> T queryForObject(T entity) throws Exception {
-
-		String tableName = getTableNameByEntity(entity);
-
+		String tableName = ClassUtils.getTableName(entity);
 		Finder finder = new Finder("SELECT * FROM ");
 		finder.append(tableName).append("  WHERE 1=1 ");
 		getFinderWhereByQueryBean(finder, entity);
@@ -983,22 +988,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 
 	}
 
-	/**
-	 * 根据 entity 确定表名
-	 * 
-	 * @param entity
-	 * @return
-	 * @throws Exception
-	 */
-	private String getTableNameByEntity(Object entity) throws Exception {
-		EntityInfo entityInfo = ClassUtils.getEntityInfoByEntity(entity);
-		String tableName = entityInfo.getTableName();
-		String ext = entityInfo.getTableExt();
-		if (StringUtils.isNotBlank(ext)) {
-			tableName = tableName + ext;
-		}
-		return tableName;
-	}
+	
 
 	/**
 	 * Entity作为查询的query bean,并返回Entity
@@ -1012,7 +1002,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 	@Override
 	public <T> List<T> queryForListByEntity(T entity, Page page)
 			throws Exception {
-		String tableName = getTableNameByEntity(entity);
+		String tableName = ClassUtils.getTableName(entity);
 		Finder finder = new Finder("SELECT * FROM ");
 		finder.append(tableName).append("  WHERE 1=1 ");
 		getFinderWhereByQueryBean(finder, entity);

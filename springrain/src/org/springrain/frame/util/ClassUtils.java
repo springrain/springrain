@@ -83,7 +83,7 @@ public class ClassUtils {
 			 return null;
 		 }
 		
-		String tableName = ClassUtils.getTableName(clazz);
+		String tableName = ClassUtils.getTableNameByClass(clazz);
 		if(tableName==null)
 			return null;
 		EntityInfo info=new EntityInfo();
@@ -271,8 +271,43 @@ public class ClassUtils {
 	 * 获取 Class 的@Table注解 name 属性,没有属性则返回 类名
 	 * @param clazz
 	 * @return
+	 * @throws Exception 
 	 */
-	public static String  getTableName(Class clazz){
+	public static String  getTableName(Object object) throws Exception{
+		
+		if(object==null)
+			return null;
+	   String tableName=null;
+	   
+		if(object instanceof Class){
+		EntityInfo entityInfo = getEntityInfoByClass((Class)object);
+		tableName=entityInfo.getTableName();
+		}else{
+			EntityInfo entityInfoByEntity = ClassUtils
+					.getEntityInfoByEntity(object);
+			 tableName = entityInfoByEntity.getTableName();
+			String tableExt = entityInfoByEntity.getTableExt();
+			if (StringUtils.isNotBlank(tableExt)) {
+				tableName = tableName + tableExt;
+			}
+		}
+		
+
+		if(tableName==null){
+			return object.getClass().getSimpleName();
+		}
+		
+			return tableName;
+		
+	}
+	
+	
+	/**
+	 * 获取 Class 的@Table注解 name 属性,没有属性则返回 类名
+	 * @param clazz
+	 * @return
+	 */
+	public static String  getTableNameByClass(Class clazz){
 		
 		if(clazz==null)
 			return null;
@@ -288,6 +323,8 @@ public class ClassUtils {
 			return tableName;
 		
 	}
+	
+	
 	
 	/**
 	 * 获取数据库分表的后缀
