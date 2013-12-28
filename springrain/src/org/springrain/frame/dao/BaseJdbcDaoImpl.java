@@ -628,13 +628,12 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 			return id;
 		}
 
-		EntityInfo entityInfo = ClassUtils.getEntityInfoByClass(entity
-				.getClass());
+		EntityInfo entityInfo = ClassUtils.getEntityInfoByEntity(entity);
 		if (entityInfo.isNotLog()) {
 			return id;
 		}
 
-		String tableExt = ClassUtils.getTableExt(entity);
+		String tableExt=entityInfo.getTableExt();
 		if (StringUtils.isBlank(tableExt)) {
 			int year = Calendar.getInstance().get(Calendar.YEAR);
 			tableExt = GlobalStatic.tableExt + year;
