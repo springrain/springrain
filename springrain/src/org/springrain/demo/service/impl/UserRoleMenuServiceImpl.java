@@ -110,7 +110,7 @@ public class UserRoleMenuServiceImpl extends BaseDemoServiceImpl implements
 		}
 		
 		Finder finder = new Finder(
-				"SELECT m.* from t_menu m,t_role_menu  rm,t_user_role  ur where ur.userId=:userId and ur.roleId=rm.roleId and m.id=rm.menuId  and m.type=1 and m.state=:state");
+				"SELECT m.* from t_menu m,t_role_menu  rm,t_user_role  ur where ur.userId=:userId and ur.roleId=rm.roleId and m.id=rm.menuId  and m.type=1 and m.state=:state order by m.id");
 		finder.setParam("userId", userId).setParam("state", "是");
 		return super.queryForList(finder, Menu.class);
 	}
@@ -158,8 +158,8 @@ public class UserRoleMenuServiceImpl extends BaseDemoServiceImpl implements
 			return null;
 		}
 		Finder finder = new Finder(
-				"SELECT * FROM t_user WHERE state=:state and account=:account ");
-		finder.setParam("account", account).setParam("state", "是");
+				"SELECT * FROM t_user WHERE  account=:account ");
+		finder.setParam("account", account);
 		if (StringUtils.isNotBlank(password)) {
 			finder.append(" and password=:password ").setParam("password",
 					password);
