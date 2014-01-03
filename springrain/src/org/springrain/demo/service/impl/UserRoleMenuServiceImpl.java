@@ -43,7 +43,7 @@ public class UserRoleMenuServiceImpl extends BaseDemoServiceImpl implements
 			return null;
 		}
 		Finder finder = new Finder(
-				"SELECT r.* from t_role r,t_user_role  re where re.userId=:userId and re.roleId=r.id");
+				"SELECT r.* from t_role r,t_user_role  re where re.userId=:userId and re.roleId=r.id order by r.id");
 		finder.setParam("userId", userId);
 		return super.queryForList(finder, Role.class);
 	}
@@ -84,7 +84,7 @@ public class UserRoleMenuServiceImpl extends BaseDemoServiceImpl implements
 			return null;
 		}
 		Finder finder = new Finder(
-				"SELECT m.* from t_menu m,t_role_menu  re where re.roleId=:roleId and re.menuId=m.id  ");
+				"SELECT m.* from t_menu m,t_role_menu  re where re.roleId=:roleId and re.menuId=m.id order by m.id ");
 		finder.setParam("roleId", roleId);
 		return super.queryForList(finder, Menu.class);
 	}
