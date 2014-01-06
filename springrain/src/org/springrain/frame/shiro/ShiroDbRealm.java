@@ -4,7 +4,6 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -16,8 +15,9 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.realm.AuthorizingRealm;
-import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springrain.demo.entity.User;
 import org.springrain.demo.service.IUserRoleMenuService;
@@ -26,7 +26,7 @@ import org.springrain.frame.util.GlobalStatic;
 //认证数据库存储
 @Component("shiroDbRealm")
 public class ShiroDbRealm extends AuthorizingRealm {
-	public Logger logger = Logger.getLogger(getClass());
+	public Logger logger = LoggerFactory.getLogger(getClass());
 	@Resource
 	IUserRoleMenuService userRoleMenuService;
 
@@ -73,7 +73,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 			sazi.addStringPermissions(userRoleMenuService
 					.getPermissionsAsString(userId));
 		} catch (Exception e) {
-			logger.error(e);
+			logger.error(e.getMessage(),e);
 		}
 
 		return sazi;
@@ -94,7 +94,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		try {
 			user = userRoleMenuService.findLoginUser(userName, null);
 		} catch (Exception e) {
-			logger.error(e);
+			logger.error(e.getMessage(),e);
 		}
 
 		if (user != null) {

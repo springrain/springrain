@@ -10,11 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authz.PermissionsAuthorizationFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springrain.demo.entity.Fwlog;
 import org.springrain.demo.service.IMenuService;
@@ -23,7 +24,7 @@ import org.springrain.frame.util.IPUtils;
 @Component("frameperms")
 public class FramePermissionsAuthorizationFilter extends
 		PermissionsAuthorizationFilter {
-	public Logger logger=Logger.getLogger(getClass());
+	public Logger logger = LoggerFactory.getLogger(getClass());
 	@Resource
 	private IMenuService menuService;
 	@Resource
@@ -91,7 +92,7 @@ public class FramePermissionsAuthorizationFilter extends
 			fwlog.setMenuName(menuName);
 			menuService.save(fwlog);
 		} catch (Exception e) {
-			logger.error(e);
+			logger.error(e.getMessage(),e);
 		}
 		return permitted;
 

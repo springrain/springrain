@@ -1,6 +1,8 @@
 package org.springrain.frame.common;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+ 
 /**
  *  Log基类,所有的类默认继承此类,可以直接使用 logger 记录日志,例如 logger.error("error");
  * @copyright {@link 9iu.org}
@@ -9,5 +11,6 @@ import org.apache.log4j.Logger;
  * @see org.springrain.frame.common.BaseLogger
  */
 public class BaseLogger {
-	public Logger logger=Logger.getLogger(getClass());
+	public   Logger logger = LoggerFactory.getLogger(getClass());
+
 }

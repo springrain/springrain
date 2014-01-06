@@ -2,17 +2,18 @@ package org.springrain.frame.util;
 
 import java.io.IOException;
 
-import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.type.JavaType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class JsonUtils  {
 	   static 	ObjectMapper mapper = null;
-	   public static Logger logger=Logger.getLogger(JsonUtils.class);
+	   public static Logger logger = LoggerFactory.getLogger(JsonUtils.class);
 	   static{
 		   mapper = new ObjectMapper();
 		   //为 null 的不转换
@@ -23,11 +24,11 @@ public class JsonUtils  {
 		try {
 			t=  mapper.readValue(content, clazz);
 		} catch (JsonParseException e) {
-			logger.error(e);
+			logger.error(e.getMessage(),e);
 		} catch (JsonMappingException e) {
-			logger.error(e);
+			logger.error(e.getMessage(),e);
 		} catch (IOException e) {
-			logger.error(e);
+			logger.error(e.getMessage(),e);
 		}
 		return t;
 	 }
@@ -37,11 +38,11 @@ public class JsonUtils  {
 		try {
 			str= mapper.writeValueAsString(o);
 		} catch (JsonGenerationException e) {
-			logger.error(e);
+			logger.error(e.getMessage(),e);
 		} catch (JsonMappingException e) {
-			logger.error(e);
+			logger.error(e.getMessage(),e);
 		} catch (IOException e) {
-			logger.error(e);
+			logger.error(e.getMessage(),e);
 		}
 		return str;
 	 }
@@ -52,11 +53,11 @@ public class JsonUtils  {
 		try {
 			o=  mapper.readValue(content, getCollectionType(CollectionType, clazz));
 		} catch (JsonParseException e) {
-			logger.error(e);
+			logger.error(e.getMessage(),e);
 		} catch (JsonMappingException e) {
-			logger.error(e);
+			logger.error(e.getMessage(),e);
 		} catch (IOException e) {
-			logger.error(e);
+			logger.error(e.getMessage(),e);
 		}
 		
 		return o;

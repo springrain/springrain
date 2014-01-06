@@ -303,7 +303,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 					new FileOutputStream(ffile), "UTF-8"));
 			template.process(map, out);
 		} catch (Exception e) {
-			logger.error(e);
+			logger.error(e.getMessage(),e);
 			throw new Exception("生成freemarker页面错误");
 		} finally {
 			if (out != null) {
@@ -386,7 +386,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 
 			}
 		} catch (Exception e) {
-			logger.error(e);
+			logger.error(e.getMessage(),e);
 			throw new Exception("追加xlsx内容错误");
 		} finally {
 			if (bw != null)

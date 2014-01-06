@@ -107,7 +107,7 @@ public class LimtDistributeController  extends BaseController {
 				json.setMessage(MessageUtils.ADD_SUCCESS);
 				return json;
 			} catch (Exception e) {
-				logger.error(e);
+				logger.error(e.getMessage(),e);
 			}
 			json.setSuccess(false);
 			json.setMessage(MessageUtils.ADD_FAIL);
@@ -120,7 +120,7 @@ public class LimtDistributeController  extends BaseController {
 				json.setMessage(MessageUtils.EDIT_SUCCESS);
 				return json;
 			} catch (Exception e) {
-				logger.error(e);
+				logger.error(e.getMessage(),e);
 			}
 			json.setSuccess(false);
 			json.setMessage(MessageUtils.EDIT_WARING);

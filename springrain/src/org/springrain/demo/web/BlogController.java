@@ -133,7 +133,7 @@ public class BlogController  extends BaseController {
 				model.addAttribute(message, MessageUtils.ADD_SUCCESS);
 				return messageurl;
 			} catch (Exception e) {
-				logger.error(e);
+				logger.error(e.getMessage(),e);
 			}
 			     model.addAttribute(message, MessageUtils.ADD_FAIL);
 			     return messageurl;
@@ -144,7 +144,7 @@ public class BlogController  extends BaseController {
 				model.addAttribute(message, MessageUtils.EDIT_SUCCESS);
 				return messageurl;
 			} catch (Exception e) {
-				logger.error(e);
+				logger.error(e.getMessage(),e);
 			}
 			model.addAttribute(message, MessageUtils.EDIT_WARING);
 			return messageurl;
@@ -184,7 +184,7 @@ public class BlogController  extends BaseController {
 			    return new CFReturnObject(CFReturnObject.WARNING, MessageUtils.DELETE_WARNING);
 			}
 		} catch (Exception e) {
-				logger.error(e);
+				logger.error(e.getMessage(),e);
 		}
 		return new CFReturnObject(CFReturnObject.WARNING, MessageUtils.DELETE_WARNING);
 	}
@@ -243,14 +243,14 @@ public class BlogController  extends BaseController {
 					+ uploadFile.getOriginalFilename());
 			FileCopyUtils.copy(uploadFile.getBytes(), destFile);
 		} catch (IOException e) {
-			logger.error(e);
+			logger.error(e.getMessage(),e);
 			info = "上传失败,文件处理异常.";
 		}
 
 		try {
 			info=blogService.saveImportExcelFile(destFile,Blog.class);
 		} catch (Exception e) {
-		    logger.error(e);
+		    logger.error(e.getMessage(),e);
 			info = e.getMessage();
 		}
 		if (StringUtils.isBlank(info)) {

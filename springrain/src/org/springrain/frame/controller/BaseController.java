@@ -76,7 +76,7 @@ public class BaseController extends BaseLogger {
 					}
 				} catch (Exception e) {
 					setValue(null);
-					logger.error(e);
+					logger.error(e.getMessage(),e);
 				}
 			}
 			/*
@@ -95,7 +95,7 @@ public class BaseController extends BaseLogger {
 					}
 				} catch (Exception e) {
 					setValue(null);
-					logger.error(e);
+					logger.error(e.getMessage(),e);
 				}
 			}
 		});
@@ -109,7 +109,7 @@ public class BaseController extends BaseLogger {
 					}
 				} catch (Exception e) {
 					setValue(null);
-					logger.error(e);
+					logger.error(e.getMessage(),e);
 				}
 			}
 		});
@@ -123,7 +123,7 @@ public class BaseController extends BaseLogger {
 					}
 				} catch (Exception e) {
 					setValue(null);
-					logger.error(e);
+					logger.error(e.getMessage(),e);
 				}
 			}
 		});
@@ -138,7 +138,7 @@ public class BaseController extends BaseLogger {
 					}
 				} catch (Exception e) {
 					setValue(null);
-					logger.error(e);
+					logger.error(e.getMessage(),e);
 				}
 			}
 		});
@@ -262,7 +262,7 @@ public class BaseController extends BaseLogger {
 	public String exp(HttpServletRequest request,Exception e){
 		e.printStackTrace();
 		request.setAttribute("e", e);
-		logger.error(e);
+		logger.error(e.getMessage(),e);
 		return "/error";
 	}
 	
@@ -325,7 +325,7 @@ public class BaseController extends BaseLogger {
 			out.flush();
 
 		} catch (Exception e) {
-			logger.error(e);
+			logger.error(e.getMessage(),e);
 			throw new Exception("下载失败!");
 		} finally {
 			if(in!=null){  

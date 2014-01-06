@@ -144,7 +144,7 @@ public class MenuController  extends BaseController {
 				json.setMessage(MessageUtils.ADD_SUCCESS);
 				return json;
 			} catch (Exception e) {
-				logger.error(e);
+				logger.error(e.getMessage(),e);
 			}
 			json.setSuccess(false);
 			json.setMessage(MessageUtils.ADD_FAIL);
@@ -157,7 +157,7 @@ public class MenuController  extends BaseController {
 				json.setMessage(MessageUtils.EDIT_SUCCESS);
 				return json;
 			} catch (Exception e) {
-				logger.error(e);
+				logger.error(e.getMessage(),e);
 			}
 			json.setSuccess(false);
 			json.setMessage(MessageUtils.EDIT_WARING);
@@ -187,7 +187,7 @@ public class MenuController  extends BaseController {
 				model.addAttribute(message, MessageUtils.ADD_SUCCESS);
 				return messageurl;
 			} catch (Exception e) {
-				logger.error(e);
+				logger.error(e.getMessage(),e);
 			}
 			     model.addAttribute(message, MessageUtils.ADD_FAIL);
 			     return messageurl;
@@ -198,7 +198,7 @@ public class MenuController  extends BaseController {
 				model.addAttribute(message, MessageUtils.EDIT_SUCCESS);
 				return messageurl;
 			} catch (Exception e) {
-				logger.error(e);
+				logger.error(e.getMessage(),e);
 			}
 			model.addAttribute(message, MessageUtils.EDIT_WARING);
 			return messageurl;

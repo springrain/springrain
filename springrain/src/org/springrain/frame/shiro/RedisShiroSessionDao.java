@@ -4,14 +4,15 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
 import org.apache.shiro.session.mgt.eis.AbstractSessionDAO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springrain.frame.cached.ICached;
 import org.springrain.frame.util.SerializeUtil;
 public class RedisShiroSessionDao extends AbstractSessionDAO {
-	public Logger logger=Logger.getLogger(getClass());
+	public Logger logger = LoggerFactory.getLogger(getClass());
 	private String sessionprefix="ss-";
 	public RedisShiroSessionDao (){
 	}
@@ -21,7 +22,7 @@ public class RedisShiroSessionDao extends AbstractSessionDAO {
 		try {
 			cached.updateCached(session.getId().toString().getBytes(),SerializeUtil.serialize(session),session.getTimeout()/1000);
 		} catch (Exception e) {
-			logger.error(e);
+			logger.error(e.getMessage(),e);
 		}
 		
 	}
@@ -31,7 +32,7 @@ public class RedisShiroSessionDao extends AbstractSessionDAO {
 		try {
 			cached.deleteCached(session.getId().toString().getBytes());
 		} catch (Exception e) {
-			logger.error(e);
+			logger.error(e.getMessage(),e);
 		}
 		
 	}
@@ -43,7 +44,7 @@ public class RedisShiroSessionDao extends AbstractSessionDAO {
 		try {
 		 list=	(List<Session>) cached.getKeys(keys.getBytes());
 		} catch (Exception e) {
-			logger.error(e);
+			logger.error(e.getMessage(),e);
 		}
 		return list;
 	}
@@ -56,7 +57,7 @@ public class RedisShiroSessionDao extends AbstractSessionDAO {
 			update(session);
 			sessionId=session.getId();
 		} catch (Exception e) {
-			logger.error(e);
+			logger.error(e.getMessage(),e);
 		}
 		return sessionId;
 		
@@ -68,7 +69,7 @@ public class RedisShiroSessionDao extends AbstractSessionDAO {
 		try {
 			session=	(Session) cached.getCached(sessionId.toString().getBytes());
 		} catch (Exception e) {
-			logger.error(e);
+			logger.error(e.getMessage(),e);
 		}
 		return session;
 		

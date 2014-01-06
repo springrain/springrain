@@ -123,7 +123,7 @@ public class FwlogController  extends BaseController {
 				model.addAttribute(message, MessageUtils.ADD_SUCCESS);
 				return messageurl;
 			} catch (Exception e) {
-				logger.error(e);
+				logger.error(e.getMessage(),e);
 			}
 			     model.addAttribute(message, MessageUtils.ADD_FAIL);
 			     return messageurl;
@@ -134,7 +134,7 @@ public class FwlogController  extends BaseController {
 				model.addAttribute(message, MessageUtils.EDIT_SUCCESS);
 				return messageurl;
 			} catch (Exception e) {
-				logger.error(e);
+				logger.error(e.getMessage(),e);
 			}
 			model.addAttribute(message, MessageUtils.EDIT_WARING);
 			return messageurl;
@@ -170,7 +170,7 @@ public class FwlogController  extends BaseController {
 			    return new CFReturnObject(CFReturnObject.WARNING, MessageUtils.DELETE_WARNING);
 			}
 		} catch (Exception e) {
-				logger.error(e);
+				logger.error(e.getMessage(),e);
 		}
 		return new CFReturnObject(CFReturnObject.WARNING, MessageUtils.DELETE_WARNING);
 	}
