@@ -12,7 +12,7 @@ public class Page {
 	/** 页码,从1开始 */
 	private int pageIndex;
 	/** 每页多少行 */
-	private int pageSize;
+	private int pageSize=10;
 	/** 数据总行数 */
 	private int totalCount = 0;
 	/** 总共可以分多少页 */
