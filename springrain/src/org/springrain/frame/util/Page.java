@@ -127,6 +127,7 @@ public class Page {
 		this.totalCount = totalCount;
 		pageCount = totalCount / pageSize
 				+ (totalCount % pageSize == 0 ? 0 : 1);
+		/*
 		// 调整页码信息,防止出界
 		if (totalCount == 0) {
 			if (pageIndex != 1)
@@ -135,6 +136,7 @@ public class Page {
 			if (pageIndex > pageCount)
 				pageIndex = pageCount;
 		}
+		*/
 	}
 
 	
