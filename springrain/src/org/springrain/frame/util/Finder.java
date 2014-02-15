@@ -151,9 +151,11 @@ public class Finder {
 		return params;
 	}
 
+	/*
 	public void setParams(Map<String, Object> params) {
 		this.params = params;
 	}
+	*/
 
 	public String getSql() {
 		if(sql==null)
