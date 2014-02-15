@@ -23,8 +23,10 @@ public class SpringTest  {
 	
 	@Test
 	public void testSelectUser() throws Exception{
-		Finder finder=new Finder("SELECT * FROM t_user WHERE  id=:id order by id desc ");
-		finder.setParam("id", "admin");
+		//Finder finder=new Finder("SELECT * FROM t_user WHERE  id=:userId order by id desc ");
+		Finder finder=Finder.getSelectFinder(User.class).append("WHERE  id=:userId order by id desc ");
+		
+		finder.setParam("userId", "admin");
 		User user = baseDemoService.queryForObject(finder,User.class);
 		System.out.println(user.getName());
 	}
