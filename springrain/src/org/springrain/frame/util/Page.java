@@ -8,11 +8,11 @@ package org.springrain.frame.util;
  * @see org.springrain.frame.util.Page
  */
 public class Page {
-	public static final int DEFAULT_PAGE_SIZE = 10;
+	public static final int DEFAULT_PAGE_SIZE = 20;
 	/** 页码,从1开始 */
 	private int pageIndex;
 	/** 每页多少行 */
-	private int pageSize=10;
+	private int pageSize=20;
 	/** 数据总行数 */
 	private int totalCount = 0;
 	/** 总共可以分多少页 */
