@@ -593,6 +593,7 @@ public class DateUtils {
 		calendar.set(Calendar.HOUR_OF_DAY, calendar
 				.getMaximum(Calendar.HOUR_OF_DAY));
 		calendar.set(Calendar.MINUTE, calendar.getMaximum(Calendar.MINUTE));
+		calendar.set(Calendar.SECOND, calendar.getMaximum(Calendar.SECOND));
 		return convertDate2String(DEFAILT_DATE_TIME_PATTERN, calendar.getTime());
 	}
 
@@ -607,6 +608,7 @@ public class DateUtils {
 		calendar.set(Calendar.HOUR_OF_DAY, calendar
 				.getMaximum(Calendar.HOUR_OF_DAY));
 		calendar.set(Calendar.MINUTE, calendar.getMaximum(Calendar.MINUTE));
+		calendar.set(Calendar.SECOND, calendar.getMaximum(Calendar.SECOND));
 		return calendar.getTime();
 	}
 
@@ -620,6 +622,7 @@ public class DateUtils {
 		calendar.set(Calendar.HOUR_OF_DAY, calendar
 				.getMinimum(Calendar.HOUR_OF_DAY));
 		calendar.set(Calendar.MINUTE, calendar.getMinimum(Calendar.MINUTE));
+		calendar.set(Calendar.SECOND, calendar.getMinimum(Calendar.SECOND));
 		return convertDate2String(DEFAILT_DATE_TIME_PATTERN, calendar.getTime());
 	}
 
@@ -634,6 +637,7 @@ public class DateUtils {
 		calendar.set(Calendar.HOUR_OF_DAY, calendar
 				.getMinimum(Calendar.HOUR_OF_DAY));
 		calendar.set(Calendar.MINUTE, calendar.getMinimum(Calendar.MINUTE));
+		calendar.set(Calendar.SECOND, calendar.getMinimum(Calendar.SECOND));
 		return calendar.getTime();
 	}
 
@@ -863,8 +867,5 @@ public class DateUtils {
 		cal.set(Calendar.DATE, 1);
 		return formatDate(cal.getTime());
 	}
-
-	
-
 
 }
