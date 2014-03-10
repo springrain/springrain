@@ -29,7 +29,6 @@
 	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/mail-1.4.3.jar"/>
 	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/mysql-connector-java-5.1.25.jar"/>
 	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/servlet-api.jar"/>
-	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/shiro-all-1.2.2.jar" sourcepath="D:/maven_library/repository/org/apache/shiro/shiro-all/1.2.2/shiro-all-1.2.2-sources.jar"/>
 	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/slf4j-api-1.7.5.jar"/>
 	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/spring-data-redis-1.1.0.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/commons-pool-1.6.jar"/>
@@ -46,5 +45,6 @@
 	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/spring-tx-4.0.0.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/spring-web-4.0.0.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/spring-webmvc-4.0.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/shiro-all-1.2.3.jar"/>
 	<classpathentry kind="output" path="WebROOT/WEB-INF/classes"/>
 </classpath>
