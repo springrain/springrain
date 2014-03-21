@@ -29,6 +29,7 @@ import org.springrain.frame.util.GlobalStatic;
 
 @Controller
 public class LoginController extends BaseController  {
+	
 	/**
 	 * 首页的映射
 	 * @param model
