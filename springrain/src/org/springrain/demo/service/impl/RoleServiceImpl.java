@@ -6,7 +6,6 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
-
 import org.springrain.demo.entity.Role;
 import org.springrain.demo.service.BaseDemoServiceImpl;
 import org.springrain.demo.service.IRoleService;
@@ -78,8 +77,7 @@ private IUserRoleMenuService userRoleMenuService;
 
 	@Override
 	public String findNameById(String roleId) throws Exception {
-		// TODO Auto-generated method stub
-		Finder finder=new Finder("select name from t_role where id=:id");
+		Finder finder=Finder.getSelectFinder(Role.class,"name").append(" WHERE id=:id ");
 		finder.setParam("id", roleId);
 		String name=super.queryForObject(finder,String.class);
 		return name;

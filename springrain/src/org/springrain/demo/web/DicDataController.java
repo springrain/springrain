@@ -26,7 +26,6 @@ import org.springrain.demo.entity.DicData;
 import org.springrain.demo.service.IDicDataService;
 import org.springrain.frame.controller.BaseController;
 import org.springrain.frame.util.CFReturnObject;
-import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.MessageUtils;
 import org.springrain.frame.util.Page;
@@ -251,9 +250,10 @@ public class DicDataController  extends BaseController {
 	
 	@RequestMapping(value="/{pathtypekey}/ajax/findjson")
 	public @ResponseBody List<DicData> findAjaxJSON(@PathVariable String pathtypekey)throws Exception{
-		org.springrain.frame.util.Finder finder=new Finder("select * from t_dic_data where state=:state and typekey=:typekey ");
-		finder.setParam("typekey", pathtypekey).setParam("state", "是");
-		List<DicData> dicdatas=dicDataService.queryForList(finder, DicData.class);
+		DicData dicData=new DicData();
+		dicData.setState("是");
+		dicData.setTypekey(pathtypekey);
+		List<DicData> dicdatas=dicDataService.queryForListByEntity(dicData, null);
 		return dicdatas;
 		
 	}

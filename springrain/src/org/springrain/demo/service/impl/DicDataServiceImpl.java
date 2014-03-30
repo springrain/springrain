@@ -1,18 +1,15 @@
 package org.springrain.demo.service.impl;
 
-import org.springframework.stereotype.Service;
-
-import org.springrain.frame.service.IBaseService;
-import org.springrain.demo.service.BaseDemoServiceImpl;
-import org.springrain.demo.entity.DicData;
-import org.springrain.demo.service.IDicDataService;
-
-import java.util.List;
 import java.io.File;
+import java.util.List;
 
+import org.springframework.stereotype.Service;
+import org.springrain.demo.entity.DicData;
+import org.springrain.demo.service.BaseDemoServiceImpl;
+import org.springrain.demo.service.IDicDataService;
 import org.springrain.frame.entity.IBaseEntity;
-import org.springrain.frame.util.Page;
 import org.springrain.frame.util.Finder;
+import org.springrain.frame.util.Page;
 
 
 /**
@@ -61,7 +58,7 @@ public class DicDataServiceImpl extends BaseDemoServiceImpl implements IDicDataS
     public <T> List<T> findListDataByFinder(Finder finder, Page page, Class<T> clazz,
 			Object o) throws Exception{
         	if(finder==null){
-        	 finder=new Finder("SELECT * FROM t_dic_data WHERE 1=1 ");
+        	 finder=Finder.getSelectFinder(DicData.class).append(" WHERE 1=1 ");
         	}
         	if(o!=null){
         		getFinderWhereByQueryBean(finder, o);
@@ -90,7 +87,8 @@ public class DicDataServiceImpl extends BaseDemoServiceImpl implements IDicDataS
 	@Override
 	public List<String> findAjax(String pathtypekey) throws Exception {
 		// TODO Auto-generated method stub
-		Finder finder=new Finder("select name from t_dic_data where typekey=:typekey order by name");
+		//Finder finder=new Finder("select name from t_dic_data where typekey=:typekey order by name");
+		Finder finder=Finder.getSelectFinder(DicData.class,"name").append("  where typekey=:typekey order by name ");
 		finder.setParam("typekey",pathtypekey);
 		List<String> datas=super.queryForList(finder, String.class);
 		return datas;

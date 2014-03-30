@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-
 import org.springrain.demo.entity.Fwlog;
 import org.springrain.demo.service.BaseDemoServiceImpl;
 import org.springrain.demo.service.IFwlogService;
@@ -48,6 +47,8 @@ public class FwlogServiceImpl extends BaseDemoServiceImpl implements IFwlogServi
     		return null;
     	}
     	Fwlog fwLog=new Fwlog();
+    	fwLog.setId(id.toString());
+    	/*
      	//使用finder 构建查询语句
         Finder finder=new Finder("SELECT * FROM ");
         //确定年度分表,实际可以根据ID的前四位确定年份,例如,我的Id前四位是2013 就是2013年的数据
@@ -56,9 +57,11 @@ public class FwlogServiceImpl extends BaseDemoServiceImpl implements IFwlogServi
         finder.append(" WHERE id=:id");
         //设置参数值
         finder.setParam("id", id.toString());
+	    return super.queryForObject(finder, Fwlog.class);
+	 */
     	
-    	
-	 return super.queryForObject(finder, Fwlog.class);
+    	return super.queryForObject(fwLog);
+	 
 	}
 	
 /**

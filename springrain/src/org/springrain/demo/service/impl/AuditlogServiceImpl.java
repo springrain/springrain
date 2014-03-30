@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-
 import org.springrain.demo.entity.AuditLog;
 import org.springrain.demo.service.BaseDemoServiceImpl;
 import org.springrain.demo.service.IAuditlogService;
@@ -44,6 +43,9 @@ public class AuditlogServiceImpl extends BaseDemoServiceImpl implements IAuditlo
     	}
     	
     	AuditLog autidLog=new AuditLog();
+    	autidLog.setId(id.toString());
+    	
+    	/*
     	//使用finder 构建查询语句
        Finder finder=new Finder("SELECT * FROM ");
        //确定年度分表,实际可以根据ID的前四位确定年份,例如,我的Id前四位是2013 就是2013年的数据
@@ -52,8 +54,10 @@ public class AuditlogServiceImpl extends BaseDemoServiceImpl implements IAuditlo
        finder.append(" WHERE id=:id");
        //设置参数值
        finder.setParam("id", id.toString());
-         	
-	 return super.queryForObject(finder, AuditLog.class);
+       return super.queryForObject(finder, AuditLog.class);
+       */
+    	return super.queryForObject(autidLog);
+	 
 	}
 
 /**

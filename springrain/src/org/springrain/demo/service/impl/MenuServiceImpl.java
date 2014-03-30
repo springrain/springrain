@@ -8,7 +8,6 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-
 import org.springrain.demo.entity.Menu;
 import org.springrain.demo.service.BaseDemoServiceImpl;
 import org.springrain.demo.service.IMenuService;
@@ -51,11 +50,13 @@ public class MenuServiceImpl extends BaseDemoServiceImpl implements
 	
 	public List<Menu> findListById(Object id) throws Exception {
 		List<Menu> menuList=new ArrayList<Menu>();
-		String sql = "SELECT * FROM t_menu where pid=:pid";
-		if(id==null || id.equals("")){
-			sql = "SELECT * FROM t_menu where pid is :pid";
+		Finder finder = Finder.getSelectFinder(Menu.class);
+	
+		if(id==null || StringUtils.isBlank(id.toString())){
+			finder.append(" where pid is :pid");
+		}else{
+			finder.append(" where pid=:pid ");
 		}
-		Finder finder = new Finder(sql);
 		finder.setParam("pid", id);
 		List<Menu> list = super.queryForList(finder,Menu.class);
 		if(CollectionUtils.isEmpty(list)){
@@ -76,7 +77,7 @@ public class MenuServiceImpl extends BaseDemoServiceImpl implements
 			return null;
 		}
 		
-		Finder finder=new Finder("SELECT * FROM t_menu where pid=:pid ");
+		Finder finder = Finder.getSelectFinder(Menu.class).append(" where pid=:pid ");
 		finder.setParam("pid", id);
 		List<Menu> list = super.queryForList(finder,Menu.class);
 		if(CollectionUtils.isEmpty(list)){
@@ -130,7 +131,7 @@ public class MenuServiceImpl extends BaseDemoServiceImpl implements
 		if(StringUtils.isBlank(pageurl)){
 			return null;
 		}
-		Finder finder=new Finder("SELECT name FROM  t_menu WHERE pageurl=:pageurl ");
+		Finder finder = Finder.getSelectFinder(Menu.class,"name").append(" WHERE pageurl=:pageurl ");
 		finder.setParam("pageurl", pageurl);
 		return queryForObject(finder, String.class);
 	}

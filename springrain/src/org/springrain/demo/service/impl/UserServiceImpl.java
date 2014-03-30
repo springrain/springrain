@@ -1,14 +1,16 @@
 package org.springrain.demo.service.impl;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.util.CollectionUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springrain.demo.entity.User;
+import org.springrain.demo.entity.UserRole;
 import org.springrain.demo.service.BaseDemoServiceImpl;
 import org.springrain.demo.service.IUserService;
 import org.springrain.frame.util.Finder;
@@ -82,20 +84,34 @@ public class UserServiceImpl extends BaseDemoServiceImpl implements IUserService
 	@Caching(evict={@CacheEvict(value = GlobalStatic.cacheKey,key = "'findRoleByUserId_'+#userId"),@CacheEvict(value = GlobalStatic.cacheKey,key = "'getRolesAsString_'+#userId"),@CacheEvict(value = GlobalStatic.cacheKey,key = "'findUserByRoleId_'+#userId"),@CacheEvict(value = GlobalStatic.cacheKey,key = "'findAllRoleAndMenu'")})
 	public void updateRoleUser(String userId, String roleId) throws Exception {
 		//删除
-		Finder finder=new Finder("delete from t_user_role where userId=:userId");
+		//Finder finder=new Finder("delete from t_user_role where userId=:userId");
+		Finder finder=Finder.getDeleteFinder(User.class).append(" WHERE userId=:userId");
+		
 		finder.setParam("userId", userId);
 		this.update(finder);
 		//添加
 		String[] roleIds=roleId.split(",");
-		finder=new Finder("insert into t_user_role(id,userId,roleId) values(:id,:userId,:roleId)");
-		finder.setParam("userId", userId);
+		//finder=new Finder("insert into t_user_role(id,userId,roleId) values(:id,:userId,:roleId)");
+		//finder.setParam("userId", userId);
+		
+		List<UserRole> list=new ArrayList<UserRole>();
+		
 		for(String str:roleIds){
-			if(StringUtils.isNotBlank(str)){
-				finder.setParam("id", UUID.randomUUID().toString());
-				finder.setParam("roleId", str);
-				this.update(finder);
+			if(StringUtils.isBlank(str)){
+				continue;
 			}
+			UserRole ur=new UserRole();
+			ur.setUserId(userId);
+			ur.setRoleId(str);
+			list.add(ur);
 		}
+		
+		if(!CollectionUtils.isEmpty(list)){
+			super.save(list);
+		}
+		
+		
+		
 	}
 
 
