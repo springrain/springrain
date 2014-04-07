@@ -44,5 +44,7 @@
 	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/spring-tx-4.0.3.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/spring-web-4.0.3.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/spring-webmvc-4.0.3.RELEASE.jar"/>
+	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/commons-fileupload-1.3.1.jar"/>
+	<classpathentry kind="lib" path="WebROOT/WEB-INF/lib/druid-1.0.4.jar"/>
 	<classpathentry kind="output" path="WebROOT/WEB-INF/classes"/>
 </classpath>
