@@ -95,6 +95,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 			user = userRoleMenuService.findLoginUser(userName, null);
 		} catch (Exception e) {
 			logger.error(e.getMessage(),e);
+			throw  new AuthenticationException(e);
 		}
 
 		if (user != null) {
