@@ -233,7 +233,7 @@ public class UserRoleMenuServiceImpl extends BaseDemoServiceImpl implements
 		//删除现在的中间权限表
 				//Finder finder=new Finder("delete from t_role_menu  where roleId=:roleId ");
 				
-		        Finder finder=Finder.getDeleteFinder(Menu.class).append("  where roleId=:roleId ");
+		        Finder finder=Finder.getDeleteFinder(RoleMenu.class).append("  where roleId=:roleId ");
 				finder.setParam("roleId", roleId);
 				this.update(finder);
 				if(menus==null||menus.length<1){
