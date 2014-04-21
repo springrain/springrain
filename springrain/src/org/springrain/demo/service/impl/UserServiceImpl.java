@@ -85,7 +85,7 @@ public class UserServiceImpl extends BaseDemoServiceImpl implements IUserService
 	public void updateRoleUser(String userId, String roleId) throws Exception {
 		//删除
 		//Finder finder=new Finder("delete from t_user_role where userId=:userId");
-		Finder finder=Finder.getDeleteFinder(User.class).append(" WHERE userId=:userId");
+		Finder finder=Finder.getDeleteFinder(UserRole.class).append(" WHERE userId=:userId");
 		
 		finder.setParam("userId", userId);
 		this.update(finder);
