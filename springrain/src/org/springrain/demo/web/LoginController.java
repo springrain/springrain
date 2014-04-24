@@ -43,10 +43,13 @@ public class LoginController extends BaseController  {
 		}
 		
 		@RequestMapping(value = "/login",method=RequestMethod.GET)
-		public String login(Model model,HttpServletRequest request) throws Exception {
+		public String login(Model model) throws Exception {
 			if(SecurityUtils.getSubject().isAuthenticated()){
 				return "redirect:/index";
 			}
+			//默认赋值message,避免freemarker尝试从session取值,造成异常
+			model.addAttribute("message", "");
+			
 			return "/login";
 		}
 		@RequestMapping(value = "/login",method=RequestMethod.POST)
