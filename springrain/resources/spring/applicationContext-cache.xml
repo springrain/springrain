@@ -19,10 +19,18 @@
 	default-lazy-init="false">
 
 
-	<!-- 启用缓存注解功能，这个是必须的，否则注解不会生效,redis的实现是 redisCacheManager -->
+	<!-- 启用缓存注解功能，这个是必须的，否则注解不会生效,redis的实现是 redisCacheManager    集群模式注释这个配置 -->
 	<cache:annotation-driven cache-manager="cacheManager" />
+	
+	<!-- 集群模式 解开这个配置 -->
+	<!--  
+	<cache:annotation-driven cache-manager="redisCacheManager" />
+	-->
+	
+	
+	
 
-	<!-- spring自己的换管理器，这里定义了两个缓存位置名称 ，既注解中的value -->
+	<!-- spring自己的换管理器，这里定义了两个缓存位置名称 ，既注解中的value   集群模式注释这个配置 -->
 	<bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
 		<property name="caches">
 			<set>
@@ -40,7 +48,7 @@
 	
 	
 
-<!--  redisCacheManager 用于spring 缓存, redisCached 为redis的工具类,用于业务的缓存. 基于redis分布的session共享也是基于这个redisCached -->
+<!--  redisCacheManager 用于spring 缓存, redisCached 为redis的工具类,用于业务的缓存. 基于redis分布的session共享也是基于这个redisCached, 集群模式解开这个配置,并注意修改db.properties 中redis的连接参数 -->
 
 <!-- 
 	<bean id="redisCacheManager" class="org.springframework.data.redis.cache.RedisCacheManager"

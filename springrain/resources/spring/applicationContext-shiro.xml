@@ -47,10 +47,10 @@
 	<bean id="shiroSessionDao"
 		class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO" />
 
-	<!-- 单机session -->
+	<!-- 单机session  集群模式注释这个配置-->
 	<bean id="shiroCacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager" />
 
-	<!-- session 集群 -->
+	<!-- session 集群模式解开这个配置 -->
 	<!-- 
 	<bean id="shiroCacheManager" class="org.springrain.frame.shiro.ShiroRedisCacheManager"> 
 		<property name="cached" ref="redisCached" /> 
@@ -93,6 +93,8 @@
 		</property>
 	</bean>
 	<!-- 起效权限注解,这个很少在web项目中用到,一般是控制url的访问,不是在controller中声明权限注解 -->
+	<!--  
 	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+	-->
 
 </beans>
