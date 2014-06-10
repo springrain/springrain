@@ -133,7 +133,12 @@ public class MenuServiceImpl extends BaseDemoServiceImpl implements
 		}
 		Finder finder = Finder.getSelectFinder(Menu.class,"name").append(" WHERE pageurl=:pageurl ");
 		finder.setParam("pageurl", pageurl);
-		return queryForObject(finder, String.class);
+		List<String> list = queryForList(finder,String.class);
+		if(CollectionUtils.isEmpty(list)){
+			return null;
+		}
+		
+		return list.toString();
 	}
 
 }
