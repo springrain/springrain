@@ -598,12 +598,22 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		// entity信息
 		EntityInfo entityInfo = ClassUtils.getEntityInfoByEntity(entity);
 		Class<?> returnType = entityInfo.getPkReturnType();
+		
 		Map paramMap = new HashMap();
 		Boolean isSequence = false;
 		String sql = warpsavesql(entity, paramMap, isSequence);
 		// 打印sql
 		logInfoSql(sql);
-		if (returnType == String.class) {
+		
+		/**
+		 * 增加如果表没有主键的判断
+		 */
+		if(returnType==null){
+			getWriteJdbc().update(sql, paramMap);
+			return null;
+		}
+		
+		else if (returnType == String.class) {
 			getWriteJdbc().update(sql, paramMap);
 			return ClassUtils.getPKValue(entity).toString();
 
@@ -641,7 +651,10 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements
 		auditLog.setOperationClass(entity.getClass().getName());
 		auditLog.setOperationType(GlobalStatic.dataSave);
 		auditLog.setOperatorName(getUserName());
+		if(id!=null){//如果Id有值
 		auditLog.setOperationClassId(id.toString());
+		}
+		
 		auditLog.setOperationTime(new Date());
 		auditLog.setCurValue(entity.toString());
 		auditLog.setPreValue("无");
