@@ -5,7 +5,7 @@ ${r"<#escape x as x?html>"}
 
 jQuery(document).ready(function(){
 	//回选 下拉框
-	//jQuery("#search_state option[value='${(returnDatas.queryBean.state)!'是'}']").attr("selected",true);
+	//jQuery("#search_state option[value='${(returnDatas.queryBean.state)!'是'}']").prop("selected",true);
 	
 	/*
 	$('.date-picker').datepicker({
