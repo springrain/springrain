@@ -3,16 +3,15 @@
 <#assign classNameLower = className?uncap_first>  
 package ${basepackage}.service.impl;
 
+import java.io.File;
+import java.util.List;
 import org.springframework.stereotype.Service;
-import org.springrain.frame.service.IBaseService;
-import org.springrain.demo.service.BaseDemoServiceImpl;
 import ${basepackage}.entity.${className};
 import ${basepackage}.service.I${className}Service;
-import java.util.List;
-import java.io.File;
-import org.springrain.frame.entity.IBaseEntity;
-import org.springrain.frame.util.Page;
-import org.springrain.frame.util.Finder;
+import com.bibizao.frame.entity.IBaseEntity;
+import com.bibizao.frame.util.Finder;
+import com.bibizao.frame.util.Page;
+import com.bibizao.system.service.BaseDemoServiceImpl;
 
 
 <#include "/copyright_class.include" >

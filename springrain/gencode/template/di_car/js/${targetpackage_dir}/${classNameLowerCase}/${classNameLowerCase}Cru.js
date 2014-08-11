@@ -10,11 +10,4 @@ jQuery(document).ready(function(){
     
 });
 
-//提交表单
-function submitUpdateForm(){
-var flag=jQuery("#updateForm").form("validate");
-if(flag){
-submitForm("updateForm");
-}
 
-}

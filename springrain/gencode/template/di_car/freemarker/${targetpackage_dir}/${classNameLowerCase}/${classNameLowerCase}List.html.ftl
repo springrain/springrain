@@ -6,149 +6,196 @@ ${r"<#escape x as x?html>"}
 <#assign from = basepackage?last_index_of(".")>
 <#assign rootPagefloder = basepackage?substring(basepackage?last_index_of(".")+1)>
 
-${r"<@h.easyui />"}
-<script type="text/javascript" src="${r"${ctx}"}/js/plugins/jquery.checkbox.js"></script>
 <script type="text/javascript" src="${r"${ctx}"}/js/${rootPagefloder}/${classNameLowerCase}/${classNameLowerCase}.js"></script>
-	<#list table.columns as column>
-	<#if column.isDateTimeColumn>	
-		<script type="text/javascript" src="${r"${ctx}"}/js/my97/WdatePicker.js"></script>
-		<#break>
-	</#if>
-</#list>
-</head>
 
 <script type="text/javascript">
-<!--
-jQuery(document).ready(function(){
-     //初始化 排序图标
-    initSortTable("listDataTable","searchForm");
-	//添加颜色改变
-	mouseTrColor("listDataTable");
-	
-});
-//-->
+
+function delete${className}(){
+	var id=jQuery("#id").val();
+	if(!id||id==""){
+		myalert("请选择你要删除的记录");
+		return;
+	}else{
+		var _url="${r"${ctx}"}/${classNameLowerCase}/delete?id="+id;
+		var listurl="${r"${ctx}"}/${classNameLowerCase}/list";
+		mydelete(_url,listurl);
+	}
+}
 </script>
 
-<body>
-<!-- 操作菜单 -->
-	<div class="head">
-		<div class="path">${tableName!''}管理</div>
+
+	
+
+<!-- /.page-header -->
+
+<div class="row">
+    <div class="col-xs-12">
+<div class="operate panel panel-default" style="height:65px;">
+	<div class="panel-body">
+		<div class="pull-left">
+ <form class="form-horizontal" name="searchForm" id="searchForm" action="${r"${ctx}"}/${classNameLowerCase}/list" role="form">
+            <input type="hidden" name="pageIndex" id="pageIndex" value="${r"${(returnDatas.page.pageIndex)!'1'}"}"/>
+            <input type="hidden" name="sort" id="page_sort" value="${r"${(returnDatas.page.sort)!'desc'}"}"/>
+            <input type="hidden" name="order" id="page_order" value="${r"${(returnDatas.page.order)!'id'}"}"/>
+			<label for="search_state"><b>是否可用:</b></label> 
+			 <select id="search_state" name="state" class="col-10" >
+				<option value="是">是</option>
+				<option value="否">否</option>
+			</select>
+			<a  href="javascript:mySubmitForm('searchForm');"
+				class="btn btn-purple btn-sm">
+					查询 <i class="ace-icon fa fa-search icon-on-right bigger-10"></i>
+				</a>
+
+</form>
+		</div>
+		<div class="pull-right">
+			    ${r"<@shiro.hasPermission"} name="/${classNameLowerCase}/list/export" >
+				  <button onclick="myexport('searchForm','${r"${ctx}"}/${classNameLowerCase}/list/export');" class="btn  btn-sm  btn-primary">
+                      
+                        导出
+                    </button>
+		    	${r"</@shiro.hasPermission>"}
+			    ${r"<@shiro.hasPermission"} name="/${classNameLowerCase}/update" >
+				  <button onclick="myhref('${r"${ctx}"}/${classNameLowerCase}/update/pre');" class="btn  btn-sm  btn-primary">
+                        添加
+                    </button>
+			    ${r"</@shiro.hasPermission>"}
+			    ${r"<@shiro.hasPermission"} name="/${classNameLowerCase}/delete" >
+			    |
+				  <button onclick="delete${className}();" class="btn btn-sm btn-danger">
+                        删除
+                    </button>
+			    ${r"</@shiro.hasPermission>"}
+			
+		</div>
 	</div>
-	<div class="contents">
-<!-- 查询 -->
-<form name="searchForm" id="searchForm" method="post" action="${r"${ctx}"}/${classNameLowerCase}/list" >
-<input type="hidden" name="pageIndex" id="pageIndex" value="${r"${(page.pageIndex)!'1'}"}" />
-<input type="hidden" name="commTabId" id="commTabId" value="${r"${commTabId!''}"}"  />
-<input type="hidden" name="sort" id="page_sort" value="${r"${(page.sort)!'desc'}"}"  />
-<input type="hidden" name="order" id="page_order" value="${r"${(page.order)!'id'}"}"  />
-		<table class="tb_2">
-			<tr>
-			
-			<#list table.columns as column>
-			<#if !column.pk>
-			<#if column.isDateTimeColumn>
-			<#assign columnDataValue = "(("+classNameLower+"."+column.columnNameFirstLower+")?string('yyyy-MM-dd'))!'' ">
-			  <td>${column.columnAlias}:<input type="text" id="${column.columnNameFirstLower}" name="${column.columnNameFirstLower}"  onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" readonly="readonly" value="${r"${"}${columnDataValue}${r"}"}"   class="inp_2" /></td>
-			<#else>
-	         <td>${column.columnAlias}:<input type="text" id="${column.columnNameFirstLower}" name="${column.columnNameFirstLower}"  value="${r"${"}(${classNameLower}.${column.columnNameFirstLower})!''${r"}"}"   class="inp_2" /></td>
-	         </#if>
-			 </#if>
-		   </#list>
-				<td>
-					<input type="button" onclick="submitForm('searchForm');"  value="搜 索" class="btn_search"  />  
-				</td>
-			</tr>
-		</table>
-		</form>
-		
-<!-- 数据列表 -->
-		<dl class="box_1">
-			<dt>
-				<div>数据</div>
-				${r"<@shiro.hasPermission"} name="/${classNameLowerCase}/list/export" >
-				<a class="a_1" href="javascript:export_excel('searchForm');">导出</a><div class="img_2" ></div>
-				${r"</@shiro.hasPermission>"}
-				${r"<@shiro.hasPermission"} name="/${classNameLowerCase}/update" >
-				<a class="a_3" href="javascript:f_newTab('add_${classNameLowerCase}','add_${classNameLowerCase}','add_${classNameLowerCase}','${r"${ctx}"}/${classNameLowerCase}/update/pre');">添加</a><div class="img_2" ></div>
-				${r"</@shiro.hasPermission>"}
-				${r"<@shiro.hasPermission"} name="/${classNameLowerCase}/delMulti" >
-				<a class="a_0" href="javascript:delMulti();">删除选中</a><div class="img_2"></div>
-				${r"</@shiro.hasPermission>"}
-			</dt>
-			<dd>
-			
-			
-			<!--start_export-->
-				<table  id="listDataTable" border="1" class="tb_2">
-			<!--end_no_export-->
-			<!--first_start_export-->
-					<tr id="table_first_tr"  bgcolor="#F1F1F1" >
-					<!--first_start_no_export-->
-						<th><input type="checkbox" name="check_all" id="check_all"/></th>
-						<th width="100px;">操作</th>
-					<!--first_end_no_export-->
-					<#list table.columns as column>
+</div>
+
+   <div class="row">
+            <div class="col-xs-12">
+	            <!--start_export-->
+                <table id="listDataTable" border="1" class="table table-striped table-bordered table-hover">
+                    <!--end_no_export-->
+                    <!--first_start_export-->
+                    <thead>
+                    <tr>
+                        <!--first_start_no_export-->
+                        <th class="center">
+                            <label class="position-relative">
+                                <input class="ace" type="checkbox">
+                                <span class="lbl"></span>
+                            </label>
+                        </th>
+                        <th>操作</th>
+                        <!--first_end_no_export-->
+                       	<#list table.columns as column>
 						<#if !column.pk>
 						<th id="th_${column.columnNameFirstLower}" >${column.columnAlias}</th>
 						</#if>
 					</#list>
-						
-					</tr>
-				<!--first_end_export-->
-				
-				<!--start_export-->
-				   ${r"<#if"} datas??&&((datas?size)>0)>
-					${r"<#list"} datas as data>
-						<tr>
-				<!--start_no_export-->
-						${r'<#if'} (datas?size > 0)>
-							<td align="center">
-								<input type="checkbox" name="check_li" value="${r'${data'}.id}" />
-							</td>
-						${r'</#if>'}
-						
-						<td style="text-align:center;">
-								<a href="javascript:f_newTab('${r"${data.id}_update"}','${r"${data.id}_update"}','${r"${data.id}_update"}','${r"${ctx}"}/${classNameLowerCase}/update/pre?${table.pkColumn.columnNameFirstLower}=${r"${data.id}"}');">修改</a>
-								  /  <a href="javascript:del${className}('${r"${data.id}"}');">删除</a>/<a href="javascript:f_newTab('${r"${data.id}_look"}','${r"${data.id}_look"}','${r"${data.id}_look"}','${r"${ctx}"}/${classNameLowerCase}/look?${table.pkColumn.columnNameFirstLower}=${r"${data.id}"}');">查看</a>
-						</td>
-				<!--end_no_export-->
-						
-						<#list table.columns as column>
+                    </tr>
+                    </thead>
+                    <!--first_end_export-->
+
+                    <!--start_export-->
+                    <tbody>
+           
+				   ${r"<#if"} (returnDatas.data??)&&(returnDatas.data?size>0)>
+					 ${r"<#list"} returnDatas.data as _data>
+                            <!--start_no_export-->
+                            <tr class="">
+                                <td class="center">
+                                    <label class="position-relative">
+                                        <input name="check_li" value="${r'${_data'}.id}" class="ace" type="checkbox">
+                                        <span class="lbl"></span>
+                                    </label>
+                                </td>
+                                <td>
+                                    <div class="hidden-sm hidden-xs btn-group">
+                                        <button class="btn btn-xs btn-info"
+                                                onclick="myhref('${r"${ctx}"}/${classNameLowerCase}/update/pre?${table.pkColumn.columnNameFirstLower}=${r"${(_data.id)!''}"}');">
+                                            <i class="ace-icon fa fa-pencil bigger-120"></i>
+                                        </button>
+                                        <button class="btn btn-xs btn-danger"
+                                                onclick="mydelete('${r"${ctx}"}/${classNameLowerCase}/delete?${table.pkColumn.columnNameFirstLower}=${r"${(_data.id)!''}"}','searchForm');">
+                                            <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                        </button>
+                                    </div>
+                                    <div class="hidden-md hidden-lg">
+                                        <div class="inline position-relative">
+                                            <button class="btn btn-minier btn-primary dropdown-toggle"
+                                                    data-toggle="dropdown" data-position="auto">
+                                                <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+	                                          <li>
+													<a  href="javascript:myhref('${r"${ctx}"}/${classNameLowerCase}/look?${table.pkColumn.columnNameFirstLower}=${r"${(_data.id)!''}"}');"  class="tooltip-info" data-rel="tooltip" title="View">
+														<span class="blue">
+															<i class="ace-icon fa fa-search-plus bigger-120"></i>
+														</span>
+													</a>
+											  </li>	
+                                                <li>
+                                                    <a data-original-title="Edit"
+                                                       href="javascript:myhref('${r"${ctx}"}/${classNameLowerCase}/update/pre?${table.pkColumn.columnNameFirstLower}=${r"${(_data.id)!''}"}');"
+                                                       class="tooltip-success" data-rel="tooltip" title="">
+																		<span class="green">
+																			<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+																		</span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a data-original-title="Delete"
+                                                       href="javascript:mydelete('${r"${ctx}"}/${classNameLowerCase}/delete?${table.pkColumn.columnNameFirstLower}=${r"${(_data.id)!''}"}','searchForm');"
+                                                       class="tooltip-error" data-rel="tooltip" title="">
+																		<span class="red">
+																			<i class="ace-icon fa fa-trash-o bigger-120"></i>
+																		</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </td>
+                                <!--end_no_export-->
+
+                           <#list table.columns as column>
 							<#if !column.pk>
 							<td >
 								<#if column.isDateTimeColumn>
 								<!--日期型-->
-									<#assign columnDataValue = "((data."+column.columnNameFirstLower+")?string('yyyy-MM-dd'))!''"> 
+									<#assign columnDataValue = "((_data."+column.columnNameFirstLower+")?string('yyyy-MM-dd'))!''"> 
 							${r"${"}${columnDataValue}${r"}"}
 								<#elseif column.javaType == 'java.lang.Boolean'>
 									<!--布尔型-->
-									<#assign columnBooleanValue = "(data."+column.columnNameFirstLower+")">
+									<#assign columnBooleanValue = "(_data."+column.columnNameFirstLower+")">
 									${r'<#if'} ${columnBooleanValue}?? && ${columnBooleanValue} >
 							真
 									${r'<#else>'}
 							假
 									${r'</#if>'}
 								<#elseif column.isNumberColumn>
-								${r"${(data."}${column.columnNameFirstLower}${r")!0}"}
+								${r"${(_data."}${column.columnNameFirstLower}${r")!0}"}
 								<#else>
-								${r"${(data."}${column.columnNameFirstLower}${r")!''}"}
+								${r"${(_data."}${column.columnNameFirstLower}${r")!''}"}
 								</#if>
 							</td>
 							</#if>
 						</#list>
-							
 						</tr>
 					${r"</#list>"}
 					 ${r"</#if>"}
-				</table>
-			 <!--end_export-->
-			</dd>
-${r"<#if page??>"}		
-<!-- 分页 -->
-	  ${r"<@h.pagetoolbar page=page formName='searchForm'/>"}
-${r"</#if>"}
-		</dl>
-	</div>
-</body>
-</html>
+                    </tbody>
+                </table>
+                <!--end_export-->
+            </div>
+            <!-- /.span -->
+        </div>
+        ${r"<#if returnDatas.page??>"}	
+            ${r"<@h.pagetoolbar page=returnDatas.page formId='searchForm' />"}
+         ${r"</#if>"}
+    </div>
+</div>
+<!-- /.main-container -->
 ${r"</#escape>"}

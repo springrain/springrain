@@ -4,10 +4,7 @@
 package ${basepackage}.service;
 
 import ${basepackage}.entity.${className};
-import java.io.File;
-import java.util.List;
-import org.springrain.frame.util.Finder;
-import org.springrain.frame.util.Page;
+import com.bibizao.system.service.IBaseDemoService;
 <#include "/copyright_class.include" >
 public interface I${className}Service extends IBaseDemoService {
 	

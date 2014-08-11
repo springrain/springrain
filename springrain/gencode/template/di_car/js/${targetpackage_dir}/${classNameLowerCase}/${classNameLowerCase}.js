@@ -8,8 +8,7 @@
 
 jQuery(document).ready(function(){
     //增加全选事件
-   	jQuery(":checkbox[name='check_all']").checkbox().toggle(":checkbox[name='check_li']");
-	//validateRules('saveForm');
+
 });
 
 function del${className}(id){
@@ -28,18 +27,4 @@ function del${className}(id){
        
     
 }
-function delMulti(){
-     var records = jQuery(":checkbox[name='check_li']").checkbox().val();
-    if (records.length == "") {
-        myalert('未选中任何记录!');
-        return;
-    }
-	var url = ctx + "/${classNameLowerCase}/delMulti";
-    myconfirm("记录删除后将不能恢复,确定要删除选中的记录么?",function(){
-	 jQuery.get(url, "records=" + records, function(data){
-            myalert(data.message);
-            myreloadpage();
-        });
-	});
- 
-}
+

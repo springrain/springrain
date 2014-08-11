@@ -1,0 +1,55 @@
+<#escape x as x?html>
+<@h.aceplugin />
+<script src="${ctx}/js/coms/common/jquery.form.js"></script>
+		<title>springrain管理界面</title>
+		<meta name="description" content="overview &amp; stats" />	
+	</head>
+
+	<body class="no-skin">
+	
+	<form id="springrain_sco_ajax_form"  method="POST"></form>
+	
+	<!--navbar  -->
+<@h.navbar />
+		
+		
+		
+		
+		
+		<div class="main-container" id="main-container">
+		
+			<@h.sidebar />
+
+			<div class="main-content">
+				<!-- #section:basics/content.breadcrumbs -->
+			
+				<div class="breadcrumbs" id="breadcrumbs">
+					<div id="johnNav"></div>
+					<!--
+					<script type="text/javascript">
+						try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+					</script>
+					<ul class="breadcrumb">
+						<li class="active">${pageurlName!''}</li>
+					</ul>
+					<div class="nav-search" id="nav-search">
+						<form class="form-search">
+							<span class="input-icon">
+								<input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+								<i class="ace-icon fa fa-search nav-search-icon"></i>
+							</span>
+						</form>
+					</div>
+					@h.acesettings />
+					-->
+				</div>
+				<div class="page-content"  id="ajax_target">
+					 <p>Content here. <a class="alert" href="javascript:myprompt('sdfsdfsd');">Alert!</a></p>
+					 <a data-trigger="modal" href="${ctx}/system/org/tree" data-title="选择部门" class="btn">Launch demo modal</a>
+				</div>
+			</div>
+<@h.footer />
+		</div><!-- /.main-container -->
+	</body>
+</html>
+</#escape>

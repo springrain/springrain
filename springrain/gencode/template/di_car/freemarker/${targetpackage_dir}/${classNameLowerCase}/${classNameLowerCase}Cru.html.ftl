@@ -1,82 +1,93 @@
 ${r"<#escape x as x?html>"}
+
+<SCRIPT type="text/javascript">
+<!--
+
+jQuery(document).ready(function(){
+	//回选 下拉框
+	//jQuery("#search_state option[value='${(returnDatas.queryBean.state)!'是'}']").attr("selected",true);
+	
+	/*
+	$('.date-picker').datepicker({
+		    autoclose: true,
+		    format: 'yyyy-mm-dd',
+		    language: 'zh-CN'
+		    //,todayBtn: 'linked',
+		    //startDate:new Date(2014,10,27),
+			//endDate:'+60d',
+		    //startDate: '+1d',
+		}).next().on(ace.click_event, function(){
+			$(this).prev().focus();
+		});
+	*/
+	
+	
+	
+	});
+	
+	
+//-->
+</SCRIPT>
+
+
 <#assign className = table.className>   
 <#assign classNameLower = className?uncap_first>  
 <#assign classNameLowerCase = className?lower_case>
 <#assign from = basepackage?last_index_of(".")>
 <#assign rootPagefloder = basepackage?substring(basepackage?last_index_of(".")+1)>
 
-${r"<@h.easyui />"}
-<script type="text/javascript" src="${r"${ctx}"}/js/${rootPagefloder}/${classNameLowerCase}/${classNameLowerCase}Cru.js"></script>
-
-<#list table.columns as datecolumn>
-	<#if datecolumn.isDateTimeColumn>	
-		<script type="text/javascript" src="${r"${ctx}"}/js/my97/WdatePicker.js"></script>
-		<#break>
-	</#if>
-</#list>
-
-
-<script type="text/javascript">
-<!--
-jQuery(document).ready(function(){
-
-});
-//-->
-</script>
-
-<body>
-<form id="updateForm" name="updateForm"  method="post" action="${r"${ctx}"}/${classNameLowerCase}/update" >
-<input type="hidden" name="commTabId" id="commTabId" value="${r"${commTabId!''}"}"  />
-<!--input  hidden  Start-->
+<div class="row">
+	<div class="col-xs-12">
+		<form class="form-horizontal" id="validation-form" method="POST" novalidate="novalidate" action="${r"${ctx}"}/${classNameLowerCase}/update" > 
 	<#list table.columns as column>
 		<#if column.pk>
 			<#assign columnValue = "("+classNameLower+"."+column.columnNameFirstLower+")!''">
-	<input type="hidden" id="${column.columnNameFirstLower}" name="${column.columnNameFirstLower}" value="${r"${"}${columnValue}${r"}"}"/>	
+			<input type="hidden" id="${column.columnNameFirstLower}" name="${column.columnNameFirstLower}" value="${r"${(returnDatas.data."}${column.columnNameFirstLower}${r")!''}"}"/>	
 		</#if>
 	</#list>
 <!--input  hidden  End-->
-	<table class="tb_6">	
-		<!-- Start-->
-		<#list table.columns as column>
-			<#if !column.pk>
+			<#list table.columns as column>
+			  <#if !column.pk>
 				<#assign columnValue = "("+classNameLower+"."+column.columnNameFirstLower+")!''">
-			<tr>
-				<th><#if !column.nullable><span >*</span></#if>${column.columnAlias}:</th>	
-				<#if column.isDateTimeColumn>
+		         <#if column.isDateTimeColumn>
 					<!--日期型-->
 					<#assign columnDataValue = "(("+classNameLower+"."+column.columnNameFirstLower+")?string('yyyy-MM-dd'))!'' ">
-					<td>
-					<input type="text" id="${column.columnNameFirstLower}" name="${column.columnNameFirstLower}" 
-					<#if !column.nullable> class="easyui-validatebox" data-options="required:true" </#if> 
-					style="width:150px;" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" readonly="readonly" value="${r"${"}${columnDataValue}${r"}"}" />
-					</td>
-				<#elseif column.javaType == 'java.lang.Boolean'>
-					<!--布尔型-->
-					<#assign columnBooleanValue = classNameLower+"."+column.columnNameFirstLower>
-					${r'<#if'} ${columnBooleanValue}??>
-					${r'<#if'} ${columnBooleanValue}>
-					<input type="radio" id="${column.columnNameFirstLower}" name="${column.columnNameFirstLower}" checked value="0"/>是
-					<input type="radio" id="${column.columnNameFirstLower}" name="${column.columnNameFirstLower}" value="1"/>否
-					${r'<#else>'}
-					<input type="radio" id="${column.columnNameFirstLower}" name="${column.columnNameFirstLower}"  value="0"/>是
-					<input type="radio" id="${column.columnNameFirstLower}" name="${column.columnNameFirstLower}" checked value="1"/>否
-					${r'</#if>'}
-					${r'<#else>'}
-					<input type="radio" id="${column.columnNameFirstLower}" name="${column.columnNameFirstLower}" checked value="0"/>是
-					<input type="radio" id="${column.columnNameFirstLower}" name="${column.columnNameFirstLower}"  value="1"/>否
-					${r'</#if>'}	
-				<#else>
-					<!-- 字符型 -->
-					<td>
-					<input type="text" id="${column.columnNameFirstLower}" name="${column.columnNameFirstLower}" value="${r"${"}${columnValue}${r"}"}" maxlength="${column.size}" <#if !column.nullable> class="easyui-validatebox" data-options="required:true,validType:['length[1,${column.size}]']" </#if> />
-					</td>	
-				</#if>		
-			</tr>
-			</#if>
-		</#list>
-	</table>
-	<input type="button" onclick="submitUpdateForm();" class="btn_7"/>
-</form>
-</body>
-</html>
+			<div class="form-group">
+				<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="${column.columnNameFirstLower}" >${column.columnAlias}</label>
+				<div class="col-xs-12 col-sm-9">
+					<div class="clearfix">
+					 <div class="input-group col-xs-12 col-sm-6">
+						<input name="${column.columnNameFirstLower}"  class="form-control date-picker"  id="${column.columnNameFirstLower}" readonly="readonly" value="${r"${(returnDatas.data."}${column.columnNameFirstLower}${r")!''}"}"  type="text" />
+					        <span class="input-group-addon">
+								<i class="fa fa-calendar bigger-110"></i>
+							</span>
+					   </div>
+					
+					</div><div class="help-block" for="${column.columnNameFirstLower}"></div>
+				</div>
+			</div>
+	        <div class="space-2"></div>
+		<#else>
+			<div class="form-group">
+				<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="${column.columnNameFirstLower}" >${column.columnAlias}</label>
+				<div class="col-xs-12 col-sm-9">
+					<div class="clearfix">
+						<input name="${column.columnNameFirstLower}" class="col-xs-12 col-sm-6" id="${column.columnNameFirstLower}" value="${r"${(returnDatas.data."}${column.columnNameFirstLower}${r")!''}"}"  type="text" />
+					</div><div class="help-block" for="${column.columnNameFirstLower}"></div>
+				</div>
+			</div>
+	        <div class="space-2"></div>
+					</#if>
+				</#if>
+				</#list>
+		</form>
+		<div class="wizard-actions">
+			<button class="btn btn-success btn-info" data-last="Finish" onclick="commonSaveForm('validation-form','${r"${ctx}"}/${classNameLowerCase}/list');">
+				保存
+			</button>
+		</div>
+	</div>
+</div>
+
+
 ${r"</#escape>"}

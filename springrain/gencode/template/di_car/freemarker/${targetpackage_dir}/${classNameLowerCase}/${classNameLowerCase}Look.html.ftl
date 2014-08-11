@@ -4,43 +4,44 @@ ${r"<#escape x as x?html>"}
 <#assign classNameLowerCase = className?lower_case>
 <#assign from = basepackage?last_index_of(".")>
 <#assign rootPagefloder = basepackage?substring(basepackage?last_index_of(".")+1)>
-
-${r"<@h.easyui />"}
-
-<body>
-<input type="hidden" name="commTabId" id="commTabId" value="${r"${commTabId!''}"}"  />
-<!--input  hidden  Start-->
+<div class="row">
+	<div class="col-xs-12">
+		<!--input  hidden  Start-->
 	<#list table.columns as column>
 		<#if column.pk>
 			<#assign columnValue = "("+classNameLower+"."+column.columnNameFirstLower+")!''">
-	<input type="hidden" id="${column.columnNameFirstLower}" name="${column.columnNameFirstLower}" value="${r"${"}${columnValue}${r"}"}"/>	
+	<input type="hidden" id="${column.columnNameFirstLower}" name="${column.columnNameFirstLower}" value="${r"${(returnDatas.data."}${column.columnNameFirstLower}${r"}"}"/>	
 		</#if>
 	</#list>
 <!--input  hidden  End-->
-	<table class="tb_6">	
-		<!-- Start-->
-		<#list table.columns as column>
-			<#if !column.pk>
+			<#list table.columns as column>
+			  <#if !column.pk>
 				<#assign columnValue = "("+classNameLower+"."+column.columnNameFirstLower+")!''">
-			<tr>
-				<th><#if !column.nullable><span >*</span></#if>${column.columnAlias}:</th>	
-				<#if column.isDateTimeColumn>
+		         <#if column.isDateTimeColumn>
 					<!--日期型-->
 					<#assign columnDataValue = "(("+classNameLower+"."+column.columnNameFirstLower+")?string('yyyy-MM-dd'))!'' ">
-					<td>
-					  ${r"${"}${columnDataValue}${r"}"}
-					</td>
-		
-				<#else>
-					<!-- 字符型 -->
-					<td>
-					${r"${"}${columnValue}${r"}"} 
-					</td>	
-				</#if>		
-			</tr>
-			</#if>
-		</#list>
-	</table>
-	</body>
-</html>
+						<div class="form-group">
+							<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="${column.columnNameFirstLower}" >${column.columnAlias}</label>
+							<div class="col-xs-12 col-sm-9">
+								<div class="clearfix">
+									${r"${(returnDatas.data."}${columnDataValue}${r")!''}"}
+								</div>
+							</div>
+						</div>
+	                    <div class="space-2"></div>
+					<#else>
+						<div class="form-group">
+							<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="${column.columnNameFirstLower}" >${column.columnAlias}</label>
+							<div class="col-xs-12 col-sm-9">
+								<div class="clearfix">
+								${r"${(returnDatas.data."}${column.columnNameFirstLower}${r")!''}"}
+								</div>
+							</div>
+						</div>
+	                    <div class="space-2"></div>
+					</#if>
+				</#if>
+				</#list>
+	</div><!-- /.col -->
+</div>
 ${r"</#escape>"}
