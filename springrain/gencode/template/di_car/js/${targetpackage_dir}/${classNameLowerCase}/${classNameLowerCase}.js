@@ -11,20 +11,4 @@ jQuery(document).ready(function(){
 
 });
 
-function del${className}(id){
-    var url = ctx + "/${classNameLowerCase}/delete?id=" + id;
-        myconfirm("确定要删除么?",function(){
-		 jQuery.get(url, null, function(data){
-            if (data.status == "success") {
-                myalert(data.message);
-                myreloadpage();
-            }
-            else {
-                myalert(data.message);
-            }
-          });
-		});
-       
-    
-}
 
