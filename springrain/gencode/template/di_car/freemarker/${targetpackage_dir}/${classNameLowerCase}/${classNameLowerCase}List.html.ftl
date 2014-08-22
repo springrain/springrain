@@ -118,7 +118,7 @@ function delete${className}(){
                                             <i class="ace-icon fa fa-pencil bigger-120"></i>
                                         </button>
                                         <button class="btn btn-xs btn-danger"
-                                                onclick="mydelete('${r"${ctx}"}/${classNameLowerCase}/delete?${table.pkColumn.columnNameFirstLower}=${r"${(_data.id)!''}"}','searchForm');">
+                                                onclick="mydelete('${r"${ctx}"}/${classNameLowerCase}/delete?${table.pkColumn.columnNameFirstLower}=${r"${(_data.id)!''}"}','${r"${ctx}"}/${classNameLowerCase}/list');">
                                             <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                         </button>
                                     </div>
@@ -147,7 +147,7 @@ function delete${className}(){
                                                 </li>
                                                 <li>
                                                     <a data-original-title="Delete"
-                                                       href="javascript:mydelete('${r"${ctx}"}/${classNameLowerCase}/delete?${table.pkColumn.columnNameFirstLower}=${r"${(_data.id)!''}"}','searchForm');"
+                                                       href="javascript:mydelete('${r"${ctx}"}/${classNameLowerCase}/delete?${table.pkColumn.columnNameFirstLower}=${r"${(_data.id)!''}"}','${r"${ctx}"}/${classNameLowerCase}/list');"
                                                        class="tooltip-error" data-rel="tooltip" title="">
 																		<span class="red">
 																			<i class="ace-icon fa fa-trash-o bigger-120"></i>

@@ -82,7 +82,7 @@ jQuery(document).ready(function(){
 				</#list>
 		</form>
 		<div class="wizard-actions">
-			<button class="btn btn-success btn-info" data-last="Finish" onclick="commonSaveForm('validation-form','${r"${ctx}"}/${classNameLowerCase}/list');">
+			<button class="btn btn-success btn-info" data-last="Finish" onclick="commonUpdateForm('validation-form','${r"${ctx}"}/${classNameLowerCase}/list');">
 				保存
 			</button>
 		</div>
