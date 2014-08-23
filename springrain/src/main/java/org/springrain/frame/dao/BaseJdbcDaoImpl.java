@@ -737,11 +737,28 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 				sql.append(fdName).append("=:").append(fdName);
 				break;
 			}
+			/*
+			if ((i + 1) == fdNames.size()) {
+				sql.append(fdName).append("=:").append(fdName);
+				break;
+			}
+			*/
 			sql.append(fdName).append("=:").append(fdName).append(",");
 		}
-
+		
+	
+		String str=sql.toString();
+		if(str.endsWith(",")){
+			str=str.substring(0, str.length()-1);
+		}
+		
+		
+/*
 		sql.append(whereSQL);
 		return sql.toString();
+		*/
+		
+		return str+whereSQL;
 	}
 
 	@Override
