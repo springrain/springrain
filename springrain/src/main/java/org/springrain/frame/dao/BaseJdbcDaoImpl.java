@@ -715,34 +715,25 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		StringBuffer sql = new StringBuffer("UPDATE ").append(tableName).append(tableExt)
 				.append("  SET  ");
 
-		StringBuffer whereSQL = new StringBuffer(" WHERE ");
+		StringBuffer whereSQL = new StringBuffer(" WHERE ").append(pkName).append("=:").append(pkName);
 		for (int i = 0; i < fdNames.size(); i++) {
 			String fdName = fdNames.get(i);// 字段名称
 			Object fdValue = ClassUtils.getPropertieValue(fdName, entity);
 			
+			//只更新不为null的字段
 			if(onlyupdatenotnull&&fdValue==null){//如果只更新不为null的字段,字段值为null 不更新
 				continue;
 			}
 			
-			
-			paramMap.put(fdName, fdValue);
-			if (fdName.equals(pkName)) {// 如果是ID,生成
-				// WHERE 条件
-				whereSQL.append(fdName).append("=:").append(fdName);
-				if (fdNames.size() > 1)// 至少还有一个字段!!!!
+			if (fdName.equals(pkName)) {// 如果是ID
+                   if(fdValue!=null){//id有值
+                	   paramMap.put(fdName, fdValue);
+                   }
 					continue;
 			}
-
-			if ((i + 1) == fdNames.size()) {
-				sql.append(fdName).append("=:").append(fdName);
-				break;
-			}
-			/*
-			if ((i + 1) == fdNames.size()) {
-				sql.append(fdName).append("=:").append(fdName);
-				break;
-			}
-			*/
+			//设置字段
+			paramMap.put(fdName, fdValue);
+           //添加需要更新的字段			
 			sql.append(fdName).append("=:").append(fdName).append(",");
 		}
 		
