@@ -18,7 +18,6 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
-import org.springframework.jdbc.core.simple.ParameterizedBeanPropertyRowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -286,7 +285,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 			}
 		} else {
 			return getReadJdbc().query(pageSql, finder.getParams(),
-					ParameterizedBeanPropertyRowMapper.newInstance(clazz));
+					BeanPropertyRowMapper.newInstance(clazz));
 		}
 	}
 
@@ -492,7 +491,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 
 			} else {
 				t = (T) getReadJdbc().queryForObject(finder.getSql(), finder.getParams(),
-						ParameterizedBeanPropertyRowMapper.newInstance(clazz));
+						BeanPropertyRowMapper.newInstance(clazz));
 			}
 		} catch (EmptyResultDataAccessException e) {
 			t = null;
