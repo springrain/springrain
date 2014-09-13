@@ -33,8 +33,9 @@ struts 和 spring mvc 相比,个人感觉还是有点差距的.
 //就极简而言,一个数据库只需要一个Service,就可以管理这个数据库的任意一张表 
 //@Test  查询基本类型
 public void testObject() throws Exception{
-        Finder finder=new Finder("select id from t_user where 1=1 ");
-        finder.append("and id=:userId").setParam("userId", "admin");
+       // Finder finder=new Finder("select id from t_user where 1=1 ");
+        Finder finder=Finder.getSelectFinder(User.class,"id").append(" WHERE 1=1 "); 
+         finder.append("and id=:userId").setParam("userId", "admin");
         String id = baseDemoService.queryForObject(finder, String.class);
         System.out.println(id);
 
@@ -42,7 +43,8 @@ public void testObject() throws Exception{
 
 //@Test 查询一个对象
 public void testObjectUser() throws Exception{
-        Finder finder=new Finder("select * from t_user where id=:userId order by id");
+        //Finder finder=new Finder("select * from t_user where id=:userId order by id"); 
+Finder finder=Finder.getSelectFinder(User.class).append(" WHERE &nbsp;id=:userId order by id desc "); 
         finder.setParam("userId", "admin");
         User u = baseDemoService.queryForObject(finder, User.class);
         System.out.println(u.getName());
@@ -50,8 +52,9 @@ public void testObjectUser() throws Exception{
 }
 //@Test 查询分页
 public void testMsSql() throws Exception{
-        Finder finder=new Finder("select * from t_user order by id");
-        List<User> list = baseDemoService.queryForList(finder, User.class, new Page(2));
+        //Finder finder=new Finder("select * from t_user order by id");
+        Finder finder=Finder.getSelectFinder(User.class).append(" order by id desc ");
+        Listlist = baseDemoService.queryForList(finder, User.class, new Page(2));
         System.out.println(list.size());
         for(User s:list){
          System.out.println(s.getName());
@@ -78,8 +81,6 @@ public void testFunction() throws Exception{
         finder.setParam("userId", "admin");
         String userName= baseDemoService.queryForObjectByByFunction(finder,String.class);
         System.out.println(userName);
-        
-
 }
 
 ```
