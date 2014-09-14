@@ -18,9 +18,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-
 import org.springrain.frame.annotation.NotLog;
 import org.springrain.frame.annotation.PKSequence;
 import org.springrain.frame.annotation.TableGroup;

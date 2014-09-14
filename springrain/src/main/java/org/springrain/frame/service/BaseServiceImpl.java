@@ -23,12 +23,11 @@ import javax.annotation.Resource;
 
 import jxl.Cell;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.core.CallableStatementCreator;
 import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
-
 import org.springrain.frame.common.BaseLogger;
 import org.springrain.frame.dao.IBaseJdbcDao;
 import org.springrain.frame.entity.IBaseEntity;
