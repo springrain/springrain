@@ -403,6 +403,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		return finder;
 
 	}
+	
 
 	/**
 	 * 根据page 和finder对象,拼装返回分页查询的语句
@@ -428,7 +429,27 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 				sql = sql.substring(0, RegexValidateUtils.getOrderByIndex(sql));
 			}
 		} else {
-			orderSql = " order by id";
+			if(page!=null&&StringUtils.isNotBlank(page.getOrder())){//如果page中包含 排序属性
+			  String 	_order = page.getOrder().trim();
+				if (_order.indexOf(" ") > -1 || _order.indexOf(";") > -1) {// 认为是异常的,主要是防止注入
+					orderSql = " order by id asc ";
+				}else{
+					String _sort=page.getSort();
+					if(_sort==null){
+						_sort="";
+					}
+					_sort=_sort.trim().toLowerCase();
+					
+					if((!"asc".equals(_sort))&&(!"desc".equals(_sort))){//如果 不是 asc 也不是 desc
+						_sort="";
+					}
+					
+					orderSql=" order by "+page.getOrder()+" "+_sort;
+				}
+				
+			}else{
+				orderSql = " order by id asc ";
+			}
 		}
 
 		if (page == null) {
