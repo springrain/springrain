@@ -35,6 +35,21 @@ import org.springrain.system.entity.User;
 @Controller
 public class LoginController extends BaseController  {
 	
+	
+	/**
+	 * 首页的映射
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+		@RequestMapping(value = "/")
+		public String index() throws Exception {
+				return super.redirect+"/index";
+			
+		}
+		
+	
+	
 	/**
 	 * 首页的映射
 	 * @param model
