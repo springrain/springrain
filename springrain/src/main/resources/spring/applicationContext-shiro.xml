@@ -58,7 +58,7 @@
 	 -->
 
 	<!-- shiro的主过滤器,beanId 和web.xml中配置的filter name需要保持一致 -->
-	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean"
+	<bean id="shiroFilter" class="org.springrain.frame.shiro.FrameShiroFilterFactoryBean"
 		depends-on="frameperms">
 		<!-- 安全管理器 -->
 		<property name="securityManager" ref="securityManager" />
