@@ -24,11 +24,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import ${basepackage}.entity.${className};
 import ${basepackage}.service.I${className}Service;
-import com.bibizao.frame.controller.BaseController;
-import com.bibizao.frame.util.GlobalStatic;
-import com.bibizao.frame.util.MessageUtils;
-import com.bibizao.frame.util.Page;
-import com.bibizao.frame.util.ReturnDatas;
+import org.springrain.frame.controller.BaseController;
+import org.springrain.frame.util.GlobalStatic;
+import org.springrain.frame.util.MessageUtils;
+import org.springrain.frame.util.Page;
+import org.springrain.frame.util.ReturnDatas;
 <#assign myParentDir="web">
 
 

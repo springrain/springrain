@@ -4,7 +4,7 @@
 package ${basepackage}.service;
 
 import ${basepackage}.entity.${className};
-import com.bibizao.system.service.IBaseDemoService;
+import org.springrain.system.service.IBaseDemoService;
 <#include "/copyright_class.include" >
 public interface I${className}Service extends IBaseDemoService {
 	
