@@ -27,12 +27,12 @@ CREATE TABLE `cms_theme` (
   `description` varchar(2000) DEFAULT NULL COMMENT '备注',
   `themedir` varchar(5000) DEFAULT NULL COMMENT '主题路径',
   `usecount` int(11) DEFAULT NULL COMMENT '使用次数',
-  `ostype` varchar(20) DEFAULT NULL COMMENT 'pc,pad,mobile 三个平台的linkURL',
+  `ostype` varchar(20) DEFAULT NULL COMMENT 'pc,pad,mobile,app 四个平台的linkURL',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- 网站表 记录网站的基本信息,网站访问路径类似于 /pc/siteId/ /pad/siteId /mobile/siteId  首页固定 /index,存放到 cms_link 表中
+-- 网站表 记录网站的基本信息,网站访问路径类似于 /pc/siteId/ /pad/siteId /mobile/siteId /app/siteId  首页固定 /index,存放到 cms_link 表中
 -- ----------------------------
 DROP TABLE IF EXISTS `cms_site`;
 CREATE TABLE `cms_site` (
@@ -72,7 +72,7 @@ CREATE TABLE `cms_site_channel` (
   `id` varchar(50) NOT NULL,
   `siteId` varchar(50) NOT NULL COMMENT '网站ID',
   `channelId` varchar(50) NOT NULL,
-  `ostype` varchar(20) NOT NULL COMMENT 'pc,pad,mobile 三个平台',
+  `ostype` varchar(20) NOT NULL COMMENT 'pc,pad,mobile,app 四个平台',
   `position` varchar(10) DEFAULT NULL COMMENT '渲染位置',
   `sort` int(11) NOT NULL COMMENT '排序',
   `state` int(11) NOT NULL COMMENT '0失效,1有效',
@@ -108,7 +108,7 @@ CREATE TABLE `cms_channel_content` (
   `siteId` varchar(50) NOT NULL,
   `channelId` varchar(50) NOT NULL,
   `contentId` varchar(50) NOT NULL,
-  `ostype` varchar(20) DEFAULT NULL COMMENT 'pc,pad,mobile 可用于细化数据归属',
+  `ostype` varchar(20) DEFAULT NULL COMMENT 'pc,pad,mobile,app 可用于细化数据归属',
   `sort` int(11) NOT NULL COMMENT '排序',
   `state` int(11) NOT NULL COMMENT '0失效,1有效',
   PRIMARY KEY (`id`)
@@ -128,7 +128,7 @@ CREATE TABLE `cms_link` (
   `siteId` varchar(50) NOT NULL COMMENT '网站ID',
   `businessId` varchar(50) NOT NULL COMMENT '业务Id',
   `lookcount` int(11) DEFAULT NULL COMMENT '打开次数',
-  `ostype` varchar(20) NOT NULL COMMENT 'pc,pad,mobile 三个平台',
+  `ostype` varchar(20) NOT NULL COMMENT 'pc,pad,mobile,app 四个平台',
   `modelType` varchar(50) NOT NULL COMMENT 'site,channel,content',
   `ftlfile` varchar(1000) DEFAULT NULL COMMENT '当前渲染使用的模板路径',
   `nodeftlfile` varchar(1000) DEFAULT NULL COMMENT '子内容使用的ftl模板文件',
