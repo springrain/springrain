@@ -6,7 +6,6 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +18,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springrain.frame.common.BaseLogger;
-import org.springrain.frame.util.DateUtils;
+import org.springrain.frame.util.DateTypeEditor;
 import org.springrain.frame.util.Page;
 
 /**
@@ -61,6 +60,10 @@ public class BaseController extends BaseLogger {
 	 */
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
+		
+		binder.registerCustomEditor(Date.class, new DateTypeEditor());
+		
+		/*
 		binder.registerCustomEditor(Date.class, new PropertyEditorSupport() {
 			public void setAsText(String value) {
 				try {
@@ -78,11 +81,14 @@ public class BaseController extends BaseLogger {
 					logger.error(e.getMessage(), e);
 				}
 			}
-			/*
-			 * public String getAsText() { return new
-			 * SimpleDateFormat("yyyy-MM-dd").format((Date) getValue()); }
-			 */
+		
+			 // public String getAsText() { return new
+			 // SimpleDateFormat("yyyy-MM-dd").format((Date) getValue()); }
+			 
 		});
+		
+		
+		*/
 
 		binder.registerCustomEditor(Integer.class, new PropertyEditorSupport() {
 			public void setAsText(String value) {
