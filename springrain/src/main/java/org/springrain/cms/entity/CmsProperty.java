@@ -14,8 +14,8 @@ import org.springrain.frame.entity.BaseEntity;
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author springrain<Auto generate>
- * @version  2014-10-18 15:49:21
- * @see org.springrain.demo.entity.CmsProperty
+ * @version  2014-10-19 11:17:53
+ * @see org.springrain.cms.entity.CmsProperty
  */
 @Table(name="cms_property")
 public class CmsProperty  extends BaseEntity {
@@ -30,7 +30,7 @@ public class CmsProperty  extends BaseEntity {
 	public static final String ALIAS_NAME = "name";
 	public static final String ALIAS_TYPE = "text,date,datatime,int,float,select,file";
 	public static final String ALIAS_BUSINESSID = "业务Id";
-	public static final String ALIAS_MODELTYPE = "site,channel,content";
+	public static final String ALIAS_MODELTYPE = "site,channel,content(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)";
 	public static final String ALIAS_CREATEPERSON = "创建人";
 	public static final String ALIAS_CREATEDATE = "创建时间";
 	public static final String ALIAS_DEFAULTVALUE = "默认值";
@@ -63,7 +63,7 @@ public class CmsProperty  extends BaseEntity {
 	 */
 	private java.lang.String businessId;
 	/**
-	 * site,channel,content
+	 * site,channel,content(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)
 	 */
 	private java.lang.String modelType;
 	/**
@@ -244,7 +244,7 @@ public class CmsProperty  extends BaseEntity {
 			.append("name[").append(getName()).append("],")
 			.append("text,date,datatime,int,float,select,file[").append(getType()).append("],")
 			.append("业务Id[").append(getBusinessId()).append("],")
-			.append("site,channel,content[").append(getModelType()).append("],")
+			.append("site,channel,content(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)[").append(getModelType()).append("],")
 			.append("创建人[").append(getCreatePerson()).append("],")
 			.append("创建时间[").append(getCreateDate()).append("],")
 			.append("默认值[").append(getDefaultValue()).append("],")

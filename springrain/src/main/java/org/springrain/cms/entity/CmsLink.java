@@ -13,8 +13,8 @@ import org.springrain.frame.entity.BaseEntity;
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author springrain<Auto generate>
- * @version  2014-10-18 15:49:20
- * @see org.springrain.demo.entity.CmsLink
+ * @version  2014-10-19 11:17:52
+ * @see org.springrain.cms.entity.CmsLink
  */
 @Table(name="cms_link")
 public class CmsLink  extends BaseEntity {
@@ -32,7 +32,7 @@ public class CmsLink  extends BaseEntity {
 	public static final String ALIAS_BUSINESSID = "业务Id";
 	public static final String ALIAS_LOOKCOUNT = "打开次数";
 	public static final String ALIAS_OSTYPE = "pc,pad,mobile,app 四个平台";
-	public static final String ALIAS_MODELTYPE = "site,channel,content";
+	public static final String ALIAS_MODELTYPE = "site,channel,content(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)";
 	public static final String ALIAS_FTLFILE = "当前渲染使用的模板路径";
 	public static final String ALIAS_NODEFTLFILE = "子内容使用的ftl模板文件";
 	public static final String ALIAS_SORT = "排序";
@@ -74,7 +74,7 @@ public class CmsLink  extends BaseEntity {
 	 */
 	private java.lang.String ostype;
 	/**
-	 * site,channel,content
+	 * site,channel,content(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)
 	 */
 	private java.lang.String modelType;
 	/**
@@ -253,7 +253,7 @@ public class CmsLink  extends BaseEntity {
 			.append("业务Id[").append(getBusinessId()).append("],")
 			.append("打开次数[").append(getLookcount()).append("],")
 			.append("pc,pad,mobile,app 四个平台[").append(getOstype()).append("],")
-			.append("site,channel,content[").append(getModelType()).append("],")
+			.append("site,channel,content(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)[").append(getModelType()).append("],")
 			.append("当前渲染使用的模板路径[").append(getFtlfile()).append("],")
 			.append("子内容使用的ftl模板文件[").append(getNodeftlfile()).append("],")
 			.append("排序[").append(getSort()).append("],")

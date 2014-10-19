@@ -13,8 +13,8 @@ import org.springrain.frame.entity.BaseEntity;
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author springrain<Auto generate>
- * @version  2014-10-18 15:49:21
- * @see org.springrain.demo.entity.CmsPropertyvalue
+ * @version  2014-10-19 11:17:53
+ * @see org.springrain.cms.entity.CmsPropertyvalue
  */
 @Table(name="cms_propertyvalue")
 public class CmsPropertyvalue  extends BaseEntity {

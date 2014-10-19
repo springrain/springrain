@@ -6,14 +6,15 @@ import javax.persistence.Table;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import org.springrain.frame.annotation.WhereSQL;
 import org.springrain.frame.entity.BaseEntity;
 /**
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author springrain<Auto generate>
- * @version  2014-10-18 15:49:18
- * @see org.springrain.demo.entity.CmsChannel
+ * @version  2014-10-19 11:17:50
+ * @see org.springrain.cms.entity.CmsChannel
  */
 @Table(name="cms_channel")
 public class CmsChannel  extends BaseEntity {

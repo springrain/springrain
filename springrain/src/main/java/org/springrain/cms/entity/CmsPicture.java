@@ -14,8 +14,8 @@ import org.springrain.frame.entity.BaseEntity;
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author springrain<Auto generate>
- * @version  2014-10-18 15:49:20
- * @see org.springrain.demo.entity.CmsPicture
+ * @version  2014-10-19 11:17:53
+ * @see org.springrain.cms.entity.CmsPicture
  */
 @Table(name="cms_picture")
 public class CmsPicture  extends BaseEntity {
@@ -36,7 +36,7 @@ public class CmsPicture  extends BaseEntity {
 	public static final String ALIAS_SMALLPICTUREURL = "缩略图";
 	public static final String ALIAS_CREATEDATE = "创建时间";
 	public static final String ALIAS_REMARK = "备注";
-	public static final String ALIAS_MODELTYPE = "site,channel,content";
+	public static final String ALIAS_MODELTYPE = "site,channel,content(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)";
 	public static final String ALIAS_SORT = "排序";
 	public static final String ALIAS_LOOKCOUNT = "打开次数";
 	public static final String ALIAS_STATE = "state";
@@ -90,7 +90,7 @@ public class CmsPicture  extends BaseEntity {
 	 */
 	private java.lang.String remark;
 	/**
-	 * site,channel,content
+	 * site,channel,content(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)
 	 */
 	private java.lang.String modelType;
 	/**
@@ -295,7 +295,7 @@ public class CmsPicture  extends BaseEntity {
 			.append("缩略图[").append(getSmallPictureUrl()).append("],")
 			.append("创建时间[").append(getCreateDate()).append("],")
 			.append("备注[").append(getRemark()).append("],")
-			.append("site,channel,content[").append(getModelType()).append("],")
+			.append("site,channel,content(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)[").append(getModelType()).append("],")
 			.append("排序[").append(getSort()).append("],")
 			.append("打开次数[").append(getLookcount()).append("],")
 			.append("state[").append(getState()).append("],")

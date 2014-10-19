@@ -13,8 +13,8 @@ import org.springrain.frame.entity.BaseEntity;
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author springrain<Auto generate>
- * @version  2014-10-18 15:49:21
- * @see org.springrain.demo.entity.CmsSite
+ * @version  2014-10-19 11:17:54
+ * @see org.springrain.cms.entity.CmsSite
  */
 @Table(name="cms_site")
 public class CmsSite  extends BaseEntity {
@@ -30,7 +30,7 @@ public class CmsSite  extends BaseEntity {
 	public static final String ALIAS_TITLE = "title";
 	public static final String ALIAS_KEYWORDS = "keywords";
 	public static final String ALIAS_DESCRIPTION = "description";
-	public static final String ALIAS_THEMEID = "主题Id";
+	public static final String ALIAS_THEMEGROUPID = "主题组Id";
 	public static final String ALIAS_LOOKCOUNT = "打开次数";
 	public static final String ALIAS_STATE = "状态 0关闭,1开启";
     */
@@ -62,9 +62,9 @@ public class CmsSite  extends BaseEntity {
 	 */
 	private java.lang.String description;
 	/**
-	 * 主题Id
+	 * 主题组Id
 	 */
-	private java.lang.String themeId;
+	private java.lang.String themeGroupId;
 	/**
 	 * 打开次数
 	 */
@@ -154,16 +154,16 @@ public class CmsSite  extends BaseEntity {
 	public java.lang.String getDescription() {
 		return this.description;
 	}
-	public void setThemeId(java.lang.String value) {
+	public void setThemeGroupId(java.lang.String value) {
 		    if(StringUtils.isNotBlank(value)){
 			 value=value.trim();
 			}
-		this.themeId = value;
+		this.themeGroupId = value;
 	}
 	
-     @WhereSQL(sql="themeId=:CmsSite_themeId")
-	public java.lang.String getThemeId() {
-		return this.themeId;
+     @WhereSQL(sql="themeGroupId=:CmsSite_themeGroupId")
+	public java.lang.String getThemeGroupId() {
+		return this.themeGroupId;
 	}
 	public void setLookcount(java.lang.Integer value) {
 		this.lookcount = value;
@@ -190,7 +190,7 @@ public class CmsSite  extends BaseEntity {
 			.append("title[").append(getTitle()).append("],")
 			.append("keywords[").append(getKeywords()).append("],")
 			.append("description[").append(getDescription()).append("],")
-			.append("主题Id[").append(getThemeId()).append("],")
+			.append("主题组Id[").append(getThemeGroupId()).append("],")
 			.append("打开次数[").append(getLookcount()).append("],")
 			.append("状态 0关闭,1开启[").append(getState()).append("],")
 			.toString();

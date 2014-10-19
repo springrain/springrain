@@ -14,8 +14,8 @@ import org.springrain.frame.entity.BaseEntity;
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author springrain<Auto generate>
- * @version  2014-10-18 15:49:20
- * @see org.springrain.demo.entity.CmsContent
+ * @version  2014-10-19 11:17:52
+ * @see org.springrain.cms.entity.CmsContent
  */
 @Table(name="cms_content")
 public class CmsContent  extends BaseEntity {

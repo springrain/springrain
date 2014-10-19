@@ -13,8 +13,8 @@ import org.springrain.frame.entity.BaseEntity;
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author springrain<Auto generate>
- * @version  2014-10-18 15:49:22
- * @see org.springrain.demo.entity.CmsSiteChannel
+ * @version  2014-10-19 11:17:54
+ * @see org.springrain.cms.entity.CmsSiteChannel
  */
 @Table(name="cms_site_channel")
 public class CmsSiteChannel  extends BaseEntity {

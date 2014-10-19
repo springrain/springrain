@@ -13,8 +13,8 @@ import org.springrain.frame.entity.BaseEntity;
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author springrain<Auto generate>
- * @version  2014-10-18 15:49:22
- * @see org.springrain.demo.entity.CmsTheme
+ * @version  2014-10-19 11:17:55
+ * @see org.springrain.cms.entity.CmsTheme
  */
 @Table(name="cms_theme")
 public class CmsTheme  extends BaseEntity {
@@ -26,11 +26,13 @@ public class CmsTheme  extends BaseEntity {
 	public static final String TABLE_ALIAS = "CmsTheme";
 	public static final String ALIAS_ID = "ID";
 	public static final String ALIAS_NAME = "名称";
-	public static final String ALIAS_BUSINESSTYPEID = "行业类型";
 	public static final String ALIAS_DESCRIPTION = "备注";
-	public static final String ALIAS_THEMEDIR = "主题路径";
+	public static final String ALIAS_FTLFILE = "渲染使用的模板路径";
+	public static final String ALIAS_IMGFILE = "缩略图路径路径";
+	public static final String ALIAS_MODELTYPE = "site,channel,content(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)";
 	public static final String ALIAS_USECOUNT = "使用次数";
 	public static final String ALIAS_OSTYPE = "pc,pad,mobile,app 四个平台的linkURL";
+	public static final String ALIAS_STATE = "状态 0关闭,1开启";
     */
 	//date formats
 	
@@ -44,17 +46,21 @@ public class CmsTheme  extends BaseEntity {
 	 */
 	private java.lang.String name;
 	/**
-	 * 行业类型
-	 */
-	private java.lang.String businessTypeId;
-	/**
 	 * 备注
 	 */
 	private java.lang.String description;
 	/**
-	 * 主题路径
+	 * 渲染使用的模板路径
 	 */
-	private java.lang.String themedir;
+	private java.lang.String ftlfile;
+	/**
+	 * 缩略图路径路径
+	 */
+	private java.lang.String imgfile;
+	/**
+	 * site,channel,content(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)
+	 */
+	private java.lang.String modelType;
 	/**
 	 * 使用次数
 	 */
@@ -63,6 +69,10 @@ public class CmsTheme  extends BaseEntity {
 	 * pc,pad,mobile,app 四个平台的linkURL
 	 */
 	private java.lang.String ostype;
+	/**
+	 * 状态 0关闭,1开启
+	 */
+	private java.lang.Integer state;
 	//columns END 数据库字段结束
 	
 	//concstructor
@@ -100,17 +110,6 @@ public class CmsTheme  extends BaseEntity {
 	public java.lang.String getName() {
 		return this.name;
 	}
-	public void setBusinessTypeId(java.lang.String value) {
-		    if(StringUtils.isNotBlank(value)){
-			 value=value.trim();
-			}
-		this.businessTypeId = value;
-	}
-	
-     @WhereSQL(sql="businessTypeId=:CmsTheme_businessTypeId")
-	public java.lang.String getBusinessTypeId() {
-		return this.businessTypeId;
-	}
 	public void setDescription(java.lang.String value) {
 		    if(StringUtils.isNotBlank(value)){
 			 value=value.trim();
@@ -122,16 +121,38 @@ public class CmsTheme  extends BaseEntity {
 	public java.lang.String getDescription() {
 		return this.description;
 	}
-	public void setThemedir(java.lang.String value) {
+	public void setFtlfile(java.lang.String value) {
 		    if(StringUtils.isNotBlank(value)){
 			 value=value.trim();
 			}
-		this.themedir = value;
+		this.ftlfile = value;
 	}
 	
-     @WhereSQL(sql="themedir=:CmsTheme_themedir")
-	public java.lang.String getThemedir() {
-		return this.themedir;
+     @WhereSQL(sql="ftlfile=:CmsTheme_ftlfile")
+	public java.lang.String getFtlfile() {
+		return this.ftlfile;
+	}
+	public void setImgfile(java.lang.String value) {
+		    if(StringUtils.isNotBlank(value)){
+			 value=value.trim();
+			}
+		this.imgfile = value;
+	}
+	
+     @WhereSQL(sql="imgfile=:CmsTheme_imgfile")
+	public java.lang.String getImgfile() {
+		return this.imgfile;
+	}
+	public void setModelType(java.lang.String value) {
+		    if(StringUtils.isNotBlank(value)){
+			 value=value.trim();
+			}
+		this.modelType = value;
+	}
+	
+     @WhereSQL(sql="modelType=:CmsTheme_modelType")
+	public java.lang.String getModelType() {
+		return this.modelType;
 	}
 	public void setUsecount(java.lang.Integer value) {
 		this.usecount = value;
@@ -152,16 +173,26 @@ public class CmsTheme  extends BaseEntity {
 	public java.lang.String getOstype() {
 		return this.ostype;
 	}
+	public void setState(java.lang.Integer value) {
+		this.state = value;
+	}
+	
+     @WhereSQL(sql="state=:CmsTheme_state")
+	public java.lang.Integer getState() {
+		return this.state;
+	}
 	
 	public String toString() {
 		return new StringBuffer()
 			.append("ID[").append(getId()).append("],")
 			.append("名称[").append(getName()).append("],")
-			.append("行业类型[").append(getBusinessTypeId()).append("],")
 			.append("备注[").append(getDescription()).append("],")
-			.append("主题路径[").append(getThemedir()).append("],")
+			.append("渲染使用的模板路径[").append(getFtlfile()).append("],")
+			.append("缩略图路径路径[").append(getImgfile()).append("],")
+			.append("site,channel,content(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)[").append(getModelType()).append("],")
 			.append("使用次数[").append(getUsecount()).append("],")
 			.append("pc,pad,mobile,app 四个平台的linkURL[").append(getOstype()).append("],")
+			.append("状态 0关闭,1开启[").append(getState()).append("],")
 			.toString();
 	}
 	
