@@ -1,17 +1,8 @@
-/*
-Navicat MySQL Data Transfer
 
-Source Server         : 127.0.0.1
-Source Server Version : 50619
-Source Host           : 127.0.0.1:3306
-Source Database       : cms
+-- ----------------------------
+-- 所有表的id全局唯一,可以自定义一个id生成策略,不使用uuid,但必须保证全局唯一
+-- ----------------------------
 
-Target Server Type    : MYSQL
-Target Server Version : 50619
-File Encoding         : 65001
-
-Date: 2014-10-15 14:06:12
-*/
 
 SET FOREIGN_KEY_CHECKS=0;
 
@@ -23,13 +14,37 @@ DROP TABLE IF EXISTS `cms_theme`;
 CREATE TABLE `cms_theme` (
   `id` varchar(50) NOT NULL COMMENT 'ID',
   `name` varchar(200) NOT NULL COMMENT '名称',
-  `businessTypeId` varchar(50) DEFAULT NULL COMMENT '行业类型',
   `description` varchar(2000) DEFAULT NULL COMMENT '备注',
-  `themedir` varchar(5000) DEFAULT NULL COMMENT '主题路径',
+  `ftlfile` varchar(1000) DEFAULT NULL COMMENT '渲染使用的模板路径',
+  `imgfile` varchar(1000) DEFAULT NULL COMMENT '缩略图路径路径',
+  `modelType` varchar(50) NOT NULL COMMENT 'site,channel,content(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)',
   `usecount` int(11) DEFAULT NULL COMMENT '使用次数',
   `ostype` varchar(20) DEFAULT NULL COMMENT 'pc,pad,mobile,app 四个平台的linkURL',
+  `state` int(11) DEFAULT NULL COMMENT '状态 0关闭,1开启',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- 系统默认主题组,用于快捷的定义站点主题,包含 site,channel,content(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车) 等页面用到的模板
+-- ----------------------------
+DROP TABLE IF EXISTS `cms_theme_group`;
+CREATE TABLE `cms_theme_group` (
+  `id` varchar(50) NOT NULL COMMENT 'ID',
+  `name` varchar(200) NOT NULL COMMENT '名称',
+  `usecount` int(11) DEFAULT NULL COMMENT '使用次数',
+  `ostype` varchar(20) DEFAULT NULL COMMENT 'pc,pad,mobile,app 四个平台的linkURL',
+  `state` int(11) DEFAULT NULL COMMENT '状态 0关闭,1开启',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `cms_re_theme_group`;
+CREATE TABLE `cms_re_theme_group` (
+  `id` varchar(50) NOT NULL COMMENT 'ID',
+  `themeId` varchar(50) NOT NULL COMMENT '主题Id',
+  `themeGroupId` varchar(50) NOT NULL COMMENT '主题组Id',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 -- ----------------------------
 -- 网站表 记录网站的基本信息,网站访问路径类似于 /pc/siteId/ /pad/siteId /mobile/siteId /app/siteId  首页固定 /index,存放到 cms_link 表中
@@ -42,7 +57,7 @@ CREATE TABLE `cms_site` (
   `title` varchar(255) DEFAULT NULL,
   `keywords` varchar(1000) DEFAULT NULL,
   `description` varchar(1000) DEFAULT NULL,
-  `themeId` varchar(50) DEFAULT NULL COMMENT '主题Id',
+  `themeGroupId` varchar(50) DEFAULT NULL COMMENT '主题组Id',
   `lookcount` int(11) DEFAULT NULL COMMENT '打开次数',
   `state` int(11) DEFAULT NULL COMMENT '状态 0关闭,1开启',
   PRIMARY KEY (`id`)
@@ -129,7 +144,7 @@ CREATE TABLE `cms_link` (
   `businessId` varchar(50) NOT NULL COMMENT '业务Id',
   `lookcount` int(11) DEFAULT NULL COMMENT '打开次数',
   `ostype` varchar(20) NOT NULL COMMENT 'pc,pad,mobile,app 四个平台',
-  `modelType` varchar(50) NOT NULL COMMENT 'site,channel,content',
+  `modelType` varchar(50) NOT NULL COMMENT 'site,channel,content(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)',
   `ftlfile` varchar(1000) DEFAULT NULL COMMENT '当前渲染使用的模板路径',
   `nodeftlfile` varchar(1000) DEFAULT NULL COMMENT '子内容使用的ftl模板文件',
   `sort` int(11) NOT NULL COMMENT '排序',
@@ -153,7 +168,7 @@ CREATE TABLE `cms_picture` (
   `smallPictureUrl` varchar(500) DEFAULT NULL COMMENT '缩略图',
   `createDate` datetime NOT NULL COMMENT '创建时间',
   `remark` varchar(500) DEFAULT NULL COMMENT '备注',
-  `modelType` varchar(50) NOT NULL COMMENT 'site,channel,content',
+  `modelType` varchar(50) NOT NULL COMMENT 'site,channel,content(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)',
   `sort` int(11) NOT NULL COMMENT '排序',
   `lookcount` int(11) DEFAULT NULL COMMENT '打开次数',
   `state` int(11) NOT NULL,
@@ -161,7 +176,7 @@ CREATE TABLE `cms_picture` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- 扩展属性表,扩展属性内定 site,channel,content 三个类型界别,属性可以依次进行继承使用,子元素可以覆盖父类元素的扩展属性 
+-- 扩展属性表,扩展属性内定 site,channel,content(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车) 三个类型界别,属性可以依次进行继承使用,子元素可以覆盖父类元素的扩展属性 
 -- ----------------------------
 DROP TABLE IF EXISTS `cms_property`;
 CREATE TABLE `cms_property` (
@@ -170,7 +185,7 @@ CREATE TABLE `cms_property` (
   `name` varchar(50) NOT NULL,
   `type` varchar(50) DEFAULT NULL COMMENT 'text,date,datatime,int,float,select,file',
   `businessId` varchar(50) NOT NULL COMMENT '业务Id',
-  `modelType` varchar(50) NOT NULL COMMENT 'site,channel,content',
+  `modelType` varchar(50) NOT NULL COMMENT 'site,channel,content(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)',
   `createPerson` varchar(50) NOT NULL COMMENT '创建人',
   `createDate` datetime NOT NULL COMMENT '创建时间',
   `defaultValue` varchar(100) DEFAULT NULL COMMENT '默认值',
