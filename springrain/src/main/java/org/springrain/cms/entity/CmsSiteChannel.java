@@ -29,6 +29,7 @@ public class CmsSiteChannel  extends BaseEntity {
 	public static final String ALIAS_CHANNELID = "channelId";
 	public static final String ALIAS_OSTYPE = "pc,pad,mobile,app 四个平台";
 	public static final String ALIAS_POSITION = "渲染位置";
+	public static final String ALIAS_CHANNELTYPE = "栏目类型分为 导航菜单(0) 内容分类(1)";
 	public static final String ALIAS_SORT = "排序";
 	public static final String ALIAS_STATE = "0失效,1有效";
     */
@@ -55,6 +56,10 @@ public class CmsSiteChannel  extends BaseEntity {
 	 * 渲染位置
 	 */
 	private java.lang.String position;
+	/**
+	 * 栏目类型分为 导航菜单(0) 内容分类(1)
+	 */
+	private java.lang.Integer channeltype;
 	/**
 	 * 排序
 	 */
@@ -133,11 +138,19 @@ public class CmsSiteChannel  extends BaseEntity {
 	public java.lang.String getPosition() {
 		return this.position;
 	}
+
+     @WhereSQL(sql="channeltype=:CmsSiteChannel_channeltype")
+     public java.lang.Integer getChanneltype() {
+		return channeltype;
+	}
+
+	public void setChanneltype(java.lang.Integer channeltype) {
+		this.channeltype = channeltype;
+	}
 	public void setSort(java.lang.Integer value) {
 		this.sort = value;
 	}
-	
-     @WhereSQL(sql="sort=:CmsSiteChannel_sort")
+	@WhereSQL(sql="sort=:CmsSiteChannel_sort")
 	public java.lang.Integer getSort() {
 		return this.sort;
 	}
