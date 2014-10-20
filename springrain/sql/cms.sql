@@ -59,7 +59,7 @@ CREATE TABLE `cms_site` (
   `description` varchar(1000) DEFAULT NULL,
   `themeGroupId` varchar(50) DEFAULT NULL COMMENT '主题组Id',
   `lookcount` int(11) DEFAULT NULL COMMENT '打开次数',
-  `siteType` varchar(50) DEFAULT '网站' COMMENT '网站类型(网站,商城,论坛)', ,
+  `siteType` varchar(50) DEFAULT '网站' COMMENT '网站类型(网站,商城,论坛)',
   `state` int(11) DEFAULT NULL COMMENT '状态 0关闭,1开启',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
