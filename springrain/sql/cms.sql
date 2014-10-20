@@ -255,13 +255,7 @@ create table cms_friend_site
 `sort` int(11) DEFAULT NULL COMMENT '排序',
 `state` int(11) DEFAULT NULL COMMENT '0失效,1有效',
 primary key (id)
-)
-
-
-
-
-
-
+);
 
 -- ----------------------------
 -- 记录评论ID
