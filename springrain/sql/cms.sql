@@ -19,7 +19,7 @@ CREATE TABLE `cms_theme` (
   `imgfile` varchar(1000) DEFAULT NULL COMMENT '缩略图路径路径',
   `modelType` varchar(50) NOT NULL COMMENT 'site,channel,content(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)',
   `usecount` int(11) DEFAULT NULL COMMENT '使用次数',
-  `ostype` varchar(20) DEFAULT NULL COMMENT 'pc,pad,mobile,app 四个平台的linkURL',
+  `ostype` varchar(20) DEFAULT NULL COMMENT 'pc,pad,weixin,app 四个平台的linkURL',
   `state` int(11) DEFAULT NULL COMMENT '状态 0关闭,1开启',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -32,7 +32,7 @@ CREATE TABLE `cms_theme_group` (
   `id` varchar(50) NOT NULL COMMENT 'ID',
   `name` varchar(200) NOT NULL COMMENT '名称',
   `usecount` int(11) DEFAULT NULL COMMENT '使用次数',
-  `ostype` varchar(20) DEFAULT NULL COMMENT 'pc,pad,mobile,app 四个平台的linkURL',
+  `ostype` varchar(20) DEFAULT NULL COMMENT 'pc,pad,weixin,app 四个平台的linkURL',
   `state` int(11) DEFAULT NULL COMMENT '状态 0关闭,1开启',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -47,7 +47,7 @@ CREATE TABLE `cms_re_theme_group` (
 
 
 -- ----------------------------
--- 网站表 记录网站的基本信息,网站访问路径类似于 /pc/siteId/ /pad/siteId /mobile/siteId /app/siteId  首页固定 /index,存放到 cms_link 表中
+-- 网站表 记录网站的基本信息,网站访问路径类似于 /pc/siteId/ /pad/siteId /weixin/siteId /app/siteId  首页固定 /index,存放到 cms_link 表中
 -- ----------------------------
 DROP TABLE IF EXISTS `cms_site`;
 CREATE TABLE `cms_site` (
@@ -87,7 +87,7 @@ CREATE TABLE `cms_site_channel` (
   `id` varchar(50) NOT NULL,
   `siteId` varchar(50) NOT NULL COMMENT '网站ID',
   `channelId` varchar(50) NOT NULL,
-  `ostype` varchar(20) NOT NULL COMMENT 'pc,pad,mobile,app 四个平台',
+  `ostype` varchar(20) NOT NULL COMMENT 'pc,pad,weixin,app 四个平台',
   `position` varchar(10) DEFAULT NULL COMMENT '渲染位置',
   `channeltype` int(11) NOT NULL COMMENT '栏目类型分为 导航菜单(0) 内容分类(1) ',
   `sort` int(11) NOT NULL COMMENT '排序',
@@ -124,7 +124,7 @@ CREATE TABLE `cms_channel_content` (
   `siteId` varchar(50) NOT NULL,
   `channelId` varchar(50) NOT NULL,
   `contentId` varchar(50) NOT NULL,
-  `ostype` varchar(20) DEFAULT NULL COMMENT 'pc,pad,mobile,app 可用于细化数据归属',
+  `ostype` varchar(20) DEFAULT NULL COMMENT 'pc,pad,weixin,app 可用于细化数据归属',
   `sort` int(11) NOT NULL COMMENT '排序',
   `state` int(11) NOT NULL COMMENT '0失效,1有效',
   PRIMARY KEY (`id`)
@@ -144,7 +144,7 @@ CREATE TABLE `cms_link` (
   `siteId` varchar(50) NOT NULL COMMENT '网站ID',
   `businessId` varchar(50) NOT NULL COMMENT '业务Id',
   `lookcount` int(11) DEFAULT NULL COMMENT '打开次数',
-  `ostype` varchar(20) NOT NULL COMMENT 'pc,pad,mobile,app 四个平台',
+  `ostype` varchar(20) NOT NULL COMMENT 'pc,pad,weixin,app 四个平台',
   `modelType` varchar(50) NOT NULL COMMENT 'site,channel,content(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)',
   `ftlfile` varchar(1000) DEFAULT NULL COMMENT '当前渲染使用的模板路径',
   `nodeftlfile` varchar(1000) DEFAULT NULL COMMENT '子内容使用的ftl模板文件',
