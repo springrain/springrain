@@ -13,22 +13,22 @@ import org.springrain.frame.entity.BaseEntity;
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author springrain<Auto generate>
- * @version  2014-10-20 17:12:04
- * @see org.springrain.cms.entity.CmsChannelContent
+ * @version  2014-10-20 17:12:05
+ * @see org.springrain.cms.entity.CmsFriendSite
  */
-@Table(name="cms_channel_content")
-public class CmsChannelContent  extends BaseEntity {
+@Table(name="cms_friend_site")
+public class CmsFriendSite  extends BaseEntity {
 	
 	private static final long serialVersionUID = 1L;
 
 	//alias
 	/*
-	public static final String TABLE_ALIAS = "CmsChannelContent";
+	public static final String TABLE_ALIAS = "CmsFriendSite";
 	public static final String ALIAS_ID = "id";
 	public static final String ALIAS_SITEID = "siteId";
-	public static final String ALIAS_CHANNELID = "channelId";
-	public static final String ALIAS_CONTENTID = "contentId";
-	public static final String ALIAS_OSTYPE = "pc,pad,weixin,app 可用于细化数据归属";
+	public static final String ALIAS_NAME = "name";
+	public static final String ALIAS_LINKTYPE = "跳出类型,_blank";
+	public static final String ALIAS_URL = "网站地址";
 	public static final String ALIAS_SORT = "排序";
 	public static final String ALIAS_STATE = "0失效,1有效";
     */
@@ -44,17 +44,17 @@ public class CmsChannelContent  extends BaseEntity {
 	 */
 	private java.lang.String siteId;
 	/**
-	 * channelId
+	 * name
 	 */
-	private java.lang.String channelId;
+	private java.lang.String name;
 	/**
-	 * contentId
+	 * 跳出类型,_blank
 	 */
-	private java.lang.String contentId;
+	private java.lang.String linkType;
 	/**
-	 * pc,pad,weixin,app 可用于细化数据归属
+	 * 网站地址
 	 */
-	private java.lang.String ostype;
+	private java.lang.String url;
 	/**
 	 * 排序
 	 */
@@ -67,10 +67,10 @@ public class CmsChannelContent  extends BaseEntity {
 	
 	//concstructor
 
-	public CmsChannelContent(){
+	public CmsFriendSite(){
 	}
 
-	public CmsChannelContent(
+	public CmsFriendSite(
 		java.lang.String id
 	){
 		this.id = id;
@@ -85,7 +85,7 @@ public class CmsChannelContent  extends BaseEntity {
 	}
 	
 	@Id
-     @WhereSQL(sql="id=:CmsChannelContent_id")
+     @WhereSQL(sql="id=:CmsFriendSite_id")
 	public java.lang.String getId() {
 		return this.id;
 	}
@@ -96,48 +96,48 @@ public class CmsChannelContent  extends BaseEntity {
 		this.siteId = value;
 	}
 	
-     @WhereSQL(sql="siteId=:CmsChannelContent_siteId")
+     @WhereSQL(sql="siteId=:CmsFriendSite_siteId")
 	public java.lang.String getSiteId() {
 		return this.siteId;
 	}
-	public void setChannelId(java.lang.String value) {
+	public void setName(java.lang.String value) {
 		    if(StringUtils.isNotBlank(value)){
 			 value=value.trim();
 			}
-		this.channelId = value;
+		this.name = value;
 	}
 	
-     @WhereSQL(sql="channelId=:CmsChannelContent_channelId")
-	public java.lang.String getChannelId() {
-		return this.channelId;
+     @WhereSQL(sql="name=:CmsFriendSite_name")
+	public java.lang.String getName() {
+		return this.name;
 	}
-	public void setContentId(java.lang.String value) {
+	public void setLinkType(java.lang.String value) {
 		    if(StringUtils.isNotBlank(value)){
 			 value=value.trim();
 			}
-		this.contentId = value;
+		this.linkType = value;
 	}
 	
-     @WhereSQL(sql="contentId=:CmsChannelContent_contentId")
-	public java.lang.String getContentId() {
-		return this.contentId;
+     @WhereSQL(sql="linkType=:CmsFriendSite_linkType")
+	public java.lang.String getLinkType() {
+		return this.linkType;
 	}
-	public void setOstype(java.lang.String value) {
+	public void setUrl(java.lang.String value) {
 		    if(StringUtils.isNotBlank(value)){
 			 value=value.trim();
 			}
-		this.ostype = value;
+		this.url = value;
 	}
 	
-     @WhereSQL(sql="ostype=:CmsChannelContent_ostype")
-	public java.lang.String getOstype() {
-		return this.ostype;
+     @WhereSQL(sql="url=:CmsFriendSite_url")
+	public java.lang.String getUrl() {
+		return this.url;
 	}
 	public void setSort(java.lang.Integer value) {
 		this.sort = value;
 	}
 	
-     @WhereSQL(sql="sort=:CmsChannelContent_sort")
+     @WhereSQL(sql="sort=:CmsFriendSite_sort")
 	public java.lang.Integer getSort() {
 		return this.sort;
 	}
@@ -145,7 +145,7 @@ public class CmsChannelContent  extends BaseEntity {
 		this.state = value;
 	}
 	
-     @WhereSQL(sql="state=:CmsChannelContent_state")
+     @WhereSQL(sql="state=:CmsFriendSite_state")
 	public java.lang.Integer getState() {
 		return this.state;
 	}
@@ -154,9 +154,9 @@ public class CmsChannelContent  extends BaseEntity {
 		return new StringBuffer()
 			.append("id[").append(getId()).append("],")
 			.append("siteId[").append(getSiteId()).append("],")
-			.append("channelId[").append(getChannelId()).append("],")
-			.append("contentId[").append(getContentId()).append("],")
-			.append("pc,pad,weixin,app 可用于细化数据归属[").append(getOstype()).append("],")
+			.append("name[").append(getName()).append("],")
+			.append("跳出类型,_blank[").append(getLinkType()).append("],")
+			.append("网站地址[").append(getUrl()).append("],")
 			.append("排序[").append(getSort()).append("],")
 			.append("0失效,1有效[").append(getState()).append("],")
 			.toString();
@@ -169,9 +169,9 @@ public class CmsChannelContent  extends BaseEntity {
 	}
 	
 	public boolean equals(Object obj) {
-		if(obj instanceof CmsChannelContent == false) return false;
+		if(obj instanceof CmsFriendSite == false) return false;
 		if(this == obj) return true;
-		CmsChannelContent other = (CmsChannelContent)obj;
+		CmsFriendSite other = (CmsFriendSite)obj;
 		return new EqualsBuilder()
 			.append(getId(),other.getId())
 			.isEquals();

@@ -14,7 +14,7 @@ import org.springrain.frame.entity.BaseEntity;
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author springrain<Auto generate>
- * @version  2014-10-20 16:12:41
+ * @version  2014-10-20 17:12:06
  * @see org.springrain.cms.entity.CmsProperty
  */
 @Table(name="cms_property")
@@ -28,7 +28,8 @@ public class CmsProperty  extends BaseEntity {
 	public static final String ALIAS_ID = "id";
 	public static final String ALIAS_SITEID = "siteId";
 	public static final String ALIAS_NAME = "name";
-	public static final String ALIAS_TYPE = "text,date,datatime,int,float,select,file";
+	public static final String ALIAS_CODE = "系统级别的编码,一个站点不可重复";
+	public static final String ALIAS_INPUTTYPE = "text,date,datatime,int,float,select,file,img,imgs";
 	public static final String ALIAS_BUSINESSID = "业务Id";
 	public static final String ALIAS_MODELTYPE = "site,channel,content(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)";
 	public static final String ALIAS_CREATEPERSON = "创建人";
@@ -55,9 +56,13 @@ public class CmsProperty  extends BaseEntity {
 	 */
 	private java.lang.String name;
 	/**
-	 * text,date,datatime,int,float,select,file
+	 * 系统级别的编码,一个站点不可重复
 	 */
-	private java.lang.String type;
+	private java.lang.String code;
+	/**
+	 * text,date,datatime,int,float,select,file,img,imgs
+	 */
+	private java.lang.String inputType;
 	/**
 	 * 业务Id
 	 */
@@ -138,16 +143,27 @@ public class CmsProperty  extends BaseEntity {
 	public java.lang.String getName() {
 		return this.name;
 	}
-	public void setType(java.lang.String value) {
+	public void setCode(java.lang.String value) {
 		    if(StringUtils.isNotBlank(value)){
 			 value=value.trim();
 			}
-		this.type = value;
+		this.code = value;
 	}
 	
-     @WhereSQL(sql="type=:CmsProperty_type")
-	public java.lang.String getType() {
-		return this.type;
+     @WhereSQL(sql="code=:CmsProperty_code")
+	public java.lang.String getCode() {
+		return this.code;
+	}
+	public void setInputType(java.lang.String value) {
+		    if(StringUtils.isNotBlank(value)){
+			 value=value.trim();
+			}
+		this.inputType = value;
+	}
+	
+     @WhereSQL(sql="inputType=:CmsProperty_inputType")
+	public java.lang.String getInputType() {
+		return this.inputType;
 	}
 	public void setBusinessId(java.lang.String value) {
 		    if(StringUtils.isNotBlank(value)){
@@ -242,7 +258,8 @@ public class CmsProperty  extends BaseEntity {
 			.append("id[").append(getId()).append("],")
 			.append("siteId[").append(getSiteId()).append("],")
 			.append("name[").append(getName()).append("],")
-			.append("text,date,datatime,int,float,select,file[").append(getType()).append("],")
+			.append("系统级别的编码,一个站点不可重复[").append(getCode()).append("],")
+			.append("text,date,datatime,int,float,select,file,img,imgs[").append(getInputType()).append("],")
 			.append("业务Id[").append(getBusinessId()).append("],")
 			.append("site,channel,content(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)[").append(getModelType()).append("],")
 			.append("创建人[").append(getCreatePerson()).append("],")

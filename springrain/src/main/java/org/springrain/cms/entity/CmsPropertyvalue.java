@@ -13,7 +13,7 @@ import org.springrain.frame.entity.BaseEntity;
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author springrain<Auto generate>
- * @version  2014-10-20 16:12:41
+ * @version  2014-10-20 17:12:06
  * @see org.springrain.cms.entity.CmsPropertyvalue
  */
 @Table(name="cms_propertyvalue")
@@ -26,7 +26,7 @@ public class CmsPropertyvalue  extends BaseEntity {
 	public static final String TABLE_ALIAS = "属性表";
 	public static final String ALIAS_ID = "id";
 	public static final String ALIAS_PROPERTYID = "propertyId";
-	public static final String ALIAS_VALUE = "value";
+	public static final String ALIAS_PVALUE = "pvalue";
 	public static final String ALIAS_SITEID = "siteId";
 	public static final String ALIAS_BUSINESSID = "业务Id";
 	public static final String ALIAS_SORT = "排序";
@@ -44,9 +44,9 @@ public class CmsPropertyvalue  extends BaseEntity {
 	 */
 	private java.lang.Integer propertyId;
 	/**
-	 * value
+	 * pvalue
 	 */
-	private java.lang.String value;
+	private java.lang.String pvalue;
 	/**
 	 * siteId
 	 */
@@ -97,16 +97,16 @@ public class CmsPropertyvalue  extends BaseEntity {
 	public java.lang.Integer getPropertyId() {
 		return this.propertyId;
 	}
-	public void setValue(java.lang.String value) {
+	public void setPvalue(java.lang.String value) {
 		    if(StringUtils.isNotBlank(value)){
 			 value=value.trim();
 			}
-		this.value = value;
+		this.pvalue = value;
 	}
 	
-     @WhereSQL(sql="value=:CmsPropertyvalue_value")
-	public java.lang.String getValue() {
-		return this.value;
+     @WhereSQL(sql="pvalue=:CmsPropertyvalue_pvalue")
+	public java.lang.String getPvalue() {
+		return this.pvalue;
 	}
 	public void setSiteId(java.lang.String value) {
 		    if(StringUtils.isNotBlank(value)){
@@ -151,7 +151,7 @@ public class CmsPropertyvalue  extends BaseEntity {
 		return new StringBuffer()
 			.append("id[").append(getId()).append("],")
 			.append("propertyId[").append(getPropertyId()).append("],")
-			.append("value[").append(getValue()).append("],")
+			.append("pvalue[").append(getPvalue()).append("],")
 			.append("siteId[").append(getSiteId()).append("],")
 			.append("业务Id[").append(getBusinessId()).append("],")
 			.append("排序[").append(getSort()).append("],")

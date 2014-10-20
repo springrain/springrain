@@ -13,7 +13,7 @@ import org.springrain.frame.entity.BaseEntity;
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author springrain<Auto generate>
- * @version  2014-10-20 16:12:41
+ * @version  2014-10-20 17:12:06
  * @see org.springrain.cms.entity.CmsSite
  */
 @Table(name="cms_site")
@@ -28,6 +28,10 @@ public class CmsSite  extends BaseEntity {
 	public static final String ALIAS_USERID = "用户Id";
 	public static final String ALIAS_NAME = "名称";
 	public static final String ALIAS_TITLE = "title";
+	public static final String ALIAS_FOOTER = "页脚";
+	public static final String ALIAS_QQ = "QQ";
+	public static final String ALIAS_PHONE = "电话";
+	public static final String ALIAS_CONTACTS = "联系人";
 	public static final String ALIAS_KEYWORDS = "keywords";
 	public static final String ALIAS_DESCRIPTION = "description";
 	public static final String ALIAS_THEMEGROUPID = "主题组Id";
@@ -54,6 +58,22 @@ public class CmsSite  extends BaseEntity {
 	 * title
 	 */
 	private java.lang.String title;
+	/**
+	 * 页脚
+	 */
+	private java.lang.String footer;
+	/**
+	 * QQ
+	 */
+	private java.lang.String qq;
+	/**
+	 * 电话
+	 */
+	private java.lang.String phone;
+	/**
+	 * 联系人
+	 */
+	private java.lang.String contacts;
 	/**
 	 * keywords
 	 */
@@ -137,6 +157,50 @@ public class CmsSite  extends BaseEntity {
 	public java.lang.String getTitle() {
 		return this.title;
 	}
+	public void setFooter(java.lang.String value) {
+		    if(StringUtils.isNotBlank(value)){
+			 value=value.trim();
+			}
+		this.footer = value;
+	}
+	
+     @WhereSQL(sql="footer=:CmsSite_footer")
+	public java.lang.String getFooter() {
+		return this.footer;
+	}
+	public void setQq(java.lang.String value) {
+		    if(StringUtils.isNotBlank(value)){
+			 value=value.trim();
+			}
+		this.qq = value;
+	}
+	
+     @WhereSQL(sql="qq=:CmsSite_qq")
+	public java.lang.String getQq() {
+		return this.qq;
+	}
+	public void setPhone(java.lang.String value) {
+		    if(StringUtils.isNotBlank(value)){
+			 value=value.trim();
+			}
+		this.phone = value;
+	}
+	
+     @WhereSQL(sql="phone=:CmsSite_phone")
+	public java.lang.String getPhone() {
+		return this.phone;
+	}
+	public void setContacts(java.lang.String value) {
+		    if(StringUtils.isNotBlank(value)){
+			 value=value.trim();
+			}
+		this.contacts = value;
+	}
+	
+     @WhereSQL(sql="contacts=:CmsSite_contacts")
+	public java.lang.String getContacts() {
+		return this.contacts;
+	}
 	public void setKeywords(java.lang.String value) {
 		    if(StringUtils.isNotBlank(value)){
 			 value=value.trim();
@@ -204,6 +268,10 @@ public class CmsSite  extends BaseEntity {
 			.append("用户Id[").append(getUserId()).append("],")
 			.append("名称[").append(getName()).append("],")
 			.append("title[").append(getTitle()).append("],")
+			.append("页脚[").append(getFooter()).append("],")
+			.append("QQ[").append(getQq()).append("],")
+			.append("电话[").append(getPhone()).append("],")
+			.append("联系人[").append(getContacts()).append("],")
 			.append("keywords[").append(getKeywords()).append("],")
 			.append("description[").append(getDescription()).append("],")
 			.append("主题组Id[").append(getThemeGroupId()).append("],")

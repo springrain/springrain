@@ -14,7 +14,7 @@ import org.springrain.frame.entity.BaseEntity;
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author springrain<Auto generate>
- * @version  2014-10-20 16:12:38
+ * @version  2014-10-20 17:12:03
  * @see org.springrain.cms.entity.CmsAttachment
  */
 @Table(name="cms_attachment")
@@ -28,6 +28,7 @@ public class CmsAttachment  extends BaseEntity {
 	public static final String ALIAS_ID = "id";
 	public static final String ALIAS_SITEID = "站点Id";
 	public static final String ALIAS_BUSINESSID = "业务Id";
+	public static final String ALIAS_PROPERTYID = "扩展属性Id";
 	public static final String ALIAS_NAME = "名称";
 	public static final String ALIAS_FILEPATH = "文件物理路径";
 	public static final String ALIAS_FILETYPE = "图片类型";
@@ -54,6 +55,10 @@ public class CmsAttachment  extends BaseEntity {
 	 * 业务Id
 	 */
 	private java.lang.String businessId;
+	/**
+	 * 扩展属性Id
+	 */
+	private java.lang.String propertyId;
 	/**
 	 * 名称
 	 */
@@ -137,6 +142,17 @@ public class CmsAttachment  extends BaseEntity {
      @WhereSQL(sql="businessId=:CmsAttachment_businessId")
 	public java.lang.String getBusinessId() {
 		return this.businessId;
+	}
+	public void setPropertyId(java.lang.String value) {
+		    if(StringUtils.isNotBlank(value)){
+			 value=value.trim();
+			}
+		this.propertyId = value;
+	}
+	
+     @WhereSQL(sql="propertyId=:CmsAttachment_propertyId")
+	public java.lang.String getPropertyId() {
+		return this.propertyId;
 	}
 	public void setName(java.lang.String value) {
 		    if(StringUtils.isNotBlank(value)){
@@ -239,6 +255,7 @@ public class CmsAttachment  extends BaseEntity {
 			.append("id[").append(getId()).append("],")
 			.append("站点Id[").append(getSiteId()).append("],")
 			.append("业务Id[").append(getBusinessId()).append("],")
+			.append("扩展属性Id[").append(getPropertyId()).append("],")
 			.append("名称[").append(getName()).append("],")
 			.append("文件物理路径[").append(getFilepath()).append("],")
 			.append("图片类型[").append(getFiletype()).append("],")
