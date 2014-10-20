@@ -47,7 +47,7 @@ CREATE TABLE `cms_re_theme_group` (
 
 
 -- ----------------------------
--- 网站表 记录网站的基本信息,网站访问路径类似于 /pc/siteId/ /pad/siteId /weixin/siteId /app/siteId  首页固定 /index,存放到 cms_link 表中
+-- 网站表 记录网站的基本信息,网站访问路径类似于 /pc/siteId/ /pad/siteId /weixin/siteId /mobile/siteId /app/siteId  首页固定 /index,存放到 cms_link 表中
 -- ----------------------------
 DROP TABLE IF EXISTS `cms_site`;
 CREATE TABLE `cms_site` (
