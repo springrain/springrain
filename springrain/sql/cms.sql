@@ -94,7 +94,7 @@ CREATE TABLE `cms_site_channel` (
   `siteId` varchar(50) NOT NULL COMMENT '网站ID',
   `channelId` varchar(50) NOT NULL,
   `ostype` varchar(20) NOT NULL COMMENT 'pc,pad,weixin,mobile,app 五个平台',
-  `position` varchar(10) DEFAULT NULL COMMENT '渲染位置',
+  `position` varchar(10) DEFAULT NULL COMMENT '渲染位置,(上中下底)',
   `channeltype` int(11) NOT NULL COMMENT '栏目类型分为 导航菜单(0) 内容类似标签(1) ',
   `sort` int(11) NOT NULL COMMENT '排序',
   `state` int(11) NOT NULL COMMENT '0失效,1有效',
