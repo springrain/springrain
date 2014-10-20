@@ -13,7 +13,7 @@ import org.springrain.frame.entity.BaseEntity;
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author springrain<Auto generate>
- * @version  2014-10-19 11:17:55
+ * @version  2014-10-20 16:12:42
  * @see org.springrain.cms.entity.CmsThemeGroup
  */
 @Table(name="cms_theme_group")
@@ -27,7 +27,7 @@ public class CmsThemeGroup  extends BaseEntity {
 	public static final String ALIAS_ID = "ID";
 	public static final String ALIAS_NAME = "名称";
 	public static final String ALIAS_USECOUNT = "使用次数";
-	public static final String ALIAS_OSTYPE = "pc,pad,mobile,app 四个平台的linkURL";
+	public static final String ALIAS_OSTYPE = "pc,pad,weixin,mobile,app 五个平台的linkURL";
 	public static final String ALIAS_STATE = "状态 0关闭,1开启";
     */
 	//date formats
@@ -46,7 +46,7 @@ public class CmsThemeGroup  extends BaseEntity {
 	 */
 	private java.lang.Integer usecount;
 	/**
-	 * pc,pad,mobile,app 四个平台的linkURL
+	 * pc,pad,weixin,mobile,app 五个平台的linkURL
 	 */
 	private java.lang.String ostype;
 	/**
@@ -123,7 +123,7 @@ public class CmsThemeGroup  extends BaseEntity {
 			.append("ID[").append(getId()).append("],")
 			.append("名称[").append(getName()).append("],")
 			.append("使用次数[").append(getUsecount()).append("],")
-			.append("pc,pad,mobile,app 四个平台的linkURL[").append(getOstype()).append("],")
+			.append("pc,pad,weixin,mobile,app 五个平台的linkURL[").append(getOstype()).append("],")
 			.append("状态 0关闭,1开启[").append(getState()).append("],")
 			.toString();
 	}

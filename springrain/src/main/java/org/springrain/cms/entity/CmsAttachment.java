@@ -14,26 +14,23 @@ import org.springrain.frame.entity.BaseEntity;
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author springrain<Auto generate>
- * @version  2014-10-20 16:12:41
- * @see org.springrain.cms.entity.CmsPicture
+ * @version  2014-10-20 16:12:38
+ * @see org.springrain.cms.entity.CmsAttachment
  */
-@Table(name="cms_picture")
-public class CmsPicture  extends BaseEntity {
+@Table(name="cms_attachment")
+public class CmsAttachment  extends BaseEntity {
 	
 	private static final long serialVersionUID = 1L;
 
 	//alias
 	/*
-	public static final String TABLE_ALIAS = "CmsPicture";
+	public static final String TABLE_ALIAS = "CmsAttachment";
 	public static final String ALIAS_ID = "id";
 	public static final String ALIAS_SITEID = "站点Id";
 	public static final String ALIAS_BUSINESSID = "业务Id";
 	public static final String ALIAS_NAME = "名称";
 	public static final String ALIAS_FILEPATH = "文件物理路径";
-	public static final String ALIAS_IMGTYPE = "图片类型";
-	public static final String ALIAS_PICTUREURL = "缩略图";
-	public static final String ALIAS_MIDDLEPICTUREURL = "中图";
-	public static final String ALIAS_SMALLPICTUREURL = "小图";
+	public static final String ALIAS_FILETYPE = "图片类型";
 	public static final String ALIAS_CREATEDATE = "创建时间";
 	public static final String ALIAS_REMARK = "备注";
 	public static final String ALIAS_MODELTYPE = "site,channel,content(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)";
@@ -68,19 +65,7 @@ public class CmsPicture  extends BaseEntity {
 	/**
 	 * 图片类型
 	 */
-	private java.lang.String imgtype;
-	/**
-	 * 缩略图
-	 */
-	private java.lang.String pictureUrl;
-	/**
-	 * 中图
-	 */
-	private java.lang.String middlePictureUrl;
-	/**
-	 * 小图
-	 */
-	private java.lang.String smallPictureUrl;
+	private java.lang.String filetype;
 	/**
 	 * 创建时间
 	 */
@@ -109,10 +94,10 @@ public class CmsPicture  extends BaseEntity {
 	
 	//concstructor
 
-	public CmsPicture(){
+	public CmsAttachment(){
 	}
 
-	public CmsPicture(
+	public CmsAttachment(
 		java.lang.String id
 	){
 		this.id = id;
@@ -127,7 +112,7 @@ public class CmsPicture  extends BaseEntity {
 	}
 	
 	@Id
-     @WhereSQL(sql="id=:CmsPicture_id")
+     @WhereSQL(sql="id=:CmsAttachment_id")
 	public java.lang.String getId() {
 		return this.id;
 	}
@@ -138,7 +123,7 @@ public class CmsPicture  extends BaseEntity {
 		this.siteId = value;
 	}
 	
-     @WhereSQL(sql="siteId=:CmsPicture_siteId")
+     @WhereSQL(sql="siteId=:CmsAttachment_siteId")
 	public java.lang.String getSiteId() {
 		return this.siteId;
 	}
@@ -149,7 +134,7 @@ public class CmsPicture  extends BaseEntity {
 		this.businessId = value;
 	}
 	
-     @WhereSQL(sql="businessId=:CmsPicture_businessId")
+     @WhereSQL(sql="businessId=:CmsAttachment_businessId")
 	public java.lang.String getBusinessId() {
 		return this.businessId;
 	}
@@ -160,7 +145,7 @@ public class CmsPicture  extends BaseEntity {
 		this.name = value;
 	}
 	
-     @WhereSQL(sql="name=:CmsPicture_name")
+     @WhereSQL(sql="name=:CmsAttachment_name")
 	public java.lang.String getName() {
 		return this.name;
 	}
@@ -171,53 +156,20 @@ public class CmsPicture  extends BaseEntity {
 		this.filepath = value;
 	}
 	
-     @WhereSQL(sql="filepath=:CmsPicture_filepath")
+     @WhereSQL(sql="filepath=:CmsAttachment_filepath")
 	public java.lang.String getFilepath() {
 		return this.filepath;
 	}
-	public void setImgtype(java.lang.String value) {
+	public void setFiletype(java.lang.String value) {
 		    if(StringUtils.isNotBlank(value)){
 			 value=value.trim();
 			}
-		this.imgtype = value;
+		this.filetype = value;
 	}
 	
-     @WhereSQL(sql="imgtype=:CmsPicture_imgtype")
-	public java.lang.String getImgtype() {
-		return this.imgtype;
-	}
-	public void setPictureUrl(java.lang.String value) {
-		    if(StringUtils.isNotBlank(value)){
-			 value=value.trim();
-			}
-		this.pictureUrl = value;
-	}
-	
-     @WhereSQL(sql="pictureUrl=:CmsPicture_pictureUrl")
-	public java.lang.String getPictureUrl() {
-		return this.pictureUrl;
-	}
-	public void setMiddlePictureUrl(java.lang.String value) {
-		    if(StringUtils.isNotBlank(value)){
-			 value=value.trim();
-			}
-		this.middlePictureUrl = value;
-	}
-	
-     @WhereSQL(sql="middlePictureUrl=:CmsPicture_middlePictureUrl")
-	public java.lang.String getMiddlePictureUrl() {
-		return this.middlePictureUrl;
-	}
-	public void setSmallPictureUrl(java.lang.String value) {
-		    if(StringUtils.isNotBlank(value)){
-			 value=value.trim();
-			}
-		this.smallPictureUrl = value;
-	}
-	
-     @WhereSQL(sql="smallPictureUrl=:CmsPicture_smallPictureUrl")
-	public java.lang.String getSmallPictureUrl() {
-		return this.smallPictureUrl;
+     @WhereSQL(sql="filetype=:CmsAttachment_filetype")
+	public java.lang.String getFiletype() {
+		return this.filetype;
 	}
 		/*
 	public String getcreateDateString() {
@@ -231,7 +183,7 @@ public class CmsPicture  extends BaseEntity {
 		this.createDate = value;
 	}
 	
-     @WhereSQL(sql="createDate=:CmsPicture_createDate")
+     @WhereSQL(sql="createDate=:CmsAttachment_createDate")
 	public java.util.Date getCreateDate() {
 		return this.createDate;
 	}
@@ -242,7 +194,7 @@ public class CmsPicture  extends BaseEntity {
 		this.remark = value;
 	}
 	
-     @WhereSQL(sql="remark=:CmsPicture_remark")
+     @WhereSQL(sql="remark=:CmsAttachment_remark")
 	public java.lang.String getRemark() {
 		return this.remark;
 	}
@@ -253,7 +205,7 @@ public class CmsPicture  extends BaseEntity {
 		this.modelType = value;
 	}
 	
-     @WhereSQL(sql="modelType=:CmsPicture_modelType")
+     @WhereSQL(sql="modelType=:CmsAttachment_modelType")
 	public java.lang.String getModelType() {
 		return this.modelType;
 	}
@@ -261,7 +213,7 @@ public class CmsPicture  extends BaseEntity {
 		this.sort = value;
 	}
 	
-     @WhereSQL(sql="sort=:CmsPicture_sort")
+     @WhereSQL(sql="sort=:CmsAttachment_sort")
 	public java.lang.Integer getSort() {
 		return this.sort;
 	}
@@ -269,7 +221,7 @@ public class CmsPicture  extends BaseEntity {
 		this.lookcount = value;
 	}
 	
-     @WhereSQL(sql="lookcount=:CmsPicture_lookcount")
+     @WhereSQL(sql="lookcount=:CmsAttachment_lookcount")
 	public java.lang.Integer getLookcount() {
 		return this.lookcount;
 	}
@@ -277,7 +229,7 @@ public class CmsPicture  extends BaseEntity {
 		this.state = value;
 	}
 	
-     @WhereSQL(sql="state=:CmsPicture_state")
+     @WhereSQL(sql="state=:CmsAttachment_state")
 	public java.lang.Integer getState() {
 		return this.state;
 	}
@@ -289,10 +241,7 @@ public class CmsPicture  extends BaseEntity {
 			.append("业务Id[").append(getBusinessId()).append("],")
 			.append("名称[").append(getName()).append("],")
 			.append("文件物理路径[").append(getFilepath()).append("],")
-			.append("图片类型[").append(getImgtype()).append("],")
-			.append("缩略图[").append(getPictureUrl()).append("],")
-			.append("中图[").append(getMiddlePictureUrl()).append("],")
-			.append("小图[").append(getSmallPictureUrl()).append("],")
+			.append("图片类型[").append(getFiletype()).append("],")
 			.append("创建时间[").append(getCreateDate()).append("],")
 			.append("备注[").append(getRemark()).append("],")
 			.append("site,channel,content(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)[").append(getModelType()).append("],")
@@ -309,9 +258,9 @@ public class CmsPicture  extends BaseEntity {
 	}
 	
 	public boolean equals(Object obj) {
-		if(obj instanceof CmsPicture == false) return false;
+		if(obj instanceof CmsAttachment == false) return false;
 		if(this == obj) return true;
-		CmsPicture other = (CmsPicture)obj;
+		CmsAttachment other = (CmsAttachment)obj;
 		return new EqualsBuilder()
 			.append(getId(),other.getId())
 			.isEquals();

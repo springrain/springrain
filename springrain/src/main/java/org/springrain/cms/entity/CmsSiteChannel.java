@@ -6,13 +6,14 @@ import javax.persistence.Table;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import org.springrain.frame.annotation.WhereSQL;
 import org.springrain.frame.entity.BaseEntity;
 /**
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author springrain<Auto generate>
- * @version  2014-10-19 16:21:30
+ * @version  2014-10-20 16:12:42
  * @see org.springrain.cms.entity.CmsSiteChannel
  */
 @Table(name="cms_site_channel")
@@ -26,9 +27,9 @@ public class CmsSiteChannel  extends BaseEntity {
 	public static final String ALIAS_ID = "id";
 	public static final String ALIAS_SITEID = "网站ID";
 	public static final String ALIAS_CHANNELID = "channelId";
-	public static final String ALIAS_OSTYPE = "pc,pad,mobile,app 四个平台";
+	public static final String ALIAS_OSTYPE = "pc,pad,weixin,mobile,app 五个平台";
 	public static final String ALIAS_POSITION = "渲染位置";
-	public static final String ALIAS_CHANNELTYPE = "栏目类型分为 导航菜单(0) 内容分类(1) ";
+	public static final String ALIAS_CHANNELTYPE = "栏目类型分为 导航菜单(0) 内容类似标签(1) ";
 	public static final String ALIAS_SORT = "排序";
 	public static final String ALIAS_STATE = "0失效,1有效";
     */
@@ -48,7 +49,7 @@ public class CmsSiteChannel  extends BaseEntity {
 	 */
 	private java.lang.String channelId;
 	/**
-	 * pc,pad,mobile,app 四个平台
+	 * pc,pad,weixin,mobile,app 五个平台
 	 */
 	private java.lang.String ostype;
 	/**
@@ -56,7 +57,7 @@ public class CmsSiteChannel  extends BaseEntity {
 	 */
 	private java.lang.String position;
 	/**
-	 * 栏目类型分为 导航菜单(0) 内容分类(1) 
+	 * 栏目类型分为 导航菜单(0) 内容类似标签(1) 
 	 */
 	private java.lang.Integer channeltype;
 	/**
@@ -167,9 +168,9 @@ public class CmsSiteChannel  extends BaseEntity {
 			.append("id[").append(getId()).append("],")
 			.append("网站ID[").append(getSiteId()).append("],")
 			.append("channelId[").append(getChannelId()).append("],")
-			.append("pc,pad,mobile,app 四个平台[").append(getOstype()).append("],")
+			.append("pc,pad,weixin,mobile,app 五个平台[").append(getOstype()).append("],")
 			.append("渲染位置[").append(getPosition()).append("],")
-			.append("栏目类型分为 导航菜单(0) 内容分类(1) [").append(getChanneltype()).append("],")
+			.append("栏目类型分为 导航菜单(0) 内容类似标签(1) [").append(getChanneltype()).append("],")
 			.append("排序[").append(getSort()).append("],")
 			.append("0失效,1有效[").append(getState()).append("],")
 			.toString();

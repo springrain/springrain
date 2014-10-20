@@ -13,7 +13,7 @@ import org.springrain.frame.entity.BaseEntity;
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author springrain<Auto generate>
- * @version  2014-10-19 11:17:52
+ * @version  2014-10-20 16:12:39
  * @see org.springrain.cms.entity.CmsChannelContent
  */
 @Table(name="cms_channel_content")
@@ -28,7 +28,7 @@ public class CmsChannelContent  extends BaseEntity {
 	public static final String ALIAS_SITEID = "siteId";
 	public static final String ALIAS_CHANNELID = "channelId";
 	public static final String ALIAS_CONTENTID = "contentId";
-	public static final String ALIAS_OSTYPE = "pc,pad,mobile,app 可用于细化数据归属";
+	public static final String ALIAS_OSTYPE = "pc,pad,weixin,app 可用于细化数据归属";
 	public static final String ALIAS_SORT = "排序";
 	public static final String ALIAS_STATE = "0失效,1有效";
     */
@@ -52,7 +52,7 @@ public class CmsChannelContent  extends BaseEntity {
 	 */
 	private java.lang.String contentId;
 	/**
-	 * pc,pad,mobile,app 可用于细化数据归属
+	 * pc,pad,weixin,app 可用于细化数据归属
 	 */
 	private java.lang.String ostype;
 	/**
@@ -156,7 +156,7 @@ public class CmsChannelContent  extends BaseEntity {
 			.append("siteId[").append(getSiteId()).append("],")
 			.append("channelId[").append(getChannelId()).append("],")
 			.append("contentId[").append(getContentId()).append("],")
-			.append("pc,pad,mobile,app 可用于细化数据归属[").append(getOstype()).append("],")
+			.append("pc,pad,weixin,app 可用于细化数据归属[").append(getOstype()).append("],")
 			.append("排序[").append(getSort()).append("],")
 			.append("0失效,1有效[").append(getState()).append("],")
 			.toString();

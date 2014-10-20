@@ -13,7 +13,7 @@ import org.springrain.frame.entity.BaseEntity;
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author springrain<Auto generate>
- * @version  2014-10-19 11:17:53
+ * @version  2014-10-20 16:12:41
  * @see org.springrain.cms.entity.CmsPropertyvalue
  */
 @Table(name="cms_propertyvalue")

@@ -13,7 +13,7 @@ import org.springrain.frame.entity.BaseEntity;
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author springrain<Auto generate>
- * @version  2014-10-19 11:17:54
+ * @version  2014-10-20 16:12:41
  * @see org.springrain.cms.entity.CmsSite
  */
 @Table(name="cms_site")
@@ -32,6 +32,7 @@ public class CmsSite  extends BaseEntity {
 	public static final String ALIAS_DESCRIPTION = "description";
 	public static final String ALIAS_THEMEGROUPID = "主题组Id";
 	public static final String ALIAS_LOOKCOUNT = "打开次数";
+	public static final String ALIAS_SITETYPE = "网站类型(网站,商城,论坛)";
 	public static final String ALIAS_STATE = "状态 0关闭,1开启";
     */
 	//date formats
@@ -69,6 +70,10 @@ public class CmsSite  extends BaseEntity {
 	 * 打开次数
 	 */
 	private java.lang.Integer lookcount;
+	/**
+	 * 网站类型(网站,商城,论坛)
+	 */
+	private java.lang.String siteType;
 	/**
 	 * 状态 0关闭,1开启
 	 */
@@ -173,6 +178,17 @@ public class CmsSite  extends BaseEntity {
 	public java.lang.Integer getLookcount() {
 		return this.lookcount;
 	}
+	public void setSiteType(java.lang.String value) {
+		    if(StringUtils.isNotBlank(value)){
+			 value=value.trim();
+			}
+		this.siteType = value;
+	}
+	
+     @WhereSQL(sql="siteType=:CmsSite_siteType")
+	public java.lang.String getSiteType() {
+		return this.siteType;
+	}
 	public void setState(java.lang.Integer value) {
 		this.state = value;
 	}
@@ -192,6 +208,7 @@ public class CmsSite  extends BaseEntity {
 			.append("description[").append(getDescription()).append("],")
 			.append("主题组Id[").append(getThemeGroupId()).append("],")
 			.append("打开次数[").append(getLookcount()).append("],")
+			.append("网站类型(网站,商城,论坛)[").append(getSiteType()).append("],")
 			.append("状态 0关闭,1开启[").append(getState()).append("],")
 			.toString();
 	}
