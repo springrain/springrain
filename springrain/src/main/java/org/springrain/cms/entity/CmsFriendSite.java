@@ -13,7 +13,7 @@ import org.springrain.frame.entity.BaseEntity;
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author springrain<Auto generate>
- * @version  2014-10-20 17:12:05
+ * @version  2014-10-20 17:15:24
  * @see org.springrain.cms.entity.CmsFriendSite
  */
 @Table(name="cms_friend_site")
@@ -29,6 +29,7 @@ public class CmsFriendSite  extends BaseEntity {
 	public static final String ALIAS_NAME = "name";
 	public static final String ALIAS_LINKTYPE = "跳出类型,_blank";
 	public static final String ALIAS_URL = "网站地址";
+	public static final String ALIAS_LOGO = "网站logo";
 	public static final String ALIAS_SORT = "排序";
 	public static final String ALIAS_STATE = "0失效,1有效";
     */
@@ -55,6 +56,10 @@ public class CmsFriendSite  extends BaseEntity {
 	 * 网站地址
 	 */
 	private java.lang.String url;
+	/**
+	 * 网站logo
+	 */
+	private java.lang.String logo;
 	/**
 	 * 排序
 	 */
@@ -133,6 +138,17 @@ public class CmsFriendSite  extends BaseEntity {
 	public java.lang.String getUrl() {
 		return this.url;
 	}
+	public void setLogo(java.lang.String value) {
+		    if(StringUtils.isNotBlank(value)){
+			 value=value.trim();
+			}
+		this.logo = value;
+	}
+	
+     @WhereSQL(sql="logo=:CmsFriendSite_logo")
+	public java.lang.String getLogo() {
+		return this.logo;
+	}
 	public void setSort(java.lang.Integer value) {
 		this.sort = value;
 	}
@@ -157,6 +173,7 @@ public class CmsFriendSite  extends BaseEntity {
 			.append("name[").append(getName()).append("],")
 			.append("跳出类型,_blank[").append(getLinkType()).append("],")
 			.append("网站地址[").append(getUrl()).append("],")
+			.append("网站logo[").append(getLogo()).append("],")
 			.append("排序[").append(getSort()).append("],")
 			.append("0失效,1有效[").append(getState()).append("],")
 			.toString();

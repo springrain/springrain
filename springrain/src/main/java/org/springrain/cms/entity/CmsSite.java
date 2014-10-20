@@ -13,7 +13,7 @@ import org.springrain.frame.entity.BaseEntity;
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author springrain<Auto generate>
- * @version  2014-10-20 17:12:06
+ * @version  2014-10-20 17:15:25
  * @see org.springrain.cms.entity.CmsSite
  */
 @Table(name="cms_site")
@@ -28,6 +28,7 @@ public class CmsSite  extends BaseEntity {
 	public static final String ALIAS_USERID = "用户Id";
 	public static final String ALIAS_NAME = "名称";
 	public static final String ALIAS_TITLE = "title";
+	public static final String ALIAS_LOGO = "网站logo";
 	public static final String ALIAS_FOOTER = "页脚";
 	public static final String ALIAS_QQ = "QQ";
 	public static final String ALIAS_PHONE = "电话";
@@ -58,6 +59,10 @@ public class CmsSite  extends BaseEntity {
 	 * title
 	 */
 	private java.lang.String title;
+	/**
+	 * 网站logo
+	 */
+	private java.lang.String logo;
 	/**
 	 * 页脚
 	 */
@@ -156,6 +161,17 @@ public class CmsSite  extends BaseEntity {
      @WhereSQL(sql="title=:CmsSite_title")
 	public java.lang.String getTitle() {
 		return this.title;
+	}
+	public void setLogo(java.lang.String value) {
+		    if(StringUtils.isNotBlank(value)){
+			 value=value.trim();
+			}
+		this.logo = value;
+	}
+	
+     @WhereSQL(sql="logo=:CmsSite_logo")
+	public java.lang.String getLogo() {
+		return this.logo;
 	}
 	public void setFooter(java.lang.String value) {
 		    if(StringUtils.isNotBlank(value)){
@@ -268,6 +284,7 @@ public class CmsSite  extends BaseEntity {
 			.append("用户Id[").append(getUserId()).append("],")
 			.append("名称[").append(getName()).append("],")
 			.append("title[").append(getTitle()).append("],")
+			.append("网站logo[").append(getLogo()).append("],")
 			.append("页脚[").append(getFooter()).append("],")
 			.append("QQ[").append(getQq()).append("],")
 			.append("电话[").append(getPhone()).append("],")

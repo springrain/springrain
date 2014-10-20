@@ -14,7 +14,7 @@ import org.springrain.frame.entity.BaseEntity;
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author springrain<Auto generate>
- * @version  2014-10-20 17:12:03
+ * @version  2014-10-20 17:15:22
  * @see org.springrain.cms.entity.CmsAttachment
  */
 @Table(name="cms_attachment")
