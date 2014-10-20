@@ -55,6 +55,7 @@ CREATE TABLE `cms_site` (
   `userId` varchar(50) NOT NULL  COMMENT '用户Id',
   `name` varchar(255) DEFAULT NULL COMMENT '名称',
   `title` varchar(255) DEFAULT NULL,
+  `logo` varchar(2000) NOT NULL COMMENT '网站logo',
   `footer` varchar(2000) NOT NULL COMMENT '页脚',
   `qq` varchar(20) NOT NULL COMMENT 'QQ',
   `phone` varchar(20) NOT NULL COMMENT '电话',
@@ -252,6 +253,7 @@ create table cms_friend_site
 `name` varchar(200) NOT NULL,
 `linkType` varchar(50) NOT NULL COMMENT '跳出类型,_blank',
 `url` varchar(500) NOT NULL COMMENT '网站地址',
+`logo` varchar(2000) NOT NULL COMMENT '网站logo',
 `sort` int(11) DEFAULT NULL COMMENT '排序',
 `state` int(11) DEFAULT NULL COMMENT '0失效,1有效',
 primary key (id)
