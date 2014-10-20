@@ -55,6 +55,10 @@ CREATE TABLE `cms_site` (
   `userId` varchar(50) NOT NULL  COMMENT '用户Id',
   `name` varchar(255) DEFAULT NULL COMMENT '名称',
   `title` varchar(255) DEFAULT NULL,
+  `footer` varchar(2000) NOT NULL COMMENT '页脚',
+  `qq` varchar(20) NOT NULL COMMENT 'QQ',
+  `phone` varchar(20) NOT NULL COMMENT '电话',
+  `contacts` varchar(20) NOT NULL COMMENT '联系人',
   `keywords` varchar(1000) DEFAULT NULL,
   `description` varchar(1000) DEFAULT NULL,
   `themeGroupId` varchar(50) DEFAULT NULL COMMENT '主题组Id',
@@ -209,7 +213,8 @@ CREATE TABLE `cms_property` (
   `id` varchar(255) NOT NULL,
   `siteId` varchar(50) NOT NULL,
   `name` varchar(50) NOT NULL,
-  `inputType` varchar(50) DEFAULT NULL COMMENT 'text,date,datatime,int,float,select,file,imgs',
+  `code` varchar(50) NOT NULL  COMMENT '系统级别的编码,一个站点不可重复', 
+  `inputType` varchar(50) DEFAULT NULL COMMENT 'text,date,datatime,int,float,select,file,img,imgs',
   `businessId` varchar(50) NOT NULL COMMENT '业务Id',
   `modelType` varchar(50) NOT NULL COMMENT 'site,channel,content(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)',
   `createPerson` varchar(50) NOT NULL COMMENT '创建人',
@@ -235,6 +240,28 @@ CREATE TABLE `cms_propertyvalue` (
   `state` int(11) DEFAULT NULL COMMENT '0失效,1有效',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='属性表';
+
+-- ----------------------------
+-- 友情链接
+-- ----------------------------
+drop table if exists cms_friend_site;
+create table cms_friend_site
+(
+`id` varchar(50) NOT NULL,
+`siteId` varchar(50) NOT NULL,
+`name` varchar(200) NOT NULL,
+`linkType` varchar(50) NOT NULL COMMENT '跳出类型,_blank',
+`url` varchar(500) NOT NULL COMMENT '网站地址',
+`sort` int(11) DEFAULT NULL COMMENT '排序',
+`state` int(11) DEFAULT NULL COMMENT '0失效,1有效',
+primary key (id)
+)
+
+
+
+
+
+
 
 -- ----------------------------
 -- 记录评论ID
