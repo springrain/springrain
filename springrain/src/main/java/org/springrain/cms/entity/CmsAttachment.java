@@ -14,7 +14,7 @@ import org.springrain.frame.entity.BaseEntity;
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author springrain<Auto generate>
- * @version  2014-10-20 17:15:22
+ * @version  2014-10-21 09:36:13
  * @see org.springrain.cms.entity.CmsAttachment
  */
 @Table(name="cms_attachment")
@@ -28,7 +28,7 @@ public class CmsAttachment  extends BaseEntity {
 	public static final String ALIAS_ID = "id";
 	public static final String ALIAS_SITEID = "站点Id";
 	public static final String ALIAS_BUSINESSID = "业务Id";
-	public static final String ALIAS_PROPERTYID = "扩展属性Id";
+	public static final String ALIAS_PROPERTYCODE = "扩展属性code";
 	public static final String ALIAS_NAME = "名称";
 	public static final String ALIAS_FILEPATH = "文件物理路径";
 	public static final String ALIAS_FILETYPE = "图片类型";
@@ -56,9 +56,9 @@ public class CmsAttachment  extends BaseEntity {
 	 */
 	private java.lang.String businessId;
 	/**
-	 * 扩展属性Id
+	 * 扩展属性code
 	 */
-	private java.lang.String propertyId;
+	private java.lang.String propertyCode;
 	/**
 	 * 名称
 	 */
@@ -143,16 +143,16 @@ public class CmsAttachment  extends BaseEntity {
 	public java.lang.String getBusinessId() {
 		return this.businessId;
 	}
-	public void setPropertyId(java.lang.String value) {
+	public void setPropertyCode(java.lang.String value) {
 		    if(StringUtils.isNotBlank(value)){
 			 value=value.trim();
 			}
-		this.propertyId = value;
+		this.propertyCode = value;
 	}
 	
-     @WhereSQL(sql="propertyId=:CmsAttachment_propertyId")
-	public java.lang.String getPropertyId() {
-		return this.propertyId;
+     @WhereSQL(sql="propertyCode=:CmsAttachment_propertyCode")
+	public java.lang.String getPropertyCode() {
+		return this.propertyCode;
 	}
 	public void setName(java.lang.String value) {
 		    if(StringUtils.isNotBlank(value)){
@@ -255,7 +255,7 @@ public class CmsAttachment  extends BaseEntity {
 			.append("id[").append(getId()).append("],")
 			.append("站点Id[").append(getSiteId()).append("],")
 			.append("业务Id[").append(getBusinessId()).append("],")
-			.append("扩展属性Id[").append(getPropertyId()).append("],")
+			.append("扩展属性code[").append(getPropertyCode()).append("],")
 			.append("名称[").append(getName()).append("],")
 			.append("文件物理路径[").append(getFilepath()).append("],")
 			.append("图片类型[").append(getFiletype()).append("],")

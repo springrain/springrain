@@ -14,7 +14,7 @@ import org.springrain.frame.entity.BaseEntity;
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author springrain<Auto generate>
- * @version  2014-10-20 17:15:25
+ * @version  2014-10-21 09:36:16
  * @see org.springrain.cms.entity.CmsProperty
  */
 @Table(name="cms_property")
@@ -25,7 +25,7 @@ public class CmsProperty  extends BaseEntity {
 	//alias
 	/*
 	public static final String TABLE_ALIAS = "CmsProperty";
-	public static final String ALIAS_ID = "id";
+	public static final String ALIAS_ID = "siteId_code,保证一个站点下code唯一";
 	public static final String ALIAS_SITEID = "siteId";
 	public static final String ALIAS_NAME = "name";
 	public static final String ALIAS_CODE = "系统级别的编码,一个站点不可重复";
@@ -44,7 +44,7 @@ public class CmsProperty  extends BaseEntity {
 	
 	//columns START
 	/**
-	 * id
+	 * siteId_code,保证一个站点下code唯一
 	 */
 	private java.lang.String id;
 	/**
@@ -255,7 +255,7 @@ public class CmsProperty  extends BaseEntity {
 	
 	public String toString() {
 		return new StringBuffer()
-			.append("id[").append(getId()).append("],")
+			.append("siteId_code,保证一个站点下code唯一[").append(getId()).append("],")
 			.append("siteId[").append(getSiteId()).append("],")
 			.append("name[").append(getName()).append("],")
 			.append("系统级别的编码,一个站点不可重复[").append(getCode()).append("],")
