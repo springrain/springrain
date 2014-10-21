@@ -167,7 +167,7 @@ CREATE TABLE `cms_picture` (
   `id` varchar(50) NOT NULL,
   `siteId` varchar(50) NOT NULL COMMENT '站点Id',
   `businessId` varchar(50) NOT NULL COMMENT '业务Id',
-  `propertyId` varchar(50) COMMENT '扩展属性Id',
+  `propertyCode` varchar(50) COMMENT '扩展属性code',
   `name` varchar(100) DEFAULT NULL COMMENT '名称',
   `filepath` varchar(500) NOT NULL COMMENT '文件物理路径',
   `imgtype` varchar(500) DEFAULT NULL COMMENT '图片类型',
@@ -192,7 +192,7 @@ CREATE TABLE `cms_attachment` (
   `id` varchar(50) NOT NULL,
   `siteId` varchar(50) NOT NULL COMMENT '站点Id',
   `businessId` varchar(50) NOT NULL COMMENT '业务Id',
-  `propertyId` varchar(50) COMMENT '扩展属性Id',
+  `propertyCode` varchar(50) COMMENT '扩展属性code',
   `name` varchar(100) DEFAULT NULL COMMENT '名称',
   `filepath` varchar(500) NOT NULL COMMENT '文件物理路径',
   `filetype` varchar(500) DEFAULT NULL COMMENT '图片类型',
@@ -211,7 +211,7 @@ CREATE TABLE `cms_attachment` (
 -- ----------------------------
 DROP TABLE IF EXISTS `cms_property`;
 CREATE TABLE `cms_property` (
-  `id` varchar(255) NOT NULL,
+  `id` varchar(100) NOT NULL  COMMENT 'siteId_code,保证一个站点下code唯一', 
   `siteId` varchar(50) NOT NULL,
   `name` varchar(50) NOT NULL,
   `code` varchar(50) NOT NULL  COMMENT '系统级别的编码,一个站点不可重复', 
