@@ -73,20 +73,7 @@
 		<!-- =========================== -->
 		<!-- provided scope dependencies -->
 		<!-- =========================== -->
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>${servlet-api.version}</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>javax.servlet.jsp</groupId>
-			<artifactId>jsp-api</artifactId>
-			<version>${jsp-api.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		
+	
 		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-server</artifactId>
@@ -128,6 +115,23 @@
 			<scope>provided</scope>
 		</dependency>
  -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>${servlet-api.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>${jsp-api.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		
+	
+	
+	
 	
 		<!-- =========================== -->
 		<!-- springFramework dependencies -->
