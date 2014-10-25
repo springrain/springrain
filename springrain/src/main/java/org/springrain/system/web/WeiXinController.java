@@ -58,6 +58,19 @@ public class WeiXinController  extends BaseController {
 	           response.getWriter().write(outPut);
 	}
 	
+	@RequestMapping(value = "/menu/upate/pre",method=RequestMethod.GET)
+	public String updatemenupre(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		
+		return "";
+		
+	}
+	@RequestMapping(value = "/menu/upate",method=RequestMethod.POST)
+	public void updatemenu(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		
+		
+	}
+	
+	
 	
 	
 }
