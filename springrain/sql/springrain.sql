@@ -442,3 +442,21 @@ CREATE TABLE `bbz_kefu` (
   kefuType varchar(50) NOT NULL COMMENT '微信' , 
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+-- ----------------------------
+-- Table structure for weixin_menu
+-- ----------------------------
+DROP TABLE IF EXISTS `weixin_menu`;
+CREATE TABLE `weixin_menu` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `name` varchar(50) DEFAULT NULL  COMMENT '名称',
+   pid varchar(50) NOT NULL COMMENT '上级Id' , 
+   linkType varchar(200) NOT NULL COMMENT '跳转方式' , 
+   linkId varchar(2000) NOT NULL COMMENT '跳转业务Id' , 
+   href varchar(2000) NOT NULL COMMENT '跳转地址' , 
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
