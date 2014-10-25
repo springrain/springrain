@@ -18,7 +18,7 @@ import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
-import org.springrain.weixin.WeChat;
+import org.springrain.frame.util.JsonUtils;
 import org.springrain.weixin.bean.Attachment;
 import org.springrain.weixin.bean.UserInfo;
 import com.ning.http.client.AsyncHttpClient;
@@ -99,6 +99,8 @@ public class HttpKit {
      * @description 功能描述: POST 请求
      */
     public static String post(String url, Map<String, String> params) throws IOException, ExecutionException, InterruptedException {
+    	
+    	/*
         AsyncHttpClient http = new AsyncHttpClient();
         AsyncHttpClient.BoundRequestBuilder builder = http.preparePost(url);
         builder.setBodyEncoding(DEFAULT_CHARSET);
@@ -112,6 +114,10 @@ public class HttpKit {
         String body = f.get().getResponseBody(DEFAULT_CHARSET);
         http.close();
         return body;
+        */
+    	 return post(url, JsonUtils.writeValueAsString(params));
+        
+        
     }
 
     /**
@@ -190,7 +196,7 @@ public class HttpKit {
     public  static void main(String[] args) throws Exception{
     	String accessToken = "ulhEL9F2CciJezmGj47C-d3hAJZwXiAANctVIwSHwBRK7Z1enIRWeZKZekk8jS5abIkCo2YmMSDlqUFKOKvSaw";
 		String openId = "oeZTVt6XlCphRnCI-DlpdTyk27p4";
-		UserInfo u = WeChat.user.getUserInfo(accessToken, openId);
+		UserInfo u = WeiXinUtils.user.getUserInfo(accessToken, openId);
 		//System.out.println(JSON.toJSONString(u));
 		//System.out.println(WeChat.message.sendText(accessToken , openId , "测试"));
     	//Map<String, Object> mgs = WeChat.uploadMedia(accessToken, "image", new File("C:\\Users\\郭华\\Pictures\\13.jpg"));

@@ -17,10 +17,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
-import net.sf.json.JSONObject;
-
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
+
 import org.springrain.frame.util.JsonUtils;
 import org.springrain.weixin.util.ConfKit;
 import org.springrain.weixin.util.HttpKit;
@@ -196,11 +195,11 @@ public class Pay {
         String app_signature = deliverSign(paras);
         paras.put("app_signature", app_signature);
         paras.put("sign_method", "sha1");
-        String json = HttpKit.post(DELIVERNOTIFY_URL.concat(access_token),  JsonUtils.writeValueAsString(paras));
+        String json = HttpKit.post(DELIVERNOTIFY_URL.concat(access_token),JsonUtils.writeValueAsString(paras));
         if (StringUtils.isNotBlank(json)) {
-            JSONObject object = JSONObject.fromObject(json);
+            Map object = JsonUtils.readValue(json, Map.class);
             if (object.containsKey("errcode")) {
-                int errcode = object.getInt("errcode");
+                int errcode = Integer.valueOf(object.get("errcode").toString());
                 return errcode == 0;
             }
         }

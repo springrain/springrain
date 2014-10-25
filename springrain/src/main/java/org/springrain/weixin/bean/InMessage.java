@@ -9,7 +9,7 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springrain.weixin.inf.MsgTypes;
+import org.springrain.weixin.service.MsgTypes;
 
 public class InMessage {
 
@@ -39,6 +39,10 @@ public class InMessage {
 	private String Event;
 	private String EventKey;
 	private String Ticket;
+	private ScanCodeInfo ScanCodeInfo;	//扫码信息
+	private SendPicsInfo SendPicsInfo;	//照相、图片实体
+	private SendLocationInfo SendLocationInfo;	//弹出地理位置选择器的事件推送
+
 	// 上报地理位置事件
 	private String Precision;
 	private String Latitude;
@@ -285,6 +289,34 @@ public class InMessage {
 		return SceneValue;
 	}
 
+	public ScanCodeInfo getScanCodeInfo() {
+		return ScanCodeInfo;
+	}
+
+	public void setScanCodeInfo(ScanCodeInfo scanCodeInfo) {
+		ScanCodeInfo = scanCodeInfo;
+	}
+
+	public SendPicsInfo getSendPicsInfo() {
+		return SendPicsInfo;
+	}
+
+	public void setSendPicsInfo(SendPicsInfo sendPicsInfo) {
+		SendPicsInfo = sendPicsInfo;
+	}
+
+	public SendLocationInfo getSendLocationInfo() {
+		return SendLocationInfo;
+	}
+
+	public void setSendLocationInfo(SendLocationInfo sendLocationInfo) {
+		SendLocationInfo = sendLocationInfo;
+	}
+
+	/**
+	 * TODO add ScanCodeInfo, SendPicsInfo, SendLocationInfo hsaBug
+	 * @return
+	 */
 	public Map<String,Object> toMap(){
 		Map<String,Object> map = new HashMap<String, Object>();
 		Field[] fields = InMessage.class.getDeclaredFields();
@@ -304,7 +336,11 @@ public class InMessage {
 		}
 		return map;
 	}
-	
+	/*
+	public JSONObject toJson(){
+		return (JSONObject) JSONU.toJSON(this);
+	}
+	*/
 	public Boolean isEvent(){
 		return this.MsgType.equals(MsgTypes.EVENT.getType());
 	}

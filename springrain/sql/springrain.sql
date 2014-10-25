@@ -371,6 +371,7 @@ CREATE TABLE `t_user` (
   `fireName` varchar(30) DEFAULT NULL COMMENT '紧急联系人',
   `firePhone` varchar(30) DEFAULT NULL COMMENT '紧急联系电话',
   `description` varchar(2000) DEFAULT NULL COMMENT '备注',
+  `weixinId` varchar(200) DEFAULT NULL COMMENT '微信Id',
   `state` varchar(10) DEFAULT '是' COMMENT '是否有效,是/否/离职',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户';
@@ -378,7 +379,7 @@ CREATE TABLE `t_user` (
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
-INSERT INTO `t_user` VALUES ('admin', 'admin', 'admin', 'admin', '21232f297a57a5a743894a0e4a801fc3', null, null, '男', null, null, null, null, null, null, null, null, null, '是');
+INSERT INTO `t_user` VALUES ('admin', 'admin', 'admin', 'admin', '21232f297a57a5a743894a0e4a801fc3', null, null, '男', null, null, null, null, null, null, null, null, null, null, '是');
 
 -- ----------------------------
 -- Table structure for t_user_org
@@ -419,3 +420,19 @@ CREATE TABLE `t_user_role` (
 -- Records of t_user_role
 -- ----------------------------
 INSERT INTO `t_user_role` VALUES ('admin_admin', 'admin', 'admin');
+
+
+-- ----------------------------
+-- Table structure for t_kefu
+-- ----------------------------
+DROP TABLE IF EXISTS `t_kefu`;
+CREATE TABLE `bbz_kefu` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '消息Id',
+  `toId` int(11) DEFAULT NULL  COMMENT '回复Id',
+  memberId varchar(200) NOT NULL COMMENT '用户微信Id' , 
+  kefuMemberId varchar(200) NOT NULL COMMENT '客服微信Id' , 
+  content varchar(2000) NOT NULL COMMENT '内容' , 
+  answer varchar(2000) NOT NULL COMMENT '答案' , 
+  kefuType varchar(50) NOT NULL COMMENT '微信' , 
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

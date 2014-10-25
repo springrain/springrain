@@ -8,9 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-import net.sf.json.JSONObject;
+import org.apache.commons.lang.StringUtils;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springrain.frame.util.JsonUtils;
 import org.springrain.weixin.util.HttpKit;
 
@@ -37,7 +36,7 @@ public class Qrcod {
      * @throws NoSuchProviderException
      * @throws IOException
      */
-    public JSONObject createScene(String accessToken, int expireSeconds,
+    public Map createScene(String accessToken, int expireSeconds,
                                   int sceneId) throws InterruptedException, ExecutionException, IOException {
         Map<String, Object> params = new HashMap<String, Object>();
         Map<String, Object> actionInfo = new HashMap<String, Object>();
@@ -47,10 +46,11 @@ public class Qrcod {
         scene.put("scene_id", sceneId);
         actionInfo.put("scene", scene);
         params.put("action_info", actionInfo);
-        String post =  JsonUtils.writeValueAsString(params);
+        String post = JsonUtils.writeValueAsString(params);
         String reslut = HttpKit.post(QRCOD_CREATE.concat(accessToken), post);
         if (StringUtils.isNotEmpty(reslut)) {
-            return JSONObject.fromObject(reslut);
+        	return JsonUtils.readValue(reslut, Map.class);
+           
         }
         return null;
     }
@@ -66,7 +66,7 @@ public class Qrcod {
      * @throws NoSuchProviderException
      * @throws IOException
      */
-    public JSONObject createLimitScene(String accessToken, int sceneId) throws InterruptedException, ExecutionException, IOException {
+    public Map createLimitScene(String accessToken, int sceneId) throws InterruptedException, ExecutionException, IOException {
         Map<String, Object> params = new HashMap<String, Object>();
         Map<String, Object> actionInfo = new HashMap<String, Object>();
         Map<String, Object> scene = new HashMap<String, Object>();
@@ -77,7 +77,7 @@ public class Qrcod {
         String post = JsonUtils.writeValueAsString(params);
         String reslut = HttpKit.post(QRCOD_CREATE.concat(accessToken), post);
         if (StringUtils.isNotEmpty(reslut)) {
-            return JSONObject.fromObject(reslut);
+        	return JsonUtils.readValue(reslut, Map.class);
         }
         return null;
     }

@@ -46,7 +46,7 @@ public class Menu {
      */
     public Map<String, Object> getMenuInfo(String accessToken) throws InterruptedException, ExecutionException, NoSuchAlgorithmException, KeyManagementException, IOException, NoSuchProviderException {
         String jsonStr = HttpKit.get("https://api.weixin.qq.com/cgi-bin/menu/get?access_token=" + accessToken);
-        Map<String, Object> map =  JsonUtils.readValue(jsonStr, Map.class);
+        Map<String, Object> map = JsonUtils.readValue(jsonStr, Map.class);
         return map;
     }
     
@@ -59,7 +59,7 @@ public class Menu {
      */
     public boolean deleteMenu(String accessToken) throws InterruptedException, ExecutionException, NoSuchAlgorithmException, KeyManagementException, IOException, NoSuchProviderException {
         String jsonStr = HttpKit.get("https://api.weixin.qq.com/cgi-bin/menu/delete?access_token=" + accessToken);
-        Map<String, Object> map =JsonUtils.readValue(jsonStr, Map.class);
+        Map<String, Object> map = JsonUtils.readValue(jsonStr, Map.class);
         return "0".equals(map.get("errcode").toString());
     }
 }

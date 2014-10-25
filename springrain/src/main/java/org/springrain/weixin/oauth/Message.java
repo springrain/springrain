@@ -14,9 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-import net.sf.json.JSONObject;
+import org.apache.commons.lang.StringUtils;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springrain.frame.util.JsonUtils;
 import org.springrain.weixin.bean.Article;
 import org.springrain.weixin.bean.Articles;
@@ -45,7 +44,7 @@ public class Message {
      * @throws Exception
      */
     private String sendMsg(String accessToken, Map<String, Object> message) throws Exception{
-		String reslut = HttpKit.post(MESSAGE_URL.concat(accessToken),  JsonUtils.writeValueAsString(message));
+		String reslut = HttpKit.post(MESSAGE_URL.concat(accessToken),JsonUtils.writeValueAsString(message));
 		return reslut;
 	}
     
@@ -183,12 +182,12 @@ public class Message {
      * @throws NoSuchProviderException
      * @throws IOException
      */
-    public JSONObject uploadnews(String accessToken,List<Article> articles)throws IOException, ExecutionException, InterruptedException{
+    public Map uploadnews(String accessToken,List<Article> articles)throws IOException, ExecutionException, InterruptedException{
     	Map<String,Object> json = new HashMap<String,Object>();
     	json.put("articles", articles);
-    	String reslut = HttpKit.post(UPLOADNEWS_URL.concat(accessToken),  JsonUtils.writeValueAsString(json));
+    	String reslut = HttpKit.post(UPLOADNEWS_URL.concat(accessToken), JsonUtils.writeValueAsString(json));
     	if (StringUtils.isNotEmpty(reslut)) {
-			return JSONObject.fromObject(reslut);
+    		return JsonUtils.readValue(reslut, Map.class);
 		}
 		return null;
     }
@@ -204,7 +203,7 @@ public class Message {
      * @throws NoSuchProviderException
      * @throws IOException
      */
-    public JSONObject massSendall(String accessToken,String groupId,String mpNewsMediaId)throws IOException, ExecutionException, InterruptedException{
+    public Map massSendall(String accessToken,String groupId,String mpNewsMediaId)throws IOException, ExecutionException, InterruptedException{
     	Map<String,Object> json = new HashMap<String,Object>();
     	Map<String,Object> filter = new HashMap<String,Object>();
     	Map<String,Object> mpnews = new HashMap<String,Object>();
@@ -214,9 +213,9 @@ public class Message {
     	json.put("mpnews", mpnews);
     	json.put("filter", filter);
     	json.put("msgtype", "mpnews");
-    	String reslut = HttpKit.post(MASS_SENDALL_URL.concat(accessToken),  JsonUtils.writeValueAsString(json));
+    	String reslut = HttpKit.post(MASS_SENDALL_URL.concat(accessToken), JsonUtils.writeValueAsString(json));
     	if (StringUtils.isNotEmpty(reslut)) {
-			return JSONObject.fromObject(reslut);
+    		return JsonUtils.readValue(reslut, Map.class);
 		}
 		return null;
     }
@@ -233,16 +232,16 @@ public class Message {
      * @throws IOException
      * @throws ExecutionException 
      */
-    public JSONObject massSend(String accessToken,String[] openids,String mpNewsMediaId)throws IOException, InterruptedException, ExecutionException{
+    public Map massSend(String accessToken,String[] openids,String mpNewsMediaId)throws IOException, InterruptedException, ExecutionException{
     	Map<String,Object> json = new HashMap<String,Object>();
     	Map<String,Object> mpnews = new HashMap<String,Object>();
     	mpnews.put("media_id", mpNewsMediaId);
     	json.put("touser", openids);
     	json.put("mpnews", mpnews);
     	json.put("msgtype", "mpnews");
-    	String reslut = HttpKit.post(MASS_SEND_URL.concat(accessToken),   JsonUtils.writeValueAsString(json));
+    	String reslut = HttpKit.post(MASS_SEND_URL.concat(accessToken), JsonUtils.writeValueAsString(json));
     	if (StringUtils.isNotEmpty(reslut)) {
-			return JSONObject.fromObject(reslut);
+    		return JsonUtils.readValue(reslut, Map.class);
 		}
 		return null;
     }
@@ -257,12 +256,12 @@ public class Message {
      * @throws NoSuchProviderException
      * @throws IOException
      */
-    public JSONObject massSend(String accessToken,String msgid)throws IOException, ExecutionException, InterruptedException{
+    public Map massSend(String accessToken,String msgid)throws IOException, ExecutionException, InterruptedException{
     	Map<String,Object> json = new HashMap<String,Object>();
     	json.put("msgid", msgid);
-    	String reslut = HttpKit.post(MASS_DELETE_URL.concat(accessToken),  JsonUtils.writeValueAsString(json));
+    	String reslut = HttpKit.post(MASS_DELETE_URL.concat(accessToken), JsonUtils.writeValueAsString(json));
     	if (StringUtils.isNotEmpty(reslut)) {
-			return JSONObject.fromObject(reslut);
+    		return JsonUtils.readValue(reslut, Map.class);
 		}
 		return null;
     }

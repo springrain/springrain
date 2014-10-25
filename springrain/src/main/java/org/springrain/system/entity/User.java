@@ -127,6 +127,12 @@ public class User  extends BaseEntity {
 	 * 是否有效,是/否/离职
 	 */
 	private java.lang.String state;
+	/**
+	 * 微信Id
+	 */
+	private String weixinId;
+	
+	
 	//columns END 数据库字段结束
 	
 
@@ -402,6 +408,14 @@ public class User  extends BaseEntity {
 
 		public void setUserRoles(List<Role> userRoles) {
 			this.userRoles = userRoles;
+		}
+
+		public String getWeixinId() {
+			return weixinId;
+		}
+
+		public void setWeixinId(String weixinId) {
+			this.weixinId = weixinId;
 		}
 	
 	

@@ -16,12 +16,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.StringUtils;
-import org.springrain.weixin.WeChat;
+import org.apache.commons.lang.StringUtils;
+
 import org.springrain.weixin.bean.WeChatBuyPost;
 import org.springrain.weixin.oauth.Pay;
 import org.springrain.weixin.util.Tools;
-
+import org.springrain.weixin.util.WeiXinUtils;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
@@ -136,8 +136,8 @@ public class WeChatPayNotifyServlet extends HttpServlet {
 		
 		// 发送客服消息
 		try {
-			String accessToken = WeChat.getAccessToken();
-			WeChat.message.sendText(accessToken, orderId, "您的订单号" + orderId + "已经支付成功！");
+			String accessToken = WeiXinUtils.getAccessToken();
+			WeiXinUtils.message.sendText(accessToken, orderId, "您的订单号" + orderId + "已经支付成功！");
 			//发货通知！推荐支付成功后就发送此通知...
 			Pay.delivernotify(accessToken, openid, transId, orderId);
 		} catch (Exception e) {

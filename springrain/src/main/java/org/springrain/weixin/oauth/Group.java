@@ -8,9 +8,8 @@ package org.springrain.weixin.oauth;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sf.json.JSONObject;
+import org.apache.commons.lang.StringUtils;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springrain.frame.util.JsonUtils;
 import org.springrain.weixin.util.HttpKit;
 
@@ -34,15 +33,15 @@ public class Group {
 	 * @return
 	 * @throws Exception
 	 */
-	public JSONObject create(String accessToken, String name) throws Exception {
+	public Map create(String accessToken, String name) throws Exception {
 		Map<String,Object> group = new HashMap<String,Object>();
         Map<String,Object> nameObj = new HashMap<String,Object>();
         nameObj.put("name", name);
         group.put("group", nameObj);
-        String post =  JsonUtils.writeValueAsString(group);
+        String post = JsonUtils.writeValueAsString(group);
     	String reslut = HttpKit.post(GROUP_CREATE_URI.concat(accessToken), post);
     	if(StringUtils.isNotEmpty(reslut)){
-    		return JSONObject.fromObject(reslut);
+    		return  JsonUtils.readValue(reslut, Map.class);
     	}
         return null;
 	}
@@ -53,10 +52,10 @@ public class Group {
 	 * @return
 	 * @throws Exception
 	 */
-	public JSONObject get(String accessToken) throws Exception {
+	public Map get(String accessToken) throws Exception {
     	String reslut = HttpKit.get(GROUP_GET_URI.concat(accessToken));
     	if(StringUtils.isNotEmpty(reslut)){
-    		return JSONObject.fromObject(reslut);
+    		return  JsonUtils.readValue(reslut, Map.class);
     	}
         return null;
 	}
@@ -68,10 +67,10 @@ public class Group {
 	 * @return
 	 * @throws Exception
 	 */
-	public JSONObject membersIn(String accessToken,String openid) throws Exception {
+	public Map membersIn(String accessToken,String openid) throws Exception {
     	String reslut = HttpKit.post(GROUP_GETID_URI.concat(accessToken),"{\"openid\":\""+openid+"\"}");
     	if(StringUtils.isNotEmpty(reslut)){
-    		return JSONObject.fromObject(reslut);
+    		return  JsonUtils.readValue(reslut, Map.class);
     	}
         return null;
 	}
@@ -84,16 +83,16 @@ public class Group {
 	 * @return
 	 * @throws Exception
 	 */
-	public JSONObject updateName(String accessToken,String id,String name) throws Exception {
+	public Map updateName(String accessToken,String id,String name) throws Exception {
 		Map<String,Object> group = new HashMap<String,Object>();
         Map<String,Object> nameObj = new HashMap<String,Object>();
         nameObj.put("name", name);
         nameObj.put("id", id);
         group.put("group", nameObj);
-        String post =  JsonUtils.writeValueAsString(group);
+        String post = JsonUtils.writeValueAsString(group);
     	String reslut = HttpKit.post(GROUP_UPDATE_URI.concat(accessToken), post);
     	if(StringUtils.isNotEmpty(reslut)){
-    		return JSONObject.fromObject(reslut);
+    		return  JsonUtils.readValue(reslut, Map.class);
     	}
         return null;
 	}
@@ -106,10 +105,10 @@ public class Group {
 	 * @return
 	 * @throws Exception
 	 */
-	public JSONObject membersMove(String accessToken,String openid,String to_groupid) throws Exception {
+	public Map membersMove(String accessToken,String openid,String to_groupid) throws Exception {
     	String reslut = HttpKit.post(GROUP_MEMBERS_UPDATE_URI.concat(accessToken), "{\"openid\":\""+openid+"\",\"to_groupid\":"+to_groupid+"}");
     	if(StringUtils.isNotEmpty(reslut)){
-    		return JSONObject.fromObject(reslut);
+    		return  JsonUtils.readValue(reslut, Map.class);
     	}
         return null;
 	}

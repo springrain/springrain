@@ -13,6 +13,7 @@ import java.security.NoSuchProviderException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springrain.frame.util.JsonUtils;
 import org.springrain.weixin.util.ConfKit;
 import org.springrain.weixin.util.HttpKit;
 /**
@@ -47,11 +48,11 @@ public class Oauth {
      * @return
      * @throws UnsupportedEncodingException 
      */
-    public String getCode() throws UnsupportedEncodingException {
+    public String getCode(String redirect_uri) throws UnsupportedEncodingException {
         Map<String, String> params = new HashMap<String, String>();
         params.put("appid", getAppid());
         params.put("response_type", "code");
-        params.put("redirect_uri", ConfKit.get("redirect_uri"));
+        params.put("redirect_uri", redirect_uri);
         params.put("scope", "snsapi_base"); // snsapi_base（不弹出授权页面，只能拿到用户openid）snsapi_userinfo
         // （弹出授权页面，这个可以通过 openid 拿到昵称、性别、所在地）
         params.put("state", "wx#wechat_redirect");
@@ -68,13 +69,14 @@ public class Oauth {
      * @throws NoSuchAlgorithmException 
      * @throws KeyManagementException 
      */
-    public String getToken(String code) throws Exception {
+    public  Map<String, String> getToken(String code) throws Exception {
         Map<String, String> params = new HashMap<String, String>();
         params.put("appid", getAppid());
         params.put("secret", getSecret());
         params.put("code", code);
         params.put("grant_type", "authorization_code");
-        return HttpKit.get(TOKEN_URI, params);
+        String token = HttpKit.get(TOKEN_URI, params);
+        return JsonUtils.readValue(token, Map.class);
     }
 
     /**

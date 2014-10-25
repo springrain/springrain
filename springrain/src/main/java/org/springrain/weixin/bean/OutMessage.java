@@ -31,4 +31,16 @@ public class OutMessage {
 	public void setFuncFlag(int funcFlag) {
 		FuncFlag = funcFlag;
 	}
+
+	public void setToUserName(String toUserName) {
+		ToUserName = toUserName;
+	}
+
+	public void setFromUserName(String fromUserName) {
+		FromUserName = fromUserName;
+	}
+
+	public void setCreateTime(Long createTime) {
+		CreateTime = createTime;
+	}
 }

@@ -14,11 +14,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.springrain.weixin.WeChat;
+import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang.StringUtils;
+
 import org.springrain.weixin.oauth.Pay;
 import org.springrain.weixin.util.ConfKit;
+import org.springrain.weixin.util.WeiXinUtils;
 
 /**
  * 示例部分请根据自己实际情况修改
@@ -41,7 +42,7 @@ public class WeChatPayServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		// 判断是否微信环境, 5.0 之后的支持微信支付
-		boolean isweixin = WeChat.isWeiXin(req);
+		boolean isweixin = WeiXinUtils.isWeiXin(req);
 		if (isweixin) {
 			String productName = "测试商品001";
 			String total_fee   = "100";

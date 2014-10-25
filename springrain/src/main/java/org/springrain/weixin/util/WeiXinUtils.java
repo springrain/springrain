@@ -3,12 +3,10 @@
  * (c) 2012-2013 ____′↘夏悸 <wmails@126.cn>, MIT Licensed
  * http://www.jeasyuicn.com/wechat
  */
-package org.springrain.weixin;
+package org.springrain.weixin.util;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
@@ -19,26 +17,32 @@ import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
+import org.apache.shiro.subject.SimplePrincipalCollection;
+import org.apache.shiro.util.ThreadContext;
+import org.apache.shiro.web.subject.WebSubject;
+
+import org.springrain.frame.shiro.ShiroUser;
+import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.JsonUtils;
+import org.springrain.frame.util.SpringUtils;
 import org.springrain.weixin.bean.Articles;
 import org.springrain.weixin.bean.Attachment;
 import org.springrain.weixin.bean.InMessage;
 import org.springrain.weixin.bean.OutMessage;
-import org.springrain.weixin.inf.MessageProcessingHandler;
+import org.springrain.weixin.oauth.CustomMessage;
 import org.springrain.weixin.oauth.Group;
 import org.springrain.weixin.oauth.Menu;
 import org.springrain.weixin.oauth.Message;
+import org.springrain.weixin.oauth.Oauth;
 import org.springrain.weixin.oauth.Qrcod;
 import org.springrain.weixin.oauth.User;
-import org.springrain.weixin.util.ConfKit;
-import org.springrain.weixin.util.HttpKit;
-import org.springrain.weixin.util.Tools;
-import org.springrain.weixin.util.XStreamFactory;
-
+import org.springrain.weixin.service.IMessageProcessingService;
 import com.thoughtworks.xstream.XStream;
 
 /**
@@ -47,14 +51,18 @@ import com.thoughtworks.xstream.XStream;
  * @author L.cm & ____′↘夏悸
  * @date 2013-11-5 下午3:01:20
  */
-public class WeChat {
+public class WeiXinUtils {
 	private static final String ACCESSTOKEN_URL = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential";
 	private static final String PAYFEEDBACK_URL = "https://api.weixin.qq.com/payfeedback/update";
-	private static final String DEFAULT_HANDLER = "org.springrain.weixin.inf.DefaultMessageProcessingHandlerImpl";
 	private static final String GET_MEDIA_URL= "http://file.api.weixin.qq.com/cgi-bin/media/get?access_token=";
 	private static final String UPLOAD_MEDIA_URL= "http://file.api.weixin.qq.com/cgi-bin/media/upload?access_token=";
+	
+	//private static final String SEND_CUSTOM_MESSAGE_URL= "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=";
+	
+	private static IMessageProcessingService messageProcessingService;
+	
     
-    private static Class<?>  messageProcessingHandlerClazz = null;
+
     /**
      * 消息操作接口
      */
@@ -76,6 +84,17 @@ public class WeChat {
      * 分组操作接口
      */
     public static final Qrcod qrcod = new Qrcod();
+    
+    /**
+     * 客服消息接口
+     */
+    public static final CustomMessage customMessage=new CustomMessage();
+    /**
+     * 微信认证接口
+     */
+    public static final Oauth oauth=new Oauth();
+    
+    
 
     /**
      * 获取access_token
@@ -85,9 +104,7 @@ public class WeChat {
     public static String getAccessToken() throws Exception {
         String appid = ConfKit.get("AppId");
         String secret = ConfKit.get("AppSecret");
-        String jsonStr = HttpKit.get(ACCESSTOKEN_URL.concat("&appid=") + appid + "&secret=" + secret);
-        Map<String, Object> map = JsonUtils.readValue(jsonStr,Map.class);
-        return map.get("access_token").toString();
+        return getAccessToken(appid, secret);
     }
     
     /**
@@ -97,7 +114,7 @@ public class WeChat {
      */
     public static String getAccessToken(String appid,String secret) throws Exception {
         String jsonStr = HttpKit.get(ACCESSTOKEN_URL.concat("&appid=") + appid + "&secret=" + secret);
-        Map<String, Object> map =  JsonUtils.readValue(jsonStr,Map.class);
+        Map<String, Object> map = JsonUtils.readValue(jsonStr, Map.class);
         return map.get("access_token").toString();
     }
 
@@ -115,7 +132,7 @@ public class WeChat {
         map.put("openid", openid);
         map.put("feedbackid", feedbackid);
         String jsonStr = HttpKit.get(PAYFEEDBACK_URL, map);
-        Map<String, Object> jsonMap =  JsonUtils.readValue(jsonStr,Map.class);
+        Map<String, Object> jsonMap = JsonUtils.readValue(jsonStr, Map.class);
         return "0".equals(jsonMap.get("errcode").toString());
     }
 
@@ -135,54 +152,35 @@ public class WeChat {
      * 根据接收到用户消息进行处理
      * @param responseInputString   微信发送过来的xml消息体
      * @return
+     * @throws Exception 
      */
-    public static String processing(String responseInputString) {
+    public static String processing(String responseInputString,String weixinId) throws Exception {
+    	if(messageProcessingService==null){
+    		messageProcessingService=(IMessageProcessingService) SpringUtils.getBean("defaultMessageProcessingService");
+    	}
+    	
         InMessage inMessage = parsingInMessage(responseInputString);
         OutMessage oms = null;
-        // 加载处理器
-        if (messageProcessingHandlerClazz == null) {
-            // 获取自定消息处理器，如果自定义处理器则使用默认处理器。
-            String handler = ConfKit.get("MessageProcessingHandlerImpl");
-            handler = handler == null ? DEFAULT_HANDLER : handler;
-            try {
-            	messageProcessingHandlerClazz = Thread.currentThread().getContextClassLoader().loadClass(handler);
-            } catch (Exception e) {
-                throw new RuntimeException("messageProcessingHandler Load Error！");
-            }
-        }
+      
         String xml = "";
-        try {
-        	MessageProcessingHandler messageProcessingHandler = (MessageProcessingHandler) messageProcessingHandlerClazz.newInstance();
             //取得消息类型
-            String type = inMessage.getMsgType();
-            Method getOutMessage = messageProcessingHandler.getClass().getMethod("getOutMessage");
-            Method alMt = messageProcessingHandler.getClass().getMethod("allType", InMessage.class);
-            Method mt = messageProcessingHandler.getClass().getMethod(type + "TypeMsg", InMessage.class);
+            String type = inMessage.getMsgType().toLowerCase();
+            oms= messageProcessingService.getOutMessageByInMessage(inMessage, type,weixinId);
             
-            alMt.invoke(messageProcessingHandler, inMessage);
-           
-            if(mt != null){
-            	mt.invoke(messageProcessingHandler, inMessage);
+            if(oms==null){
+            	return null;
             }
             
-            Object obj = getOutMessage.invoke(messageProcessingHandler);
-            if(obj != null){
-            	oms = (OutMessage) obj;
-            }
+            
             //调用事后处理
-            try {
-            	Method aftMt =  messageProcessingHandler.getClass().getMethod("afterProcess",InMessage.class,OutMessage.class);
-            	aftMt.invoke(messageProcessingHandler, inMessage, oms);
-			} catch (Exception e) {}
+     
+            	messageProcessingService.afterProcess(inMessage, oms,weixinId);
+		
             
-            obj = getOutMessage.invoke(messageProcessingHandler);
-            if(obj != null){
-            	oms = (OutMessage) obj;
+            if(oms != null){
             	setMsgInfo(oms, inMessage);
             }
-        } catch (Exception e) {
-        	throw new RuntimeException(e);
-        }
+  
         if(oms != null){
             // 把发送发送对象转换为xml输出
             XStream xs = XStreamFactory.init(true);
@@ -200,20 +198,12 @@ public class WeChat {
      * @throws Exception
      */
     private static void setMsgInfo(OutMessage oms,InMessage msg) throws Exception {
-    	if(oms != null){
-    		Class<?> outMsg = oms.getClass().getSuperclass();
-            Field CreateTime = outMsg.getDeclaredField("CreateTime");
-            Field ToUserName = outMsg.getDeclaredField("ToUserName");
-            Field FromUserName = outMsg.getDeclaredField("FromUserName");
-
-            ToUserName.setAccessible(true);
-            CreateTime.setAccessible(true);
-            FromUserName.setAccessible(true);
-
-            CreateTime.set(oms, new Date().getTime());
-            ToUserName.set(oms, msg.getFromUserName());
-            FromUserName.set(oms, msg.getToUserName());
+    	if(oms==null||msg==null){
+    		return;
     	}
+            oms.setCreateTime(new Date().getTime());
+            oms.setFromUserName(msg.getToUserName());
+            oms.setToUserName(msg.getFromUserName());
     }
 
     /**
@@ -243,6 +233,10 @@ public class WeChat {
     	String url = GET_MEDIA_URL + accessToken + "&media_id=" + mediaId;
         return HttpKit.download(url);
     }
+    
+    
+   
+    
     
     /**
      * 上传素材文件
@@ -281,4 +275,26 @@ public class WeChat {
  		}
  		return false;
  	}
+ 	
+ 	
+ 	/**
+ 	 * 根据 微信账号的 openId 创建shiro的登陆账号
+ 	 * @param openId
+ 	 * @param request
+ 	 * @param response
+ 	 */
+ 	public static void createShiroUserByOpenId(String openId,ServletRequest request,ServletResponse response){
+		ShiroUser shiroUser=new ShiroUser();
+		shiroUser.setId(openId);
+		shiroUser.setName(openId);
+		shiroUser.setAccount(openId);
+		 SimplePrincipalCollection principals = new SimplePrincipalCollection(shiroUser, GlobalStatic.authorizingRealmName);
+         WebSubject.Builder builder = new WebSubject.Builder(request,response);
+         builder.principals(principals);
+         builder.authenticated(true);
+         WebSubject subject = builder.buildWebSubject();
+         ThreadContext.bind(subject);
+ 	}
+ 	
+ 	
 }

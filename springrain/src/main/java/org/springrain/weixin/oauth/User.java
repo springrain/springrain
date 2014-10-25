@@ -12,9 +12,8 @@ import java.security.NoSuchProviderException;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sf.json.JSONObject;
+import org.apache.commons.lang.StringUtils;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springrain.frame.util.JsonUtils;
 import org.springrain.weixin.bean.UserInfo;
 import org.springrain.weixin.util.HttpKit;
@@ -45,11 +44,13 @@ public class User {
 		params.put("openid", openid);
 		String  jsonStr = HttpKit.get(USER_INFO_URI, params);
 		if(StringUtils.isNotEmpty(jsonStr)){
-			JSONObject obj = JSONObject.fromObject(jsonStr);
+			
+			Map obj =JsonUtils.readValue(jsonStr, Map.class);
 			if(obj.get("errcode") != null){
-				throw new Exception(obj.getString("errmsg"));
+				throw new Exception(obj.get("errmsg").toString());
 			}
-			UserInfo user = JsonUtils.readValue(jsonStr, UserInfo.class);
+			
+			UserInfo user=JsonUtils.readValue(jsonStr, UserInfo.class);
 			return user;
 		}
 		return null;
@@ -61,15 +62,15 @@ public class User {
 	 * @param next_openid
 	 * @return
 	 */
-	public JSONObject getFollwersList(String accessToken, String next_openid) throws Exception{
+	public Map getFollwersList(String accessToken, String next_openid) throws Exception{
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("access_token", accessToken);
 		params.put("next_openid", next_openid);
 		String  jsonStr = HttpKit.get(USER_GET_URI, params);
 		if(StringUtils.isNotEmpty(jsonStr)){
-			JSONObject obj = JSONObject.fromObject(jsonStr);
+			Map obj =JsonUtils.readValue(jsonStr, Map.class);
 			if(obj.get("errcode") != null){
-				throw new Exception(obj.getString("errmsg"));
+				throw new Exception(obj.get("errmsg").toString());
 			}
 			return obj;
 		}
