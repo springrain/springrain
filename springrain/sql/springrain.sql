@@ -240,6 +240,12 @@ INSERT INTO `t_menu` VALUES ('t_user_list_export', '导出用户', 't_user_list'
 INSERT INTO `t_menu` VALUES ('t_user_look', '查看用户', 't_user_list', null, '/system/user/look', '0', '是', null, null);
 INSERT INTO `t_menu` VALUES ('t_user_update', '修改用户', 't_user_list', null, '/system/user/update', '0', '是', null, null);
 
+
+INSERT INTO `t_menu` VALUES ('weixin_manager', '微信管理', null, null, null, '1', '是', null, null);
+INSERT INTO `t_menu` VALUES ('t_weixin_menu_list', '微信菜单管理', 'weixin_manager', null, '/system/weixin/menu/list', '1', '是', null, null);
+INSERT INTO `t_menu` VALUES ('t_weixin_menu_look', '查看微信菜单', 't_weixin_menu_list', null, '/system/weixin/menu/look', '0', '是', null, null);
+INSERT INTO `t_menu` VALUES ('t_weixin_menu_update', '修改微信菜单', 't_weixin_menu_list', null, '/system/weixin/menu/update', '0', '是', null, null);
+
 -- ----------------------------
 -- Table structure for t_org
 -- ----------------------------
