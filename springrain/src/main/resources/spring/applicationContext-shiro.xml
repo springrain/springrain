@@ -80,6 +80,9 @@
 				/login = anon
 				/auto/login = anon
 				/favicon.ico = anon
+				/weixin/f/oauth2=anon
+				/weixin/f/** =anon
+				/weixin/token/** = anon
 				/index = user
 				/logout = logout
 				/system/menu/leftMenu=user
@@ -91,6 +94,7 @@
 		<property name="filters">
 			<map>
 				<entry key="frameperms" value-ref="frameperms"></entry>
+			    <entry key="weiXinOauth2" value-ref="weiXinOauth2"></entry>
 			</map>
 		</property>
 	</bean>
