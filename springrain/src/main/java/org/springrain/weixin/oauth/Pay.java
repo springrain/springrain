@@ -18,8 +18,7 @@ import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang.StringUtils;
-
+import org.apache.commons.lang3.StringUtils;
 import org.springrain.frame.util.JsonUtils;
 import org.springrain.weixin.util.ConfKit;
 import org.springrain.weixin.util.HttpKit;

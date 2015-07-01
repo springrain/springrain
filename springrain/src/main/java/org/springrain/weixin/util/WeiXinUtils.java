@@ -21,12 +21,11 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.util.ThreadContext;
 import org.apache.shiro.web.subject.WebSubject;
-
 import org.springrain.frame.shiro.ShiroUser;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.JsonUtils;
@@ -43,6 +42,7 @@ import org.springrain.weixin.oauth.Oauth;
 import org.springrain.weixin.oauth.Qrcod;
 import org.springrain.weixin.oauth.User;
 import org.springrain.weixin.service.IMessageProcessingService;
+
 import com.thoughtworks.xstream.XStream;
 
 /**

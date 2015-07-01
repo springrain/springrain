@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 import org.springrain.frame.dao.BaseJdbcDaoImpl;
 import org.springrain.frame.dao.dialect.IDialect;
 import org.springrain.frame.entity.IAuditLog;
-import org.springrain.system.entity.AuditLog;
 
 /**
  *   springrain项目的基础Dao,代理demo数据库
@@ -65,9 +64,19 @@ public class BaseSpringrainDaoImpl extends BaseJdbcDaoImpl implements IBaseSprin
  */
 	@Override
 	public IAuditLog getAuditLog() {
-		//return null;
-		return new AuditLog();
+		return null;
+		//return new AuditLog();
 	}
 	
+	/**
+	 * 是否打印sql语句,默认false
+	 * 
+	 * @return
+	 */
+	@Override
+	public boolean showsql() {
+		return true;
+	}
+
 
 }

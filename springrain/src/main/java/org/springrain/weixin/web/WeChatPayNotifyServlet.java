@@ -16,12 +16,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
-
+import org.apache.commons.lang3.StringUtils;
 import org.springrain.weixin.bean.WeChatBuyPost;
 import org.springrain.weixin.oauth.Pay;
 import org.springrain.weixin.util.Tools;
 import org.springrain.weixin.util.WeiXinUtils;
+
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 

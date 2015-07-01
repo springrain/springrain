@@ -8,8 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-import org.apache.commons.lang.StringUtils;
-
+import org.apache.commons.lang3.StringUtils;
 import org.springrain.frame.util.JsonUtils;
 import org.springrain.weixin.util.HttpKit;
 

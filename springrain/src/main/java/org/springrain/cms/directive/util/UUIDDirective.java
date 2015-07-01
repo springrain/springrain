@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.UUID;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
