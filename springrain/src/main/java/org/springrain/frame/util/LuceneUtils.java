@@ -23,6 +23,7 @@ import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.shiro.util.CollectionUtils;
@@ -113,8 +114,12 @@ public class LuceneUtils {
 		if (page != null && page.getPageSize() > 0) {
 			_size = page.getPageSize();
 		}
+		//先获取上一页的最后一个元素
+        ScoreDoc lastscoreDoc = getLastScoreDoc(page.getPageIndex(), _size, query, indexSearcher);
+      //通过最后一个元素搜索下页的pageSize个元素
+        TopDocs topDocs = indexSearcher.searchAfter(lastscoreDoc,query, _size);
 		// 查询出的结果文档
-		ScoreDoc[] hits = indexSearcher.search(query, _size).scoreDocs;
+		ScoreDoc[] hits = topDocs.scoreDocs;
 
 		if (hits == null || hits.length < 1) {
 			return null;
@@ -348,5 +353,15 @@ public class LuceneUtils {
 		return directory;
 
 	}
+	
+	  /**
+     * 根据页码和分页大小获取上一次的最后一个ScoreDoc
+     */
+    private static ScoreDoc getLastScoreDoc(int pageIndex,int pageSize,Query query,IndexSearcher searcher) throws IOException {
+        if(pageIndex<=1)return null;//如果是第一页就返回空
+        int num = pageSize*(pageIndex-1);//获取上一页的数量
+        TopDocs tds = searcher.search(query, num);
+        return tds.scoreDocs[num-1];
+    }
 
 }
