@@ -41,7 +41,7 @@ public class LuceneTest {
 	public void testSearch() throws Exception{
 		Page page=new Page(1);
 		page.setPageSize(50);
-		List<User> list = LuceneUtils.search(User.class, page, "起来");
+		List<User> list = LuceneUtils.searchDocument(User.class, page, "起来");
 		if(CollectionUtils.isEmpty(list)){
 			return;
 		}

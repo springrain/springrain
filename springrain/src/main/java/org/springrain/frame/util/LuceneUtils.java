@@ -17,6 +17,7 @@ import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.Term;
 import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.IndexSearcher;
@@ -49,13 +50,13 @@ public class LuceneUtils {
 	 * @return
 	 * @throws Exception
 	 */
-	public static List search(Class clazz, Page page, String searchkeyword) throws Exception {
+	public static List searchDocument(Class clazz, Page page, String searchkeyword) throws Exception {
 		List<String> luceneFields = ClassUtils.getLuceneFields(clazz);
 		if (CollectionUtils.isEmpty(luceneFields)) {
 			return null;
 		}
 		String[] fields = (String[]) luceneFields.toArray(new String[luceneFields.size()]);
-		return search(clazz, page, fields, searchkeyword);
+		return searchDocument(clazz, page, fields, searchkeyword);
 	}
 
 	/**
@@ -67,12 +68,12 @@ public class LuceneUtils {
 	 * @return
 	 * @throws Exception
 	 */
-	public static List search(Class clazz, Page page, String field, String searchkeyword) throws Exception {
+	public static List searchDocument(Class clazz, Page page, String field, String searchkeyword) throws Exception {
 		if (StringUtils.isBlank(field)) {
 			return null;
 		}
 		String[] fields = new String[] { field };
-		return search(clazz, page, fields, searchkeyword);
+		return searchDocument(clazz, page, fields, searchkeyword);
 	}
 
 	/**
@@ -84,7 +85,7 @@ public class LuceneUtils {
 	 * @return
 	 * @throws Exception
 	 */
-	public static <T> List<T> search(Class<T> clazz, Page page, String[] fields, String searchkeyword)
+	public static <T> List<T> searchDocument(Class<T> clazz, Page page, String[] fields, String searchkeyword)
 			throws Exception {
 
 		if (fields == null || fields.length < 1) {
@@ -209,6 +210,101 @@ public class LuceneUtils {
 		indexWriter.close();
 		directory.close();
 
+		return null;
+	}
+
+	/**
+	 * 删除文档
+	 * 
+	 * @param entity
+	 * @return
+	 * @throws Exception
+	 */
+	public static String deleteDocument(Object id, Class clazz) throws Exception {
+
+		String pkName = ClassUtils.getEntityInfoByClass(clazz).getPkName();
+		// 索引写入配置
+		IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
+		// 获取索引目录文件
+		Directory directory = getDirectory(clazz);
+		if (directory == null) {
+			return null;
+		}
+		IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);
+		Term term = new Term(pkName, id.toString());
+		indexWriter.deleteDocuments(term);
+		indexWriter.commit();
+		indexWriter.close(); // 记得关闭,否则删除不会被同步到索引文件中
+		directory.close(); // 关闭目录
+
+		return null;
+	}
+
+	/**
+	 * 批量删除文档
+	 * 
+	 * @param entity
+	 * @return
+	 * @throws Exception 
+	 */
+	public static  String deleteDocument(List<String> ids,Class clazz) throws Exception {
+		if(CollectionUtils.isEmpty(ids)){
+			return "error";
+		}
+		String pkName = ClassUtils.getEntityInfoByClass(clazz).getPkName();
+		// 索引写入配置
+		IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
+		// 获取索引目录文件
+		Directory directory = getDirectory(clazz);
+		if (directory == null) {
+			return null;
+		}
+		IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);
+		
+		for(String t:ids){
+			Term term = new Term(pkName, t);
+			indexWriter.deleteDocuments(term);
+		}
+		indexWriter.commit();
+		indexWriter.close(); // 记得关闭,否则删除不会被同步到索引文件中
+		directory.close(); // 关闭目录
+		return null;
+	}
+
+	/**
+	 * 修改文档
+	 * 
+	 * @param entity
+	 * @return
+	 * @throws Exception 
+	 */
+	public static String updateDocument(Object entity) throws Exception {
+		String pkValue=ClassUtils.getPKValue(entity).toString();
+		deleteDocument(pkValue,entity.getClass());
+		saveDocument(entity);
+		return null;
+	}
+
+	/**
+	 * 批量修改文档
+	 * 
+	 * @param entity
+	 * @return
+	 * @throws Exception 
+	 */
+	public static <T> String updateDocument(List<T> list) throws Exception {
+		
+		if(CollectionUtils.isEmpty(list)){
+			return null;
+		}
+		List<String> ids=new ArrayList<String>();
+		Class clazz=list.get(0).getClass();
+		for(T t:list){
+			String id=ClassUtils.getPKValue(t).toString();
+			ids.add(id);
+		}
+		deleteDocument(ids,clazz);
+		saveDocument(list);
 		return null;
 	}
 

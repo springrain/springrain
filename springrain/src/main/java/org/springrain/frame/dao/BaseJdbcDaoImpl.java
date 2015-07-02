@@ -25,20 +25,23 @@ import org.springrain.frame.common.BaseLogger;
 import org.springrain.frame.common.SessionUser;
 import org.springrain.frame.dao.dialect.IDialect;
 import org.springrain.frame.entity.IAuditLog;
+import org.springrain.frame.task.LuceneTask;
 import org.springrain.frame.util.ClassUtils;
 import org.springrain.frame.util.EntityInfo;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
+import org.springrain.frame.util.LuceneUtils;
 import org.springrain.frame.util.Page;
 import org.springrain.frame.util.RegexValidateUtils;
 import org.springrain.frame.util.SecUtils;
+import org.springrain.frame.util.ThreadPoolManager;
 import org.springrain.frame.util.WhereSQLInfo;
 
 /**
  * 基础的Dao父类,所有的Dao都必须继承此类,每个数据库都需要一个实现.</br>
  * 
- * 例如 demo数据的实现类是org.springrain.springrain.dao.BasedemoDaoImpl,demo2数据的实现类是org. springrain
- * demo2.dao.Basedemo2DaoImpl</br>
+ * 例如 demo数据的实现类是org.springrain.springrain.dao.BasedemoDaoImpl,demo2数据的实现类是org.
+ * springrain demo2.dao.Basedemo2DaoImpl</br>
  * 
  * @copyright {@link 9iu.org}
  * @author springrain<Auto generate>
@@ -51,17 +54,19 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 	/**
 	 * 抽象方法.每个数据库的代理Dao都必须实现.在多库情况下,用于区分底层数据库的连接对象,对数据库进行增删改查.</br>
 	 * 例如:demo数据库的代理Dao org.springrain.springrain.dao.BasedemoDaoImpll
-	 * 实现返回的是spring的beanjdbc.</br> demo2 数据库的代理Dao
-	 * org.springrain.demo2.dao.Basedemo2DaoImpl 实现返回的是spring的bean jdbc_demo2.</br>
+	 * 实现返回的是spring的beanjdbc.</br>
+	 * demo2 数据库的代理Dao org.springrain.demo2.dao.Basedemo2DaoImpl
+	 * 实现返回的是spring的bean jdbc_demo2.</br>
 	 * 
 	 * @return
 	 */
 	public abstract NamedParameterJdbcTemplate getJdbc();
 
 	/**
-	 * 抽象方法.每个数据库的代理Dao都必须实现.在多库情况下,用于区分底层数据库的连接对象,调用数据库的函数和存储过程.</br> 例如:demo
-	 * 数据库的代理Dao org.springrain.springrain.dao.BasedemoDaoImpl 实现返回的是spring的bean
-	 * jdbcCall.</br> datalog 数据库的代理Dao org.springrain.demo2.dao.Basedemo2DaoImpl
+	 * 抽象方法.每个数据库的代理Dao都必须实现.在多库情况下,用于区分底层数据库的连接对象,调用数据库的函数和存储过程.</br>
+	 * 例如:demo 数据库的代理Dao org.springrain.springrain.dao.BasedemoDaoImpl
+	 * 实现返回的是spring的bean jdbcCall.</br>
+	 * datalog 数据库的代理Dao org.springrain.demo2.dao.Basedemo2DaoImpl
 	 * 实现返回的是spring的beanjdbcCall_demo2.</br>
 	 * 
 	 * @return
@@ -87,9 +92,9 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 	}
 
 	/**
-	 * 获取数据库方言,Dao 中注入spring bean.</br> 例如mysql的实现是 mysqlDialect. oracle的实现是
-	 * oracleDialect. 如果使用了sequence 在entity使用@PKSequence实现自增 详见
-	 * org.springrain.frame.dao.dialect.IDialect的实现
+	 * 获取数据库方言,Dao 中注入spring bean.</br>
+	 * 例如mysql的实现是 mysqlDialect. oracle的实现是 oracleDialect. 如果使用了sequence
+	 * 在entity使用@PKSequence实现自增 详见 org.springrain.frame.dao.dialect.IDialect的实现
 	 * 
 	 * @return
 	 */
@@ -97,8 +102,8 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 
 	/**
 	 * 默认(return null)不记录日志,在多库情况下,用于区分数据库实例的日志记录表,
-	 * 主要是为了兼容日志表(auditlog)的主键生成方式,UUID和自增.</br> demo 数据库的auditlog 是自增,demo2
-	 * 数据库的 auditlog 是UUID
+	 * 主要是为了兼容日志表(auditlog)的主键生成方式,UUID和自增.</br>
+	 * demo 数据库的auditlog 是自增,demo2 数据库的 auditlog 是UUID
 	 * 
 	 * @return
 	 */
@@ -161,19 +166,19 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 
 		if (params != null) {
 			if (ClassUtils.isBaseType(clazz)) {
-				m = simpleJdbcCall.returningResultSet(frame_jdbc_call_key,
-						new RowNumberSingleColumnRowMapper(clazz)).execute(params);
+				m = simpleJdbcCall.returningResultSet(frame_jdbc_call_key, new RowNumberSingleColumnRowMapper(clazz))
+						.execute(params);
 			} else {
-				m = simpleJdbcCall.returningResultSet(frame_jdbc_call_key,
-						BeanPropertyRowMapper.newInstance(clazz)).execute(params);
+				m = simpleJdbcCall.returningResultSet(frame_jdbc_call_key, BeanPropertyRowMapper.newInstance(clazz))
+						.execute(params);
 			}
 		} else {
 			if (ClassUtils.isBaseType(clazz)) {
-				m = simpleJdbcCall.returningResultSet(frame_jdbc_call_key,
-						new RowNumberSingleColumnRowMapper(clazz)).execute();
+				m = simpleJdbcCall.returningResultSet(frame_jdbc_call_key, new RowNumberSingleColumnRowMapper(clazz))
+						.execute();
 			} else {
-				m = simpleJdbcCall.returningResultSet(frame_jdbc_call_key,
-						BeanPropertyRowMapper.newInstance(clazz)).execute();
+				m = simpleJdbcCall.returningResultSet(frame_jdbc_call_key, BeanPropertyRowMapper.newInstance(clazz))
+						.execute();
 			}
 		}
 		return (List<T>) m.get(frame_jdbc_call_key);
@@ -203,11 +208,9 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		}
 
 		if (params != null) {
-			m = simpleJdbcCall.returningResultSet(frame_jdbc_call_key, new ColumnMapRowMapper())
-					.execute(params);
+			m = simpleJdbcCall.returningResultSet(frame_jdbc_call_key, new ColumnMapRowMapper()).execute(params);
 		} else {
-			m = simpleJdbcCall.returningResultSet(frame_jdbc_call_key, new ColumnMapRowMapper())
-					.execute();
+			m = simpleJdbcCall.returningResultSet(frame_jdbc_call_key, new ColumnMapRowMapper()).execute();
 		}
 		return (List<Map<String, Object>>) m.get(frame_jdbc_call_key);
 
@@ -278,20 +281,18 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 
 		if (ClassUtils.isBaseType(clazz)) {
 			if (getDialect().isRowNumber()) {
-				return getReadJdbc().query(pageSql, finder.getParams(),
-						new RowNumberSingleColumnRowMapper(clazz));
+				return getReadJdbc().query(pageSql, finder.getParams(), new RowNumberSingleColumnRowMapper(clazz));
 			} else {
 				return getReadJdbc().queryForList(pageSql, finder.getParams(), clazz);
 			}
 		} else {
-			return getReadJdbc().query(pageSql, finder.getParams(),
-					BeanPropertyRowMapper.newInstance(clazz));
+			return getReadJdbc().query(pageSql, finder.getParams(), BeanPropertyRowMapper.newInstance(clazz));
 		}
 	}
 
 	@Override
-	public <T> List<T> findListDataByFinder(Finder finder, Page page, Class<T> clazz,
-			Object queryBean) throws Exception {
+	public <T> List<T> findListDataByFinder(Finder finder, Page page, Class<T> clazz, Object queryBean)
+			throws Exception {
 
 		if (finder == null) {
 
@@ -342,8 +343,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 				finder.append(" order by ").append(order);
 			}
 			if (StringUtils.isNotBlank(sort)) {
-				if ("asc".equals(sort.toLowerCase())
-						&& (finder.getSql().toLowerCase().contains(" asc ") == false)) {
+				if ("asc".equals(sort.toLowerCase()) && (finder.getSql().toLowerCase().contains(" asc ") == false)) {
 					finder.append(" asc ");
 				} else if ("desc".equals(sort.toLowerCase())
 						&& (finder.getSql().toLowerCase().contains(" desc ") == false)) {
@@ -403,7 +403,6 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		return finder;
 
 	}
-	
 
 	/**
 	 * 根据page 和finder对象,拼装返回分页查询的语句
@@ -429,25 +428,30 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 				sql = sql.substring(0, RegexValidateUtils.getOrderByIndex(sql));
 			}
 		} else {
-			if(page!=null&&StringUtils.isNotBlank(page.getOrder())){//如果page中包含 排序属性
-			  String 	_order = page.getOrder().trim();
+			if (page != null && StringUtils.isNotBlank(page.getOrder())) {// 如果page中包含
+																			// 排序属性
+				String _order = page.getOrder().trim();
 				if (_order.indexOf(" ") > -1 || _order.indexOf(";") > -1) {// 认为是异常的,主要是防止注入
 					orderSql = " order by id asc ";
-				}else{
-					String _sort=page.getSort();
-					if(_sort==null){
-						_sort="";
+				} else {
+					String _sort = page.getSort();
+					if (_sort == null) {
+						_sort = "";
 					}
-					_sort=_sort.trim().toLowerCase();
-					
-					if((!"asc".equals(_sort))&&(!"desc".equals(_sort))){//如果 不是 asc 也不是 desc
-						_sort="";
+					_sort = _sort.trim().toLowerCase();
+
+					if ((!"asc".equals(_sort)) && (!"desc".equals(_sort))) {// 如果
+																			// 不是
+																			// asc
+																			// 也不是
+																			// desc
+						_sort = "";
 					}
-					
-					orderSql=" order by "+page.getOrder()+" "+_sort;
+
+					orderSql = " order by " + page.getOrder() + " " + _sort;
 				}
-				
-			}else{
+
+			} else {
 				orderSql = " order by id asc ";
 			}
 		}
@@ -471,8 +475,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 			/**
 			 * 特殊关键字过滤, distinct ,union ,group by
 			 */
-			if (countSql.toLowerCase().indexOf(" distinct ") > -1
-					|| countSql.toLowerCase().indexOf(" union ") > -1
+			if (countSql.toLowerCase().indexOf(" distinct ") > -1 || countSql.toLowerCase().indexOf(" union ") > -1
 					|| RegexValidateUtils.getGroupByIndex(countSql) > -1) {
 				countSql = "SELECT count(*)  frame_row_count FROM (" + countSql
 						+ ") temp_frame_noob_table_name WHERE 1=1 ";
@@ -534,8 +537,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		// 获取 分表的扩展
 		String tableExt = entityInfo.getTableExt();
 
-		StringBuffer sql = new StringBuffer("INSERT INTO ").append(tableName).append(tableExt)
-				.append("(");
+		StringBuffer sql = new StringBuffer("INSERT INTO ").append(tableName).append(tableExt).append("(");
 
 		StringBuffer valueSql = new StringBuffer(" values(");
 
@@ -630,7 +632,13 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 
 	@Override
 	public Object save(Object entity) throws Exception {
+		// 保存到数据库
 		Object id = saveNoLog(entity);
+		// 保存到索引文件
+		LuceneTask luceneTask = new LuceneTask(entity, LuceneTask.saveDocument);
+		ThreadPoolManager.addThread(luceneTask);
+
+		// 记录日志
 		IAuditLog auditLog = getAuditLog();
 		if (auditLog == null) {
 			return id;
@@ -666,10 +674,9 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 	public List<Integer> update(List list) throws Exception {
 		return update(list, false);
 	}
-	
-	
+
 	@Override
-	public List<Integer> update(List list,boolean onlyupdatenotnull) throws Exception {
+	public List<Integer> update(List list, boolean onlyupdatenotnull) throws Exception {
 		if (CollectionUtils.isEmpty(list)) {
 			return null;
 		}
@@ -678,11 +685,10 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		String sql = null;
 		for (int i = 0; i < list.size(); i++) {
 			Map paramMap = new HashMap();
-			sql = warpupdatesql(list.get(i), paramMap,onlyupdatenotnull);
+			sql = warpupdatesql(list.get(i), paramMap, onlyupdatenotnull);
 			maps[i] = paramMap;
 		}
-		int[] batchUpdate = getWriteJdbc().batchUpdate(sql,
-				SqlParameterSourceUtils.createBatch(maps));
+		int[] batchUpdate = getWriteJdbc().batchUpdate(sql, SqlParameterSourceUtils.createBatch(maps));
 
 		if (batchUpdate.length < 1) {
 			return updateList;
@@ -690,10 +696,13 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		for (int i : batchUpdate) {
 			updateList.add(i);
 		}
+
+		// 更新到索引文件
+		LuceneTask luceneTask = new LuceneTask(list, LuceneTask.saveDocument);
+		ThreadPoolManager.addThread(luceneTask);
+
 		return updateList;
 	}
-	
-	
 
 	@Override
 	public List<Integer> save(List list) throws Exception {
@@ -709,8 +718,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 			sql = warpsavesql(list.get(i), paramMap, false);
 			maps[i] = paramMap;
 		}
-		int[] batchUpdate = getWriteJdbc().batchUpdate(sql,
-				SqlParameterSourceUtils.createBatch(maps));
+		int[] batchUpdate = getWriteJdbc().batchUpdate(sql, SqlParameterSourceUtils.createBatch(maps));
 
 		if (batchUpdate.length < 1) {
 			return updateList;
@@ -718,10 +726,15 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		for (int i : batchUpdate) {
 			updateList.add(i);
 		}
+
+		// 更新到索引文件
+		LuceneTask luceneTask = new LuceneTask(list, LuceneTask.saveDocument);
+		ThreadPoolManager.addThread(luceneTask);
+
 		return updateList;
 	}
 
-	private String warpupdatesql(Object entity, Map paramMap,boolean onlyupdatenotnull) throws Exception {
+	private String warpupdatesql(Object entity, Map paramMap, boolean onlyupdatenotnull) throws Exception {
 		Class clazz = entity.getClass();
 		// entity的信息
 		EntityInfo entityInfo = ClassUtils.getEntityInfoByEntity(entity);
@@ -732,62 +745,58 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 
 		// 获取 分表的扩展
 		String tableExt = entityInfo.getTableExt();
-		StringBuffer sql = new StringBuffer("UPDATE ").append(tableName).append(tableExt)
-				.append("  SET  ");
+		StringBuffer sql = new StringBuffer("UPDATE ").append(tableName).append(tableExt).append("  SET  ");
 
 		StringBuffer whereSQL = new StringBuffer(" WHERE ").append(pkName).append("=:").append(pkName);
 		for (int i = 0; i < fdNames.size(); i++) {
 			String fdName = fdNames.get(i);// 字段名称
 			Object fdValue = ClassUtils.getPropertieValue(fdName, entity);
-			
-			//只更新不为null的字段
-			if(onlyupdatenotnull&&fdValue==null){//如果只更新不为null的字段,字段值为null 不更新
+
+			// 只更新不为null的字段
+			if (onlyupdatenotnull && fdValue == null) {// 如果只更新不为null的字段,字段值为null
+														// 不更新
 				continue;
 			}
-			
+
 			if (fdName.equals(pkName)) {// 如果是ID
-                   if(fdValue!=null){//id有值
-                	   paramMap.put(fdName, fdValue);
-                   }
-					continue;
+				if (fdValue != null) {// id有值
+					paramMap.put(fdName, fdValue);
+				}
+				continue;
 			}
-			//设置字段
+			// 设置字段
 			paramMap.put(fdName, fdValue);
-           //添加需要更新的字段			
+			// 添加需要更新的字段
 			sql.append(fdName).append("=:").append(fdName).append(",");
 		}
-		
-	
-		String str=sql.toString();
-		if(str.endsWith(",")){
-			str=str.substring(0, str.length()-1);
+
+		String str = sql.toString();
+		if (str.endsWith(",")) {
+			str = str.substring(0, str.length() - 1);
 		}
-		
-		
-/*
-		sql.append(whereSQL);
-		return sql.toString();
-		*/
-		
-		return str+whereSQL;
+
+		/*
+		 * sql.append(whereSQL); return sql.toString();
+		 */
+
+		return str + whereSQL;
 	}
 
 	@Override
 	public Integer update(Object entity) throws Exception {
 		return update(entity, false);
-		
+
 	}
-	
-	
+
 	@Override
-	public Integer update(Object entity,boolean onlyupdatenotnull) throws Exception {
+	public Integer update(Object entity, boolean onlyupdatenotnull) throws Exception {
 		Class clazz = entity.getClass();
 		// entity的信息
 		EntityInfo entityInfo = ClassUtils.getEntityInfoByEntity(entity);
 		// 获取 分表的扩展
 		String tableExt = entityInfo.getTableExt();
 		Map paramMap = new HashMap();
-		String sql = warpupdatesql(entity, paramMap,onlyupdatenotnull);
+		String sql = warpupdatesql(entity, paramMap, onlyupdatenotnull);
 		Object id = ClassUtils.getPKValue(entity);
 		// 打印sql
 		logInfoSql(sql.toString());
@@ -823,12 +832,14 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		auditLog.setExt(audit_tableExt);
 		// 保存日志
 		saveNoLog(auditLog);
+
+		// 更新到索引文件
+		LuceneTask luceneTask = new LuceneTask(entity, LuceneTask.saveDocument);
+		ThreadPoolManager.addThread(luceneTask);
+
 		return hang;
 
 	}
-	
-	
-	
 
 	@Override
 	public <T> T findByID(Object id, Class<T> clazz) throws Exception {
@@ -854,10 +865,9 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 	@Override
 	public Object saveorupdate(Object entity) throws Exception {
 		Object o = ClassUtils.getPKValue(entity);
-		if (o == null){
+		if (o == null) {
 			return save(entity);
-		}
-		else{
+		} else {
 			return update(entity);
 		}
 
@@ -879,7 +889,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 
 		if (auditLog != null) {
 			findEntityByID = findByID(id, clazz);
-			if(findEntityByID==null){//数据库不存在记录,直接返回
+			if (findEntityByID == null) {// 数据库不存在记录,直接返回
 				return;
 			}
 		}
@@ -912,6 +922,10 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		// 保存日志
 		saveNoLog(auditLog);
 
+		// 更新到索引文件
+		LuceneTask luceneTask = new LuceneTask(id, clazz);
+		ThreadPoolManager.addThread(luceneTask);
+
 	}
 
 	@Override
@@ -925,7 +939,9 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		Finder finder = new Finder(sql);
 		finder.setParam("ids", ids);
 		update(finder);
-
+		// 更新到索引文件
+		LuceneTask luceneTask = new LuceneTask(ids, clazz);
+		ThreadPoolManager.addThread(luceneTask);
 	}
 
 	@Override
@@ -1055,8 +1071,8 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 	 * @return
 	 * @throws Exception
 	 */
-	public Object executeCallBack(CallableStatementCreator callableStatementCreator,
-			List<SqlParameter> parameter) throws Exception {
+	public Object executeCallBack(CallableStatementCreator callableStatementCreator, List<SqlParameter> parameter)
+			throws Exception {
 		return getWriteJdbc().getJdbcOperations().call(callableStatementCreator, parameter);
 
 	}
