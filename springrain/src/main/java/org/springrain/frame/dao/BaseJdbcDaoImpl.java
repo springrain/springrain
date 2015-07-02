@@ -30,7 +30,6 @@ import org.springrain.frame.util.ClassUtils;
 import org.springrain.frame.util.EntityInfo;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
-import org.springrain.frame.util.LuceneUtils;
 import org.springrain.frame.util.Page;
 import org.springrain.frame.util.RegexValidateUtils;
 import org.springrain.frame.util.SecUtils;
@@ -698,7 +697,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		}
 
 		// 更新到索引文件
-		LuceneTask luceneTask = new LuceneTask(list, LuceneTask.saveDocument);
+		LuceneTask luceneTask = new LuceneTask(list, LuceneTask.updateDocument);
 		ThreadPoolManager.addThread(luceneTask);
 
 		return updateList;
@@ -808,6 +807,14 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		}
 		// 更新entity
 		Integer hang = getWriteJdbc().update(sql.toString(), paramMap);
+		
+		// 更新到索引文件
+		LuceneTask luceneTask = new LuceneTask(entity, LuceneTask.updateDocument);
+		ThreadPoolManager.addThread(luceneTask);
+
+		
+		
+		
 		if (auditLog == null) {
 			return hang;
 		}
@@ -833,10 +840,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		// 保存日志
 		saveNoLog(auditLog);
 
-		// 更新到索引文件
-		LuceneTask luceneTask = new LuceneTask(entity, LuceneTask.saveDocument);
-		ThreadPoolManager.addThread(luceneTask);
-
+	
 		return hang;
 
 	}

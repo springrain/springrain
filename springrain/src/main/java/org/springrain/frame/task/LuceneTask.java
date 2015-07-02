@@ -26,6 +26,7 @@ public class LuceneTask implements Runnable {
 	public LuceneTask(Object id, Class clazz) {
 		this.entity = id;
 		this.clazz = clazz;
+		this.oper="delete";
 	}
 	
 
