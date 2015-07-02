@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.lucene.analysis.Analyzer;
@@ -15,13 +16,14 @@ import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.springrain.frame.entity.BaseEntity;
+import org.apache.shiro.util.CollectionUtils;
 
 /**
  * lucene 工具类
@@ -37,8 +39,38 @@ public class LuceneUtils {
 
 	// 根索引路径
 	public static final String rootdir = "lucene/index";
-
-	public static List searchByEntity(Class clazz, Page page, String field, String searchkeyword) throws Exception {
+	/**
+	 * 根据
+	 * @param clazz
+	 * @param page
+	 * @param searchkeyword
+	 * @return
+	 * @throws Exception
+	 */
+	public static List search(Class clazz, Page page, String searchkeyword) throws Exception {
+		List<String> luceneFields = ClassUtils.getLuceneFields(clazz);
+		if(CollectionUtils.isEmpty(luceneFields)){
+			return null;
+		}
+		String[] fields = (String[])luceneFields.toArray(new String[luceneFields.size()]);
+		return search(clazz, page,fields, searchkeyword);
+		
+	}
+/**
+ * 
+ * @param clazz
+ * @param page
+ * @param fields
+ * @param searchkeyword
+ * @return
+ * @throws Exception
+ */
+	public static <T> List<T> search(Class<T> clazz, Page page, String[] fields ,String searchkeyword) throws Exception {
+		
+		if(fields==null||fields.length<1){
+			return null;
+		}
+		
 
 		// 获取索引目录文件
 		Directory directory = getDirectory(clazz);
@@ -51,36 +83,37 @@ public class LuceneUtils {
 		// 获取索引的查询器
 		IndexSearcher indexSearcher = new IndexSearcher(indexReader);
 		// 查询指定字段的转换器
-		QueryParser parser = new QueryParser(field, analyzer);
+	//	QueryParser parser = new QueryParser(field, analyzer);
+		QueryParser parser = new MultiFieldQueryParser(fields, analyzer);
 		// 需要查询的关键字
 		Query query = parser.parse(searchkeyword);
+		
 		// 查询出的结果文档
-		ScoreDoc[] hits = indexSearcher.search(query, page.getPageSize()).scoreDocs;
-
+	    int _size=20;
+		if(page!=null&&page.getPageSize()>0){
+			_size=page.getPageSize();
+		}
+		// 查询出的结果文档
+		ScoreDoc[] hits = indexSearcher.search(query, _size).scoreDocs;
+		
+		if(hits==null||hits.length<1){
+			return null;
+		}
+		
+		List <T> list=new ArrayList<T>(hits.length);
 		for (int i = 0; i < hits.length; i++) {
 			Document hitDoc = indexSearcher.doc(hits[i].doc);
-			System.out.println(hitDoc.get(field));
+			T t=clazz.newInstance();
+			for(String fieldName:fields){
+				String fieldValue = hitDoc.get(fieldName);
+				ClassUtils.setPropertieValue(fieldName,t, fieldValue);
+			}
+			list.add(t);
 		}
-
-		/*
-		 * Sort sort=new Sort(new SortField("id",Type.STRING));
-		 * TopFieldCollector c = TopFieldCollector.create(sort, 20, false,
-		 * false, false); searcher.search(query, c); ScoreDoc[] hits =
-		 * c.topDocs(1, 21).scoreDocs; if (hits == null || hits.length < 1){
-		 * return null; }
-		 * 
-		 * for(ScoreDoc doc:hits){//获取查找的文档的属性数据 int docID=doc.doc; Document
-		 * document =searcher.doc(docID); String
-		 * str="ID:"+document.get("id")+",姓名："+document.get("name")+"，性别："+
-		 * document.get("sex"); System.out.println("人员信息:"+str); }
-		 */
-
 		indexReader.close();
-
 		directory.close();
-
-		return null;
-
+		
+		return list;
 	}
 
 	/**
@@ -89,7 +122,13 @@ public class LuceneUtils {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String saveDocumentByEntity(BaseEntity entity) throws Exception {
+	public static String saveDocument(Object entity) throws Exception {
+		//获取索引的字段,为null则不进行保存
+		List<String> luceneFields = ClassUtils.getLuceneFields(entity.getClass());
+		if(CollectionUtils.isEmpty(luceneFields)){
+			return "error";
+		}
+		
 		// 索引写入配置
 	   IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
 		// 获取索引目录文件
@@ -99,9 +138,11 @@ public class LuceneUtils {
 		}
 		IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);
 		Document doc = new Document();
-		String key = ClassUtils.getEntityInfoByClass(entity.getClass()).getPkName();
-		String _value = ClassUtils.getPKValue(entity).toString();
-		doc.add(new Field(key, _value, TextField.TYPE_STORED));
+		
+		for(String fieldName:luceneFields){
+			String _value = ClassUtils.getPropertieValue(fieldName, entity).toString();
+			doc.add(new Field(fieldName, _value, TextField.TYPE_STORED));
+		}
 		indexWriter.addDocument(doc);
 		indexWriter.close();
 		directory.close();

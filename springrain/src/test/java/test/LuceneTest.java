@@ -1,5 +1,8 @@
 package test;
 
+import java.util.List;
+
+import org.apache.shiro.util.CollectionUtils;
 import org.junit.Test;
 import org.springrain.frame.util.LuceneUtils;
 import org.springrain.frame.util.Page;
@@ -9,18 +12,25 @@ public class LuceneTest {
 
 	//@Test
 	public void  testSave() throws Exception{
-		for (int i = 0; i < 500; i++) {
+		for (int i = 0; i < 50; i++) {
 			User u=new User();
-			u.setId(i+"我是中国人，我会说中文"+i);
-			LuceneUtils.saveDocumentByEntity(u);
+			u.setId("主键"+i);
+			u.setName(i+"我是中国人，我会说中文"+i);
+			LuceneUtils.saveDocument(u);
 		}
 	
 	}
 	@Test
 	public void testSearch() throws Exception{
 		Page page=new Page(1);
-		page.setPageSize(500);
-		LuceneUtils.searchByEntity(User.class, page, "id", "000我123，文，44");
+		page.setPageSize(50);
+		List<User> list = LuceneUtils.search(User.class, page, "主键 放的地方官方的发给");
+		if(CollectionUtils.isEmpty(list)){
+			return;
+		}
+		for (User u:list) {
+			System.out.println(u.getId()+"----"+u.getName());
+		}
 	}
 	
 	

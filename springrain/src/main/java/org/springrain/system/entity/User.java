@@ -9,6 +9,8 @@ import javax.persistence.Transient;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.springrain.frame.annotation.LuceneField;
+import org.springrain.frame.annotation.LuceneSearch;
 import org.springrain.frame.annotation.WhereSQL;
 import org.springrain.frame.entity.BaseEntity;
 /**
@@ -19,6 +21,7 @@ import org.springrain.frame.entity.BaseEntity;
  * @see org.springrain.system.entity.User
  */
 @Table(name="t_user")
+@LuceneSearch
 public class User  extends BaseEntity {
 	
 	private static final long serialVersionUID = 1L;
@@ -167,6 +170,7 @@ public class User  extends BaseEntity {
 		
 		@Id
 	     @WhereSQL(sql="id=:User_id")
+		@LuceneField
 		public java.lang.String getId() {
 			return this.id;
 		}
@@ -178,6 +182,7 @@ public class User  extends BaseEntity {
 		}
 		
 	     @WhereSQL(sql="name=:User_name")
+	     @LuceneField
 		public java.lang.String getName() {
 			return this.name;
 		}

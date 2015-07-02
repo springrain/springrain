@@ -20,6 +20,8 @@ import javax.persistence.Transient;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springrain.frame.annotation.LuceneField;
+import org.springrain.frame.annotation.LuceneSearch;
 import org.springrain.frame.annotation.NotLog;
 import org.springrain.frame.annotation.PKSequence;
 import org.springrain.frame.annotation.TableGroup;
@@ -46,6 +48,9 @@ public class ClassUtils {
 	public static Map<String, Set<String>> allFieldmap=new  ConcurrentHashMap<String, Set<String>>();
 	//缓存 所有的数据库字段
 	public static Map<String, List<String>> allDBFieldmap=new  ConcurrentHashMap<String, List<String>>();
+	
+	//缓存 所有的参与Lucene的字段
+	public static Map<String,List<String>> allLucenemap=new  ConcurrentHashMap<String, List<String>>();
 	
 
 	
@@ -243,6 +248,47 @@ public class ClassUtils {
 	 allDBFieldmap.put(className, dbList);
 		return dbList;
 	}
+	
+	
+	/**
+	 * 获取所有标注的lucene标注的字段,LuceneSearch标注为实体类使用了Lucene,LuceneField为字段进行了索引
+	 * @param clazz
+	 * @return
+	 * @throws Exception
+	 */
+	public static List<String> getLuceneFields(Class clazz) throws Exception{
+		
+		if(clazz==null){
+			return null;
+		}
+		//检测
+		 if(!clazz.isAnnotationPresent(LuceneSearch.class)){
+		   		return null;
+		}
+		String className=clazz.getName();
+		boolean iskey=allLucenemap.containsKey(className);
+		if(iskey){
+			return allLucenemap.get(className);
+		}
+		
+		Set<String> allNames = getAllFieldNames(clazz);
+     if(CollectionUtils.isEmpty(allNames))
+    	 return null;
+    
+     List<String>   luceneList=new ArrayList<String>();
+	 for(String fdName:allNames){
+		boolean isLuceneField= isAnnotation(clazz,fdName,LuceneField.class);
+		if(isLuceneField){
+			luceneList.add(fdName);
+		}
+	 }
+	    allDBFieldmap.put(className, luceneList);
+		return luceneList;
+	}
+	
+	
+	
+	
 	
 	
 	
