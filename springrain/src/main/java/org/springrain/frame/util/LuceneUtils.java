@@ -37,11 +37,12 @@ public class LuceneUtils {
 	// 分词器
 	public static Analyzer analyzer = new SmartChineseAnalyzer();
 
-
 	// 根索引路径
 	public static final String rootdir = "lucene/index";
+
 	/**
 	 * 根据实体类查询结果
+	 * 
 	 * @param clazz
 	 * @param page
 	 * @param searchkeyword
@@ -50,45 +51,45 @@ public class LuceneUtils {
 	 */
 	public static List search(Class clazz, Page page, String searchkeyword) throws Exception {
 		List<String> luceneFields = ClassUtils.getLuceneFields(clazz);
-		if(CollectionUtils.isEmpty(luceneFields)){
+		if (CollectionUtils.isEmpty(luceneFields)) {
 			return null;
 		}
-		String[] fields = (String[])luceneFields.toArray(new String[luceneFields.size()]);
-		return search(clazz, page,fields, searchkeyword);
+		String[] fields = (String[]) luceneFields.toArray(new String[luceneFields.size()]);
+		return search(clazz, page, fields, searchkeyword);
 	}
-	
+
 	/**
 	 * 根据某个字段类查询结果
+	 * 
 	 * @param clazz
 	 * @param page
 	 * @param searchkeyword
 	 * @return
 	 * @throws Exception
 	 */
-	public static List search(Class clazz, Page page,String field, String searchkeyword) throws Exception {
-		if(StringUtils.isBlank(field)){
+	public static List search(Class clazz, Page page, String field, String searchkeyword) throws Exception {
+		if (StringUtils.isBlank(field)) {
 			return null;
 		}
-		String[] fields = new String[]{field};
-		return search(clazz, page,fields, searchkeyword);
+		String[] fields = new String[] { field };
+		return search(clazz, page, fields, searchkeyword);
 	}
-	
-	
-/**
- * 
- * @param clazz
- * @param page
- * @param fields
- * @param searchkeyword
- * @return
- * @throws Exception
- */
-	public static <T> List<T> search(Class<T> clazz, Page page, String[] fields ,String searchkeyword) throws Exception {
-		
-		if(fields==null||fields.length<1){
+
+	/**
+	 * 
+	 * @param clazz
+	 * @param page
+	 * @param fields
+	 * @param searchkeyword
+	 * @return
+	 * @throws Exception
+	 */
+	public static <T> List<T> search(Class<T> clazz, Page page, String[] fields, String searchkeyword)
+			throws Exception {
+
+		if (fields == null || fields.length < 1) {
 			return null;
 		}
-		
 
 		// 获取索引目录文件
 		Directory directory = getDirectory(clazz);
@@ -101,54 +102,55 @@ public class LuceneUtils {
 		// 获取索引的查询器
 		IndexSearcher indexSearcher = new IndexSearcher(indexReader);
 		// 查询指定字段的转换器
-	//	QueryParser parser = new QueryParser(field, analyzer);
+		// QueryParser parser = new QueryParser(field, analyzer);
 		QueryParser parser = new MultiFieldQueryParser(fields, analyzer);
 		// 需要查询的关键字
 		Query query = parser.parse(searchkeyword);
-		
+
 		// 查询出的结果文档
-	    int _size=20;
-		if(page!=null&&page.getPageSize()>0){
-			_size=page.getPageSize();
+		int _size = 20;
+		if (page != null && page.getPageSize() > 0) {
+			_size = page.getPageSize();
 		}
 		// 查询出的结果文档
 		ScoreDoc[] hits = indexSearcher.search(query, _size).scoreDocs;
-		
-		if(hits==null||hits.length<1){
+
+		if (hits == null || hits.length < 1) {
 			return null;
 		}
-		
-		List <T> list=new ArrayList<T>(hits.length);
+
+		List<T> list = new ArrayList<T>(hits.length);
 		for (int i = 0; i < hits.length; i++) {
 			Document hitDoc = indexSearcher.doc(hits[i].doc);
-			T t=clazz.newInstance();
-			for(String fieldName:fields){
+			T t = clazz.newInstance();
+			for (String fieldName : fields) {
 				String fieldValue = hitDoc.get(fieldName);
-				ClassUtils.setPropertieValue(fieldName,t, fieldValue);
+				ClassUtils.setPropertieValue(fieldName, t, fieldValue);
 			}
 			list.add(t);
 		}
 		indexReader.close();
 		directory.close();
-		
+
 		return list;
 	}
 
 	/**
 	 * 根据实体类保存到索引,使用 LuceneSearch和LuceneField
+	 * 
 	 * @param entity
 	 * @return
 	 * @throws Exception
 	 */
 	public static String saveDocument(Object entity) throws Exception {
-		//获取索引的字段,为null则不进行保存
+		// 获取索引的字段,为null则不进行保存
 		List<String> luceneFields = ClassUtils.getLuceneFields(entity.getClass());
-		if(CollectionUtils.isEmpty(luceneFields)){
+		if (CollectionUtils.isEmpty(luceneFields)) {
 			return "error";
 		}
-		
+
 		// 索引写入配置
-	   IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
+		IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
 		// 获取索引目录文件
 		Directory directory = getDirectory(entity.getClass());
 		if (directory == null) {
@@ -156,12 +158,54 @@ public class LuceneUtils {
 		}
 		IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);
 		Document doc = new Document();
-		
-		for(String fieldName:luceneFields){
+
+		for (String fieldName : luceneFields) {
 			String _value = ClassUtils.getPropertieValue(fieldName, entity).toString();
 			doc.add(new Field(fieldName, _value, TextField.TYPE_STORED));
 		}
 		indexWriter.addDocument(doc);
+		indexWriter.close();
+		directory.close();
+
+		return null;
+	}
+
+	/**
+	 * 根据实体类批量保存到索引,使用 LuceneSearch和LuceneField
+	 * 
+	 * @param entity
+	 * @return
+	 * @throws Exception
+	 */
+	public static <T> String saveDocument(List<T> list) throws Exception {
+		if (CollectionUtils.isEmpty(list)) {
+			return "error";
+		}
+
+		T t = list.get(0);
+		// 获取索引的字段,为null则不进行保存
+		List<String> luceneFields = ClassUtils.getLuceneFields(t.getClass());
+		if (CollectionUtils.isEmpty(luceneFields)) {
+			return "error";
+		}
+
+		// 索引写入配置
+		IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
+		// 获取索引目录文件
+		Directory directory = getDirectory(t.getClass());
+		if (directory == null) {
+			return null;
+		}
+		IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);
+		for (T t1 : list) {
+			Document doc = new Document();
+			for (String fieldName : luceneFields) {
+				String _value = ClassUtils.getPropertieValue(fieldName, t1).toString();
+				doc.add(new Field(fieldName, _value, TextField.TYPE_STORED));
+			}
+			indexWriter.addDocument(doc);
+		}
+		indexWriter.commit();
 		indexWriter.close();
 		directory.close();
 

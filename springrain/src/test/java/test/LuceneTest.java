@@ -1,5 +1,6 @@
 package test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.shiro.util.CollectionUtils;
@@ -20,11 +21,27 @@ public class LuceneTest {
 		}
 	
 	}
+	
+	
+	@Test
+	public void  testSaveList() throws Exception{
+		List<User> list=new ArrayList<User>();
+		for (int i = 0; i < 50; i++) {
+			User u=new User();
+			u.setId(i+"起来"+i);
+			u.setName(i+"不愿做奴隶的人们"+i);
+			list.add(u);
+		}
+		LuceneUtils.saveDocument(list);
+	}
+	
+	
+	
 	@Test
 	public void testSearch() throws Exception{
 		Page page=new Page(1);
 		page.setPageSize(50);
-		List<User> list = LuceneUtils.search(User.class, page, "主键 放的地方官方的发给");
+		List<User> list = LuceneUtils.search(User.class, page, "起来");
 		if(CollectionUtils.isEmpty(list)){
 			return;
 		}
