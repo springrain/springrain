@@ -135,7 +135,7 @@ public class LuceneUtils {
 	}
 
 	/**
-	 * 测试 保存 主键
+	 * 根据实体类保存到索引,使用 LuceneSearch和LuceneField
 	 * @param entity
 	 * @return
 	 * @throws Exception
