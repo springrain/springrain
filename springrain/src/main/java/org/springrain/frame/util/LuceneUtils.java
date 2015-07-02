@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.cn.smart.SmartChineseAnalyzer;
 import org.apache.lucene.document.Document;
@@ -40,7 +41,7 @@ public class LuceneUtils {
 	// 根索引路径
 	public static final String rootdir = "lucene/index";
 	/**
-	 * 根据
+	 * 根据实体类查询结果
 	 * @param clazz
 	 * @param page
 	 * @param searchkeyword
@@ -54,8 +55,25 @@ public class LuceneUtils {
 		}
 		String[] fields = (String[])luceneFields.toArray(new String[luceneFields.size()]);
 		return search(clazz, page,fields, searchkeyword);
-		
 	}
+	
+	/**
+	 * 根据某个字段类查询结果
+	 * @param clazz
+	 * @param page
+	 * @param searchkeyword
+	 * @return
+	 * @throws Exception
+	 */
+	public static List search(Class clazz, Page page,String field, String searchkeyword) throws Exception {
+		if(StringUtils.isBlank(field)){
+			return null;
+		}
+		String[] fields = new String[]{field};
+		return search(clazz, page,fields, searchkeyword);
+	}
+	
+	
 /**
  * 
  * @param clazz
