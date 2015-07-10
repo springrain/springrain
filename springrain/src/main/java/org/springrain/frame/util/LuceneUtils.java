@@ -114,6 +114,13 @@ public class LuceneUtils {
 		if (page != null && page.getPageSize() > 0) {
 			_size = page.getPageSize();
 		}
+		
+		//总条数
+     	int totalCount=indexSearcher.count(query);
+		page.setTotalCount(totalCount);
+		
+		
+		
 		//先获取上一页的最后一个元素
         ScoreDoc lastscoreDoc = getLastScoreDoc(page.getPageIndex(), _size, query, indexSearcher);
       //通过最后一个元素搜索下页的pageSize个元素
@@ -236,8 +243,14 @@ public class LuceneUtils {
 			return null;
 		}
 		IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);
-		Term term = new Term(pkName, id.toString());
-		indexWriter.deleteDocuments(term);
+		
+		//Term term = new Term(pkName, id.toString());
+		
+		QueryParser parser = new QueryParser(pkName, analyzer);
+		// 需要查询的关键字
+		Query query = parser.parse(id.toString());
+		indexWriter.deleteDocuments(query);
+		//indexWriter.deleteDocuments(term);
 		indexWriter.commit();
 		indexWriter.close(); // 记得关闭,否则删除不会被同步到索引文件中
 		directory.close(); // 关闭目录
