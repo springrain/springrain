@@ -119,6 +119,11 @@ public class LuceneUtils {
      	int totalCount=indexSearcher.count(query);
 		page.setTotalCount(totalCount);
 		
+		int _max=page.getPageIndex()*(page.getPageIndex()-1);
+		if(_max-totalCount>=0){
+			return null;
+		}
+		
 		
 		
 		//先获取上一页的最后一个元素
