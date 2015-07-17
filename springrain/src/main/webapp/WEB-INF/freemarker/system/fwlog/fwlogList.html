@@ -1,117 +1,131 @@
-
-
 <#escape x as x?html>
 
-<script type="text/javascript">
-<!--
-jQuery(document).ready(function(){
-	$(".sub_left_menu tbody tr").click(function() {
-		$(".sub_left_menu tbody tr.active").removeClass("active");
-		$(this).attr("class", "active");
-		var _url=ctx + "/system/fwlog/look/json?id="+ $(this).attr("id");
+
+
+
+
+
 	
-		jQuery.ajax({
-			url : _url,
-			type : "post",
-			dataType : "json",
-			success : function(_json) {
-				if(_json.status=="success"){
-					showdata(_json);
-				}
-			}
-		});
-		return false;
-	})
-});
 
-function showdata(result) {
-	$("#updateForm select ").each(function() {
-		$(this).find('option:first').attr('selected', 'selected');
-	});
-	for (var s in result.data) {
-		set_val(s, result.data[s]);
-	}
-}
+<!-- /.page-header -->
 
-//-->
-</script>
-
-
-<form class="form-horizontal" method="post"  action="${ctx}/system/fwlog/list"  name="searchForm" id="searchForm">
-<input type="hidden" name="pageIndex" id="pageIndex" value="${(returnDatas.page.pageIndex)!'1'}" />
-<input type="hidden" name="sort" id="page_sort" value="${(returnDatas.page.sort)!'desc'}"  />
-<input type="hidden" name="order" id="page_order" value="${(returnDatas.page.order)!'id'}"  />
-</form>
-
-<!-- 功能操作区域结束 -->
-<!-- 列表显示区域  -->
 <div class="row">
-	<div class="col-sm-4 sub_left_menu ">
-		<table class="table table-bordered">
-			<thead>
-				<tr>
-					<th>用户</th>
-					<th>时间</th>
-				</tr>
-			</thead>
-			<tbody>
+    <div class="col-xs-12">
+<div class="operate panel panel-default" style="height:65px;">
+	<div class="panel-body">
+		<div class="pull-left">
+ <form class="form-horizontal" name="searchForm" id="searchForm" action="${ctx}/system/fwlog/list" role="form">
+            <input type="hidden" name="pageIndex" id="pageIndex" value="${(returnDatas.page.pageIndex)!'1'}"/>
+            <input type="hidden" name="sort" id="page_sort" value="${(returnDatas.page.sort)!'desc'}"/>
+            <input type="hidden" name="order" id="page_order" value="${(returnDatas.page.order)!'createTime'}"/>
+	      <div class="form-group">
+				<label class="control-label"  for="search_title" >标题</label>
+				<input name="title"  id="search_title" value="${(returnDatas.queryBean.title)!''}"  type="text" />
+				
 			
-			   <#if (returnDatas.data??)&&(returnDatas.data?size>0)>
-					   <#list returnDatas.data as _data>
-							<tr id="${(_data.id)!''}">
-								<td>${(_data.userCode)!''}</td>
-								<td>${(_data.strDate)!''}</td>
-							</tr>
-                         </#list>
+				<a  href="javascript:mySubmitForm('searchForm');"
+				class="btn_new_common btn_new_search btn_new_ico">
+					查询  
+				</a>
+			</div>
+	
+
+</form>
+		</div>
+		<div class="pull-right">
+
+		
+				  <button class="btn_new_common btn_new_add btn_new_ico">
+                        添加
+                    </button>
+                    <button  class="btn_new_common btn_new_edit btn_new_ico">
+                        修改
+                    </button>
+                    <button  class="btn_new_common btn_new_delete btn_new_ico">
+                        删除
+                    </button>
+                    <button  class="btn_new_common btn_new_chart btn_new_ico">
+                        统计
+                    </button>
+			
+			
+			
+		</div>
+	</div>
+</div>
+
+   <div class="row">
+            <div class="col-xs-12">
+	            <!--start_export-->
+                <table c class="table table-striped table-bordered table-hover">
+                    <!--end_no_export-->
+                    <!--first_start_export-->
+                    <thead>
+                    <tr>
+                        <!--first_start_no_export-->
+                        <th>操作</th>
+                        <!--first_end_no_export-->
+						<th id="th_userCode" >用户</th>
+						<th id="th_userName" >中文名</th>
+						<th id="th_strDate" >时间</th>
+					
+						<th id="th_menuName" >菜单名称</th>
+						<th id="th_fwUrl" >访问URL</th>
+					  
+                    </tr>
+                    </thead>
+                    <!--first_end_export-->
+
+                    <!--start_export-->
+                    <tbody>
+           
+				   <#if (returnDatas.data??)&&(returnDatas.data?size>0)>
+					 <#list returnDatas.data as _data>
+                            <!--start_no_export-->
+                            <tr class="">
+                                <td>
+                                    <div class="hidden-sm hidden-xs btn-group">
+                                        <button class="btn_new_text">
+                                           	编辑
+                                        </button>
+                                        <button class="btn_new_text">
+                                            	删除
+                                        </button>
+                                    </div>
+                                  
+                                </td>
+                                <!--end_no_export-->
+
+							<td >
+								${(_data.userCode)!''}
+							</td>
+							<td >
+								${(_data.userName)!''}
+							</td>
+							<td >
+								<!--日期型-->
+							${(_data.strDate)!''}
+							</td>
+						
+							<td >
+								${(_data.menuName)!""}
+							</td>
+							<td >
+								${(_data.fwUrl)!''}
+							</td>
+						</tr>
+					</#list>
 					 </#if>
-			</tbody>
-		</table>
-	</div>
-	<div class="col-sm-8 last sub_content">
-		<form id="updateForm" name="updateForm"     method="post" class="well form-horizontal clearfix">
-			<input type="hidden" name="id" id="id">
-			<div class="form-group col-xs-12">
-				<label class="col-sm-4 control-label" for="name">用户：</label>
-				<div class="col-sm-8">
-					<input class="form-control"  type="text" id="userCode" name="userCode">
-				</div>
-			</div>
-			
-			<div class="form-group col-xs-12">
-				<label class="col-sm-4 control-label" for="name">中文名：</label>
-				<div class="col-sm-8">
-					<input class="form-control"  type="text" id="userName" name="userName">
-				</div>
-			</div>
-			
-			<div class="form-group col-xs-12">
-				<label class="col-sm-4 control-label" for="name">IP：</label>
-				<div class="col-sm-8">
-					<input class="form-control"  type="text" id="ip" name="ip">
-				</div>
-			</div>
-			
-			<div class="form-group col-xs-12">
-				<label class="col-sm-4 control-label" for="name">时间：</label>
-				<div class="col-sm-8">
-					<input class="form-control"  type="text" id="strDate" name="strDate">
-				</div>
-			</div>
-			
-			<div class="form-group col-xs-12">
-				<label class="col-sm-4 control-label" for="name">菜单名称：</label>
-				<div class="col-sm-8">
-					<input class="form-control"  type="text" id="menuName" name="menuName">
-				</div>
-			</div>
-			<div class="form-group col-xs-12">
-				<label class="col-sm-4 control-label" for="name">访问URL：</label>
-				<div class="col-sm-8">
-					<input class="form-control"  type="text" id="fwUrl" name="fwUrl">
-				</div>
-			</div>
-		</form>
-	</div>
-		<#if returnDatas.page??> <@h.pagetoolbar page=returnDatas.page formId='searchForm' /> </#if>
-</div>	
+                    </tbody>
+                </table>
+                <!--end_export-->
+            </div>
+            <!-- /.span -->
+        </div>
+        <#if returnDatas.page??>	
+            <@h.pagetoolbar page=returnDatas.page formId='searchForm' />
+         </#if>
+    </div>
+</div>
+<!-- /.main-container -->
 </#escape>

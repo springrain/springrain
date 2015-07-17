@@ -1,5 +1,5 @@
 function myhref(_url) {
-	mySubmitForm("springrain_sco_ajax_form", _url);
+	mySubmitForm("centfor_sco_ajax_form", _url);
 }
 
 /**
@@ -63,12 +63,10 @@ function myexport(formId, _url) {
 }
 //提交FORM
 function mySubmitForm(formId, _url) {
-	
 	var _type=jQuery('#' + formId).attr("method");
 	if(!_type){
 		_type="POST";
 	}
-	
 	
 	if (_url) {
 		if (_url.indexOf("?") > 0)
@@ -86,6 +84,9 @@ function mySubmitForm(formId, _url) {
 			target : '#ajax_target'
 		});
 	}
+	//去掉select2的
+	jQuery("[role='status']").html('');
+	jQuery(".select2-drop").remove();
 }
 
 
@@ -219,6 +220,16 @@ function set_val(name, val) {
 		}
 	}
 	if (($("#" + name).attr("type")) === "text") {
+		if(typeof val==="number"&&val.length>11){
+			try{
+				val=getSmpFormatDateByLong(val);
+				$("#" + name).val(val);
+				return;
+			}catch(e){
+				$("#" + name).val(val);
+				return;
+			}
+		}
 		$("#" + name).val(val);
 		return;
 	}
@@ -231,3 +242,21 @@ function set_val(name, val) {
 		return;
 	}
 }
+/*20140902 */
+function myvalidate(_fromName){
+	return $("#"+_fromName+"").Validform({
+		btnSubmit:null,
+		tiptype:3,
+		label:".label",
+		showAllError:true,
+		datatype:{
+			"zh1-6":/^[\u4E00-\u9FA5\uf900-\ufa2d]{1,6}$/,
+			"my-age": /^\d{0,8}\.{0,1}(\d{1,1})?$/,
+			"my-phone":/^([0-9]|[\-])+$/,
+			"my-num":/^([1-9]\d*|0)(\.\d{1,2})?$/
+			
+		},
+		ajaxPost:true
+	  });
+}
+

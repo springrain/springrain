@@ -9,8 +9,12 @@ function mynavhref(_url,_id,_name){
 	_li.addClass("active");
 	myhref(_url);
 
-	jQuery("#johnNav").html('当前位置<i class="ace-icon fa fa-angle-double-right"></i> '+_name);
-	
+	jQuery("#johnNav").html('<font style="font-weight:bold;">当前位置：</font>&nbsp;&nbsp;首页&nbsp;&nbsp;>&nbsp;&nbsp;'+_name);
+	//去掉select2的
+	 
+	jQuery("[role='status']").html('');
+	 
+	jQuery(".select2-drop").remove();
 }
 
 
@@ -63,8 +67,11 @@ function getParentModule(json) {
 	}
 
 	
-	
-	t=t+'<i class="menu-icon fa fa-list"></i><span class="menu-text">'+ json["name"]+'</span>';
+	var _icon=json["icon"];
+	if(_icon==null||_icon==""||_icon.length==0){
+		_icon="icon_default";
+	}
+	t=t+'<span class="'+_icon+' ace_ext_slide_icon"></span><span class="menu-text">'+ json["name"]+'</span>';
 
 	if(_leaf&&_leaf.length>0){
 	t=t+'<b class="arrow fa fa-angle-down"></b></a><b class="arrow"></b>';
