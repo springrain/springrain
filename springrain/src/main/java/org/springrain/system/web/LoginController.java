@@ -61,9 +61,16 @@ public class LoginController extends BaseController  {
 				return "/index";
 			
 		}
-		
+		/**
+		 * 渲染登录/login的界面展示,如果已经登录,跳转到首页,如果没有登录,就渲染login.html
+		 * @param model
+		 * @param request
+		 * @return
+		 * @throws Exception
+		 */
 		@RequestMapping(value = "/login",method=RequestMethod.GET)
 		public String login(Model model,HttpServletRequest request) throws Exception {
+			//判断用户是否登录
 			if(SecurityUtils.getSubject().isAuthenticated()){
 				return redirect+"/index";
 			}
@@ -71,22 +78,36 @@ public class LoginController extends BaseController  {
 			model.addAttribute("message", "");
 			return "/login";
 		}
+		
+		/**
+		 * 处理登录提交的方法
+		 * @param currUser 自动封装当前登录人的 账号,密码,验证码
+		 * @param session
+		 * @param model
+		 * @param request
+		 * @return
+		 * @throws Exception
+		 */
+		
 		@RequestMapping(value = "/login",method=RequestMethod.POST)
 		public String loginPost(User currUser,HttpSession session,Model model,HttpServletRequest request) throws Exception {
 			Subject user = SecurityUtils.getSubject();
+			//系统产生的验证码
 			  String code = (String) session.getAttribute(GlobalStatic.DEFAULT_CAPTCHA_PARAM);
 			  if(StringUtils.isNotBlank(code)){
 				  code=code.toLowerCase().toString();
 			  }
+			  //用户产生的验证码
 			String submitCode = WebUtils.getCleanParam(request, GlobalStatic.DEFAULT_CAPTCHA_PARAM);
 			  if(StringUtils.isNotBlank(submitCode)){
 				  submitCode=submitCode.toLowerCase().toString();
 			  }
+			  //如果验证码不匹配,跳转到登录
 			if (StringUtils.isBlank(submitCode) ||StringUtils.isBlank(code)||!code.equals(submitCode)) {
 				model.addAttribute("message", "验证码错误!");
 				return "/login";
 	        }
-			
+			//通过账号和密码获取 UsernamePasswordToken token
 			UsernamePasswordToken token = new UsernamePasswordToken(currUser.getAccount(),currUser.getPassword());
 			
 			String rememberme=request.getParameter("rememberme");
