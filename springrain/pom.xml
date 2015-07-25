@@ -53,6 +53,8 @@
 		<maven-source-plugin.version>2.4</maven-source-plugin.version>
 		<maven-surefire-plugin.version>2.18.1</maven-surefire-plugin.version>
 		
+		<maven-resources-plugin.version>2.7</maven-resources-plugin.version>
+		
 		
 		<lucene.version>5.2.1</lucene.version>
 		
@@ -581,6 +583,16 @@
 						</archive>
 					</configuration>
 				</plugin>
+
+
+	<!-- =================== -->
+				<!-- Java resource plugin -->
+				<!-- =================== -->
+				<plugin>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>${maven-resources-plugin.version}</version>
+				</plugin>
+
 
 
 			</plugins>
