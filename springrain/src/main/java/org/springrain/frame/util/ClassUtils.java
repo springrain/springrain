@@ -282,7 +282,7 @@ public class ClassUtils {
 			luceneList.add(fdName);
 		}
 	 }
-	    allDBFieldmap.put(className, luceneList);
+	     allLucenemap.put(className, luceneList);
 		return luceneList;
 	}
 	
