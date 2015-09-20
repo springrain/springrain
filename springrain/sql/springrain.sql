@@ -358,34 +358,26 @@ INSERT INTO `t_role_menu` VALUES ('fb2021ec726b44709090e5df9dbe2e7a', 'admin', '
 -- ----------------------------
 -- Table structure for t_user
 -- ----------------------------
+
 DROP TABLE IF EXISTS `t_user`;
 CREATE TABLE `t_user` (
   `id` varchar(40) NOT NULL COMMENT '编号',
   `name` varchar(30) DEFAULT NULL COMMENT '姓名',
-  `workno` varchar(40) DEFAULT NULL COMMENT '工号',
   `account` varchar(40) DEFAULT NULL COMMENT '账号',
   `password` varchar(40) DEFAULT NULL COMMENT '密码',
-  `cardno` varchar(40) DEFAULT NULL COMMENT '身份证',
-  `age` int(11) DEFAULT NULL COMMENT '年龄',
   `sex` varchar(2) DEFAULT '男' COMMENT '性别',
-  `phone` varchar(16) DEFAULT NULL COMMENT '电话号码',
   `mobile` varchar(16) DEFAULT NULL COMMENT '手机号码',
   `email` varchar(60) DEFAULT NULL COMMENT '邮箱',
-  `address` varchar(255) DEFAULT NULL COMMENT '地址',
-  `gradeId` varchar(40) DEFAULT NULL COMMENT '级别',
-  `eduName` varchar(40) DEFAULT NULL COMMENT '学历',
-  `fireName` varchar(30) DEFAULT NULL COMMENT '紧急联系人',
-  `firePhone` varchar(30) DEFAULT NULL COMMENT '紧急联系电话',
-  `description` varchar(2000) DEFAULT NULL COMMENT '备注',
   `weixinId` varchar(200) DEFAULT NULL COMMENT '微信Id',
-  `state` varchar(10) DEFAULT '是' COMMENT '是否有效,是/否/离职',
+  `userType` int(11) NOT NULL,
+  `state` varchar(10) DEFAULT '是' COMMENT '是否有效,是/否',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户';
 
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
-INSERT INTO `t_user` VALUES ('admin', 'admin', 'admin', 'admin', '21232f297a57a5a743894a0e4a801fc3', null, null, '男', null, null, null, null, null, null, null, null, null, null, '是');
+INSERT INTO `t_user` VALUES ('admin', 'admin', 'admin', '21232f297a57a5a743894a0e4a801fc3', '男', null, null, null, '0', '是');
 
 -- ----------------------------
 -- Table structure for t_user_org
