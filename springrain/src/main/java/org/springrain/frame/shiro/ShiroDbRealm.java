@@ -9,7 +9,6 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
-import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -19,7 +18,6 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.system.entity.User;
 import org.springrain.system.service.IUserRoleMenuService;
@@ -85,7 +83,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(
 			AuthenticationToken token) throws AuthenticationException {
-		UsernamePasswordToken upToken = (UsernamePasswordToken) token;
+		FrameAuthenticationToken upToken = (FrameAuthenticationToken) token;
 		/*
 		 * String pwd = new String(upToken.getPassword()); if
 		 * (StringUtils.isNotBlank(pwd)) { pwd = DigestUtils.md5Hex(pwd); }
@@ -94,7 +92,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		User user = null;
 		String userName = upToken.getUsername();
 		try {
-			user = userRoleMenuService.findLoginUser(userName, null);
+			user = userRoleMenuService.findLoginUser(userName, null,upToken.getUserType());
 		} catch (Exception e) {
 			logger.error(e.getMessage(),e);
 			throw  new AuthenticationException(e);

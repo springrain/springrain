@@ -20,9 +20,9 @@ public class ShiroUser implements Serializable {
 	 */
 	private java.lang.String name;
 	/**
-	 * 工号
+	 * 用户类型
 	 */
-	private java.lang.String workno;
+	private java.lang.Integer userType;
 	/**
 	 * 账号
 	 */
@@ -46,7 +46,7 @@ public class ShiroUser implements Serializable {
 		this.account = user.getAccount();
 		this.name = user.getName();
 		this.email = user.getEmail();
-		this.workno = user.getWorkno();
+		this.userType = user.getUserType();
 		this.sex=user.getSex();
 	}
 
@@ -101,14 +101,7 @@ public class ShiroUser implements Serializable {
 		this.name = name;
 	}
 
-	public java.lang.String getWorkno() {
-		return workno;
-	}
-
-	public void setWorkno(java.lang.String workno) {
-		this.workno = workno;
-	}
-
+	
 	public java.lang.String getAccount() {
 		return account;
 	}
@@ -131,5 +124,13 @@ public class ShiroUser implements Serializable {
 
 	public void setSex(String sex) {
 		this.sex = sex;
+	}
+
+	public java.lang.Integer getUserType() {
+		return userType;
+	}
+
+	public void setUserType(java.lang.Integer userType) {
+		this.userType = userType;
 	}
 }

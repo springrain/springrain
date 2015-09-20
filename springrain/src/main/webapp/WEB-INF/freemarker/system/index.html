@@ -1,0 +1,77 @@
+<#escape x as x?html>
+<@h.aceplugin />
+<script src="${ctx}/js/coms/common/jquery.form.js"></script>
+<script type="text/javascript" src="${ctx}/js/coms/kindeditor/kindeditor.js"></script>
+<!-- validate -->
+<script type="text/javascript" src="${ctx}/js/coms/validate/Validform_v5.3.2_min.js"></script>
+<link href="${ctx}/js/coms/validate/validate.css" rel="stylesheet" type="text/css">
+<!-- validate -->
+<script type="text/javascript"
+	src="http://api.map.baidu.com/api?v=2.0&ak=AQCmeeQtYHkTcA1nM8kUQHs9"></script>
+<SCRIPT type="text/javascript">
+<!--
+jQuery(document).ready(function(){
+	/*mynavhref('/zzt/system/report/daxue/ycxx','b64c57af798c43659e09a17faaff14a3','异常签收学校排名');*/
+	
+});
+
+KindEditor.ready(function(K) {
+   // window.editor = K.create('#content');
+});
+
+//-->
+</SCRIPT>
+
+
+		<title>数字化校园系统</title>
+		<meta name="description" content="overview &amp; stats" />	
+	</head>
+
+	<body class="no-skin">
+	
+	<form id="centfor_sco_ajax_form"  method="POST"></form>
+	
+	<!--navbar  -->
+<@h.navbar />
+		
+		
+		
+		
+		
+		<div class="main-container" id="main-container">
+		
+			<@h.sidebar />
+
+			<div class="main-content">
+				<!-- #section:basics/content.breadcrumbs -->
+			
+				<div class="breadcrumbs" id="breadcrumbs">
+					<div id="johnNav" class='nav_top'></div>
+					<!--
+					<script type="text/javascript">
+						try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+					</script>
+					<ul class="breadcrumb">
+						<li class="active">${pageurlName!''}</li>
+					</ul>
+					<div class="nav-search" id="nav-search">
+						<form class="form-search">
+							<span class="input-icon">
+								<input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+								<i class="ace-icon fa fa-search nav-search-icon"></i>
+							</span>
+						</form>
+					</div>
+					@h.acesettings />
+					-->
+				</div>
+				<div class="page-content"  id="ajax_target">
+					
+				
+				</div>
+			</div>
+<@h.footer />
+		</div><!-- /.main-container -->
+	</body>
+</html>
+</#escape>

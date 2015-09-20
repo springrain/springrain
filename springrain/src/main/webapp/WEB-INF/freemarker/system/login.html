@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>欢迎登录后台管理系统</title>
+<link href="${ctx}/css/newtheme/style.css" rel="stylesheet" type="text/css" />
+<script language="JavaScript" src="${ctx}/js/jquery-1.8.3.min.js"></script>
+<script src="${ctx}/js/newtheme/cloud.js" type="text/javascript"></script>
+
+<script language="javascript">
+	$(function(){
+    $('.loginbox').css({'position':'absolute','left':($(window).width()-692)/2});
+	$(window).resize(function(){  
+    $('.loginbox').css({'position':'absolute','left':($(window).width()-692)/2});
+    })  
+});  
+</script> 
+        <script type="text/javascript">
+    function reloadValidateCode() {
+        document.getElementById("captchaImg").src="${ctx}/getCaptcha?date =" + new Date().getTime();
+        //$("#captchaImg").attr("src","${ctx}/getCaptcha?date = " + new Date() + Math.floor(Math.random()*24));
+    }
+    function rmbme(_o){
+    	var _t=_o.checked;
+    	if(_t){
+    		document.getElementById("rememberme").value=true;
+    	}else{
+    		document.getElementById("rememberme").value=false;
+    	}
+    }
+</script>
+</head>
+<body style="background-color:#1c77ac; background-image:url(${ctx}/images/newtheme/light.png); background-repeat:no-repeat; background-position:center top; overflow:hidden;">
+    <div id="mainBody">
+      <div id="cloud1" class="cloud"></div>
+      <div id="cloud2" class="cloud"></div>
+    </div>  
+	<div class="logintop">    
+	    <span>欢迎登录后台管理界面平台</span>    
+	    <ul>
+	    <li><a href="#">回首页</a></li>
+	    <li><a href="#">帮助</a></li>
+	    <li><a href="#">关于</a></li>
+	    </ul>    
+    </div>
+	<div class="loginbody">
+		    <span class="systemlogo"></span> 
+		    <div class="loginbox">
+		    	  <form action="login" method="post"  id="loginForm" name="loginForm" autocomplete="off" disableautocomplete>
+			    <ul>
+			    <li><input name="account" type="text" class="loginuser"  placeholder="用户名"  autocomplete="off" disableautocomplete/></li>
+			    <li><input name="password" type="password" class="loginpwd" placeholder="密码"/></li>
+			    <li><input name="captcha" type="text" class="yanzhengma"  placeholder="验证码"/>
+			    <img id="captchaImg" onclick="reloadValidateCode();" src="${ctx}/getCaptcha"  width="100" height="40" align="absmiddle"/><input type="hidden" id="ValidateCodeNum" value="" /></li>
+			    
+			    <li><input name="" type="submit" class="loginbtn" value="登录"/><label><input name=""  id="rmb" onclick="rmbme(this)" type="checkbox" value=""   />
+			  <input id="rememberme" name="rememberme" value="" type="hidden"/>  
+			    记住密码</label><label><a href="#">忘记密码？</a></label></li>
+			    </ul>
+			    </form>
+		    </div>
+	 </div>
+  	 <div class="loginbm">版权所有  2015  仅供学习交流，勿用于任何商业用途</div>
+</body>
+</html>
+    
+    
+    
+ <#--
+<div class="l_item">
+    <form action="login" method="post"  id="loginForm" name="loginForm" >
+    	<ul>
+        	<li><span class="c1">用户名：</span><span class="c2"><input name="account"    type="text" class="inp_c" /></span></li>
+            <li><span class="c1">密&nbsp;&nbsp;码：</span><span class="c2"><input name="password" type="password" class="inp_c" /></span></li>
+            
+            <li>
+            <span class="c1">验证码：</span><span class="c2 c3"><input name="captcha" type="text" class="inp_d" />
+            </span><span class="c2 c4"><img id="captchaImg" src="${ctx}/getCaptcha"  width="55" height="25" onclick="reloadValidateCode();" /> <input type="hidden" id="ValidateCodeNum" value="" /> </span>
+            <span class="c2 c5"> <a style="cursor: pointer" href="javascript:reloadValidateCode();">刷新</a></span>
+            </li>
+            
+            <li><span class="c1">&nbsp;</span><span class="c2"><input id="rmb" type="checkbox" onclick="rmbme(this)"/> 
+     	       		<input id="rememberme" name="rememberme" value="" type="hidden"/>记住我</span>
+            </li>
+            <li><span class="c1">&nbsp;</span><span class="c2"> <input name="" type="submit" value="登 录" class="inp_f" /><input name="" type="reset" value="重 填" class="inp_f" /></span></li>
+        </ul>
+    </div>
+    <div class="footer"><img src="images/footer.png" width="233" height="25" /></div>
+</form>
+</div>
+</body>
+</html>
+-->

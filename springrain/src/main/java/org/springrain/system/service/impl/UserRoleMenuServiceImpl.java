@@ -158,7 +158,7 @@ public class UserRoleMenuServiceImpl extends BaseSpringrainServiceImpl implement
 
 
 	@Override
-	public User findLoginUser(String account, String password) throws Exception {
+	public User findLoginUser(String account, String password,Integer userType) throws Exception {
 		if (StringUtils.isBlank(account)) {
 			return null;
 		}

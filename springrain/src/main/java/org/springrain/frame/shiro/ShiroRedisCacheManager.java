@@ -3,7 +3,6 @@ package org.springrain.frame.shiro;
 import org.apache.shiro.cache.AbstractCacheManager;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;
-
 import org.springrain.frame.cached.ICached;
 
 public class ShiroRedisCacheManager extends AbstractCacheManager {

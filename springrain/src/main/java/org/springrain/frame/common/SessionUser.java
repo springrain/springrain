@@ -3,7 +3,6 @@ package org.springrain.frame.common;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
-
 import org.springrain.frame.shiro.ShiroUser;
 
 
@@ -52,6 +51,15 @@ public class SessionUser {
 		return shiroUser.getId();
 	}
 
+	public static  Integer getUserType() {
+		ShiroUser shiroUser=getShiroUser();
+		if(shiroUser==null){
+			return null;
+		}
+		return shiroUser.getUserType();
+	}
+
+	
 	public static String getUserCode() {
 		ShiroUser shiroUser=getShiroUser();
 		if(shiroUser==null){

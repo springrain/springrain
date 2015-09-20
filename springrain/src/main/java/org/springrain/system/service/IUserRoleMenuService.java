@@ -65,13 +65,13 @@ public interface IUserRoleMenuService extends IBaseSpringrainService {
 	
 
 	/**
-	 * 根据账号密码 验证是否能够登陆
+	 * 根据账号密码 验证是否能够登陆,userType用于区分用户类型
 	 * @param account
 	 * @param password
 	 * @return
 	 * @throws Exception 
 	 */
-	User findLoginUser(String account,String password) throws Exception;
+	User findLoginUser(String account,String password,Integer userType) throws Exception;
 	
 /**
  * 查询数据库所有的角色和对应的菜单

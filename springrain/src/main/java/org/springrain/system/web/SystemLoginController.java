@@ -1,11 +1,6 @@
 package org.springrain.system.web;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
@@ -13,27 +8,20 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.subject.Subject;
-import org.apache.shiro.util.ThreadContext;
-import org.apache.shiro.web.subject.WebSubject;
 import org.apache.shiro.web.util.WebUtils;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springrain.frame.controller.BaseController;
 import org.springrain.frame.shiro.FrameAuthenticationToken;
-import org.springrain.frame.shiro.ShiroUser;
-import org.springrain.frame.util.CaptchaUtils;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.system.entity.User;
 
 @Controller
-public class LoginController extends BaseController  {
-	
+@RequestMapping(value="/system")
+public class SystemLoginController extends BaseController  {
 	
 	/**
 	 * 首页的映射
@@ -43,7 +31,7 @@ public class LoginController extends BaseController  {
 	 */
 		@RequestMapping(value = "/")
 		public String index() throws Exception {
-				return super.redirect+"/index";
+				return super.redirect+"/system/index";
 			
 		}
 		
@@ -57,7 +45,7 @@ public class LoginController extends BaseController  {
 	 */
 		@RequestMapping(value = "/index")
 		public String index(Model model) throws Exception {
-				return "/index";
+				return "/system/index";
 			
 		}
 		/**
@@ -71,11 +59,11 @@ public class LoginController extends BaseController  {
 		public String login(Model model,HttpServletRequest request) throws Exception {
 			//判断用户是否登录
 			if(SecurityUtils.getSubject().isAuthenticated()){
-				return redirect+"/index";
+				return redirect+"/system/index";
 			}
 			//默认赋值message,避免freemarker尝试从session取值,造成异常
 			model.addAttribute("message", "");
-			return "/login";
+			return "/system/login";
 		}
 		
 		/**
@@ -104,7 +92,7 @@ public class LoginController extends BaseController  {
 			  //如果验证码不匹配,跳转到登录
 			if (StringUtils.isBlank(submitCode) ||StringUtils.isBlank(code)||!code.equals(submitCode)) {
 				model.addAttribute("message", "验证码错误!");
-				return "/login";
+				return "/system/login";
 	        }
 			//通过账号和密码获取 UsernamePasswordToken token
 			FrameAuthenticationToken token = new FrameAuthenticationToken(currUser.getAccount(),currUser.getPassword());
@@ -121,16 +109,16 @@ public class LoginController extends BaseController  {
 				user.login(token);
 			} catch (UnknownAccountException uae) {
 				model.addAttribute("message", "账号不存在!");
-				return "/login";
+				return "/system/login";
 			} catch (IncorrectCredentialsException ice) {
 				model.addAttribute("message", "密码错误!");
-				return "/login";
+				return "/system/login";
 			} catch (LockedAccountException lae) {
 				model.addAttribute("message", "账号被锁定!");
-				return "/login";
+				return "/system/login";
 			} catch (Exception e) {
 				model.addAttribute("message", "未知错误,请联系管理员.");
-				return "/login";
+				return "/system/login";
 			}
 		
 			//String sessionId = session.getId();
@@ -148,82 +136,11 @@ public class LoginController extends BaseController  {
 			cache.put(currUser.getAccount(), session.getId());
 			*/
 			
-			return redirect+"/index";
+			return redirect+"/system/index";
 		}
 		
-		/**
-		 * 没有权限
-		 * @param model
-		 * @return
-		 * @throws Exception
-		 */
-		@RequestMapping(value = "/unauth")
-		public String unauth(Model model) throws Exception {
-			if(SecurityUtils.getSubject().isAuthenticated()==false){
-				return redirect+"/login";
-			}
-				return "/unauth";
-			
-		}
-		
-		/**
-		 * 退出
-		 * @param request
-		 */
-		@RequestMapping(value="/logout")
-	    public void logout(HttpServletRequest request){
-	        Subject subject = SecurityUtils.getSubject();
-	        if (subject != null) {           
-	            subject.logout();
-	        }
-	        //request.getSession().invalidate();
-	    }
-		
-		/**
-		 * 自动登录,无需账号密码,测试代码,默认注释，根据实际修改
-		 * @param model
-		 * @param request
-		 * @param response
-		 * @return
-		 * @throws Exception
-		 */
-		//@RequestMapping(value = "/auto/login")
-		public String autologin(Model model,HttpServletRequest request,HttpServletResponse response) throws Exception {
-			ShiroUser shiroUser=new ShiroUser();
-			shiroUser.setId("admin");
-			shiroUser.setName("admin");
-			shiroUser.setAccount("admin");
-			 SimplePrincipalCollection principals = new SimplePrincipalCollection(shiroUser, GlobalStatic.authorizingRealmName);
-             WebSubject.Builder builder = new WebSubject.Builder(request,response);
-             builder.principals(principals);
-             builder.authenticated(true);
-             WebSubject subject = builder.buildWebSubject();
-             ThreadContext.bind(subject);
-         	return redirect+"/index";
-		}
+	
 		
 		
-		/**
-		 * 生成验证码
-		 * 
-		 * @return
-		 * @throws IOException 
-		 */
-		@RequestMapping("/getCaptcha")
-		public void getCaptcha(HttpSession session,HttpServletResponse response) throws IOException {
-
-			HttpHeaders headers = new HttpHeaders();
-			headers.setContentType(MediaType.IMAGE_JPEG);
-
-			CaptchaUtils tool = new CaptchaUtils();
-			StringBuffer code = new StringBuffer();
-			BufferedImage image = tool.genRandomCodeImage(code);
-			session.removeAttribute(GlobalStatic.DEFAULT_CAPTCHA_PARAM);
-			session.setAttribute(GlobalStatic.DEFAULT_CAPTCHA_PARAM, code.toString());
-
-			// 将内存中的图片通过流动形式输出到客户端
-			ImageIO.write(image, "JPEG", response.getOutputStream());
-			return;
-		}
 		
 }

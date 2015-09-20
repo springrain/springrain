@@ -29,7 +29,7 @@ import org.springrain.system.service.IUserRoleMenuService;
  * @Title: MenuController.java
  * @Package org.springrain.springrain.web
  * @Description: o
- * @author ZhangNan
+ * @author springrain
  * @date 2013-7-11 下午9:36:31
  * @version V1.0
  *

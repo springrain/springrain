@@ -5,7 +5,6 @@ import java.util.Set;
 
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;
-
 import org.springrain.frame.cached.ICached;
 import org.springrain.frame.common.BaseLogger;
 import org.springrain.frame.util.SerializeUtil;
