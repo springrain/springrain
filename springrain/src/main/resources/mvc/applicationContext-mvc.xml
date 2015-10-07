@@ -26,6 +26,15 @@
 						<value>text/html;charset=UTF-8</value>
 					</list>
 				</property>
+				<!-- jackson 值为null的属性不转换 -->
+				<property name="objectMapper">
+                    <bean class="com.fasterxml.jackson.databind.ObjectMapper">
+                        <property name="serializationInclusion">
+                            <value type="com.fasterxml.jackson.annotation.JsonInclude.Include">NON_NULL</value>
+                        </property>
+                    </bean>
+                </property>
+				
 			</bean>
 		
 			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
