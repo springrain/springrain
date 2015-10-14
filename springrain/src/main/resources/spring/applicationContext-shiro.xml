@@ -80,6 +80,7 @@
 				/weixin/f/oauth2=anon
 				/weixin/f/** =anon
 				/weixin/token/** = anon
+				/servlet/fileupload=user
 				/index = user,framefwlog
 				/logout = logout
 				/**/ajax/** = user,framefwlog
