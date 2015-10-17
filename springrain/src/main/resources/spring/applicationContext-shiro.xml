@@ -58,7 +58,7 @@
 	 -->
 
 	<!-- shiro的主过滤器,beanId 和web.xml中配置的filter name需要保持一致 -->
-	<bean id="shiroFilter" class="com.yidu.frame.shiro.FrameShiroFilterFactoryBean"
+	<bean id="shiroFilter" class="org.springrain.frame.shiro.FrameShiroFilterFactoryBean"
 		depends-on="frameperms">
 		<!-- 安全管理器 -->
 		<property name="securityManager" ref="securityManager" />
@@ -81,12 +81,12 @@
 				/weixin/f/** =anon
 				/weixin/token/** = anon
 				/servlet/fileupload=user
-				/index = user,framefwlog
+				/index = user,framefwlog,kickout
 				/logout = logout
-				/**/ajax/** = user,framefwlog
-				/system/menu/leftMenu=systemuser
-				/system/**=systemuser,framefwlog,frameperms
-				/** = frontuser,framefwlog,frameperms
+				/**/ajax/** = user,framefwlog,kickout
+				/system/menu/leftMenu=systemuser,kickout
+				/system/**=systemuser,framefwlog,kickout,frameperms
+				/** = frontuser,framefwlog,kickout,frameperms
 			</value>
 		</property>
 		<!-- 声明自定义的过滤器 -->
@@ -108,6 +108,9 @@
 				<!-- 微信的过滤器 -->
 			    <entry key="weiXinOauth2" value-ref="weiXinOauth2"></entry>
 			    
+			    <!-- 踢出上个账户的过滤器 -->
+			    <entry key="kickout" value-ref="kickoutSessionControlFilter"/>  
+			    
 			</map>
 		</property>
 	</bean>
@@ -115,5 +118,15 @@
 	<!-- 
 	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
 	 -->
+	 
+	 
+	 <!-- 踢出上个用户 -->
+	  <bean id="kickoutSessionControlFilter" class="org.springrain.frame.shiro.KickoutSessionControlFilter">
+        <property name="cacheManager" ref="shiroCacheManager"/>
+        <property name="sessionManager" ref="sessionManager"/>
+        <property name="kickoutAfter" value="false"/>
+        <property name="maxSession" value="1"/>
+        <property name="kickoutUrl" value="/login?kickout=1"/>
+    </bean>
 
 </beans>
