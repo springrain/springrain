@@ -89,7 +89,6 @@ var ctx="${ctx}";
 		
 		
 		<script src="${ctx}/js/coms/common/common.js"></script>
-		<script src="${ctx}/js/app/dataformat.js"></script>
 
 </#macro>
 
@@ -145,12 +144,12 @@ var ctx="${ctx}";
 		<script src="${ctx}/ace/js/flot/jquery.flot.min.js"></script>
 		<script src="${ctx}/ace/js/flot/jquery.flot.pie.min.js"></script>
 		<script src="${ctx}/ace/js/flot/jquery.flot.pie.min.js"></script>
-		<script src="${ctx}/ace/js/flot/jquery.flot.categories.min.js"></script>
 		
 		<script src="${ctx}/js/coms/common/list.js"></script>
 		<script src="${ctx}/js/coms/common/pagetoolbar.js"></script>
 		
 </#macro>
+
 
 
 
@@ -180,11 +179,10 @@ var ctx="${ctx}";
 				<!-- /section:basics/sidebar.mobile.toggle -->
 				<div class="navbar-header pull-left topleft">
 					<!-- #section:basics/navbar.layout.brand -->
-					<a href="javascript:void(0);" class="navbar-brand">
+					<a href="#" class="navbar-brand">
 						<small>
-						
-						<span  class=" fa-leaf" ><img src="${ctx}/images/ico.png" style="vertical-align:bottom" /> &nbsp;数字化校园系统</span>
-							
+							<i class="fa fa-leaf"></i>
+							数字化校园系统
 						</small>
 					</a>
 					<ul class="top_menu">
@@ -230,20 +228,134 @@ var ctx="${ctx}";
 
 				<!-- #section:basics/navbar.dropdown -->
 				<div class="navbar-buttons navbar-header pull-right" role="navigation">
-				 <div class="topright">    
-					    <ul>
-					    <li><span><img src="${ctx}/images/newtheme/help.png" title="帮助"  class="helpimg" align="absmiddle"/></span><a href="#">帮助</a></li>
-					    <li>
-						<a href="javascript:mynavhref('${ctx}/system/user/modifiypwd/pre','6aa57d1b6b0e11e4ba356c626dba93a0','修改密码');">
-						修改密码</a></li>
-					    <li><a href="${ctx}/logout" >退出</a></li>
-					    </ul>
-    					<div class="user">
-	    					<span>admin</span>
-	    					<i>消息</i>
-	    					<b>5</b>
-    					</div>    
-   					 </div>
+					
+					<div class="topright">    
+					 	<ul class="nav ace-nav">
+					 		<li class="grey">
+							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+								<i class="ace-icon fa fa-tasks"></i>
+								<span class="badge badge-grey">4</span>
+							</a>
+
+							<ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
+									<li class="dropdown-header">
+										<i class="ace-icon fa fa-check"></i>
+										4个代办任务
+									</li>
+
+									<li class="dropdown-content ace-scroll" style="position: relative;"><div class="scroll-track" style="display: none;"><div class="scroll-bar"></div></div><div class="scroll-content" style="max-height: 200px;">
+										<ul class="dropdown-menu dropdown-navbar">
+											
+										</ul>
+									</div></li>
+	
+									<li class="dropdown-footer">
+										<a href="#">
+											查看详细
+											<i class="ace-icon fa fa-arrow-right"></i>
+										</a>
+									</li>
+								</ul>
+							</li>
+
+
+					 		<li class="purple">
+							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+								<i class="ace-icon fa fa-bell icon-animated-bell"></i>
+								<span class="badge badge-important">8</span>
+							</a>
+
+							<ul class="dropdown-menu-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close">
+								<li class="dropdown-header">
+									<i class="ace-icon fa fa-exclamation-triangle"></i>
+									8个通知
+								</li>
+
+								<li class="dropdown-content ace-scroll" style="position: relative;"><div class="scroll-track" style="display: none;"><div class="scroll-bar"></div></div>
+									<div class="scroll-content" style="max-height: 200px;">
+									<ul class="dropdown-menu dropdown-navbar navbar-pink">
+										
+									</ul>
+								</div></li>
+
+								<li class="dropdown-footer">
+									<a href="#">
+										查看所有通知
+										<i class="ace-icon fa fa-arrow-right"></i>
+									</a>
+								</li>
+							</ul>
+						</li>
+					 		<li class="green">
+							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+								<i class="ace-icon fa fa-envelope icon-animated-vertical"></i>
+								<span class="badge badge-success">5</span>
+							</a>
+
+							<ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
+								<li class="dropdown-header">
+									<i class="ace-icon fa fa-envelope-o"></i>
+									5条新消息
+								</li>
+
+								<li class="dropdown-content ace-scroll" style="position: relative;"><div class="scroll-track" style="display: none;"><div class="scroll-bar"></div></div><div class="scroll-content" style="max-height: 200px;">
+									
+								</div></li>
+
+								<li class="dropdown-footer">
+									<a href="inbox.html">
+										查看所有消息
+										<i class="ace-icon fa fa-arrow-right"></i>
+									</a>
+								</li>
+							</ul>
+						</li>
+
+						<li class="light-blue">
+							<a data-toggle="dropdown" href="#" class="dropdown-toggle">
+								<img class="nav-user-photo" src="http://localhost:8080/springrain/ace/avatars/user.jpg" alt="Jason's Photo">
+								<span class="user-info">
+									<small>欢迎,</small>
+									<@shiro.principal property="name" />
+								</span>
+
+								<i class="ace-icon fa fa-caret-down"></i>
+							</a>
+
+							<ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+								<li>
+									<a href="#">
+										<i class="ace-icon fa fa-cog"></i>
+										设置
+									</a>
+								</li>
+
+								<li>
+									<a href="profile.html">
+										<i class="ace-icon fa fa-user"></i>
+										个人信息
+									</a>
+								</li>
+
+								<li class="divider"></li>
+
+								<li>
+									<a href="#">
+										<i class="ace-icon fa fa-power-off"></i>
+										退出
+									</a>
+								</li>
+							</ul>
+						</li>
+
+					 	</ul>
+					   <!--  <div class="user">
+					      					 	  	<span>admin</span>
+					      					 	  	<i>消息</i>
+					      					 	  	<b>5</b>
+					      </div>     -->
+						
+					</div>
 				</div>
 
 				<!-- /section:basics/navbar.dropdown -->
