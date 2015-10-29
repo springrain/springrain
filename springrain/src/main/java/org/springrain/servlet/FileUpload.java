@@ -45,7 +45,7 @@ public class FileUpload extends HttpServlet {
 		super();
 		
 		 //设置上传文件的最大值
-		upload. setFileSizeMax(1024000);
+		//upload. setFileSizeMax(1024000);
 		
 		// 上传进度
 		upload.setProgressListener(new ProgressListener() {
