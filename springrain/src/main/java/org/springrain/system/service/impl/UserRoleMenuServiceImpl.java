@@ -49,7 +49,7 @@ public class UserRoleMenuServiceImpl extends BaseSpringrainServiceImpl implement
 		return super.queryForList(finder, Role.class);
 	}
 	@Override
-	//@Cacheable(value = GlobalStatic.qxCacheKey, key = "'getRolesAsString_'+#userId")
+	@Cacheable(value = GlobalStatic.qxCacheKey, key = "'getRolesAsString_'+#userId")
 	public Set<String> getRolesAsString(String userId)throws Exception {
 		List<Role> list = findRoleByUserId(userId);
 		if(CollectionUtils.isEmpty(list)){
@@ -62,7 +62,7 @@ public class UserRoleMenuServiceImpl extends BaseSpringrainServiceImpl implement
 		return set;
 	}
 	@Override
-	//@Cacheable(value = GlobalStatic.qxCacheKey, key = "'getPermissionsAsString_'+#userId")
+	@Cacheable(value = GlobalStatic.qxCacheKey, key = "'getPermissionsAsString_'+#userId")
 	public  Set<String> getPermissionsAsString(String userId) throws Exception {
 		List<Menu> setMenu = findAllMenuByUserId(userId);
 		if(CollectionUtils.isEmpty(setMenu)){
@@ -290,11 +290,14 @@ public class UserRoleMenuServiceImpl extends BaseSpringrainServiceImpl implement
 				m.setLeaf(leaf);
 				tolist.add(m);
 				//from.remove(i);
-			//	i=i-1;
+				//i=i-1;
 			  diguiwrapList(from, leaf, m.getId());
-				if(CollectionUtils.isEmpty(leaf)){
-					continue;
-				}
+			  /**
+			   * 神级 bug,待细则
+			   */
+//				if(CollectionUtils.isEmpty(leaf)){
+//					continue;
+//				}
 				
 			}
 			
