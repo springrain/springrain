@@ -81,12 +81,12 @@
 				/weixin/f/** =anon
 				/weixin/token/** = anon
 				/servlet/fileupload=user
-				/index = user,framefwlog,kickout
+				/index = user,framefwlog,keepone
 				/logout = logout
-				/**/ajax/** = user,framefwlog,kickout
-				/system/menu/leftMenu=systemuser,kickout
-				/system/**=systemuser,framefwlog,kickout,frameperms
-				/** = frontuser,framefwlog,kickout,frameperms
+				/**/ajax/** = user,framefwlog,keepone
+				/system/menu/leftMenu=systemuser,keepone
+				/system/**=systemuser,framefwlog,keepone,frameperms
+				/** = frontuser,framefwlog,keepone,frameperms
 			</value>
 		</property>
 		<!-- 声明自定义的过滤器 -->
@@ -109,7 +109,7 @@
 			    <entry key="weiXinOauth2" value-ref="weiXinOauth2"></entry>
 			    
 			    <!-- 踢出上个账户的过滤器 -->
-			    <entry key="kickout" value-ref="kickoutSessionControlFilter"/>  
+			    <entry key="keepone" value-ref="keepone"/>  
 			    
 			</map>
 		</property>
@@ -119,14 +119,5 @@
 	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
 	 -->
 	 
-	 
-	 <!-- 踢出上个用户 -->
-	  <bean id="kickoutSessionControlFilter" class="org.springrain.frame.shiro.KickoutSessionControlFilter">
-        <property name="cacheManager" ref="shiroCacheManager"/>
-        <property name="sessionManager" ref="sessionManager"/>
-        <property name="kickoutAfter" value="false"/>
-        <property name="maxSession" value="1"/>
-        <property name="kickoutUrl" value="/login?kickout=1"/>
-    </bean>
 
 </beans>

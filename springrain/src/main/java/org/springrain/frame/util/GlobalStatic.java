@@ -32,6 +32,10 @@ public class GlobalStatic {
 	//realm名称
 	public static final String authorizingRealmName="shiroDbAuthorizingRealmName";
 	
+	//缓存用户最后有效的登陆sessionId
+	public static final String keeponeCacheName="shiro-keepone-session";
+	
+	
 	/**
 	 * 默认验证码参数名称
 	 */
