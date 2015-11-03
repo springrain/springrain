@@ -420,22 +420,6 @@ CREATE TABLE `t_user_role` (
 INSERT INTO `t_user_role` VALUES ('admin_admin', 'admin', 'admin');
 
 
--- ----------------------------
--- Table structure for t_kefu
--- ----------------------------
-DROP TABLE IF EXISTS `t_kefu`;
-CREATE TABLE `bbz_kefu` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '消息Id',
-  `toId` int(11) DEFAULT NULL  COMMENT '回复Id',
-  memberId varchar(200) NOT NULL COMMENT '用户微信Id' , 
-  kefuMemberId varchar(200) NOT NULL COMMENT '客服微信Id' , 
-  content varchar(2000) NOT NULL COMMENT '内容' , 
-  answer varchar(2000) NOT NULL COMMENT '答案' , 
-  kefuType varchar(50) NOT NULL COMMENT '微信' , 
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
 
 -- ----------------------------
 -- Table structure for weixin_menu
