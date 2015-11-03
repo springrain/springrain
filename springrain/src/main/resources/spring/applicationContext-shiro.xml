@@ -101,13 +101,6 @@
 				
 				 <!-- 后台用户过滤器 -->
 				<entry key="systemuser" value-ref="systemuser"></entry>
-				
-				 <!-- 前台用户过滤器 -->
-				<entry key="frontuser" value-ref="frontuser"></entry>
-				
-				<!-- 微信的过滤器 -->
-			    <entry key="weiXinOauth2" value-ref="weiXinOauth2"></entry>
-			    
 			    <!-- 踢出上个账户的过滤器 -->
 			    <entry key="keepone" value-ref="keepone"/>  
 			    
