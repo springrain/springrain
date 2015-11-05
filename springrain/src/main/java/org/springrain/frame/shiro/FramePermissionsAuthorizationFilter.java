@@ -12,6 +12,14 @@ import org.apache.shiro.web.filter.authz.PermissionsAuthorizationFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
+/**
+ * 权限访问的过滤器
+ * @author caomei
+ *
+ */
+
+
 @Component("frameperms")
 public class FramePermissionsAuthorizationFilter extends
 		PermissionsAuthorizationFilter {

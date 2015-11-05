@@ -8,7 +8,13 @@ import org.apache.shiro.cache.CacheException;
 import org.springrain.frame.cached.ICached;
 import org.springrain.frame.common.BaseLogger;
 import org.springrain.frame.util.SerializeUtil;
-
+/**
+ * Shiro 实现的缓存
+ * @author caomei
+ *
+ * @param <K>
+ * @param <V>
+ */
 public class ShiroRedisCache<K,V> extends BaseLogger implements Cache<K,V>    {
 private String name;
 private ICached cached;

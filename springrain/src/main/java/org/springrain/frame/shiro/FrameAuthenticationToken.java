@@ -1,7 +1,11 @@
 package org.springrain.frame.shiro;
 
 import org.apache.shiro.authc.UsernamePasswordToken;
-
+/**
+ * 扩展token
+ * @author caomei
+ *
+ */
 public class FrameAuthenticationToken extends UsernamePasswordToken {
 	/**
 	 * 

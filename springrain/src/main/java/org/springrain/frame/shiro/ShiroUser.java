@@ -5,7 +5,11 @@ import java.io.Serializable;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.springrain.system.entity.User;
-
+/**
+ * Shiro的内部User对象
+ * @author caomei
+ *
+ */
 public class ShiroUser implements Serializable {
 	/**
 	 * 

@@ -7,7 +7,11 @@ import javax.servlet.ServletResponse;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authz.AuthorizationFilter;
 import org.springframework.stereotype.Component;
-//权限or判定器
+/**
+ * 权限or判定器 暂不使用
+ * @author caomei
+ *
+ */
 @Component("roleOrFilter")
 public class RolesOrFilter extends AuthorizationFilter  {
 

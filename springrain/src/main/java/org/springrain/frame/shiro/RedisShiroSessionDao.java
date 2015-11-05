@@ -11,6 +11,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springrain.frame.cached.ICached;
 import org.springrain.frame.util.SerializeUtil;
+
+/**
+ * Redis实现的 ShiroSessionDao，暂不使用
+ * @author caomei
+ *
+ */
 public class RedisShiroSessionDao extends AbstractSessionDAO {
 	public Logger logger = LoggerFactory.getLogger(getClass());
 	private String sessionprefix="ss-";

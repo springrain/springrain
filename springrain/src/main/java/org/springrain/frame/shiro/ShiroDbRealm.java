@@ -22,7 +22,11 @@ import org.springrain.frame.util.GlobalStatic;
 import org.springrain.system.entity.User;
 import org.springrain.system.service.IUserRoleMenuService;
 
-//认证数据库存储
+/**
+ * 数据库认证及权限查询
+ * @author caomei
+ *
+ */
 @Component("shiroDbRealm")
 public class ShiroDbRealm extends AuthorizingRealm {
 	public Logger logger = LoggerFactory.getLogger(getClass());

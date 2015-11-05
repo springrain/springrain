@@ -23,6 +23,13 @@ import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.IPUtils;
 import org.springrain.system.entity.Fwlog;
 import org.springrain.system.service.IMenuService;
+/**
+ * 记录访问日志的过滤器
+ * @author caomei
+ *
+ */
+
+
 @Component("framefwlog")
 public class FrameFWLogFilter extends OncePerRequestFilter {
 	public Logger logger = LoggerFactory.getLogger(getClass());
