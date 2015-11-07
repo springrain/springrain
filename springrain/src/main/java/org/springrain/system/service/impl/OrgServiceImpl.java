@@ -116,9 +116,7 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
 				//from.remove(i);
 			//	i=i-1;
 			  diguiwrapList(from, leaf, m.getId());
-				if(CollectionUtils.isEmpty(leaf)){
-					continue;
-				}
+				
 				
 			}
 			
