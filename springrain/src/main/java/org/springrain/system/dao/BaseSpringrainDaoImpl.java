@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 import org.springrain.frame.dao.BaseJdbcDaoImpl;
+import org.springrain.frame.dao.IBaseJdbcDao;
 import org.springrain.frame.dao.dialect.IDialect;
 import org.springrain.frame.entity.IAuditLog;
 
@@ -17,7 +18,7 @@ import org.springrain.frame.entity.IAuditLog;
  * @see org.springrain.system.dao.BaseSpringrainDaoImpl
  */
 @Repository("baseSpringrainDao")
-public class BaseSpringrainDaoImpl extends BaseJdbcDaoImpl implements IBaseSpringrainDao{
+public class BaseSpringrainDaoImpl extends BaseJdbcDaoImpl implements IBaseJdbcDao{
 
 	/**
 	 * demo  数据库的jdbc,对应 spring配置的 jdbc bean
