@@ -2,7 +2,7 @@
 <!--定义select列表项option-->
 /**
  *jquery 下拉框多选的插件
- * @author 郑永生
+ * @author springrain
  * @date 2009-10-24
  */
 (function ($) {
