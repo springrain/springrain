@@ -10,7 +10,7 @@ ${r"<#escape x as x?html>"}
 	<#list table.columns as column>
 		<#if column.pk>
 			<#assign columnValue = "("+classNameLower+"."+column.columnNameFirstLower+")!''">
-	<input type="hidden" id="${column.columnNameFirstLower}" name="${column.columnNameFirstLower}" value="${r"${(returnDatas.data."}${column.columnNameFirstLower}${r"}"}"/>	
+	<input type="hidden" id="${column.columnNameFirstLower}" name="${column.columnNameFirstLower}" value="${r"${(returnDatas.data."}${column.columnNameFirstLower}${r")!''}"}"/>	
 		</#if>
 	</#list>
 <!--input  hidden  End-->
@@ -19,12 +19,12 @@ ${r"<#escape x as x?html>"}
 				<#assign columnValue = "("+classNameLower+"."+column.columnNameFirstLower+")!''">
 		         <#if column.isDateTimeColumn>
 					<!--日期型-->
-					<#assign columnDataValue = "(("+classNameLower+"."+column.columnNameFirstLower+")?string('yyyy-MM-dd'))!'' ">
+					<#assign columnDataValue = column.columnNameFirstLower+")?string('yyyy-MM-dd'))!'' ">
 						<div class="form-group">
 							<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="${column.columnNameFirstLower}" >${column.columnAlias}</label>
 							<div class="col-xs-12 col-sm-9">
 								<div class="clearfix">
-									${r"${(returnDatas.data."}${columnDataValue}${r")!''}"}
+									${r"${((returnDatas.data."}${columnDataValue}${r"}"}
 								</div>
 							</div>
 						</div>
