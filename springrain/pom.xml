@@ -512,6 +512,9 @@
 						<source>1.6</source>
 						<target>1.6</target>
 						<encoding>utf-8</encoding>
+						<compilerArguments>
+                          <extdirs>src/main/webapp/WEB-INF/lib</extdirs>
+                        </compilerArguments>
 					</configuration>
 				</plugin>
 
