@@ -9,7 +9,9 @@ import javax.servlet.ServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
+import org.apache.shiro.session.ExpiredSessionException;
 import org.apache.shiro.session.Session;
+import org.apache.shiro.session.UnknownSessionException;
 import org.apache.shiro.session.mgt.DefaultSessionKey;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.subject.Subject;
@@ -64,7 +66,17 @@ public class KeepOneSessionControlFilter extends AccessControlFilter {
 			return true;
 		}else {
 			cache.put(userId, sessionId.toString());
-			Session deletetSession = sessionManager.getSession(new DefaultSessionKey(deleteSessionId));
+			
+			//Session deletetSession = sessionManager.getSession(new DefaultSessionKey(deleteSessionId));
+			Session deletetSession=null;
+			try {
+			    deletetSession = sessionManager.getSession(new DefaultSessionKey(deleteSessionId));
+			} catch (UnknownSessionException e) {//no session with  id [deleteSessionId]
+
+			} catch(ExpiredSessionException e){//Session with id [deleteSessionId] has expired
+
+			}
+			
 			if (deletetSession == null) {
 				return true;
 			}
