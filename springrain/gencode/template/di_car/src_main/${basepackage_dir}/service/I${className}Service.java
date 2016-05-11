@@ -4,9 +4,9 @@
 package ${basepackage}.service;
 
 import ${basepackage}.entity.${className};
-import org.springrain.system.service.IBaseDemoService;
+import org.springrain.system.service.IBaseSpringrainService;
 <#include "/copyright_class.include" >
-public interface I${className}Service extends IBaseDemoService {
+public interface I${className}Service extends IBaseSpringrainService {
 	
 	/**
 	 * 根据ID查找

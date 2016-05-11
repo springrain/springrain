@@ -11,12 +11,12 @@ import ${basepackage}.service.I${className}Service;
 import org.springrain.frame.entity.IBaseEntity;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.Page;
-import org.springrain.system.service.BaseDemoServiceImpl;
+import org.springrain.system.service.BaseSpringrainServiceImpl;
 
 
 <#include "/copyright_class.include" >
 @Service("${classNameLower}Service")
-public class ${className}ServiceImpl extends BaseDemoServiceImpl implements I${className}Service {
+public class ${className}ServiceImpl extends BaseSpringrainServiceImpl implements I${className}Service {
 
    
     @Override
