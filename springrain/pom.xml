@@ -20,7 +20,7 @@
 		<!--  
 		<persistence-api.version>1.0.2</persistence-api.version>
 		-->
-		<spring.baseline.version>4.2.5.RELEASE</spring.baseline.version>
+		<spring.baseline.version>4.2.6.RELEASE</spring.baseline.version>
 		<spring-data-redis.version>1.7.1.RELEASE</spring-data-redis.version>
 		<slf4j-api.version>1.7.7</slf4j-api.version>
 		<jcl-over-slf4j.version>1.7.7</jcl-over-slf4j.version>
@@ -41,7 +41,7 @@
 		<fasterxml.version>2.7.3</fasterxml.version>
 		<druid.version>1.0.18</druid.version>
 		
-		<lucene.version>5.2.1</lucene.version>
+		<lucene.version>5.5.1</lucene.version>
 		<!-- 
 		<quartz.version>2.2.1</quartz.version>
 		 -->
@@ -437,6 +437,12 @@
 		    <artifactId>lucene-queryparser</artifactId>
 		    <version>${lucene.version}</version>
        </dependency>
+       <dependency>
+		    <groupId>org.apache.lucene</groupId>
+		    <artifactId>lucene-backward-codecs</artifactId>
+		    <version>${lucene.version}</version>
+       </dependency>
+       
        
        
        <!--  
@@ -508,9 +514,9 @@
 					<artifactId>maven-compiler-plugin</artifactId>
 					<version>${maven-compiler-plugin.version}</version>
 					<configuration>
-						<compilerVersion>1.6</compilerVersion>
-						<source>1.6</source>
-						<target>1.6</target>
+						<compilerVersion>1.7</compilerVersion>
+						<source>1.7</source>
+						<target>1.7</target>
 						<encoding>utf-8</encoding>
 						<compilerArguments>
                           <extdirs>src/main/webapp/WEB-INF/lib</extdirs>

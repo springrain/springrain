@@ -9,6 +9,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.cn.smart.SmartChineseAnalyzer;
@@ -33,7 +34,7 @@ import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.apache.shiro.util.CollectionUtils;
+
 
 /**
  * lucene 工具类
@@ -131,7 +132,7 @@ public class LuceneUtils {
 		}
 
 		// 构建between查询
-		if (org.apache.commons.collections4.CollectionUtils
+		if (CollectionUtils
 				.isNotEmpty(priceList)) {
 			for (Integer[] d : priceList) {
 				Integer l = d[0];
