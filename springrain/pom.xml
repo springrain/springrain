@@ -42,7 +42,9 @@
 		<druid.version>1.0.18</druid.version>
 		
 		<lucene.version>5.2.1</lucene.version>
-		<quzrtz.version>2.2.1</quzrtz.version>
+		<!-- 
+		<quartz.version>2.2.1</quartz.version>
+		 -->
 
 		<servlet-api.version>2.5</servlet-api.version>
 		<mysql-connector-java.version>5.1.35</mysql-connector-java.version>
@@ -435,12 +437,15 @@
 		    <artifactId>lucene-queryparser</artifactId>
 		    <version>${lucene.version}</version>
        </dependency>
+       
+       
+       <!--  
 		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
 			<artifactId>quartz</artifactId>
-			<version>${quzrtz.version}</version>
+			<version>${quartz.version}</version>
 		</dependency>
-
+       -->
 	</dependencies>
 
 	<build>
