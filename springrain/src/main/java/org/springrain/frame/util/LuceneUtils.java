@@ -361,7 +361,7 @@ public class LuceneUtils {
 	 * @return
 	 * @throws Exception
 	 */
-	public static <T> String saveDocument(List<T> list) throws Exception {
+	public static <T> String saveListDocument(List<T> list) throws Exception {
 		if (CollectionUtils.isEmpty(list)) {
 			return "error";
 		}
@@ -428,7 +428,7 @@ public class LuceneUtils {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String deleteDocument(List<String> ids, Class clazz)
+	public static String deleteListDocument(List<String> ids, Class clazz)
 			throws Exception {
 		List<String> luceneFields = ClassUtils.getLuceneFields(clazz);
 		if (CollectionUtils.isEmpty(luceneFields)) {
@@ -474,6 +474,7 @@ public class LuceneUtils {
 	 * @throws Exception
 	 */
 	public static String updateDocument(Object entity) throws Exception {
+		
 		String pkValue = ClassUtils.getPKValue(entity).toString();
 		deleteDocument(pkValue, entity.getClass());
 		saveDocument(entity);
@@ -487,7 +488,7 @@ public class LuceneUtils {
 	 * @return
 	 * @throws Exception
 	 */
-	public static <T> String updateDocument(List<T> list) throws Exception {
+	public static <T> String updateListDocument(List<T> list) throws Exception {
 
 		if (CollectionUtils.isEmpty(list)) {
 			return null;
@@ -498,8 +499,8 @@ public class LuceneUtils {
 			String id = ClassUtils.getPKValue(t).toString();
 			ids.add(id);
 		}
-		deleteDocument(ids, clazz);
-		saveDocument(list);
+		deleteListDocument(ids, clazz);
+		saveListDocument(list);
 		return null;
 	}
 

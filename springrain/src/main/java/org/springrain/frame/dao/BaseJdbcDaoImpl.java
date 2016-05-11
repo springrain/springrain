@@ -21,6 +21,7 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springrain.frame.annotation.LuceneSearch;
 import org.springrain.frame.common.BaseLogger;
 import org.springrain.frame.common.SessionUser;
 import org.springrain.frame.dao.dialect.IDialect;
@@ -633,9 +634,12 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 	public Object save(Object entity) throws Exception {
 		// 保存到数据库
 		Object id = saveNoLog(entity);
-		// 保存到索引文件
-		LuceneTask luceneTask = new LuceneTask(entity, LuceneTask.saveDocument);
-		ThreadPoolManager.addThread(luceneTask);
+			 
+		if(CollectionUtils.isNotEmpty(ClassUtils.getLuceneFields(entity.getClass()))){
+			// 保存到索引文件
+			LuceneTask luceneTask = new LuceneTask(entity, LuceneTask.saveDocument);
+			ThreadPoolManager.addThread(luceneTask);
+		 }
 
 		// 记录日志
 		IAuditLog auditLog = getAuditLog();
@@ -696,9 +700,15 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 			updateList.add(i);
 		}
 
-		// 更新到索引文件
-		LuceneTask luceneTask = new LuceneTask(list, LuceneTask.updateDocument);
-		ThreadPoolManager.addThread(luceneTask);
+		
+		
+		Object _le=list.get(0);
+		if(CollectionUtils.isNotEmpty(ClassUtils.getLuceneFields(_le.getClass()))){
+				// 更新到索引文件
+				LuceneTask luceneTask = new LuceneTask(list, LuceneTask.updateDocument);
+				ThreadPoolManager.addThread(luceneTask);
+		 }
+	
 
 		return updateList;
 	}
@@ -725,10 +735,13 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		for (int i : batchUpdate) {
 			updateList.add(i);
 		}
-
-		// 更新到索引文件
-		LuceneTask luceneTask = new LuceneTask(list, LuceneTask.saveDocument);
-		ThreadPoolManager.addThread(luceneTask);
+		
+		Object _le=list.get(0);
+		if(CollectionUtils.isNotEmpty(ClassUtils.getLuceneFields(_le.getClass()))){
+			// 更新到索引文件
+			LuceneTask luceneTask = new LuceneTask(list, LuceneTask.saveDocument);
+			ThreadPoolManager.addThread(luceneTask);
+		 }
 
 		return updateList;
 	}
@@ -808,10 +821,12 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		// 更新entity
 		Integer hang = getWriteJdbc().update(sql.toString(), paramMap);
 		
-		// 更新到索引文件
-		LuceneTask luceneTask = new LuceneTask(entity, LuceneTask.updateDocument);
-		ThreadPoolManager.addThread(luceneTask);
-
+		
+		if(CollectionUtils.isNotEmpty(ClassUtils.getLuceneFields(entity.getClass()))){
+			// 更新到索引文件
+			LuceneTask luceneTask = new LuceneTask(entity, LuceneTask.updateDocument);
+			ThreadPoolManager.addThread(luceneTask);
+		 }
 		
 		
 		
@@ -926,9 +941,12 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		// 保存日志
 		saveNoLog(auditLog);
 
-		// 更新到索引文件
-		LuceneTask luceneTask = new LuceneTask(id, clazz);
-		ThreadPoolManager.addThread(luceneTask);
+		
+		if(CollectionUtils.isNotEmpty(ClassUtils.getLuceneFields(clazz))){
+			// 更新到索引文件
+			LuceneTask luceneTask = new LuceneTask(id, clazz);
+			ThreadPoolManager.addThread(luceneTask);
+		 }
 
 	}
 
@@ -943,9 +961,12 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		Finder finder = new Finder(sql);
 		finder.setParam("ids", ids);
 		update(finder);
-		// 更新到索引文件
-		LuceneTask luceneTask = new LuceneTask(ids, clazz);
-		ThreadPoolManager.addThread(luceneTask);
+		
+		if(CollectionUtils.isNotEmpty(ClassUtils.getLuceneFields(clazz))){
+			// 更新到索引文件
+			LuceneTask luceneTask = new LuceneTask(ids, clazz);
+			ThreadPoolManager.addThread(luceneTask);
+		 }
 	}
 
 	@Override

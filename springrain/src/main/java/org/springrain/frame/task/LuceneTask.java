@@ -1,5 +1,7 @@
 package org.springrain.frame.task;
 
+import java.util.List;
+
 import org.springrain.frame.util.LuceneUtils;
 
 public class LuceneTask implements Runnable {
@@ -34,11 +36,25 @@ public class LuceneTask implements Runnable {
 	public void run() {
 		try {
 			if (deleteDocument.equals(oper)) {
-				LuceneUtils.deleteDocument(entity,clazz);
+				if(entity instanceof List){
+					LuceneUtils.deleteListDocument((List)entity,clazz);
+				}else{
+					LuceneUtils.deleteDocument(entity,clazz);
+				}
+				
 			}else if (updateDocument.equals(oper))  {
-				LuceneUtils.updateDocument(entity);
+				if(entity instanceof List){
+					 LuceneUtils.updateListDocument((List)entity);
+				}else{
+				   LuceneUtils.updateDocument(entity);
+				}
 			}else if (saveDocument.equals(oper))  {
-				LuceneUtils.saveDocument(entity);
+				if(entity instanceof List){
+					LuceneUtils.saveListDocument((List)entity);
+				}else{
+					LuceneUtils.saveDocument(entity);
+				}
+				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
