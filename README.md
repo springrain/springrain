@@ -1,4 +1,4 @@
-项目名为springrain[春雨]我的个人博客是 http://www.9iu.org
+项目名为springrain[春雨]我的个人博客是 http://www.9iu.org  QQ群是:238904840
 #demo
 http://springrain.9iu.org
 #文档
