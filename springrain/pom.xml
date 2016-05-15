@@ -16,19 +16,19 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<junit.version>4.11</junit.version>
 
-		<aspectjweaver.version>1.8.2</aspectjweaver.version>
+		<aspectjweaver.version>1.8.9</aspectjweaver.version>
 		<!--  
 		<persistence-api.version>1.0.2</persistence-api.version>
 		-->
 		<spring.baseline.version>4.2.6.RELEASE</spring.baseline.version>
 		<spring-data-redis.version>1.7.1.RELEASE</spring-data-redis.version>
-		<slf4j-api.version>1.7.7</slf4j-api.version>
-		<jcl-over-slf4j.version>1.7.7</jcl-over-slf4j.version>
-		<logback.version>1.1.3</logback.version>
+		<slf4j-api.version>1.7.21</slf4j-api.version>
+		<jcl-over-slf4j.version>1.7.21</jcl-over-slf4j.version>
+		<logback.version>1.1.7</logback.version>
 
 		<commons-lang3.version>3.4</commons-lang3.version>
-		<commons-pool.version>2.4.1</commons-pool.version>
-		<commons-collections.version>4.0</commons-collections.version>
+		<commons-pool.version>2.4.2</commons-pool.version>
+		<commons-collections.version>4.1</commons-collections.version>
 		<commons-io.version>2.4</commons-io.version>
 		<commons-codec.version>1.9</commons-codec.version>
 		<commons-fileupload.version>1.3.1</commons-fileupload.version>
@@ -39,7 +39,7 @@
 		<jxl.version>2.6.12</jxl.version>
 		<jackson.version>1.9.13</jackson.version>
 		<fasterxml.version>2.7.3</fasterxml.version>
-		<druid.version>1.0.18</druid.version>
+		<druid.version>1.0.19</druid.version>
 		
 		<lucene.version>5.5.1</lucene.version>
 		<!-- 
@@ -47,7 +47,7 @@
 		 -->
 
 		<servlet-api.version>2.5</servlet-api.version>
-		<mysql-connector-java.version>5.1.35</mysql-connector-java.version>
+		<mysql-connector-java.version>5.1.39</mysql-connector-java.version>
 		<javax.persistence.version>2.1.0</javax.persistence.version>
 		<jsp-api.version>2.1</jsp-api.version>
 
@@ -118,14 +118,8 @@
 			<scope>provided</scope>
 		</dependency>
 		
-		<dependency>
-			 <groupId>org.eclipse.jetty</groupId> 
-			 <artifactId>jetty-webapp</artifactId>
-			 <version>${jetty.version}</version> 	
-			 <scope>provided</scope>
-		</dependency>
-
-<!-- 
+		
+ <!-- 
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>jasper</artifactId>
@@ -392,7 +386,7 @@
 		</dependency>
 		
 		
-		
+		<!-- 
 		
 		  <dependency>
             <groupId>com.ning</groupId>
@@ -411,7 +405,7 @@
             <artifactId>xstream</artifactId>
             <version>1.4.5</version>
         </dependency>
-        
+         -->
         
         <!-- lucene  -->
         
