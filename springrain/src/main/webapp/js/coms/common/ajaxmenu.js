@@ -1,23 +1,11 @@
 jQuery("document").ready(function() {
+	//调用ajax从后台获取菜单数据，加载菜单。
 	ajaxmenu();
+	//根据当前页面url显示内容区
+	myhref(urlHandler());
+	//更新当前菜单样式
+	flushMenuStyle();
 });
-
-function mynavhref(_url,_id,_name){
-	jQuery("a[id^='href_']").parent("li").removeClass("active");
-	var _li=jQuery("#href_"+_id).parent("li");
-
-	_li.addClass("active");
-	myhref(_url);
-
-	jQuery("#johnNav").html('<font style="font-weight:bold;">当前位置：</font>&nbsp;&nbsp;首页&nbsp;&nbsp;>&nbsp;&nbsp;'+_name);
-	//去掉select2的
-	 
-	jQuery("[role='status']").html('');
-	 
-	jQuery(".select2-drop").remove();
-}
-
-
 
 /**
  * 获取所有导航资源
@@ -44,10 +32,7 @@ function buildModule(data) {
 	
 		for ( var i = 0; i < data.length; i++) {
 			var html = '';
-			
-			
 			html = getParentModule(data[i]);
-			
 			jQuery("#module").append(html);
 		}
 	}
@@ -59,22 +44,18 @@ function getParentModule(json) {
 	
 	var t = '<li><a class="dropdown-toggle" ';
 	if(_leaf&&_leaf.length>0){
-		t =t+ ' href="####">';
+		t =t+ ' href="#'+json["id"]+'">';
 	}else{
-		t =t+ '  id=\'href_' +json["id"] + '\' href="javascript:mynavhref(\'' + ctx+json["pageurl"] + '\',\'' +json["id"] + '\',\'' +json["name"] + '\');">';
-		//t =t+ ' data-trigger="ajax"  data-target="#ajax_target"   href="' +ctx+ json["pageurl"] + '">';
-		
+		t =t+ ' id= '+json["id"] + ' href="index?id=' +json["id"] + '#href=' + ctx+json["pageurl"] + '">';
 	}
-
-	
 	var _icon=json["icon"];
 	if(_icon==null||_icon==""||_icon.length==0){
 		_icon="icon_default";
 	}
-	t=t+'<span class="'+_icon+' ace_ext_slide_icon"></span><span class="menu-text">'+ json["name"]+'</span>';
+	t=t+'<i class="menu-icon fa  '+_icon+'"></i><span class="menu-text">'+ json["name"]+'</span>';
 
 	if(_leaf&&_leaf.length>0){
-	t=t+'<b class="arrow fa fa-angle-down"></b></a><b class="arrow"></b>';
+	t=t+'</a><b class="arrow fa fa-angle-down"></b>';
 	var m = "<ul class='submenu'>";
 	
 	for ( var i = 0; i < _leaf.length; i++) {
@@ -84,27 +65,19 @@ function getParentModule(json) {
 	t = t + m + "</ul>";
 
 	}else{
-		
 		t = t +"</a>";
-		
 	}
-	
-	
-
-t= t+"</li>";
-
+	t= t+"</li>";
 	return t;
 }
 
 function getChindModule(json, html) {
-	
 	var _leaf=json["leaf"];
 	var t = '<li><a  ';
 	if(_leaf&&_leaf.length>0){
-		t =t+ ' class="dropdown-toggle" href="####">';
+		t =t+ ' class="dropdown-toggle" href="#">';
 	}else{
-		t =t+ '  id=\'href_' +json["id"] + '\' href="javascript:mynavhref(\'' + ctx+json["pageurl"] + '\',\'' +json["id"] + '\',\'' +json["name"] + '\');">';
-		//t =t+ ' data-trigger="ajax"  data-target="#ajax_target"  href="' +ctx+ json["pageurl"] + '">';
+		t =t+ '  id=' +json["id"] +' href="index?id=' +json["id"] + '#href=' + ctx+json["pageurl"] + '">';
 	}
 	t=t+'<i class="menu-icon fa fa-caret-right"></i>'+ json["name"];
 	
@@ -123,21 +96,71 @@ function getChindModule(json, html) {
 	}
 	html = html + t;
 	return html;
-	
-	
-}
-function openUrl(_url) {
-	if(_url=="####"){
-		return;
-	}
-	window.location.href = _url;
-}
-function openUrlctx(_url) {
-	
-	if(_url=="####"){
-		return;
-	}
-	window.location.href = ctx+_url;
-
 }
 
+//
+/**
+ * url处理方法，返回url中#号后面的url
+ * Example:
+ * input>localhost:8080/springrain/index?id=idStr#href=hrefStr
+ * output>hrefStr
+ */
+
+function urlHandler(){
+	var currentPageUrl=window.location.href;
+	var urlElementArr;
+	if(currentPageUrl.indexOf("?")==-1 || (currentPageUrl.indexOf("?")>currentPageUrl.indexOf("#"))){
+		urlElementArr="";
+	}else{
+		urlElementArr=currentPageUrl.substring(currentPageUrl.indexOf("?"));
+	}
+	if(!!urlElementArr){//非首页
+		var paramElementArr=urlElementArr.split("#");
+		return paramElementArr[1].substring(paramElementArr[1].indexOf("=")+1);
+	}else{//是首页
+		var firstMenu=$("#module").children('li').eq(0);
+		if(!!firstMenu.html()){//有一级菜单
+			var subMenus=firstMenu.contents("ul");
+			if(!!subMenus.html()){//含有二级菜单
+				var tempSubMenu=subMenus.children("li").eq(0);
+				if(!!tempSubMenu){
+					
+					return tempSubMenu.children("a").attr("href").split("?")[1].split("#")[1].split("=")[1];
+				}else{
+					return firstMenu.children("a").attr("href").split("?")[1].split("#")[1].split("=")[1];
+				}
+			}else{//没有二级菜单
+				return firstMenu.children("a").attr("href").split("?")[1].split("#")[1].split("=")[1];
+			}
+		}else{
+			return "";
+		}
+	}
+}
+
+/**
+ * 刷新左侧导航样式
+ * */
+function flushMenuStyle(){
+	var currentPageUrl=window.location.href;
+	var urlElementArr=currentPageUrl.split("?");
+	if(urlElementArr.length>1){//非首页
+		var paramElementArr=urlElementArr[1].split("#");
+		var menuId= paramElementArr[0].split("=")[1];
+		$("#"+menuId).parent("li").parent("ul").parent("li").addClass("active");
+		$("#"+menuId).parent("li").addClass("active");
+		//$("#rootMenuTitle").html($("#"+menuId).parent("li").parent("ul").parent("li").children("span.menu-text"));
+		$("#rootMenuTitle").html($("#"+menuId).parent("li").parent("ul").parent("li").children("a").eq(0).text());
+		$("#menuTitle").html($("#"+menuId).text());
+	}else{//首页
+		var menu=$("#module").children("li").eq(0);
+		if(!!menu.html()){
+			menu.addClass("active");
+			menu.children("ul").eq(0).children("li").eq(0).addClass("active");
+			$("#menuTitle").html(menu.children("ul").eq(0).children("li").eq(0).children('a').text());
+			$("#rootMenuTitle").html(menu.children("a").eq(0).text());
+		}
+	}
+	
+	
+}

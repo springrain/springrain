@@ -70,6 +70,11 @@
 				/js/** = anon
 				/css/** = anon
 				/images/** = anon
+				
+				<!-- S 目前将upload文件权限放开，等文件系统模块完成以后再修改  -->
+				/upload/**=anon
+				<!-- E  -->
+				
 				/unauth = anon
 				/system/unauth = anon
 				/getCaptcha=anon
@@ -85,6 +90,8 @@
 				/logout = logout
 				/**/ajax/** = user,framefwlog,keepone
 				/system/menu/leftMenu=systemuser,keepone
+				/system/menu/**=systemuser,keepone
+				/system/user/**=anon
 				/system/**=systemuser,framefwlog,keepone,frameperms
 				/** = frontuser,framefwlog,keepone,frameperms
 			</value>
