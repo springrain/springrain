@@ -1,0 +1,416 @@
+<#escape x as x?html>
+<link rel="stylesheet" href="${ctx}/ace/css/chosen.min.css" />
+
+<script type="text/javascript" src="${ctx}/js/system/dicdata/ajaxdicdata.js"></script>
+<script src="${ctx}/ace/js/chosen.jquery.min.js"></script>
+<link href="${ctx}/js/coms/sco/css/scojs.css" rel="stylesheet" />
+<script src="${ctx}/js/coms/sco/js/sco.ajax.js"></script>
+<script src="${ctx}/js/coms/sco/js/sco.modal.js"></script>
+<link rel="stylesheet" href="${ctx}/js/coms/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
+<script type="text/javascript" src="${ctx}/js/coms/ztree/js/jquery.ztree.all-3.5.js"></script>
+<script type="text/javascript" src="${ctx}/js/coms/common/ztreeUtils.js"></script>
+<script type="text/javascript" src="${ctx}/js/jquery/ajaxfileupload.js"></script>
+<SCRIPT type="text/javascript">
+
+jQuery(document).ready(function(){
+	$('#fileupload').ace_file_input({
+		no_file: '选择新头像',
+		btn_choose:'上传',
+		btn_change:'重新选择'
+	}).on('change',function(){
+		var files=$(this).data('ace_input_files');
+		var method=$(this).data('ace_input_method');
+		 $.ajaxFileUpload({
+            url: '${ctx}/system/user/headImgUpload', 
+            type: 'post',
+            secureuri: false, //一般设置为false
+            fileElementId: 'fileupload', // 上传文件的id、name属性名
+            dataType: 'json', //返回值类型，一般设置为json、application/json
+            success: function(ret, status){  
+            	var url="${ctx}"+ret.data;
+            	$("#emp_pic").attr("src",url);
+            },
+            error: function(data, status, e){ 
+                console.log(e);
+            }
+        });
+	});
+	$('#roleIds').chosen({allow_single_deselect:true}); 
+	$(window).on('resize.chosen', function() {
+		var w = $('.chosen-select').parent().width();
+		$('.chosen-select').next().css({'width':w});
+	}).trigger('resize.chosen');
+	
+	//提交表单
+	$("#updateForm").submit(function(){
+		$("#orgIds").val($("#pid").val());
+	});
+	
+	//加载级别
+	ajaxDicData("grade","gradeId","","id");
+	
+	//加载角色
+	jQuery.ajax({
+		url : ctx+"/system/role/list/json",
+		type : "post",
+		dataType : "json",
+		success : function(_json) {
+			if(_json.status=="error"){
+				return;
+			}
+			
+			jQuery(_json.data).each(function(i,_obj){
+				jQuery("#roleIds").append("<option value='"+_obj.id+"'>"+_obj.name+"</option>");
+			});
+			
+			jQuery("#roleIds").trigger("chosen:updated");  
+		}
+	});
+	
+	//回选 下拉框
+	jQuery("#search_state option[value='${(returnDatas.queryBean.state)!'是'}']").attr("selected",true);
+	
+	$(".sub_left_menu tbody tr").click(function() {
+		$(".sub_left_menu tbody tr.active").removeClass("active");
+		$(this).attr("class", "active");
+		var _url=ctx + "/system/user/look/json?id="+ $(this).attr("id");
+	
+		jQuery.ajax({
+			url : _url,
+			type : "post",
+			dataType : "json",
+			success : function(_json) {
+				if(_json.status=="success"){
+					showdata(_json);
+				}
+			}
+		});
+		return false;
+	})
+});
+
+var org_modal=null;
+function showOrgModal(){
+	if(org_modal!=null){
+		org_modal.show();
+		return;
+	}
+	
+	 org_modal=$.scojs_modal({
+		  title: '选择部门',
+		  remote: "${ctx}/system/org/tree",
+		  uuid:"orgTree",
+		  fun_confirm:"selectOrgVal"
+		  
+		});
+	  org_modal.show();
+
+}
+
+
+function selectOrgVal(uuid){
+	  org_modal.close();
+}
+
+
+
+function deleteUser(){
+	var id=jQuery("#id").val();
+	if(!id||id==""){
+		myalert("请选择你要删除的记录");
+		return;
+	}else{
+		var _url="${ctx}/system/user/delete?id="+id;
+		var listurl="${ctx}/system/user/list";
+		mydelete(_url,listurl);
+	}
+}
+
+function showdata(result) {
+	
+	for (var s in result.data) {
+		set_val(s, result.data[s]);
+	}
+	
+	
+	  var orgNames="";
+	  var orgIds="";
+	  jQuery(result.data["userOrgs"]).each(function(i,_obj){
+		  orgNames+=_obj.name+",";
+		  orgIds+=_obj.id+",";
+	  });
+	 
+	  jQuery("#orgNames").val(orgNames);
+	  jQuery("#orgIds").val(orgIds);
+	  
+	  jQuery("#password").val("");
+	
+	  $("#roleIds").find("option:selected").attr("selected",false);
+	  jQuery(result.data["userRoles"]).each(function(i,_obj){
+			jQuery("#roleIds option[value='"+_obj.id+"']").attr("selected",true);
+	  });
+
+	  jQuery("#roleIds").trigger("chosen:updated");  
+
+}
+
+
+
+</SCRIPT>
+
+
+
+
+
+
+
+<div class="operate panel panel-default" style="height:65px;">
+	<div class="panel-body">
+		<div class="pull-left">
+<form class="form-horizontal" method="post"  action="${ctx}/system/user/list"  name="searchForm"  id="searchForm">
+	<input type="hidden" name="pageIndex" id="pageIndex" value="${(returnDatas.page.pageIndex)!'1'}" />
+<input type="hidden" name="sort" id="page_sort" value="${(returnDatas.page.sort)!'desc'}"  />
+<input type="hidden" name="order" id="page_order" value="${(returnDatas.page.order)!'id'}"  />
+			<label for="search_state"><b>是否可用:</b></label> 
+			 <select id="search_state" name="state" class="col-10" >
+				<option value="是">是</option>
+				<option value="否">否</option>
+			</select>
+			<a  href="javascript:mySubmitForm('searchForm');"
+				class="btn btn-purple btn-sm">
+					查询 <i class="ace-icon fa fa-search icon-on-right bigger-10"></i>
+				</a>
+
+</form>
+		</div>
+		<div class="pull-right">
+			<@shiro.hasPermission name="/system/user/updateall/pwd" >
+			<button onclick="export_excel('searchForm');"
+				class="btn  btn-sm  btn-primary">
+				 修改密码
+			</button>
+			</@shiro.hasPermission>
+			
+			 <@shiro.hasPermission
+			name="/system/user/update" >
+			<button onclick="commonSaveForm('updateForm','${ctx}/system/user/list');"
+				class="btn  btn-sm  btn-primary">
+				添加
+			</button>
+				<button onclick="commonUpdateForm('updateForm','${ctx}/system/user/list');"
+				class="btn  btn-sm  btn-primary">
+				修改
+			</button>
+			
+			</@shiro.hasPermission>
+			 <@shiro.hasPermission name="/system/user/delete" >
+			<button onclick="deleteUser();" class="btn btn-sm  btn-danger">
+				 删除
+			</button>
+			</@shiro.hasPermission>
+		</div>
+	</div>
+</div>
+
+
+<!-- /.page-header -->
+
+
+
+<div class="row">
+	<div class="col-xs-12">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="col-sm-4 sub_left_menu ">
+					<div class="widget-box">
+						<div class="widget-header">
+							<h4 class="widget-title">账号列表</h4>
+						</div>
+						<div class="widget-body">
+							<div class="widget-main">
+								<table class="table table-striped">
+									<thead>
+										<tr>
+											<th>账号</th>
+											<th>姓名</th>
+											<th>工号</th>
+											<th>是否可用</th>
+										</tr>
+									</thead>
+									<tbody>
+									
+								    <#if (returnDatas.data??)&&(returnDatas.data?size>0)>
+									   <#list returnDatas.data as _data>
+											<tr id="${(_data.id)!''}">
+												<td>${(_data.account)!''}</td>
+												<td>${(_data.name)!''}</td>
+												<td>${(_data.workno)!''}</td>
+												<td>${(_data.state)!''}</td>
+											</tr>
+				                         </#list>
+									 </#if>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-8">
+					<div class="widget-box">
+						<div class="widget-header">
+							<h4 class="widget-title">详细信息</h4>
+						</div>
+						<div class="widget-body">
+							<div class="widget-main">
+								<form class="form-horizontal clearfix" method="post"  action="${ctx}/system/user/update"  name="updateForm" id="updateForm">
+									<input type="hidden" id="id" name="id" value="48"> 
+									<input type="hidden" id="pic" name="pic" value=""> 
+									<input type="hidden" id="orgIds" name="orgIds">
+									<input type="hidden" id="userType" name="userType" value="1">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="account" style="padding-top:31px;"> 头像 </label>
+										
+											<div class="col-sm-9">
+												<img class="pull-left" alt="头像" src="${ctx}/ace/avatars/avatar5.png" >
+												<label class="ace-file-input col-sm-6" style="padding-top:20px;">
+													<input type="file" id="fileupload" name="fileupload">
+												</label>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="account"> 账号: </label>
+										
+											<div class="col-sm-9">
+												<input type="text" id="account" name="account" placeholder="账号" class="form-control">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="password"> 密码: </label>
+										
+											<div class="col-sm-9">
+												<input type="password" id="password" name="password" placeholder="密码" class="form-control">
+											</div>
+										</div>
+										
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="name"> 姓名: </label>
+											<div class="col-sm-9">
+												<input type="text" id="name" name="name" placeholder="姓名" class="form-control">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="sex"> 性别 </label>
+											<div class="col-sm-9">
+												<select class="form-control " id="sex" name="sex">
+														<option value="男">男</option>
+														<option value="女">女</option>
+												</select>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="roleIds"> 角色 </label>
+											<div class="col-sm-9">
+												<select  id="roleIds" name="roleIds"   class="chosen-select"  multiple data-placeholder="请选择角色">
+												</select>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="pname"> 部门</label>
+											<div class="col-sm-9">
+												<div class="input-group">
+													<input type="text" readonly="readonly" msg="请选择部门" id="pname" class="form-control"> 
+												    <input type="hidden"  msg="请选择部门" id="pid" value="">
+													<div class="input-group-btn">
+														<a onclick="showOrgModal();" class="btn btn-sm btn-primary">
+															<i class="fa fa-search"></i>
+														</a>
+													</div>
+												</div>
+											</div>
+										</div>
+										
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" for="gradeId"> 级别 </label>
+											<div class="col-sm-9">
+												<select  id="gradeId" name="gradeId"   class="chosen-select"  data-placeholder="">
+												</select>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-5">
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right no-padding-left" for="workno"> 工号 </label>
+											<div class="col-sm-9">
+												<input type="text" id="workno" name="workno" placeholder="工号" class="form-control">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right no-padding-left" for="cardno"> 身份证号 </label>
+											<div class="col-sm-9">
+												<input type="text" id="cardno" name="cardno" placeholder="身份证号" class="form-control">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right no-padding-left" for="mobile"> 移动电话 </label>
+											<div class="col-sm-9">
+												<input type="text" id="mobile" name="mobile" placeholder="移动电话" class="form-control">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right no-padding-left" for="phone"> 办公室电话 </label>
+											<div class="col-sm-9">
+												<input type="text" id="phone" name="phone" placeholder="办公室电话" class="form-control">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right no-padding-left" for="email"> 电子邮箱 </label>
+											<div class="col-sm-9">
+												<input type="text" id="email" name="email" placeholder="电子邮箱" class="form-control">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right no-padding-left" for="address"> 住址 </label>
+											<div class="col-sm-9">
+												<input type="text" id="address" name="address" placeholder="住址" class="form-control">
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right no-padding-left" for="state"> 是否可用</label>
+											<div class="col-sm-9">
+												<select id="state" name="state" class="form-control col-10">
+													<option value="是">是</option>
+													<option value="否">否</option>
+												</select>
+											</div>
+										</div>
+									</div>
+									
+								</form>
+							</div>
+						</div>
+					</div>
+					
+
+				</div>
+
+
+
+			</div>
+			<!-- /.span -->
+
+		</div>
+
+		<#if returnDatas.page??> <@h.pagetoolbar page=returnDatas.page
+		formId='searchForm' /> </#if>
+
+	</div>
+</div>
+
+
+<!-- /.main-container -->
+
+
+
+
+</#escape>

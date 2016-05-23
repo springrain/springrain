@@ -1,0 +1,123 @@
+<#escape x as x?html>
+<!-- /.page-header -->
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("[name='searchForm']").submit(function(){
+			myhref("${ctx}/system/fwlog/list?pageIndex="+$("#pageIndex").val()+"&sort="+$("#sort").val()+"&order="+$("#order").val()+"&title="+$("#search_title").val());
+			return false;
+		});
+		
+		$("#searchBtn").click(function(){
+			myhref("${ctx}/system/fwlog/list?pageIndex="+$("#pageIndex").val()+"&sort="+$("#sort").val()+"&order="+$("#order").val()+"&title="+$("#search_title").val());
+		});
+	});
+</script>
+<div class="row">
+	<div class="col-xs-12">
+		<div class="operate panel panel-default">
+			<div class="panel-body">
+				<div class="pull-left">
+ 					<form class="form-horizontal" name="searchForm" id="searchForm" action="${ctx}/system/fwlog/list" role="form">
+			            <input type="hidden" name="pageIndex" id="pageIndex" value="${(returnDatas.page.pageIndex)!'1'}"/>
+			            <input type="hidden" name="sort" id="page_sort" value="${(returnDatas.page.sort)!'desc'}"/>
+			            <input type="hidden" name="order" id="page_order" value="${(returnDatas.page.order)!'createTime'}"/>
+	      				<div class="form-group">
+							<label class="control-label"  for="search_title" >标题</label>
+							<input name="title"  id="search_title" value="${(returnDatas.queryBean.title)!''}"  type="text" />
+							<a  href="javascript:mySubmitForm('searchForm');"
+							class="btn btn-purple btn-sm">
+							<span class="ace-icon fa fa-search icon-on-right bigger-110" id="searchBtn"></span>
+								查询  
+							</a>
+						</div>
+					</form>
+				</div>
+			<div class="pull-right">
+			  	<button class="btn btn-primary">
+	                	添加
+	            </button>
+	            <button  class="btn btn-primary">
+	                	修改
+	            </button>
+	            <button  class="btn btn-primary">
+	                	删除
+	            </button>
+	            <button  class="btn btn-primary">
+	               	 统计
+	            </button>
+			</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-xs-12">
+    <!--start_export-->
+    	<table c class="table table-striped table-bordered table-hover">
+           	<!--end_no_export-->
+           	<!--first_start_export-->
+           	<thead>
+              	<tr>
+                  	<!--first_start_no_export-->
+                  	<th>操作</th>
+                  	<!--first_end_no_export-->
+					<th id="th_userCode" >用户</th>
+					<th id="th_userName" >中文名</th>
+					<th id="th_strDate" >时间</th>
+					
+					<th id="th_menuName" >菜单名称</th>
+					<th id="th_fwUrl" >访问URL</th>
+ 
+              	</tr>
+           	</thead>
+            <!--first_end_export-->
+
+            <!--start_export-->
+			<tbody>
+				<#if (returnDatas.data??)&&(returnDatas.data?size>0)>
+					<#list returnDatas.data as _data>
+	                    <!--start_no_export-->
+	                    <tr class="">
+	                        <td>
+	                            <div class="hidden-sm hidden-xs btn-group">
+	                                <button class="btn btn-primary btn-sm">
+	                                   	编辑
+	                                </button>
+	                                <button class="btn btn-primary btn-sm">
+	                                    	删除
+	                                </button>
+	                            </div>
+	                        </td>
+	                        <!--end_no_export-->
+							<td >
+								${(_data.userCode)!''}
+							</td>
+							<td >
+								${(_data.userName)!''}
+							</td>
+							<td >
+								<!--日期型-->
+							${(_data.strDate)!''}
+							</td>
+						
+							<td >
+								${(_data.menuName)!""}
+							</td>
+							<td >
+								${(_data.fwUrl)!''}
+							</td>
+						</tr>
+					</#list>
+					 </#if>
+                    </tbody>
+                </table>
+                <!--end_export-->
+            </div>
+            <!-- /.span -->
+        </div>
+        <#if returnDatas.page??>	
+            <@h.pagetoolbar page=returnDatas.page formId='searchForm' />
+         </#if>
+    </div>
+</div>
+<!-- /.main-container -->
+</#escape>

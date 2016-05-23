@@ -1,0 +1,62 @@
+<#escape x as x?html>
+<@h.aceplugin />
+		<title>后台管理系统</title>
+		<meta name="description" content="overview &amp; stats" />
+	</head>
+
+	<body class="no-skin">
+		<form id="centfor_sco_ajax_form"  method="POST"></form>
+		<@h.navbar />
+
+		<div class="main-container" id="main-container">
+			<@h.sidebar />
+			<div class="main-content">
+				<div class="main-content-inner">
+					
+					<div class="page-content">
+
+						<div class="page-header">
+							<h1>
+								<span id="rootMenuTitle"></span>
+								<small>
+									<i class="ace-icon fa fa-angle-double-right"></i>
+									<span id="menuTitle"></span>
+								</small>
+							</h1>
+						</div><!-- /.page-header -->
+
+						<div class="row">
+							<div class="col-xs-12"  id="ajax_target">
+								<!-- PAGE CONTENT BEGINS -->
+								<div class="alert alert-block alert-success">
+									<button type="button" class="close" data-dismiss="alert">
+										<i class="ace-icon fa fa-times"></i>
+									</button>
+
+									<i class="ace-icon fa fa-check green"></i>
+
+									欢迎使用
+									<strong class="green">
+										智慧政务管理系统
+										<small>(v1.0)</small>
+									</strong>
+									
+								</div>
+								<!-- PAGE CONTENT ENDS -->
+							</div><!-- /.col -->
+						</div><!-- /.row -->
+					</div><!-- /.page-content -->
+				</div>
+			</div><!-- /.main-content -->
+
+			<@h.footer />
+
+			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+				<i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+			</a>
+		</div><!-- /.main-container -->
+
+		
+	</body>
+</html>
+</#escape>

@@ -1,0 +1,274 @@
+<#-- 全局变量 --> 
+<#global ctx="${(ctp.contextPath)!''}"> 
+
+<#macro head>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta charset="utf-8" />
+<script type="text/javascript">
+	var ctx="${ctx}";
+</script>
+</#macro>
+
+<#macro ace>
+<@head />
+	<!-- bootstrap & fontawesome -->
+	<link rel="stylesheet" href="${ctx}/ace/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="${ctx}/ace/font-awesome/4.2.0/css/font-awesome.min.css" />
+	
+	<!-- page specific plugin styles -->
+	
+	<!-- text fonts -->
+	<link rel="stylesheet" href="${ctx}/ace/fonts/fonts.googleapis.com.css" />
+	
+	<!-- ace styles -->
+	<link rel="stylesheet" href="${ctx}/ace/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
+	
+	<!--[if lte IE 9]>
+		<link rel="stylesheet" href="${ctx}/ace/css/ace-part2.min.css" class="ace-main-stylesheet" />
+	<![endif]-->
+	
+	<!--[if lte IE 9]>
+	  <link rel="stylesheet" href="${ctx}/ace/css/ace-ie.min.css" />
+	<![endif]-->
+	
+	<!-- inline styles related to this page -->
+	
+	<!-- ace settings handler -->
+	<script src="${ctx}/ace/js/ace-extra.min.js"></script>
+	
+	<!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+	
+	<!--[if lte IE 8]>
+	<script src="${ctx}/ace/js/html5shiv.min.js"></script>
+	<script src="${ctx}/ace/js/respond.min.js"></script>
+	<![endif]-->
+</#macro>
+
+<#macro aceplugin>
+<@ace/>
+<@basicScript/>
+
+</#macro>
+
+<#macro basicScript>
+	<!--[if !IE]> -->
+	<script src="${ctx}/ace/js/jquery.2.1.1.min.js"></script>
+	
+	<!-- <![endif]-->
+	
+	<!--[if IE]>
+		<script src="${ctx}/ace/js/jquery.1.11.1.min.js"></script>
+	<![endif]-->
+	
+	<!--[if !IE]> -->
+	<script type="text/javascript">
+		window.jQuery || document.write("<script src='${ctx}/ace/js/jquery.min.js'>"+"<"+"/script>");
+	</script>
+	
+	<!-- <![endif]-->
+	
+	<!--[if IE]>
+	<script type="text/javascript">
+	 	window.jQuery || document.write("<script src='${ctx}/ace/js/jquery1x.min.js'>"+"<"+"/script>");
+	</script>
+	<![endif]-->
+	<script type="text/javascript">
+		if('ontouchstart' in document.documentElement) document.write("<script src='${ctx}/ace/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+	</script>
+	<script src="${ctx}/ace/js/bootstrap.min.js"></script>
+	
+	<!-- page specific plugin scripts -->
+	
+	
+	<!-- ace scripts -->
+	<script src="${ctx}/ace/js/ace-elements.min.js"></script>
+	<script src="${ctx}/ace/js/ace.min.js"></script>
+	<!--custom scripts   --> 
+	<script src="${ctx}/js/coms/common/ajaxmenu.js"></script>
+	<script src="${ctx}/js/coms/common/common.js"></script>
+	<script src="${ctx}/js/coms/common/messager.js"></script>
+	<script src="${ctx}/js/coms/common/pagetoolbar.js"></script>
+	<!-- box 插件 -->
+	<script src="${ctx}/ace/js/bootbox.min.js"></script>
+	<script src="${ctx}/js/jquery/jquery.form.js"></script>
+	
+	
+</#macro>
+
+<#macro navbar>
+	<div id="navbar" class="navbar navbar-default">
+	<script type="text/javascript">
+		try{ace.settings.check('navbar' , 'fixed')}catch(e){}
+	</script>
+
+	<div class="navbar-container" id="navbar-container">
+		<button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
+			<span class="sr-only">Toggle sidebar</span>
+
+			<span class="icon-bar"></span>
+
+			<span class="icon-bar"></span>
+
+			<span class="icon-bar"></span>
+		</button>
+
+		<div class="navbar-header pull-left">
+			<a href="index.html" class="navbar-brand">
+				<small>
+					<i class="fa fa-comments"></i>
+					后台管理系统
+				</small>
+			</a>
+		</div>
+
+		<div class="navbar-buttons navbar-header pull-right" role="navigation">
+			<ul class="nav ace-nav">
+				<li class="green">
+					<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+						<i class="ace-icon fa fa-envelope "></i>
+						<span class="badge badge-success">0</span>
+					</a>
+
+					<ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
+						<li class="dropdown-header">
+							<i class="ace-icon fa fa-envelope-o"></i>
+							0信息
+						</li>
+					</ul>
+				</li>
+
+				<li class="light-blue">
+					<a data-toggle="dropdown" href="#" class="dropdown-toggle">
+						<img class="nav-user-photo" src="${ctx}/ace/avatars/user.jpg" alt="Jason's Photo" />
+						<span class="user-info">
+							<small>欢迎,</small>
+							Jason
+						</span>
+
+						<i class="ace-icon fa fa-caret-down"></i>
+					</a>
+
+					<ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+						<li>
+							<a href="#">
+								<i class="ace-icon fa fa-cog"></i>
+								设置
+							</a>
+						</li>
+
+						<li>
+							<a href="profile.html">
+								<i class="ace-icon fa fa-user"></i>
+								个人信息
+							</a>
+						</li>
+
+						<li class="divider"></li>
+
+						<li>
+							<a href="${ctx}/logout">
+								<i class="ace-icon fa fa-power-off"></i>
+								退出
+							</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div><!-- /.navbar-container -->
+</div>
+</#macro>
+<#macro sidebar>
+	<script type="text/javascript">
+		try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+	</script>
+
+	<div id="sidebar" class="sidebar responsive">
+		<script type="text/javascript">
+			try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
+		</script>
+
+		<ul class="nav nav-list" id="module">
+		
+		</ul><!-- /.nav-list -->
+
+		<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+			<i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+		</div>
+
+		<script type="text/javascript">
+			try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
+		</script>
+	</div>
+	
+</#macro>
+
+<#macro pagetoolbar page,formId>
+	<#if (page.pageIndex >= page.pageCount) && (page.pageCount != 0)>
+		<#assign index = page.pageCount />
+	<#else>
+		<#assign index = page.pageIndex />
+	</#if>
+<div class="row">
+    <div class="col-xs-12 pagination pull-left">
+        <div class="dataTables_paginate paging_bootstrap">
+            <ul class="pagination pull-left">
+               	<#if page.firstPage>
+                <li class="prev"><a href="javascript:startPage('${formId}');"><i class="fa fa-angle-double-left"></i></a></li>
+                <#else>
+                 <li  class="prev disabled"><a href="javascript:void(0);"><i class="fa fa-angle-double-left"></i></a></li>
+                </#if>
+               
+               <#assign _start=1 />
+               <#if (index>3)>
+                <#assign _start=index-2 />
+               </#if>
+               <#assign _end=1 />
+               <#if (page.pageCount-index>=2)>
+                 <#assign _end=index+2 />
+                 <#else>
+                   <#assign _end=page.pageCount />
+               </#if>
+               <#if (_end<1)>
+               <#assign _end=1 />
+               </#if>
+                
+                <#list _start.._end as t>
+                <#if t==index>
+                 <li class="active"><a href="javascript:void(0);">${t}</a></li>
+                 <#else>
+                  <li><a href="javascript:toPage('${formId}','${t}');">${t}</a></li>
+                 </#if>
+                </#list>
+             
+                <#if page.lastPage>
+                <li class="next"><a href="javascript:endPage('${formId}','${page.pageCount}');"><i class="fa fa-angle-double-right"></i></a></li>
+                <#else>
+                 <li class="next disabled"><a href="javascript:void(0);"><i class="fa fa-angle-double-right"></i></a></li>
+                </#if>
+                 <li class="disabled"><a href="javascript:void(0);">共${page.pageCount}页${page.totalCount}条</a></li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+</#macro>
+<#macro footer>
+	<div class="footer">
+		<div class="footer-inner">
+			<div class="footer-content">
+				<span class="bigger-120">
+					<span class="blue bolder">SpringRain</span>
+					&copy; forever
+				</span>
+	
+			</div>
+		</div>
+	</div>
+</#macro>
