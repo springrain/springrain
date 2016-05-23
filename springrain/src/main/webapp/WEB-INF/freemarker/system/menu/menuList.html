@@ -17,20 +17,31 @@
 				pIdKey : "pid",
 				rootPId : "null"
 			}
+		},
+		async:{
+			enable:true,
+			url:"${ctx}/system/menu/list/json",
+			dataFilter:ajaxDataFilter
 		}
 	};
-
+	
+	function ajaxDataFilter(treeId, parentNode, responseData) {
+		var returnData=new Array();
+	    if (responseData) {
+	      for(var i =0; i < responseData.data.length; i++) {
+	    	  returnData[i]=new Object();
+	    	  returnData[i].name = responseData.data[i].name;
+	    	  returnData[i].id=responseData.data[i].id;
+	    	  returnData[i].pid=responseData.data[i].pid;
+	    	  returnData[i].iconId=responseData.data[i].icon;
+	      }
+	    }
+	    return returnData;
+	};
+	
 	$(document).ready(function() {
-		
-		jQuery.post("${ctx}/system/menu/list/json",
-				function(_json) {
-					if (_json.status == "success") {
-						$.fn.zTree.init($("#menuListTree"), menuTreesetting,_json.data);
-						var zTree =$.fn.zTree.getZTreeObj("menuListTree");
-					} else {
-						myalert(_json.message);
-					}
-				});
+			$.fn.zTree.init($("#menuListTree"), menuTreesetting,null);
+			zTree =$.fn.zTree.getZTreeObj("menuListTree");
 		
 	});
 	
@@ -44,6 +55,9 @@
 		});
 		for (var s in result) {
 			set_val(s, result[s]);
+			if(s=="iconId"){
+				$("#icon").val(result[s]);
+			}
 		}
 		
 		var _pid=result["pid"];
