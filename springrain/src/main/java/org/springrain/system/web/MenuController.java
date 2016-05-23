@@ -76,8 +76,6 @@ public class MenuController  extends BaseController {
 	ReturnDatas listjson(HttpServletRequest request, Model model, Menu menu) throws Exception {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 	
-		//Page page = newPage(request);
-		
 		List<Menu> datas = menuService.findListDataByFinder(null, null, Menu.class, menu);
 		returnObject.setQueryBean(menu);
 		//returnObject.setPage(page);
@@ -271,7 +269,11 @@ public class MenuController  extends BaseController {
 	}
 	
 	
-	
+	@RequestMapping("/icon")
+	public String icon(HttpServletRequest request, Model model,Org org) 
+			throws Exception {
+		return "/system/menu/icon";
+	}
 	
 	
 	

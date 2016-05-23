@@ -55,7 +55,7 @@ function getParentModule(json) {
 	t=t+'<i class="menu-icon fa  '+_icon+'"></i><span class="menu-text">'+ json["name"]+'</span>';
 
 	if(_leaf&&_leaf.length>0){
-	t=t+'</a><b class="arrow fa fa-angle-down"></b>';
+	t=t+'<b class="arrow fa fa-angle-down"></b></a><b class="arrow fa fa-angle-down"></b>';
 	var m = "<ul class='submenu'>";
 	
 	for ( var i = 0; i < _leaf.length; i++) {
