@@ -1,10 +1,13 @@
 package org.springrain.system.web;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import javax.annotation.Resource;
@@ -14,9 +17,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springrain.frame.controller.BaseController;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.MessageUtils;
@@ -132,9 +137,7 @@ public class UserController extends BaseController {
 		} else {
 			returnObject.setStatus(ReturnDatas.ERROR);
 		}
-
 		return returnObject;
-
 	}
 
 	/**
@@ -177,13 +180,8 @@ public class UserController extends BaseController {
 					org.setId(s2);
 					listOrg.add(org);
 				}
-				
 			}
-			
-		
 			user.setUserOrgs(listOrg);
-			
-			
 			String[] roleIds=request.getParameterValues("roleIds");
 			List<Role> listRole=null;
 			if(roleIds!=null&&roleIds.length>0){
@@ -200,18 +198,8 @@ public class UserController extends BaseController {
 					role.setId(s2);
 					listRole.add(role);
 				}
-				
 			}
-			
-		
 			user.setUserRoles(listRole);
-			
-			
-			
-			
-			
-			
-
 			if (StringUtils.isBlank(id)) {
 				user.setId(null);
 				userService.saveUser(user);
@@ -219,7 +207,6 @@ public class UserController extends BaseController {
 			} else {
 				userService.updateUser(user);
 			}
-
 		} catch (Exception e) {
 			String errorMessage = e.getLocalizedMessage();
 			logger.error(errorMessage);
@@ -290,5 +277,38 @@ public class UserController extends BaseController {
 		return new ReturnDatas(ReturnDatas.SUCCESS,
 				MessageUtils.DELETE_ALL_SUCCESS);
 	}
-
+	
+	@RequestMapping("/headImgUpload")
+	public @ResponseBody ReturnDatas headImgUpload(@RequestParam("fileupload") CommonsMultipartFile[] fileupload,HttpServletRequest request,HttpServletResponse response){
+		ReturnDatas returnDatas=ReturnDatas.getSuccessReturnDatas();
+		if(fileupload!=null || fileupload.length>0){
+			for (int i = 0; i < fileupload.length; i++) {
+				File destFile =null;
+				String filename = fileupload[i].getOriginalFilename();
+				String url="/upload/";
+				String uploadDirPath = url;
+				File dir = new File(uploadDirPath); 
+				if (!dir.exists()) { 
+					dir.mkdirs();
+				}
+				String ext = filename.substring(filename.lastIndexOf("."));
+				filename = new Date().getTime() + "_" + new Random().nextInt(120000) + ext;
+				String filePath = uploadDirPath + filename; 
+				destFile = new File(filePath);
+				try {
+					FileCopyUtils.copy(fileupload[i].getBytes(), destFile);
+					returnDatas.setData(filePath); 
+					return returnDatas; 
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					returnDatas.setMessage("系统异常");
+					returnDatas.setStatus(ReturnDatas.ERROR);
+					returnDatas.setStatusCode("500");
+					return returnDatas;
+				}
+			}
+		}
+		return returnDatas;
+	} 
 }
