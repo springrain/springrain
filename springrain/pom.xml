@@ -35,7 +35,7 @@
 
 		<freemarker.version>2.3.22</freemarker.version>
 		<jedis.version>2.8.1</jedis.version>
-		<shiro.version>1.2.4</shiro.version>
+		<shiro.version>1.2.5</shiro.version>
 		<jxl.version>2.6.12</jxl.version>
 		<jackson.version>1.9.13</jackson.version>
 		<fasterxml.version>2.7.3</fasterxml.version>
