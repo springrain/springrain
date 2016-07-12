@@ -6,6 +6,7 @@
 	<artifactId>springrain</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
+	
 
 	<name>springrain</name>
 	<url>http://git.oschina.net/chunanyong/springrain</url>
@@ -39,7 +40,10 @@
 		<jxl.version>2.6.12</jxl.version>
 		<jackson.version>1.9.13</jackson.version>
 		<fasterxml.version>2.7.3</fasterxml.version>
-		<druid.version>1.0.19</druid.version>
+		<druid.version>1.0.22</druid.version>
+		<httpcore.version>4.4.5</httpcore.version>
+		<httpclient.version>4.5.2</httpclient.version>
+		
 		
 		<lucene.version>5.5.1</lucene.version>
 		<!-- 
@@ -438,6 +442,22 @@
        </dependency>
        
        
+       
+      <dependency>
+	    <groupId>org.apache.httpcomponents</groupId>
+	    <artifactId>httpclient</artifactId>
+	    <version>${httpclient.version}</version>
+     </dependency>
+      <dependency>
+	    <groupId>org.apache.httpcomponents</groupId>
+	    <artifactId>httpmime</artifactId>
+	    <version>${httpclient.version}</version>
+     </dependency>
+     <dependency>
+	    <groupId>org.apache.httpcomponents</groupId>
+	    <artifactId>httpcore</artifactId>
+	    <version>${httpcore.version}</version>
+	 </dependency>
        
        <!--  
 		<dependency>
