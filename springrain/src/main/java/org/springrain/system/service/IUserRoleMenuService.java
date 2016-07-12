@@ -93,7 +93,7 @@ public interface IUserRoleMenuService extends IBaseSpringrainService {
 	 * @param menus
 	 * @throws Exception
 	 */
-  void updateRoleMenu(String roleId,String[] menus)throws Exception;
+ // void updateRoleMenu(String roleId,String[] menus)throws Exception;
   /**
    * 根据UserId 获取用户的角色
    * @param userId

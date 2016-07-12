@@ -7,6 +7,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.util.CollectionUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
@@ -31,7 +32,9 @@ import org.springrain.system.service.IUserRoleMenuService;
 @Service("roleService")
 public class RoleServiceImpl extends BaseSpringrainServiceImpl implements IRoleService {
 	@Resource
-private IUserRoleMenuService userRoleMenuService;
+    private IUserRoleMenuService userRoleMenuService;
+	@Resource
+	private CacheManager shiroCacheManager;
    
     @Override
 	public String  saveRole(Role entity) throws Exception{
@@ -41,6 +44,11 @@ private IUserRoleMenuService userRoleMenuService;
     @Override
 	@CacheEvict(value=GlobalStatic.qxCacheKey,allEntries=true)  
 	public String  saveorupdateRole(Role role) throws Exception{
+    	
+    	//更新 shiro 的权限缓存
+    	shiroCacheManager.getCache(GlobalStatic.authorizationCacheName).clear();
+    	
+    	
     	      List<Menu> menus = role.getMenus();
     	                 
     	    String id = super.saveorupdate(role).toString();

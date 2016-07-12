@@ -122,7 +122,7 @@ public class UserRoleMenuServiceImpl extends BaseSpringrainServiceImpl implement
 		if(menutype!=null){
 			finder.append(" and m.type=:menutype ").setParam("menutype", menutype);
 		}
-		finder.append(" order by m.sort asc ");
+		finder.append(" order by m.sort asc,m.id asc ");
 		finder.setParam("userId", userId).setParam("state", "是");
 		
 		return finder;
@@ -225,11 +225,14 @@ public class UserRoleMenuServiceImpl extends BaseSpringrainServiceImpl implement
 		return menu;
 	}
 	
+	/*
+	
 	@Override
 	//@Caching(evict={@CacheEvict(value = GlobalStatic.qxCacheKey,key = "'findMenuByRoleId_'+#roleId"),@CacheEvict(value = GlobalStatic.qxCacheKey,key = "'findRoleAndMenu_'+#roleId"),@CacheEvict(value = GlobalStatic.qxCacheKey,key = "'findAllRoleAndMenu'")})
 	@CacheEvict(value=GlobalStatic.qxCacheKey,allEntries=true)  
 	public void updateRoleMenu(String roleId,String[] menus) throws Exception {
 		
+		//更新 shiro 的权限缓存
 		shiroCacheManager.getCache(GlobalStatic.authorizationCacheName).clear();
 
 		        Finder finder=Finder.getDeleteFinder(RoleMenu.class).append("  where roleId=:roleId ");
@@ -250,10 +253,9 @@ public class UserRoleMenuServiceImpl extends BaseSpringrainServiceImpl implement
 				if(!CollectionUtils.isEmpty(list)){
 					super.save(list);
 				}
-				
-				
-				
 	}
+	
+	*/
 	@Override
 	@Cacheable(value = GlobalStatic.qxCacheKey, key = "'findMenuAndLeafByUserId'+#userId")
 	public List<Menu> findMenuAndLeafByUserId(String userId) throws Exception {
