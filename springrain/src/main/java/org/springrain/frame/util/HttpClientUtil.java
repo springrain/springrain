@@ -29,9 +29,9 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class HttpClientUtils {
+public class HttpClientUtil {
 	
-	private static   Logger logger = LoggerFactory.getLogger(HttpClientUtils.class);
+	private static   Logger logger = LoggerFactory.getLogger(HttpClientUtil.class);
 	private static RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(15000).setConnectTimeout(15000)
 			.setConnectionRequestTimeout(15000).build();
 
