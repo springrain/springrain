@@ -26,23 +26,16 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.springrain.frame.common.BaseLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class HttpClientUtils extends BaseLogger {
-	private RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(15000).setConnectTimeout(15000)
+public class HttpClientUtils {
+	
+	private static   Logger logger = LoggerFactory.getLogger(HttpClientUtils.class);
+	private static RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(15000).setConnectTimeout(15000)
 			.setConnectionRequestTimeout(15000).build();
 
-	private static HttpClientUtils instance = null;
 
-	private HttpClientUtils() {
-	}
-
-	public static HttpClientUtils getInstance() {
-		if (instance == null) {
-			instance = new HttpClientUtils();
-		}
-		return instance;
-	}
 
 	/**
 	 * 发送 post请求
@@ -50,7 +43,7 @@ public class HttpClientUtils extends BaseLogger {
 	 * @param httpUrl
 	 *            地址
 	 */
-	public String sendHttpPost(String httpUrl) {
+	public static String sendHttpPost(String httpUrl) {
 		HttpPost httpPost = new HttpPost(httpUrl);// 创建httpPost
 		return sendHttpPost(httpPost);
 	}
@@ -63,7 +56,7 @@ public class HttpClientUtils extends BaseLogger {
 	 * @param params
 	 *            参数(格式:key1=value1&key2=value2)
 	 */
-	public String sendHttpPost(String httpUrl, String params) {
+	public static String sendHttpPost(String httpUrl, String params) {
 		HttpPost httpPost = new HttpPost(httpUrl);// 创建httpPost
 		try {
 			// 设置参数
@@ -84,7 +77,7 @@ public class HttpClientUtils extends BaseLogger {
 	 * @param maps
 	 *            参数
 	 */
-	public String sendHttpPost(String httpUrl, Map<String, String> maps) {
+	public static String sendHttpPost(String httpUrl, Map<String, String> maps) {
 		HttpPost httpPost = new HttpPost(httpUrl);// 创建httpPost
 		// 创建参数队列
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
@@ -109,7 +102,7 @@ public class HttpClientUtils extends BaseLogger {
 	 * @param fileLists
 	 *            附件
 	 */
-	public String sendHttpPost(String httpUrl, Map<String, String> maps, List<File> fileLists) {
+	public static String sendHttpPost(String httpUrl, Map<String, String> maps, List<File> fileLists) {
 		HttpPost httpPost = new HttpPost(httpUrl);// 创建httpPost
 		MultipartEntityBuilder meBuilder = MultipartEntityBuilder.create();
 		for (String key : maps.keySet()) {
@@ -130,7 +123,7 @@ public class HttpClientUtils extends BaseLogger {
 	 * @param httpPost
 	 * @return
 	 */
-	private String sendHttpPost(HttpPost httpPost) {
+	private static String sendHttpPost(HttpPost httpPost) {
 		CloseableHttpClient httpClient = null;
 		CloseableHttpResponse response = null;
 		HttpEntity entity = null;
@@ -166,7 +159,7 @@ public class HttpClientUtils extends BaseLogger {
 	 * 
 	 * @param httpUrl
 	 */
-	public String sendHttpGet(String httpUrl) {
+	public static String sendHttpGet(String httpUrl) {
 		HttpGet httpGet = new HttpGet(httpUrl);// 创建get请求
 		return sendHttpGet(httpGet);
 	}
@@ -176,7 +169,7 @@ public class HttpClientUtils extends BaseLogger {
 	 * 
 	 * @param httpUrl
 	 */
-	public String sendHttpsGet(String httpUrl) {
+	public static String sendHttpsGet(String httpUrl) {
 		HttpGet httpGet = new HttpGet(httpUrl);// 创建get请求
 		return sendHttpsGet(httpGet);
 	}
@@ -187,7 +180,7 @@ public class HttpClientUtils extends BaseLogger {
 	 * @param httpPost
 	 * @return
 	 */
-	private String sendHttpGet(HttpGet httpGet) {
+	private static String sendHttpGet(HttpGet httpGet) {
 		CloseableHttpClient httpClient = null;
 		CloseableHttpResponse response = null;
 		HttpEntity entity = null;
@@ -224,7 +217,7 @@ public class HttpClientUtils extends BaseLogger {
 	 * @param httpPost
 	 * @return
 	 */
-	private String sendHttpsGet(HttpGet httpGet) {
+	private static String sendHttpsGet(HttpGet httpGet) {
 		CloseableHttpClient httpClient = null;
 		CloseableHttpResponse response = null;
 		HttpEntity entity = null;
