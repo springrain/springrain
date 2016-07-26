@@ -107,6 +107,7 @@ function getChindModule(json, html) {
  */
 
 function urlHandler(){
+	console.log("into");
 	var currentPageUrl=window.location.href;
 	var urlElementArr;
 	if(currentPageUrl.indexOf("?")==-1 || (currentPageUrl.indexOf("?")>currentPageUrl.indexOf("#"))){
@@ -124,10 +125,11 @@ function urlHandler(){
 			if(!!subMenus.html()){//含有二级菜单
 				var tempSubMenu=subMenus.children("li").eq(0);
 				if(!!tempSubMenu){
-					
-					return tempSubMenu.children("a").attr("href").split("?")[1].split("#")[1].split("=")[1];
+					var paramElementArr=tempSubMenu.children("a").attr("href").split("#");
+					return paramElementArr[1].substring(paramElementArr[1].indexOf("=")+1);
 				}else{
-					return firstMenu.children("a").attr("href").split("?")[1].split("#")[1].split("=")[1];
+					var paramElementArr=firstMenu.children("a").attr("href").split("#");
+					return paramElementArr[1].substring(paramElementArr[1].indexOf("=")+1);
 				}
 			}else{//没有二级菜单
 				return firstMenu.children("a").attr("href").split("?")[1].split("#")[1].split("=")[1];
