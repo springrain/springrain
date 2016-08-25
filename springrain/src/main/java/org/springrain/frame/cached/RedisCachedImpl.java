@@ -17,7 +17,7 @@ public class RedisCachedImpl implements ICached {
 
 	}
 	// -1 - never expire
-	private int expire = -1;
+    private int expire = 1800;
 	private RedisTemplate<String, Object> redisTemplate;
 
 	@Override

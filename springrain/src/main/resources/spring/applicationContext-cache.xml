@@ -41,10 +41,12 @@
 	
 
 <!--  redisCacheManager 用于spring 缓存, redisCached 为redis的工具类,用于业务的缓存. 基于redis分布的session共享也是基于这个redisCached -->
-
-<!--  
-	<bean id="redisCacheManager" class="org.springframework.data.redis.cache.RedisCacheManager"
-		c:redisOperations-ref="redisTemplate" />
+ 	<!--  
+<bean id="redisCacheManager" class="org.springframework.data.redis.cache.RedisCacheManager">
+      <constructor-arg ref="redisTemplate" />
+       <property name="defaultExpiration" value="1800" />
+</bean>
+	
 
 	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
 		<property name="connectionFactory" ref="jedisConnectionFactory" />
@@ -52,7 +54,7 @@
 
 	<bean id="redisCached" class="org.springrain.frame.cached.RedisCachedImpl">
 		<property name="redisTemplate" ref="redisTemplate" />
-		<property name="expire" value="2000" />
+		<property name="expire" value="1800" />
 	</bean>
 
 	<bean id="jedisConnectionFactory"
@@ -66,8 +68,7 @@
 		<property name="maxTotal" value="${redis.pool.maxTotal}" />
 		<property name="maxIdle" value="${redis.pool.maxIdle}" />
 	</bean>
- -->
-	
+	-->
 	
 	
 </beans>
