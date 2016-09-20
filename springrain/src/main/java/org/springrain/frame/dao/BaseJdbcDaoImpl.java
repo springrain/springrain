@@ -642,7 +642,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		// 保存到数据库
 		Object id = saveNoLog(entity);
 			 
-		if(CollectionUtils.isNotEmpty(ClassUtils.getLuceneFields(entity.getClass()))){
+		 if(entity.getClass().isAnnotationPresent(LuceneSearch.class)){
 			// 保存到索引文件
 			LuceneTask luceneTask = new LuceneTask(entity, LuceneTask.saveDocument);
 			ThreadPoolManager.addThread(luceneTask);
@@ -706,11 +706,8 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		for (int i : batchUpdate) {
 			updateList.add(i);
 		}
-
 		
-		
-		Object _le=list.get(0);
-		if(CollectionUtils.isNotEmpty(ClassUtils.getLuceneFields(_le.getClass()))){
+		if(list.get(0).getClass().isAnnotationPresent(LuceneSearch.class)){
 				// 更新到索引文件
 				LuceneTask luceneTask = new LuceneTask(list, LuceneTask.updateDocument);
 				ThreadPoolManager.addThread(luceneTask);
@@ -743,8 +740,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 			updateList.add(i);
 		}
 		
-		Object _le=list.get(0);
-		if(CollectionUtils.isNotEmpty(ClassUtils.getLuceneFields(_le.getClass()))){
+		if(list.get(0).getClass().isAnnotationPresent(LuceneSearch.class)){
 			// 更新到索引文件
 			LuceneTask luceneTask = new LuceneTask(list, LuceneTask.saveDocument);
 			ThreadPoolManager.addThread(luceneTask);
@@ -829,7 +825,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		Integer hang = getWriteJdbc().update(sql.toString(), paramMap);
 		
 		
-		if(CollectionUtils.isNotEmpty(ClassUtils.getLuceneFields(entity.getClass()))){
+		if(entity.getClass().isAnnotationPresent(LuceneSearch.class)){
 			// 更新到索引文件
 			LuceneTask luceneTask = new LuceneTask(entity, LuceneTask.updateDocument);
 			ThreadPoolManager.addThread(luceneTask);
