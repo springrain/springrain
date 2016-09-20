@@ -47,9 +47,21 @@ public class LuceneUtils {
 	// 分词器
 	public static Analyzer analyzer = new SmartChineseAnalyzer();
 
-	// 根索引路径
-	public static final String rootdir = "lucene/index";
 
+	// 根索引路径
+	public static  String rootdir = null;
+	
+	static{
+		String path= LuceneUtils.class.getClassLoader().getResource("").getPath();
+		path = path.replace("\\", "/");
+		int _info=path.indexOf("/WEB-INF/classes");
+		if(_info>0){
+			path=path.substring(0, _info);
+		}
+		rootdir=path+"/lucene/index";
+		
+	}
+	
 	/**
 	 * 根据实体类查询结果
 	 * 
