@@ -1,4 +1,7 @@
 package org.springrain.frame.util;
+
+import java.io.Serializable;
+
 /**
  *page 分页对象
  *
@@ -7,7 +10,11 @@ package org.springrain.frame.util;
  * @version  2013-03-19 11:08:15
  * @see org.springrain.frame.util.Page
  */
-public class Page {
+public class Page implements Serializable{
+	
+
+	private static final long serialVersionUID = 1L;
+	
 	public static final int DEFAULT_PAGE_SIZE = 20;
 	/** 页码,从1开始 */
 	private int pageIndex;
@@ -29,6 +36,9 @@ public class Page {
 	private boolean hasNext=false;
 	/**最末页 */
 	private boolean lastPage=false;
+	
+	//是否查询 分页的总条数,默认进行查询
+	private boolean selectpagecount=true;
 	
 
 	/**
@@ -222,6 +232,15 @@ public class Page {
 		return true;
 	}
 
+	public boolean getSelectpagecount() {
+		return selectpagecount;
+	}
+
+	public void setSelectpagecount(boolean selectpagecount) {
+		this.selectpagecount = selectpagecount;
+	}
+
 
 	
 }
+

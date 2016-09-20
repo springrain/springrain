@@ -462,6 +462,13 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 			else
 				return sql;
 		}
+		
+		
+		
+		//如果不需要查询总条数
+		if(!page.getSelectpagecount()){
+			return getDialect().getPageSql(sql, orderSql, page); 
+		}
 
 		Integer count = null;
 

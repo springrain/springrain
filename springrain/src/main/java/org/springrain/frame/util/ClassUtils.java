@@ -21,7 +21,6 @@ import javax.persistence.Transient;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springrain.frame.annotation.LuceneField;
-import org.springrain.frame.annotation.LuceneSearch;
 import org.springrain.frame.annotation.NotLog;
 import org.springrain.frame.annotation.PKSequence;
 import org.springrain.frame.annotation.TableGroup;
@@ -262,9 +261,12 @@ public class ClassUtils {
 			return null;
 		}
 		//检测
-		 if(!clazz.isAnnotationPresent(LuceneSearch.class)){
-		   		return null;
-		}
+		
+		//取消检测,增加手动模式
+		
+		// if(!clazz.isAnnotationPresent(LuceneSearch.class)){
+		//   		return null;
+		//}
 		String className=clazz.getName();
 		boolean iskey=allLucenemap.containsKey(className);
 		if(iskey){
