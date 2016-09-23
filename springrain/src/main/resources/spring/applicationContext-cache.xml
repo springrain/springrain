@@ -46,7 +46,7 @@
 <!--  redisCacheManager 用于spring 缓存, redisCached 为redis的工具类,用于业务的缓存. 基于redis分布的session共享也是基于这个redisCached -->
 
  
- <!--  
+ <!-- 
 <bean id="redisCacheManager" class="org.springframework.data.redis.cache.RedisCacheManager">
       <constructor-arg ref="redisTemplate" />
        <property name="defaultExpiration" value="1800" />
@@ -73,10 +73,11 @@
 		<property name="maxTotal" value="${redis.pool.maxTotal}" />
 		<property name="maxIdle" value="${redis.pool.maxIdle}" />
 	</bean>
-	-->
+ -->	
 
 
 <!-- 消息队列   生产者和消费者模式 -->
+
 <!-- 
 	<bean id="sendMessage" class="org.springrain.frame.queue.SendMessage">
         <property name="redisTemplate" ref="redisTemplate"/>
@@ -85,18 +86,18 @@
 	<bean id="jdkSerializationRedisSerializer"
         class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />
         
-    <bean id="smsMessageDelegateListener" class="org.springrain.frame.queue.SmsMessageDelegateListener"/>
+    <bean id="redisMessageDelegateListener" class="org.springrain.frame.queue.RedisMessageDelegateListener"/>
 	
-	<bean id="smsMessageListener"
+	<bean id="redisMessageListener"
         class="org.springframework.data.redis.listener.adapter.MessageListenerAdapter">
-        <property name="delegate" ref="smsMessageDelegateListener" />
+        <property name="delegate" ref="redisMessageDelegateListener" />
         <property name="serializer" ref="jdkSerializationRedisSerializer" />
     </bean>
     
     
     <redis:listener-container>
-        <redis:listener ref="smsMessageListener" method="handleMessage" serializer="jdkSerializationRedisSerializer" topic="springrain" />
+        <redis:listener ref="redisMessageListener" method="handleMessage" serializer="jdkSerializationRedisSerializer" topic="springrainqueue" />
     </redis:listener-container>
--->
+ -->
 	
 </beans>

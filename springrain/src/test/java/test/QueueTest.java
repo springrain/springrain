@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springrain.frame.queue.SendMessage;
-import org.springrain.frame.queue.SmsMessageDelegateListener;
+import org.springrain.frame.queue.RedisMessageDelegateListener;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:applicationContext.xml")
@@ -18,15 +18,16 @@ public class QueueTest  {
 	 SendMessage sendMessage;
 	
 	@Resource
-	SmsMessageDelegateListener smsMessageDelegateListener;
+	RedisMessageDelegateListener redisMessageDelegateListener;
 	
 	@Test
 	public void sendMessage() throws Exception{
 		
 		
-		sendMessage.sendMessage("springrain", "hello");
+		sendMessage.sendMessage("springrainqueue", "hello1");
+		sendMessage.sendMessage("springrainqueue", "hello2");
 		
-		Thread.sleep(3000);
+		Thread.sleep(100000);
 		
 	
 		
