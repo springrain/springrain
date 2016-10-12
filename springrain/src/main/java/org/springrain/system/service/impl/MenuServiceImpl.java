@@ -13,6 +13,7 @@ import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.Page;
 import org.springrain.system.entity.Menu;
+import org.springrain.system.entity.RoleMenu;
 import org.springrain.system.service.BaseSpringrainServiceImpl;
 import org.springrain.system.service.IMenuService;
 
@@ -142,6 +143,18 @@ public class MenuServiceImpl extends BaseSpringrainServiceImpl implements
 		}
 		
 		return list.toString();
+	}
+
+	@Override
+	@CacheEvict(value=GlobalStatic.qxCacheKey,allEntries=true)  
+	public String deleteMenuById(String menuId) throws Exception {
+		if(StringUtils.isBlank(menuId)){
+			return null;
+		}
+		Finder finder_del_user=Finder.getDeleteFinder(RoleMenu.class).append(" WHERE menuId=:menuId ").setParam("menuId", menuId);
+		super.update(finder_del_user);
+		super.deleteById(menuId, Menu.class);
+		return null;
 	}
 
 }

@@ -16,37 +16,39 @@
 
 <#macro ace>
 <@head />
-	<!-- bootstrap & fontawesome -->
-	<link rel="stylesheet" href="${ctx}/ace/css/bootstrap.min.css" />
-	<link rel="stylesheet" href="${ctx}/ace/font-awesome/4.2.0/css/font-awesome.min.css" />
-	
-	<!-- page specific plugin styles -->
-	
-	<!-- text fonts -->
-	<link rel="stylesheet" href="${ctx}/ace/fonts/fonts.googleapis.com.css" />
-	
-	<!-- ace styles -->
-	<link rel="stylesheet" href="${ctx}/ace/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
-	
-	<!--[if lte IE 9]>
-		<link rel="stylesheet" href="${ctx}/ace/css/ace-part2.min.css" class="ace-main-stylesheet" />
-	<![endif]-->
-	
-	<!--[if lte IE 9]>
-	  <link rel="stylesheet" href="${ctx}/ace/css/ace-ie.min.css" />
-	<![endif]-->
-	
-	<!-- inline styles related to this page -->
-	
-	<!-- ace settings handler -->
-	<script src="${ctx}/ace/js/ace-extra.min.js"></script>
-	
-	<!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
-	
-	<!--[if lte IE 8]>
-	<script src="${ctx}/ace/js/html5shiv.min.js"></script>
-	<script src="${ctx}/ace/js/respond.min.js"></script>
-	<![endif]-->
+		<!-- bootstrap & fontawesome -->
+		<link rel="stylesheet" href="${ctx}/ace/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="${ctx}/ace/font-awesome/4.5.0/css/font-awesome.min.css" />
+
+		<!-- page specific plugin styles -->
+
+		<!-- text fonts -->
+		<link rel="stylesheet" href="${ctx}/ace/css/fonts.googleapis.com.css" />
+
+		<!-- ace styles -->
+		<link rel="stylesheet" href="${ctx}/ace/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
+
+		<!--[if lte IE 9]>
+			<link rel="stylesheet" href="${ctx}/ace/css/ace-part2.min.css" class="ace-main-stylesheet" />
+		<![endif]-->
+		<link rel="stylesheet" href="${ctx}/ace/css/ace-skins.min.css" />
+		<link rel="stylesheet" href="${ctx}/ace/css/ace-rtl.min.css" />
+
+		<!--[if lte IE 9]>
+		  <link rel="stylesheet" href="${ctx}/ace/css/ace-ie.min.css" />
+		<![endif]-->
+
+		<!-- inline styles related to this page -->
+
+		<!-- ace settings handler -->
+		<script src="${ctx}/ace/js/ace-extra.min.js"></script>
+
+		<!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+
+		<!--[if lte IE 8]>
+		<script src="${ctx}/ace/js/html5shiv.min.js"></script>
+		<script src="${ctx}/ace/js/respond.min.js"></script>
+		<![endif]-->
 </#macro>
 
 <#macro aceplugin>
@@ -56,48 +58,54 @@
 </#macro>
 
 <#macro basicScript>
-	<!--[if !IE]> -->
-	<script src="${ctx}/ace/js/jquery.2.1.1.min.js"></script>
-	
-	<!-- <![endif]-->
-	
-	<!--[if IE]>
-		<script src="${ctx}/ace/js/jquery.1.11.1.min.js"></script>
-	<![endif]-->
-	
-	<!--[if !IE]> -->
-	<script type="text/javascript">
-		window.jQuery || document.write("<script src='${ctx}/ace/js/jquery.min.js'>"+"<"+"/script>");
-	</script>
-	
-	<!-- <![endif]-->
-	
-	<!--[if IE]>
-	<script type="text/javascript">
-	 	window.jQuery || document.write("<script src='${ctx}/ace/js/jquery1x.min.js'>"+"<"+"/script>");
-	</script>
-	<![endif]-->
-	<script type="text/javascript">
-		if('ontouchstart' in document.documentElement) document.write("<script src='${ctx}/ace/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
-	</script>
-	<script src="${ctx}/ace/js/bootstrap.min.js"></script>
+
+	<!-- basic scripts -->
+
+		<!--[if !IE]> -->
+		<script src="${ctx}/ace/js/jquery-2.1.4.min.js"></script>
+
+		<!-- <![endif]-->
+
+		<!--[if IE]>
+<script src="${ctx}/ace/js/jquery-1.11.3.min.js"></script>
+<![endif]-->
+		<script type="text/javascript">
+			if('ontouchstart' in document.documentElement) document.write("<script src='${ctx}/ace/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+		</script>
+		<script src="${ctx}/ace/js/bootstrap.min.js"></script>
 	
 	<!-- page specific plugin scripts -->
 	
 	
 	<!-- ace scripts -->
+	
+	<!-- 
 	<script src="${ctx}/ace/js/ace-elements.min.js"></script>
+	 -->
+	
 	<script src="${ctx}/ace/js/ace.min.js"></script>
+	
+	
+	
+	
+	
 	<!--custom scripts   --> 
 	<script src="${ctx}/js/coms/common/ajaxmenu.js"></script>
 	<script src="${ctx}/js/coms/common/common.js"></script>
 	<script src="${ctx}/js/coms/common/messager.js"></script>
 	<script src="${ctx}/js/coms/common/pagetoolbar.js"></script>
-	<!-- box 插件 -->
-	<script src="${ctx}/ace/js/bootbox.min.js"></script>
+
 	<script src="${ctx}/js/jquery/jquery.form.js"></script>
 	
 	
+	
+	
+	<link rel="stylesheet" href="${ctx}/js/coms/layer/skin/layer.css" />
+    <script  type="text/javascript" src="${ctx}/js/coms/layer/layer.js"></script>
+    <script type="text/javascript" src="${ctx}/js/ueditor/ueditor.config.js"></script> 
+    <script type="text/javascript" src="${ctx}/js/ueditor/ueditor.all.min.js"></script>
+    
+   
 </#macro>
 
 <#macro navbar>
@@ -118,7 +126,7 @@
 		</button>
 
 		<div class="navbar-header pull-left">
-			<a href="index.html" class="navbar-brand">
+			<a href="${ctx}" class="navbar-brand">
 				<small>
 					<i class="fa fa-comments"></i>
 					后台管理系统
@@ -144,29 +152,29 @@
 
 				<li class="light-blue">
 					<a data-toggle="dropdown" href="#" class="dropdown-toggle">
-						<img class="nav-user-photo" src="${ctx}/ace/avatars/user.jpg" alt="Jason's Photo" />
+						<img class="nav-user-photo" src="${ctx}/ace/images/avatars/user.jpg"  />
 						<span class="user-info">
 							<small>欢迎,</small>
-							Jason
+							<@shiro.principal property="name" />
 						</span>
 
 						<i class="ace-icon fa fa-caret-down"></i>
 					</a>
 
 					<ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
-						<li>
+						<!-- <li>
 							<a href="#">
 								<i class="ace-icon fa fa-cog"></i>
 								设置
 							</a>
-						</li>
+						</li>-->
 
 						<li>
-							<a href="profile.html">
+							<a href="javascript:myhref('${ctx}/system/user/update/currentUserResetPwd');">
 								<i class="ace-icon fa fa-user"></i>
-								个人信息
+								修改密码
 							</a>
-						</li>
+						</li> 
 
 						<li class="divider"></li>
 
@@ -265,10 +273,12 @@
 			<div class="footer-content">
 				<span class="bigger-120">
 					<span class="blue bolder">SpringRain</span>
-					&copy; forever
+					&copy; 2016
 				</span>
 	
 			</div>
 		</div>
 	</div>
 </#macro>
+
+

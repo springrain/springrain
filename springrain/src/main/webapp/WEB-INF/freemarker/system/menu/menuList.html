@@ -2,10 +2,39 @@
 <link rel="stylesheet" href="${ctx}/js/coms/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
 <script type="text/javascript" src="${ctx}/js/coms/ztree/js/jquery.ztree.all-3.5.js"></script>
 <script type="text/javascript" src="${ctx}/js/coms/common/ztreeUtils.js"></script>
-<link href="${ctx}/js/coms/sco/css/scojs.css" rel="stylesheet" />
-<script src="${ctx}/js/coms/sco/js/sco.ajax.js"></script>
-<script src="${ctx}/js/coms/sco/js/sco.modal.js"></script>
+
 <SCRIPT type="text/javascript">
+
+
+var selectMenuZtree;
+var menujsondata4select;
+
+var menuSelectSetting = {
+		callback: {
+			onClick: clickMenuValue
+		},
+	data : {
+		simpleData : {
+			enable : true,
+			idKey : "id",
+			pIdKey : "pid",
+			rootPId :"null"
+		}
+	}
+};
+
+
+function clickMenuValue(event, treeId, treeNode) {
+	jQuery("#pname").val(treeNode.name);
+	jQuery("#pid").val(treeNode.id);
+    
+    
+};
+
+	
+
+
+
 	var menuTreesetting = {
 		callback: {
 			onClick:MenuzTreeOnClick
@@ -17,31 +46,23 @@
 				pIdKey : "pid",
 				rootPId : "null"
 			}
-		},
-		async:{
-			enable:true,
-			url:"${ctx}/system/menu/list/json",
-			dataFilter:ajaxDataFilter
 		}
 	};
 	
-	function ajaxDataFilter(treeId, parentNode, responseData) {
-		var returnData=new Array();
-	    if (responseData) {
-	      for(var i =0; i < responseData.data.length; i++) {
-	    	  returnData[i]=new Object();
-	    	  returnData[i].name = responseData.data[i].name;
-	    	  returnData[i].id=responseData.data[i].id;
-	    	  returnData[i].pid=responseData.data[i].pid;
-	    	  returnData[i].iconId=responseData.data[i].icon;
-	      }
-	    }
-	    return returnData;
-	};
+	
 	
 	$(document).ready(function() {
-			$.fn.zTree.init($("#menuListTree"), menuTreesetting,null);
-			zTree =$.fn.zTree.getZTreeObj("menuListTree");
+		
+		jQuery.post("${ctx}/system/menu/list/json",
+				function(_json) {
+					if (_json.status == "success") {
+						menujsondata4select=_json;
+						$.fn.zTree.init($("#menuListTree"), menuTreesetting,_json.data);
+						zTree =$.fn.zTree.getZTreeObj("menuListTree");
+					} else {
+						myalert(_json.message);
+					}
+				});
 		
 	});
 	
@@ -50,9 +71,15 @@
 	};
 	
 	function showdata(result) {
+	    $("#btn_add").hide();
+	    $("#btn_update").show();
+	    $("#btn_reload").show();
+	    $("#btn_delete").show();
+	    
 		$("#updateForm select ").each(function() {
 			$(this).find('option:first').attr('selected', 'selected');
 		});
+		//console.log(result);
 		for (var s in result) {
 			set_val(s, result[s]);
 			if(s=="iconId"){
@@ -79,17 +106,71 @@
 	
 	
 	function deleteMenu(){
-		var id=jQuery("#id").val();
-		if(!id||id==""){
-			myalert("请选择你要删除的记录");
-			return;
-		}else{
-			var _url="${ctx}/system/menu/delete?id="+id;
-			var listurl="${ctx}/system/menu/list";
-			mydelete(_url,listurl);
-		}
+		myconfirm('删除这个菜单，是否继续?', function(index){
+			var id=jQuery("#id").val();
+			if(!id||id==""){
+				//myalert("请选择你要删除的记录");
+				myalert('请选择你要删除的记录!');
+				return false;
+			}else{
+				//var _url="${ctx}/system/menu/delete?id="+id;
+				var _url="${ctx}/system/menu/delete";
+				var listurl="${ctx}/system/menu/list";
+				//mydelete(_url,listurl);
+				var data={"id":id};
+				ajaxpostonlayer(_url,listurl,data,'删除菜单成功！');
+			}
+			  layer.close(index);
+		});
 	}
 	
+
+	
+   function dosubmit(i){
+		var name=$("#name").val();
+		if(name==null||name==''){
+			myalert('请填写菜单名称!');
+			return false;
+		}
+/* 		var pageurl=$("#pageurl").val();
+		if(pageurl==null||pageurl==''){
+			layer.alert('请填写菜单地址！',{icon: 5});
+			return false;
+		} */
+        var msg="菜单添加成功！";
+        if(i==1){
+        	msg="菜单更新成功！";
+        }
+        var listurl='${ctx}/system/menu/list';
+		submitonlayer("updateForm",listurl,msg);
+	}
+   
+
+   
+	function showMenuZTree(){
+		if(!selectMenuZtree){
+			$.fn.zTree.init($("#menuZtree"), menuSelectSetting,menujsondata4select.data);
+			
+			selectMenuZtree =$.fn.zTree.getZTreeObj("menuZtree");
+			selectMenuZtree.expandAll(true);
+	    	 selectZtreeOneNode(jQuery("#pid").val(),"menuZtree");
+		}
+		//页面层-自定义
+		layer.open({
+		  shadeClose:true,
+		  closeBtn: 1,
+		  btn: ['确定'], //按钮
+		  type: 1,
+		  title: "选择父菜单",
+		  skin: 'layui-layer-rim', //加上边框
+		  area: ['600px', '400px'], //宽高
+		  //shadeClose: true,
+		  content: $("#div_menuZtree")
+		});
+		
+	}
+
+
 	
 	</SCRIPT>
 
@@ -98,18 +179,22 @@
 		<div class="pull-right">
 			 <@shiro.hasPermission
 			name="/system/menu/update" >
-			<button onclick="commonSaveForm('updateForm','${ctx}/system/menu/list');"
+			<button id="btn_reload" style="display: none;"  onclick="location.reload();"
+				class="btn  btn-sm  btn-primary"  >
+				跳转至新增 >>
+			</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<button id="btn_add"  onclick="dosubmit(0);"
 				class="btn  btn-sm  btn-primary">
-				添加
+				<img src="${ctx}/images/btn_save.png" style="vertical-align: middle;" />保存新增
 			</button>
-				<button onclick="commonUpdateForm('updateForm','${ctx}/system/menu/list');"
+				<button id="btn_update" style="display: none;" onclick="dosubmit(1);"
 				class="btn  btn-sm  btn-primary">
-				修改
+				<img src="${ctx}/images/btn_save.png" style="vertical-align: middle;" />保存修改
 			</button>
 			
 			</@shiro.hasPermission>
 			 <@shiro.hasPermission name="/system/menu/delete" >
-			<button onclick="deleteMenu();" class="btn btn-sm btn-danger">
+			<button id="btn_delete" style="display: none;" onclick="deleteMenu();" class="btn btn-sm btn-danger">
 				 删除
 			</button>
 			</@shiro.hasPermission>
@@ -161,7 +246,7 @@
 									<input name="pname" class="form-control val" id="pname" type="text"  readonly="readonly"/>
 									<input name="pid"  id="pid" type="hidden" msg="请选择父节点" check="require"  />
 									<span class="input-group-btn">
-											<a data-trigger="modal" href="${ctx}/system/menu/tree" data-title="选择父节点" class="btn btn-sm btn-primary">
+											<a href="javascript:showMenuZTree();" data-title="选择父节点" class="btn btn-sm btn-primary">
 												<i class="fa fa-search"></i>
 											</a>
 									 </span>
@@ -183,14 +268,7 @@
 						<div class="form-group col-xs-9">
 							<label class="col-sm-4 control-label" for="icon">图标：</label>
 							<div class="col-sm-8">
-								<div class="input-group">
-									<input name="icon" class="form-control" id="icon" type="text"  readonly="readonly"/>
-									<span class="input-group-btn">
-										<a data-trigger="modal" href="${ctx}/system/menu/icon" data-title="选择图标" class="btn btn-sm btn-primary">
-											<i class="fa fa-search"></i>
-										</a>
-									</span>
-								</div>
+									<input name="icon" class="form-control" id="icon" type="text"  />
 							</div>
 						</div>
 						
@@ -226,4 +304,10 @@
 		
 	</div>
 </div>
+
+<div id="div_menuZtree">
+	<ul id="menuZtree" class="ztree"></ul>
+</div>
+
+
 </#escape>

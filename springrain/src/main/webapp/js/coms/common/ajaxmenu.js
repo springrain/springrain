@@ -2,7 +2,8 @@ jQuery("document").ready(function() {
 	//调用ajax从后台获取菜单数据，加载菜单。
 	ajaxmenu();
 	//根据当前页面url显示内容区
-	myhref(urlHandler());
+	mzywxhref(urlHandler());
+//	myhref(urlHandler());
 	//更新当前菜单样式
 	flushMenuStyle();
 });
@@ -46,11 +47,13 @@ function getParentModule(json) {
 	if(_leaf&&_leaf.length>0){
 		t =t+ ' href="#'+json["id"]+'">';
 	}else{
-		t =t+ ' id= '+json["id"] + ' href="index?id=' +json["id"] + '#href=' + ctx+json["pageurl"] + '">';
+//		t =t+ ' id= '+json["id"] + ' href="index?id=' +json["id"] + '#href=' + ctx+json["pageurl"] + '">';
+		t =t+ ' id= '+json["id"] + ' href="index?id=' +json["id"] + '&t='+gentimestampstr()+'#href=' + ctx+json["pageurl"] + '">';
 	}
 	var _icon=json["icon"];
 	if(_icon==null||_icon==""||_icon.length==0){
-		_icon="icon_default";
+		//_icon="icon_default";
+		_icon="fa-folder-o";
 	}
 	t=t+'<i class="menu-icon fa  '+_icon+'"></i><span class="menu-text">'+ json["name"]+'</span>';
 
@@ -77,7 +80,8 @@ function getChindModule(json, html) {
 	if(_leaf&&_leaf.length>0){
 		t =t+ ' class="dropdown-toggle" href="#">';
 	}else{
-		t =t+ '  id=' +json["id"] +' href="index?id=' +json["id"] + '#href=' + ctx+json["pageurl"] + '">';
+//		t =t+ '  id=' +json["id"] +' href="index?id=' +json["id"] + '#href=' + ctx+json["pageurl"] + '">';
+		t =t+ '  id=' +json["id"] +' href="index?id=' +json["id"] + '&t='+gentimestampstr()+ '#href=' + ctx+json["pageurl"] + '">';
 	}
 	t=t+'<i class="menu-icon fa fa-caret-right"></i>'+ json["name"];
 	
@@ -107,7 +111,6 @@ function getChindModule(json, html) {
  */
 
 function urlHandler(){
-	console.log("into");
 	var currentPageUrl=window.location.href;
 	var urlElementArr;
 	if(currentPageUrl.indexOf("?")==-1 || (currentPageUrl.indexOf("?")>currentPageUrl.indexOf("#"))){
@@ -140,6 +143,8 @@ function urlHandler(){
 	}
 }
 
+
+
 /**
  * 刷新左侧导航样式
  * */
@@ -149,7 +154,10 @@ function flushMenuStyle(){
 	if(urlElementArr.length>1){//非首页
 		var paramElementArr=urlElementArr[1].split("#");
 		var menuId= paramElementArr[0].split("=")[1];
-		$("#"+menuId).parent("li").parent("ul").parent("li").addClass("active");
+		menuId=menuId.replace("&t","");
+		$("#"+menuId).parent("li").parent("ul").parent("li").parent("ul").parent("li").addClass("active open");
+		$("#"+menuId).parent("li").parent("ul").parent("li").parent("ul").attr("style","display:block;");
+		$("#"+menuId).parent("li").parent("ul").parent("li").addClass("active open");
 		$("#"+menuId).parent("li").addClass("active");
 		//$("#rootMenuTitle").html($("#"+menuId).parent("li").parent("ul").parent("li").children("span.menu-text"));
 		$("#rootMenuTitle").html($("#"+menuId).parent("li").parent("ul").parent("li").children("a").eq(0).text());

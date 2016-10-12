@@ -22,8 +22,8 @@
 			            <input type="hidden" name="sort" id="page_sort" value="${(returnDatas.page.sort)!'desc'}"/>
 			            <input type="hidden" name="order" id="page_order" value="${(returnDatas.page.order)!'createTime'}"/>
 	      				<div class="form-group">
-							<label class="control-label"  for="search_title" >标题</label>
-							<input name="title"  id="search_title" value="${(returnDatas.queryBean.title)!''}"  type="text" />
+							<label class="control-label"  for="search_title" >用户</label>
+							<input name="userCode"  id="search_title" value="${(returnDatas.queryBean.userCode)!''}"  type="text" />
 							<a  href="javascript:mySubmitForm('searchForm');"
 							class="btn btn-purple btn-sm">
 							<span class="ace-icon fa fa-search icon-on-right bigger-110" id="searchBtn"></span>
@@ -33,18 +33,8 @@
 					</form>
 				</div>
 			<div class="pull-right">
-			  	<button class="btn btn-primary">
-	                	添加
-	            </button>
-	            <button  class="btn btn-primary">
-	                	修改
-	            </button>
-	            <button  class="btn btn-primary">
-	                	删除
-	            </button>
-	            <button  class="btn btn-primary">
-	               	 统计
-	            </button>
+			
+			  	
 			</div>
 	</div>
 </div>
@@ -58,7 +48,7 @@
            	<thead>
               	<tr>
                   	<!--first_start_no_export-->
-                  	<th>操作</th>
+                  	
                   	<!--first_end_no_export-->
 					<th id="th_userCode" >用户</th>
 					<th id="th_userName" >中文名</th>
@@ -77,16 +67,7 @@
 					<#list returnDatas.data as _data>
 	                    <!--start_no_export-->
 	                    <tr class="">
-	                        <td>
-	                            <div class="hidden-sm hidden-xs btn-group">
-	                                <button class="btn btn-primary btn-sm">
-	                                   	编辑
-	                                </button>
-	                                <button class="btn btn-primary btn-sm">
-	                                    	删除
-	                                </button>
-	                            </div>
-	                        </td>
+	                       
 	                        <!--end_no_export-->
 							<td >
 								${(_data.userCode)!''}

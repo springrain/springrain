@@ -202,7 +202,7 @@ public class RoleController  extends BaseController {
 		try {
 			java.lang.String id = request.getParameter("id");
 			if (StringUtils.isNotBlank(id)) {
-				roleService.deleteById(id, Role.class);
+				roleService.deleteRoleById(id);
 				return new ReturnDatas(ReturnDatas.SUCCESS, MessageUtils.DELETE_SUCCESS);
 			} else {
 				return new ReturnDatas(ReturnDatas.WARNING, MessageUtils.DELETE_WARNING);

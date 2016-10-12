@@ -2,10 +2,7 @@
 <link rel="stylesheet" href="${ctx}/js/coms/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
 <script type="text/javascript" src="${ctx}/js/coms/ztree/js/jquery.ztree.all-3.5.js"></script>
 <script type="text/javascript" src="${ctx}/js/coms/common/ztreeUtils.js"></script>
-<!-- sco.js -->
-<link href="${ctx}/js/coms/sco/css/scojs.css" rel="stylesheet" />
-<script src="${ctx}/js/coms/sco/js/sco.ajax.js"></script>
-<script src="${ctx}/js/coms/sco/js/sco.modal.js"></script>
+
 <!--  
 <script type="text/javascript" src="${ctx}/js/system/dicdata/dicdata.js"></script>
 -->
@@ -56,6 +53,11 @@
 		}else{
 			jQuery("#pid").val(_pid);
 		}
+		$("#btn_add").hide();
+		$("#btn_reload").show();
+		$("#btn_update").show();
+		$("#btn_delete").show();
+		$("#code").attr("readonly","readonly")//将input元素设置为readonly
 	}
 	
 	
@@ -86,9 +88,26 @@
 	<div class="operate panel panel-default" style="height:65px;" style="height:60px;">
 		<div class="panel-body">
 			<div class="pull-right">
-				<a onclick="commonSaveForm('updateForm','${ctx}/system/dicdata/${returnDatas.map.typekey}/list');" class="btn btn-sm btn-primary">添加</a>
-				<a onclick="commonUpdateForm('updateForm','${ctx}/system/dicdata/${returnDatas.map.typekey}/list');" class="btn btn-sm btn-primary">修改</a>
-				|
+<!-- 				<a onclick="commonSaveForm('updateForm','${ctx}/system/dicdata/${returnDatas.map.typekey}/list');" class="btn btn-sm btn-primary">添加</a> -->
+<!-- 				<a onclick="commonUpdateForm('updateForm','${ctx}/system/dicdata/${returnDatas.map.typekey}/list');" class="btn btn-sm btn-primary">修改</a> -->
+			 <@shiro.hasPermission
+			name="/system/user/update" >
+			<button id="btn_reload" onclick="location.reload();"
+				class="btn  btn-sm  btn-primary" style="display: none;" >
+				跳转至新增 >>
+			</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			
+			<button id="btn_add" onclick="commonSaveForm('updateForm','${ctx}/system/dicdata/${returnDatas.map.typekey}/list');"
+				class="btn  btn-sm  btn-primary">
+				<img src="${ctx}/images/btn_save.png" style="vertical-align: middle;" />保存新增
+			</button>
+
+			<button  id="btn_update" onclick="commonUpdateForm('updateForm','${ctx}/system/dicdata/${returnDatas.map.typekey}/list');"
+				class="btn  btn-sm  btn-primary" style="display: none;">
+				<img src="${ctx}/images/btn_save.png" style="vertical-align: middle;" />保存修改
+			</button>
+
+			</@shiro.hasPermission>
 				<a onclick="deletedicData();"  class="btn btn-sm btn-danger">删除</a>
 			</div>
 		</div>
@@ -133,7 +152,7 @@
 						</div>
 						
 			
-						<div class="form-group col-xs-9">
+					<!-- 	<div class="form-group col-xs-9">
 							<label class="col-sm-4 control-label" for="dept_name">父节点*：</label>
 							<div class="col-sm-8">
 								<div class="input-group">
@@ -146,14 +165,15 @@
 														</div>
 								</div>
 							</div>
-						</div>
+						</div> -->
 						<div class="form-group col-xs-9">
 							<label class="col-sm-4 control-label" for="sort">排序：</label>
 							<div class="col-sm-8">
-								<input class="form-control" type="text" id="sort" name="sort" >
+								<input class="form-control" type="text" id="sort" name="sort" placeholder="数字越大,排列越靠前">
 							</div>
 						</div>
-			
+						<input type="hidden" name="state" value="是">
+			<!-- 
 						<div class="form-group col-xs-9">
 							<label class="col-sm-4 control-label" for="state">是否可用*：</label>
 							<div class="col-sm-8">
@@ -162,7 +182,7 @@
 									<option value="否">否</option>
 								</select>
 							</div>
-						</div>
+						</div> -->
 						<div class="form-group col-xs-9">
 							<label class="col-sm-4 control-label" for="remark" >描述：</label>
 							<div class="col-sm-8" >

@@ -46,6 +46,7 @@ function selectZtreeOneNode(nodeId,ztreeId){
 /* 赋值 */
 
 function set_val(name, val) {
+
 	if ($("#" + name + " option").length > 0) {
 		$("#" + name).val(val);
 		return;

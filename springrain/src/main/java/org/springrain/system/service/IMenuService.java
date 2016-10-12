@@ -19,6 +19,17 @@ public interface IMenuService extends IBaseSpringrainService {
 	 * @throws Exception
 	 */
 	String saveMenu(Menu entity) throws Exception;
+	
+	
+	/**
+	 * 删除菜单
+	 * @param menuId
+	 * @return
+	 * @throws Exception
+	 */
+	String deleteMenuById(String menuId) throws Exception;
+	
+	
 	/**
 	 * 修改或者保存,根据id是否为空判断
 	 * @param entity

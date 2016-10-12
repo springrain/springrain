@@ -17,6 +17,17 @@ public interface IRoleService extends IBaseSpringrainService {
 	 * @throws Exception
 	 */
 	String saveRole(Role entity) throws Exception;
+	
+	
+	/**
+	 * 删除角色,并级联删除角色人员关系和角色菜单关系
+	 * @param roleId
+	 * @return
+	 * @throws Exception
+	 */
+	String deleteRoleById(String roleId) throws Exception;
+	
+	
 	/**
 	 * 修改或者保存,根据id是否为空判断
 	 * @param entity

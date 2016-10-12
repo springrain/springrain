@@ -1,8 +1,42 @@
 /*
 内容区页面跳转
 */
-function myhref(_url,menuId) {
+/*function myhref(_url,menuId) {
 	mySubmitForm("centfor_sco_ajax_form", _url);
+}*/
+
+function mzywxhref(_url,menuId) {
+	layer.load();
+	mySubmitForm("centfor_sco_ajax_form", _url);
+	layer.closeAll();
+}
+
+function gentimestampstr(){
+	return new Date().getTime();
+}
+
+function getcurrentMenuId(){
+	var currentPageUrl=window.location.href;
+	var urlElementArr=currentPageUrl.split("?");
+	var menuId='';
+	if(urlElementArr.length>1){//非首页
+		var paramElementArr=urlElementArr[1].split("#");
+		menuId= paramElementArr[0].split("=")[1];
+		menuId=menuId.replace("&t","");
+	}
+	return menuId;
+}
+
+function myhref(_url,menuId) {
+	var t=gentimestampstr();
+	if(menuId==null){
+		menuId=getcurrentMenuId();
+		if(menuId==''){
+			menuId=t;
+		}
+	}
+	var urlnew="index?id="+menuId+"&t="+t+"#href="+_url; 
+	location.href=urlnew;
 }
 
 /**
@@ -97,10 +131,16 @@ function mySubmitForm(formId, _url) {
 
 
 //提交修改表单
-function commonUpdateForm(form,listurl) {
-	if(!form){
-		form="updateForm";
+function commonUpdateForm(formId,listurl) {
+	if(!formId){
+		formId="updateForm";
 	}
+	
+	 var pageurl=$("#"+formId).attr('action'); 
+		var mydata=$("#"+formId).serialize();
+		ajaxpostonlayer(pageurl,listurl,mydata);
+	
+   /*
 	jQuery.post($('#' + form).attr('action'), $('#' + form).serialize(),
 	function(_json) {
 		if (_json.status == "success") {
@@ -111,6 +151,10 @@ function commonUpdateForm(form,listurl) {
 			myalert(_json.message);
 		}
 	});
+	*/
+	
+	
+	
 }
 
 
@@ -167,4 +211,47 @@ function openUrlctx(_url) {
 		return;
 	}
 	window.location.href = ctx+_url;
+}
+/**
+ * 带layer的提交 listurl跳转地址 为空不跳转  
+ */
+function submitonlayer(formId,listurl,msg){
+    var pageurl=$("#"+formId).attr('action'); 
+	var mydata=$("#"+formId).serialize();
+	ajaxpostonlayer(pageurl,listurl,mydata,msg);
+}
+
+function ajaxpostonlayer(pageurl,listurl,mydata,msg){
+	var index = layer.load(null, {shade: [0.8, '#393D49'] });
+	if(pageurl==null||pageurl==''){
+		layer.alert('提交地址不能为空！', {icon: 5});
+		return false;
+	}
+	if(!msg){
+		msg="操作成功!";
+	}
+	$.ajax({
+		url :pageurl, 
+	    type :"post",
+		data:mydata,
+		dataType : "json",
+		success:function(ret){
+			layer.closeAll('loading')
+			if(ret.status=="success"){
+				layer.alert(msg, {icon: 1},function(){
+					layer.closeAll();
+					if(listurl!=null&&listurl!=""){
+				       myhref(listurl);
+					}
+				});
+				
+			}else{
+				myerror('sorry,操作失败了 ...');
+			}
+		},
+		error:function(){
+			layer.closeAll('loading')
+			myerror('sorry,操作失败了 ...');
+		}
+	});
 }

@@ -18,6 +18,7 @@ import org.springrain.frame.util.Page;
 import org.springrain.system.entity.Menu;
 import org.springrain.system.entity.Role;
 import org.springrain.system.entity.RoleMenu;
+import org.springrain.system.entity.UserRole;
 import org.springrain.system.service.BaseSpringrainServiceImpl;
 import org.springrain.system.service.IRoleService;
 import org.springrain.system.service.IUserRoleMenuService;
@@ -126,6 +127,26 @@ public class RoleServiceImpl extends BaseSpringrainServiceImpl implements IRoleS
 		finder.setParam("id", roleId);
 		String name=super.queryForObject(finder,String.class);
 		return name;
+	}
+
+	@Override
+	@CacheEvict(value=GlobalStatic.qxCacheKey,allEntries=true)  
+	public String deleteRoleById(String roleId) throws Exception {
+		if(StringUtils.isEmpty(roleId)){
+			return null;
+		}
+		
+		
+		Finder finder_del_user=Finder.getDeleteFinder(UserRole.class).append(" where roleId=:roleId ").setParam("roleId", roleId);
+		super.update(finder_del_user);
+		
+		Finder finder_del_menu=Finder.getDeleteFinder(RoleMenu.class).append(" where roleId=:roleId ").setParam("roleId", roleId);
+		super.update(finder_del_menu);
+		
+		super.deleteById(roleId, Role.class);
+		
+		
+		return null;
 	}
 
 

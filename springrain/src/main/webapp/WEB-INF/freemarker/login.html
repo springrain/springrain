@@ -13,10 +13,10 @@
 							<div class="center">
 								<h1>
 									<i class="ace-icon fa fa-comments green"></i>
-									<span class="red">智慧</span>
-									<span class="white" id="id-text2">办公</span>
+									<span class="red">登录</span>
+									<span class="white" id="id-text2">管理系统</span>
 								</h1>
-								<h4 class="blue" id="id-company-text">springrain</h4>
+								<h4 class="blue" id="id-company-text">SpringRain</h4>
 							</div>
 
 							<div class="space-6"></div>
@@ -49,7 +49,7 @@
 													</label>
 													
 													<label class="block clearfix">
-														<span class="input-icon">
+														<span class="block input-icon input-icon-right">
 															<input type="text" name="captcha" class="col-xs-6" placeholder="验证码" />
 															<img id="captchaImg" class="col-xs-6" onclick="reloadValidateCode();" src="${ctx}/getCaptcha"  align="absmiddle"/>
 															<input type="hidden" id="ValidateCodeNum" value="" />
@@ -58,10 +58,10 @@
 													<div class="space"></div>
 													
 													<div class="clearfix">
-														<label class="inline">
+<!-- 														<label class="inline">
 															<input id="rmb" onclick="rmbme(this)" type="checkbox" class="ace" />
 															<span class="lbl"> 记住我</span>
-														</label>
+														</label> -->
 
 														<button id="sbtButton" type="submit" class="width-35 pull-right btn btn-sm btn-primary">
 															<i class="ace-icon fa fa-key"></i>
@@ -87,7 +87,7 @@
 											</form>
 										</div><!-- /.widget-main -->
 
-										<div class="toolbar clearfix">
+<!-- 										<div class="toolbar clearfix">
 											<div>
 												<a href="#" data-target="#forgot-box" class="forgot-password-link" style="text-shadow:none;">
 													<i class="ace-icon fa fa-arrow-left"></i>
@@ -101,7 +101,7 @@
 													<i class="ace-icon fa fa-arrow-right"></i>
 												</a>
 											</div>
-										</div>
+										</div> -->
 									</div><!-- /.widget-body -->
 								</div><!-- /.login-box -->
 
@@ -246,26 +246,14 @@
 		<!-- basic scripts -->
 
 		<!--[if !IE]> -->
-		<script src="${ctx}/ace/js/jquery.2.1.1.min.js"></script>
+		<script src="${ctx}/ace/js/jquery-2.1.4.min.js"></script>
 
 		<!-- <![endif]-->
 
 		<!--[if IE]>
-		<script src="${ctx}/js/jquery.1.11.1.min.js"></script>
+		<script src="${ctx}/js/jquery-1.11.3.min.js"></script>
 		<![endif]-->
 
-		<!--[if !IE]> -->
-		<script type="text/javascript">
-			window.jQuery || document.write("<script src='${ctx}/ace/js/jquery.min.js'>"+"<"+"/script>");
-		</script>
-
-		<!-- <![endif]-->
-
-		<!--[if IE]>
-		<script type="text/javascript">
-		 window.jQuery || document.write("<script src='${ctx}/js/jquery1x.min.js'>"+"<"+"/script>");
-		</script>
-		<![endif]-->
 		<script type="text/javascript">
 			if('ontouchstart' in document.documentElement) document.write("<script src='${ctx}/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
 		</script>

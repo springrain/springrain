@@ -205,6 +205,7 @@ public class UserController extends BaseController {
 				userService.saveUser(user);
 
 			} else {
+				user.setAccount(null);
 				userService.updateUser(user);
 			}
 		} catch (Exception e) {

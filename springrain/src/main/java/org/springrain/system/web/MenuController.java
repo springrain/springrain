@@ -206,7 +206,7 @@ public class MenuController  extends BaseController {
 		try {
 			java.lang.String id = request.getParameter("id");
 			if (StringUtils.isNotBlank(id)) {
-				menuService.deleteById(id, Menu.class);
+				menuService.deleteMenuById(id);
 				return new ReturnDatas(ReturnDatas.SUCCESS, MessageUtils.DELETE_SUCCESS);
 			} else {
 				return new ReturnDatas(ReturnDatas.WARNING, MessageUtils.DELETE_WARNING);
@@ -268,12 +268,6 @@ public class MenuController  extends BaseController {
 	
 	}
 	
-	
-	@RequestMapping("/icon")
-	public String icon(HttpServletRequest request, Model model,Org org) 
-			throws Exception {
-		return "/system/menu/icon";
-	}
 	
 	
 	

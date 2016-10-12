@@ -1,11 +1,13 @@
 <#escape x as x?html>
+
 <link rel="stylesheet" href="${ctx}/js/coms/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
 <script type="text/javascript" src="${ctx}/js/coms/ztree/js/jquery.ztree.all-3.5.js"></script>
 <script type="text/javascript" src="${ctx}/js/coms/common/ztreeUtils.js"></script>
-<!-- sco.js -->
-<link href="${ctx}/js/coms/sco/css/scojs.css" rel="stylesheet" />
-<script src="${ctx}/js/coms/sco/js/sco.ajax.js"></script>
-<script src="${ctx}/js/coms/sco/js/sco.modal.js"></script>
+
+
+
+
+
 <SCRIPT type="text/javascript">
 	var orgTreesetting = {
 		callback: {
@@ -20,20 +22,43 @@
 			}
 		}
 	};
+	
+	
+	
+	
+	var orgSelectSetting = {
+			callback: {
+				onClick: clickOrgValue
+			},
+			data : {
+				simpleData : {
+					enable : true,
+					idKey : "id",
+					pIdKey : "pid",
+					rootPId : "null",
+				}
+			}
+		};
+		
+	var selectOrgZtree;
+	var orgjsondata4select;
+	
 
 	$(document).ready(function() {
 		jQuery.post("${ctx}/system/org/list/json",
 		function(_json) {
 			if (_json.status == "success") {
-				
+				orgjsondata4select=_json;
 				$.fn.zTree.init($("#orgListTree"), orgTreesetting,_json.data);
 				var zTree =$.fn.zTree.getZTreeObj("orgListTree");
 		    	 zTree.expandAll(true);
-		    	
 			} else {
 				myalert(_json.message);
 			}
 		});
+		
+		
+		
 		
 	});
 	
@@ -41,7 +66,17 @@
 	    showdata(treeNode);
 	};
 	
+	function clickOrgValue(event, treeId, treeNode) {
+		jQuery("#pname").val(treeNode.name);
+		jQuery("#pid").val(treeNode.id);
+	};
+	
 	function showdata(result) {
+		$("#btn_add").hide();
+		$("#btn_update").show();
+		$("#btn_delete").show();
+		$("#btn_reload").show();
+		$("#div_code").show();
 		for (var s in result) {
 			set_val(s, result[s]);
 		}
@@ -57,7 +92,8 @@
 		}else{
 			jQuery("#pname").val("");
 		}
-		
+		//回选 下拉框
+		jQuery("#state option[value='"+result.data['state']+"']").prop("selected",true);
 		
 	}
 	
@@ -76,52 +112,66 @@
 	
 	
 	
-	var org_modal=null;
-	function showOrgModal(){
-		if(org_modal!=null){
-			org_modal.show();
-			return;
+
+
+	
+	function genorgcode(){
+	    var pageurl="${ctx}/system/org/genorgcode";
+		ajaxpostonlayer(pageurl,null,{},'部门编号重新生成完毕！')
+	}
+	
+	
+	
+	
+	function showOrgTree(){
+		
+		
+		if(!selectOrgZtree){
+			$.fn.zTree.init($("#selectOrgTree"), orgSelectSetting,orgjsondata4select.data);
+			
+			 selectOrgZtree =$.fn.zTree.getZTreeObj("selectOrgTree");
+			 selectOrgZtree.expandAll(true);
+	    	 selectZtreeOneNode(jQuery("#pid").val(),"selectOrgTree");
 		}
 		
-	 org_modal=$.scojs_modal({
-		  title: '选择部门',
-		  remote: "${ctx}/system/org/tree",
-		  uuid:"orgTree",
-		  fun_confirm:"selectParentOrgVal"
-		  
+		
+		
+		
+		
+		
+		//页面层-自定义
+		layer.open({
+		  shadeClose:true,
+		  closeBtn: 1,
+		  btn: ['确定'], //按钮
+		  type: 1,
+		  title: "选择父部门",
+		  skin: 'layui-layer-rim', //加上边框
+		  area: ['600px', '400px'], //宽高
+		  //shadeClose: true,
+		  content: $("#div_select_org_tree")
 		});
-	  org_modal.show();
-
+		
 	}
-	function selectParentOrgVal(uuid){
-
-		  var orgCheckBoxTree = $.fn.zTree.getZTreeObj(uuid);
-		  var nodes = orgCheckBoxTree.getCheckedNodes(true);
-		  if(nodes.length<1){
-			  myalert("请选择一个部门!");
-			  return;
-		  }
-		  var orgNames="";
-		  var orgIds="";
-		  jQuery(nodes).each(function(i,_obj){
-			  orgNames+=_obj.name+",";
-			  orgIds+=_obj.id+",";
-		  });
-		  
-		  jQuery("#pname").val(orgNames);
-		  jQuery("#pid").val(orgIds);
-		  org_modal.close();
-		  
-	}
+	
+	
+	
 	
 </SCRIPT>
 	<div class="operate panel panel-default" style="height:65px;" >
 		<div class="panel-body">
+
+			     <@shiro.hasPermission name="/system/org/genorgcode" >
+              			<a onclick="genorgcode();" class="btn btn-sm btn-primary">重新生成部门编号</a> 
+				</@shiro.hasPermission>
 			<div class="pull-right">
-				<a onclick="commonSaveForm('updateForm','${ctx}/system/org/list');" class="btn btn-sm btn-primary">添加</a>
-				<a onclick="commonUpdateForm('updateForm','${ctx}/system/org/list');" class="btn btn-sm btn-primary">修改</a>
-				|
-				<a onclick="deleteOrg();" class="btn btn-sm  btn-danger">删除</a>
+			    <a id="btn_reload" onclick="location.reload();" class="btn btn-sm btn-primary" style="display: none;" >
+			    跳转到新增 >>
+			    </a>
+			    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<a id="btn_add" onclick="commonSaveForm('updateForm','${ctx}/system/org/list');" class="btn btn-sm btn-primary"><img src="${ctx}/images/btn_save.png" style="vertical-align: middle;" />保存新增</a>
+				<a id="btn_update" style="display: none;" onclick="commonUpdateForm('updateForm','${ctx}/system/org/list');" class="btn btn-sm btn-primary"><img src="${ctx}/images/btn_save.png" style="vertical-align: middle;" />保存修改</a>
+				<a id="btn_delete" style="display: none;" onclick="deleteOrg();" class="btn btn-sm  btn-danger">删除</a>
 			</div>
 		</div>
 	</div>
@@ -152,48 +202,56 @@
 					<form id="updateForm" name="updateForm" method="post" action="${ctx}/system/org/update" class="form-horizontal clearfix">
 						<input type="hidden" name="id" id="id">
 						<input type="hidden" name="opmode" id="opmode" value="">
-						<div class="form-group col-xs-9">
-							<label class="col-sm-4 control-label" for="comcode">编码*：</label>
+						<input type="hidden" id="comcode" name="comcode" value="${nextComcode!''}">
+						<div id="div_code" class="form-group col-xs-9" style="display: none;">
+							<label class="col-sm-4 control-label" for="code">部门编号：</label>
 							<div class="col-sm-8">
-								<input class="form-control" type="text" id="comcode" name="comcode" >
+								<input class="form-control" type="text" id="code" name="code" readonly="readonly" style="color: gray;">
 							</div>
-						</div>
+						</div> 
 						<div class="form-group col-xs-9">
 							<label class="col-sm-4 control-label" for="name">名称*：</label>
 							<div class="col-sm-8">
 								<input class="form-control" type="text" id="name" name="name">
 							</div>
 						</div>
-			
-						<div class="form-group col-xs-9">
+						
+					   <div class="form-group col-xs-9">
 							<label class="col-sm-4 control-label" for="dept_name">上级部门*：</label>
 							<div class="col-sm-8">
 								<div class="input-group">
 									<input name="pname" class="form-control" id="pname" type="text" readonly="readonly"/>
 									<input name="pid" id="pid" type="hidden"/>
 									<div class="input-group-btn">
-										<a data-trigger="modal" href="${ctx}/system/org/tree" data-title="选择部门" class="btn btn-sm btn-primary">
+										<a href="javascript:showOrgTree();"   class="btn btn-sm btn-primary">
 											<i class="fa fa-search"></i>
 										</a>
 									</div>
 								</div>
 							</div>
 						</div>
+						
+						
+						
+					
 						<div class="form-group col-xs-9">
 							<label class="col-sm-4 control-label" for="sortno">排序：</label>
 							<div class="col-sm-8">
 								<input class="form-control" type="text" id="sortno" name="sortno" >
 							</div>
 						</div>
+						
 						<div class="form-group col-xs-9">
-							<label class="col-sm-4 control-label" for="state">是否可用*：</label>
+							<label class="col-sm-4 control-label" for="state">是否可用：</label>
 							<div class="col-sm-8">
-								<select   name="state" id="state" class="form-control">
-									<option  value="是">是</option>
-									<option value="否">否</option>
-								</select>
+								<select id="state" name="state" class="form-control">
+													<option value="是">是</option>
+													<option value="否">否</option>
+												</select>
 							</div>
 						</div>
+						
+						
 						<div class="form-group col-xs-9">
 							<label class="col-sm-4 control-label" for="description" >描述：</label>
 							<div class="col-sm-8" >
@@ -207,4 +265,10 @@
 		
 	</div>
 </div>
+
+
+<div id="div_select_org_tree">
+	<ul id="selectOrgTree" class="ztree"></ul>
+</div>
+
 </#escape>
