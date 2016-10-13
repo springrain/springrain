@@ -1,6 +1,4 @@
 package  org.springrain.system.web;
-import java.io.File;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import org.springrain.frame.controller.BaseController;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.MessageUtils;
@@ -85,60 +82,9 @@ public class OrgController  extends BaseController {@Resource
 		return returnObject;
 	}
 	
-	
-	
+
 	
 	/**
-	 * 列表数据,调用listjson方法,保证和app端数据统一
-	 * 
-	 * @param request
-	 * @param model
-	 * @param org
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping("/tree")
-	public String tree(HttpServletRequest request, Model model,Org org) 
-			throws Exception {
-		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
-		model.addAttribute(GlobalStatic.returnDatas, returnObject);
-		return "/system/org/tree";
-	}
-	/**
-	 * 列表数据,调用listjson方法,保证和app端数据统一
-	 * 
-	 * @param request
-	 * @param model
-	 * @param org
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping("/tree/pre")
-	public String tree2(HttpServletRequest request, Model model,Org org) 
-			throws Exception {
-		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
-		model.addAttribute(GlobalStatic.returnDatas, returnObject);
-		return "/system/org/tree2";
-	}
-	
-	
-	
-	
-	
-	
-	
-	@RequestMapping("/list/export")
-	public void listexport(HttpServletRequest request,HttpServletResponse response, Model model,Org org) throws Exception{
-		// ==构造分页请求
-		Page page = newPage(request);
-	
-		File file = orgService.findDataExportExcel(null,listurl, page,Org.class,org);
-		String fileName="org"+GlobalStatic.excelext;
-		downFile(response, file, fileName,true);
-		return;
-	}
-	
-		/**
 	 * 查看操作,调用APP端lookjson方法
 	 */
 	@RequestMapping(value = "/look")
@@ -235,33 +181,5 @@ public class OrgController  extends BaseController {@Resource
 		return new ReturnDatas(ReturnDatas.WARNING, MessageUtils.DELETE_WARNING);
 	}
 	
-	/**
-	 * 删除多条记录
-	 * 
-	 */
-	@RequestMapping("/delete/more")
-	public @ResponseBody
-	ReturnDatas delMultiRecords(HttpServletRequest request, Model model) {
-		String records = request.getParameter("records");
-		if(StringUtils.isBlank(records)){
-			 return new ReturnDatas(ReturnDatas.ERROR,
-					MessageUtils.DELETE_ALL_FAIL);
-		}
-		String[] rs = records.split(",");
-		if (rs == null || rs.length < 1) {
-			return new ReturnDatas(ReturnDatas.ERROR,
-					MessageUtils.DELETE_NULL_FAIL);
-		}
-		try {
-			List<String> ids = Arrays.asList(rs);
-			orgService.deleteByIds(ids,Org.class);
-		} catch (Exception e) {
-			return new ReturnDatas(ReturnDatas.ERROR,
-					MessageUtils.DELETE_ALL_FAIL);
-		}
-		return new ReturnDatas(ReturnDatas.SUCCESS,
-				MessageUtils.DELETE_ALL_SUCCESS);
-		
-		
-	}
+	
 }

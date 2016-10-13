@@ -1,13 +1,8 @@
 package org.springrain.system.web;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 
 import javax.annotation.Resource;
@@ -17,11 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springrain.frame.controller.BaseController;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.MessageUtils;
@@ -89,28 +81,7 @@ public class UserController extends BaseController {
 		return returnObject;
 	}
 
-	/**
-	 * 导出Excle格式的数据
-	 * 
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @param user
-	 * @throws Exception
-	 */
-	@RequestMapping("/list/export")
-	public void listexport(HttpServletRequest request,
-			HttpServletResponse response, Model model, User user)
-			throws Exception {
-		// ==构造分页请求
-		Page page = newPage(request);
-		File file = userService.findDataExportExcel(null, listurl, page,
-				User.class, user);
-		String fileName = "user" + GlobalStatic.excelext;
-		downFile(response, file, fileName, true);
-		return;
-	}
-
+	
 	/**
 	 * 查看操作,调用APP端lookjson方法
 	 */
@@ -250,66 +221,6 @@ public class UserController extends BaseController {
 		}
 		return new ReturnDatas(ReturnDatas.WARNING, MessageUtils.DELETE_WARNING);
 	}
-
-	/**
-	 * 删除多条记录
-	 * 
-	 */
-	@RequestMapping("/delete/more")
-	public @ResponseBody
-	ReturnDatas delMultiRecords(HttpServletRequest request, Model model) {
-		String records = request.getParameter("records");
-		if (StringUtils.isBlank(records)) {
-			return new ReturnDatas(ReturnDatas.ERROR,
-					MessageUtils.DELETE_ALL_FAIL);
-		}
-		String[] rs = records.split(",");
-		if (rs == null || rs.length < 1) {
-			return new ReturnDatas(ReturnDatas.ERROR,
-					MessageUtils.DELETE_NULL_FAIL);
-		}
-		try {
-			List<String> ids = Arrays.asList(rs);
-			userService.deleteByIds(ids, User.class);
-		} catch (Exception e) {
-			return new ReturnDatas(ReturnDatas.ERROR,
-					MessageUtils.DELETE_ALL_FAIL);
-		}
-		return new ReturnDatas(ReturnDatas.SUCCESS,
-				MessageUtils.DELETE_ALL_SUCCESS);
-	}
 	
-	@RequestMapping("/headImgUpload")
-	public @ResponseBody ReturnDatas headImgUpload(@RequestParam("fileupload") CommonsMultipartFile[] fileupload,HttpServletRequest request,HttpServletResponse response){
-		ReturnDatas returnDatas=ReturnDatas.getSuccessReturnDatas();
-		if(fileupload!=null || fileupload.length>0){
-			for (int i = 0; i < fileupload.length; i++) {
-				File destFile =null;
-				String filename = fileupload[i].getOriginalFilename();
-				String url="/upload/";
-				String uploadDirPath = url;
-				File dir = new File(uploadDirPath); 
-				if (!dir.exists()) { 
-					dir.mkdirs();
-				}
-				String ext = filename.substring(filename.lastIndexOf("."));
-				filename = new Date().getTime() + "_" + new Random().nextInt(120000) + ext;
-				String filePath = uploadDirPath + filename; 
-				destFile = new File(filePath);
-				try {
-					FileCopyUtils.copy(fileupload[i].getBytes(), destFile);
-					returnDatas.setData(filePath); 
-					return returnDatas; 
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-					returnDatas.setMessage("系统异常");
-					returnDatas.setStatus(ReturnDatas.ERROR);
-					returnDatas.setStatusCode("500");
-					return returnDatas;
-				}
-			}
-		}
-		return returnDatas;
-	} 
+	
 }

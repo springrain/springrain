@@ -1,7 +1,5 @@
 package  org.springrain.system.web;
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -13,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import org.springrain.frame.controller.BaseController;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.MessageUtils;
@@ -82,25 +79,7 @@ public class RoleController  extends BaseController {
 		return returnObject;
 	}
 
-	/**
-	 * 导出Excle格式的数据
-	 * 
-	 * @param request
-	 * @param response
-	 * @param model
-	 * @param role
-	 * @throws Exception
-	 */
-	@RequestMapping("/list/export")
-	public void listexport(HttpServletRequest request, HttpServletResponse response, Model model,
-			Role role) throws Exception {
-		// ==构造分页请求
-		Page page = newPage(request);
-		File file = roleService.findDataExportExcel(null, listurl, page, Role.class, role);
-		String fileName = "role" + GlobalStatic.excelext;
-		downFile(response, file, fileName, true);
-		return;
-	}
+	
 
 	/**
 	 * 查看操作,调用APP端lookjson方法
@@ -213,30 +192,7 @@ public class RoleController  extends BaseController {
 		return new ReturnDatas(ReturnDatas.WARNING, MessageUtils.DELETE_WARNING);
 	}
 
-	/**
-	 * 删除多条记录
-	 * 
-	 */
-	@RequestMapping("/delete/more")
-	public @ResponseBody
-	ReturnDatas delMultiRecords(HttpServletRequest request, Model model) {
-		String records = request.getParameter("records");
-		if (StringUtils.isBlank(records)) {
-			return new ReturnDatas(ReturnDatas.ERROR, MessageUtils.DELETE_ALL_FAIL);
-		}
-		String[] rs = records.split(",");
-		if (rs == null || rs.length < 1) {
-			return new ReturnDatas(ReturnDatas.ERROR, MessageUtils.DELETE_NULL_FAIL);
-		}
-		try {
-			List<String> ids = Arrays.asList(rs);
-			roleService.deleteByIds(ids, Role.class);
-		} catch (Exception e) {
-			return new ReturnDatas(ReturnDatas.ERROR, MessageUtils.DELETE_ALL_FAIL);
-		}
-		return new ReturnDatas(ReturnDatas.SUCCESS, MessageUtils.DELETE_ALL_SUCCESS);
-	}
-
+	
 	
 
 }

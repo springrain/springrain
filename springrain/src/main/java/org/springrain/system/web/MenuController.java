@@ -1,5 +1,4 @@
 package  org.springrain.system.web;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -11,14 +10,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import org.springrain.frame.common.SessionUser;
 import org.springrain.frame.controller.BaseController;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.MessageUtils;
 import org.springrain.frame.util.ReturnDatas;
 import org.springrain.system.entity.Menu;
-import org.springrain.system.entity.Org;
 import org.springrain.system.service.IMenuService;
 import org.springrain.system.service.IUserRoleMenuService;
 
@@ -86,39 +83,6 @@ public class MenuController  extends BaseController {
 	
 	
 	
-	/**
-	 * 列表数据,调用listjson方法,保证和app端数据统一
-	 * 
-	 * @param request
-	 * @param model
-	 * @param org
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping("/tree")
-	public String tree(HttpServletRequest request, Model model,Org org) 
-			throws Exception {
-		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
-		model.addAttribute(GlobalStatic.returnDatas, returnObject);
-		return "/system/menu/tree";
-	}
-	
-	/**
-	 * 列表数据,调用listjson方法,保证和app端数据统一
-	 * 
-	 * @param request
-	 * @param model
-	 * @param org
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping("/tree/pre")
-	public String treepre(HttpServletRequest request, Model model,Org org) 
-			throws Exception {
-		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
-		model.addAttribute(GlobalStatic.returnDatas, returnObject);
-		return "/system/menu/tree2";
-	}
 	
 	
 
@@ -217,29 +181,7 @@ public class MenuController  extends BaseController {
 		return new ReturnDatas(ReturnDatas.WARNING, MessageUtils.DELETE_WARNING);
 	}
 
-	/**
-	 * 删除多条记录
-	 * 
-	 */
-	@RequestMapping("/delete/more")
-	public @ResponseBody
-	ReturnDatas delMultiRecords(HttpServletRequest request, Model model) {
-		String records = request.getParameter("records");
-		if (StringUtils.isBlank(records)) {
-			return new ReturnDatas(ReturnDatas.ERROR, MessageUtils.DELETE_ALL_FAIL);
-		}
-		String[] rs = records.split(",");
-		if (rs == null || rs.length < 1) {
-			return new ReturnDatas(ReturnDatas.ERROR, MessageUtils.DELETE_NULL_FAIL);
-		}
-		try {
-			List<String> ids = Arrays.asList(rs);
-			menuService.deleteByIds(ids, Menu.class);
-		} catch (Exception e) {
-			return new ReturnDatas(ReturnDatas.ERROR, MessageUtils.DELETE_ALL_FAIL);
-		}
-		return new ReturnDatas(ReturnDatas.SUCCESS, MessageUtils.DELETE_ALL_SUCCESS);
-	}
+	
 	
 	/**
 	 * 
