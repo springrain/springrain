@@ -179,24 +179,24 @@ function clickMenuValue(event, treeId, treeNode) {
 		<div class="pull-right">
 			 <@shiro.hasPermission
 			name="/system/menu/update" >
-			<button id="btn_reload" style="display: none;"  onclick="location.reload();"
+			<a id="btn_reload" style="display: none;"  href="javascript:location.reload();"
 				class="btn  btn-sm  btn-primary"  >
 				跳转至新增 >>
-			</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<button id="btn_add"  onclick="dosubmit(0);"
+			</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<a id="btn_add"   href="javascript:dosubmit(0);"
 				class="btn  btn-sm  btn-primary">
 				<img src="${ctx}/images/btn_save.png" style="vertical-align: middle;" />保存新增
-			</button>
-				<button id="btn_update" style="display: none;" onclick="dosubmit(1);"
+			</a>
+				<a id="btn_update" style="display: none;"   href="javascript:dosubmit(1);"
 				class="btn  btn-sm  btn-primary">
 				<img src="${ctx}/images/btn_save.png" style="vertical-align: middle;" />保存修改
-			</button>
+			</a>
 			
 			</@shiro.hasPermission>
 			 <@shiro.hasPermission name="/system/menu/delete" >
-			<button id="btn_delete" style="display: none;" onclick="deleteMenu();" class="btn btn-sm btn-danger">
+			<a id="btn_delete" style="display: none;"   href="javascript:deleteMenu();" class="btn btn-sm btn-danger">
 				 删除
-			</button>
+			</a>
 			</@shiro.hasPermission>
 		</div>
 	</div>
