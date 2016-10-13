@@ -19,6 +19,7 @@ import org.springrain.frame.util.Page;
 import org.springrain.frame.util.ReturnDatas;
 import org.springrain.system.entity.Org;
 import org.springrain.system.service.IOrgService;
+import org.springrain.system.service.IUserOrgService;
 
 
 /**
@@ -30,8 +31,12 @@ import org.springrain.system.service.IOrgService;
  */
 @Controller
 @RequestMapping(value="/system/org")
-public class OrgController  extends BaseController {@Resource
+public class OrgController  extends BaseController {
+	
+	@Resource
 	private IOrgService orgService;
+	@Resource
+	private IUserOrgService userOrgService;
 	
 	private String listurl="/system/org/orgList";
 	
@@ -127,13 +132,18 @@ public class OrgController  extends BaseController {@Resource
 			try {
 				String id=org.getId();
 				String pid=org.getPid();
-				if(StringUtils.isBlank(id)){
-					org.setId(null);
-				}
 				if(StringUtils.isBlank(pid)){
 					org.setPid(null);
 				}
-			orgService.saveorupdate(org);
+				
+				if(StringUtils.isBlank(id)){
+					org.setId(null);
+					orgService.saveOrg(org);
+				}else{
+					orgService.updateOrg(org);
+				}
+				
+			
 			
 		} catch (Exception e) {
 			String errorMessage = e.getLocalizedMessage();
@@ -163,22 +173,28 @@ public class OrgController  extends BaseController {@Resource
 	 */
 	@RequestMapping(value="/delete")
 	public @ResponseBody ReturnDatas destroy(HttpServletRequest request) throws Exception {
-
+		ReturnDatas errorReturnDatas=ReturnDatas.getErrorReturnDatas();
 			// 执行删除
 		try {
 		java.lang.String id=request.getParameter("id");
-		if(StringUtils.isNotBlank(id)){
-				orgService.deleteById(id,Org.class);
-				return new ReturnDatas(ReturnDatas.SUCCESS,
-						MessageUtils.DELETE_SUCCESS);
-			} else {
-				return new ReturnDatas(ReturnDatas.WARNING,
-						MessageUtils.DELETE_WARNING);
-			}
+		
+		if(StringUtils.isBlank(id)){
+			errorReturnDatas.setMessage("部门Id不能为空!");
+			return errorReturnDatas;
+		}
+		Integer userCountByOrgId = userOrgService.findAllUserCountByOrgId(id);
+		if(userCountByOrgId!=null&&userCountByOrgId>0){
+			errorReturnDatas.setMessage("部门下还有人员,不能删除!");
+			return errorReturnDatas;
+		}
+		  orgService.deleteOrgById(id);
+				
+			
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
+			return errorReturnDatas;
 		}
-		return new ReturnDatas(ReturnDatas.WARNING, MessageUtils.DELETE_WARNING);
+		return ReturnDatas.getSuccessReturnDatas();
 	}
 	
 	

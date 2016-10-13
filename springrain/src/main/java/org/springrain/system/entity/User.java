@@ -21,7 +21,6 @@ import org.springrain.frame.entity.BaseEntity;
  * @see org.springrain.system.entity.User
  */
 @Table(name="t_user")
-@LuceneSearch
 public class User  extends BaseEntity {
 	
 	private static final long serialVersionUID = 1L;
@@ -67,9 +66,9 @@ public class User  extends BaseEntity {
 	private String weixinId;
 	
 	/**
-	 * 用户类型,0:后台管理员,1是教师,2是家长,3是学生
+	 * 用户类型,0:后台管理员,1是用户
 	 */
-	private Integer userType;
+	private Integer userType=1;
 	
 	
 	//columns END 数据库字段结束
@@ -106,7 +105,6 @@ public class User  extends BaseEntity {
 		
 		@Id
 	     @WhereSQL(sql="id=:User_id")
-		@LuceneField
 		public java.lang.String getId() {
 			return this.id;
 		}
@@ -118,7 +116,6 @@ public class User  extends BaseEntity {
 		}
 		
 	     @WhereSQL(sql="name=:User_name")
-	     @LuceneField
 		public java.lang.String getName() {
 			return this.name;
 		}

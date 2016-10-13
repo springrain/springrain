@@ -19,13 +19,7 @@ public interface IOrgService extends IBaseSpringrainService {
 	 * @throws Exception
 	 */
 	String saveOrg(Org entity) throws Exception;
-	/**
-	 * 修改或者保存,根据id是否为空判断
-	 * @param entity
-	 * @return
-	 * @throws Exception
-	 */
-    String saveorupdateOrg(Org entity) throws Exception;
+
 	 /**
      * 更新
      * @param entity
@@ -47,6 +41,37 @@ public interface IOrgService extends IBaseSpringrainService {
 	 * @throws Exception
 	 */
 	List<Org> findTreeOrg()throws Exception;
+	
+	
+	/**
+	 * 根据父类Id 查找Org的树形结构,根为 null
+	 * @return
+	 * @throws Exception
+	 */
+	List<Org> findTreeByPid(String pid)throws Exception;
+	
+	
+	
+	
+	/**
+	 * 删除部门Id以及下面的子部门
+	 * @param orgId
+	 * @return
+	 * @throws Exception
+	 */
+	String deleteOrgById(String orgId)throws Exception;
+	
+	/**
+	 * 根据id和pid生成部门的Comcode
+	 * @param id
+	 * @param pid
+	 * @return
+	 * @throws Exception
+	 */
+	String findOrgNewComcode(String id,String pid) throws Exception ;
+	
+	
+	
 	
 	
 }

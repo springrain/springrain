@@ -68,6 +68,21 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 		return super.queryForObject(finder, User.class);
 	}
 
+	@Override
+	public Integer findAllUserCountByOrgId(String orgId) throws Exception {
+		if(StringUtils.isBlank(orgId)){
+			return null;
+		}
+		//Finder f_code=new Finder("SELECT comcode FROM t_org where id=:orgId ");
+		Finder f_code=Finder.getSelectFinder(Org.class, "comcode").append(" where id=:orgId ");
+		f_code.setParam("orgId", orgId);
+		String comcode=super.queryForObject(f_code, String.class);
+		
+		Finder finder=new Finder("SELECT count(re.userId) FROM ").append(Finder.getTableName(UserOrg.class)).append(" re,").append(Finder.getTableName(Org.class)).append(" org WHERE org.id=re.orgId and org.comcode like :comcode");
+		finder.setParam("comcode", comcode+"%");
+		return super.queryForObject(finder,Integer.class);
+	}
+
    
 
 		

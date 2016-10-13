@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : 127.0.0.1
-Source Server Version : 50619
+Source Server Version : 50714
 Source Host           : 127.0.0.1:3306
 Source Database       : springrain
 
 Target Server Type    : MYSQL
-Target Server Version : 50619
+Target Server Version : 50714
 File Encoding         : 65001
 
-Date: 2014-08-06 14:08:38
+Date: 2016-10-13 12:25:27
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -200,34 +200,34 @@ INSERT INTO `t_menu` VALUES ('t_dic_data_grade_delete', '删除级别', 't_dic_d
 INSERT INTO `t_menu` VALUES ('t_dic_data_grade_deletemore', '批量删除级别', 't_dic_data_grade_list', null, '/system/dicdata/grade/delete/more', '0', '是', null, null);
 INSERT INTO `t_menu` VALUES ('t_dic_data_grade_list', '级别管理', 'dic_manager', null, '/system/dicdata/grade/list', '1', '是', null, null);
 INSERT INTO `t_menu` VALUES ('t_dic_data_grade_look', '查看级别', 't_dic_data_grade_list', null, '/system/dicdata/grade/look', '0', '是', null, null);
-INSERT INTO `t_menu` VALUES ('t_dic_data_grade_update', '修改级别', 't_dic_data_grade_list', null, '/system/dicdata/grade/update', '0', '是', null, null);
 INSERT INTO `t_menu` VALUES ('t_dic_data_grade_tree', '级别树形结构', 't_dic_data_grade_list', null, '/system/dicdata/grade/tree', '0', '是', null, null);
+INSERT INTO `t_menu` VALUES ('t_dic_data_grade_update', '修改级别', 't_dic_data_grade_list', null, '/system/dicdata/grade/update', '0', '是', null, null);
 INSERT INTO `t_menu` VALUES ('t_dic_data_minzu_delete', '删除民族', 't_dic_data_minzu_list', null, '/system/dicdata/minzu/delete', '0', '是', null, null);
 INSERT INTO `t_menu` VALUES ('t_dic_data_minzu_deletemore', '批量删除民族', 't_dic_data_minzu_list', null, '/system/dicdata/minzu/delete/more', '0', '是', null, null);
 INSERT INTO `t_menu` VALUES ('t_dic_data_minzu_list', '民族管理', 'dic_manager', null, '/system/dicdata/minzu/list', '1', '是', null, null);
 INSERT INTO `t_menu` VALUES ('t_dic_data_minzu_look', '查看民族', 't_dic_data_minzu_list', null, '/system/dicdata/minzu/look', '0', '是', null, null);
-INSERT INTO `t_menu` VALUES ('t_dic_data_minzu_update', '修改民族', 't_dic_data_minzu_list', null, '/system/dicdata/minzu/update', '0', '是', null, null);
 INSERT INTO `t_menu` VALUES ('t_dic_data_minzu_tree', '民族树形结构', 't_dic_data_minzu_list', null, '/system/dicdata/minzu/tree', '0', '是', null, null);
+INSERT INTO `t_menu` VALUES ('t_dic_data_minzu_update', '修改民族', 't_dic_data_minzu_list', null, '/system/dicdata/minzu/update', '0', '是', null, null);
 INSERT INTO `t_menu` VALUES ('t_dic_data_xueli_delete', '删除学历', 't_dic_data_xueli_list', null, '/system/dicdata/xueli/delete', '0', '是', null, null);
 INSERT INTO `t_menu` VALUES ('t_dic_data_xueli_deletemore', '批量删除学历', 't_dic_data_xueli_list', null, '/system/dicdata/xueli/delete/more', '0', '是', null, null);
 INSERT INTO `t_menu` VALUES ('t_dic_data_xueli_list', '学历管理', 'dic_manager', null, '/system/dicdata/xueli/list', '1', '是', null, null);
 INSERT INTO `t_menu` VALUES ('t_dic_data_xueli_look', '查看学历', 't_dic_data_xueli_list', null, '/system/dicdata/xueli/look', '0', '是', null, null);
-INSERT INTO `t_menu` VALUES ('t_dic_data_xueli_update', '修改学历', 't_dic_data_xueli_list', null, '/system/dicdata/xueli/update', '0', '是', null, null);
 INSERT INTO `t_menu` VALUES ('t_dic_data_xueli_tree', '学历树形结构', 't_dic_data_xueli_list', null, '/system/dicdata/xueli/tree', '0', '是', null, null);
+INSERT INTO `t_menu` VALUES ('t_dic_data_xueli_update', '修改学历', 't_dic_data_xueli_list', null, '/system/dicdata/xueli/update', '0', '是', null, null);
 INSERT INTO `t_menu` VALUES ('t_fwlog_list', '访问日志', 'system_manager', null, '/system/fwlog/list', '1', '是', null, null);
 INSERT INTO `t_menu` VALUES ('t_fwlog_look', '查看访问日志', 't_fwlog_list', null, '/system/fwlog/look', '0', '是', null, null);
 INSERT INTO `t_menu` VALUES ('t_menu_delete', '删除菜单', 't_menu_list', null, '/system/menu/delete', '0', '是', null, null);
 INSERT INTO `t_menu` VALUES ('t_menu_deletemore', '批量删除菜单', 't_menu_list', null, '/system/menu/delete/more', '0', '是', null, null);
 INSERT INTO `t_menu` VALUES ('t_menu_list', '菜单管理', 'system_manager', null, '/system/menu/list', '1', '是', null, null);
 INSERT INTO `t_menu` VALUES ('t_menu_look', '查看菜单', 't_menu_list', null, '/system/menu/look', '0', '是', null, null);
-INSERT INTO `t_menu` VALUES ('t_menu_update', '修改菜单', 't_menu_list', null, '/system/menu/update', '0', '是', null, null);
 INSERT INTO `t_menu` VALUES ('t_menu_tree', '菜单树形结构', 't_menu_list', null, '/system/menu/tree', '0', '是', null, null);
+INSERT INTO `t_menu` VALUES ('t_menu_update', '修改菜单', 't_menu_list', null, '/system/menu/update', '0', '是', null, null);
 INSERT INTO `t_menu` VALUES ('t_org_delete', '删除部门', 't_org_list', null, '/system/org/delete', '0', '是', null, null);
 INSERT INTO `t_menu` VALUES ('t_org_deletemore', '批量删除部门', 't_org_list', null, '/system/org/delete/more', '0', '是', null, null);
 INSERT INTO `t_menu` VALUES ('t_org_list', '部门管理', 'business_manager', null, '/system/org/list', '1', '是', null, null);
 INSERT INTO `t_menu` VALUES ('t_org_look', '查看部门', 't_org_list', null, '/system/org/look', '0', '是', null, null);
-INSERT INTO `t_menu` VALUES ('t_org_update', '修改部门', 't_org_list', null, '/system/org/update', '0', '是', null, null);
 INSERT INTO `t_menu` VALUES ('t_org_tree', '部门树形结构', 't_org_list', null, '/system/org/tree', '0', '是', null, null);
+INSERT INTO `t_menu` VALUES ('t_org_update', '修改部门', 't_org_list', null, '/system/org/update', '0', '是', null, null);
 INSERT INTO `t_menu` VALUES ('t_role_delete', '删除角色', 't_role_list', null, '/system/role/delete', '0', '是', null, null);
 INSERT INTO `t_menu` VALUES ('t_role_deletemore', '批量删除角色', 't_role_list', null, '/system/role/delete/more', '0', '是', null, null);
 INSERT INTO `t_menu` VALUES ('t_role_list', '角色管理', 'system_manager', '', '/system/role/list', '1', '是', null, '');
@@ -239,12 +239,10 @@ INSERT INTO `t_menu` VALUES ('t_user_list', '用户管理', 'business_manager', 
 INSERT INTO `t_menu` VALUES ('t_user_list_export', '导出用户', 't_user_list', null, '/system/user/list/export', '0', '是', null, null);
 INSERT INTO `t_menu` VALUES ('t_user_look', '查看用户', 't_user_list', null, '/system/user/look', '0', '是', null, null);
 INSERT INTO `t_menu` VALUES ('t_user_update', '修改用户', 't_user_list', null, '/system/user/update', '0', '是', null, null);
-
-
-INSERT INTO `t_menu` VALUES ('weixin_manager', '微信管理', null, null, null, '1', '是', null, null);
 INSERT INTO `t_menu` VALUES ('t_weixin_menu_list', '微信菜单管理', 'weixin_manager', null, '/system/weixin/menu/list', '1', '是', null, null);
 INSERT INTO `t_menu` VALUES ('t_weixin_menu_look', '查看微信菜单', 't_weixin_menu_list', null, '/system/weixin/menu/look', '0', '是', null, null);
 INSERT INTO `t_menu` VALUES ('t_weixin_menu_update', '修改微信菜单', 't_weixin_menu_list', null, '/system/weixin/menu/update', '0', '是', null, null);
+INSERT INTO `t_menu` VALUES ('weixin_manager', '微信管理', null, null, null, '1', '是', null, null);
 
 -- ----------------------------
 -- Table structure for t_org
@@ -253,7 +251,7 @@ DROP TABLE IF EXISTS `t_org`;
 CREATE TABLE `t_org` (
   `id` varchar(40) NOT NULL COMMENT '编号',
   `name` varchar(60) DEFAULT NULL COMMENT '名称',
-  `comcode` varchar(40) DEFAULT NULL COMMENT '代码',
+  `comcode` varchar(1000) DEFAULT NULL COMMENT '代码',
   `pid` varchar(40) DEFAULT NULL COMMENT '上级部门ID',
   `sysid` varchar(40) DEFAULT NULL COMMENT '子系统ID',
   `type` int(11) DEFAULT NULL COMMENT '0,组织机构 1.部门',
@@ -267,7 +265,7 @@ CREATE TABLE `t_org` (
 -- ----------------------------
 -- Records of t_org
 -- ----------------------------
-INSERT INTO `t_org` VALUES ('8ab05a1acfd54590942b88fc6d4d77ee', '测试部门', 'test', null, null, null, null, '1', '', '是');
+INSERT INTO `t_org` VALUES ('8ab05a1acfd54590942b88fc6d4d77ee', '测试部门', ',8ab05a1acfd54590942b88fc6d4d77ee,', null, null, null, null, '1', '', '是');
 
 -- ----------------------------
 -- Table structure for t_role
@@ -309,18 +307,18 @@ CREATE TABLE `t_role_menu` (
 INSERT INTO `t_role_menu` VALUES ('09bf2e03f127496cb8bb0b157ecb325a', 'admin', 't_org_update');
 INSERT INTO `t_role_menu` VALUES ('1c497f5e142e4da883eef3cba9766501', 'admin', 't_dic_data_minzu_update');
 INSERT INTO `t_role_menu` VALUES ('1c497f5e142e4da883eef3cba9766591', 'admin', 't_dic_data_minzu_tree');
-INSERT INTO `t_role_menu` VALUES ('1e972905e7cc46ca8eb601aca19abaa6', 'admin', 't_dic_data_grade_update');
 INSERT INTO `t_role_menu` VALUES ('1e972905e7cc46ca8eb601aca19ab8a6', 'admin', 't_dic_data_grade_tree');
+INSERT INTO `t_role_menu` VALUES ('1e972905e7cc46ca8eb601aca19abaa6', 'admin', 't_dic_data_grade_update');
 INSERT INTO `t_role_menu` VALUES ('23c6f39769da49049b574e445ec2a222', 'admin', 'system_manager');
-INSERT INTO `t_role_menu` VALUES ('24e38c16d029435882a89777fe8d7822', 'admin', 't_org_deletemore');
 INSERT INTO `t_role_menu` VALUES ('24e38c16d029435882a89777fe8d7722', 'admin', 't_org_tree');
-INSERT INTO `t_role_menu` VALUES ('29c92c1e1b4a4c13b5c731b9997e0c92', 'admin', 't_menu_update');
+INSERT INTO `t_role_menu` VALUES ('24e38c16d029435882a89777fe8d7822', 'admin', 't_org_deletemore');
 INSERT INTO `t_role_menu` VALUES ('29c92c1e1b4a4c13b5c731b9997e0c82', 'admin', 't_menu_tree');
+INSERT INTO `t_role_menu` VALUES ('29c92c1e1b4a4c13b5c731b9997e0c92', 'admin', 't_menu_update');
 INSERT INTO `t_role_menu` VALUES ('2fa0a289b0a04d508bede70dcd76516c', 'admin', 't_user_look');
 INSERT INTO `t_role_menu` VALUES ('45a071f489024a769173b9a9418e1312', 'admin', 't_auditlog_list');
 INSERT INTO `t_role_menu` VALUES ('4c5ecbab923347d88ff41391eec84b2c', 'admin', 't_auditlog_look');
-INSERT INTO `t_role_menu` VALUES ('63d8308fb9944ff8a141cadc9e30a992', 'admin', 't_dic_data_xueli_delete');
 INSERT INTO `t_role_menu` VALUES ('63d8308fb9944ff8a141cadc9e30a982', 'admin', 't_dic_data_xueli_tree');
+INSERT INTO `t_role_menu` VALUES ('63d8308fb9944ff8a141cadc9e30a992', 'admin', 't_dic_data_xueli_delete');
 INSERT INTO `t_role_menu` VALUES ('6780735e60564141bb3ba88c1b6cf0bd', 'admin', 't_fwlog_list');
 INSERT INTO `t_role_menu` VALUES ('69e596a905a049ec98759d8dd0ec22ca', 'admin', 't_role_update');
 INSERT INTO `t_role_menu` VALUES ('6d8f4da381b246858f05c6051ea917ff', 'admin', 't_dic_data_xueli_look');
@@ -358,7 +356,6 @@ INSERT INTO `t_role_menu` VALUES ('fb2021ec726b44709090e5df9dbe2e7a', 'admin', '
 -- ----------------------------
 -- Table structure for t_user
 -- ----------------------------
-
 DROP TABLE IF EXISTS `t_user`;
 CREATE TABLE `t_user` (
   `id` varchar(40) NOT NULL COMMENT '编号',
@@ -369,7 +366,7 @@ CREATE TABLE `t_user` (
   `mobile` varchar(16) DEFAULT NULL COMMENT '手机号码',
   `email` varchar(60) DEFAULT NULL COMMENT '邮箱',
   `weixinId` varchar(200) DEFAULT NULL COMMENT '微信Id',
-  `userType` int(11) NOT NULL,
+  `userType` int(11) DEFAULT NULL,
   `state` varchar(10) DEFAULT '是' COMMENT '是否有效,是/否',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户';
@@ -419,21 +416,21 @@ CREATE TABLE `t_user_role` (
 -- ----------------------------
 INSERT INTO `t_user_role` VALUES ('admin_admin', 'admin', 'admin');
 
-
-
 -- ----------------------------
 -- Table structure for weixin_menu
 -- ----------------------------
 DROP TABLE IF EXISTS `weixin_menu`;
 CREATE TABLE `weixin_menu` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `weixinId` varchar(200) NOT NULL  COMMENT '微信Id',
-  `name` varchar(50) DEFAULT NULL  COMMENT '名称',
-   pid varchar(50) NOT NULL COMMENT '上级Id' , 
-   linkType varchar(200) NOT NULL COMMENT '跳转方式' , 
-   linkId varchar(2000) NOT NULL COMMENT '跳转业务Id' , 
-   href varchar(2000) NOT NULL COMMENT '跳转地址' , 
+  `weixinId` varchar(200) NOT NULL COMMENT '微信Id',
+  `name` varchar(50) DEFAULT NULL COMMENT '名称',
+  `pid` varchar(50) NOT NULL COMMENT '上级Id',
+  `linkType` varchar(200) NOT NULL COMMENT '跳转方式',
+  `linkId` varchar(2000) NOT NULL COMMENT '跳转业务Id',
+  `href` varchar(2000) NOT NULL COMMENT '跳转地址',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
+-- ----------------------------
+-- Records of weixin_menu
+-- ----------------------------

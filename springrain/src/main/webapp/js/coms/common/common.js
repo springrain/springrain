@@ -45,10 +45,21 @@ function myhref(_url,menuId) {
  * @param _url
  */
 function mydelete(_url) {
-	myconfirm("确定删除数据?", function() {
+	mydelete(_url,"确定删除数据?");
+}
+
+/**
+ * 不告诉用户删除结果，直接刷新页面
+ * 
+ * @param _url
+ */
+function mydelete(_url,message) {
+	myconfirm(message, function() {
 		myhref(_url);
 	});
 }
+
+
 /**
  * 列表页面删除，弹框提示用户删除结果，再刷新指定页面,一般为列表
  * 
@@ -56,7 +67,17 @@ function mydelete(_url) {
  * @param listage
  */
 function mydelete(_url, listage,par) {
-	myconfirm("确定删除数据?", function() {
+	mydelete(_url, listage,par,"确定删除数据?");
+}
+
+/**
+ * 列表页面删除，弹框提示用户删除结果，再刷新指定页面,一般为列表
+ * 
+ * @param _url
+ * @param listage
+ */
+function mydelete(_url, listage,par,message) {
+	myconfirm(message, function() {
 		myhref2page(_url,listage,par);
 	});
 }

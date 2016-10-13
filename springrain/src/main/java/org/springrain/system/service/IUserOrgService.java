@@ -33,6 +33,15 @@ public interface IUserOrgService extends IBaseSpringrainService {
 	 */
 	List<User> findAllUserByOrgId(String orgId) throws Exception;
 	
+	
+	/**
+	 * 根据部门ID,查找部门下(包括所有子部门)的人员数量
+	 * @param orgId
+	 * @return
+	 * @throws Exception
+	 */
+	Integer findAllUserCountByOrgId(String orgId) throws Exception;
+	
 	/**
 	 * 根据用户ID 查找所在的部门
 	 * @param userId
