@@ -85,10 +85,9 @@
 	<div class="operate panel panel-default" style="height:65px;" style="height:60px;">
 		<div class="panel-body">
 			<div class="pull-right">
-<!-- 				<a onclick="commonSaveForm('updateForm','${ctx}/system/dicdata/${returnDatas.map.typekey}/list');" class="btn btn-sm btn-primary">添加</a> -->
-<!-- 				<a onclick="commonUpdateForm('updateForm','${ctx}/system/dicdata/${returnDatas.map.typekey}/list');" class="btn btn-sm btn-primary">修改</a> -->
+
 			 <@shiro.hasPermission
-			name="/system/user/update" >
+			name="/system/dicdata/${returnDatas.map.typekey}/update" >
 			<button id="btn_reload" onclick="location.reload();"
 				class="btn  btn-sm  btn-primary" style="display: none;" >
 				跳转至新增 >>
@@ -105,7 +104,10 @@
 			</button>
 
 			</@shiro.hasPermission>
+			 <@shiro.hasPermission
+			name="/system/dicdata/${returnDatas.map.typekey}/delete" >
 				<a onclick="deletedicData();"  class="btn btn-sm btn-danger">删除</a>
+				</@shiro.hasPermission>
 			</div>
 		</div>
 	</div>

@@ -72,7 +72,7 @@ jQuery(document).ready(function(){
 	
 	$(".sub_left_menu tbody tr").click(function() {
 		$("#pwdDiv").hide();
-		$(".sub_left_menu tbody tr.active").removeClass("active");
+		$(".sub_left_menu tbody tr").removeClass("active");
 		$(this).attr("class", "active");
 		var _url=ctx + "/system/user/look/json?id="+ $(this).attr("id");
 	
@@ -276,7 +276,7 @@ function check(type){
 			
 		</div>
 	</div>
-</div>
+
 
 
 <!-- /.page-header -->

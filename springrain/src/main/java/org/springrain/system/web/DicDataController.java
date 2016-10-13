@@ -80,46 +80,6 @@ public class DicDataController  extends BaseController {
 	
 	
 	
-	/**
-	 * 列表数据,调用listjson方法,保证和app端数据统一
-	 * 
-	 * @param request
-	 * @param model
-	 * @param dicData
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping("/tree")
-	public String tree(@PathVariable String pathtypekey,HttpServletRequest request, Model model,DicData dicData) 
-			throws Exception {
-		if(dicData!=null){
-			dicData.setTypekey(pathtypekey);
-		}
-		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
-		returnObject.setData(dicData);
-		model.addAttribute(GlobalStatic.returnDatas, returnObject);
-		return "/system/dicdata/tree";
-	}
-	/**
-	 * 列表数据,调用listjson方法,保证和app端数据统一
-	 * 
-	 * @param request
-	 * @param model
-	 * @param dicData
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping("/tree/pre")
-	public String tree2(@PathVariable String pathtypekey,HttpServletRequest request, Model model,DicData dicData) 
-			throws Exception {
-		if(dicData!=null){
-			dicData.setTypekey(pathtypekey);
-		}
-		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
-		returnObject.setData(dicData);
-		model.addAttribute(GlobalStatic.returnDatas, returnObject);
-		return "/system/dicdata/tree2";
-	}
 	
 	
 
