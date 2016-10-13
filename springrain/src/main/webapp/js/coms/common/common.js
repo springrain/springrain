@@ -2,12 +2,12 @@
 内容区页面跳转
 */
 /*function myhref(_url,menuId) {
-	mySubmitForm("centfor_sco_ajax_form", _url);
+	mySubmitForm("springrain_default_init_ajax_form", _url);
 }*/
 
 function mzywxhref(_url,menuId) {
 	layer.load();
-	mySubmitForm("centfor_sco_ajax_form", _url);
+	mySubmitForm("springrain_default_init_ajax_form", _url);
 	layer.closeAll();
 }
 
@@ -190,6 +190,14 @@ function commonSaveForm(form,listurl,_id) {
 	}
 	
 	jQuery(id,jQuery("#"+form)).val("");
+	
+	
+	 var pageurl=$("#"+form).attr('action'); 
+		var mydata=$("#"+form).serialize();
+		ajaxpostonlayer(pageurl,listurl,mydata);
+	
+	
+	/*
 	jQuery.post($('#' + form).attr('action'), $('#' + form).serialize(),
 	function(_json) {
 		if (_json.status == "success") {
@@ -200,6 +208,8 @@ function commonSaveForm(form,listurl,_id) {
 			myalert(_json.message);
 		}
 	});
+	*/
+	
 }
 
 
@@ -208,6 +218,12 @@ function myhref2page(_url,listurl,par) {
 	if(!par){
 		par=null;
 	}
+	
+	
+	ajaxpostonlayer(_url,listurl,par);
+	
+	
+	/*
 	jQuery.post(_url, par,
 	function(_json) {
 		if (_json.status == "success") {
@@ -218,6 +234,8 @@ function myhref2page(_url,listurl,par) {
 			myalert(_json.message);
 		}
 	});
+	*/
+	
 }
 //打开新链接(相对路径)
 function openUrl(_url) {
