@@ -25,6 +25,18 @@ public interface IUserService extends IBaseSpringrainService {
      * @throws Exception
      */
 	Integer updateUser(User entity) throws Exception;
+	
+	/**
+	 * 根据用户Id 删除用户
+	 * @param userId
+	 * @return
+	 * @throws Exception
+	 */
+	String deleteUserById(String userId) throws Exception;
+
+	
+	
+	
 	/**
 	 * 根据ID查找
 	 * @param id

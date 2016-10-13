@@ -68,7 +68,7 @@ public class User  extends BaseEntity {
 	/**
 	 * 用户类型,0:后台管理员,1是用户
 	 */
-	private Integer userType=1;
+	private Integer userType;
 	
 	
 	//columns END 数据库字段结束

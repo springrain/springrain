@@ -10,6 +10,12 @@
 <SCRIPT type="text/javascript">
 
 jQuery(document).ready(function(){
+	
+	//回选 下拉框
+	jQuery("#search_state option[value='${(returnDatas.queryBean.state)!'是'}']").prop("selected",true);
+	
+	
+	
 	$('#roleIds').chosen({allow_single_deselect:true});
 	$('#orgIds').chosen({allow_single_deselect:true});
 	
@@ -62,8 +68,7 @@ jQuery(document).ready(function(){
 	
 	
 	
-	//回选 下拉框
-	jQuery("#search_state option[value='${(returnDatas.queryBean.state)!'是'}']").prop("selected",true);
+	
 	
 	$(".sub_left_menu tbody tr").click(function() {
 		$("#pwdDiv").hide();
@@ -100,7 +105,7 @@ function deleteUser(){
 		var _url="${ctx}/system/user/delete?id="+id;
 		var listurl="${ctx}/system/user/list";
 		
-		mydelete(_url,listurl);
+		mydelete(_url,listurl,{},"确定删除用户?");
 	}
 }
 
@@ -217,6 +222,13 @@ function check(type){
 <input type="hidden" name="order" id="page_order" value="${(returnDatas.page.order)!'id'}"  />
 			<label for="search_account"><b>账号:</b></label> 
 			 <input type="text" id="search_account"  name="account" placeholder="请填写账号"  value="${(returnDatas.queryBean.account)!''}">
+			 <label for="search_state"><b>是否可用:</b></label> 
+			 <select id="search_state"  name="state" >
+													<option value="是">是</option>
+													<option value="否">否</option>
+			 </select>
+			 
+			 
 			
 			<a  href="javascript:mySubmitForm('searchForm');"
 				class="btn btn-purple btn-sm">

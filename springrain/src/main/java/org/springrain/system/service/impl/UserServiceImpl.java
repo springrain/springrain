@@ -214,4 +214,26 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
 
 	}
 
+	@Override
+	public String deleteUserById(String userId) throws Exception {
+		if(StringUtils.isBlank(userId)){
+			return null;
+		}
+		
+		
+		Finder f_del_role=Finder.getDeleteFinder(UserRole.class).append(" WHERE userId=:userId ").setParam("userId", userId);
+		super.update(f_del_role);
+		
+		Finder f_del_org=Finder.getDeleteFinder(UserOrg.class).append(" WHERE userId=:userId ").setParam("userId", userId);
+		super.update(f_del_org);
+		
+		
+		Finder f_update=Finder.getUpdateFinder(User.class," state=:state ").append(" WHERE id=:id ").setParam("id", userId).setParam("state", "否");
+		
+		super.update(f_update);
+		
+		
+		return null;
+	}
+
 }

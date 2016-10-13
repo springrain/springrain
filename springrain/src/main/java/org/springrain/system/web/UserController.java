@@ -73,6 +73,13 @@ public class UserController extends BaseController {
 			throws Exception {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		Page page = newPage(request);
+		
+		String state=user.getState();
+		if(StringUtils.isEmpty(state)){
+			user.setState("是");
+		}
+		
+		
 		List<User> datas = userService.findListDataByFinder(null, page,
 				User.class, user);
 		returnObject.setQueryBean(user);
@@ -208,18 +215,19 @@ public class UserController extends BaseController {
 		// 执行删除
 		try {
 			java.lang.String id = request.getParameter("id");
-			if (StringUtils.isNotBlank(id)) {
-				userService.deleteById(id, User.class);
-				return new ReturnDatas(ReturnDatas.SUCCESS,
-						MessageUtils.DELETE_SUCCESS);
-			} else {
-				return new ReturnDatas(ReturnDatas.WARNING,
-						MessageUtils.DELETE_WARNING);
+			
+			if (StringUtils.isBlank(id)) {
+				return new ReturnDatas(ReturnDatas.ERROR, "删除失败,用户Id不能为空!"); 
 			}
+			
+		    userService.deleteUserById(id);
+				
+			
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
+			return new ReturnDatas(ReturnDatas.ERROR, "删除失败!");
 		}
-		return new ReturnDatas(ReturnDatas.WARNING, MessageUtils.DELETE_WARNING);
+		return  new ReturnDatas(ReturnDatas.SUCCESS, "用户删除成功!"); 
 	}
 	
 	
