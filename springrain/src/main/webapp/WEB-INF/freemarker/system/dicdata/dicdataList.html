@@ -7,7 +7,7 @@
 <script type="text/javascript" src="${ctx}/js/system/dicdata/dicdata.js"></script>
 -->
 <SCRIPT type="text/javascript">
-<!--
+
 	var dicDataTreesetting = {
 		callback: {
 			onClick: dicDatazTreeOnClick
@@ -69,7 +69,7 @@
 		}else{
 			var _url="${ctx}/system/dicdata/${returnDatas.map.typekey}/delete?id="+id;
 			var listurl="${ctx}/system/dicdata/${returnDatas.map.typekey}/list";
-			mydelete(_url,listurl);
+			mydelete(_url,listurl,{},"确定删除数据?");
 		}
 	}
 	
@@ -77,10 +77,7 @@
 	
 	
 		
-		
-	
-	
-//-->
+
 </SCRIPT>
 
 <input type="hidden" name="typekey" id="typekey" value="${returnDatas.map.typekey}" />
