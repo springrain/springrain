@@ -38,6 +38,11 @@ jQuery(document).ready(function(){
 	
 
 function showdata(result) {
+
+    $("#btn_add").hide();
+	$("#btn_reload").show();
+	$("#btn_update").show();
+     
 	for (var s in result.data) {
 		set_val(s, result.data[s]);
 	}
