@@ -189,7 +189,7 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
         if(StringUtils.isNotBlank(pid)){
         	finder.append(" and pid=:pid ").setParam("pid", pid);
         }
-        finder.append(" order by sort asc ");
+        finder.append(" order by sortno asc ");
         
         
         

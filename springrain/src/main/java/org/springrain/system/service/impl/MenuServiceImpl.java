@@ -103,7 +103,7 @@ public class MenuServiceImpl extends BaseSpringrainServiceImpl implements
 	@Override
 	public <T> List<T> findListDataByFinder(Finder finder, Page page,
 			Class<T> clazz, Object o) throws Exception {
-		finder=Finder.getSelectFinder(Menu.class).append(" WHERE 1=1  order by sort asc ");
+		finder=Finder.getSelectFinder(Menu.class).append(" WHERE 1=1  order by sortno asc ");
 		return super.queryForList(finder, clazz);
 	}
 
