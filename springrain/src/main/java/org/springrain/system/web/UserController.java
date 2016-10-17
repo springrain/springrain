@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springrain.frame.controller.BaseController;
+import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.MessageUtils;
 import org.springrain.frame.util.Page;
@@ -229,6 +230,22 @@ public class UserController extends BaseController {
 		}
 		return  new ReturnDatas(ReturnDatas.SUCCESS, "用户删除成功!"); 
 	}
+	
+	
+	@RequestMapping(value = "/ajax/select2")
+	public @ResponseBody List<User> ajaxUser(HttpServletRequest request) throws Exception {
+		String key=request.getParameter("key");
+		Page page=new Page();
+		page.setPageIndex(1);
+		
+		Finder finder=Finder.getSelectFinder(User.class, "id,name").append(" WHERE account like :account order by account asc ");
+		finder.setParam("account", key+"%");
+		
+		return userService.queryForList(finder,User.class, page);
+		
+	}
+	
+	
 	
 	
 }
