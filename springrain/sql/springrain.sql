@@ -84,7 +84,7 @@ CREATE TABLE `t_dic_data` (
   `name` varchar(60) NOT NULL COMMENT '名称',
   `code` varchar(60) DEFAULT NULL COMMENT '编码',
   `pid` varchar(50) DEFAULT NULL COMMENT '父ID',
-  `sort` int(11) DEFAULT NULL COMMENT '排序',
+  `sortno` int(11) DEFAULT NULL COMMENT '排序',
   `remark` varchar(2000) DEFAULT NULL COMMENT '描述',
   `state` varchar(2) DEFAULT '是' COMMENT '是否有效',
   `typekey` varchar(20) DEFAULT NULL COMMENT '类型',
@@ -183,7 +183,7 @@ CREATE TABLE `t_menu` (
   `pageurl` varchar(3000) DEFAULT NULL,
   `type` int(11) DEFAULT NULL COMMENT '0.功能按钮,1.导航菜单',
   `state` varchar(2) DEFAULT '是' COMMENT '是否有效',
-  `sort` int(11) DEFAULT NULL,
+  `sortno` int(11) DEFAULT NULL,
   `icon` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='菜单';

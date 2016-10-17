@@ -66,7 +66,7 @@ public class Menu  extends BaseEntity {
 	 * 排序
 	 */
 	
-	private Integer sort;
+	private Integer sortno;
 	/**
 	 * 图标样式
 	 */
@@ -152,13 +152,13 @@ public class Menu  extends BaseEntity {
 	public java.lang.Integer getType() {
 		return this.type;
 	}
-
-	public Integer getSort() {
-		return sort;
+     @WhereSQL(sql="sortno=:Menu_sortno")
+	public Integer getSortno() {
+		return sortno;
 	}
 
-	public void setSort(Integer sort) {
-		this.sort = sort;
+	public void setSortno(Integer sortno) {
+		this.sortno = sortno;
 	}
 
 	public String getIcon() {
@@ -187,6 +187,7 @@ public class Menu  extends BaseEntity {
 			.append("pageurl[").append(getPageurl()).append("],")
 			.append("0.普通资源1.菜单资源[").append(getType()).append("],")
 			.append("state[").append(getState()).append("],")
+			.append("sortno[").append(getSortno()).append("],")
 			.toString();
 	}
 	

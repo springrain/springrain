@@ -68,7 +68,7 @@ public class DicData  extends BaseEntity {
 	 */
 	private java.lang.String typekey;
 	
-	private Integer sort;
+	private Integer sortno;
 	//columns END 数据库字段结束
 	
 	//concstructor
@@ -159,13 +159,13 @@ public class DicData  extends BaseEntity {
 	public java.lang.String getTypekey() {
 		return this.typekey;
 	}
-     @WhereSQL(sql="sort=:DicData_sort")
-	public Integer getSort() {
-		return sort;
+     @WhereSQL(sql="sortno=:DicData_sortno")
+	public Integer getSortno() {
+		return sortno;
 	}
 
-	public void setSort(Integer sort) {
-		this.sort = sort;
+	public void setSortno(Integer sortno) {
+		this.sortno = sortno;
 	}
 
 	public String toString() {
@@ -176,7 +176,7 @@ public class DicData  extends BaseEntity {
 			.append("描述[").append(getRemark()).append("],")
 			.append("是否有效[").append(getState()).append("],")
 			.append("类型[").append(getTypekey()).append("],")
-			.append("排序[").append(getSort()).append("],")
+			.append("排序[").append(getSortno()).append("],")
 			.toString();
 	}
 	
