@@ -10,7 +10,6 @@ import javax.annotation.Resource;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.cache.CacheManager;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springrain.frame.util.Finder;
@@ -122,7 +121,7 @@ public class UserRoleMenuServiceImpl extends BaseSpringrainServiceImpl implement
 		if(menutype!=null){
 			finder.append(" and m.type=:menutype ").setParam("menutype", menutype);
 		}
-		finder.append(" order by m.sort asc,m.id asc ");
+		finder.append(" order by m.sortno asc,m.id asc ");
 		finder.setParam("userId", userId).setParam("state", "是");
 		
 		return finder;
