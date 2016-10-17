@@ -73,7 +73,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		// 添加角色及权限信息
 		SimpleAuthorizationInfo sazi = new SimpleAuthorizationInfo();
 		try {
-			sazi.addRoles(userRoleMenuService.getRolesAsString(userId));
+			//sazi.addRoles(userRoleMenuService.getRolesAsString(userId));
 			sazi.addStringPermissions(userRoleMenuService
 					.getPermissionsAsString(userId));
 		} catch (Exception e) {
