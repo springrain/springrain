@@ -2,14 +2,15 @@ package org.springrain.frame.util;
 
 import java.io.IOException;
 
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.codehaus.jackson.type.JavaType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JsonUtils  {
 	   static 	ObjectMapper mapper = null;
@@ -17,7 +18,8 @@ public class JsonUtils  {
 	   static{
 		   mapper = new ObjectMapper();
 		   //为 null 的不转换
-		   mapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL); 
+		  // mapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL); 
+		   mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 	   }
 	 public static <T> T readValue(String content,Class<T> clazz) {
 		 T t=null;
