@@ -204,15 +204,7 @@ function showdata(result) {
 }
 
 function check(type){
-	var account = $('#account').val();
-	if(account==null||account==""){
-		myinfo("请填写账号!");
-		return;
-	}
-	if((/[\u4e00-\u9fa5]+/).test(account) ){ 
-		myinfo("账号不能含有汉字!");
-		return;
-		}
+
 	if(type=="1"){
 		var password = $('#password').val();
 		if(password==null||password==""){
@@ -226,24 +218,7 @@ function check(type){
 		}
 	}
 	
-	var username = $('#name').val();
-	if(username==null||username.length==0){
-		myinfo("请填写姓名!");
-		return false;
-	}
-	
-	var roleIds = $('#roleIds').val();
-	if(roleIds==null||roleIds.length==0){
-		myinfo("请填写角色!");
-		return false;
-	}
-	
-	
-	var orgIds = $('#orgIds').val();
-	if(orgIds==null||orgIds.length==0){
-		myinfo("请填写部门!");
-		return false;
-	}
+
 
 
 	
@@ -394,20 +369,20 @@ function check(type){
 											<label class="col-sm-3 control-label no-padding-right" for="account"> 账号<span  style="color:#E12424">*</span> </label>
 										
 											<div class="col-sm-9">
-												<input type="text" id="account" name="account" placeholder="账号" class="form-control">
+												<input type="text" id="account" name="account" placeholder="账号"  datatype="*1-200"  errormsg="账号长度1--200位之间!" nullmsg="账号不能为空"  class="form-control">
 											</div>
 										</div>
 										<div class="form-group" id="pwdDiv">
-											<label class="col-sm-3 control-label no-padding-right" for="password"> 密码<span  style="color:#E12424">*</span> </label>
+											<label class="col-sm-3 control-label no-padding-right" for="password"> 密码 </label>
 										
 											<div class="col-sm-9">
-												<input type="password" id="password" name="password" placeholder="密码" class="form-control">
+												<input type="password" id="password" name="password"    placeholder="密码" class="form-control">
 											</div>
 										</div>
 										<div class="form-group">
 											<label class="col-sm-3 control-label no-padding-right" for="name"> 姓名<span  style="color:#E12424">*</span> </label>
 											<div class="col-sm-9">
-												<input type="text" id="name" name="name" placeholder="姓名" class="form-control">
+												<input type="text" id="name" name="name" placeholder="姓名" datatype="*1-200"  errormsg="姓名长度1--200位之间!" nullmsg="姓名不能为空" class="form-control">
 											</div>
 										</div>
 										
@@ -416,7 +391,7 @@ function check(type){
 											<label class="col-sm-3 control-label no-padding-right" for="orgIds"> 部门<span  style="color:#E12424">*</span> </label>
 											<div class="col-sm-9">
 												<div class="input-group">
-													<input name="orgNames" class="form-control val" id="orgNames" type="text"  readonly="readonly"/>
+													<input name="orgNames" class="form-control val" id="orgNames" type="text" datatype="*"   nullmsg="角色不能为空"  readonly="readonly"/>
 													<input name="orgIds"  id="orgIds" type="hidden"  />
 													<span class="input-group-btn">
 															<a onclick="showZtreeOrg();" class="btn btn-sm btn-primary">
@@ -436,7 +411,7 @@ function check(type){
 										<div class="form-group">
 											<label class="col-sm-3 control-label no-padding-right" for="roleIds"> 角色<span  style="color:#E12424">*</span> </label>
 											<div class="col-sm-9">
-												<select  id="roleIds" name="roleIds"   class="form-control"  multiple data-placeholder="请选择角色">
+												<select  id="roleIds" name="roleIds"   class="form-control"  datatype="*"   nullmsg="角色不能为空"   multiple data-placeholder="请选择角色">
 												</select>
 											</div>
 										</div>

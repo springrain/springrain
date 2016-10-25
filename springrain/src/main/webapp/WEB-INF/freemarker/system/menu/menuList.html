@@ -125,22 +125,18 @@ function clickMenuValue(event, treeId, treeNode) {
 
 	
    function dosubmit(i){
-		var name=$("#name").val();
-		if(name==null||name==''){
-			myalert('请填写菜单名称!');
-			return false;
-		}
-/* 		var pageurl=$("#pageurl").val();
-		if(pageurl==null||pageurl==''){
-			layer.alert('请填写菜单地址！',{icon: 5});
-			return false;
-		} */
+		
         var msg="菜单添加成功！";
         if(i==1){
         	msg="菜单更新成功！";
         }
         var listurl='${ctx}/system/menu/list';
-		submitonlayer("updateForm",listurl,msg);
+        if(i==0){
+        	commonSaveForm("updateForm",listurl,"id",msg);
+        }else{
+        	commonUpdateForm("updateForm",listurl,msg);
+        }
+        
 	}
    
 
@@ -226,7 +222,7 @@ function clickMenuValue(event, treeId, treeNode) {
 						<div class="form-group col-xs-9">
 							<label class="col-sm-4 control-label" for="name">名称*：</label>
 							<div class="col-sm-8">
-								<input class="form-control" type="text" id="name" name="name" check="require" msg="请输入名称">
+								<input class="form-control" type="text" id="name" name="name"  datatype="*"   nullmsg="名称不能为空" />
 							</div>
 						</div>
 			
