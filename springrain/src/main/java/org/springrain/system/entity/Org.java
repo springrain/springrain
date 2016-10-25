@@ -80,7 +80,17 @@ public class Org  extends BaseEntity {
 	 * 0.失效 1.有效
 	 */
 	private java.lang.String state;
+	
+	/**
+	 * 主管Id
+	 */
+	private String managerId;
 	//columns END 数据库字段结束
+	
+	
+
+	
+	private String managerName;
 	
 	
 	
@@ -179,7 +189,15 @@ public class Org  extends BaseEntity {
 	public String getState() {
 		return this.state;
 	}
-	
+     @WhereSQL(sql="managerId=:Org_managerId")
+    public String getManagerId() {
+ 		return managerId;
+ 	}
+
+ 	public void setManagerId(String managerId) {
+ 		this.managerId = managerId;
+ 	}
+
 	public String toString() {
 		return new StringBuffer()
 			.append("编号[").append(getId()).append("],")
@@ -217,6 +235,16 @@ public class Org  extends BaseEntity {
 
 	public void setLeafOrg(List<Org> leafOrg) {
 		this.leafOrg = leafOrg;
+	}
+
+	
+	@Transient
+	public String getManagerName() {
+		return managerName;
+	}
+
+	public void setManagerName(String managerName) {
+		this.managerName = managerName;
 	}
 }
 

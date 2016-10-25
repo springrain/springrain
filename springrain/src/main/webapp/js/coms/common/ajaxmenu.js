@@ -50,7 +50,7 @@ function getParentModule(json) {
 //		t =t+ ' id= '+json["id"] + ' href="index?id=' +json["id"] + '#href=' + ctx+json["pageurl"] + '">';
 		t =t+ ' id= '+json["id"] + ' href="index?id=' +json["id"] + '&t='+gentimestampstr()+'#href=' + ctx+json["pageurl"] + '">';
 	}
-	var _icon=json["icon"];
+	var _icon=json["menuIcon"];
 	if(_icon==null||_icon==""||_icon.length==0){
 		//_icon="icon_default";
 		_icon="fa-folder-o";

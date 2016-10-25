@@ -70,7 +70,7 @@ public class Menu  extends BaseEntity {
 	/**
 	 * 图标样式
 	 */
-	private String icon;
+	private String menuIcon;
 	
 
 	/**
@@ -161,13 +161,7 @@ public class Menu  extends BaseEntity {
 		this.sortno = sortno;
 	}
 
-	public String getIcon() {
-		return icon;
-	}
-
-	public void setIcon(String icon) {
-		this.icon = icon;
-	}
+	
 
 	public void setState(String value) {
 		this.state = value;
@@ -177,7 +171,15 @@ public class Menu  extends BaseEntity {
 	public String getState() {
 		return this.state;
 	}
-	
+     @WhereSQL(sql="menuIcon=:Menu_menuIcon")
+	public String getMenuIcon() {
+		return menuIcon;
+	}
+
+	public void setMenuIcon(String menuIcon) {
+		this.menuIcon = menuIcon;
+	}
+
 	public String toString() {
 		return new StringBuffer()
 			.append("id[").append(getId()).append("],")

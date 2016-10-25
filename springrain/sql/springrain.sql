@@ -20,7 +20,7 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `t_auditlog_history_2014`;
 CREATE TABLE `t_auditlog_history_2014` (
-  `id` varchar(40) NOT NULL COMMENT 'ID',
+  `id` varchar(50)  NOT NULL COMMENT 'ID',
   `operationType` varchar(50) DEFAULT NULL COMMENT '操作类型',
   `operatorName` varchar(50) DEFAULT NULL COMMENT '操作人姓名',
   `preValue` text COMMENT '旧值',
@@ -40,7 +40,7 @@ CREATE TABLE `t_auditlog_history_2014` (
 -- ----------------------------
 DROP TABLE IF EXISTS `t_auditlog_history_2015`;
 CREATE TABLE `t_auditlog_history_2015` (
-  `id` varchar(40) NOT NULL COMMENT 'ID',
+  `id` varchar(50)  NOT NULL COMMENT 'ID',
   `operationType` varchar(50) DEFAULT NULL COMMENT '操作类型',
   `operatorName` varchar(50) DEFAULT NULL COMMENT '操作人姓名',
   `preValue` text COMMENT '旧值',
@@ -60,7 +60,7 @@ CREATE TABLE `t_auditlog_history_2015` (
 -- ----------------------------
 DROP TABLE IF EXISTS `t_auditlog_history_2016`;
 CREATE TABLE `t_auditlog_history_2016` (
-  `id` varchar(40) NOT NULL COMMENT 'ID',
+  `id` varchar(50)  NOT NULL COMMENT 'ID',
   `operationType` varchar(50) DEFAULT NULL COMMENT '操作类型',
   `operatorName` varchar(50) DEFAULT NULL COMMENT '操作人姓名',
   `preValue` text COMMENT '旧值',
@@ -80,7 +80,7 @@ CREATE TABLE `t_auditlog_history_2016` (
 -- ----------------------------
 DROP TABLE IF EXISTS `t_dic_data`;
 CREATE TABLE `t_dic_data` (
-  `id` varchar(40) NOT NULL,
+  `id` varchar(50)  NOT NULL,
   `name` varchar(60) NOT NULL COMMENT '名称',
   `code` varchar(60) DEFAULT NULL COMMENT '编码',
   `pid` varchar(50) DEFAULT NULL COMMENT '父ID',
@@ -176,15 +176,15 @@ CREATE TABLE `t_fwlog_history_2016` (
 -- ----------------------------
 DROP TABLE IF EXISTS `t_menu`;
 CREATE TABLE `t_menu` (
-  `id` varchar(40) NOT NULL,
+  `id` varchar(50)  NOT NULL,
   `name` varchar(60) DEFAULT NULL,
-  `pid` varchar(40) DEFAULT NULL,
+  `pid` varchar(50)  DEFAULT NULL,
   `description` varchar(2000) DEFAULT NULL COMMENT '描述',
   `pageurl` varchar(3000) DEFAULT NULL,
   `type` int(11) DEFAULT NULL COMMENT '0.功能按钮,1.导航菜单',
   `state` varchar(2) DEFAULT '是' COMMENT '是否有效',
   `sortno` int(11) DEFAULT NULL,
-  `icon` varchar(100) DEFAULT NULL,
+  `menuIcon` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='菜单';
 
@@ -249,11 +249,12 @@ INSERT INTO `t_menu` VALUES ('weixin_manager', '微信管理', null, null, null,
 -- ----------------------------
 DROP TABLE IF EXISTS `t_org`;
 CREATE TABLE `t_org` (
-  `id` varchar(40) NOT NULL COMMENT '编号',
+  `id` varchar(50)  NOT NULL COMMENT '编号',
   `name` varchar(60) DEFAULT NULL COMMENT '名称',
   `comcode` varchar(1000) DEFAULT NULL COMMENT '代码',
-  `pid` varchar(40) DEFAULT NULL COMMENT '上级部门ID',
-  `sysid` varchar(40) DEFAULT NULL COMMENT '子系统ID',
+  `pid` varchar(50)  DEFAULT NULL COMMENT '上级部门ID',
+  `managerId` varchar(50)  DEFAULT NULL COMMENT '主管Id',
+  `sysid` varchar(50)  DEFAULT NULL COMMENT '子系统ID',
   `type` int(11) DEFAULT NULL COMMENT '0,组织机构 1.部门',
   `leaf` int(11) DEFAULT NULL COMMENT '叶子节点(0:树枝节点;1:叶子节点)',
   `sortno` int(11) DEFAULT NULL COMMENT '排序号',
@@ -265,17 +266,17 @@ CREATE TABLE `t_org` (
 -- ----------------------------
 -- Records of t_org
 -- ----------------------------
-INSERT INTO `t_org` VALUES ('8ab05a1acfd54590942b88fc6d4d77ee', '测试部门', ',8ab05a1acfd54590942b88fc6d4d77ee,', null, null, null, null, '1', '', '是');
+INSERT INTO `t_org` VALUES ('8ab05a1acfd54590942b88fc6d4d77ee', '测试部门', ',8ab05a1acfd54590942b88fc6d4d77ee,', null,null, null, null, null, '1', '', '是');
 
 -- ----------------------------
 -- Table structure for t_role
 -- ----------------------------
 DROP TABLE IF EXISTS `t_role`;
 CREATE TABLE `t_role` (
-  `id` varchar(40) NOT NULL COMMENT '角色ID',
+  `id` varchar(50)  NOT NULL COMMENT '角色ID',
   `name` varchar(60) DEFAULT NULL COMMENT '角色名称',
   `code` varchar(255) DEFAULT NULL COMMENT '权限编码',
-  `pid` varchar(40) DEFAULT NULL COMMENT '上级角色ID',
+  `pid` varchar(50)  DEFAULT NULL COMMENT '上级角色ID',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
   `state` varchar(2) DEFAULT '是' COMMENT '是否有效(否/是)',
   PRIMARY KEY (`id`)
@@ -291,9 +292,9 @@ INSERT INTO `t_role` VALUES ('admin', '管理员', null, null, '', '是');
 -- ----------------------------
 DROP TABLE IF EXISTS `t_role_menu`;
 CREATE TABLE `t_role_menu` (
-  `id` varchar(40) NOT NULL COMMENT '编号',
-  `roleId` varchar(40) NOT NULL COMMENT '角色编号',
-  `menuId` varchar(40) NOT NULL COMMENT '菜单编号',
+  `id` varchar(50)  NOT NULL COMMENT '编号',
+  `roleId` varchar(50)  NOT NULL COMMENT '角色编号',
+  `menuId` varchar(50)  NOT NULL COMMENT '菜单编号',
   PRIMARY KEY (`id`),
   KEY `fk_t_role_menu_roleId_t_role_id` (`roleId`),
   KEY `fk_t_role_menu_menuId_t_menu_id` (`menuId`),
@@ -358,10 +359,10 @@ INSERT INTO `t_role_menu` VALUES ('fb2021ec726b44709090e5df9dbe2e7a', 'admin', '
 -- ----------------------------
 DROP TABLE IF EXISTS `t_user`;
 CREATE TABLE `t_user` (
-  `id` varchar(40) NOT NULL COMMENT '编号',
+  `id` varchar(50)  NOT NULL COMMENT '编号',
   `name` varchar(30) DEFAULT NULL COMMENT '姓名',
-  `account` varchar(40) DEFAULT NULL COMMENT '账号',
-  `password` varchar(40) DEFAULT NULL COMMENT '密码',
+  `account` varchar(50)  DEFAULT NULL COMMENT '账号',
+  `password` varchar(50)  DEFAULT NULL COMMENT '密码',
   `sex` varchar(2) DEFAULT '男' COMMENT '性别',
   `mobile` varchar(16) DEFAULT NULL COMMENT '手机号码',
   `email` varchar(60) DEFAULT NULL COMMENT '邮箱',
@@ -381,9 +382,9 @@ INSERT INTO `t_user` VALUES ('admin', 'admin', 'admin', '21232f297a57a5a743894a0
 -- ----------------------------
 DROP TABLE IF EXISTS `t_user_org`;
 CREATE TABLE `t_user_org` (
-  `id` varchar(40) NOT NULL COMMENT '编号',
-  `userId` varchar(40) NOT NULL COMMENT '用户编号',
-  `orgId` varchar(40) NOT NULL COMMENT '机构编号',
+  `id` varchar(50)  NOT NULL COMMENT '编号',
+  `userId` varchar(50)  NOT NULL COMMENT '用户编号',
+  `orgId` varchar(50)  NOT NULL COMMENT '机构编号',
   `manager` varchar(2) DEFAULT '否' COMMENT '是否主管,是/否',
   PRIMARY KEY (`id`),
   KEY `fk_t_user_org_userId_t_user_id` (`userId`),
@@ -401,9 +402,9 @@ CREATE TABLE `t_user_org` (
 -- ----------------------------
 DROP TABLE IF EXISTS `t_user_role`;
 CREATE TABLE `t_user_role` (
-  `id` varchar(40) NOT NULL COMMENT '编号',
-  `userId` varchar(40) NOT NULL COMMENT '用户编号',
-  `roleId` varchar(40) NOT NULL COMMENT '角色编号',
+  `id` varchar(50)  NOT NULL COMMENT '编号',
+  `userId` varchar(50)  NOT NULL COMMENT '用户编号',
+  `roleId` varchar(50)  NOT NULL COMMENT '角色编号',
   PRIMARY KEY (`id`),
   KEY `fk_t_user_role_userId_t_user_id` (`userId`),
   KEY `fk_t_user_role_roleId_t_role_id` (`roleId`),

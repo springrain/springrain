@@ -11,6 +11,8 @@ import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.Page;
 import org.springrain.frame.util.SecUtils;
 import org.springrain.system.entity.Org;
+import org.springrain.system.entity.User;
+import org.springrain.system.entity.UserOrg;
 import org.springrain.system.service.BaseSpringrainServiceImpl;
 import org.springrain.system.service.IOrgService;
 
@@ -36,7 +38,9 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
     	   entity.setComcode(comcode);
     	   
     	   super.save(entity);
-    	       
+    	   
+    	   updateOrgManager(id,entity.getManagerId());
+    	   
 	       return id;
 	}
 
@@ -50,6 +54,9 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
 		if(StringUtils.isEmpty(id)){
 			return null;
 		}
+		
+		updateOrgManager(id,entity.getManagerId());
+		
 		
 		Finder f_old_c=Finder.getSelectFinder(Org.class, "comcode").append(" WHERE id=:id ").setParam("id", id);
 		
@@ -80,12 +87,68 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
 		
 		super.update(list,true);
 		
-		
-	      return update;
+	    return update;
     }
+	
+	
+	/**
+	 * 更新部门的主管Id
+	 * @param orgId
+	 * @param managerId
+	 * @return
+	 * @throws Exception
+	 */
+	
+	private void updateOrgManager(String orgId,String managerId) throws Exception{
+		if(StringUtils.isBlank(orgId)||StringUtils.isBlank(managerId)){
+			return;
+		}
+		
+		Finder finder =Finder.getDeleteFinder(UserOrg.class).append(" WHERE orgId=:orgId and manager=1 ");
+		finder.setParam("orgId", orgId);
+        super.update(finder);
+        UserOrg userOrg=new UserOrg();
+        userOrg.setOrgId(orgId);
+        userOrg.setUserId(managerId);
+        userOrg.setManager(1);
+        
+        super.save(userOrg);
+		}
+
+	
+	
+	
+	
+	
+	
     @Override
 	public Org findOrgById(Object id) throws Exception{
-	 return super.findById(id,Org.class);
+    	
+    	Org org=super.findById(id,Org.class);
+    	if(org==null){
+    		return null;
+    	}
+    	
+    	Finder f=new Finder("SELECT u.id id,u.name name FROM  ").append(Finder.getTableName(User.class)).append(" u,").append(Finder.getTableName(UserOrg.class)).append(" re ");
+    	f.append(" WHERE re.userId=u.id and re.manager=1 and re.orgId=:orgId order by u.id asc ");
+    	
+    	Page page=new Page(1);
+    	page.setPageSize(1);
+    	page.setSelectpagecount(false);
+    	
+    	List<User> list = super.queryForList(f, User.class, page);
+    	
+    	if(CollectionUtils.isEmpty(list)){
+    		return org;
+    	}
+    	
+    	User u=list.get(0);
+    	org.setManagerId(u.getId());
+    	org.setManagerName(u.getName());
+    	
+    	
+    	
+	 return org;
 	}
 
 /**
@@ -101,7 +164,8 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
     public <T> List<T> findListDataByFinder(Finder finder, Page page, Class<T> clazz,
 			Object o) throws Exception{
         	
-        	 finder=Finder.getSelectFinder(Org.class).append(" WHERE state=:state  order by sortno asc ");
+        	finder=new Finder("SELECT o.*,u.name managerName FROM ").append(Finder.getTableName(Org.class)).append(" o left join ").append(Finder.getTableName(User.class)).append(" u on  u.id=o.managerId ");
+        	finder.append(" WHERE   o.state=:state order by o.sortno asc ");
         	 finder.setParam("state", "是");
 			 return super.queryForList(finder, clazz);
 			}

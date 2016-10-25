@@ -87,8 +87,21 @@
 		}else{
 			jQuery("#pname").val("");
 		}
+		
+		
+		
+		
 		//回选 下拉框
 		jQuery("#state option[value='"+result['state']+"']").prop("selected",true);
+		//  设置 主管的下拉框
+		if(result["managerId"]){
+			jQuery("#managerId").empty();
+			jQuery("#managerId").append("<option value='"+result["managerId"]+"'  selected>"+result["managerName"]+"</option>");
+			jQuery("#managerId").trigger("change");
+		}
+
+		
+		
 		
 	}
 	

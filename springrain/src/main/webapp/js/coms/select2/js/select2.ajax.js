@@ -22,7 +22,8 @@ function select2ajax(obj,_url,options){
 	        url:_url,
 	        dataType: "json",
 	        type:options.type,
-	        
+	        delay: 500,
+	        cache: true,
 	        data: function (params) {
 	            var queryParameters = {
 	                q: params.term
