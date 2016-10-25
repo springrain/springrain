@@ -190,7 +190,7 @@ function commonUpdateForm(formId,listurl,message) {
 
 
 //提交保存表单
-function commonSaveForm(form,listurl,_id,message) {
+function commonSaveForm(form,listurl,message,_id) {
 	if(!form){
 		form="updateForm";
 	}

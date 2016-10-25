@@ -162,13 +162,8 @@ function doupdate(){
 }
 
 function dosave(){
-	var rolename=$("#name").val();
-	if(rolename==null||rolename==''){
-		layer.alert('请填写角色名称！.',{icon: 5});
-		return false;
-	}
 	
-	commonSaveForm("updateForm",listurl,"id",'角色添加成功！');
+	commonSaveForm("updateForm",listurl,'角色添加成功！');
 }
 
 
