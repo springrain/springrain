@@ -234,7 +234,7 @@ public class UserController extends BaseController {
 	
 	@RequestMapping(value = "/ajax/select2")
 	public @ResponseBody List<User> ajaxUser(HttpServletRequest request) throws Exception {
-		String key=request.getParameter("key");
+		String key=request.getParameter("q");
 		Page page=new Page();
 		page.setPageIndex(1);
 		
