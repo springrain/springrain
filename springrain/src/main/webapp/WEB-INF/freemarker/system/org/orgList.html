@@ -49,64 +49,13 @@
 			}
 		});
 		
+		//ajaxUserIdSelect2();
 		
+		//ajaxUserIdSelect2("${ctx}/system/user/ajax/select2","managerId",datafunction,selectfunction);
 		
-		ajaxUserIdSelect2("${ctx}/system/user/ajax/select2","managerId",datafunction,selectfunction);
-		
-		
+		select2ajax("#managerId","${ctx}/system/user/ajax/select2");
 		
 	});
-	
-	
-	
-	function ajaxUserIdSelect2(_url,_selectId,datafunction,selectfunction){
-		jQuery("#"+_selectId).select2({
-			  ajax: {
-			    url: _url,
-			    dataType: 'json',
-			    delay: 250,
-			    data: function (params) {
-			      return {
-			        key: params.term,
-			      };
-			    },
-			    processResults: function (data) {
-			      return {
-			        results: data
-			      };
-			    },
-			    cache: true
-			  },
-			  escapeMarkup: function (markup) { return markup; }, 
-			  minimumInputLength: 1,
-			 // dropdownCssClass:"bigdrop",
-			  templateSelection: selectfunction,
-			  templateResult: datafunction
-			 
-			});
-		
-		
-	}
-	
-	
-	function datafunction(result){
-		if (result.loading) return result.name;
-		var str="";
-		jQuery(result).each(function(i,_obj){
-			str=str+'<option value='+_obj["id"]+'>'+_obj["name"]+'</option>';
-		});
-		return str;
-	}
-	
-	function selectfunction(selectOption){
-		
-		//$("#managerId").trigger('change'); 
-		
-		alert(selectOption["id"]);
-		
-	}
-	
-	
 	
 	
 	function orgzTreeOnClick(event, treeId, treeNode) {
