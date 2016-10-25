@@ -152,14 +152,24 @@ function mySubmitForm(formId, _url) {
 
 
 //提交修改表单
-function commonUpdateForm(formId,listurl) {
+function commonUpdateForm(formId,listurl,message) {
 	if(!formId){
 		formId="updateForm";
 	}
 	
+	
+	var _validate=jQuery("#"+formId).Validform({
+		tiptype:3
+	});
+	if(!_validate.check(false)){
+		return false;
+	}
+	
+	
+	
 	 var pageurl=$("#"+formId).attr('action'); 
 		var mydata=$("#"+formId).serialize();
-		ajaxpostonlayer(pageurl,listurl,mydata);
+		ajaxpostonlayer(pageurl,listurl,mydata,message);
 	
    /*
 	jQuery.post($('#' + form).attr('action'), $('#' + form).serialize(),
@@ -180,7 +190,7 @@ function commonUpdateForm(formId,listurl) {
 
 
 //提交保存表单
-function commonSaveForm(form,listurl,_id) {
+function commonSaveForm(form,listurl,_id,message) {
 	if(!form){
 		form="updateForm";
 	}
@@ -191,10 +201,20 @@ function commonSaveForm(form,listurl,_id) {
 	
 	jQuery(id,jQuery("#"+form)).val("");
 	
+
+	var _validate=jQuery("#"+form).Validform({
+		tiptype:3
+	});
+	if(!_validate.check(false)){
+		return false;
+	}
+	
+	
+	
 	
 	 var pageurl=$("#"+form).attr('action'); 
 		var mydata=$("#"+form).serialize();
-		ajaxpostonlayer(pageurl,listurl,mydata);
+		ajaxpostonlayer(pageurl,listurl,mydata,message);
 	
 	
 	/*
