@@ -31,6 +31,7 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.NumericRangeQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
@@ -50,6 +51,7 @@ public class LuceneUtils {
 
 	// 根索引路径
 	public static  String rootdir = null;
+	//public static  String rootdir = "lucene/index";
 	
 	static{
 		String path= LuceneUtils.class.getClassLoader().getResource("").getPath();
@@ -409,13 +411,29 @@ public class LuceneUtils {
 		IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);
 		// 需要查询的关键字
 		// Query query = parser.parse(id.toString());
-		String _id = ClassUtils.getEntityInfoByClass(clazz).getPkName();
+		//String _id = ClassUtils.getEntityInfoByClass(clazz).getPkName();
 
+		/*
 		indexWriter.deleteDocuments(new Term(_id, id.toString()));
 		// indexWriter.deleteDocuments(query);
 		indexWriter.commit();
 		indexWriter.close(); // 记得关闭,否则删除不会被同步到索引文件中
 		directory.close(); // 关闭目录
+		*/
+		
+		
+		// 需要查询的关键字
+		Term term = new Term(pkName,id.toString());
+		TermQuery luceneQuery = new TermQuery(term);
+		indexWriter.deleteDocuments(luceneQuery);
+		// indexWriter.deleteDocuments(query);
+		indexWriter.commit();
+		indexWriter.close(); // 记得关闭,否则删除不会被同步到索引文件中
+		directory.close(); // 关闭目录
+		
+		
+		
+		
 
 		return null;
 		/*
@@ -459,18 +477,10 @@ public class LuceneUtils {
 		}
 		IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);
 		for (String t : ids) {
-			/*
-			 * Term term = new Term(pkName, t);
-			 * indexWriter.deleteDocuments(term);
-			 */
-			// 获取读取的索引
-
-			// QueryParser parser = new QueryParser(field, analyzer);
-			QueryParser parser = new MultiFieldQueryParser(
-					new String[] { pkName }, analyzer);
 			// 需要查询的关键字
-			Query query = parser.parse(t.toString());
-			indexWriter.deleteDocuments(query);
+			Term term = new Term(pkName,t);
+			TermQuery luceneQuery = new TermQuery(term);
+			indexWriter.deleteDocuments(luceneQuery);
 		}
 		indexWriter.commit();
 		indexWriter.close(); // 记得关闭,否则删除不会被同步到索引文件中
