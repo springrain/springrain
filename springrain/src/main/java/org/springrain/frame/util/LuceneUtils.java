@@ -1,9 +1,7 @@
 package org.springrain.frame.util;
 
-import java.beans.PropertyDescriptor;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -27,8 +25,8 @@ import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.BooleanQuery.Builder;
 import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.NumericRangeQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TermQuery;
@@ -84,18 +82,7 @@ public class LuceneUtils {
 		return searchDocument(clazz, page, fields, searchkeyword);
 	}
 
-	public static List searchDocument(Class clazz, Page page,
-			List<String> searchkeyword, List<Integer[]> priceList)
-			throws Exception {
-		List<String> luceneFields = ClassUtils.getLuceneFields(clazz);
-		if (CollectionUtils.isEmpty(luceneFields)) {
-			return null;
-		}
-		String[] fields = (String[]) luceneFields
-				.toArray(new String[luceneFields.size()]);
-		return searchDocument(clazz, page, fields, searchkeyword, priceList);
-	}
-
+	
 	/**
 	 * 根据某个字段类查询结果
 	 * 
@@ -115,8 +102,7 @@ public class LuceneUtils {
 	}
 
 	public static <T> List<T> searchDocument(Class<T> clazz, Page page,
-			String[] fields, List<String> searchkeyword,
-			List<Integer[]> priceList) throws Exception {
+			String[] fields, List<String> searchkeyword) throws Exception {
 		if (fields == null || fields.length < 1) {
 			return null;
 		}
@@ -134,38 +120,18 @@ public class LuceneUtils {
 		IndexSearcher indexSearcher = new IndexSearcher(indexReader);
 
 		// 查询指定字段的转换器
-		// QueryParser parser = new QueryParser("keywords", analyzer);
-	//	String[] str = new String[] { "keywords" };
 		QueryParser parser = new MultiFieldQueryParser(fields, analyzer);
-		BooleanQuery andQuery = new BooleanQuery();
+		Builder addBuilder = new BooleanQuery.Builder();
 		// 构建多条and查询
 		for (String _sk : searchkeyword) {
 			Query query = parser.parse(_sk);
-			andQuery.add(query, Occur.MUST);
-
-		}
-
-		// 构建between查询
-		if (CollectionUtils
-				.isNotEmpty(priceList)) {
-			for (Integer[] d : priceList) {
-				Integer l = d[0];
-				Integer h = d[1];
-				boolean f = false;
-				if (h > 0) {
-					f = true;
-				}
-				NumericRangeQuery<Integer> numericQuery = NumericRangeQuery
-						.newIntRange("price", l, h, true, f);
-				andQuery.add(numericQuery, Occur.MUST);
-			}
-
+			addBuilder.add(query, Occur.MUST);
 		}
 
 		// 需要查询的关键字
 
-		// bq.add(query, Occur.SHOULD);
 		TopDocs topDocs = null;
+		BooleanQuery andQuery=addBuilder.build();
 		int totalCount = indexSearcher.count(andQuery);
 		if (totalCount == 0) {
 			return null;
@@ -243,12 +209,9 @@ public class LuceneUtils {
 		IndexSearcher indexSearcher = new IndexSearcher(indexReader);
 
 		// 查询指定字段的转换器
-		// QueryParser parser = new QueryParser("keywords", analyzer);
-		// BooleanQuery bq = new BooleanQuery();
 		QueryParser parser = new MultiFieldQueryParser(fields, analyzer);
 		// 需要查询的关键字
 		Query query = parser.parse(searchkeyword);
-		// bq.add(query, Occur.SHOULD);
 		TopDocs topDocs = null;
 		int totalCount = indexSearcher.count(query);
 		if (totalCount == 0) {
@@ -262,19 +225,15 @@ public class LuceneUtils {
 			if (page != null && page.getPageSize() > 0) {
 				_size = page.getPageSize();
 			}
-
 			// 总条数
-
 			page.setTotalCount(totalCount);
-
 			int _max = page.getPageIndex() * (page.getPageIndex() - 1);
 			if (_max - totalCount >= 0) {
 				return null;
 			}
 
 			// 先获取上一页的最后一个元素
-			ScoreDoc lastscoreDoc = getLastScoreDoc(page.getPageIndex(), _size,
-					query, indexSearcher);
+			ScoreDoc lastscoreDoc = getLastScoreDoc(page.getPageIndex(), _size,query, indexSearcher);
 			topDocs = indexSearcher.searchAfter(lastscoreDoc, query, _size);
 		}
 		// 通过最后一个元素搜索下页的pageSize个元素
@@ -309,7 +268,7 @@ public class LuceneUtils {
 	 * @return
 	 * @throws Exception
 	 */
-	public synchronized static String saveDocument(Object entity)
+	public  static String saveDocument(Object entity)
 			throws Exception {
 		// 获取索引的字段,为null则不进行保存
 		List<String> luceneFields = ClassUtils.getLuceneFields(entity
@@ -328,29 +287,13 @@ public class LuceneUtils {
 		IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);
 		Document doc = new Document();
 		for (String fieldName : luceneFields) {
-
-			PropertyDescriptor pd = new PropertyDescriptor(fieldName,
-					entity.getClass());
-			Method getMethod = pd.getReadMethod();
-			/**
-			String typeStr = getMethod.getGenericReturnType().getTypeName();
-			Class type = ClassUtils.getReturnType(fieldName, entity.getClass());
-			**/
 			Object _obj = ClassUtils.getPropertieValue(fieldName, entity);
-			
-
 			if (_obj == null) {
 				_obj = "";
 			}
 			String _value = _obj.toString();
 			Field _field = null;
-			/**
-			 * if ("java.lang.Integer".equals(typeStr)) { _field = new
-			 * IntField(fieldName, Integer.valueOf(_value), Store.YES); } if
-			 * ("java.lang.String".equals(typeStr)) { _field = new
-			 * StringField(fieldName, _value, Store.YES); }
-			 **/
-
+			
 			if (ClassUtils.getEntityInfoByEntity(entity).getPkName()
 					.equals(fieldName)) {
 				_field = new StringField(ClassUtils.getEntityInfoByEntity(
@@ -393,7 +336,7 @@ public class LuceneUtils {
 	 * @return
 	 * @throws Exception
 	 */
-	public synchronized static String deleteDocument(Object id, Class clazz)
+	public  static String deleteDocument(Object id, Class clazz)
 			throws Exception {
 		List<String> luceneFields = ClassUtils.getLuceneFields(clazz);
 		if (CollectionUtils.isEmpty(luceneFields)) {
@@ -409,46 +352,16 @@ public class LuceneUtils {
 			return null;
 		}
 		IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);
-		// 需要查询的关键字
-		// Query query = parser.parse(id.toString());
-		//String _id = ClassUtils.getEntityInfoByClass(clazz).getPkName();
-
-		/*
-		indexWriter.deleteDocuments(new Term(_id, id.toString()));
-		// indexWriter.deleteDocuments(query);
-		indexWriter.commit();
-		indexWriter.close(); // 记得关闭,否则删除不会被同步到索引文件中
-		directory.close(); // 关闭目录
-		*/
-		
 		
 		// 需要查询的关键字
 		Term term = new Term(pkName,id.toString());
 		TermQuery luceneQuery = new TermQuery(term);
 		indexWriter.deleteDocuments(luceneQuery);
-		// indexWriter.deleteDocuments(query);
 		indexWriter.commit();
 		indexWriter.close(); // 记得关闭,否则删除不会被同步到索引文件中
 		directory.close(); // 关闭目录
 		
-		
-		
-		
-
 		return null;
-		/*
-		 * String pkName = ClassUtils.getEntityInfoByClass(clazz).getPkName();
-		 * // 索引写入配置 IndexWriterConfig indexWriterConfig = new
-		 * IndexWriterConfig(analyzer); // 获取索引目录文件 Directory directory =
-		 * getDirectory(clazz); if (directory == null) { return null; }
-		 * IndexWriter indexWriter = new IndexWriter(directory,
-		 * indexWriterConfig); Term term = new Term(pkName, id.toString());
-		 * indexWriter.deleteDocuments(term); indexWriter.commit();
-		 * indexWriter.close(); // 记得关闭,否则删除不会被同步到索引文件中 directory.close(); //
-		 * 关闭目录
-		 * 
-		 * return null;
-		 */
 	}
 
 	/**
@@ -487,6 +400,31 @@ public class LuceneUtils {
 		directory.close(); // 关闭目录
 		return null;
 	}
+	
+	/**
+	 * 删除所有索引
+	 * @param ids
+	 * @param clazz
+	 * @return
+	 * @throws Exception
+	 */
+	public static String deleteDocumentAll(Class clazz)
+			throws Exception {
+		// 索引写入配置
+		IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
+		// 获取索引目录文件
+		Directory directory = getDirectory(clazz);
+		if (directory == null) {
+			return null;
+		}
+		IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);
+		indexWriter.deleteAll();
+		indexWriter.commit();
+		indexWriter.close(); // 记得关闭,否则删除不会被同步到索引文件中
+		directory.close(); // 关闭目录
+		return null;
+	}
+
 
 	/**
 	 * 修改文档
