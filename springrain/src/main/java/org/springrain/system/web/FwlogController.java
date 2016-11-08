@@ -1,5 +1,8 @@
 package  org.springrain.system.web;
 import java.io.File;
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -11,9 +14,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import org.springrain.frame.controller.BaseController;
 import org.springrain.frame.util.GlobalStatic;
+import org.springrain.frame.util.JsonUtils;
 import org.springrain.frame.util.Page;
 import org.springrain.frame.util.ReturnDatas;
 import org.springrain.system.entity.Fwlog;
@@ -124,7 +127,32 @@ public class FwlogController  extends BaseController {
 		return returnObject;
 
 	}
+	
 
+	
+	/*
+	@RequestMapping("/test/jsonp")
+	public void testJsonp(HttpServletRequest request,HttpServletResponse response) throws Exception{
+			//得到js函数名称     
+			String jsonpcallback=request.getParameter("jsonpcallback");
+		    
+			if(StringUtils.isBlank(jsonpcallback)){
+				return;
+			}
+			
+			//对参数编码,处理异常的注入
+			jsonpcallback=URLEncoder.encode(jsonpcallback);
+		
+			List data=new ArrayList();
+			response.setHeader("content-type", "application/javascript;charset=UTF-8");
+			String _json=JsonUtils.writeValueAsString(data);
+		     try { 
+		    	 response.getWriter().write(jsonpcallback + "("+_json+")"); //返回jsonp数据 
+		     } catch (IOException e) { 
+		         e.printStackTrace(); 
+		     } 
+	}
+    */
 
 	
 	
