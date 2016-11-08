@@ -64,13 +64,15 @@
 		</property>
 		<property name="testWhileIdle">
 			<value>true</value>
-		</property> <!-- 打开检查,用异步线程evict进行检查 -->
+		</property> 
+		<!-- 打开检查,用异步线程evict进行检查 -->
 		<property name="testOnBorrow">
 			<value>true</value>
 		</property>
 		<property name="testOnReturn">
 			<value>false</value>
 		</property>
+		<!-- oracle 需要更换语句  -->
 		<property name="validationQuery">
 			<value>select 1 </value>
 		</property>
@@ -86,6 +88,23 @@
 		</property>
 
 	</bean>
+	
+	
+	
+	<!-- 根据事务隔离级别 做读写分离,就不需要使用dao层的读写分离了  -->
+	<!--
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.lookup.IsolationLevelDataSourceRouter">
+	   <property name="targetDataSources">
+		 <map>
+		   <entry key="ISOLATION_READ_UNCOMMITTED" value-ref="dataSourceWrite"/>
+		 </map>
+	   </property>
+	   <property name="defaultTargetDataSource" ref="dataSourceWrite"/>
+	</bean>
+	-->
+	
+	
+	
 
 
 
