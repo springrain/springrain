@@ -1,8 +1,5 @@
 package  org.springrain.system.web;
 import java.io.File;
-import java.io.IOException;
-import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -16,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springrain.frame.controller.BaseController;
 import org.springrain.frame.util.GlobalStatic;
-import org.springrain.frame.util.JsonUtils;
 import org.springrain.frame.util.Page;
 import org.springrain.frame.util.ReturnDatas;
 import org.springrain.system.entity.Fwlog;
@@ -153,7 +149,25 @@ public class FwlogController  extends BaseController {
 		     } 
 	}
     */
-
+	
+	
+	/**
+	 * spring webmvc 输出纯文本文件
+	 * @return
+	 * @throws Exception
+	 */
+	
+	/*
+	@RequestMapping("/download/txtfile")
+	@ResponseBody
+	public ResponseEntity<byte[]> downloadtxtfile()throws Exception {
+	  
+		byte[] bb = IOUtils.toByteArray(new FileInputStream(new File("txtfile")));
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.TEXT_PLAIN);
+		return new ResponseEntity<byte[]>(bb, headers, HttpStatus.OK);
+	}
+    */
 	
 	
 }
