@@ -367,7 +367,7 @@ CREATE TABLE `t_user` (
   `mobile` varchar(16) DEFAULT NULL COMMENT '手机号码',
   `email` varchar(60) DEFAULT NULL COMMENT '邮箱',
   `weixinId` varchar(200) DEFAULT NULL COMMENT '微信Id',
-  `userType` int(11) DEFAULT NULL,
+  `userType` int(11) DEFAULT NULL COMMENT '0后台管理员|/system/,1会员用户|/front/,2cms管理员|/cms/houtai/|cms_siteManager,3活动管理员|/huodong/houtai',
   `state` varchar(10) DEFAULT '是' COMMENT '是否有效,是/否',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户';
