@@ -418,20 +418,17 @@ CREATE TABLE `t_user_role` (
 INSERT INTO `t_user_role` VALUES ('admin_admin', 'admin', 'admin');
 
 -- ----------------------------
--- Table structure for weixin_menu
+-- Table structure for t_tableindex
 -- ----------------------------
-DROP TABLE IF EXISTS `weixin_menu`;
-CREATE TABLE `weixin_menu` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `weixinId` varchar(200) NOT NULL COMMENT '微信Id',
-  `name` varchar(50) DEFAULT NULL COMMENT '名称',
-  `pid` varchar(50) NOT NULL COMMENT '上级Id',
-  `linkType` varchar(200) NOT NULL COMMENT '跳转方式',
-  `linkId` varchar(2000) NOT NULL COMMENT '跳转业务Id',
-  `href` varchar(2000) NOT NULL COMMENT '跳转地址',
+DROP TABLE IF EXISTS `t_tableIndex`;
+CREATE TABLE `t_tableindex` (
+  `id` varchar(50)  NOT NULL COMMENT '编号',
+  `tableName` varchar(200) NOT NULL COMMENT '表名',
+  `maxIndex` int(11) NOT NULL DEFAULT 1 COMMENT '表记录最大的行,一直累加',
+  `prefix` varchar(50) NOT NULL COMMENT '前缀 单个字母加 _',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of weixin_menu
+-- Records of t_tableindex
 -- ----------------------------
