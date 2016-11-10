@@ -1,6 +1,6 @@
 package org.springrain.cms.base.directive.util;
 
-import static org.springframework.web.servlet.view.AbstractTemplateView.SPRING_MACRO_REQUEST_CONTEXT_ATTRIBUTE;
+
 
 import java.util.Date;
 import java.util.HashMap;
@@ -9,11 +9,11 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.web.servlet.support.RequestContext;
 import org.springrain.frame.util.DateTypeEditor;
 
 import freemarker.core.Environment;
-import freemarker.template.AdapterTemplateModel;
+import freemarker.template.Configuration;
+import freemarker.template.DefaultObjectWrapperBuilder;
 import freemarker.template.TemplateBooleanModel;
 import freemarker.template.TemplateDateModel;
 import freemarker.template.TemplateException;
@@ -26,26 +26,18 @@ import freemarker.template.TemplateScalarModel;
  * Freemarker标签工具类
  */
 public abstract class DirectiveUtils {
+	
+	
 	/**
-	 * 输出参数：对象数据
+	 * 封装对象为 TemplateModel
+	 * @param obj
+	 * @return
+	 * @throws TemplateModelException
 	 */
-	public static final String OUT_BEAN = "tag_bean";
-	/**
-	 * 输出参数：列表数据
-	 */
-	public static final String OUT_LIST = "tag_list";
-	/**
-	 * 输出参数：分页数据
-	 */
-	public static final String OUT_PAGINATION = "tag_pagination";
-	/**
-	 * 参数：是否调用模板。
-	 */
-	public static final String PARAM_TPL = "tpl";
-	/**
-	 * 参数：次级模板名称
-	 */
-	public static final String PARAM_TPL_SUB = "tplSub";
+	public static TemplateModel wrap(Object obj) throws TemplateModelException{
+		return new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_22).build().wrap(obj);
+	}
+
 
 	/**
 	 * 将params的值复制到variable中
@@ -95,28 +87,7 @@ public abstract class DirectiveUtils {
 		}
 	}
 
-	/**
-	 * 获得RequestContext
-	 * 
-	 * ViewResolver中的exposeSpringMacroHelpers必须为true
-	 * 
-	 * @param env
-	 * @return
-	 * @throws TemplateException
-	 */
-	public static RequestContext getContext(Environment env)
-			throws TemplateException {
-		TemplateModel ctx = env
-				.getGlobalVariable(SPRING_MACRO_REQUEST_CONTEXT_ATTRIBUTE);
-		if (ctx instanceof AdapterTemplateModel) {
-			return (RequestContext) ((AdapterTemplateModel) ctx)
-					.getAdaptedObject(RequestContext.class);
-		} else {
-			throw new TemplateModelException("RequestContext '"
-					+ SPRING_MACRO_REQUEST_CONTEXT_ATTRIBUTE
-					+ "' not found in DataModel.");
-		}
-	}
+	
 
 	public static String getString(String name,
 			Map<String, TemplateModel> params) throws TemplateException {
@@ -253,33 +224,5 @@ public abstract class DirectiveUtils {
 		return startWithPrefixKeys;
 	}
 
-	/**
-	 * 模板调用类型
-	 */
-	public enum InvokeType {
-		body, custom, sysDefined, userDefined
-	};
-
-	/**
-	 * 是否调用模板
-	 * 
-	 * 0：不调用，使用标签的body；1：调用自定义模板；2：调用系统预定义模板；3：调用用户预定义模板。默认：0。
-	 * 
-	 * @param params
-	 * @return
-	 * @throws TemplateException
-	 */
-	public static InvokeType getInvokeType(Map<String, TemplateModel> params)
-			throws TemplateException {
-		String tpl = getString(PARAM_TPL, params);
-		if ("3".equals(tpl)) {
-			return InvokeType.userDefined;
-		} else if ("2".equals(tpl)) {
-			return InvokeType.sysDefined;
-		} else if ("1".equals(tpl)) {
-			return InvokeType.custom;
-		} else {
-			return InvokeType.body;
-		}
-	}
+	
 }

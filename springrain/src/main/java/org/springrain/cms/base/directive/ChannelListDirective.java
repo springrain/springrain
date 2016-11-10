@@ -7,11 +7,10 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 import org.springrain.cms.base.directive.abs.AbstractChannelDirective;
+import org.springrain.cms.base.directive.util.DirectiveUtils;
 import org.springrain.cms.base.entity.CmsChannel;
 
 import freemarker.core.Environment;
-import freemarker.template.Configuration;
-import freemarker.template.DefaultObjectWrapperBuilder;
 import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
@@ -38,7 +37,7 @@ public class ChannelListDirective extends AbstractChannelDirective {
 			c.setName("name"+i);
 			list.add(c);
 		}
-		env.setVariable("channel_list", new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_22).build().wrap(list));
+		env.setVariable("channel_list", DirectiveUtils.wrap(list));
 		if (body != null) { 
 			body.render(env.getOut());  
 		}
