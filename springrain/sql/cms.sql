@@ -24,15 +24,15 @@ CREATE TABLE `cms_attachment` (
   `siteId` varchar(50) NOT NULL COMMENT '站点Id',
   `businessId` varchar(50) NOT NULL COMMENT '业务Id',
   `propertyCode` varchar(50) DEFAULT NULL COMMENT '扩展属性code',
-  `name` varchar(100) DEFAULT NULL COMMENT '名称',
-  `filepath` varchar(500) NOT NULL COMMENT '文件物理路径',
-  `filetype` varchar(500) DEFAULT NULL COMMENT '图片类型',
+  `name` varchar(500) DEFAULT NULL COMMENT '名称',
+  `filepath` varchar(1000) NOT NULL COMMENT '文件物理路径',
+  `filetype` varchar(1000) DEFAULT NULL COMMENT '图片类型',
   `createDate` datetime NOT NULL COMMENT '创建时间',
-  `remark` varchar(500) DEFAULT NULL COMMENT '备注',
-  `modelType` varchar(50) NOT NULL COMMENT 'site,channel,content(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)',
-  `sortno` int(11) NOT NULL COMMENT '排序',
+  `remark` varchar(1000) DEFAULT NULL COMMENT '备注',
+  `modelType` int(11) NOT NULL DEFAULT 0 COMMENT '0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)',
+  `sortno` int(11) NOT NULL  DEFAULT 0  COMMENT '排序',
   `lookcount` int(11) DEFAULT NULL COMMENT '打开次数',
-  `state` int(11) NOT NULL,
+  `state` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -47,8 +47,8 @@ DROP TABLE IF EXISTS `cms_channel`;
 CREATE TABLE `cms_channel` (
   `id` varchar(50) NOT NULL,
   `pid` varchar(50) DEFAULT NULL COMMENT '上级Id',
-  `name` varchar(255) DEFAULT NULL COMMENT '名称',
-  `title` varchar(255) DEFAULT NULL COMMENT '标题',
+  `name` varchar(500) DEFAULT NULL COMMENT '名称',
+  `title` varchar(500) DEFAULT NULL COMMENT '标题',
   `keywords` varchar(1000) DEFAULT NULL COMMENT '关键字',
   `description` varchar(1000) DEFAULT NULL COMMENT '描述',
   `lookcount` int(11) DEFAULT NULL COMMENT '打开次数',
@@ -68,9 +68,9 @@ CREATE TABLE `cms_channel_content` (
   `siteId` varchar(50) NOT NULL,
   `channelId` varchar(50) NOT NULL,
   `contentId` varchar(50) NOT NULL,
-  `ostype` varchar(50) DEFAULT NULL COMMENT 'pc,pad,weixin,app 可用于细化数据归属',
-  `sortno` int(11) NOT NULL COMMENT '排序',
-  `state` int(11) NOT NULL COMMENT '0失效,1有效',
+  `siteType`  int(11) NOT NULL DEFAULT 0 COMMENT '0微信,1wap,2网站  可用于细化数据归属',
+  `sortno` int(11) NOT NULL  DEFAULT 0  COMMENT '排序',
+  `state` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -108,17 +108,19 @@ CREATE TABLE `cms_comment` (
 DROP TABLE IF EXISTS `cms_content`;
 CREATE TABLE `cms_content` (
   `id` int(11) NOT NULL,
-  `title` varchar(255) DEFAULT NULL,
+  `title` varchar(500) DEFAULT NULL,
   `keywords` varchar(1000) DEFAULT NULL COMMENT '关键字',
   `description` varchar(1000) DEFAULT NULL COMMENT '描述',
-  `name` varchar(50) DEFAULT NULL COMMENT '名称',
+  `name` varchar(500) DEFAULT NULL COMMENT '名称',
   `mintitle` varchar(200) DEFAULT NULL COMMENT '小标题',
   `lookcount` int(11) DEFAULT NULL COMMENT '打开次数',
   `createPerson` varchar(50) DEFAULT NULL COMMENT '创建人',
   `createDate` datetime NOT NULL COMMENT '创建时间',
   `content` text NOT NULL COMMENT '内容',
-  `sortno` int(11) NOT NULL COMMENT '排序',
-  `state` int(11) NOT NULL COMMENT '0失效,1有效',
+  `source` varchar(1000) DEFAULT NULL COMMENT '来源',
+  `sourceurl` varchar(1000) DEFAULT NULL COMMENT '来源地址',
+  `sortno` int(11) NOT NULL  DEFAULT 0  COMMENT '排序',
+  `state` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -135,10 +137,10 @@ CREATE TABLE `cms_friend_site` (
   `siteId` varchar(50) NOT NULL,
   `name` varchar(200) NOT NULL,
   `linkType` varchar(50) NOT NULL COMMENT '跳出类型,_blank',
-  `url` varchar(500) NOT NULL COMMENT '网站地址',
+  `url` varchar(1000) NOT NULL COMMENT '网站地址',
   `logo` varchar(2000) NOT NULL COMMENT '网站logo',
   `sortno` int(11) DEFAULT NULL COMMENT '排序',
-  `state` int(11) DEFAULT NULL COMMENT '0失效,1有效',
+  `state` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -152,18 +154,18 @@ CREATE TABLE `cms_friend_site` (
 DROP TABLE IF EXISTS `cms_link`;
 CREATE TABLE `cms_link` (
   `id` varchar(50) NOT NULL,
-  `name` varchar(500) NOT NULL,
+  `name` varchar(1000) NOT NULL,
   `defaultLink` varchar(1000) NOT NULL COMMENT '默认URL地址',
   `link` varchar(1000) NOT NULL COMMENT '使用的URL',
   `siteId` varchar(50) NOT NULL COMMENT '网站ID',
   `businessId` varchar(50) NOT NULL COMMENT '业务Id',
   `lookcount` int(11) DEFAULT NULL COMMENT '打开次数',
-  `ostype` varchar(50) NOT NULL COMMENT 'pc,pad,weixin,mobile,app 五个平台',
-  `modelType` varchar(50) NOT NULL COMMENT 'site,channel,content(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)',
+  `siteType`  int(11) NOT NULL DEFAULT 0 COMMENT '0微信,1wap,2网站   ',
+  `modelType` int(11) NOT NULL DEFAULT 0 COMMENT '0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)',
   `ftlfile` varchar(1000) DEFAULT NULL COMMENT '当前渲染使用的模板路径',
   `nodeftlfile` varchar(1000) DEFAULT NULL COMMENT '子内容使用的ftl模板文件',
-  `sortno` int(11) NOT NULL COMMENT '排序',
-  `state` int(11) NOT NULL COMMENT '0失效,1有效',
+  `sortno` int(11) NOT NULL  DEFAULT 0  COMMENT '排序',
+  `state` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -181,17 +183,17 @@ CREATE TABLE `cms_picture` (
   `businessId` varchar(50) NOT NULL COMMENT '业务Id',
   `propertyCode` varchar(50) DEFAULT NULL COMMENT '扩展属性code',
   `name` varchar(100) DEFAULT NULL COMMENT '名称',
-  `filepath` varchar(500) NOT NULL COMMENT '文件物理路径',
-  `imgtype` varchar(500) DEFAULT NULL COMMENT '图片类型',
-  `pictureUrl` varchar(500) NOT NULL COMMENT '缩略图',
-  `middlePictureUrl` varchar(500) DEFAULT NULL COMMENT '中图',
-  `smallPictureUrl` varchar(500) DEFAULT NULL COMMENT '小图',
+  `filepath` varchar(1000) NOT NULL COMMENT '文件物理路径',
+  `imgtype` varchar(1000) DEFAULT NULL COMMENT '图片类型',
+  `pictureUrl` varchar(1000) NOT NULL COMMENT '缩略图',
+  `middlePictureUrl` varchar(1000) DEFAULT NULL COMMENT '中图',
+  `smallPictureUrl` varchar(1000) DEFAULT NULL COMMENT '小图',
   `createDate` datetime NOT NULL COMMENT '创建时间',
-  `remark` varchar(500) DEFAULT NULL COMMENT '备注',
-  `modelType` varchar(50) NOT NULL COMMENT 'site,channel,content(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)',
-  `sortno` int(11) NOT NULL COMMENT '排序',
+  `remark` varchar(1000) DEFAULT NULL COMMENT '备注',
+  `modelType` int(11) NOT NULL DEFAULT 0 COMMENT '0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)',
+  `sortno` int(11) NOT NULL  DEFAULT 0  COMMENT '排序',
   `lookcount` int(11) DEFAULT NULL COMMENT '打开次数',
-  `state` int(11) NOT NULL,
+  `state` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -208,15 +210,15 @@ CREATE TABLE `cms_property` (
   `siteId` varchar(50) NOT NULL,
   `name` varchar(50) NOT NULL,
   `code` varchar(50) NOT NULL COMMENT '系统级别的编码,一个站点不可重复',
-  `inputType` varchar(50) DEFAULT NULL COMMENT 'text,date,datatime,int,float,select,file,img,imgs',
+  `inputType`  int(11)NOT NULL DEFAULT 0 COMMENT '0text,1date,2datatime,3int,4float,5select,6file,7img,8imgs',
   `businessId` varchar(50) NOT NULL COMMENT '业务Id',
-  `modelType` varchar(50) NOT NULL COMMENT 'site,channel,content(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)',
+  `modelType` int(11) NOT NULL DEFAULT 0 COMMENT '0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)',
   `createPerson` varchar(50) NOT NULL COMMENT '创建人',
   `createDate` datetime NOT NULL COMMENT '创建时间',
   `defaultValue` varchar(100) DEFAULT NULL COMMENT '默认值',
-  `style` varchar(255) DEFAULT NULL COMMENT '样式',
-  `sortno` int(11) NOT NULL COMMENT '排序',
-  `state` int(11) NOT NULL COMMENT '0失效,1有效',
+  `style` varchar(500) DEFAULT NULL COMMENT '样式',
+  `sortno` int(11) NOT NULL  DEFAULT 0  COMMENT '排序',
+  `state` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -235,7 +237,7 @@ CREATE TABLE `cms_propertyvalue` (
   `siteId` varchar(50) NOT NULL,
   `businessId` varchar(50) NOT NULL COMMENT '业务Id',
   `sortno` int(11) DEFAULT NULL COMMENT '排序',
-  `state` int(11) DEFAULT NULL COMMENT '0失效,1有效',
+  `state` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='属性表';
 
@@ -250,8 +252,8 @@ DROP TABLE IF EXISTS `cms_site`;
 CREATE TABLE `cms_site` (
   `id` varchar(50) NOT NULL,
   `userId` varchar(50) NOT NULL COMMENT '用户Id',
-  `name` varchar(255) DEFAULT NULL COMMENT '名称',
-  `title` varchar(255) DEFAULT NULL,
+  `name` varchar(500) DEFAULT NULL COMMENT '名称',
+  `title` varchar(500) DEFAULT NULL,
   `domainurl` varchar(2000) DEFAULT NULL COMMENT '网站域名',
   `logo` varchar(2000) NOT NULL COMMENT '网站logo',
   `footer` varchar(2000) NOT NULL COMMENT '页脚',
@@ -262,8 +264,8 @@ CREATE TABLE `cms_site` (
   `description` varchar(1000) DEFAULT NULL,
   `themeId` varchar(50) DEFAULT NULL COMMENT '主题组Id',
   `lookcount` int(11) DEFAULT NULL COMMENT '打开次数',
-  `siteType` varchar(50) DEFAULT '网站' COMMENT '网站类型(网站,商城,论坛)',
-  `state` int(11) DEFAULT NULL COMMENT '状态 0关闭,1开启',
+  `siteType`  int(11) NOT NULL DEFAULT 0 COMMENT '0微信,1wap,2网站  ',
+  `state` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -279,11 +281,11 @@ CREATE TABLE `cms_site_channel` (
   `id` varchar(50) NOT NULL,
   `siteId` varchar(50) NOT NULL COMMENT '网站ID',
   `channelId` varchar(50) NOT NULL,
-  `ostype` varchar(50) NOT NULL COMMENT 'pc,pad,weixin,mobile,app 五个平台',
-  `position` varchar(10) DEFAULT NULL COMMENT '渲染位置,(上中下底)',
+  `siteType`  int(11) NOT NULL DEFAULT 0 COMMENT '0微信,1wap,2网站    ',
+  `positionLevel` int(11)  NOT NULL DEFAULT 0 COMMENT '0导航',
   `channeltype` int(11) NOT NULL COMMENT '栏目类型分为 导航菜单(0) 内容类似标签(1) ',
-  `sortno` int(11) NOT NULL COMMENT '排序',
-  `state` int(11) NOT NULL COMMENT '0失效,1有效',
+  `sortno` int(11) NOT NULL  DEFAULT 0  COMMENT '排序',
+  `state` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -297,14 +299,14 @@ CREATE TABLE `cms_site_channel` (
 DROP TABLE IF EXISTS `cms_template`;
 CREATE TABLE `cms_template` (
   `id` varchar(50) NOT NULL COMMENT 'ID',
-  `name` varchar(200) NOT NULL COMMENT '名称',
+  `name` varchar(500) NOT NULL COMMENT '名称',
   `description` varchar(2000) DEFAULT NULL COMMENT '备注',
   `ftlfile` varchar(1000) DEFAULT NULL COMMENT '渲染使用的模板路径',
   `imgfile` varchar(1000) DEFAULT NULL COMMENT '缩略图路径路径',
-  `modelType` varchar(50) NOT NULL COMMENT 'site,channel,content(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)',
+  `modelType` int(11) NOT NULL DEFAULT 0 COMMENT '0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)',
   `usecount` int(11) DEFAULT NULL COMMENT '使用次数',
-  `ostype` varchar(50) DEFAULT NULL COMMENT 'pc,pad,weixin,mobile,app 五个平台的linkURL',
-  `state` int(11) DEFAULT NULL COMMENT '状态 0关闭,1开启',
+  `siteType`  int(11) NOT NULL DEFAULT 0 COMMENT '0微信,1wap,2网站     平台的linkURL',
+  `state` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -318,10 +320,10 @@ CREATE TABLE `cms_template` (
 DROP TABLE IF EXISTS `cms_theme`;
 CREATE TABLE `cms_theme` (
   `id` varchar(50) NOT NULL COMMENT 'ID',
-  `name` varchar(200) NOT NULL COMMENT '名称',
+  `name` varchar(500) NOT NULL COMMENT '名称',
   `usecount` int(11) DEFAULT NULL COMMENT '使用次数',
-  `ostype` varchar(50) DEFAULT NULL COMMENT 'pc,pad,weixin,mobile,app 五个平台的linkURL',
-  `state` int(11) DEFAULT NULL COMMENT '状态 0关闭,1开启',
+  `siteType`  int(11) NOT NULL DEFAULT 0 COMMENT '0微信,1wap,2网站   平台的linkURL',
+  `state` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
