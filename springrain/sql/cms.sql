@@ -107,7 +107,7 @@ CREATE TABLE `cms_comment` (
 -- ----------------------------
 DROP TABLE IF EXISTS `cms_content`;
 CREATE TABLE `cms_content` (
-  `id` int(11) NOT NULL,
+  `id` varchar(50) NOT NULL COMMENT 'ID',
   `title` varchar(500) DEFAULT NULL,
   `keywords` varchar(1000) DEFAULT NULL COMMENT '关键字',
   `description` varchar(1000) DEFAULT NULL COMMENT '描述',
@@ -369,3 +369,10 @@ CREATE TABLE `cms_theme_template` (
 -- ----------------------------
 -- Records of cms_theme_template
 -- ----------------------------
+
+
+INSERT INTO `t_tableindex` (`id`, `maxIndex`, `prefix`) VALUES ('cms_site', '1001', 'w_');
+INSERT INTO `t_tableindex` (`id`, `maxIndex`, `prefix`) VALUES ('cms_channel', '1001', 'c_');
+INSERT INTO `t_tableindex` (`id`, `maxIndex`, `prefix`) VALUES ('cms_content', '1001', 'n_');
+
+

@@ -45,7 +45,7 @@ public class CmsContent  extends BaseEntity {
 	/**
 	 * id
 	 */
-	private java.lang.Integer id;
+	private java.lang.String id;
 	/**
 	 * title
 	 */
@@ -106,19 +106,19 @@ public class CmsContent  extends BaseEntity {
 	}
 
 	public CmsContent(
-		java.lang.Integer id
+		java.lang.String id
 	){
 		this.id = id;
 	}
 
 	//get and set
-	public void setId(java.lang.Integer value) {
+	public void setId(java.lang.String value) {
 		this.id = value;
 	}
 	
 	@Id
      @WhereSQL(sql="id=:CmsContent_id")
-	public java.lang.Integer getId() {
+	public java.lang.String getId() {
 		return this.id;
 	}
 	public void setTitle(java.lang.String value) {

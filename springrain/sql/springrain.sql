@@ -420,14 +420,13 @@ INSERT INTO `t_user_role` VALUES ('admin_admin', 'admin', 'admin');
 -- ----------------------------
 -- Table structure for t_tableindex
 -- ----------------------------
-DROP TABLE IF EXISTS `t_tableIndex`;
+DROP TABLE IF EXISTS `t_tableindex`;
 CREATE TABLE `t_tableindex` (
-  `id` varchar(50)  NOT NULL COMMENT '编号',
-  `tableName` varchar(200) NOT NULL COMMENT '表名',
+  `id` varchar(50)  NOT NULL COMMENT '表名',
   `maxIndex` int(11) NOT NULL DEFAULT 1 COMMENT '表记录最大的行,一直累加',
   `prefix` varchar(50) NOT NULL COMMENT '前缀 单个字母加 _',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='记录表最大的行记录';
 
 -- ----------------------------
 -- Records of t_tableindex
