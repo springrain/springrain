@@ -344,8 +344,7 @@ CREATE TABLE `cms_theme_template` (
 -- ----------------------------
 
 
-INSERT INTO `t_tableindex` (`id`, `maxIndex`, `prefix`) VALUES ('cms_site', '1001', 'w_');
-INSERT INTO `t_tableindex` (`id`, `maxIndex`, `prefix`) VALUES ('cms_channel', '1001', 'c_');
-INSERT INTO `t_tableindex` (`id`, `maxIndex`, `prefix`) VALUES ('cms_content', '1001', 'n_');
+INSERT INTO `t_tableindex` (`id`, `maxIndex`, `prefix`) VALUES ('cms_site', '10', 's_');
+
 
 

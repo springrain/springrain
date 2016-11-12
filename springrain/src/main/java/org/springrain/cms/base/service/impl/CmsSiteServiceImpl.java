@@ -39,6 +39,11 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 	    cmsSite.setId(id);
 	    
 	    super.save(cmsSite);
+	    
+	    //产生店铺的栏目和内容编号
+	    tableindexService.saveIndexBySiteId(id);
+	    
+	    
 	      
 	     return id;
 	}
