@@ -68,7 +68,6 @@ CREATE TABLE `cms_channel_content` (
   `siteId` varchar(50) NOT NULL,
   `channelId` varchar(50) NOT NULL,
   `contentId` varchar(50) NOT NULL,
-  `siteType`  int(11) NOT NULL DEFAULT 0 COMMENT '0微信订阅服务号,1wap,2网站   可用于细化数据归属',
   `sortno` int(11) NOT NULL  DEFAULT 0  COMMENT '排序',
   `state` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
   PRIMARY KEY (`id`)
@@ -160,7 +159,6 @@ CREATE TABLE `cms_link` (
   `siteId` varchar(50) NOT NULL COMMENT '网站ID',
   `businessId` varchar(50) NOT NULL COMMENT '业务Id',
   `lookcount` int(11) DEFAULT NULL COMMENT '打开次数',
-  `siteType`  int(11) NOT NULL DEFAULT 0 COMMENT '0微信订阅服务号,1wap,2网站    ',
   `modelType` int(11) NOT NULL DEFAULT 0 COMMENT '0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)',
   `ftlfile` varchar(1000) DEFAULT NULL COMMENT '当前渲染使用的模板路径',
   `nodeftlfile` varchar(1000) DEFAULT NULL COMMENT '子内容使用的ftl模板文件',
@@ -305,7 +303,6 @@ CREATE TABLE `cms_site_channel` (
   `id` varchar(50) NOT NULL,
   `siteId` varchar(50) NOT NULL COMMENT '网站ID',
   `channelId` varchar(50) NOT NULL,
-  `siteType`  int(11) NOT NULL DEFAULT 0 COMMENT '0微信订阅服务号,1wap,2网站     ',
   `positionLevel` int(11)  NOT NULL DEFAULT 0 COMMENT '0导航,1-10个级别',
   `channelType` int(11) NOT NULL COMMENT '栏目类型分为 导航菜单(0) 内容类似标签(1) ',
   `sortno` int(11) NOT NULL  DEFAULT 0  COMMENT '排序',
@@ -329,7 +326,6 @@ CREATE TABLE `cms_template` (
   `imgfile` varchar(1000) DEFAULT NULL COMMENT '缩略图路径路径',
   `modelType` int(11) NOT NULL DEFAULT 0 COMMENT '0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)',
   `usecount` int(11) DEFAULT NULL COMMENT '使用次数',
-  `siteType`  int(11) NOT NULL DEFAULT 0 COMMENT '0微信订阅服务号,1wap,2网站      平台的linkURL',
   `state` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='模板表';
@@ -346,7 +342,6 @@ CREATE TABLE `cms_theme` (
   `id` varchar(50) NOT NULL COMMENT 'ID',
   `name` varchar(500) NOT NULL COMMENT '名称',
   `usecount` int(11) DEFAULT NULL COMMENT '使用次数',
-  `siteType`  int(11) NOT NULL DEFAULT 0 COMMENT '0微信订阅服务号,1wap,2网站   平台的linkURL',
   `state` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='主题表';
