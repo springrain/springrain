@@ -24,9 +24,11 @@ CREATE TABLE `cms_attachment` (
   `siteId` varchar(50) NOT NULL COMMENT '站点Id',
   `businessId` varchar(50) NOT NULL COMMENT '业务Id',
   `propertyCode` varchar(50) DEFAULT NULL COMMENT '扩展属性code',
-  `name` varchar(500) DEFAULT NULL COMMENT '名称',
+  `name` varchar(100) DEFAULT NULL COMMENT '名称',
   `filepath` varchar(1000) NOT NULL COMMENT '文件物理路径',
-  `filetype` varchar(1000) DEFAULT NULL COMMENT '图片类型',
+  `filesuffix` varchar(50) DEFAULT NULL COMMENT '文件后缀',
+  `fileurl` varchar(1000) NOT NULL COMMENT '文件路径',
+  `thumbnail` varchar(1000) DEFAULT NULL COMMENT '缩略图',
   `createDate` datetime NOT NULL COMMENT '创建时间',
   `remark` varchar(1000) DEFAULT NULL COMMENT '备注',
   `modelType` int(11) NOT NULL DEFAULT 0 COMMENT '0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)',
@@ -162,6 +164,7 @@ CREATE TABLE `cms_link` (
   `modelType` int(11) NOT NULL DEFAULT 0 COMMENT '0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)',
   `ftlfile` varchar(1000) DEFAULT NULL COMMENT '当前渲染使用的模板路径',
   `nodeftlfile` varchar(1000) DEFAULT NULL COMMENT '子内容使用的ftl模板文件',
+  `statichtml` int(11) NOT NULL  DEFAULT 0  COMMENT '是否静态化 0否,1是',
   `sortno` int(11) NOT NULL  DEFAULT 0  COMMENT '排序',
   `state` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
   PRIMARY KEY (`id`)
@@ -171,32 +174,7 @@ CREATE TABLE `cms_link` (
 -- Records of cms_link
 -- ----------------------------
 
--- ----------------------------
--- Table structure for cms_picture
--- ----------------------------
-DROP TABLE IF EXISTS `cms_picture`;
-CREATE TABLE `cms_picture` (
-  `id` varchar(50) NOT NULL,
-  `siteId` varchar(50) NOT NULL COMMENT '站点Id',
-  `businessId` varchar(50) NOT NULL COMMENT '业务Id',
-  `propertyCode` varchar(50) DEFAULT NULL COMMENT '扩展属性code',
-  `name` varchar(100) DEFAULT NULL COMMENT '名称',
-  `filepath` varchar(1000) NOT NULL COMMENT '文件物理路径',
-  `imgtype` varchar(1000) DEFAULT NULL COMMENT '图片类型',
-  `pictureUrl` varchar(1000) NOT NULL COMMENT '缩略图',
-  `middlePictureUrl` varchar(1000) DEFAULT NULL COMMENT '中图',
-  `smallPictureUrl` varchar(1000) DEFAULT NULL COMMENT '小图',
-  `createDate` datetime NOT NULL COMMENT '创建时间',
-  `remark` varchar(1000) DEFAULT NULL COMMENT '备注',
-  `modelType` int(11) NOT NULL DEFAULT 0 COMMENT '0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)',
-  `sortno` int(11) NOT NULL  DEFAULT 0  COMMENT '排序',
-  `lookcount` int(11) DEFAULT NULL COMMENT '打开次数',
-  `state` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- ----------------------------
--- Records of cms_picture
 -- ----------------------------
 
 -- ----------------------------
