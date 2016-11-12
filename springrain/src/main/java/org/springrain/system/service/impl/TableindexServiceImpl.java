@@ -52,9 +52,7 @@ public class TableindexServiceImpl extends BaseSpringrainServiceImpl implements 
 		Integer maxIndex=tableindex.getMaxIndex();
 		maxIndex=maxIndex+1;
 		String newId=tableindex.getPrefix()+maxIndex;
-		if(StringUtils.isNotBlank(prefix)){
-		newId=prefix+"_"+newId;
-		}
+		
 		
 		
 		Finder f_update=Finder.getUpdateFinder(Tableindex.class, " maxIndex=:maxIndex ").append(" WHERE id=:id ");
