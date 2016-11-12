@@ -12,7 +12,7 @@ import org.springrain.frame.entity.BaseEntity;
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author springrain<Auto generate>
- * @version  2016-11-12 10:44:54
+ * @version  2016-11-12 11:20:24
  * @see org.springrain.demo.entity.CmsAttachment
  */
 @Table(name="cms_attachment")
@@ -29,7 +29,9 @@ public class CmsAttachment  extends BaseEntity {
 	public static final String ALIAS_PROPERTYCODE = "扩展属性code";
 	public static final String ALIAS_NAME = "名称";
 	public static final String ALIAS_FILEPATH = "文件物理路径";
-	public static final String ALIAS_FILETYPE = "图片类型";
+	public static final String ALIAS_FILESUFFIX = "文件后缀";
+	public static final String ALIAS_FILEURL = "文件路径";
+	public static final String ALIAS_THUMBNAIL = "缩略图";
 	public static final String ALIAS_CREATEDATE = "创建时间";
 	public static final String ALIAS_REMARK = "备注";
 	public static final String ALIAS_MODELTYPE = "0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)";
@@ -66,9 +68,17 @@ public class CmsAttachment  extends BaseEntity {
 	 */
 	private java.lang.String filepath;
 	/**
-	 * 图片类型
+	 * 文件后缀
 	 */
-	private java.lang.String filetype;
+	private java.lang.String filesuffix;
+	/**
+	 * 文件路径
+	 */
+	private java.lang.String fileurl;
+	/**
+	 * 缩略图
+	 */
+	private java.lang.String thumbnail;
 	/**
 	 * 创建时间
 	 */
@@ -174,16 +184,38 @@ public class CmsAttachment  extends BaseEntity {
 	public java.lang.String getFilepath() {
 		return this.filepath;
 	}
-	public void setFiletype(java.lang.String value) {
+	public void setFilesuffix(java.lang.String value) {
 		    if(StringUtils.isNotBlank(value)){
 			 value=value.trim();
 			}
-		this.filetype = value;
+		this.filesuffix = value;
 	}
 	
-     @WhereSQL(sql="filetype=:CmsAttachment_filetype")
-	public java.lang.String getFiletype() {
-		return this.filetype;
+     @WhereSQL(sql="filesuffix=:CmsAttachment_filesuffix")
+	public java.lang.String getFilesuffix() {
+		return this.filesuffix;
+	}
+	public void setFileurl(java.lang.String value) {
+		    if(StringUtils.isNotBlank(value)){
+			 value=value.trim();
+			}
+		this.fileurl = value;
+	}
+	
+     @WhereSQL(sql="fileurl=:CmsAttachment_fileurl")
+	public java.lang.String getFileurl() {
+		return this.fileurl;
+	}
+	public void setThumbnail(java.lang.String value) {
+		    if(StringUtils.isNotBlank(value)){
+			 value=value.trim();
+			}
+		this.thumbnail = value;
+	}
+	
+     @WhereSQL(sql="thumbnail=:CmsAttachment_thumbnail")
+	public java.lang.String getThumbnail() {
+		return this.thumbnail;
 	}
 		/*
 	public String getcreateDateString() {
@@ -253,7 +285,9 @@ public class CmsAttachment  extends BaseEntity {
 			.append("扩展属性code[").append(getPropertyCode()).append("],")
 			.append("名称[").append(getName()).append("],")
 			.append("文件物理路径[").append(getFilepath()).append("],")
-			.append("图片类型[").append(getFiletype()).append("],")
+			.append("文件后缀[").append(getFilesuffix()).append("],")
+			.append("文件路径[").append(getFileurl()).append("],")
+			.append("缩略图[").append(getThumbnail()).append("],")
 			.append("创建时间[").append(getCreateDate()).append("],")
 			.append("备注[").append(getRemark()).append("],")
 			.append("0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)[").append(getModelType()).append("],")

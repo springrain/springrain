@@ -6,13 +6,14 @@ import javax.persistence.Table;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import org.springrain.frame.annotation.WhereSQL;
 import org.springrain.frame.entity.BaseEntity;
 /**
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author springrain<Auto generate>
- * @version  2016-11-12 10:44:57
+ * @version  2016-11-12 11:09:41
  * @see org.springrain.demo.entity.CmsLink
  */
 @Table(name="cms_link")
@@ -33,6 +34,7 @@ public class CmsLink  extends BaseEntity {
 	public static final String ALIAS_MODELTYPE = "0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)";
 	public static final String ALIAS_FTLFILE = "当前渲染使用的模板路径";
 	public static final String ALIAS_NODEFTLFILE = "子内容使用的ftl模板文件";
+	public static final String ALIAS_STATICHTML = "是否静态化 0否,1是";
 	public static final String ALIAS_SORTNO = "排序";
 	public static final String ALIAS_STATE = "状态 0不可用,1可用";
     */
@@ -79,6 +81,10 @@ public class CmsLink  extends BaseEntity {
 	 * 子内容使用的ftl模板文件
 	 */
 	private java.lang.String nodeftlfile;
+	/**
+	 * 是否静态化 0否,1是
+	 */
+	private java.lang.Integer statichtml;
 	/**
 	 * 排序
 	 */
@@ -206,6 +212,14 @@ public class CmsLink  extends BaseEntity {
 	public java.lang.String getNodeftlfile() {
 		return this.nodeftlfile;
 	}
+	public void setStatichtml(java.lang.Integer value) {
+		this.statichtml = value;
+	}
+	
+     @WhereSQL(sql="statichtml=:CmsLink_statichtml")
+	public java.lang.Integer getStatichtml() {
+		return this.statichtml;
+	}
 	public void setSortno(java.lang.Integer value) {
 		this.sortno = value;
 	}
@@ -235,6 +249,7 @@ public class CmsLink  extends BaseEntity {
 			.append("0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)[").append(getModelType()).append("],")
 			.append("当前渲染使用的模板路径[").append(getFtlfile()).append("],")
 			.append("子内容使用的ftl模板文件[").append(getNodeftlfile()).append("],")
+			.append("是否静态化 0否,1是[").append(getStatichtml()).append("],")
 			.append("排序[").append(getSortno()).append("],")
 			.append("状态 0不可用,1可用[").append(getState()).append("],")
 			.toString();
