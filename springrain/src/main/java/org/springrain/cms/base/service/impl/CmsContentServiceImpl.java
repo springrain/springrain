@@ -32,7 +32,7 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
     	}
 	      CmsContent cmsContent=(CmsContent) entity;
 	      
-		    String id= tableindexService.updateNewId(CmsContent.class);
+		    String id= tableindexService.updateNewId(CmsContent.class,cmsContent.getSiteId());
 		    if(StringUtils.isEmpty(id)){
 		    	return null;
 		    }

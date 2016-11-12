@@ -1,6 +1,7 @@
 package org.springrain.cms.base.service.impl;
 
 import javax.annotation.Resource;
+import javax.persistence.Transient;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,7 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
     		return null;
     	}
 	    CmsChannel cmsChannel=(CmsChannel) entity;
-	    String id= tableindexService.updateNewId(CmsChannel.class);
+	    String id= tableindexService.updateNewId(CmsChannel.class,cmsChannel.getSiteId());
 	    if(StringUtils.isEmpty(id)){
 	    	return null;
 	    }
@@ -50,6 +51,5 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 	 return super.findById(id,CmsChannel.class);
 	}
 	
-
-
+   
 }

@@ -32,7 +32,7 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
     	}
 	    CmsSite cmsSite=(CmsSite) entity;
 	    
-	    String id= tableindexService.updateNewId(CmsSite.class);
+	    String id= tableindexService.updateNewId(CmsSite.class,cmsSite.getId());
 	    if(StringUtils.isEmpty(id)){
 	    	return null;
 	    }
