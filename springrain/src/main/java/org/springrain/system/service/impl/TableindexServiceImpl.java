@@ -19,7 +19,7 @@ import org.springrain.system.service.ITableindexService;
 public class TableindexServiceImpl extends BaseSpringrainServiceImpl implements ITableindexService {
 
 	@Override
-	public synchronized String updateNewId(Class clazz) throws Exception {
+	public synchronized String updateNewId(Class clazz,String prefix) throws Exception {
 		if(clazz==null){
 			return null;
 		}
@@ -41,6 +41,10 @@ public class TableindexServiceImpl extends BaseSpringrainServiceImpl implements 
 		Integer maxIndex=tableindex.getMaxIndex();
 		maxIndex=maxIndex+1;
 		String newId=tableindex.getPrefix()+maxIndex;
+		
+		if(StringUtils.isNotBlank(prefix)){
+			newId=prefix+"_"+newId;
+		}
 		
 		Finder f_update=Finder.getUpdateFinder(Tableindex.class, " maxIndex=:maxIndex ").append(" WHERE id=:id ");
 		f_update.setParam("maxIndex", maxIndex).setParam("id", tableName);
