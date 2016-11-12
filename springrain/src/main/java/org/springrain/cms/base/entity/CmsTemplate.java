@@ -1,5 +1,4 @@
 package org.springrain.cms.base.entity;
-
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -12,7 +11,7 @@ import org.springrain.frame.entity.BaseEntity;
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author springrain<Auto generate>
- * @version  2016-11-10 11:55:22
+ * @version  2016-11-12 10:45:00
  * @see org.springrain.demo.entity.CmsTemplate
  */
 @Table(name="cms_template")
@@ -30,7 +29,6 @@ public class CmsTemplate  extends BaseEntity {
 	public static final String ALIAS_IMGFILE = "缩略图路径路径";
 	public static final String ALIAS_MODELTYPE = "0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)";
 	public static final String ALIAS_USECOUNT = "使用次数";
-	public static final String ALIAS_SITETYPE = "0微信订阅服务号,1wap,2网站      平台的linkURL";
 	public static final String ALIAS_STATE = "状态 0不可用,1可用";
     */
 	//date formats
@@ -64,10 +62,6 @@ public class CmsTemplate  extends BaseEntity {
 	 * 使用次数
 	 */
 	private java.lang.Integer usecount;
-	/**
-	 * 0微信订阅服务号,1wap,2网站      平台的linkURL
-	 */
-	private java.lang.Integer siteType;
 	/**
 	 * 状态 0不可用,1可用
 	 */
@@ -158,14 +152,6 @@ public class CmsTemplate  extends BaseEntity {
 	public java.lang.Integer getUsecount() {
 		return this.usecount;
 	}
-	public void setSiteType(java.lang.Integer value) {
-		this.siteType = value;
-	}
-	
-     @WhereSQL(sql="siteType=:CmsTemplate_siteType")
-	public java.lang.Integer getSiteType() {
-		return this.siteType;
-	}
 	public void setState(java.lang.Integer value) {
 		this.state = value;
 	}
@@ -184,7 +170,6 @@ public class CmsTemplate  extends BaseEntity {
 			.append("缩略图路径路径[").append(getImgfile()).append("],")
 			.append("0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)[").append(getModelType()).append("],")
 			.append("使用次数[").append(getUsecount()).append("],")
-			.append("0微信订阅服务号,1wap,2网站      平台的linkURL[").append(getSiteType()).append("],")
 			.append("状态 0不可用,1可用[").append(getState()).append("],")
 			.toString();
 	}

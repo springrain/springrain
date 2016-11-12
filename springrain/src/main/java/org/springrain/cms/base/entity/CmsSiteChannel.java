@@ -12,7 +12,7 @@ import org.springrain.frame.entity.BaseEntity;
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author springrain<Auto generate>
- * @version  2016-11-10 11:55:21
+ * @version  2016-11-12 10:44:59
  * @see org.springrain.demo.entity.CmsSiteChannel
  */
 @Table(name="cms_site_channel")
@@ -26,7 +26,6 @@ public class CmsSiteChannel  extends BaseEntity {
 	public static final String ALIAS_ID = "id";
 	public static final String ALIAS_SITEID = "网站ID";
 	public static final String ALIAS_CHANNELID = "channelId";
-	public static final String ALIAS_SITETYPE = "0微信订阅服务号,1wap,2网站     ";
 	public static final String ALIAS_POSITIONLEVEL = "0导航,1-10个级别";
 	public static final String ALIAS_CHANNELTYPE = "栏目类型分为 导航菜单(0) 内容类似标签(1) ";
 	public static final String ALIAS_SORTNO = "排序";
@@ -47,10 +46,6 @@ public class CmsSiteChannel  extends BaseEntity {
 	 * channelId
 	 */
 	private java.lang.String channelId;
-	/**
-	 * 0微信订阅服务号,1wap,2网站     
-	 */
-	private java.lang.Integer siteType;
 	/**
 	 * 0导航,1-10个级别
 	 */
@@ -115,14 +110,6 @@ public class CmsSiteChannel  extends BaseEntity {
 	public java.lang.String getChannelId() {
 		return this.channelId;
 	}
-	public void setSiteType(java.lang.Integer value) {
-		this.siteType = value;
-	}
-	
-     @WhereSQL(sql="siteType=:CmsSiteChannel_siteType")
-	public java.lang.Integer getSiteType() {
-		return this.siteType;
-	}
 	public void setPositionLevel(java.lang.Integer value) {
 		this.positionLevel = value;
 	}
@@ -161,7 +148,6 @@ public class CmsSiteChannel  extends BaseEntity {
 			.append("id[").append(getId()).append("],")
 			.append("网站ID[").append(getSiteId()).append("],")
 			.append("channelId[").append(getChannelId()).append("],")
-			.append("0微信订阅服务号,1wap,2网站     [").append(getSiteType()).append("],")
 			.append("0导航,1-10个级别[").append(getPositionLevel()).append("],")
 			.append("栏目类型分为 导航菜单(0) 内容类似标签(1) [").append(getChannelType()).append("],")
 			.append("排序[").append(getSortno()).append("],")

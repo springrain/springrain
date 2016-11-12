@@ -12,7 +12,7 @@ import org.springrain.frame.entity.BaseEntity;
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author springrain<Auto generate>
- * @version  2016-11-10 11:55:22
+ * @version  2016-11-12 10:45:00
  * @see org.springrain.demo.entity.CmsTheme
  */
 @Table(name="cms_theme")
@@ -26,7 +26,6 @@ public class CmsTheme  extends BaseEntity {
 	public static final String ALIAS_ID = "ID";
 	public static final String ALIAS_NAME = "名称";
 	public static final String ALIAS_USECOUNT = "使用次数";
-	public static final String ALIAS_SITETYPE = "0微信订阅服务号,1wap,2网站   平台的linkURL";
 	public static final String ALIAS_STATE = "状态 0不可用,1可用";
     */
 	//date formats
@@ -44,10 +43,6 @@ public class CmsTheme  extends BaseEntity {
 	 * 使用次数
 	 */
 	private java.lang.Integer usecount;
-	/**
-	 * 0微信订阅服务号,1wap,2网站   平台的linkURL
-	 */
-	private java.lang.Integer siteType;
 	/**
 	 * 状态 0不可用,1可用
 	 */
@@ -97,14 +92,6 @@ public class CmsTheme  extends BaseEntity {
 	public java.lang.Integer getUsecount() {
 		return this.usecount;
 	}
-	public void setSiteType(java.lang.Integer value) {
-		this.siteType = value;
-	}
-	
-     @WhereSQL(sql="siteType=:CmsTheme_siteType")
-	public java.lang.Integer getSiteType() {
-		return this.siteType;
-	}
 	public void setState(java.lang.Integer value) {
 		this.state = value;
 	}
@@ -119,7 +106,6 @@ public class CmsTheme  extends BaseEntity {
 			.append("ID[").append(getId()).append("],")
 			.append("名称[").append(getName()).append("],")
 			.append("使用次数[").append(getUsecount()).append("],")
-			.append("0微信订阅服务号,1wap,2网站   平台的linkURL[").append(getSiteType()).append("],")
 			.append("状态 0不可用,1可用[").append(getState()).append("],")
 			.toString();
 	}

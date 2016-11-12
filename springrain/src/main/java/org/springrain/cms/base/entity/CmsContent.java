@@ -12,7 +12,7 @@ import org.springrain.frame.entity.BaseEntity;
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author springrain<Auto generate>
- * @version  2016-11-10 11:55:19
+ * @version  2016-11-12 10:44:56
  * @see org.springrain.demo.entity.CmsContent
  */
 @Table(name="cms_content")
@@ -23,7 +23,7 @@ public class CmsContent  extends BaseEntity {
 	//alias
 	/*
 	public static final String TABLE_ALIAS = "内容表";
-	public static final String ALIAS_ID = "id";
+	public static final String ALIAS_ID = "ID";
 	public static final String ALIAS_TITLE = "title";
 	public static final String ALIAS_KEYWORDS = "关键字";
 	public static final String ALIAS_DESCRIPTION = "描述";
@@ -43,7 +43,7 @@ public class CmsContent  extends BaseEntity {
 	
 	//columns START
 	/**
-	 * id
+	 * ID
 	 */
 	private java.lang.String id;
 	/**
@@ -113,6 +113,9 @@ public class CmsContent  extends BaseEntity {
 
 	//get and set
 	public void setId(java.lang.String value) {
+		    if(StringUtils.isNotBlank(value)){
+			 value=value.trim();
+			}
 		this.id = value;
 	}
 	
@@ -263,7 +266,7 @@ public class CmsContent  extends BaseEntity {
 	
 	public String toString() {
 		return new StringBuffer()
-			.append("id[").append(getId()).append("],")
+			.append("ID[").append(getId()).append("],")
 			.append("title[").append(getTitle()).append("],")
 			.append("关键字[").append(getKeywords()).append("],")
 			.append("描述[").append(getDescription()).append("],")

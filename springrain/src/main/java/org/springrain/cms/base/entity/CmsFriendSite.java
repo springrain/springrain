@@ -12,7 +12,7 @@ import org.springrain.frame.entity.BaseEntity;
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author springrain<Auto generate>
- * @version  2016-11-10 11:55:19
+ * @version  2016-11-12 10:44:57
  * @see org.springrain.demo.entity.CmsFriendSite
  */
 @Table(name="cms_friend_site")

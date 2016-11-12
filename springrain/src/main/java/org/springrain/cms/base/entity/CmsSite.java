@@ -2,7 +2,6 @@ package org.springrain.cms.base.entity;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -13,7 +12,7 @@ import org.springrain.frame.entity.BaseEntity;
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author springrain<Auto generate>
- * @version  2016-11-10 11:55:21
+ * @version  2016-11-12 10:44:58
  * @see org.springrain.demo.entity.CmsSite
  */
 @Table(name="cms_site")
@@ -109,11 +108,6 @@ public class CmsSite  extends BaseEntity {
 	 */
 	private java.lang.Integer state;
 	//columns END 数据库字段结束
-	
-	//站点微信的配置
-	private CmsSiteWxconfig cmsSiteWxconfig=new CmsSiteWxconfig();
-	
-	
 	
 	//concstructor
 
@@ -330,15 +324,6 @@ public class CmsSite  extends BaseEntity {
 		return new EqualsBuilder()
 			.append(getId(),other.getId())
 			.isEquals();
-	}
-
-	@Transient
-	public CmsSiteWxconfig getCmsSiteWxconfig() {
-		return cmsSiteWxconfig;
-	}
-
-	public void setCmsSiteWxconfig(CmsSiteWxconfig cmsSiteWxconfig) {
-		this.cmsSiteWxconfig = cmsSiteWxconfig;
 	}
 }
 
