@@ -2,6 +2,7 @@ package org.springrain.cms.base.entity;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -99,6 +100,9 @@ public class CmsContent  extends BaseEntity {
 	 */
 	private java.lang.Integer state;
 	//columns END 数据库字段结束
+	
+	//站点ID
+	private String siteId;
 	
 	//concstructor
 
@@ -259,7 +263,8 @@ public class CmsContent  extends BaseEntity {
 		this.state = value;
 	}
 	
-     @WhereSQL(sql="state=:CmsContent_state")
+
+	@WhereSQL(sql="state=:CmsContent_state")
 	public java.lang.Integer getState() {
 		return this.state;
 	}
@@ -296,6 +301,15 @@ public class CmsContent  extends BaseEntity {
 		return new EqualsBuilder()
 			.append(getId(),other.getId())
 			.isEquals();
+	}
+	
+	@Transient
+    public String getSiteId() {
+		return siteId;
+	}
+
+	public void setSiteId(String siteId) {
+		this.siteId = siteId;
 	}
 }
 
