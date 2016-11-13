@@ -18,6 +18,15 @@ public interface ITableindexService extends IBaseSpringrainService {
 	
 	String	updateNewId(Class clazz,String prefix) throws Exception;
 	
+	/**
+	 * 根据siteId  保存店铺需要生成的索引关系
+	 * @param siteId
+	 * @return
+	 * @throws Exception
+	 */
+	String saveIndexBySiteId(String siteId) throws Exception;
+	
+	
 	
 	
 }
