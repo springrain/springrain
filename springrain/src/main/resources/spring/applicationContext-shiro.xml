@@ -109,7 +109,9 @@
 				 <!-- 后台用户过滤器 -->
 				<entry key="systemuser" value-ref="systemuser"></entry>
 			    <!-- 踢出上个账户的过滤器 -->
-			    <entry key="keepone" value-ref="keepone"/>  
+			    <entry key="keepone" value-ref="keepone"/>
+			     <!-- 静态化 过滤器 -->
+			    <entry key="statichtml" value-ref="statichtml"/>
 			    
 			</map>
 		</property>

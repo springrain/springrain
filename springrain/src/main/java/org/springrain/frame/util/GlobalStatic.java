@@ -20,6 +20,7 @@ public class GlobalStatic {
 	public static final String staticHtmlCacheKey="statichtmlcache";
 	
 	
+	public static final String defaultCharset="UTF-8";
 	
 	public static final String tableExt="_history_";
 	public static final String frameTableAlias="frameTableAlias";
