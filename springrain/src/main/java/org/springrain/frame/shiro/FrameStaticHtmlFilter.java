@@ -34,6 +34,7 @@ public class FrameStaticHtmlFilter extends OncePerRequestFilter {
 	private CacheManager cacheManager;
 	
 	private Cache cache =null;
+	
 
 	protected void doFilterInternal(ServletRequest request,
 			ServletResponse response, FilterChain chain)
@@ -49,6 +50,10 @@ public class FrameStaticHtmlFilter extends OncePerRequestFilter {
 		
 		//cache key,可以根据URI从数据库进行查询资源Id
 		String htmlCacheKey=uri;
+		
+		if(cache==null){
+			cache=cacheManager.getCache(GlobalStatic.staticHtmlCacheKey);
+		}
 		
 		String htmlPath=cache.get(htmlCacheKey, String.class);
 		
@@ -69,12 +74,5 @@ public class FrameStaticHtmlFilter extends OncePerRequestFilter {
 		
 	}
 
-
-
-	public void setCacheManager(CacheManager cacheManager) {
-		this.cacheManager = cacheManager;
-		cacheManager.getCache(GlobalStatic.staticHtmlCacheKey);
-	}
-	
 	
 }
