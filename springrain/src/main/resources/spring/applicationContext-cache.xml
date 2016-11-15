@@ -41,6 +41,7 @@
 					class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
 					<property name="name" value="statichtmlcache" />
 				</bean>
+				
 			</set>
 		</property>
 	</bean>
