@@ -17,6 +17,10 @@ public class GlobalStatic {
 	public static final String dataDelete="删除";
 	public static final String cacheKey="springraincache";
 	public static final String qxCacheKey="springrainqxcache";
+	public static final String staticHtmlCacheKey="statichtmlcache";
+	
+	
+	
 	public static final String tableExt="_history_";
 	public static final String frameTableAlias="frameTableAlias";
 	public static final String pageurlName="pageurlName";

@@ -37,6 +37,10 @@
 					class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
 					<property name="name" value="springrainqxcache" />
 				</bean>
+				<bean
+					class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
+					<property name="name" value="statichtmlcache" />
+				</bean>
 			</set>
 		</property>
 	</bean>
