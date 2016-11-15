@@ -5,11 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.annotation.Resource;
-
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springrain.frame.util.Finder;
@@ -33,8 +30,8 @@ import org.springrain.system.service.IUserRoleMenuService;
 @Service("userRoleMenuService")
 public class UserRoleMenuServiceImpl extends BaseSpringrainServiceImpl implements
 		IUserRoleMenuService {
-	@Resource
-	private CacheManager shiroCacheManager;
+	//@Resource
+	//private CacheManager shiroCacheManager;
 
 	@Override
 	@Cacheable(value = GlobalStatic.qxCacheKey, key = "'findRoleByUserId_'+#userId")
