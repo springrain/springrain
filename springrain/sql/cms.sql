@@ -155,7 +155,7 @@ CREATE TABLE `cms_friend_site` (
 DROP TABLE IF EXISTS `cms_link`;
 CREATE TABLE `cms_link` (
   `id` varchar(50) NOT NULL,
-  `name` varchar(1000) NOT NULL,
+  `name` varchar(1000),
   `defaultLink` varchar(1000) NOT NULL COMMENT '默认URL地址',
   `link` varchar(1000) NOT NULL COMMENT '使用的URL',
   `siteId` varchar(50) NOT NULL COMMENT '网站ID',
