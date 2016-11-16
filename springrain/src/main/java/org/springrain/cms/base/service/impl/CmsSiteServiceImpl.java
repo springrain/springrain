@@ -90,7 +90,7 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 		 String str_cssdir=GlobalStatic.rootdir+"/u/"+id+"/css/";
 		 String str_imgdir=GlobalStatic.rootdir+"/u/"+id+"/img/";
 		 
-		 String str_upload=GlobalStatic.rootdir+"/upload/"+id+"/";
+		 String str_upload=GlobalStatic.rootdir+"/upload/u/"+id+"/";
 		 
 		 File jsdir=new File(str_jsdir);
 		 if(!jsdir.exists()){
