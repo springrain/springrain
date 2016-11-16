@@ -10,7 +10,6 @@ import org.springrain.cms.base.entity.CmsLink;
 import org.springrain.cms.base.entity.CmsSite;
 import org.springrain.cms.base.service.ICmsLinkService;
 import org.springrain.cms.base.service.ICmsSiteService;
-import org.springrain.frame.entity.IBaseEntity;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.system.service.BaseSpringrainServiceImpl;
 import org.springrain.system.service.ITableindexService;
@@ -36,11 +35,10 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 	
 	
     @Override
-	public String  saveCmsSite(CmsSite entity ) throws Exception{
-    	if(entity==null){
+	public String  saveCmsSite(CmsSite cmsSite ) throws Exception{
+    	if(cmsSite==null){
     		return null;
     	}
-	    CmsSite cmsSite=(CmsSite) entity;
 	    
 	    String id= tableindexService.updateNewId(CmsSite.class,cmsSite.getId());
 	    if(StringUtils.isEmpty(id)){
@@ -120,7 +118,7 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 
 	@Override
 	public String updateCmsSite(CmsSite cmsSite) throws Exception {
-		
+		super.update(cmsSite);
 		return null;
 	}
 	
