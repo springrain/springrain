@@ -87,6 +87,8 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 		 String str_cssdir=GlobalStatic.rootdir+"/u/"+id+"/css/";
 		 String str_imgdir=GlobalStatic.rootdir+"/u/"+id+"/img/";
 		 
+		 String str_upload=GlobalStatic.rootdir+"/upload/"+id+"/";
+		 
 		 File jsdir=new File(str_jsdir);
 		 if(!jsdir.exists()){
 			 jsdir.mkdirs();
@@ -99,18 +101,16 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 		 if(!imgdir.exists()){
 			 imgdir.mkdirs();
 		 }
+		 
+		 File uploaddir=new File(str_upload);
+		 if(!uploaddir.exists()){
+			 uploaddir.mkdirs();
+		 }
 		      
 		 return id;
 	 
 	}
-
-  
 	
-	@Override
-    public Integer update(IBaseEntity entity ) throws Exception{
-	 CmsSite cmsSite=(CmsSite) entity;
-	return super.update(cmsSite);
-    }
     @Override
 	public CmsSite findCmsSiteById(String id) throws Exception{
 	 return super.findById(id,CmsSite.class);
@@ -120,7 +120,7 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 
 	@Override
 	public String updateCmsSite(CmsSite cmsSite) throws Exception {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 	
