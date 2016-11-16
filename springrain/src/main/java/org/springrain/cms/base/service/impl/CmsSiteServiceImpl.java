@@ -1,6 +1,8 @@
 package org.springrain.cms.base.service.impl;
 
 import java.io.File;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.annotation.Resource;
 
@@ -62,6 +64,7 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 	    cmsLink.setLookcount(1);
 	    cmsLink.setStatichtml(0);//默认不静态化
 	    cmsLink.setState(0);//默认可以使用
+	    cmsLink.setSortno(1);
 	    //首页默认
 	    String _index="/f/"+cmsSite.getSiteType()+"/index";
 	    cmsLink.setDefaultLink(_index);
@@ -69,6 +72,8 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 	    //设置模板路径
 	    cmsLink.setFtlfile("/u/"+id+"/index.html");
 	    cmsLink.setNodeftlfile("/u/"+id+"/channel.html");
+	    
+	    
 	    cmsLinkService.save(cmsLink);
 	    
 	    
