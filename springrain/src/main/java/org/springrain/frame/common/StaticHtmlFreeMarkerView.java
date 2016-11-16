@@ -64,12 +64,14 @@ public class StaticHtmlFreeMarkerView extends FreeMarkerView {
 		
 		
 		//cache key,可以根据URI从数据库进行查询资源Id
-		String htmlCacheKey=uri;
+		String htmlCacheKey="findHtmlPathByURI_"+uri;
 				
 		String htmlPath=cache.get(htmlCacheKey, String.class);
-				
+		
+		
+		Template template=getTemplate(locale);
 		if(StringUtils.isBlank(htmlPath)||htmlPath.equals("error")){//缓存中不存在
-			processTemplate(getTemplate(locale), fmModel, response);
+			processTemplate(template, fmModel, response);
 			return;
 		}
 		
@@ -79,14 +81,9 @@ public class StaticHtmlFreeMarkerView extends FreeMarkerView {
 			response.setCharacterEncoding(GlobalStatic.defaultCharset);
 		    response.getWriter().write(IOUtils.toString(htmlFile.toURI(), GlobalStatic.defaultCharset));
 		}else{
-			createHtml(htmlFile, htmlCacheKey, fmModel, model, getTemplate(locale), response);
+			createHtml(htmlFile, htmlCacheKey, fmModel, model, template, response);
 		}
 		
-		
-		
-	     
-		
-		//processTemplate(getTemplate(locale), fmModel, response);
 		
 	}
 	/**
