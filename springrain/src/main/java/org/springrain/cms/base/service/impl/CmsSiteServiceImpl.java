@@ -66,7 +66,7 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 	    cmsLink.setState(0);//默认可以使用
 	    cmsLink.setSortno(1);
 	    //首页默认
-	    String _index="/f/"+cmsSite.getSiteType()+"/index";
+	    String _index="/f/"+cmsSite.getSiteType()+"/"+id+"/index";
 	    cmsLink.setDefaultLink(_index);
 	    cmsLink.setLink(_index);
 	    //设置模板路径
