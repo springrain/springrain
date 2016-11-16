@@ -26,6 +26,9 @@
 		<slf4j-api.version>1.7.21</slf4j-api.version>
 		<jcl-over-slf4j.version>1.7.21</jcl-over-slf4j.version>
 		<logback.version>1.1.7</logback.version>
+		
+		<javax.validation.version>1.1.0.Final</javax.validation.version>
+		<hibernate.validator.version>5.3.2.Final</hibernate.validator.version>
 
 		<commons-lang3.version>3.4</commons-lang3.version>
 		<commons-pool.version>2.4.2</commons-pool.version>
@@ -41,7 +44,7 @@
 		
 		<jackson.version>2.8.4</jackson.version>
 		
-		<druid.version>1.0.23</druid.version>
+		<druid.version>1.0.26</druid.version>
 		<httpcore.version>4.4.5</httpcore.version>
 		<httpclient.version>4.5.2</httpclient.version>
 		
@@ -220,6 +223,12 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${spring.baseline.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-oxm</artifactId>
+			<version>${spring.baseline.version}</version>
+		</dependency>
 
 		
        
@@ -229,7 +238,7 @@
 			<version>${spring.baseline.version}</version>
 			<scope>provided</scope>
 		</dependency>
-
+		
 		
 
 		<dependency>
@@ -239,6 +248,23 @@
 		</dependency>
 
         <!-- =========================== -->
+        
+        
+        <!-- jsr303 validation dependencies-->
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>${javax.validation.version}</version>
+        </dependency>
+        
+       
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate.validator.version}</version>
+        </dependency>
+         
+        
 	
 		<dependency>
 			<groupId>org.freemarker</groupId>
