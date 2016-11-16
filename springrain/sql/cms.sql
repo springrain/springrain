@@ -162,7 +162,7 @@ CREATE TABLE `cms_link` (
   `businessId` varchar(50) NOT NULL COMMENT '业务Id',
   `lookcount` int(11) DEFAULT NULL COMMENT '打开次数',
   `modelType` int(11) NOT NULL DEFAULT 0 COMMENT '0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)',
-  `ftlfile` varchar(1000) DEFAULT NULL COMMENT '当前渲染使用的模板路径',
+  `ftlfile` varchar(1000)  NOT NULL COMMENT '当前渲染使用的模板路径',
   `nodeftlfile` varchar(1000) DEFAULT NULL COMMENT '子内容使用的ftl模板文件',
   `statichtml` int(11) NOT NULL  DEFAULT 0  COMMENT '是否静态化 0否,1是',
   `sortno` int(11) NOT NULL  DEFAULT 0  COMMENT '排序',

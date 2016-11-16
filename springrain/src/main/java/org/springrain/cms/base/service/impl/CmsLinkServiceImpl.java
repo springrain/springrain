@@ -24,20 +24,13 @@ public class CmsLinkServiceImpl extends BaseSpringrainServiceImpl implements ICm
 
    
     @Override
-	public String  save(Object entity ) throws Exception{
-	      CmsLink cmsLink=(CmsLink) entity;
+	public String  saveCmsLink(CmsLink cmsLink ) throws Exception{
 	       return super.save(cmsLink).toString();
 	}
 
-    @Override
-	public String  saveorupdate(Object entity ) throws Exception{
-	      CmsLink cmsLink=(CmsLink) entity;
-		 return super.saveorupdate(cmsLink).toString();
-	}
-	
+    
 	@Override
-    public Integer update(IBaseEntity entity ) throws Exception{
-	 CmsLink cmsLink=(CmsLink) entity;
+    public Integer updateCmsLink(CmsLink cmsLink ) throws Exception{
 	return super.update(cmsLink);
     }
     @Override

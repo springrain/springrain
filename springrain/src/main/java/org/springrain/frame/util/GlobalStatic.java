@@ -7,6 +7,8 @@ package org.springrain.frame.util;
  * @see org.springrain.frame.util.GlobalStatic
  */
 public class GlobalStatic {
+	public static  String rootdir=null;
+	public static  String webinfodir=null;
 	public static final String tempRootpath = System.getProperty("user.dir") + "/temp/";
 	public static final int excelPageSize=1000;
 	public static final  String suffix=".html";
@@ -57,6 +59,22 @@ public class GlobalStatic {
 	public static final String DEFAULT_LOGIN_NUM_KEY_ATTRIBUTE = "loginNum";
 	  //允许登录次数，当登录次数大于该数值时，会在页面中显示验证码
 	public static final Integer allowLoginNum=1;
+	
+	
+	
+	static{
+		String path= GlobalStatic.class.getClassLoader().getResource("").getPath();
+		path = path.replace("\\", "/");
+		int _info=path.indexOf("/WEB-INF/classes");
+		if(_info>0){
+			path=path.substring(0, _info);
+		}
+		webinfodir=path+"/WEB-INF";
+		rootdir=path;
+		
+	}
+	
+	
 	
 
 }

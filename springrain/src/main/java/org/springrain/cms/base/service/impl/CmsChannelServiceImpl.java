@@ -1,7 +1,6 @@
 package org.springrain.cms.base.service.impl;
 
 import javax.annotation.Resource;
-import javax.persistence.Transient;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;

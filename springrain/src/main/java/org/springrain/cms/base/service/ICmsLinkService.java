@@ -20,5 +20,11 @@ public interface ICmsLinkService extends IBaseSpringrainService {
 	CmsLink findCmsLinkById(String id) throws Exception;
 	
 	
+	String  saveCmsLink(CmsLink cmsLink ) throws Exception;
+
+	    
+
+    Integer updateCmsLink(CmsLink cmsLink ) throws Exception;
+	
 	
 }

@@ -3,7 +3,10 @@ package org.springrain.cms.base;
 /**
  * CMS常量
  */
-public class Constants {
+public class CMSConstants {
+	
+	public static final String stiteURLPrefix = "/f/0";
+	
 	/**
 	 * 首页模板
 	 */

@@ -18,7 +18,21 @@ public interface ICmsSiteService extends IBaseSpringrainService {
 	 * @throws Exception
 	 */
 	CmsSite findCmsSiteById(String id) throws Exception;
-	
+	/**
+	 * 保存站点
+	 * @param entity
+	 * @return
+	 * @throws Exception
+	 */
+   String  saveCmsSite(CmsSite cmsSite ) throws Exception;
+   
+   /**
+    * 更新站点
+    * @param cmsSite
+    * @return
+    * @throws Exception
+    */
+   String  updateCmsSite(CmsSite cmsSite) throws Exception;
 	
 	
 }
