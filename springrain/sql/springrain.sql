@@ -15,45 +15,8 @@ Date: 2016-10-13 12:25:27
 
 SET FOREIGN_KEY_CHECKS=0;
 
--- ----------------------------
--- Table structure for t_auditlog_history_2014
--- ----------------------------
-DROP TABLE IF EXISTS `t_auditlog_history_2014`;
-CREATE TABLE `t_auditlog_history_2014` (
-  `id` varchar(50)  NOT NULL COMMENT 'ID',
-  `operationType` varchar(50) DEFAULT NULL COMMENT '操作类型',
-  `operatorName` varchar(50) DEFAULT NULL COMMENT '操作人姓名',
-  `preValue` text COMMENT '旧值',
-  `curValue` text COMMENT '新值',
-  `operationTime` datetime DEFAULT NULL COMMENT '操作时间',
-  `operationClass` varchar(500) DEFAULT NULL COMMENT '操作类',
-  `operationClassID` varchar(50) DEFAULT NULL COMMENT '记录ID',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='操作记录';
 
--- ----------------------------
--- Records of t_auditlog_history_2014
--- ----------------------------
 
--- ----------------------------
--- Table structure for t_auditlog_history_2015
--- ----------------------------
-DROP TABLE IF EXISTS `t_auditlog_history_2015`;
-CREATE TABLE `t_auditlog_history_2015` (
-  `id` varchar(50)  NOT NULL COMMENT 'ID',
-  `operationType` varchar(50) DEFAULT NULL COMMENT '操作类型',
-  `operatorName` varchar(50) DEFAULT NULL COMMENT '操作人姓名',
-  `preValue` text COMMENT '旧值',
-  `curValue` text COMMENT '新值',
-  `operationTime` datetime DEFAULT NULL COMMENT '操作时间',
-  `operationClass` varchar(500) DEFAULT NULL COMMENT '操作类',
-  `operationClassID` varchar(50) DEFAULT NULL COMMENT '记录ID',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='操作记录';
-
--- ----------------------------
--- Records of t_auditlog_history_2015
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for t_auditlog_history_2016
@@ -73,6 +36,27 @@ CREATE TABLE `t_auditlog_history_2016` (
 
 -- ----------------------------
 -- Records of t_auditlog_history_2016
+-- ----------------------------
+
+
+-- ----------------------------
+-- Table structure for t_auditlog_history_2017
+-- ----------------------------
+DROP TABLE IF EXISTS `t_auditlog_history_2017`;
+CREATE TABLE `t_auditlog_history_2017` (
+  `id` varchar(50)  NOT NULL COMMENT 'ID',
+  `operationType` varchar(50) DEFAULT NULL COMMENT '操作类型',
+  `operatorName` varchar(50) DEFAULT NULL COMMENT '操作人姓名',
+  `preValue` text COMMENT '旧值',
+  `curValue` text COMMENT '新值',
+  `operationTime` datetime DEFAULT NULL COMMENT '操作时间',
+  `operationClass` varchar(500) DEFAULT NULL COMMENT '操作类',
+  `operationClassID` varchar(50) DEFAULT NULL COMMENT '记录ID',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='操作记录';
+
+-- ----------------------------
+-- Records of t_auditlog_history_2017
 -- ----------------------------
 
 -- ----------------------------
@@ -102,51 +86,8 @@ INSERT INTO `t_dic_data` VALUES ('936db407-ae3-45a7-a657-b60580e2a77a', '一级'
 INSERT INTO `t_dic_data` VALUES ('936db407-ae4-45a7-a657-b60580e2a77a', '二级', '', null, null, '', '是', 'grade');
 INSERT INTO `t_dic_data` VALUES ('d7d1744b-e69f-48d0-9760-b2eae6af039b', '本科', '', null, null, '', '是', 'xueli');
 
--- ----------------------------
--- Table structure for t_fwlog_history_2014
--- ----------------------------
-DROP TABLE IF EXISTS `t_fwlog_history_2014`;
-CREATE TABLE `t_fwlog_history_2014` (
-  `id` varchar(100) NOT NULL COMMENT 'ID',
-  `startDate` datetime DEFAULT NULL COMMENT '访问时间',
-  `strDate` varchar(100) DEFAULT NULL COMMENT '访问时间(毫秒)',
-  `tomcat` varchar(50) DEFAULT NULL COMMENT 'Tomcat',
-  `userCode` varchar(300) DEFAULT NULL COMMENT '登陆账号',
-  `userName` varchar(200) DEFAULT NULL COMMENT '姓名',
-  `sessionId` varchar(300) DEFAULT NULL COMMENT 'sessionId',
-  `ip` varchar(200) DEFAULT NULL COMMENT 'IP',
-  `fwUrl` varchar(3000) DEFAULT NULL COMMENT '访问菜单',
-  `menuName` varchar(100) DEFAULT NULL COMMENT '菜单名称',
-  `isqx` varchar(2) DEFAULT NULL COMMENT '是否有权限访问',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='访问日志';
 
--- ----------------------------
--- Records of t_fwlog_history_2014
--- ----------------------------
 
--- ----------------------------
--- Table structure for t_fwlog_history_2015
--- ----------------------------
-DROP TABLE IF EXISTS `t_fwlog_history_2015`;
-CREATE TABLE `t_fwlog_history_2015` (
-  `id` varchar(100) NOT NULL COMMENT 'ID',
-  `startDate` datetime DEFAULT NULL COMMENT '访问时间',
-  `strDate` varchar(100) DEFAULT NULL COMMENT '访问时间(毫秒)',
-  `tomcat` varchar(50) DEFAULT NULL COMMENT 'Tomcat',
-  `userCode` varchar(300) DEFAULT NULL COMMENT '登陆账号',
-  `userName` varchar(200) DEFAULT NULL COMMENT '姓名',
-  `sessionId` varchar(300) DEFAULT NULL COMMENT 'sessionId',
-  `ip` varchar(200) DEFAULT NULL COMMENT 'IP',
-  `fwUrl` varchar(3000) DEFAULT NULL COMMENT '访问菜单',
-  `menuName` varchar(100) DEFAULT NULL COMMENT '菜单名称',
-  `isqx` varchar(2) DEFAULT NULL COMMENT '是否有权限访问',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='访问日志';
-
--- ----------------------------
--- Records of t_fwlog_history_2015
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for t_fwlog_history_2016
@@ -169,6 +110,29 @@ CREATE TABLE `t_fwlog_history_2016` (
 
 -- ----------------------------
 -- Records of t_fwlog_history_2016
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for t_fwlog_history_2017
+-- ----------------------------
+DROP TABLE IF EXISTS `t_fwlog_history_2017`;
+CREATE TABLE `t_fwlog_history_2017` (
+  `id` varchar(100) NOT NULL COMMENT 'ID',
+  `startDate` datetime DEFAULT NULL COMMENT '访问时间',
+  `strDate` varchar(100) DEFAULT NULL COMMENT '访问时间(毫秒)',
+  `tomcat` varchar(50) DEFAULT NULL COMMENT 'Tomcat',
+  `userCode` varchar(300) DEFAULT NULL COMMENT '登陆账号',
+  `userName` varchar(200) DEFAULT NULL COMMENT '姓名',
+  `sessionId` varchar(300) DEFAULT NULL COMMENT 'sessionId',
+  `ip` varchar(200) DEFAULT NULL COMMENT 'IP',
+  `fwUrl` varchar(3000) DEFAULT NULL COMMENT '访问菜单',
+  `menuName` varchar(100) DEFAULT NULL COMMENT '菜单名称',
+  `isqx` varchar(2) DEFAULT NULL COMMENT '是否有权限访问',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='访问日志';
+
+-- ----------------------------
+-- Records of t_fwlog_history_2017
 -- ----------------------------
 
 -- ----------------------------
