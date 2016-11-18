@@ -26,7 +26,7 @@ public class TableindexServiceImpl extends BaseSpringrainServiceImpl implements 
 	
 
 	@Override
-	public synchronized String updateNewId(Class clazz,String prefix) throws Exception {
+	public synchronized String updateNewId(Class clazz) throws Exception {
 		if(clazz==null){
 			return null;
 		}
@@ -34,10 +34,6 @@ public class TableindexServiceImpl extends BaseSpringrainServiceImpl implements 
 		String indexId=Finder.getTableName(clazz);
 		if(StringUtils.isEmpty(indexId)){
 			return null;
-		}
-		
-		if(StringUtils.isNotBlank(prefix)){
-			indexId=prefix+"_"+indexId;
 		}
 		
 		
@@ -61,26 +57,6 @@ public class TableindexServiceImpl extends BaseSpringrainServiceImpl implements 
 		return newId;
 	}
 
-	@Override
-	public String saveIndexBySiteId(String siteId) throws Exception {
-		
-		//站点栏目的编号
-		Tableindex channelIndex=new Tableindex();
-		channelIndex.setId(siteId+"_"+Finder.getTableName(CmsChannel.class));
-		channelIndex.setMaxIndex(startIndex);
-		channelIndex.setPrefix(siteId+"_c_");
-		super.save(channelIndex);
-		
-		//站点内容的编号
-		Tableindex contentIndex=new Tableindex();
-		contentIndex.setId(siteId+"_"+Finder.getTableName(CmsContent.class));
-		contentIndex.setMaxIndex(startIndex);
-		contentIndex.setPrefix(siteId+"_n_");
-		super.save(contentIndex);
-		
-		
-		return null;
-	}
 	
 	
 }

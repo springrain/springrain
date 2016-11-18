@@ -252,7 +252,7 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
         Finder finder=Finder.getSelectFinder(Org.class).append(" WHERE state=:state ").setParam("state", "是");
         
         if(StringUtils.isNotBlank(pid)){
-        	finder.append(" and pid=:pid ").setParam("pid", pid);
+        	finder.append(" and comcode like :comcode and id<>:pid ").setParam("comcode", "%,"+pid+",%").setParam("pid", pid);
         }
         finder.append(" order by sortno asc ");
         
