@@ -91,6 +91,13 @@ public class CmsContent  extends BaseEntity {
 	 * 来源地址
 	 */
 	private java.lang.String sourceurl;
+
+	//columns END 数据库字段结束
+	
+	//站点ID
+	private String siteId;
+	//栏目Id
+	private java.lang.String channelId;
 	/**
 	 * 排序
 	 */
@@ -99,10 +106,7 @@ public class CmsContent  extends BaseEntity {
 	 * 状态 0不可用,1可用
 	 */
 	private java.lang.Integer state;
-	//columns END 数据库字段结束
-	
-	//站点ID
-	private String siteId;
+
 	
 	//concstructor
 
@@ -251,23 +255,6 @@ public class CmsContent  extends BaseEntity {
 	public java.lang.String getSourceurl() {
 		return this.sourceurl;
 	}
-	public void setSortno(java.lang.Integer value) {
-		this.sortno = value;
-	}
-	
-     @WhereSQL(sql="sortno=:CmsContent_sortno")
-	public java.lang.Integer getSortno() {
-		return this.sortno;
-	}
-	public void setState(java.lang.Integer value) {
-		this.state = value;
-	}
-	
-
-	@WhereSQL(sql="state=:CmsContent_state")
-	public java.lang.Integer getState() {
-		return this.state;
-	}
 	
 	public String toString() {
 		return new StringBuffer()
@@ -283,8 +270,6 @@ public class CmsContent  extends BaseEntity {
 			.append("内容[").append(getContent()).append("],")
 			.append("来源[").append(getSource()).append("],")
 			.append("来源地址[").append(getSourceurl()).append("],")
-			.append("排序[").append(getSortno()).append("],")
-			.append("状态 0不可用,1可用[").append(getState()).append("],")
 			.toString();
 	}
 	
@@ -311,6 +296,30 @@ public class CmsContent  extends BaseEntity {
 	public void setSiteId(String siteId) {
 		this.siteId = siteId;
 	}
+	@Transient
+	public java.lang.String getChannelId() {
+		return channelId;
+	}
+
+	public void setChannelId(java.lang.String channelId) {
+		this.channelId = channelId;
+	}
+	public void setSortno(java.lang.Integer value) {
+		this.sortno = value;
+	}
+	@Transient
+	public java.lang.Integer getSortno() {
+		return this.sortno;
+	}
+	public void setState(java.lang.Integer value) {
+		this.state = value;
+	}
+	
+
+	public java.lang.Integer getState() {
+		return this.state;
+	}
+	
 }
 
 	

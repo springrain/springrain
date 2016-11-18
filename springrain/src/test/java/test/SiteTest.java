@@ -1,5 +1,7 @@
 package test;
 
+import java.util.Date;
+
 import javax.annotation.Resource;
 
 import org.junit.Test;
@@ -7,8 +9,10 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springrain.cms.base.entity.CmsChannel;
+import org.springrain.cms.base.entity.CmsContent;
 import org.springrain.cms.base.entity.CmsSite;
 import org.springrain.cms.base.service.ICmsChannelService;
+import org.springrain.cms.base.service.ICmsContentService;
 import org.springrain.cms.base.service.ICmsSiteService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -18,6 +22,10 @@ public class SiteTest {
 	private ICmsSiteService cmsSiteService;
 	@Resource
 	private ICmsChannelService cmsChannelService;
+	
+	
+	@Resource
+	private ICmsContentService cmsContentService;
 	
 	//@Test
 	public void addSite() throws Exception{
@@ -47,7 +55,7 @@ public class SiteTest {
 	 * @throws Exception
 	 */
 	
-	@Test
+	//@Test
 	public void addChannel() throws Exception{
 		
 		String siteId="s_11";
@@ -68,7 +76,34 @@ public class SiteTest {
 		
 	}
 	
+	/**
+	 * 添加内容
+	 * @throws Exception
+	 */
 	
+	@Test
+	public void addContent() throws Exception{
+		
+		String siteId="s_11";
+		String channelId="h_101";
+		
+		CmsContent cmsContent=new CmsContent();
+		cmsContent.setSiteId(siteId);
+		cmsContent.setChannelId(channelId);
+		cmsContent.setName("测试内容");
+		cmsContent.setContent("测试内容的内容Content");
+		cmsContent.setKeywords("keywords");
+		//cmsChannel.setComcode(value);
+		cmsContent.setLookcount(0);
+		cmsContent.setSortno(1);
+		cmsContent.setState(1);
+		cmsContent.setTitle("title");
+		cmsContent.setCreateDate(new Date());
+		cmsContent.setCreatePerson("admin");
+		
+		cmsContentService.saveContent(cmsContent);
+		
+	}
 	
 	
 	
