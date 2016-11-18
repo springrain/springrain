@@ -6,7 +6,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springrain.cms.base.entity.CmsChannel;
 import org.springrain.cms.base.entity.CmsSite;
+import org.springrain.cms.base.service.ICmsChannelService;
 import org.springrain.cms.base.service.ICmsSiteService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -14,8 +16,10 @@ import org.springrain.cms.base.service.ICmsSiteService;
 public class SiteTest {
 	@Resource
 	private ICmsSiteService cmsSiteService;
+	@Resource
+	private ICmsChannelService cmsChannelService;
 	
-	@Test
+	//@Test
 	public void addSite() throws Exception{
 		CmsSite cmsSite=new CmsSite();
 		cmsSite.setName("测试网站");
@@ -32,7 +36,40 @@ public class SiteTest {
 		cmsSite.setDomainurl("http://www.baidu.com");
 		cmsSite.setTitle("title");
 		cmsSiteService.saveCmsSite(cmsSite);
+		
+		
+		
 	}
+
+	/**
+	 * 添加栏目
+	 * @param siteId
+	 * @throws Exception
+	 */
+	
+	@Test
+	public void addChannel() throws Exception{
+		
+		String siteId="s_11";
+		
+		CmsChannel cmsChannel=new CmsChannel();
+		cmsChannel.setSiteId(siteId);
+		cmsChannel.setName("测试栏目");
+		cmsChannel.setKeywords("keywords");
+		//cmsChannel.setComcode(value);
+		cmsChannel.setPid(null);
+		cmsChannel.setLookcount(0);
+		cmsChannel.setPositionLevel(0);
+		cmsChannel.setSortno(1);
+		cmsChannel.setState(1);
+		cmsChannel.setTitle("title");
+		
+		cmsChannelService.saveChannel(cmsChannel);
+		
+	}
+	
+	
+	
 	
 	
 	

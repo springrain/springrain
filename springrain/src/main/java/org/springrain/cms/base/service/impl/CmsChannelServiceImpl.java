@@ -151,7 +151,7 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 		}
 		
 		String comcode=null;
-		Finder f_p_c=Finder.getSelectFinder(CmsChannel.class, "comcode").append(" WHERE id=:channelId and siteId=:siteId ").setParam("siteId", siteId).setParam("id", pid);
+		Finder f_p_c=Finder.getSelectFinder(CmsChannel.class, "comcode").append(" WHERE id=:id and siteId=:siteId ").setParam("siteId", siteId).setParam("id", pid);
 		String p_c=super.queryForObject(f_p_c, String.class);
 		//如果没有上级部门
 		if(StringUtils.isEmpty(p_c)){
