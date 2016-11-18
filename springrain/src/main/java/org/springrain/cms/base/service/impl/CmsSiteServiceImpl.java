@@ -7,11 +7,13 @@ import java.util.Date;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springrain.cms.base.entity.CmsLink;
 import org.springrain.cms.base.entity.CmsSite;
 import org.springrain.cms.base.service.ICmsLinkService;
 import org.springrain.cms.base.service.ICmsSiteService;
+import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.system.service.BaseSpringrainServiceImpl;
 import org.springrain.system.service.ITableindexService;
@@ -42,7 +44,7 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
     		return null;
     	}
 	    
-	    String id= tableindexService.updateNewId(CmsSite.class,cmsSite.getId());
+	    String id= tableindexService.updateNewId(CmsSite.class);
 	    if(StringUtils.isEmpty(id)){
 	    	return null;
 	    }
@@ -50,8 +52,7 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 	    
 	    super.save(cmsSite);
 	    
-	    //产生店铺的栏目和内容编号索引
-	    tableindexService.saveIndexBySiteId(id);
+
 	    
 	    //保存 相应的 link 链接
 	    
@@ -123,8 +124,28 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 
 	@Override
 	public String updateCmsSite(CmsSite cmsSite) throws Exception {
-		super.update(cmsSite);
+		super.update(cmsSite,true);
+		
+		
+		
+		
+		
+		
+		
 		return null;
+	}
+
+	@Override
+	@Cacheable(value = GlobalStatic.cacheKey, key = "'findSiteTypeById_'+#siteId")
+	public Integer findSiteTypeById(String siteId) throws Exception {
+		if(StringUtils.isBlank(siteId)){
+			return null;
+		}
+		
+		Finder finder=Finder.getSelectFinder(CmsSite.class, "siteType").append(" WHERE id=:siteId ");
+		finder.setParam("siteId", siteId);
+		
+		return super.queryForObject(finder, Integer.class);
 	}
 	
 

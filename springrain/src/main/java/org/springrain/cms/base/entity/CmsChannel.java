@@ -1,5 +1,7 @@
 package org.springrain.cms.base.entity;
 
+import java.util.List;
+
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -13,7 +15,7 @@ import org.springrain.frame.entity.BaseEntity;
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author springrain<Auto generate>
- * @version  2016-11-12 10:44:55
+ * @version  2016-11-18 11:53:33
  * @see org.springrain.demo.entity.CmsChannel
  */
 @Table(name="cms_channel")
@@ -25,12 +27,17 @@ public class CmsChannel  extends BaseEntity {
 	/*
 	public static final String TABLE_ALIAS = "栏目表";
 	public static final String ALIAS_ID = "id";
-	public static final String ALIAS_PID = "上级Id";
 	public static final String ALIAS_NAME = "名称";
+	public static final String ALIAS_PID = "pid";
+	public static final String ALIAS_COMCODE = "comcode";
+	public static final String ALIAS_SITEID = "网站ID";
+	public static final String ALIAS_POSITIONLEVEL = "0导航,1-10个级别";
 	public static final String ALIAS_TITLE = "标题";
 	public static final String ALIAS_KEYWORDS = "关键字";
 	public static final String ALIAS_DESCRIPTION = "描述";
 	public static final String ALIAS_LOOKCOUNT = "打开次数";
+	public static final String ALIAS_SORTNO = "排序";
+	public static final String ALIAS_STATE = "状态 0不可用,1可用";
     */
 	//date formats
 	
@@ -40,13 +47,25 @@ public class CmsChannel  extends BaseEntity {
 	 */
 	private java.lang.String id;
 	/**
-	 * 上级Id
-	 */
-	private java.lang.String pid;
-	/**
 	 * 名称
 	 */
 	private java.lang.String name;
+	/**
+	 * pid
+	 */
+	private java.lang.String pid;
+	/**
+	 * comcode
+	 */
+	private java.lang.String comcode;
+	/**
+	 * 网站ID
+	 */
+	private java.lang.String siteId;
+	/**
+	 * 0导航,1-10个级别
+	 */
+	private java.lang.Integer positionLevel;
 	/**
 	 * 标题
 	 */
@@ -63,10 +82,17 @@ public class CmsChannel  extends BaseEntity {
 	 * 打开次数
 	 */
 	private java.lang.Integer lookcount;
+	/**
+	 * 排序
+	 */
+	private java.lang.Integer sortno;
+	/**
+	 * 状态 0不可用,1可用
+	 */
+	private java.lang.Integer state;
 	//columns END 数据库字段结束
 	
-	//站点ID
-	private String siteId;
+	private List<CmsChannel> leaf;
 	
 	//concstructor
 
@@ -92,6 +118,17 @@ public class CmsChannel  extends BaseEntity {
 	public java.lang.String getId() {
 		return this.id;
 	}
+	public void setName(java.lang.String value) {
+		    if(StringUtils.isNotBlank(value)){
+			 value=value.trim();
+			}
+		this.name = value;
+	}
+	
+     @WhereSQL(sql="name=:CmsChannel_name")
+	public java.lang.String getName() {
+		return this.name;
+	}
 	public void setPid(java.lang.String value) {
 		    if(StringUtils.isNotBlank(value)){
 			 value=value.trim();
@@ -103,16 +140,35 @@ public class CmsChannel  extends BaseEntity {
 	public java.lang.String getPid() {
 		return this.pid;
 	}
-	public void setName(java.lang.String value) {
+	public void setComcode(java.lang.String value) {
 		    if(StringUtils.isNotBlank(value)){
 			 value=value.trim();
 			}
-		this.name = value;
+		this.comcode = value;
 	}
 	
-     @WhereSQL(sql="name=:CmsChannel_name")
-	public java.lang.String getName() {
-		return this.name;
+     @WhereSQL(sql="comcode=:CmsChannel_comcode")
+	public java.lang.String getComcode() {
+		return this.comcode;
+	}
+	public void setSiteId(java.lang.String value) {
+		    if(StringUtils.isNotBlank(value)){
+			 value=value.trim();
+			}
+		this.siteId = value;
+	}
+	
+     @WhereSQL(sql="siteId=:CmsChannel_siteId")
+	public java.lang.String getSiteId() {
+		return this.siteId;
+	}
+	public void setPositionLevel(java.lang.Integer value) {
+		this.positionLevel = value;
+	}
+	
+     @WhereSQL(sql="positionLevel=:CmsChannel_positionLevel")
+	public java.lang.Integer getPositionLevel() {
+		return this.positionLevel;
 	}
 	public void setTitle(java.lang.String value) {
 		    if(StringUtils.isNotBlank(value)){
@@ -155,16 +211,37 @@ public class CmsChannel  extends BaseEntity {
 	public java.lang.Integer getLookcount() {
 		return this.lookcount;
 	}
+	public void setSortno(java.lang.Integer value) {
+		this.sortno = value;
+	}
+	
+     @WhereSQL(sql="sortno=:CmsChannel_sortno")
+	public java.lang.Integer getSortno() {
+		return this.sortno;
+	}
+	public void setState(java.lang.Integer value) {
+		this.state = value;
+	}
+	
+     @WhereSQL(sql="state=:CmsChannel_state")
+	public java.lang.Integer getState() {
+		return this.state;
+	}
 	
 	public String toString() {
 		return new StringBuffer()
 			.append("id[").append(getId()).append("],")
-			.append("上级Id[").append(getPid()).append("],")
 			.append("名称[").append(getName()).append("],")
+			.append("pid[").append(getPid()).append("],")
+			.append("comcode[").append(getComcode()).append("],")
+			.append("网站ID[").append(getSiteId()).append("],")
+			.append("0导航,1-10个级别[").append(getPositionLevel()).append("],")
 			.append("标题[").append(getTitle()).append("],")
 			.append("关键字[").append(getKeywords()).append("],")
 			.append("描述[").append(getDescription()).append("],")
 			.append("打开次数[").append(getLookcount()).append("],")
+			.append("排序[").append(getSortno()).append("],")
+			.append("状态 0不可用,1可用[").append(getState()).append("],")
 			.toString();
 	}
 	
@@ -183,15 +260,15 @@ public class CmsChannel  extends BaseEntity {
 			.isEquals();
 	}
 	
-	 @Transient
-	 public String getSiteId() {
-		return siteId;
+	
+	@Transient
+	public List<CmsChannel> getLeaf() {
+		return leaf;
 	}
 
-	public void setSiteId(String siteId) {
-		this.siteId = siteId;
+	public void setLeaf(List<CmsChannel> leaf) {
+		this.leaf = leaf;
 	}
-
 }
 
 	

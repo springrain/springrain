@@ -33,6 +33,14 @@ public interface ICmsSiteService extends IBaseSpringrainService {
     * @throws Exception
     */
    String  updateCmsSite(CmsSite cmsSite) throws Exception;
+   
+   /**
+    * 根据 站点ID 查找 站点的类型
+    * @param siteId
+    * @return
+    * @throws Exception
+    */
+   Integer findSiteTypeById(String siteId)throws Exception;
 	
 	
 }

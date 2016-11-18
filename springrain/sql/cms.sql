@@ -48,12 +48,17 @@ CREATE TABLE `cms_attachment` (
 DROP TABLE IF EXISTS `cms_channel`;
 CREATE TABLE `cms_channel` (
   `id` varchar(50) NOT NULL,
-  `pid` varchar(50) DEFAULT NULL COMMENT '上级Id',
   `name` varchar(500) DEFAULT NULL COMMENT '名称',
+  `pid` varchar(50) NOT NULL,
+  `comcode` varchar(1000) NOT NULL,
+  `siteId` varchar(50) NOT NULL COMMENT '网站ID',
+  `positionLevel` int(11)  NOT NULL DEFAULT 0 COMMENT '0导航,1-10个级别',
   `title` varchar(500) DEFAULT NULL COMMENT '标题',
   `keywords` varchar(1000) DEFAULT NULL COMMENT '关键字',
   `description` varchar(1000) DEFAULT NULL COMMENT '描述',
   `lookcount` int(11) DEFAULT NULL COMMENT '打开次数',
+  `sortno` int(11) NOT NULL  DEFAULT 0  COMMENT '排序',
+  `state` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='栏目表';
 
@@ -272,26 +277,6 @@ CREATE TABLE `cms_site_wxconfig` (
 -- ----------------------------
 
 
-
--- ----------------------------
--- Table structure for cms_site_channel
--- ----------------------------
-DROP TABLE IF EXISTS `cms_site_channel`;
-CREATE TABLE `cms_site_channel` (
-  `id` varchar(50) NOT NULL,
-  `siteId` varchar(50) NOT NULL COMMENT '网站ID',
-  `channelId` varchar(50) NOT NULL,
-  `positionLevel` int(11)  NOT NULL DEFAULT 0 COMMENT '0导航,1-10个级别',
-  `channelType` int(11) NOT NULL COMMENT '栏目类型分为 导航菜单(0) 内容类似标签(1) ',
-  `sortno` int(11) NOT NULL  DEFAULT 0  COMMENT '排序',
-  `state` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='网站栏目中间表';
-
--- ----------------------------
--- Records of cms_site_channel
--- ----------------------------
-
 -- ----------------------------
 -- Table structure for cms_template
 -- ----------------------------
@@ -345,6 +330,8 @@ CREATE TABLE `cms_theme_template` (
 
 
 INSERT INTO `t_tableindex` (`id`, `maxIndex`, `prefix`) VALUES ('cms_site', '10', 's_');
+INSERT INTO `t_tableindex` (`id`, `maxIndex`, `prefix`) VALUES ('cms_channel', '100', 'h_');
+INSERT INTO `t_tableindex` (`id`, `maxIndex`, `prefix`) VALUES ('cms_content', '1000', 'c_');
 
 
 

@@ -109,6 +109,8 @@ public class CmsSite  extends BaseEntity {
 	private java.lang.Integer state;
 	//columns END 数据库字段结束
 	
+	
+	
 	//concstructor
 
 	public CmsSite(){
