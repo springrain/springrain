@@ -49,8 +49,8 @@ DROP TABLE IF EXISTS `cms_channel`;
 CREATE TABLE `cms_channel` (
   `id` varchar(50) NOT NULL,
   `name` varchar(500) DEFAULT NULL COMMENT '名称',
-  `pid` varchar(50) NOT NULL,
-  `comcode` varchar(1000) NOT NULL,
+  `pid` varchar(50)  NULL COMMENT '父类ID',
+  `comcode` varchar(1000) NOT NULL COMMENT '编号 通过 ,, 间隔',
   `siteId` varchar(50) NOT NULL COMMENT '网站ID',
   `positionLevel` int(11)  NOT NULL DEFAULT 0 COMMENT '0导航,1-10个级别',
   `title` varchar(500) DEFAULT NULL COMMENT '标题',
