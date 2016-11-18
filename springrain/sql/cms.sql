@@ -125,8 +125,6 @@ CREATE TABLE `cms_content` (
   `content` text NOT NULL COMMENT '内容',
   `source` varchar(1000) DEFAULT NULL COMMENT '来源',
   `sourceurl` varchar(1000) DEFAULT NULL COMMENT '来源地址',
-  `sortno` int(11) NOT NULL  DEFAULT 0  COMMENT '排序',
-  `state` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='内容表';
 
