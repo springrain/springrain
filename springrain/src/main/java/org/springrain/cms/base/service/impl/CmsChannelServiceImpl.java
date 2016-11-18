@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springrain.cms.base.entity.CmsChannel;
 import org.springrain.cms.base.entity.CmsLink;
@@ -14,6 +15,7 @@ import org.springrain.cms.base.service.ICmsChannelService;
 import org.springrain.cms.base.service.ICmsLinkService;
 import org.springrain.cms.base.service.ICmsSiteService;
 import org.springrain.frame.util.Finder;
+import org.springrain.frame.util.GlobalStatic;
 import org.springrain.system.service.BaseSpringrainServiceImpl;
 import org.springrain.system.service.ITableindexService;
 
@@ -112,6 +114,7 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
     
     
     @Override
+    @Cacheable(value = GlobalStatic.cacheKey, key = "'findTreeByPid_'+#pid+'_'+#siteId")
 	public List<CmsChannel> findTreeByPid(String pid,String siteId) throws Exception {
     	
     	if(StringUtils.isBlank(siteId)){
@@ -135,6 +138,7 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 		return wrapList;
 	}
 	@Override
+	@Cacheable(value = GlobalStatic.cacheKey, key = "'findTreeChannel_'+#siteId")
 	public List<CmsChannel> findTreeChannel(String siteId) throws Exception {
 		return findTreeByPid(null, siteId);
 	}
