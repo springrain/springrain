@@ -126,12 +126,6 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 	public String updateCmsSite(CmsSite cmsSite) throws Exception {
 		super.update(cmsSite,true);
 		
-		
-		
-		
-		
-		
-		
 		return null;
 	}
 

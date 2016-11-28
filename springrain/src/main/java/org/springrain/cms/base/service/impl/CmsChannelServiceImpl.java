@@ -7,7 +7,9 @@ import javax.annotation.Resource;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springrain.cms.base.entity.CmsChannel;
 import org.springrain.cms.base.entity.CmsLink;
@@ -100,11 +102,54 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 
   
 	@Override
+	//@CacheEvict(value = GlobalStatic.cacheKey, key = "'findTreeByPid_'+#cmsChannel.id+'_'+#cmsChannel.siteId")
+	//@CacheEvict(value = GlobalStatic.cacheKey, key = "'findTreeChannel_'+#cmsChannel.siteId")
+	@Caching(evict={@CacheEvict(value = GlobalStatic.cacheKey,key = "'findTreeByPid_'+#cmsChannel.id+'_'+#cmsChannel.siteId"),@CacheEvict(value = GlobalStatic.cacheKey, key = "'findTreeChannel_'+#cmsChannel.siteId")})
     public Integer updateChannel(CmsChannel cmsChannel) throws Exception{
 		if(cmsChannel==null){
     		return null;
     	}
-	return super.update(cmsChannel,true);
+		
+		String id=cmsChannel.getId();
+		String pid=cmsChannel.getPid();
+		String siteId=cmsChannel.getSiteId();
+		
+		if(StringUtils.isBlank(siteId)||StringUtils.isBlank(id)){
+			return null;
+		}
+		
+		
+
+		Finder f_old_c=Finder.getSelectFinder(CmsChannel.class, "comcode").append(" WHERE id=:id ").setParam("id", id);
+		
+		String old_c=super.queryForObject(f_old_c, String.class);
+		
+		String new_c=findChannelNewComcode(id, pid,siteId);
+		
+		if(new_c.equalsIgnoreCase(old_c)){//编码没有改变
+			return super.update(cmsChannel,true);
+			
+		}
+		cmsChannel.setComcode(new_c);
+		Integer update = super.update(cmsChannel,true);
+		//级联更新
+		Finder f_s_list=Finder.getSelectFinder(CmsChannel.class, "id,comcode").append(" WHERE comcode like :comcode and id<>:id ").setParam("comcode", old_c+"%").setParam("id", id);
+	    List<CmsChannel> list = super.queryForList(f_s_list, CmsChannel.class);
+	    if(CollectionUtils.isEmpty(list)){
+	    	 return update;
+	    }
+		
+	    for(CmsChannel ch:list){
+	    	String _id=ch.getId();
+		    String _c=	findChannelNewComcode(_id, id,siteId);
+		    ch.setComcode(_c);
+		    ch.setPid(id);
+	    }
+		
+		super.update(list,true);
+		 
+	    return update;
+
     }
     @Override
 	public CmsChannel findCmsChannelById(String id) throws Exception{
@@ -185,10 +230,7 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 				List<CmsChannel> leaf=new ArrayList<CmsChannel>();
 				m.setLeaf(leaf);
 				tolist.add(m);
-
-			  diguiwrapList(from, leaf, m.getId());
-				
-				
+			    diguiwrapList(from, leaf, m.getId());
 			}
 			
 			

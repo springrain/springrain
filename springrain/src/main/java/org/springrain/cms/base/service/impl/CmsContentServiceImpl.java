@@ -99,7 +99,7 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 		if(cmsContent==null){
     		return null;
     	}
-	    return super.update(cmsContent);
+	    return super.update(cmsContent,true);
     }
     @Override
 	public CmsContent findCmsContentById(String id) throws Exception{
