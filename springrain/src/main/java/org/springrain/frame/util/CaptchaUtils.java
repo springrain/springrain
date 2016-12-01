@@ -9,13 +9,13 @@ import java.util.Random;
 public class CaptchaUtils  {
 	//private static  Logger logger = LoggerFactory.getLogger(CaptchaUtils.class);
 	// 随机产生的字符串
-	private static final String RANDOM_STRS = "23456789ABCDEFGHJKMNPQRSTUVWXYZ";
+	private static final String RANDOM_STRS = "23456789ABCDEFGHJKMNPRSTUVWXYZ";
 
 	private static final String FONT_NAME = "Times New Roman";//字体
 	private static final int FONT_SIZE = 24;//字体大小
 	private int width = 85;// 图片宽
 	private int height = 25;// 图片高
-	private int lineNum = 155;// 干扰线数量
+	private int lineNum = 30;// 干扰线数量
 	private int strNum = 4;// 随机产生字符数量
 
 	private Random random = new Random();
@@ -37,15 +37,16 @@ public class CaptchaUtils  {
 		//g.drawRect(0,0,width-1,height-1); 
 		g.setColor(getRandColor(160, 200));
 
-		// 绘制干扰线
-		for (int i = 0; i <= lineNum; i++) {
-			drowLine(g);
-		}
 		// 绘制随机字符
 		g.setFont(new Font(FONT_NAME, Font.PLAIN, FONT_SIZE));
 		
 		for (int i = 0; i < strNum; i++) {
 			randomCode.append(drowString(g, i));
+		}
+
+		// 绘制干扰线
+		for (int i = 0; i <= lineNum; i++) {
+			drowLine(g);
 		}
 		g.dispose();
 		return image;
