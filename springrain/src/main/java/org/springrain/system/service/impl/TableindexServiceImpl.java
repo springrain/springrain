@@ -2,8 +2,6 @@ package org.springrain.system.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
-import org.springrain.cms.base.entity.CmsChannel;
-import org.springrain.cms.base.entity.CmsContent;
 import org.springrain.frame.util.Finder;
 import org.springrain.system.entity.Tableindex;
 import org.springrain.system.service.BaseSpringrainServiceImpl;
@@ -25,6 +23,7 @@ public class TableindexServiceImpl extends BaseSpringrainServiceImpl implements 
 	
 	
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public synchronized String updateNewId(Class clazz) throws Exception {
 		if(clazz==null){
@@ -55,6 +54,18 @@ public class TableindexServiceImpl extends BaseSpringrainServiceImpl implements 
 		f_update.setParam("maxIndex", maxIndex).setParam("id", indexId);
 		super.update(f_update);
 		return newId;
+	}
+
+
+
+	public Integer getStartIndex() {
+		return startIndex;
+	}
+
+
+
+	public void setStartIndex(Integer startIndex) {
+		this.startIndex = startIndex;
 	}
 
 	

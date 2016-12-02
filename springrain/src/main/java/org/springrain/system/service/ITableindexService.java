@@ -16,6 +16,7 @@ public interface ITableindexService extends IBaseSpringrainService {
 	 * @throws Exception
 	 */
 	
+	@SuppressWarnings("rawtypes")
 	String	updateNewId(Class clazz) throws Exception;
 	
 	

@@ -106,6 +106,7 @@ public class BaseSpringrainServiceImpl extends BaseServiceImpl implements
 		 * @return
 		 * @throws Exception
 		 */
+		@SuppressWarnings("rawtypes")
 		public  List<Integer> update(List list,boolean onlyupdatenotnull) throws Exception{
 			return super.update(list,onlyupdatenotnull);
 		}
@@ -117,6 +118,7 @@ public class BaseSpringrainServiceImpl extends BaseServiceImpl implements
 	 * @param id
 	 * @throws Exception
 	 */
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void deleteById(Object id, Class clazz) throws Exception {
 		super.deleteById(id, clazz);
@@ -133,11 +135,13 @@ public class BaseSpringrainServiceImpl extends BaseServiceImpl implements
 		return super.saveorupdate(entity);
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public List<Integer> update(List list) throws Exception {
 		return super.update(list);
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public List<Integer> save(List list) throws Exception {
 		return super.save(list);

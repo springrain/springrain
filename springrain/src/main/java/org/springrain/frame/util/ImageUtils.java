@@ -91,6 +91,7 @@ public final class ImageUtils {
 	 * @param width 宽度
 	 * @param bb 比例不对时是否需要补白
 	 */
+	@SuppressWarnings("static-access")
 	public static void resize(String filePath, int height, int width, boolean bb) {
 		try {
 			double ratio = 0.0; //缩放比例 

@@ -48,6 +48,7 @@ public class SpringTest  {
 	
 	
 	//@Test
+	@SuppressWarnings("rawtypes")
 	public void testCallProc() throws Exception{
         Finder finder=new Finder("");
 		finder.setProcName("read_all_user");

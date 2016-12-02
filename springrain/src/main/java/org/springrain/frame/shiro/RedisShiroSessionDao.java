@@ -43,6 +43,7 @@ public class RedisShiroSessionDao extends AbstractSessionDAO {
 		
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<Session> getActiveSessions() {
 		String keys=sessionprefix+"*";

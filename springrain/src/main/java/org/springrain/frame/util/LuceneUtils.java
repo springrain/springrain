@@ -71,6 +71,7 @@ public class LuceneUtils {
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static List searchDocument(Class clazz, Page page,
 			String searchkeyword) throws Exception {
 		List<String> luceneFields = ClassUtils.getLuceneFields(clazz);
@@ -92,6 +93,7 @@ public class LuceneUtils {
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static List searchDocument(Class clazz, Page page, String field,
 			String searchkeyword) throws Exception {
 		if (StringUtils.isBlank(field)) {
@@ -336,6 +338,7 @@ public class LuceneUtils {
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings("rawtypes")
 	public  static String deleteDocument(Object id, Class clazz)
 			throws Exception {
 		List<String> luceneFields = ClassUtils.getLuceneFields(clazz);
@@ -371,6 +374,7 @@ public class LuceneUtils {
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings("rawtypes")
 	public static String deleteListDocument(List<String> ids, Class clazz)
 			throws Exception {
 		List<String> luceneFields = ClassUtils.getLuceneFields(clazz);
@@ -408,6 +412,7 @@ public class LuceneUtils {
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings("rawtypes")
 	public static String deleteDocumentAll(Class clazz)
 			throws Exception {
 		// 索引写入配置
@@ -448,6 +453,7 @@ public class LuceneUtils {
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings("rawtypes")
 	public static <T> String updateListDocument(List<T> list) throws Exception {
 
 		if (CollectionUtils.isEmpty(list)) {
@@ -470,6 +476,7 @@ public class LuceneUtils {
 	 * @param clazz
 	 * @return
 	 */
+	@SuppressWarnings("rawtypes")
 	public static File getIndexDirFile(Class clazz) {
 		if (clazz == null) {
 			return null;
@@ -489,6 +496,7 @@ public class LuceneUtils {
 	 * @return
 	 * @throws IOException
 	 */
+	@SuppressWarnings("rawtypes")
 	public static Directory getDirectory(Class clazz) throws IOException {
 		File indexDirFile = getIndexDirFile(clazz);
 		if (indexDirFile == null) {

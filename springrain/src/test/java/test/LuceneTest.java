@@ -37,6 +37,7 @@ public class LuceneTest {
 	
 	
 	
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testSearch() throws Exception{
 		Page page=new Page(1);

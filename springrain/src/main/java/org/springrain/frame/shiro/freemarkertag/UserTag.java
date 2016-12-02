@@ -25,7 +25,8 @@ import java.util.Map;
 public class UserTag extends SecureTag {
     static final Logger log = Logger.getLogger("UserTag");
 
-    @Override
+    @SuppressWarnings("rawtypes")
+	@Override
     public void render(Environment env, Map params, TemplateDirectiveBody body) throws IOException, TemplateException {
         if (getSubject() != null && getSubject().getPrincipal() != null) {
             log.debug("Subject has known identity (aka 'principal'). Tag body will be evaluated.");

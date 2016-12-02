@@ -84,7 +84,7 @@ public class PrincipalTag extends SecureTag {
         }
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     Object getPrincipalFromClassName(Map params) {
         String type = getType(params);
 

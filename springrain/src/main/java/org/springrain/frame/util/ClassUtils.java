@@ -71,6 +71,7 @@ public class ClassUtils {
  * @return
  * @throws Exception
  */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static EntityInfo getEntityInfoByClass(Class clazz) throws Exception{
 		if(clazz==null)
 			return null;
@@ -129,6 +130,7 @@ public class ClassUtils {
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings("rawtypes")
 	public static EntityInfo getEntityInfoByEntity(Object o) throws Exception{
 		if(o==null)
 			return null;
@@ -151,6 +153,7 @@ public class ClassUtils {
 	 * @throws Exception 
 	 * @throws ClassNotFoundException 
 	 */
+	@SuppressWarnings("rawtypes")
 	public static List<WhereSQLInfo> getWhereSQLInfo(Class clazz) throws  Exception{
 		if(clazz==null)
 			return null;
@@ -198,6 +201,7 @@ public class ClassUtils {
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings("rawtypes")
 	public static Set<String> getAllFieldNames(Class clazz) throws Exception{
 		if(clazz==null){
 			return null;
@@ -222,6 +226,7 @@ public class ClassUtils {
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings("rawtypes")
 	public static List<String> getAllDBFields(Class clazz) throws Exception{
 		
 		if(clazz==null){
@@ -255,6 +260,7 @@ public class ClassUtils {
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings("rawtypes")
 	public static List<String> getLuceneFields(Class clazz) throws Exception{
 		
 		if(clazz==null){
@@ -305,6 +311,7 @@ public class ClassUtils {
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static boolean isAnnotation(Class clazz,String fdName,Class annotationClass) throws Exception{
 		
 		if(clazz==null||fdName==null||annotationClass==null)
@@ -321,6 +328,7 @@ public class ClassUtils {
 	 * @return
 	 * @throws Exception 
 	 */
+	@SuppressWarnings("rawtypes")
 	public static String  getTableName(Object object) throws Exception{
 		
 		if(object==null)
@@ -355,6 +363,7 @@ public class ClassUtils {
 	 * @param clazz
 	 * @return
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static String  getTableNameByClass(Class clazz){
 		
 		if(clazz==null)
@@ -380,6 +389,7 @@ public class ClassUtils {
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static String getTableExt(Object o) throws Exception{
 		Class clazz=o.getClass();
 		if(clazz.isAnnotationPresent(TableGroup.class)==false)
@@ -398,6 +408,7 @@ public class ClassUtils {
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Deprecated
 	public static String getGroupPropertyName(Object o) throws Exception{
 		Class clazz=o.getClass();
@@ -417,6 +428,7 @@ public class ClassUtils {
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings("rawtypes")
 	private static  Set<String> recursionFiled(Class clazz,Set<String> fdNameSet) throws Exception {
 		Field[] fds = clazz.getDeclaredFields();
 		for (int i = 0; i < fds.length; i++) {
@@ -437,6 +449,7 @@ public class ClassUtils {
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings("rawtypes")
 	public static Object getPKValue(Object o) throws Exception{
 		Class clazz=o.getClass();
 	     String id=getEntityInfoByClass(clazz).getPkName();
@@ -500,6 +513,7 @@ public class ClassUtils {
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings("rawtypes")
 	public static Class getReturnType(String p,Class _clazz) throws Exception{
 		
 		Class  returnType=null;
@@ -521,6 +535,7 @@ public class ClassUtils {
 	 * @param clazz
 	 * @return
 	 */
+	@SuppressWarnings("rawtypes")
 	public static  boolean isBaseType(Class clazz){
 		if(clazz==null){
 			return false;

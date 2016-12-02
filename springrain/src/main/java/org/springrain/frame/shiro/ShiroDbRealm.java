@@ -38,8 +38,6 @@ public class ShiroDbRealm extends AuthorizingRealm {
 
 	public static final String HASH_ALGORITHM = "MD5";
 	public static final int HASH_INTERATIONS = 1;
-	private static final int SALT_SIZE = 8;
-
 	public ShiroDbRealm() {
 		// 认证
 		// super.setAuthenticationCacheName(GlobalStatic.authenticationCacheName);

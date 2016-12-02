@@ -11,7 +11,13 @@ import freemarker.template.SimpleHash;
  */
 @Component("shiroTags")
 public class ShiroTags extends SimpleHash {
-    public ShiroTags() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@SuppressWarnings("deprecation")
+	public ShiroTags() {
         put("authenticated", new AuthenticatedTag());
         put("guest", new GuestTag());
         put("hasAnyRoles", new HasAnyRolesTag());

@@ -13,6 +13,7 @@ public class LuceneTask implements Runnable {
 
 	public String oper;
 	
+	@SuppressWarnings("rawtypes")
 	public Class clazz;
 	
 
@@ -25,6 +26,7 @@ public class LuceneTask implements Runnable {
 		this.entity = entity;
 	}
 	//删除专用
+	@SuppressWarnings("rawtypes")
 	public LuceneTask(Object id, Class clazz) {
 		this.entity = id;
 		this.clazz = clazz;
@@ -32,6 +34,7 @@ public class LuceneTask implements Runnable {
 	}
 	
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public void run() {
 		try {

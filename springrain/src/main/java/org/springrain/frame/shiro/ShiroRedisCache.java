@@ -45,6 +45,7 @@ private byte[] getByteName(){
 	
 }
 	
+@SuppressWarnings("unchecked")
 @Override
 public V get(K key) throws CacheException {
 	logger.debug("根据key从Redis中获取对象 key [" + key + "]");
@@ -115,6 +116,7 @@ public Set<K> keys() {
     }
 }
 
+@SuppressWarnings("unchecked")
 @Override
 public Collection<V> values() {
 	try {

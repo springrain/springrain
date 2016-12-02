@@ -119,6 +119,7 @@ import org.springframework.beans.factory.config.BeanPostProcessor;
  * @see org.springframework.web.filter.DelegatingFilterProxy DelegatingFilterProxy
  * @since 1.0
  */
+@SuppressWarnings("rawtypes")
 public class FrameShiroFilterFactoryBean implements FactoryBean, BeanPostProcessor {
 
     private static transient final Logger log = LoggerFactory.getLogger(FrameShiroFilterFactoryBean.class);

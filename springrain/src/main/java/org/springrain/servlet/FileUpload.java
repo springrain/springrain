@@ -65,6 +65,7 @@ public class FileUpload extends HttpServlet {
 	/**
 	 * 上传文件必须为POST方法
 	 */
+	@SuppressWarnings({ "static-access", "deprecation" })
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("text/html;charset=utf-8");

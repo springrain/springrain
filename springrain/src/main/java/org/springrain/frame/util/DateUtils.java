@@ -398,6 +398,7 @@ public class DateUtils {
 	 *            结束时间
 	 * @return
 	 */
+	@SuppressWarnings("deprecation")
 	public static int getMonthsBetween(Date beginDate, Date endDate) {
 		if (beginDate.after(endDate)) {
 			Date swap = beginDate;

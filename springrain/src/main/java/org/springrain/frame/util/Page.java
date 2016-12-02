@@ -240,6 +240,30 @@ public class Page implements Serializable{
 		this.selectpagecount = selectpagecount;
 	}
 
+	public boolean isFirstPage() {
+		return firstPage;
+	}
+
+	public void setFirstPage(boolean firstPage) {
+		this.firstPage = firstPage;
+	}
+
+	public boolean isHasNext() {
+		return hasNext;
+	}
+
+	public void setHasNext(boolean hasNext) {
+		this.hasNext = hasNext;
+	}
+
+	public boolean isLastPage() {
+		return lastPage;
+	}
+
+	public void setLastPage(boolean lastPage) {
+		this.lastPage = lastPage;
+	}
+
 
 	
 }

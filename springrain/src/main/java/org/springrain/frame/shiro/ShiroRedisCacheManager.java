@@ -11,6 +11,7 @@ import org.springrain.frame.cached.ICached;
  */
 public class ShiroRedisCacheManager extends AbstractCacheManager {
 	private ICached cached;
+	@SuppressWarnings("rawtypes")
 	@Override
 	protected Cache createCache(String cacheName) throws CacheException {
 		return new ShiroRedisCache<String, Object>(cacheName,cached);

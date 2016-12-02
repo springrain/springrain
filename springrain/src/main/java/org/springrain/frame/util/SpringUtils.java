@@ -22,6 +22,7 @@ public class SpringUtils  implements ApplicationContextAware {
 	public SpringUtils() {
 		
 	}
+	@SuppressWarnings("static-access")
 	@Override
 	public void setApplicationContext(ApplicationContext context) throws BeansException {
 		this.applicationContext=context;
@@ -40,6 +41,7 @@ public class SpringUtils  implements ApplicationContextAware {
 	 * @param clazz
 	 * @return
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static Object getBeanByType(Class clazz){
 		return applicationContext.getBean(clazz);
 	}

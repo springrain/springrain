@@ -16,7 +16,8 @@ public class ReturnDatas implements Serializable{
 	private String status;
 	private String message;
 	private Object data;
-    private Map map;
+    @SuppressWarnings("rawtypes")
+	private Map map;
 	private Page page;
 	private Object queryBean;
 	
@@ -77,10 +78,12 @@ public class ReturnDatas implements Serializable{
 		this.page = page;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public Map getMap() {
 		return map;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public void setMap(Map map) {
 		this.map = map;
 	}

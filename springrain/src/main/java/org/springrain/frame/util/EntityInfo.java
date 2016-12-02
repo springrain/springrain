@@ -108,9 +108,11 @@ public class EntityInfo {
 	public void setNotLog(boolean notLog) {
 		this.notLog = notLog;
 	}
+	@SuppressWarnings("rawtypes")
 	public Class getPkReturnType() {
 		return pkReturnType;
 	}
+	@SuppressWarnings("rawtypes")
 	public void setPkReturnType(Class pkReturnType) {
 		this.pkReturnType = pkReturnType;
 	}

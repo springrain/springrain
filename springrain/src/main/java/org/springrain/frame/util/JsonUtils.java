@@ -49,7 +49,8 @@ public class JsonUtils  {
 		return str;
 	 }
 	 
-	 public static Object readValues(String content,Class CollectionType,Class clazz){
+	 @SuppressWarnings("rawtypes")
+	public static Object readValues(String content,Class CollectionType,Class clazz){
 		 Object o=null;
 		 
 		try {
