@@ -1,4 +1,4 @@
-package org.springrain.system.entity;
+package org.springrain.frame.entity;
 
 import java.util.Calendar;
 
@@ -9,22 +9,19 @@ import javax.persistence.Transient;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-
 import org.springrain.frame.annotation.TableGroup;
 import org.springrain.frame.annotation.WhereSQL;
-import org.springrain.frame.entity.BaseEntity;
-import org.springrain.frame.entity.IAuditLog;
 import org.springrain.frame.util.GlobalStatic;
 /**
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
  * @author springrain<Auto generate>
  * @version  2013-04-02 10:17:31
- * @see org.springrain.system.entity.AuditLog
+ * @see org.springrain.frame.entity.AuditLog
  */
 @Table(name="t_auditlog")
 @TableGroup(name="ext")
-public class AuditLog  extends BaseEntity implements IAuditLog {
+public class AuditLog  extends BaseEntity  {
 	
 	private static final long serialVersionUID = 1L;
 

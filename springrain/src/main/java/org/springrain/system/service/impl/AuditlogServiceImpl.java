@@ -4,10 +4,9 @@ import java.io.File;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-
+import org.springrain.frame.entity.AuditLog;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.Page;
-import org.springrain.system.entity.AuditLog;
 import org.springrain.system.service.BaseSpringrainServiceImpl;
 import org.springrain.system.service.IAuditlogService;
 
@@ -16,7 +15,7 @@ import org.springrain.system.service.IAuditlogService;
  * @copyright {@link 9iu.org}
  * @author springrain<Auto generate>
  * @version  2013-04-02 10:17:31
- * @see org.springrain.springrain.service.impl.AuditLog
+ * @see org.springrain.frame.entity.springrain.service.impl.AuditLog
  */
 @Service("auditlogService")
 public class AuditlogServiceImpl extends BaseSpringrainServiceImpl implements IAuditlogService {

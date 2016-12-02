@@ -25,7 +25,7 @@ import org.springrain.frame.annotation.LuceneSearch;
 import org.springrain.frame.common.BaseLogger;
 import org.springrain.frame.common.SessionUser;
 import org.springrain.frame.dao.dialect.IDialect;
-import org.springrain.frame.entity.IAuditLog;
+import org.springrain.frame.entity.AuditLog;
 import org.springrain.frame.task.LuceneTask;
 import org.springrain.frame.util.ClassUtils;
 import org.springrain.frame.util.EntityInfo;
@@ -102,13 +102,10 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 
 	/**
 	 * 默认(return null)不记录日志,在多库情况下,用于区分数据库实例的日志记录表,
-	 * 主要是为了兼容日志表(auditlog)的主键生成方式,UUID和自增.</br>
-	 * demo 数据库的auditlog 是自增,demo2 数据库的 auditlog 是UUID
-	 * 
 	 * @return
 	 */
 
-	public IAuditLog getAuditLog() {
+	public AuditLog getAuditLog() {
 		return null;
 	}
 
@@ -652,7 +649,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		 }
 
 		// 记录日志
-		IAuditLog auditLog = getAuditLog();
+		 AuditLog auditLog = getAuditLog();
 		if (auditLog == null) {
 			return id;
 		}
@@ -825,7 +822,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		logInfoSql(sql.toString());
 
 		Object old_entity = null;
-		IAuditLog auditLog = getAuditLog();
+		AuditLog auditLog = getAuditLog();
 		if (auditLog != null) {
 			old_entity = findByID(id, clazz, tableExt);
 		}
@@ -911,11 +908,11 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		EntityInfo entityInfo = ClassUtils.getEntityInfoByClass(clazz);
 		String tableName = entityInfo.getTableName();
 		String idName = entityInfo.getPkName();
-		String sql = "Delete FROM " + tableName + " WHERE " + idName + "=:id";
+		String sql = "DELETE FROM " + tableName + " WHERE " + idName + "=:id";
 		Finder finder = new Finder(sql);
 		finder.setParam("id", id);
 
-		IAuditLog auditLog = getAuditLog();
+		AuditLog auditLog = getAuditLog();
 		Object findEntityByID = null;
 
 		if (auditLog != null) {

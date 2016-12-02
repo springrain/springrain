@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import org.springrain.frame.controller.BaseController;
+import org.springrain.frame.entity.AuditLog;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.Page;
 import org.springrain.frame.util.ReturnDatas;
-import org.springrain.system.entity.AuditLog;
 import org.springrain.system.service.IAuditlogService;
 
 
@@ -25,7 +25,7 @@ import org.springrain.system.service.IAuditlogService;
  * @copyright {@link springrain}
  * @author 9iu.org<Auto generate>
  * @version  2013-08-02 12:14:50
- * @see org.springrain.springrain.web.AuditLog
+ * @see org.springrain.frame.entity.springrain.web.AuditLog
  */
 @Controller
 @RequestMapping(value="/system/auditlog")
