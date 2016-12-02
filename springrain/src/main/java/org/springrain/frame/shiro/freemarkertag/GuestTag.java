@@ -23,7 +23,8 @@ import java.util.Map;
 public class GuestTag extends SecureTag {
     private static final Logger log = Logger.getLogger("AuthenticatedTag");
 
-    @Override
+    @SuppressWarnings("rawtypes")
+	@Override
     public void render(Environment env, Map params, TemplateDirectiveBody body) throws IOException, TemplateException {
         if (getSubject() == null || getSubject().getPrincipal() == null) {
             if (log.isDebugEnabled()) {

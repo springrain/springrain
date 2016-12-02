@@ -25,6 +25,7 @@ public class ChannelListDirective extends AbstractChannelDirective {
 	 */
 	public static final String TPL_NAME = "cms_channel_list";
 
+	@SuppressWarnings("rawtypes")
 	public void execute(Environment env, Map params, TemplateModel[] loopVars,
 			TemplateDirectiveBody body) throws TemplateException, IOException {
 		

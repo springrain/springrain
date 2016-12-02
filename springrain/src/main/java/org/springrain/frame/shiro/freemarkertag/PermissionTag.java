@@ -4,6 +4,7 @@ import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModelException;
+
 import java.io.IOException;
 import java.util.Map;
 
@@ -11,11 +12,13 @@ import java.util.Map;
  * <p>Equivalent to {@link org.apache.shiro.web.tags.PermissionTag}</p>
  */
 public abstract class PermissionTag extends SecureTag {
-    String getName(Map params) {
+    @SuppressWarnings("rawtypes")
+	String getName(Map params) {
         return getParam(params, "name");
     }
     
-    @Override
+    @SuppressWarnings("rawtypes")
+	@Override
     protected void verifyParameters(Map params) throws TemplateModelException {
         String permission = getName(params);
 
@@ -24,7 +27,8 @@ public abstract class PermissionTag extends SecureTag {
         }
     }
 
-    @Override
+    @SuppressWarnings("rawtypes")
+	@Override
     public void render(Environment env, Map params, TemplateDirectiveBody body) throws IOException, TemplateException {
         String p = getName(params);
 

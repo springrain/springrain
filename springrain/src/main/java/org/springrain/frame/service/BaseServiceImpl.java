@@ -64,6 +64,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 	/**
 	 * 获取spring Bean
 	 */
+	@SuppressWarnings("static-access")
 	@Override
 	public Object getBean(String beanName) throws Exception {
 		if (beanName == null)
@@ -157,11 +158,13 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 		return getBaseDao().update(finder);
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void deleteById(Object id, Class clazz) throws Exception {
 		getBaseDao().deleteById(id, clazz);
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void deleteByIds(List ids, Class clazz) throws Exception {
 		getBaseDao().deleteByIds(ids, clazz);
@@ -231,6 +234,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 				.findListDataByFinder(finder, page, clazz, queryBean);
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public <T> File findDataExportExcel(Finder finder, String ftlurl,
 			Page page, Class<T> clazz, Object queryBean) throws Exception {
@@ -299,6 +303,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings("rawtypes")
 	private File createExceFile(Template template, File ffile, File excelFile,
 			boolean first, boolean end, Map map) throws Exception {
 		Writer out = null;
@@ -412,6 +417,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 	public Object save(Object entity) throws Exception {
 		return getBaseDao().save(entity);
 	}
+	@SuppressWarnings("rawtypes")
 	@Override
 	public List<Integer> save(List list) throws Exception {
 		return getBaseDao().save(list);
@@ -429,11 +435,13 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 	
 	
 	
+	@SuppressWarnings("rawtypes")
 	@Override
 	public List<Integer> update(List list) throws Exception {
 		return getBaseDao().update(list);
 	}
 	
+	@SuppressWarnings("rawtypes")
 	@Override
 	public List<Integer> update(List list,boolean onlyupdatenotnull) throws Exception{
 		return getBaseDao().update(list,onlyupdatenotnull);
@@ -492,6 +500,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 	
 	
 	
+	@SuppressWarnings("rawtypes")
 	@Override
 	public <T> String saveImportExcelFile(File excelFile, Class<T> clazz,
 			boolean istest) throws Exception {

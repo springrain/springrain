@@ -2,7 +2,6 @@ package org.springrain.cms.base.directive.abs;
 
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springrain.cms.base.directive.util.DirectiveUtils;
 
 import freemarker.template.TemplateDirectiveModel;

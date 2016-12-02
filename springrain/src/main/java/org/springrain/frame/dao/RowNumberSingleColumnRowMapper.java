@@ -23,6 +23,7 @@ public class RowNumberSingleColumnRowMapper<T> extends SingleColumnRowMapper<T>{
 	public RowNumberSingleColumnRowMapper (Class<T> requiredType) {
 		this.requiredType = requiredType;
 	}
+	@SuppressWarnings({ "unused", "unchecked" })
 	@Override
 	public T mapRow(ResultSet rs, int rowNum) throws SQLException {
 

@@ -10,7 +10,6 @@ import java.util.Map;
 
 import org.springframework.jdbc.core.CallableStatementCreator;
 import org.springframework.jdbc.core.SqlParameter;
-
 import org.springrain.frame.entity.IBaseEntity;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.Page;
@@ -264,6 +263,7 @@ public interface IBaseService {
 	 * @return List
 	 * @throws Exception
 	 */
+		@SuppressWarnings("rawtypes")
 		public List<Integer>  save(List list) throws Exception;
 	
 	
@@ -295,6 +295,7 @@ public interface IBaseService {
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings("rawtypes")
 	public  List<Integer> update(List list) throws Exception;
 	
 	
@@ -305,6 +306,7 @@ public interface IBaseService {
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings("rawtypes")
 	public  List<Integer> update(List list,boolean onlyupdatenotnull) throws Exception;
 	
 	
@@ -334,6 +336,7 @@ public interface IBaseService {
 	 * @param id
 	 * @throws Exception
 	 */
+	@SuppressWarnings("rawtypes")
 	public void deleteById(Object id,Class clazz) throws Exception;
 	
 	/**
@@ -342,6 +345,7 @@ public interface IBaseService {
 	 * @param clazz
 	 * @throws Exception
 	 */
+	@SuppressWarnings("rawtypes")
 	public void deleteByIds(List ids,Class clazz) throws Exception;
 	
 	/**
@@ -399,9 +403,9 @@ public interface IBaseService {
 	/**
 	 * Excel 导入时会循环调用该方法
 	 * @param entity
-	 * @param index TODO
-	 * @param listTitle TODO
-	 * @param issave TODO
+	 * @param index 
+	 * @param listTitle 
+	 * @param issave 
 	 * @return
 	 * @throws Exception
 	 */

@@ -9,7 +9,6 @@ import java.util.Map;
 
 import org.springframework.jdbc.core.CallableStatementCreator;
 import org.springframework.jdbc.core.SqlParameter;
-
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.Page;
 
@@ -244,6 +243,7 @@ public interface IBaseJdbcDao {
  * @return List
  * @throws Exception
  */
+	@SuppressWarnings("rawtypes")
 	public List<Integer>  save(List list) throws Exception;
 
 	/**
@@ -273,6 +273,7 @@ public interface IBaseJdbcDao {
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings("rawtypes")
 	public  List<Integer> update(List list) throws Exception;
 	
 	/**
@@ -282,6 +283,7 @@ public interface IBaseJdbcDao {
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings("rawtypes")
 	public  List<Integer> update(List list,boolean onlyupdatenotnull) throws Exception;
 	
 	
@@ -293,6 +295,7 @@ public interface IBaseJdbcDao {
 	 * @param id
 	 * @throws Exception
 	 */
+	@SuppressWarnings("rawtypes")
 	public void deleteById(Object id, Class clazz) throws Exception;
 
 	/**
@@ -302,6 +305,7 @@ public interface IBaseJdbcDao {
 	 * @param clazz
 	 * @throws Exception
 	 */
+	@SuppressWarnings("rawtypes")
 	public void deleteByIds(List ids, Class clazz) throws Exception;
 
 	/**

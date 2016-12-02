@@ -33,6 +33,7 @@ public interface ICached {
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings("rawtypes")
 	Set getKeys(byte[] keys)throws Exception;
 	
 	/**
@@ -41,6 +42,7 @@ public interface ICached {
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings("rawtypes")
 	Set getHashKeys(byte[] key)throws Exception;
 	
 	
@@ -86,6 +88,7 @@ public interface ICached {
  * @return
  * @throws Exception
  */
+	@SuppressWarnings("rawtypes")
 	List getHashValues(byte[] key)throws Exception;
 	
 	

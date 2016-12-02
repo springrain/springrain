@@ -9,7 +9,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
-
 import org.springrain.frame.util.SerializeUtil;
 
 public class RedisCachedImpl implements ICached {
@@ -63,9 +62,11 @@ public class RedisCachedImpl implements ICached {
 	}
 
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public Set getKeys(final byte[] keys) throws Exception {
 		return redisTemplate.execute(new RedisCallback<Set>() {
+			@SuppressWarnings("unchecked")
 			public Set doInRedis(RedisConnection connection)
 					throws DataAccessException {
 				Set<byte[]> setByte = connection.keys(keys);
@@ -85,10 +86,11 @@ public class RedisCachedImpl implements ICached {
 	}
 
 
-
+	@SuppressWarnings("rawtypes")
 	@Override
 	public Set getHashKeys(final byte[] key) throws Exception {
 		return (Set) redisTemplate.execute(new RedisCallback<Set>() {
+			@SuppressWarnings("unchecked")
 			public Set doInRedis(RedisConnection connection)
 					throws DataAccessException {
 				Set<byte[]> hKeys = connection.hKeys(key);
@@ -199,9 +201,11 @@ public class RedisCachedImpl implements ICached {
 		this.expire = expire;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public List getHashValues(final byte[] key) throws Exception {
 		return redisTemplate.execute(new RedisCallback<List>() {
+			@SuppressWarnings("unchecked")
 			public List doInRedis(RedisConnection connection)
 					throws DataAccessException {
 				 List<byte[]> hVals = connection.hVals(key);

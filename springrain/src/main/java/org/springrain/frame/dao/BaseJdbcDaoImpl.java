@@ -145,6 +145,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public <T> List<T> queryForListByProc(Finder finder, Class<T> clazz) throws Exception {
 		String procName = finder.getProcName();
@@ -191,6 +192,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public List<Map<String, Object>> queryForListByProc(Finder finder) throws Exception {
 		String procName = finder.getProcName();
 		String functionName = finder.getFunName();
@@ -269,6 +271,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		return getWriteJdbc().update(finder.getSql(), finder.getParams());
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public <T> List<T> queryForList(Finder finder, Class<T> clazz, Page page) throws Exception {
 		String pageSql = getPageSql(page, finder);
@@ -531,7 +534,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		return t;
 
 	}
-
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private String warpsavesql(Object entity, Map paramMap, Boolean isSequence) throws Exception {
 		Class clazz = entity.getClass();
 		// entity信息
@@ -600,7 +603,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 	 * @return
 	 * @throws Exception
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private Object saveNoLog(Object entity) throws Exception {
 		// entity信息
 		EntityInfo entityInfo = ClassUtils.getEntityInfoByEntity(entity);
@@ -680,11 +683,13 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		return id;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public List<Integer> update(List list) throws Exception {
 		return update(list, false);
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public List<Integer> update(List list, boolean onlyupdatenotnull) throws Exception {
 		if (CollectionUtils.isEmpty(list)) {
@@ -717,6 +722,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		return updateList;
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public List<Integer> save(List list) throws Exception {
 		if (CollectionUtils.isEmpty(list)) {
@@ -749,6 +755,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		return updateList;
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private String warpupdatesql(Object entity, Map paramMap, boolean onlyupdatenotnull) throws Exception {
 		Class clazz = entity.getClass();
 		// entity的信息
@@ -803,6 +810,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public Integer update(Object entity, boolean onlyupdatenotnull) throws Exception {
 		Class clazz = entity.getClass();
@@ -895,6 +903,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public void deleteById(Object id, Class clazz) throws Exception {
 		if (id == null)
@@ -953,6 +962,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void deleteByIds(List ids, Class clazz) throws Exception {
 		if (CollectionUtils.isEmpty(ids))
@@ -1058,6 +1068,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T queryForObject(T entity) throws Exception {
 		String tableName = ClassUtils.getTableName(entity);
@@ -1079,6 +1090,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> List<T> queryForListByEntity(T entity, Page page) throws Exception {
 		String tableName = ClassUtils.getTableName(entity);
