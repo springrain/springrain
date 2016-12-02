@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springrain.frame.dao.BaseJdbcDaoImpl;
 import org.springrain.frame.dao.IBaseJdbcDao;
 import org.springrain.frame.dao.dialect.IDialect;
-import org.springrain.frame.entity.IAuditLog;
+import org.springrain.frame.entity.AuditLog;
 
 /**
  *   springrain项目的基础Dao,代理demo数据库
@@ -64,7 +64,7 @@ public class BaseSpringrainDaoImpl extends BaseJdbcDaoImpl implements IBaseJdbcD
  * 实现父类方法,返回记录日志的Entity接口实现,reutrn null 则代表不记录日志
  */
 	@Override
-	public IAuditLog getAuditLog() {
+	public AuditLog getAuditLog() {
 		return null;
 		//return new AuditLog();
 	}
