@@ -215,9 +215,8 @@ public class LoginController extends BaseController  {
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.IMAGE_JPEG);
 
-			CaptchaUtils tool = new CaptchaUtils();
 			StringBuffer code = new StringBuffer();
-			BufferedImage image = tool.genRandomCodeImage(code);
+			BufferedImage image = CaptchaUtils.genRandomCodeImage(code);
 			session.removeAttribute(GlobalStatic.DEFAULT_CAPTCHA_PARAM);
 			session.setAttribute(GlobalStatic.DEFAULT_CAPTCHA_PARAM, code.toString());
 
