@@ -175,7 +175,7 @@ public class CaptchaUtils  {
 	        for (int i = 0; i < w1; i++) {
 	            double d = (double) (period >> 1)
 	                    * Math.sin((double) i / (double) period
-	                            + (4.2831853071795862D * (double) phase)
+	                            + (6.2831853071795862D * (double) phase)
 	                            / (double) frames);
 	            g.copyArea(i, 0, 1, h1, 0, (int) d);
 	            if (borderGap) {
