@@ -117,7 +117,7 @@ public class LoginController extends BaseController  {
 			}
 			
 			try {
-				//会调用 shiroDbRealm 的认证方法 com.yidu.frame.shiro.ShiroDbRealm.doGetAuthenticationInfo(AuthenticationToken)
+				//会调用 shiroDbRealm 的认证方法 org.springrain.frame.shiro.ShiroDbRealm.doGetAuthenticationInfo(AuthenticationToken)
 				user.login(token);
 			} catch (UnknownAccountException uae) {
 				model.addAttribute("message", "账号不存在!");
