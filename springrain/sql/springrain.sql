@@ -381,6 +381,27 @@ CREATE TABLE `t_user_role` (
 -- ----------------------------
 INSERT INTO `t_user_role` VALUES ('admin_admin', 'admin', 'admin');
 
+
+-- ----------------------------
+-- Table structure for t_role_org
+-- ----------------------------
+DROP TABLE IF EXISTS `t_role_org`;
+CREATE TABLE `t_role_org` (
+  `id` varchar(50) NOT NULL COMMENT '编号',
+  `roleId` varchar(50) NOT NULL COMMENT '角色编号',
+  `orgId` varchar(50) NOT NULL COMMENT '部门编号',
+  `hasLeaf` int NOT NULL default 0 COMMENT '是否包含子部门,0不包含,1包含',
+  `active` int NOT NULL default 1 COMMENT '是否可用,0不可用,1不可用',
+  PRIMARY KEY (`id`),
+  KEY `fk_t_role_org_roleId_t_role_id` (`roleId`),
+  KEY `fk_t_role_org_orgId_t_org_id` (`orgId`),
+  CONSTRAINT `fk_t_role_org_orgId_t_org_id` FOREIGN KEY (`orgId`) REFERENCES `t_org` (`id`),
+  CONSTRAINT `fk_t_role_org_roleId_t_role_id` FOREIGN KEY (`roleId`) REFERENCES `t_role` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色部门中间表';
+
+
+
+
 -- ----------------------------
 -- Table structure for t_tableindex
 -- ----------------------------
