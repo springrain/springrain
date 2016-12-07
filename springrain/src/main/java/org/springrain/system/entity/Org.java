@@ -83,7 +83,7 @@ public class Org  extends BaseEntity {
 	/**
 	 * 主管Id
 	 */
-	private String managerId;
+	private String managerRoleId;
 	//columns END 数据库字段结束
 	
 	
@@ -188,13 +188,13 @@ public class Org  extends BaseEntity {
 	public Integer getActive() {
 		return this.active;
 	}
-     @WhereSQL(sql="managerId=:Org_managerId")
-    public String getManagerId() {
- 		return managerId;
+     @WhereSQL(sql="managerRoleId=:Org_managerRoleId")
+    public String getManagerRoleId() {
+ 		return managerRoleId;
  	}
 
- 	public void setManagerId(String managerId) {
- 		this.managerId = managerId;
+ 	public void setManagerRoleId(String managerId) {
+ 		this.managerRoleId = managerId;
  	}
 
 	public String toString() {

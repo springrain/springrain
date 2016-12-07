@@ -39,7 +39,7 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
     	   
     	   super.save(entity);
     	   
-    	   updateOrgManager(id,entity.getManagerId());
+    	   updateOrgManager(id,entity.getManagerRoleId());
     	   
 	       return id;
 	}
@@ -55,7 +55,7 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
 			return null;
 		}
 		
-		updateOrgManager(id,entity.getManagerId());
+		updateOrgManager(id,entity.getManagerRoleId());
 		
 		
 		Finder f_old_c=Finder.getSelectFinder(Org.class, "comcode").append(" WHERE id=:id ").setParam("id", id);
@@ -110,7 +110,6 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
         UserOrg userOrg=new UserOrg();
         userOrg.setOrgId(orgId);
         userOrg.setUserId(managerId);
-        userOrg.setManager(1);
         
         super.save(userOrg);
 		}
@@ -144,7 +143,7 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
     	}
     	
     	User u=list.get(0);
-    	org.setManagerId(u.getId());
+    	org.setManagerRoleId(u.getId());
     	org.setManagerName(u.getName());
     	
     	

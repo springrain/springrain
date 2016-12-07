@@ -43,10 +43,7 @@ public class UserOrg  extends BaseEntity {
 	 * 机构编号
 	 */
 	private java.lang.String orgId;
-	/**
-	 * 0.不是1.是
-	 */
-	private java.lang.Integer manager;
+
 	//columns END 数据库字段结束
 	
 	//concstructor
@@ -86,21 +83,13 @@ public class UserOrg  extends BaseEntity {
 	public java.lang.String getOrgId() {
 		return this.orgId;
 	}
-	public void setManager(java.lang.Integer value) {
-		this.manager = value;
-	}
 	
-     @WhereSQL(sql="manager=:UserOrg_manager")
-	public java.lang.Integer getManager() {
-		return this.manager;
-	}
 	
 	public String toString() {
 		return new StringBuffer()
 			.append("编号[").append(getId()).append("],")
 			.append("用户编号[").append(getUserId()).append("],")
 			.append("机构编号[").append(getOrgId()).append("],")
-			.append("0.不是1.是[").append(getManager()).append("],")
 			.toString();
 	}
 	
