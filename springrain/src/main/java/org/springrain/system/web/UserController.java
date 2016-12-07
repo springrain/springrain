@@ -75,9 +75,9 @@ public class UserController extends BaseController {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		Page page = newPage(request);
 		
-		String state=user.getState();
-		if(StringUtils.isEmpty(state)){
-			user.setState("是");
+		Integer active=user.getActive();
+		if(active==null){
+			user.setActive(1);
 		}
 		
 		

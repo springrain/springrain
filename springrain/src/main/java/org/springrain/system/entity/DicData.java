@@ -29,7 +29,7 @@ public class DicData  extends BaseEntity {
 	public static final String ALIAS_CODE = "编码";
 	public static final String ALIAS_DESCRIPTION = "描述";
 	public static final String ALIAS_SORT = "sort";
-	public static final String ALIAS_STATE = "是否有效";
+	public static final String ALIAS_ACTIVE = "是否有效";
 	public static final String ALIAS_TYPEKEY = "类型";
     */
 	//date formats
@@ -62,7 +62,7 @@ public class DicData  extends BaseEntity {
 	/**
 	 * 是否有效
 	 */
-	private java.lang.String state;
+	private java.lang.Integer active;
 	/**
 	 * 类型
 	 */
@@ -137,16 +137,13 @@ public class DicData  extends BaseEntity {
 		return this.remark;
 	}
 	
-	public void setState(java.lang.String value) {
-		    if(StringUtils.isNotBlank(value)){
-			 value=value.trim();
-			}
-		this.state = value;
+	public void setActive(java.lang.Integer value) {
+		this.active = value;
 	}
 	
-     @WhereSQL(sql="state=:DicData_state")
-	public java.lang.String getState() {
-		return this.state;
+     @WhereSQL(sql="active=:DicData_active")
+	public java.lang.Integer getActive() {
+		return this.active;
 	}
 	public void setTypekey(java.lang.String value) {
 		    if(StringUtils.isNotBlank(value)){
@@ -174,7 +171,7 @@ public class DicData  extends BaseEntity {
 			.append("名称[").append(getName()).append("],")
 			.append("编码[").append(getCode()).append("],")
 			.append("描述[").append(getRemark()).append("],")
-			.append("是否有效[").append(getState()).append("],")
+			.append("是否有效[").append(getActive()).append("],")
 			.append("类型[").append(getTypekey()).append("],")
 			.append("排序[").append(getSortno()).append("],")
 			.toString();

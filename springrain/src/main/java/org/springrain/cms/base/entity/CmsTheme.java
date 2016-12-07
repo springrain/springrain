@@ -26,7 +26,7 @@ public class CmsTheme  extends BaseEntity {
 	public static final String ALIAS_ID = "ID";
 	public static final String ALIAS_NAME = "名称";
 	public static final String ALIAS_USECOUNT = "使用次数";
-	public static final String ALIAS_STATE = "状态 0不可用,1可用";
+	public static final String ALIAS_ACTIVE = "状态 0不可用,1可用";
     */
 	//date formats
 	
@@ -46,7 +46,7 @@ public class CmsTheme  extends BaseEntity {
 	/**
 	 * 状态 0不可用,1可用
 	 */
-	private java.lang.Integer state;
+	private java.lang.Integer active;
 	//columns END 数据库字段结束
 	
 	//concstructor
@@ -92,13 +92,13 @@ public class CmsTheme  extends BaseEntity {
 	public java.lang.Integer getUsecount() {
 		return this.usecount;
 	}
-	public void setState(java.lang.Integer value) {
-		this.state = value;
+	public void setActive(java.lang.Integer value) {
+		this.active = value;
 	}
 	
-     @WhereSQL(sql="state=:CmsTheme_state")
-	public java.lang.Integer getState() {
-		return this.state;
+     @WhereSQL(sql="active=:CmsTheme_active")
+	public java.lang.Integer getActive() {
+		return this.active;
 	}
 	
 	public String toString() {
@@ -106,7 +106,7 @@ public class CmsTheme  extends BaseEntity {
 			.append("ID[").append(getId()).append("],")
 			.append("名称[").append(getName()).append("],")
 			.append("使用次数[").append(getUsecount()).append("],")
-			.append("状态 0不可用,1可用[").append(getState()).append("],")
+			.append("状态 0不可用,1可用[").append(getActive()).append("],")
 			.toString();
 	}
 	

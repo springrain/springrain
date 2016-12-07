@@ -44,6 +44,12 @@ public class RoleOrg  extends BaseEntity {
 	 * 部门编号
 	 */
 	private java.lang.String orgId;
+	
+	
+	private Integer orgType;
+	
+	
+	
 	/**
 	 * 是否包含子部门,0不包含,1包含
 	 */
@@ -100,6 +106,16 @@ public class RoleOrg  extends BaseEntity {
 	public java.lang.String getOrgId() {
 		return this.orgId;
 	}
+     
+     @WhereSQL(sql="orgId=:RoleOrg_orgType")
+	public Integer getOrgType() {
+		return orgType;
+	}
+
+	public void setOrgType(Integer orgType) {
+		this.orgType = orgType;
+	}
+
 	public void setHasLeaf(java.lang.Integer value) {
 		this.hasLeaf = value;
 	}

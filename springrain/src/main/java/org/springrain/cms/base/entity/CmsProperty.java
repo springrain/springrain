@@ -35,7 +35,7 @@ public class CmsProperty  extends BaseEntity {
 	public static final String ALIAS_DEFAULTVALUE = "默认值";
 	public static final String ALIAS_STYLE = "样式";
 	public static final String ALIAS_SORTNO = "排序";
-	public static final String ALIAS_STATE = "状态 0不可用,1可用";
+	public static final String ALIAS_ACTIVE = "状态 0不可用,1可用";
     */
 	//date formats
 	//public static final String FORMAT_CREATEDATE = DateUtils.DATETIME_FORMAT;
@@ -92,7 +92,7 @@ public class CmsProperty  extends BaseEntity {
 	/**
 	 * 状态 0不可用,1可用
 	 */
-	private java.lang.Integer state;
+	private java.lang.Integer active;
 	//columns END 数据库字段结束
 	
 	//concstructor
@@ -236,13 +236,13 @@ public class CmsProperty  extends BaseEntity {
 	public java.lang.Integer getSortno() {
 		return this.sortno;
 	}
-	public void setState(java.lang.Integer value) {
-		this.state = value;
+	public void setActive(java.lang.Integer value) {
+		this.active = value;
 	}
 	
-     @WhereSQL(sql="state=:CmsProperty_state")
-	public java.lang.Integer getState() {
-		return this.state;
+     @WhereSQL(sql="active=:CmsProperty_active")
+	public java.lang.Integer getActive() {
+		return this.active;
 	}
 	
 	public String toString() {
@@ -259,7 +259,7 @@ public class CmsProperty  extends BaseEntity {
 			.append("默认值[").append(getDefaultValue()).append("],")
 			.append("样式[").append(getStyle()).append("],")
 			.append("排序[").append(getSortno()).append("],")
-			.append("状态 0不可用,1可用[").append(getState()).append("],")
+			.append("状态 0不可用,1可用[").append(getActive()).append("],")
 			.toString();
 	}
 	

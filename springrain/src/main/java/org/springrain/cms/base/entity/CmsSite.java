@@ -38,7 +38,7 @@ public class CmsSite  extends BaseEntity {
 	public static final String ALIAS_THEMEID = "主题Id";
 	public static final String ALIAS_LOOKCOUNT = "打开次数";
 	public static final String ALIAS_SITETYPE = "0微信订阅服务号,1wap,2网站   ";
-	public static final String ALIAS_STATE = "状态 0不可用,1可用";
+	public static final String ALIAS_ACTIVE = "状态 0不可用,1可用";
     */
 	//date formats
 	
@@ -106,7 +106,7 @@ public class CmsSite  extends BaseEntity {
 	/**
 	 * 状态 0不可用,1可用
 	 */
-	private java.lang.Integer state;
+	private java.lang.Integer active;
 	//columns END 数据库字段结束
 	
 	
@@ -283,13 +283,13 @@ public class CmsSite  extends BaseEntity {
 	public java.lang.Integer getSiteType() {
 		return this.siteType;
 	}
-	public void setState(java.lang.Integer value) {
-		this.state = value;
+	public void setActive(java.lang.Integer value) {
+		this.active = value;
 	}
 	
-     @WhereSQL(sql="state=:CmsSite_state")
-	public java.lang.Integer getState() {
-		return this.state;
+     @WhereSQL(sql="active=:CmsSite_active")
+	public java.lang.Integer getActive() {
+		return this.active;
 	}
 	
 	public String toString() {
@@ -309,7 +309,7 @@ public class CmsSite  extends BaseEntity {
 			.append("主题Id[").append(getThemeId()).append("],")
 			.append("打开次数[").append(getLookcount()).append("],")
 			.append("0微信订阅服务号,1wap,2网站   [").append(getSiteType()).append("],")
-			.append("状态 0不可用,1可用[").append(getState()).append("],")
+			.append("状态 0不可用,1可用[").append(getActive()).append("],")
 			.toString();
 	}
 	

@@ -8,7 +8,6 @@ import javax.persistence.Transient;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-
 import org.springrain.frame.annotation.WhereSQL;
 import org.springrain.frame.entity.BaseEntity;
 /**
@@ -35,7 +34,7 @@ public class Org  extends BaseEntity {
 	public static final String ALIAS_LEAF = "叶子节点(0:树枝节点;1:叶子节点)";
 	public static final String ALIAS_SORTNO = "排序号";
 	public static final String ALIAS_DESCRIPTION = "描述";
-	public static final String ALIAS_STATE = "0.失效 1.有效";
+	public static final String ALIAS_ACTIVE = "0.失效 1.有效";
     */
 	//date formats
 	
@@ -61,9 +60,9 @@ public class Org  extends BaseEntity {
 	 */
 	private java.lang.String sysid;
 	/**
-	 * 0,组织机构 1.部门
+	 * 0,组织机构 1.部门,2.虚拟部门
 	 */
-	private java.lang.Integer type;
+	private java.lang.Integer orgType;
 	/**
 	 * 叶子节点(0:树枝节点;1:叶子节点)
 	 */
@@ -79,7 +78,7 @@ public class Org  extends BaseEntity {
 	/**
 	 * 0.失效 1.有效
 	 */
-	private java.lang.String state;
+	private java.lang.Integer active;
 	
 	/**
 	 * 主管Id
@@ -149,13 +148,13 @@ public class Org  extends BaseEntity {
 	public java.lang.String getSysid() {
 		return this.sysid;
 	}
-	public void setType(java.lang.Integer value) {
-		this.type = value;
+	public void setOrgType(java.lang.Integer value) {
+		this.orgType = value;
 	}
 	
-     @WhereSQL(sql="type=:Org_type")
-	public java.lang.Integer getType() {
-		return this.type;
+     @WhereSQL(sql="type=:Org_orgType")
+	public java.lang.Integer getOrgType() {
+		return this.orgType;
 	}
 	public void setLeaf(java.lang.Integer value) {
 		this.leaf = value;
@@ -181,13 +180,13 @@ public class Org  extends BaseEntity {
 	public java.lang.String getDescription() {
 		return this.description;
 	}
-	public void setState(String value) {
-		this.state = value;
+	public void setActive(Integer value) {
+		this.active = value;
 	}
 	
-     @WhereSQL(sql="state=:Org_state")
-	public String getState() {
-		return this.state;
+     @WhereSQL(sql="active=:Org_active")
+	public Integer getActive() {
+		return this.active;
 	}
      @WhereSQL(sql="managerId=:Org_managerId")
     public String getManagerId() {
@@ -205,11 +204,11 @@ public class Org  extends BaseEntity {
 			.append("代码[").append(getComcode()).append("],")
 			.append("上级部门ID[").append(getPid()).append("],")
 			.append("子系统ID[").append(getSysid()).append("],")
-			.append("0,组织机构 1.部门[").append(getType()).append("],")
+			.append("0,组织机构 1.部门,2虚拟部门[").append(getOrgType()).append("],")
 			.append("叶子节点(0:树枝节点;1:叶子节点)[").append(getLeaf()).append("],")
 			.append("排序号[").append(getSortno()).append("],")
 			.append("描述[").append(getDescription()).append("],")
-			.append("0.失效 1.有效[").append(getState()).append("],")
+			.append("0.失效 1.有效[").append(getActive()).append("],")
 			.toString();
 	}
 	

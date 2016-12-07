@@ -37,7 +37,7 @@ public class CmsContent  extends BaseEntity {
 	public static final String ALIAS_SOURCE = "来源";
 	public static final String ALIAS_SOURCEURL = "来源地址";
 	public static final String ALIAS_SORTNO = "排序";
-	public static final String ALIAS_STATE = "状态 0不可用,1可用";
+	public static final String ALIAS_ACTIVE = "状态 0不可用,1可用";
     */
 	//date formats
 	//public static final String FORMAT_CREATEDATE = DateUtils.DATETIME_FORMAT;
@@ -105,7 +105,7 @@ public class CmsContent  extends BaseEntity {
 	/**
 	 * 状态 0不可用,1可用
 	 */
-	private java.lang.Integer state;
+	private java.lang.Integer active;
 
 	
 	//concstructor
@@ -255,7 +255,18 @@ public class CmsContent  extends BaseEntity {
 	public java.lang.String getSourceurl() {
 		return this.sourceurl;
 	}
+    
+ 	public void setActive(java.lang.Integer value) {
+		this.active = value;
+	}
 	
+ 	 @WhereSQL(sql="active=:CmsContent_active")
+	public java.lang.Integer getActive() {
+		return this.active;
+	}
+	
+     
+     
 	public String toString() {
 		return new StringBuffer()
 			.append("ID[").append(getId()).append("],")
@@ -311,15 +322,7 @@ public class CmsContent  extends BaseEntity {
 	public java.lang.Integer getSortno() {
 		return this.sortno;
 	}
-	public void setState(java.lang.Integer value) {
-		this.state = value;
-	}
-	
 
-	public java.lang.Integer getState() {
-		return this.state;
-	}
-	
 }
 
 	

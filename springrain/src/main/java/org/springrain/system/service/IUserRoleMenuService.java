@@ -108,7 +108,7 @@ public interface IUserRoleMenuService extends IBaseSpringrainService {
 	 * @return
 	 * @throws Exception
 	 */
-Set<String> getPermissionsAsString(String userId) throws Exception;	
+    Set<String> getPermissionsAsString(String userId) throws Exception;	
 	
 	
 }

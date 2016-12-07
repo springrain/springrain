@@ -31,7 +31,7 @@ public class Role  extends BaseEntity {
 	public static final String ALIAS_PERMISSIONS = "权限";
 	public static final String ALIAS_PID = "所属部门";
 	public static final String ALIAS_REMARK = "备注";
-	public static final String ALIAS_STATE = "状态(0:禁用2:启用)";
+	public static final String ALIAS_ACTIVE = "状态(0:禁用2:启用)";
     */
 	//date formats
 	
@@ -53,13 +53,17 @@ public class Role  extends BaseEntity {
 	 */
 	private java.lang.String pid;
 	/**
+	 * 角色类型
+	 */
+	private Integer roleType;
+	/**
 	 * 备注
 	 */
 	private java.lang.String remark;
 	/**
 	 * 状态(0:禁用1:启用)
 	 */
-	private java.lang.String state;
+	private java.lang.Integer active;
 	//columns END 数据库字段结束
 	
 	private List<Menu> menus;
@@ -102,6 +106,15 @@ public class Role  extends BaseEntity {
 	public java.lang.String getPid() {
 		return this.pid;
 	}
+     @WhereSQL(sql="pid=:Role_roleType")
+	public Integer getRoleType() {
+		return roleType;
+	}
+
+	public void setRoleType(Integer roleType) {
+		this.roleType = roleType;
+	}
+
 	public void setRemark(java.lang.String value) {
 		this.remark = value;
 	}
@@ -110,13 +123,13 @@ public class Role  extends BaseEntity {
 	public java.lang.String getRemark() {
 		return this.remark;
 	}
-	public void setState(String value) {
-		this.state = value;
+	public void setActive(Integer value) {
+		this.active = value;
 	}
 	
-     @WhereSQL(sql="state=:Role_state")
-	public String getState() {
-		return this.state;
+     @WhereSQL(sql="active=:Role_active")
+	public Integer getActive() {
+		return this.active;
 	}
 	
 	public String toString() {
@@ -125,8 +138,9 @@ public class Role  extends BaseEntity {
 			.append("角色名称[").append(getName()).append("],")
 			.append("权限编码[").append(getCode()).append("],")
 			.append("所属部门[").append(getPid()).append("],")
+			.append("角色类型(0系统角色,1业务岗位)[").append(getRoleType()).append("],")
 			.append("备注[").append(getRemark()).append("],")
-			.append("状态(0:禁用1:启用)[").append(getState()).append("],")
+			.append("状态(0:禁用1:启用)[").append(getActive()).append("],")
 			.toString();
 	}
 	

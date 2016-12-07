@@ -114,12 +114,12 @@ public class UserRoleMenuServiceImpl extends BaseSpringrainServiceImpl implement
 	private Finder getMenuFinderByUserId(String userId,Integer menutype) throws Exception{
 		
 		Finder finder = new Finder(
-				"SELECT m.* from ").append(Finder.getTableName(Menu.class)).append(" m,").append(Finder.getTableName(RoleMenu.class)).append("  rm,").append(Finder.getTableName(UserRole.class)).append("  ur where ur.userId=:userId and ur.roleId=rm.roleId and m.id=rm.menuId  and m.state=:state ");
+				"SELECT m.* from ").append(Finder.getTableName(Menu.class)).append(" m,").append(Finder.getTableName(RoleMenu.class)).append("  rm,").append(Finder.getTableName(UserRole.class)).append("  ur where ur.userId=:userId and ur.roleId=rm.roleId and m.id=rm.menuId  and m.active=:active ");
 		if(menutype!=null){
-			finder.append(" and m.type=:menutype ").setParam("menutype", menutype);
+			finder.append(" and m.menuType=:menutype ").setParam("menutype", menutype);
 		}
 		finder.append(" order by m.sortno asc,m.id asc ");
-		finder.setParam("userId", userId).setParam("state", "是");
+		finder.setParam("userId", userId).setParam("active", 1);
 		
 		return finder;
 		
@@ -171,9 +171,9 @@ public class UserRoleMenuServiceImpl extends BaseSpringrainServiceImpl implement
 	@Override
 	@Cacheable(value = GlobalStatic.qxCacheKey, key = "'findAllRoleAndMenu'")
 	public List<Role> findAllRoleAndMenu() throws Exception {
-		//Finder f_role = new Finder("SELECT * FROM t_role where state=:state ");
-		Finder f_role = Finder.getSelectFinder(Role.class).append(" WHERE   state=:state ");
-		f_role.setParam("state", "是");
+		//Finder f_role = new Finder("SELECT * FROM t_role where active=:active ");
+		Finder f_role = Finder.getSelectFinder(Role.class).append(" WHERE   active=:active ");
+		f_role.setParam("active", 1);
 		List<Role> listRole = super.queryForList(f_role, Role.class);
 		if (CollectionUtils.isEmpty(listRole)) {
 			return null;
@@ -272,7 +272,7 @@ public class UserRoleMenuServiceImpl extends BaseSpringrainServiceImpl implement
 		
 		for(int i=0;i<from.size();i++){
 			Menu m=from.get(i);
-			if(m==null||(m.getType()-0==0)){
+			if(m==null||(m.getMenuType()-0==0)){
 				//from.remove(i);
 			//	i=i-1;
 				continue;

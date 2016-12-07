@@ -30,7 +30,7 @@ public class CmsSiteWxconfig  extends BaseEntity {
 	public static final String ALIAS_TOKEN = "开发者Id";
 	public static final String ALIAS_ENCODINGAESKEY = "消息加解密密钥";
 	public static final String ALIAS_WXID = "原始ID";
-	public static final String ALIAS_STATE = "状态 0不可用,1可用";
+	public static final String ALIAS_ACTIVE = "状态 0不可用,1可用";
     */
 	//date formats
 	
@@ -66,7 +66,7 @@ public class CmsSiteWxconfig  extends BaseEntity {
 	/**
 	 * 状态 0不可用,1可用
 	 */
-	private java.lang.Integer state;
+	private java.lang.Integer active;
 	//columns END 数据库字段结束
 	
 	//concstructor
@@ -159,13 +159,13 @@ public class CmsSiteWxconfig  extends BaseEntity {
 	public java.lang.String getWxId() {
 		return this.wxId;
 	}
-	public void setState(java.lang.Integer value) {
-		this.state = value;
+	public void setActive(java.lang.Integer value) {
+		this.active = value;
 	}
 	
-     @WhereSQL(sql="state=:CmsSiteWxconfig_state")
-	public java.lang.Integer getState() {
-		return this.state;
+     @WhereSQL(sql="active=:CmsSiteWxconfig_active")
+	public java.lang.Integer getActive() {
+		return this.active;
 	}
 	
 	public String toString() {
@@ -177,7 +177,7 @@ public class CmsSiteWxconfig  extends BaseEntity {
 			.append("开发者Id[").append(getToken()).append("],")
 			.append("消息加解密密钥[").append(getEncodingAESKey()).append("],")
 			.append("原始ID[").append(getWxId()).append("],")
-			.append("状态 0不可用,1可用[").append(getState()).append("],")
+			.append("状态 0不可用,1可用[").append(getActive()).append("],")
 			.toString();
 	}
 	

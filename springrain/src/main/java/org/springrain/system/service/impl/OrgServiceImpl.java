@@ -166,8 +166,8 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
 			Object o) throws Exception{
         	
         	finder=new Finder("SELECT o.*,u.name managerName FROM ").append(Finder.getTableName(Org.class)).append(" o left join ").append(Finder.getTableName(User.class)).append(" u on  u.id=o.managerId ");
-        	finder.append(" WHERE   o.state=:state order by o.sortno asc ");
-        	 finder.setParam("state", "是");
+        	finder.append(" WHERE   o.active=:active order by o.sortno asc ");
+        	 finder.setParam("active", 1);
 			 return super.queryForList(finder, clazz);
 			}
 	/**
@@ -201,7 +201,7 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
 		
 		for(int i=0;i<from.size();i++){
 			Org m=from.get(i);
-			if(m==null||(m.getType()-0==0)){
+			if(m==null||(m.getOrgType()-0==0)){
 				//from.remove(i);
 			//	i=i-1;
 				continue;
@@ -238,7 +238,7 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
 		Finder finder=Finder.getSelectFinder(Org.class, "comcode").append(" WHERE id=:orgId ").setParam("orgId", orgId);
 		String comcode = super.queryForObject(finder, String.class);
 		
-		Finder f_update=Finder.getUpdateFinder(Org.class, " state=:state ").append(" WHERE comcode like :comcode ").setParam("state", "否").setParam("comcode", comcode+"%");
+		Finder f_update=Finder.getUpdateFinder(Org.class, " active=:active ").append(" WHERE comcode like :comcode ").setParam("active", 0).setParam("comcode", comcode+"%");
 		
 		super.update(f_update);
 		
@@ -249,7 +249,7 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
 
 	@Override
 	public List<Org> findTreeByPid(String pid) throws Exception {
-        Finder finder=Finder.getSelectFinder(Org.class).append(" WHERE state=:state ").setParam("state", "是");
+        Finder finder=Finder.getSelectFinder(Org.class).append(" WHERE active=:active ").setParam("active", 1);
         
         if(StringUtils.isNotBlank(pid)){
         	finder.append(" and comcode like :comcode and id<>:pid ").setParam("comcode", "%,"+pid+",%").setParam("pid", pid);

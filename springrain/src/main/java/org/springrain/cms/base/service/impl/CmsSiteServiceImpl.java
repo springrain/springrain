@@ -62,7 +62,7 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 	    cmsLink.setModelType(0);//网站
 	    cmsLink.setLookcount(1);
 	    cmsLink.setStatichtml(0);//默认不静态化
-	    cmsLink.setState(0);//默认可以使用
+	    cmsLink.setActive(0);//默认可以使用
 	    cmsLink.setSortno(1);
 	    //首页默认
 	    String _index="/f/"+cmsSite.getSiteType()+"/"+id+"/index";

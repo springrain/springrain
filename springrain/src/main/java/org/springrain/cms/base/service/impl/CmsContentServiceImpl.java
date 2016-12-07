@@ -64,7 +64,7 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 	   CmsChannelContent ccc=new CmsChannelContent();
 	   ccc.setChannelId(cmsContent.getChannelId());
 	   ccc.setSortno(cmsContent.getSortno());
-	   ccc.setState(cmsContent.getState());
+	   ccc.setActive(cmsContent.getActive());
 	   ccc.setContentId(id);
 	   ccc.setSiteId(cmsContent.getSiteId());
 	   super.save(ccc);
@@ -79,7 +79,7 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 	    cmsLink.setModelType(2);//内容
 	    cmsLink.setLookcount(1);
 	    cmsLink.setStatichtml(0);//默认不静态化
-	    cmsLink.setState(cmsContent.getState());//默认可以使用
+	    cmsLink.setActive(cmsContent.getActive());//默认可以使用
 	    cmsLink.setSortno(cmsContent.getSortno());
 	    //首页默认
 	    String _index="/f/"+siteType+"/"+siteId+"/"+id;

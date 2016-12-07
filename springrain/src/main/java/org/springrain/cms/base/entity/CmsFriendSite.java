@@ -30,7 +30,7 @@ public class CmsFriendSite  extends BaseEntity {
 	public static final String ALIAS_URL = "网站地址";
 	public static final String ALIAS_LOGO = "网站logo";
 	public static final String ALIAS_SORTNO = "排序";
-	public static final String ALIAS_STATE = "状态 0不可用,1可用";
+	public static final String ALIAS_ACTIVE = "状态 0不可用,1可用";
     */
 	//date formats
 	
@@ -66,7 +66,7 @@ public class CmsFriendSite  extends BaseEntity {
 	/**
 	 * 状态 0不可用,1可用
 	 */
-	private java.lang.Integer state;
+	private java.lang.Integer active;
 	//columns END 数据库字段结束
 	
 	//concstructor
@@ -156,13 +156,13 @@ public class CmsFriendSite  extends BaseEntity {
 	public java.lang.Integer getSortno() {
 		return this.sortno;
 	}
-	public void setState(java.lang.Integer value) {
-		this.state = value;
+	public void setActive(java.lang.Integer value) {
+		this.active = value;
 	}
 	
-     @WhereSQL(sql="state=:CmsFriendSite_state")
-	public java.lang.Integer getState() {
-		return this.state;
+     @WhereSQL(sql="active=:CmsFriendSite_active")
+	public java.lang.Integer getActive() {
+		return this.active;
 	}
 	
 	public String toString() {
@@ -174,7 +174,7 @@ public class CmsFriendSite  extends BaseEntity {
 			.append("网站地址[").append(getUrl()).append("],")
 			.append("网站logo[").append(getLogo()).append("],")
 			.append("排序[").append(getSortno()).append("],")
-			.append("状态 0不可用,1可用[").append(getState()).append("],")
+			.append("状态 0不可用,1可用[").append(getActive()).append("],")
 			.toString();
 	}
 	

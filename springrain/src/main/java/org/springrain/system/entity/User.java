@@ -57,7 +57,7 @@ public class User  extends BaseEntity {
 	/**
 	 * 是否有效,是/否/离职
 	 */
-	private java.lang.String state;
+	private java.lang.Integer active;
 	/**
 	 * 微信Id
 	 */
@@ -177,16 +177,13 @@ public class User  extends BaseEntity {
 			return this.email;
 		}
 		
-		public void setState(java.lang.String value) {
-			    if(StringUtils.isNotBlank(value)){
-				 value=value.trim();
-				}
-			this.state = value;
+		public void setActive(java.lang.Integer value) {
+			this.active = value;
 		}
 		
-	     @WhereSQL(sql="state=:User_state")
-		public java.lang.String getState() {
-			return this.state;
+	     @WhereSQL(sql="active=:User_active")
+		public java.lang.Integer getActive() {
+			return this.active;
 		}
 	     @WhereSQL(sql="userType=:User_userType")
 		public Integer getUserType() {
@@ -206,7 +203,7 @@ public class User  extends BaseEntity {
 			.append("性别[").append(getSex()).append("],")
 			.append("手机号码[").append(getMobile()).append("],")
 			.append("邮箱[").append(getEmail()).append("],")
-			.append("是否有效,是/否/离职[").append(getState()).append("],")
+			.append("是否有效,0否,1是[").append(getActive()).append("],")
 			.toString();
 		}
 		

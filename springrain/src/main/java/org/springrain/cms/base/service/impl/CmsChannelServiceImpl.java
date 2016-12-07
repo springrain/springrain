@@ -86,7 +86,7 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 	    cmsLink.setModelType(1);//栏目
 	    cmsLink.setLookcount(1);
 	    cmsLink.setStatichtml(0);//默认不静态化
-	    cmsLink.setState(0);//默认可以使用
+	    cmsLink.setActive(0);//默认可以使用
 	    cmsLink.setSortno(1);
 	    //首页默认
 	    String _index="/f/"+siteType+"/"+siteId+"/"+id;
@@ -145,6 +145,7 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 		    ch.setComcode(_c);
 		    ch.setPid(id);
 	    }
+	    
 		
 		super.update(list,true);
 		 
@@ -166,7 +167,7 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
     		return null;
     	}
     	
-    	Finder finder=Finder.getSelectFinder(CmsChannel.class).append("  WHERE state=:state and siteId=:siteId ").setParam("siteId", siteId).setParam("state", 1);
+    	Finder finder=Finder.getSelectFinder(CmsChannel.class).append("  WHERE active=:active and siteId=:siteId ").setParam("siteId", siteId).setParam("active", 1);
         
         if(StringUtils.isNotBlank(pid)){
         	finder.append(" and comcode like :comcode and id<>:pid ").setParam("comcode", "%,"+pid+",%").setParam("pid", pid);

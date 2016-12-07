@@ -8,7 +8,6 @@ import javax.persistence.Transient;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-
 import org.springrain.frame.annotation.WhereSQL;
 import org.springrain.frame.entity.BaseEntity;
 /**
@@ -33,7 +32,7 @@ public class Menu  extends BaseEntity {
 	public static final String ALIAS_PAGEURL = "pageurl";
 	public static final String ALIAS_TYPE = "0.普通资源1.菜单资源";
 	public static final String ALIAS_SYSTEMID = "systemId";
-	public static final String ALIAS_STATE = "state";
+	public static final String ALIAS_ACTIVE = "active";
     */
 	//date formats
 	
@@ -61,7 +60,7 @@ public class Menu  extends BaseEntity {
 	/**
 	 * 0.普通资源1.菜单资源
 	 */
-	private java.lang.Integer type;
+	private java.lang.Integer menuType;
 	/**
 	 * 排序
 	 */
@@ -74,9 +73,9 @@ public class Menu  extends BaseEntity {
 	
 
 	/**
-	 * state
+	 * active
 	 */
-	private java.lang.String state;
+	private Integer active;
 	//columns END 数据库字段结束
 	private String pidName;
 	@Transient
@@ -144,13 +143,13 @@ public class Menu  extends BaseEntity {
 	public java.lang.String getPageurl() {
 		return this.pageurl;
 	}
-	public void setType(java.lang.Integer value) {
-		this.type = value;
+	public void setMenuType(java.lang.Integer value) {
+		this.menuType = value;
 	}
 	
-     @WhereSQL(sql="type=:Menu_type")
-	public java.lang.Integer getType() {
-		return this.type;
+     @WhereSQL(sql="type=:Menu_menuType")
+	public java.lang.Integer getMenuType() {
+		return this.menuType;
 	}
      @WhereSQL(sql="sortno=:Menu_sortno")
 	public Integer getSortno() {
@@ -163,13 +162,13 @@ public class Menu  extends BaseEntity {
 
 	
 
-	public void setState(String value) {
-		this.state = value;
+	public void setActive(Integer value) {
+		this.active = value;
 	}
 	
-     @WhereSQL(sql="state=:Menu_state")
-	public String getState() {
-		return this.state;
+     @WhereSQL(sql="active=:Menu_active")
+	public Integer getActive() {
+		return this.active;
 	}
      @WhereSQL(sql="menuIcon=:Menu_menuIcon")
 	public String getMenuIcon() {
@@ -187,8 +186,8 @@ public class Menu  extends BaseEntity {
 			.append("pid[").append(getPid()).append("],")
 			.append("description[").append(getDescription()).append("],")
 			.append("pageurl[").append(getPageurl()).append("],")
-			.append("0.普通资源1.菜单资源[").append(getType()).append("],")
-			.append("state[").append(getState()).append("],")
+			.append("0.普通资源1.菜单资源[").append(getMenuType()).append("],")
+			.append("active[").append(getActive()).append("],")
 			.append("sortno[").append(getSortno()).append("],")
 			.toString();
 	}

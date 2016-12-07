@@ -228,7 +228,7 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
 		super.update(f_del_org);
 		
 		
-		Finder f_update=Finder.getUpdateFinder(User.class," state=:state ").append(" WHERE id=:id ").setParam("id", userId).setParam("state", "否");
+		Finder f_update=Finder.getUpdateFinder(User.class," active=:active ").append(" WHERE id=:id ").setParam("id", userId).setParam("active", 0);
 		
 		super.update(f_update);
 		

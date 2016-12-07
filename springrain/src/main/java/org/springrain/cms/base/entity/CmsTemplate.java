@@ -29,7 +29,7 @@ public class CmsTemplate  extends BaseEntity {
 	public static final String ALIAS_IMGFILE = "缩略图路径路径";
 	public static final String ALIAS_MODELTYPE = "0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)";
 	public static final String ALIAS_USECOUNT = "使用次数";
-	public static final String ALIAS_STATE = "状态 0不可用,1可用";
+	public static final String ALIAS_ACTIVE = "状态 0不可用,1可用";
     */
 	//date formats
 	
@@ -65,7 +65,7 @@ public class CmsTemplate  extends BaseEntity {
 	/**
 	 * 状态 0不可用,1可用
 	 */
-	private java.lang.Integer state;
+	private java.lang.Integer active;
 	//columns END 数据库字段结束
 	
 	//concstructor
@@ -152,13 +152,13 @@ public class CmsTemplate  extends BaseEntity {
 	public java.lang.Integer getUsecount() {
 		return this.usecount;
 	}
-	public void setState(java.lang.Integer value) {
-		this.state = value;
+	public void setActive(java.lang.Integer value) {
+		this.active = value;
 	}
 	
-     @WhereSQL(sql="state=:CmsTemplate_state")
-	public java.lang.Integer getState() {
-		return this.state;
+     @WhereSQL(sql="active=:CmsTemplate_active")
+	public java.lang.Integer getActive() {
+		return this.active;
 	}
 	
 	public String toString() {
@@ -170,7 +170,7 @@ public class CmsTemplate  extends BaseEntity {
 			.append("缩略图路径路径[").append(getImgfile()).append("],")
 			.append("0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)[").append(getModelType()).append("],")
 			.append("使用次数[").append(getUsecount()).append("],")
-			.append("状态 0不可用,1可用[").append(getState()).append("],")
+			.append("状态 0不可用,1可用[").append(getActive()).append("],")
 			.toString();
 	}
 	

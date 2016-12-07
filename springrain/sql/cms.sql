@@ -34,7 +34,7 @@ CREATE TABLE `cms_attachment` (
   `modelType` int(11) NOT NULL DEFAULT 0 COMMENT '0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)',
   `sortno` int(11) NOT NULL  DEFAULT 0  COMMENT '排序',
   `lookcount` int(11) DEFAULT NULL COMMENT '打开次数',
-  `state` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
+  `active` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='附件表';
 
@@ -58,7 +58,7 @@ CREATE TABLE `cms_channel` (
   `description` varchar(1000) DEFAULT NULL COMMENT '描述',
   `lookcount` int(11) DEFAULT NULL COMMENT '打开次数',
   `sortno` int(11) NOT NULL  DEFAULT 0  COMMENT '排序',
-  `state` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
+  `active` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='栏目表';
 
@@ -76,7 +76,7 @@ CREATE TABLE `cms_channel_content` (
   `channelId` varchar(50) NOT NULL,
   `contentId` varchar(50) NOT NULL,
   `sortno` int(11) NOT NULL  DEFAULT 0  COMMENT '排序',
-  `state` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
+  `active` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='栏目内容中间表';
 
@@ -144,7 +144,7 @@ CREATE TABLE `cms_friend_site` (
   `url` varchar(1000) NOT NULL COMMENT '网站地址',
   `logo` varchar(2000) NOT NULL COMMENT '网站logo',
   `sortno` int(11) DEFAULT NULL COMMENT '排序',
-  `state` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
+  `active` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='友情链接';
 
@@ -169,7 +169,7 @@ CREATE TABLE `cms_link` (
   `nodeftlfile` varchar(1000) DEFAULT NULL COMMENT '子内容使用的ftl模板文件',
   `statichtml` int(11) NOT NULL  DEFAULT 0  COMMENT '是否静态化 0否,1是',
   `sortno` int(11) NOT NULL  DEFAULT 0  COMMENT '排序',
-  `state` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
+  `active` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='业务链接表';
 
@@ -197,7 +197,7 @@ CREATE TABLE `cms_property` (
   `defaultValue` varchar(100) DEFAULT NULL COMMENT '默认值',
   `style` varchar(500) DEFAULT NULL COMMENT '样式',
   `sortno` int(11) NOT NULL  DEFAULT 0  COMMENT '排序',
-  `state` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
+  `active` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='自定义属性表';
 
@@ -216,7 +216,7 @@ CREATE TABLE `cms_propertyvalue` (
   `siteId` varchar(50) NOT NULL,
   `businessId` varchar(50) NOT NULL COMMENT '业务Id',
   `sortno` int(11) DEFAULT NULL COMMENT '排序',
-  `state` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
+  `active` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='自定义属性对应值表';
 
@@ -244,7 +244,7 @@ CREATE TABLE `cms_site` (
   `themeId` varchar(50) DEFAULT NULL COMMENT '主题Id',
   `lookcount` int(11) DEFAULT NULL COMMENT '打开次数',
   `siteType`  int(11) NOT NULL DEFAULT 0 COMMENT '0微信订阅服务号,1wap,2网站   ',
-  `state` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
+  `active` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='站点表';
 
@@ -266,7 +266,7 @@ CREATE TABLE `cms_site_wxconfig` (
   `token` varchar(500) DEFAULT NULL COMMENT '开发者Id',
   `encodingAESKey` varchar(500) DEFAULT NULL COMMENT '消息加解密密钥',
   `wxId` varchar(500) DEFAULT NULL COMMENT '原始ID',
-  `state` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
+  `active` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='微信号需要的配置信息';
 
@@ -287,7 +287,7 @@ CREATE TABLE `cms_template` (
   `imgfile` varchar(1000) DEFAULT NULL COMMENT '缩略图路径路径',
   `modelType` int(11) NOT NULL DEFAULT 0 COMMENT '0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)',
   `usecount` int(11) DEFAULT NULL COMMENT '使用次数',
-  `state` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
+  `active` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='模板表';
 
@@ -303,7 +303,7 @@ CREATE TABLE `cms_theme` (
   `id` varchar(50) NOT NULL COMMENT 'ID',
   `name` varchar(500) NOT NULL COMMENT '名称',
   `usecount` int(11) DEFAULT NULL COMMENT '使用次数',
-  `state` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
+  `active` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='主题表';
 

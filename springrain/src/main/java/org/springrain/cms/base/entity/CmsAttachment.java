@@ -37,7 +37,7 @@ public class CmsAttachment  extends BaseEntity {
 	public static final String ALIAS_MODELTYPE = "0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)";
 	public static final String ALIAS_SORTNO = "排序";
 	public static final String ALIAS_LOOKCOUNT = "打开次数";
-	public static final String ALIAS_STATE = "状态 0不可用,1可用";
+	public static final String ALIAS_ACTIVE = "状态 0不可用,1可用";
     */
 	//date formats
 	//public static final String FORMAT_CREATEDATE = DateUtils.DATETIME_FORMAT;
@@ -102,7 +102,7 @@ public class CmsAttachment  extends BaseEntity {
 	/**
 	 * 状态 0不可用,1可用
 	 */
-	private java.lang.Integer state;
+	private java.lang.Integer active;
 	//columns END 数据库字段结束
 	
 	//concstructor
@@ -268,13 +268,13 @@ public class CmsAttachment  extends BaseEntity {
 	public java.lang.Integer getLookcount() {
 		return this.lookcount;
 	}
-	public void setState(java.lang.Integer value) {
-		this.state = value;
+	public void setActive(java.lang.Integer value) {
+		this.active = value;
 	}
 	
-     @WhereSQL(sql="state=:CmsAttachment_state")
-	public java.lang.Integer getState() {
-		return this.state;
+     @WhereSQL(sql="active=:CmsAttachment_active")
+	public java.lang.Integer getActive() {
+		return this.active;
 	}
 	
 	public String toString() {
@@ -293,7 +293,7 @@ public class CmsAttachment  extends BaseEntity {
 			.append("0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)[").append(getModelType()).append("],")
 			.append("排序[").append(getSortno()).append("],")
 			.append("打开次数[").append(getLookcount()).append("],")
-			.append("状态 0不可用,1可用[").append(getState()).append("],")
+			.append("状态 0不可用,1可用[").append(getActive()).append("],")
 			.toString();
 	}
 	
