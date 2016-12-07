@@ -147,7 +147,7 @@ public class Menu  extends BaseEntity {
 		this.menuType = value;
 	}
 	
-     @WhereSQL(sql="type=:Menu_menuType")
+     @WhereSQL(sql="menuType=:Menu_menuType")
 	public java.lang.Integer getMenuType() {
 		return this.menuType;
 	}

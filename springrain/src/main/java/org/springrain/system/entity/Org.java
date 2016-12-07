@@ -152,7 +152,7 @@ public class Org  extends BaseEntity {
 		this.orgType = value;
 	}
 	
-     @WhereSQL(sql="type=:Org_orgType")
+     @WhereSQL(sql="orgType=:Org_orgType")
 	public java.lang.Integer getOrgType() {
 		return this.orgType;
 	}

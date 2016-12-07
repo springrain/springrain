@@ -106,7 +106,7 @@ public class Role  extends BaseEntity {
 	public java.lang.String getPid() {
 		return this.pid;
 	}
-     @WhereSQL(sql="pid=:Role_roleType")
+     @WhereSQL(sql="roleType=:Role_roleType")
 	public Integer getRoleType() {
 		return roleType;
 	}
