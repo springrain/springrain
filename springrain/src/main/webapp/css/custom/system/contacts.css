@@ -1,0 +1,18 @@
+.orgsContainer{
+	left:0;
+	position:absolute;
+}
+
+.usersContainer{
+	right:0;
+	position:absolute;
+}
+
+.orgTitle{
+	color:#c2c2c2;
+}
+
+.userTitle{
+	line-height:4;
+}
+
