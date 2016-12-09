@@ -52,9 +52,10 @@
 	</context:component-scan>
 
 	<mvc:resources mapping="/images/**" location="/images/" />
+	<mvc:resources mapping="/img/**" location="/img/" />
 	<mvc:resources mapping="/js/**" location="/js/" />
 	<mvc:resources mapping="/css/**" location="/css/" />
-	<mvc:resources mapping="/ace/**" location="/ace/" />
+	<mvc:resources mapping="/layui/**" location="/layui/" />
 	<mvc:resources location="/upload/" mapping="/upload/**"/>
 	
 	

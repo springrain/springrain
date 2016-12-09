@@ -1,302 +1,101 @@
 <#-- 全局变量 --> 
 <#global ctx="${(ctp.contextPath)!''}"> 
 
-<#macro head>
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="viewport"
-	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<meta charset="utf-8" />
-<script type="text/javascript">
-	var ctx="${ctx}";
-</script>
-</#macro>
-
-<#macro ace>
-<@head />
-		<!-- bootstrap & fontawesome -->
-		<link rel="stylesheet" href="${ctx}/ace/css/bootstrap.min.css" />
-		<link rel="stylesheet" href="${ctx}/ace/font-awesome/4.5.0/css/font-awesome.min.css" />
-
-		<!-- page specific plugin styles -->
-
-		<!-- text fonts -->
-		<link rel="stylesheet" href="${ctx}/ace/css/fonts.googleapis.com.css" />
-
-		<!-- ace styles -->
-		<link rel="stylesheet" href="${ctx}/ace/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
-
-		<!--[if lte IE 9]>
-			<link rel="stylesheet" href="${ctx}/ace/css/ace-part2.min.css" class="ace-main-stylesheet" />
-		<![endif]-->
-		<link rel="stylesheet" href="${ctx}/ace/css/ace-skins.min.css" />
-		<link rel="stylesheet" href="${ctx}/ace/css/ace-rtl.min.css" />
-
-		<!--[if lte IE 9]>
-		  <link rel="stylesheet" href="${ctx}/ace/css/ace-ie.min.css" />
-		<![endif]-->
-
-		<!-- inline styles related to this page -->
-
-		<!-- ace settings handler -->
-		<script src="${ctx}/ace/js/ace-extra.min.js"></script>
-
-		<!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
-
-		<!--[if lte IE 8]>
-		<script src="${ctx}/ace/js/html5shiv.min.js"></script>
-		<script src="${ctx}/ace/js/respond.min.js"></script>
-		<![endif]-->
-</#macro>
-
-<#macro aceplugin>
-<@ace/>
-<@basicScript/>
-
-</#macro>
-
-<#macro basicScript>
-
-	<!-- basic scripts -->
-
-		<!--[if !IE]> -->
-		<script src="${ctx}/ace/js/jquery-2.1.4.min.js"></script>
-
-		<!-- <![endif]-->
-
-		<!--[if IE]>
-<script src="${ctx}/ace/js/jquery-1.11.3.min.js"></script>
-<![endif]-->
+<!-- 页头  -->
+<#macro head title>
+<html>
+	<head>
+		<title>${title}</title>
+		<meta charset="utf-8">
+		<meta name="renderer" content="webkit">
+	  	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	  	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	  	<meta name="apple-mobile-web-app-status-bar-style" content="black"> 
+	  	<meta name="apple-mobile-web-app-capable" content="yes">
+	  	<meta name="format-detection" content="telephone=no">
+	  
+	  	<link rel="stylesheet" href="${ctx}/layui/css/layui.css" media="all">
+	  	<link rel="stylesheet" href="${ctx}/layui/css/global.css" media="all">
+	  	
+	  	
+		<link id="layuicss-skinlayercss" rel="stylesheet" href="${ctx}/layui/css/modules/layer/default/layer.css" media="all">
+		<link id="layuicss-skincodecss" rel="stylesheet" href="${ctx}/layui/css/modules/code.css" media="all">
+	  	<script src="${ctx}/js/cache/locache.min.js"></script>
 		<script type="text/javascript">
-			if('ontouchstart' in document.documentElement) document.write("<script src='${ctx}/ace/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+			var ctx="${ctx}";
 		</script>
-		<script src="${ctx}/ace/js/bootstrap.min.js"></script>
-	
-	<!-- page specific plugin scripts -->
-	
-	
-	<!-- ace scripts -->
-	
-	<!-- 
-	<script src="${ctx}/ace/js/ace-elements.min.js"></script>
-	 -->
-	
-	<script src="${ctx}/ace/js/ace.min.js"></script>
-	
-	
-	
-	
-	
-	<!--custom scripts   --> 
-	<script src="${ctx}/js/coms/common/ajaxmenu.js"></script>
-	<script src="${ctx}/js/coms/common/common.js"></script>
-	<script src="${ctx}/js/coms/common/messager.js"></script>
-	<script src="${ctx}/js/coms/common/pagetoolbar.js"></script>
-
-	<script src="${ctx}/js/jquery/jquery.form.js"></script>
-	
-	
-	<link rel="stylesheet" href="${ctx}/js/coms/layer/skin/layer.css" />
-    <script  type="text/javascript" src="${ctx}/js/coms/layer/layer.js"></script>
-    
-    
-    
-    <script type="text/javascript">
-   		window.UEDITOR_HOME_URL="${ctx}/";
-    </script>
-    
-    
-    <script type="text/javascript" src="${ctx}/js/ueditor/ueditor.config.js"></script> 
-    <script type="text/javascript" src="${ctx}/js/ueditor/ueditor.all.min.js"></script>
-    
-    <link rel="stylesheet" href="${ctx}/js/coms/select2/css/select2.min.css" />
-    <link rel="stylesheet" href="${ctx}/js/coms/select2/css/select2-bootstrap.min.css" />
-    <script src="${ctx}/js/coms/select2/js/select2.min.js"></script>
-    <script src="${ctx}/js/coms/select2/js/i18n/zh-CN.js"></script>
-    
-    
-     <script src="${ctx}/js/coms/select2/js/select2.ajax.js"></script>
-     
-      <link rel="stylesheet" href="${ctx}/js/validate/validate.css" />
-     <script src="${ctx}/js/validate/Validform_v5.3.2_min.js"></script>
-    
-    
-    
-    <!-- ztree -->
-    <link rel="stylesheet" href="${ctx}/js/coms/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
-	<script type="text/javascript" src="${ctx}/js/coms/ztree/js/jquery.ztree.all-3.5.js"></script>
-	<script type="text/javascript" src="${ctx}/js/coms/common/ztreeUtils.js"></script>
-	    
-    
-    
-    
-   
+		<script src="${ctx}/js/jquery/jquery-1.12.4.js"></script>
+		<script src="${ctx}/layui/layui.js"></script>
+		<script src="${ctx}/js/custom/common/common.js"></script>
+		<link rel="stylesheet" href="${ctx}/css/custom/common/common.css" media="all">
 </#macro>
+<!-- 头部横向导航  -->
+<#macro naviHeader>
 
-<#macro navbar>
-	<div id="navbar" class="navbar navbar-default">
-	<script type="text/javascript">
-		try{ace.settings.check('navbar' , 'fixed')}catch(e){}
-	</script>
-
-	<div class="navbar-container" id="navbar-container">
-
-		<div class="navbar-header pull-left">
-			<a href="${ctx}" class="navbar-brand">
-				<small>
-					<i class="fa fa-comments"></i>
-					后台管理系统
-				</small>
+</head>
+<body class="no-skin">
+	<div class="layui-layout layui-layout-admin">
+	<div class="layui-header header header-demo">
+		<div class="layui-main">
+			<a class="logo" href="/">
+				<img src="http://www.mzywx.com/upload/site/61dc996b5b10461dc186bc73388cb214.png" alt="springrain"/>
 			</a>
-		</div>
-
-		<div class="navbar-buttons navbar-header pull-right" role="navigation">
-			<ul class="nav ace-nav">
-				<li class="green">
-					<a data-toggle="dropdown" class="dropdown-toggle" href="#">
-						<i class="ace-icon fa fa-envelope "></i>
-						<span class="badge badge-success">0</span>
-					</a>
-
-					<ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
-						<li class="dropdown-header">
-							<i class="ace-icon fa fa-envelope-o"></i>
-							0信息
-						</li>
-					</ul>
-				</li>
-
-				<li class="light-blue">
-					<a data-toggle="dropdown" href="#" class="dropdown-toggle">
-						<img class="nav-user-photo" src="${ctx}/ace/images/avatars/user.jpg"  />
-						<span class="user-info">
-							<small>欢迎,</small>
-							<@shiro.principal property="name" />
-						</span>
-
-						<i class="ace-icon fa fa-caret-down"></i>
-					</a>
-
-					<ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
-						<!-- <li>
-							<a href="#">
-								<i class="ace-icon fa fa-cog"></i>
-								设置
-							</a>
-						</li>-->
-
-						<li>
-							<a href="javascript:myhref('${ctx}/system/user/update/currentUserResetPwd');">
-								<i class="ace-icon fa fa-user"></i>
-								修改密码
-							</a>
-						</li> 
-
-						<li class="divider"></li>
-
-						<li>
-							<a href="${ctx}/logout">
-								<i class="ace-icon fa fa-power-off"></i>
-								退出
-							</a>
-						</li>
-					</ul>
-				</li>
+			
+			<ul class="layui-nav">
+		      	<li class="layui-nav-item  layui-this">
+		        	<a href="/doc/">个人中心</a>
+		      	</li>
+		      	<li class="layui-nav-item">
+		        	<a href="/demo/">退出</a>
+		      	</li>
+		    	<span class="layui-nav-bar"></span>
 			</ul>
 		</div>
-	</div><!-- /.navbar-container -->
-</div>
-</#macro>
-<#macro sidebar>
-	<script type="text/javascript">
-		try{ace.settings.check('main-container' , 'fixed')}catch(e){}
-	</script>
-
-	<div id="sidebar" class="sidebar responsive">
-		<script type="text/javascript">
-			try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
-		</script>
-
-		<ul class="nav nav-list" id="module">
-		
-		</ul><!-- /.nav-list -->
-
-		<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
-			<i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
-		</div>
-
-		<script type="text/javascript">
-			try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
-		</script>
 	</div>
-	
 </#macro>
 
-<#macro pagetoolbar page,formId>
-	<#if (page.pageIndex >= page.pageCount) && (page.pageCount != 0)>
-		<#assign index = page.pageCount />
-	<#else>
-		<#assign index = page.pageIndex />
-	</#if>
-<div class="row">
-    <div class="col-xs-12 pagination pull-left">
-        <div class="dataTables_paginate paging_bootstrap">
-            <ul class="pagination pull-left">
-               	<#if page.firstPage>
-                <li class="prev"><a href="javascript:startPage('${formId}');"><i class="fa fa-angle-double-left"></i></a></li>
-                <#else>
-                 <li  class="prev disabled"><a href="javascript:void(0);"><i class="fa fa-angle-double-left"></i></a></li>
-                </#if>
-               
-               <#assign _start=1 />
-               <#if (index>3)>
-                <#assign _start=index-2 />
-               </#if>
-               <#assign _end=1 />
-               <#if (page.pageCount-index>=2)>
-                 <#assign _end=index+2 />
-                 <#else>
-                   <#assign _end=page.pageCount />
-               </#if>
-               <#if (_end<1)>
-               <#assign _end=1 />
-               </#if>
-                
-                <#list _start.._end as t>
-                <#if t==index>
-                 <li class="active"><a href="javascript:void(0);">${t}</a></li>
-                 <#else>
-                  <li><a href="javascript:toPage('${formId}','${t}');">${t}</a></li>
-                 </#if>
-                </#list>
-             
-                <#if page.lastPage>
-                <li class="next"><a href="javascript:endPage('${formId}','${page.pageCount}');"><i class="fa fa-angle-double-right"></i></a></li>
-                <#else>
-                 <li class="next disabled"><a href="javascript:void(0);"><i class="fa fa-angle-double-right"></i></a></li>
-                </#if>
-                 <li class="disabled"><a href="javascript:void(0);">共${page.pageCount}页${page.totalCount}条</a></li>
-            </ul>
-        </div>
-    </div>
 
-</div>
-
+<!-- 菜单  -->
+<#macro menu>
+	<@h.naviHeader/>
+				<div class="layui-side layui-bg-black">
+					<div class="layui-side-scroll">
+				      	<ul class="layui-nav layui-nav-tree" lay-filter="leftMenu" id="menu">
+				      		
+						</ul>
+					</div>
+				</div>
 </#macro>
+
+
+<!-- 内容区头部导航  -->
+<#macro naviMenu>
+<@h.menu/>
+				<div class="layui-tab" lay-allowClose="true">
+					<ul class="layui-tab-title site-demo-title" id="tabPage">
+						
+					</ul>
+					<div class="layui-tab-content site-demo-title ht100p" id="tabPageContent" style="top:116px;">
+				  	
+				  	</div>
+</#macro>
+
+
+<!-- 页脚  -->
 <#macro footer>
-	<div class="footer">
-		<div class="footer-inner">
-			<div class="footer-content">
-				<span class="bigger-120">
-					<span class="blue bolder">SpringRain</span>
-					&copy; 2016
-				</span>
-	
+				</div>
+				<div class="layui-footer footer footer-demo">
+				<div class="layui-main">
+					<p>2016 © <a href="/">cxy.wxyapp.com</a> MIT license</p>
+					<p>
+				      <a href="http://fly.layui.com/jie/3147.html" target="_blank">捐赠作者</a>
+				      <a href="mailto:xianxin@layui.com">广告联系</a>
+				      <a href="https://github.com/sentsin/layui/" target="_blank">Git仓库</a>
+				      <a href="http://fly.layui.com/jie/2461.html" target="_blank">微信公众号</a>
+				    </p>
+				</div>
 			</div>
 		</div>
-	</div>
+	</body>
+</html>
 </#macro>
-
-
