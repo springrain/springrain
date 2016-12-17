@@ -1,8 +1,8 @@
 <#escape x as x?html>
-<script src="${ctx}/js/custom/system/contacts.js"></script>
 <link rel="stylesheet" href="${ctx}/css/custom/system/contacts.css" media="all">
-</head>
+<script src="${ctx}/js/custom/system/contacts.js"></script>
 
+<input type="hidden" value="1" id="pageNum"/>
 <div class="orgsContainer per20 ht100p">
 	<div class="layui-tab layui-tab-card">
 	  <ul class="layui-tab-title tc">
@@ -11,7 +11,8 @@
 	  </ul>
 	  <div class="layui-tab-content ht90p">
 	    <div class="layui-tab-item layui-show">
-	   		
+	   		<ul id="orgListTree" class="ztree">
+	   		</ul>
 	    </div>
 	    <div class="layui-tab-item">角色列表</div>
 	  </div>
@@ -26,7 +27,25 @@
 	</div>
 	<hr>
 	<div class="userContent bg-white ht90p">
-		人员内容
+		<table class="layui-table" lay-even lay-skin="nob">
+	 		<colgroup>
+		    	<col width="150">
+		    	<col width="200">
+		    	<col width="200">
+		    	<col width="200">
+		    	<col>
+		  	</colgroup>
+		  	<thead>
+		    	<tr>
+		      		<th>用户名</th>
+		      		<th>账号</th>
+		      		<th>手机号</th>
+		      		<th>邮箱</th>
+	    		</tr> 
+		  	</thead>
+	  		<tbody id="userList">
+	  		</tbody>
+		</table>
 	</div>
 </div>	
 </#escape>
