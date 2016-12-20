@@ -225,7 +225,7 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 			}
 		}
 		
-		hasLeafBuffer.append(")");
+		hasLeafBuffer.append(") order by _system_temp_org.id  asc ");
 		
 		return hasLeafBuffer.toString();
 	}
