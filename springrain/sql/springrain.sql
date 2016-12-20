@@ -1,17 +1,4 @@
-/*
-Navicat MySQL Data Transfer
 
-Source Server         : 127.0.0.1
-Source Server Version : 50714
-Source Host           : 127.0.0.1:3306
-Source Database       : springrain
-
-Target Server Type    : MYSQL
-Target Server Version : 50714
-File Encoding         : 65001
-
-Date: 2016-10-13 12:25:27
-*/
 
 SET FOREIGN_KEY_CHECKS=0;
 
@@ -32,7 +19,7 @@ CREATE TABLE `t_auditlog_history_2016` (
   `operationClass` varchar(500) DEFAULT NULL COMMENT '操作类',
   `operationClassID` varchar(50) DEFAULT NULL COMMENT '记录ID',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='操作记录';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='操作记录';
 
 -- ----------------------------
 -- Records of t_auditlog_history_2016
@@ -53,7 +40,7 @@ CREATE TABLE `t_auditlog_history_2017` (
   `operationClass` varchar(500) DEFAULT NULL COMMENT '操作类',
   `operationClassID` varchar(50) DEFAULT NULL COMMENT '记录ID',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='操作记录';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='操作记录';
 
 -- ----------------------------
 -- Records of t_auditlog_history_2017
@@ -76,7 +63,7 @@ CREATE TABLE `t_fwlog_history_2016` (
   `menuName` varchar(100) DEFAULT NULL COMMENT '菜单名称',
   `isqx` varchar(2) DEFAULT NULL COMMENT '是否有权限访问',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='访问日志';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='访问日志';
 
 -- ----------------------------
 -- Records of t_fwlog_history_2016
@@ -99,7 +86,7 @@ CREATE TABLE `t_fwlog_history_2017` (
   `menuName` varchar(100) DEFAULT NULL COMMENT '菜单名称',
   `isqx` varchar(2) DEFAULT NULL COMMENT '是否有权限访问',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='访问日志';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='访问日志';
 
 -- ----------------------------
 -- Records of t_fwlog_history_2017
@@ -120,7 +107,7 @@ CREATE TABLE `t_dic_data` (
   `active` int(11) DEFAULT 1 COMMENT '是否有效(0否,1是)',
   `typekey` varchar(20) DEFAULT NULL COMMENT '类型',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='公共字典';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='公共字典';
 
 -- ----------------------------
 -- Records of t_dic_data
@@ -151,7 +138,7 @@ CREATE TABLE `t_menu` (
   `sortno` int(11) DEFAULT NULL,
   `menuIcon` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='菜单';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='菜单';
 
 -- ----------------------------
 -- Records of t_menu
@@ -204,10 +191,7 @@ INSERT INTO `t_menu` VALUES ('t_user_list', '用户管理', 'business_manager', 
 INSERT INTO `t_menu` VALUES ('t_user_list_export', '导出用户', 't_user_list', null, '/system/user/list/export', '0',1, null, null);
 INSERT INTO `t_menu` VALUES ('t_user_look', '查看用户', 't_user_list', null, '/system/user/look', '0',1, null, null);
 INSERT INTO `t_menu` VALUES ('t_user_update', '修改用户', 't_user_list', null, '/system/user/update', '0',1, null, null);
-INSERT INTO `t_menu` VALUES ('t_weixin_menu_list', '微信菜单管理', 'weixin_manager', null, '/system/weixin/menu/list', '1',1, null, null);
-INSERT INTO `t_menu` VALUES ('t_weixin_menu_look', '查看微信菜单', 't_weixin_menu_list', null, '/system/weixin/menu/look', '0',1, null, null);
-INSERT INTO `t_menu` VALUES ('t_weixin_menu_update', '修改微信菜单', 't_weixin_menu_list', null, '/system/weixin/menu/update', '0',1, null, null);
-INSERT INTO `t_menu` VALUES ('weixin_manager', '微信管理', null, null, null, '1',1, null, null);
+
 
 -- ----------------------------
 -- Table structure for t_org
@@ -226,7 +210,7 @@ CREATE TABLE `t_org` (
   `description` varchar(2000) DEFAULT NULL COMMENT '描述',
   `active` int(11) DEFAULT 1 COMMENT '是否有效(0否,1是)',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='部门';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='部门';
 
 -- ----------------------------
 -- Records of t_org
@@ -242,11 +226,11 @@ CREATE TABLE `t_role` (
   `name` varchar(60) DEFAULT NULL COMMENT '角色名称',
   `code` varchar(255) DEFAULT NULL COMMENT '权限编码',
   `pid` varchar(50)  DEFAULT NULL COMMENT '上级角色ID,暂时不实现',
-  `roleType` int(11) NOT NULL DEFAULT 0 COMMENT '0系统角色,1业务岗位',
+  `roleType` int(11) NOT NULL DEFAULT 0 COMMENT '0系统角色,1部门主管,2业务岗位',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
   `active` int(11) DEFAULT 1 COMMENT '是否有效(0否,1是)',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色';
 
 -- ----------------------------
 -- Records of t_role
@@ -266,7 +250,7 @@ CREATE TABLE `t_role_menu` (
   KEY `fk_t_role_menu_menuId_t_menu_id` (`menuId`),
   CONSTRAINT `fk_t_role_menu_menuId_t_menu_id` FOREIGN KEY (`menuId`) REFERENCES `t_menu` (`id`),
   CONSTRAINT `fk_t_role_menu_roleId_t_role_id` FOREIGN KEY (`roleId`) REFERENCES `t_role` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色菜单中间表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色菜单中间表';
 
 -- ----------------------------
 -- Records of t_role_menu
@@ -336,7 +320,7 @@ CREATE TABLE `t_user` (
   `userType` int(11) DEFAULT NULL COMMENT '0后台管理员|/system/,1会员用户|/front/,2cms管理员|/cms/houtai/|cms_siteManager,3活动管理员|/huodong/houtai',
   `active` int(11) DEFAULT 1 COMMENT '是否有效(0否,1是)',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户';
 
 -- ----------------------------
 -- Records of t_user
@@ -356,7 +340,7 @@ CREATE TABLE `t_user_org` (
   KEY `fk_t_user_org_orgId_t_org_id` (`orgId`),
   CONSTRAINT `fk_t_user_org_orgId_t_org_id` FOREIGN KEY (`orgId`) REFERENCES `t_org` (`id`),
   CONSTRAINT `fk_t_user_org_userId_t_user_id` FOREIGN KEY (`userId`) REFERENCES `t_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户部门中间表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户部门中间表';
 
 -- ----------------------------
 -- Records of t_user_org
@@ -375,7 +359,7 @@ CREATE TABLE `t_user_role` (
   KEY `fk_t_user_role_roleId_t_role_id` (`roleId`),
   CONSTRAINT `fk_t_user_role_roleId_t_role_id` FOREIGN KEY (`roleId`) REFERENCES `t_role` (`id`),
   CONSTRAINT `fk_t_user_role_userId_t_user_id` FOREIGN KEY (`userId`) REFERENCES `t_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户角色中间表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户角色中间表';
 
 -- ----------------------------
 -- Records of t_user_role
@@ -399,7 +383,7 @@ CREATE TABLE `t_role_org` (
   KEY `fk_t_role_org_orgId_t_org_id` (`orgId`),
   CONSTRAINT `fk_t_role_org_orgId_t_org_id` FOREIGN KEY (`orgId`) REFERENCES `t_org` (`id`),
   CONSTRAINT `fk_t_role_org_roleId_t_role_id` FOREIGN KEY (`roleId`) REFERENCES `t_role` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色部门中间表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色部门中间表';
 
 
 
@@ -413,7 +397,7 @@ CREATE TABLE `t_tableindex` (
   `maxIndex` int(11) NOT NULL DEFAULT 1 COMMENT '表记录最大的行,一直累加',
   `prefix` varchar(50) NOT NULL COMMENT '前缀 单个字母加 _',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='记录表最大的行记录';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='记录表最大的行记录';
 
 -- ----------------------------
 -- Records of t_tableindex

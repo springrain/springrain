@@ -164,7 +164,7 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
     public <T> List<T> findListDataByFinder(Finder finder, Page page, Class<T> clazz,
 			Object o) throws Exception{
         	
-        	finder=new Finder("SELECT o.*,u.name managerName FROM ").append(Finder.getTableName(Org.class)).append(" o left join ").append(Finder.getTableName(User.class)).append(" u on  u.id=o.managerId ");
+        	finder=new Finder("SELECT o.* FROM ").append(Finder.getTableName(Org.class)).append(" o ");
         	finder.append(" WHERE   o.active=:active order by o.sortno asc ");
         	 finder.setParam("active", 1);
 			 return super.queryForList(finder, clazz);

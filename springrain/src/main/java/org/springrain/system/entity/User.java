@@ -11,6 +11,8 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.springrain.frame.annotation.WhereSQL;
 import org.springrain.frame.entity.BaseEntity;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 /**
  * TODO 在此加入类描述
  * @copyright {@link 9iu.org}
@@ -38,6 +40,7 @@ public class User  extends BaseEntity {
 	/**
 	 * 密码
 	 */
+	@JsonIgnore
 	private java.lang.String password;
 	
 	/**
