@@ -2,6 +2,7 @@ package org.springrain.system.service;
 
 import java.util.List;
 
+import org.springrain.frame.util.Page;
 import org.springrain.system.entity.Org;
 import org.springrain.system.entity.User;
 
@@ -17,7 +18,7 @@ public interface IUserOrgService extends IBaseSpringrainService {
 
 	
 	/**
-	 * 根据部门Id 查找部门下的所有人员
+	 * 根据部门Id 查找部门下的所有User对象
 	 * @param orgId
 	 * @return
 	 * @throws Exception
@@ -27,7 +28,7 @@ public interface IUserOrgService extends IBaseSpringrainService {
 	
 	
 	/**
-	 * 根据部门Id 查找部门下的所有人员的Id
+	 * 根据部门Id 查找部门下的所有人员的userId
 	 * @param orgId
 	 * @return
 	 * @throws Exception
@@ -38,7 +39,7 @@ public interface IUserOrgService extends IBaseSpringrainService {
 
 	
 	/**
-	 * 根据部门ID,查找部门下(包括所有子部门)的人员
+	 * 根据部门ID,查找部门下(包括所有子部门)的User对象
 	 * @param orgId
 	 * @return
 	 * @throws Exception
@@ -49,7 +50,7 @@ public interface IUserOrgService extends IBaseSpringrainService {
 	
 
 	/**
-	 * 根据部门ID,查找部门下(包括所有子部门)的人员Id
+	 * 根据部门ID,查找部门下(包括所有子部门)的人员的userId
 	 * @param orgId
 	 * @return
 	 * @throws Exception
@@ -95,20 +96,75 @@ public interface IUserOrgService extends IBaseSpringrainService {
 	
 	
 	/**
-	 * 根据主管ID 查找主管部门Ids
+	 *  根据主管ID 查找主管能够管理的部门Ids
 	 * @param orgId
 	 * @return
 	 * @throws Exception
 	 */
-	List<String> findOrgIdsIdsByManagerUserId(String managerUserId) throws Exception;
+	List<String> findOrgIdsByManagerUserId(String managerUserId,Page page) throws Exception;
 	
 	/**
-	 * 根据主管ID 查找主管部门
+	 * 根据主管ID 查找主管能够管理的部门
 	 * @param orgId
 	 * @return
 	 * @throws Exception
 	 */
-	List<Org> findOrgIdsByManagerUserId(String managerUserId) throws Exception;
+	List<Org> findOrgByManagerUserId(String managerUserId,Page page) throws Exception;
+	
+	
+	
+	
+	/**
+	 * 根据主管ID 查找主管能够管理的用户Id
+	 * @param orgId
+	 * @return
+	 * @throws Exception
+	 */
+	List<String> findUserIdsByManagerUserId(String managerUserId,Page page) throws Exception;
+	
+	/**
+	 * 根据主管ID 查找主管能够管理的用户
+	 * @param orgId
+	 * @return
+	 * @throws Exception
+	 */
+	List<User> findUserByManagerUserId(String managerUserId,Page page) throws Exception;
+	
+	
+	/**
+	 *  根据主管ID 查找主管能够管理的部门Ids
+	 * @param orgId
+	 * @return
+	 * @throws Exception
+	 */
+	List<String> findOrgIdsByManagerUserId(String managerUserId) throws Exception;
+	
+	/**
+	 * 根据主管ID 查找主管能够管理的部门
+	 * @param orgId
+	 * @return
+	 * @throws Exception
+	 */
+	List<Org> findOrgByManagerUserId(String managerUserId) throws Exception;
+	
+	
+	
+	
+	/**
+	 * 根据主管ID 查找主管能够管理的用户Id
+	 * @param orgId
+	 * @return
+	 * @throws Exception
+	 */
+	List<String> findUserIdsByManagerUserId(String managerUserId) throws Exception;
+	
+	/**
+	 * 根据主管ID 查找主管能够管理的用户
+	 * @param orgId
+	 * @return
+	 * @throws Exception
+	 */
+	List<User> findUserByManagerUserId(String managerUserId) throws Exception;
 	
 	
 	
@@ -120,6 +176,14 @@ public interface IUserOrgService extends IBaseSpringrainService {
 	 */
 	String findOrgIdsSQLByManagerUserId(String managerUserId) throws Exception;
 	
+	
+	/**
+	 * 返回根据主管子查询的userId的sql语句
+	 * @param managerUserId
+	 * @return
+	 * @throws Exception
+	 */
+	String findUserIdsSQLByManagerUserId(String managerUserId) throws Exception;
 	
 	
 	

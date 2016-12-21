@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.util.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springrain.frame.util.Finder;
+import org.springrain.frame.util.Page;
 import org.springrain.system.entity.Org;
 import org.springrain.system.entity.RoleOrg;
 import org.springrain.system.entity.User;
@@ -142,7 +143,7 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 
 
 	@Override
-	public List<String> findOrgIdsIdsByManagerUserId(String managerUserId) throws Exception {
+	public List<String> findOrgIdsByManagerUserId(String managerUserId,Page page) throws Exception {
 		if(StringUtils.isEmpty(managerUserId)){
 			return null;
 		}
@@ -154,12 +155,12 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 		Finder finder=new Finder(findOrgIdsSQLByManagerUserId);
 		
 		
-		return super.queryForList(finder, String.class);
+		return super.queryForList(finder, String.class,page);
 	}
 
 
 	@Override
-	public List<Org> findOrgIdsByManagerUserId(String managerUserId) throws Exception {
+	public List<Org> findOrgByManagerUserId(String managerUserId,Page page) throws Exception {
 		if(StringUtils.isEmpty(managerUserId)){
 			return null;
 		}
@@ -170,23 +171,128 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 			return null;
 		}
 		
-		//更新SQL语句
 		
-		String sql="SELECT *　"+findOrgIdsSQLByManagerUserId.substring(findOrgIdsSQLByManagerUserId.indexOf(" FROM "));
-	
-		Finder finder=new Finder(sql);
 		
-		return super.queryForList(finder,Org.class);
+       String sql=wrapWheresSQLByManagerUserId(managerUserId);
+		
+		if(StringUtils.isEmpty(sql)){
+			return null;
+		}
+		
+		StringBuffer hasLeafBuffer=new StringBuffer();
+		hasLeafBuffer.append(" SELECT _system_temp_org.*  FROM ").append(Finder.getTableName(Org.class));
+		hasLeafBuffer.append(" _system_temp_org WHERE  ").append(sql);
+		hasLeafBuffer.append(" order by _system_temp_org.id  asc ");
+		
+		Finder finder=new Finder(hasLeafBuffer.toString());
+		
+		return super.queryForList(finder,Org.class,page);
 		
 	}
 
 
 	@Override
+	public List<String> findUserIdsByManagerUserId(String managerUserId,Page page) throws Exception {
+		
+		String userIdsSQLByManagerUserId = findUserIdsSQLByManagerUserId(managerUserId);
+		
+		if(StringUtils.isEmpty(userIdsSQLByManagerUserId)){
+			return null;
+		}
+		
+		userIdsSQLByManagerUserId=userIdsSQLByManagerUserId+" order by  _system_temp_user_org.userId asc ";
+		
+		Finder finder=new Finder(userIdsSQLByManagerUserId);
+		
+		return super.queryForList(finder, String.class,page);
+	}
+
+
+	@Override
+	public List<User> findUserByManagerUserId(String managerUserId,Page page) throws Exception {
+		String wheresql=wrapWheresSQLByManagerUserId(managerUserId);
+		if(StringUtils.isBlank(wheresql)){
+			return null;
+		}
+		Finder finder=new Finder("SELECT u.* FROM ");
+		finder.append(Finder.getTableName(User.class)).append(" u,").append(Finder.getTableName(UserOrg.class)).append(" re,").append(Finder.getTableName(Org.class)).append(" _system_temp_org ");
+		finder.append(" WHERE u.id=re.userId and re.orgId=_system_temp_org.id and ");
+		finder.append(wheresql);
+		finder.append(" order by  u.id asc ");
+		return super.queryForList(finder, User.class,page);
+	}
+
+
+	@Override
+	public List<String> findOrgIdsByManagerUserId(String managerUserId) throws Exception {
+		return findOrgIdsByManagerUserId(managerUserId, null);
+	}
+
+
+	@Override
+	public List<Org> findOrgByManagerUserId(String managerUserId) throws Exception {
+		return findOrgByManagerUserId(managerUserId, null);
+	}
+
+
+	@Override
+	public List<String> findUserIdsByManagerUserId(String managerUserId) throws Exception {
+		return findUserIdsByManagerUserId(managerUserId, null);
+	}
+
+
+	@Override
+	public List<User> findUserByManagerUserId(String managerUserId) throws Exception {
+		return findUserByManagerUserId(managerUserId, null);
+	}
+	
+	
+	
+
+	@Override
 	public String findOrgIdsSQLByManagerUserId(String managerUserId) throws Exception {
+		String sql=wrapWheresSQLByManagerUserId(managerUserId);
+		
+		if(StringUtils.isEmpty(sql)){
+			return null;
+		}
+		StringBuffer hasLeafBuffer=new StringBuffer();
+		hasLeafBuffer.append(" SELECT _system_temp_org.id  FROM ").append(Finder.getTableName(Org.class));
+		hasLeafBuffer.append(" _system_temp_org WHERE  ").append(sql);
+		hasLeafBuffer.append(" order by _system_temp_org.id  asc ");
+		
+		 return hasLeafBuffer.toString();
+		
+		
+	}
+	
+	@Override
+	public String findUserIdsSQLByManagerUserId(String managerUserId) throws Exception {
+		String wheresql=wrapWheresSQLByManagerUserId(managerUserId);
+		if(StringUtils.isBlank(wheresql)){
+			return null;
+		}
+		
+		
+		StringBuffer sb=new StringBuffer("SELECT  _system_temp_user_org.userId FROM ");
+		sb.append(Finder.getTableName(UserOrg.class)).append(" _system_temp_user_org,").append(Finder.getTableName(Org.class)).append(" _system_temp_org ");
+		sb.append(" WHERE _system_temp_user_org.orgId=_system_temp_org.id and ");
+		sb.append(wheresql);
+		
+		 return sb.toString();
+		
+		
+	}
+	
+	
+	
+	
+	private String wrapWheresSQLByManagerUserId(String managerUserId) throws Exception {
+
 		if(StringUtils.isEmpty(managerUserId)){
 			return null;
 		}
-		Finder f1=new Finder("SELECT re.* FROM  ").append(Finder.getTableName(RoleOrg.class)).append(" re,").append(Finder.getTableName(UserOrg.class)).append(" uo WHERE re.orgId=uo.orgId and uo.userId=:userId  order by re.id asc ");
+		Finder f1=new Finder("SELECT re.* FROM  ").append(Finder.getTableName(RoleOrg.class)).append(" re,").append(Finder.getTableName(UserOrg.class)).append(" uo WHERE re.orgId=uo.orgId and uo.userId=:userId   order by re.id asc ");
 		f1.setParam("userId", managerUserId);
 		
 		List<RoleOrg> list = super.queryForList(f1, RoleOrg.class);
@@ -198,8 +304,8 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 		
 		List<String> noLeafList=new ArrayList<String>();
 		StringBuffer hasLeafBuffer=new StringBuffer();
-		hasLeafBuffer.append("SELECT _system_temp_org.id FROM ").append(Finder.getTableName(Org.class));
-		hasLeafBuffer.append(" _system_temp_org WHERE 1=1  ");
+		
+		hasLeafBuffer.append("   ( 1=1  ");
 		
 		for(RoleOrg re:list){
 			String orgId=re.getOrgId();
@@ -225,10 +331,17 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 			}
 		}
 		
-		hasLeafBuffer.append(") order by _system_temp_org.id  asc ");
+		hasLeafBuffer.append(") )  ");
 		
 		return hasLeafBuffer.toString();
+	
+		
+		
+		
 	}
+
+
+	
 
    
 
