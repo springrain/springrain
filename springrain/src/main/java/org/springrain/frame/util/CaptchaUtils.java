@@ -1,8 +1,8 @@
 package org.springrain.frame.util;
 import java.awt.image.BufferedImage;
 
-import org.patchca.service.Captcha;
-import org.patchca.service.ConfigurableCaptchaService;
+import org.springrain.frame.util.patchca.service.Captcha;
+import org.springrain.frame.util.patchca.service.ConfigurableCaptchaService;
 
 public class CaptchaUtils  {
 	private static  ConfigurableCaptchaService cs = new ConfigurableCaptchaService();
