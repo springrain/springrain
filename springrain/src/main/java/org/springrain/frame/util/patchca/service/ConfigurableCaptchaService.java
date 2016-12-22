@@ -41,6 +41,8 @@ public class ConfigurableCaptchaService extends AbstractCaptchaService {
 		filterFactory = new CurvesRippleFilterFactory(colorFactory);
 		textRenderer.setLeftMargin(3);
 		textRenderer.setRightMargin(3);
+		textRenderer.setBottomMargin(3);
+		textRenderer.setTopMargin(3);
 		width = 100;
 		height = 40;
 		
