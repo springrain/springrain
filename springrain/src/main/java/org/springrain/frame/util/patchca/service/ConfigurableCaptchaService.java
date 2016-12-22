@@ -44,7 +44,7 @@ public class ConfigurableCaptchaService extends AbstractCaptchaService {
 		width = 100;
 		height = 40;
 		
-		 setColorFactory(new SingleColorFactory(new Color(25, 60, 170)));
+		 setColorFactory(new SingleColorFactory(Color.BLACK));
 		 setFilterFactory(new CurvesRippleFilterFactory(colorFactory));
 	}
 
