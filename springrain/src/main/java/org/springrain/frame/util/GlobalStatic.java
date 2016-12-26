@@ -43,10 +43,15 @@ public class GlobalStatic {
 	public static final String authorizingRealmName="shiroDbAuthorizingRealmName";
 	
 	
-	/**
-	 * 默认验证码参数名称
-	 */
+	//默认验证码参数名称
 	public static final String DEFAULT_CAPTCHA_PARAM = "captcha";
+	
+	
+
+	//密码连续错误10次,锁定不再进行登录查询,一直到缓存失效
+	public static final int ERROR_LOGIN_COUNT = 10;
+	//错误登录后的,锁定分钟数
+	public static final int ERROR_LOGIN_LOCK_MINUTE = 30;
 
 	
 	static{
