@@ -8,7 +8,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.DisabledAccountException;
+import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -116,7 +116,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		 Cache cache = cacheManager.getCache(GlobalStatic.springrainloginCacheKey);
 		 Integer errorLogincount=cache.get(userName, Integer.class);
 		 if(errorLogincount!=null&&errorLogincount>ERROR_LOGIN_COUNT){//密码连续错误10次
-			 throw new DisabledAccountException("密码连续错误超过"+ERROR_LOGIN_COUNT+"次,账号被锁定,请半个小时之后再尝试登录!");
+			 throw new LockedAccountException("密码连续错误超过"+ERROR_LOGIN_COUNT+"次,账号被锁定,请半个小时之后再尝试登录!");
 		 }
 		
 		

@@ -119,14 +119,14 @@ public class LoginController extends BaseController  {
 			try {
 				//会调用 shiroDbRealm 的认证方法 org.springrain.frame.shiro.ShiroDbRealm.doGetAuthenticationInfo(AuthenticationToken)
 				user.login(token);
-			} catch (UnknownAccountException uae) {
+			} catch (UnknownAccountException e) {
 				model.addAttribute("message", "账号不存在!");
 				return "/login";
-			} catch (IncorrectCredentialsException ice) {
+			} catch (IncorrectCredentialsException e) {
 				model.addAttribute("message", "密码错误!");
 				return "/login";
-			} catch (LockedAccountException lae) {
-				model.addAttribute("message", "账号被锁定!");
+			} catch (LockedAccountException e) {
+				model.addAttribute("message", e.getMessage());
 				return "/login";
 			} catch (Exception e) {
 				model.addAttribute("message", "未知错误,请联系管理员.");
