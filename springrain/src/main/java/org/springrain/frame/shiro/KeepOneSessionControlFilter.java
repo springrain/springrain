@@ -53,7 +53,7 @@ public class KeepOneSessionControlFilter extends AccessControlFilter {
 
 		
 		//当前用户缓存中的sessionId
-		  Cache cache = cacheManager.getCache(GlobalStatic.springrainkeeponecacheKey);
+		  Cache cache = cacheManager.getCache(GlobalStatic.springrainkeeponeCacheKey);
 		  String deleteSessionId = cache.get(userId,String.class);
 	
 		if (sessionId.toString().equalsIgnoreCase(deleteSessionId)) {
