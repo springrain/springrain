@@ -37,7 +37,7 @@ public class SiteTest {
 		cmsSite.setQq("33333");
 		cmsSite.setUserId("admin");
 		cmsSite.setSiteType(0);
-		cmsSite.setState(1);
+		cmsSite.setActive(1);
 		cmsSite.setFooter("footer");
 		cmsSite.setContacts("contacts");
 		cmsSite.setDescription("description");
@@ -69,7 +69,7 @@ public class SiteTest {
 		cmsChannel.setLookcount(0);
 		cmsChannel.setPositionLevel(0);
 		cmsChannel.setSortno(1);
-		cmsChannel.setState(1);
+		cmsChannel.setActive(1);
 		cmsChannel.setTitle("title");
 		
 		cmsChannelService.saveChannel(cmsChannel);
@@ -96,7 +96,7 @@ public class SiteTest {
 		//cmsChannel.setComcode(value);
 		cmsContent.setLookcount(0);
 		cmsContent.setSortno(1);
-		cmsContent.setState(1);
+		cmsContent.setActive(1);
 		cmsContent.setTitle("title");
 		cmsContent.setCreateDate(new Date());
 		cmsContent.setCreatePerson("admin");
