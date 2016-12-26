@@ -48,7 +48,7 @@ public class GlobalStatic {
 	
 	
 
-	//密码连续错误10次,锁定不再进行登录查询,一直到缓存失效
+	//密码连续错误10次,锁定不再进行登录查询,锁定 ERROR_LOGIN_LOCK_MINUTE 分钟
 	public static final int ERROR_LOGIN_COUNT = 10;
 	//错误登录后的,锁定分钟数
 	public static final int ERROR_LOGIN_LOCK_MINUTE = 30;
