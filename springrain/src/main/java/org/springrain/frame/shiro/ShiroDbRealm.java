@@ -1,5 +1,8 @@
 package org.springrain.frame.shiro;
 
+import java.sql.Date;
+import java.util.Calendar;
+
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
@@ -47,7 +50,8 @@ public class ShiroDbRealm extends AuthorizingRealm {
 	
 	//密码连续错误10次,锁定不再进行登录查询,一直到缓存失效
 	public static final int ERROR_LOGIN_COUNT = 10;
-	
+	//锁定分钟数
+	public static final int ERROR_LOGIN_LOCK_MINUTE = 30;
 	
 	public ShiroDbRealm() {
 		// 认证
@@ -115,8 +119,26 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		//处理密码错误缓存
 		 Cache cache = cacheManager.getCache(GlobalStatic.springrainloginCacheKey);
 		 Integer errorLogincount=cache.get(userName, Integer.class);
-		 if(errorLogincount!=null&&errorLogincount>ERROR_LOGIN_COUNT){//密码连续错误10次以上
-			 throw new LockedAccountException("密码连续错误超过"+ERROR_LOGIN_COUNT+"次,账号被锁定,请30分钟之后再尝试登录!");
+		 if(errorLogincount!=null&&errorLogincount>=ERROR_LOGIN_COUNT){//密码连续错误10次以上
+			 
+			 String errorMessage="密码连续错误超过"+ERROR_LOGIN_COUNT+"次,账号被锁定,请"+ERROR_LOGIN_LOCK_MINUTE+"分钟之后再尝试登录!";
+			 
+			 Long endDateLong = cache.get(userName+"_endDateLong", Long.class);
+			 Long now=System.currentTimeMillis();
+			 if(endDateLong==null){
+				 endDateLong=now+ERROR_LOGIN_LOCK_MINUTE*60*1000;
+				 cache.put(userName+"_endDateLong", endDateLong);
+				 throw new LockedAccountException(errorMessage);
+			 }else if(now>endDateLong){//过了失效时间
+				 cache.evict(userName);
+				 cache.evict(userName+"_endDateLong");
+				 
+			 }else{
+				 throw new LockedAccountException(errorMessage); 
+			 }
+			 
+			 
+			
 		 }
 		
 		try {
