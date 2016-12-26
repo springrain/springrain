@@ -96,7 +96,6 @@
 				
 			
 				/servlet/fileupload=user
-				/**/ajax/** = user,keepone
 				/system/menu/leftMenu=systemuser,keepone
 				/system/menu/**=systemuser,keepone
 				/system/**=systemuser,framefwlog,keepone,frameperms
