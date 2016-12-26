@@ -9,14 +9,15 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
-import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
-import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Component;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.system.entity.User;
@@ -34,10 +35,19 @@ public class ShiroDbRealm extends AuthorizingRealm {
 	IUserRoleMenuService userRoleMenuService;
 
 	@Resource
-	private CacheManager shiroCacheManager;
+	private CacheManager cacheManager;
+	
+	
+	@Resource
+	private CredentialsMatcher frameHashedCredentialsMatcher;
 
-	public static final String HASH_ALGORITHM = "MD5";
-	public static final int HASH_INTERATIONS = 1;
+	//public static final String HASH_ALGORITHM = "MD5";
+	//public static final int HASH_INTERATIONS = 1;
+	
+	//密码连续错误10次,锁定不再进行登录查询,一直到缓存失效
+	public static final int ERROR_LOGIN_COUNT = 10;
+	
+	
 	public ShiroDbRealm() {
 		// 认证
 		// super.setAuthenticationCacheName(GlobalStatic.authenticationCacheName);
@@ -45,6 +55,9 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		// 授权
 		super.setAuthorizationCacheName(GlobalStatic.authorizationCacheName);
 		super.setName(GlobalStatic.authorizingRealmName);
+		
+		//设置密码匹配方式
+		//super.setCredentialsMatcher(frameHashedCredentialsMatcher);
 	}
 
 	// 授权
@@ -93,6 +106,20 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		// 调用业务方法
 		User user = null;
 		String userName = upToken.getUsername();
+		
+		if(StringUtils.isBlank(userName)){//账号为空
+			return null;
+		}
+		
+		//处理密码错误缓存
+		 Cache cache = cacheManager.getCache(GlobalStatic.springrainloginCacheKey);
+		 Integer errorLogincount=cache.get(userName, Integer.class);
+		 if(errorLogincount!=null&&errorLogincount>ERROR_LOGIN_COUNT){//密码连续错误10次
+			 throw new AuthenticationException("密码连续错误"+ERROR_LOGIN_COUNT+"次,请稍等再次尝试");
+		 }
+		
+		
+		
 		try {
 			user = userRoleMenuService.findLoginUser(userName, null,upToken.getUserType());
 		} catch (Exception e) {
@@ -110,23 +137,36 @@ public class ShiroDbRealm extends AuthorizingRealm {
 			AuthenticationInfo authinfo = new SimpleAuthenticationInfo(
 					new ShiroUser(user), user.getPassword(), getName());
 			// Cache<Object, Object> cache =
-			// shiroCacheManager.getCache(GlobalStatic.authenticationCacheName);
+			// cacheManager.getCache(GlobalStatic.authenticationCacheName);
 			// cache.put(GlobalStatic.authenticationCacheName+"-"+userName,
 			// session.getId());
+			
+			
+			
+			
 			return authinfo;
 		}
 		// 认证没有通过
 		return null;
 	}
-
+	
+	
+	
 	/**
+
 	 * 设定Password校验的Hash算法与迭代次数.
+
 	 */
 	@PostConstruct
 	public void initCredentialsMatcher() {
+		/*
 		HashedCredentialsMatcher matcher = new HashedCredentialsMatcher(
 				HASH_ALGORITHM);
 		matcher.setHashIterations(HASH_INTERATIONS);
 		setCredentialsMatcher(matcher);
+		*/
+		setCredentialsMatcher(frameHashedCredentialsMatcher);
 	}
+	
+	
 }

@@ -20,6 +20,7 @@ public class GlobalStatic {
 	public static final String cacheKey="springraincache";
 	public static final String qxCacheKey="springrainqxcache";
 	public static final String staticHtmlCacheKey="statichtmlcache";
+	public static final String springrainloginCacheKey="springrainlogincache";
 	
 	
 	public static final String defaultCharset="UTF-8";
