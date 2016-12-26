@@ -31,8 +31,7 @@ public class SystemLoginController extends BaseController  {
 	 */
 		@RequestMapping(value = "/")
 		public String index() throws Exception {
-				return super.redirect+"/system/index";
-			
+			return super.redirect+"/system/index";
 		}
 		
 	

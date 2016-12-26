@@ -43,7 +43,7 @@ public class LoginController extends BaseController  {
 	 */
 		@RequestMapping(value = "/")
 		public String index() throws Exception {
-				return super.redirect+"/index";
+				return super.redirect+"/system/index";
 			
 		}
 		
@@ -75,7 +75,7 @@ public class LoginController extends BaseController  {
 			}
 			//默认赋值message,避免freemarker尝试从session取值,造成异常
 			model.addAttribute("message", "");
-			return "/login";
+			return redirect+"/system/index";
 		}
 		
 		/**

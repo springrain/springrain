@@ -15,6 +15,9 @@
 	  	<meta name="apple-mobile-web-app-status-bar-style" content="black"> 
 	  	<meta name="apple-mobile-web-app-capable" content="yes">
 	  	<meta name="format-detection" content="telephone=no">
+	  	<script type="text/javascript">
+			var ctx="${ctx}";
+		</script>
 </#macro>
 
 
@@ -28,7 +31,6 @@
 			<a class="logo" href="/">
 				springrain
 			</a>
-			
 			<ul class="layui-nav">
 		      	<li class="layui-nav-item  layui-this">
 		        	<a href="/doc/">个人中心</a>
@@ -96,9 +98,7 @@
 	<link id="layuicss-skincodecss" rel="stylesheet" href="${ctx}/layui/css/modules/code.css" media="all">
 	<link rel="stylesheet" href="${ctx}/css/custom/common/common.css" media="all">
 	<script src="${ctx}/js/cache/locache.min.js"></script>
-	<script type="text/javascript">
-		var ctx="${ctx}";
-	</script>
+	
 	<script src="${ctx}/js/jquery/jquery-1.12.4.js"></script>
 	<script src="${ctx}/layui/layui.js"></script>
 	<script src="${ctx}/js/custom/common/common.js"></script>
