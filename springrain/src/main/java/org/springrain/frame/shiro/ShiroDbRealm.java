@@ -115,11 +115,9 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		//处理密码错误缓存
 		 Cache cache = cacheManager.getCache(GlobalStatic.springrainloginCacheKey);
 		 Integer errorLogincount=cache.get(userName, Integer.class);
-		 if(errorLogincount!=null&&errorLogincount>ERROR_LOGIN_COUNT){//密码连续错误10次
-			 throw new LockedAccountException("密码连续错误超过"+ERROR_LOGIN_COUNT+"次,账号被锁定,请半个小时之后再尝试登录!");
+		 if(errorLogincount!=null&&errorLogincount>ERROR_LOGIN_COUNT){//密码连续错误10次以上
+			 throw new LockedAccountException("密码连续错误超过"+ERROR_LOGIN_COUNT+"次,账号被锁定,请30分钟之后再尝试登录!");
 		 }
-		
-		
 		
 		try {
 			user = userRoleMenuService.findLoginUser(userName, null,upToken.getUserType());
