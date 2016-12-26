@@ -97,7 +97,7 @@
 			
 				/servlet/fileupload=user
 				/system/menu/leftMenu=systemuser,keepone
-				/system/menu/**=systemuser,keepone
+
 				/system/**=systemuser,framefwlog,keepone,frameperms
 				/** = frontuser,framefwlog,keepone,frameperms
 			</value>
