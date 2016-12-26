@@ -29,8 +29,8 @@
 	</bean>
 		<!-- 扫描的包路径 去掉mvc的注解-->
 	<context:component-scan base-package="org.springrain">
-	<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
-</context:component-scan>
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
 
 <!-- 调度任务扫描,对应参考  @Scheduled(cron="0/5 * *  * * ? ")  -->
 <!--  

@@ -27,7 +27,7 @@
 	<bean id="sessionManager"
 		class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
 		<!-- 超时时间 -->
-		<property name="globalSessionTimeout" value="1800000" />
+		<property name="globalSessionTimeout" value="${cache.timeout}000" />
 		<!-- session存储的实现 -->
 		<property name="sessionDAO" ref="shiroSessionDao" />
 		<!-- sessionIdCookie的实现,用于重写覆盖容器默认的JSESSIONID -->
@@ -48,14 +48,15 @@
 		class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO" />
 
 	<!-- 单机session -->
+	
 	<bean id="shiroCacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager" />
-
+    
 	<!-- session 集群 -->
 	<!-- 
 	<bean id="shiroCacheManager" class="org.springrain.frame.shiro.ShiroRedisCacheManager"> 
 		<property name="cached" ref="redisCached" /> 
 	</bean>
-	 -->
+	-->
 
 	<!-- shiro的主过滤器,beanId 和web.xml中配置的filter name需要保持一致 -->
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean"
@@ -71,6 +72,7 @@
 				/css/** = anon
 				/images/** = anon
 				/img/** = anon
+				/favicon.ico = anon
 				
 				<!-- S 目前将upload文件权限放开，等文件系统模块完成以后再修改  -->
 				/upload/**=anon
@@ -78,21 +80,25 @@
 				
 				/unauth = anon
 				/system/unauth = anon
+				
 				/getCaptcha=anon
 				/system/getCaptcha=anon
+				
 				/login = anon
 				/system/login = anon
-				/favicon.ico = anon
-				/weixin/f/oauth2=anon
-				/weixin/f/** =anon
-				/weixin/token/** = anon
-				/servlet/fileupload=user
-				/index = user,framefwlog,keepone
+				
+				
+				/index = user,keepone
+				/system/index =systemuser,framefwlog,keepone
 				/logout = logout
-				/**/ajax/** = user,framefwlog,keepone
+				
+				
+				
+			
+				/servlet/fileupload=user
+				/**/ajax/** = user,keepone
 				/system/menu/leftMenu=systemuser,keepone
 				/system/menu/**=systemuser,keepone
-				/system/user/**=anon
 				/system/**=systemuser,framefwlog,keepone,frameperms
 				/** = frontuser,framefwlog,keepone,frameperms
 			</value>

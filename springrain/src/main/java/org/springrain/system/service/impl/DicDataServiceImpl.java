@@ -34,7 +34,7 @@ public class DicDataServiceImpl extends BaseSpringrainServiceImpl implements IDi
 	       return (String) super.save(dicData);
 	}
     @Override
-    @CacheEvict(value = GlobalStatic.cacheKey, key = "'findListDicData'+#pathtypekey")
+    @CacheEvict(value = GlobalStatic.cacheKey, key = "'findListDicData_'+#pathtypekey")
 	public String  saveorupdateDicData(DicData dicData,String pathtypekey) throws Exception{
     	if(StringUtils.isBlank(pathtypekey)||dicData==null){
     		return null;
@@ -94,7 +94,7 @@ public class DicDataServiceImpl extends BaseSpringrainServiceImpl implements IDi
 	}
 
 	@Override
-	@Cacheable(value = GlobalStatic.cacheKey, key = "'findListDicData'+#pathtypekey")
+	@Cacheable(value = GlobalStatic.cacheKey, key = "'findListDicData_'+#pathtypekey")
 	public List<DicData> findListDicData(String pathtypekey) throws Exception {
 		if(StringUtils.isBlank(pathtypekey)){
 			return null;
@@ -105,7 +105,7 @@ public class DicDataServiceImpl extends BaseSpringrainServiceImpl implements IDi
 	}
 
 	@Override
-	@CacheEvict(value = GlobalStatic.cacheKey, key = "'findListDicData'+#pathtypekey")
+	@CacheEvict(value = GlobalStatic.cacheKey, key = "'findListDicData_'+#pathtypekey")
 	public void deleteDicDataById(String id, String pathtypekey)
 			throws Exception {
 		
@@ -122,7 +122,7 @@ public class DicDataServiceImpl extends BaseSpringrainServiceImpl implements IDi
 	}
 
 	@Override
-	@CacheEvict(value = GlobalStatic.cacheKey, key = "'findListDicData'+#pathtypekey")
+	@CacheEvict(value = GlobalStatic.cacheKey, key = "'findListDicData_'+#pathtypekey")
 	public void deleteDicDataByIds(List<String> ids, String pathtypekey)
 			throws Exception {
 		if(CollectionUtils.isEmpty(ids)||StringUtils.isBlank(pathtypekey)){

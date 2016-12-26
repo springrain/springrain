@@ -253,7 +253,7 @@ public class UserRoleMenuServiceImpl extends BaseSpringrainServiceImpl implement
 	
 	*/
 	@Override
-	@Cacheable(value = GlobalStatic.qxCacheKey, key = "'findMenuAndLeafByUserId'+#userId")
+	@Cacheable(value = GlobalStatic.qxCacheKey, key = "'findMenuAndLeafByUserId_'+#userId")
 	public List<Menu> findMenuAndLeafByUserId(String userId) throws Exception {
 		List<Menu> list=findMenuByUserId(userId);
 		if(CollectionUtils.isEmpty(list)){
