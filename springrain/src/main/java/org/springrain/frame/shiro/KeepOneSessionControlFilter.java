@@ -7,8 +7,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.cache.Cache;
-import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.session.ExpiredSessionException;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
@@ -16,6 +14,8 @@ import org.apache.shiro.session.mgt.DefaultSessionKey;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Component;
 import org.springrain.frame.common.SessionUser;
 import org.springrain.frame.util.GlobalStatic;
@@ -31,9 +31,8 @@ public class KeepOneSessionControlFilter extends AccessControlFilter {
     @Resource
 	private SessionManager sessionManager;
     @Resource
-    private CacheManager shiroCacheManager;
-    
-	private Cache<String, String> cache=null;
+    private CacheManager cacheManager;
+
 
 	@Override
 	protected boolean isAccessAllowed(ServletRequest request,
@@ -52,12 +51,10 @@ public class KeepOneSessionControlFilter extends AccessControlFilter {
 		//当前session 的Id
 		Serializable sessionId =SessionUser.getSession().getId();
 
-		//当前用户缓存中的sessionId
-		if(cache==null){
-			this.cache = shiroCacheManager.getCache(GlobalStatic.keeponeCacheName);
-		}
 		
-		String deleteSessionId = cache.get(userId);
+		//当前用户缓存中的sessionId
+		  Cache cache = cacheManager.getCache(GlobalStatic.keeponeCacheName);
+		  String deleteSessionId = cache.get(userId,String.class);
 	
 		if (sessionId.toString().equalsIgnoreCase(deleteSessionId)) {
 			return true;

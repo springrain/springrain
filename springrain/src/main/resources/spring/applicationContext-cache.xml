@@ -30,19 +30,31 @@
 	<bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
 		<property name="caches">
 			<set>
+			    <!-- 业务缓存 -->
 				<bean
 					class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
 					<property name="name" value="springraincache" />
 				</bean>
+				
+				 <!-- 权限缓存 -->
 				<bean
 					class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
 					<property name="name" value="springrainqxcache" />
 				</bean>
+				
+				<!-- 单用户登录 -->
+				<bean
+					class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
+					<property name="name" value="shiro-keepone-session" />
+				</bean>
+				
+				<!-- 静态化缓存 -->
 				<bean
 					class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
 					<property name="name" value="statichtmlcache" />
 				</bean>
 				
+				<!-- 登录密码错误缓存 -->
 				<bean
 					class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
 					<property name="name" value="springrainlogincache" />
