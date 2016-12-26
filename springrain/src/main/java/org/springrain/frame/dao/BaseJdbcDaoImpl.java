@@ -53,7 +53,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 
 	/**
 	 * 抽象方法.每个数据库的代理Dao都必须实现.在多库情况下,用于区分底层数据库的连接对象,对数据库进行增删改查.</br>
-	 * 例如:demo数据库的代理Dao org.springrain.springrain.dao.BasedemoDaoImpll
+	 * 例如:demo数据库的代理Dao org.springrain.dao.BasedemoDaoImpll
 	 * 实现返回的是spring的beanjdbc.</br>
 	 * demo2 数据库的代理Dao org.springrain.demo2.dao.Basedemo2DaoImpl
 	 * 实现返回的是spring的bean jdbc_demo2.</br>
@@ -64,7 +64,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 
 	/**
 	 * 抽象方法.每个数据库的代理Dao都必须实现.在多库情况下,用于区分底层数据库的连接对象,调用数据库的函数和存储过程.</br>
-	 * 例如:demo 数据库的代理Dao org.springrain.springrain.dao.BasedemoDaoImpl
+	 * 例如:demo 数据库的代理Dao org.springrain.demo1.dao.BasedemoDaoImpl
 	 * 实现返回的是spring的bean jdbcCall.</br>
 	 * datalog 数据库的代理Dao org.springrain.demo2.dao.Basedemo2DaoImpl
 	 * 实现返回的是spring的beanjdbcCall_demo2.</br>
@@ -335,7 +335,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		String order = page.getOrder();
 		if (StringUtils.isNotBlank(order)) {
 			order = order.trim();
-			if (order.indexOf(" ") > -1 || order.indexOf(";") > -1) {// 认为是异常的,主要是防止注入
+			if (order.contains(" ") || order.contains(";")|| order.contains(",") || order.contains("'") || order.contains("(")|| order.contains(")") ) {// 认为是异常的,主要是防止注入
 				return null;
 			}
 
@@ -431,7 +431,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 			if (page != null && StringUtils.isNotBlank(page.getOrder())) {// 如果page中包含
 																			// 排序属性
 				String _order = page.getOrder().trim();
-				if (_order.indexOf(" ") > -1 || _order.indexOf(";") > -1) {// 认为是异常的,主要是防止注入
+				if (_order.contains(" ") || _order.contains(";")|| _order.contains(",") || _order.contains("'") || _order.contains("(")|| _order.contains(")") ) {// 认为是异常的,主要是防止注入
 					orderSql = " order by id asc ";
 				} else {
 					String _sort = page.getSort();
