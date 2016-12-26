@@ -21,6 +21,8 @@ public class GlobalStatic {
 	public static final String qxCacheKey="springrainqxcache";
 	public static final String staticHtmlCacheKey="statichtmlcache";
 	public static final String springrainloginCacheKey="springrainlogincache";
+	//缓存用户最后有效的登陆sessionId
+		public static final String springrainkeeponecacheKey="springrainkeeponecache";
 	
 	
 	public static final String defaultCharset="UTF-8";
@@ -40,8 +42,7 @@ public class GlobalStatic {
 	//realm名称
 	public static final String authorizingRealmName="shiroDbAuthorizingRealmName";
 	
-	//缓存用户最后有效的登陆sessionId
-	public static final String keeponeCacheName="shiro-keepone-session";
+	
 	
 	
 	/**

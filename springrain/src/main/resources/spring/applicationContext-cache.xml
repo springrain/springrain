@@ -45,7 +45,7 @@
 				<!-- 单用户登录 -->
 				<bean
 					class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
-					<property name="name" value="shiro-keepone-session" />
+					<property name="name" value="springrainkeeponecache" />
 				</bean>
 				
 				<!-- 静态化缓存 -->
