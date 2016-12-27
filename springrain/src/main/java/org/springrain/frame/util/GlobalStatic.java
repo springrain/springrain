@@ -62,7 +62,7 @@ public class GlobalStatic {
 	//同一IP阀值时间,单位是 秒
 	public static final Integer FRIEWALL_LOCK_SECOND = 60;
 	//锁定分钟数
-	public static final Integer FRIEWALL_LOCKED_MINUTE = 5;
+	public static final Integer FRIEWALL_LOCKED_MINUTE = 10;
 	
 	static{
 		String path= GlobalStatic.class.getClassLoader().getResource("").getPath();
