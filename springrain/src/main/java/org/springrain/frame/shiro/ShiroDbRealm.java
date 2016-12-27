@@ -117,9 +117,9 @@ public class ShiroDbRealm extends AuthorizingRealm {
 			 String errorMessage="密码连续错误超过"+GlobalStatic.ERROR_LOGIN_COUNT+"次,账号被锁定,请"+GlobalStatic.ERROR_LOGIN_LOCK_MINUTE+"分钟之后再尝试登录!";
 			 
 			 Long endDateLong = cache.get(userName+"_endDateLong", Long.class);
-			 Long now=System.currentTimeMillis();
+			 Long now=System.currentTimeMillis()/1000;//秒
 			 if(endDateLong==null){
-				 endDateLong=now+GlobalStatic.ERROR_LOGIN_LOCK_MINUTE*60*1000;
+				 endDateLong=now+GlobalStatic.ERROR_LOGIN_LOCK_MINUTE*60;//秒
 				 cache.put(userName+"_endDateLong", endDateLong);
 				 throw new LockedAccountException(errorMessage);
 			 }else if(now>endDateLong){//过了失效时间
