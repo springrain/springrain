@@ -1,19 +1,13 @@
-var firstPage;
-var element;
 $(document).ready(function(){
-	//删除缓存
-	locache.remove('tabPage');
-	//加载element模块
-	ajaxmenu();
-	//刷新页面加载
-	loadCachePage(firstPage);
-	watchEvent();
+	var currentUrlHash = getLocationHashArr();
+	//加载菜单
+	ajaxmenu(currentUrlHash);
 });
 
 /**
  * 获取所有导航资源
  */
-function ajaxmenu() {
+function ajaxmenu(currentUrlHash) {
 	jQuery.ajax({
 		url : ctx + "/system/menu/leftMenu",
 		type : "post",
@@ -23,150 +17,88 @@ function ajaxmenu() {
 		dataType : "json",
 		success : function(_json) {
 			if(_json.status=="success"){
-				buildModule(_json.data);
-				loadLayUiElement();
+				buildModule(_json.data,currentUrlHash);
 			}
 		}
 	});
 }
 
-function buildModule(data) {
+function buildModule(data,currentUrlHash) {
 	if (data != null && typeof (data) != "undefined") {
+		var htmlStr = '';
+		var firstPageHashVal = currentUrlHash[0];
+		var childrenMenuList = null;
 		for ( var i = 0; i < data.length; i++) {
-			var html = '';
-			html = getParentModule(data[i]);
-			$("#menu").append(html);
+			var url = data[i].pageurl;
+			var hashVal = "#"+data[i].id;
+			var tmpData = data[i]['leaf'][0];
+			while(!!tmpData){
+				url = tmpData.pageurl;
+				hashVal += "#"+tmpData.id;
+				tmpData = tmpData['leaf'][0];
+			}
+			url = ctx + url + hashVal;
+			if((!!firstPageHashVal && data[i].id == firstPageHashVal) || (i==0)){//url中有第一个菜单的键值
+				htmlStr += '<li class="layui-nav-item layui-this"><a href="'+url+'">'+data[i].name+'</a></li>';
+				childrenMenuList = data[i]['leaf'];
+			}else{
+				htmlStr += '<li class="layui-nav-item"><a href="'+data[i]['leaf'][0].pageurl+'">'+data[i].name+'</a></li>';
+			}
 		}
+		$("#naviHeaderMenu").html(htmlStr);
+		$("#menu").html(getParentModule(childrenMenuList,currentUrlHash));
 	}
 }
 
-function getParentModule(json) {
-	var _leaf=json["leaf"];
-	var t = '<li class="layui-nav-item layui-nav-itemed" id="'+json.id+'"><a href="';
-	if(_leaf&&_leaf.length>0){
-		t =t+ ' javascript:;"> '+json.name+'</a>';
-		t = t+getChindModule(_leaf);
-	}else{
-		//t = t+ctx+'/index#'+json.id+'" >'+ json.name+'</a>';
-		t = t+'javascript:;" >'+ json.name+'</a>';
-		if(!(!!firstPage)){
-			firstPage = json.id;
+
+function getParentModule(childrenMenuList,currentUrlHash) {
+	var htmlStr = '';
+	var secondMenuHashVal = currentUrlHash[1];
+	var showItem = "";
+	for(var i=0;i<childrenMenuList.length;i++){
+		if((!!secondMenuHashVal && childrenMenuList[i].id == secondMenuHashVal) || i==0){
+			showItem = "layui-nav-item";
 		}
+		htmlStr += '<li class="layui-nav-item '+showItem+'" id="'+childrenMenuList[i].id+'"><a href="';
+		var _leaf=childrenMenuList[i]["leaf"];
+		if(_leaf&&_leaf.length>0){
+			htmlStr = htmlStr+ ' javascript:;"> '+childrenMenuList[i].name+'</a>';
+			htmlStr = htmlStr+getChindModule(_leaf,currentUrlHash);
+		}else{
+			htmlStr = htmlStr+'javascript:;" >'+ childrenMenuList[i].name+'</a>';
+		}
+		htmlStr = htmlStr+'</li>';
 	}
-	t =t+'</li>';
-	return t;
+	return htmlStr;
 }
 
-function getChindModule(_leaf) {
+function getChindModule(_leaf,currentUrlHash) {
+	var thirdMenuHashVal = currentUrlHash[2];
+	var showItem = "";
 	var t = '<dl class="layui-nav-child">';
 	for ( var menuObj in _leaf) {
-		//t = t+'<dd pageUrl="'+_leaf[menuObj].pageurl+'" id="'+_leaf[menuObj].id+'"><a href="'+ctx+'/index?lang=zh_CN#'+_leaf[menuObj].id+'"><i class="layui-icon">&#xe611;</i><cite>'+_leaf[menuObj].name+'</cite></a></dd>';
-		t = t+'<dd pageUrl="'+_leaf[menuObj].pageurl+'" id="'+_leaf[menuObj].id+'"><a href="javascript:;"><i class="layui-icon">&#xe611;</i><cite>'+_leaf[menuObj].name+'</cite></a></dd>';
-		if(!(!!firstPage)){
-			firstPage = _leaf[menuObj].id;
+		if((!!thirdMenuHashVal && _leaf[menuObj].id == thirdMenuHashVal) || menuObj==0){
+			showItem = "layui-this";
 		}
+		t = t+'<dd class="'+showItem+'" pageUrl="'+_leaf[menuObj].pageurl+'" id="'+_leaf[menuObj].id+'"><a href="javascript:;"><i class="layui-icon">&#xe611;</i><cite>'+_leaf[menuObj].name+'</cite></a></dd>';
 	}
 	t = t+'</dl>';
 	return t;
 }
 
-function loadLayUiElement(){
-	layui.use('element', function(){
-		element = layui.element();
-		element.on('nav(leftMenu)', function(data){
-			addTabPage(data);
-		});
-		
-		element.on('tab(tabPage)', function(data){
-		});
-	});
-}
 
-
-function addTabPage(data){
-	var menuName = data.children("a").children("cite").html();
-	var menuId = data.attr("id");
-	var pageUrl = data.attr("pageUrl");
-	var tabMenuIdObj = locache.get('tabPage');
-	if(!(!!tabMenuIdObj)){
-		tabMenuIdObj = new Object();
+/**
+ * 获取url中的hash值，例如http://www.baidu.com#keyword,返回['keyword']
+ * @returns 数组
+ */
+function getLocationHashArr(){
+	var urlHash = window.location.hash;
+	if(!!urlHash){
+		var urlHashArr = urlHash.split("#");
+		urlHashArr.splice(0,1);
+		return urlHashArr;
 	}
-	
-	$("#tabPage").children("li").removeClass("layui-this");
-	$("#tabPageContent").children("div").removeClass("layui-show");
-	if(!!tabMenuIdObj[menuId]){
-		if(!(!!$("#tab"+menuId)) || $("#tab"+menuId).length<=0){
-			$("#tabPage").append('<li class="layui-this" id="tab'+menuId+'">'+menuName+' </li>');
-		}
-		if(!(!!$("#content"+menuId)) || $("#content"+menuId).length<=0){
-			$("#tabPageContent").append('<div class="layui-tab-item layui-show" id="content'+menuId+'"></div>');
-		}
-		$("#tab"+menuId).addClass("layui-this");
-		$("#content"+menuId).addClass("layui-show");
-		
-		loadPageContent(menuId,pageUrl);
-	}else{
-		$("#tabPage").append('<li class="layui-this" id="tab'+menuId+'">'+menuName+' </li>');
-		$("#tabPageContent").append('<div class="layui-tab-item layui-show" id="content'+menuId+'"></div>');
-		tabMenuIdObj[menuId] = new Object();
-		tabMenuIdObj[menuId].id=menuId;
-		tabMenuIdObj[menuId].name=menuName;
-		tabMenuIdObj[menuId].url = pageUrl;
-		locache.set('tabPage',tabMenuIdObj);
-		loadPageContent(menuId,pageUrl);
-	}
-	
+	return new Array();
 }
 
-function loadCachePage(){
-	var tabMenuIdObj = locache.get('tabPage');
-	if(!!tabMenuIdObj){//加载当前url中的页面
-		var currentPageId = getCurrentPageId(); 
-		for(var field in tabMenuIdObj){
-			if(currentPageId == tabMenuIdObj[field].id){
-				$("#tabPage").append('<li class="layui-this" id="tab'+tabMenuIdObj[field].id+'">'+tabMenuIdObj[field].name+' </li>');
-				$("#tabPageContent").append('<div class="layui-tab-item layui-show"></div>');
-				loadPageContent(tabMenuIdObj[field].id,tabMenuIdObj[field].url);
-			}else{
-				$("#tabPage").append('<li id="tab'+tabMenuIdObj[field].id+'">'+tabMenuIdObj[field].name+' </li>');
-				$("#tabPageContent").append('<div class="layui-tab-item"></div>');
-			}
-		}
-	}else{//加载菜单中的第一个页面
-		var pageUrl = $("#"+firstPage).attr("pageurl");
-		var pageName = $("#"+firstPage).children("a").children("cite").text();
-		$("#tabPage").append('<li class="layui-this" id="tab'+firstPage+'">'+pageName+' </li>');
-		$("#tabPageContent").append('<div class="layui-tab-item layui-show" id="content'+firstPage+'"></div>');
-		loadPageContent(firstPage,pageUrl);
-		tabMenuIdObj = new Object();
-		tabMenuIdObj[firstPage] = new Object();
-		tabMenuIdObj[firstPage].id=firstPage;
-		tabMenuIdObj[firstPage].name=pageName;
-		tabMenuIdObj[firstPage].url = pageUrl;
-		locache.set('tabPage',tabMenuIdObj);
-	}
-}
-
-function loadPageContent(pageId,pageUrl){
-	$.ajax({
-		url: ctx+pageUrl,
-		type: 'POST',
-		dataType: 'html',
-		success:function(ret){
-			$("#content"+pageId).html(ret);
-			element.init();
-		}
-	});
-}
-
-/*该方法监听浏览器url状态变更，暂时不实现 */
-function watchEvent(){
-    if (window.history && window.history.pushState) {
-         $(window).on('popstate', function () {
-        	//TODO
-        	//
-            console.log("url状态更改");
-        });
-    }
-}
 
