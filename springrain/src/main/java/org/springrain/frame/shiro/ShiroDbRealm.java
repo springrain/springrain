@@ -8,7 +8,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.DisabledAccountException;
+import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -44,9 +44,6 @@ public class ShiroDbRealm extends AuthorizingRealm {
 
 	//public static final String HASH_ALGORITHM = "MD5";
 	//public static final int HASH_INTERATIONS = 1;
-	
-	//密码连续错误10次,锁定不再进行登录查询,一直到缓存失效
-	public static final int ERROR_LOGIN_COUNT = 10;
 	
 	
 	public ShiroDbRealm() {
@@ -115,11 +112,27 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		//处理密码错误缓存
 		 Cache cache = cacheManager.getCache(GlobalStatic.springrainloginCacheKey);
 		 Integer errorLogincount=cache.get(userName, Integer.class);
-		 if(errorLogincount!=null&&errorLogincount>ERROR_LOGIN_COUNT){//密码连续错误10次
-			 throw new DisabledAccountException("密码连续错误超过"+ERROR_LOGIN_COUNT+"次,账号被锁定,请半个小时之后再尝试登录!");
+		 if(errorLogincount!=null&&errorLogincount>=GlobalStatic.ERROR_LOGIN_COUNT){//密码连续错误10次以上
+			 
+			 String errorMessage="密码连续错误超过"+GlobalStatic.ERROR_LOGIN_COUNT+"次,账号被锁定,请"+GlobalStatic.ERROR_LOGIN_LOCK_MINUTE+"分钟之后再尝试登录!";
+			 
+			 Long endDateLong = cache.get(userName+"_endDateLong", Long.class);
+			 Long now=System.currentTimeMillis()/1000;//秒
+			 if(endDateLong==null){
+				 endDateLong=now+GlobalStatic.ERROR_LOGIN_LOCK_MINUTE*60;//秒
+				 cache.put(userName+"_endDateLong", endDateLong);
+				 throw new LockedAccountException(errorMessage);
+			 }else if(now>endDateLong){//过了失效时间
+				 cache.evict(userName);
+				 cache.evict(userName+"_endDateLong");
+				 
+			 }else{
+				 throw new LockedAccountException(errorMessage); 
+			 }
+			 
+			 
+			
 		 }
-		
-		
 		
 		try {
 			user = userRoleMenuService.findLoginUser(userName, null,upToken.getUserType());

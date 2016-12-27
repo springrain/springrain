@@ -2,7 +2,7 @@ package org.springrain.system.service;
 
 /**
  * TODO 在此加入类描述
- * @copyright {@link 9iu.org}
+ * @copyright {@link weicms.net}
  * @author springrain<Auto generate>
  * @version  2016-11-10 14:16:38
  * @see org.springrain.demo.service.Tableindex

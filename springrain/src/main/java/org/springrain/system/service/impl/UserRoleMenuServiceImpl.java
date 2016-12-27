@@ -22,7 +22,7 @@ import org.springrain.system.service.IUserRoleMenuService;
 /**
  * TODO 在此加入类描述
  * 
- * @copyright {@link 9iu.org}
+ * @copyright {@link weicms.net}
  * @author springrain<Auto generate>
  * @version 2013-07-06 16:03:00
  * @see org.springrain.springrain.service.impl.UserRole
@@ -253,7 +253,7 @@ public class UserRoleMenuServiceImpl extends BaseSpringrainServiceImpl implement
 	
 	*/
 	@Override
-	@Cacheable(value = GlobalStatic.qxCacheKey, key = "'findMenuAndLeafByUserId'+#userId")
+	@Cacheable(value = GlobalStatic.qxCacheKey, key = "'findMenuAndLeafByUserId_'+#userId")
 	public List<Menu> findMenuAndLeafByUserId(String userId) throws Exception {
 		List<Menu> list=findMenuByUserId(userId);
 		if(CollectionUtils.isEmpty(list)){

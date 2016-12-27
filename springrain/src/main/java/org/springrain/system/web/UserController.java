@@ -29,8 +29,8 @@ import org.springrain.system.service.IUserService;
 /**
  * 用户管理Controller,PC和手机浏览器用ACE自适应,APP提供JSON格式的数据接口
  * 
- * @copyright {@link 9iu.org}
- * @author 9iu.org<Auto generate>
+ * @copyright {@link weicms.net}
+ * @author weicms.net<Auto generate>
  * @version 2014-06-26 11:36:47
  * @see org.springrain.springrain.web.User
  */

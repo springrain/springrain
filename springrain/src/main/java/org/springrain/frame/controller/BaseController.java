@@ -24,7 +24,7 @@ import org.springrain.frame.util.Page;
 /**
  * 基础的Controller,所有的Controller必须继承此类
  * 
- * @copyright {@link 9iu.org}
+ * @copyright {@link weicms.net}
  * @author springrain<9iuorg@gmail.com>
  * @version 2013-03-19 11:08:15
  * @see org.springrain.frame.controller.BaseController

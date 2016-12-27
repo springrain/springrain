@@ -26,26 +26,48 @@
 	<cache:annotation-driven cache-manager="cacheManager" />
 
 	<!-- spring自己的换管理器，这里定义了两个缓存位置名称 ，既注解中的value -->
+
 	<bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
 		<property name="caches">
 			<set>
+			    <!-- 业务缓存 -->
 				<bean
 					class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
 					<property name="name" value="springraincache" />
 				</bean>
+				
+				 <!-- 权限缓存 -->
 				<bean
 					class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
 					<property name="name" value="springrainqxcache" />
 				</bean>
+				
+				<!-- 单用户登录 -->
+				<bean
+					class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
+					<property name="name" value="springrainkeeponecache" />
+				</bean>
+				
+				<!-- 静态化缓存 -->
 				<bean
 					class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
 					<property name="name" value="statichtmlcache" />
 				</bean>
 				
+				<!-- 登录密码错误缓存 -->
 				<bean
 					class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
 					<property name="name" value="springrainlogincache" />
 				</bean>
+				
+				
+				<!-- 防火墙缓存 -->
+				<bean
+					class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
+					<property name="name" value="springrainfriewallcache" />
+				</bean>
+				
+				
 				
 			</set>
 		</property>
@@ -56,10 +78,10 @@
 <!--  cacheManager 用于spring 缓存, redisCached 为redis的工具类,用于业务的缓存. 基于redis分布的session共享也是基于这个redisCached -->
 
  
- <!-- 
+<!--  
 <bean id="cacheManager" class="org.springframework.data.redis.cache.RedisCacheManager">
       <constructor-arg ref="redisTemplate" />
-       <property name="defaultExpiration" value="1800" />
+       <property name="defaultExpiration" value="${cache.timeout}" />
 </bean>
 	
 
@@ -69,7 +91,7 @@
 
 	<bean id="redisCached" class="org.springrain.frame.cached.RedisCachedImpl">
 		<property name="redisTemplate" ref="redisTemplate" />
-		<property name="expire" value="1800" />
+		<property name="expire" value="${cache.timeout}" />
 	</bean>
 
 	<bean id="redisConnectionFactory"
@@ -83,7 +105,7 @@
 		<property name="maxTotal" value="${redis.pool.maxTotal}" />
 		<property name="maxIdle" value="${redis.pool.maxIdle}" />
 	</bean>
- -->	
+--> 
 
 
 <!-- 消息队列   生产者和消费者模式 -->

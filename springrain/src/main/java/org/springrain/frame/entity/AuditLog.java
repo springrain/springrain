@@ -14,7 +14,7 @@ import org.springrain.frame.annotation.WhereSQL;
 import org.springrain.frame.util.GlobalStatic;
 /**
  * TODO 在此加入类描述
- * @copyright {@link 9iu.org}
+ * @copyright {@link weicms.net}
  * @author springrain<Auto generate>
  * @version  2013-04-02 10:17:31
  * @see org.springrain.frame.entity.AuditLog

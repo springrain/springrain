@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 /**
 * Spring 工具类
 *
-* @author 9iuorg@gmail.com  9iu.org
+* @author 9iuorg@gmail.com  weicms.net
 * @date 2011-10-13
 */
 

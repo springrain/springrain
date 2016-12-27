@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
 * IP校验
 *
- * @copyright {@link 9iu.org}
+ * @copyright {@link weicms.net}
  * @author springrain<Auto generate>
  * @version  2013-03-19 11:08:15
  * @see org.springrain.frame.util.IPUtils
@@ -39,10 +39,21 @@ public class IPUtils {
      * @return String
      */
     public static String getClientAddress(HttpServletRequest request) {
-        String address = request.getHeader("X-Forwarded-For");
-        if (address != null &&isIpAddress(address)) {
-            return address;
+    	
+    	String ip = request.getHeader("x-forwarded-for");
+        if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)){
+            ip = request.getHeader("Proxy-Client-IP");
         }
-        return request.getRemoteAddr();
+        
+        if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)){
+            ip = request.getHeader("X-Real-IP");
+        }
+        
+        if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)){
+            ip = request.getRemoteAddr();
+        }
+        
+        return ip.equals("0:0:0:0:0:0:0:1")?"127.0.0.1":ip;
+        
     }
 }

@@ -27,7 +27,7 @@
 	<bean id="sessionManager"
 		class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
 		<!-- 超时时间 -->
-		<property name="globalSessionTimeout" value="1800000" />
+		<property name="globalSessionTimeout" value="${cache.timeout}000" />
 		<!-- session存储的实现 -->
 		<property name="sessionDAO" ref="shiroSessionDao" />
 		<!-- sessionIdCookie的实现,用于重写覆盖容器默认的JSESSIONID -->
@@ -48,14 +48,15 @@
 		class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO" />
 
 	<!-- 单机session -->
+	
 	<bean id="shiroCacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager" />
-
+    
 	<!-- session 集群 -->
 	<!-- 
 	<bean id="shiroCacheManager" class="org.springrain.frame.shiro.ShiroRedisCacheManager"> 
 		<property name="cached" ref="redisCached" /> 
 	</bean>
-	 -->
+	-->
 
 	<!-- shiro的主过滤器,beanId 和web.xml中配置的filter name需要保持一致 -->
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean"
@@ -66,35 +67,38 @@
 		<!-- 访问地址的过滤规则,从上至下,从左至右的优先级,如果有匹配的规则,就会返回,不会再进行匹配 -->
 		<property name="filterChainDefinitions">
 			<value>
-			    /layui/** = anon
-				/js/** = anon
-				/css/** = anon
-				/images/** = anon
-				/img/** = anon
+			    /layui/** = firewall,anon
+				/js/** =  firewall,anon
+				/css/** = firewall,anon
+				/images/** = firewall,anon
+				/img/** = firewall,anon
+				/favicon.ico = firewall,anon
 				
 				<!-- S 目前将upload文件权限放开，等文件系统模块完成以后再修改  -->
-				/upload/**=anon
+				/upload/**=firewall,anon
 				<!-- E  -->
 				
-				/unauth = anon
-				/system/unauth = anon
-				/getCaptcha=anon
-				/system/getCaptcha=anon
-				/login = anon
-				/system/login = anon
-				/favicon.ico = anon
-				/weixin/f/oauth2=anon
-				/weixin/f/** =anon
-				/weixin/token/** = anon
-				/servlet/fileupload=user
-				/index = user,framefwlog,keepone
-				/logout = logout
-				/**/ajax/** = user,framefwlog,keepone
-				/system/menu/leftMenu=systemuser,keepone
-				/system/menu/**=systemuser,keepone
-				/system/user/**=anon
-				/system/**=systemuser,framefwlog,keepone,frameperms
-				/** = frontuser,framefwlog,keepone,frameperms
+				/unauth = firewall,anon
+				/system/unauth = firewall,anon
+				
+				/getCaptcha=firewall,anon
+				
+				/login = firewall,anon
+				/system/login = firewall,anon
+				
+				
+				/index = firewall,user,keepone
+				/system/index =firewall,systemuser,framefwlog,keepone
+				/logout = firewall,logout
+				
+				
+				
+			
+				/servlet/fileupload=firewall,user
+				/system/menu/leftMenu=firewall,systemuser,keepone
+
+				/system/**=firewall,systemuser,framefwlog,keepone,frameperms
+				/** = firewall,frontuser,framefwlog,keepone,frameperms
 			</value>
 		</property>
 		<!-- 声明自定义的过滤器 -->
@@ -114,6 +118,9 @@
 			     <!-- 静态化 过滤器 -->
 			    <entry key="statichtml" value-ref="statichtml"/>
 			    
+			     <!-- 防火墙 过滤器 -->
+			    <entry key="firewall" value-ref="firewall"/>
+			    
 			</map>
 		</property>
 	</bean>
@@ -121,6 +128,35 @@
 	<!-- 
 	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
 	 -->
+	 
+	 
+	 <!-- 简单的防火墙策略,一般是专业防火墙实现的功能 -->
+	 <bean id="firewall" class="org.springrain.frame.shiro.FrameFireWallFilter">
+	 
+	    <!--
+		<property name="firewallLockCount" value="10000" />
+		 -->
+		 
+		 <!-- 如果值小于0 例如 -1,认为不限制,黑名单依然有效 -->
+		<property name="firewallLockCount" value="-1" />
+		<property name="firewallLockSecond" value="60" />
+		<property name="firewallLockedMinute" value="10" />
+		
+		<property name="blackList" >
+		 <list>
+		 	<value>127.0.0.2</value>
+		 </list>
+		</property>
+		
+		<property name="whiteList" >
+		 <list>
+		 	<value>127.0.0.1</value>
+		 </list>
+		</property>
+		
+		
+		
+	</bean>
 	 
 
 </beans>

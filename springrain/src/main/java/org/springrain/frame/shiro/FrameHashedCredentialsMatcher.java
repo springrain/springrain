@@ -37,6 +37,7 @@ public class FrameHashedCredentialsMatcher extends HashedCredentialsMatcher {
 		
 		if(doCredentialsMatch){//如果登录成功
 			cache.evict(userName);
+			 cache.evict(userName+"_endDateLong");
 		}else{
 			Integer errorLogincount=cache.get(userName, Integer.class);
 			if(errorLogincount==null){

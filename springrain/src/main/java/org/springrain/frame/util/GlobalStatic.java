@@ -1,7 +1,7 @@
 package org.springrain.frame.util;
 /**
  * 全局的静态变量,用于全局变量的存放
- * @copyright {@link 9iu.org}
+ * @copyright {@link weicms.net}
  * @author springrain<Auto generate>
  * @version  2013-03-19 11:08:15
  * @see org.springrain.frame.util.GlobalStatic
@@ -21,6 +21,11 @@ public class GlobalStatic {
 	public static final String qxCacheKey="springrainqxcache";
 	public static final String staticHtmlCacheKey="statichtmlcache";
 	public static final String springrainloginCacheKey="springrainlogincache";
+	//缓存用户最后有效的登陆sessionId
+	public static final String springrainkeeponeCacheKey="springrainkeeponecache";
+	//防火墙缓存
+    public static final String springrainfirewallCacheKey="springrainfriewallcache";
+	
 	
 	
 	public static final String defaultCharset="UTF-8";
@@ -40,28 +45,24 @@ public class GlobalStatic {
 	//realm名称
 	public static final String authorizingRealmName="shiroDbAuthorizingRealmName";
 	
-	//缓存用户最后有效的登陆sessionId
-	public static final String keeponeCacheName="shiro-keepone-session";
 	
-	
-	/**
-	 * 默认验证码参数名称
-	 */
+	//默认验证码参数名称
 	public static final String DEFAULT_CAPTCHA_PARAM = "captcha";
-
-	/**
-	 * 登录次数超出allowLoginNum时，存储在session记录是否展示验证码的key默认名称
-	 */
-	public static final String DEFAULT_SHOW_CAPTCHA_KEY_ATTRIBUTE = "showCaptcha";
-
-	/**
-	 * 默认在session中存储的登录次数名称
-	 */
-	public static final String DEFAULT_LOGIN_NUM_KEY_ATTRIBUTE = "loginNum";
-	  //允许登录次数，当登录次数大于该数值时，会在页面中显示验证码
-	public static final Integer allowLoginNum=1;
 	
 	
+
+	//密码连续错误10次,锁定不再进行登录查询,锁定 ERROR_LOGIN_LOCK_MINUTE  分钟
+	public static final int ERROR_LOGIN_COUNT = 10;
+	//错误登录后的,锁定分钟数
+	public static final int ERROR_LOGIN_LOCK_MINUTE = 30;
+	
+	
+	//同一IP防火墙阀值
+	public static final Integer FRIEWALL_LOCK_COUNT = 10000;
+	//同一IP阀值时间,单位是 秒
+	public static final Integer FRIEWALL_LOCK_SECOND = 60;
+	//锁定分钟数
+	public static final Integer FRIEWALL_LOCKED_MINUTE = 10;
 	
 	static{
 		String path= GlobalStatic.class.getClassLoader().getResource("").getPath();

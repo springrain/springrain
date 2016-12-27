@@ -12,7 +12,7 @@ import org.springrain.frame.entity.BaseEntity;
 /**
  * TODO 在此加入类描述
  * @copyright {@link springrain}
- * @author 9iu.org<Auto generate>
+ * @author weicms.net<Auto generate>
  * @version  2013-08-02 16:32:29
  * @see org.springrain.system.entity.DicData
  */
