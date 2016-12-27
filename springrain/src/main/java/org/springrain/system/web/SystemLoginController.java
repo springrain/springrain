@@ -80,14 +80,20 @@ public class SystemLoginController extends BaseController  {
 			Subject user = SecurityUtils.getSubject();
 			//系统产生的验证码
 			  String code = (String) session.getAttribute(GlobalStatic.DEFAULT_CAPTCHA_PARAM);
+			  
+			  session.removeAttribute(GlobalStatic.DEFAULT_CAPTCHA_PARAM);
+			  
 			  if(StringUtils.isNotBlank(code)){
 				  code=code.toLowerCase().toString();
 			  }
 			  //用户产生的验证码
-			String submitCode = WebUtils.getCleanParam(request, GlobalStatic.DEFAULT_CAPTCHA_PARAM);
+			 String submitCode = WebUtils.getCleanParam(request, GlobalStatic.DEFAULT_CAPTCHA_PARAM);
 			  if(StringUtils.isNotBlank(submitCode)){
 				  submitCode=submitCode.toLowerCase().toString();
 			  }
+			  
+			 
+			  
 			  //如果验证码不匹配,跳转到登录
 			if (StringUtils.isBlank(submitCode) ||StringUtils.isBlank(code)||!code.equals(submitCode)) {
 				model.addAttribute("message", "验证码错误!");

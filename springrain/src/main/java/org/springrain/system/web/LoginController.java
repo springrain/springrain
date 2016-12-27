@@ -93,6 +93,8 @@ public class LoginController extends BaseController  {
 			Subject user = SecurityUtils.getSubject();
 			//系统产生的验证码
 			  String code = (String) session.getAttribute(GlobalStatic.DEFAULT_CAPTCHA_PARAM);
+			  session.removeAttribute(GlobalStatic.DEFAULT_CAPTCHA_PARAM);
+			  
 			  if(StringUtils.isNotBlank(code)){
 				  code=code.toLowerCase().toString();
 			  }
