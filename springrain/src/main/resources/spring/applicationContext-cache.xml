@@ -60,6 +60,15 @@
 					<property name="name" value="springrainlogincache" />
 				</bean>
 				
+				
+				<!-- 防火墙缓存 -->
+				<bean
+					class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
+					<property name="name" value="springrainfriewallcache" />
+				</bean>
+				
+				
+				
 			</set>
 		</property>
 	</bean>

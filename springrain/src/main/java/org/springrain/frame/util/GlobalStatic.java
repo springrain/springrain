@@ -22,7 +22,10 @@ public class GlobalStatic {
 	public static final String staticHtmlCacheKey="statichtmlcache";
 	public static final String springrainloginCacheKey="springrainlogincache";
 	//缓存用户最后有效的登陆sessionId
-		public static final String springrainkeeponeCacheKey="springrainkeeponecache";
+	public static final String springrainkeeponeCacheKey="springrainkeeponecache";
+	//防火墙缓存
+    public static final String springrainfirewallCacheKey="springrainfriewallcache";
+	
 	
 	
 	public static final String defaultCharset="UTF-8";
@@ -48,11 +51,18 @@ public class GlobalStatic {
 	
 	
 
-	//密码连续错误10次,锁定不再进行登录查询,锁定 ERROR_LOGIN_LOCK_MINUTE 分钟
+	//密码连续错误10次,锁定不再进行登录查询,锁定 ERROR_LOGIN_LOCK_MINUTE  分钟
 	public static final int ERROR_LOGIN_COUNT = 10;
 	//错误登录后的,锁定分钟数
 	public static final int ERROR_LOGIN_LOCK_MINUTE = 30;
-
+	
+	
+	//同一IP防火墙阀值
+	public static final Integer FRIEWALL_LOCK_COUNT = 10000;
+	//同一IP阀值时间,单位是 秒
+	public static final Integer FRIEWALL_LOCK_SECOND = 60;
+	//锁定分钟数
+	public static final Integer FRIEWALL_LOCKED_MINUTE = 5;
 	
 	static{
 		String path= GlobalStatic.class.getClassLoader().getResource("").getPath();

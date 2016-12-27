@@ -67,39 +67,38 @@
 		<!-- 访问地址的过滤规则,从上至下,从左至右的优先级,如果有匹配的规则,就会返回,不会再进行匹配 -->
 		<property name="filterChainDefinitions">
 			<value>
-			    /layui/** = anon
-				/js/** = anon
-				/css/** = anon
-				/images/** = anon
-				/img/** = anon
-				/favicon.ico = anon
+			    /layui/** = firewall,anon
+				/js/** =  firewall,anon
+				/css/** = firewall,anon
+				/images/** = firewall,anon
+				/img/** = firewall,anon
+				/favicon.ico = firewall,anon
 				
 				<!-- S 目前将upload文件权限放开，等文件系统模块完成以后再修改  -->
-				/upload/**=anon
+				/upload/**=firewall,anon
 				<!-- E  -->
 				
-				/unauth = anon
-				/system/unauth = anon
+				/unauth = firewall,anon
+				/system/unauth = firewall,anon
 				
-				/getCaptcha=anon
-				/system/getCaptcha=anon
+				/getCaptcha=firewall,anon
 				
-				/login = anon
-				/system/login = anon
+				/login = firewall,anon
+				/system/login = firewall,anon
 				
 				
-				/index = user,keepone
-				/system/index =systemuser,framefwlog,keepone
-				/logout = logout
+				/index = firewall,user,keepone
+				/system/index =firewall,systemuser,framefwlog,keepone
+				/logout = firewall,logout
 				
 				
 				
 			
-				/servlet/fileupload=user
-				/system/menu/leftMenu=systemuser,keepone
+				/servlet/fileupload=firewall,user
+				/system/menu/leftMenu=firewall,systemuser,keepone
 
-				/system/**=systemuser,framefwlog,keepone,frameperms
-				/** = frontuser,framefwlog,keepone,frameperms
+				/system/**=firewall,systemuser,framefwlog,keepone,frameperms
+				/** = firewall,frontuser,framefwlog,keepone,frameperms
 			</value>
 		</property>
 		<!-- 声明自定义的过滤器 -->
@@ -119,6 +118,9 @@
 			     <!-- 静态化 过滤器 -->
 			    <entry key="statichtml" value-ref="statichtml"/>
 			    
+			     <!-- 防火墙 过滤器 -->
+			    <entry key="firewall" value-ref="firewall"/>
+			    
 			</map>
 		</property>
 	</bean>
@@ -126,6 +128,35 @@
 	<!-- 
 	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
 	 -->
+	 
+	 
+	 <!-- 简单的防火墙策略,一般是专业防火墙实现的功能 -->
+	 <bean id="firewall" class="org.springrain.frame.shiro.FrameFireWallFilter">
+	 
+	    <!--
+		<property name="firewallLockCount" value="10000" />
+		 -->
+		 
+		 <!-- 如果值小于0 例如 -1,认为不限制,黑名单依然有效 -->
+		<property name="firewallLockCount" value="-1" />
+		<property name="firewallLockSecond" value="60" />
+		<property name="firewallLockedMinute" value="10" />
+		
+		<property name="blackList" >
+		 <list>
+		 	<value>127.0.0.2</value>
+		 </list>
+		</property>
+		
+		<property name="whiteList" >
+		 <list>
+		 	<value>127.0.0.1</value>
+		 </list>
+		</property>
+		
+		
+		
+	</bean>
 	 
 
 </beans>
