@@ -20,7 +20,7 @@ import org.springrain.system.service.IDicDataService;
 /**
  * TODO 在此加入类描述
  * @copyright {@link springrain}
- * @author 9iu.org<Auto generate>
+ * @author weicms.net<Auto generate>
  * @version  2013-07-31 15:56:45
  * @see org.springrain.springrain.service.impl.DicData
  */

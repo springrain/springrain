@@ -10,7 +10,7 @@ import org.springrain.frame.annotation.WhereSQL;
 import org.springrain.frame.entity.BaseEntity;
 /**
  * TODO 在此加入类描述
- * @copyright {@link 9iu.org}
+ * @copyright {@link weicms.net}
  * @author springrain<Auto generate>
  * @version  2016-12-05 13:26:18
  * @see org.springrain.demo.entity.RoleOrg

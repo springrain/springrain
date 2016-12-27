@@ -20,7 +20,7 @@ import org.springrain.system.service.IMenuService;
 /**
  * TODO 在此加入类描述
  * 
- * @copyright {@link 9iu.org}
+ * @copyright {@link weicms.net}
  * @author springrain<Auto generate>
  * @version 2013-07-06 16:02:58
  * @see org.springrain.springrain.service.impl.Menu

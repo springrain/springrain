@@ -8,7 +8,7 @@ import org.springrain.frame.shiro.ShiroUser;
 /**
  * 当前登录用户信息,可以在bean中调用获取当前登录用户信息,例如 SessionUser.getUserId()获取当前登录人的userId
  * 
- * @copyright {@link 9iu.org}
+ * @copyright {@link weicms.net}
  * @author springrain<9iuorg@gmail.com>
  * @version 2013-03-19 11:08:15
  * @see org.springrain.frame.common.SessionUser

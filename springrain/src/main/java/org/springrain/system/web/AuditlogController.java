@@ -23,7 +23,7 @@ import org.springrain.system.service.IAuditlogService;
 /**
  * TODO 在此加入类描述
  * @copyright {@link springrain}
- * @author 9iu.org<Auto generate>
+ * @author weicms.net<Auto generate>
  * @version  2013-08-02 12:14:50
  * @see org.springrain.frame.entity.springrain.web.AuditLog
  */

@@ -49,6 +49,6 @@ public class ResourceUtils {
 	}
 
 	/*public static void main(String[] args) {
-		System.out.print(Resource.getString("9iu.org"));
+		System.out.print(Resource.getString("weicms.net"));
 	}*/
 }

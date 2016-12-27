@@ -22,7 +22,7 @@ import org.springrain.system.service.IFwlogService;
 /**
  * TODO 在此加入类描述
  * @copyright {@link springrain}
- * @author 9iu.org<Auto generate>
+ * @author weicms.net<Auto generate>
  * @version  2013-07-29 11:36:44
  * @see org.springrain.springrain.web.Fwlog
  */

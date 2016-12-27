@@ -18,7 +18,7 @@ import org.springrain.system.service.IUserOrgService;
 
 /**
  * TODO 在此加入类描述
- * @copyright {@link 9iu.org}
+ * @copyright {@link weicms.net}
  * @author springrain<Auto generate>
  * @version  2013-07-06 15:28:18
  * @see org.springrain.springrain.service.impl.TuserOrg

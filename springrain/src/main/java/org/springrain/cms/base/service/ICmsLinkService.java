@@ -4,7 +4,7 @@ import org.springrain.cms.base.entity.CmsLink;
 import org.springrain.system.service.IBaseSpringrainService;
 /**
  * TODO 在此加入类描述
- * @copyright {@link 9iu.org}
+ * @copyright {@link weicms.net}
  * @author springrain<Auto generate>
  * @version  2016-11-10 11:55:20
  * @see org.springrain.demo.service.CmsLink

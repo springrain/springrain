@@ -25,7 +25,7 @@ import org.springrain.system.service.IUserRoleMenuService;
 /**
  * TODO 在此加入类描述
  * @copyright {@link springrain}
- * @author 9iu.org<Auto generate>
+ * @author weicms.net<Auto generate>
  * @version  2013-07-29 11:36:46
  * @see org.springrain.springrain.web.Role
  */

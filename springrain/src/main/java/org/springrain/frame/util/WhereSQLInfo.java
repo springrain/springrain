@@ -2,7 +2,7 @@ package org.springrain.frame.util;
 
 /**
 * Where 条件的信息,用于缓存信息
- * @copyright {@link 9iu.org}
+ * @copyright {@link weicms.net}
  * @author springrain<Auto generate>
  * @version  2013-03-19 11:08:15
  * @see org.springrain.frame.util.WhereSQLInfo

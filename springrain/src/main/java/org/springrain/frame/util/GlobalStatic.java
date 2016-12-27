@@ -1,7 +1,7 @@
 package org.springrain.frame.util;
 /**
  * 全局的静态变量,用于全局变量的存放
- * @copyright {@link 9iu.org}
+ * @copyright {@link weicms.net}
  * @author springrain<Auto generate>
  * @version  2013-03-19 11:08:15
  * @see org.springrain.frame.util.GlobalStatic

@@ -43,7 +43,7 @@ import org.springrain.frame.util.WhereSQLInfo;
  * 例如 demo数据的实现类是org.springrain.springrain.dao.BasedemoDaoImpl,demo2数据的实现类是org.
  * springrain demo2.dao.Basedemo2DaoImpl</br>
  * 
- * @copyright {@link 9iu.org}
+ * @copyright {@link weicms.net}
  * @author springrain<Auto generate>
  * @version 2013-03-19 11:08:15
  * @see org.springrain.frame.dao.BaseJdbcDaoImpl
