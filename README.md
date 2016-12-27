@@ -1,8 +1,8 @@
 主干正在重构中,请下载使用2.2版本
 
-项目名为springrain[春雨]我的个人博客是 http://www.9iu.org  QQ群是:238904840
+项目名为springrain[春雨]我的个人博客是 http://www.weicms.net QQ群是:238904840
 #demo
-http://springrain.9iu.org
+http://springrain.weicms.net
 #文档
 http://git.oschina.net/chunanyong/springrain/raw/master/springrain/doc/springrain.pdf
 #代码生成器
