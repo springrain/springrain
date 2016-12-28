@@ -1,6 +1,5 @@
 function myalert(message, fun) {
 	if (fun) {
-		// bootbox.alert(message,fun);
 		layer.alert(message, {
 			icon : 1
 		}, fun);
@@ -36,12 +35,6 @@ function mywarning(message, fun) {
 }
 
 function myconfirm(message, fun) {
-	/*
-	 * bootbox.confirm(message,function(result){ if(result&&fun){ fun(); }
-	 * 
-	 * });
-	 */
-
 	layer.confirm(message, {
 		btn : [ '确定', '取消' ]
 	// 按钮
@@ -54,13 +47,6 @@ function myconfirm(message, fun) {
 }
 
 function myprompt(message, fun) {
-
-	/*
-	 * bootbox.prompt(message,function(result){ if(fun){ fun(result); }
-	 * 
-	 * });
-	 */
-
 	layer.prompt({
 		title : message,
 		formType : 1
