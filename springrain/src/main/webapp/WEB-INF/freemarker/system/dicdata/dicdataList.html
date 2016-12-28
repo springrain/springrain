@@ -1,10 +1,10 @@
 <#escape x as x?html>
-
+<@h.commonHead title="字典管理" keywords="开源,永久免费" description="springrain开源系统管理后台"/>
 <!--  
 <script type="text/javascript" src="${ctx}/js/system/dicdata/dicdata.js"></script>
 -->
-<SCRIPT type="text/javascript">
 
+<SCRIPT type="text/javascript">
 	var dicDataTreesetting = {
 		callback: {
 			onClick: dicDatazTreeOnClick
@@ -24,7 +24,6 @@
 		jQuery.post("${ctx}/system/dicdata/${returnDatas.map.typekey}/list/json",
 				function(_json) {
 					if (_json.status == "success") {
-						
 						$.fn.zTree.init($("#dicDataListTree"), dicDataTreesetting,_json.data);
 					} else {
 						myalert(_json.message);
@@ -69,13 +68,9 @@
 			mydelete(_url,listurl,{},"确定删除数据?");
 		}
 	}
-	
-	
-	
-	
-		
-
 </SCRIPT>
+</head>
+<@h.commonPage/>
 
 <input type="hidden" name="typekey" id="typekey" value="${returnDatas.map.typekey}" />
 

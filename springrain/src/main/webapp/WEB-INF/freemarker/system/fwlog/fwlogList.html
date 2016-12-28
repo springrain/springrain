@@ -1,4 +1,6 @@
 <#escape x as x?html>
+<@h.commonHead title="后台管理系统" keywords="开源,永久免费" description="springrain开源系统管理后台"/>
+</head>
 <!-- /.page-header -->
 <script type="text/javascript">
 	$(document).ready(function(){
@@ -12,6 +14,7 @@
 		});
 	});
 </script>
+<@h.commonPage/>
 <div class="row">
 	<div class="col-xs-12">
 		<div class="operate panel panel-default">
@@ -95,9 +98,10 @@
             </div>
             <!-- /.span -->
         </div>
+        <#--
         <#if returnDatas.page??>	
             <@h.pagetoolbar page=returnDatas.page formId='searchForm' />
-         </#if>
+         </#if> -->
     </div>
 </div>
 <!-- /.main-container -->

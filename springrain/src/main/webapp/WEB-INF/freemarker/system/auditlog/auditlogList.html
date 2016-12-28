@@ -1,7 +1,7 @@
 
 <#escape x as x?html>
-
-
+<@h.commonHead title="后台管理系统" keywords="开源,永久免费" description="springrain开源系统管理后台"/>
+</head>
 <script type="text/javascript">
 <!--
 jQuery(document).ready(function(){
@@ -37,6 +37,7 @@ function showdata(result) {
 </script>
 
 
+<@h.commonPage/>
 <form class="form-horizontal" method="post"  action="${ctx}/system/auditlog/list"  name="searchForm" id="searchForm">
 <input type="hidden" name="pageIndex" id="pageIndex" value="${(returnDatas.page.pageIndex)!'1'}" />
 <input type="hidden" name="sort" id="page_sort" value="${(returnDatas.page.sort)!'desc'}"  />
@@ -126,25 +127,18 @@ function showdata(result) {
 								<textarea class="form-control" name="preValue"  id="preValue" rows="5" class="col-xs-12" ></textarea>
 							</div>
 						</div>
-						
-						
 						<div class="form-group col-xs-9">
 							<label class="col-sm-4 control-label" for="curValue" >新值：</label>
 							<div class="col-sm-8" >
 								<textarea class="form-control" name="curValue"  id="curValue" rows="5" class="col-xs-12" ></textarea>
 							</div>
 						</div>
-						
-			
-				
-			
 					</form>
 				</div>
 			</div>
 		</div>
-		
 	</div>
 	
-		<#if returnDatas.page??> <@h.pagetoolbar page=returnDatas.page formId='searchForm' /> </#if>
+		<#--<#if returnDatas.page??> <@h.pagetoolbar page=returnDatas.page formId='searchForm' /> </#if>-->
 </div>	
 </#escape>

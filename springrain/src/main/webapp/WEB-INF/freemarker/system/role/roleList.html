@@ -1,5 +1,6 @@
 <#escape x as x?html>
-
+<@h.commonHead title="后台管理系统" keywords="开源,永久免费" description="springrain开源系统管理后台"/>
+</head>
 <script type="text/javascript">
 
 var listurl='${ctx}/system/role/list';
@@ -162,7 +163,6 @@ function doupdate(){
 }
 
 function dosave(){
-	
 	commonSaveForm("updateForm",listurl,'角色添加成功！');
 }
 
@@ -170,7 +170,7 @@ function dosave(){
 
 //-->
 </script>
-
+<@h.commonPage/>
 <form class="form-horizontal" method="post"  action="${ctx}/system/role/list"  name="searchForm" id="searchForm">
 <input type="hidden" name="pageIndex" id="pageIndex" value="${(returnDatas.page.pageIndex)!'1'}" />
 <input type="hidden" name="sort" id="page_sort" value="${(returnDatas.page.sort)!'desc'}"  />

@@ -1,5 +1,5 @@
 <#escape x as x?html>
-
+<@h.commonHead title="用户管理" keywords="开源,永久免费" description="springrain开源系统管理后台"/>
 <SCRIPT type="text/javascript">
 
 
@@ -240,9 +240,9 @@ function check(type){
 
 </SCRIPT>
 
+</head>
 
-
-
+<@h.commonPage/>
 
 
 
@@ -471,8 +471,7 @@ function check(type){
 
 		</div>
 
-		<#if returnDatas.page??> <@h.pagetoolbar page=returnDatas.page
-		formId='searchForm' /> </#if>
+		<#-- <#if returnDatas.page??> <@h.pagetoolbar page=returnDatas.page formId='searchForm' /> </#if> -->
 
 	</div>
 </div>
