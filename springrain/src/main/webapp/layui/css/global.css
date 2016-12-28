@@ -18,7 +18,7 @@
 .logo img{width: 82px; height: 31px;}
 
 .header .layui-nav{position: absolute; right: 0; top: 0; padding: 0; background: none;}
-.header .layui-nav .layui-nav-item{margin: 0 20px; line-height: 66px;}
+.header .layui-nav .layui-nav-item{margin: 0 0px; line-height: 66px;}
 
 .menu{position: absolute; right: 0; top: 0; line-height: 65px;}
 .menu a{display:inline-block; *display:inline; *zoom:1; vertical-align:top;}
@@ -32,7 +32,7 @@
 .layui-layout-admin .header-demo{border-bottom-color: #009688; background-color: #fff;}
 .header-demo .logo{left: 40px;}
 .header-demo .layui-nav{top: 0;}
-.header-demo .layui-nav .layui-nav-item{margin: 0 10px; line-height: 70px;}
+.header-demo .layui-nav .layui-nav-item{margin: 0 0px; line-height: 70px;}
 .header-demo .layui-nav .layui-nav-item a{color: #999;}
 .header-demo .layui-nav .layui-this{background-color: #f2f2f2;}
 .header-demo .layui-nav .layui-nav-item a:hover, 
