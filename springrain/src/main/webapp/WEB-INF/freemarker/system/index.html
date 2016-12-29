@@ -1,9 +1,19 @@
 <#escape x as x?html>
 <@h.commonHead title="后台管理系统" keywords="开源,永久免费" description="springrain开源系统管理后台"/>
-
 </head>
-
-<@h.commonPage/>
-
-<@h.footer/>
+<body>
+	<div class="layui-layout layui-layout-admin">
+	    <@h.naviHeader />
+		<@h.leftMenu />
+		<!-- 主体内容开始 -->
+		<div class="layui-body site-demo">
+		  
+		 
+		  
+		</div>
+		<!-- 主体内容结束 -->
+	  <@h.footer />
+	</div>
+</body>
+</html>
 </#escape>

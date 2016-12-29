@@ -1,4 +1,9 @@
 $(document).ready(function(){
+	
+	//初始化插件
+	configLayui("global");
+	
+	
     //加载菜单
     if(!(!!locache.get("menuData"))){//没有数据
     	ajaxmenu();
@@ -9,6 +14,25 @@ $(document).ready(function(){
     var menuData = locache.get("menuData");
     buildModule(menuData);
 });
+
+
+
+
+function exit(){
+	myconfirm("确定退出？", function(){
+		try{
+			locache.flush();
+		}catch(e){}
+		window.location = ctx+"/logout";
+	});
+	
+}
+
+function configLayui(par){
+	layui.config({
+		  base: ctx+"/layui/lay/modules/"
+		}).use(par)
+}
 
 function setCacheUrlPath(pid,tmpData){	
 	for ( var index in tmpData) {
