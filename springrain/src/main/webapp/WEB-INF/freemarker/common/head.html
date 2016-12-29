@@ -105,7 +105,6 @@
 <!-- 分页模块，需要传入参数  -->
 <#macro layPage cont url page  skin="#c00">
     <script>
-    	${page}
         layui.use(['laypage'], function(){
             var prev = !${page.hasPrev?c}?false:"上一页";
             var next = !${page.hasNext?c}?false:"下一页";
