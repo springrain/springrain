@@ -1,58 +1,61 @@
-<#escape x as x?html>
-<@h.commonHead title="部门管理" keywords="开源,永久免费" description="springrain开源系统管理后台"/>
-<link rel="stylesheet" href="${ctx}/css/custom/system/contacts.css" media="all">
-<!-- <script src="${ctx}/js/custom/system/contacts.js"></script> -->
+<#escape x as x?html> <@h.commonHead title="部门管理" keywords="开源,永久免费"
+description="springrain开源系统管理后台"/>
 </head>
+<body>
+	<div class="layui-layout layui-layout-admin">
+		<@h.naviHeader /> <@h.leftMenu />
+		<!-- 主体内容开始 -->
+		<div class="layui-body site-demo">
+			<input type="hidden" value="1" id="pageNum" />
+			<div class="orgsContainer per20 ht100p">
+				<div class="layui-tab layui-tab-card">
+					<ul class="layui-tab-title tc">
+						<li class="layui-this per40">部门</li>
+						<li class="per40">角色</li>
+					</ul>
+					<div class="layui-tab-content ht90p">
+						<div class="layui-tab-item layui-show">
+							<ul id="orgListTree" class="ztree">
+							</ul>
+						</div>
+						<div class="layui-tab-item">角色列表</div>
+					</div>
+				</div>
+			</div>
 
-<@h.commonPage/>
-<input type="hidden" value="1" id="pageNum"/>
-<div class="orgsContainer per20 ht100p">
-	<div class="layui-tab layui-tab-card">
-	  <ul class="layui-tab-title tc">
-	    <li class="layui-this per40">部门</li>
-	    <li class="per40">角色</li>
-	  </ul>
-	  <div class="layui-tab-content ht90p">
-	    <div class="layui-tab-item layui-show">
-	   		<ul id="orgListTree" class="ztree">
-	   		</ul>
-	    </div>
-	    <div class="layui-tab-item">角色列表</div>
-	  </div>
+			<div class="usersContainer per80 ht100p">
+				<div class="userTitle tl ht50 mt10 mr10 mb10 ml10 ">
+					<span class="font22">用户</span> <span class="ml10"><a
+						class="font10 font-blue ">添加新用户</a></span> <span class="ml10"><a
+						class="font10 font-blue ">批量导入用户</a></span>
+				</div>
+				<hr>
+				<div class="userContent bg-white ht90p">
+					<table class="layui-table" lay-even lay-skin="nob">
+						<colgroup>
+							<col width="150">
+							<col width="200">
+							<col width="200">
+							<col width="200">
+							<col>
+						</colgroup>
+						<thead>
+							<tr>
+								<th>用户名</th>
+								<th>账号</th>
+								<th>手机号</th>
+								<th>邮箱</th>
+							</tr>
+						</thead>
+						<tbody id="userList">
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<!-- 主体内容结束 -->
+		<@h.footer />
 	</div>
-</div>
-
-<div class="usersContainer per80 ht100p">
-	<div class="userTitle tl ht50 mt10 mr10 mb10 ml10 ">
-		<span class="font22">用户</span>
-		<span class="ml10"><a class="font10 font-blue ">添加新用户</a></span>
-		<span class="ml10"><a class="font10 font-blue ">批量导入用户</a></span>
-	</div>
-	<hr>
-	<div class="userContent bg-white ht90p">
-		<table class="layui-table" lay-even lay-skin="nob">
-	 		<colgroup>
-		    	<col width="150">
-		    	<col width="200">
-		    	<col width="200">
-		    	<col width="200">
-		    	<col>
-		  	</colgroup>
-		  	<thead>
-		    	<tr>
-		      		<th>用户名</th>
-		      		<th>账号</th>
-		      		<th>手机号</th>
-		      		<th>邮箱</th>
-	    		</tr> 
-		  	</thead>
-	  		<tbody id="userList">
-	  		</tbody>
-		</table>
-		
-	</div>
-</div>	
-<@h.footer/>
+</body>
+</html>
 </#escape>
-
-
