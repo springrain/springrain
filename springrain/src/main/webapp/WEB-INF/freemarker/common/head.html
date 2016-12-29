@@ -123,7 +123,7 @@
                     skip:true,
                     jump:function(obj, first){
                         if("${page.pageIndex}"!=obj.curr){
-                            $("[name='pageIndex']").val(obj.curr);
+                            $("[name='pageIndex']",$("#${formId}")).val(obj.curr);
                         	$("#${formId}").submit();
                         }
                     }
