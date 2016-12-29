@@ -103,24 +103,25 @@
 <!-- ******************  -->
 
 <!-- 分页模块，需要传入参数  -->
-<#macro layPage cont pages curr groups prev next url  skin="#c00">
+<#macro layPage cont url page  skin="#c00">
     <script>
+    	${page}
         layui.use(['laypage'], function(){
-            var prev = !${prev}?false:"上一页";
-            var next = !${next}?false:"下一页";
+            var prev = !${page.hasPrev?c}?false:"上一页";
+            var next = !${page.hasNext?c}?false:"下一页";
             var settings = {
                     cont:'${cont}',
-                    pages:${pages},
-                    curr:${curr},
-                    groups:${groups},
+                    pages:${page.pageCount},
+                    curr:${page.pageIndex},
+                    groups:${page.pageSize},
                     skin:'${skin}',
                     first:1,
-                    last:${pages},
+                    last:${page.pageCount},
                     prev:prev,
                     next:next,
                     skip:true,
                     jump:function(obj, first){
-                        if("${curr}"!=obj.curr){
+                        if("${page.pageIndex}"!=obj.curr){
                             window.location = ctx+"${url}?pageIndex="+obj.curr;
                         }
                     }

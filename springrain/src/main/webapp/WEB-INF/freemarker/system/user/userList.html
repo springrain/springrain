@@ -1,6 +1,14 @@
 <#escape x as x?html>
-<@h.commonHead title="用户管理" keywords="开源,永久免费" description="springrain开源系统管理后台"/>
-<SCRIPT type="text/javascript">
+<@h.commonHead title="后台管理系统" keywords="开源,永久免费" description="springrain开源系统管理后台"/>
+</head>
+<body>
+	<div class="layui-layout layui-layout-admin">
+	    <@h.naviHeader />
+		<@h.leftMenu />
+		<!-- 主体内容开始 -->
+		<div class="layui-body site-demo">
+		  
+		 	<SCRIPT type="text/javascript">
 
 
 /* var orgMultiSelectSetting = {
@@ -241,11 +249,6 @@ function check(type){
 </SCRIPT>
 
 </head>
-
-<@h.commonPage/>
-
-
-
 <div class="operate panel panel-default" style="height:65px;">
 	<div class="panel-body">
 		<div class="pull-left">
@@ -472,7 +475,7 @@ function check(type){
 		</div>
 
 		<div id="laypageDiv"></div>
-		<@h.layPage cont="laypageDiv" cont="laypageDiv" pages="${returnDatas.page.pageCount}" curr="${returnDatas.page.pageIndex}" groups="${returnDatas.page.pageSize}" prev="${returnDatas.page.hasPrev?c}" next="${returnDatas.page.hasNext?c}" url="/system/user/list"/>
+		<@h.layPage cont="laypageDiv" url="/system/user/list" page=returnDatas.page/>
 	</div>
 </div>
 
@@ -481,6 +484,11 @@ function check(type){
 <div id="div_orgMultiSelectTree" >
 	<ul id="orgMultiSelectTree" class="ztree"></ul>
 </div>
-<@h.footer/>
-
+		  
+		</div>
+		<!-- 主体内容结束 -->
+	  <@h.footer />
+	</div>
+</body>
+</html>
 </#escape>
