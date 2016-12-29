@@ -46,17 +46,20 @@
 <#macro naviHeader>
         <div class="layui-header header header-demo">
           <div class="layui-main">
-            <a class="logo" href="${ctx}">
-              <img src="${ctx}/img/logo.jpg" alt="springrain">
+     		<a class="logo" href="${ctx}">
+              	<img src="${ctx}/img/logo.jpg" alt="springrain">
             </a>
+            
+            <ul class="layui-nav" style="left:175px;" id="naviHeaderMenu">
+            </ul>
+            
             <ul class="layui-nav">
-                <li class="layui-nav-item  layui-this">
+                 <li class="layui-nav-item  layui-this">
                     <a href="/doc/">个人中心</a>
                  </li>
                  <li class="layui-nav-item">
                     <a href="javascript:exit();">退出</a>
                  </li>
-              
             </ul>
           </div>
         </div>
