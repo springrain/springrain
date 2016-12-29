@@ -3,7 +3,7 @@
 <SCRIPT type="text/javascript">
 
 
-var orgMultiSelectSetting = {
+/* var orgMultiSelectSetting = {
 		expandAll:true,
 		check: {
 			enable: true,
@@ -235,9 +235,9 @@ function check(type){
 	var listurl='${ctx}/system/user/list';
 	
 	
-	commonUpdateForm("updateForm",listurl);
+	commonUpdateForm("updateForm",listurl); 
 }
-
+*/
 </SCRIPT>
 
 </head>
@@ -471,8 +471,8 @@ function check(type){
 
 		</div>
 
-		<#-- <#if returnDatas.page??> <@h.pagetoolbar page=returnDatas.page formId='searchForm' /> </#if> -->
-
+		<div id="laypageDiv"></div>
+		<@h.layPage cont="laypageDiv" cont="laypageDiv" pages="${returnDatas.page.pageCount}" curr="${returnDatas.page.pageIndex}" groups="${returnDatas.page.pageSize}" prev="${returnDatas.page.hasPrev?c}" next="${returnDatas.page.hasNext?c}" url="/system/user/list"/>
 	</div>
 </div>
 

@@ -71,10 +71,14 @@
 				</div>
 				</div>
 				<div class="layui-footer footer footer-demo">
-				<div class="layui-main">
-					<p>2016 © <a href="http://www.weicms.net">www.weicms.net</a> Apache Licence 2.0</p>
+					<div class="layui-main">
+						<p>2016 © <a href="http://www.weicms.net">www.weicms.net</a> Apache Licence 2.0</p>
+					</div>
 				</div>
+			<div class="site-tree-mobile layui-hide">
+			  <i class="layui-icon">&#xe602;</i>  
 			</div>
+			<div class="site-mobile-shade"></div>
 		</div>
 	</body>
 </html>
@@ -100,7 +104,6 @@
 	<script src="${ctx}/layui/lay/dest/layui.all.js"></script>
 	<script src="${ctx}/js/custom/common/common.js"></script>
 	<script src="${ctx}/js/custom/common/message.js"></script>
-	<script src="${ctx}/js/custom/common/select2remote.js"></script>
 	<script>
 		function exit(){
 			myconfirm("确定退出？", function(){
@@ -117,4 +120,39 @@
 	<@h.naviHeader/>
 	<@h.leftMenu/>
 	<@h.mainContent/>
+</#macro>
+
+
+
+<!-- ******************  -->
+<!-- ********模块宏******  -->
+<!-- 适用于某些页面例如使用分页等模块功能调用  -->
+<!-- ******************  -->
+
+<!-- 分页模块，需要传入参数  -->
+<#macro layPage cont pages curr groups prev next url  skin="#c00">
+	<script>
+		layui.use(['laypage'], function(){
+			var prev = !${prev}?false:"上一页";
+			var next = !${next}?false:"下一页";
+		  	var settings = {
+		  			cont:'${cont}',
+		  			pages:${pages},
+		  			curr:${curr},
+		  			groups:${groups},
+		  			skin:'${skin}',
+		  			first:1,
+		  			last:${pages},
+		  			prev:prev,
+		  			next:next,
+		  			skip:true,
+		  			jump:function(obj, first){
+		  				if("${curr}"!=obj.curr){
+		  					window.location = ctx+"${url}?pageIndex="+obj.curr;
+		  				}
+		  			}
+		  	}
+			layui.laypage(settings);
+		});
+	</script>
 </#macro>
