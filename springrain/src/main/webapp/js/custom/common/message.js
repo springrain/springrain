@@ -22,11 +22,6 @@ function myinfo(message, fun) {
 	}, fun);
 }
 
-function myquestion(message, fun) {
-	layer.alert(message, {
-		icon : 3
-	}, fun);
-}
 
 function mywarning(message, fun) {
 	layer.alert(message, {
@@ -36,6 +31,8 @@ function mywarning(message, fun) {
 
 function myconfirm(message, fun) {
 	layer.confirm(message, {
+		title:"确认",
+		icon : 3,
 		btn : [ '确定', '取消' ]
 	// 按钮
 	}, function() {

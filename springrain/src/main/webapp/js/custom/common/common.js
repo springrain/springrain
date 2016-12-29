@@ -31,7 +31,7 @@ function exit(){
 function configLayui(par){
 	layui.config({
 		  base: ctx+"/layui/lay/modules/"
-		}).use(par)
+		}).use(par);
 }
 
 function setCacheUrlPath(pid,tmpData){	
