@@ -4,75 +4,75 @@
 <!-- 页头  -->
 <#macro head title keywords description>
 <html>
-	<head>
-		<title>${title}</title>
-		<meta name="keywords" content="${keywords}" />
-		<meta name="description" content="${description}" />
-		<meta charset="utf-8">
-		<meta name="renderer" content="webkit">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-		<meta name="apple-mobile-web-app-status-bar-style" content="black"> 
-		<meta name="apple-mobile-web-app-capable" content="yes">
-		<meta name="format-detection" content="telephone=no">
-	  	<script type="text/javascript">
-			var ctx="${ctx}";
-		</script>
+    <head>
+        <title>${title}</title>
+        <meta name="keywords" content="${keywords}" />
+        <meta name="description" content="${description}" />
+        <meta charset="utf-8">
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black"> 
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="format-detection" content="telephone=no">
+        <script type="text/javascript">
+            var ctx="${ctx}";
+        </script>
 </#macro>
 
 
 <!-- 内容页面通用头部,该宏包含一些通用js、css，适合业务页面使用，不适用与登陆注册等非业务页面。  -->
 <#macro commonHead title keywords description>
-	<@h.head title="${title}" keywords="${keywords}" description="${description}"/>
-	
-	<link rel="stylesheet" href="${ctx}/layui/css/layui.css" media="all">
-	<link rel="stylesheet" href="${ctx}/layui/css/global.css" media="all">
-  	
-	<link rel="stylesheet" href="${ctx}/css/custom/common/common.css" media="all">
-	
-	<script src="${ctx}/js/jquery/jquery-1.12.4.js"></script>
-	<script src="${ctx}/js/cache/locache.min.js"></script>
-	<!-- layui -->
-	<script src="${ctx}/layui/layui.js"></script>
-	<!-- 自定义公共js -->
-	<script src="${ctx}/js/custom/common/message.js"></script>
-	
-	<script src="${ctx}/js/custom/common/common.js"></script>
-	
+    <@h.head title="${title}" keywords="${keywords}" description="${description}"/>
+    
+    <link rel="stylesheet" href="${ctx}/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="${ctx}/layui/css/global.css" media="all">
+    
+    <link rel="stylesheet" href="${ctx}/css/custom/common/common.css" media="all">
+    
+    <script src="${ctx}/js/jquery/jquery-1.12.4.js"></script>
+    <script src="${ctx}/js/cache/locache.min.js"></script>
+    <!-- layui -->
+    <script src="${ctx}/layui/layui.js"></script>
+    <!-- 自定义公共js -->
+    <script src="${ctx}/js/custom/common/message.js"></script>
+    
+    <script src="${ctx}/js/custom/common/common.js"></script>
+    
 </#macro>
 
 
 
 <!-- 头部横向导航  -->
 <#macro naviHeader>
-		<div class="layui-header header header-demo">
-		  <div class="layui-main">
-		    <a class="logo" href="${ctx}">
-		      <img src="${ctx}/logo.png" alt="springrain">
-		    </a>
-		    <ul class="layui-nav">
-		     	<li class="layui-nav-item  layui-this">
-			        <a href="/doc/">个人中心</a>
-			     </li>
-			     <li class="layui-nav-item">
-			        <a href="javascript:exit();">退出</a>
-			     </li>
-		      
-		    </ul>
-		  </div>
-		</div>
+        <div class="layui-header header header-demo">
+          <div class="layui-main">
+            <a class="logo" href="${ctx}">
+              <img src="${ctx}/logo.png" alt="springrain">
+            </a>
+            <ul class="layui-nav">
+                <li class="layui-nav-item  layui-this">
+                    <a href="/doc/">个人中心</a>
+                 </li>
+                 <li class="layui-nav-item">
+                    <a href="javascript:exit();">退出</a>
+                 </li>
+              
+            </ul>
+          </div>
+        </div>
 </#macro>
 
 
 <!-- 左侧菜单  -->
 <#macro leftMenu>
-		<div class="layui-side layui-bg-black">
-		    <div class="layui-side-scroll">
-				<ul class="layui-nav layui-nav-tree" lay-filter="leftMenu" id="menu">
-	      		
-			    </ul>
-		     </div>
-		</div>
+        <div class="layui-side layui-bg-black">
+            <div class="layui-side-scroll">
+                <ul class="layui-nav layui-nav-tree" lay-filter="leftMenu" id="menu">
+                
+                </ul>
+             </div>
+        </div>
 </#macro>
 
 
@@ -81,31 +81,20 @@
 
 <!-- 页脚  -->
 <#macro footer>
-				</div>
-				</div>
-				<div class="layui-footer footer footer-demo">
-					<div class="layui-main">
-						<p>2016 &copy; <a href="http://www.weicms.net">www.weicms.net</a> Apache Licence 2.0</p>
-					</div>
-				</div>
-			<div class="site-tree-mobile layui-hide">
-			  <i class="layui-icon">&#xe602;</i>  
-			</div>
-			<div class="site-mobile-shade"></div>
-		</div>
-		<div class="site-mobile-shade"></div>
+      
+     <!-- footer -->
+        <div class="layui-footer footer footer-demo">
+          <div class="layui-main">
+            <p>2016 &copy; <a href="http://www.weicms.net">www.weicms.net</a>Apache Licence 2.0</p>
+          </div>
+        </div>
+        
+        
+        <div class="site-tree-mobile layui-hide">
+          <i class="layui-icon">&#xe602;</i>
+        </div>
+        <div class="site-mobile-shade"></div>
 </#macro>
-
-
-
-
-<!-- 内容页面通用部分，将头部横向菜单、左侧菜单、内容区组合起来  -->
-<#macro commonPage>
-	<@h.naviHeader/>
-	<@h.leftMenu/>
-	<@h.mainContent/>
-</#macro>
-
 
 
 <!-- ******************  -->
@@ -115,28 +104,28 @@
 
 <!-- 分页模块，需要传入参数  -->
 <#macro layPage cont pages curr groups prev next url  skin="#c00">
-	<script>
-		layui.use(['laypage'], function(){
-			var prev = !${prev}?false:"上一页";
-			var next = !${next}?false:"下一页";
-		  	var settings = {
-		  			cont:'${cont}',
-		  			pages:${pages},
-		  			curr:${curr},
-		  			groups:${groups},
-		  			skin:'${skin}',
-		  			first:1,
-		  			last:${pages},
-		  			prev:prev,
-		  			next:next,
-		  			skip:true,
-		  			jump:function(obj, first){
-		  				if("${curr}"!=obj.curr){
-		  					window.location = ctx+"${url}?pageIndex="+obj.curr;
-		  				}
-		  			}
-		  	}
-			layui.laypage(settings);
-		});
-	</script>
+    <script>
+        layui.use(['laypage'], function(){
+            var prev = !${prev}?false:"上一页";
+            var next = !${next}?false:"下一页";
+            var settings = {
+                    cont:'${cont}',
+                    pages:${pages},
+                    curr:${curr},
+                    groups:${groups},
+                    skin:'${skin}',
+                    first:1,
+                    last:${pages},
+                    prev:prev,
+                    next:next,
+                    skip:true,
+                    jump:function(obj, first){
+                        if("${curr}"!=obj.curr){
+                            window.location = ctx+"${url}?pageIndex="+obj.curr;
+                        }
+                    }
+            }
+            layui.laypage(settings);
+        });
+    </script>
 </#macro>
