@@ -124,7 +124,10 @@
 			</map>
 		</property>
 	</bean>
-	<!-- 起效权限注解,这个很少在web项目中用到,一般是控制url的访问,不是在controller中声明权限注解 -->
+	<!--
+	 LifecycleBeanPostProcessor用于在实现了Initializable接口的Shiro bean初始化时调用Initializable接口回调，
+	  在实现了Destroyable接口的Shiro bean销毁时调用 Destroyable接口回调。
+	  如UserRealm就实现了Initializable，而DefaultSecurityManager实现了Destroyable。 -->
 	<!-- 
 	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
 	 -->
