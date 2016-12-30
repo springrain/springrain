@@ -2,9 +2,12 @@ $(document).ready(function(){
 	
 	//初始化插件
 	configLayui("global");
-	
-	
-    //加载菜单
+	//加载菜单
+	loadMenu();
+});
+
+function loadMenu(){
+	//加载菜单
     if(!(!!locache.get("menuData"))){//没有数据
     	ajaxmenu();
     	var tmpData = locache.get("menuData");
@@ -13,7 +16,7 @@ $(document).ready(function(){
     }
     var menuData = locache.get("menuData");
     buildModule(menuData);
-});
+}
 
 
 
