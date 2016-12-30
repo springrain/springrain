@@ -1,9 +1,6 @@
 package jetty;
 
 import org.eclipse.jetty.server.Server;
- 
-
-
 
 public class JettyStart {  
 
