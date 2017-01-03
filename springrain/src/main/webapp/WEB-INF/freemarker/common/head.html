@@ -105,7 +105,7 @@
 <!-- ******************  -->
 
 <!-- 分页模块，需要传入参数  -->
-<#macro layPage   page  skin="#c00" cont="laypageDiv" formId="searchForm">
+<#macro layPage   page groups="10"  skin="#c00" cont="laypageDiv" formId="searchForm">
     <script>
         layui.use(['laypage'], function(){
             var prev = !${page.hasPrev?c}?false:"上一页";
@@ -114,7 +114,7 @@
                     cont:'${cont}',
                     pages:${page.pageCount},
                     curr:${page.pageIndex},
-                    groups:${page.pageSize},
+                    groups:${groups},
                     skin:'${skin}',
                     first:1,
                     last:${page.pageCount},
