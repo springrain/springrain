@@ -137,22 +137,17 @@ public class Page implements Serializable{
 		this.totalCount = totalCount;
 		this.pageCount = (totalCount+pageSize-1) / pageSize;
 				
-		
-		if(pageCount>0&&getPageIndex()!=1){
-			this.firstPage=true;
-		}
-		
 		if(pageIndex>=pageCount){
 			this.lastPage=true;
+		}else{
+			this.hasNext=true;
 		}
 		
 		
 		if(getPageIndex()>1){
 			this.hasPrev=true;
-		}
-		
-		if(pageIndex<pageCount){
-			this.hasNext=true;
+		}else{
+			this.firstPage=true;
 		}
 		
 		
