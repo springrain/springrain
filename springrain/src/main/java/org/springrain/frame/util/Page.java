@@ -135,8 +135,8 @@ public class Page implements Serializable{
 	 */
 	public void setTotalCount(int totalCount) {
 		this.totalCount = totalCount;
-		this.pageCount = totalCount / pageSize
-				+ (totalCount % pageSize == 0 ? 0 : 1);
+		this.pageCount = (totalCount+pageSize-1) / pageSize;
+				
 		
 		if(pageCount>0&&getPageIndex()!=1){
 			this.firstPage=true;
