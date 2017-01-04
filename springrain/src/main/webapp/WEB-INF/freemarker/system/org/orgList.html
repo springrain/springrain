@@ -6,6 +6,7 @@ description="springrain开源系统管理后台"/>
 <script type="text/javascript" src="${ctx}/js/select2/js/select2.full.min.js"></script>
 <script type="text/javascript" src="${ctx}/js/select2/js/i18n/zh-CN.js"></script>
 <script type="text/javascript" src="${ctx}/js/custom/common/select2remote.js"></script>
+<script type="text/javascript" src="${ctx}/js/validform/validform.min.js"></script>
 <link rel="stylesheet" href="${ctx}/js/select2/css/select2.min.css" type="text/css">
 <link rel="stylesheet" href="${ctx}/js/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
 <link rel="stylesheet" href="${ctx}/css/custom/system/orgList.css" type="text/css">
@@ -17,6 +18,13 @@ description="springrain开源系统管理后台"/>
 		<div class="layui-body site-demo">
 			<SCRIPT type="text/javascript">
 				var orgTreesetting = {
+					view: {
+						showLine: false,
+						showIcon: false,
+						selectedMulti: false,
+						dblClickExpand: false,
+						addDiyDom: addDiyDom
+					},
 					callback : {
 						onClick : orgzTreeOnClick
 					},
@@ -29,7 +37,20 @@ description="springrain开源系统管理后台"/>
 						}
 					}
 				};
+				
+				function addDiyDom(treeId, treeNode) {
+					var spaceWidth = 5;
+					var switchObj = $("#" + treeNode.tId + "_switch"),
+					icoObj = $("#" + treeNode.tId + "_ico");
+					switchObj.remove();
+					icoObj.before(switchObj);
 
+					if (treeNode.level > 1) {
+						var spaceStr = "<span style='display: inline-block;width:" + (spaceWidth * treeNode.level)+ "px'></span>";
+						switchObj.before(spaceStr);
+					}
+				}
+				
 				var orgSelectSetting = {
 					callback : {
 						onClick : clickOrgValue
@@ -47,36 +68,33 @@ description="springrain开源系统管理后台"/>
 				var selectOrgZtree;
 				var orgjsondata4select;
 
-				$(document)
-						.ready(
-								function() {
-									jQuery
-											.post(
-													"${ctx}/system/org/list/json",
-													function(_json) {
-														if (_json.status == "success") {
-															orgjsondata4select = _json;
-															$.fn.zTree
-																	.init(
-																			$("#orgListTree"),
-																			orgTreesetting,
-																			_json.data);
-															var zTree = $.fn.zTree
-																	.getZTreeObj("orgListTree");
-															zTree
-																	.expandAll(true);
-														} else {
-															myalert(_json.message);
-														}
-													});
+				$(document).ready(function() {
+					jQuery.post("${ctx}/system/org/list/json",function(_json) {
+						if (_json.status == "success") {
+							orgjsondata4select = _json;
+							$.fn.zTree.init($("#orgListTree"),orgTreesetting,_json.data);
+							var zTree = $.fn.zTree.getZTreeObj("orgListTree");
+							zTree.expandAll(true);
+							var treeObj = $("#orgListTree");
+							treeObj.hover(function () {
+								if (!treeObj.hasClass("showIcon")) {
+									treeObj.addClass("showIcon");
+								}
+							}, function() {
+								treeObj.removeClass("showIcon");
+							});
+						} else {
+							myalert(_json.message);
+						}
+					});
 
-									//ajaxUserIdSelect2();
+					//ajaxUserIdSelect2();
 
-									//ajaxUserIdSelect2("${ctx}/system/user/ajax/select2","managerId",datafunction,selectfunction);
-									var opt = {url:"${ctx}/system/user/ajax/select2"};
-									$("#managerId").select2Remote(opt);
-									/* select2ajax("#managerId","${ctx}/system/user/ajax/select2"); */
-								});
+					//ajaxUserIdSelect2("${ctx}/system/user/ajax/select2","managerId",datafunction,selectfunction);
+					var opt = {url:"${ctx}/system/user/ajax/select2"};
+					$("#managerId").select2Remote(opt);
+					/* select2ajax("#managerId","${ctx}/system/user/ajax/select2"); */
+				});
 
 				function orgzTreeOnClick(event, treeId, treeNode) {
 					showdata(treeNode);
@@ -165,7 +183,10 @@ description="springrain开源系统管理后台"/>
 			<fieldset class="layui-elem-field">
 		  		<legend>部门管理</legend>
 		  		<div class="layui-field-box">
-		    		<button class="layui-btn"><i class="layui-icon"></i> 添加部门</button>
+		    		<button id="btn_reload" onclick="location.reload();" class="layui-btn display-n"><i class="layui-icon"></i> 跳转到新增  >></button>
+		    		<button id="btn_add" onclick="commonSaveForm('updateForm','${ctx}/system/org/list');" class="layui-btn"><i class="layui-icon"></i> 保存新增</button>
+		    		<button id="btn_update" style="display: none;" onclick="commonUpdateForm('updateForm','${ctx}/system/org/list');" class="layui-btn"><i class="layui-icon">&#xe642;</i> 保存修改</button>
+		    		<button id="btn_delete" style="display: none;" onclick="deleteOrg();" class="layui-btn layui-btn-danger"><i class="layui-icon">&#x1006;</i> 删除</button>
 		  		</div>
 			</fieldset>
 			
@@ -189,7 +210,7 @@ description="springrain开源系统管理后台"/>
 							<div class="layui-form-item per40">
 					    		<label class="layui-form-label">上级部门</label>
 							    <div class="layui-input-block">
-							      	<input onclick="showOrgTree();" name="pname" id="pname" readonly="readonly" datatype="*1-200" errormsg="部门名称长度1--200位之间!" nullmsg="名称不能为空" type="text" required  lay-verify="required" placeholder="点击选择上级部门" autocomplete="off" class="layui-input">
+							      	<input onclick="showOrgTree();" name="pname" id="pname" readonly="readonly"  type="text"  placeholder="点击选择上级部门" autocomplete="off" class="layui-input">
 							    	<input name="pid" id="pid" type="hidden" />
 							    	
 							    </div>
@@ -215,9 +236,9 @@ description="springrain开源系统管理后台"/>
 							<div class="layui-form-item per40">
 					    		<label class="layui-form-label">是否可用</label>
 							    <div class="layui-input-block">
-							      	<select id="state" name="state" lay-verify="required">
-										<option value="是">是</option>
-										<option value="否">否</option>
+							      	<select id="active" name="active" lay-verify="required">
+										<option value="1">是</option>
+										<option value="0">否</option>
                                     </select>
 							    </div>
 						  	</div>
@@ -233,12 +254,13 @@ description="springrain开源系统管理后台"/>
 				</div>
 			</div>
 		</div>	
-		<div id="div_select_org_tree">
-        	<ul id="selectOrgTree" class="ztree"></ul>
-        </div>
+		
 		<!-- 主体内容结束 -->
 		<@h.footer />
 	</div>
+	<div id="div_select_org_tree">
+       	<ul id="selectOrgTree" class="ztree"></ul>
+     </div>
 </body>
 </html>
 </#escape>
