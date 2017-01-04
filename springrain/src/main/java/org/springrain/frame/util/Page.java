@@ -135,8 +135,26 @@ public class Page implements Serializable{
 	 */
 	public void setTotalCount(int totalCount) {
 		this.totalCount = totalCount;
-		pageCount = totalCount / pageSize
+		this.pageCount = totalCount / pageSize
 				+ (totalCount % pageSize == 0 ? 0 : 1);
+		
+		if(pageCount>0&&getPageIndex()!=1){
+			this.firstPage=true;
+		}
+		
+		if(pageIndex>=pageCount){
+			this.lastPage=true;
+		}
+		
+		
+		if(getPageIndex()>1){
+			this.hasPrev=true;
+		}
+		
+		if(pageIndex<pageCount){
+			this.hasNext=true;
+		}
+		
 		/*
 		// 调整页码信息,防止出界
 		if (totalCount == 0) {
@@ -194,11 +212,7 @@ public class Page implements Serializable{
  * @return boolean
  */
 	public boolean getFirstPage() {
-		if(pageCount>0&&getPageIndex()!=1){
-			return true;
-		}else{
-			return false;
-		}
+		return firstPage;
 		
 	}
 	/**
@@ -206,9 +220,6 @@ public class Page implements Serializable{
 	 * @return boolean
 	 */
 	public boolean getHasPrev() {
-		if(getPageIndex()>1)
-			return true;
-		
 		return hasPrev;
 	}
 	/**
@@ -216,9 +227,8 @@ public class Page implements Serializable{
 	 * @return boolean
 	 */
 	public boolean getLastPage() {
-		if(pageIndex>=pageCount)
-			return false;
-		return true;
+		
+		return lastPage;
 	}
 
 	/**
@@ -226,10 +236,8 @@ public class Page implements Serializable{
 	 * @return boolean
 	 */
 	public boolean getHasNext() {
-		if(pageIndex>(pageCount-1)){
-			return false;
-		}
-		return true;
+		
+		return hasNext;
 	}
 
 	public boolean getSelectpagecount() {
