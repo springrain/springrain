@@ -155,6 +155,7 @@ public class Page implements Serializable{
 			this.hasNext=true;
 		}
 		
+		
 		/*
 		// 调整页码信息,防止出界
 		if (totalCount == 0) {
