@@ -96,8 +96,8 @@
 			
 				/servlet/fileupload=firewall,user
 				/system/menu/leftMenu=firewall,systemuser,keepone
-
-				/system/**=firewall,systemuser,framefwlog,keepone,frameperms
+				
+				/system/**=firewall,systemuser,framefwlog,keepone
 				/** = firewall,frontuser,framefwlog,keepone,frameperms
 			</value>
 		</property>

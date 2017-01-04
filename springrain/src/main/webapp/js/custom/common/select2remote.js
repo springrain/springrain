@@ -11,7 +11,7 @@ $.fn.select2Remote = function(options)
             url: opts.url,
             dataType: 'json',
             quietMillis: opts.delay ,
-            data: function (term, page) {return {q: term};},
+            data: function (params) {return {q: params.term,page: params.page};},
             results: function (data, page) { return {results: data};}
         },
         initSelection: function(element, callback) {
@@ -41,4 +41,3 @@ $.fn.select2Remote.defaults = {
     valueField:'id',
     textField:'text'
 }
-
