@@ -52,6 +52,8 @@
 .container .offset2{margin-left:80px;}
 .container .col1{float:left;width:30px;margin-right:10px;}
 .container .offset1{margin-left:40px;}
+.w-auto{width:auto;}
+.w0{width:0px;}
 .w1{width:30px;}
 .w2{width:70px;}
 .w3{width:110px;}

@@ -117,7 +117,7 @@ function getParentModule(childrenMenuList) {
         var _leaf=childrenMenuList[i]["leaf"];
         if(_leaf&&_leaf.length>0){
         	 htmlStr += '<li class="layui-nav-item '+showItem+'" id="'+childrenMenuList[i].id+'"><a href="';
-            htmlStr = htmlStr+ ' javascript:;"> '+childrenMenuList[i].name+'</a>';
+            htmlStr = htmlStr+ ' javascript:;"> <i class="layui-icon">'+childrenMenuList[i].menuIcon+'</i><cute>'+childrenMenuList[i].name+'</cute></a>';
             htmlStr = htmlStr+getChindModule(_leaf);
         }else{
         	htmlStr += '<li class="layui-nav-item '+showItem+'" id="'+childrenMenuList[i].id+'"><a href="';
@@ -128,7 +128,7 @@ function getParentModule(childrenMenuList) {
                  tmpData = tmpData['leaf'][0];
              }
              url = ctx+url;
-            htmlStr = htmlStr+url+'" >'+ childrenMenuList[i].name+'</a>';
+            htmlStr = htmlStr+url+'" ><i class="layui-icon">'+childrenMenuList[i].menuIcon+'</i><cute>'+childrenMenuList[i].name+'</cute></a>';
         }
         htmlStr = htmlStr+'</li>';
     }
@@ -142,7 +142,7 @@ function getChindModule(_leaf) {
         if((ctx+_leaf[menuObj].pageurl)==window.location.pathname){
             showItem = "layui-this";
         }
-        t = t+'<dd class="'+showItem+'" pageUrl="'+_leaf[menuObj].pageurl+'" id="'+_leaf[menuObj].id+'"><a href="javascript:;"><i class="layui-icon">&#xe611;</i><cite>'+_leaf[menuObj].name+'</cite></a></dd>';
+        t = t+'<dd class="'+showItem+'" pageUrl="'+_leaf[menuObj].pageurl+'" id="'+_leaf[menuObj].id+'"><a href="javascript:;"><i class="layui-icon">'+_leaf[menuObj].menuIcon+'</i><cite>'+_leaf[menuObj].name+'</cite></a></dd>';
     }
     t = t+'</dl>';
     return t;
