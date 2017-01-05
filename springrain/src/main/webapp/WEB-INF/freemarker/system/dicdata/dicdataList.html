@@ -1,190 +1,122 @@
-<#escape x as x?html> <@h.commonHead title="后台管理系统" keywords="开源,永久免费"
-description="springrain开源系统管理后台"/>
+<#escape x as x?html> 
+<@h.commonHead title="后台管理系统" keywords="开源,永久免费" description="springrain开源系统管理后台"/>
 </head>
 <body>
 	<div class="layui-layout layui-layout-admin">
 		<@h.naviHeader /> <@h.leftMenu />
 		<!-- 主体内容开始 -->
-		<div class="layui-body site-demo">
-			<SCRIPT type="text/javascript">
-				var dicDataTreesetting = {
-					callback : {
-						onClick : dicDatazTreeOnClick
-					},
-					data : {
-						simpleData : {
-							enable : true,
-							idKey : "id",
-							pIdKey : "pid",
-							rootPId : "null"
-						}
-					}
-				};
-
-				$(document)
-						.ready(
-								function() {
-
-									jQuery
-											.post(
-													"${ctx}/system/dicdata/${returnDatas.map.typekey}/list/json",
-													function(_json) {
-														if (_json.status == "success") {
-															$.fn.zTree
-																	.init(
-																			$("#dicDataListTree"),
-																			dicDataTreesetting,
-																			_json.data);
-														} else {
-															myalert(_json.message);
-														}
-													});
-
-								});
-
-				function dicDatazTreeOnClick(event, treeId, treeNode) {
-					showdata(treeNode);
-				};
-
-				function showdata(result) {
-					$("#updateForm select ").each(
-							function() {
-								$(this).find('option:first').attr('selected',
-										'selected');
-							});
-					for ( var s in result) {
-						set_val(s, result[s]);
-					}
-					var _pid = result["pid"];
-					if ((!_pid) || _pid == null || _pid == "null" || _pid == "") {
-						jQuery("#pid").val("");
-					} else {
-						jQuery("#pid").val(_pid);
-					}
-					$("#btn_add").hide();
-					$("#btn_reload").show();
-					$("#btn_update").show();
-					$("#btn_delete").show();
-					$("#code").attr("readonly", "readonly")//将input元素设置为readonly
-				}
-
-				function deletedicData() {
-					var id = jQuery("#id").val();
-					if (!id || id == "") {
-						myalert("请选择你要删除的记录");
-						return;
-					} else {
-						var _url = "${ctx}/system/dicdata/${returnDatas.map.typekey}/delete?id="
-								+ id;
-						var listurl = "${ctx}/system/dicdata/${returnDatas.map.typekey}/list";
-						mydelete(_url, listurl, {}, "确定删除数据?");
-					}
-				}
-			</SCRIPT>
-			<input type="hidden" name="typekey" id="typekey"
-				value="${returnDatas.map.typekey}" />
-
-			<div class="operate panel panel-default" style="height: 65px;"
-				style="height:60px;">
-				<div class="panel-body">
-					<div class="pull-right">
-
-						<@shiro.hasPermission
-						name="/system/dicdata/${returnDatas.map.typekey}/update" > <a
-							id="btn_reload" href="javascript:location.reload();"
-							class="btn  btn-sm  btn-primary" style="display: none;">
-							跳转至新增 >> </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-						<a id="btn_add"
-							href="javascript:commonSaveForm('updateForm','${ctx}/system/dicdata/${returnDatas.map.typekey}/list');"
-							class="btn  btn-sm  btn-primary"> <img
-							src="${ctx}/images/btn_save.png" style="vertical-align: middle;" />保存新增
-						</a> <a id="btn_update"
-							href="javascript:commonUpdateForm('updateForm','${ctx}/system/dicdata/${returnDatas.map.typekey}/list');"
-							class="btn  btn-sm  btn-primary" style="display: none;"> <img
-							src="${ctx}/images/btn_save.png" style="vertical-align: middle;" />保存修改
-						</a> </@shiro.hasPermission> <@shiro.hasPermission
-						name="/system/dicdata/${returnDatas.map.typekey}/delete" > <a
-							href="javascript:deletedicData();" class="btn btn-sm btn-danger">删除</a>
-						</@shiro.hasPermission>
-					</div>
-				</div>
-			</div>
-
-
-			<!-- 功能操作区域结束 -->
-			<!-- 列表显示区域  -->
-			<div class="row">
-				<div class="col-sm-4 ">
-					<div class="widget-box">
-						<div class="widget-header">
-							<h4 class="widget-title">内容</h4>
-						</div>
-						<div class="widget-body">
-							<div class="widget-main">
-								<ul id="dicDataListTree" class="ztree"></ul>
+		<div class="layui-body layui-tab-content site-demo-body">
+			<div class="layui-tab layui-tab-brief">
+				<ul class="layui-tab-title site-demo-title">
+		            <li class="layui-this">首页&nbsp;&nbsp;>&nbsp;&nbsp;字典管理&nbsp;&nbsp;>&nbsp;&nbsp;级别列表</li>
+		             <li style="float:right;">
+		             	<button type="button" class="layui-btn layui-btn-small"><i class="layui-icon layui-icon-specil">&#xe61f;</i>添加级别</button>
+				        <button type="button" class="layui-btn layui-btn-small"><i class="layui-icon layui-icon-specil">&#xe609;</i>导出</button>
+		                <button type="button" class="layui-btn layui-btn-warm layui-btn-small"><i class="layui-icon layui-icon-specil">&#xe601;</i>导入</button>
+		                <button type="button" class="layui-btn layui-btn-danger layui-btn-small"><i class="layui-icon">&#xe640;</i>批量删除</button>
+		             </li>
+	       		</ul>
+				<div class="layui-tab-item layui-show">
+						<div class="layui-main">
+					          <div id="LAY_preview">
+					          <!-- 查询  开始 -->
+						          <form class="layui-form layui-form-pane" id="searchForm" action="${ctx}/system/dicdata/${returnDatas.map.typekey}/list" method="post">
+						          <input type="hidden" name="pageIndex" id="pageIndex" value="${(returnDatas.page.pageIndex)!'1'}" /> 
+						          <input type="hidden" name="sort" id="page_sort" value="${(returnDatas.page.sort)!'desc'}" />
+						          <input type="hidden" name="order" id="page_order" value="${(returnDatas.page.order)!'id'}" />
+						                <div class="layui-inline">
+						                    <label class="layui-form-label">名称</label>
+						                    <div class="layui-input-inline">
+						                           <input type="text" name="name" value="" placeholder="请输入名称 " class="layui-input">
+						                    </div>
+						                </div>
+						                <div class="layui-inline">
+						                    <label class="layui-form-label">编码</label>
+						                    <div class="layui-input-inline">
+						                        <input type="text" name="code" value="" placeholder="请输入编码" class="layui-input">
+						                    </div>
+						                </div>
+						                 <div class="layui-inline">
+						                    <label class="layui-form-label">是否可用</label>
+						                    <div class="layui-input-inline">
+						                        <select name="state" class="layui-input">
+						                          <option value="">==请选择==</option>
+												  <option value="是">是</option>
+												  <option value="否">否</option>
+												</select>   
+						                    </div>
+						                </div>
+						                <div class="layui-inline">
+						                    <button class="layui-btn"><i class="layui-icon" style="top:4px;right:5px;">&#xe615;</i>搜索</button>
+						                </div>
+						                <hr>
+	            				  </form>
+							  <!-- 查询  结束 -->
+							  <!--start_export-->
+								<table class="layui-table" lay-even>
+									  <colgroup>
+									    <col width="40">
+									    <col width="120">
+									    <col>
+									  </colgroup>
+									  <!--end_no_export-->
+									  <!--first_start_export-->
+									  <thead>
+									    <tr>
+									   	  <!--first_start_no_export-->
+									   	  <th class="center">
+									   	  		<label class="position-relative">
+													<input id="checkAll" class="ace" type="checkbox"> <span class="lbl"></span>
+										  		</label>
+										  </th>
+									      <th>操作</th>
+									      <!--first_end_no_export-->
+									      <th id="th_name">名称<i class="layui-icon sort-icon-up sort-icon">&#xe619;</i><i class="layui-icon sort-icon-down sort-icon">&#xe61a;</i></th>
+									      <th id="th_code">编码<i class="layui-icon sort-icon-up sort-icon">&#xe619;</i><i class="layui-icon sort-icon-down sort-icon">&#xe61a;</i></th>
+									      <th id="th_pid">父级<i class="layui-icon sort-icon-up sort-icon">&#xe619;</i><i class="layui-icon sort-icon-down sort-icon">&#xe61a;</i></th>
+									      <th id="th_sort">排序<i class="layui-icon sort-icon-up sort-icon">&#xe619;</i><i class="layui-icon sort-icon-down sort-icon">&#xe61a;</i></th>
+									      <th id="th_remarker">备注<i class="layui-icon sort-icon-up sort-icon">&#xe619;</i><i class="layui-icon sort-icon-down sort-icon">&#xe61a;</i></th>
+									      <th id="th_active">是否可用<i class="layui-icon sort-icon-up sort-icon">&#xe619;</i><i class="layui-icon sort-icon-down sort-icon">&#xe61a;</i></th>
+									      <th id="th_typekey">类别<i class="layui-icon sort-icon-up sort-icon">&#xe619;</i><i class="layui-icon sort-icon-down sort-icon">&#xe61a;</i></th>
+									    </tr> 
+									  </thead>
+									  <!--first_end_export-->
+									  <!--start_export-->
+									  <tbody>
+									    <#if (returnDatas.data??)&&(returnDatas.data?size>0)> 
+									    	<#list	returnDatas.data as _data>
+									    		<!--start_no_export-->
+												<tr class="">
+													<td class="center">
+														<label class="position-relative">
+															<input name="check_li" value="${_data.id}" class="ace" type="checkbox"> <span class="lbl"></span>
+														</label>
+													</td>
+													<td>
+							                            <a href="/index.php/admin/category/edit/id/1.html" class="layui-btn layui-btn-normal layui-btn-mini">编辑</a>
+							                            <a href="/index.php/admin/category/delete/id/1.html" class="layui-btn layui-btn-danger layui-btn-mini ajax-delete">删除</a>
+													</td>
+													<!--end_no_export-->
+													<td>${(_data.name)!''}</td>
+													<td>${(_data.code)!''}</td>
+													<td>${(_data.pid)!''}</td>
+													<td>${(_data.sort)!''}</td>
+													<td>${(_data.remarker)!''}</td>
+													<td>${(_data.state)!''}</td>
+													<td>${(_data.typekey)!''}</td>
+											</#list> 
+										</#if>
+									  </tbody>
+								</table>
+								<#if returnDatas.page??> 
+									<div id='laypageDiv'></div>
+									<@h.layPage page=returnDatas.page /> 
+								</#if>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="col-sm-8 sub_content">
-					<div class="widget-box">
-						<div class="widget-header">
-							<h4 class="widget-title">操作</h4>
-						</div>
-						<div class="widget-body">
-							<div class="widget-main">
-								<form id="updateForm" name="updateForm" method="post"
-									action="${ctx}/system/dicdata/${returnDatas.map.typekey}/update"
-									class="form-horizontal clearfix">
-									<input type="hidden" name="id" id="id">
-									<div class="form-group col-xs-9">
-										<label class="col-sm-4 control-label" for="code">编码*：</label>
-										<div class="col-sm-8">
-											<input class="form-control" type="text" id="code" name="code"
-												datatype="*" nullmsg="名称不能为空" />
-										</div>
-									</div>
-									<div class="form-group col-xs-9">
-										<label class="col-sm-4 control-label" for="name">名称*：</label>
-										<div class="col-sm-8">
-											<input class="form-control" type="text" id="name" name="name"
-												datatype="*" nullmsg="名称不能为空" />
-										</div>
-									</div>
-
-
-									<div class="form-group col-xs-9">
-										<label class="col-sm-4 control-label" for="sortno">排序：</label>
-										<div class="col-sm-8">
-											<input class="form-control" type="text" id="sortno"
-												name="sortno" placeholder="数字越大,排列越靠前">
-										</div>
-									</div>
-									<div class="form-group col-xs-9">
-										<label class="col-sm-4 control-label" for="state">是否可用*：</label>
-										<div class="col-sm-8">
-											<select name="state" id="state" class="form-control">
-												<option value="是">是</option>
-												<option value="否">否</option>
-											</select>
-										</div>
-									</div>
-									<div class="form-group col-xs-9">
-										<label class="col-sm-4 control-label" for="remark">描述：</label>
-										<div class="col-sm-8">
-											<textarea class="form-control" name="remark" id="remark"
-												rows="5" class="col-xs-12"></textarea>
-										</div>
-									</div>
-								</form>
-							</div>
-						</div>
-					</div>
-
-				</div>
 			</div>
-		</div>
 		<!-- 主体内容结束 -->
 		<@h.footer />
 	</div>

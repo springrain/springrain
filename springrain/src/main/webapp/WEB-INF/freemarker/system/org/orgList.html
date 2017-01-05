@@ -75,6 +75,7 @@ description="springrain开源系统管理后台"/>
 							$.fn.zTree.init($("#orgListTree"),orgTreesetting,_json.data);
 							var zTree = $.fn.zTree.getZTreeObj("orgListTree");
 							zTree.expandAll(true);
+							
 							var treeObj = $("#orgListTree");
 							treeObj.hover(function () {
 								if (!treeObj.hasClass("showIcon")) {

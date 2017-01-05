@@ -1,5 +1,14 @@
 <#escape x as x?html> <@h.commonHead title="角色管理" keywords="开源,永久免费"
 description="springrain开源系统管理后台"/>
+<script src="${ctx}/js/custom/common/form.js"></script>
+<script type="text/javascript" src="${ctx}/js/ztree/js/jquery.ztree.all-3.5.js"></script>
+<script type="text/javascript" src="${ctx}/js/ztree/js/ztreeUtils.js"></script>
+<script type="text/javascript" src="${ctx}/js/select2/js/select2.full.min.js"></script>
+<script type="text/javascript" src="${ctx}/js/select2/js/i18n/zh-CN.js"></script>
+<script type="text/javascript" src="${ctx}/js/custom/common/select2remote.js"></script>
+<script type="text/javascript" src="${ctx}/js/validform/validform.min.js"></script>
+<link rel="stylesheet" href="${ctx}/js/select2/css/select2.min.css" type="text/css">
+<link rel="stylesheet" href="${ctx}/js/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
 </head>
 <body>
 	<div class="layui-layout layui-layout-admin">
@@ -33,7 +42,7 @@ description="springrain开源系统管理后台"/>
 
 				jQuery(document).ready(
 						function() {
-							$(".widget-main tbody tr").click(
+							$(".layui-table tbody tr").click(
 									function() {
 										$(".sub_left_menu tbody tr.active")
 												.removeClass("active");
@@ -166,133 +175,109 @@ description="springrain开源系统管理后台"/>
 				}
 			//-->
 			</script>
-			<form class="form-horizontal" method="post"
-				action="${ctx}/system/role/list" name="searchForm" id="searchForm">
-				<input type="hidden" name="pageIndex" id="pageIndex"
-					value="${(returnDatas.page.pageIndex)!'1'}" /> <input
-					type="hidden" name="sort" id="page_sort"
-					value="${(returnDatas.page.sort)!'desc'}" /> <input type="hidden"
-					name="order" id="page_order"
-					value="${(returnDatas.page.order)!'id'}" />
-			</form>
-			<div class="operate panel panel-default" style="height: 65px;">
-				<div class="panel-body">
-					<div class="pull-right">
-						<@shiro.hasPermission name="/system/role/update" > <a
-							id="btn_reload" href="javascript:location.reload();"
-							class="btn  btn-sm  btn-primary" style="display: none;">
-							跳转至新增 >> </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-						<a id="btn_add" href="javascript:dosave();"
-							class="btn  btn-sm  btn-primary"> <img
-							src="${ctx}/images/btn_save.png" />保存新增
-						</a> <a id="btn_update" style="display: none;"
-							href="javascript:doupdate();" class="btn  btn-sm  btn-primary">
-							<img src="${ctx}/images/btn_save.png" />保存修改
-						</a> </@shiro.hasPermission> <@shiro.hasPermission
-						name="/system/role/delete" > <a onclick="" id="btn_role_del"
-							class="btn btn-sm btn-danger" style="display: none;">删除</a>
-						</@shiro.hasPermission>
-					</div>
-				</div>
-			</div>
-			<!-- 功能操作区域结束 -->
-			<!-- 列表显示区域  -->
-			<div class="row">
-				<div class="col-sm-4">
-					<div class="widget-box">
-						<div class="widget-header">
-							<h4 class="widget-title">记录</h4>
+			
+			<div class="layui-main">
+				<fieldset class="layui-elem-field">
+			  		<legend>角色管理</legend>
+			  		<form class="form-horizontal" method="post" action="${ctx}/system/role/list" name="searchForm" id="searchForm">
+						<input type="hidden" name="pageIndex" id="pageIndex" value="${(returnDatas.page.pageIndex)!'1'}" /> 
+						<input type="hidden" name="sort" id="page_sort" value="${(returnDatas.page.sort)!'desc'}" /> 
+						<input type="hidden" name="order" id="page_order" value="${(returnDatas.page.order)!'id'}" />
+					</form>
+			  		
+			  		
+			  		<div class="layui-field-box">
+			    		<button id="btn_reload" onclick="location.reload();" class="layui-btn display-n"><i class="layui-icon"></i> 跳转到新增  >></button>
+			    		<button id="btn_add" onclick="dosave();" class="layui-btn"><i class="layui-icon"></i> 保存新增</button>
+			    		<button id="btn_update" style="display: none;" onclick="doupdate();" class="layui-btn"><i class="layui-icon">&#xe642;</i> 保存修改</button>
+			    		<button id="btn_role_del" style="display: none;" onclick="" class="layui-btn layui-btn-danger"><i class="layui-icon">&#x1006;</i> 删除</button>
+			  		</div>
+				</fieldset>
+				
+				<div class="container-fluid">
+					<div class="row">
+						<div class="per50 fl">
+							<table class="layui-table">
+							 	<colgroup>
+						    		<col width="150">
+							    	<col width="200">
+						  		</colgroup>
+						  		<thead>
+									<tr>
+										<th>名称</th>
+										<th>是否可用</th>
+									</tr>
+								</thead>
+								<tbody>
+									<#if (returnDatas.data??)&&(returnDatas.data?size>0)> <#list
+									returnDatas.data as _data>
+									<tr id="${(_data.id)!''}">
+										<td>${(_data.name)!''}</td>
+										<td>
+											<#if (_data.active)?? && (_data.active==1)>
+												是
+											<#else>
+												否
+											</#if>
+										</td>
+									</tr>
+									</#list> </#if>
+								</tbody>
+							</table>
+							<div id="laypageDiv"></div>
+							<@h.layPage cont="laypageDiv" formId="searchForm" page=returnDatas.page/>
 						</div>
-						<div class="widget-body">
-							<div class="widget-main">
-								<table class="table table-striped table-bordered table-hover">
-									<thead>
-										<tr>
-											<th>名称</th>
-											<th>是否可用</th>
-										</tr>
-									</thead>
-									<tbody>
-										<#if (returnDatas.data??)&&(returnDatas.data?size>0)> <#list
-										returnDatas.data as _data>
-										<tr id="${(_data.id)!''}">
-											<td>${(_data.name)!''}</td>
-											<td>${(_data.state)!''}</td>
-										</tr>
-										</#list> </#if>
-									</tbody>
-								</table>
-							</div>
-						</div>
-					</div>
-
-				</div>
-				<div class="col-sm-8 last">
-					<div class="widget-box">
-						<div class="widget-header">
-							<h4 class="widget-title">内容</h4>
-						</div>
-						<div class="widget-body">
-							<div class="widget-main">
-								<form id="updateForm" name="updateForm"
-									action="${ctx}/system/role/update" method="post"
-									class="form-horizontal clearfix">
-									<input type="hidden" name="id" id="id">
-									<div class="form-group col-xs-9">
-										<label class="col-sm-4 control-label" for="name">名称*：</label>
-										<div class="col-sm-8">
-											<input class="form-control" type="text" id="name" name="name"
-												datatype="*" nullmsg="名称不能为空" />
-										</div>
-									</div>
-
-									<div class="form-group col-xs-9">
-										<label class="col-sm-4 control-label" for="pid">权限菜单：</label>
-										<div class="col-sm-8">
-											<div class="input-group">
-												<input name="menuNames" class="form-control val"
-													id="menuNames" type="text" readonly="readonly" /> <input
-													name="menuIds" id="menuIds" type="hidden" /> <span
-													class="input-group-btn"> <a
-													onclick="showZtreeMenu();" class="btn btn-sm btn-primary">
-														<i class="fa fa-search"></i>
-												</a>
-												</span>
-											</div>
-										</div>
-									</div>
-									<div class="form-group col-xs-9">
-										<label class="col-sm-4 control-label" for="is_del">是否可用</label>
-										<div class="col-sm-8">
-											<select class="form-control" name="state" id="state">
-												<option value="是">是</option>
-												<option value="否">否</option>
-											</select>
-										</div>
-									</div>
-									<div class="form-group col-xs-9">
-										<label class="col-sm-4 control-label" for="remark">备注：</label>
-										<div class="col-sm-8">
-											<textarea class="form-control" name="remark" id="remark"
-												rows="5" class="col-xs-12"></textarea>
-										</div>
-									</div>
-								</form>
-							</div>
+						<div class="per50 fl">
+							<form id="updateForm" name="updateForm"	action="${ctx}/system/role/update" method="post" class="layui-form">
+								<input type="hidden" name="id" id="id">
+								<input type="hidden" name="roleType" value="0">
+								
+								<div class="layui-form-item">
+						    		<label class="layui-form-label">名称*</label>
+								    <div class="layui-input-inline">
+								      	<input type="text" id="name" name="name"
+												placeholder="名称" datatype="*"  nullmsg="名称不能为空"
+												class="layui-input">
+								    </div>
+							  	</div>
+								
+								<div class="layui-form-item">
+						    		<label class="layui-form-label">权限菜单</label>
+								    <div class="layui-input-inline">
+								    	<input name="menuNames" class="layui-input" id="menuNames" type="text" readonly="readonly" onclick="showZtreeMenu();"/> 
+								      	<input name="menuIds" id="menuIds" type="hidden">
+								    </div>
+							  	</div>
+								
+								<div class="layui-form-item">
+								    <label class="layui-form-label">是否可用</label>
+								    <div class="layui-input-inline">
+								      	<select class="form-control" name="active" id="active">
+											<option value="1">是</option>
+											<option value="0">否</option>
+										</select>
+								    </div>
+							  	</div>
+								
+								<div class="layui-form-item layui-form-text">
+								    <label class="layui-form-label">备注</label>
+								    <div class="layui-input-inline">
+								      <textarea name="remark" id="remark" placeholder="请输入内容" class="layui-textarea"></textarea>
+								    </div>
+							  	</div>
+							</form>
 						</div>
 					</div>
 				</div>
-				<div id="laypageDiv"></div>
-				<@h.layPage cont="laypageDiv" formId="searchForm" page=returnDatas.page/>
 			</div>
-			<div id="div_menuMultiSelectTree">
-				<ul id="menuMultiSelectTree" class="ztree"></ul>
-			</div>
+			
 
 		</div>
 		<!-- 主体内容结束 -->
 		<@h.footer />
+	</div>
+	<div id="div_menuMultiSelectTree">
+		<ul id="menuMultiSelectTree" class="ztree"></ul>
 	</div>
 </body>
 </html>
