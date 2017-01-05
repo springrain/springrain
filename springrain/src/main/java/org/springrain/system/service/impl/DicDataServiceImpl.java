@@ -94,14 +94,14 @@ public class DicDataServiceImpl extends BaseSpringrainServiceImpl implements IDi
 	}
 
 	@Override
-	@Cacheable(value = GlobalStatic.cacheKey, key = "'findListDicData_'+#pathtypekey")
-	public List<DicData> findListDicData(String pathtypekey) throws Exception {
+	//@Cacheable(value = GlobalStatic.cacheKey, key = "'findListDicData_'+#pathtypekey")
+	public List<DicData> findListDicData(String pathtypekey,Page page) throws Exception {
 		if(StringUtils.isBlank(pathtypekey)){
 			return null;
 		}
 		Finder finder=Finder.getSelectFinder(DicData.class).append(" WHERE typekey=:typekey ");
 		finder.setParam("typekey", pathtypekey);
-		return super.queryForList(finder, DicData.class);
+		return super.queryForList(finder, DicData.class,page);
 	}
 
 	@Override
@@ -137,7 +137,7 @@ public class DicDataServiceImpl extends BaseSpringrainServiceImpl implements IDi
 	}
 	@Override
 	public String findCacheNameById(String id, String pathtypekey) throws Exception {
-		List<DicData> findListDicData = findListDicData(pathtypekey);
+		List<DicData> findListDicData = findListDicData(pathtypekey,null);
 		if(CollectionUtils.isEmpty(findListDicData)||StringUtils.isBlank(id)){
 			return null;
 		}

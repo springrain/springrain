@@ -2,6 +2,7 @@ package org.springrain.system.service;
 
 import java.util.List;
 
+import org.springrain.frame.util.Page;
 import org.springrain.system.entity.DicData;
 /**
  * TODO 在此加入类描述
@@ -34,7 +35,7 @@ public interface IDicDataService extends IBaseSpringrainService {
 	 * @return
 	 * @throws Exception
 	 */
-	List<DicData> findListDicData(String pathtypekey) throws Exception;
+	List<DicData> findListDicData(String pathtypekey,Page page) throws Exception;
 	
 	/**
 	 * 根据Id和pathKey删除字典

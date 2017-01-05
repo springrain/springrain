@@ -14,10 +14,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import org.springrain.frame.controller.BaseController;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.MessageUtils;
+import org.springrain.frame.util.Page;
 import org.springrain.frame.util.ReturnDatas;
 import org.springrain.system.entity.DicData;
 import org.springrain.system.service.IDicDataService;
@@ -68,11 +68,14 @@ public class DicDataController  extends BaseController {
 	public @ResponseBody
 	ReturnDatas listjson(@PathVariable String pathtypekey,HttpServletRequest request, Model model,DicData dicData) throws Exception{
 		dicData.setTypekey(pathtypekey);
-		List<DicData> datas=dicDataService.findListDicData( pathtypekey);
+		Page page=newPage(request);
+		List<DicData> datas=dicDataService.findListDicData(pathtypekey,page);
+		//boolean hasNext = page.getHasNext();
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		returnObject.setData(datas);
 		Map<String,String> map=new HashMap<String,String>();
 		map.put("typekey", pathtypekey);
+		returnObject.setPage(page);
 		returnObject.setMap(map);
 		return returnObject;
 	}
