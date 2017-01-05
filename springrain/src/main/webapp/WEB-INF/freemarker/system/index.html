@@ -6,10 +6,25 @@
 	    <@h.naviHeader />
 		<@h.leftMenu />
 		<!-- 主体内容开始 -->
-		<div class="layui-body site-demo">
-		  
-		 
-		  
+		<div class="layui-body layui-tab-content site-demo-body">
+			<div class="layui-tab layui-tab-brief">
+				<ul class="layui-tab-title site-demo-title">
+		            <li class="layui-this">首页&nbsp;&nbsp;>&nbsp;&nbsp;字典管理&nbsp;&nbsp;>&nbsp;&nbsp;级别列表</li>
+		             <li style="float:right;">
+		             	<button type="button" class="layui-btn layui-btn-small" data-action=""><i class="layui-icon layui-icon-specil">&#xe61f;</i>添加级别</button>
+				        <button type="button" class="layui-btn layui-btn-small"><i class="layui-icon layui-icon-specil">&#xe609;</i>导出</button>
+		                <button type="button" class="layui-btn layui-btn-warm layui-btn-small"><i class="layui-icon layui-icon-specil">&#xe601;</i>导入</button>
+		                <button type="button" class="layui-btn layui-btn-danger layui-btn-small"><i class="layui-icon">&#xe640;</i>批量删除</button>
+		             </li>
+	       		</ul>
+				<div class="layui-tab-item layui-show">
+						<div class="layui-main">
+					          <div id="LAY_preview">
+					          <!--  主体内容  -->
+							  </div>
+						</div>
+				</div>
+			</div>
 		</div>
 		<!-- 主体内容结束 -->
 	  <@h.footer />

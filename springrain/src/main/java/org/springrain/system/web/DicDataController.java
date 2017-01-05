@@ -82,7 +82,26 @@ public class DicDataController  extends BaseController {
 		returnObject.setMap(map);
 		return returnObject;
 	}
-	
+	/**
+	 * 列表数据,调用listjson方法,保证和app端数据统一
+	 * 
+	 * @param request
+	 * @param model
+	 * @param dicData
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/tree")
+	public String tree(@PathVariable String pathtypekey,HttpServletRequest request, Model model,DicData dicData) 
+			throws Exception {
+		if(dicData!=null){
+			dicData.setTypekey(pathtypekey);
+		}
+		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
+		returnObject.setData(dicData);
+		model.addAttribute(GlobalStatic.returnDatas, returnObject);
+		return "/system/dicdata/tree";
+	}
 	
 	
 	
@@ -162,6 +181,9 @@ public class DicDataController  extends BaseController {
 	@RequestMapping(value = "/update/pre")
 	public String edit(@PathVariable String pathtypekey,Model model,HttpServletRequest request,HttpServletResponse response)  throws Exception{
 		ReturnDatas returnObject = lookjson(pathtypekey,model, request, response);
+		Map<String,String> map=new HashMap<String,String>();
+		map.put("typekey", pathtypekey);
+		returnObject.setMap(map);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
 		return "/system/dicData/dicDataCru";
 	}
