@@ -69,12 +69,15 @@ public class DicDataController  extends BaseController {
 	ReturnDatas listjson(@PathVariable String pathtypekey,HttpServletRequest request, Model model,DicData dicData) throws Exception{
 		dicData.setTypekey(pathtypekey);
 		Page page=newPage(request);
-		List<DicData> datas=dicDataService.findListDicData(pathtypekey,page);
+		//List<DicData> datas=dicDataService.findListDicData(pathtypekey,page,dicData);
+		dicData.setTypekey(pathtypekey);
+		List<DicData> datas=dicDataService.findListDataByFinder(null, page, DicData.class, dicData);
 		//boolean hasNext = page.getHasNext();
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		returnObject.setData(datas);
 		Map<String,String> map=new HashMap<String,String>();
 		map.put("typekey", pathtypekey);
+		returnObject.setQueryBean(dicData);//正式如果 ，加了缓存此处删除 
 		returnObject.setPage(page);
 		returnObject.setMap(map);
 		return returnObject;

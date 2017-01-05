@@ -532,6 +532,17 @@ function set_val(name, val) {
 	}
 }
 function  init_sort_btn(){
+	//加载颜色
+	var _sort=jQuery("#page_sort").val();
+	var _order=jQuery("#page_order").val();
+	if(_order){
+		if("asc"==_sort){
+			jQuery("#th_"+_order).find(".sort-icon-up").css("color","#333333");
+		}else{
+			jQuery("#th_"+_order).find(".sort-icon-down").css("color","#333333");
+		}
+	}
+	
 	jQuery(".sort-icon").bind("mouseenter",function(){
 		jQuery(this).addClass("sort-icon-on");
 	}).bind("mouseout",function(){

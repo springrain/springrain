@@ -95,7 +95,7 @@ public class DicDataServiceImpl extends BaseSpringrainServiceImpl implements IDi
 
 	@Override
 	//@Cacheable(value = GlobalStatic.cacheKey, key = "'findListDicData_'+#pathtypekey")
-	public List<DicData> findListDicData(String pathtypekey,Page page) throws Exception {
+	public List<DicData> findListDicData(String pathtypekey,Page page,DicData dicData) throws Exception {
 		if(StringUtils.isBlank(pathtypekey)){
 			return null;
 		}
@@ -137,7 +137,7 @@ public class DicDataServiceImpl extends BaseSpringrainServiceImpl implements IDi
 	}
 	@Override
 	public String findCacheNameById(String id, String pathtypekey) throws Exception {
-		List<DicData> findListDicData = findListDicData(pathtypekey,null);
+		List<DicData> findListDicData = findListDicData(pathtypekey,null,null);
 		if(CollectionUtils.isEmpty(findListDicData)||StringUtils.isBlank(id)){
 			return null;
 		}

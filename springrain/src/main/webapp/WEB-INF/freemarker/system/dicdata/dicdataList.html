@@ -1,5 +1,11 @@
 <#escape x as x?html> 
 <@h.commonHead title="后台管理系统" keywords="开源,永久免费" description="springrain开源系统管理后台"/>
+<script>
+	var _active="${(returnDatas.queryBean.active)!''}";
+	jQuery(function(){
+		jQuery("#active").val(_active);
+	});
+</script>
 </head>
 <body>
 	<div class="layui-layout layui-layout-admin">
@@ -27,22 +33,22 @@
 						                <div class="layui-inline">
 						                    <label class="layui-form-label">名称</label>
 						                    <div class="layui-input-inline">
-						                           <input type="text" name="name" value="" placeholder="请输入名称 " class="layui-input">
+						                           <input type="text" name="name" value="${(returnDatas.queryBean.name)!''}" placeholder="请输入名称 " class="layui-input">
 						                    </div>
 						                </div>
 						                <div class="layui-inline">
 						                    <label class="layui-form-label">编码</label>
 						                    <div class="layui-input-inline">
-						                        <input type="text" name="code" value="" placeholder="请输入编码" class="layui-input">
+						                        <input type="text" name="code" value="${(returnDatas.queryBean.code)!''}" placeholder="请输入编码" class="layui-input">
 						                    </div>
 						                </div>
 						                 <div class="layui-inline">
 						                    <label class="layui-form-label">是否可用</label>
 						                    <div class="layui-input-inline">
-						                        <select name="state" class="layui-input">
+						                        <select name="active" id="active" class="layui-input">
 						                          <option value="">==请选择==</option>
-												  <option value="是">是</option>
-												  <option value="否">否</option>
+												  <option value="1">是</option>
+												  <option value="0">否</option>
 												</select>   
 						                    </div>
 						                </div>
@@ -74,8 +80,8 @@
 									      <th id="th_name">名称<i class="layui-icon sort-icon-up sort-icon">&#xe619;</i><i class="layui-icon sort-icon-down sort-icon">&#xe61a;</i></th>
 									      <th id="th_code">编码<i class="layui-icon sort-icon-up sort-icon">&#xe619;</i><i class="layui-icon sort-icon-down sort-icon">&#xe61a;</i></th>
 									      <th id="th_pid">父级<i class="layui-icon sort-icon-up sort-icon">&#xe619;</i><i class="layui-icon sort-icon-down sort-icon">&#xe61a;</i></th>
-									      <th id="th_sort">排序<i class="layui-icon sort-icon-up sort-icon">&#xe619;</i><i class="layui-icon sort-icon-down sort-icon">&#xe61a;</i></th>
-									      <th id="th_remarker">备注<i class="layui-icon sort-icon-up sort-icon">&#xe619;</i><i class="layui-icon sort-icon-down sort-icon">&#xe61a;</i></th>
+									      <th id="th_sortno">排序<i class="layui-icon sort-icon-up sort-icon">&#xe619;</i><i class="layui-icon sort-icon-down sort-icon">&#xe61a;</i></th>
+									      <th id="th_remark">备注<i class="layui-icon sort-icon-up sort-icon">&#xe619;</i><i class="layui-icon sort-icon-down sort-icon">&#xe61a;</i></th>
 									      <th id="th_active">是否可用<i class="layui-icon sort-icon-up sort-icon">&#xe619;</i><i class="layui-icon sort-icon-down sort-icon">&#xe61a;</i></th>
 									      <th id="th_typekey">类别<i class="layui-icon sort-icon-up sort-icon">&#xe619;</i><i class="layui-icon sort-icon-down sort-icon">&#xe61a;</i></th>
 									    </tr> 

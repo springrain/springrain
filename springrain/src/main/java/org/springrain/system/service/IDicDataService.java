@@ -35,7 +35,7 @@ public interface IDicDataService extends IBaseSpringrainService {
 	 * @return
 	 * @throws Exception
 	 */
-	List<DicData> findListDicData(String pathtypekey,Page page) throws Exception;
+	List<DicData> findListDicData(String pathtypekey,Page page,DicData dicData) throws Exception;
 	
 	/**
 	 * 根据Id和pathKey删除字典
