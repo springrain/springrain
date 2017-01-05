@@ -125,7 +125,7 @@
                     jump:function(obj, first){
                         if("${page.pageIndex}"!=obj.curr){
                             $("[name='pageIndex']",$("#${formId}")).val(obj.curr);
-                        	c
+                        	$("#${formId}").submit();
                         }
                     }
             }

@@ -4,6 +4,7 @@ $(document).ready(function(){
 	configLayui("global");
 	//加载菜单
 	loadMenu();
+	init_sort_btn();
 });
 
 function loadMenu(){
@@ -530,7 +531,25 @@ function set_val(name, val) {
 		return;
 	}
 }
-
+function  init_sort_btn(){
+	jQuery(".sort-icon").bind("mouseenter",function(){
+		jQuery(this).addClass("sort-icon-on");
+	}).bind("mouseout",function(){
+		jQuery(this).removeClass("sort-icon-on");
+	});
+	//单击事件
+	jQuery(".sort-icon").bind("click",function(){
+		if(jQuery(this).hasClass("sort-icon-down")){
+			jQuery("#page_sort").val("desc");
+			jQuery("#page_order").val(jQuery(this).parent("th").attr("id").split("_")[1]);
+		}else{
+			jQuery("#page_sort").val("asc");
+			jQuery("#page_order").val(jQuery(this).parent("th").attr("id").split("_")[1]);
+		}
+		//提交表单
+		$("#searchForm").submit();
+	});
+}
 
 
 
