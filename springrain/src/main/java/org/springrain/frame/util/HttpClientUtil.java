@@ -1,11 +1,11 @@
 package org.springrain.frame.util;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import javax.net.ssl.SSLContext;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
@@ -14,28 +14,60 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.conn.ssl.DefaultHostnameVerifier;
-import org.apache.http.conn.util.PublicSuffixMatcher;
-import org.apache.http.conn.util.PublicSuffixMatcherLoader;
+import org.apache.http.config.Registry;
+import org.apache.http.config.RegistryBuilder;
+import org.apache.http.conn.socket.ConnectionSocketFactory;
+import org.apache.http.conn.socket.PlainConnectionSocketFactory;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.ssl.SSLContexts;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class HttpClientUtil {
 	
+	
+	private static  PoolingHttpClientConnectionManager connectionManager = null;
+	private static  HttpClientBuilder httpClientBuilder=null;
+	
 	private static   Logger logger = LoggerFactory.getLogger(HttpClientUtil.class);
-	private static RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(15000).setConnectTimeout(15000)
-			.setConnectionRequestTimeout(15000).build();
+	private static RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(5000).setConnectTimeout(5000)
+			.setConnectionRequestTimeout(3000).build();
+	
+	static{
+		
+		SSLContext sslcontext = SSLContexts.createSystemDefault();
 
+        // Create a registry of custom connection socket factories for supported
+        // protocol schemes.
+        Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create()
+            .register("http", PlainConnectionSocketFactory.INSTANCE)
+            .register("https", new SSLConnectionSocketFactory(sslcontext))
+            .build();
 
+	    	    connectionManager = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
+	    	    connectionManager.setMaxTotal(1000);
+	    	    connectionManager.setDefaultMaxPerRoute(200);//每个路由最大的请求数量
+	    	    httpClientBuilder = HttpClients.custom().setConnectionManager(connectionManager).setDefaultRequestConfig(requestConfig);
+	    	    
+		       // HttpHost localhost = new HttpHost("http://www.baidu.com",80);
+		       //connectionManager.setMaxPerRoute(new HttpRoute(localhost), 200);
+		
+	}
+
+	public static CloseableHttpClient getHttpClient() {     
+        return httpClientBuilder.build();  
+    }
 
 	/**
 	 * 发送 post请求
@@ -124,33 +156,33 @@ public class HttpClientUtil {
 	 * @return
 	 */
 	private static String sendHttpPost(HttpPost httpPost) {
-		CloseableHttpClient httpClient = null;
+		CloseableHttpClient httpClient = getHttpClient();
 		CloseableHttpResponse response = null;
 		HttpEntity entity = null;
 		String responseContent = null;
 		try {
-			// 创建默认的httpClient实例.
-			httpClient = HttpClients.createDefault();
-			httpPost.setConfig(requestConfig);
 			// 执行请求
 			response = httpClient.execute(httpPost);
 			entity = response.getEntity();
 			responseContent = EntityUtils.toString(entity, "UTF-8");
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e.getMessage());
 		} finally {
-			try {
+			
+			try{
 				// 关闭连接,释放资源
-				if (response != null) {
+				if (entity != null) {
+				   EntityUtils.consumeQuietly(entity); //会自动释放连接
+				}
+				if(response!=null){
 					response.close();
 				}
-				if (httpClient != null) {
-					httpClient.close();
-				}
-			} catch (IOException e) {
-				logger.error(e.getLocalizedMessage());
-			}
-		}
+				
+			}catch (Exception e) {
+				logger.error(e.getMessage());
+			} 
+			
+	}
 		return responseContent;
 	}
 
@@ -164,16 +196,7 @@ public class HttpClientUtil {
 		return sendHttpGet(httpGet);
 	}
 
-	/**
-	 * 发送 get请求Https
-	 * 
-	 * @param httpUrl
-	 */
-	public static String sendHttpsGet(String httpUrl) {
-		HttpGet httpGet = new HttpGet(httpUrl);// 创建get请求
-		return sendHttpsGet(httpGet);
-	}
-
+	
 	/**
 	 * 发送Get请求
 	 * 
@@ -181,73 +204,39 @@ public class HttpClientUtil {
 	 * @return
 	 */
 	private static String sendHttpGet(HttpGet httpGet) {
-		CloseableHttpClient httpClient = null;
+		CloseableHttpClient httpClient = getHttpClient();
+		//System.out.println(httpClient);
 		CloseableHttpResponse response = null;
 		HttpEntity entity = null;
 		String responseContent = null;
 		try {
-			// 创建默认的httpClient实例.
-			httpClient = HttpClients.createDefault();
-			httpGet.setConfig(requestConfig);
 			// 执行请求
 			response = httpClient.execute(httpGet);
 			entity = response.getEntity();
 			responseContent = EntityUtils.toString(entity, "UTF-8");
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e.getMessage());
 		} finally {
-			try {
+				
+			try{
 				// 关闭连接,释放资源
-				if (response != null) {
+				if (entity != null) {
+				   EntityUtils.consumeQuietly(entity); //会自动释放连接
+				}
+				if(response!=null){
 					response.close();
 				}
-				if (httpClient != null) {
-					httpClient.close();
-				}
-			} catch (IOException e) {
-				logger.error(e.getLocalizedMessage());
-			}
+				
+			}catch (Exception e) {
+				logger.error(e.getMessage());
+			} 
+				
+				
 		}
 		return responseContent;
 	}
 
-	/**
-	 * 发送Get请求Https
-	 * 
-	 * @param httpPost
-	 * @return
-	 */
-	private static String sendHttpsGet(HttpGet httpGet) {
-		CloseableHttpClient httpClient = null;
-		CloseableHttpResponse response = null;
-		HttpEntity entity = null;
-		String responseContent = null;
-		try {
-			// 创建默认的httpClient实例.
-			PublicSuffixMatcher publicSuffixMatcher = PublicSuffixMatcherLoader
-					.load(new URL(httpGet.getURI().toString()));
-			DefaultHostnameVerifier hostnameVerifier = new DefaultHostnameVerifier(publicSuffixMatcher);
-			httpClient = HttpClients.custom().setSSLHostnameVerifier(hostnameVerifier).build();
-			httpGet.setConfig(requestConfig);
-			// 执行请求
-			response = httpClient.execute(httpGet);
-			entity = response.getEntity();
-			responseContent = EntityUtils.toString(entity, "UTF-8");
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				// 关闭连接,释放资源
-				if (response != null) {
-					response.close();
-				}
-				if (httpClient != null) {
-					httpClient.close();
-				}
-			} catch (IOException e) {
-				logger.error(e.getLocalizedMessage());
-			}
-		}
-		return responseContent;
-	}
+	
+	
+	
 }
