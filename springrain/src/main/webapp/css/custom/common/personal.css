@@ -1,4 +1,5 @@
 @CHARSET "UTF-8";
+/*图标会有不对齐的，微调*/
 .layui-icon-specil{margin-right:5px;}
 .layui-icon-my-small{font-size:16px!important;}
 .layui-btn .layui-icon{vertical-align: middle;}
@@ -7,7 +8,7 @@
 .sort-icon-on{color:#333333;}
 .sort-icon-up{position:relative;top:-4px;left:4px;}
 .sort-icon-down{position:relative;top:8px;right:10px;}
-
+/*元素宽度*/
 .col-lg-1{width:10%;}
 .col-lg-2{width:20%;}
 .col-lg-3{width:30%;}
@@ -18,4 +19,33 @@
 .col-lg-8{width:80%;}
 .col-lg-9{width:90%;}
 .col-lg-10{width:100%;}
-.layui-form-pane{padding-left:80px;}
+/*右边主背景*/
+.site-demo-body{background:#ecf0f5;}
+/*web nav高度与背景*/
+.layui-tab-title{background:#ecf0f5;top:70px!important;height:44px!important;}
+.layui-tab-title li{line-height: 44px;}
+.layui-tab-title .layui-this:after{height:45px!important;}
+.layui-layout-admin .site-demo-body{top:115px!important;}
+.layui-layout-admin .site-demo-body{bottom:41px;}
+.layui-laypage-total{background: none!important;}
+.layui-breadcrumb{line-height: 55px!important;}
+/*表单背景修改*/
+.layui-my-form{background:#fff;border-radius:4px;}
+.layui-my-form .layui-form{padding:10px 40px;}
+/*表单header*/
+header.larry-personal-tit {
+    width: 100%;
+    height: 50px;
+    line-height:50px;
+    border-bottom: 1px solid #EEEFF1;
+    padding: 0 20px;
+    padding-left: 30px;
+}
+header.larry-personal-tit span {
+    line-height: 50px;
+    font-size: 14px;
+    color: #858585;
+    font-weight: 300;
+}
+/**/
+.layui-nav .layui-nav-more{margin-top:4px;}
