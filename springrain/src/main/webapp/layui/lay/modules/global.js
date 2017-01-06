@@ -7,8 +7,6 @@ layui.define(['layer','util'], function(exports){
   if(device.ie && device.ie < 8){
     layer.alert('最低支持ie8，您当前使用的是古老的 IE'+ device.ie + ',请更新您的浏览器！');
   }
-  
-  
 //固定Bar
   util.fixbar({
     bar1: false

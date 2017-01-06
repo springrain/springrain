@@ -30,7 +30,7 @@
 	
 
 	$(document).ready(function() {
-		jQuery.post("${ctx}/system/dicdata/${returnDatas.data.typekey}/list/json",
+		jQuery.post("${ctx}/system/dicdata/${returnDatas.data.typekey}/list/json?page=false",
 				function(_json) {
 					if (_json.status == "success") {
 						$.fn.zTree.init($("#dicDataTree"), dicDataSelectSetting,_json.data);

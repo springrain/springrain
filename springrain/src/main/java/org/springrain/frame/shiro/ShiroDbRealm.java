@@ -133,7 +133,6 @@ public class ShiroDbRealm extends AuthorizingRealm {
 			 
 			
 		 }
-		
 		try {
 			user = userRoleMenuService.findLoginUser(userName, null,upToken.getUserType());
 		} catch (Exception e) {

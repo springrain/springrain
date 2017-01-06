@@ -68,7 +68,11 @@ public class DicDataController  extends BaseController {
 	public @ResponseBody
 	ReturnDatas listjson(@PathVariable String pathtypekey,HttpServletRequest request, Model model,DicData dicData) throws Exception{
 		dicData.setTypekey(pathtypekey);
-		Page page=newPage(request);
+		String nopage = request.getParameter("page");//树结构不能分页
+		Page page=null;
+		if(!"false".equals(nopage)){
+			page=newPage(request);
+		}
 		//List<DicData> datas=dicDataService.findListDicData(pathtypekey,page,dicData);
 		dicData.setTypekey(pathtypekey);
 		List<DicData> datas=dicDataService.findListDataByFinder(null, page, DicData.class, dicData);

@@ -575,7 +575,8 @@ function init_button_action(){
 	jQuery("button[data-action]").bind("click",function(){window.location.href=jQuery(this).attr("data-action")});
 }
 /*初始化表单验证，只需要在修改页面调用 即可*/
-function init_valid(){
+function init_valid(_before,_after){
+	var index = null;
 	$("#validForm").Validform({
 		btnSubmit:"#smtbtn", 
 		btnReset:"#rstbtn",
@@ -624,10 +625,18 @@ function init_valid(){
 			//这里明确return false的话将不会继续执行验证操作;	
 		},
 		beforeSubmit:function(curform){
+			layer.load();
+			if(_before!=null &&typeof(_before)=="function"){
+				_before();
+			}
 			//在验证成功后，表单提交前执行的函数，curform参数是当前表单对象。
 			//这里明确return false的话表单将不会提交;	
 		},
 		callback:function(data){
+			if(_after!=null &&typeof(_after)=="function"){
+				_after();
+			}
+			layer.close(index);
 			//返回数据data是json对象，{"info":"demo info","status":"y"}
 			//info: 输出提示信息;
 			//status: 返回提交数据的状态,是否提交成功。如可以用"y"表示提交成功，"n"表示提交失败，在ajax_post.php文件返回数据里自定字符，主要用在callback函数里根据该值执行相应的回调操作;
@@ -639,7 +648,30 @@ function init_valid(){
 		}
 	});
 }
-
-
+function delWrap(_id,_url){
+	var _pars={"id":_id};
+	layer.confirm('是否删除?', {icon: 3, title:'提示'}, function(index){
+		  jQuery.ajax({
+			  url:_url,
+			  type:"post",
+			  data:_pars,
+			  dataType:"json",
+			  async:false,
+			  success:function(data){
+				  if(data!=null&&"success"==data.status){
+					  layer.msg(data.message, {
+						  icon: 1,
+						  time: 2000 //2秒关闭（如果不配置，默认是3秒）
+						}, function(){
+						   window.location.reload();
+						}); 
+				  }else{
+					  layer.msg(data.message, {icon: 1,time: 1000}); 
+				  }
+			  }
+		  });
+		  layer.close(index);
+	});
+}
 
 

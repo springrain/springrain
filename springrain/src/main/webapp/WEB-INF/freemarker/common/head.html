@@ -43,6 +43,11 @@
 	type="text/css">
 <script type="text/javascript"
 	src="${ctx}/js/ztree/js/jquery.ztree.all-3.5.js"></script>
+	  <script>
+layui.use(['element'], function(){
+  var element = layui.element();   
+});
+</script>
 </#macro>
 
 
@@ -54,10 +59,9 @@
      		<a class="logo" href="${ctx}">
               	<img src="${ctx}/img/logo.jpg" alt="springrain">
             </a>
-            
             <ul class="layui-nav" style="left:175px;" id="naviHeaderMenu">
             </ul>
-            
+            <#--
             <ul class="layui-nav">
                  <li class="layui-nav-item  layui-this">
                     <a href="/doc/">个人中心</a>
@@ -66,8 +70,32 @@
                     <a href="javascript:exit();">退出</a>
                  </li>
             </ul>
+            -->
+				<ul class="layui-nav beg-layout-nav" lay-filter="user">
+					<li class="layui-nav-item">
+						<a href="javascript:;" class="beg-layou-head">
+							<img src="${ctx}/img/userimg.jpg" style="width: 40px;height: 40px;border-radius: 100%;">
+							<span><@shiro.principal property="name" /></span>
+						<span class="layui-nav-more"></span></a>
+						<dl class="layui-nav-child layui-anim layui-anim-upbit">
+							<dd>
+								<a href="javascript:;" data-tab="true" data-url="user.html">
+									<i class="fa fa-user-circle" aria-hidden="true"></i>
+									<cite>修改密码</cite>
+								</a>
+							</dd>
+							<dd>
+								<a href="javascript:exit();">
+									<i class="fa fa-sign-out" aria-hidden="true"></i>
+									<cite>退出</cite>
+								</a>
+							</dd>
+						</dl>
+					</li>
+				</ul>            
           </div>
-        </div>
+	</div>
+       
 </#macro>
 
 
