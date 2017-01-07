@@ -34,13 +34,13 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class HttpClientUtil {
+public class HttpClientUtils {
 	
 	
 	private static  PoolingHttpClientConnectionManager connectionManager = null;
 	private static  HttpClientBuilder httpClientBuilder=null;
 	
-	private static   Logger logger = LoggerFactory.getLogger(HttpClientUtil.class);
+	private static   Logger logger = LoggerFactory.getLogger(HttpClientUtils.class);
 	private static RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(5000).setConnectTimeout(5000)
 			.setConnectionRequestTimeout(3000).build();
 	
@@ -155,7 +155,7 @@ public class HttpClientUtil {
 	 * @param httpPost
 	 * @return
 	 */
-	private static String sendHttpPost(HttpPost httpPost) {
+	public static String sendHttpPost(HttpPost httpPost) {
 		CloseableHttpClient httpClient = getHttpClient();
 		CloseableHttpResponse response = null;
 		HttpEntity entity = null;
@@ -203,7 +203,7 @@ public class HttpClientUtil {
 	 * @param httpPost
 	 * @return
 	 */
-	private static String sendHttpGet(HttpGet httpGet) {
+	public static String sendHttpGet(HttpGet httpGet) {
 		CloseableHttpClient httpClient = getHttpClient();
 		//System.out.println(httpClient);
 		CloseableHttpResponse response = null;
