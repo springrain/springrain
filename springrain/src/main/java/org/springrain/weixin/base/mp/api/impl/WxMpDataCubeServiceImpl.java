@@ -29,8 +29,8 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
 
   
   //生产环境应该是spring bean
-  //private WxMpService wxMpService;
-  private WxMpService wxMpService=new WxMpServiceImpl();
+  private WxMpService wxMpService;
+  //private WxMpService wxMpService=new WxMpServiceImpl();
 
   public WxMpDataCubeServiceImpl() {
   }

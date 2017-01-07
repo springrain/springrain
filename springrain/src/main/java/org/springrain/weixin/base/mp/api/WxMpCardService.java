@@ -3,6 +3,7 @@ package org.springrain.weixin.base.mp.api;
 import org.springrain.weixin.base.common.bean.WxCardApiSignature;
 import org.springrain.weixin.base.common.exception.WxErrorException;
 import org.springrain.weixin.base.mp.bean.result.WxMpCardResult;
+import org.springrain.weixin.entity.WxMpConfig;
 
 /**
  * 卡券相关接口
@@ -17,7 +18,7 @@ public interface WxMpCardService {
    * @throws WxErrorException
    * @see #getCardApiTicket(boolean)
    */
-  String getCardApiTicket() throws WxErrorException;
+  String getCardApiTicket(WxMpConfig wxmpconfig) throws WxErrorException;
 
   /**
    * <pre>
@@ -31,7 +32,7 @@ public interface WxMpCardService {
    * @return 卡券api_ticket
    * @throws WxErrorException
    */
-  String getCardApiTicket(boolean forceRefresh) throws WxErrorException;
+  String getCardApiTicket(WxMpConfig wxmpconfig,boolean forceRefresh) throws WxErrorException;
 
   /**
    * <pre>
@@ -47,7 +48,7 @@ public interface WxMpCardService {
    *                          </br>注意：当做wx.chooseCard调用时，必须传入app_id参与签名，否则会造成签名失败导致拉取卡券列表为空
    * @return 卡券Api签名对象
    */
-  WxCardApiSignature createCardApiSignature(String... optionalSignParam) throws
+  WxCardApiSignature createCardApiSignature(WxMpConfig wxmpconfig,String[]optionalSignParam) throws
           WxErrorException;
 
   /**
@@ -56,7 +57,7 @@ public interface WxMpCardService {
    * @param encryptCode 加密Code，通过JSSDK的chooseCard接口获得
    * @return 解密后的Code
    */
-  String decryptCardCode(String encryptCode) throws WxErrorException;
+  String decryptCardCode(WxMpConfig wxmpconfig,String encryptCode) throws WxErrorException;
 
   /**
    * 卡券Code查询
@@ -66,7 +67,7 @@ public interface WxMpCardService {
    * @param checkConsume 是否校验code核销状态，填入true和false时的code异常状态返回数据不同
    * @return WxMpCardResult对象
    */
-  WxMpCardResult queryCardCode(String cardId, String code, boolean checkConsume)
+  WxMpCardResult queryCardCode(WxMpConfig wxmpconfig,String cardId, String code, boolean checkConsume)
           throws WxErrorException;
 
   /**
@@ -76,7 +77,7 @@ public interface WxMpCardService {
    * @return 调用返回的JSON字符串。
    * <br>可用 com.google.gson.JsonParser#parse 等方法直接取JSON串中的errcode等信息。
    */
-  String consumeCardCode(String code) throws WxErrorException;
+  String consumeCardCode(WxMpConfig wxmpconfig,String code) throws WxErrorException;
 
   /**
    * 卡券Code核销。核销失败会抛出异常
@@ -86,7 +87,7 @@ public interface WxMpCardService {
    * @return 调用返回的JSON字符串。
    * <br>可用 com.google.gson.JsonParser#parse 等方法直接取JSON串中的errcode等信息。
    */
-  String consumeCardCode(String code, String cardId) throws WxErrorException;
+  String consumeCardCode(WxMpConfig wxmpconfig,String code, String cardId) throws WxErrorException;
 
   /**
    * 卡券Mark接口。
@@ -98,7 +99,7 @@ public interface WxMpCardService {
    * @param openId 用券用户的openid
    * @param isMark 是否要mark（占用）这个code，填写true或者false，表示占用或解除占用
    */
-  void markCardCode(String code, String cardId, String openId, boolean isMark) throws
+  void markCardCode(WxMpConfig wxmpconfig,String code, String cardId, String openId, boolean isMark) throws
           WxErrorException;
 
   /**
@@ -110,5 +111,5 @@ public interface WxMpCardService {
    * <br> [注] 由于返回的JSON格式过于复杂，难以定义其对应格式的Bean并且难以维护，因此只返回String格式的JSON串。
    * <br> 可由 com.google.gson.JsonParser#parse 等方法直接取JSON串中的某个字段。
    */
-  String getCardDetail(String cardId) throws WxErrorException;
+  String getCardDetail(WxMpConfig wxmpconfig,String cardId) throws WxErrorException;
 }
