@@ -21,7 +21,6 @@ import org.springrain.weixin.base.mp.bean.kefu.result.WxMpKfSessionGetResult;
 import org.springrain.weixin.base.mp.bean.kefu.result.WxMpKfSessionList;
 import org.springrain.weixin.base.mp.bean.kefu.result.WxMpKfSessionWaitCaseList;
 import org.springrain.weixin.entity.WxMpConfig;
-import org.springrain.weixin.service.IWxMpConfigService;
 
 import com.google.gson.JsonObject;
 
@@ -37,7 +36,6 @@ public class WxMpKefuServiceImpl implements WxMpKefuService {
   private static final String API_URL_PREFIX_WITH_CGI_BIN = "https://api.weixin.qq.com/cgi-bin/customservice";
   
   //生产环境应该是spring注入
-  private IWxMpConfigService wxMpConfigService;
   private WxMpService wxMpService;
 
   public WxMpKefuServiceImpl() {

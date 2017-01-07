@@ -15,5 +15,6 @@ public interface IWxConfig {
 	 String getJsapiTicket();
 	 String getCardApiTicket();
 	 SSLContext getSslContext();
+	 String getTmpDirFile();
 	 
 }

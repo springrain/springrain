@@ -7,6 +7,7 @@ import org.springrain.weixin.base.common.exception.WxErrorException;
 import org.springrain.weixin.base.mp.api.WxMpMenuService;
 import org.springrain.weixin.base.mp.api.WxMpService;
 import org.springrain.weixin.base.mp.bean.menu.WxMpGetSelfMenuInfoResult;
+import org.springrain.weixin.entity.WxMpConfig;
 
 /**
  * Created by Binary Wang on 2016/7/21.
@@ -18,12 +19,11 @@ public class WxMpMenuServiceImpl implements WxMpMenuService {
 
   private WxMpService wxMpService;
 
-  public WxMpMenuServiceImpl(WxMpService wxMpService) {
-    this.wxMpService = wxMpService;
+  public WxMpMenuServiceImpl() {
   }
 
   @Override
-  public void menuCreate(WxMenu menu) throws WxErrorException {
+  public void menuCreate(WxMpConfig wxmpconfig,WxMenu menu) throws WxErrorException {
     String menuJson = menu.toJson();
     String url = API_URL_PREFIX + "/create";
     if (menu.getMatchRule() != null) {
@@ -32,29 +32,29 @@ public class WxMpMenuServiceImpl implements WxMpMenuService {
 
     log.debug("开始创建菜单：{}", menuJson);
 
-    String result = this.wxMpService.post(url, menuJson);
+    String result =wxMpService.post(wxmpconfig,url, menuJson);
     log.debug("创建菜单：{},结果：{}", menuJson, result);
   }
 
   @Override
-  public void menuDelete() throws WxErrorException {
+  public void menuDelete(WxMpConfig wxmpconfig) throws WxErrorException {
     String url = API_URL_PREFIX + "/delete";
-    String result = this.wxMpService.get(url, null);
+    String result =wxMpService.get(wxmpconfig,url, null);
     log.debug("删除菜单结果：{}", result);
   }
 
   @Override
-  public void menuDelete(String menuid) throws WxErrorException {
+  public void menuDelete(WxMpConfig wxmpconfig,String menuid) throws WxErrorException {
     String url = API_URL_PREFIX + "/delconditional";
-    String result = this.wxMpService.get(url, "menuid=" + menuid);
+    String result =wxMpService.get(wxmpconfig,url, "menuid=" + menuid);
     log.debug("根据MeunId({})删除菜单结果：{}", menuid, result);
   }
 
   @Override
-  public WxMenu menuGet() throws WxErrorException {
+  public WxMenu menuGet(WxMpConfig wxmpconfig) throws WxErrorException {
     String url = API_URL_PREFIX + "/get";
     try {
-      String resultContent = this.wxMpService.get(url, null);
+      String resultContent =wxMpService.get(wxmpconfig,url, null);
       return WxMenu.fromJson(resultContent);
     } catch (WxErrorException e) {
       // 46003 不存在的菜单数据
@@ -66,10 +66,10 @@ public class WxMpMenuServiceImpl implements WxMpMenuService {
   }
 
   @Override
-  public WxMenu menuTryMatch(String userid) throws WxErrorException {
+  public WxMenu menuTryMatch(WxMpConfig wxmpconfig,String userid) throws WxErrorException {
     String url = API_URL_PREFIX + "/trymatch";
     try {
-      String resultContent = this.wxMpService.get(url, "user_id=" + userid);
+      String resultContent =wxMpService.get(wxmpconfig,url, "user_id=" + userid);
       return WxMenu.fromJson(resultContent);
     } catch (WxErrorException e) {
       // 46003 不存在的菜单数据     46002 不存在的菜单版本
@@ -82,9 +82,9 @@ public class WxMpMenuServiceImpl implements WxMpMenuService {
   }
 
   @Override
-  public WxMpGetSelfMenuInfoResult getSelfMenuInfo() throws WxErrorException {
+  public WxMpGetSelfMenuInfoResult getSelfMenuInfo(WxMpConfig wxmpconfig) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/get_current_selfmenu_info";
-    String resultContent = this.wxMpService.get(url, null);
+    String resultContent =wxMpService.get(wxmpconfig,url, null);
     return WxMpGetSelfMenuInfoResult.fromJson(resultContent);
   }
 }

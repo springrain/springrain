@@ -1,11 +1,12 @@
 package org.springrain.weixin.base.mp.api;
 
+import java.util.List;
+
 import org.springrain.weixin.base.common.exception.WxErrorException;
 import org.springrain.weixin.base.mp.bean.store.WxMpStoreBaseInfo;
 import org.springrain.weixin.base.mp.bean.store.WxMpStoreInfo;
 import org.springrain.weixin.base.mp.bean.store.WxMpStoreListResult;
-
-import java.util.List;
+import org.springrain.weixin.entity.WxMpConfig;
 
 /**
  * 门店管理的相关接口代码
@@ -25,7 +26,7 @@ public interface WxMpStoreService {
    * </pre>
    *
    */
-  void add(WxMpStoreBaseInfo request) throws WxErrorException;
+  void add(WxMpConfig wxmpconfig,WxMpStoreBaseInfo request) throws WxErrorException;
 
   /**
    * <pre>
@@ -40,7 +41,7 @@ public interface WxMpStoreService {
    * @param poiId  门店Id
    * @throws WxErrorException
    */
-  WxMpStoreBaseInfo get(String poiId) throws WxErrorException;
+  WxMpStoreBaseInfo get(WxMpConfig wxmpconfig,String poiId) throws WxErrorException;
 
   /**
    * <pre>
@@ -52,7 +53,7 @@ public interface WxMpStoreService {
    * @param poiId  门店Id
    * @throws WxErrorException
    */
-  void delete(String poiId) throws WxErrorException;
+  void delete(WxMpConfig wxmpconfig,String poiId) throws WxErrorException;
 
   /**
    * <pre>
@@ -65,7 +66,7 @@ public interface WxMpStoreService {
    * @param limit 返回数据条数，最大允许50，默认为20
    * @throws WxErrorException
    */
-  WxMpStoreListResult list(int begin, int limit) throws WxErrorException;
+  WxMpStoreListResult list(WxMpConfig wxmpconfig,int begin, int limit) throws WxErrorException;
 
   /**
    * <pre>
@@ -76,7 +77,7 @@ public interface WxMpStoreService {
    * </pre>
    * @throws WxErrorException
    */
-  List<WxMpStoreInfo> listAll() throws WxErrorException;
+  List<WxMpStoreInfo> listAll(WxMpConfig wxmpconfig) throws WxErrorException;
 
   /**
    * <pre>
@@ -87,7 +88,7 @@ public interface WxMpStoreService {
    * </pre>
    * @throws WxErrorException
    */
-  void update(WxMpStoreBaseInfo info) throws WxErrorException;
+  void update(WxMpConfig wxmpconfig,WxMpStoreBaseInfo info) throws WxErrorException;
 
   /**
    * <pre>
@@ -98,6 +99,6 @@ public interface WxMpStoreService {
    * </pre>
    * @throws WxErrorException
    */
-  List<String> listCategories() throws WxErrorException;
+  List<String> listCategories(WxMpConfig wxmpconfig) throws WxErrorException;
 
 }

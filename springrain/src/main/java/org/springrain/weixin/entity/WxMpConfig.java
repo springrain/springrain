@@ -34,6 +34,8 @@ public class WxMpConfig   extends BaseEntity implements IWxConfig {
 	  
 	  private volatile SSLContext sslContext;
 	  
+	  private volatile String tmpDirFile;
+	  
 	  
 	  
 	  
@@ -148,6 +150,12 @@ public class WxMpConfig   extends BaseEntity implements IWxConfig {
 	}
 	public void setSslContext(SSLContext sslContext) {
 		this.sslContext = sslContext;
+	}
+	public String getTmpDirFile() {
+		return tmpDirFile;
+	}
+	public void setTmpDirFile(String tmpDirFile) {
+		this.tmpDirFile = tmpDirFile;
 	}
 
 }

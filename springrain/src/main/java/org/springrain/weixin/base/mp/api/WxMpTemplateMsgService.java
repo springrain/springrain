@@ -1,11 +1,12 @@
 package org.springrain.weixin.base.mp.api;
 
+import java.util.List;
+
 import org.springrain.weixin.base.common.exception.WxErrorException;
 import org.springrain.weixin.base.mp.bean.template.WxMpTemplate;
 import org.springrain.weixin.base.mp.bean.template.WxMpTemplateIndustry;
 import org.springrain.weixin.base.mp.bean.template.WxMpTemplateMessage;
-
-import java.util.List;
+import org.springrain.weixin.entity.WxMpConfig;
 
 /**
  * <pre>
@@ -27,7 +28,7 @@ public interface WxMpTemplateMsgService {
    *
    * @return 是否成功
    */
-  boolean setIndustry(WxMpTemplateIndustry wxMpIndustry) throws WxErrorException;
+  boolean setIndustry(WxMpConfig wxmpconfig,WxMpTemplateIndustry wxMpIndustry) throws WxErrorException;
 
   /***
    * <pre>
@@ -37,7 +38,7 @@ public interface WxMpTemplateMsgService {
    *
    * @return wxMpIndustry
    */
-  WxMpTemplateIndustry getIndustry() throws WxErrorException;
+  WxMpTemplateIndustry getIndustry(WxMpConfig wxmpconfig) throws WxErrorException;
 
   /**
    * <pre>
@@ -47,7 +48,7 @@ public interface WxMpTemplateMsgService {
    *
    * @return 消息Id
    */
-  String sendTemplateMsg(WxMpTemplateMessage templateMessage) throws WxErrorException;
+  String sendTemplateMsg(WxMpConfig wxmpconfig,WxMpTemplateMessage templateMessage) throws WxErrorException;
 
   /**
    * <pre>
@@ -59,7 +60,7 @@ public interface WxMpTemplateMsgService {
    * @param shortTemplateId 模板库中模板的编号，有“TM**”和“OPENTMTM**”等形式
    * @return templateId 模板Id
    */
-  String addTemplate(String shortTemplateId) throws WxErrorException;
+  String addTemplate(WxMpConfig wxmpconfig,String shortTemplateId) throws WxErrorException;
 
   /**
    * <pre>
@@ -71,7 +72,7 @@ public interface WxMpTemplateMsgService {
    *
    * @return templateId 模板Id
    */
-  List<WxMpTemplate> getAllPrivateTemplate() throws WxErrorException;
+  List<WxMpTemplate> getAllPrivateTemplate(WxMpConfig wxmpconfig) throws WxErrorException;
 
   /**
    * <pre>
@@ -83,5 +84,5 @@ public interface WxMpTemplateMsgService {
    *
    * @param templateId 模板Id
    */
-  boolean delPrivateTemplate(String templateId) throws WxErrorException;
+  boolean delPrivateTemplate(WxMpConfig wxmpconfig,String templateId) throws WxErrorException;
 }

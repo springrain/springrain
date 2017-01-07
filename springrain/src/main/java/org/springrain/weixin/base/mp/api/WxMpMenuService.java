@@ -3,6 +3,7 @@ package org.springrain.weixin.base.mp.api;
 import org.springrain.weixin.base.common.bean.menu.WxMenu;
 import org.springrain.weixin.base.common.exception.WxErrorException;
 import org.springrain.weixin.base.mp.bean.menu.WxMpGetSelfMenuInfoResult;
+import org.springrain.weixin.entity.WxMpConfig;
 
 /**
  * 菜单相关操作接口
@@ -19,7 +20,7 @@ public interface WxMpMenuService {
    * 详情请见:http://mp.weixin.qq.com/wiki/0/c48ccd12b69ae023159b4bfaa7c39c20.html
    * </pre>
    */
-  void menuCreate(WxMenu menu) throws WxErrorException;
+  void menuCreate(WxMpConfig wxmpconfig,WxMenu menu) throws WxErrorException;
 
   /**
    * <pre>
@@ -27,7 +28,7 @@ public interface WxMpMenuService {
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=自定义菜单删除接口
    * </pre>
    */
-  void menuDelete() throws WxErrorException;
+  void menuDelete(WxMpConfig wxmpconfig) throws WxErrorException;
 
   /**
    * <pre>
@@ -37,7 +38,7 @@ public interface WxMpMenuService {
    *
    * @param menuid
    */
-  void menuDelete(String menuid) throws WxErrorException;
+  void menuDelete(WxMpConfig wxmpconfig,String menuid) throws WxErrorException;
 
   /**
    * <pre>
@@ -45,7 +46,7 @@ public interface WxMpMenuService {
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=自定义菜单查询接口
    * </pre>
    */
-  WxMenu menuGet() throws WxErrorException;
+  WxMenu menuGet(WxMpConfig wxmpconfig) throws WxErrorException;
 
   /**
    * <pre>
@@ -55,7 +56,7 @@ public interface WxMpMenuService {
    *
    * @param userid 可以是粉丝的OpenID，也可以是粉丝的微信号。
    */
-  WxMenu menuTryMatch(String userid) throws WxErrorException;
+  WxMenu menuTryMatch(WxMpConfig wxmpconfig,String userid) throws WxErrorException;
 
   /**
    * <pre>
@@ -72,5 +73,5 @@ public interface WxMpMenuService {
         https://api.weixin.qq.com/cgi-bin/get_current_selfmenu_info?access_token=ACCESS_TOKEN
    *</pre>
    */
-  WxMpGetSelfMenuInfoResult getSelfMenuInfo() throws WxErrorException;
+  WxMpGetSelfMenuInfoResult getSelfMenuInfo(WxMpConfig wxmpconfig) throws WxErrorException;
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springrain.weixin.base.common.exception.WxErrorException;
 import org.springrain.weixin.base.mp.bean.tag.WxTagListUser;
 import org.springrain.weixin.base.mp.bean.tag.WxUserTag;
+import org.springrain.weixin.entity.WxMpConfig;
 
 /**
  * 用户标签管理相关接口
@@ -24,7 +25,7 @@ public interface WxMpUserTagService {
    *
    * @param name 标签名字（30个字符以内）
    */
-  WxUserTag tagCreate(String name) throws WxErrorException;
+  WxUserTag tagCreate(WxMpConfig wxmpconfig,String name) throws WxErrorException;
 
   /**
    * <pre>
@@ -34,7 +35,7 @@ public interface WxMpUserTagService {
    * </pre>
    *
    */
-  List<WxUserTag> tagGet() throws WxErrorException;
+  List<WxUserTag> tagGet(WxMpConfig wxmpconfig) throws WxErrorException;
 
   /**
    * <pre>
@@ -44,7 +45,7 @@ public interface WxMpUserTagService {
    * </pre>
    *
    */
-  Boolean tagUpdate(Long tagId, String name) throws WxErrorException;
+  Boolean tagUpdate(WxMpConfig wxmpconfig,Long tagId, String name) throws WxErrorException;
 
   /**
    * <pre>
@@ -54,7 +55,7 @@ public interface WxMpUserTagService {
    * </pre>
    *
    */
-  Boolean tagDelete(Long tagId) throws WxErrorException;
+  Boolean tagDelete(WxMpConfig wxmpconfig,Long tagId) throws WxErrorException;
 
   /**
    * <pre>
@@ -64,7 +65,7 @@ public interface WxMpUserTagService {
    * </pre>
    *
    */
-  WxTagListUser tagListUser(Long tagId, String nextOpenid)
+  WxTagListUser tagListUser(WxMpConfig wxmpconfig,Long tagId, String nextOpenid)
       throws WxErrorException;
 
   /**
@@ -75,7 +76,7 @@ public interface WxMpUserTagService {
    * </pre>
    *
    */
-  boolean batchTagging(Long tagId, String[] openids) throws WxErrorException;
+  boolean batchTagging(WxMpConfig wxmpconfig,Long tagId, String[] openids) throws WxErrorException;
 
   /**
    * <pre>
@@ -85,7 +86,7 @@ public interface WxMpUserTagService {
    * </pre>
    *
    */
-  boolean batchUntagging(Long tagId, String[] openids) throws WxErrorException;
+  boolean batchUntagging(WxMpConfig wxmpconfig,Long tagId, String[] openids) throws WxErrorException;
 
 
   /**
@@ -96,6 +97,6 @@ public interface WxMpUserTagService {
    * </pre>
    * @return 标签Id的列表 
    */
-  List<Long> userTagList(String openid) throws WxErrorException;
+  List<Long> userTagList(WxMpConfig wxmpconfig,String openid) throws WxErrorException;
 
 }
