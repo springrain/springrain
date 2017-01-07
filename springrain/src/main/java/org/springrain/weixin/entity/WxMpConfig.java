@@ -1,8 +1,5 @@
 package org.springrain.weixin.entity;
 
-import javax.net.ssl.SSLContext;
-import javax.persistence.Transient;
-
 import org.springrain.frame.entity.BaseEntity;
 import org.springrain.weixin.base.common.api.IWxConfig;
 
@@ -32,7 +29,7 @@ public class WxMpConfig   extends BaseEntity implements IWxConfig {
 	  private volatile String cardApiTicket;
 	  private volatile Long cardApiTicketExpiresTime;
 	  
-	  private volatile SSLContext sslContext;
+	  private volatile String certificateFile ;
 	  
 	  private volatile String tmpDirFile;
 	  
@@ -144,12 +141,11 @@ public class WxMpConfig   extends BaseEntity implements IWxConfig {
 		this.cardApiTicketExpiresTime = cardApiTicketExpiresTime;
 	}
 	
-	@Transient
-	public SSLContext getSslContext() {
-		return sslContext;
+	public String getCertificateFile() {
+		return certificateFile;
 	}
-	public void setSslContext(SSLContext sslContext) {
-		this.sslContext = sslContext;
+	public void setCertificateFile(String certificateFile) {
+		this.certificateFile = certificateFile;
 	}
 	public String getTmpDirFile() {
 		return tmpDirFile;

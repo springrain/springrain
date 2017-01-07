@@ -146,7 +146,7 @@ public class WxMpServiceImpl implements WxMpService {
             httpGet.setConfig(config);
           }
          
-            String resultContent = HttpClientUtils.sendHttpGet(httpGet,wxmpconfig.getSslContext());
+            String resultContent = HttpClientUtils.sendHttpGet(httpGet);
             WxError error = WxError.fromJson(resultContent);
             if (error.getErrorCode() != 0) {
               throw new WxErrorException(error);

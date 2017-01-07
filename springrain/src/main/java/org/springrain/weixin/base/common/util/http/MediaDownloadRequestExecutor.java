@@ -1,10 +1,11 @@
 package org.springrain.weixin.base.common.util.http;
 
-import org.springrain.frame.util.HttpClientUtils;
-import org.springrain.weixin.base.common.api.IWxConfig;
-import org.springrain.weixin.base.common.bean.result.WxError;
-import org.springrain.weixin.base.common.exception.WxErrorException;
-import org.springrain.weixin.base.common.util.fs.FileUtils;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpHost;
@@ -12,13 +13,11 @@ import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.entity.ContentType;
-import org.apache.http.impl.client.CloseableHttpClient;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import org.springrain.frame.util.HttpClientUtils;
+import org.springrain.weixin.base.common.api.IWxConfig;
+import org.springrain.weixin.base.common.bean.result.WxError;
+import org.springrain.weixin.base.common.exception.WxErrorException;
+import org.springrain.weixin.base.common.util.fs.FileUtils;
 
 /**
  * 下载媒体文件请求执行器，请求的参数是String, 返回的结果是File
@@ -52,7 +51,7 @@ public class MediaDownloadRequestExecutor implements RequestExecutor<File, Strin
     }
 
 
-    try (CloseableHttpResponse response = HttpClientUtils.getHttpClient(wxconfig.getSslContext()).execute(httpGet);
+    try (CloseableHttpResponse response = HttpClientUtils.getHttpClient().execute(httpGet);
         InputStream inputStream = InputStreamResponseHandler.INSTANCE
             .handleResponse(response)) {
 

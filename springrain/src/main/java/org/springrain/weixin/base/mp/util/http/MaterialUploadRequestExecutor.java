@@ -51,7 +51,7 @@ public class MaterialUploadRequestExecutor implements RequestExecutor<WxMpMateri
     httpPost.setEntity(multipartEntityBuilder.build());
     httpPost.setHeader("Content-Type", ContentType.MULTIPART_FORM_DATA.toString());
 
-     String responseContent = HttpClientUtils.sendHttpPost(httpPost,wxconfig.getSslContext());
+     String responseContent = HttpClientUtils.sendHttpPost(httpPost);
       WxError error = WxError.fromJson(responseContent);
       if (error.getErrorCode() != 0) {
         throw new WxErrorException(error);

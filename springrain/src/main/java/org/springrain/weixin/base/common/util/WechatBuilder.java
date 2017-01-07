@@ -81,7 +81,7 @@ public class WechatBuilder {
 			e.printStackTrace();
 		}
 		WxMpService service = new WxMpServiceImpl();
-		service.setWxMpConfigStorage(config);
+		//service.setWxMpConfigStorage(config);
 		return service;
 	}
 }

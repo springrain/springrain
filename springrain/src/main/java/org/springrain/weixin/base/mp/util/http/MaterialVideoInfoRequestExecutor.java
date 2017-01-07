@@ -34,7 +34,7 @@ public class MaterialVideoInfoRequestExecutor implements RequestExecutor<WxMpMat
     params.put("media_id", materialId);
     httpPost.setEntity(new StringEntity(WxGsonBuilder.create().toJson(params)));
     
-    String responseContent = HttpClientUtils.sendHttpPost(httpPost,wxconfig.getSslContext());
+    String responseContent = HttpClientUtils.sendHttpPost(httpPost);
     
       WxError error = WxError.fromJson(responseContent);
       if (error.getErrorCode() != 0) {

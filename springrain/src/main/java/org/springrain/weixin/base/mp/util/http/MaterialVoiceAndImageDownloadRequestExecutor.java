@@ -47,7 +47,7 @@ public class MaterialVoiceAndImageDownloadRequestExecutor implements RequestExec
     Map<String, String> params = new HashMap<>();
     params.put("media_id", materialId);
     httpPost.setEntity(new StringEntity(WxGsonBuilder.create().toJson(params)));
-    try (CloseableHttpResponse response = HttpClientUtils.getHttpClient(wxconfig.getSslContext()).execute(httpPost);
+    try (CloseableHttpResponse response = HttpClientUtils.getHttpClient().execute(httpPost);
         InputStream inputStream = InputStreamResponseHandler.INSTANCE.handleResponse(response);){
       // 下载媒体文件出错
       byte[] responseContent = IOUtils.toByteArray(inputStream);

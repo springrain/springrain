@@ -31,7 +31,7 @@ public class SimplePostRequestExecutor implements RequestExecutor<String, String
       StringEntity entity = new StringEntity(postEntity, Consts.UTF_8);
       httpPost.setEntity(entity);
     }
-      String responseContent = HttpClientUtils.sendHttpPost(httpPost,wxconfig.getSslContext());
+      String responseContent = HttpClientUtils.sendHttpPost(httpPost);
       
       if (responseContent.isEmpty()) {
         throw new WxErrorException(

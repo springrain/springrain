@@ -30,7 +30,7 @@ public class SimpleGetRequestExecutor implements RequestExecutor<String, String>
       RequestConfig config = RequestConfig.custom().setProxy(new HttpHost(wxconfig.getHttpProxyHost(), wxconfig.getHttpProxyPort())).build();
       httpGet.setConfig(config);
     }
-      String responseContent = HttpClientUtils.sendHttpGet(httpGet,wxconfig.getSslContext());
+      String responseContent = HttpClientUtils.sendHttpGet(httpGet);
       WxError error = WxError.fromJson(responseContent);
       if (error.getErrorCode() != 0) {
         throw new WxErrorException(error);

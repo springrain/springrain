@@ -1,7 +1,5 @@
 package org.springrain.weixin.base.common.api;
 
-import javax.net.ssl.SSLContext;
-
 public interface IWxConfig {
 	
 	 String getAppId();
@@ -14,7 +12,7 @@ public interface IWxConfig {
 	 String getHttpProxyPassword();
 	 String getJsapiTicket();
 	 String getCardApiTicket();
-	 SSLContext getSslContext();
+	 String getCertificateFile();
 	 String getTmpDirFile();
 	 
 }
