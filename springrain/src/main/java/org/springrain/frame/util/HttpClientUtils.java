@@ -89,6 +89,20 @@ public class HttpClientUtils {
 	
 	
 	
+   /**
+    * post 请求
+    * @param httpUrl 
+    *              请求地址
+    * @param sslContext 
+    *              ssl证书信息
+    * @return
+    */
+	public static String sendHttpPost(String httpUrl,SSLContext sslContext) {
+		HttpPost httpPost = new HttpPost(httpUrl);// 创建httpPost
+		return sendHttpPost(httpPost,sslContext);
+	}
+    
+    
 	/**
 	 * 发送 post请求
 	 * 
@@ -97,8 +111,10 @@ public class HttpClientUtils {
 	 */
 	public static String sendHttpPost(String httpUrl) {
 		HttpPost httpPost = new HttpPost(httpUrl);// 创建httpPost
-		return sendHttpPost(httpPost);
+		return sendHttpPost(httpPost,null);
 	}
+	
+	
 
 	/**
 	 * 发送 post请求
@@ -109,6 +125,20 @@ public class HttpClientUtils {
 	 *            参数(格式:key1=value1&key2=value2)
 	 */
 	public static String sendHttpPost(String httpUrl, String params) {
+		return sendHttpPost(httpUrl, params, null);
+	}
+
+	/**
+	 * 发送 post请求
+	 * 
+	 * @param httpUrl
+	 *            地址
+	 * @param params
+	 *            参数(格式:key1=value1&key2=value2)
+     * @param sslContext 
+     *              ssl证书信息
+	 */
+	public static String sendHttpPost(String httpUrl, String params,SSLContext sslContext) {
 		HttpPost httpPost = new HttpPost(httpUrl);// 创建httpPost
 		try {
 			// 设置参数
@@ -118,8 +148,9 @@ public class HttpClientUtils {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return sendHttpPost(httpPost);
+		return sendHttpPost(httpPost,sslContext);
 	}
+	
 
 	/**
 	 * 发送 post请求
@@ -130,6 +161,20 @@ public class HttpClientUtils {
 	 *            参数
 	 */
 	public static String sendHttpPost(String httpUrl, Map<String, String> maps) {
+		return sendHttpPost(httpUrl,maps,null);
+	}
+
+	/**
+	 * 发送 post请求
+	 * 
+	 * @param httpUrl
+	 *            地址
+	 * @param maps
+	 *            参数
+     * @param sslContext 
+     *              ssl证书信息
+	 */
+	public static String sendHttpPost(String httpUrl, Map<String, String> maps,SSLContext sslContext) {
 		HttpPost httpPost = new HttpPost(httpUrl);// 创建httpPost
 		// 创建参数队列
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
@@ -141,7 +186,21 @@ public class HttpClientUtils {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return sendHttpPost(httpPost);
+		return sendHttpPost(httpPost,null);
+	}
+	
+	/**
+	 * 发送 post请求（带文件）
+	 * 
+	 * @param httpUrl
+	 *            地址
+	 * @param fileLists
+	 *            附件
+	 * @param maps
+	 *            参数
+	 */
+	public static String sendHttpPost(String httpUrl, List<File> fileLists,Map<String, String> maps) {
+		return sendHttpPost(httpUrl, fileLists, maps,null);
 	}
 
 	/**
@@ -149,12 +208,14 @@ public class HttpClientUtils {
 	 * 
 	 * @param httpUrl
 	 *            地址
-	 * @param maps
-	 *            参数
 	 * @param fileLists
 	 *            附件
+	 * @param maps
+	 *            参数
+     * @param sslContext 
+     *              ssl证书信息
 	 */
-	public static String sendHttpPost(String httpUrl, Map<String, String> maps, List<File> fileLists) {
+	public static String sendHttpPost(String httpUrl, List<File> fileLists,Map<String, String> maps,SSLContext sslContext) {
 		HttpPost httpPost = new HttpPost(httpUrl);// 创建httpPost
 		MultipartEntityBuilder meBuilder = MultipartEntityBuilder.create();
 		for (String key : maps.keySet()) {
@@ -166,17 +227,31 @@ public class HttpClientUtils {
 		}
 		HttpEntity reqEntity = meBuilder.build();
 		httpPost.setEntity(reqEntity);
-		return sendHttpPost(httpPost);
+		return sendHttpPost(httpPost,sslContext);
+	}
+	
+	
+	
+	
+	/**
+	 * 发送Post请求
+	 * @param httpPost
+	 * @return
+	 */
+	public static String sendHttpPost(HttpPost httpPost) {
+		return sendHttpPost(httpPost, null);
 	}
 
 	/**
 	 * 发送Post请求
 	 * 
 	 * @param httpPost
+     * @param sslContext 
+     *              ssl证书信息
 	 * @return
 	 */
-	public static String sendHttpPost(HttpPost httpPost) {
-		CloseableHttpClient httpClient = getHttpClient();
+	public static String sendHttpPost(HttpPost httpPost,SSLContext sslConext) {
+		CloseableHttpClient httpClient = getHttpClient(sslConext);
 		CloseableHttpResponse response = null;
 		HttpEntity entity = null;
 		String responseContent = null;
@@ -206,17 +281,30 @@ public class HttpClientUtils {
 		return responseContent;
 	}
 
+	
+	
 	/**
 	 * 发送 get请求
 	 * 
 	 * @param httpUrl
 	 */
 	public static String sendHttpGet(String httpUrl) {
+		return sendHttpGet(httpUrl,null);
+	}
+	
+	
+	/**
+	 * 发送 get请求
+	 * 
+	 * @param httpUrl
+     * @param sslContext 
+     *              ssl证书信息
+	 */
+	public static String sendHttpGet(String httpUrl,SSLContext sslConext) {
 		HttpGet httpGet = new HttpGet(httpUrl);// 创建get请求
-		return sendHttpGet(httpGet);
+		return sendHttpGet(httpGet,sslConext);
 	}
 
-	
 	/**
 	 * 发送Get请求
 	 * 
@@ -224,6 +312,17 @@ public class HttpClientUtils {
 	 * @return
 	 */
 	public static String sendHttpGet(HttpGet httpGet) {
+		return sendHttpGet(httpGet, null);
+	}
+	/**
+	 * 发送Get请求
+	 * 
+	 * @param httpPost
+     * @param sslContext 
+     *              ssl证书信息
+	 * @return
+	 */
+	public static String sendHttpGet(HttpGet httpGet,SSLContext sslConext) {
 		CloseableHttpClient httpClient = getHttpClient();
 		//System.out.println(httpClient);
 		CloseableHttpResponse response = null;
