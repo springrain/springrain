@@ -5,11 +5,10 @@ import java.io.IOException;
 import org.apache.http.Consts;
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-
+import org.springrain.frame.util.HttpClientUtils;
+import org.springrain.weixin.base.common.api.IWxConfig;
 import org.springrain.weixin.base.common.bean.result.WxError;
 import org.springrain.weixin.base.common.exception.WxErrorException;
 
@@ -21,20 +20,19 @@ import org.springrain.weixin.base.common.exception.WxErrorException;
 public class SimplePostRequestExecutor implements RequestExecutor<String, String> {
 
   @Override
-  public String execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, String postEntity) throws WxErrorException, IOException {
+  public String execute(IWxConfig wxconfig, String uri, String postEntity) throws WxErrorException, IOException {
     HttpPost httpPost = new HttpPost(uri);
-    if (httpProxy != null) {
-      RequestConfig config = RequestConfig.custom().setProxy(httpProxy).build();
-      httpPost.setConfig(config);
-    }
+    if (wxconfig.getHttpProxyHost()!=null) {
+        RequestConfig config = RequestConfig.custom().setProxy(new HttpHost(wxconfig.getHttpProxyHost(), wxconfig.getHttpProxyPort())).build();
+        httpPost.setConfig(config);
+      }
 
     if (postEntity != null) {
       StringEntity entity = new StringEntity(postEntity, Consts.UTF_8);
       httpPost.setEntity(entity);
     }
-
-    try (CloseableHttpResponse response = httpclient.execute(httpPost)) {
-      String responseContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
+      String responseContent = HttpClientUtils.sendHttpPost(httpPost,wxconfig.getSslContext());
+      
       if (responseContent.isEmpty()) {
         throw new WxErrorException(
             WxError.newBuilder().setErrorCode(9999).setErrorMsg("无响应内容")
@@ -51,9 +49,7 @@ public class SimplePostRequestExecutor implements RequestExecutor<String, String
         throw new WxErrorException(error);
       }
       return responseContent;
-    } finally {
-      httpPost.releaseConnection();
-    }
+   
   }
 
 }

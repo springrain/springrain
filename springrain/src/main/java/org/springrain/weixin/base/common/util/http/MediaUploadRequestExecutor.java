@@ -1,5 +1,7 @@
 package org.springrain.weixin.base.common.util.http;
 
+import org.springrain.frame.util.HttpClientUtils;
+import org.springrain.weixin.base.common.api.IWxConfig;
 import org.springrain.weixin.base.common.bean.result.WxError;
 import org.springrain.weixin.base.common.bean.result.WxMediaUploadResult;
 import org.springrain.weixin.base.common.exception.WxErrorException;
@@ -24,12 +26,12 @@ import java.io.IOException;
 public class MediaUploadRequestExecutor implements RequestExecutor<WxMediaUploadResult, File> {
 
   @Override
-  public WxMediaUploadResult execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, File file) throws WxErrorException, IOException {
+  public WxMediaUploadResult execute(IWxConfig wxconfig, String uri, File file) throws WxErrorException, IOException {
     HttpPost httpPost = new HttpPost(uri);
-    if (httpProxy != null) {
-      RequestConfig config = RequestConfig.custom().setProxy(httpProxy).build();
-      httpPost.setConfig(config);
-    }
+    if (wxconfig.getHttpProxyHost()!=null) {
+        RequestConfig config = RequestConfig.custom().setProxy(new HttpHost(wxconfig.getHttpProxyHost(), wxconfig.getHttpProxyPort())).build();
+        httpPost.setConfig(config);
+      }
     if (file != null) {
       HttpEntity entity = MultipartEntityBuilder
               .create()
@@ -39,7 +41,7 @@ public class MediaUploadRequestExecutor implements RequestExecutor<WxMediaUpload
       httpPost.setEntity(entity);
       httpPost.setHeader("Content-Type", ContentType.MULTIPART_FORM_DATA.toString());
     }
-    try (CloseableHttpResponse response = httpclient.execute(httpPost)) {
+    try (CloseableHttpResponse response = HttpClientUtils.getHttpClient(wxconfig.getSslContext()).execute(httpPost)) {
       String responseContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
       WxError error = WxError.fromJson(responseContent);
       if (error.getErrorCode() != 0) {

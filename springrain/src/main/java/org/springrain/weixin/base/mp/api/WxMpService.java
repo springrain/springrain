@@ -3,9 +3,18 @@ package org.springrain.weixin.base.mp.api;
 import org.springrain.weixin.base.common.bean.WxJsapiSignature;
 import org.springrain.weixin.base.common.exception.WxErrorException;
 import org.springrain.weixin.base.common.util.http.RequestExecutor;
-import org.springrain.weixin.base.mp.bean.*;
-import org.springrain.weixin.base.mp.bean.result.*;
-import org.apache.http.HttpHost;
+import org.springrain.weixin.base.mp.bean.WxMpMassNews;
+import org.springrain.weixin.base.mp.bean.WxMpMassOpenIdsMessage;
+import org.springrain.weixin.base.mp.bean.WxMpMassPreviewMessage;
+import org.springrain.weixin.base.mp.bean.WxMpMassTagMessage;
+import org.springrain.weixin.base.mp.bean.WxMpMassVideo;
+import org.springrain.weixin.base.mp.bean.WxMpSemanticQuery;
+import org.springrain.weixin.base.mp.bean.result.WxMpMassSendResult;
+import org.springrain.weixin.base.mp.bean.result.WxMpMassUploadResult;
+import org.springrain.weixin.base.mp.bean.result.WxMpOAuth2AccessToken;
+import org.springrain.weixin.base.mp.bean.result.WxMpSemanticQueryResult;
+import org.springrain.weixin.base.mp.bean.result.WxMpUser;
+import org.springrain.weixin.entity.WxMpConfig;
 
 /**
  * 微信API的Service
@@ -18,14 +27,14 @@ public interface WxMpService {
    * 详情请见: http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421135319&token=&lang=zh_CN
    * </pre>
    */
-  boolean checkSignature(String timestamp, String nonce, String signature);
+  boolean checkSignature(WxMpConfig wxmpconfig,String timestamp, String nonce, String signature);
 
   /**
    * 获取access_token, 不强制刷新access_token
    *
    * @see #getAccessToken(boolean)
    */
-  String getAccessToken() throws WxErrorException;
+  String getAccessToken(WxMpConfig wxmpconfig) throws WxErrorException;
 
   /**
    * <pre>
@@ -41,14 +50,14 @@ public interface WxMpService {
    *
    * @param forceRefresh 强制刷新
    */
-  String getAccessToken(boolean forceRefresh) throws WxErrorException;
+  String getAccessToken(WxMpConfig wxmpconfig,boolean forceRefresh) throws WxErrorException;
 
   /**
    * 获得jsapi_ticket,不强制刷新jsapi_ticket
    *
    * @see #getJsapiTicket(boolean)
    */
-  String getJsapiTicket() throws WxErrorException;
+  String getJsapiTicket(WxMpConfig wxmpconfig) throws WxErrorException;
 
   /**
    * <pre>
@@ -60,7 +69,7 @@ public interface WxMpService {
    *
    * @param forceRefresh 强制刷新
    */
-  String getJsapiTicket(boolean forceRefresh) throws WxErrorException;
+  String getJsapiTicket(WxMpConfig wxmpconfig,boolean forceRefresh) throws WxErrorException;
 
   /**
    * <pre>
@@ -69,7 +78,7 @@ public interface WxMpService {
    * 详情请见：http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141115&token=&lang=zh_CN
    * </pre>
    */
-  WxJsapiSignature createJsapiSignature(String url) throws WxErrorException;
+  WxJsapiSignature createJsapiSignature(WxMpConfig wxmpconfig,String url) throws WxErrorException;
 
   /**
    * <pre>
@@ -81,7 +90,7 @@ public interface WxMpService {
    * @see #massGroupMessageSend(org.springrain.weixin.base.mp.bean.WxMpMassTagMessage)
    * @see #massOpenIdsMessageSend(org.springrain.weixin.base.mp.bean.WxMpMassOpenIdsMessage)
    */
-  WxMpMassUploadResult massNewsUpload(WxMpMassNews news) throws WxErrorException;
+  WxMpMassUploadResult massNewsUpload(WxMpConfig wxmpconfig,WxMpMassNews news) throws WxErrorException;
 
   /**
    * <pre>
@@ -92,7 +101,7 @@ public interface WxMpService {
    * @see #massGroupMessageSend(org.springrain.weixin.base.mp.bean.WxMpMassTagMessage)
    * @see #massOpenIdsMessageSend(org.springrain.weixin.base.mp.bean.WxMpMassOpenIdsMessage)
    */
-  WxMpMassUploadResult massVideoUpload(WxMpMassVideo video) throws WxErrorException;
+  WxMpMassUploadResult massVideoUpload(WxMpConfig wxmpconfig,WxMpMassVideo video) throws WxErrorException;
 
   /**
    * <pre>
@@ -102,7 +111,7 @@ public interface WxMpService {
    * 详情请见: http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140549&token=&lang=zh_CN
    * </pre>
    */
-  WxMpMassSendResult massGroupMessageSend(WxMpMassTagMessage message) throws WxErrorException;
+  WxMpMassSendResult massGroupMessageSend(WxMpConfig wxmpconfig,WxMpMassTagMessage message) throws WxErrorException;
 
   /**
    * <pre>
@@ -112,7 +121,7 @@ public interface WxMpService {
    * 详情请见: http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140549&token=&lang=zh_CN
    * </pre>
    */
-  WxMpMassSendResult massOpenIdsMessageSend(WxMpMassOpenIdsMessage message) throws WxErrorException;
+  WxMpMassSendResult massOpenIdsMessageSend(WxMpConfig wxmpconfig,WxMpMassOpenIdsMessage message) throws WxErrorException;
 
   /**
    * <pre>
@@ -126,7 +135,7 @@ public interface WxMpService {
    *
    * @return wxMpMassSendResult
    */
-  WxMpMassSendResult massMessagePreview(WxMpMassPreviewMessage wxMpMassPreviewMessage) throws Exception;
+  WxMpMassSendResult massMessagePreview(WxMpConfig wxmpconfig,WxMpMassPreviewMessage wxMpMassPreviewMessage) throws Exception;
 
   /**
    * <pre>
@@ -135,7 +144,7 @@ public interface WxMpService {
    * </pre>
    *
    */
-  String shortUrl(String long_url) throws WxErrorException;
+  String shortUrl(WxMpConfig wxmpconfig,String long_url) throws WxErrorException;
 
   /**
    * <pre>
@@ -143,7 +152,7 @@ public interface WxMpService {
    * 详情请见：http://mp.weixin.qq.com/wiki/index.php?title=语义理解
    * </pre>
    */
-  WxMpSemanticQueryResult semanticQuery(WxMpSemanticQuery semanticQuery) throws WxErrorException;
+  WxMpSemanticQueryResult semanticQuery(WxMpConfig wxmpconfig,WxMpSemanticQuery semanticQuery) throws WxErrorException;
 
   /**
    * <pre>
@@ -157,7 +166,7 @@ public interface WxMpService {
    * @param state 非必填，用于保持请求和回调的状态，授权请求后原样带回给第三方。该参数可用于防止csrf攻击（跨站请求伪造攻击），建议第三方带上该参数，可设置为简单的随机数加session进行校验
    * @return url
    */
-  String buildQrConnectUrl(String redirectURI, String scope, String state);
+  String buildQrConnectUrl(WxMpConfig wxmpconfig,String redirectURI, String scope, String state);
 
   /**
    * <pre>
@@ -168,7 +177,7 @@ public interface WxMpService {
    * @param redirectURI 用户授权完成后的重定向链接，无需urlencode, 方法内会进行encode
    * @return url
    */
-  String oauth2buildAuthorizationUrl(String redirectURI, String scope, String state);
+  String oauth2buildAuthorizationUrl(WxMpConfig wxmpconfig,String redirectURI, String scope, String state);
 
   /**
    * <pre>
@@ -176,14 +185,14 @@ public interface WxMpService {
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=网页授权获取用户基本信息
    * </pre>
    */
-  WxMpOAuth2AccessToken oauth2getAccessToken(String code) throws WxErrorException;
+  WxMpOAuth2AccessToken oauth2getAccessToken(WxMpConfig wxmpconfig,String code) throws WxErrorException;
 
   /**
    * <pre>
    * 刷新oauth2的access token
    * </pre>
    */
-  WxMpOAuth2AccessToken oauth2refreshAccessToken(String refreshToken) throws WxErrorException;
+  WxMpOAuth2AccessToken oauth2refreshAccessToken(WxMpConfig wxmpconfig,String refreshToken) throws WxErrorException;
 
   /**
    * <pre>
@@ -192,7 +201,7 @@ public interface WxMpService {
    *
    * @param lang              zh_CN, zh_TW, en
    */
-  WxMpUser oauth2getUserInfo(WxMpOAuth2AccessToken oAuth2AccessToken, String lang) throws WxErrorException;
+  WxMpUser oauth2getUserInfo(WxMpConfig wxmpconfig,WxMpOAuth2AccessToken oAuth2AccessToken, String lang) throws WxErrorException;
 
   /**
    * <pre>
@@ -200,7 +209,7 @@ public interface WxMpService {
    * </pre>
    *
    */
-  boolean oauth2validateAccessToken(WxMpOAuth2AccessToken oAuth2AccessToken);
+  boolean oauth2validateAccessToken(WxMpConfig wxmpconfig,WxMpOAuth2AccessToken oAuth2AccessToken);
 
   /**
    * <pre>
@@ -208,17 +217,17 @@ public interface WxMpService {
    * http://mp.weixin.qq.com/wiki/0/2ad4b6bfd29f30f71d39616c2a0fcedc.html
    * </pre>
    */
-  String[] getCallbackIP() throws WxErrorException;
+  String[] getCallbackIP(WxMpConfig wxmpconfig) throws WxErrorException;
 
   /**
    * 当本Service没有实现某个API的时候，可以用这个，针对所有微信API中的GET请求
    */
-  String get(String url, String queryParam) throws WxErrorException;
+  String get(WxMpConfig wxmpconfig,String url, String queryParam) throws WxErrorException;
 
   /**
    * 当本Service没有实现某个API的时候，可以用这个，针对所有微信API中的POST请求
    */
-  String post(String url, String postData) throws WxErrorException;
+  String post(WxMpConfig wxmpconfig,String url, String postData) throws WxErrorException;
 
   /**
    * <pre>
@@ -227,24 +236,9 @@ public interface WxMpService {
    * 可以参考，{@link org.springrain.weixin.base.common.util.http.MediaUploadRequestExecutor}的实现方法
    * </pre>
    */
-  <T, E> T execute(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException;
+  <T, E> T execute(WxMpConfig wxmpconfig,RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException;
 
-  /**
-   * 获取代理对象
-   */
-  HttpHost getHttpProxy();
-
-  /**
-   * 注入 {@link WxMpConfigStorage} 的实现
-   */
-  void setWxMpConfigStorage(WxMpConfigStorage wxConfigProvider);
-
-  /**
-   * <pre>
-   * 设置当微信系统响应系统繁忙时，要等待多少 retrySleepMillis(ms) * 2^(重试次数 - 1) 再发起重试
-   * 默认：1000ms
-   * </pre>
-   */
+  
   void setRetrySleepMillis(int retrySleepMillis);
 
   /**
@@ -255,94 +249,4 @@ public interface WxMpService {
    */
   void setMaxRetryTimes(int maxRetryTimes);
 
-  /**
-   * 获取WxMpConfigStorage 对象
-   *
-   * @return WxMpConfigStorage
-   */
-  WxMpConfigStorage getWxMpConfigStorage();
-
-  /**
-   * 返回客服接口方法实现类，以方便调用其各个接口
-   *
-   * @return WxMpKefuService
-   */
-  WxMpKefuService getKefuService();
-
-  /**
-   * 返回素材相关接口方法的实现类对象，以方便调用其各个接口
-   *
-   * @return WxMpMaterialService
-   */
-  WxMpMaterialService getMaterialService();
-
-  /**
-   * 返回菜单相关接口方法的实现类对象，以方便调用其各个接口
-   *
-   * @return WxMpMenuService
-   */
-  WxMpMenuService getMenuService();
-
-  /**
-   * 返回用户相关接口方法的实现类对象，以方便调用其各个接口
-   *
-   * @return WxMpUserService
-   */
-  WxMpUserService getUserService();
-
-  /**
-   * 返回用户标签相关接口方法的实现类对象，以方便调用其各个接口
-   *
-   * @return WxMpUserTagService
-   */
-  WxMpUserTagService getUserTagService();
-
-  /**
-   * 返回二维码相关接口方法的实现类对象，以方便调用其各个接口
-   *
-   * @return WxMpQrcodeService
-   */
-  WxMpQrcodeService getQrcodeService();
-
-  /**
-   * 返回卡券相关接口方法的实现类对象，以方便调用其各个接口
-   *
-   * @return WxMpCardService
-   */
-  WxMpCardService getCardService();
-
-  /**
-   * 返回微信支付相关接口方法的实现类对象，以方便调用其各个接口
-   *
-   * @return WxMpPayService
-   */
-  WxMpPayService getPayService();
-
-  /**
-   * 返回数据分析统计相关接口方法的实现类对象，以方便调用其各个接口
-   *
-   * @return WxMpDataCubeService
-   */
-  WxMpDataCubeService getDataCubeService();
-
-  /**
-   * 返回用户黑名单管理相关接口方法的实现类对象，以方便调用其各个接口
-   *
-   * @return WxMpUserBlacklistService
-   */
-  WxMpUserBlacklistService getBlackListService();
-
-  /**
-   * 返回门店管理相关接口方法的实现类对象，以方便调用其各个接口
-   *
-   * @return WxMpStoreService
-   */
-  WxMpStoreService getStoreService();
-
-  /**
-   * 返回模板消息相关接口方法的实现类对象，以方便调用其各个接口
-   *
-   * @return WxMpTemplateMsgService
-   */
-  WxMpTemplateMsgService getTemplateMsgService();
-}
+  }

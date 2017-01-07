@@ -28,7 +28,7 @@ public class WxMpConfigServiceImpl extends BaseSpringrainServiceImpl implements 
 
 	@Override
 	public boolean isJsapiTicketExpired(WxMpConfig wxmpconfig) {
-		return false;
+		return true;
 	}
 
 	@Override

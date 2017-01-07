@@ -1,44 +1,24 @@
 package org.springrain.weixin.base.mp.api.impl;
 
 import java.io.IOException;
-import java.util.concurrent.locks.Lock;
 
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.conn.ssl.DefaultHostnameVerifier;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.impl.client.BasicResponseHandler;
-import org.apache.http.impl.client.CloseableHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.weixin.base.common.bean.WxAccessToken;
 import org.springrain.weixin.base.common.bean.WxJsapiSignature;
 import org.springrain.weixin.base.common.bean.result.WxError;
 import org.springrain.weixin.base.common.exception.WxErrorException;
 import org.springrain.weixin.base.common.util.RandomUtils;
 import org.springrain.weixin.base.common.util.crypto.SHA1;
-import org.springrain.weixin.base.common.util.http.ApacheHttpClientBuilder;
-import org.springrain.weixin.base.common.util.http.DefaultApacheHttpClientBuilder;
 import org.springrain.weixin.base.common.util.http.RequestExecutor;
 import org.springrain.weixin.base.common.util.http.SimpleGetRequestExecutor;
 import org.springrain.weixin.base.common.util.http.SimplePostRequestExecutor;
 import org.springrain.weixin.base.common.util.http.URIUtil;
-import org.springrain.weixin.base.mp.api.WxMpCardService;
-import org.springrain.weixin.base.mp.api.WxMpConfigStorage;
-import org.springrain.weixin.base.mp.api.WxMpDataCubeService;
-import org.springrain.weixin.base.mp.api.WxMpKefuService;
-import org.springrain.weixin.base.mp.api.WxMpMaterialService;
-import org.springrain.weixin.base.mp.api.WxMpMenuService;
-import org.springrain.weixin.base.mp.api.WxMpPayService;
-import org.springrain.weixin.base.mp.api.WxMpQrcodeService;
 import org.springrain.weixin.base.mp.api.WxMpService;
-import org.springrain.weixin.base.mp.api.WxMpStoreService;
-import org.springrain.weixin.base.mp.api.WxMpTemplateMsgService;
-import org.springrain.weixin.base.mp.api.WxMpUserBlacklistService;
-import org.springrain.weixin.base.mp.api.WxMpUserService;
-import org.springrain.weixin.base.mp.api.WxMpUserTagService;
 import org.springrain.weixin.base.mp.bean.WxMpMassNews;
 import org.springrain.weixin.base.mp.bean.WxMpMassOpenIdsMessage;
 import org.springrain.weixin.base.mp.bean.WxMpMassPreviewMessage;
@@ -50,6 +30,9 @@ import org.springrain.weixin.base.mp.bean.result.WxMpMassUploadResult;
 import org.springrain.weixin.base.mp.bean.result.WxMpOAuth2AccessToken;
 import org.springrain.weixin.base.mp.bean.result.WxMpSemanticQueryResult;
 import org.springrain.weixin.base.mp.bean.result.WxMpUser;
+import org.springrain.weixin.entity.WxMpConfig;
+import org.springrain.weixin.service.IWxMpConfigService;
+import org.springrain.weixin.service.impl.WxMpConfigServiceImpl;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -60,37 +43,41 @@ public class WxMpServiceImpl implements WxMpService {
 
   private static final JsonParser JSON_PARSER = new JsonParser();
 
-  protected final Logger log = LoggerFactory.getLogger(this.getClass());
+  protected final Logger logger = LoggerFactory.getLogger(getClass());
+  
+  //生产环境应该是spring注入
+  // private IWxMpConfigService wxMpConfigService;
+  private IWxMpConfigService wxMpConfigService=new WxMpConfigServiceImpl();
 
-  private WxMpConfigStorage configStorage;
+  //private WxMpConfigStorage configStorage;
 
-  private WxMpKefuService kefuService = new WxMpKefuServiceImpl(this);
+  //private WxMpKefuService kefuService = new WxMpKefuServiceImpl(this);
 
-  private WxMpMaterialService materialService = new WxMpMaterialServiceImpl(this);
+  //private WxMpMaterialService materialService = new WxMpMaterialServiceImpl(this);
 
-  private WxMpMenuService menuService = new WxMpMenuServiceImpl(this);
+  //private WxMpMenuService menuService = new WxMpMenuServiceImpl(this);
 
-  private WxMpUserService userService = new WxMpUserServiceImpl(this);
+  //private WxMpUserService userService = new WxMpUserServiceImpl(this);
 
-  private WxMpUserTagService tagService = new WxMpUserTagServiceImpl(this);
+  //private WxMpUserTagService tagService = new WxMpUserTagServiceImpl(this);
 
-  private WxMpQrcodeService qrCodeService = new WxMpQrcodeServiceImpl(this);
+  //private WxMpQrcodeService qrCodeService = new WxMpQrcodeServiceImpl(this);
 
-  private WxMpCardService cardService = new WxMpCardServiceImpl(this);
+  //private WxMpCardService cardService = new WxMpCardServiceImpl(this);
 
-  private WxMpPayService payService = new WxMpPayServiceImpl(this);
+  //private WxMpPayService payService = new WxMpPayServiceImpl(this);
 
-  private WxMpStoreService storeService = new WxMpStoreServiceImpl(this);
+  //private WxMpStoreService storeService = new WxMpStoreServiceImpl(this);
 
-  private WxMpDataCubeService dataCubeService = new WxMpDataCubeServiceImpl(this);
+  //private WxMpDataCubeService dataCubeService = new WxMpDataCubeServiceImpl(this);
 
-  private WxMpUserBlacklistService blackListService = new WxMpUserBlacklistServiceImpl(this);
+  //private WxMpUserBlacklistService blackListService = new WxMpUserBlacklistServiceImpl(this);
 
-  private WxMpTemplateMsgService templateMsgService = new WxMpTemplateMsgServiceImpl(this);
+  //private WxMpTemplateMsgService templateMsgService = new WxMpTemplateMsgServiceImpl(this);
 
-  private CloseableHttpClient httpClient;
+  //private CloseableHttpClient httpClient;
 
-  private HttpHost httpProxy;
+  //private HttpHost httpProxy;
 
   private int retrySleepMillis = 1000;
 
@@ -105,9 +92,10 @@ public class WxMpServiceImpl implements WxMpService {
    * 详情请见: http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421135319&token=&lang=zh_CN
    * </pre>
    */
-  public boolean checkSignature(String timestamp, String nonce, String signature) {
+  @Override
+  public boolean checkSignature(WxMpConfig wxmpconfig,String timestamp, String nonce, String signature) {
     try {
-      return SHA1.gen(configStorage.getToken(), timestamp, nonce)
+      return SHA1.gen(wxmpconfig.getToken(), timestamp, nonce)
           .equals(signature);
     } catch (Exception e) {
       return false;
@@ -120,8 +108,9 @@ public class WxMpServiceImpl implements WxMpService {
    *
    * @see #getAccessToken(boolean)
    */
-  public String getAccessToken() throws WxErrorException {
-    return getAccessToken(false);
+  @Override
+  public String getAccessToken(WxMpConfig wxmpconfig) throws WxErrorException {
+    return getAccessToken(wxmpconfig,false);
   }
 
   /**
@@ -138,45 +127,36 @@ public class WxMpServiceImpl implements WxMpService {
    *
    * @param forceRefresh 强制刷新
    */
-  public String getAccessToken(boolean forceRefresh) throws WxErrorException {
-    Lock lock = configStorage.getAccessTokenLock();
-    try {
-      lock.lock();
+  @Override
+  public String getAccessToken(WxMpConfig wxmpconfig,boolean forceRefresh) throws WxErrorException {
 
       if (forceRefresh) {
-        configStorage.expireAccessToken();
+    	  wxMpConfigService.expireAccessToken(wxmpconfig);
       }
 
-      if (configStorage.isAccessTokenExpired()) {
+      if (!wxMpConfigService.isAccessTokenExpired(wxmpconfig)) {
+    	  return wxmpconfig.getAccessToken();
+      }
         String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential" +
-            "&appid=" + configStorage.getAppId() + "&secret="
-            + configStorage.getSecret();
-        try {
+            "&appid=" + wxmpconfig.getAppId() + "&secret="
+            + wxmpconfig.getSecret();
           HttpGet httpGet = new HttpGet(url);
-          if (this.httpProxy != null) {
-            RequestConfig config = RequestConfig.custom().setProxy(this.httpProxy).build();
+          if (wxmpconfig.getHttpProxyHost() != null) {
+            RequestConfig config = RequestConfig.custom().setProxy(new HttpHost(wxmpconfig.getHttpProxyHost() , wxmpconfig.getHttpProxyPort() )).build();
             httpGet.setConfig(config);
           }
-          try (CloseableHttpResponse response = getHttpclient().execute(httpGet)) {
-            String resultContent = new BasicResponseHandler().handleResponse(response);
+         
+            String resultContent = HttpClientUtils.sendHttpGet(httpGet,wxmpconfig.getSslContext());
             WxError error = WxError.fromJson(resultContent);
             if (error.getErrorCode() != 0) {
               throw new WxErrorException(error);
             }
             WxAccessToken accessToken = WxAccessToken.fromJson(resultContent);
-            configStorage.updateAccessToken(accessToken.getAccessToken(),
-                accessToken.getExpiresIn());
-          }finally {
-            httpGet.releaseConnection();
-          }
-        } catch (IOException e) {
-          throw new RuntimeException(e);
-        }
-      }
-    } finally {
-      lock.unlock();
-    }
-    return configStorage.getAccessToken();
+            wxmpconfig.setAccessToken(accessToken.getAccessToken());
+            wxmpconfig.setExpiresTime(Long.valueOf(accessToken.getExpiresIn()));
+            wxMpConfigService.updateAccessToken(wxmpconfig);
+        
+           return wxmpconfig.getAccessToken();
   }
 
   /**
@@ -184,8 +164,9 @@ public class WxMpServiceImpl implements WxMpService {
    *
    * @see #getJsapiTicket(boolean)
    */
-  public String getJsapiTicket() throws WxErrorException {
-    return getJsapiTicket(false);
+  @Override
+  public String getJsapiTicket(WxMpConfig wxmpconfig) throws WxErrorException {
+    return getJsapiTicket(wxmpconfig,false);
   }
 
   /**
@@ -198,28 +179,30 @@ public class WxMpServiceImpl implements WxMpService {
    *
    * @param forceRefresh 强制刷新
    */
-  public String getJsapiTicket(boolean forceRefresh) throws WxErrorException {
-    Lock lock = configStorage.getJsapiTicketLock();
-    try {
-      lock.lock();
+  @Override
+  public String getJsapiTicket(WxMpConfig wxmpconfig,boolean forceRefresh) throws WxErrorException {
 
       if (forceRefresh) {
-        configStorage.expireJsapiTicket();
+    	  wxMpConfigService.expireJsapiTicket(wxmpconfig);
       }
+      
+      if (!wxMpConfigService.isJsapiTicketExpired(wxmpconfig)) {
+    	  return wxmpconfig.getJsapiTicket();
+      }
+      
 
-      if (configStorage.isJsapiTicketExpired()) {
         String url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi";
-        String responseContent = execute(new SimpleGetRequestExecutor(), url, null);
+        String responseContent = execute( wxmpconfig,new SimpleGetRequestExecutor(), url, null);
         JsonElement tmpJsonElement = JSON_PARSER.parse(responseContent);
         JsonObject tmpJsonObject = tmpJsonElement.getAsJsonObject();
         String jsapiTicket = tmpJsonObject.get("ticket").getAsString();
         int expiresInSeconds = tmpJsonObject.get("expires_in").getAsInt();
-        configStorage.updateJsapiTicket(jsapiTicket, expiresInSeconds);
-      }
-    } finally {
-      lock.unlock();
-    }
-    return configStorage.getJsapiTicket();
+        
+        wxmpconfig.setJsapiTicket(jsapiTicket);
+        wxmpconfig.setJsapiTicketExpiresTime(Long.valueOf(expiresInSeconds));
+        wxMpConfigService.updateJsapiTicket(wxmpconfig);
+        
+    return wxmpconfig.getJsapiTicket();
   }
 
   /**
@@ -229,14 +212,15 @@ public class WxMpServiceImpl implements WxMpService {
    * 详情请见：http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141115&token=&lang=zh_CN
    * </pre>
    */
-  public WxJsapiSignature createJsapiSignature(String url) throws WxErrorException {
+  @Override
+  public WxJsapiSignature createJsapiSignature(WxMpConfig wxmpconfig,String url) throws WxErrorException {
     long timestamp = System.currentTimeMillis() / 1000;
     String noncestr = RandomUtils.getRandomStr();
-    String jsapiTicket = getJsapiTicket(false);
+    String jsapiTicket = getJsapiTicket(wxmpconfig,false);
     String signature = SHA1.genWithAmple("jsapi_ticket=" + jsapiTicket,
         "noncestr=" + noncestr, "timestamp=" + timestamp, "url=" + url);
     WxJsapiSignature jsapiSignature = new WxJsapiSignature();
-    jsapiSignature.setAppid(configStorage.getAppId());
+    jsapiSignature.setAppid(wxmpconfig.getAppId());
     jsapiSignature.setTimestamp(timestamp);
     jsapiSignature.setNoncestr(noncestr);
     jsapiSignature.setUrl(url);
@@ -255,9 +239,10 @@ public class WxMpServiceImpl implements WxMpService {
    * @see #massGroupMessageSend(org.springrain.weixin.base.mp.bean.WxMpMassTagMessage)
    * @see #massOpenIdsMessageSend(org.springrain.weixin.base.mp.bean.WxMpMassOpenIdsMessage)
    */
-  public WxMpMassUploadResult massNewsUpload(WxMpMassNews news) throws WxErrorException {
+  @Override
+  public WxMpMassUploadResult massNewsUpload(WxMpConfig wxmpconfig,WxMpMassNews news) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/media/uploadnews";
-    String responseContent = this.post(url, news.toJson());
+    String responseContent = post(wxmpconfig,url, news.toJson());
     return WxMpMassUploadResult.fromJson(responseContent);
   }
 
@@ -270,9 +255,10 @@ public class WxMpServiceImpl implements WxMpService {
    * @see #massGroupMessageSend(org.springrain.weixin.base.mp.bean.WxMpMassTagMessage)
    * @see #massOpenIdsMessageSend(org.springrain.weixin.base.mp.bean.WxMpMassOpenIdsMessage)
    */
-  public WxMpMassUploadResult massVideoUpload(WxMpMassVideo video) throws WxErrorException {
+  @Override
+  public WxMpMassUploadResult massVideoUpload(WxMpConfig wxmpconfig,WxMpMassVideo video) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/media/uploadvideo";
-    String responseContent = this.post(url, video.toJson());
+    String responseContent = post(wxmpconfig,url, video.toJson());
     return WxMpMassUploadResult.fromJson(responseContent);
   }
 
@@ -284,9 +270,10 @@ public class WxMpServiceImpl implements WxMpService {
    * 详情请见: http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140549&token=&lang=zh_CN
    * </pre>
    */
-  public WxMpMassSendResult massGroupMessageSend(WxMpMassTagMessage message) throws WxErrorException {
+  @Override
+  public WxMpMassSendResult massGroupMessageSend(WxMpConfig wxmpconfig,WxMpMassTagMessage message) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/message/mass/sendall";
-    String responseContent = this.post(url, message.toJson());
+    String responseContent = post(wxmpconfig,url, message.toJson());
     return WxMpMassSendResult.fromJson(responseContent);
   }
 
@@ -299,9 +286,10 @@ public class WxMpServiceImpl implements WxMpService {
    * 详情请见: http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140549&token=&lang=zh_CN
    * </pre>
    */
-  public WxMpMassSendResult massOpenIdsMessageSend(WxMpMassOpenIdsMessage message) throws WxErrorException {
+  @Override
+  public WxMpMassSendResult massOpenIdsMessageSend(WxMpConfig wxmpconfig,WxMpMassOpenIdsMessage message) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/message/mass/send";
-    String responseContent = this.post(url, message.toJson());
+    String responseContent = post(wxmpconfig,url, message.toJson());
     return WxMpMassSendResult.fromJson(responseContent);
   }
 
@@ -317,9 +305,10 @@ public class WxMpServiceImpl implements WxMpService {
    *
    * @return wxMpMassSendResult
    */
-  public WxMpMassSendResult massMessagePreview(WxMpMassPreviewMessage wxMpMassPreviewMessage) throws Exception {
+  @Override
+  public WxMpMassSendResult massMessagePreview(WxMpConfig wxmpconfig,WxMpMassPreviewMessage wxMpMassPreviewMessage) throws Exception {
     String url = "https://api.weixin.qq.com/cgi-bin/message/mass/preview";
-    String responseContent = this.post(url, wxMpMassPreviewMessage.toJson());
+    String responseContent = post(wxmpconfig,url, wxMpMassPreviewMessage.toJson());
     return WxMpMassSendResult.fromJson(responseContent);
   }
 
@@ -330,12 +319,13 @@ public class WxMpServiceImpl implements WxMpService {
    * </pre>
    *
    */
-  public String shortUrl(String long_url) throws WxErrorException {
+  @Override
+  public String shortUrl(WxMpConfig wxmpconfig,String long_url) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/shorturl";
     JsonObject o = new JsonObject();
     o.addProperty("action", "long2short");
     o.addProperty("long_url", long_url);
-    String responseContent = this.post(url, o.toString());
+    String responseContent = post(wxmpconfig,url, o.toString());
     JsonElement tmpJsonElement = JSON_PARSER.parse(responseContent);
     return tmpJsonElement.getAsJsonObject().get("short_url").getAsString();
   }
@@ -346,9 +336,10 @@ public class WxMpServiceImpl implements WxMpService {
    * 详情请见：http://mp.weixin.qq.com/wiki/index.php?title=语义理解
    * </pre>
    */
-  public WxMpSemanticQueryResult semanticQuery(WxMpSemanticQuery semanticQuery) throws WxErrorException {
+  @Override
+  public WxMpSemanticQueryResult semanticQuery(WxMpConfig wxmpconfig,WxMpSemanticQuery semanticQuery) throws WxErrorException {
     String url = "https://api.weixin.qq.com/semantic/semproxy/search";
-    String responseContent = this.post(url, semanticQuery.toJson());
+    String responseContent = post(wxmpconfig,url, semanticQuery.toJson());
     return WxMpSemanticQueryResult.fromJson(responseContent);
   }
   /**
@@ -363,11 +354,12 @@ public class WxMpServiceImpl implements WxMpService {
    * @param state 非必填，用于保持请求和回调的状态，授权请求后原样带回给第三方。该参数可用于防止csrf攻击（跨站请求伪造攻击），建议第三方带上该参数，可设置为简单的随机数加session进行校验
    * @return url
    */
-  public String buildQrConnectUrl(String redirectURI, String scope,
+  @Override
+  public String buildQrConnectUrl(WxMpConfig wxmpconfig,String redirectURI, String scope,
       String state) {
     StringBuilder url = new StringBuilder();
     url.append("https://open.weixin.qq.com/connect/qrconnect?");
-    url.append("appid=").append(configStorage.getAppId());
+    url.append("appid=").append(wxmpconfig.getAppId());
     url.append("&redirect_uri=").append(URIUtil.encodeURIComponent(redirectURI));
     url.append("&response_type=code");
     url.append("&scope=").append(scope);
@@ -389,10 +381,11 @@ public class WxMpServiceImpl implements WxMpService {
    * @param redirectURI 用户授权完成后的重定向链接，无需urlencode, 方法内会进行encode
    * @return url
    */
-  public String oauth2buildAuthorizationUrl(String redirectURI, String scope, String state) {
+  @Override
+  public String oauth2buildAuthorizationUrl(WxMpConfig wxmpconfig,String redirectURI, String scope, String state) {
     StringBuilder url = new StringBuilder();
     url.append("https://open.weixin.qq.com/connect/oauth2/authorize?");
-    url.append("appid=").append(configStorage.getAppId());
+    url.append("appid=").append(wxmpconfig.getAppId());
     url.append("&redirect_uri=").append(URIUtil.encodeURIComponent(redirectURI));
     url.append("&response_type=code");
     url.append("&scope=").append(scope);
@@ -404,10 +397,10 @@ public class WxMpServiceImpl implements WxMpService {
   }
 
   
-  private WxMpOAuth2AccessToken getOAuth2AccessToken(StringBuilder url) throws WxErrorException {
+  private WxMpOAuth2AccessToken getOAuth2AccessToken(WxMpConfig wxmpconfig,StringBuilder url) throws WxErrorException {
     try {
       RequestExecutor<String, String> executor = new SimpleGetRequestExecutor();
-      String responseText = executor.execute(this.getHttpclient(), this.httpProxy, url.toString(), null);
+      String responseText = executor.execute(wxmpconfig, url.toString(), null);
       return WxMpOAuth2AccessToken.fromJson(responseText);
     } catch (IOException e) {
       throw new RuntimeException(e);
@@ -420,15 +413,16 @@ public class WxMpServiceImpl implements WxMpService {
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=网页授权获取用户基本信息
    * </pre>
    */
-  public WxMpOAuth2AccessToken oauth2getAccessToken(String code) throws WxErrorException {
+  @Override
+  public WxMpOAuth2AccessToken oauth2getAccessToken(WxMpConfig wxmpconfig,String code) throws WxErrorException {
     StringBuilder url = new StringBuilder();
     url.append("https://api.weixin.qq.com/sns/oauth2/access_token?");
-    url.append("appid=").append(configStorage.getAppId());
-    url.append("&secret=").append(configStorage.getSecret());
+    url.append("appid=").append(wxmpconfig.getAppId());
+    url.append("&secret=").append(wxmpconfig.getSecret());
     url.append("&code=").append(code);
     url.append("&grant_type=authorization_code");
 
-    return this.getOAuth2AccessToken(url);
+    return getOAuth2AccessToken(wxmpconfig,url);
   }
 
   /**
@@ -436,14 +430,15 @@ public class WxMpServiceImpl implements WxMpService {
    * 刷新oauth2的access token
    * </pre>
    */
-  public WxMpOAuth2AccessToken oauth2refreshAccessToken(String refreshToken) throws WxErrorException {
+  @Override
+  public WxMpOAuth2AccessToken oauth2refreshAccessToken(WxMpConfig wxmpconfig,String refreshToken) throws WxErrorException {
     StringBuilder url = new StringBuilder();
     url.append("https://api.weixin.qq.com/sns/oauth2/refresh_token?");
-    url.append("appid=").append(configStorage.getAppId());
+    url.append("appid=").append(wxmpconfig.getAppId());
     url.append("&grant_type=refresh_token");
     url.append("&refresh_token=").append(refreshToken);
 
-    return this.getOAuth2AccessToken(url);
+    return getOAuth2AccessToken(wxmpconfig,url);
   }
 
   /**
@@ -453,7 +448,8 @@ public class WxMpServiceImpl implements WxMpService {
    *
    * @param lang              zh_CN, zh_TW, en
    */
-  public WxMpUser oauth2getUserInfo(WxMpOAuth2AccessToken oAuth2AccessToken, String lang) throws WxErrorException {
+  @Override
+  public WxMpUser oauth2getUserInfo(WxMpConfig wxmpconfig,WxMpOAuth2AccessToken oAuth2AccessToken, String lang) throws WxErrorException {
     StringBuilder url = new StringBuilder();
     url.append("https://api.weixin.qq.com/sns/userinfo?");
     url.append("access_token=").append(oAuth2AccessToken.getAccessToken());
@@ -466,7 +462,7 @@ public class WxMpServiceImpl implements WxMpService {
 
     try {
       RequestExecutor<String, String> executor = new SimpleGetRequestExecutor();
-      String responseText = executor.execute(getHttpclient(), this.httpProxy, url.toString(), null);
+      String responseText = executor.execute(wxmpconfig, url.toString(), null);
       return WxMpUser.fromJson(responseText);
     } catch (IOException e) {
       throw new RuntimeException(e);
@@ -479,7 +475,8 @@ public class WxMpServiceImpl implements WxMpService {
    * </pre>
    *
    */
-  public boolean oauth2validateAccessToken(WxMpOAuth2AccessToken oAuth2AccessToken) {
+  @Override
+  public boolean oauth2validateAccessToken(WxMpConfig wxmpconfig,WxMpOAuth2AccessToken oAuth2AccessToken) {
     StringBuilder url = new StringBuilder();
     url.append("https://api.weixin.qq.com/sns/auth?");
     url.append("access_token=").append(oAuth2AccessToken.getAccessToken());
@@ -487,7 +484,7 @@ public class WxMpServiceImpl implements WxMpService {
 
     try {
       RequestExecutor<String, String> executor = new SimpleGetRequestExecutor();
-      executor.execute(getHttpclient(), this.httpProxy, url.toString(), null);
+      executor.execute(wxmpconfig, url.toString(), null);
     } catch (IOException e) {
       throw new RuntimeException(e);
     } catch (WxErrorException e) {
@@ -502,9 +499,10 @@ public class WxMpServiceImpl implements WxMpService {
    * http://mp.weixin.qq.com/wiki/0/2ad4b6bfd29f30f71d39616c2a0fcedc.html
    * </pre>
    */
-  public String[] getCallbackIP() throws WxErrorException {
+  @Override
+  public String[] getCallbackIP(WxMpConfig wxmpconfig) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/getcallbackip";
-    String responseContent = get(url, null);
+    String responseContent = get(wxmpconfig,url, null);
     JsonElement tmpJsonElement = JSON_PARSER.parse(responseContent);
     JsonArray ipList = tmpJsonElement.getAsJsonObject().get("ip_list").getAsJsonArray();
     String[] ipArray = new String[ipList.size()];
@@ -518,16 +516,18 @@ public class WxMpServiceImpl implements WxMpService {
   /**
    * 当本Service没有实现某个API的时候，可以用这个，针对所有微信API中的GET请求
    */
-  public String get(String url, String queryParam) throws WxErrorException {
-    return execute(new SimpleGetRequestExecutor(), url, queryParam);
+  @Override
+  public String get(WxMpConfig wxmpconfig,String url, String queryParam) throws WxErrorException {
+    return execute(wxmpconfig,new SimpleGetRequestExecutor(), url, queryParam);
   }
 
 
   /**
    * 当本Service没有实现某个API的时候，可以用这个，针对所有微信API中的POST请求
    */
-  public String post(String url, String postData) throws WxErrorException {
-    return execute(new SimplePostRequestExecutor(), url, postData);
+  @Override
+  public String post(WxMpConfig wxmpconfig,String url, String postData) throws WxErrorException {
+    return execute(wxmpconfig,new SimplePostRequestExecutor(), url, postData);
   }
 
   /**
@@ -540,20 +540,21 @@ public class WxMpServiceImpl implements WxMpService {
    * 可以参考，{@link org.springrain.weixin.base.common.util.http.MediaUploadRequestExecutor}的实现方法
    * </pre>
    */
-  public <T, E> T execute(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
+  @Override
+  public <T, E> T execute(WxMpConfig wxmpconfig,RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
     int retryTimes = 0;
     do {
       try {
-        T result = executeInternal(executor, uri, data);
-        this.log.debug("\n[URL]:  {}\n[PARAMS]: {}\n[RESPONSE]: {}",uri, data, result);
+        T result = executeInternal(wxmpconfig,executor, uri, data);
+        logger.debug("\n[URL]:  {}\n[PARAMS]: {}\n[RESPONSE]: {}",uri, data, result);
         return result;
       } catch (WxErrorException e) {
         WxError error = e.getError();
         // -1 系统繁忙, 1000ms后重试
         if (error.getErrorCode() == -1) {
-          int sleepMillis = this.retrySleepMillis * (1 << retryTimes);
+          int sleepMillis = retrySleepMillis * (1 << retryTimes);
           try {
-            this.log.debug("微信系统繁忙，{}ms 后重试(第{}次)", sleepMillis, retryTimes + 1);
+            logger.debug("微信系统繁忙，{}ms 后重试(第{}次)", sleepMillis, retryTimes + 1);
             Thread.sleep(sleepMillis);
           } catch (InterruptedException e1) {
             throw new RuntimeException(e1);
@@ -562,22 +563,22 @@ public class WxMpServiceImpl implements WxMpService {
           throw e;
         }
       }
-    } while (++retryTimes < this.maxRetryTimes);
+    } while (++retryTimes < maxRetryTimes);
 
     throw new RuntimeException("微信服务端异常，超出重试次数");
   }
 
-  protected synchronized <T, E> T executeInternal(RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
+  protected synchronized <T, E> T executeInternal(WxMpConfig wxmpconfig,RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
     if (uri.indexOf("access_token=") != -1) {
       throw new IllegalArgumentException("uri参数中不允许有access_token: " + uri);
     }
-    String accessToken = getAccessToken(false);
+    String accessToken = getAccessToken(wxmpconfig,false);
 
     String uriWithAccessToken = uri;
     uriWithAccessToken += uri.indexOf('?') == -1 ? "?access_token=" + accessToken : "&access_token=" + accessToken;
 
     try {
-      return executor.execute(getHttpclient(), this.httpProxy, uriWithAccessToken, data);
+      return executor.execute(wxmpconfig, uriWithAccessToken, data);
     } catch (WxErrorException e) {
       WxError error = e.getError();
       /*
@@ -587,66 +588,28 @@ public class WxMpServiceImpl implements WxMpService {
        */
       if (error.getErrorCode() == 42001 || error.getErrorCode() == 40001) {
         // 强制设置wxMpConfigStorage它的access token过期了，这样在下一次请求里就会刷新access token
-        configStorage.expireAccessToken();
-        if(configStorage.autoRefreshToken()){
-          return this.execute(executor, uri, data);
+        //wxmpconfig.expireAccessToken();
+        wxMpConfigService.expireAccessToken(wxmpconfig);
+        if(wxMpConfigService.autoRefreshToken(wxmpconfig)){
+          return execute(wxmpconfig,executor, uri, data);
         }
       }
 
       if (error.getErrorCode() != 0) {
-        this.log.error("\n[URL]:  {}\n[PARAMS]: {}\n[RESPONSE]: {}", uri, data,
+        logger.error("\n[URL]:  {}\n[PARAMS]: {}\n[RESPONSE]: {}", uri, data,
             error);
         throw new WxErrorException(error);
       }
       return null;
     } catch (IOException e) {
-      this.log.error("\n[URL]:  {}\n[PARAMS]: {}\n[EXCEPTION]: {}", uri, data, e.getMessage());
+      logger.error("\n[URL]:  {}\n[PARAMS]: {}\n[EXCEPTION]: {}", uri, data, e.getMessage());
       throw new RuntimeException(e);
     }
   }
 
-  public HttpHost getHttpProxy() {
-    return this.httpProxy;
-  }
+ 
 
-  public CloseableHttpClient getHttpclient() {
-    return this.httpClient;
-  }
 
-  public void setWxMpConfigStorage(WxMpConfigStorage wxConfigProvider) {
-    this.configStorage = wxConfigProvider;
-    this.initHttpClient();
-  }
-
-  private void initHttpClient() {
-    ApacheHttpClientBuilder apacheHttpClientBuilder = this.configStorage
-        .getApacheHttpClientBuilder();
-    if (null == apacheHttpClientBuilder) {
-      apacheHttpClientBuilder = DefaultApacheHttpClientBuilder.get();
-    }
-
-    apacheHttpClientBuilder.httpProxyHost(configStorage.getHttpProxyHost())
-        .httpProxyPort(configStorage.getHttpProxyPort())
-        .httpProxyUsername(configStorage.getHttpProxyUsername())
-        .httpProxyPassword(configStorage.getHttpProxyPassword());
-
-    if (configStorage.getSSLContext() != null) {
-      SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
-          configStorage.getSSLContext(), new String[] { "TLSv1" }, null,
-          new DefaultHostnameVerifier());
-      apacheHttpClientBuilder.sslConnectionSocketFactory(sslsf);
-    }
-
-    if (configStorage.getHttpProxyHost() != null && configStorage.getHttpProxyPort() > 0) {
-      this.httpProxy = new HttpHost(configStorage.getHttpProxyHost(), configStorage.getHttpProxyPort());
-    }
-
-    this.httpClient = apacheHttpClientBuilder.build();
-  }
-
-  public WxMpConfigStorage getWxMpConfigStorage() {
-    return this.configStorage;
-  }
 
   /**
    * <pre>
@@ -654,6 +617,7 @@ public class WxMpServiceImpl implements WxMpService {
    * 默认：1000ms
    * </pre>
    */
+  @Override
   public void setRetrySleepMillis(int retrySleepMillis) {
     this.retrySleepMillis = retrySleepMillis;
   }
@@ -662,52 +626,5 @@ public class WxMpServiceImpl implements WxMpService {
     this.maxRetryTimes = maxRetryTimes;
   }
 
-  public WxMpKefuService getKefuService() {
-    return this.kefuService;
-  }
-
-  public WxMpMaterialService getMaterialService() {
-    return this.materialService;
-  }
-
-  public WxMpMenuService getMenuService() {
-    return this.menuService;
-  }
-
-  public WxMpUserService getUserService() {
-    return this.userService;
-  }
-
-  public WxMpUserTagService getUserTagService() {
-    return this.tagService;
-  }
-
-  public WxMpQrcodeService getQrcodeService() {
-    return this.qrCodeService;
-  }
-
-  public WxMpCardService getCardService() {
-    return this.cardService;
-  }
-
-  public WxMpPayService getPayService() {
-    return this.payService;
-  }
-
-  public WxMpDataCubeService getDataCubeService() {
-    return this.dataCubeService;
-  }
-
-  public WxMpUserBlacklistService getBlackListService() {
-    return this.blackListService;
-  }
-
-  public WxMpStoreService getStoreService() {
-    return this.storeService;
-  }
-
-  public WxMpTemplateMsgService getTemplateMsgService() {
-    return this.templateMsgService;
-  }
-
+ 
 }

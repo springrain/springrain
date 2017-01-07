@@ -56,7 +56,7 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
     return this.accessToken;
   }
 
-  @Override
+ // @Override
   public Lock getAccessTokenLock() {
     return this.accessTokenLock;
   }
@@ -87,7 +87,7 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
     return this.jsapiTicket;
   }
 
-  @Override
+ // @Override
   public Lock getJsapiTicketLock() {
     return this.jsapiTicketLock;
   }
@@ -129,7 +129,7 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
     return this.cardApiTicket;
   }
 
-  @Override
+  //@Override
   public Lock getCardApiTicketLock() {
     return this.cardApiTicketLock;
   }
@@ -286,7 +286,7 @@ public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
     this.sslContext = context;
   }
 
-  @Override
+  //@Override
   public ApacheHttpClientBuilder getApacheHttpClientBuilder() {
     return this.apacheHttpClientBuilder;
   }

@@ -1,10 +1,9 @@
 package org.springrain.weixin.base.common.util.http;
 
-import org.springrain.weixin.base.common.exception.WxErrorException;
-import org.apache.http.HttpHost;
-import org.apache.http.impl.client.CloseableHttpClient;
-
 import java.io.IOException;
+
+import org.springrain.weixin.base.common.api.IWxConfig;
+import org.springrain.weixin.base.common.exception.WxErrorException;
 
 /**
  * http请求执行器
@@ -15,13 +14,12 @@ import java.io.IOException;
 public interface RequestExecutor<T, E> {
 
   /**
-   * @param httpclient 传入的httpClient
-   * @param httpProxy  http代理对象，如果没有配置代理则为空
+   * @param configStorage  微信配置属性
    * @param uri        uri
    * @param data       数据
    * @throws WxErrorException
    * @throws IOException
    */
-  T execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, E data) throws WxErrorException, IOException;
+  T execute(IWxConfig wxConfig,String uri, E data) throws WxErrorException, IOException;
 
 }

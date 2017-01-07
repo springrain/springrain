@@ -1,15 +1,22 @@
 package org.springrain.weixin.base.mp.api.impl;
 
-import com.google.gson.JsonObject;
-import org.springrain.weixin.base.common.exception.WxErrorException;
-import org.springrain.weixin.base.mp.api.WxMpDataCubeService;
-import org.springrain.weixin.base.mp.api.WxMpService;
-import org.springrain.weixin.base.mp.bean.datacube.*;
-import org.apache.commons.lang3.time.FastDateFormat;
-
 import java.text.Format;
 import java.util.Date;
 import java.util.List;
+
+import org.apache.commons.lang3.time.FastDateFormat;
+import org.springrain.weixin.base.common.exception.WxErrorException;
+import org.springrain.weixin.base.mp.api.WxMpDataCubeService;
+import org.springrain.weixin.base.mp.api.WxMpService;
+import org.springrain.weixin.base.mp.bean.datacube.WxDataCubeArticleResult;
+import org.springrain.weixin.base.mp.bean.datacube.WxDataCubeArticleTotal;
+import org.springrain.weixin.base.mp.bean.datacube.WxDataCubeInterfaceResult;
+import org.springrain.weixin.base.mp.bean.datacube.WxDataCubeMsgResult;
+import org.springrain.weixin.base.mp.bean.datacube.WxDataCubeUserCumulate;
+import org.springrain.weixin.base.mp.bean.datacube.WxDataCubeUserSummary;
+import org.springrain.weixin.entity.WxMpConfig;
+
+import com.google.gson.JsonObject;
 
 /**
  *  Created by Binary Wang on 2016/8/23.
@@ -20,188 +27,190 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
 
   private final Format dateFormat = FastDateFormat.getInstance("yyyy-MM-dd");
 
-  private WxMpService wxMpService;
+  
+  //生产环境应该是spring bean
+  //private WxMpService wxMpService;
+  private WxMpService wxMpService=new WxMpServiceImpl();
 
-  public WxMpDataCubeServiceImpl(WxMpService wxMpService) {
-    this.wxMpService = wxMpService;
+  public WxMpDataCubeServiceImpl() {
   }
 
   @Override
-  public List<WxDataCubeUserSummary> getUserSummary(Date beginDate, Date endDate) throws WxErrorException {
+  public List<WxDataCubeUserSummary> getUserSummary(WxMpConfig wxmpconfig,Date beginDate, Date endDate) throws WxErrorException {
     String url = API_URL_PREFIX + "/getusersummary";
     JsonObject param = new JsonObject();
-    param.addProperty("begin_date", this.dateFormat.format(beginDate));
-    param.addProperty("end_date", this.dateFormat.format(endDate));
-    String responseContent = this.wxMpService.post(url, param.toString());
+    param.addProperty("begin_date", dateFormat.format(beginDate));
+    param.addProperty("end_date", dateFormat.format(endDate));
+    String responseContent = wxMpService.post(wxmpconfig,url, param.toString());
     return WxDataCubeUserSummary.fromJson(responseContent);
   }
 
   @Override
-  public List<WxDataCubeUserCumulate> getUserCumulate(Date beginDate, Date endDate) throws WxErrorException {
+  public List<WxDataCubeUserCumulate> getUserCumulate(WxMpConfig wxmpconfig,Date beginDate, Date endDate) throws WxErrorException {
     String url = API_URL_PREFIX + "/getusercumulate";
     JsonObject param = new JsonObject();
-    param.addProperty("begin_date", this.dateFormat.format(beginDate));
-    param.addProperty("end_date", this.dateFormat.format(endDate));
-    String responseContent = this.wxMpService.post(url, param.toString());
+    param.addProperty("begin_date", dateFormat.format(beginDate));
+    param.addProperty("end_date", dateFormat.format(endDate));
+    String responseContent = wxMpService.post(wxmpconfig,url, param.toString());
     return WxDataCubeUserCumulate.fromJson(responseContent);
   }
 
   @Override
-  public List<WxDataCubeArticleResult> getArticleSummary(Date beginDate, Date endDate) throws WxErrorException {
+  public List<WxDataCubeArticleResult> getArticleSummary(WxMpConfig wxmpconfig,Date beginDate, Date endDate) throws WxErrorException {
     String url = API_URL_PREFIX + "/getarticlesummary";
     JsonObject param = new JsonObject();
-    param.addProperty("begin_date", this.dateFormat.format(beginDate));
-    param.addProperty("end_date", this.dateFormat.format(endDate));
-    String responseContent = this.wxMpService.post(url, param.toString());
+    param.addProperty("begin_date", dateFormat.format(beginDate));
+    param.addProperty("end_date", dateFormat.format(endDate));
+    String responseContent = wxMpService.post(wxmpconfig,url, param.toString());
     return WxDataCubeArticleResult.fromJson(responseContent);
   }
 
   @Override
-  public List<WxDataCubeArticleTotal> getArticleTotal(Date beginDate, Date endDate) throws WxErrorException {
+  public List<WxDataCubeArticleTotal> getArticleTotal(WxMpConfig wxmpconfig,Date beginDate, Date endDate) throws WxErrorException {
     String url = API_URL_PREFIX + "/getarticletotal";
     JsonObject param = new JsonObject();
-    param.addProperty("begin_date", this.dateFormat.format(beginDate));
-    param.addProperty("end_date", this.dateFormat.format(endDate));
-    String responseContent = this.wxMpService.post(url, param.toString());
+    param.addProperty("begin_date", dateFormat.format(beginDate));
+    param.addProperty("end_date", dateFormat.format(endDate));
+    String responseContent = wxMpService.post(wxmpconfig,url, param.toString());
     return WxDataCubeArticleTotal.fromJson(responseContent);
   }
 
   @Override
-  public List<WxDataCubeArticleResult> getUserRead(Date beginDate, Date endDate) throws WxErrorException {
+  public List<WxDataCubeArticleResult> getUserRead(WxMpConfig wxmpconfig,Date beginDate, Date endDate) throws WxErrorException {
     String url = API_URL_PREFIX + "/getuserread";
     JsonObject param = new JsonObject();
-    param.addProperty("begin_date", this.dateFormat.format(beginDate));
-    param.addProperty("end_date", this.dateFormat.format(endDate));
-    String responseContent = this.wxMpService.post(url, param.toString());
+    param.addProperty("begin_date", dateFormat.format(beginDate));
+    param.addProperty("end_date", dateFormat.format(endDate));
+    String responseContent = wxMpService.post(wxmpconfig,url, param.toString());
     return WxDataCubeArticleResult.fromJson(responseContent);
   }
 
   @Override
-  public List<WxDataCubeArticleResult> getUserReadHour(Date beginDate, Date endDate) throws WxErrorException {
+  public List<WxDataCubeArticleResult> getUserReadHour(WxMpConfig wxmpconfig,Date beginDate, Date endDate) throws WxErrorException {
     String url = API_URL_PREFIX + "/getuserreadhour";
     JsonObject param = new JsonObject();
-    param.addProperty("begin_date", this.dateFormat.format(beginDate));
-    param.addProperty("end_date", this.dateFormat.format(endDate));
-    String responseContent = this.wxMpService.post(url, param.toString());
+    param.addProperty("begin_date", dateFormat.format(beginDate));
+    param.addProperty("end_date", dateFormat.format(endDate));
+    String responseContent = wxMpService.post(wxmpconfig,url, param.toString());
     return WxDataCubeArticleResult.fromJson(responseContent);
   }
 
   @Override
-  public List<WxDataCubeArticleResult> getUserShare(Date beginDate, Date endDate) throws WxErrorException {
+  public List<WxDataCubeArticleResult> getUserShare(WxMpConfig wxmpconfig,Date beginDate, Date endDate) throws WxErrorException {
     String url = API_URL_PREFIX + "/getusershare";
     JsonObject param = new JsonObject();
-    param.addProperty("begin_date", this.dateFormat.format(beginDate));
-    param.addProperty("end_date", this.dateFormat.format(endDate));
-    String responseContent = this.wxMpService.post(url, param.toString());
+    param.addProperty("begin_date", dateFormat.format(beginDate));
+    param.addProperty("end_date", dateFormat.format(endDate));
+    String responseContent = wxMpService.post(wxmpconfig,url, param.toString());
     return WxDataCubeArticleResult.fromJson(responseContent);
   }
 
   @Override
-  public List<WxDataCubeArticleResult> getUserShareHour(Date beginDate, Date endDate) throws WxErrorException {
+  public List<WxDataCubeArticleResult> getUserShareHour(WxMpConfig wxmpconfig,Date beginDate, Date endDate) throws WxErrorException {
     String url = API_URL_PREFIX + "/getusersharehour";
     JsonObject param = new JsonObject();
-    param.addProperty("begin_date", this.dateFormat.format(beginDate));
-    param.addProperty("end_date", this.dateFormat.format(endDate));
-    String responseContent = this.wxMpService.post(url, param.toString());
+    param.addProperty("begin_date", dateFormat.format(beginDate));
+    param.addProperty("end_date", dateFormat.format(endDate));
+    String responseContent = wxMpService.post(wxmpconfig,url, param.toString());
     return WxDataCubeArticleResult.fromJson(responseContent);
   }
 
   @Override
-  public List<WxDataCubeMsgResult> getUpstreamMsg(Date beginDate, Date endDate)
+  public List<WxDataCubeMsgResult> getUpstreamMsg(WxMpConfig wxmpconfig,Date beginDate, Date endDate)
       throws WxErrorException {
     String url = API_URL_PREFIX + "/getupstreammsg";
     JsonObject param = new JsonObject();
-    param.addProperty("begin_date", this.dateFormat.format(beginDate));
-    param.addProperty("end_date", this.dateFormat.format(endDate));
-    String responseContent = this.wxMpService.post(url, param.toString());
+    param.addProperty("begin_date", dateFormat.format(beginDate));
+    param.addProperty("end_date", dateFormat.format(endDate));
+    String responseContent = wxMpService.post(wxmpconfig,url, param.toString());
     return WxDataCubeMsgResult.fromJson(responseContent);
   }
 
   @Override
-  public List<WxDataCubeMsgResult> getUpstreamMsgHour(Date beginDate,
+  public List<WxDataCubeMsgResult> getUpstreamMsgHour(WxMpConfig wxmpconfig,Date beginDate,
       Date endDate) throws WxErrorException {
     String url = API_URL_PREFIX + "/getupstreammsghour";
     JsonObject param = new JsonObject();
-    param.addProperty("begin_date", this.dateFormat.format(beginDate));
-    param.addProperty("end_date", this.dateFormat.format(endDate));
-    String responseContent = this.wxMpService.post(url, param.toString());
+    param.addProperty("begin_date", dateFormat.format(beginDate));
+    param.addProperty("end_date", dateFormat.format(endDate));
+    String responseContent = wxMpService.post(wxmpconfig,url, param.toString());
     return WxDataCubeMsgResult.fromJson(responseContent);
   }
 
   @Override
-  public List<WxDataCubeMsgResult> getUpstreamMsgWeek(Date beginDate,
+  public List<WxDataCubeMsgResult> getUpstreamMsgWeek(WxMpConfig wxmpconfig,Date beginDate,
       Date endDate) throws WxErrorException {
     String url = API_URL_PREFIX + "/getupstreammsgweek";
     JsonObject param = new JsonObject();
-    param.addProperty("begin_date", this.dateFormat.format(beginDate));
-    param.addProperty("end_date", this.dateFormat.format(endDate));
-    String responseContent = this.wxMpService.post(url, param.toString());
+    param.addProperty("begin_date", dateFormat.format(beginDate));
+    param.addProperty("end_date", dateFormat.format(endDate));
+    String responseContent = wxMpService.post(wxmpconfig,url, param.toString());
     return WxDataCubeMsgResult.fromJson(responseContent);
   }
 
   @Override
-  public List<WxDataCubeMsgResult> getUpstreamMsgMonth(Date beginDate,
+  public List<WxDataCubeMsgResult> getUpstreamMsgMonth(WxMpConfig wxmpconfig,Date beginDate,
       Date endDate) throws WxErrorException {
     String url = API_URL_PREFIX + "/getupstreammsgmonth";
     JsonObject param = new JsonObject();
-    param.addProperty("begin_date", this.dateFormat.format(beginDate));
-    param.addProperty("end_date", this.dateFormat.format(endDate));
-    String responseContent = this.wxMpService.post(url, param.toString());
+    param.addProperty("begin_date", dateFormat.format(beginDate));
+    param.addProperty("end_date", dateFormat.format(endDate));
+    String responseContent = wxMpService.post(wxmpconfig,url, param.toString());
     return WxDataCubeMsgResult.fromJson(responseContent);
   }
 
   @Override
-  public List<WxDataCubeMsgResult> getUpstreamMsgDist(Date beginDate,
+  public List<WxDataCubeMsgResult> getUpstreamMsgDist(WxMpConfig wxmpconfig,Date beginDate,
       Date endDate) throws WxErrorException {
     String url = API_URL_PREFIX + "/getupstreammsgdist";
     JsonObject param = new JsonObject();
-    param.addProperty("begin_date", this.dateFormat.format(beginDate));
-    param.addProperty("end_date", this.dateFormat.format(endDate));
-    String responseContent = this.wxMpService.post(url, param.toString());
+    param.addProperty("begin_date", dateFormat.format(beginDate));
+    param.addProperty("end_date", dateFormat.format(endDate));
+    String responseContent = wxMpService.post(wxmpconfig,url, param.toString());
     return WxDataCubeMsgResult.fromJson(responseContent);
   }
 
   @Override
-  public List<WxDataCubeMsgResult> getUpstreamMsgDistWeek(Date beginDate,
+  public List<WxDataCubeMsgResult> getUpstreamMsgDistWeek(WxMpConfig wxmpconfig,Date beginDate,
       Date endDate) throws WxErrorException {
     String url = API_URL_PREFIX + "/getupstreammsgdistweek";
     JsonObject param = new JsonObject();
-    param.addProperty("begin_date", this.dateFormat.format(beginDate));
-    param.addProperty("end_date", this.dateFormat.format(endDate));
-    String responseContent = this.wxMpService.post(url, param.toString());
+    param.addProperty("begin_date", dateFormat.format(beginDate));
+    param.addProperty("end_date", dateFormat.format(endDate));
+    String responseContent = wxMpService.post(wxmpconfig,url, param.toString());
     return WxDataCubeMsgResult.fromJson(responseContent);
   }
 
   @Override
-  public List<WxDataCubeMsgResult> getUpstreamMsgDistMonth(Date beginDate,
+  public List<WxDataCubeMsgResult> getUpstreamMsgDistMonth(WxMpConfig wxmpconfig,Date beginDate,
       Date endDate) throws WxErrorException {
     String url = API_URL_PREFIX + "/getupstreammsgdistmonth";
     JsonObject param = new JsonObject();
-    param.addProperty("begin_date", this.dateFormat.format(beginDate));
-    param.addProperty("end_date", this.dateFormat.format(endDate));
-    String responseContent = this.wxMpService.post(url, param.toString());
+    param.addProperty("begin_date", dateFormat.format(beginDate));
+    param.addProperty("end_date", dateFormat.format(endDate));
+    String responseContent = wxMpService.post(wxmpconfig,url, param.toString());
     return WxDataCubeMsgResult.fromJson(responseContent);
   }
 
   @Override
-  public List<WxDataCubeInterfaceResult> getInterfaceSummary(Date beginDate,
+  public List<WxDataCubeInterfaceResult> getInterfaceSummary(WxMpConfig wxmpconfig,Date beginDate,
       Date endDate) throws WxErrorException {
     String url = API_URL_PREFIX + "/getinterfacesummary";
     JsonObject param = new JsonObject();
-    param.addProperty("begin_date", this.dateFormat.format(beginDate));
-    param.addProperty("end_date", this.dateFormat.format(endDate));
-    String responseContent = this.wxMpService.post(url, param.toString());
+    param.addProperty("begin_date", dateFormat.format(beginDate));
+    param.addProperty("end_date", dateFormat.format(endDate));
+    String responseContent = wxMpService.post(wxmpconfig,url, param.toString());
     return WxDataCubeInterfaceResult.fromJson(responseContent);
   }
 
   @Override
-  public List<WxDataCubeInterfaceResult> getInterfaceSummaryHour(Date beginDate,
+  public List<WxDataCubeInterfaceResult> getInterfaceSummaryHour(WxMpConfig wxmpconfig,Date beginDate,
       Date endDate) throws WxErrorException {
     String url = API_URL_PREFIX + "/getinterfacesummaryhour";
     JsonObject param = new JsonObject();
-    param.addProperty("begin_date", this.dateFormat.format(beginDate));
-    param.addProperty("end_date", this.dateFormat.format(endDate));
-    String responseContent = this.wxMpService.post(url, param.toString());
+    param.addProperty("begin_date", dateFormat.format(beginDate));
+    param.addProperty("end_date", dateFormat.format(endDate));
+    String responseContent = wxMpService.post(wxmpconfig,url, param.toString());
     return WxDataCubeInterfaceResult.fromJson(responseContent);
   }
 }

@@ -13,6 +13,8 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.entity.ContentType;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.springrain.frame.util.HttpClientUtils;
+import org.springrain.weixin.base.common.api.IWxConfig;
 import org.springrain.weixin.base.common.bean.result.WxError;
 import org.springrain.weixin.base.common.exception.WxErrorException;
 import org.springrain.weixin.base.common.util.fs.FileUtils;
@@ -29,7 +31,7 @@ import org.springrain.weixin.base.mp.bean.result.WxMpQrCodeTicket;
 public class QrCodeRequestExecutor implements RequestExecutor<File, WxMpQrCodeTicket> {
 
   @Override
-  public File execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, 
+  public File execute(IWxConfig wxconfig, String uri, 
       WxMpQrCodeTicket ticket) throws WxErrorException, IOException {
     if (ticket != null) {
       if (uri.indexOf('?') == -1) {
@@ -41,12 +43,12 @@ public class QrCodeRequestExecutor implements RequestExecutor<File, WxMpQrCodeTi
     }
     
     HttpGet httpGet = new HttpGet(uri);
-    if (httpProxy != null) {
-      RequestConfig config = RequestConfig.custom().setProxy(httpProxy).build();
-      httpGet.setConfig(config);
-    }
+    if (wxconfig.getHttpProxyHost()!=null) {
+        RequestConfig config = RequestConfig.custom().setProxy(new HttpHost(wxconfig.getHttpProxyHost(), wxconfig.getHttpProxyPort())).build();
+        httpGet.setConfig(config);
+      }
 
-    try (CloseableHttpResponse response = httpclient.execute(httpGet);
+    try (CloseableHttpResponse response = HttpClientUtils.getHttpClient(wxconfig.getSslContext()).execute(httpGet);
         InputStream inputStream = InputStreamResponseHandler.INSTANCE.handleResponse(response);) {
       Header[] contentTypeHeader = response.getHeaders("Content-Type");
       if (contentTypeHeader != null && contentTypeHeader.length > 0) {

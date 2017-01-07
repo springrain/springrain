@@ -1,14 +1,14 @@
 package org.springrain.weixin.base.common.util.http;
 
-import org.springrain.weixin.base.common.bean.result.WxError;
-import org.springrain.weixin.base.common.exception.WxErrorException;
+import java.io.IOException;
+
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-
-import java.io.IOException;
+import org.springrain.frame.util.HttpClientUtils;
+import org.springrain.weixin.base.common.api.IWxConfig;
+import org.springrain.weixin.base.common.bean.result.WxError;
+import org.springrain.weixin.base.common.exception.WxErrorException;
 
 /**
  * 简单的GET请求执行器，请求的参数是String, 返回的结果也是String
@@ -18,7 +18,7 @@ import java.io.IOException;
 public class SimpleGetRequestExecutor implements RequestExecutor<String, String> {
 
   @Override
-  public String execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, String queryParam) throws WxErrorException, IOException {
+  public String execute(IWxConfig wxconfig, String uri, String queryParam) throws WxErrorException, IOException {
     if (queryParam != null) {
       if (uri.indexOf('?') == -1) {
         uri += '?';
@@ -26,21 +26,16 @@ public class SimpleGetRequestExecutor implements RequestExecutor<String, String>
       uri += uri.endsWith("?") ? queryParam : '&' + queryParam;
     }
     HttpGet httpGet = new HttpGet(uri);
-    if (httpProxy != null) {
-      RequestConfig config = RequestConfig.custom().setProxy(httpProxy).build();
+    if (wxconfig.getHttpProxyHost()!=null) {
+      RequestConfig config = RequestConfig.custom().setProxy(new HttpHost(wxconfig.getHttpProxyHost(), wxconfig.getHttpProxyPort())).build();
       httpGet.setConfig(config);
     }
-
-    try (CloseableHttpResponse response = httpclient.execute(httpGet)) {
-      String responseContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
+      String responseContent = HttpClientUtils.sendHttpGet(httpGet,wxconfig.getSslContext());
       WxError error = WxError.fromJson(responseContent);
       if (error.getErrorCode() != 0) {
         throw new WxErrorException(error);
       }
       return responseContent;
-    } finally {
-      httpGet.releaseConnection();
-    }
   }
 
 }

@@ -1,11 +1,10 @@
 package org.springrain.weixin.base.mp.api;
 
-import org.springrain.weixin.base.common.bean.WxAccessToken;
-import org.springrain.weixin.base.common.util.http.ApacheHttpClientBuilder;
+import java.io.File;
 
 import javax.net.ssl.SSLContext;
-import java.io.File;
-import java.util.concurrent.locks.Lock;
+
+import org.springrain.weixin.base.common.bean.WxAccessToken;
 
 /**
  * 微信客户端配置存储
@@ -16,7 +15,7 @@ public interface WxMpConfigStorage {
 
   String getAccessToken();
 
-  Lock getAccessTokenLock();
+  //Lock getAccessTokenLock();
 
   boolean isAccessTokenExpired();
 
@@ -40,7 +39,7 @@ public interface WxMpConfigStorage {
 
   String getJsapiTicket();
 
-  Lock getJsapiTicketLock();
+  //Lock getJsapiTicketLock();
 
   boolean isJsapiTicketExpired();
 
@@ -58,7 +57,7 @@ public interface WxMpConfigStorage {
 
   String getCardApiTicket();
 
-  Lock getCardApiTicketLock();
+  //Lock getCardApiTicketLock();
 
   boolean isCardApiTicketExpired();
 
@@ -106,7 +105,7 @@ public interface WxMpConfigStorage {
    * http client builder
    * @return ApacheHttpClientBuilder
    */
-  ApacheHttpClientBuilder getApacheHttpClientBuilder();
+ // ApacheHttpClientBuilder getApacheHttpClientBuilder();
 
   /**
    * 是否自动刷新token

@@ -13,7 +13,8 @@ import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
+import org.springrain.frame.util.HttpClientUtils;
+import org.springrain.weixin.base.common.api.IWxConfig;
 import org.springrain.weixin.base.common.bean.result.WxError;
 import org.springrain.weixin.base.common.exception.WxErrorException;
 import org.springrain.weixin.base.common.util.http.InputStreamResponseHandler;
@@ -35,17 +36,18 @@ public class MaterialVoiceAndImageDownloadRequestExecutor implements RequestExec
   }
 
   @Override
-  public InputStream execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, String materialId) throws WxErrorException, IOException {
-    HttpPost httpPost = new HttpPost(uri);
-    if (httpProxy != null) {
-      RequestConfig config = RequestConfig.custom().setProxy(httpProxy).build();
-      httpPost.setConfig(config);
-    }
+  public InputStream execute(IWxConfig wxconfig, String uri, String materialId) throws WxErrorException, IOException {
+		 HttpPost httpPost = new HttpPost(uri);
+		 if (wxconfig.getHttpProxyHost()!=null) {
+		        RequestConfig config = RequestConfig.custom().setProxy(new HttpHost(wxconfig.getHttpProxyHost(), wxconfig.getHttpProxyPort())).build();
+		        httpPost.setConfig(config);
+		  }
+
 
     Map<String, String> params = new HashMap<>();
     params.put("media_id", materialId);
     httpPost.setEntity(new StringEntity(WxGsonBuilder.create().toJson(params)));
-    try (CloseableHttpResponse response = httpclient.execute(httpPost);
+    try (CloseableHttpResponse response = HttpClientUtils.getHttpClient(wxconfig.getSslContext()).execute(httpPost);
         InputStream inputStream = InputStreamResponseHandler.INSTANCE.handleResponse(response);){
       // 下载媒体文件出错
       byte[] responseContent = IOUtils.toByteArray(inputStream);

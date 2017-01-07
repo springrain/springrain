@@ -1,5 +1,7 @@
 package org.springrain.weixin.base.common.util.http;
 
+import org.springrain.frame.util.HttpClientUtils;
+import org.springrain.weixin.base.common.api.IWxConfig;
 import org.springrain.weixin.base.common.bean.result.WxError;
 import org.springrain.weixin.base.common.exception.WxErrorException;
 import org.springrain.weixin.base.common.util.fs.FileUtils;
@@ -35,7 +37,7 @@ public class MediaDownloadRequestExecutor implements RequestExecutor<File, Strin
   }
 
   @Override
-  public File execute(CloseableHttpClient httpclient, HttpHost httpProxy, String uri, String queryParam) throws WxErrorException, IOException {
+  public File execute(IWxConfig wxconfig, String uri, String queryParam) throws WxErrorException, IOException {
     if (queryParam != null) {
       if (uri.indexOf('?') == -1) {
         uri += '?';
@@ -44,12 +46,13 @@ public class MediaDownloadRequestExecutor implements RequestExecutor<File, Strin
     }
 
     HttpGet httpGet = new HttpGet(uri);
-    if (httpProxy != null) {
-      RequestConfig config = RequestConfig.custom().setProxy(httpProxy).build();
+    if (wxconfig.getHttpProxyHost()!=null) {
+      RequestConfig config = RequestConfig.custom().setProxy(new HttpHost(wxconfig.getHttpProxyHost(), wxconfig.getHttpProxyPort())).build();
       httpGet.setConfig(config);
     }
 
-    try (CloseableHttpResponse response = httpclient.execute(httpGet);
+
+    try (CloseableHttpResponse response = HttpClientUtils.getHttpClient(wxconfig.getSslContext()).execute(httpGet);
         InputStream inputStream = InputStreamResponseHandler.INSTANCE
             .handleResponse(response)) {
 
