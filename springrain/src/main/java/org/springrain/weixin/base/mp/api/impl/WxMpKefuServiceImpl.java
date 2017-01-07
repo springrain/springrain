@@ -3,18 +3,15 @@ package org.springrain.weixin.base.mp.api.impl;
 import java.io.File;
 import java.util.Date;
 
-import org.springrain.weixin.base.mp.bean.kefu.WxMpKefuMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.gson.JsonObject;
-
 import org.springrain.weixin.base.common.bean.result.WxError;
 import org.springrain.weixin.base.common.bean.result.WxMediaUploadResult;
 import org.springrain.weixin.base.common.exception.WxErrorException;
 import org.springrain.weixin.base.common.util.http.MediaUploadRequestExecutor;
 import org.springrain.weixin.base.mp.api.WxMpKefuService;
 import org.springrain.weixin.base.mp.api.WxMpService;
+import org.springrain.weixin.base.mp.bean.kefu.WxMpKefuMessage;
 import org.springrain.weixin.base.mp.bean.kefu.request.WxMpKfAccountRequest;
 import org.springrain.weixin.base.mp.bean.kefu.request.WxMpKfSessionRequest;
 import org.springrain.weixin.base.mp.bean.kefu.result.WxMpKfList;
@@ -23,6 +20,10 @@ import org.springrain.weixin.base.mp.bean.kefu.result.WxMpKfOnlineList;
 import org.springrain.weixin.base.mp.bean.kefu.result.WxMpKfSessionGetResult;
 import org.springrain.weixin.base.mp.bean.kefu.result.WxMpKfSessionList;
 import org.springrain.weixin.base.mp.bean.kefu.result.WxMpKfSessionWaitCaseList;
+import org.springrain.weixin.entity.WxMpConfig;
+import org.springrain.weixin.service.IWxMpConfigService;
+
+import com.google.gson.JsonObject;
 
 /**
  *
@@ -34,117 +35,119 @@ public class WxMpKefuServiceImpl implements WxMpKefuService {
       .getLogger(WxMpKefuServiceImpl.class);
   private static final String API_URL_PREFIX = "https://api.weixin.qq.com/customservice";
   private static final String API_URL_PREFIX_WITH_CGI_BIN = "https://api.weixin.qq.com/cgi-bin/customservice";
+  
+  //生产环境应该是spring注入
+  private IWxMpConfigService wxMpConfigService;
   private WxMpService wxMpService;
 
-  public WxMpKefuServiceImpl(WxMpService wxMpService) {
-    this.wxMpService = wxMpService;
+  public WxMpKefuServiceImpl() {
   }
 
   @Override
-  public boolean sendKefuMessage(WxMpKefuMessage message)
+  public boolean sendKefuMessage(WxMpConfig wxmpconfig,WxMpKefuMessage message)
       throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/message/custom/send";
-    String responseContent = this.wxMpService.post(url, message.toJson());
+    String responseContent = wxMpService.post(wxmpconfig,url, message.toJson());
     return responseContent != null;
   }
 
   @Override
-  public WxMpKfList kfList() throws WxErrorException {
+  public WxMpKfList kfList(WxMpConfig wxmpconfig) throws WxErrorException {
     String url = API_URL_PREFIX_WITH_CGI_BIN + "/getkflist";
-    String responseContent = this.wxMpService.get(url, null);
+    String responseContent = wxMpService.get(wxmpconfig,url, null);
     return WxMpKfList.fromJson(responseContent);
   }
 
   @Override
-  public WxMpKfOnlineList kfOnlineList() throws WxErrorException {
+  public WxMpKfOnlineList kfOnlineList(WxMpConfig wxmpconfig) throws WxErrorException {
     String url = API_URL_PREFIX_WITH_CGI_BIN + "/getonlinekflist";
-    String responseContent = this.wxMpService.get(url, null);
+    String responseContent = wxMpService.get(wxmpconfig,url, null);
     return WxMpKfOnlineList.fromJson(responseContent);
   }
 
   @Override
-  public boolean kfAccountAdd(WxMpKfAccountRequest request)
+  public boolean kfAccountAdd(WxMpConfig wxmpconfig,WxMpKfAccountRequest request)
       throws WxErrorException {
     String url = API_URL_PREFIX + "/kfaccount/add";
-    String responseContent = this.wxMpService.post(url, request.toJson());
+    String responseContent = wxMpService.post(wxmpconfig,url, request.toJson());
     return responseContent != null;
   }
 
   @Override
-  public boolean kfAccountUpdate(WxMpKfAccountRequest request)
+  public boolean kfAccountUpdate(WxMpConfig wxmpconfig,WxMpKfAccountRequest request)
       throws WxErrorException {
     String url = API_URL_PREFIX + "/kfaccount/update";
-    String responseContent = this.wxMpService.post(url, request.toJson());
+    String responseContent = wxMpService.post(wxmpconfig,url, request.toJson());
     return responseContent != null;
   }
 
   @Override
-  public boolean kfAccountInviteWorker(WxMpKfAccountRequest request) throws WxErrorException {
+  public boolean kfAccountInviteWorker(WxMpConfig wxmpconfig,WxMpKfAccountRequest request) throws WxErrorException {
     String url = API_URL_PREFIX + "/kfaccount/inviteworker";
-    String responseContent = this.wxMpService.post(url, request.toJson());
+    String responseContent = wxMpService.post(wxmpconfig,url, request.toJson());
     return responseContent != null;
   }
 
   @Override
-  public boolean kfAccountUploadHeadImg(String kfAccount, File imgFile)
+  public boolean kfAccountUploadHeadImg(WxMpConfig wxmpconfig,String kfAccount, File imgFile)
       throws WxErrorException {
     String url = API_URL_PREFIX + "/kfaccount/uploadheadimg?kf_account=" + kfAccount;
-    WxMediaUploadResult responseContent = this.wxMpService
-        .execute(new MediaUploadRequestExecutor(), url, imgFile);
+    WxMediaUploadResult responseContent = wxMpService
+        .execute(wxmpconfig,new MediaUploadRequestExecutor(), url, imgFile);
     return responseContent != null;
   }
 
   @Override
-  public boolean kfAccountDel(String kfAccount) throws WxErrorException {
+  public boolean kfAccountDel(WxMpConfig wxmpconfig,String kfAccount) throws WxErrorException {
     String url = API_URL_PREFIX + "/kfaccount/del?kf_account=" + kfAccount;
-    String responseContent = this.wxMpService.get(url, null);
+    String responseContent = wxMpService.get(wxmpconfig,url, null);
     return responseContent != null;
   }
 
   @Override
-  public boolean kfSessionCreate(String openid, String kfAccount)
+  public boolean kfSessionCreate(WxMpConfig wxmpconfig,String openid, String kfAccount)
       throws WxErrorException {
     WxMpKfSessionRequest request = new WxMpKfSessionRequest(kfAccount, openid);
     String url = API_URL_PREFIX + "/kfsession/create";
-    String responseContent = this.wxMpService.post(url, request.toJson());
+    String responseContent = wxMpService.post(wxmpconfig,url, request.toJson());
     return responseContent != null;
   }
 
   @Override
-  public boolean kfSessionClose(String openid, String kfAccount)
+  public boolean kfSessionClose(WxMpConfig wxmpconfig,String openid, String kfAccount)
       throws WxErrorException {
     WxMpKfSessionRequest request = new WxMpKfSessionRequest(kfAccount, openid);
     String url = API_URL_PREFIX + "/kfsession/close";
-    String responseContent = this.wxMpService.post(url, request.toJson());
+    String responseContent = wxMpService.post(wxmpconfig,url, request.toJson());
     return responseContent != null;
   }
 
   @Override
-  public WxMpKfSessionGetResult kfSessionGet(String openid)
+  public WxMpKfSessionGetResult kfSessionGet(WxMpConfig wxmpconfig,String openid)
       throws WxErrorException {
     String url = API_URL_PREFIX + "/kfsession/getsession?openid=" + openid;
-    String responseContent = this.wxMpService.get(url, null);
+    String responseContent = wxMpService.get(wxmpconfig,url, null);
     return WxMpKfSessionGetResult.fromJson(responseContent);
   }
 
   @Override
-  public WxMpKfSessionList kfSessionList(String kfAccount)
+  public WxMpKfSessionList kfSessionList(WxMpConfig wxmpconfig,String kfAccount)
       throws WxErrorException {
     String url = API_URL_PREFIX + "/kfsession/getsessionlist?kf_account=" + kfAccount;
-    String responseContent = this.wxMpService.get(url, null);
+    String responseContent = wxMpService.get(wxmpconfig,url, null);
     return WxMpKfSessionList.fromJson(responseContent);
   }
 
   @Override
-  public WxMpKfSessionWaitCaseList kfSessionGetWaitCase()
+  public WxMpKfSessionWaitCaseList kfSessionGetWaitCase(WxMpConfig wxmpconfig)
       throws WxErrorException {
     String url = API_URL_PREFIX + "/kfsession/getwaitcase";
-    String responseContent = this.wxMpService.get(url, null);
+    String responseContent = wxMpService.get(wxmpconfig,url, null);
     return WxMpKfSessionWaitCaseList.fromJson(responseContent);
   }
 
   @Override
-  public WxMpKfMsgList kfMsgList(Date startTime, Date endTime, Long msgId, Integer number) throws WxErrorException {
+  public WxMpKfMsgList kfMsgList(WxMpConfig wxmpconfig,Date startTime, Date endTime, Long msgId, Integer number) throws WxErrorException {
     if(number > 10000){
       throw new WxErrorException(WxError.newBuilder().setErrorMsg("非法参数请求，每次最多查询10000条记录！").build());
     }
@@ -161,24 +164,24 @@ public class WxMpKefuServiceImpl implements WxMpKefuService {
     param.addProperty("msgid", msgId); //msgid	消息id顺序从小到大，从1开始
     param.addProperty("number", number); //number	每次获取条数，最多10000条
 
-    String responseContent = this.wxMpService.post(url, param.toString());
+    String responseContent = wxMpService.post(wxmpconfig,url, param.toString());
 
     return WxMpKfMsgList.fromJson(responseContent);
   }
 
   @Override
-  public WxMpKfMsgList kfMsgList(Date startTime, Date endTime) throws WxErrorException {
+  public WxMpKfMsgList kfMsgList(WxMpConfig wxmpconfig,Date startTime, Date endTime) throws WxErrorException {
     int number = 10000;
-    WxMpKfMsgList result =  this.kfMsgList(startTime,endTime, 1L, number);
+    WxMpKfMsgList result =  kfMsgList(wxmpconfig,startTime,endTime, 1L, number);
 
     if(result != null && result.getNumber() == number){
       Long msgId = result.getMsgId();
-      WxMpKfMsgList followingResult =  this.kfMsgList(startTime,endTime, msgId, number);
+      WxMpKfMsgList followingResult =  kfMsgList(wxmpconfig,startTime,endTime, msgId, number);
       while(followingResult != null  && followingResult.getRecords().size() > 0){
         result.getRecords().addAll(followingResult.getRecords());
         result.setNumber(result.getNumber() + followingResult.getNumber());
         result.setMsgId(followingResult.getMsgId());
-        followingResult = this.kfMsgList(startTime,endTime, followingResult.getMsgId(), number);
+        followingResult = kfMsgList(wxmpconfig,startTime,endTime, followingResult.getMsgId(), number);
       }
     }
 

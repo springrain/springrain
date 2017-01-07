@@ -4,6 +4,7 @@ import org.springrain.weixin.base.common.exception.WxErrorException;
 import org.springrain.weixin.base.mp.bean.kefu.WxMpKefuMessage;
 import org.springrain.weixin.base.mp.bean.kefu.request.WxMpKfAccountRequest;
 import org.springrain.weixin.base.mp.bean.kefu.result.*;
+import org.springrain.weixin.entity.WxMpConfig;
 
 import java.io.File;
 import java.util.Date;
@@ -25,7 +26,7 @@ public interface WxMpKefuService {
    * 接口url格式：https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=ACCESS_TOKEN
    * </pre>
    */
-  boolean sendKefuMessage(WxMpKefuMessage message) throws WxErrorException;
+  boolean sendKefuMessage(WxMpConfig wxmpconfig,WxMpKefuMessage message) throws WxErrorException;
 
   //*******************客服管理接口***********************//
 
@@ -36,7 +37,7 @@ public interface WxMpKefuService {
    * 接口url格式：https://api.weixin.qq.com/cgi-bin/customservice/getkflist?access_token=ACCESS_TOKEN
    * </pre>
    */
-  WxMpKfList kfList() throws WxErrorException;
+  WxMpKfList kfList(WxMpConfig wxmpconfig) throws WxErrorException;
 
   /**
    * <pre>
@@ -45,7 +46,7 @@ public interface WxMpKefuService {
    * 接口url格式：https://api.weixin.qq.com/cgi-bin/customservice/getonlinekflist?access_token=ACCESS_TOKEN
    * </pre>
    */
-  WxMpKfOnlineList kfOnlineList() throws WxErrorException;
+  WxMpKfOnlineList kfOnlineList(WxMpConfig wxmpconfig) throws WxErrorException;
 
   /**
    * <pre>
@@ -54,7 +55,7 @@ public interface WxMpKefuService {
    * 接口url格式：https://api.weixin.qq.com/customservice/kfaccount/add?access_token=ACCESS_TOKEN
    * </pre>
    */
-  boolean kfAccountAdd(WxMpKfAccountRequest request) throws WxErrorException;
+  boolean kfAccountAdd(WxMpConfig wxmpconfig,WxMpKfAccountRequest request) throws WxErrorException;
 
   /**
    * <pre>
@@ -63,7 +64,7 @@ public interface WxMpKefuService {
    * 接口url格式：https://api.weixin.qq.com/customservice/kfaccount/update?access_token=ACCESS_TOKEN
    * </pre>
    */
-  boolean kfAccountUpdate(WxMpKfAccountRequest request) throws WxErrorException;
+  boolean kfAccountUpdate(WxMpConfig wxmpconfig,WxMpKfAccountRequest request) throws WxErrorException;
 
   /**
    * <pre>
@@ -72,7 +73,7 @@ public interface WxMpKefuService {
    * 接口url格式：https://api.weixin.qq.com/customservice/kfaccount/inviteworker?access_token=ACCESS_TOKEN
    * </pre>
    */
-  boolean kfAccountInviteWorker(WxMpKfAccountRequest request) throws WxErrorException;
+  boolean kfAccountInviteWorker(WxMpConfig wxmpconfig,WxMpKfAccountRequest request) throws WxErrorException;
 
   /**
    * <pre>
@@ -81,7 +82,7 @@ public interface WxMpKefuService {
    * 接口url格式：http://api.weixin.qq.com/customservice/kfaccount/uploadheadimg?access_token=ACCESS_TOKEN&kf_account=KFACCOUNT
    * </pre>
    */
-  boolean kfAccountUploadHeadImg(String kfAccount, File imgFile)
+  boolean kfAccountUploadHeadImg(WxMpConfig wxmpconfig,String kfAccount, File imgFile)
           throws WxErrorException;
 
   /**
@@ -91,7 +92,7 @@ public interface WxMpKefuService {
    * 接口url格式：https://api.weixin.qq.com/customservice/kfaccount/del?access_token=ACCESS_TOKEN&kf_account=KFACCOUNT
    * </pre>
    */
-  boolean kfAccountDel(String kfAccount) throws WxErrorException;
+  boolean kfAccountDel(WxMpConfig wxmpconfig,String kfAccount) throws WxErrorException;
 
   //*******************客服会话控制接口***********************//
 
@@ -103,7 +104,7 @@ public interface WxMpKefuService {
    * 接口url格式： https://api.weixin.qq.com/customservice/kfsession/create?access_token=ACCESS_TOKEN
    * </pre>
    */
-  boolean kfSessionCreate(String openid, String kfAccount) throws WxErrorException;
+  boolean kfSessionCreate(WxMpConfig wxmpconfig,String openid, String kfAccount) throws WxErrorException;
 
   /**
    * <pre>
@@ -113,7 +114,7 @@ public interface WxMpKefuService {
    * 接口url格式： https://api.weixin.qq.com/customservice/kfsession/close?access_token=ACCESS_TOKEN
    * </pre>
    */
-  boolean kfSessionClose(String openid, String kfAccount) throws WxErrorException;
+  boolean kfSessionClose(WxMpConfig wxmpconfig,String openid, String kfAccount) throws WxErrorException;
 
   /**
    * <pre>
@@ -123,7 +124,7 @@ public interface WxMpKefuService {
    * 接口url格式： https://api.weixin.qq.com/customservice/kfsession/getsession?access_token=ACCESS_TOKEN&openid=OPENID
    * </pre>
    */
-  WxMpKfSessionGetResult kfSessionGet(String openid) throws WxErrorException;
+  WxMpKfSessionGetResult kfSessionGet(WxMpConfig wxmpconfig,String openid) throws WxErrorException;
 
   /**
    * <pre>
@@ -133,7 +134,7 @@ public interface WxMpKefuService {
    * 接口url格式： https://api.weixin.qq.com/customservice/kfsession/getsessionlist?access_token=ACCESS_TOKEN&kf_account=KFACCOUNT
    * </pre>
    */
-  WxMpKfSessionList kfSessionList(String kfAccount) throws WxErrorException;
+  WxMpKfSessionList kfSessionList(WxMpConfig wxmpconfig,String kfAccount) throws WxErrorException;
 
   /**
    * <pre>
@@ -143,7 +144,7 @@ public interface WxMpKefuService {
    * 接口url格式： https://api.weixin.qq.com/customservice/kfsession/getwaitcase?access_token=ACCESS_TOKEN
    * </pre>
    */
-  WxMpKfSessionWaitCaseList kfSessionGetWaitCase() throws WxErrorException;
+  WxMpKfSessionWaitCaseList kfSessionGetWaitCase(WxMpConfig wxmpconfig) throws WxErrorException;
 
   //*******************获取聊天记录的接口***********************//
 
@@ -162,7 +163,7 @@ public interface WxMpKefuService {
    * @return 聊天记录对象
    * @throws WxErrorException
    */
-  WxMpKfMsgList kfMsgList(Date startTime, Date endTime, Long msgId, Integer number) throws WxErrorException;
+  WxMpKfMsgList kfMsgList(WxMpConfig wxmpconfig,Date startTime, Date endTime, Long msgId, Integer number) throws WxErrorException;
 
   /**
    * <pre>
@@ -177,6 +178,6 @@ public interface WxMpKefuService {
    * @return 聊天记录对象
    * @throws WxErrorException
    */
-  WxMpKfMsgList kfMsgList(Date startTime, Date endTime) throws WxErrorException;
+  WxMpKfMsgList kfMsgList(WxMpConfig wxmpconfig,Date startTime, Date endTime) throws WxErrorException;
 
 }
