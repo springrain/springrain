@@ -8,7 +8,6 @@ public class WxMpConfigServiceImpl extends BaseSpringrainServiceImpl implements 
 
 	@Override
 	public WxMpConfig expireAccessToken(WxMpConfig wxmpconfig) {
-		
 		return wxmpconfig;
 	}
 
@@ -24,27 +23,43 @@ public class WxMpConfigServiceImpl extends BaseSpringrainServiceImpl implements 
 
 	@Override
 	public WxMpConfig expireJsapiTicket(WxMpConfig wxmpconfig) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public boolean isJsapiTicketExpired(WxMpConfig wxmpconfig) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public WxMpConfig updateJsapiTicket(WxMpConfig wxmpconfig) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public boolean autoRefreshToken(WxMpConfig wxmpconfig) {
+		return true;
+	}
+
+	@Override
+	public WxMpConfig expireCardapiTicket(WxMpConfig wxmpconfig) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isCardapiTicketExpired(WxMpConfig wxmpconfig) {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	@Override
+	public WxMpConfig updateCardapiTicket(WxMpConfig wxmpconfig) {
+		return null;
+	}
+	
+	
+
 	
 	
 	

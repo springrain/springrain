@@ -5,6 +5,8 @@ import org.springrain.weixin.entity.WxMpConfig;
 
 public interface IWxMpConfigService  extends IBaseSpringrainService{
 
+	boolean autoRefreshToken(WxMpConfig wxmpconfig);
+	
 	/**
 	 * 失效
 	 * @param wxMpConfig
@@ -33,8 +35,19 @@ public interface IWxMpConfigService  extends IBaseSpringrainService{
 	WxMpConfig updateJsapiTicket(WxMpConfig wxmpconfig);
 	
 	
+	/**
+	 * 失效
+	 * @param wxMpConfig
+	 * @return
+	 */
+	WxMpConfig expireCardapiTicket(WxMpConfig wxmpconfig);
 	
-	boolean autoRefreshToken(WxMpConfig wxmpconfig);
+	
+	boolean isCardapiTicketExpired(WxMpConfig wxmpconfig);
+   
+
+	WxMpConfig updateCardapiTicket(WxMpConfig wxmpconfig);
+	
 	
 	
 	
