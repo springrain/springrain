@@ -19,8 +19,6 @@ public class TestWeiXin {
 		
 		WxMpServiceImpl wx=new WxMpServiceImpl();
 		WxMpConfig  wxmpconfig=new WxMpConfig();
-		wxmpconfig.setAppId("wx62a8f539a0df7fa3");
-		wxmpconfig.setSecret("358463a0c97d94dd0006af522abdf6bc");
 		try {
 			String accessToken = wx.getAccessToken(wxmpconfig);
 			
@@ -36,8 +34,6 @@ public class TestWeiXin {
 	public void testData(){
 		WxMpDataCubeService data=new WxMpDataCubeServiceImpl();
 		WxMpConfig  wxmpconfig=new WxMpConfig();
-		wxmpconfig.setAppId("wx62a8f539a0df7fa3");
-		wxmpconfig.setSecret("358463a0c97d94dd0006af522abdf6bc");
 		
 		try {
 			List<WxDataCubeArticleResult> articleSummary = data.getArticleSummary(wxmpconfig, DateUtils.convertString2Date("2016-12-01"), DateUtils.convertString2Date("2016-12-30"));
