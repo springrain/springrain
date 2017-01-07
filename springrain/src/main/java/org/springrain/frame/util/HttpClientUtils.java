@@ -38,7 +38,7 @@ public class HttpClientUtils {
 	
 	
 	private static  PoolingHttpClientConnectionManager connectionManager = null;
-	private static  HttpClientBuilder httpClientBuilder=null;
+	//private static  HttpClientBuilder httpClientBuilder=null;
 	
 	private static   Logger logger = LoggerFactory.getLogger(HttpClientUtils.class);
 	private static RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(5000).setConnectTimeout(5000)
@@ -58,17 +58,37 @@ public class HttpClientUtils {
 	    	    connectionManager = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
 	    	    connectionManager.setMaxTotal(1000);
 	    	    connectionManager.setDefaultMaxPerRoute(200);//每个路由最大的请求数量
-	    	    httpClientBuilder = HttpClients.custom().setConnectionManager(connectionManager).setDefaultRequestConfig(requestConfig);
-	    	    
+	    	    //httpClientBuilder = HttpClients.custom().setConnectionManager(connectionManager).setDefaultRequestConfig(requestConfig);
 		       // HttpHost localhost = new HttpHost("http://www.baidu.com",80);
 		       //connectionManager.setMaxPerRoute(new HttpRoute(localhost), 200);
 		
 	}
 
 	public static CloseableHttpClient getHttpClient() {     
-        return httpClientBuilder.build();  
+        return getHttpClientBuilder().build();  
     }
-
+	
+	public static CloseableHttpClient getHttpClient(SSLContext sslContext) {   
+        return getHttpClientBuilder(sslContext).build();  
+    }
+	
+	
+	public static HttpClientBuilder getHttpClientBuilder(){
+		return HttpClients.custom().setConnectionManager(connectionManager).setDefaultRequestConfig(requestConfig);
+	}
+	
+    public static HttpClientBuilder getHttpClientBuilder(SSLContext sslContext){
+    	if(sslContext!=null){
+    		return getHttpClientBuilder().setSSLContext(sslContext);
+    	}else{
+    		return getHttpClientBuilder();
+    	}
+    	
+	}
+	
+	
+	
+	
 	/**
 	 * 发送 post请求
 	 * 
