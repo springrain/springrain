@@ -23,12 +23,12 @@ public class WxMpUserServiceImpl implements IWxMpUserService {
   private static final String API_URL_PREFIX = "https://api.weixin.qq.com/cgi-bin/user";
  
   @Resource
-  private IWxMpService iWxMpService;
+  private IWxMpService wxMpService;
 
   public WxMpUserServiceImpl() {
   }
-  public WxMpUserServiceImpl(IWxMpService iWxMpService) {
-	  this.iWxMpService=iWxMpService;
+  public WxMpUserServiceImpl(IWxMpService wxMpService) {
+	  this.wxMpService=wxMpService;
   }
 
   @Override
@@ -37,7 +37,7 @@ public class WxMpUserServiceImpl implements IWxMpUserService {
     JsonObject json = new JsonObject();
     json.addProperty("openid", openid);
     json.addProperty("remark", remark);
-    this.iWxMpService.post(wxmpconfig,url, json.toString());
+    this.wxMpService.post(wxmpconfig,url, json.toString());
   }
 
   @Override
@@ -49,7 +49,7 @@ public class WxMpUserServiceImpl implements IWxMpUserService {
   public WxMpUser userInfo(WxMpConfig wxmpconfig,String openid, String lang) throws WxErrorException {
     String url = API_URL_PREFIX + "/info";
     lang = lang == null ? "zh_CN" : lang;
-    String responseContent = this.iWxMpService.get(wxmpconfig,url,
+    String responseContent = this.wxMpService.get(wxmpconfig,url,
         "openid=" + openid + "&lang=" + lang);
     return WxMpUser.fromJson(responseContent);
   }
@@ -57,7 +57,7 @@ public class WxMpUserServiceImpl implements IWxMpUserService {
   @Override
   public WxMpUserList userList(WxMpConfig wxmpconfig,String next_openid) throws WxErrorException {
     String url = API_URL_PREFIX + "/get";
-    String responseContent = this.iWxMpService.get(wxmpconfig,url,
+    String responseContent = this.wxMpService.get(wxmpconfig,url,
         next_openid == null ? null : "next_openid=" + next_openid);
     return WxMpUserList.fromJson(responseContent);
   }
@@ -71,7 +71,7 @@ public class WxMpUserServiceImpl implements IWxMpUserService {
   @Override
   public List<WxMpUser> userInfoList(WxMpConfig wxmpconfig,WxMpUserQuery userQuery) throws WxErrorException {
     String url = API_URL_PREFIX + "/info/batchget";
-    String responseContent = this.iWxMpService.post(wxmpconfig,url,
+    String responseContent = this.wxMpService.post(wxmpconfig,url,
         userQuery.toJsonString());
     return WxMpUser.fromJsonList(responseContent);
   }

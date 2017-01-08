@@ -32,13 +32,13 @@ public class WxMpStoreServiceImpl implements IWxMpStoreService {
 
   
   @Resource
-  private IWxMpService iWxMpService;
+  private IWxMpService wxMpService;
 
   public WxMpStoreServiceImpl() {
   }
   
-  public WxMpStoreServiceImpl(IWxMpService iWxMpService) {
-	  this.iWxMpService=iWxMpService;
+  public WxMpStoreServiceImpl(IWxMpService wxMpService) {
+	  this.wxMpService=wxMpService;
   }
 
   @Override
@@ -46,7 +46,7 @@ public class WxMpStoreServiceImpl implements IWxMpStoreService {
     BeanUtils.checkRequiredFields(request);
 
     String url = API_BASE_URL + "/addpoi";
-    String response = iWxMpService.post(wxmpconfig,url, request.toJson());
+    String response = wxMpService.post(wxmpconfig,url, request.toJson());
     WxError wxError = WxError.fromJson(response);
     if (wxError.getErrorCode() != 0) {
       throw new WxErrorException(wxError);
@@ -58,7 +58,7 @@ public class WxMpStoreServiceImpl implements IWxMpStoreService {
     String url = API_BASE_URL + "/getpoi";
     JsonObject paramObject = new JsonObject();
     paramObject.addProperty("poi_id",poiId);
-    String response = iWxMpService.post(wxmpconfig,url, paramObject.toString());
+    String response = wxMpService.post(wxmpconfig,url, paramObject.toString());
     WxError wxError = WxError.fromJson(response);
     if (wxError.getErrorCode() != 0) {
       throw new WxErrorException(wxError);
@@ -72,7 +72,7 @@ public class WxMpStoreServiceImpl implements IWxMpStoreService {
     String url = API_BASE_URL + "/delpoi";
     JsonObject paramObject = new JsonObject();
     paramObject.addProperty("poi_id",poiId);
-    String response = iWxMpService.post(wxmpconfig,url, paramObject.toString());
+    String response = wxMpService.post(wxmpconfig,url, paramObject.toString());
     WxError wxError = WxError.fromJson(response);
     if (wxError.getErrorCode() != 0) {
       throw new WxErrorException(wxError);
@@ -86,7 +86,7 @@ public class WxMpStoreServiceImpl implements IWxMpStoreService {
     JsonObject params = new JsonObject();
     params.addProperty("begin", begin);
     params.addProperty("limit", limit);
-    String response = iWxMpService.post(wxmpconfig,url, params.toString());
+    String response = wxMpService.post(wxmpconfig,url, params.toString());
 
     WxError wxError = WxError.fromJson(response);
     if (wxError.getErrorCode() != 0) {
@@ -120,7 +120,7 @@ public class WxMpStoreServiceImpl implements IWxMpStoreService {
   @Override
   public void update(WxMpConfig wxmpconfig,WxMpStoreBaseInfo request) throws WxErrorException {
     String url = API_BASE_URL + "/updatepoi";
-    String response = iWxMpService.post(wxmpconfig,url, request.toJson());
+    String response = wxMpService.post(wxmpconfig,url, request.toJson());
     WxError wxError = WxError.fromJson(response);
     if (wxError.getErrorCode() != 0) {
       throw new WxErrorException(wxError);
@@ -130,7 +130,7 @@ public class WxMpStoreServiceImpl implements IWxMpStoreService {
   @Override
   public List<String> listCategories(WxMpConfig wxmpconfig) throws WxErrorException {
     String url = API_BASE_URL + "/getwxcategory";
-    String response = iWxMpService.get(wxmpconfig,url, null);
+    String response = wxMpService.get(wxmpconfig,url, null);
     WxError wxError = WxError.fromJson(response);
     if (wxError.getErrorCode() != 0) {
       throw new WxErrorException(wxError);

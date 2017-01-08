@@ -26,13 +26,13 @@ public class WxMpUserBlacklistServiceImpl implements IWxMpUserBlacklistService {
   private static final String API_BLACKLIST_PREFIX = "https://api.weixin.qq.com/cgi-bin/tags/members";
  
   @Resource
-  private IWxMpService iWxMpService;
+  private IWxMpService wxMpService;
 
   public WxMpUserBlacklistServiceImpl() {
   }
   
-  public WxMpUserBlacklistServiceImpl(IWxMpService iWxMpService) {
-	  this.iWxMpService=iWxMpService;
+  public WxMpUserBlacklistServiceImpl(IWxMpService wxMpService) {
+	  this.wxMpService=wxMpService;
   }
 
   @Override
@@ -40,7 +40,7 @@ public class WxMpUserBlacklistServiceImpl implements IWxMpUserBlacklistService {
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("begin_openid", nextOpenid);
     String url = API_BLACKLIST_PREFIX + "/getblacklist";
-    String responseContent = this.iWxMpService.execute(wxmpconfig,new SimplePostRequestExecutor(), url, jsonObject.toString());
+    String responseContent = this.wxMpService.execute(wxmpconfig,new SimplePostRequestExecutor(), url, jsonObject.toString());
     return WxMpUserBlacklistGetResult.fromJson(responseContent);
   }
 
@@ -49,7 +49,7 @@ public class WxMpUserBlacklistServiceImpl implements IWxMpUserBlacklistService {
     Map<String, Object> map = new HashMap<>();
     map.put("openid_list", openidList);
     String url = API_BLACKLIST_PREFIX + "/batchblacklist";
-    this.iWxMpService.execute(wxmpconfig,new SimplePostRequestExecutor(), url, new Gson().toJson(map));
+    this.wxMpService.execute(wxmpconfig,new SimplePostRequestExecutor(), url, new Gson().toJson(map));
   }
 
   @Override
@@ -57,6 +57,6 @@ public class WxMpUserBlacklistServiceImpl implements IWxMpUserBlacklistService {
     Map<String, Object> map = new HashMap<>();
     map.put("openid_list", openidList);
     String url = API_BLACKLIST_PREFIX + "/batchunblacklist";
-    this.iWxMpService.execute(wxmpconfig,new SimplePostRequestExecutor(), url, new Gson().toJson(map));
+    this.wxMpService.execute(wxmpconfig,new SimplePostRequestExecutor(), url, new Gson().toJson(map));
   }
 }

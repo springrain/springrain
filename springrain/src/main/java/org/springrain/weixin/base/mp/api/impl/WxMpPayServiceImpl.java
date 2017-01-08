@@ -78,12 +78,12 @@ public class WxMpPayServiceImpl implements IWxMpPayService {
   protected final Logger log = LoggerFactory.getLogger(getClass());
   
   @Resource
-  private IWxMpService iWxMpService;
+  private IWxMpService wxMpService;
 
   public WxMpPayServiceImpl() {
   }
-  public WxMpPayServiceImpl(IWxMpService iWxMpService) {
-	  this.iWxMpService=iWxMpService;
+  public WxMpPayServiceImpl(IWxMpService wxMpService) {
+	  this.wxMpService=wxMpService;
   }
   
 

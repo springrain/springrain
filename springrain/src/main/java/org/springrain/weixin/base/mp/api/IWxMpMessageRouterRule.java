@@ -192,7 +192,7 @@ public class IWxMpMessageRouterRule {
    * @return true 代表继续执行别的router，false 代表停止执行别的router
    */
   protected WxMpXmlOutMessage service(WxMpXmlMessage wxMessage,
-      IWxMpService iWxMpService,
+      IWxMpService wxMpService,
       WxErrorExceptionHandler exceptionHandler) {
 
     try {
@@ -200,7 +200,7 @@ public class IWxMpMessageRouterRule {
       Map<String, Object> context = new HashMap<>();
       // 如果拦截器不通过
       for (IWxMpMessageInterceptor interceptor : this.interceptors) {
-        if (!interceptor.intercept(wxMessage, context, iWxMpService)) {
+        if (!interceptor.intercept(wxMessage, context, wxMpService)) {
           return null;
         }
       }
@@ -212,7 +212,7 @@ public class IWxMpMessageRouterRule {
         if(handler == null){
           continue;
         }
-        res = handler.handle(wxMessage, context, iWxMpService);
+        res = handler.handle(wxMessage, context, wxMpService);
       }
       return res;
     } catch (WxErrorException e) {

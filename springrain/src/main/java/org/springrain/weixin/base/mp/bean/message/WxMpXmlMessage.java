@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
+import org.springrain.weixin.base.common.api.IWxConfig;
 import org.springrain.weixin.base.common.util.ToStringUtils;
 import org.springrain.weixin.base.common.util.xml.XStreamCDataConverter;
-import org.springrain.weixin.base.mp.api.IWxMpConfigStorage;
 import org.springrain.weixin.base.mp.util.crypto.WxMpCryptUtil;
 import org.springrain.weixin.base.mp.util.xml.XStreamTransformer;
 
@@ -310,25 +310,24 @@ public class WxMpXmlMessage implements Serializable {
    * 从加密字符串转换
    *
    * @param encryptedXml
-   * @param iWxMpConfigStorage
+   * @param wxMpConfigStorage
    * @param timestamp
    * @param nonce
    * @param msgSignature
    */
   public static WxMpXmlMessage fromEncryptedXml(String encryptedXml,
-                                                IWxMpConfigStorage iWxMpConfigStorage, String timestamp, String nonce,
+                                                IWxConfig wxconfig, String timestamp, String nonce,
                                                 String msgSignature) {
-    WxMpCryptUtil cryptUtil = new WxMpCryptUtil(iWxMpConfigStorage);
+    WxMpCryptUtil cryptUtil = new WxMpCryptUtil(wxconfig);
     String plainText = cryptUtil.decrypt(msgSignature, timestamp, nonce,
       encryptedXml);
     return fromXml(plainText);
   }
 
-  public static WxMpXmlMessage fromEncryptedXml(InputStream is,
-                                                IWxMpConfigStorage iWxMpConfigStorage, String timestamp, String nonce,
+  public static WxMpXmlMessage fromEncryptedXml(InputStream is,IWxConfig wxconfig, String timestamp, String nonce,
                                                 String msgSignature) {
     try {
-      return fromEncryptedXml(IOUtils.toString(is, "UTF-8"), iWxMpConfigStorage,
+      return fromEncryptedXml(IOUtils.toString(is, "UTF-8"), wxconfig,
         timestamp, nonce, msgSignature);
     } catch (IOException e) {
       throw new RuntimeException(e);

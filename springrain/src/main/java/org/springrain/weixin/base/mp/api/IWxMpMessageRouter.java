@@ -52,7 +52,7 @@ public class IWxMpMessageRouter {
 
   private final List<IWxMpMessageRouterRule> rules = new ArrayList<>();
 
-  private final IWxMpService iWxMpService;
+  private final IWxMpService wxMpService;
 
   private ExecutorService executorService;
 
@@ -61,8 +61,8 @@ public class IWxMpMessageRouter {
 
   private WxErrorExceptionHandler exceptionHandler;
 
-  public IWxMpMessageRouter(IWxMpService iWxMpService) {
-    this.iWxMpService = iWxMpService;
+  public IWxMpMessageRouter(IWxMpService wxMpService) {
+    this.wxMpService = wxMpService;
     this.executorService = Executors.newFixedThreadPool(DEFAULT_THREAD_POOL_SIZE);
     this.messageDuplicateChecker = new WxMessageInMemoryDuplicateChecker();
     this.exceptionHandler = new LogExceptionHandler();
@@ -148,12 +148,12 @@ public class IWxMpMessageRouter {
             this.executorService.submit(new Runnable() {
               @Override
               public void run() {
-                rule.service(wxMessage, IWxMpMessageRouter.this.iWxMpService, IWxMpMessageRouter.this.exceptionHandler);
+                rule.service(wxMessage, IWxMpMessageRouter.this.wxMpService, IWxMpMessageRouter.this.exceptionHandler);
               }
             })
         );
       } else {
-        res = rule.service(wxMessage, this.iWxMpService, this.exceptionHandler);
+        res = rule.service(wxMessage, this.wxMpService, this.exceptionHandler);
       }
     }
 

@@ -2,8 +2,8 @@ package org.springrain.weixin.base.mp.bean.message;
 
 import java.io.Serializable;
 
+import org.springrain.weixin.base.common.api.IWxConfig;
 import org.springrain.weixin.base.common.util.xml.XStreamCDataConverter;
-import org.springrain.weixin.base.mp.api.IWxMpConfigStorage;
 import org.springrain.weixin.base.mp.builder.outxml.ImageBuilder;
 import org.springrain.weixin.base.mp.builder.outxml.MusicBuilder;
 import org.springrain.weixin.base.mp.builder.outxml.NewsBuilder;
@@ -77,9 +77,9 @@ public String toXml() {
   /**
    * 转换成加密的xml格式
    */
-  public String toEncryptedXml(IWxMpConfigStorage iWxMpConfigStorage) {
+  public String toEncryptedXml(IWxConfig wxconfig) {
     String plainXml = toXml();
-    WxMpCryptUtil pc = new WxMpCryptUtil(iWxMpConfigStorage);
+    WxMpCryptUtil pc = new WxMpCryptUtil(wxconfig);
     return pc.encrypt(plainXml);
   }
 
