@@ -5,12 +5,12 @@ import java.util.List;
 
 import org.junit.Test;
 import org.springrain.frame.util.DateUtils;
-import org.springrain.weixin.base.common.exception.WxErrorException;
-import org.springrain.weixin.base.mp.api.IWxMpDataCubeService;
-import org.springrain.weixin.base.mp.api.impl.WxMpDataCubeServiceImpl;
-import org.springrain.weixin.base.mp.api.impl.WxMpServiceImpl;
-import org.springrain.weixin.base.mp.bean.datacube.WxDataCubeArticleResult;
 import org.springrain.weixin.entity.WxMpConfig;
+import org.springrain.weixin.sdk.common.exception.WxErrorException;
+import org.springrain.weixin.sdk.mp.api.IWxMpDataCubeService;
+import org.springrain.weixin.sdk.mp.api.impl.WxMpDataCubeServiceImpl;
+import org.springrain.weixin.sdk.mp.api.impl.WxMpServiceImpl;
+import org.springrain.weixin.sdk.mp.bean.datacube.WxDataCubeArticleResult;
 
 public class TestWeiXin {
 
