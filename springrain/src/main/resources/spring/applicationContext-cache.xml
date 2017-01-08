@@ -68,6 +68,13 @@
 				</bean>
 				
 				
+				<!-- 微信token缓存 -->
+				<bean
+					class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
+					<property name="name" value="springrainweixincache" />
+				</bean>
+				
+				
 				
 			</set>
 		</property>

@@ -25,7 +25,8 @@ public class GlobalStatic {
 	public static final String springrainkeeponeCacheKey="springrainkeeponecache";
 	//防火墙缓存
     public static final String springrainfirewallCacheKey="springrainfriewallcache";
-	
+	//微信token缓存
+    public static final String springrainweixinCacheKey="springrainweixincache";
 	
 	
 	public static final String defaultCharset="UTF-8";
