@@ -19,7 +19,7 @@ import org.springrain.weixin.sdk.cp.bean.WxCpUser;
 /**
  * 微信API的Service
  */
-public interface WxCpService {
+public interface IWxCpService {
 
   /**
    * <pre>

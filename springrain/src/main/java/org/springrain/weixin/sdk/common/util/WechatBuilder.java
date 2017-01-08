@@ -18,7 +18,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.weixin.entity.WxCpConfig;
 import org.springrain.weixin.entity.WxMpConfig;
-import org.springrain.weixin.sdk.cp.api.WxCpService;
+import org.springrain.weixin.sdk.cp.api.IWxCpService;
 import org.springrain.weixin.sdk.cp.api.WxCpServiceImpl;
 import org.springrain.weixin.sdk.mp.api.IWxMpService;
 import org.springrain.weixin.sdk.mp.api.impl.WxMpServiceImpl;
@@ -27,10 +27,10 @@ import org.springrain.weixin.sdk.mp.api.impl.WxMpServiceImpl;
 public class WechatBuilder {
 	
 	@Cacheable(value = GlobalStatic.cacheKey, key = "'getCpService_'+#siteId")
-	public static WxCpService getCpService(String siteId){
+	public static IWxCpService getCpService(String siteId){
 		String corpId = "";
 		String secret = "";
-		WxCpService service = new WxCpServiceImpl();
+		IWxCpService service = new WxCpServiceImpl();
 		WxCpConfig   config = new WxCpConfig();
 		config.setCorpId(corpId);
 		config.setCorpSecret(secret);

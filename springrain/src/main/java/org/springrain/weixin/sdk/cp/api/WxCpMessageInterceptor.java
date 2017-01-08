@@ -17,12 +17,12 @@ public interface WxCpMessageInterceptor {
    *
    * @param wxMessage
    * @param context        上下文，如果handler或interceptor之间有信息要传递，可以用这个
-   * @param wxCpService
+   * @param iWxCpService
    * @param sessionManager
    * @return true代表OK，false代表不OK
    */
   boolean intercept(WxCpXmlMessage wxMessage,
                     Map<String, Object> context,
-                    WxCpService wxCpService) throws WxErrorException;
+                    IWxCpService iWxCpService) throws WxErrorException;
 
 }

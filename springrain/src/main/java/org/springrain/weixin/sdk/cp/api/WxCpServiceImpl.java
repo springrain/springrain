@@ -49,7 +49,7 @@ import com.google.gson.reflect.TypeToken;
 
 
 @Service("wxCpService")
-public class WxCpServiceImpl implements WxCpService {
+public class WxCpServiceImpl implements IWxCpService {
 
   protected final Logger log = LoggerFactory.getLogger(WxCpServiceImpl.class);
 
