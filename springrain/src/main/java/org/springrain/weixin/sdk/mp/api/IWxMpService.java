@@ -1,7 +1,7 @@
 package org.springrain.weixin.sdk.mp.api;
 
 import org.springrain.weixin.entity.WxMpConfig;
-import org.springrain.weixin.sdk.common.bean.WxJsapiSignature;
+import org.springrain.weixin.sdk.common.bean.WxJsApiSignature;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
 import org.springrain.weixin.sdk.common.util.http.RequestExecutor;
 import org.springrain.weixin.sdk.mp.bean.WxMpMassNews;
@@ -78,7 +78,7 @@ public interface IWxMpService {
    * 详情请见：http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141115&token=&lang=zh_CN
    * </pre>
    */
-  WxJsapiSignature createJsApiSignature(WxMpConfig wxmpconfig,String url) throws WxErrorException;
+  WxJsApiSignature createJsApiSignature(WxMpConfig wxmpconfig,String url) throws WxErrorException;
 
   /**
    * <pre>

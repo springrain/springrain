@@ -170,7 +170,7 @@ public class WxMpConfig   extends BaseEntity implements IWxConfig {
 	public Long getJsApiTicketExpiresTime() {
 		return jsApiTicketExpiresTime;
 	}
-	public void setJsapiTicketExpiresTime(Long jsapiTicketExpiresTime) {
+	public void setJsApiTicketExpiresTime(Long jsapiTicketExpiresTime) {
 		this.jsApiTicketExpiresTime =  System.currentTimeMillis() + (jsApiTicketExpiresTime - 600) * 1000L;//预留10分钟
 	}
 	

@@ -90,7 +90,7 @@ public class WxMpCardServiceImpl implements IWxMpCardService {
         String cardApiTicket = tmpJsonObject.get("ticket").getAsString();
         int expiresInSeconds = tmpJsonObject.get("expires_in").getAsInt();
         wxmpconfig.setCardApiTicket(cardApiTicket);
-        wxmpconfig.setJsapiTicketExpiresTime(Long.valueOf(expiresInSeconds));
+        wxmpconfig.setJsApiTicketExpiresTime(Long.valueOf(expiresInSeconds));
         
         wxMpConfigService.updateCardApiTicket(wxmpconfig);
    

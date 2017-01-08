@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.weixin.entity.WxMpConfig;
 import org.springrain.weixin.sdk.common.bean.WxAccessToken;
-import org.springrain.weixin.sdk.common.bean.WxJsapiSignature;
+import org.springrain.weixin.sdk.common.bean.WxJsApiSignature;
 import org.springrain.weixin.sdk.common.bean.result.WxError;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
 import org.springrain.weixin.sdk.common.util.RandomUtils;
@@ -215,7 +215,7 @@ public class WxMpServiceImpl implements IWxMpService {
         int expiresInSeconds = tmpJsonObject.get("expires_in").getAsInt();
         
         wxmpconfig.setJsApiTicket(jsapiTicket);
-        wxmpconfig.setJsapiTicketExpiresTime(Long.valueOf(expiresInSeconds));
+        wxmpconfig.setJsApiTicketExpiresTime(Long.valueOf(expiresInSeconds));
         wxMpConfigService.updateJsApiTicket(wxmpconfig);
         
     return wxmpconfig.getJsApiTicket();
@@ -229,13 +229,13 @@ public class WxMpServiceImpl implements IWxMpService {
    * </pre>
    */
   @Override
-  public WxJsapiSignature createJsApiSignature(WxMpConfig wxmpconfig,String url) throws WxErrorException {
+  public WxJsApiSignature createJsApiSignature(WxMpConfig wxmpconfig,String url) throws WxErrorException {
     long timestamp = System.currentTimeMillis() / 1000;
     String noncestr = RandomUtils.getRandomStr();
     String jsapiTicket = getJsApiTicket(wxmpconfig,false);
     String signature = SHA1.genWithAmple("jsapi_ticket=" + jsapiTicket,
         "noncestr=" + noncestr, "timestamp=" + timestamp, "url=" + url);
-    WxJsapiSignature jsapiSignature = new WxJsapiSignature();
+    WxJsApiSignature jsapiSignature = new WxJsApiSignature();
     jsapiSignature.setAppid(wxmpconfig.getAppId());
     jsapiSignature.setTimestamp(timestamp);
     jsapiSignature.setNoncestr(noncestr);

@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * jspai signature
  */
-public class WxJsapiSignature implements Serializable {
+public class WxJsApiSignature implements Serializable {
   private static final long serialVersionUID = -1116808193154384804L;
 
   private String appid;

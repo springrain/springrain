@@ -30,10 +30,10 @@ public interface IWxCpConfigService  extends IBaseSpringrainService{
 	 * @param wxMpConfig
 	 * @return
 	 */
-	WxCpConfig expireJsapiTicket(WxCpConfig wxcpconfig);
+	WxCpConfig expireJsApiTicket(WxCpConfig wxcpconfig);
    
 
-	WxCpConfig updateJsapiTicket(WxCpConfig wxcpconfig);
+	WxCpConfig updateJsApiTicket(WxCpConfig wxcpconfig);
 	
 	/**
 	 * 失效

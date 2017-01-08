@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.springrain.weixin.entity.WxCpConfig;
-import org.springrain.weixin.sdk.common.bean.WxJsapiSignature;
+import org.springrain.weixin.sdk.common.bean.WxJsApiSignature;
 import org.springrain.weixin.sdk.common.bean.menu.WxMenu;
 import org.springrain.weixin.sdk.common.bean.result.WxMediaUploadResult;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
@@ -96,7 +96,7 @@ public interface IWxCpService {
    *
    * @param url url
    */
-  WxJsapiSignature createJsApiSignature(WxCpConfig wxcpconfig,String url) throws WxErrorException;
+  WxJsApiSignature createJsApiSignature(WxCpConfig wxcpconfig,String url) throws WxErrorException;
 
   /**
    * <pre>

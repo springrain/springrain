@@ -35,7 +35,7 @@ public class WxMpConfigServiceImpl extends BaseSpringrainServiceImpl implements 
 
 	@Override
 	public WxMpConfig expireJsApiTicket(WxMpConfig wxmpconfig) {
-		wxmpconfig.setJsapiTicketExpiresTime(0L);
+		wxmpconfig.setJsApiTicketExpiresTime(0L);
 		
 		//缓存操作
 		updateWxMpConfig(wxmpconfig);

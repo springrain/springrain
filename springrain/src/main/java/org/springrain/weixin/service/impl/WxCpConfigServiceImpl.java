@@ -34,8 +34,8 @@ public class WxCpConfigServiceImpl extends BaseSpringrainServiceImpl implements 
 	}
 
 	@Override
-	public WxCpConfig expireJsapiTicket(WxCpConfig wxcpconfig) {
-		wxcpconfig.setJsapiTicketExpiresTime(0L);
+	public WxCpConfig expireJsApiTicket(WxCpConfig wxcpconfig) {
+		wxcpconfig.setJsApiTicketExpiresTime(0L);
 		
 		//缓存操作
 		updateWxCpConfig(wxcpconfig);
@@ -48,7 +48,7 @@ public class WxCpConfigServiceImpl extends BaseSpringrainServiceImpl implements 
 
 
 	@Override
-	public WxCpConfig updateJsapiTicket(WxCpConfig wxcpconfig) {
+	public WxCpConfig updateJsApiTicket(WxCpConfig wxcpconfig) {
 		
 		//缓存操作
 		updateWxCpConfig(wxcpconfig);

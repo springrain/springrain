@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.weixin.entity.WxCpConfig;
 import org.springrain.weixin.sdk.common.bean.WxAccessToken;
-import org.springrain.weixin.sdk.common.bean.WxJsapiSignature;
+import org.springrain.weixin.sdk.common.bean.WxJsApiSignature;
 import org.springrain.weixin.sdk.common.bean.menu.WxMenu;
 import org.springrain.weixin.sdk.common.bean.result.WxError;
 import org.springrain.weixin.sdk.common.bean.result.WxMediaUploadResult;
@@ -141,7 +141,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
   @Override
   public String getJsApiTicket(WxCpConfig wxcpconfig,boolean forceRefresh) throws WxErrorException {
 		  if (forceRefresh) {
-	    	  wxCpConfigService.expireJsapiTicket(wxcpconfig);
+	    	  wxCpConfigService.expireJsApiTicket(wxcpconfig);
 	      }
 	      
 	      if (!wxcpconfig.isJsApiTicketExpired()) {
@@ -155,14 +155,14 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
           int expiresInSeconds = tmpJsonObject.get("expires_in").getAsInt();
           
           wxcpconfig.setJsApiTicket(jsapiTicket);
-          wxcpconfig.setJsapiTicketExpiresTime(Long.valueOf(expiresInSeconds));
-          wxCpConfigService.updateJsapiTicket(wxcpconfig);
+          wxcpconfig.setJsApiTicketExpiresTime(Long.valueOf(expiresInSeconds));
+          wxCpConfigService.updateJsApiTicket(wxcpconfig);
           
           return wxcpconfig.getJsApiTicket();
   }
 
   @Override
-  public WxJsapiSignature createJsApiSignature(WxCpConfig wxcpconfig,String url) throws WxErrorException {
+  public WxJsApiSignature createJsApiSignature(WxCpConfig wxcpconfig,String url) throws WxErrorException {
     long timestamp = System.currentTimeMillis() / 1000;
     String noncestr = RandomUtils.getRandomStr();
     String jsapiTicket = getJsApiTicket(wxcpconfig,false);
@@ -172,7 +172,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
       "timestamp=" + timestamp,
       "url=" + url
     );
-    WxJsapiSignature jsapiSignature = new WxJsapiSignature();
+    WxJsApiSignature jsapiSignature = new WxJsApiSignature();
     jsapiSignature.setTimestamp(timestamp);
     jsapiSignature.setNoncestr(noncestr);
     jsapiSignature.setUrl(url);
