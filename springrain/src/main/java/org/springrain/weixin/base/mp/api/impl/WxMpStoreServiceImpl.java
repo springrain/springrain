@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springrain.weixin.base.common.bean.result.WxError;
 import org.springrain.weixin.base.common.exception.WxErrorException;
 import org.springrain.weixin.base.common.util.BeanUtils;
-import org.springrain.weixin.base.mp.api.WxMpService;
-import org.springrain.weixin.base.mp.api.WxMpStoreService;
+import org.springrain.weixin.base.mp.api.IWxMpService;
+import org.springrain.weixin.base.mp.api.IWxMpStoreService;
 import org.springrain.weixin.base.mp.bean.store.WxMpStoreBaseInfo;
 import org.springrain.weixin.base.mp.bean.store.WxMpStoreInfo;
 import org.springrain.weixin.base.mp.bean.store.WxMpStoreListResult;
@@ -27,18 +27,18 @@ import com.google.gson.reflect.TypeToken;
  */
 
 @Service("wxMpStoreService")
-public class WxMpStoreServiceImpl implements WxMpStoreService {
+public class WxMpStoreServiceImpl implements IWxMpStoreService {
   private static final String API_BASE_URL = "http://api.weixin.qq.com/cgi-bin/poi";
 
   
   @Resource
-  private WxMpService wxMpService;
+  private IWxMpService iWxMpService;
 
   public WxMpStoreServiceImpl() {
   }
   
-  public WxMpStoreServiceImpl(WxMpService wxMpService) {
-	  this.wxMpService=wxMpService;
+  public WxMpStoreServiceImpl(IWxMpService iWxMpService) {
+	  this.iWxMpService=iWxMpService;
   }
 
   @Override
@@ -46,7 +46,7 @@ public class WxMpStoreServiceImpl implements WxMpStoreService {
     BeanUtils.checkRequiredFields(request);
 
     String url = API_BASE_URL + "/addpoi";
-    String response = wxMpService.post(wxmpconfig,url, request.toJson());
+    String response = iWxMpService.post(wxmpconfig,url, request.toJson());
     WxError wxError = WxError.fromJson(response);
     if (wxError.getErrorCode() != 0) {
       throw new WxErrorException(wxError);
@@ -58,7 +58,7 @@ public class WxMpStoreServiceImpl implements WxMpStoreService {
     String url = API_BASE_URL + "/getpoi";
     JsonObject paramObject = new JsonObject();
     paramObject.addProperty("poi_id",poiId);
-    String response = wxMpService.post(wxmpconfig,url, paramObject.toString());
+    String response = iWxMpService.post(wxmpconfig,url, paramObject.toString());
     WxError wxError = WxError.fromJson(response);
     if (wxError.getErrorCode() != 0) {
       throw new WxErrorException(wxError);
@@ -72,7 +72,7 @@ public class WxMpStoreServiceImpl implements WxMpStoreService {
     String url = API_BASE_URL + "/delpoi";
     JsonObject paramObject = new JsonObject();
     paramObject.addProperty("poi_id",poiId);
-    String response = wxMpService.post(wxmpconfig,url, paramObject.toString());
+    String response = iWxMpService.post(wxmpconfig,url, paramObject.toString());
     WxError wxError = WxError.fromJson(response);
     if (wxError.getErrorCode() != 0) {
       throw new WxErrorException(wxError);
@@ -86,7 +86,7 @@ public class WxMpStoreServiceImpl implements WxMpStoreService {
     JsonObject params = new JsonObject();
     params.addProperty("begin", begin);
     params.addProperty("limit", limit);
-    String response = wxMpService.post(wxmpconfig,url, params.toString());
+    String response = iWxMpService.post(wxmpconfig,url, params.toString());
 
     WxError wxError = WxError.fromJson(response);
     if (wxError.getErrorCode() != 0) {
@@ -120,7 +120,7 @@ public class WxMpStoreServiceImpl implements WxMpStoreService {
   @Override
   public void update(WxMpConfig wxmpconfig,WxMpStoreBaseInfo request) throws WxErrorException {
     String url = API_BASE_URL + "/updatepoi";
-    String response = wxMpService.post(wxmpconfig,url, request.toJson());
+    String response = iWxMpService.post(wxmpconfig,url, request.toJson());
     WxError wxError = WxError.fromJson(response);
     if (wxError.getErrorCode() != 0) {
       throw new WxErrorException(wxError);
@@ -130,7 +130,7 @@ public class WxMpStoreServiceImpl implements WxMpStoreService {
   @Override
   public List<String> listCategories(WxMpConfig wxmpconfig) throws WxErrorException {
     String url = API_BASE_URL + "/getwxcategory";
-    String response = wxMpService.get(wxmpconfig,url, null);
+    String response = iWxMpService.get(wxmpconfig,url, null);
     WxError wxError = WxError.fromJson(response);
     if (wxError.getErrorCode() != 0) {
       throw new WxErrorException(wxError);

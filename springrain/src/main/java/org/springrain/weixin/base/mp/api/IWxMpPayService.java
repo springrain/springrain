@@ -26,7 +26,7 @@ import org.springrain.weixin.entity.WxMpConfig;
  *
  * @author springrain (http://git.oschina.net/chunanyong/springrain)
  */
-public interface WxMpPayService {
+public interface IWxMpPayService {
 
   /**
    * <pre>

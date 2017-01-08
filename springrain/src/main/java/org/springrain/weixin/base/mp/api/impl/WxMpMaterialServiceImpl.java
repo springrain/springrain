@@ -18,8 +18,8 @@ import org.springrain.weixin.base.common.util.fs.FileUtils;
 import org.springrain.weixin.base.common.util.http.MediaDownloadRequestExecutor;
 import org.springrain.weixin.base.common.util.http.MediaUploadRequestExecutor;
 import org.springrain.weixin.base.common.util.json.WxGsonBuilder;
-import org.springrain.weixin.base.mp.api.WxMpMaterialService;
-import org.springrain.weixin.base.mp.api.WxMpService;
+import org.springrain.weixin.base.mp.api.IWxMpMaterialService;
+import org.springrain.weixin.base.mp.api.IWxMpService;
 import org.springrain.weixin.base.mp.bean.material.WxMediaImgUploadResult;
 import org.springrain.weixin.base.mp.bean.material.WxMpMaterial;
 import org.springrain.weixin.base.mp.bean.material.WxMpMaterialArticleUpdate;
@@ -44,17 +44,17 @@ import org.springrain.weixin.entity.WxMpConfig;
 
 
 @Service("wxMpMaterialService")
-public class WxMpMaterialServiceImpl implements WxMpMaterialService {
+public class WxMpMaterialServiceImpl implements IWxMpMaterialService {
   private static final String MEDIA_API_URL_PREFIX = "https://api.weixin.qq.com/cgi-bin/media";
   private static final String MATERIAL_API_URL_PREFIX = "https://api.weixin.qq.com/cgi-bin/material";
   
   @Resource
-  private WxMpService wxMpService;
+  private IWxMpService iWxMpService;
 
   public WxMpMaterialServiceImpl() {
   }
-  public WxMpMaterialServiceImpl(WxMpService wxMpService) {
-	  this.wxMpService=wxMpService;
+  public WxMpMaterialServiceImpl(IWxMpService iWxMpService) {
+	  this.iWxMpService=iWxMpService;
   }
 
   @Override
@@ -70,13 +70,13 @@ public class WxMpMaterialServiceImpl implements WxMpMaterialService {
   @Override
   public WxMediaUploadResult mediaUpload(WxMpConfig wxmpconfig,String mediaType, File file) throws WxErrorException {
     String url = MEDIA_API_URL_PREFIX + "/upload?type=" + mediaType;
-    return this.wxMpService.execute(wxmpconfig,new MediaUploadRequestExecutor(), url, file);
+    return this.iWxMpService.execute(wxmpconfig,new MediaUploadRequestExecutor(), url, file);
   }
 
   @Override
   public File mediaDownload(WxMpConfig wxmpconfig,String media_id) throws WxErrorException {
     String url = MEDIA_API_URL_PREFIX + "/get";
-    return this.wxMpService.execute(wxmpconfig,
+    return this.iWxMpService.execute(wxmpconfig,
       new MediaDownloadRequestExecutor(new File(wxmpconfig.getTmpDirFile())),
       url,
       "media_id=" + media_id);
@@ -85,13 +85,13 @@ public class WxMpMaterialServiceImpl implements WxMpMaterialService {
   @Override
   public WxMediaImgUploadResult mediaImgUpload(WxMpConfig wxmpconfig,File file) throws WxErrorException {
     String url = MEDIA_API_URL_PREFIX + "/uploadimg";
-    return this.wxMpService.execute(wxmpconfig,new MediaImgUploadRequestExecutor(), url, file);
+    return this.iWxMpService.execute(wxmpconfig,new MediaImgUploadRequestExecutor(), url, file);
   }
 
   @Override
   public WxMpMaterialUploadResult materialFileUpload(WxMpConfig wxmpconfig,String mediaType, WxMpMaterial material) throws WxErrorException {
     String url = MATERIAL_API_URL_PREFIX + "/add_material?type=" + mediaType;
-    return this.wxMpService.execute(wxmpconfig,new MaterialUploadRequestExecutor(), url, material);
+    return this.iWxMpService.execute(wxmpconfig,new MaterialUploadRequestExecutor(), url, material);
   }
 
   @Override
@@ -100,32 +100,32 @@ public class WxMpMaterialServiceImpl implements WxMpMaterialService {
       throw new IllegalArgumentException("news is empty!");
     }
     String url = MATERIAL_API_URL_PREFIX + "/add_news";
-    String responseContent = this.wxMpService.post(wxmpconfig,url, news.toJson());
+    String responseContent = this.iWxMpService.post(wxmpconfig,url, news.toJson());
     return WxMpMaterialUploadResult.fromJson(responseContent);
   }
 
   @Override
   public InputStream materialImageOrVoiceDownload(WxMpConfig wxmpconfig,String media_id) throws WxErrorException {
     String url = MATERIAL_API_URL_PREFIX + "/get_material";
-    return this.wxMpService.execute(wxmpconfig,new MaterialVoiceAndImageDownloadRequestExecutor(new File(wxmpconfig.getTmpDirFile())), url, media_id);
+    return this.iWxMpService.execute(wxmpconfig,new MaterialVoiceAndImageDownloadRequestExecutor(new File(wxmpconfig.getTmpDirFile())), url, media_id);
   }
 
   @Override
   public WxMpMaterialVideoInfoResult materialVideoInfo(WxMpConfig wxmpconfig,String media_id) throws WxErrorException {
     String url = MATERIAL_API_URL_PREFIX + "/get_material";
-    return this.wxMpService.execute(wxmpconfig,new MaterialVideoInfoRequestExecutor(), url, media_id);
+    return this.iWxMpService.execute(wxmpconfig,new MaterialVideoInfoRequestExecutor(), url, media_id);
   }
 
   @Override
   public WxMpMaterialNews materialNewsInfo(WxMpConfig wxmpconfig,String media_id) throws WxErrorException {
     String url = MATERIAL_API_URL_PREFIX + "/get_material";
-    return this.wxMpService.execute(wxmpconfig,new MaterialNewsInfoRequestExecutor(), url, media_id);
+    return this.iWxMpService.execute(wxmpconfig,new MaterialNewsInfoRequestExecutor(), url, media_id);
   }
 
   @Override
   public boolean materialNewsUpdate(WxMpConfig wxmpconfig,WxMpMaterialArticleUpdate wxMpMaterialArticleUpdate) throws WxErrorException {
     String url = MATERIAL_API_URL_PREFIX + "/update_news";
-    String responseText = this.wxMpService.post(wxmpconfig,url, wxMpMaterialArticleUpdate.toJson());
+    String responseText = this.iWxMpService.post(wxmpconfig,url, wxMpMaterialArticleUpdate.toJson());
     WxError wxError = WxError.fromJson(responseText);
     if (wxError.getErrorCode() == 0) {
       return true;
@@ -137,13 +137,13 @@ public class WxMpMaterialServiceImpl implements WxMpMaterialService {
   @Override
   public boolean materialDelete(WxMpConfig wxmpconfig,String media_id) throws WxErrorException {
     String url = MATERIAL_API_URL_PREFIX + "/del_material";
-    return this.wxMpService.execute(wxmpconfig,new MaterialDeleteRequestExecutor(), url, media_id);
+    return this.iWxMpService.execute(wxmpconfig,new MaterialDeleteRequestExecutor(), url, media_id);
   }
 
   @Override
   public WxMpMaterialCountResult materialCount(WxMpConfig wxmpconfig) throws WxErrorException {
     String url = MATERIAL_API_URL_PREFIX + "/get_materialcount";
-    String responseText = this.wxMpService.get(wxmpconfig,url, null);
+    String responseText = this.iWxMpService.get(wxmpconfig,url, null);
     WxError wxError = WxError.fromJson(responseText);
     if (wxError.getErrorCode() == 0) {
       return WxMpGsonBuilder.create().fromJson(responseText, WxMpMaterialCountResult.class);
@@ -159,7 +159,7 @@ public class WxMpMaterialServiceImpl implements WxMpMaterialService {
     params.put("type", WxConsts.MATERIAL_NEWS);
     params.put("offset", offset);
     params.put("count", count);
-    String responseText = this.wxMpService.post(wxmpconfig,url, WxGsonBuilder.create().toJson(params));
+    String responseText = this.iWxMpService.post(wxmpconfig,url, WxGsonBuilder.create().toJson(params));
     WxError wxError = WxError.fromJson(responseText);
     if (wxError.getErrorCode() == 0) {
       return WxMpGsonBuilder.create().fromJson(responseText, WxMpMaterialNewsBatchGetResult.class);
@@ -175,7 +175,7 @@ public class WxMpMaterialServiceImpl implements WxMpMaterialService {
     params.put("type", type);
     params.put("offset", offset);
     params.put("count", count);
-    String responseText = this.wxMpService.post(wxmpconfig,url, WxGsonBuilder.create().toJson(params));
+    String responseText = this.iWxMpService.post(wxmpconfig,url, WxGsonBuilder.create().toJson(params));
     WxError wxError = WxError.fromJson(responseText);
     if (wxError.getErrorCode() == 0) {
       return WxMpGsonBuilder.create().fromJson(responseText, WxMpMaterialFileBatchGetResult.class);

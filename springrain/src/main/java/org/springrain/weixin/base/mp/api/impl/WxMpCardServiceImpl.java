@@ -13,8 +13,8 @@ import org.springrain.weixin.base.common.exception.WxErrorException;
 import org.springrain.weixin.base.common.util.RandomUtils;
 import org.springrain.weixin.base.common.util.crypto.SHA1;
 import org.springrain.weixin.base.common.util.http.SimpleGetRequestExecutor;
-import org.springrain.weixin.base.mp.api.WxMpCardService;
-import org.springrain.weixin.base.mp.api.WxMpService;
+import org.springrain.weixin.base.mp.api.IWxMpCardService;
+import org.springrain.weixin.base.mp.api.IWxMpService;
 import org.springrain.weixin.base.mp.bean.result.WxMpCardResult;
 import org.springrain.weixin.base.mp.util.json.WxMpGsonBuilder;
 import org.springrain.weixin.entity.WxMpConfig;
@@ -30,7 +30,7 @@ import com.google.gson.reflect.TypeToken;
  * Created by springrain on 2017/1/8.
  */
 @Service("wxMpCardService")
-public class WxMpCardServiceImpl implements WxMpCardService {
+public class WxMpCardServiceImpl implements IWxMpCardService {
 
   private final Logger log = LoggerFactory.getLogger(WxMpCardServiceImpl.class);
 
@@ -38,13 +38,13 @@ public class WxMpCardServiceImpl implements WxMpCardService {
   @Resource
   private IWxMpConfigService wxMpConfigService;
   @Resource
-  private WxMpService wxMpService;
+  private IWxMpService iWxMpService;
 
   public WxMpCardServiceImpl() {
   }
   
-  public WxMpCardServiceImpl(WxMpService wxMpSecrvie,IWxMpConfigService wxMpConfigService) {
-	  this.wxMpService=wxMpSecrvie;
+  public WxMpCardServiceImpl(IWxMpService wxMpSecrvie,IWxMpConfigService wxMpConfigService) {
+	  this.iWxMpService=wxMpSecrvie;
 	  this.wxMpConfigService=wxMpConfigService;
   }
   /**
@@ -84,7 +84,7 @@ public class WxMpCardServiceImpl implements WxMpCardService {
       
 
         String url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=wx_card";
-        String responseContent = wxMpService.execute(wxmpconfig,new SimpleGetRequestExecutor(), url, null);
+        String responseContent = iWxMpService.execute(wxmpconfig,new SimpleGetRequestExecutor(), url, null);
         JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
         JsonObject tmpJsonObject = tmpJsonElement.getAsJsonObject();
         String cardApiTicket = tmpJsonObject.get("ticket").getAsString();
@@ -141,7 +141,7 @@ public class WxMpCardServiceImpl implements WxMpCardService {
     String url = "https://api.weixin.qq.com/card/code/decrypt";
     JsonObject param = new JsonObject();
     param.addProperty("encrypt_code", encryptCode);
-    String responseContent = wxMpService.post(wxmpconfig,url, param.toString());
+    String responseContent = iWxMpService.post(wxmpconfig,url, param.toString());
     JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
     JsonObject tmpJsonObject = tmpJsonElement.getAsJsonObject();
     JsonPrimitive jsonPrimitive = tmpJsonObject.getAsJsonPrimitive("code");
@@ -163,7 +163,7 @@ public class WxMpCardServiceImpl implements WxMpCardService {
     param.addProperty("card_id", cardId);
     param.addProperty("code", code);
     param.addProperty("check_consume", checkConsume);
-    String responseContent = wxMpService.post(wxmpconfig,url, param.toString());
+    String responseContent = iWxMpService.post(wxmpconfig,url, param.toString());
     JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
     return WxMpGsonBuilder.INSTANCE.create().fromJson(tmpJsonElement,
             new TypeToken<WxMpCardResult>() {
@@ -200,7 +200,7 @@ public class WxMpCardServiceImpl implements WxMpCardService {
       param.addProperty("card_id", cardId);
     }
 
-    return wxMpService.post(wxmpconfig,url, param.toString());
+    return iWxMpService.post(wxmpconfig,url, param.toString());
   }
 
   /**
@@ -222,7 +222,7 @@ public class WxMpCardServiceImpl implements WxMpCardService {
     param.addProperty("card_id", cardId);
     param.addProperty("openid", openId);
     param.addProperty("is_mark", isMark);
-    String responseContent = wxMpService.post(wxmpconfig,url, param.toString());
+    String responseContent = iWxMpService.post(wxmpconfig,url, param.toString());
     JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
     WxMpCardResult cardResult = WxMpGsonBuilder.INSTANCE.create().fromJson(tmpJsonElement,
             new TypeToken<WxMpCardResult>() { }.getType());
@@ -236,7 +236,7 @@ public class WxMpCardServiceImpl implements WxMpCardService {
     String url = "https://api.weixin.qq.com/card/get";
     JsonObject param = new JsonObject();
     param.addProperty("card_id", cardId);
-    String responseContent = wxMpService.post(wxmpconfig,url, param.toString());
+    String responseContent = iWxMpService.post(wxmpconfig,url, param.toString());
 
     // 判断返回值
     JsonObject json = (new JsonParser()).parse(responseContent).getAsJsonObject();

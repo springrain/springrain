@@ -11,9 +11,9 @@ import org.springrain.weixin.base.common.exception.WxErrorException;
 import org.springrain.weixin.base.mp.bean.message.WxMpXmlMessage;
 import org.springrain.weixin.base.mp.bean.message.WxMpXmlOutMessage;
 
-public class WxMpMessageRouterRule {
+public class IWxMpMessageRouterRule {
 
-  private final WxMpMessageRouter routerBuilder;
+  private final IWxMpMessageRouter routerBuilder;
 
   private boolean async = true;
 
@@ -29,22 +29,22 @@ public class WxMpMessageRouterRule {
 
   private String rContent;
 
-  private WxMpMessageMatcher matcher;
+  private IWxMpMessageMatcher matcher;
 
   private boolean reEnter = false;
 
-  private List<WxMpMessageHandler> handlers = new ArrayList<>();
+  private List<IWxMpMessageHandler> handlers = new ArrayList<>();
 
-  private List<WxMpMessageInterceptor> interceptors = new ArrayList<>();
+  private List<IWxMpMessageInterceptor> interceptors = new ArrayList<>();
 
-  public WxMpMessageRouterRule(WxMpMessageRouter routerBuilder) {
+  public IWxMpMessageRouterRule(IWxMpMessageRouter routerBuilder) {
     this.routerBuilder = routerBuilder;
   }
 
   /**
    * 设置是否异步执行，默认是true
    */
-  public WxMpMessageRouterRule async(boolean async) {
+  public IWxMpMessageRouterRule async(boolean async) {
     this.async = async;
     return this;
   }
@@ -52,7 +52,7 @@ public class WxMpMessageRouterRule {
   /**
    * 如果msgType等于某值
    */
-  public WxMpMessageRouterRule msgType(String msgType) {
+  public IWxMpMessageRouterRule msgType(String msgType) {
     this.msgType = msgType;
     return this;
   }
@@ -60,7 +60,7 @@ public class WxMpMessageRouterRule {
   /**
    * 如果event等于某值
    */
-  public WxMpMessageRouterRule event(String event) {
+  public IWxMpMessageRouterRule event(String event) {
     this.event = event;
     return this;
   }
@@ -68,7 +68,7 @@ public class WxMpMessageRouterRule {
   /**
    * 如果eventKey等于某值
    */
-  public WxMpMessageRouterRule eventKey(String eventKey) {
+  public IWxMpMessageRouterRule eventKey(String eventKey) {
     this.eventKey = eventKey;
     return this;
   }
@@ -76,7 +76,7 @@ public class WxMpMessageRouterRule {
   /**
    * 如果content等于某值
    */
-  public WxMpMessageRouterRule content(String content) {
+  public IWxMpMessageRouterRule content(String content) {
     this.content = content;
     return this;
   }
@@ -84,7 +84,7 @@ public class WxMpMessageRouterRule {
   /**
    * 如果content匹配该正则表达式
    */
-  public WxMpMessageRouterRule rContent(String regex) {
+  public IWxMpMessageRouterRule rContent(String regex) {
     this.rContent = regex;
     return this;
   }
@@ -92,7 +92,7 @@ public class WxMpMessageRouterRule {
   /**
    * 如果fromUser等于某值
    */
-  public WxMpMessageRouterRule fromUser(String fromUser) {
+  public IWxMpMessageRouterRule fromUser(String fromUser) {
     this.fromUser = fromUser;
     return this;
   }
@@ -100,7 +100,7 @@ public class WxMpMessageRouterRule {
   /**
    * 如果消息匹配某个matcher，用在用户需要自定义更复杂的匹配规则的时候
    */
-  public WxMpMessageRouterRule matcher(WxMpMessageMatcher matcher) {
+  public IWxMpMessageRouterRule matcher(IWxMpMessageMatcher matcher) {
     this.matcher = matcher;
     return this;
   }
@@ -108,17 +108,17 @@ public class WxMpMessageRouterRule {
   /**
    * 设置微信消息拦截器
    */
-  public WxMpMessageRouterRule interceptor(WxMpMessageInterceptor interceptor) {
-    return interceptor(interceptor, (WxMpMessageInterceptor[]) null);
+  public IWxMpMessageRouterRule interceptor(IWxMpMessageInterceptor interceptor) {
+    return interceptor(interceptor, (IWxMpMessageInterceptor[]) null);
   }
 
   /**
    * 设置微信消息拦截器
    */
-  public WxMpMessageRouterRule interceptor(WxMpMessageInterceptor interceptor, WxMpMessageInterceptor... otherInterceptors) {
+  public IWxMpMessageRouterRule interceptor(IWxMpMessageInterceptor interceptor, IWxMpMessageInterceptor... otherInterceptors) {
     this.interceptors.add(interceptor);
     if (otherInterceptors != null && otherInterceptors.length > 0) {
-      for (WxMpMessageInterceptor i : otherInterceptors) {
+      for (IWxMpMessageInterceptor i : otherInterceptors) {
         this.interceptors.add(i);
       }
     }
@@ -128,17 +128,17 @@ public class WxMpMessageRouterRule {
   /**
    * 设置微信消息处理器
    */
-  public WxMpMessageRouterRule handler(WxMpMessageHandler handler) {
-    return handler(handler, (WxMpMessageHandler[]) null);
+  public IWxMpMessageRouterRule handler(IWxMpMessageHandler handler) {
+    return handler(handler, (IWxMpMessageHandler[]) null);
   }
 
   /**
    * 设置微信消息处理器
    */
-  public WxMpMessageRouterRule handler(WxMpMessageHandler handler, WxMpMessageHandler... otherHandlers) {
+  public IWxMpMessageRouterRule handler(IWxMpMessageHandler handler, IWxMpMessageHandler... otherHandlers) {
     this.handlers.add(handler);
     if (otherHandlers != null && otherHandlers.length > 0) {
-      for (WxMpMessageHandler i : otherHandlers) {
+      for (IWxMpMessageHandler i : otherHandlers) {
         this.handlers.add(i);
       }
     }
@@ -148,7 +148,7 @@ public class WxMpMessageRouterRule {
   /**
    * 规则结束，代表如果一个消息匹配该规则，那么它将不再会进入其他规则
    */
-  public WxMpMessageRouter end() {
+  public IWxMpMessageRouter end() {
     this.routerBuilder.getRules().add(this);
     return this.routerBuilder;
   }
@@ -156,7 +156,7 @@ public class WxMpMessageRouterRule {
   /**
    * 规则结束，但是消息还会进入其他规则
    */
-  public WxMpMessageRouter next() {
+  public IWxMpMessageRouter next() {
     this.reEnter = true;
     return end();
   }
@@ -192,27 +192,27 @@ public class WxMpMessageRouterRule {
    * @return true 代表继续执行别的router，false 代表停止执行别的router
    */
   protected WxMpXmlOutMessage service(WxMpXmlMessage wxMessage,
-      WxMpService wxMpService,
+      IWxMpService iWxMpService,
       WxErrorExceptionHandler exceptionHandler) {
 
     try {
 
       Map<String, Object> context = new HashMap<>();
       // 如果拦截器不通过
-      for (WxMpMessageInterceptor interceptor : this.interceptors) {
-        if (!interceptor.intercept(wxMessage, context, wxMpService)) {
+      for (IWxMpMessageInterceptor interceptor : this.interceptors) {
+        if (!interceptor.intercept(wxMessage, context, iWxMpService)) {
           return null;
         }
       }
 
       // 交给handler处理
       WxMpXmlOutMessage res = null;
-      for (WxMpMessageHandler handler : this.handlers) {
+      for (IWxMpMessageHandler handler : this.handlers) {
         // 返回最后handler的结果
         if(handler == null){
           continue;
         }
-        res = handler.handle(wxMessage, context, wxMpService);
+        res = handler.handle(wxMessage, context, iWxMpService);
       }
       return res;
     } catch (WxErrorException e) {
@@ -222,7 +222,7 @@ public class WxMpMessageRouterRule {
 
   }
 
-  public WxMpMessageRouter getRouterBuilder() {
+  public IWxMpMessageRouter getRouterBuilder() {
     return this.routerBuilder;
   }
 
@@ -282,11 +282,11 @@ public class WxMpMessageRouterRule {
     this.rContent = rContent;
   }
 
-  public WxMpMessageMatcher getMatcher() {
+  public IWxMpMessageMatcher getMatcher() {
     return this.matcher;
   }
 
-  public void setMatcher(WxMpMessageMatcher matcher) {
+  public void setMatcher(IWxMpMessageMatcher matcher) {
     this.matcher = matcher;
   }
 
@@ -298,19 +298,19 @@ public class WxMpMessageRouterRule {
     this.reEnter = reEnter;
   }
 
-  public List<WxMpMessageHandler> getHandlers() {
+  public List<IWxMpMessageHandler> getHandlers() {
     return this.handlers;
   }
 
-  public void setHandlers(List<WxMpMessageHandler> handlers) {
+  public void setHandlers(List<IWxMpMessageHandler> handlers) {
     this.handlers = handlers;
   }
 
-  public List<WxMpMessageInterceptor> getInterceptors() {
+  public List<IWxMpMessageInterceptor> getInterceptors() {
     return this.interceptors;
   }
 
-  public void setInterceptors(List<WxMpMessageInterceptor> interceptors) {
+  public void setInterceptors(List<IWxMpMessageInterceptor> interceptors) {
     this.interceptors = interceptors;
   }
 }

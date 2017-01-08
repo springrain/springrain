@@ -9,8 +9,8 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springrain.weixin.base.common.exception.WxErrorException;
 import org.springrain.weixin.base.common.util.http.SimplePostRequestExecutor;
-import org.springrain.weixin.base.mp.api.WxMpService;
-import org.springrain.weixin.base.mp.api.WxMpUserBlacklistService;
+import org.springrain.weixin.base.mp.api.IWxMpService;
+import org.springrain.weixin.base.mp.api.IWxMpUserBlacklistService;
 import org.springrain.weixin.base.mp.bean.result.WxMpUserBlacklistGetResult;
 import org.springrain.weixin.entity.WxMpConfig;
 
@@ -22,17 +22,17 @@ import com.google.gson.JsonObject;
  */
 
 @Service("wxMpUserBlacklistService")
-public class WxMpUserBlacklistServiceImpl implements WxMpUserBlacklistService {
+public class WxMpUserBlacklistServiceImpl implements IWxMpUserBlacklistService {
   private static final String API_BLACKLIST_PREFIX = "https://api.weixin.qq.com/cgi-bin/tags/members";
  
   @Resource
-  private WxMpService wxMpService;
+  private IWxMpService iWxMpService;
 
   public WxMpUserBlacklistServiceImpl() {
   }
   
-  public WxMpUserBlacklistServiceImpl(WxMpService wxMpService) {
-	  this.wxMpService=wxMpService;
+  public WxMpUserBlacklistServiceImpl(IWxMpService iWxMpService) {
+	  this.iWxMpService=iWxMpService;
   }
 
   @Override
@@ -40,7 +40,7 @@ public class WxMpUserBlacklistServiceImpl implements WxMpUserBlacklistService {
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("begin_openid", nextOpenid);
     String url = API_BLACKLIST_PREFIX + "/getblacklist";
-    String responseContent = this.wxMpService.execute(wxmpconfig,new SimplePostRequestExecutor(), url, jsonObject.toString());
+    String responseContent = this.iWxMpService.execute(wxmpconfig,new SimplePostRequestExecutor(), url, jsonObject.toString());
     return WxMpUserBlacklistGetResult.fromJson(responseContent);
   }
 
@@ -49,7 +49,7 @@ public class WxMpUserBlacklistServiceImpl implements WxMpUserBlacklistService {
     Map<String, Object> map = new HashMap<>();
     map.put("openid_list", openidList);
     String url = API_BLACKLIST_PREFIX + "/batchblacklist";
-    this.wxMpService.execute(wxmpconfig,new SimplePostRequestExecutor(), url, new Gson().toJson(map));
+    this.iWxMpService.execute(wxmpconfig,new SimplePostRequestExecutor(), url, new Gson().toJson(map));
   }
 
   @Override
@@ -57,6 +57,6 @@ public class WxMpUserBlacklistServiceImpl implements WxMpUserBlacklistService {
     Map<String, Object> map = new HashMap<>();
     map.put("openid_list", openidList);
     String url = API_BLACKLIST_PREFIX + "/batchunblacklist";
-    this.wxMpService.execute(wxmpconfig,new SimplePostRequestExecutor(), url, new Gson().toJson(map));
+    this.iWxMpService.execute(wxmpconfig,new SimplePostRequestExecutor(), url, new Gson().toJson(map));
   }
 }

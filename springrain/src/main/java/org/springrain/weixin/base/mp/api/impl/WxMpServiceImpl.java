@@ -21,7 +21,7 @@ import org.springrain.weixin.base.common.util.http.RequestExecutor;
 import org.springrain.weixin.base.common.util.http.SimpleGetRequestExecutor;
 import org.springrain.weixin.base.common.util.http.SimplePostRequestExecutor;
 import org.springrain.weixin.base.common.util.http.URIUtil;
-import org.springrain.weixin.base.mp.api.WxMpService;
+import org.springrain.weixin.base.mp.api.IWxMpService;
 import org.springrain.weixin.base.mp.bean.WxMpMassNews;
 import org.springrain.weixin.base.mp.bean.WxMpMassOpenIdsMessage;
 import org.springrain.weixin.base.mp.bean.WxMpMassPreviewMessage;
@@ -44,7 +44,7 @@ import com.google.gson.JsonParser;
 
 
 @Service("wxMpService")
-public class WxMpServiceImpl implements WxMpService {
+public class WxMpServiceImpl implements IWxMpService {
 
   private static final JsonParser JSON_PARSER = new JsonParser();
 

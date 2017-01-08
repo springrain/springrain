@@ -36,8 +36,8 @@ import org.springrain.weixin.base.common.bean.result.WxError;
 import org.springrain.weixin.base.common.exception.WxErrorException;
 import org.springrain.weixin.base.common.util.BeanUtils;
 import org.springrain.weixin.base.common.util.xml.XStreamInitializer;
-import org.springrain.weixin.base.mp.api.WxMpPayService;
-import org.springrain.weixin.base.mp.api.WxMpService;
+import org.springrain.weixin.base.mp.api.IWxMpPayService;
+import org.springrain.weixin.base.mp.api.IWxMpService;
 import org.springrain.weixin.base.mp.bean.pay.WxPayJsSDKCallback;
 import org.springrain.weixin.base.mp.bean.pay.request.WxEntPayQueryRequest;
 import org.springrain.weixin.base.mp.bean.pay.request.WxEntPayRequest;
@@ -69,7 +69,7 @@ import com.thoughtworks.xstream.XStream;
  */
 
 @Service("wxMpPayService")
-public class WxMpPayServiceImpl implements WxMpPayService {
+public class WxMpPayServiceImpl implements IWxMpPayService {
 
   private static final String PAY_BASE_URL = "https://api.mch.weixin.qq.com";
   private static final String[] TRADE_TYPES = new String[]{"JSAPI", "NATIVE", "APP"};
@@ -78,12 +78,12 @@ public class WxMpPayServiceImpl implements WxMpPayService {
   protected final Logger log = LoggerFactory.getLogger(getClass());
   
   @Resource
-  private WxMpService wxMpService;
+  private IWxMpService iWxMpService;
 
   public WxMpPayServiceImpl() {
   }
-  public WxMpPayServiceImpl(WxMpService wxMpService) {
-	  this.wxMpService=wxMpService;
+  public WxMpPayServiceImpl(IWxMpService iWxMpService) {
+	  this.iWxMpService=iWxMpService;
   }
   
 

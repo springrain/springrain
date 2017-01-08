@@ -9,8 +9,8 @@ import javax.annotation.Resource;
 import org.apache.commons.lang3.time.FastDateFormat;
 import org.springframework.stereotype.Service;
 import org.springrain.weixin.base.common.exception.WxErrorException;
-import org.springrain.weixin.base.mp.api.WxMpDataCubeService;
-import org.springrain.weixin.base.mp.api.WxMpService;
+import org.springrain.weixin.base.mp.api.IWxMpDataCubeService;
+import org.springrain.weixin.base.mp.api.IWxMpService;
 import org.springrain.weixin.base.mp.bean.datacube.WxDataCubeArticleResult;
 import org.springrain.weixin.base.mp.bean.datacube.WxDataCubeArticleTotal;
 import org.springrain.weixin.base.mp.bean.datacube.WxDataCubeInterfaceResult;
@@ -26,7 +26,7 @@ import com.google.gson.JsonObject;
  * @author springrain (http://git.oschina.net/chunanyong/springrain)
  */
 @Service("wxMpDataCubeService")
-public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
+public class WxMpDataCubeServiceImpl implements IWxMpDataCubeService {
   private static final String API_URL_PREFIX = "https://api.weixin.qq.com/datacube";
 
   private final Format dateFormat = FastDateFormat.getInstance("yyyy-MM-dd");
@@ -34,14 +34,14 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
   
   //生产环境应该是spring bean
   @Resource
-  private WxMpService wxMpService;
+  private IWxMpService iWxMpService;
   //private WxMpService wxMpService=new WxMpServiceImpl();
 
   public WxMpDataCubeServiceImpl() {
   }
   
-  public WxMpDataCubeServiceImpl(WxMpService wxMpService) {
-	  this.wxMpService=wxMpService;
+  public WxMpDataCubeServiceImpl(IWxMpService iWxMpService) {
+	  this.iWxMpService=iWxMpService;
   }
 
   @Override
@@ -50,7 +50,7 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
     JsonObject param = new JsonObject();
     param.addProperty("begin_date", dateFormat.format(beginDate));
     param.addProperty("end_date", dateFormat.format(endDate));
-    String responseContent = wxMpService.post(wxmpconfig,url, param.toString());
+    String responseContent = iWxMpService.post(wxmpconfig,url, param.toString());
     return WxDataCubeUserSummary.fromJson(responseContent);
   }
 
@@ -60,7 +60,7 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
     JsonObject param = new JsonObject();
     param.addProperty("begin_date", dateFormat.format(beginDate));
     param.addProperty("end_date", dateFormat.format(endDate));
-    String responseContent = wxMpService.post(wxmpconfig,url, param.toString());
+    String responseContent = iWxMpService.post(wxmpconfig,url, param.toString());
     return WxDataCubeUserCumulate.fromJson(responseContent);
   }
 
@@ -70,7 +70,7 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
     JsonObject param = new JsonObject();
     param.addProperty("begin_date", dateFormat.format(beginDate));
     param.addProperty("end_date", dateFormat.format(endDate));
-    String responseContent = wxMpService.post(wxmpconfig,url, param.toString());
+    String responseContent = iWxMpService.post(wxmpconfig,url, param.toString());
     return WxDataCubeArticleResult.fromJson(responseContent);
   }
 
@@ -80,7 +80,7 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
     JsonObject param = new JsonObject();
     param.addProperty("begin_date", dateFormat.format(beginDate));
     param.addProperty("end_date", dateFormat.format(endDate));
-    String responseContent = wxMpService.post(wxmpconfig,url, param.toString());
+    String responseContent = iWxMpService.post(wxmpconfig,url, param.toString());
     return WxDataCubeArticleTotal.fromJson(responseContent);
   }
 
@@ -90,7 +90,7 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
     JsonObject param = new JsonObject();
     param.addProperty("begin_date", dateFormat.format(beginDate));
     param.addProperty("end_date", dateFormat.format(endDate));
-    String responseContent = wxMpService.post(wxmpconfig,url, param.toString());
+    String responseContent = iWxMpService.post(wxmpconfig,url, param.toString());
     return WxDataCubeArticleResult.fromJson(responseContent);
   }
 
@@ -100,7 +100,7 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
     JsonObject param = new JsonObject();
     param.addProperty("begin_date", dateFormat.format(beginDate));
     param.addProperty("end_date", dateFormat.format(endDate));
-    String responseContent = wxMpService.post(wxmpconfig,url, param.toString());
+    String responseContent = iWxMpService.post(wxmpconfig,url, param.toString());
     return WxDataCubeArticleResult.fromJson(responseContent);
   }
 
@@ -110,7 +110,7 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
     JsonObject param = new JsonObject();
     param.addProperty("begin_date", dateFormat.format(beginDate));
     param.addProperty("end_date", dateFormat.format(endDate));
-    String responseContent = wxMpService.post(wxmpconfig,url, param.toString());
+    String responseContent = iWxMpService.post(wxmpconfig,url, param.toString());
     return WxDataCubeArticleResult.fromJson(responseContent);
   }
 
@@ -120,7 +120,7 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
     JsonObject param = new JsonObject();
     param.addProperty("begin_date", dateFormat.format(beginDate));
     param.addProperty("end_date", dateFormat.format(endDate));
-    String responseContent = wxMpService.post(wxmpconfig,url, param.toString());
+    String responseContent = iWxMpService.post(wxmpconfig,url, param.toString());
     return WxDataCubeArticleResult.fromJson(responseContent);
   }
 
@@ -131,7 +131,7 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
     JsonObject param = new JsonObject();
     param.addProperty("begin_date", dateFormat.format(beginDate));
     param.addProperty("end_date", dateFormat.format(endDate));
-    String responseContent = wxMpService.post(wxmpconfig,url, param.toString());
+    String responseContent = iWxMpService.post(wxmpconfig,url, param.toString());
     return WxDataCubeMsgResult.fromJson(responseContent);
   }
 
@@ -142,7 +142,7 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
     JsonObject param = new JsonObject();
     param.addProperty("begin_date", dateFormat.format(beginDate));
     param.addProperty("end_date", dateFormat.format(endDate));
-    String responseContent = wxMpService.post(wxmpconfig,url, param.toString());
+    String responseContent = iWxMpService.post(wxmpconfig,url, param.toString());
     return WxDataCubeMsgResult.fromJson(responseContent);
   }
 
@@ -153,7 +153,7 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
     JsonObject param = new JsonObject();
     param.addProperty("begin_date", dateFormat.format(beginDate));
     param.addProperty("end_date", dateFormat.format(endDate));
-    String responseContent = wxMpService.post(wxmpconfig,url, param.toString());
+    String responseContent = iWxMpService.post(wxmpconfig,url, param.toString());
     return WxDataCubeMsgResult.fromJson(responseContent);
   }
 
@@ -164,7 +164,7 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
     JsonObject param = new JsonObject();
     param.addProperty("begin_date", dateFormat.format(beginDate));
     param.addProperty("end_date", dateFormat.format(endDate));
-    String responseContent = wxMpService.post(wxmpconfig,url, param.toString());
+    String responseContent = iWxMpService.post(wxmpconfig,url, param.toString());
     return WxDataCubeMsgResult.fromJson(responseContent);
   }
 
@@ -175,7 +175,7 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
     JsonObject param = new JsonObject();
     param.addProperty("begin_date", dateFormat.format(beginDate));
     param.addProperty("end_date", dateFormat.format(endDate));
-    String responseContent = wxMpService.post(wxmpconfig,url, param.toString());
+    String responseContent = iWxMpService.post(wxmpconfig,url, param.toString());
     return WxDataCubeMsgResult.fromJson(responseContent);
   }
 
@@ -186,7 +186,7 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
     JsonObject param = new JsonObject();
     param.addProperty("begin_date", dateFormat.format(beginDate));
     param.addProperty("end_date", dateFormat.format(endDate));
-    String responseContent = wxMpService.post(wxmpconfig,url, param.toString());
+    String responseContent = iWxMpService.post(wxmpconfig,url, param.toString());
     return WxDataCubeMsgResult.fromJson(responseContent);
   }
 
@@ -197,7 +197,7 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
     JsonObject param = new JsonObject();
     param.addProperty("begin_date", dateFormat.format(beginDate));
     param.addProperty("end_date", dateFormat.format(endDate));
-    String responseContent = wxMpService.post(wxmpconfig,url, param.toString());
+    String responseContent = iWxMpService.post(wxmpconfig,url, param.toString());
     return WxDataCubeMsgResult.fromJson(responseContent);
   }
 
@@ -208,7 +208,7 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
     JsonObject param = new JsonObject();
     param.addProperty("begin_date", dateFormat.format(beginDate));
     param.addProperty("end_date", dateFormat.format(endDate));
-    String responseContent = wxMpService.post(wxmpconfig,url, param.toString());
+    String responseContent = iWxMpService.post(wxmpconfig,url, param.toString());
     return WxDataCubeInterfaceResult.fromJson(responseContent);
   }
 
@@ -219,7 +219,7 @@ public class WxMpDataCubeServiceImpl implements WxMpDataCubeService {
     JsonObject param = new JsonObject();
     param.addProperty("begin_date", dateFormat.format(beginDate));
     param.addProperty("end_date", dateFormat.format(endDate));
-    String responseContent = wxMpService.post(wxmpconfig,url, param.toString());
+    String responseContent = iWxMpService.post(wxmpconfig,url, param.toString());
     return WxDataCubeInterfaceResult.fromJson(responseContent);
   }
 }

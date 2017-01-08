@@ -11,7 +11,7 @@ import org.springrain.weixin.entity.WxMpConfig;
  *
  * @author springrain
  */
-public interface WxMpQrcodeService {
+public interface IWxMpQrcodeService {
 
   /**
    * <pre>

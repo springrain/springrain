@@ -13,7 +13,7 @@ import org.springrain.weixin.entity.WxMpConfig;
  *
  * @author springrain
  */
-public interface WxMpUserService {
+public interface IWxMpUserService {
 
   /**
    * <pre>

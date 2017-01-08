@@ -14,7 +14,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * @author springrain
  *
  */
-public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {
+public class IWxMpInMemoryConfigStorage implements IWxMpConfigStorage {
 
   protected volatile String appId;
   protected volatile String secret;

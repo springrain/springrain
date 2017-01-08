@@ -6,8 +6,8 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 import org.springrain.weixin.base.common.exception.WxErrorException;
-import org.springrain.weixin.base.mp.api.WxMpService;
-import org.springrain.weixin.base.mp.api.WxMpUserService;
+import org.springrain.weixin.base.mp.api.IWxMpService;
+import org.springrain.weixin.base.mp.api.IWxMpUserService;
 import org.springrain.weixin.base.mp.bean.WxMpUserQuery;
 import org.springrain.weixin.base.mp.bean.result.WxMpUser;
 import org.springrain.weixin.base.mp.bean.result.WxMpUserList;
@@ -19,16 +19,16 @@ import com.google.gson.JsonObject;
  * Created by springrain on 2017/1/8.
  */
 @Service("wxMpUserService")
-public class WxMpUserServiceImpl implements WxMpUserService {
+public class WxMpUserServiceImpl implements IWxMpUserService {
   private static final String API_URL_PREFIX = "https://api.weixin.qq.com/cgi-bin/user";
  
   @Resource
-  private WxMpService wxMpService;
+  private IWxMpService iWxMpService;
 
   public WxMpUserServiceImpl() {
   }
-  public WxMpUserServiceImpl(WxMpService wxMpService) {
-	  this.wxMpService=wxMpService;
+  public WxMpUserServiceImpl(IWxMpService iWxMpService) {
+	  this.iWxMpService=iWxMpService;
   }
 
   @Override
@@ -37,7 +37,7 @@ public class WxMpUserServiceImpl implements WxMpUserService {
     JsonObject json = new JsonObject();
     json.addProperty("openid", openid);
     json.addProperty("remark", remark);
-    this.wxMpService.post(wxmpconfig,url, json.toString());
+    this.iWxMpService.post(wxmpconfig,url, json.toString());
   }
 
   @Override
@@ -49,7 +49,7 @@ public class WxMpUserServiceImpl implements WxMpUserService {
   public WxMpUser userInfo(WxMpConfig wxmpconfig,String openid, String lang) throws WxErrorException {
     String url = API_URL_PREFIX + "/info";
     lang = lang == null ? "zh_CN" : lang;
-    String responseContent = this.wxMpService.get(wxmpconfig,url,
+    String responseContent = this.iWxMpService.get(wxmpconfig,url,
         "openid=" + openid + "&lang=" + lang);
     return WxMpUser.fromJson(responseContent);
   }
@@ -57,7 +57,7 @@ public class WxMpUserServiceImpl implements WxMpUserService {
   @Override
   public WxMpUserList userList(WxMpConfig wxmpconfig,String next_openid) throws WxErrorException {
     String url = API_URL_PREFIX + "/get";
-    String responseContent = this.wxMpService.get(wxmpconfig,url,
+    String responseContent = this.iWxMpService.get(wxmpconfig,url,
         next_openid == null ? null : "next_openid=" + next_openid);
     return WxMpUserList.fromJson(responseContent);
   }
@@ -71,7 +71,7 @@ public class WxMpUserServiceImpl implements WxMpUserService {
   @Override
   public List<WxMpUser> userInfoList(WxMpConfig wxmpconfig,WxMpUserQuery userQuery) throws WxErrorException {
     String url = API_URL_PREFIX + "/info/batchget";
-    String responseContent = this.wxMpService.post(wxmpconfig,url,
+    String responseContent = this.iWxMpService.post(wxmpconfig,url,
         userQuery.toJsonString());
     return WxMpUser.fromJsonList(responseContent);
   }

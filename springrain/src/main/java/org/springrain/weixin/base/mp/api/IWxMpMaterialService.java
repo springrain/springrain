@@ -24,7 +24,7 @@ import org.springrain.weixin.entity.WxMpConfig;
  * 和 https://api.weixin.qq.com/cgi-bin/media开头的接口
  * </pre>
  */
-public interface WxMpMaterialService {
+public interface IWxMpMaterialService {
 
   /**
    * <pre>

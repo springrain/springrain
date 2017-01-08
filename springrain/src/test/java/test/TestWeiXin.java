@@ -6,7 +6,7 @@ import java.util.List;
 import org.junit.Test;
 import org.springrain.frame.util.DateUtils;
 import org.springrain.weixin.base.common.exception.WxErrorException;
-import org.springrain.weixin.base.mp.api.WxMpDataCubeService;
+import org.springrain.weixin.base.mp.api.IWxMpDataCubeService;
 import org.springrain.weixin.base.mp.api.impl.WxMpDataCubeServiceImpl;
 import org.springrain.weixin.base.mp.api.impl.WxMpServiceImpl;
 import org.springrain.weixin.base.mp.bean.datacube.WxDataCubeArticleResult;
@@ -32,7 +32,7 @@ public class TestWeiXin {
 	}
 	@Test
 	public void testData(){
-		WxMpDataCubeService data=new WxMpDataCubeServiceImpl();
+		IWxMpDataCubeService data=new WxMpDataCubeServiceImpl();
 		WxMpConfig  wxmpconfig=new WxMpConfig();
 		
 		try {

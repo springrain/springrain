@@ -11,7 +11,7 @@ import org.springrain.weixin.base.common.bean.WxAccessToken;
  * @author springrain
  *
  */
-public interface WxMpConfigStorage {
+public interface IWxMpConfigStorage {
 
   String getAccessToken();
 

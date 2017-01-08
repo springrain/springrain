@@ -9,7 +9,7 @@ import org.springrain.weixin.entity.WxMpConfig;
 /**
  * @author springrain
  */
-public interface WxMpUserBlacklistService {
+public interface IWxMpUserBlacklistService {
   /**
    * <pre>
    * 获取公众号的黑名单列表

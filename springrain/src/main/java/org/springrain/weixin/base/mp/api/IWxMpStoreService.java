@@ -13,7 +13,7 @@ import org.springrain.weixin.entity.WxMpConfig;
  * @author  <a href="http://git.oschina.net/chunanyong/springrain">springrain(springrain)</a>
  *         Created by springrain on 2017/1/8.
  */
-public interface WxMpStoreService {
+public interface IWxMpStoreService {
   /**
    * <pre>
    * 创建门店

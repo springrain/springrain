@@ -17,7 +17,7 @@ import java.util.Date;
  *
  * @author springrain
  */
-public interface WxMpKefuService {
+public interface IWxMpKefuService {
 
   /**
    * <pre>

@@ -10,7 +10,7 @@ import org.springrain.weixin.entity.WxMpConfig;
  *
  * @author springrain
  */
-public interface WxMpMenuService {
+public interface IWxMpMenuService {
 
   /**
    * <pre>

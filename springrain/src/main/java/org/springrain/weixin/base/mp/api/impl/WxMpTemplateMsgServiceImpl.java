@@ -7,8 +7,8 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springrain.weixin.base.common.bean.result.WxError;
 import org.springrain.weixin.base.common.exception.WxErrorException;
-import org.springrain.weixin.base.mp.api.WxMpService;
-import org.springrain.weixin.base.mp.api.WxMpTemplateMsgService;
+import org.springrain.weixin.base.mp.api.IWxMpService;
+import org.springrain.weixin.base.mp.api.IWxMpTemplateMsgService;
 import org.springrain.weixin.base.mp.bean.template.WxMpTemplate;
 import org.springrain.weixin.base.mp.bean.template.WxMpTemplateIndustry;
 import org.springrain.weixin.base.mp.bean.template.WxMpTemplateMessage;
@@ -26,24 +26,24 @@ import com.google.gson.JsonParser;
 
 
 @Service("wxMpTemplateMsgService")
-public class WxMpTemplateMsgServiceImpl implements WxMpTemplateMsgService {
+public class WxMpTemplateMsgServiceImpl implements IWxMpTemplateMsgService {
   public static final String API_URL_PREFIX = "https://api.weixin.qq.com/cgi-bin/template";
   private static final JsonParser JSON_PARSER = new JsonParser();
 
   @Resource
-  private WxMpService wxMpService;
+  private IWxMpService iWxMpService;
 
   public WxMpTemplateMsgServiceImpl() {
   }
   
-  public WxMpTemplateMsgServiceImpl(WxMpService wxMpService) {
-	  this.wxMpService=wxMpService;
+  public WxMpTemplateMsgServiceImpl(IWxMpService iWxMpService) {
+	  this.iWxMpService=iWxMpService;
   }
 
   @Override
   public String sendTemplateMsg(WxMpConfig wxmpconfig,WxMpTemplateMessage templateMessage) throws WxErrorException {
     String url = "https://api.weixin.qq.com/cgi-bin/message/template/send";
-    String responseContent = wxMpService.post(wxmpconfig,url, templateMessage.toJson());
+    String responseContent = iWxMpService.post(wxmpconfig,url, templateMessage.toJson());
     final JsonObject jsonObject = JSON_PARSER.parse(responseContent).getAsJsonObject();
     if (jsonObject.get("errcode").getAsInt() == 0) {
       return jsonObject.get("msgid").getAsString();
@@ -59,14 +59,14 @@ public class WxMpTemplateMsgServiceImpl implements WxMpTemplateMsgService {
     }
 
     String url = API_URL_PREFIX + "/api_set_industry";
-    wxMpService.post(wxmpconfig,url, wxMpIndustry.toJson());
+    iWxMpService.post(wxmpconfig,url, wxMpIndustry.toJson());
     return true;
   }
 
   @Override
   public WxMpTemplateIndustry getIndustry(WxMpConfig wxmpconfig) throws WxErrorException {
     String url = API_URL_PREFIX + "/get_industry";
-    String responseContent = wxMpService.get(wxmpconfig,url, null);
+    String responseContent = iWxMpService.get(wxmpconfig,url, null);
     return WxMpTemplateIndustry.fromJson(responseContent);
   }
 
@@ -75,7 +75,7 @@ public class WxMpTemplateMsgServiceImpl implements WxMpTemplateMsgService {
     String url = API_URL_PREFIX + "/api_add_template";
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("template_id_short", shortTemplateId);
-    String responseContent = wxMpService.post(wxmpconfig,url, jsonObject.toString());
+    String responseContent = iWxMpService.post(wxmpconfig,url, jsonObject.toString());
     final JsonObject result = JSON_PARSER.parse(responseContent).getAsJsonObject();
     if (result.get("errcode").getAsInt() == 0) {
       return result.get("template_id").getAsString();
@@ -87,7 +87,7 @@ public class WxMpTemplateMsgServiceImpl implements WxMpTemplateMsgService {
   @Override
   public List<WxMpTemplate> getAllPrivateTemplate(WxMpConfig wxmpconfig) throws WxErrorException {
     String url = API_URL_PREFIX + "/get_all_private_template";
-    return WxMpTemplate.fromJson(wxMpService.get(wxmpconfig,url, null));
+    return WxMpTemplate.fromJson(iWxMpService.get(wxmpconfig,url, null));
   }
 
   @Override
@@ -95,7 +95,7 @@ public class WxMpTemplateMsgServiceImpl implements WxMpTemplateMsgService {
     String url = API_URL_PREFIX + "/del_private_template";
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("template_id", templateId);
-    String responseContent = wxMpService.post(wxmpconfig,url, jsonObject.toString());
+    String responseContent = iWxMpService.post(wxmpconfig,url, jsonObject.toString());
     WxError error = WxError.fromJson(responseContent);
     if (error.getErrorCode() == 0) {
       return true;

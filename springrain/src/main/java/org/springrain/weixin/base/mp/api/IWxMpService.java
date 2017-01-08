@@ -19,7 +19,7 @@ import org.springrain.weixin.entity.WxMpConfig;
 /**
  * 微信API的Service
  */
-public interface WxMpService {
+public interface IWxMpService {
 
   /**
    * <pre>

@@ -9,7 +9,7 @@ import org.springrain.weixin.entity.WxMpConfig;
  * 卡券相关接口
  * @author springrain on 2017/1/8  
  */
-public interface WxMpCardService {
+public interface IWxMpCardService {
 
   /**
    * 获得卡券api_ticket，不强制刷新卡券api_ticket

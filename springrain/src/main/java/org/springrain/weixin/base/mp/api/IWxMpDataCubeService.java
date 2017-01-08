@@ -17,7 +17,7 @@ import org.springrain.weixin.entity.WxMpConfig;
  *  Created by springrain on 2017/1/8.
  * @author springrain (http://git.oschina.net/chunanyong/springrain)
  */
-public interface WxMpDataCubeService {
+public interface IWxMpDataCubeService {
   //*******************用户分析数据接口***********************//
 
   /**

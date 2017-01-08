@@ -17,7 +17,7 @@ import org.springrain.weixin.entity.WxMpConfig;
  * @author <a href="http://git.oschina.net/chunanyong/springrain">springrain(springrain)</a>
  * </pre>
  */
-public interface WxMpTemplateMsgService {
+public interface IWxMpTemplateMsgService {
 
   /**
    * <pre>

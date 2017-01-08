@@ -8,8 +8,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springrain.weixin.base.common.bean.result.WxError;
 import org.springrain.weixin.base.common.exception.WxErrorException;
-import org.springrain.weixin.base.mp.api.WxMpService;
-import org.springrain.weixin.base.mp.api.WxMpUserTagService;
+import org.springrain.weixin.base.mp.api.IWxMpService;
+import org.springrain.weixin.base.mp.api.IWxMpUserTagService;
 import org.springrain.weixin.base.mp.bean.tag.WxTagListUser;
 import org.springrain.weixin.base.mp.bean.tag.WxUserTag;
 import org.springrain.weixin.base.mp.util.json.WxMpGsonBuilder;
@@ -27,17 +27,17 @@ import com.google.gson.reflect.TypeToken;
  */
 
 @Service("wxMpUserTagService")
-public class WxMpUserTagServiceImpl implements WxMpUserTagService {
+public class WxMpUserTagServiceImpl implements IWxMpUserTagService {
   private static final String API_URL_PREFIX = "https://api.weixin.qq.com/cgi-bin/tags";
 
   @Resource
-  private WxMpService wxMpService;
+  private IWxMpService iWxMpService;
 
   public WxMpUserTagServiceImpl() {
   }
   
-  public WxMpUserTagServiceImpl(WxMpService wxMpService) {
-	  this.wxMpService=wxMpService;
+  public WxMpUserTagServiceImpl(IWxMpService iWxMpService) {
+	  this.iWxMpService=iWxMpService;
   }
 
   @Override
@@ -48,7 +48,7 @@ public class WxMpUserTagServiceImpl implements WxMpUserTagService {
     tagJson.addProperty("name", name);
     json.add("tag", tagJson);
 
-    String responseContent = wxMpService.post(wxmpconfig,url, json.toString());
+    String responseContent = iWxMpService.post(wxmpconfig,url, json.toString());
     return WxUserTag.fromJson(responseContent);
   }
 
@@ -56,7 +56,7 @@ public class WxMpUserTagServiceImpl implements WxMpUserTagService {
   public List<WxUserTag> tagGet(WxMpConfig wxmpconfig) throws WxErrorException {
     String url = API_URL_PREFIX + "/get";
 
-    String responseContent = wxMpService.get(wxmpconfig,url, null);
+    String responseContent = iWxMpService.get(wxmpconfig,url, null);
     return WxUserTag.listFromJson(responseContent);
   }
 
@@ -70,7 +70,7 @@ public class WxMpUserTagServiceImpl implements WxMpUserTagService {
     tagJson.addProperty("name", name);
     json.add("tag", tagJson);
 
-    String responseContent = wxMpService.post(wxmpconfig,url, json.toString());
+    String responseContent = iWxMpService.post(wxmpconfig,url, json.toString());
     WxError wxError = WxError.fromJson(responseContent);
     if (wxError.getErrorCode() == 0) {
       return true;
@@ -88,7 +88,7 @@ public class WxMpUserTagServiceImpl implements WxMpUserTagService {
     tagJson.addProperty("id", id);
     json.add("tag", tagJson);
 
-    String responseContent = wxMpService.post(wxmpconfig,url, json.toString());
+    String responseContent = iWxMpService.post(wxmpconfig,url, json.toString());
     WxError wxError = WxError.fromJson(responseContent);
     if (wxError.getErrorCode() == 0) {
       return true;
@@ -106,7 +106,7 @@ public class WxMpUserTagServiceImpl implements WxMpUserTagService {
     json.addProperty("tagid", tagId);
     json.addProperty("next_openid", StringUtils.trimToEmpty(nextOpenid));
 
-    String responseContent = wxMpService.post(wxmpconfig,url, json.toString());
+    String responseContent = iWxMpService.post(wxmpconfig,url, json.toString());
     return WxTagListUser.fromJson(responseContent);
   }
 
@@ -123,7 +123,7 @@ public class WxMpUserTagServiceImpl implements WxMpUserTagService {
     }
     json.add("openid_list", openidArrayJson);
 
-    String responseContent = wxMpService.post(wxmpconfig,url, json.toString());
+    String responseContent = iWxMpService.post(wxmpconfig,url, json.toString());
     WxError wxError = WxError.fromJson(responseContent);
     if (wxError.getErrorCode() == 0) {
       return true;
@@ -145,7 +145,7 @@ public class WxMpUserTagServiceImpl implements WxMpUserTagService {
     }
     json.add("openid_list", openidArrayJson);
 
-    String responseContent = wxMpService.post(wxmpconfig,url, json.toString());
+    String responseContent = iWxMpService.post(wxmpconfig,url, json.toString());
     WxError wxError = WxError.fromJson(responseContent);
     if (wxError.getErrorCode() == 0) {
       return true;
@@ -161,7 +161,7 @@ public class WxMpUserTagServiceImpl implements WxMpUserTagService {
     JsonObject json = new JsonObject();
     json.addProperty("openid", openid);
 
-    String responseContent = wxMpService.post(wxmpconfig,url, json.toString());
+    String responseContent = iWxMpService.post(wxmpconfig,url, json.toString());
 
     return WxMpGsonBuilder.create().fromJson(
         new JsonParser().parse(responseContent).getAsJsonObject().get("tagid_list"),
