@@ -33,8 +33,10 @@ public class WxCpConfig   extends BaseEntity implements IWxConfig {
 	  
 	  private volatile String tmpDirFile;
 	  
+	  private volatile String corpId;
+	  private volatile Integer agentId;
 	  
-	  
+	  private volatile String corpsecret;
 	  
 	  
 	  
@@ -152,6 +154,24 @@ public class WxCpConfig   extends BaseEntity implements IWxConfig {
 	}
 	public void setTmpDirFile(String tmpDirFile) {
 		this.tmpDirFile = tmpDirFile;
+	}
+	public String getCorpId() {
+		return corpId;
+	}
+	public void setCorpId(String corpId) {
+		this.corpId = corpId;
+	}
+	public Integer getAgentId() {
+		return agentId;
+	}
+	public void setAgentId(Integer agentId) {
+		this.agentId = agentId;
+	}
+	public String getCorpsecret() {
+		return corpsecret;
+	}
+	public void setCorpsecret(String corpsecret) {
+		this.corpsecret = corpsecret;
 	}
 
 }

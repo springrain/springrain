@@ -17,9 +17,9 @@
  */
 package org.springrain.weixin.base.cp.util.crypto;
 
-import org.springrain.weixin.base.common.util.crypto.WxCryptUtil;
-import org.springrain.weixin.base.cp.api.WxCpConfigStorage;
 import org.apache.commons.codec.binary.Base64;
+import org.springrain.weixin.base.common.util.crypto.WxCryptUtil;
+import org.springrain.weixin.entity.WxCpConfig;
 
 public class WxCpCryptUtil extends WxCryptUtil {
 
@@ -28,15 +28,15 @@ public class WxCpCryptUtil extends WxCryptUtil {
    *
    * @param wxCpConfigStorage
    */
-  public WxCpCryptUtil(WxCpConfigStorage wxCpConfigStorage) {
+  public WxCpCryptUtil(WxCpConfig wxcpconfig) {
     /*
      * @param token          公众平台上，开发者设置的token
      * @param encodingAesKey 公众平台上，开发者设置的EncodingAESKey
      * @param appidOrCorpid          公众平台appid
      */
-    String encodingAesKey = wxCpConfigStorage.getAesKey();
-    String token = wxCpConfigStorage.getToken();
-    String corpId = wxCpConfigStorage.getCorpId();
+    String encodingAesKey = wxcpconfig.getAesKey();
+    String token = wxcpconfig.getToken();
+    String corpId = wxcpconfig.getCorpId();
 
     this.token = token;
     this.appidOrCorpid = corpId;

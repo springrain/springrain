@@ -16,11 +16,11 @@ import javax.net.ssl.SSLContext;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.springframework.cache.annotation.Cacheable;
 import org.springrain.frame.util.GlobalStatic;
-import org.springrain.weixin.base.cp.api.WxCpInMemoryConfigStorage;
 import org.springrain.weixin.base.cp.api.WxCpService;
 import org.springrain.weixin.base.cp.api.WxCpServiceImpl;
 import org.springrain.weixin.base.mp.api.IWxMpService;
 import org.springrain.weixin.base.mp.api.impl.WxMpServiceImpl;
+import org.springrain.weixin.entity.WxCpConfig;
 import org.springrain.weixin.entity.WxMpConfig;
 
 @SuppressWarnings("deprecation")
@@ -31,10 +31,10 @@ public class WechatBuilder {
 		String corpId = "";
 		String secret = "";
 		WxCpService service = new WxCpServiceImpl();
-		WxCpInMemoryConfigStorage  config = new WxCpInMemoryConfigStorage();
+		WxCpConfig   config = new WxCpConfig();
 		config.setCorpId(corpId);
-		config.setCorpSecret(secret);
-		config.setExpiresTime(3600000);
+		config.setCorpsecret(secret);
+		//config.setExpiresTime(3600000);
 		
 		return service;
 	}

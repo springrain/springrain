@@ -7,14 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
+import org.springrain.weixin.base.common.util.xml.XStreamCDataConverter;
+import org.springrain.weixin.base.cp.util.crypto.WxCpCryptUtil;
+import org.springrain.weixin.base.cp.util.xml.XStreamTransformer;
+import org.springrain.weixin.entity.WxCpConfig;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamConverter;
-
-import org.springrain.weixin.base.common.util.xml.XStreamCDataConverter;
-import org.springrain.weixin.base.cp.api.WxCpConfigStorage;
-import org.springrain.weixin.base.cp.util.crypto.WxCpCryptUtil;
-import org.springrain.weixin.base.cp.util.xml.XStreamTransformer;
 
 /**
  * <pre>
@@ -184,19 +183,19 @@ public class WxCpXmlMessage implements Serializable {
    */
   public static WxCpXmlMessage fromEncryptedXml(
           String encryptedXml,
-          WxCpConfigStorage wxCpConfigStorage,
+          WxCpConfig wxcpconfig,
           String timestamp, String nonce, String msgSignature) {
-    WxCpCryptUtil cryptUtil = new WxCpCryptUtil(wxCpConfigStorage);
+    WxCpCryptUtil cryptUtil = new WxCpCryptUtil(wxcpconfig);
     String plainText = cryptUtil.decrypt(msgSignature, timestamp, nonce, encryptedXml);
     return fromXml(plainText);
   }
 
   public static WxCpXmlMessage fromEncryptedXml(
           InputStream is,
-          WxCpConfigStorage wxCpConfigStorage,
+          WxCpConfig wxcpconfig,
           String timestamp, String nonce, String msgSignature) {
     try {
-      return fromEncryptedXml(IOUtils.toString(is, "UTF-8"), wxCpConfigStorage, timestamp, nonce, msgSignature);
+      return fromEncryptedXml(IOUtils.toString(is, "UTF-8"), wxcpconfig, timestamp, nonce, msgSignature);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }

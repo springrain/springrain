@@ -1,15 +1,19 @@
 package org.springrain.weixin.base.cp.bean;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamConverter;
+import java.io.Serializable;
 
 import org.springrain.weixin.base.common.util.xml.XStreamCDataConverter;
-import org.springrain.weixin.base.cp.api.WxCpConfigStorage;
-import org.springrain.weixin.base.cp.bean.outxmlbuilder.*;
+import org.springrain.weixin.base.cp.bean.outxmlbuilder.ImageBuilder;
+import org.springrain.weixin.base.cp.bean.outxmlbuilder.NewsBuilder;
+import org.springrain.weixin.base.cp.bean.outxmlbuilder.TextBuilder;
+import org.springrain.weixin.base.cp.bean.outxmlbuilder.VideoBuilder;
+import org.springrain.weixin.base.cp.bean.outxmlbuilder.VoiceBuilder;
 import org.springrain.weixin.base.cp.util.crypto.WxCpCryptUtil;
 import org.springrain.weixin.base.cp.util.xml.XStreamTransformer;
+import org.springrain.weixin.entity.WxCpConfig;
 
-import java.io.Serializable;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamConverter;
 
 @XStreamAlias("xml")
 public abstract class WxCpXmlOutMessage implements Serializable {
@@ -106,9 +110,9 @@ protected String toXml() {
   /**
    * 转换成加密的xml格式
    */
-  public String toEncryptedXml(WxCpConfigStorage wxCpConfigStorage) {
+  public String toEncryptedXml(WxCpConfig wxcpconfig) {
     String plainXml = toXml();
-    WxCpCryptUtil pc = new WxCpCryptUtil(wxCpConfigStorage);
+    WxCpCryptUtil pc = new WxCpCryptUtil(wxcpconfig);
     return pc.encrypt(plainXml);
   }
 }
