@@ -37,13 +37,13 @@ public class WxMpConfig   extends BaseEntity implements IWxConfig {
 	  
 	  
 	  private volatile String accessToken;
-	  private volatile Long expiresTime;
+	  private volatile Long expiresTime=0L;
 	  
 	  private volatile String jsApiTicket;
-	  private volatile Long jsApiTicketExpiresTime;
+	  private volatile Long jsApiTicketExpiresTime=0L;
 	  
 	  private volatile String cardApiTicket;
-	  private volatile Long cardApiTicketExpiresTime;
+	  private volatile Long cardApiTicketExpiresTime=0L;
 	  
 	  
 	  
