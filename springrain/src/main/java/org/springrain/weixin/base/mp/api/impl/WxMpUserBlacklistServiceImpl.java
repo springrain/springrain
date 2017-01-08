@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
 import org.springrain.weixin.base.common.exception.WxErrorException;
 import org.springrain.weixin.base.common.util.http.SimplePostRequestExecutor;
 import org.springrain.weixin.base.mp.api.WxMpService;
@@ -15,13 +18,21 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 /**
- * @author miller
+ * @author springrain
  */
+
+@Service("wxMpUserBlacklistService")
 public class WxMpUserBlacklistServiceImpl implements WxMpUserBlacklistService {
   private static final String API_BLACKLIST_PREFIX = "https://api.weixin.qq.com/cgi-bin/tags/members";
+ 
+  @Resource
   private WxMpService wxMpService;
 
   public WxMpUserBlacklistServiceImpl() {
+  }
+  
+  public WxMpUserBlacklistServiceImpl(WxMpService wxMpService) {
+	  this.wxMpService=wxMpService;
   }
 
   @Override

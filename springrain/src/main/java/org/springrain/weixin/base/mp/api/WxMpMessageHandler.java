@@ -9,7 +9,7 @@ import org.springrain.weixin.base.mp.bean.message.WxMpXmlOutMessage;
 /**
  * 处理微信推送消息的处理器接口
  *
- * @author Daniel Qian
+ * @author springrain
  */
 public interface WxMpMessageHandler {
 

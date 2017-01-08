@@ -15,7 +15,7 @@ import org.springrain.weixin.base.cp.bean.WxCpTag;
 import java.lang.reflect.Type;
 
 /**
- * @author Daniel Qian
+ * @author springrain
  */
 public class WxCpTagGsonAdapter implements JsonSerializer<WxCpTag>, JsonDeserializer<WxCpTag> {
 

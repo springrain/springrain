@@ -1,16 +1,17 @@
 package org.springrain.weixin.base.mp.bean.tag;
 
-import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
+import java.util.List;
+
 import org.springrain.weixin.base.common.util.ToStringUtils;
 import org.springrain.weixin.base.mp.util.json.WxMpGsonBuilder;
 
-import java.util.List;
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 
 /**
  * 用户标签对象
- * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
- *         Created by Binary Wang on 2016/9/2.
+ * @author <a href="http://git.oschina.net/chunanyong/springrain">springrain(springrain)</a>
+ *         Created by springrain on 2017/1/2.
  */
 public class WxUserTag {
   /**

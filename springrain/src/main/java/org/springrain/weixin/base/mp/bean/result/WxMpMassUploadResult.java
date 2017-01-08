@@ -1,15 +1,15 @@
 package org.springrain.weixin.base.mp.bean.result;
 
-import org.springrain.weixin.base.mp.util.json.WxMpGsonBuilder;
-
 import java.io.Serializable;
+
+import org.springrain.weixin.base.mp.util.json.WxMpGsonBuilder;
 
 /**
  * <pre>
  * 上传群发用的素材的结果
  * 视频和图文消息需要在群发前上传素材
  * </pre>
- * @author chanjarster
+ * @author springrain
  *
  */
 public class WxMpMassUploadResult implements Serializable {

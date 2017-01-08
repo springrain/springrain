@@ -8,7 +8,7 @@ import java.io.File;
 /**
  * 微信客户端配置存储
  *
- * @author Daniel Qian
+ * @author springrain
  */
 public interface WxCpConfigStorage {
 

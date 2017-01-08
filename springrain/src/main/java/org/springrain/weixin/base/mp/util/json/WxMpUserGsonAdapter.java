@@ -10,14 +10,14 @@ package org.springrain.weixin.base.mp.util.json;
 
 import java.lang.reflect.Type;
 
+import org.springrain.weixin.base.common.util.json.GsonHelper;
+import org.springrain.weixin.base.mp.bean.result.WxMpUser;
+
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-
-import org.springrain.weixin.base.common.util.json.GsonHelper;
-import org.springrain.weixin.base.mp.bean.result.WxMpUser;
 
 public class WxMpUserGsonAdapter implements JsonDeserializer<WxMpUser> {
 

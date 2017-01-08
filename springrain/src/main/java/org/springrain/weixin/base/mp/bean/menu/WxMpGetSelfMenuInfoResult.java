@@ -1,13 +1,14 @@
 package org.springrain.weixin.base.mp.bean.menu;
 
-import com.google.gson.annotations.SerializedName;
 import org.springrain.weixin.base.common.util.ToStringUtils;
 import org.springrain.weixin.base.common.util.json.WxGsonBuilder;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * <pre>
- * Created by Binary Wang on 2016-11-25.
- * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
+ * Created by springrain on 2016-11-25.
+ * @author <a href="http://git.oschina.net/chunanyong/springrain">springrain(springrain)</a>
  * </pre>
  */
 public class WxMpGetSelfMenuInfoResult {

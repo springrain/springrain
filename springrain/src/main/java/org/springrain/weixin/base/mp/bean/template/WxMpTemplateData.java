@@ -3,7 +3,7 @@ package org.springrain.weixin.base.mp.bean.template;
 import java.io.Serializable;
 
 /**
- * @author Daniel Qian
+ * @author springrain
  */
 public class WxMpTemplateData implements Serializable {
 

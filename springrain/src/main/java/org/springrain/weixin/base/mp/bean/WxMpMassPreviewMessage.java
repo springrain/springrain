@@ -5,7 +5,7 @@ import org.springrain.weixin.base.mp.util.json.WxMpGsonBuilder;
 import java.io.Serializable;
 
 /**
- * @author miller
+ * @author springrain
  */
 public class WxMpMassPreviewMessage implements Serializable {
   private static final long serialVersionUID = 9095211638358424020L;

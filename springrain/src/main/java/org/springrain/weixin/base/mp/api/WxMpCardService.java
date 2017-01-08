@@ -7,7 +7,7 @@ import org.springrain.weixin.entity.WxMpConfig;
 
 /**
  * 卡券相关接口
- * @author YuJian(mgcnrx11@hotmail.com) on 01/11/2016  
+ * @author springrain on 2017/1/8  
  */
 public interface WxMpCardService {
 

@@ -14,7 +14,7 @@ import org.springrain.weixin.base.common.util.json.WxGsonBuilder;
 /**
  * 菜单（公众号和企业号共用的）
  *
- * @author Daniel Qian
+ * @author springrain
  */
 public class WxMenu implements Serializable {
 

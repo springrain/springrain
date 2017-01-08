@@ -9,8 +9,8 @@ import org.springrain.weixin.entity.WxMpConfig;
 
 /**
  * 用户标签管理相关接口
- * Created by Binary Wang on 2016/9/2.
- * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
+ * Created by springrain on 2017/1/2.
+ * @author <a href="http://git.oschina.net/chunanyong/springrain">springrain(springrain)</a>
  *
  */
 public interface WxMpUserTagService {

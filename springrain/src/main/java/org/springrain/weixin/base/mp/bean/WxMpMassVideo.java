@@ -1,13 +1,13 @@
 package org.springrain.weixin.base.mp.bean;
 
-import org.springrain.weixin.base.mp.util.json.WxMpGsonBuilder;
-
 import java.io.Serializable;
+
+import org.springrain.weixin.base.mp.util.json.WxMpGsonBuilder;
 
 /**
  * 群发时用到的视频素材
  * 
- * @author chanjarster
+ * @author springrain
  */
 public class WxMpMassVideo implements Serializable {
 

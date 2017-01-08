@@ -16,8 +16,8 @@ import java.util.Map;
 /**
  * <pre>
  * bean操作的一些工具类
- * Created by Binary Wang on 2016-10-21.
- * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
+ * Created by springrain on 2016-10-21.
+ * @author <a href="http://git.oschina.net/chunanyong/springrain">springrain(springrain)</a>
  * </pre>
  */
 public class BeanUtils {

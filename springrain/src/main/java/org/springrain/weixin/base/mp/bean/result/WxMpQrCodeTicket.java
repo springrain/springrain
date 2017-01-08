@@ -1,13 +1,13 @@
 package org.springrain.weixin.base.mp.bean.result;
 
-import org.springrain.weixin.base.mp.util.json.WxMpGsonBuilder;
-
 import java.io.Serializable;
+
+import org.springrain.weixin.base.mp.util.json.WxMpGsonBuilder;
 
 /**
  * 换取二维码的Ticket
  * 
- * @author chanjarster
+ * @author springrain
  */
 public class WxMpQrCodeTicket implements Serializable {
   

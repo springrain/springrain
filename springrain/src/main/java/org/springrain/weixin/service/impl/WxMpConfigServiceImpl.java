@@ -1,9 +1,12 @@
 package org.springrain.weixin.service.impl;
 
+import org.springframework.stereotype.Service;
 import org.springrain.system.service.BaseSpringrainServiceImpl;
 import org.springrain.weixin.entity.WxMpConfig;
 import org.springrain.weixin.service.IWxMpConfigService;
 
+
+@Service("wxMpConfigService")
 public class WxMpConfigServiceImpl extends BaseSpringrainServiceImpl implements IWxMpConfigService  {
 
 	@Override

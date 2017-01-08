@@ -2,6 +2,9 @@ package org.springrain.weixin.base.mp.api.impl;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
 import org.springrain.weixin.base.common.exception.WxErrorException;
 import org.springrain.weixin.base.mp.api.WxMpService;
 import org.springrain.weixin.base.mp.api.WxMpUserService;
@@ -13,13 +16,19 @@ import org.springrain.weixin.entity.WxMpConfig;
 import com.google.gson.JsonObject;
 
 /**
- * Created by Binary Wang on 2016/7/21.
+ * Created by springrain on 2017/1/8.
  */
+@Service("wxMpUserService")
 public class WxMpUserServiceImpl implements WxMpUserService {
   private static final String API_URL_PREFIX = "https://api.weixin.qq.com/cgi-bin/user";
+ 
+  @Resource
   private WxMpService wxMpService;
 
   public WxMpUserServiceImpl() {
+  }
+  public WxMpUserServiceImpl(WxMpService wxMpService) {
+	  this.wxMpService=wxMpService;
   }
 
   @Override

@@ -1,15 +1,15 @@
 package org.springrain.weixin.base.mp.bean;
 
-import org.springrain.weixin.base.mp.util.json.WxMpGsonBuilder;
-
 import java.io.Serializable;
+
+import org.springrain.weixin.base.mp.util.json.WxMpGsonBuilder;
 
 /**
  * 语义理解查询用对象
  *
  * http://mp.weixin.qq.com/wiki/index.php?title=语义理解
  *
- * @author Daniel Qian
+ * @author springrain
  */
 public class WxMpSemanticQuery implements Serializable {
 

@@ -1,15 +1,21 @@
 package org.springrain.weixin.base.mp.bean.message;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamConverter;
+import java.io.Serializable;
 
 import org.springrain.weixin.base.common.util.xml.XStreamCDataConverter;
 import org.springrain.weixin.base.mp.api.WxMpConfigStorage;
-import org.springrain.weixin.base.mp.builder.outxml.*;
+import org.springrain.weixin.base.mp.builder.outxml.ImageBuilder;
+import org.springrain.weixin.base.mp.builder.outxml.MusicBuilder;
+import org.springrain.weixin.base.mp.builder.outxml.NewsBuilder;
+import org.springrain.weixin.base.mp.builder.outxml.TextBuilder;
+import org.springrain.weixin.base.mp.builder.outxml.TransferCustomerServiceBuilder;
+import org.springrain.weixin.base.mp.builder.outxml.VideoBuilder;
+import org.springrain.weixin.base.mp.builder.outxml.VoiceBuilder;
 import org.springrain.weixin.base.mp.util.crypto.WxMpCryptUtil;
 import org.springrain.weixin.base.mp.util.xml.XStreamTransformer;
 
-import java.io.Serializable;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamConverter;
 
 @XStreamAlias("xml")
 public abstract class WxMpXmlOutMessage implements Serializable {

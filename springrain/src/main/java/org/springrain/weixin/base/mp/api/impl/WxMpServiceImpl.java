@@ -2,11 +2,14 @@ package org.springrain.weixin.base.mp.api.impl;
 
 import java.io.IOException;
 
+import javax.annotation.Resource;
+
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.weixin.base.common.bean.WxAccessToken;
 import org.springrain.weixin.base.common.bean.WxJsapiSignature;
@@ -32,13 +35,15 @@ import org.springrain.weixin.base.mp.bean.result.WxMpSemanticQueryResult;
 import org.springrain.weixin.base.mp.bean.result.WxMpUser;
 import org.springrain.weixin.entity.WxMpConfig;
 import org.springrain.weixin.service.IWxMpConfigService;
-import org.springrain.weixin.service.impl.WxMpConfigServiceImpl;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+
+
+@Service("wxMpService")
 public class WxMpServiceImpl implements WxMpService {
 
   private static final JsonParser JSON_PARSER = new JsonParser();
@@ -46,8 +51,19 @@ public class WxMpServiceImpl implements WxMpService {
   protected final Logger logger = LoggerFactory.getLogger(getClass());
   
   //生产环境应该是spring注入
-  // private IWxMpConfigService wxMpConfigService;
-  private IWxMpConfigService wxMpConfigService=new WxMpConfigServiceImpl();
+  @Resource
+   private IWxMpConfigService wxMpConfigService;
+  
+  public WxMpServiceImpl(){
+	  
+  }
+  
+  public WxMpServiceImpl(IWxMpConfigService wxMpConfigService){
+	  this.wxMpConfigService=wxMpConfigService;
+  }
+  
+  
+  //private IWxMpConfigService wxMpConfigService=new WxMpConfigServiceImpl();
 
   //private WxMpConfigStorage configStorage;
 

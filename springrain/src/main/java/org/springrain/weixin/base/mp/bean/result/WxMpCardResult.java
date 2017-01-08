@@ -1,15 +1,15 @@
 package org.springrain.weixin.base.mp.bean.result;
 
+import java.io.Serializable;
+
 import org.springrain.weixin.base.common.util.ToStringUtils;
 import org.springrain.weixin.base.mp.bean.WxMpCard;
-
-import java.io.Serializable;
 
 /**
  * 卡券查询Code，核销Code接口返回结果
  *
- * @author YuJian
- * @version 15/11/11
+ * @author springrain
+ * @version 2017/1/8
  */
 public class WxMpCardResult implements Serializable {
 

@@ -1,8 +1,8 @@
 package org.springrain.weixin.base.mp.bean.pay.request;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-
 import org.springrain.weixin.base.common.annotation.Required;
+
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 /**
  * <pre>
@@ -16,8 +16,8 @@ import org.springrain.weixin.base.common.annotation.Required;
  * <li>示例值
  * <li>描述
  * </pre>
- * Created by Binary Wang on 2016/9/25.
- * @author binarywang (https://github.com/binarywang)
+ * Created by springrain on 2017/1/25.
+ * @author springrain (http://git.oschina.net/chunanyong/springrain)
  */
 @XStreamAlias("xml")
 public class WxPayUnifiedOrderRequest extends WxPayBaseRequest {

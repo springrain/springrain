@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
 import org.springrain.weixin.base.common.api.WxConsts;
 import org.springrain.weixin.base.common.bean.result.WxError;
 import org.springrain.weixin.base.common.bean.result.WxMediaUploadResult;
@@ -36,16 +39,22 @@ import org.springrain.weixin.base.mp.util.json.WxMpGsonBuilder;
 import org.springrain.weixin.entity.WxMpConfig;
 
 /**
- * Created by Binary Wang on 2016/7/21.
+ * Created by springrain on 2017/1/8.
  */
+
+
+@Service("wxMpMaterialService")
 public class WxMpMaterialServiceImpl implements WxMpMaterialService {
   private static final String MEDIA_API_URL_PREFIX = "https://api.weixin.qq.com/cgi-bin/media";
   private static final String MATERIAL_API_URL_PREFIX = "https://api.weixin.qq.com/cgi-bin/material";
   
-  
+  @Resource
   private WxMpService wxMpService;
 
   public WxMpMaterialServiceImpl() {
+  }
+  public WxMpMaterialServiceImpl(WxMpService wxMpService) {
+	  this.wxMpService=wxMpService;
   }
 
   @Override

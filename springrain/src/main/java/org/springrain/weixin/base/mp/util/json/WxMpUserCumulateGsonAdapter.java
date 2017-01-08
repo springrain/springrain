@@ -12,6 +12,8 @@ import java.lang.reflect.Type;
 import java.text.ParseException;
 
 import org.apache.commons.lang3.time.FastDateFormat;
+import org.springrain.weixin.base.common.util.json.GsonHelper;
+import org.springrain.weixin.base.mp.bean.datacube.WxDataCubeUserCumulate;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -19,12 +21,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
-import org.springrain.weixin.base.common.util.json.GsonHelper;
-import org.springrain.weixin.base.mp.bean.datacube.WxDataCubeUserCumulate;
-
 /**
  * 
- * @author Daniel Qian
+ * @author springrain
  *
  */
 public class WxMpUserCumulateGsonAdapter implements JsonDeserializer<WxDataCubeUserCumulate> {

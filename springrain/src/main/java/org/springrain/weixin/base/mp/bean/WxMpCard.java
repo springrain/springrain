@@ -6,8 +6,8 @@ import org.springrain.weixin.base.common.util.ToStringUtils;
 /**
  * 微信卡券
  *
- * @author YuJian
- * @version 15/11/11
+ * @author springrain
+ * @version 2017/1/8
  */
 public class WxMpCard {
 

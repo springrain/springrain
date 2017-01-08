@@ -8,8 +8,8 @@ import java.lang.annotation.Target;
 /**
  * 标识某个字段是否是必填的
  * 
- * Created by Binary Wang on 2016/9/25.
- * @author binarywang (https://github.com/binarywang)
+ * Created by springrain on 2017/1/25.
+ * @author springrain (http://git.oschina.net/chunanyong/springrain)
  *
  */
 @Retention(RetentionPolicy.RUNTIME)

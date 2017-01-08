@@ -4,8 +4,8 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 /**
  *  发送红包请求参数对象
- *  Created by Binary Wang on 2016/9/24.
- * @author binarywang (https://github.com/binarywang)
+ *  Created by springrain on 2017/1/24.
+ * @author springrain (http://git.oschina.net/chunanyong/springrain)
  */
 @XStreamAlias("xml")
 public class WxPaySendRedpackRequest {

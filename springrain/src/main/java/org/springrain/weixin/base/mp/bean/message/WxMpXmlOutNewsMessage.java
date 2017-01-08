@@ -1,12 +1,13 @@
 package org.springrain.weixin.base.mp.bean.message;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamConverter;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springrain.weixin.base.common.api.WxConsts;
 import org.springrain.weixin.base.common.util.xml.XStreamCDataConverter;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamConverter;
 
 @XStreamAlias("xml")
 public class WxMpXmlOutNewsMessage extends WxMpXmlOutMessage {

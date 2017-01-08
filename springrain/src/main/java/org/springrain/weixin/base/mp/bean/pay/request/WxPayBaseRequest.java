@@ -1,11 +1,12 @@
 package org.springrain.weixin.base.mp.bean.pay.request;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
 import org.springrain.weixin.base.common.util.ToStringUtils;
+
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 /**
  * <pre>
- * Created by Binary Wang on 2016-10-24.
+ * Created by springrain on 2016-10-24.
  *  微信支付请求对象共用的参数存放类
  * 注释中各行每个字段描述对应如下：
  * <li>字段名
@@ -15,7 +16,7 @@ import org.springrain.weixin.base.common.util.ToStringUtils;
  * <li>示例值
  * <li>描述
  * </pre>
- * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
+ * @author <a href="http://git.oschina.net/chunanyong/springrain">springrain(springrain)</a>
  */
 public abstract class WxPayBaseRequest {
   /**

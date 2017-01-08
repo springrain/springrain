@@ -18,7 +18,7 @@ import org.springrain.weixin.base.common.util.http.RequestExecutor;
 import org.springrain.weixin.base.mp.bean.material.WxMediaImgUploadResult;
 
 /**
- * @author miller
+ * @author springrain
  */
 public class MediaImgUploadRequestExecutor implements RequestExecutor<WxMediaImgUploadResult, File> {
   @Override

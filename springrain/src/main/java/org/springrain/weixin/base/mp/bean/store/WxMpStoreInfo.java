@@ -1,7 +1,8 @@
 package org.springrain.weixin.base.mp.bean.store;
 
-import com.google.gson.annotations.SerializedName;
 import org.springrain.weixin.base.common.util.ToStringUtils;
+
+import com.google.gson.annotations.SerializedName;
 
 public class WxMpStoreInfo {
   @Override

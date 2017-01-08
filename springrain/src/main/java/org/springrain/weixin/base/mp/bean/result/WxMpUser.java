@@ -1,18 +1,19 @@
 package org.springrain.weixin.base.mp.bean.result;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
-import org.springrain.weixin.base.common.util.ToStringUtils;
-import org.springrain.weixin.base.mp.util.json.WxMpGsonBuilder;
-
 import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import org.springrain.weixin.base.common.util.ToStringUtils;
+import org.springrain.weixin.base.mp.util.json.WxMpGsonBuilder;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
+
 /**
  * 微信用户信息
- * @author chanjarster
+ * @author springrain
  *
  */
 public class WxMpUser implements Serializable {

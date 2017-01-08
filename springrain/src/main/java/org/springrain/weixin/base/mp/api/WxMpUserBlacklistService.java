@@ -7,7 +7,7 @@ import org.springrain.weixin.base.mp.bean.result.WxMpUserBlacklistGetResult;
 import org.springrain.weixin.entity.WxMpConfig;
 
 /**
- * @author miller
+ * @author springrain
  */
 public interface WxMpUserBlacklistService {
   /**

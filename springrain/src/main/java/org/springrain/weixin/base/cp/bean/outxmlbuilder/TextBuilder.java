@@ -5,7 +5,7 @@ import org.springrain.weixin.base.cp.bean.WxCpXmlOutTextMessage;
 /**
  * 文本消息builder
  *
- * @author Daniel Qian
+ * @author springrain
  */
 public final class TextBuilder extends BaseBuilder<TextBuilder, WxCpXmlOutTextMessage> {
   private String content;

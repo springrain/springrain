@@ -1,13 +1,13 @@
 package org.springrain.weixin.base.mp.bean.result;
 
-import org.springrain.weixin.base.mp.util.json.WxMpGsonBuilder;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springrain.weixin.base.mp.util.json.WxMpGsonBuilder;
+
 /**
  * 关注者列表
- * @author chanjarster
+ * @author springrain
  *
  */
 public class WxMpUserList {

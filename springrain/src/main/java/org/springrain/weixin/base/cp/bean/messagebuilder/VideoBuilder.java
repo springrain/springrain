@@ -15,7 +15,7 @@ import org.springrain.weixin.base.cp.bean.WxCpMessage;
  *                              .build();
  * </pre>
  *
- * @author Daniel Qian
+ * @author springrain
  */
 public final class VideoBuilder extends BaseBuilder<VideoBuilder> {
   private String mediaId;

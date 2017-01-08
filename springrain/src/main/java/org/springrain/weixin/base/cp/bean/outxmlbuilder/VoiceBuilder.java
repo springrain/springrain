@@ -5,7 +5,7 @@ import org.springrain.weixin.base.cp.bean.WxCpXmlOutVoiceMessage;
 /**
  * 语音消息builder
  *
- * @author Daniel Qian
+ * @author springrain
  */
 public final class VoiceBuilder extends BaseBuilder<VoiceBuilder, WxCpXmlOutVoiceMessage> {
 

@@ -13,8 +13,8 @@
  */
 package org.springrain.weixin.base.mp.util.crypto;
 
-import org.springrain.weixin.base.mp.api.WxMpConfigStorage;
 import org.apache.commons.codec.binary.Base64;
+import org.springrain.weixin.base.mp.api.WxMpConfigStorage;
 
 public class WxMpCryptUtil extends org.springrain.weixin.base.common.util.crypto.WxCryptUtil {
 

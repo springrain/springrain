@@ -8,13 +8,18 @@
  */
 package org.springrain.weixin.base.mp.util.json;
 
-import com.google.gson.*;
+import java.lang.reflect.Type;
+import java.util.Date;
+
 import org.springrain.weixin.base.common.util.json.GsonHelper;
 import org.springrain.weixin.base.mp.bean.material.WxMpMaterialNews;
 import org.springrain.weixin.base.mp.bean.material.WxMpMaterialNewsBatchGetResult;
 
-import java.lang.reflect.Type;
-import java.util.Date;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 
 public class WxMpMaterialNewsBatchGetGsonItemAdapter implements JsonDeserializer<WxMpMaterialNewsBatchGetResult.WxMaterialNewsBatchGetNewsItem> {
 

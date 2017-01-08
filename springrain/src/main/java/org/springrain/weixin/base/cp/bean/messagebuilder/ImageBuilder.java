@@ -9,7 +9,7 @@ import org.springrain.weixin.base.cp.bean.WxCpMessage;
  * 用法: WxCustomMessage m = WxCustomMessage.IMAGE().mediaId(...).toUser(...).build();
  * </pre>
  *
- * @author Daniel Qian
+ * @author springrain
  */
 public final class ImageBuilder extends BaseBuilder<ImageBuilder> {
   private String mediaId;

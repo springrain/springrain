@@ -13,7 +13,7 @@ import java.util.List;
  * WxCustomMessage m = WxCustomMessage.NEWS().addArticle(article).toUser(...).build();
  * </pre>
  *
- * @author Daniel Qian
+ * @author springrain
  */
 public final class NewsBuilder extends BaseBuilder<NewsBuilder> {
 

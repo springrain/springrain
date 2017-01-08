@@ -10,13 +10,13 @@ package org.springrain.weixin.base.mp.util.json;
 
 import java.lang.reflect.Type;
 
+import org.springrain.weixin.base.common.api.WxConsts;
+import org.springrain.weixin.base.mp.bean.WxMpMassTagMessage;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-
-import org.springrain.weixin.base.common.api.WxConsts;
-import org.springrain.weixin.base.mp.bean.WxMpMassTagMessage;
 
 public class WxMpMassTagMessageGsonAdapter implements JsonSerializer<WxMpMassTagMessage> {
 

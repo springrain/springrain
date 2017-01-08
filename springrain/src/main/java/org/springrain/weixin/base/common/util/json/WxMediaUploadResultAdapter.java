@@ -14,7 +14,7 @@ import org.springrain.weixin.base.common.bean.result.WxMediaUploadResult;
 import java.lang.reflect.Type;
 
 /**
- * @author Daniel Qian
+ * @author springrain
  */
 public class WxMediaUploadResultAdapter implements JsonDeserializer<WxMediaUploadResult> {
 

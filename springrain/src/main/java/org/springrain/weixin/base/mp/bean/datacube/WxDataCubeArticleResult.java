@@ -1,16 +1,17 @@
 package org.springrain.weixin.base.mp.bean.datacube;
 
+import java.util.List;
+
+import org.springrain.weixin.base.mp.util.json.WxMpGsonBuilder;
+
 import com.google.gson.JsonParser;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
-import org.springrain.weixin.base.mp.util.json.WxMpGsonBuilder;
-
-import java.util.List;
 
 /**
  * 图文分析数据接口返回结果对象
- * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
- *         Created by Binary Wang on 2016/8/24.
+ * @author <a href="http://git.oschina.net/chunanyong/springrain">springrain(springrain)</a>
+ *         Created by springrain on 2017/1/8.
  */
 public class WxDataCubeArticleResult extends WxDataCubeBaseResult {
 

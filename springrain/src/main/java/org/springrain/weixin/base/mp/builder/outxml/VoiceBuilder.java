@@ -4,7 +4,7 @@ import org.springrain.weixin.base.mp.bean.message.WxMpXmlOutVoiceMessage;
 
 /**
  * 语音消息builder
- * @author chanjarster
+ * @author springrain
  */
 public final class VoiceBuilder extends BaseBuilder<VoiceBuilder, WxMpXmlOutVoiceMessage> {
 

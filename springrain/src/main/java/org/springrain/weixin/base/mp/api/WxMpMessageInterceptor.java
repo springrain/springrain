@@ -8,7 +8,7 @@ import org.springrain.weixin.base.mp.bean.message.WxMpXmlMessage;
 /**
  * 微信消息拦截器，可以用来做验证
  *
- * @author Daniel Qian
+ * @author springrain
  */
 public interface WxMpMessageInterceptor {
 

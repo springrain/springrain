@@ -15,7 +15,7 @@ import org.springrain.weixin.base.common.exception.WxErrorException;
 /**
  * 简单的POST请求执行器，请求的参数是String, 返回的结果也是String
  *
- * @author Daniel Qian
+ * @author springrain
  */
 public class SimplePostRequestExecutor implements RequestExecutor<String, String> {
 

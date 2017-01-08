@@ -14,7 +14,7 @@ import org.springrain.weixin.base.common.bean.result.WxError;
 import java.lang.reflect.Type;
 
 /**
- * @author Daniel Qian
+ * @author springrain
  */
 public class WxErrorAdapter implements JsonDeserializer<WxError> {
 

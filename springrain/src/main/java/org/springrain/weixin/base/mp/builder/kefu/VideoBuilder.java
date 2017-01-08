@@ -14,7 +14,7 @@ import org.springrain.weixin.base.mp.bean.kefu.WxMpKefuMessage;
  *                              .toUser(...)
  *                              .build();
  * </pre>
- * @author chanjarster
+ * @author springrain
  *
  */
 public final class VideoBuilder extends BaseBuilder<VideoBuilder> {

@@ -8,7 +8,7 @@ import org.springrain.weixin.entity.WxMpConfig;
 /**
  * 菜单相关操作接口
  *
- * @author Binary Wang
+ * @author springrain
  */
 public interface WxMpMenuService {
 

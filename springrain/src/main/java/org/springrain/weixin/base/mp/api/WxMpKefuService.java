@@ -15,7 +15,7 @@ import java.util.Date;
  * 其英文CustomerService如果再加上Service后缀显得有点啰嗦，
  * 如果不加又显得表意不完整
  *
- * @author Binary Wang
+ * @author springrain
  */
 public interface WxMpKefuService {
 

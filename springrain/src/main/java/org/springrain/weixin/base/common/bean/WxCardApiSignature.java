@@ -8,7 +8,7 @@ import org.springrain.weixin.base.common.util.ToStringUtils;
 /**
  * 卡券Api签名
  *
- * @author YuJian
+ * @author springrain
  * @version 15/11/8
  */
 public class WxCardApiSignature implements Serializable {

@@ -15,7 +15,7 @@ import org.springrain.weixin.base.cp.bean.WxCpDepart;
 import java.lang.reflect.Type;
 
 /**
- * @author Daniel Qian
+ * @author springrain
  */
 public class WxCpDepartGsonAdapter implements JsonSerializer<WxCpDepart>, JsonDeserializer<WxCpDepart> {
 

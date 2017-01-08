@@ -11,7 +11,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * 基于内存的微信配置provider，在实际生产环境中应该将这些配置持久化
- * @author chanjarster
+ * @author springrain
  *
  */
 public class WxMpInMemoryConfigStorage implements WxMpConfigStorage {

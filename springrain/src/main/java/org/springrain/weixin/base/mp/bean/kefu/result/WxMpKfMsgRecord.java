@@ -1,10 +1,11 @@
 package org.springrain.weixin.base.mp.bean.kefu.result;
 
-import com.google.gson.annotations.SerializedName;
 import org.springrain.weixin.base.common.util.ToStringUtils;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
- * Created by Binary Wang on 2016/7/18.
+ * Created by springrain on 2017/1/18.
  */
 public class WxMpKfMsgRecord {
   /**

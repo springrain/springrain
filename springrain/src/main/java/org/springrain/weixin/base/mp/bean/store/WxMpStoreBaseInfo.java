@@ -1,19 +1,20 @@
 package org.springrain.weixin.base.mp.bean.store;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.annotations.SerializedName;
+import java.math.BigDecimal;
+import java.util.List;
+
 import org.springrain.weixin.base.common.annotation.Required;
 import org.springrain.weixin.base.common.util.ToStringUtils;
 import org.springrain.weixin.base.mp.util.json.WxMpGsonBuilder;
 
-import java.math.BigDecimal;
-import java.util.List;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * 门店基础信息
- * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
- *         Created by Binary Wang on 2016-09-23.
+ * @author <a href="http://git.oschina.net/chunanyong/springrain">springrain(springrain)</a>
+ *         Created by springrain on 2017/1/8.
  */
 public class WxMpStoreBaseInfo {
   @Override

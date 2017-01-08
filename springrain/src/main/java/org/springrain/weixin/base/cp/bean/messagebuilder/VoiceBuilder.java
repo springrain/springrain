@@ -9,7 +9,7 @@ import org.springrain.weixin.base.cp.bean.WxCpMessage;
  * 用法: WxCustomMessage m = WxCustomMessage.VOICE().mediaId(...).toUser(...).build();
  * </pre>
  *
- * @author Daniel Qian
+ * @author springrain
  */
 public final class VoiceBuilder extends BaseBuilder<VoiceBuilder> {
   private String mediaId;

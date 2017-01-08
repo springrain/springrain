@@ -22,9 +22,9 @@ import org.springrain.weixin.entity.WxMpConfig;
 
 /**
  * 微信支付相关接口
- * Created by Binary Wang on 2016/7/28.
+ * Created by springrain on 2017/1/8.
  *
- * @author binarywang (https://github.com/binarywang)
+ * @author springrain (http://git.oschina.net/chunanyong/springrain)
  */
 public interface WxMpPayService {
 

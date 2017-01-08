@@ -1,28 +1,25 @@
 package org.springrain.weixin.base.mp.util.json;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import org.springrain.weixin.base.mp.bean.WxMpCard;
-import org.springrain.weixin.base.mp.bean.kefu.WxMpKefuMessage;
 import org.springrain.weixin.base.mp.bean.WxMpMassNews;
 import org.springrain.weixin.base.mp.bean.WxMpMassOpenIdsMessage;
 import org.springrain.weixin.base.mp.bean.WxMpMassPreviewMessage;
 import org.springrain.weixin.base.mp.bean.WxMpMassTagMessage;
 import org.springrain.weixin.base.mp.bean.WxMpMassVideo;
-import org.springrain.weixin.base.mp.bean.material.WxMpMaterialArticleUpdate;
-import org.springrain.weixin.base.mp.bean.material.WxMpMaterialNews;
 import org.springrain.weixin.base.mp.bean.datacube.WxDataCubeUserCumulate;
 import org.springrain.weixin.base.mp.bean.datacube.WxDataCubeUserSummary;
+import org.springrain.weixin.base.mp.bean.kefu.WxMpKefuMessage;
 import org.springrain.weixin.base.mp.bean.material.WxMediaImgUploadResult;
-import org.springrain.weixin.base.mp.bean.result.WxMpCardResult;
-import org.springrain.weixin.base.mp.bean.result.WxMpMassSendResult;
-import org.springrain.weixin.base.mp.bean.result.WxMpMassUploadResult;
+import org.springrain.weixin.base.mp.bean.material.WxMpMaterialArticleUpdate;
 import org.springrain.weixin.base.mp.bean.material.WxMpMaterialCountResult;
 import org.springrain.weixin.base.mp.bean.material.WxMpMaterialFileBatchGetResult;
+import org.springrain.weixin.base.mp.bean.material.WxMpMaterialNews;
 import org.springrain.weixin.base.mp.bean.material.WxMpMaterialNewsBatchGetResult;
 import org.springrain.weixin.base.mp.bean.material.WxMpMaterialUploadResult;
 import org.springrain.weixin.base.mp.bean.material.WxMpMaterialVideoInfoResult;
+import org.springrain.weixin.base.mp.bean.result.WxMpCardResult;
+import org.springrain.weixin.base.mp.bean.result.WxMpMassSendResult;
+import org.springrain.weixin.base.mp.bean.result.WxMpMassUploadResult;
 import org.springrain.weixin.base.mp.bean.result.WxMpOAuth2AccessToken;
 import org.springrain.weixin.base.mp.bean.result.WxMpQrCodeTicket;
 import org.springrain.weixin.base.mp.bean.result.WxMpSemanticQueryResult;
@@ -31,6 +28,9 @@ import org.springrain.weixin.base.mp.bean.result.WxMpUserBlacklistGetResult;
 import org.springrain.weixin.base.mp.bean.result.WxMpUserList;
 import org.springrain.weixin.base.mp.bean.template.WxMpTemplateIndustry;
 import org.springrain.weixin.base.mp.bean.template.WxMpTemplateMessage;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class WxMpGsonBuilder {
 

@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import javax.annotation.Resource;
 import javax.net.ssl.SSLContext;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -29,6 +30,7 @@ import org.apache.http.ssl.SSLContexts;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.weixin.base.common.bean.result.WxError;
 import org.springrain.weixin.base.common.exception.WxErrorException;
@@ -61,10 +63,12 @@ import org.springrain.weixin.entity.WxMpConfig;
 import com.thoughtworks.xstream.XStream;
 
 /**
- * Created by Binary Wang on 2016/7/28.
+ * Created by springrain on 2017/1/8.
  *
- * @author binarywang (https://github.com/binarywang)
+ * @author springrain (http://git.oschina.net/chunanyong/springrain)
  */
+
+@Service("wxMpPayService")
 public class WxMpPayServiceImpl implements WxMpPayService {
 
   private static final String PAY_BASE_URL = "https://api.mch.weixin.qq.com";
@@ -72,10 +76,16 @@ public class WxMpPayServiceImpl implements WxMpPayService {
   private static final String[] REFUND_ACCOUNT = new String[]{"REFUND_SOURCE_RECHARGE_FUNDS",
     "REFUND_SOURCE_UNSETTLED_FUNDS"};
   protected final Logger log = LoggerFactory.getLogger(getClass());
+  
+  @Resource
   private WxMpService wxMpService;
 
   public WxMpPayServiceImpl() {
   }
+  public WxMpPayServiceImpl(WxMpService wxMpService) {
+	  this.wxMpService=wxMpService;
+  }
+  
 
   @Override
   public WxPayRefundResult refund(WxMpConfig wxmpconfig,WxPayRefundRequest request, File keyFile)

@@ -1,9 +1,10 @@
 package org.springrain.weixin.base.mp.bean.message;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamConverter;
 import org.springrain.weixin.base.common.api.WxConsts;
 import org.springrain.weixin.base.common.util.xml.XStreamMediaIdConverter;
+
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamConverter;
 
 @XStreamAlias("xml")
 public class WxMpXmlOutVoiceMessage extends WxMpXmlOutMessage {

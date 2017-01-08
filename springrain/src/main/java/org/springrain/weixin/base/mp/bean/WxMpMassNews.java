@@ -1,16 +1,16 @@
 package org.springrain.weixin.base.mp.bean;
 
-import org.springrain.weixin.base.common.util.ToStringUtils;
-import org.springrain.weixin.base.mp.util.json.WxMpGsonBuilder;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springrain.weixin.base.common.util.ToStringUtils;
+import org.springrain.weixin.base.mp.util.json.WxMpGsonBuilder;
+
 /**
  * 群发时用到的图文消息素材
  *
- * @author chanjarster
+ * @author springrain
  */
 public class WxMpMassNews implements Serializable {
 
@@ -48,7 +48,7 @@ public class WxMpMassNews implements Serializable {
    * 7, showCoverPic  是否显示封面，true为显示，false为不显示
    * </pre>
    *
-   * @author chanjarster
+   * @author springrain
    */
   public static class WxMpMassNewsArticle {
     /**

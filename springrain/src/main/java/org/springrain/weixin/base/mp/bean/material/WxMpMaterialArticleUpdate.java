@@ -1,8 +1,8 @@
 package org.springrain.weixin.base.mp.bean.material;
 
-import org.springrain.weixin.base.mp.util.json.WxMpGsonBuilder;
-
 import java.io.Serializable;
+
+import org.springrain.weixin.base.mp.util.json.WxMpGsonBuilder;
 
 public class WxMpMaterialArticleUpdate implements Serializable {
 

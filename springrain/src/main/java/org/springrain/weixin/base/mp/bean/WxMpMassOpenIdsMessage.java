@@ -9,7 +9,7 @@ import org.springrain.weixin.base.mp.util.json.WxMpGsonBuilder;
 /**
  * openid列表群发的消息
  * 
- * @author chanjarster
+ * @author springrain
  */
 public class WxMpMassOpenIdsMessage implements Serializable {
   private static final long serialVersionUID = -8022910911104788999L;

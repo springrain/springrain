@@ -1,7 +1,7 @@
 package org.springrain.weixin.base.mp.builder.outxml;
 
-import org.springrain.weixin.base.mp.bean.message.WxMpXmlOutTransferKefuMessage;
 import org.apache.commons.lang3.StringUtils;
+import org.springrain.weixin.base.mp.bean.message.WxMpXmlOutTransferKefuMessage;
 
 /**
  * 客服消息builder
@@ -9,7 +9,7 @@ import org.apache.commons.lang3.StringUtils;
  * 用法: WxMpKefuMessage m = WxMpXmlOutMessage.TRANSFER_CUSTOMER_SERVICE().content(...).toUser(...).build();
  * </pre>
  *
- * @author chanjarster
+ * @author springrain
  */
 public final class TransferCustomerServiceBuilder extends BaseBuilder<TransferCustomerServiceBuilder, WxMpXmlOutTransferKefuMessage> {
   private String kfAccount;

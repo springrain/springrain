@@ -1,13 +1,14 @@
 package org.springrain.weixin.base.mp.bean.datacube;
 
-import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
-import org.springrain.weixin.base.common.util.ToStringUtils;
-import org.springrain.weixin.base.mp.util.json.WxMpGsonBuilder;
-
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+
+import org.springrain.weixin.base.common.util.ToStringUtils;
+import org.springrain.weixin.base.mp.util.json.WxMpGsonBuilder;
+
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 
 /**
  * <pre>

@@ -8,7 +8,7 @@ import org.springrain.weixin.base.common.bean.WxAccessToken;
 
 /**
  * 微信客户端配置存储
- * @author chanjarster
+ * @author springrain
  *
  */
 public interface WxMpConfigStorage {

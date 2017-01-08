@@ -9,7 +9,7 @@ import java.io.File;
 /**
  * 基于内存的微信配置provider，在实际生产环境中应该将这些配置持久化
  *
- * @author Daniel Qian
+ * @author springrain
  */
 public class WxCpInMemoryConfigStorage implements WxCpConfigStorage {
 

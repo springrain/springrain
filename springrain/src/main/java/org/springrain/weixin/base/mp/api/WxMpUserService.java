@@ -11,7 +11,7 @@ import org.springrain.weixin.entity.WxMpConfig;
 /**
  * 用户管理相关操作接口
  *
- * @author Binary Wang
+ * @author springrain
  */
 public interface WxMpUserService {
 

@@ -1,12 +1,13 @@
 package org.springrain.weixin.base.mp.bean.datacube;
 
-import com.google.gson.annotations.SerializedName;
 import org.springrain.weixin.base.common.util.ToStringUtils;
+
+import com.google.gson.annotations.SerializedName;
 
 /**
  * 统计接口的共用属性类
- * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
- *         Created by Binary Wang on 2016/8/25.
+ * @author <a href="http://git.oschina.net/chunanyong/springrain">springrain(springrain)</a>
+ *         Created by springrain on 2017/1/8.
  */
 public class WxDataCubeBaseResult {
   @Override

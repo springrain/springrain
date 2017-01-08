@@ -1,15 +1,16 @@
 package org.springrain.weixin.base.mp.bean.tag;
 
-import com.google.gson.annotations.SerializedName;
+import java.util.List;
+
 import org.springrain.weixin.base.common.util.ToStringUtils;
 import org.springrain.weixin.base.mp.util.json.WxMpGsonBuilder;
 
-import java.util.List;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * 获取标签下粉丝列表的结果对象
- * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
- *         Created by Binary Wang on 2016-09-19.
+ * @author <a href="http://git.oschina.net/chunanyong/springrain">springrain(springrain)</a>
+ *         Created by springrain on 2016-09-19.
  */
 public class WxTagListUser {
 

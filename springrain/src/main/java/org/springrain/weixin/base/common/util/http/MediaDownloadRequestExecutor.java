@@ -22,7 +22,7 @@ import org.springrain.weixin.base.common.util.fs.FileUtils;
 /**
  * 下载媒体文件请求执行器，请求的参数是String, 返回的结果是File
  * 视频文件不支持下载
- * @author Daniel Qian
+ * @author springrain
  */
 public class MediaDownloadRequestExecutor implements RequestExecutor<File, String> {
 

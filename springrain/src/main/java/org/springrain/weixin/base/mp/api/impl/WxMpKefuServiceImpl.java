@@ -3,8 +3,11 @@ package org.springrain.weixin.base.mp.api.impl;
 import java.io.File;
 import java.util.Date;
 
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 import org.springrain.weixin.base.common.bean.result.WxError;
 import org.springrain.weixin.base.common.bean.result.WxMediaUploadResult;
 import org.springrain.weixin.base.common.exception.WxErrorException;
@@ -26,9 +29,10 @@ import com.google.gson.JsonObject;
 
 /**
  *
- * @author Binary Wang
+ * @author springrain
  *
  */
+@Service("wxMpKefuService")
 public class WxMpKefuServiceImpl implements WxMpKefuService {
   protected final Logger log = LoggerFactory
       .getLogger(WxMpKefuServiceImpl.class);
@@ -36,10 +40,17 @@ public class WxMpKefuServiceImpl implements WxMpKefuService {
   private static final String API_URL_PREFIX_WITH_CGI_BIN = "https://api.weixin.qq.com/cgi-bin/customservice";
   
   //生产环境应该是spring注入
+  @Resource
   private WxMpService wxMpService;
 
   public WxMpKefuServiceImpl() {
   }
+  
+  public WxMpKefuServiceImpl(WxMpService wxMpService) {
+	  this.wxMpService=wxMpService;
+  }
+  
+  
 
   @Override
   public boolean sendKefuMessage(WxMpConfig wxmpconfig,WxMpKefuMessage message)

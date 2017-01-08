@@ -15,7 +15,7 @@ import org.springrain.weixin.base.cp.bean.WxCpUser;
 import java.lang.reflect.Type;
 
 /**
- * @author Daniel Qian
+ * @author springrain
  */
 public class WxCpUserGsonAdapter implements JsonDeserializer<WxCpUser>, JsonSerializer<WxCpUser> {
 

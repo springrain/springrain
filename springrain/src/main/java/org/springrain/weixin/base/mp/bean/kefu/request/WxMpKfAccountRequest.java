@@ -3,10 +3,9 @@ package org.springrain.weixin.base.mp.bean.kefu.request;
 import java.io.Serializable;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.springrain.weixin.base.mp.util.json.WxMpGsonBuilder;
 
 import com.google.gson.annotations.SerializedName;
-
-import org.springrain.weixin.base.mp.util.json.WxMpGsonBuilder;
 
 public class WxMpKfAccountRequest implements Serializable {
   private static final long serialVersionUID = -5451863610674856927L;

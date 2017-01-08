@@ -1,10 +1,10 @@
 package org.springrain.weixin.base.mp.bean.material;
 
-import org.springrain.weixin.base.common.util.ToStringUtils;
-
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+
+import org.springrain.weixin.base.common.util.ToStringUtils;
 
 public class WxMpMaterialFileBatchGetResult implements Serializable {
   private static final long serialVersionUID = -560388368297267884L;

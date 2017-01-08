@@ -4,7 +4,7 @@ import org.springrain.weixin.base.mp.bean.message.WxMpXmlOutVideoMessage;
 
 /**
  * 视频消息builder
- * @author chanjarster
+ * @author springrain
  *
  */
 public final class VideoBuilder extends BaseBuilder<VideoBuilder, WxMpXmlOutVideoMessage> {

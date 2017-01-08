@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * 图文消息builder
  *
- * @author Daniel Qian
+ * @author springrain
  */
 public final class NewsBuilder extends BaseBuilder<NewsBuilder, WxCpXmlOutNewsMessage> {
 

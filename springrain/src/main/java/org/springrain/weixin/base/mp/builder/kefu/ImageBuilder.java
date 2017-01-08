@@ -8,7 +8,7 @@ import org.springrain.weixin.base.mp.bean.kefu.WxMpKefuMessage;
  * <pre>
  * 用法: WxMpKefuMessage m = WxMpKefuMessage.IMAGE().mediaId(...).toUser(...).build();
  * </pre>
- * @author chanjarster
+ * @author springrain
  *
  */
 public final class ImageBuilder extends BaseBuilder<ImageBuilder> {

@@ -24,7 +24,7 @@ import org.springrain.weixin.base.mp.bean.result.WxMpQrCodeTicket;
 
 /**
  * 获得QrCode图片 请求执行器
- * @author chanjarster
+ * @author springrain
  *
  */
 public class QrCodeRequestExecutor implements RequestExecutor<File, WxMpQrCodeTicket> {

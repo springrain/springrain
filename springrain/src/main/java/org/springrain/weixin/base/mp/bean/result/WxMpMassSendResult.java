@@ -1,8 +1,8 @@
 package org.springrain.weixin.base.mp.bean.result;
 
-import org.springrain.weixin.base.mp.util.json.WxMpGsonBuilder;
-
 import java.io.Serializable;
+
+import org.springrain.weixin.base.mp.util.json.WxMpGsonBuilder;
 
 /**
  * <pre>
@@ -12,7 +12,7 @@ import java.io.Serializable;
  * http://mp.weixin.qq.com/wiki/index.php?title=高级群发接口#.E4.BA.8B.E4.BB.B6.E6.8E.A8.E9.80.81.E7.BE.A4.E5.8F.91.E7.BB.93.E6.9E.9C
  * 
  * </pre>
- * @author chanjarster
+ * @author springrain
  *
  */
 public class WxMpMassSendResult implements Serializable {

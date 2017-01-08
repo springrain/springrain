@@ -16,7 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.lang.reflect.Type;
 
 /**
- * @author Daniel Qian
+ * @author springrain
  */
 public class WxCpMessageGsonAdapter implements JsonSerializer<WxCpMessage> {
 

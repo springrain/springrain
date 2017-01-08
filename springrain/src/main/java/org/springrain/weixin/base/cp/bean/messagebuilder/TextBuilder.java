@@ -9,7 +9,7 @@ import org.springrain.weixin.base.cp.bean.WxCpMessage;
  * 用法: WxCustomMessage m = WxCustomMessage.TEXT().content(...).toUser(...).build();
  * </pre>
  *
- * @author Daniel Qian
+ * @author springrain
  */
 public final class TextBuilder extends BaseBuilder<TextBuilder> {
   private String content;

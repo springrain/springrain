@@ -1,11 +1,11 @@
 package org.springrain.weixin.base.mp.bean.material;
 
-import org.springrain.weixin.base.mp.util.json.WxMpGsonBuilder;
-
 import java.io.Serializable;
 
+import org.springrain.weixin.base.mp.util.json.WxMpGsonBuilder;
+
 /**
- * @author miller
+ * @author springrain
  */
 public class WxMediaImgUploadResult implements Serializable {
   /**

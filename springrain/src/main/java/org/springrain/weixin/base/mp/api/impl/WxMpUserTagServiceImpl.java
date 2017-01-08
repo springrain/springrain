@@ -2,7 +2,10 @@ package org.springrain.weixin.base.mp.api.impl;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
 import org.springrain.weixin.base.common.bean.result.WxError;
 import org.springrain.weixin.base.common.exception.WxErrorException;
 import org.springrain.weixin.base.mp.api.WxMpService;
@@ -19,15 +22,22 @@ import com.google.gson.reflect.TypeToken;
 
 /**
  *
- * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
- *         Created by Binary Wang on 2016/9/2.
+ * @author <a href="http://git.oschina.net/chunanyong/springrain">springrain(springrain)</a>
+ *         Created by springrain on 2017/1/2.
  */
+
+@Service("wxMpUserTagService")
 public class WxMpUserTagServiceImpl implements WxMpUserTagService {
   private static final String API_URL_PREFIX = "https://api.weixin.qq.com/cgi-bin/tags";
 
+  @Resource
   private WxMpService wxMpService;
 
   public WxMpUserTagServiceImpl() {
+  }
+  
+  public WxMpUserTagServiceImpl(WxMpService wxMpService) {
+	  this.wxMpService=wxMpService;
   }
 
   @Override

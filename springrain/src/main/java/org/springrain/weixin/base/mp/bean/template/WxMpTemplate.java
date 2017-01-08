@@ -1,18 +1,19 @@
 package org.springrain.weixin.base.mp.bean.template;
 
-import com.google.gson.JsonParser;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.reflect.TypeToken;
+import java.util.List;
+
 import org.springrain.weixin.base.common.util.ToStringUtils;
 import org.springrain.weixin.base.mp.util.json.WxMpGsonBuilder;
 
-import java.util.List;
+import com.google.gson.JsonParser;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.reflect.TypeToken;
 
 /**
  * <pre>
  * 模板列表信息
- * Created by Binary Wang on 2016-10-17.
- * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
+ * Created by springrain on 2016-10-17.
+ * @author <a href="http://git.oschina.net/chunanyong/springrain">springrain(springrain)</a>
  * </pre>
  */
 public class WxMpTemplate {

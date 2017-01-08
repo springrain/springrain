@@ -5,7 +5,7 @@ import org.springrain.weixin.base.cp.bean.WxCpXmlOutImageMessage;
 /**
  * 图片消息builder
  *
- * @author Daniel Qian
+ * @author springrain
  */
 public final class ImageBuilder extends BaseBuilder<ImageBuilder, WxCpXmlOutImageMessage> {
 

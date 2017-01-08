@@ -1,15 +1,16 @@
 package org.springrain.weixin.base.mp.bean.store;
 
-import com.google.gson.annotations.SerializedName;
+import java.util.List;
+
 import org.springrain.weixin.base.common.util.ToStringUtils;
 import org.springrain.weixin.base.mp.util.json.WxMpGsonBuilder;
 
-import java.util.List;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * 门店列表结果类
- * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
- *         Created by Binary Wang on 2016-09-27.
+ * @author <a href="http://git.oschina.net/chunanyong/springrain">springrain(springrain)</a>
+ *         Created by springrain on 2016-09-27.
  *
  */
 public class WxMpStoreListResult {

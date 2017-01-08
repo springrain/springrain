@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * 消息
  *
- * @author Daniel Qian
+ * @author springrain
  */
 public class WxCpMessage implements Serializable {
 

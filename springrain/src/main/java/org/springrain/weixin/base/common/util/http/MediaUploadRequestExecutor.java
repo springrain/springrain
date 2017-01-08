@@ -20,7 +20,7 @@ import org.springrain.weixin.base.common.exception.WxErrorException;
 /**
  * 上传媒体文件请求执行器，请求的参数是File, 返回的结果是String
  *
- * @author Daniel Qian
+ * @author springrain
  */
 public class MediaUploadRequestExecutor implements RequestExecutor<WxMediaUploadResult, File> {
 

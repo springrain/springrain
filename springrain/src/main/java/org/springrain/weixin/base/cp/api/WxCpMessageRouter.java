@@ -42,7 +42,7 @@ import org.springrain.weixin.base.cp.bean.WxCpXmlOutMessage;
  *
  * </pre>
  *
- * @author Daniel Qian
+ * @author springrain
  */
 public class WxCpMessageRouter {
 

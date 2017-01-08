@@ -1,13 +1,13 @@
 package org.springrain.weixin.base.mp.bean.template;
 
 
+import java.io.Serializable;
+
 import org.springrain.weixin.base.common.util.ToStringUtils;
 import org.springrain.weixin.base.mp.util.json.WxMpGsonBuilder;
 
-import java.io.Serializable;
-
 /**
- * @author miller
+ * @author springrain
  */
 public class WxMpTemplateIndustry implements Serializable {
   private static final long serialVersionUID = -7700398224795914722L;
@@ -23,7 +23,7 @@ public class WxMpTemplateIndustry implements Serializable {
   }
 
   /**
-   * @author miller
+   * @author springrain
    *         官方文档中，创建和获取的数据结构不一样。所以采用冗余字段的方式，实现相应的接口
    */
   public static class Industry implements Serializable {

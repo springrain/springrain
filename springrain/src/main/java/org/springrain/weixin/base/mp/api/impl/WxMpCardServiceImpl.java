@@ -2,8 +2,11 @@ package org.springrain.weixin.base.mp.api.impl;
 
 import java.util.Arrays;
 
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 import org.springrain.weixin.base.common.bean.WxCardApiSignature;
 import org.springrain.weixin.base.common.bean.result.WxError;
 import org.springrain.weixin.base.common.exception.WxErrorException;
@@ -24,19 +27,26 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.reflect.TypeToken;
 
 /**
- * Created by Binary Wang on 2016/7/27.
+ * Created by springrain on 2017/1/8.
  */
+@Service("wxMpCardService")
 public class WxMpCardServiceImpl implements WxMpCardService {
 
   private final Logger log = LoggerFactory.getLogger(WxMpCardServiceImpl.class);
 
   //生产环境应该是spring注入
+  @Resource
   private IWxMpConfigService wxMpConfigService;
+  @Resource
   private WxMpService wxMpService;
 
   public WxMpCardServiceImpl() {
   }
-
+  
+  public WxMpCardServiceImpl(WxMpService wxMpSecrvie,IWxMpConfigService wxMpConfigService) {
+	  this.wxMpService=wxMpSecrvie;
+	  this.wxMpConfigService=wxMpConfigService;
+  }
   /**
    * 获得卡券api_ticket，不强制刷新卡券api_ticket
    *

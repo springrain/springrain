@@ -1,8 +1,8 @@
 package org.springrain.weixin.base.mp.bean.pay.request;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-
 import org.springrain.weixin.base.common.annotation.Required;
+
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 /**
  * <pre>
@@ -16,8 +16,8 @@ import org.springrain.weixin.base.common.annotation.Required;
  * <li>描述
  * </pre>
  *
- * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
- *         Created by Binary Wang on 2016-10-08.
+ * @author <a href="http://git.oschina.net/chunanyong/springrain">springrain(springrain)</a>
+ *         Created by springrain on 2016-10-08.
  */
 @XStreamAlias("xml")
 public class WxPayRefundRequest {

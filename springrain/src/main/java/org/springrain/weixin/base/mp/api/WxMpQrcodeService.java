@@ -9,7 +9,7 @@ import org.springrain.weixin.entity.WxMpConfig;
 /**
  * 二维码相关操作接口
  *
- * @author Binary Wang
+ * @author springrain
  */
 public interface WxMpQrcodeService {
 

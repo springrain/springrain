@@ -1,8 +1,8 @@
 package org.springrain.weixin.base.mp.bean.pay;
 
-import org.springrain.weixin.base.common.util.ToStringUtils;
-
 import java.io.Serializable;
+
+import org.springrain.weixin.base.common.util.ToStringUtils;
 
 /**
  * <pre>

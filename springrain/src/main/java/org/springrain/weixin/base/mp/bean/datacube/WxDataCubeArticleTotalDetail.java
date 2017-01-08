@@ -4,8 +4,8 @@ import com.google.gson.annotations.SerializedName;
 
 /**
  * 获取图文群发总数据接口(getarticletotal)中的详细字段
- * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
- *         Created by Binary Wang on 2016/8/24.
+ * @author <a href="http://git.oschina.net/chunanyong/springrain">springrain(springrain)</a>
+ *         Created by springrain on 2017/1/8.
  */
 public class WxDataCubeArticleTotalDetail {
 

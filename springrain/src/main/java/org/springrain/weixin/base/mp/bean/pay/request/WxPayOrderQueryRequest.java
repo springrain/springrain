@@ -5,7 +5,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 /**
  * <pre>
  * 订单查询请求对象
- * Created by Binary Wang on 2016-10-24.
+ * Created by springrain on 2016-10-24.
  * 注释中各行每个字段描述对应如下：
  * <li>字段名
  * <li>变量名
@@ -14,7 +14,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
  * <li>示例值
  * <li>描述
  * </pre>
- * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
+ * @author <a href="http://git.oschina.net/chunanyong/springrain">springrain(springrain)</a>
  */
 @XStreamAlias("xml")
 public class WxPayOrderQueryRequest extends WxPayBaseRequest {

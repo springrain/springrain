@@ -1,14 +1,15 @@
 package org.springrain.weixin.base.mp.bean.kefu.result;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import java.io.Serializable;
+
 import org.springrain.weixin.base.common.util.ToStringUtils;
 
-import java.io.Serializable;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * 客服基本信息以及客服在线状态信息
- * @author Binary Wang
+ * @author springrain
  *
  */
 public class WxMpKfInfo implements Serializable {

@@ -14,8 +14,8 @@ import org.springrain.weixin.entity.WxMpConfig;
 
 /**
  * 统计分析相关接口
- *  Created by Binary Wang on 2016/8/23.
- * @author binarywang (https://github.com/binarywang)
+ *  Created by springrain on 2017/1/8.
+ * @author springrain (http://git.oschina.net/chunanyong/springrain)
  */
 public interface WxMpDataCubeService {
   //*******************用户分析数据接口***********************//

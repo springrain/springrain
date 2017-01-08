@@ -25,7 +25,7 @@ import org.springrain.weixin.base.common.bean.menu.WxMenuRule;
 
 
 /**
- * @author Daniel Qian
+ * @author springrain
  */
 public class WxMenuGsonAdapter implements JsonSerializer<WxMenu>, JsonDeserializer<WxMenu> {
 

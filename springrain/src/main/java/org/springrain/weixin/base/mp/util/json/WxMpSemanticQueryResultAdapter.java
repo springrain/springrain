@@ -8,15 +8,20 @@
  */
 package org.springrain.weixin.base.mp.util.json;
 
-import com.google.gson.*;
+import java.lang.reflect.Type;
+
 import org.springrain.weixin.base.common.util.json.GsonHelper;
 import org.springrain.weixin.base.mp.bean.result.WxMpSemanticQueryResult;
 
-import java.lang.reflect.Type;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 
 /**
  * 
- * @author Daniel Qian
+ * @author springrain
  *
  */
 public class WxMpSemanticQueryResultAdapter implements JsonDeserializer<WxMpSemanticQueryResult> {

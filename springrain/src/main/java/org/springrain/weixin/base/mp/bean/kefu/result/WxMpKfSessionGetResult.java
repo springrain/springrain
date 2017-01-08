@@ -1,12 +1,13 @@
 package org.springrain.weixin.base.mp.bean.kefu.result;
 
-import com.google.gson.annotations.SerializedName;
 import org.springrain.weixin.base.common.util.ToStringUtils;
 import org.springrain.weixin.base.mp.util.json.WxMpGsonBuilder;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  *
- * @author Binary Wang
+ * @author springrain
  *
  */
 public class WxMpKfSessionGetResult {

@@ -2,6 +2,9 @@ package org.springrain.weixin.base.mp.api.impl;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
 import org.springrain.weixin.base.common.bean.result.WxError;
 import org.springrain.weixin.base.common.exception.WxErrorException;
 import org.springrain.weixin.base.mp.api.WxMpService;
@@ -16,17 +19,25 @@ import com.google.gson.JsonParser;
 
 /**
  * <pre>
- * Created by Binary Wang on 2016-10-14.
- * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
+ * Created by springrain on 2017/1/8.
+ * @author <a href="http://git.oschina.net/chunanyong/springrain">springrain(springrain)</a>
  * </pre>
  */
+
+
+@Service("wxMpTemplateMsgService")
 public class WxMpTemplateMsgServiceImpl implements WxMpTemplateMsgService {
   public static final String API_URL_PREFIX = "https://api.weixin.qq.com/cgi-bin/template";
   private static final JsonParser JSON_PARSER = new JsonParser();
 
+  @Resource
   private WxMpService wxMpService;
 
   public WxMpTemplateMsgServiceImpl() {
+  }
+  
+  public WxMpTemplateMsgServiceImpl(WxMpService wxMpService) {
+	  this.wxMpService=wxMpService;
   }
 
   @Override

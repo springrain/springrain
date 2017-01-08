@@ -1,7 +1,10 @@
 package org.springrain.weixin.base.mp.api.impl;
 
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 import org.springrain.weixin.base.common.bean.menu.WxMenu;
 import org.springrain.weixin.base.common.exception.WxErrorException;
 import org.springrain.weixin.base.mp.api.WxMpMenuService;
@@ -10,16 +13,21 @@ import org.springrain.weixin.base.mp.bean.menu.WxMpGetSelfMenuInfoResult;
 import org.springrain.weixin.entity.WxMpConfig;
 
 /**
- * Created by Binary Wang on 2016/7/21.
+ * Created by springrain on 2017/1/8.
  */
+
+@Service("wxMpMenuService")
 public class WxMpMenuServiceImpl implements WxMpMenuService {
   private static final String API_URL_PREFIX = "https://api.weixin.qq.com/cgi-bin/menu";
-  private static Logger log = LoggerFactory
-    .getLogger(WxMpMenuServiceImpl.class);
+  private static Logger log = LoggerFactory.getLogger(WxMpMenuServiceImpl.class);
 
+  @Resource
   private WxMpService wxMpService;
 
   public WxMpMenuServiceImpl() {
+  }
+  public WxMpMenuServiceImpl(WxMpService wxMpService) {
+	  this.wxMpService=wxMpService;
   }
 
   @Override

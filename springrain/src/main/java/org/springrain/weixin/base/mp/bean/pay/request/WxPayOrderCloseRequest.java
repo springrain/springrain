@@ -5,8 +5,8 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 /**
  * <pre>
  *  关闭订单请求对象类
- * Created by Binary Wang on 2016-10-27.
- * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
+ * Created by springrain on 2016-10-27.
+ * @author <a href="http://git.oschina.net/chunanyong/springrain">springrain(springrain)</a>
  * </pre>
  */
 @XStreamAlias("xml")

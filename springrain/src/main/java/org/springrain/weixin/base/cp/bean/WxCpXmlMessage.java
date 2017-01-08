@@ -25,7 +25,7 @@ import org.springrain.weixin.base.cp.util.xml.XStreamTransformer;
  * http://mp.weixin.qq.com/wiki/index.php?title=接收语音识别结果
  * </pre>
  *
- * @author Daniel Qian
+ * @author springrain
  */
 @XStreamAlias("xml")
 public class WxCpXmlMessage implements Serializable {

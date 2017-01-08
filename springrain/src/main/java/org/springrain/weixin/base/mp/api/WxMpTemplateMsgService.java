@@ -12,9 +12,9 @@ import org.springrain.weixin.entity.WxMpConfig;
  * <pre>
  * 模板消息接口
  * http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1433751277&token=&lang=zh_CN
- * Created by Binary Wang on 2016-10-14.
- * @author miller.lin
- * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
+ * Created by springrain on 2017/1/8.
+ * @author springrain.lin
+ * @author <a href="http://git.oschina.net/chunanyong/springrain">springrain(springrain)</a>
  * </pre>
  */
 public interface WxMpTemplateMsgService {

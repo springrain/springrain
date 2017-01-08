@@ -8,15 +8,15 @@
  */
 package org.springrain.weixin.base.mp.util.json;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
+import java.lang.reflect.Type;
 
 import org.springrain.weixin.base.mp.bean.template.WxMpTemplateData;
 import org.springrain.weixin.base.mp.bean.template.WxMpTemplateMessage;
 
-import java.lang.reflect.Type;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 
 public class WxMpTemplateMessageGsonAdapter implements JsonSerializer<WxMpTemplateMessage> {
 

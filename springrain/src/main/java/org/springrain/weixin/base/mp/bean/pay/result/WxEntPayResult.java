@@ -4,8 +4,8 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 /**
  * 企业付款返回结果
- * Created by Binary Wang on 2016/10/02.
- * @author binarywang (https://github.com/binarywang)
+ * Created by springrain on 2016/10/02.
+ * @author springrain (http://git.oschina.net/chunanyong/springrain)
  */
 @XStreamAlias("xml")
 public class WxEntPayResult extends WxPayBaseResult {

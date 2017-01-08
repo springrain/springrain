@@ -11,8 +11,8 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
  *   示例值
  *   类型
  *   说明
- * Created by Binary Wang on 2016-11-28.
- * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
+ * Created by springrain on 2016-11-28.
+ * @author <a href="http://git.oschina.net/chunanyong/springrain">springrain(springrain)</a>
  * </pre>
  */
 @XStreamAlias("xml")

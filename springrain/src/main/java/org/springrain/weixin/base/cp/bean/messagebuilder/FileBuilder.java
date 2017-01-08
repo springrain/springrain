@@ -9,7 +9,7 @@ import org.springrain.weixin.base.cp.bean.WxCpMessage;
  * 用法: WxCustomMessage m = WxCustomMessage.FILE().mediaId(...).toUser(...).build();
  * </pre>
  *
- * @author Daniel Qian
+ * @author springrain
  */
 public final class FileBuilder extends BaseBuilder<FileBuilder> {
   private String mediaId;

@@ -5,7 +5,7 @@ import org.springrain.weixin.base.mp.bean.message.WxMpXmlOutMusicMessage;
 /**
  * 音乐消息builder
  *
- * @author chanjarster
+ * @author springrain
  */
 public final class MusicBuilder extends BaseBuilder<MusicBuilder, WxMpXmlOutMusicMessage> {
 

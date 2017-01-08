@@ -5,6 +5,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
 import org.springrain.weixin.base.common.bean.result.WxError;
 import org.springrain.weixin.base.common.exception.WxErrorException;
 import org.springrain.weixin.base.common.util.http.SimplePostRequestExecutor;
@@ -17,13 +20,21 @@ import org.springrain.weixin.entity.WxMpConfig;
 import com.google.gson.JsonObject;
 
 /**
- * Created by Binary Wang on 2016/7/21.
+ * Created by springrain on 2017/1/8.
  */
+
+@Service("wxMpQrcodeService")
 public class WxMpQrcodeServiceImpl implements WxMpQrcodeService {
   private static final String API_URL_PREFIX = "https://api.weixin.qq.com/cgi-bin/qrcode";
+ 
+  @Resource
   private WxMpService wxMpService;
 
   public WxMpQrcodeServiceImpl() {
+  }
+  
+  public WxMpQrcodeServiceImpl(WxMpService wxMpService) {
+	  this.wxMpService=wxMpService;
   }
 
   @Override

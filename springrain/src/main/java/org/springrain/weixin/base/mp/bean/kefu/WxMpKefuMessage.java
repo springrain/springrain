@@ -17,7 +17,7 @@ import org.springrain.weixin.base.mp.util.json.WxMpGsonBuilder;
 /**
  * 客服消息
  *
- * @author chanjarster
+ * @author springrain
  */
 public class WxMpKefuMessage implements Serializable {
   private static final long serialVersionUID = -9196732086954365246L;

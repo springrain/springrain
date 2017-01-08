@@ -8,17 +8,18 @@
  */
 package org.springrain.weixin.base.mp.util.json;
 
+import java.lang.reflect.Type;
+
+import org.springrain.weixin.base.mp.bean.WxMpMassVideo;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import org.springrain.weixin.base.mp.bean.WxMpMassVideo;
-
-import java.lang.reflect.Type;
 
 /**
  * 
- * @author Daniel Qian
+ * @author springrain
  *
  */
 public class WxMpMassVideoAdapter implements JsonSerializer<WxMpMassVideo> {

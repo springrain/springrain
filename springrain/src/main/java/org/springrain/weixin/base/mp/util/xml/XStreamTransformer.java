@@ -1,11 +1,23 @@
 package org.springrain.weixin.base.mp.util.xml;
 
-import com.thoughtworks.xstream.XStream;
-import org.springrain.weixin.base.common.util.xml.XStreamInitializer;
-import org.springrain.weixin.base.mp.bean.message.*;
-
 import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springrain.weixin.base.common.util.xml.XStreamInitializer;
+import org.springrain.weixin.base.mp.bean.message.WxMpXmlMessage;
+import org.springrain.weixin.base.mp.bean.message.WxMpXmlOutImageMessage;
+import org.springrain.weixin.base.mp.bean.message.WxMpXmlOutMusicMessage;
+import org.springrain.weixin.base.mp.bean.message.WxMpXmlOutNewsMessage;
+import org.springrain.weixin.base.mp.bean.message.WxMpXmlOutTextMessage;
+import org.springrain.weixin.base.mp.bean.message.WxMpXmlOutTransferKefuMessage;
+import org.springrain.weixin.base.mp.bean.message.WxMpXmlOutVideoMessage;
+import org.springrain.weixin.base.mp.bean.message.WxMpXmlOutVoiceMessage;
+
+import com.thoughtworks.xstream.XStream;
 
 public class XStreamTransformer {
   private static final Map<Class<?>, XStream> CLASS_2_XSTREAM_INSTANCE = new HashMap<>();

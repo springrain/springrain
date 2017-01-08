@@ -7,7 +7,7 @@ import org.springrain.weixin.base.mp.util.json.WxMpGsonBuilder;
 /**
  * 按标签群发的消息
  * 
- * @author chanjarster
+ * @author springrain
  */
 public class WxMpMassTagMessage implements Serializable {
   

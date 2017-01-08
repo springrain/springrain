@@ -1,19 +1,20 @@
 package org.springrain.weixin.base.mp.bean.message;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamConverter;
-import org.springrain.weixin.base.common.util.ToStringUtils;
-import org.springrain.weixin.base.common.util.xml.XStreamCDataConverter;
-import org.springrain.weixin.base.mp.api.WxMpConfigStorage;
-import org.springrain.weixin.base.mp.util.crypto.WxMpCryptUtil;
-import org.springrain.weixin.base.mp.util.xml.XStreamTransformer;
-import org.apache.commons.io.IOUtils;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.io.IOUtils;
+import org.springrain.weixin.base.common.util.ToStringUtils;
+import org.springrain.weixin.base.common.util.xml.XStreamCDataConverter;
+import org.springrain.weixin.base.mp.api.WxMpConfigStorage;
+import org.springrain.weixin.base.mp.util.crypto.WxMpCryptUtil;
+import org.springrain.weixin.base.mp.util.xml.XStreamTransformer;
+
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamConverter;
 
 /**
  * <pre>
@@ -23,7 +24,7 @@ import java.util.List;
  * <a href="http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140454&token=&lang=zh_CN">接收事件推送</a>
  * </pre>
  *
- * @author chanjarster
+ * @author springrain
  */
 @XStreamAlias("xml")
 public class WxMpXmlMessage implements Serializable {

@@ -7,8 +7,8 @@ import java.util.List;
 
 /**
  * <pre>
- * Created by Binary Wang on 2016-11-24.
- * @author <a href="https://github.com/binarywang">binarywang(Binary Wang)</a>
+ * Created by springrain on 2016-11-24.
+ * @author <a href="http://git.oschina.net/chunanyong/springrain">springrain(springrain)</a>
  * </pre>
  */
 @XStreamAlias("xml")

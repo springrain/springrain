@@ -9,7 +9,7 @@ import org.springrain.weixin.base.cp.util.json.WxCpGsonBuilder;
 /**
  * 微信用户信息
  *
- * @author Daniel Qian
+ * @author springrain
  */
 public class WxCpUser implements Serializable {
 

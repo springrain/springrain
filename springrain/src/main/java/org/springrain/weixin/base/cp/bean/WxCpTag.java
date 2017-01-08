@@ -5,7 +5,7 @@ import java.io.Serializable;
 import org.springrain.weixin.base.cp.util.json.WxCpGsonBuilder;
 
 /**
- * Created by Daniel Qian
+ * Created by springrain
  */
 public class WxCpTag implements Serializable {
 

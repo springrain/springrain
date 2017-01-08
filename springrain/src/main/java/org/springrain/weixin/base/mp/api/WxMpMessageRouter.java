@@ -41,7 +41,7 @@ import org.springrain.weixin.base.mp.bean.message.WxMpXmlOutMessage;
  * router.route(message);
  *
  * </pre>
- * @author Daniel Qian
+ * @author springrain
  *
  */
 public class WxMpMessageRouter {

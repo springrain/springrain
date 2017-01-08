@@ -1,10 +1,11 @@
 package org.springrain.weixin.base.mp.bean.kefu.request;
 
-import com.google.gson.annotations.SerializedName;
+import java.io.Serializable;
+
 import org.springrain.weixin.base.common.util.ToStringUtils;
 import org.springrain.weixin.base.mp.util.json.WxMpGsonBuilder;
 
-import java.io.Serializable;
+import com.google.gson.annotations.SerializedName;
 
 public class WxMpKfSessionRequest implements Serializable {
   private static final long serialVersionUID = -5451863610674856927L;

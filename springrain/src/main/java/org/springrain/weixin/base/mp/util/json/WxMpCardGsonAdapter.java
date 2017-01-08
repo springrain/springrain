@@ -2,20 +2,20 @@ package org.springrain.weixin.base.mp.util.json;
 
 import java.lang.reflect.Type;
 
+import org.springrain.weixin.base.common.util.json.GsonHelper;
+import org.springrain.weixin.base.mp.bean.WxMpCard;
+
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
-import org.springrain.weixin.base.common.util.json.GsonHelper;
-import org.springrain.weixin.base.mp.bean.WxMpCard;
-
 /**
- * Created by YuJian on 15/11/11.
+ * Created by springrain on 2017/1/8.
  *
- * @author YuJian
- * @version 15/11/11
+ * @author springrain
+ * @version 2017/1/8
  */
 public class WxMpCardGsonAdapter implements JsonDeserializer<WxMpCard> {
 

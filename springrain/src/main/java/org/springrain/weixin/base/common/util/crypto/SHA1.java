@@ -5,7 +5,7 @@ import java.util.Arrays;
 import org.apache.commons.codec.digest.DigestUtils;
 
 /**
- * Created by Daniel Qian on 14/10/19.
+ * Created by springrain on 14/10/19.
  */
 public class SHA1 {
 

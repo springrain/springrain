@@ -1,11 +1,11 @@
 package org.springrain.weixin.base.mp.bean.material;
 
-import org.springrain.weixin.base.common.util.ToStringUtils;
-import org.springrain.weixin.base.mp.util.json.WxMpGsonBuilder;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springrain.weixin.base.common.util.ToStringUtils;
+import org.springrain.weixin.base.mp.util.json.WxMpGsonBuilder;
 
 public class WxMpMaterialNews implements Serializable {
   private static final long serialVersionUID = -3283203652013494976L;
@@ -41,7 +41,7 @@ public class WxMpMaterialNews implements Serializable {
    * 8. url           点击图文消息跳转链接
    * </pre>
    *
-   * @author chanjarster
+   * @author springrain
    */
   public static class WxMpMaterialNewsArticle {
     /**

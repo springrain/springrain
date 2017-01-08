@@ -1,8 +1,8 @@
 package org.springrain.weixin.base.mp.bean.material;
 
-import org.springrain.weixin.base.common.util.ToStringUtils;
-
 import java.io.Serializable;
+
+import org.springrain.weixin.base.common.util.ToStringUtils;
 
 public class WxMpMaterialCountResult implements Serializable {
   private static final long serialVersionUID = -5568772662085874138L;
