@@ -1,5 +1,6 @@
 package org.springrain.weixin.entity;
 
+import javax.persistence.Id;
 import javax.persistence.Transient;
 
 import org.springrain.frame.entity.BaseEntity;
@@ -8,6 +9,7 @@ import org.springrain.weixin.sdk.common.api.IWxConfig;
 public class WxCpConfig   extends BaseEntity implements IWxConfig {
 	private static final long serialVersionUID = 1L;
 	
+	   private volatile String id;
 	
 	  private volatile String appId;
 	  private volatile String secret;
@@ -45,7 +47,13 @@ public class WxCpConfig   extends BaseEntity implements IWxConfig {
 	  private volatile Long cardApiTicketExpiresTime;
 	  
 	  
-	  
+	  @Id
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public String getAppId() {
 		return appId;
 	}

@@ -39,6 +39,31 @@ public interface IBaseService {
 	 * @throws Exception
 	 */
 	public  Object getBean(String beanName) throws Exception;
+	
+	/**
+	 * 查找cache的对象
+	 * @param cacheName
+	 * @param key
+	 * @param clazz
+	 * @return
+	 * @throws Exception
+	 */
+	public <T> T getByCache(String cacheName,String key,Class<T> clazz)throws Exception;
+	/**
+	 * 设置缓存对象
+	 * @param cacheName
+	 * @param key
+	 * @param obj
+	 * @throws Exception
+	 */
+	public void putByCache(String cacheName,String key,Object value)throws Exception;
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * 根据查询列表的宏,导出Excel
 	 * @param finder 为空则只查询 clazz表

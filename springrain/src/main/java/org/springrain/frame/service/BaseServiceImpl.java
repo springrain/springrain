@@ -25,6 +25,7 @@ import jxl.Cell;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.cache.CacheManager;
 import org.springframework.jdbc.core.CallableStatementCreator;
 import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
@@ -58,6 +59,9 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 	public SpringUtils springUtils;
 	@Resource
 	public FreeMarkerConfigurer freeMarkerConfigurer;
+	
+	@Resource
+	private CacheManager cacheManager;
 
 	public abstract IBaseJdbcDao getBaseDao();
 
@@ -77,6 +81,17 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 	 */
 	public SpringUtils getSpringUtils() {
 		return springUtils;
+	}
+	
+	
+	@Override
+	public <T> T getByCache(String cacheName, String key, Class<T> clazz) throws Exception {
+		return cacheManager.getCache(cacheName).get(key, clazz);
+	}
+	
+	@Override
+	public void putByCache(String cacheName, String key, Object value) throws Exception {
+		cacheManager.getCache(cacheName).put(key, value);
 	}
 
 	@Override

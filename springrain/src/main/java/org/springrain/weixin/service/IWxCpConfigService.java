@@ -5,6 +5,15 @@ import org.springrain.weixin.entity.WxCpConfig;
 
 public interface IWxCpConfigService  extends IBaseSpringrainService{
 	
+	
+	/**
+	 * 根据ID查找微信配置
+	 * @param id
+	 * @return
+	 */
+	WxCpConfig findWxCpConfigById(String id);
+	
+	
 	/**
 	 * 更新WxCpConfig,可以进行缓存处理
 	 * @param wxcpconfig

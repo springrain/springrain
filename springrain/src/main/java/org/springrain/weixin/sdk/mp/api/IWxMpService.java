@@ -31,10 +31,11 @@ public interface IWxMpService {
 
   /**
    * 获取access_token, 不强制刷新access_token
+ * @throws Exception 
    *
    * @see #getAccessToken(boolean)
    */
-  String getAccessToken(WxMpConfig wxmpconfig) throws WxErrorException;
+  String getAccessToken(WxMpConfig wxmpconfig) throws WxErrorException, Exception;
 
   /**
    * <pre>
@@ -49,8 +50,9 @@ public interface IWxMpService {
    * </pre>
    *
    * @param forceRefresh 强制刷新
+ * @throws Exception 
    */
-  String getAccessToken(WxMpConfig wxmpconfig,boolean forceRefresh) throws WxErrorException;
+  String getAccessToken(WxMpConfig wxmpconfig,boolean forceRefresh) throws WxErrorException, Exception;
 
   /**
    * 获得jsapi_ticket,不强制刷新jsapi_ticket
