@@ -11,54 +11,81 @@ public class WxMpConfigServiceImpl extends BaseSpringrainServiceImpl implements 
 
 	@Override
 	public WxMpConfig expireAccessToken(WxMpConfig wxmpconfig) {
+		wxmpconfig.setExpiresTime(0L);
+		
+		//缓存操作
+		updateWxMpConfig(wxmpconfig);
+		
+		
 		return wxmpconfig;
 	}
 
-	@Override
-	public boolean isAccessTokenExpired(WxMpConfig wxmpconfig) {
-		return true;
-	}
 
 	@Override
 	public WxMpConfig updateAccessToken(WxMpConfig wxmpconfig) {
+		
+		
+		//缓存操作
+		updateWxMpConfig(wxmpconfig);
+		
+		
+		
 		return wxmpconfig;
 	}
 
 	@Override
-	public WxMpConfig expireJsapiTicket(WxMpConfig wxmpconfig) {
-		return null;
+	public WxMpConfig expireJsApiTicket(WxMpConfig wxmpconfig) {
+		wxmpconfig.setJsapiTicketExpiresTime(0L);
+		
+		//缓存操作
+		updateWxMpConfig(wxmpconfig);
+				
+		
+		
+		return wxmpconfig;
 	}
 
-	@Override
-	public boolean isJsapiTicketExpired(WxMpConfig wxmpconfig) {
-		return true;
-	}
+
 
 	@Override
-	public WxMpConfig updateJsapiTicket(WxMpConfig wxmpconfig) {
-		return null;
+	public WxMpConfig updateJsApiTicket(WxMpConfig wxmpconfig) {
+		
+		//缓存操作
+		updateWxMpConfig(wxmpconfig);
+				
+		return wxmpconfig;
 	}
 
+	
 	@Override
-	public boolean autoRefreshToken(WxMpConfig wxmpconfig) {
-		return true;
+	public WxMpConfig expireCardApiTicket(WxMpConfig wxmpconfig) {
+		
+		wxmpconfig.setCardApiTicketExpiresTime(0L);
+		//缓存操作
+		updateWxMpConfig(wxmpconfig);
+		
+		return wxmpconfig;
 	}
 
-	@Override
-	public WxMpConfig expireCardapiTicket(WxMpConfig wxmpconfig) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 	@Override
-	public boolean isCardapiTicketExpired(WxMpConfig wxmpconfig) {
-		// TODO Auto-generated method stub
-		return false;
+	public WxMpConfig updateCardApiTicket(WxMpConfig wxmpconfig) {
+		//缓存操作
+		updateWxMpConfig(wxmpconfig);
+		return wxmpconfig;
+		
 	}
 
+	
+	/**
+	 * 缓存处理,可以把配置进行缓存更新
+	 */
 	@Override
-	public WxMpConfig updateCardapiTicket(WxMpConfig wxmpconfig) {
-		return null;
+	public WxMpConfig updateWxMpConfig(WxMpConfig wxmpconfig) {
+		
+		
+		return wxmpconfig;
 	}
 	
 	

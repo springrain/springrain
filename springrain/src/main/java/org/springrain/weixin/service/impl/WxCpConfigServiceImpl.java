@@ -10,41 +10,83 @@ import org.springrain.weixin.service.IWxCpConfigService;
 public class WxCpConfigServiceImpl extends BaseSpringrainServiceImpl implements IWxCpConfigService  {
 
 	@Override
-	public WxCpConfig expireAccessToken(WxCpConfig wxmpconfig) {
-		return wxmpconfig;
+	public WxCpConfig expireAccessToken(WxCpConfig wxcpconfig) {
+		wxcpconfig.setExpiresTime(0L);
+		
+		//缓存操作
+		updateWxCpConfig(wxcpconfig);
+		
+		
+		return wxcpconfig;
+	}
+
+
+	@Override
+	public WxCpConfig updateAccessToken(WxCpConfig wxcpconfig) {
+		
+		
+		//缓存操作
+		updateWxCpConfig(wxcpconfig);
+		
+		
+		
+		return wxcpconfig;
 	}
 
 	@Override
-	public boolean isAccessTokenExpired(WxCpConfig wxmpconfig) {
-		return true;
+	public WxCpConfig expireJsapiTicket(WxCpConfig wxcpconfig) {
+		wxcpconfig.setJsapiTicketExpiresTime(0L);
+		
+		//缓存操作
+		updateWxCpConfig(wxcpconfig);
+				
+		
+		
+		return wxcpconfig;
 	}
 
-	@Override
-	public WxCpConfig updateAccessToken(WxCpConfig wxmpconfig) {
-		return wxmpconfig;
-	}
+
 
 	@Override
-	public WxCpConfig expireJsapiTicket(WxCpConfig wxmpconfig) {
-		return null;
-	}
-
-	@Override
-	public boolean isJsapiTicketExpired(WxCpConfig wxmpconfig) {
-		return true;
-	}
-
-	@Override
-	public WxCpConfig updateJsapiTicket(WxCpConfig wxmpconfig) {
-		return null;
-	}
-
-	@Override
-	public boolean autoRefreshToken(WxCpConfig wxmpconfig) {
-		return true;
+	public WxCpConfig updateJsapiTicket(WxCpConfig wxcpconfig) {
+		
+		//缓存操作
+		updateWxCpConfig(wxcpconfig);
+				
+		return wxcpconfig;
 	}
 
 	
+	@Override
+	public WxCpConfig expireCardapiTicket(WxCpConfig wxcpconfig) {
+		
+		wxcpconfig.setCardApiTicketExpiresTime(0L);
+		//缓存操作
+		updateWxCpConfig(wxcpconfig);
+		
+		return wxcpconfig;
+	}
+
+
+
+	@Override
+	public WxCpConfig updateCardapiTicket(WxCpConfig wxcpconfig) {
+		//缓存操作
+		updateWxCpConfig(wxcpconfig);
+		return wxcpconfig;
+		
+	}
+
+	
+	/**
+	 * 缓存处理,可以把配置进行缓存更新
+	 */
+	@Override
+	public WxCpConfig updateWxCpConfig(WxCpConfig wxcpconfig) {
+		
+		
+		return wxcpconfig;
+	}
 	
 	
 

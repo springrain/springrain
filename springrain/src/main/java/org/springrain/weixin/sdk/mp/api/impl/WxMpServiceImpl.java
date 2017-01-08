@@ -150,7 +150,7 @@ public class WxMpServiceImpl implements IWxMpService {
     	  wxMpConfigService.expireAccessToken(wxmpconfig);
       }
 
-      if (!wxMpConfigService.isAccessTokenExpired(wxmpconfig)) {
+      if (!wxmpconfig.isAccessTokenExpired()) {
     	  return wxmpconfig.getAccessToken();
       }
         String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential" +
@@ -199,11 +199,11 @@ public class WxMpServiceImpl implements IWxMpService {
   public String getJsapiTicket(WxMpConfig wxmpconfig,boolean forceRefresh) throws WxErrorException {
 
       if (forceRefresh) {
-    	  wxMpConfigService.expireJsapiTicket(wxmpconfig);
+    	  wxMpConfigService.expireJsApiTicket(wxmpconfig);
       }
       
-      if (!wxMpConfigService.isJsapiTicketExpired(wxmpconfig)) {
-    	  return wxmpconfig.getJsapiTicket();
+      if (!wxmpconfig.isJsApiTicketExpired()) {
+    	  return wxmpconfig.getJsApiTicket();
       }
       
 
@@ -214,11 +214,11 @@ public class WxMpServiceImpl implements IWxMpService {
         String jsapiTicket = tmpJsonObject.get("ticket").getAsString();
         int expiresInSeconds = tmpJsonObject.get("expires_in").getAsInt();
         
-        wxmpconfig.setJsapiTicket(jsapiTicket);
+        wxmpconfig.setJsApiTicket(jsapiTicket);
         wxmpconfig.setJsapiTicketExpiresTime(Long.valueOf(expiresInSeconds));
-        wxMpConfigService.updateJsapiTicket(wxmpconfig);
+        wxMpConfigService.updateJsApiTicket(wxmpconfig);
         
-    return wxmpconfig.getJsapiTicket();
+    return wxmpconfig.getJsApiTicket();
   }
 
   /**
@@ -606,7 +606,7 @@ public class WxMpServiceImpl implements IWxMpService {
         // 强制设置wxMpConfigStorage它的access token过期了，这样在下一次请求里就会刷新access token
         //wxmpconfig.expireAccessToken();
         wxMpConfigService.expireAccessToken(wxmpconfig);
-        if(wxMpConfigService.autoRefreshToken(wxmpconfig)){
+        if(wxmpconfig.autoRefreshToken()){
           return execute(wxmpconfig,executor, uri, data);
         }
       }

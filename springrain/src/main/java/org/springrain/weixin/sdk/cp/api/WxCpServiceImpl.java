@@ -102,13 +102,13 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
        	  wxCpConfigService.expireAccessToken(wxcpconfig);
          }
 
-         if (!wxCpConfigService.isAccessTokenExpired(wxcpconfig)) {
+         if (!wxcpconfig.isAccessTokenExpired()) {
        	  return wxcpconfig.getAccessToken();
          }
     	
           String url = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?"
             + "&corpid=" + wxcpconfig.getCorpId()
-            + "&corpsecret=" + wxcpconfig.getCorpsecret();
+            + "&corpsecret=" + wxcpconfig.getCorpSecret();
           try {
             HttpGet httpGet = new HttpGet(url);
             if (wxcpconfig.getHttpProxyHost() != null) {
@@ -144,8 +144,8 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
 	    	  wxCpConfigService.expireJsapiTicket(wxcpconfig);
 	      }
 	      
-	      if (!wxCpConfigService.isJsapiTicketExpired(wxcpconfig)) {
-	    	  return wxcpconfig.getJsapiTicket();
+	      if (!wxcpconfig.isJsApiTicketExpired()) {
+	    	  return wxcpconfig.getJsApiTicket();
 	      }
           String url = "https://qyapi.weixin.qq.com/cgi-bin/get_jsapi_ticket";
           String responseContent = execute(wxcpconfig,new SimpleGetRequestExecutor(), url, null);
@@ -154,11 +154,11 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
           String jsapiTicket = tmpJsonObject.get("ticket").getAsString();
           int expiresInSeconds = tmpJsonObject.get("expires_in").getAsInt();
           
-          wxcpconfig.setJsapiTicket(jsapiTicket);
+          wxcpconfig.setJsApiTicket(jsapiTicket);
           wxcpconfig.setJsapiTicketExpiresTime(Long.valueOf(expiresInSeconds));
           wxCpConfigService.updateJsapiTicket(wxcpconfig);
           
-          return wxcpconfig.getJsapiTicket();
+          return wxcpconfig.getJsApiTicket();
   }
 
   @Override
@@ -592,7 +592,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
         // 强制设置wxCpConfigStorage它的access token过期了，这样在下一次请求里就会刷新access token
        // wxcpconfig.expireAccessToken();
         wxCpConfigService.expireAccessToken(wxcpconfig);
-        if(wxCpConfigService.autoRefreshToken(wxcpconfig)){
+        if(wxcpconfig.autoRefreshToken()){
           return execute(wxcpconfig,executor, uri, data);
         }
       }

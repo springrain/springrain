@@ -76,9 +76,9 @@ public class WxMpCardServiceImpl implements IWxMpCardService {
    
 
       if (forceRefresh) {
-        wxMpConfigService.expireCardapiTicket(wxmpconfig);
+        wxMpConfigService.expireCardApiTicket(wxmpconfig);
       }
-      if (!wxMpConfigService.isCardapiTicketExpired(wxmpconfig)) {
+      if (!wxmpconfig.isCardApiTicketExpired()) {
     	  return wxmpconfig.getCardApiTicket();
       }
       
@@ -92,7 +92,7 @@ public class WxMpCardServiceImpl implements IWxMpCardService {
         wxmpconfig.setCardApiTicket(cardApiTicket);
         wxmpconfig.setJsapiTicketExpiresTime(Long.valueOf(expiresInSeconds));
         
-        wxMpConfigService.updateCardapiTicket(wxmpconfig);
+        wxMpConfigService.updateCardApiTicket(wxmpconfig);
    
     return wxmpconfig.getCardApiTicket();
   }

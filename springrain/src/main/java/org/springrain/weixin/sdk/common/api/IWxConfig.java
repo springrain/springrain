@@ -10,7 +10,7 @@ public interface IWxConfig {
 	 Integer getHttpProxyPort();
 	 String getHttpProxyUsername();
 	 String getHttpProxyPassword();
-	 String getJsapiTicket();
+	 String getJsApiTicket();
 	 String getCardApiTicket();
 	 String getCertificateFile();
 	 String getTmpDirFile();

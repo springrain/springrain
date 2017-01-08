@@ -33,7 +33,7 @@ public class WechatBuilder {
 		WxCpService service = new WxCpServiceImpl();
 		WxCpConfig   config = new WxCpConfig();
 		config.setCorpId(corpId);
-		config.setCorpsecret(secret);
+		config.setCorpSecret(secret);
 		//config.setExpiresTime(3600000);
 		
 		return service;

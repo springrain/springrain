@@ -4,21 +4,25 @@ import org.springrain.system.service.IBaseSpringrainService;
 import org.springrain.weixin.entity.WxCpConfig;
 
 public interface IWxCpConfigService  extends IBaseSpringrainService{
+	
+	/**
+	 * 更新WxCpConfig,可以进行缓存处理
+	 * @param wxcpconfig
+	 * @return
+	 */
+	WxCpConfig updateWxCpConfig(WxCpConfig wxcpconfig);
+	
 
-	boolean autoRefreshToken(WxCpConfig wxmpconfig);
 	
 	/**
 	 * 失效
 	 * @param wxMpConfig
 	 * @return
 	 */
-	WxCpConfig expireAccessToken(WxCpConfig wxmpconfig);
+	WxCpConfig expireAccessToken(WxCpConfig wxcpconfig);
 	
 	
-   boolean isAccessTokenExpired(WxCpConfig wxmpconfig);
-   
-   
-   WxCpConfig updateAccessToken(WxCpConfig wxmpconfig);
+    WxCpConfig updateAccessToken(WxCpConfig wxcpconfig);
    
    
 	/**
@@ -26,20 +30,19 @@ public interface IWxCpConfigService  extends IBaseSpringrainService{
 	 * @param wxMpConfig
 	 * @return
 	 */
-	WxCpConfig expireJsapiTicket(WxCpConfig wxmpconfig);
-	
-	
-	boolean isJsapiTicketExpired(WxCpConfig wxmpconfig);
+	WxCpConfig expireJsapiTicket(WxCpConfig wxcpconfig);
    
 
-	WxCpConfig updateJsapiTicket(WxCpConfig wxmpconfig);
+	WxCpConfig updateJsapiTicket(WxCpConfig wxcpconfig);
 	
-	
-	
-	
-	
-	
-	
+	/**
+	 * 失效
+	 * @param wxMpConfig
+	 * @return
+	 */
+	WxCpConfig expireCardapiTicket(WxCpConfig wxcpconfig);
+   
+	WxCpConfig updateCardapiTicket(WxCpConfig wxcpconfig);
 	
 	
 }

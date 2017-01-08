@@ -1,5 +1,7 @@
 package org.springrain.weixin.entity;
 
+import javax.persistence.Transient;
+
 import org.springrain.frame.entity.BaseEntity;
 import org.springrain.weixin.sdk.common.api.IWxConfig;
 
@@ -12,9 +14,8 @@ public class WxMpConfig   extends BaseEntity implements IWxConfig {
 	  private volatile String partnerId;
 	  private volatile String partnerKey;
 	  private volatile String token;
-	  private volatile String accessToken;
 	  private volatile String aesKey;
-	  private volatile Long expiresTime;
+	 
 
 	  private volatile String oauth2redirectUri;
 
@@ -23,11 +24,7 @@ public class WxMpConfig   extends BaseEntity implements IWxConfig {
 	  private volatile String httpProxyUsername;
 	  private volatile String httpProxyPassword;
 
-	  private volatile String jsapiTicket;
-	  private volatile Long jsapiTicketExpiresTime;
-
-	  private volatile String cardApiTicket;
-	  private volatile Long cardApiTicketExpiresTime;
+	  
 	  
 	  private volatile String certificateFile ;
 	  
@@ -35,6 +32,14 @@ public class WxMpConfig   extends BaseEntity implements IWxConfig {
 	  
 	  
 	  
+	  private volatile String accessToken;
+	  private volatile Long expiresTime;
+	  
+	  private volatile String jsApiTicket;
+	  private volatile Long jsApiTicketExpiresTime;
+	  
+	  private volatile String cardApiTicket;
+	  private volatile Long cardApiTicketExpiresTime;
 	  
 	  
 	  
@@ -80,12 +85,10 @@ public class WxMpConfig   extends BaseEntity implements IWxConfig {
 	public void setAesKey(String aesKey) {
 		this.aesKey = aesKey;
 	}
-	public Long getExpiresTime() {
-		return expiresTime;
-	}
-	public void setExpiresTime(Long expiresTime) {
-		this.expiresTime = expiresTime;
-	}
+	
+	
+	
+	
 	public String getOauth2redirectUri() {
 		return oauth2redirectUri;
 	}
@@ -116,30 +119,20 @@ public class WxMpConfig   extends BaseEntity implements IWxConfig {
 	public void setHttpProxyPassword(String httpProxyPassword) {
 		this.httpProxyPassword = httpProxyPassword;
 	}
-	public String getJsapiTicket() {
-		return jsapiTicket;
+	public String getJsApiTicket() {
+		return jsApiTicket;
 	}
-	public void setJsapiTicket(String jsapiTicket) {
-		this.jsapiTicket = jsapiTicket;
+	public void setJsApiTicket(String jsApiTicket) {
+		this.jsApiTicket = jsApiTicket;
 	}
-	public Long getJsapiTicketExpiresTime() {
-		return jsapiTicketExpiresTime;
-	}
-	public void setJsapiTicketExpiresTime(Long jsapiTicketExpiresTime) {
-		this.jsapiTicketExpiresTime = jsapiTicketExpiresTime;
-	}
+	
 	public String getCardApiTicket() {
 		return cardApiTicket;
 	}
 	public void setCardApiTicket(String cardApiTicket) {
 		this.cardApiTicket = cardApiTicket;
 	}
-	public Long getCardApiTicketExpiresTime() {
-		return cardApiTicketExpiresTime;
-	}
-	public void setCardApiTicketExpiresTime(Long cardApiTicketExpiresTime) {
-		this.cardApiTicketExpiresTime = cardApiTicketExpiresTime;
-	}
+	
 	
 	public String getCertificateFile() {
 		return certificateFile;
@@ -153,5 +146,51 @@ public class WxMpConfig   extends BaseEntity implements IWxConfig {
 	public void setTmpDirFile(String tmpDirFile) {
 		this.tmpDirFile = tmpDirFile;
 	}
+	
+	
+	@Transient
+	public Long getExpiresTime() {
+		return expiresTime;
+	}
+	public void setExpiresTime(Long expiresTime) {
+		this.expiresTime =  System.currentTimeMillis() + (expiresTime - 600) * 1000L;//预留10分钟
+	}
+	
+	
+	@Transient
+	public Long getCardApiTicketExpiresTime() {
+		return cardApiTicketExpiresTime;
+	}
+	public void setCardApiTicketExpiresTime(Long cardApiTicketExpiresTime) {
+		//预留10分钟
+		this.cardApiTicketExpiresTime = System.currentTimeMillis() + (cardApiTicketExpiresTime - 600) * 1000L;//预留10分钟
+	}
+
+	@Transient
+	public Long getJsApiTicketExpiresTime() {
+		return jsApiTicketExpiresTime;
+	}
+	public void setJsapiTicketExpiresTime(Long jsapiTicketExpiresTime) {
+		this.jsApiTicketExpiresTime =  System.currentTimeMillis() + (jsApiTicketExpiresTime - 600) * 1000L;//预留10分钟
+	}
+	
+	
+	
+	@Transient
+	public boolean isAccessTokenExpired() {
+		 return System.currentTimeMillis() > this.expiresTime;
+	}
+	@Transient
+	public boolean isJsApiTicketExpired() {
+	    return System.currentTimeMillis() > this.jsApiTicketExpiresTime;
+	  }
+	@Transient
+	public boolean isCardApiTicketExpired() {
+	    return System.currentTimeMillis() > this.cardApiTicketExpiresTime;
+	  }
+	@Transient
+	public boolean autoRefreshToken() {
+	    return true;
+	  }
 
 }
