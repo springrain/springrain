@@ -1,7 +1,7 @@
 package org.springrain.weixin.entity;
 
 import org.springrain.frame.entity.BaseEntity;
-import org.springrain.weixin.base.common.api.IWxConfig;
+import org.springrain.weixin.sdk.common.api.IWxConfig;
 
 public class WxMpConfig   extends BaseEntity implements IWxConfig {
 	private static final long serialVersionUID = 1L;
