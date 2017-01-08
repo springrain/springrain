@@ -14,6 +14,7 @@ import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.weixin.base.common.bean.WxAccessToken;
 import org.springrain.weixin.base.common.bean.WxJsapiSignature;
@@ -46,6 +47,8 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.reflect.TypeToken;
 
+
+@Service("wxCpService")
 public class WxCpServiceImpl implements WxCpService {
 
   protected final Logger log = LoggerFactory.getLogger(WxCpServiceImpl.class);
