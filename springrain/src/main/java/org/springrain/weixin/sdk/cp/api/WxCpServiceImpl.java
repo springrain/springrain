@@ -134,12 +134,12 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
   }
 
   @Override
-  public String getJsapiTicket(WxCpConfig wxcpconfig) throws WxErrorException {
-    return getJsapiTicket(wxcpconfig,false);
+  public String getJsApiTicket(WxCpConfig wxcpconfig) throws WxErrorException {
+    return getJsApiTicket(wxcpconfig,false);
   }
 
   @Override
-  public String getJsapiTicket(WxCpConfig wxcpconfig,boolean forceRefresh) throws WxErrorException {
+  public String getJsApiTicket(WxCpConfig wxcpconfig,boolean forceRefresh) throws WxErrorException {
 		  if (forceRefresh) {
 	    	  wxCpConfigService.expireJsapiTicket(wxcpconfig);
 	      }
@@ -162,10 +162,10 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
   }
 
   @Override
-  public WxJsapiSignature createJsapiSignature(WxCpConfig wxcpconfig,String url) throws WxErrorException {
+  public WxJsapiSignature createJsApiSignature(WxCpConfig wxcpconfig,String url) throws WxErrorException {
     long timestamp = System.currentTimeMillis() / 1000;
     String noncestr = RandomUtils.getRandomStr();
-    String jsapiTicket = getJsapiTicket(wxcpconfig,false);
+    String jsapiTicket = getJsApiTicket(wxcpconfig,false);
     String signature = SHA1.genWithAmple(
       "jsapi_ticket=" + jsapiTicket,
       "noncestr=" + noncestr,

@@ -27,7 +27,7 @@ public class TestWeiXinSpring {
 		try {
 			String accessToken = wxMpService.getAccessToken(wxmpconfig);
 			System.out.println("accessToken:"+accessToken);
-			String jsapiTicket = wxMpService.getJsapiTicket(wxmpconfig);
+			String jsapiTicket = wxMpService.getJsApiTicket(wxmpconfig);
 			System.out.println("jsapiTicket:"+jsapiTicket);
 		} catch (WxErrorException e) {
 			// TODO Auto-generated catch block

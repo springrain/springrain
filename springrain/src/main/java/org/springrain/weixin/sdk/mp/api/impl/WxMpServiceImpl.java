@@ -178,11 +178,11 @@ public class WxMpServiceImpl implements IWxMpService {
   /**
    * 获得jsapi_ticket,不强制刷新jsapi_ticket
    *
-   * @see #getJsapiTicket(boolean)
+   * @see #getJsApiTicket(boolean)
    */
   @Override
-  public String getJsapiTicket(WxMpConfig wxmpconfig) throws WxErrorException {
-    return getJsapiTicket(wxmpconfig,false);
+  public String getJsApiTicket(WxMpConfig wxmpconfig) throws WxErrorException {
+    return getJsApiTicket(wxmpconfig,false);
   }
 
   /**
@@ -196,7 +196,7 @@ public class WxMpServiceImpl implements IWxMpService {
    * @param forceRefresh 强制刷新
    */
   @Override
-  public String getJsapiTicket(WxMpConfig wxmpconfig,boolean forceRefresh) throws WxErrorException {
+  public String getJsApiTicket(WxMpConfig wxmpconfig,boolean forceRefresh) throws WxErrorException {
 
       if (forceRefresh) {
     	  wxMpConfigService.expireJsApiTicket(wxmpconfig);
@@ -229,10 +229,10 @@ public class WxMpServiceImpl implements IWxMpService {
    * </pre>
    */
   @Override
-  public WxJsapiSignature createJsapiSignature(WxMpConfig wxmpconfig,String url) throws WxErrorException {
+  public WxJsapiSignature createJsApiSignature(WxMpConfig wxmpconfig,String url) throws WxErrorException {
     long timestamp = System.currentTimeMillis() / 1000;
     String noncestr = RandomUtils.getRandomStr();
-    String jsapiTicket = getJsapiTicket(wxmpconfig,false);
+    String jsapiTicket = getJsApiTicket(wxmpconfig,false);
     String signature = SHA1.genWithAmple("jsapi_ticket=" + jsapiTicket,
         "noncestr=" + noncestr, "timestamp=" + timestamp, "url=" + url);
     WxJsapiSignature jsapiSignature = new WxJsapiSignature();

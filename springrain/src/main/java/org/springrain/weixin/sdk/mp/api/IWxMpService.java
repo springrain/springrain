@@ -55,9 +55,9 @@ public interface IWxMpService {
   /**
    * 获得jsapi_ticket,不强制刷新jsapi_ticket
    *
-   * @see #getJsapiTicket(boolean)
+   * @see #getJsApiTicket(boolean)
    */
-  String getJsapiTicket(WxMpConfig wxmpconfig) throws WxErrorException;
+  String getJsApiTicket(WxMpConfig wxmpconfig) throws WxErrorException;
 
   /**
    * <pre>
@@ -69,7 +69,7 @@ public interface IWxMpService {
    *
    * @param forceRefresh 强制刷新
    */
-  String getJsapiTicket(WxMpConfig wxmpconfig,boolean forceRefresh) throws WxErrorException;
+  String getJsApiTicket(WxMpConfig wxmpconfig,boolean forceRefresh) throws WxErrorException;
 
   /**
    * <pre>
@@ -78,7 +78,7 @@ public interface IWxMpService {
    * 详情请见：http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141115&token=&lang=zh_CN
    * </pre>
    */
-  WxJsapiSignature createJsapiSignature(WxMpConfig wxmpconfig,String url) throws WxErrorException;
+  WxJsapiSignature createJsApiSignature(WxMpConfig wxmpconfig,String url) throws WxErrorException;
 
   /**
    * <pre>

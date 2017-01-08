@@ -70,9 +70,9 @@ public interface WxCpService {
    * 获得jsapi_ticket,不强制刷新jsapi_ticket
    *
    * @throws WxErrorException
-   * @see #getJsapiTicket(boolean)
+   * @see #getJsApiTicket(boolean)
    */
-  String getJsapiTicket(WxCpConfig wxcpconfig) throws WxErrorException;
+  String getJsApiTicket(WxCpConfig wxcpconfig) throws WxErrorException;
 
   /**
    * <pre>
@@ -85,7 +85,7 @@ public interface WxCpService {
    * @param forceRefresh 强制刷新
    * @throws WxErrorException
    */
-  String getJsapiTicket(WxCpConfig wxcpconfig,boolean forceRefresh) throws WxErrorException;
+  String getJsApiTicket(WxCpConfig wxcpconfig,boolean forceRefresh) throws WxErrorException;
 
   /**
    * <pre>
@@ -96,7 +96,7 @@ public interface WxCpService {
    *
    * @param url url
    */
-  WxJsapiSignature createJsapiSignature(WxCpConfig wxcpconfig,String url) throws WxErrorException;
+  WxJsapiSignature createJsApiSignature(WxCpConfig wxcpconfig,String url) throws WxErrorException;
 
   /**
    * <pre>
