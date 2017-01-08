@@ -1,21 +1,25 @@
 package test;
 
+import javax.annotation.Resource;
+
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springrain.weixin.entity.WxMpConfig;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
 import org.springrain.weixin.sdk.mp.api.IWxMpService;
-import org.springrain.weixin.sdk.mp.api.impl.WxMpServiceImpl;
-import org.springrain.weixin.service.IWxMpConfigService;
-import org.springrain.weixin.service.impl.WxMpConfigServiceImpl;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = "classpath:applicationContext.xml")
+public class TestWeiXinSpring {
 
-public class TestWeiXin {
-
-	IWxMpConfigService wxMpConfigService=new WxMpConfigServiceImpl();
-	IWxMpService wxMpService=new WxMpServiceImpl(wxMpConfigService);
+	@Resource
+	IWxMpService wxMpService;
 	
 	@Test
 	public void testAccessToken(){
+		
 		WxMpConfig  wxmpconfig=new WxMpConfig();
 		wxmpconfig.setAppId("");
 		wxmpconfig.setSecret("");
