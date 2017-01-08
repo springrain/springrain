@@ -19,9 +19,9 @@ import org.springrain.frame.util.GlobalStatic;
 import org.springrain.weixin.base.cp.api.WxCpInMemoryConfigStorage;
 import org.springrain.weixin.base.cp.api.WxCpService;
 import org.springrain.weixin.base.cp.api.WxCpServiceImpl;
-import org.springrain.weixin.base.mp.api.WxMpInMemoryConfigStorage;
-import org.springrain.weixin.base.mp.api.WxMpService;
+import org.springrain.weixin.base.mp.api.IWxMpService;
 import org.springrain.weixin.base.mp.api.impl.WxMpServiceImpl;
+import org.springrain.weixin.entity.WxMpConfig;
 
 @SuppressWarnings("deprecation")
 public class WechatBuilder {
@@ -40,19 +40,19 @@ public class WechatBuilder {
 	}
 	
 	@Cacheable(value = GlobalStatic.cacheKey, key = "'getMpService_'+#siteId")
-	public static WxMpService getMpService(String siteId){
+	public static IWxMpService getMpService(String siteId){
 		String appid = "";
 		String secret = "";
 		String token = "";
 		String partnerId = "";
 		String partnerKey = "";
-		WxMpInMemoryConfigStorage config = new WxMpInMemoryConfigStorage();
+		WxMpConfig config = new WxMpConfig();
 		config.setAppId(appid); // 设置微信公众号的appid
 		config.setSecret(secret); // 设置微信公众号的app corpSecret
 		config.setToken(token);
 		config.setPartnerId(partnerId);
 		config.setPartnerKey(partnerKey);
-		config.setExpiresTime(3600000);
+		//config.setExpiresTime(3600000);
 		//设置证书校验信息
 		KeyStore keyStore;
 		try {
@@ -66,7 +66,7 @@ public class WechatBuilder {
             
 	        SSLContext context = SSLContextBuilder.create().loadKeyMaterial(keyStore, mchid.toCharArray()).build();
 	        
-			config.setSSLContext(context);
+			//config.setSSLContext(context);
 		} catch (KeyStoreException | FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (NoSuchAlgorithmException e) {
@@ -80,7 +80,7 @@ public class WechatBuilder {
 		} catch (UnrecoverableKeyException e) {
 			e.printStackTrace();
 		}
-		WxMpService service = new WxMpServiceImpl();
+		IWxMpService service = new WxMpServiceImpl();
 		//service.setWxMpConfigStorage(config);
 		return service;
 	}
