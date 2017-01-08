@@ -15,8 +15,14 @@ public class TestWeiXin {
 	IWxMpService wxMpService=new WxMpServiceImpl(wxMpConfigService);
 	
 	@Test
-	public void testAccessToken(){
+	public void testAccessToken() {
+		//数据库查询
+		//WxMpConfig  wxmpconfig=wxMpConfigService.findWxMpConfigById("");
+		
+		//测试
 		WxMpConfig  wxmpconfig=new WxMpConfig();
+		
+		
 		wxmpconfig.setAppId("");
 		wxmpconfig.setSecret("");
 		

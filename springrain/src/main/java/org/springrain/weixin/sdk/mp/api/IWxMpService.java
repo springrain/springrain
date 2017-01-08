@@ -35,7 +35,7 @@ public interface IWxMpService {
    *
    * @see #getAccessToken(boolean)
    */
-  String getAccessToken(WxMpConfig wxmpconfig) throws WxErrorException, Exception;
+  String getAccessToken(WxMpConfig wxmpconfig) throws WxErrorException;
 
   /**
    * <pre>
