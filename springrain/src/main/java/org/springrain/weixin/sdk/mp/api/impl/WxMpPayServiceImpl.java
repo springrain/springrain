@@ -25,7 +25,6 @@ import org.apache.http.conn.ssl.DefaultHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContexts;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
@@ -478,7 +477,7 @@ public class WxMpPayServiceImpl implements IWxMpPayService {
 	        httpPost.setConfig(config);
 	      }
 
-      try (CloseableHttpClient httpclient = HttpClients.custom().setSSLSocketFactory(sslsf).build()) {
+      try (CloseableHttpClient httpclient = HttpClientUtils.getHttpClientBuilder().setSSLSocketFactory(sslsf).build()) {
         httpPost.setEntity(new StringEntity(new String(requestStr.getBytes("UTF-8"), "ISO-8859-1")));
         try (CloseableHttpResponse response = httpclient.execute(httpPost)) {
           String result = EntityUtils.toString(response.getEntity(), Consts.UTF_8);
