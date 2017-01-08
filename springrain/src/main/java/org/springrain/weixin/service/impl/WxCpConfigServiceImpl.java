@@ -44,22 +44,7 @@ public class WxCpConfigServiceImpl extends BaseSpringrainServiceImpl implements 
 		return true;
 	}
 
-	@Override
-	public WxCpConfig expireCardapiTicket(WxCpConfig wxmpconfig) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean isCardapiTicketExpired(WxCpConfig wxmpconfig) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public WxCpConfig updateCardapiTicket(WxCpConfig wxmpconfig) {
-		return null;
-	}
+	
 	
 	
 

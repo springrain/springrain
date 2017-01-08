@@ -35,19 +35,6 @@ public interface IWxCpConfigService  extends IBaseSpringrainService{
 	WxCpConfig updateJsapiTicket(WxCpConfig wxmpconfig);
 	
 	
-	/**
-	 * 失效
-	 * @param wxMpConfig
-	 * @return
-	 */
-	WxCpConfig expireCardapiTicket(WxCpConfig wxmpconfig);
-	
-	
-	boolean isCardapiTicketExpired(WxCpConfig wxmpconfig);
-   
-
-	WxCpConfig updateCardapiTicket(WxCpConfig wxmpconfig);
-	
 	
 	
 	
