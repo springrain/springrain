@@ -1,4 +1,4 @@
-package org.springrain.weixin.base.mp.api;
+package org.springrain.weixin.base.mp.api.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +13,7 @@ import org.springrain.weixin.base.common.api.WxErrorExceptionHandler;
 import org.springrain.weixin.base.common.api.WxMessageDuplicateChecker;
 import org.springrain.weixin.base.common.api.WxMessageInMemoryDuplicateChecker;
 import org.springrain.weixin.base.common.util.LogExceptionHandler;
+import org.springrain.weixin.base.mp.api.IWxMpService;
 import org.springrain.weixin.base.mp.bean.message.WxMpXmlMessage;
 import org.springrain.weixin.base.mp.bean.message.WxMpXmlOutMessage;
 
@@ -22,8 +23,8 @@ import org.springrain.weixin.base.mp.bean.message.WxMpXmlOutMessage;
  *
  * 说明：
  * 1. 配置路由规则时要按照从细到粗的原则，否则可能消息可能会被提前处理
- * 2. 默认情况下消息只会被处理一次，除非使用 {@link IWxMpMessageRouterRule#next()}
- * 3. 规则的结束必须用{@link IWxMpMessageRouterRule#end()}或者{@link IWxMpMessageRouterRule#next()}，否则不会生效
+ * 2. 默认情况下消息只会被处理一次，除非使用 {@link WxMpMessageRouterRule#next()}
+ * 3. 规则的结束必须用{@link WxMpMessageRouterRule#end()}或者{@link WxMpMessageRouterRule#next()}，否则不会生效
  *
  * 使用方法：
  * WxMpMessageRouter router = new WxMpMessageRouter();
@@ -44,13 +45,13 @@ import org.springrain.weixin.base.mp.bean.message.WxMpXmlOutMessage;
  * @author springrain
  *
  */
-public class IWxMpMessageRouter {
+public class WxMpMessageRouter {
 
-  protected final Logger log = LoggerFactory.getLogger(IWxMpMessageRouter.class);
+  protected final Logger log = LoggerFactory.getLogger(WxMpMessageRouter.class);
 
   private static final int DEFAULT_THREAD_POOL_SIZE = 100;
 
-  private final List<IWxMpMessageRouterRule> rules = new ArrayList<>();
+  private final List<WxMpMessageRouterRule> rules = new ArrayList<>();
 
   private final IWxMpService wxMpService;
 
@@ -61,7 +62,7 @@ public class IWxMpMessageRouter {
 
   private WxErrorExceptionHandler exceptionHandler;
 
-  public IWxMpMessageRouter(IWxMpService wxMpService) {
+  public WxMpMessageRouter(IWxMpService wxMpService) {
     this.wxMpService = wxMpService;
     this.executorService = Executors.newFixedThreadPool(DEFAULT_THREAD_POOL_SIZE);
     this.messageDuplicateChecker = new WxMessageInMemoryDuplicateChecker();
@@ -103,15 +104,15 @@ public class IWxMpMessageRouter {
     this.exceptionHandler = exceptionHandler;
   }
 
-  List<IWxMpMessageRouterRule> getRules() {
+  List<WxMpMessageRouterRule> getRules() {
     return this.rules;
   }
 
   /**
    * 开始一个新的Route规则
    */
-  public IWxMpMessageRouterRule rule() {
-    return new IWxMpMessageRouterRule(this);
+  public WxMpMessageRouterRule rule() {
+    return new WxMpMessageRouterRule(this);
   }
 
   /**
@@ -124,9 +125,9 @@ public class IWxMpMessageRouter {
       return null;
     }
 
-    final List<IWxMpMessageRouterRule> matchRules = new ArrayList<>();
+    final List<WxMpMessageRouterRule> matchRules = new ArrayList<>();
     // 收集匹配的规则
-    for (final IWxMpMessageRouterRule rule : this.rules) {
+    for (final WxMpMessageRouterRule rule : this.rules) {
       if (rule.test(wxMessage)) {
         matchRules.add(rule);
         if(!rule.isReEnter()) {
@@ -141,14 +142,14 @@ public class IWxMpMessageRouter {
 
     WxMpXmlOutMessage res = null;
     final List<Future<?>> futures = new ArrayList<>();
-    for (final IWxMpMessageRouterRule rule : matchRules) {
+    for (final WxMpMessageRouterRule rule : matchRules) {
       // 返回最后一个非异步的rule的执行结果
       if(rule.isAsync()) {
         futures.add(
             this.executorService.submit(new Runnable() {
               @Override
               public void run() {
-                rule.service(wxMessage, IWxMpMessageRouter.this.wxMpService, IWxMpMessageRouter.this.exceptionHandler);
+                rule.service(wxMessage, WxMpMessageRouter.this.wxMpService, WxMpMessageRouter.this.exceptionHandler);
               }
             })
         );
@@ -164,11 +165,11 @@ public class IWxMpMessageRouter {
           for (Future<?> future : futures) {
             try {
               future.get();
-              IWxMpMessageRouter.this.log.debug("End session access: async=true, sessionId={}", wxMessage.getFromUser());
+              WxMpMessageRouter.this.log.debug("End session access: async=true, sessionId={}", wxMessage.getFromUser());
             } catch (InterruptedException e) {
-              IWxMpMessageRouter.this.log.error("Error happened when wait task finish", e);
+              WxMpMessageRouter.this.log.error("Error happened when wait task finish", e);
             } catch (ExecutionException e) {
-              IWxMpMessageRouter.this.log.error("Error happened when wait task finish", e);
+              WxMpMessageRouter.this.log.error("Error happened when wait task finish", e);
             }
           }
         }
