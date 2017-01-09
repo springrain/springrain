@@ -23,33 +23,49 @@ public interface IWxCpConfigService  {
 
 	
 	/**
-	 * 失效
+	 * 更新 expireAccessToken
 	 * @param wxMpConfig
 	 * @return
 	 */
 	WxCpConfig expireAccessToken(WxCpConfig wxcpconfig);
 	
 	
+	/**
+	 * 更新 updateAccessToken
+	 * @param wxMpConfig
+	 * @return
+	 */
+	
     WxCpConfig updateAccessToken(WxCpConfig wxcpconfig);
    
    
-	/**
-	 * 失效
+    /**
+	 * 更新 expireJsApiTicket
 	 * @param wxMpConfig
 	 * @return
 	 */
 	WxCpConfig expireJsApiTicket(WxCpConfig wxcpconfig);
    
-
+	/**
+	 * 更新 updateJsApiTicket
+	 * @param wxMpConfig
+	 * @return
+	 */
 	WxCpConfig updateJsApiTicket(WxCpConfig wxcpconfig);
 	
 	/**
-	 * 失效
+	 * 更新 expireCardapiTicket
 	 * @param wxMpConfig
 	 * @return
 	 */
 	WxCpConfig expireCardapiTicket(WxCpConfig wxcpconfig);
    
+	
+	/**
+	 * 更新 updateCardapiTicket
+	 * @param wxMpConfig
+	 * @return
+	 */
 	WxCpConfig updateCardapiTicket(WxCpConfig wxcpconfig);
 	
 	

@@ -22,34 +22,50 @@ public interface IWxMpConfigService {
 
 	
 	/**
-	 * 失效
+	 * 更新 expireAccessToken
 	 * @param wxMpConfig
 	 * @return
 	 */
 	WxMpConfig expireAccessToken(WxMpConfig wxmpconfig);
 	
-	
+
+	/**
+	 * 更新 updateAccessToken
+	 * @param wxMpConfig
+	 * @return
+	 */
     WxMpConfig updateAccessToken(WxMpConfig wxmpconfig);
    
    
-	/**
-	 * 失效
+    /**
+	 * 更新 expireJsApiTicket
 	 * @param wxMpConfig
 	 * @return
 	 */
 	WxMpConfig expireJsApiTicket(WxMpConfig wxmpconfig);
    
 
+    /**
+	 * 更新 updateJsApiTicket
+	 * @param wxMpConfig
+	 * @return
+	 */
 	WxMpConfig updateJsApiTicket(WxMpConfig wxmpconfig);
 	
 	
 	/**
-	 * 失效
+	 * 更新 expireCardApiTicket
 	 * @param wxMpConfig
 	 * @return
 	 */
 	WxMpConfig expireCardApiTicket(WxMpConfig wxmpconfig);
    
+	
+	/**
+	 * 更新 updateCardApiTicket
+	 * @param wxMpConfig
+	 * @return
+	 */
 	WxMpConfig updateCardApiTicket(WxMpConfig wxmpconfig);
 	
 	
