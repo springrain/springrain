@@ -38,6 +38,7 @@ public class WechatBuilder {
 		return service;
 	}
 	
+	@SuppressWarnings("unused")
 	@Cacheable(value = GlobalStatic.cacheKey, key = "'getMpService_'+#siteId")
 	public static IWxMpService getMpService(String siteId){
 		String appid = "";
