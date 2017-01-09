@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springrain.weixin.entity.WxMpConfig;
+import org.springrain.weixin.sdk.common.api.IWxMpConfigService;
 import org.springrain.weixin.sdk.common.bean.WxCardApiSignature;
 import org.springrain.weixin.sdk.common.bean.result.WxError;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
@@ -18,7 +19,6 @@ import org.springrain.weixin.sdk.mp.api.IWxMpCardService;
 import org.springrain.weixin.sdk.mp.api.IWxMpService;
 import org.springrain.weixin.sdk.mp.bean.result.WxMpCardResult;
 import org.springrain.weixin.sdk.mp.util.json.WxMpGsonBuilder;
-import org.springrain.weixin.service.IWxMpConfigService;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

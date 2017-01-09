@@ -1,9 +1,8 @@
-package org.springrain.weixin.service;
+package org.springrain.weixin.sdk.common.api;
 
-import org.springrain.system.service.IBaseSpringrainService;
 import org.springrain.weixin.entity.WxCpConfig;
 
-public interface IWxCpConfigService  extends IBaseSpringrainService{
+public interface IWxCpConfigService  {
 	
 	
 	/**

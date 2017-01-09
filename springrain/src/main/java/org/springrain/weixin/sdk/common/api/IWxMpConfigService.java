@@ -1,9 +1,8 @@
-package org.springrain.weixin.service;
+package org.springrain.weixin.sdk.common.api;
 
-import org.springrain.system.service.IBaseSpringrainService;
 import org.springrain.weixin.entity.WxMpConfig;
 
-public interface IWxMpConfigService  extends IBaseSpringrainService{
+public interface IWxMpConfigService {
 	
 	/**
 	 * 根据ID查找微信配置

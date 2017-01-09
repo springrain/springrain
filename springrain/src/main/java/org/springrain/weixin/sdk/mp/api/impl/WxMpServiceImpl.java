@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.weixin.entity.WxMpConfig;
+import org.springrain.weixin.sdk.common.api.IWxMpConfigService;
 import org.springrain.weixin.sdk.common.bean.WxAccessToken;
 import org.springrain.weixin.sdk.common.bean.WxJsApiSignature;
 import org.springrain.weixin.sdk.common.bean.result.WxError;
@@ -34,7 +35,6 @@ import org.springrain.weixin.sdk.mp.bean.result.WxMpMassUploadResult;
 import org.springrain.weixin.sdk.mp.bean.result.WxMpOAuth2AccessToken;
 import org.springrain.weixin.sdk.mp.bean.result.WxMpSemanticQueryResult;
 import org.springrain.weixin.sdk.mp.bean.result.WxMpUser;
-import org.springrain.weixin.service.IWxMpConfigService;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
