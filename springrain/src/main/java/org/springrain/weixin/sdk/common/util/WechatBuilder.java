@@ -23,7 +23,6 @@ import org.springrain.weixin.sdk.cp.api.WxCpServiceImpl;
 import org.springrain.weixin.sdk.mp.api.IWxMpService;
 import org.springrain.weixin.sdk.mp.api.impl.WxMpServiceImpl;
 
-@SuppressWarnings("deprecation")
 public class WechatBuilder {
 	
 	@Cacheable(value = GlobalStatic.cacheKey, key = "'getCpService_'+#siteId")
@@ -65,7 +64,6 @@ public class WechatBuilder {
             //SSLContext context = SSLContexts.custom().loadKeyMaterial(keyStore, mchid.toCharArray()).build();
             
 	        SSLContext context = SSLContextBuilder.create().loadKeyMaterial(keyStore, mchid.toCharArray()).build();
-	        
 			//config.setSSLContext(context);
 		} catch (KeyStoreException | FileNotFoundException e) {
 			e.printStackTrace();

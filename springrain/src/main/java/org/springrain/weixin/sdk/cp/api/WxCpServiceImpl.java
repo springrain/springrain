@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -16,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springrain.frame.util.HttpClientUtils;
+import org.springrain.frame.util.JsonUtils;
 import org.springrain.weixin.entity.WxCpConfig;
 import org.springrain.weixin.sdk.common.bean.WxAccessToken;
 import org.springrain.weixin.sdk.common.bean.WxJsApiSignature;
@@ -604,7 +606,15 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
       throw new RuntimeException(e);
     }
   }
-
+  
+  @Override
+  public String syncUser(WxCpConfig wxcpconfig,String mediaId, Map<String, String> callBack) throws WxErrorException {
+  	String url = "https://qyapi.weixin.qq.com/cgi-bin/batch/syncuser";
+  	JsonObject jsonObject = new JsonObject();
+  	jsonObject.addProperty("media_id", mediaId);
+  	jsonObject.addProperty("callback", JsonUtils.writeValueAsString(callBack));
+    return post(wxcpconfig,url, jsonObject.toString());
+  }
 
   @Override
   public String replaceParty(WxCpConfig wxcpconfig,String mediaId) throws WxErrorException {
@@ -628,7 +638,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
     return get(wxcpconfig,url, null);
   }
 
-
+  
 
   @Override
   public void setRetrySleepMillis(int retrySleepMillis) {
@@ -641,8 +651,6 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
     this.maxRetryTimes = maxRetryTimes;
   }
 
- 
- 
 
 
 }

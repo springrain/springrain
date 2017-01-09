@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 import org.springrain.weixin.entity.WxCpConfig;
 import org.springrain.weixin.sdk.common.bean.WxJsApiSignature;
@@ -538,7 +539,16 @@ public interface IWxCpService {
    */
   void setMaxRetryTimes(int maxRetryTimes);
 
- 
+  /**
+   * 增量更新成员
+ * @param wxcpconfig
+ * @param mediaId
+ * @param callBack
+ * @return
+ * @throws WxErrorException
+ */
+String syncUser(WxCpConfig wxcpconfig,String mediaId,Map<String, String> callBack) throws WxErrorException;
+  
   /**
    * 上传部门列表覆盖企业号上的部门信息
    *
@@ -562,4 +572,6 @@ public interface IWxCpService {
    * @throws WxErrorException
    */
   String getTaskResult(WxCpConfig wxcpconfig,String joinId) throws WxErrorException;
+  
+  
 }
