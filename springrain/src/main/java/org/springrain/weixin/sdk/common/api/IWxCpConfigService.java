@@ -6,7 +6,7 @@ public interface IWxCpConfigService  {
 	
 	
 	/**
-	 * 根据ID查找微信配置
+	 * 根据ID查找微信配置,可以进行缓存处理
 	 * @param id
 	 * @return
 	 */
