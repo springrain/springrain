@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.frame.util.JsonUtils;
 import org.springrain.weixin.entity.WxCpConfig;
+import org.springrain.weixin.sdk.common.api.IWxCpConfigService;
 import org.springrain.weixin.sdk.common.bean.WxAccessToken;
 import org.springrain.weixin.sdk.common.bean.WxJsApiSignature;
 import org.springrain.weixin.sdk.common.bean.menu.WxMenu;
@@ -40,7 +41,6 @@ import org.springrain.weixin.sdk.cp.bean.WxCpMessage;
 import org.springrain.weixin.sdk.cp.bean.WxCpTag;
 import org.springrain.weixin.sdk.cp.bean.WxCpUser;
 import org.springrain.weixin.sdk.cp.util.json.WxCpGsonBuilder;
-import org.springrain.weixin.service.IWxCpConfigService;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;

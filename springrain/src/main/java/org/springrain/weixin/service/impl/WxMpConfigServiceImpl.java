@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.system.service.BaseSpringrainServiceImpl;
 import org.springrain.weixin.entity.WxMpConfig;
-import org.springrain.weixin.service.IWxMpConfigService;
+import org.springrain.weixin.sdk.common.api.IWxMpConfigService;
 
 
 @Service("wxMpConfigService")

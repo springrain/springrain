@@ -2,10 +2,10 @@ package test;
 
 import org.junit.Test;
 import org.springrain.weixin.entity.WxMpConfig;
+import org.springrain.weixin.sdk.common.api.IWxMpConfigService;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
 import org.springrain.weixin.sdk.mp.api.IWxMpService;
 import org.springrain.weixin.sdk.mp.api.impl.WxMpServiceImpl;
-import org.springrain.weixin.service.IWxMpConfigService;
 import org.springrain.weixin.service.impl.WxMpConfigServiceImpl;
 
 

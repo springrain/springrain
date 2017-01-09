@@ -1,12 +1,11 @@
-package org.springrain.weixin.service;
+package org.springrain.weixin.sdk.common.api;
 
-import org.springrain.system.service.IBaseSpringrainService;
 import org.springrain.weixin.entity.WxMpConfig;
 
-public interface IWxMpConfigService  extends IBaseSpringrainService{
+public interface IWxMpConfigService {
 	
 	/**
-	 * 根据ID查找微信配置
+	 * 根据ID查找微信配置,可以进行缓存处理
 	 * @param id
 	 * @return
 	 */
@@ -23,34 +22,50 @@ public interface IWxMpConfigService  extends IBaseSpringrainService{
 
 	
 	/**
-	 * 失效
+	 * 更新 expireAccessToken
 	 * @param wxMpConfig
 	 * @return
 	 */
 	WxMpConfig expireAccessToken(WxMpConfig wxmpconfig);
 	
-	
+
+	/**
+	 * 更新 updateAccessToken
+	 * @param wxMpConfig
+	 * @return
+	 */
     WxMpConfig updateAccessToken(WxMpConfig wxmpconfig);
    
    
-	/**
-	 * 失效
+    /**
+	 * 更新 expireJsApiTicket
 	 * @param wxMpConfig
 	 * @return
 	 */
 	WxMpConfig expireJsApiTicket(WxMpConfig wxmpconfig);
    
 
+    /**
+	 * 更新 updateJsApiTicket
+	 * @param wxMpConfig
+	 * @return
+	 */
 	WxMpConfig updateJsApiTicket(WxMpConfig wxmpconfig);
 	
 	
 	/**
-	 * 失效
+	 * 更新 expireCardApiTicket
 	 * @param wxMpConfig
 	 * @return
 	 */
 	WxMpConfig expireCardApiTicket(WxMpConfig wxmpconfig);
    
+	
+	/**
+	 * 更新 updateCardApiTicket
+	 * @param wxMpConfig
+	 * @return
+	 */
 	WxMpConfig updateCardApiTicket(WxMpConfig wxmpconfig);
 	
 	
