@@ -99,7 +99,7 @@
 		   <entry key="ISOLATION_READ_UNCOMMITTED" value-ref="dataSourceWrite"/>
 		 </map>
 	   </property>
-	   <property name="defaultTargetDataSource" ref="dataSourceWrite"/>
+	   <property name="defaultTargetDataSource" ref="dataSourceRead"/>
 	</bean>
 	-->
 	

@@ -24,7 +24,7 @@
 		<!--  
 		<persistence-api.version>1.0.2</persistence-api.version>
 		-->
-		<spring.baseline.version>4.3.4.RELEASE</spring.baseline.version>
+		<spring.baseline.version>4.3.5.RELEASE</spring.baseline.version>
 		<spring-data-redis.version>1.7.6.RELEASE</spring-data-redis.version>
 		<jedis.version>2.9.0</jedis.version>
 		<slf4j-api.version>1.7.22</slf4j-api.version>
@@ -62,7 +62,7 @@
 		 -->
 
 		<servlet-api.version>2.5</servlet-api.version>
-		<mysql-connector-java.version>5.1.39</mysql-connector-java.version>
+		<mysql-connector-java.version>5.1.40</mysql-connector-java.version>
 		<javax.persistence.version>2.1.1</javax.persistence.version>
 		<jsp-api.version>2.1</jsp-api.version>
 
