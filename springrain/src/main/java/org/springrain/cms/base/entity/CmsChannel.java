@@ -67,10 +67,6 @@ public class CmsChannel  extends BaseEntity {
 	 */
 	private java.lang.Integer positionLevel;
 	/**
-	 * 标题
-	 */
-	private java.lang.String title;
-	/**
 	 * 关键字
 	 */
 	private java.lang.String keywords;
@@ -93,6 +89,16 @@ public class CmsChannel  extends BaseEntity {
 	//columns END 数据库字段结束
 	
 	private List<CmsChannel> leaf;
+	
+	/**
+	 * 所属站点
+	 */
+	private CmsSite cmsSite;
+	
+	/**
+	 * 父级栏目
+	 */
+	private CmsChannel cmsChannel;
 	
 	//concstructor
 
@@ -170,17 +176,6 @@ public class CmsChannel  extends BaseEntity {
 	public java.lang.Integer getPositionLevel() {
 		return this.positionLevel;
 	}
-	public void setTitle(java.lang.String value) {
-		    if(StringUtils.isNotBlank(value)){
-			 value=value.trim();
-			}
-		this.title = value;
-	}
-	
-     @WhereSQL(sql="title=:CmsChannel_title")
-	public java.lang.String getTitle() {
-		return this.title;
-	}
 	public void setKeywords(java.lang.String value) {
 		    if(StringUtils.isNotBlank(value)){
 			 value=value.trim();
@@ -228,6 +223,25 @@ public class CmsChannel  extends BaseEntity {
 		return this.active;
 	}
 	
+    
+    @Transient
+	public CmsSite getCmsSite() {
+		return cmsSite;
+	}
+
+	public void setCmsSite(CmsSite cmsSite) {
+		this.cmsSite = cmsSite;
+	}
+	
+	@Transient
+	public CmsChannel getCmsChannel() {
+		return cmsChannel;
+	}
+
+	public void setCmsChannel(CmsChannel cmsChannel) {
+		this.cmsChannel = cmsChannel;
+	}
+
 	public String toString() {
 		return new StringBuffer()
 			.append("id[").append(getId()).append("],")
@@ -236,7 +250,6 @@ public class CmsChannel  extends BaseEntity {
 			.append("comcode[").append(getComcode()).append("],")
 			.append("网站ID[").append(getSiteId()).append("],")
 			.append("0导航,1-10个级别[").append(getPositionLevel()).append("],")
-			.append("标题[").append(getTitle()).append("],")
 			.append("关键字[").append(getKeywords()).append("],")
 			.append("描述[").append(getDescription()).append("],")
 			.append("打开次数[").append(getLookcount()).append("],")

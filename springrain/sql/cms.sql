@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : 127.0.0.1
-Source Server Version : 50714
+Source Server         : localhost
+Source Server Version : 50626
 Source Host           : 127.0.0.1:3306
 Source Database       : springrain
 
 Target Server Type    : MYSQL
-Target Server Version : 50714
+Target Server Version : 50626
 File Encoding         : 65001
 
-Date: 2016-10-23 16:21:02
+Date: 2017-01-11 17:32:16
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -31,16 +31,12 @@ CREATE TABLE `cms_attachment` (
   `thumbnail` varchar(1000) DEFAULT NULL COMMENT '缩略图',
   `createDate` datetime NOT NULL COMMENT '创建时间',
   `remark` varchar(1000) DEFAULT NULL COMMENT '备注',
-  `modelType` int(11) NOT NULL DEFAULT 0 COMMENT '0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)',
-  `sortno` int(11) NOT NULL  DEFAULT 0  COMMENT '排序',
+  `modelType` int(11) NOT NULL DEFAULT '0' COMMENT '0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)',
+  `sortno` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
   `lookcount` int(11) DEFAULT NULL COMMENT '打开次数',
-  `active` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
+  `active` int(11) NOT NULL DEFAULT '1' COMMENT '状态 0不可用,1可用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='附件表';
-
--- ----------------------------
--- Records of cms_attachment
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for cms_channel
@@ -49,22 +45,17 @@ DROP TABLE IF EXISTS `cms_channel`;
 CREATE TABLE `cms_channel` (
   `id` varchar(50) NOT NULL,
   `name` varchar(500) DEFAULT NULL COMMENT '名称',
-  `pid` varchar(50)  NULL COMMENT '父类ID',
+  `pid` varchar(50) DEFAULT NULL COMMENT '父类ID',
   `comcode` varchar(1000) NOT NULL COMMENT '编号 通过 ,, 间隔',
   `siteId` varchar(50) NOT NULL COMMENT '网站ID',
-  `positionLevel` int(11)  NOT NULL DEFAULT 0 COMMENT '0导航,1-10个级别',
-  `title` varchar(500) DEFAULT NULL COMMENT '标题',
+  `positionLevel` int(11) NOT NULL DEFAULT '0' COMMENT '0导航,1-10个级别',
   `keywords` varchar(1000) DEFAULT NULL COMMENT '关键字',
   `description` varchar(1000) DEFAULT NULL COMMENT '描述',
   `lookcount` int(11) DEFAULT NULL COMMENT '打开次数',
-  `sortno` int(11) NOT NULL  DEFAULT 0  COMMENT '排序',
-  `active` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
+  `sortno` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
+  `active` int(11) NOT NULL DEFAULT '1' COMMENT '状态 0不可用,1可用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='栏目表';
-
--- ----------------------------
--- Records of cms_channel
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for cms_channel_content
@@ -75,14 +66,10 @@ CREATE TABLE `cms_channel_content` (
   `siteId` varchar(50) NOT NULL,
   `channelId` varchar(50) NOT NULL,
   `contentId` varchar(50) NOT NULL,
-  `sortno` int(11) NOT NULL  DEFAULT 0  COMMENT '排序',
-  `active` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
+  `sortno` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
+  `active` int(11) NOT NULL DEFAULT '1' COMMENT '状态 0不可用,1可用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='栏目内容中间表';
-
--- ----------------------------
--- Records of cms_channel_content
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for cms_comment
@@ -105,10 +92,6 @@ CREATE TABLE `cms_comment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='CMS评论表';
 
 -- ----------------------------
--- Records of cms_comment
--- ----------------------------
-
--- ----------------------------
 -- Table structure for cms_content
 -- ----------------------------
 DROP TABLE IF EXISTS `cms_content`;
@@ -125,12 +108,9 @@ CREATE TABLE `cms_content` (
   `content` text NOT NULL COMMENT '内容',
   `source` varchar(1000) DEFAULT NULL COMMENT '来源',
   `sourceurl` varchar(1000) DEFAULT NULL COMMENT '来源地址',
+  `active` int(11) DEFAULT NULL COMMENT '是否可用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='内容表';
-
--- ----------------------------
--- Records of cms_content
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for cms_friend_site
@@ -144,13 +124,9 @@ CREATE TABLE `cms_friend_site` (
   `url` varchar(1000) NOT NULL COMMENT '网站地址',
   `logo` varchar(2000) NOT NULL COMMENT '网站logo',
   `sortno` int(11) DEFAULT NULL COMMENT '排序',
-  `active` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
+  `active` int(11) NOT NULL DEFAULT '1' COMMENT '状态 0不可用,1可用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='友情链接';
-
--- ----------------------------
--- Records of cms_friend_site
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for cms_link
@@ -158,27 +134,20 @@ CREATE TABLE `cms_friend_site` (
 DROP TABLE IF EXISTS `cms_link`;
 CREATE TABLE `cms_link` (
   `id` varchar(50) NOT NULL,
-  `name` varchar(1000),
+  `name` varchar(1000) DEFAULT NULL,
   `defaultLink` varchar(1000) NOT NULL COMMENT '默认URL地址',
   `link` varchar(1000) NOT NULL COMMENT '使用的URL',
   `siteId` varchar(50) NOT NULL COMMENT '网站ID',
   `businessId` varchar(50) NOT NULL COMMENT '业务Id',
   `lookcount` int(11) DEFAULT NULL COMMENT '打开次数',
-  `modelType` int(11) NOT NULL DEFAULT 0 COMMENT '0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)',
-  `ftlfile` varchar(1000)  NOT NULL COMMENT '当前渲染使用的模板路径',
+  `modelType` int(11) NOT NULL DEFAULT '0' COMMENT '0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)',
+  `ftlfile` varchar(1000) NOT NULL COMMENT '当前渲染使用的模板路径',
   `nodeftlfile` varchar(1000) DEFAULT NULL COMMENT '子内容使用的ftl模板文件',
-  `statichtml` int(11) NOT NULL  DEFAULT 0  COMMENT '是否静态化 0否,1是',
-  `sortno` int(11) NOT NULL  DEFAULT 0  COMMENT '排序',
-  `active` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
+  `statichtml` int(11) NOT NULL DEFAULT '0' COMMENT '是否静态化 0否,1是',
+  `sortno` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
+  `active` int(11) NOT NULL DEFAULT '1' COMMENT '状态 0不可用,1可用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='业务链接表';
-
--- ----------------------------
--- Records of cms_link
--- ----------------------------
-
-
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for cms_property
@@ -189,21 +158,17 @@ CREATE TABLE `cms_property` (
   `siteId` varchar(50) NOT NULL,
   `name` varchar(50) NOT NULL,
   `code` varchar(50) NOT NULL COMMENT '系统级别的编码,一个站点不可重复',
-  `inputType`  int(11)NOT NULL DEFAULT 0 COMMENT '0text,1date,2datatime,3int,4float,5select,6file,7img,8imgs',
+  `inputType` int(11) NOT NULL DEFAULT '0' COMMENT '0text,1date,2datatime,3int,4float,5select,6file,7img,8imgs',
   `businessId` varchar(50) NOT NULL COMMENT '业务Id',
-  `modelType` int(11) NOT NULL DEFAULT 0 COMMENT '0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)',
+  `modelType` int(11) NOT NULL DEFAULT '0' COMMENT '0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)',
   `createPerson` varchar(50) NOT NULL COMMENT '创建人',
   `createDate` datetime NOT NULL COMMENT '创建时间',
   `defaultValue` varchar(100) DEFAULT NULL COMMENT '默认值',
   `style` varchar(500) DEFAULT NULL COMMENT '样式',
-  `sortno` int(11) NOT NULL  DEFAULT 0  COMMENT '排序',
-  `active` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
+  `sortno` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
+  `active` int(11) NOT NULL DEFAULT '1' COMMENT '状态 0不可用,1可用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='自定义属性表';
-
--- ----------------------------
--- Records of cms_property
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for cms_propertyvalue
@@ -216,13 +181,9 @@ CREATE TABLE `cms_propertyvalue` (
   `siteId` varchar(50) NOT NULL,
   `businessId` varchar(50) NOT NULL COMMENT '业务Id',
   `sortno` int(11) DEFAULT NULL COMMENT '排序',
-  `active` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
+  `active` int(11) NOT NULL DEFAULT '1' COMMENT '状态 0不可用,1可用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='自定义属性对应值表';
-
--- ----------------------------
--- Records of cms_propertyvalue
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for cms_site
@@ -230,12 +191,14 @@ CREATE TABLE `cms_propertyvalue` (
 DROP TABLE IF EXISTS `cms_site`;
 CREATE TABLE `cms_site` (
   `id` varchar(50) NOT NULL,
+  `createTime` datetime DEFAULT NULL COMMENT '创建时间',
+  `modifyTime` datetime DEFAULT NULL COMMENT '修改时间',
   `userId` varchar(50) NOT NULL COMMENT '用户Id',
   `name` varchar(500) DEFAULT NULL COMMENT '名称',
   `title` varchar(500) DEFAULT NULL,
   `domainurl` varchar(2000) DEFAULT NULL COMMENT '网站域名',
   `logo` varchar(2000) NOT NULL COMMENT '网站logo',
-  `footer` varchar(2000) NOT NULL COMMENT '页脚',
+  `footer` text NOT NULL COMMENT '页脚',
   `qq` varchar(50) NOT NULL COMMENT 'QQ',
   `phone` varchar(50) NOT NULL COMMENT '电话',
   `contacts` varchar(50) NOT NULL COMMENT '联系人',
@@ -243,16 +206,10 @@ CREATE TABLE `cms_site` (
   `description` varchar(1000) DEFAULT NULL,
   `themeId` varchar(50) DEFAULT NULL COMMENT '主题Id',
   `lookcount` int(11) DEFAULT NULL COMMENT '打开次数',
-  `siteType`  int(11) NOT NULL DEFAULT 0 COMMENT '0微信订阅服务号,1wap,2网站   ',
-  `active` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
+  `siteType` int(11) NOT NULL DEFAULT '0' COMMENT '0微信订阅服务号,1wap,2网站   ',
+  `active` int(11) NOT NULL DEFAULT '1' COMMENT '状态 0不可用,1可用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='站点表';
-
--- ----------------------------
--- Records of cms_site
--- ----------------------------
-
-
 
 -- ----------------------------
 -- Table structure for cms_site_wxconfig
@@ -266,14 +223,9 @@ CREATE TABLE `cms_site_wxconfig` (
   `token` varchar(500) DEFAULT NULL COMMENT '开发者Id',
   `encodingAESKey` varchar(500) DEFAULT NULL COMMENT '消息加解密密钥',
   `wxId` varchar(500) DEFAULT NULL COMMENT '原始ID',
-  `active` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
+  `active` int(11) NOT NULL DEFAULT '1' COMMENT '状态 0不可用,1可用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='微信号需要的配置信息';
-
--- ----------------------------
--- Records of cms_site_wxconfig
--- ----------------------------
-
 
 -- ----------------------------
 -- Table structure for cms_template
@@ -285,15 +237,11 @@ CREATE TABLE `cms_template` (
   `description` varchar(2000) DEFAULT NULL COMMENT '备注',
   `ftlfile` varchar(1000) DEFAULT NULL COMMENT '渲染使用的模板路径',
   `imgfile` varchar(1000) DEFAULT NULL COMMENT '缩略图路径路径',
-  `modelType` int(11) NOT NULL DEFAULT 0 COMMENT '0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)',
+  `modelType` int(11) NOT NULL DEFAULT '0' COMMENT '0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)',
   `usecount` int(11) DEFAULT NULL COMMENT '使用次数',
-  `active` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
+  `active` int(11) NOT NULL DEFAULT '1' COMMENT '状态 0不可用,1可用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='模板表';
-
--- ----------------------------
--- Records of cms_template
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for cms_theme
@@ -303,13 +251,9 @@ CREATE TABLE `cms_theme` (
   `id` varchar(50) NOT NULL COMMENT 'ID',
   `name` varchar(500) NOT NULL COMMENT '名称',
   `usecount` int(11) DEFAULT NULL COMMENT '使用次数',
-  `active` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
+  `active` int(11) NOT NULL DEFAULT '1' COMMENT '状态 0不可用,1可用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='主题表';
-
--- ----------------------------
--- Records of cms_theme
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for cms_theme_template
@@ -321,15 +265,3 @@ CREATE TABLE `cms_theme_template` (
   `templateId` varchar(50) NOT NULL COMMENT '模板Id',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='主题和模板中间表';
-
--- ----------------------------
--- Records of cms_theme_template
--- ----------------------------
-
-
-INSERT INTO `t_tableindex` (`id`, `maxIndex`, `prefix`) VALUES ('cms_site', '10', 's_');
-INSERT INTO `t_tableindex` (`id`, `maxIndex`, `prefix`) VALUES ('cms_channel', '100', 'h_');
-INSERT INTO `t_tableindex` (`id`, `maxIndex`, `prefix`) VALUES ('cms_content', '1000', 'c_');
-
-
-

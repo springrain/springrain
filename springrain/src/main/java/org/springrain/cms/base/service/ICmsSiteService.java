@@ -1,5 +1,7 @@
 package org.springrain.cms.base.service;
 
+import java.util.List;
+
 import org.springrain.cms.base.entity.CmsSite;
 import org.springrain.system.service.IBaseSpringrainService;
 /**
@@ -40,7 +42,14 @@ public interface ICmsSiteService extends IBaseSpringrainService {
     * @return
     * @throws Exception
     */
-   Integer findSiteTypeById(String siteId)throws Exception;
+   Integer findSiteTypeById(String siteId) throws Exception;
 	
+   /**
+    * 根据用户ID查找用户下的站点列表
+    * @param userId
+	* @return
+	* @throws Exception 
+   */
+	List<CmsSite> findSiteByUserId(String userId) throws Exception;
 	
-}
+	}

@@ -240,10 +240,4 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 		return tolist;
 
 	}
-
-
-
-	
-	
-   
 }

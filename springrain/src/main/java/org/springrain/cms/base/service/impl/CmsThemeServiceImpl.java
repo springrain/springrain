@@ -76,4 +76,9 @@ public class CmsThemeServiceImpl extends BaseSpringrainServiceImpl implements IC
 			 return super.findDataExportExcel(finder,ftlurl,page,clazz,o);
 		}
 
+	@Override
+	public List<CmsTheme> getAllCmsThemes() throws Exception {
+		return super.queryForList(Finder.getSelectFinder(CmsTheme.class), CmsTheme.class);
+	}
+
 }

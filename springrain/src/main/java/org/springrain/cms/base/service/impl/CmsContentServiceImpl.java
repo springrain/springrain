@@ -1,5 +1,7 @@
 package org.springrain.cms.base.service.impl;
 
+import java.util.Date;
+
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
@@ -35,6 +37,12 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 	@Resource
 	private ICmsLinkService cmsLinkService;
 	
+	@Override
+	public Object saveorupdate(Object entity) throws Exception {
+		CmsContent cmsContent = (CmsContent) entity;
+		cmsContent.setCreateDate(new Date());
+		return super.saveorupdate(cmsContent);
+	}
 	
     @Override
 	public String  saveContent(CmsContent cmsContent ) throws Exception{
@@ -47,11 +55,10 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
     		return null;
     	}
     	
-    	
-    	 Integer siteType=cmsSiteService.findSiteTypeById(cmsContent.getSiteId());
-         if(siteType==null){
+    	Integer siteType=cmsSiteService.findSiteTypeById(cmsContent.getSiteId());
+    	if(siteType==null){
          	return null;
-         }
+    	}
 	   String id= tableindexService.updateNewId(CmsContent.class);
 	   if(StringUtils.isBlank(id)){
 		    	return null;
@@ -75,7 +82,7 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 	    
 	    cmsLink.setBusinessId(id);
 	    cmsLink.setSiteId(cmsContent.getSiteId());
-	    cmsLink.setName(cmsContent.getName());
+	    cmsLink.setName(cmsContent.getTitle());
 	    cmsLink.setModelType(2);//内容
 	    cmsLink.setLookcount(1);
 	    cmsLink.setStatichtml(0);//默认不静态化

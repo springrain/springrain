@@ -60,10 +60,6 @@ public class CmsContent  extends BaseEntity {
 	 */
 	private java.lang.String description;
 	/**
-	 * 名称
-	 */
-	private java.lang.String name;
-	/**
 	 * 小标题
 	 */
 	private java.lang.String mintitle;
@@ -165,17 +161,6 @@ public class CmsContent  extends BaseEntity {
 	public java.lang.String getDescription() {
 		return this.description;
 	}
-	public void setName(java.lang.String value) {
-		    if(StringUtils.isNotBlank(value)){
-			 value=value.trim();
-			}
-		this.name = value;
-	}
-	
-     @WhereSQL(sql="name=:CmsContent_name")
-	public java.lang.String getName() {
-		return this.name;
-	}
 	public void setMintitle(java.lang.String value) {
 		    if(StringUtils.isNotBlank(value)){
 			 value=value.trim();
@@ -273,7 +258,6 @@ public class CmsContent  extends BaseEntity {
 			.append("title[").append(getTitle()).append("],")
 			.append("关键字[").append(getKeywords()).append("],")
 			.append("描述[").append(getDescription()).append("],")
-			.append("名称[").append(getName()).append("],")
 			.append("小标题[").append(getMintitle()).append("],")
 			.append("打开次数[").append(getLookcount()).append("],")
 			.append("创建人[").append(getCreatePerson()).append("],")

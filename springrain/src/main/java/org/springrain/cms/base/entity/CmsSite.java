@@ -107,6 +107,15 @@ public class CmsSite  extends BaseEntity {
 	 * 状态 0不可用,1可用
 	 */
 	private java.lang.Integer active;
+	
+	/**
+	 * 创建时间
+	 */
+	private java.util.Date createTime;
+	/**
+	 * 修改时间
+	 */
+	private java.util.Date modifyTime;
 	//columns END 数据库字段结束
 	
 	
@@ -291,10 +300,28 @@ public class CmsSite  extends BaseEntity {
 	public java.lang.Integer getActive() {
 		return this.active;
 	}
-	
+     @WhereSQL(sql="createTime=:CmsSite_createTime")
+	public java.util.Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(java.util.Date createTime) {
+		this.createTime = createTime;
+	}
+	@WhereSQL(sql="modifyTime=:CmsSite_modifyTime")
+	public java.util.Date getModifyTime() {
+		return modifyTime;
+	}
+
+	public void setModifyTime(java.util.Date modifyTime) {
+		this.modifyTime = modifyTime;
+	}
+
 	public String toString() {
 		return new StringBuffer()
 			.append("id[").append(getId()).append("],")
+			.append("创建时间[").append(getCreateTime()).append("],")
+			.append("修改时间[").append(getModifyTime()).append("],")
 			.append("用户Id[").append(getUserId()).append("],")
 			.append("名称[").append(getName()).append("],")
 			.append("title[").append(getTitle()).append("],")

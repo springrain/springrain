@@ -1,6 +1,7 @@
 package org.springrain.cms.base.service.impl;
 
 import java.io.File;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -11,6 +12,7 @@ import org.springrain.cms.base.entity.CmsLink;
 import org.springrain.cms.base.entity.CmsSite;
 import org.springrain.cms.base.service.ICmsLinkService;
 import org.springrain.cms.base.service.ICmsSiteService;
+import org.springrain.frame.common.SessionUser;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.system.service.BaseSpringrainServiceImpl;
@@ -35,6 +37,12 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 	@Resource
 	private ICmsLinkService cmsLinkService;
 	
+	@Override
+	public Object saveorupdate(Object entity) throws Exception {
+		CmsSite cmsSite = (CmsSite) entity;
+		cmsSite.setUserId(SessionUser.getUserId());
+		return super.saveorupdate(cmsSite);
+	}
 	
     @Override
 	public String  saveCmsSite(CmsSite cmsSite ) throws Exception{
@@ -138,6 +146,13 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 		finder.setParam("siteId", siteId);
 		
 		return super.queryForObject(finder, Integer.class);
+	}
+
+	@Override
+	public List<CmsSite> findSiteByUserId(String userId) throws Exception {
+		Finder finder = Finder.getSelectFinder(CmsSite.class).append(" WHERE userId=:userId");
+		finder.setParam("userId", userId);
+		return super.queryForList(finder, CmsSite.class);
 	}
 	
 

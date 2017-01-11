@@ -44,9 +44,6 @@ public class SiteTest {
 		cmsSite.setDomainurl("http://www.baidu.com");
 		cmsSite.setTitle("title");
 		cmsSiteService.saveCmsSite(cmsSite);
-		
-		
-		
 	}
 
 	/**
@@ -70,7 +67,6 @@ public class SiteTest {
 		cmsChannel.setPositionLevel(0);
 		cmsChannel.setSortno(1);
 		cmsChannel.setActive(1);
-		cmsChannel.setTitle("title");
 		
 		cmsChannelService.saveChannel(cmsChannel);
 		
@@ -90,7 +86,6 @@ public class SiteTest {
 		CmsContent cmsContent=new CmsContent();
 		cmsContent.setSiteId(siteId);
 		cmsContent.setChannelId(channelId);
-		cmsContent.setName("测试内容");
 		cmsContent.setContent("测试内容的内容Content");
 		cmsContent.setKeywords("keywords");
 		//cmsChannel.setComcode(value);

@@ -1,5 +1,7 @@
 package org.springrain.cms.base.service;
 
+import java.util.List;
+
 import org.springrain.cms.base.entity.CmsTheme;
 import org.springrain.system.service.IBaseSpringrainService;
 /**
@@ -19,6 +21,11 @@ public interface ICmsThemeService extends IBaseSpringrainService {
 	 */
 	CmsTheme findCmsThemeById(String id) throws Exception;
 	
-	
+	/**
+	 * 获取所有主题
+	 * @return CmsTheme的对象list
+	 * @throws Exception 
+	 */
+	List<CmsTheme> getAllCmsThemes() throws Exception;
 	
 }
