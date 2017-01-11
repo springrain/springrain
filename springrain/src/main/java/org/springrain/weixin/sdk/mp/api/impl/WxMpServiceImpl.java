@@ -95,9 +95,9 @@ public class WxMpServiceImpl implements IWxMpService {
 
   //private HttpHost httpProxy;
 
-  private int retrySleepMillis = 1000;
+ // private int retrySleepMillis = 1000;
 
-  private int maxRetryTimes = 5;
+  //private int maxRetryTimes = 5;
 
  // protected WxSessionManager sessionManager = new StandardSessionManager();
 
@@ -558,7 +558,10 @@ public class WxMpServiceImpl implements IWxMpService {
    */
   @Override
   public <T, E> T execute(WxMpConfig wxmpconfig,RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
+	int retrySleepMillis = 1000;
+	int maxRetryTimes = 5;
     int retryTimes = 0;
+    
     do {
       try {
         T result = executeInternal(wxmpconfig,executor, uri, data);
@@ -621,25 +624,6 @@ public class WxMpServiceImpl implements IWxMpService {
       logger.error("\n[URL]:  {}\n[PARAMS]: {}\n[EXCEPTION]: {}", uri, data, e.getMessage());
       throw new RuntimeException(e);
     }
-  }
-
- 
-
-
-
-  /**
-   * <pre>
-   * 设置当微信系统响应系统繁忙时，要等待多少 retrySleepMillis(ms) * 2^(重试次数 - 1) 再发起重试
-   * 默认：1000ms
-   * </pre>
-   */
-  @Override
-  public void setRetrySleepMillis(int retrySleepMillis) {
-    this.retrySleepMillis = retrySleepMillis;
-  }
-
-  public void setMaxRetryTimes(int maxRetryTimes) {
-    this.maxRetryTimes = maxRetryTimes;
   }
 
  

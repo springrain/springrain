@@ -512,32 +512,7 @@ public interface IWxCpService {
    */
   <T, E> T execute(WxCpConfig wxcpconfig,RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException;
 
-  /**
-   * 注入 {@link WxCpConfigStorage} 的实现
-   *
-   * @param wxConfigProvider
-   */
- // void setWxCpConfigStorage(WxCpConfig wxcpconfig,WxCpConfigStorage wxConfigProvider);
 
-  /**
-   * <pre>
-   * 设置当微信系统响应系统繁忙时，要等待多少 retrySleepMillis(ms) * 2^(重试次数 - 1) 再发起重试
-   * 默认：1000ms
-   * </pre>
-   *
-   * @param retrySleepMillis
-   */
-  void setRetrySleepMillis(int retrySleepMillis);
-
-  /**
-   * <pre>
-   * 设置当微信系统响应系统繁忙时，最大重试次数
-   * 默认：5次
-   * </pre>
-   *
-   * @param maxRetryTimes
-   */
-  void setMaxRetryTimes(int maxRetryTimes);
 
   /**
    * 增量更新成员

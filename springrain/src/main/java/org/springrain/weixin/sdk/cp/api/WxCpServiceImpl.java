@@ -55,14 +55,6 @@ public class WxCpServiceImpl implements IWxCpService {
 
   protected final Logger log = LoggerFactory.getLogger(WxCpServiceImpl.class);
 
-  
-
-
-  private int retrySleepMillis = 1000;
-  private int maxRetryTimes = 5;
-  
-  
-  
   @Resource
   private IWxCpConfigService wxCpConfigService;
   
@@ -544,7 +536,11 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
    */
   @Override
   public <T, E> T execute(WxCpConfig wxcpconfig,RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
-    int retryTimes = 0;
+	int retrySleepMillis = 1000;
+	int maxRetryTimes = 5;
+	
+	int retryTimes = 0;
+	
     do {
       try {
         return executeInternal(wxcpconfig,executor, uri, data);
@@ -638,18 +634,6 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
     return get(wxcpconfig,url, null);
   }
 
-  
-
-  @Override
-  public void setRetrySleepMillis(int retrySleepMillis) {
-    this.retrySleepMillis = retrySleepMillis;
-  }
-
-
-  @Override
-  public void setMaxRetryTimes(int maxRetryTimes) {
-    this.maxRetryTimes = maxRetryTimes;
-  }
 
 
 

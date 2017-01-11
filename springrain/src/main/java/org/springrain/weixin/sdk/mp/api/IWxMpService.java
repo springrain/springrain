@@ -240,15 +240,6 @@ public interface IWxMpService {
    */
   <T, E> T execute(WxMpConfig wxmpconfig,RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException;
 
-  
-  void setRetrySleepMillis(int retrySleepMillis);
 
-  /**
-   * <pre>
-   * 设置当微信系统响应系统繁忙时，最大重试次数
-   * 默认：5次
-   * </pre>
-   */
-  void setMaxRetryTimes(int maxRetryTimes);
 
   }
