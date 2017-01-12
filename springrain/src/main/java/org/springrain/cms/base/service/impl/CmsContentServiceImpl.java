@@ -65,7 +65,7 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 		    	return null;
 	   }
 	   cmsContent.setId(id);
-		    
+	   cmsContent.setCreateDate(new Date());
 	   super.save(cmsContent);
 	   
 	   //保存中间对应

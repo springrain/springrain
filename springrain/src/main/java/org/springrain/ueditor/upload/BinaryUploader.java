@@ -1,11 +1,5 @@
 package org.springrain.ueditor.upload;
 
-import org.springrain.ueditor.PathFormat;
-import org.springrain.ueditor.define.AppInfo;
-import org.springrain.ueditor.define.BaseState;
-import org.springrain.ueditor.define.FileType;
-import org.springrain.ueditor.define.State;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
@@ -19,6 +13,11 @@ import org.apache.commons.fileupload.FileItemStream;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.springrain.ueditor.PathFormat;
+import org.springrain.ueditor.define.AppInfo;
+import org.springrain.ueditor.define.BaseState;
+import org.springrain.ueditor.define.FileType;
+import org.springrain.ueditor.define.State;
 
 public class BinaryUploader {
 

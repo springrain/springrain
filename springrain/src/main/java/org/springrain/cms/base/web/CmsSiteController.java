@@ -23,7 +23,7 @@ import org.springrain.frame.util.ReturnDatas;
 
 
 /**
- * TODO 站点管理类
+ *  站点管理类
  * @copyright {@link weicms.net}
  * @author springrain<Auto generate>
  * @version  2017-01-10 15:15:36
@@ -145,7 +145,6 @@ public class CmsSiteController  extends BaseController {
 			returnObject.setMessage(MessageUtils.UPDATE_ERROR);
 		}
 		return returnObject;
-	
 	}
 	
 	/**

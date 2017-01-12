@@ -42,7 +42,7 @@ ${r"<@h.commonHead"} title="后台管理系统" keywords="开源,永久免费" d
 		             </li>
 					 <li style="float:right;">
 		             	${r"<@shiro.hasPermission"} name="/${classNameLowerCase}/update" >
-		             		<button type="button" class="layui-btn layui-btn-small" data-action="${r"${ctx}"}/${classNameLowerCase}/update/pre"><i class="layui-icon layui-icon-specil">&#xe61f;</i>添加级别</button>
+		             		<button type="button" class="layui-btn layui-btn-small" data-action="${r"${ctx}"}/${classNameLowerCase}/update/pre"><i class="layui-icon layui-icon-specil">&#xe61f;</i>新增</button>
 		             	${r"</@shiro.hasPermission>"}
 		             	${r"<@shiro.hasPermission"} name="/${classNameLowerCase}/list/export" >
 				        	<button type="button" class="layui-btn layui-btn-small"><i class="layui-icon layui-icon-specil">&#xe609;</i>导出</button>

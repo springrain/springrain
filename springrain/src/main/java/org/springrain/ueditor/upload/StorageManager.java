@@ -1,9 +1,5 @@
 package org.springrain.ueditor.upload;
 
-import org.springrain.ueditor.define.AppInfo;
-import org.springrain.ueditor.define.BaseState;
-import org.springrain.ueditor.define.State;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -12,6 +8,9 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.apache.commons.io.FileUtils;
+import org.springrain.ueditor.define.AppInfo;
+import org.springrain.ueditor.define.BaseState;
+import org.springrain.ueditor.define.State;
 
 public class StorageManager {
 	public static final int BUFFER_SIZE = 8192;
