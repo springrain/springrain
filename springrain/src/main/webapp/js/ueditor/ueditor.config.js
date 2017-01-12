@@ -357,8 +357,7 @@
         //var _h=getBasePath(docUrl || self.document.URL || self.location.href, confUrl || getConfigFilePath());
     	/*var _h=getBasePath(docUrl || self.document.URL || self.location.href, "");
     	return _h;*/
-    	//return ctx+"/";
-    	return "http://cxy.wxyapp.com/springrain/";
+    	return ctx+"/";
     }
 
     function getConfigFilePath() {
