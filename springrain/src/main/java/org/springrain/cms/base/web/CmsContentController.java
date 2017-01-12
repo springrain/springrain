@@ -146,8 +146,10 @@ public class CmsContentController  extends BaseController {
 			java.lang.String id =cmsContent.getId();
 			if(StringUtils.isBlank(id)){
 			  cmsContent.setId(null);
+			  cmsContentService.saveContent(cmsContent);
+			}else{
+				cmsContentService.updateCmsContent(cmsContent);
 			}
-			cmsContentService.saveorupdate(cmsContent);
 		} catch (Exception e) {
 			String errorMessage = e.getLocalizedMessage();
 			logger.error(errorMessage);
