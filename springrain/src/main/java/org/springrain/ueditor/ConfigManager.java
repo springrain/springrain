@@ -8,11 +8,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.util.ResourceUtils;
+import org.springrain.frame.util.JsonUtils;
 import org.springrain.ueditor.define.ActionMap;
 
 
@@ -25,7 +25,7 @@ public final class ConfigManager {
 
 	private final String rootPath;
 	private static final String configFileName = "config.json";
-	private JSONObject jsonConfig = null;
+	private Map<String,Object> jsonConfig = null;
 	// 涂鸦上传filename定义
 	private final static String SCRAWL_FILE_NAME = "scrawl";
 	// 远程图片抓取filename定义
@@ -66,7 +66,7 @@ public final class ConfigManager {
 		return this.jsonConfig != null;
 	}
 	
-	public JSONObject getAllConfig () {
+	public Map<String,Object> getAllConfig () {
 		
 		return this.jsonConfig;
 		
@@ -81,60 +81,90 @@ public final class ConfigManager {
 		
 			case ActionMap.UPLOAD_FILE:
 				conf.put( "isBase64", "false" );
-				conf.put( "maxSize", this.jsonConfig.getLong( "fileMaxSize" ) );
-				conf.put( "allowFiles", this.getArray( "fileAllowFiles" ) );
-				conf.put( "fieldName", this.jsonConfig.getString( "fileFieldName" ) );
-				savePath = this.jsonConfig.getString( "filePathFormat" );
+				//conf.put( "maxSize", jsonConfig.getLong( "fileMaxSize" ) );
+				conf.put( "maxSize", Long.valueOf(jsonConfig.get("fileMaxSize").toString()) );
+				
+				conf.put( "allowFiles", getArray( "fileAllowFiles" ) );
+				
+				//conf.put( "fieldName", jsonConfig.getString( "fileFieldName" ) );
+				//savePath = jsonConfig.getString( "filePathFormat" );
+				
+				conf.put( "fieldName", jsonConfig.get( "fileFieldName" ).toString() );
+				savePath = jsonConfig.get( "filePathFormat" ).toString();
+				
+				
+				
 				break;
 				
 			case ActionMap.UPLOAD_IMAGE:
 				conf.put( "isBase64", "false" );
-				conf.put( "maxSize", this.jsonConfig.getLong( "imageMaxSize" ) );
-				conf.put( "allowFiles", this.getArray( "imageAllowFiles" ) );
-				conf.put( "fieldName", this.jsonConfig.getString( "imageFieldName" ) );
-				savePath = this.jsonConfig.getString( "imagePathFormat" );
+				
+				//conf.put( "maxSize", jsonConfig.getLong( "imageMaxSize" ) );
+				
+				conf.put( "maxSize", Long.valueOf(jsonConfig.get("imageMaxSize").toString())  );
+				conf.put( "allowFiles", getArray( "imageAllowFiles" ) );
+				conf.put( "fieldName", jsonConfig.get( "imageFieldName" ).toString() );
+				savePath = jsonConfig.get( "imagePathFormat" ).toString();
 				break;
 				
 			case ActionMap.UPLOAD_VIDEO:
-				conf.put( "maxSize", this.jsonConfig.getLong( "videoMaxSize" ) );
-				conf.put( "allowFiles", this.getArray( "videoAllowFiles" ) );
-				conf.put( "fieldName", this.jsonConfig.getString( "videoFieldName" ) );
-				savePath = this.jsonConfig.getString( "videoPathFormat" );
+				//conf.put( "maxSize", jsonConfig.getLong( "videoMaxSize" ) );
+				
+				conf.put( "maxSize",  Long.valueOf(jsonConfig.get("videoMaxSize").toString())  );
+				conf.put( "allowFiles", getArray( "videoAllowFiles" ) );
+				
+				conf.put( "fieldName", jsonConfig.get( "videoFieldName" ).toString() );
+				savePath = jsonConfig.get( "videoPathFormat" ).toString();
 				break;
 				
 			case ActionMap.UPLOAD_SCRAWL:
 				conf.put( "filename", ConfigManager.SCRAWL_FILE_NAME );
-				conf.put( "maxSize", this.jsonConfig.getLong( "scrawlMaxSize" ) );
-				conf.put( "fieldName", this.jsonConfig.getString( "scrawlFieldName" ) );
+				//conf.put( "maxSize", jsonConfig.getLong( "scrawlMaxSize" ) );
+				
+				conf.put( "maxSize", Long.valueOf(jsonConfig.get("scrawlMaxSize").toString()));
+				conf.put( "fieldName", jsonConfig.get( "scrawlFieldName" ).toString() );
 				conf.put( "isBase64", "true" );
-				savePath = this.jsonConfig.getString( "scrawlPathFormat" );
+				savePath = jsonConfig.get( "scrawlPathFormat" ).toString();
 				break;
 				
 			case ActionMap.CATCH_IMAGE:
 				conf.put( "filename", ConfigManager.REMOTE_FILE_NAME );
-				conf.put( "filter", this.getArray( "catcherLocalDomain" ) );
-				conf.put( "maxSize", this.jsonConfig.getLong( "catcherMaxSize" ) );
-				conf.put( "allowFiles", this.getArray( "catcherAllowFiles" ) );
-				conf.put( "fieldName", this.jsonConfig.getString( "catcherFieldName" ) + "[]" );
-				savePath = this.jsonConfig.getString( "catcherPathFormat" );
+				conf.put( "filter",getArray( "catcherLocalDomain" ) );
+				//conf.put( "maxSize", jsonConfig.getLong( "catcherMaxSize" ) );
+				
+				conf.put( "maxSize",  Long.valueOf(jsonConfig.get("catcherMaxSize").toString()) );
+				
+				
+				
+				conf.put( "allowFiles", getArray( "catcherAllowFiles" ) );
+				conf.put( "fieldName", jsonConfig.get( "catcherFieldName" ).toString() + "[]" );
+				savePath = jsonConfig.get( "catcherPathFormat" ).toString();
 				break;
 				
 			case ActionMap.LIST_IMAGE:
-				conf.put( "allowFiles", this.getArray( "imageManagerAllowFiles" ) );
-				conf.put( "dir", this.jsonConfig.getString( "imageManagerListPath" ) );
-				conf.put( "count", this.jsonConfig.getInt( "imageManagerListSize" ) );
+				conf.put( "allowFiles", getArray( "imageManagerAllowFiles" ) );
+				conf.put( "dir", jsonConfig.get( "imageManagerListPath" ).toString() );
+				//conf.put( "count", jsonConfig.getInt( "imageManagerListSize" ) );
+				
+				
+				conf.put( "count", Integer.valueOf(jsonConfig.get("imageManagerListSize").toString())  );
+				
 				break;
 				
 			case ActionMap.LIST_FILE:
-				conf.put( "allowFiles", this.getArray( "fileManagerAllowFiles" ) );
-				conf.put( "dir", this.jsonConfig.getString( "fileManagerListPath" ) );
-				conf.put( "count", this.jsonConfig.getInt( "fileManagerListSize" ) );
+				conf.put( "allowFiles", getArray( "fileManagerAllowFiles" ) );
+				conf.put( "dir", jsonConfig.get( "fileManagerListPath" ).toString() );
+				//conf.put( "count", jsonConfig.getInt( "fileManagerListSize" ) );
+				
+				conf.put( "count", Integer.valueOf(jsonConfig.get("fileManagerListSize").toString())  );
+				
+				
 				break;
 				
 		}
 		
 		conf.put( "savePath", savePath );
-		conf.put( "rootPath", this.rootPath );
+		conf.put( "rootPath", rootPath );
 		
 		return conf;
 		
@@ -152,8 +182,7 @@ public final class ConfigManager {
 		String configContent = this.readFile(file);
 		
 		try{
-			JSONObject jsonConfig = new JSONObject( configContent );
-			this.jsonConfig = jsonConfig;
+			this.jsonConfig = JsonUtils.readValue(configContent, HashMap.class);
 		} catch ( Exception e ) {
 			this.jsonConfig = null;
 		}
@@ -163,13 +192,12 @@ public final class ConfigManager {
 
 	private String[] getArray ( String key ) {
 		
-		JSONArray jsonArray = this.jsonConfig.getJSONArray( key );
-		String[] result = new String[ jsonArray.length() ];
+		List<String> resultList =(List<String>) jsonConfig.get(key);
 		
-		for ( int i = 0, len = jsonArray.length(); i < len; i++ ) {
-			result[i] = jsonArray.getString( i );
+		if(resultList==null){
+			return null;
 		}
-		
+		String[] result = resultList.toArray(new String[resultList.size()]); 
 		return result;
 		
 	}
