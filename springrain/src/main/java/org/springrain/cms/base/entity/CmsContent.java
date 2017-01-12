@@ -87,7 +87,11 @@ public class CmsContent  extends BaseEntity {
 	 * 来源地址
 	 */
 	private java.lang.String sourceurl;
-
+	/**
+	 * 摘要
+	 */
+	private java.lang.String summary;
+	
 	//columns END 数据库字段结束
 	
 	//站点ID
@@ -251,13 +255,22 @@ public class CmsContent  extends BaseEntity {
 	}
 	
      
-     
+ 	 @WhereSQL(sql="summary=:CmsContent_summary")
+	public java.lang.String getSummary() {
+		return summary;
+	}
+
+	public void setSummary(java.lang.String summary) {
+		this.summary = summary;
+	}
+
 	public String toString() {
 		return new StringBuffer()
 			.append("ID[").append(getId()).append("],")
 			.append("title[").append(getTitle()).append("],")
 			.append("关键字[").append(getKeywords()).append("],")
 			.append("描述[").append(getDescription()).append("],")
+			.append("摘要[").append(getSummary()).append("],")
 			.append("小标题[").append(getMintitle()).append("],")
 			.append("打开次数[").append(getLookcount()).append("],")
 			.append("创建人[").append(getCreatePerson()).append("],")

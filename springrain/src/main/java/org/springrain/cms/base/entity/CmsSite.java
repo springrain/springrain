@@ -116,11 +116,18 @@ public class CmsSite  extends BaseEntity {
 	 * 修改时间
 	 */
 	private java.util.Date modifyTime;
+	
+	/**
+	 * springbeanid
+	 */
+	private java.lang.String springbeanid;
 	//columns END 数据库字段结束
 	
 	
 	
 	//concstructor
+
+	
 
 	public CmsSite(){
 	}
@@ -316,7 +323,14 @@ public class CmsSite  extends BaseEntity {
 	public void setModifyTime(java.util.Date modifyTime) {
 		this.modifyTime = modifyTime;
 	}
+	@WhereSQL(sql="springbeanid=:CmsSite_springbeanid")
+	public java.lang.String getSpringbeanid() {
+		return springbeanid;
+	}
 
+	public void setSpringbeanid(java.lang.String springbeanid) {
+		this.springbeanid = springbeanid;
+	}
 	public String toString() {
 		return new StringBuffer()
 			.append("id[").append(getId()).append("],")

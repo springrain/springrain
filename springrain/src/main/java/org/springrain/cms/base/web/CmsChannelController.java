@@ -16,7 +16,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springrain.cms.base.entity.CmsChannel;
-import org.springrain.cms.base.entity.CmsSite;
 import org.springrain.cms.base.service.ICmsChannelService;
 import org.springrain.cms.base.service.ICmsSiteService;
 import org.springrain.frame.common.SessionUser;

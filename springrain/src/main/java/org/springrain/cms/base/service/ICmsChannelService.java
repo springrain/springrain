@@ -48,5 +48,5 @@ public interface ICmsChannelService extends IBaseSpringrainService {
 	 * @throws Exception
 	 */
 	List<CmsChannel> findTreeByPid(String pid,String siteId)throws Exception;
-	
+
 }

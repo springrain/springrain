@@ -2,7 +2,9 @@ package  org.springrain.cms.base.web;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -11,13 +13,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+import org.springrain.cms.base.entity.CmsChannel;
 import org.springrain.cms.base.entity.CmsContent;
+import org.springrain.cms.base.service.ICmsChannelService;
 import org.springrain.cms.base.service.ICmsContentService;
+import org.springrain.cms.base.service.ICmsSiteService;
+import org.springrain.frame.common.SessionUser;
 import org.springrain.frame.controller.BaseController;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.MessageUtils;
@@ -37,10 +40,12 @@ import org.springrain.frame.util.ReturnDatas;
 public class CmsContentController  extends BaseController {
 	@Resource
 	private ICmsContentService cmsContentService;
+	@Resource
+	private ICmsSiteService cmsSiteService;
+	@Resource
+	private ICmsChannelService cmsChannelService;
 	
 	private String listurl="/cms/content/contentList";
-	
-	
 	   
 	/**
 	 * 列表数据,调用listjson方法,保证和app端数据统一
@@ -114,9 +119,15 @@ public class CmsContentController  extends BaseController {
 		java.lang.String id=request.getParameter("id");
 		if(StringUtils.isNotBlank(id)){
 		  CmsContent cmsContent = cmsContentService.findCmsContentById(id);
-		   returnObject.setData(cmsContent);
+		  Map<String, Object> map = new HashMap<String, Object>();
+		  map.put("siteList", cmsSiteService.findSiteByUserId(SessionUser.getUserId()));
+		  returnObject.setMap(map);
+		  returnObject.setData(cmsContent);
 		}else{
-		returnObject.setStatus(ReturnDatas.ERROR);
+			 Map<String, Object> map = new HashMap<String, Object>();
+			 map.put("siteList", cmsSiteService.findSiteByUserId(SessionUser.getUserId()));
+			 returnObject.setMap(map);
+			 returnObject.setStatus(ReturnDatas.ERROR);
 		}
 		return returnObject;
 	}
@@ -205,8 +216,25 @@ public class CmsContentController  extends BaseController {
 		}
 		return new ReturnDatas(ReturnDatas.SUCCESS,
 				MessageUtils.DELETE_ALL_SUCCESS);
-		
-		
 	}
-
+	
+	/**
+	 * 获取栏目列表
+	 * */
+	@RequestMapping("/channelList")
+	public @ResponseBody ReturnDatas channelList(HttpServletRequest request){
+		ReturnDatas returnDatas=ReturnDatas.getSuccessReturnDatas();
+		String siteId = request.getParameter("siteId");
+		try {
+			List<CmsChannel> channelList = cmsChannelService.findTreeChannel(siteId);
+			returnDatas.setData(channelList);
+			return returnDatas;
+		} catch (Exception e) {
+			returnDatas.setMessage("系统异常");
+			returnDatas.setStatus(ReturnDatas.ERROR);
+			returnDatas.setStatusCode("500");
+			return returnDatas;
+		}
+	}
+	
 }

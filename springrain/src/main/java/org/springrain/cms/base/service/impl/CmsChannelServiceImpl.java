@@ -178,13 +178,13 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 		if(CollectionUtils.isEmpty(list)){
 			return null;
 		}
-		List<CmsChannel> wrapList=new ArrayList<CmsChannel>();
+		/*List<CmsChannel> wrapList=new ArrayList<CmsChannel>();
 		diguiwrapList(list, wrapList, null);
 		
-		return wrapList;
+		return wrapList;*/
+		return list;
 	}
 	@Override
-	@Cacheable(value = GlobalStatic.cacheKey, key = "'findTreeChannel_'+#siteId")
 	public List<CmsChannel> findTreeChannel(String siteId) throws Exception {
 		return findTreeByPid(null, siteId);
 	}
@@ -218,7 +218,6 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 		for(int i=0;i<from.size();i++){
 			CmsChannel m=from.get(i);
 			if(m==null){
-
 				continue;
 			}
 		
