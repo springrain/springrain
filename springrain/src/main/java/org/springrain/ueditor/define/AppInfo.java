@@ -27,7 +27,12 @@ public final class AppInfo {
 	
 	public static final int ILLEGAL = 401;
 
-	public static Map<Integer, String> info = new HashMap<Integer, String>(){{
+	public static Map<Integer, String> info = new HashMap<Integer, String>(){/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+	{
 		
 		put( AppInfo.SUCCESS, "SUCCESS" );
 		

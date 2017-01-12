@@ -36,11 +36,12 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 	
 	@Resource
 	private ICmsLinkService cmsLinkService;
-	
+
 	@Override
 	public Object saveorupdate(Object entity) throws Exception {
 		CmsContent cmsContent = (CmsContent) entity;
 		cmsContent.setCreateDate(new Date());
+		
 		return super.saveorupdate(cmsContent);
 	}
 	
