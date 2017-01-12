@@ -648,9 +648,10 @@ function init_valid(_before,_after){
 		}
 	});
 }
-function delWrap(_id,_url){
+function delWrap(_id,_url,_tips){
 	var _pars={"id":_id};
-	layer.confirm('是否删除?', {icon: 3, title:'提示'}, function(index){
+	_tips=_tips?_tips:'是否删除?';
+	layer.confirm(_tips, {icon: 3, title:'提示'}, function(index){
 		  jQuery.ajax({
 			  url:_url,
 			  type:"post",

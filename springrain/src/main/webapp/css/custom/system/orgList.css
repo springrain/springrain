@@ -3,18 +3,30 @@
 .ztree li {line-height:30px;}
 .ztree li a {width:200px;height:30px;padding-top: 0px;}
 .ztree li a:hover {text-decoration:none; background-color: #E7E7E7;}
-.ztree li a span.button.switch {visibility:hidden}
-.ztree.showIcon li a span.button.switch {visibility:visible}
+ 
+ 
 .ztree li a.curSelectedNode {background-color:#D4D4D4;border:0;height:30px;}
 .ztree li span {line-height:30px;}
 .ztree li span.button {margin-top: -7px;}
 .ztree li span.button.switch {width: 16px;height: 16px;}
 
-.ztree li a.level0 span {font-size: 150%;font-weight: bold;}
-.ztree li span.button {background-image:url("../../../js/ztree/img/left_menuForOutLook.png"); *background-image:url("../../../js/ztree/img/left_menuForOutLook.gif")}
+.ztree li a.level0 span {font-size: 16px;}
+.ztree li span.button {position:relative;background:none;font-family: layui-icon!important;font-size: 16px;font-style: normal;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;}
+.ztree li span.button:after{position:absolute;top:12px;}
+.ztree li span.button:before{position:absolute;top:12px;right:-14px;}
+.ztree li span.button.level1:before{top:13px!important;right:-14px;}
+.ztree li span.button.level1:after{top:14px!important;}
 .ztree li span.button.switch.level0 {width: 20px; height:20px}
-.ztree li span.button.switch.level1 {width: 20px; height:20px}
-.ztree li span.button.noline_open {background-position: 0 0;}
-.ztree li span.button.noline_close {background-position: -18px 0;}
-.ztree li span.button.noline_open.level0 {background-position: 0 -18px;}
-.ztree li span.button.noline_close.level0 {background-position: -18px -18px;}
+.ztree li span{margin-left:14px;}
+.ztree li .level1 span{margin-left:10px;}
+.ztree li .level2 span{margin-left:10px;}
+.ztree li span.button.switch.level1 {width: 20px; height:20px;}
+
+
+.ztree li span.button.noline_open:after {content:"\e625";}
+.ztree li span.button.noline_close:after {content:"\e623";}
+
+.ztree li span.button.noline_open:before {content:"\e624";}
+.ztree li span.button.noline_close:before {content:"\e622";}
+
+.ztree li span.button.noline_docu:after{content:"\e621";top:10px;right:-14px;}
