@@ -1,8 +1,9 @@
 package org.springrain.ueditor.upload;
 
-import org.springrain.ueditor.define.State;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+
+import org.springrain.ueditor.define.State;
 
 public class Uploader {
 	private HttpServletRequest request = null;

@@ -1,14 +1,13 @@
 package org.springrain.ueditor.upload;
 
+import java.util.Map;
+
+import org.apache.commons.codec.binary.Base64;
 import org.springrain.ueditor.PathFormat;
 import org.springrain.ueditor.define.AppInfo;
 import org.springrain.ueditor.define.BaseState;
 import org.springrain.ueditor.define.FileType;
 import org.springrain.ueditor.define.State;
-
-import java.util.Map;
-
-import org.apache.commons.codec.binary.Base64;
 
 public final class Base64Uploader {
 

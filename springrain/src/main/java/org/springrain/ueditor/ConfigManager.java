@@ -62,7 +62,6 @@ public final class ConfigManager {
 		try {
 			return new ConfigManager(rootPath, contextPath, uri);
 		} catch ( Exception e ) {
-			e.printStackTrace();
 			return null;
 		}
 		
@@ -194,7 +193,6 @@ public final class ConfigManager {
 		try{
 			jsonConfig = JsonUtils.readValue(configContent, HashMap.class);
 		} catch ( Exception e ) {
-			e.printStackTrace();
 			jsonConfig = null;
 		}
 		
@@ -232,7 +230,6 @@ public final class ConfigManager {
 			
 		} catch ( UnsupportedEncodingException e ) {
 			// 忽略
-			e.printStackTrace();
 		}
 		
 		return filter( builder.toString() );

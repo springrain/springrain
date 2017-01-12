@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
-
 import org.springrain.ueditor.PathFormat;
 import org.springrain.ueditor.define.AppInfo;
 import org.springrain.ueditor.define.BaseState;
