@@ -180,7 +180,7 @@ public final class ConfigManager {
 		
 		//File file = new File( originalPath );
 		
-		File file = ResourceUtils.getFile("classpath:config.json"); 
+		File file = ResourceUtils.getFile("classpath:"+configFileName); 
 		
 		if ( !file.isAbsolute() ) {
 			file = new File( file.getAbsolutePath() );
@@ -188,7 +188,7 @@ public final class ConfigManager {
 		
 		parentPath = file.getParent();
 		
-		String configContent = readFile( getConfigPath() );
+		String configContent = readFile( file );
 		
 		try{
 			jsonConfig = JsonUtils.readValue(configContent, HashMap.class);
@@ -198,9 +198,7 @@ public final class ConfigManager {
 		
 	}
 	
-	private String getConfigPath () {
-		return parentPath + File.separator + ConfigManager.configFileName;
-	}
+	
 
 	private String[] getArray ( String key ) {
 		
@@ -213,13 +211,13 @@ public final class ConfigManager {
 		
 	}
 	
-	private String readFile ( String path ) throws IOException {
+	private String readFile ( File file ) throws IOException {
 		
 		StringBuilder builder = new StringBuilder();
 		
 		try {
 			
-			InputStreamReader reader = new InputStreamReader( new FileInputStream( path ), "UTF-8" );
+			InputStreamReader reader = new InputStreamReader( new FileInputStream( file ), "UTF-8" );
 			BufferedReader bfReader = new BufferedReader( reader );
 			
 			String tmpContent = null;
