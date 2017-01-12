@@ -14,7 +14,14 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-
+	<servlet>
+	    <servlet-name>ueditor</servlet-name>
+	    <servlet-class>org.springrain.servlet.UeditorConfig</servlet-class>
+  	</servlet>
+	<servlet-mapping>
+	    <servlet-name>ueditor</servlet-name>
+	    <url-pattern>/ueditorConfig/init</url-pattern>
+ 	</servlet-mapping>
 	<servlet>
 		<servlet-name>springrain</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>

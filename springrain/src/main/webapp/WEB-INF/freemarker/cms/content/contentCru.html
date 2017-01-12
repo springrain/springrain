@@ -3,10 +3,18 @@ description="springrain开源系统管理后台"/>
 
 
 <script src="${ctx}/js/validform/validform.min.js"></script>
+<script src="${ctx}/js/ueditor/ueditor.config.js"></script>
+<script src="${ctx}/js/ueditor/ueditor.all.js"></script>
 <link rel="stylesheet" href="${ctx}/js/validform/validform.css"
 	media="all">
 <script>
+	
+
 	 jQuery(function(){
+		 var ue = UE.getEditor('container',{
+				autoHeight: false
+		});
+		 
 		 /*
 		 init_valid(_before,_after)
 		 @_before:提交表单前，调用 的函数   可以为空，一般有validform处理不了，独自进行处理时使用
@@ -89,9 +97,11 @@ description="springrain开源系统管理后台"/>
 									<div class="layui-form-item col-lg-6">
 										<label class="layui-form-label">内容*</label>
 										<div class="layui-inline col-lg-5">
-											<input type="text" name="content" id="content" datatype="*"
+											<script id="container" name="content" type="text/plain">请填写内容</script>
+											
+											<!-- <input type="text" name="content" id="content" datatype="*"
 												nullmsg="不能为空" errormsg="不能为空！" autocomplete="off"
-												class="layui-input" value="${(returnDatas.data.content)!''}">
+												class="layui-input" value="${(returnDatas.data.content)!''}"> -->
 										</div>
 										<div class="layui-inline valid-info"></div>
 									</div>
