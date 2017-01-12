@@ -136,9 +136,11 @@ public class CmsChannel  extends BaseEntity {
 		return this.name;
 	}
 	public void setPid(java.lang.String value) {
-		    if(StringUtils.isNotBlank(value)){
-			 value=value.trim();
-			}
+	    if(StringUtils.isNotBlank(value)){
+	    	value=value.trim();
+		}else{
+			value=null;
+		}
 		this.pid = value;
 	}
 	

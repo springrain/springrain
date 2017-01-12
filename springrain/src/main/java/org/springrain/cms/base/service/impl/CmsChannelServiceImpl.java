@@ -178,11 +178,10 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 		if(CollectionUtils.isEmpty(list)){
 			return null;
 		}
-		/*List<CmsChannel> wrapList=new ArrayList<CmsChannel>();
+		List<CmsChannel> wrapList=new ArrayList<CmsChannel>();
 		diguiwrapList(list, wrapList, null);
 		
-		return wrapList;*/
-		return list;
+		return wrapList;
 	}
 	@Override
 	public List<CmsChannel> findTreeChannel(String siteId) throws Exception {
