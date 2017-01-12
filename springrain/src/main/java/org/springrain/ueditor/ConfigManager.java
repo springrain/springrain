@@ -12,8 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.util.ResourceUtils;
 import org.springrain.frame.util.JsonUtils;
-
 import org.springrain.ueditor.define.ActionMap;
 
 /**
@@ -178,7 +178,9 @@ public final class ConfigManager {
 	
 	private void initEnv () throws FileNotFoundException, IOException {
 		
-		File file = new File( originalPath );
+		//File file = new File( originalPath );
+		
+		File file = ResourceUtils.getFile("classpath:config.json"); 
 		
 		if ( !file.isAbsolute() ) {
 			file = new File( file.getAbsolutePath() );
