@@ -87,7 +87,7 @@ public class UeditorConfig implements java.io.Serializable {
    
    
    
-   
+   private Integer listFileSize=20;
     
     
     
@@ -334,4 +334,14 @@ public class UeditorConfig implements java.io.Serializable {
     public void setFileManagerAllowFiles(String[] fileManagerAllowFiles) {
         this.fileManagerAllowFiles = fileManagerAllowFiles;
     }
+
+
+	public Integer getListFileSize() {
+		return listFileSize;
+	}
+
+
+	public void setListFileSize(Integer listFileSize) {
+		this.listFileSize = listFileSize;
+	}
 }

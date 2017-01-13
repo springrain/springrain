@@ -2,7 +2,10 @@ package org.springrain.ueditor;
 
 import java.io.File;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -57,9 +60,12 @@ public class UeditorController extends BaseController {
     	}else if(UeditorConfig.ACTION_UPLOAD_SCRAWL.equalsIgnoreCase(action)){
        		fileuploadpath=fileuploadpath+"scrawl/";
     		obj=uploadScrawl(requestfile, fileuploadpath);
-    	}else if(UeditorConfig.ACTION_UPLOAD_SCRAWL.equalsIgnoreCase(action)){
-       		fileuploadpath=fileuploadpath+"scrawl/";
-    		obj=upload(requestfile, fileuploadpath);
+    	}else if(UeditorConfig.ACTION_LISTFILE.equalsIgnoreCase(action)){
+       		fileuploadpath=fileuploadpath+"file/";
+    		obj=listFile(requestfile, fileuploadpath,config);
+    	}else if(UeditorConfig.ACTION_LISTIMAGE.equalsIgnoreCase(action)){
+       		fileuploadpath=fileuploadpath+"image/";
+    		obj=listFile(requestfile, fileuploadpath,config);
     	}else{
     		return getResultMap(false);
     	}
@@ -115,8 +121,6 @@ public class UeditorController extends BaseController {
         
         org.apache.commons.io.FileUtils.writeByteArrayToFile(file, decodeBase64);
         
-    	//保存到文件
-        
         Map<String, Object> map = getResultMap(true);
         map.put("size", decodeBase64.length);
         map.put("title", file.getName());
@@ -127,8 +131,59 @@ public class UeditorController extends BaseController {
     }
     
     
-    
-    
+  public Map<String, Object> listFile(HttpServletRequest request,String fileuploadpath,UeditorConfig config) throws Exception {
+	  
+	  
+	    String start_str = request.getParameter("start");
+	    
+	    if(StringUtils.isBlank(start_str)){
+	    	return getResultMap(false);
+	    }
+	    
+	    int index=Integer.valueOf(start_str);
+	    
+	    File dir=new  File(FileUtils.getRootDir()+fileuploadpath);
+
+		File[] list = dir.listFiles();
+		
+		if(list==null||list.length<1){
+			return getResultMap(false);
+		}
+		
+		Map<String, Object> resultMap = getResultMap(true);
+		
+		Integer count = config.getListFileSize();
+		
+		if ( index < 0 || index > list.length ) {
+			return resultMap;
+		}
+	     
+		Object[] fileList = Arrays.copyOfRange(list, index, index + count);
+		if(fileList==null||fileList.length<1){
+			return resultMap;
+		}
+		
+		List<Map<String,String>> listUrl=new ArrayList<Map<String,String>>(fileList.length);
+		
+		for(Object o:fileList){
+			if(o==null){
+				break;
+			}
+			
+			File f=(File) o;
+			
+			String url=f.getName();
+			Map<String,String> map=new HashMap<String,String>();
+			map.put("url", url);
+			listUrl.add(map);
+		}
+		
+		resultMap.put("list",listUrl);
+		resultMap.put("start", index );
+		resultMap.put("total", list.length );
+	    
+    	return  resultMap;
+    }
     
 	
     private Map<String, Object> getResultMap(boolean success) {
