@@ -79,7 +79,7 @@
 .w23{width:910px;}
 .w24{width:950px;}
 .container-fluid{width:100%;margin:0 auto;}
-.container-fluid .row{width:100%;margin-bottom:10px;;background:#fff;padding:20px 20px;}
+.container-fluid .row{width:100%;margin-bottom:10px;;background:#fff;padding:20px 20px;border: 1px solid #e2e2e2;}
 .container-fluid .row:before,
 .container-fluid .row:after{display:table;line-height:0;content:"";}
 .container-fluid .row:after{clear:both;}
@@ -2398,3 +2398,6 @@ h6{margin-bottom:10px;}
 .w-296{width:296px;}
 .w-298{width:298px;}
 .w-300{width:300px;}
+/*hyy add*/
+.rlt{position:relative;}
+.line-vertical{border-left:1px solid #e2e2e2;height:90%;top:5%;position:absolute;left:30px;}

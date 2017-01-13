@@ -12,7 +12,7 @@ $.fn.select2Remote = function(options)
             dataType: 'json',
             quietMillis: opts.delay ,
             data: function (params) {return {q: params.term,page: params.page};},
-            results: function (data, page) { return {results: data};}
+            processResults: function (data, page) { return {results: data};}
         },
         initSelection: function(element, callback) {
 	            var id=$(element).val();
@@ -25,8 +25,8 @@ $.fn.select2Remote = function(options)
 					 }); 
 		         }
         },
-        formatResult: function(obj){return obj[opts.textField]},
-        formatSelection:function(obj){return obj[opts.textField]},
+        templateResult: function(obj){return obj[opts.textField]},
+        templateSelection:function(obj){return obj[opts.textField]},
         dropdownCssClass: "bigdrop",
         escapeMarkup: function (m) { return m; }
     });

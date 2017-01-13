@@ -1,6 +1,6 @@
 ${r"<#escape x as x?html>"}
 ${r"<@h.commonHead"} title="后台管理系统" keywords="开源,永久免费" description="springrain开源系统管理后台"/>
-
+<script src="${ctx}/js/custom/common/form.js"></script>
 <#assign className = table.className>   
 <#assign tableName = table.tableAlias>   
 <#assign classNameLower = className?uncap_first>  
