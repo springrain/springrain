@@ -7,7 +7,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +14,7 @@ import java.util.Map;
 import org.springframework.util.ResourceUtils;
 import org.springrain.frame.util.JsonUtils;
 import org.springrain.ueditor.define.ActionMap;
+
 
 /**
  * 配置管理器
@@ -24,9 +24,7 @@ import org.springrain.ueditor.define.ActionMap;
 public final class ConfigManager {
 
 	private final String rootPath;
-	private final String originalPath;
 	private static final String configFileName = "config.json";
-	//private String parentPath = null;
 	private Map<String,Object> jsonConfig = null;
 	// 涂鸦上传filename定义
 	private final static String SCRAWL_FILE_NAME = "scrawl";
@@ -39,12 +37,8 @@ public final class ConfigManager {
 	private ConfigManager ( String rootPath, String contextPath, String uri ) throws FileNotFoundException, IOException {
 		
 		rootPath = rootPath.replace( "\\", "/" );
+		
 		this.rootPath = rootPath;
-		if ( contextPath.length() > 0 ) {
-			this.originalPath = this.rootPath + uri.substring( contextPath.length() );
-		} else {
-			this.originalPath = this.rootPath + uri;
-		}
 		
 		this.initEnv();
 		
@@ -62,7 +56,6 @@ public final class ConfigManager {
 		try {
 			return new ConfigManager(rootPath, contextPath, uri);
 		} catch ( Exception e ) {
-			e.printStackTrace();
 			return null;
 		}
 		
@@ -70,12 +63,12 @@ public final class ConfigManager {
 	
 	// 验证配置文件加载是否正确
 	public boolean valid () {
-		return jsonConfig != null;
+		return this.jsonConfig != null;
 	}
 	
 	public Map<String,Object> getAllConfig () {
 		
-		return jsonConfig;
+		return this.jsonConfig;
 		
 	}
 	
@@ -179,37 +172,33 @@ public final class ConfigManager {
 	
 	private void initEnv () throws FileNotFoundException, IOException {
 		
-		//File file = new File( originalPath );
+		//File file = new File( this.originalPath );
 		
-		File file = ResourceUtils.getFile("classpath:"+configFileName); 
+		File file = ResourceUtils.getFile("classpath:"+configFileName);
 		
 		if ( !file.isAbsolute() ) {
 			file = new File( file.getAbsolutePath() );
 		}
-		
-		//parentPath = file.getParent();
-		
-		String configContent = readFile( file );
+		String configContent = this.readFile(file);
 		
 		try{
-			jsonConfig = JsonUtils.readValue(configContent, HashMap.class);
+			this.jsonConfig = JsonUtils.readValue(configContent, HashMap.class);
 		} catch ( Exception e ) {
-			e.printStackTrace();
-			jsonConfig = null;
+			this.jsonConfig = null;
 		}
 		
 	}
 	
-	
 
 	private String[] getArray ( String key ) {
 		
+		List<String> resultList =(List<String>) jsonConfig.get(key);
 		
-		String content=jsonConfig.get(key).toString();
-		 List<String> readValues = (List<String>) JsonUtils.readValues(content, ArrayList.class, String.class);
-		 String[] array = (String[]) readValues.toArray();
-		
-		return array;
+		if(resultList==null){
+			return null;
+		}
+		String[] result = resultList.toArray(new String[resultList.size()]); 
+		return result;
 		
 	}
 	
@@ -232,10 +221,9 @@ public final class ConfigManager {
 			
 		} catch ( UnsupportedEncodingException e ) {
 			// 忽略
-			e.printStackTrace();
 		}
 		
-		return filter( builder.toString() );
+		return this.filter( builder.toString() );
 		
 	}
 	

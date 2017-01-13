@@ -10,7 +10,6 @@
  **************************提示********************************/
 
 (function () {
-
     /**
      * 编辑器资源文件根路径。它所表示的含义是：以编辑器实例化页面为当前路径，指向编辑器资源文件（即dialog等文件夹）的路径。
      * 鉴于很多同学在使用编辑器的时候出现的种种路径问题，此处强烈建议大家使用"相对于网站根目录的相对路径"进行配置。
@@ -32,20 +31,29 @@
         // 服务器统一请求接口路径
         , serverUrl: URL + "ueditorConfig/init"
 
-        //工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的重新定义
-        , toolbars: [[
-            'fullscreen', 'source', '|', 'undo', 'redo', '|',
+        //工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的从新定义
+      /*  , toolbars: [[
+            'fullscreen', '|', 'undo', 'redo', '|',
             'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
             'rowspacingtop', 'rowspacingbottom', 'lineheight', '|',
             'customstyle', 'paragraph', 'fontfamily', 'fontsize', '|',
             'directionalityltr', 'directionalityrtl', 'indent', '|',
             'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
             'link', 'unlink', 'anchor', '|', 'imagenone', 'imageleft', 'imageright', 'imagecenter', '|',
-            'simpleupload', 'insertimage', 'emotion', 'scrawl', 'insertvideo', 'music', 'attachment', 'map', 'gmap', 'insertframe', 'insertcode', 'webapp', 'pagebreak', 'template', 'background', '|',
-            'horizontal', 'date', 'time', 'spechars', 'snapscreen', 'wordimage', '|',
+            'simpleupload', 'insertimage', 'emotion', 'scrawl',   'insertframe',  'pagebreak', 'template', 'background', '|',
+            'horizontal', 'date', 'time', 'spechars',  'wordimage', '|',
             'inserttable', 'deletetable', 'insertparagraphbeforetable', 'insertrow', 'deleterow', 'insertcol', 'deletecol', 'mergecells', 'mergeright', 'mergedown', 'splittocells', 'splittorows', 'splittocols', 'charts', '|',
-            'print', 'preview', 'searchreplace', 'drafts', 'help'
-        ]]
+             'searchreplace', 'drafts'
+        ]]*/
+  ,
+	toolbars : [ [ "fullscreen",'|', "source", "undo", ,'|',"redo", 'fontfamily', //字体
+	               'fontsize', "justifyleft", "justifycenter",
+					"justifyright",'|','bold',  'italic', //斜体
+        			'underline',   'removeformat',    'formatmatch', 'autotypeset','|','forecolor','backcolor', 
+					'selectall', '|','cleardoc','simpleupload', 'insertimage','inserttable', '|','horizontal', 'time', //时间
+			        'date', 'spechars','link','|','rowspacingtop', //段前距
+			        'rowspacingbottom', 'lineheight','insertorderedlist', //有序列表
+			        'insertunorderedlist' ] ]
         //当鼠标放在工具栏上时显示的tooltip提示,留空支持自动多语言配置，否则以配置值为准
         //,labelMap:{
         //    'anchor':'', 'undo':''
@@ -54,11 +62,11 @@
         //语言配置项,默认是zh-cn。有需要的话也可以使用如下这样的方式来自动多语言切换，当然，前提条件是lang文件夹下存在对应的语言文件：
         //lang值也可以通过自动获取 (navigator.language||navigator.browserLanguage ||navigator.userLanguage).toLowerCase()
         ,lang:"zh-cn"
-    	,langPath:URL +"js/ueditor/lang/"
+        ,langPath:URL +"js/ueditor/lang/"
 
         //主题配置项,默认是default。有需要的话也可以使用如下这样的方式来自动多主题切换，当然，前提条件是themes文件夹下存在对应的主题文件：
         //现有如下皮肤:default
-    	,theme:'default'
+        ,theme:'default'
         ,themePath:URL +"js/ueditor/themes/"
 
         //,zIndex : 900     //编辑器层级的基数,默认是900
@@ -293,9 +301,6 @@
         //编辑器底部距离工具栏高度(如果参数大于等于编辑器高度，则设置无效)
         //,toolbarTopOffset:400
 
-        //设置远程图片是否抓取到本地保存
-        //,catchRemoteImageEnable: true //设置是否抓取远程图片
-
         //pageBreakTag
         //分页标识符,默认是_ueditor_page_break_tag_
         //,pageBreakTag:'_ueditor_page_break_tag_'
@@ -324,7 +329,7 @@
         //表格是否可以拖拽
         //,tableDragable: true
 
-
+        //,disabledTableInTable:true  //禁止表格嵌套
 
         //sourceEditor
         //源码的查看方式,codemirror 是代码高亮，textarea是文本框,默认是codemirror
@@ -332,105 +337,26 @@
         //,sourceEditor:"codemirror"
         //如果sourceEditor是codemirror，还用配置一下两个参数
         //codeMirrorJsUrl js加载的路径，默认是 URL + "third-party/codemirror/codemirror.js"
-        //,codeMirrorJsUrl:URL + "third-party/codemirror/codemirror.js"
+        ,codeMirrorJsUrl:URL + "js/ueditor/third-party/codemirror/codemirror.js"
         //codeMirrorCssUrl css加载的路径，默认是 URL + "third-party/codemirror/codemirror.css"
-        //,codeMirrorCssUrl:URL + "third-party/codemirror/codemirror.css"
+        ,codeMirrorCssUrl:URL + "js/ueditor/third-party/codemirror/codemirror.css"
         //编辑器初始化完成后是否进入源码模式，默认为否。
         //,sourceEditorFirst:false
 
         //iframeUrlMap
         //dialog内容的路径 ～会被替换成URL,垓属性一旦打开，将覆盖所有的dialog的默认路径
         //,iframeUrlMap:{
-        //    'anchor':'~/dialogs/anchor/anchor.html',
-        //}
-
-        //allowLinkProtocol 允许的链接地址，有这些前缀的链接地址不会自动添加http
-        //, allowLinkProtocols: ['http:', 'https:', '#', '/', 'ftp:', 'mailto:', 'tel:', 'git:', 'svn:']
+        //    'anchor':'~/js/ueditor/dialogs/anchor/anchor.html',
+       //}
 
         //webAppKey 百度应用的APIkey，每个站长必须首先去百度官网注册一个key后方能正常使用app功能，注册介绍，http://app.baidu.com/static/cms/getapikey.html
         //, webAppKey: ""
-
-        //默认过滤规则相关配置项目
-        //,disabledTableInTable:true  //禁止表格嵌套
-        //,allowDivTransToP:true      //允许进入编辑器的div标签自动变成p标签
-        //,rgb2Hex:true               //默认产出的数据中的color自动从rgb格式变成16进制格式
-
-		// xss 过滤是否开启,inserthtml等操作
-		,xssFilterRules: true
-		//input xss过滤
-		,inputXssFilter: true
-		//output xss过滤
-		,outputXssFilter: true
-		// xss过滤白名单 名单来源: https://raw.githubusercontent.com/leizongmin/js-xss/master/lib/default.js
-		,whitList: {
-			a:      ['target', 'href', 'title', 'class', 'style'],
-			abbr:   ['title', 'class', 'style'],
-			address: ['class', 'style'],
-			area:   ['shape', 'coords', 'href', 'alt'],
-			article: [],
-			aside:  [],
-			audio:  ['autoplay', 'controls', 'loop', 'preload', 'src', 'class', 'style'],
-			b:      ['class', 'style'],
-			bdi:    ['dir'],
-			bdo:    ['dir'],
-			big:    [],
-			blockquote: ['cite', 'class', 'style'],
-			br:     [],
-			caption: ['class', 'style'],
-			center: [],
-			cite:   [],
-			code:   ['class', 'style'],
-			col:    ['align', 'valign', 'span', 'width', 'class', 'style'],
-			colgroup: ['align', 'valign', 'span', 'width', 'class', 'style'],
-			dd:     ['class', 'style'],
-			del:    ['datetime'],
-			details: ['open'],
-			div:    ['class', 'style'],
-			dl:     ['class', 'style'],
-			dt:     ['class', 'style'],
-			em:     ['class', 'style'],
-			font:   ['color', 'size', 'face'],
-			footer: [],
-			h1:     ['class', 'style'],
-			h2:     ['class', 'style'],
-			h3:     ['class', 'style'],
-			h4:     ['class', 'style'],
-			h5:     ['class', 'style'],
-			h6:     ['class', 'style'],
-			header: [],
-			hr:     [],
-			i:      ['class', 'style'],
-			img:    ['src', 'alt', 'title', 'width', 'height', 'id', '_src', 'loadingclass', 'class', 'data-latex'],
-			ins:    ['datetime'],
-			li:     ['class', 'style'],
-			mark:   [],
-			nav:    [],
-			ol:     ['class', 'style'],
-			p:      ['class', 'style'],
-			pre:    ['class', 'style'],
-			s:      [],
-			section:[],
-			small:  [],
-			span:   ['class', 'style'],
-			sub:    ['class', 'style'],
-			sup:    ['class', 'style'],
-			strong: ['class', 'style'],
-			table:  ['width', 'border', 'align', 'valign', 'class', 'style'],
-			tbody:  ['align', 'valign', 'class', 'style'],
-			td:     ['width', 'rowspan', 'colspan', 'align', 'valign', 'class', 'style'],
-			tfoot:  ['align', 'valign', 'class', 'style'],
-			th:     ['width', 'rowspan', 'colspan', 'align', 'valign', 'class', 'style'],
-			thead:  ['align', 'valign', 'class', 'style'],
-			tr:     ['rowspan', 'align', 'valign', 'class', 'style'],
-			tt:     [],
-			u:      [],
-			ul:     ['class', 'style'],
-			video:  ['autoplay', 'controls', 'loop', 'preload', 'src', 'height', 'width', 'class', 'style']
-		}
     };
 
     function getUEBasePath(docUrl, confUrl) {
-       // return getBasePath(docUrl || self.document.URL || self.location.href, "");
+        //var _h=getBasePath(docUrl || self.document.URL || self.location.href, confUrl || getConfigFilePath());
+    	/*var _h=getBasePath(docUrl || self.document.URL || self.location.href, "");
+    	return _h;*/
     	return ctx+"/";
     }
 

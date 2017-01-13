@@ -4,6 +4,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springrain.frame.util.JsonUtils;
 import org.springrain.ueditor.define.ActionMap;
 import org.springrain.ueditor.define.AppInfo;
 import org.springrain.ueditor.define.BaseState;
@@ -70,7 +71,7 @@ public class ActionEnter {
 		switch ( actionCode ) {
 		
 			case ActionMap.CONFIG:
-				return this.configManager.getAllConfig().toString();
+				return JsonUtils.writeValueAsString(configManager.getAllConfig());
 				
 			case ActionMap.UPLOAD_IMAGE:
 			case ActionMap.UPLOAD_SCRAWL:

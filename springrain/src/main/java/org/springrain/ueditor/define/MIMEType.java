@@ -5,12 +5,7 @@ import java.util.Map;
 
 public class MIMEType {
 
-	public static final Map<String, String> types = new HashMap<String, String>(){/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-
-	{
+	public static final Map<String, String> types = new HashMap<String, String>(){{
 		put( "image/gif", ".gif" );
 		put( "image/jpeg", ".jpg" );
 		put( "image/jpg", ".jpg" );
