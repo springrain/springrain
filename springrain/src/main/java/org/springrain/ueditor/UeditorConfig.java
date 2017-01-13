@@ -89,7 +89,9 @@ public class UeditorConfig implements java.io.Serializable {
    
    private Integer listFileSize=20;
     
-    
+   private Integer imageManagerListSize=listFileSize;
+   private Integer fileManagerListSize=listFileSize;
+   
     
     private String imageActionName;
     private String snapscreenActionName;
@@ -343,5 +345,25 @@ public class UeditorConfig implements java.io.Serializable {
 
 	public void setListFileSize(Integer listFileSize) {
 		this.listFileSize = listFileSize;
+	}
+
+
+	public Integer getImageManagerListSize() {
+		return imageManagerListSize;
+	}
+
+
+	public void setImageManagerListSize(Integer imageManagerListSize) {
+		this.imageManagerListSize = imageManagerListSize;
+	}
+
+
+	public Integer getFileManagerListSize() {
+		return fileManagerListSize;
+	}
+
+
+	public void setFileManagerListSize(Integer fileManagerListSize) {
+		this.fileManagerListSize = fileManagerListSize;
 	}
 }
