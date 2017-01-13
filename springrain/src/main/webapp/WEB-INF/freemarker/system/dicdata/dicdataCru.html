@@ -1,5 +1,6 @@
 <#escape x as x?html> 
 <@h.commonHead title="后台管理系统" keywords="开源,永久免费" description="springrain开源系统管理后台"/>
+<script src="${ctx}/js/custom/common/form.js"></script>
 <script src="${ctx}/js/validform/validform.min.js"></script>
  <link rel="stylesheet" href="${ctx}/js/validform/validform.css" media="all">
 <script>
@@ -69,7 +70,7 @@
 												</header>
 												<!-- /header -->
 												<div class="larry-personal-body clearfix changepwd">
-													<form id="validForm" class="layui-form <!--  -->"  method="post" action="${ctx}/system/dicdata/${returnDatas.map.typekey}/update">
+													<form id="validForm" class="layui-form"  method="post" action="${ctx}/system/dicdata/${returnDatas.map.typekey}/update">
 														<input type="hidden" name="id" value="${(returnDatas.data.id)!''}">
 													 	<div class="layui-form-item col-lg-6">
 															<label class="layui-form-label">名称*</label>
@@ -112,7 +113,7 @@
 														<div class="layui-form-item col-lg-6">
 															<label class="layui-form-label">是否可用</label>
 															<div class="layui-inline">  
-															  	<select name="active" id="active" class="layui-input">
+															  	<select name="active" id="active" class="form-control">
 										                          <option value="">==请选择==</option>
 																  <option value="1">是</option>
 																  <option value="0">否</option>

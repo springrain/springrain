@@ -3177,7 +3177,6 @@ S2.define('select2/data/select',[
 
   SelectAdapter.prototype.option = function (data) {
     var option;
-
     if (data.children) {
       option = document.createElement('optgroup');
       option.label = data.text;
@@ -3429,7 +3428,6 @@ S2.define('select2/data/ajax',[
   AjaxAdapter.prototype.query = function (params, callback) {
     var matches = [];
     var self = this;
-
     if (this._request != null) {
       // JSONP requests cannot always be aborted
       if ($.isFunction(this._request.abort)) {

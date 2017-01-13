@@ -5,7 +5,7 @@ description="springrain开源系统管理后台"/>
 <script type="text/javascript" src="${ctx}/js/ztree/js/ztreeUtils.js"></script>
 <script type="text/javascript" src="${ctx}/js/select2/js/select2.full.min.js"></script>
 <script type="text/javascript" src="${ctx}/js/select2/js/i18n/zh-CN.js"></script>
-<script type="text/javascript" src="${ctx}/js/custom/common/select2remote.js"></script>
+ 
 <script type="text/javascript" src="${ctx}/js/validform/validform.min.js"></script>
 <link rel="stylesheet" href="${ctx}/js/select2/css/select2.min.css" type="text/css">
 <link rel="stylesheet" href="${ctx}/js/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
@@ -15,7 +15,6 @@ description="springrain开源系统管理后台"/>
 	<div class="layui-layout layui-layout-admin">
 		<@h.naviHeader /> <@h.leftMenu />
 		<!-- 主体内容开始 -->
-		<div class="layui-body site-demo">
 			<SCRIPT type="text/javascript">
 				var orgTreesetting = {
 					view: {
@@ -92,9 +91,27 @@ description="springrain开源系统管理后台"/>
 					//ajaxUserIdSelect2();
 
 					//ajaxUserIdSelect2("${ctx}/system/user/ajax/select2","managerId",datafunction,selectfunction);
-					var opt = {url:"${ctx}/system/user/ajax/select2"};
-					$("#managerId").select2Remote(opt);
-					/* select2ajax("#managerId","${ctx}/system/user/ajax/select2"); */
+					$("#managerId").select2({
+						  ajax: {
+						    url: "${ctx}/system/user/ajax/select2",
+						    dataType: 'json',
+						    delay: 250,
+						    data: function (params) {return {q: params.term,page: params.page};},
+						    processResults: function (data, page) { 
+						    	return {results: data}
+						    },
+						    cache: false
+						  },
+						  escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+						  minimumInputLength: 1,
+						  templateResult: function(obj){
+							  return obj.name
+					      },
+					      templateSelection:function(obj){
+							  return obj.name
+						  },
+						  language: "zh-CN"
+						});
 				});
 
 				function orgzTreeOnClick(event, treeId, treeNode) {
@@ -171,7 +188,6 @@ description="springrain开源系统管理后台"/>
 						btn : [ '确定' ], //按钮
 						type : 1,
 						title : "选择父部门",
-						skin : 'layui-layer-rim', //加上边框
 						area : [ '600px', '400px' ], //宽高
 						//shadeClose: true,
 						content : $("#div_select_org_tree")
@@ -179,78 +195,99 @@ description="springrain开源系统管理后台"/>
 
 				}
 			</SCRIPT>
-
-			<div class="layui-main">
-			<fieldset class="layui-elem-field">
-		  		<legend>部门管理</legend>
-		  		<div class="layui-field-box">
-		    		<button id="btn_reload" onclick="location.reload();" class="layui-btn display-n"><i class="layui-icon"></i> 跳转到新增  >></button>
-		    		<button id="btn_add" onclick="commonSaveForm('updateForm','${ctx}/system/org/list');" class="layui-btn"><i class="layui-icon"></i> 保存新增</button>
-		    		<button id="btn_update" style="display: none;" onclick="commonUpdateForm('updateForm','${ctx}/system/org/list');" class="layui-btn"><i class="layui-icon">&#xe642;</i> 保存修改</button>
-		    		<button id="btn_delete" style="display: none;" onclick="deleteOrg();" class="layui-btn layui-btn-danger"><i class="layui-icon">&#x1006;</i> 删除</button>
-		  		</div>
-			</fieldset>
-			
-			<div class="container-fluid">
-				<div class="row">
-					<div class="fl per20">
-						<ul id="orgListTree" class="ztree"></ul>
-					</div>
-					<div class="fl per60">
-						<form id="updateForm" name="updateForm" method="post" action="${ctx}/system/org/update" class="layui-form">
-                        	<input type="hidden" name="id" id="id"> 
-                        	<input type="hidden" name="opmode" id="opmode" value="">
-                            
-                            <div class="layui-form-item per40">
-					    		<label class="layui-form-label">名称</label>
-							    <div class="layui-input-block">
-							      <input datatype="*1-200" errormsg="部门名称长度1--200位之间!" nullmsg="名称不能为空" type="text" id="name" name="name" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
-							    </div>
-						  	</div>
-							
-							<div class="layui-form-item per40">
-					    		<label class="layui-form-label">上级部门</label>
-							    <div class="layui-input-block">
-							      	<input onclick="showOrgTree();" name="pname" id="pname" readonly="readonly"  type="text"  placeholder="点击选择上级部门" autocomplete="off" class="layui-input">
-							    	<input name="pid" id="pid" type="hidden" />
-							    	
-							    </div>
-						  	</div>
-							
-							<div class="layui-form-item per40">
-					    		<label class="layui-form-label">主管</label>
-							    <div class="layui-input-block">
-						      		<!-- <input type="text" id="managerId" name="managerId"> -->
-							      	<select2 id="managerId" name="managerId">
+			<div class="layui-tab layui-tab-brief">
+				<ul class="layui-tab-title site-demo-title">
+		             <li class="layui-this">
+		             		<i class="layui-icon">&#xe630;</i>
+		             		<span class="layui-breadcrumb" style="visibility: visible;">
+							  <a href="${ctx}">首页<span class="layui-box">&gt;</span></a>
+							  <a href="">业务管理<span class="layui-box">&gt;</span></a>
+							  <a><cite>部门管理</cite></a>
+							</span>
+		             </li>
+	       		</ul>
+	       		<div class="layui-body layui-tab-content site-demo-body">
+					<div class="layui-tab-item layui-show">
+						<div class="layui-main">
+							 <table class="layui-table">
+							          	<tbody>
+							          		<tr>
+							          			<th>操作</th>
+							          		</tr>
+							          		<tr>
+							          			<td>
+								          			<div class="layui-field-box">
+											    		<button id="btn_reload" onclick="location.reload();" class="layui-btn display-n"><i class="layui-icon"></i> 跳转到新增  >></button>
+											    		<button id="btn_add" onclick="commonSaveForm('updateForm','${ctx}/system/org/list');" class="layui-btn"><i class="layui-icon"></i> 保存新增</button>
+											    		<button id="btn_update" style="display: none;" onclick="commonUpdateForm('updateForm','${ctx}/system/org/list');" class="layui-btn"><i class="layui-icon">&#xe642;</i> 保存修改</button>
+											    		<button id="btn_delete" style="display: none;" onclick="deleteOrg();" class="layui-btn layui-btn-danger"><i class="layui-icon">&#xe640;</i> 删除</button>
+											  		</div>
+							          			</td>
+							          		</tr>
+							          	</tbody>
+							 </table>
+						<div class="container-fluid">
+							<div class="row">
+								<div class="fl per20">
+									<ul id="orgListTree" class="ztree"></ul>
+								</div>
+								<div class="fl per60 rlt">
+									<div class="fl per20 line-vertical"></div>
+									<form id="updateForm" name="updateForm" method="post" action="${ctx}/system/org/update" class="layui-form">
+			                        	<input type="hidden" name="id" id="id"> 
+			                        	<input type="hidden" name="opmode" id="opmode" value="">
+			                            
+			                            <div class="layui-form-item col-lg-9">
+								    		<label class="layui-form-label col-lg-3">名称</label>
+										    <div class="layui-input-inline">
+										      <input datatype="*1-200" errormsg="部门名称长度1--200位之间!" nullmsg="名称不能为空" type="text" id="name" name="name" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+										    </div>
+									  	</div>
 										
-                                    </select2> 
-							    </div>
-						  	</div>
-							
-							<div class="layui-form-item per40">
-					    		<label class="layui-form-label">排序</label>
-							    <div class="layui-input-block">
-							      <input datatype="n1-16" errormsg="请输入正确数值" nullmsg="排序不能为空!" type="text" id="sortno" name="sortno" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
-							    </div>
-						  	</div>
-							
-							<div class="layui-form-item per40">
-					    		<label class="layui-form-label">是否可用</label>
-							    <div class="layui-input-block">
-							      	<select id="active" name="active" lay-verify="required">
-										<option value="1">是</option>
-										<option value="0">否</option>
-                                    </select>
-							    </div>
-						  	</div>
-						  	
-						  	<div class="layui-form-item per40">
-					    		<label class="layui-form-label">描述</label>
-							    <div class="layui-input-block">
-							    	<textarea name="description" id="description" class="layui-textarea"></textarea>
-							    </div>
-						  	</div>
-                         </form>
+										<div class="layui-form-item  col-lg-9">
+								    		<label class="layui-form-label col-lg-3">上级部门</label>
+										    <div class="layui-input-inline">
+										      	<input onclick="showOrgTree();" name="pname" id="pname" readonly="readonly"  type="text"  placeholder="点击选择上级部门" autocomplete="off" class="layui-input">
+										    	<input name="pid" id="pid" type="hidden" />
+										    </div>
+									  	</div>
+										
+										<div class="layui-form-item  col-lg-9">
+								    		<label class="layui-form-label col-lg-3">主管</label>
+										    <div class="layui-input-inline col-lg-6">
+									      		<!-- <input type="text" id="managerId" name="managerId"> -->
+										      	<select id="managerId" name="managerId" class="nolayer">
+			                                    </select> 
+										    </div>
+									  	</div>
+										
+										<div class="layui-form-item  col-lg-9">
+								    		<label class="layui-form-label col-lg-3">排序</label>
+										    <div class="layui-input-inline">
+										      <input datatype="n1-16" errormsg="请输入正确数值" nullmsg="排序不能为空!" type="text" id="sortno" name="sortno" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+										    </div>
+									  	</div>
+										
+										<div class="layui-form-item  col-lg-9">
+								    		<label class="layui-form-label col-lg-3">是否可用</label>
+										    <div class="layui-input-inline rlt">
+										      	<select id="active" name="active" lay-verify="required">
+													<option value="1">是</option>
+													<option value="0">否</option>
+			                                    </select>
+										    </div>
+									  	</div>
+									  	
+									  	<div class="layui-form-item col-lg-9">
+								    		<label class="layui-form-label col-lg-3">描述</label>
+										    <div class="layui-input-inline col-lg-6">
+										    	<textarea name="description" id="description" class="layui-textarea"></textarea>
+										    </div>
+									  	</div>
+			                         </form>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

@@ -3,21 +3,20 @@
 .layui-icon-specil{margin-right:5px;}
 .layui-icon-my-small{font-size:16px!important;}
 .layui-btn .layui-icon{vertical-align: middle;}
-.layui-form input[type=checkbox], .layui-form input[type=radio], .layui-form select{display:inherit;}
 .sort-icon{font-size:14px;cursor: pointer;color:#d3d3d3;}
 .sort-icon-on{color:#333333;}
 .sort-icon-up{position:relative;top:-4px;left:4px;}
 .sort-icon-down{position:relative;top:8px;right:10px;}
 /*元素宽度*/
-.col-lg-1{width:10%;}
-.col-lg-2{width:20%;}
-.col-lg-3{width:30%;}
-.col-lg-4{width:40%;}
-.col-lg-5{width:50%;}
-.col-lg-6{width:60%;}
-.col-lg-7{width:70%;}
-.col-lg-8{width:80%;}
-.col-lg-9{width:90%;}
+.col-lg-1{width:10%!important;}
+.col-lg-2{width:20%!important;}
+.col-lg-3{width:30%!important;}
+.col-lg-4{width:40%!important;}
+.col-lg-5{width:50%!important;}
+.col-lg-6{width:60%!important;}
+.col-lg-7{width:70%!important;}
+.col-lg-8{width:80%!important;}
+.col-lg-9{width:90%!important;}
 .col-lg-10{width:100%;}
 /*右边主背景*/
 .site-demo-body{background:#ecf0f5;}
@@ -49,3 +48,13 @@ header.larry-personal-tit span {
 }
 /**/
 .layui-nav .layui-nav-more{margin-top:4px;}
+/**/
+.nolayer{display: block;
+    width: 100%;
+    padding-left: 10px!important;
+        height: 38px!important;
+    line-height: 38px!important;
+    line-height: 36px!important;
+    border: 1px solid #e6e6e6;
+    background-color: #fff;
+    border-radius: 2px!important;}

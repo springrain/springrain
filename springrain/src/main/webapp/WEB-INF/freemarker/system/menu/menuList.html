@@ -247,7 +247,7 @@ description="springrain开源系统管理后台"/>
 											    		<button id="btn_reload" onclick="location.reload();" class="layui-btn display-n"><i class="layui-icon"></i> 跳转到新增  >></button>
 											    		<button id="btn_add" onclick="dosubmit(0);" class="layui-btn"><i class="layui-icon"></i> 保存新增</button>
 											    		<button id="btn_update" style="display: none;" onclick="dosubmit(1);" class="layui-btn"><i class="layui-icon">&#xe642;</i> 保存修改</button>
-											    		<button id="btn_delete" style="display: none;" onclick="deleteMenu();" class="layui-btn layui-btn-danger"><i class="layui-icon">&#x1006;</i> 删除</button>
+											    		<button id="btn_delete" style="display: none;" onclick="deleteMenu();" class="layui-btn layui-btn-danger"><i class="layui-icon">&#xe640;</i> 删除</button>
 						  							</div>
 							          			</td>
 							          		</tr>
@@ -258,26 +258,26 @@ description="springrain开源系统管理后台"/>
 									<div class="fl per20">
 										<ul id="menuListTree" class="ztree"></ul>
 									</div>
-									<div class="fl per60">
+									<div class="fl per60 rlt">
+										<div class="fl per20 line-vertical"></div>
 										<form id="updateForm" name="updateForm" action="${ctx}/system/menu/update" method="post" class="layui-form">
 											<input type="hidden" name="id" id="id">
-											
 											<div class="layui-form-item  col-lg-9">
-											    <label class="layui-form-label col-lg-2">名称*</label>
+											    <label class="layui-form-label col-lg-3">名称*</label>
 											    <div class="layui-input-inline">
 											      <input type="text" id="name" name="name" datatype="*" nullmsg="名称不能为空" required  lay-verify="required" placeholder="请输入菜单名称" autocomplete="off" class="layui-input">
 											    </div>
 										  	</div>
 										  	
 											<div class="layui-form-item  col-lg-9">
-											    <label class="layui-form-label col-lg-2">地址</label>
-											    <div class="layui-input-inline">
+											    <label class="layui-form-label col-lg-3">地址</label>
+											    <div class="layui-input-inline col-lg-6">
 											      <input type="text" id="pageurl" name="pageurl" placeholder="请输入菜单链接地址" autocomplete="off" class="layui-input">
 											    </div>
 										  	</div>
 										  	
 											<div class="layui-form-item  col-lg-9">
-											    <label class="layui-form-label col-lg-2">父级</label>
+											    <label class="layui-form-label col-lg-3">父级</label>
 											    <div class="layui-input-inline">
 											      <input type="text" name="pname" id="pname" readonly="readonly" class="layui-input" onclick="showMenuZTree();">
 											      <input name="pid" id="pid" type="hidden" msg="请选择父节点" check="require" /> 
@@ -286,9 +286,9 @@ description="springrain开源系统管理后台"/>
 											
 											
 											<div class="layui-form-item  col-lg-9">
-											    <label class="layui-form-label col-lg-2">类型</label>
+											    <label class="layui-form-label col-lg-3">类型</label>
 											    <div class="layui-input-inline">
-											      <select name="menuType" id="menuType" lay-verify="required" style="display:none;">
+											      <select name="menuType" id="menuType" lay-verify="required">
 											        <option value="0">按钮资源</option>
 													<option value="1">导航菜单</option>
 											      </select>
@@ -297,16 +297,16 @@ description="springrain开源系统管理后台"/>
 				
 											
 											<div class="layui-form-item  col-lg-9">
-											    <label class="layui-form-label col-lg-2">图标</label>
+											    <label class="layui-form-label col-lg-3">图标</label>
 											    <div class="layui-input-inline">
-											    <i class="layui-icon" id="imgIcon"></i>
-											      <input type="hidden" name="menuIcon" id="menuIcon" readonly="readonly" class="layui-input"  readonly="readonly">
-											    <button type="button" onclick="changeIcon()" class="layui-btn layui-btn-normal"><i class="layui-icon">&#xe64c;</i>选择图标</button>
+											      	<input type="hidden" name="menuIcon" id="menuIcon" readonly="readonly" class="layui-input"  readonly="readonly">
+											      	<button type="button" onclick="changeIcon()" class="layui-btn layui-btn-normal"><i class="layui-icon">&#xe64c;</i>选择图标</button>
+											    	<i class="layui-icon" id="imgIcon"></i>
 											    </div>
 										  	</div>
 										  	
 											<div class="layui-form-item  col-lg-9">
-											    <label class="layui-form-label col-lg-2">排序</label>
+											    <label class="layui-form-label col-lg-3">排序</label>
 											    <div class="layui-input-inline">
 											      <input type="text" id="sortno" name="sortno" class="layui-input">
 											    </div>
@@ -314,9 +314,9 @@ description="springrain开源系统管理后台"/>
 											
 											
 											<div class="layui-form-item  col-lg-9">
-											    <label class="layui-form-label col-lg-2">是否可用</label>
+											    <label class="layui-form-label col-lg-3">是否可用</label>
 											    <div class="layui-input-inline">
-											      <select name="active" id="active" lay-verify="required" style="display:none;">
+											      <select name="active" id="active" lay-verify="required">
 											        	<option value="1">是</option>
 														<option value="0">否</option>
 											      </select>
@@ -324,8 +324,8 @@ description="springrain开源系统管理后台"/>
 										  	</div>
 											
 											<div class="layui-form-item layui-form-text   col-lg-9">
-											    <label class="layui-form-label col-lg-2">备注</label>
-											    <div class="layui-input-inline col-lg-8">
+											    <label class="layui-form-label col-lg-3">备注</label>
+											    <div class="layui-input-inline col-lg-6">
 											      <textarea name="description" id="description" placeholder="请输入内容" class="layui-textarea"></textarea>
 											    </div>
 											  </div>
