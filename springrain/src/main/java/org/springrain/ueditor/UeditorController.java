@@ -146,8 +146,7 @@ public class UeditorController extends BaseController {
     
     
     private Map<String, Object> listFile(HttpServletRequest request,String fileuploadpath,UeditorConfig config) throws Exception {
-	  
-	  
+    	
 	    String start_str = request.getParameter("start");
 	    
 	    if(StringUtils.isBlank(start_str)){
@@ -183,23 +182,18 @@ public class UeditorController extends BaseController {
 			if(o==null){
 				break;
 			}
-			
 			File f=(File) o;
-			
-			String url=f.getName();
 			Map<String,String> map=new HashMap<String,String>();
-			map.put("url", url);
+			map.put("url", f.getName());
 			listUrl.add(map);
 		}
 		
 		resultMap.put("list",listUrl);
 		resultMap.put("start", index );
 		resultMap.put("total", list.length );
-	    
     	return  resultMap;
     }
     
-	
     private Map<String, Object> getResultMap(boolean success) {
         Map<String, Object> map = new HashMap<String, Object>();
         if (success) {
