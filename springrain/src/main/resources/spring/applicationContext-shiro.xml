@@ -78,6 +78,7 @@
 				
 				<!-- S 目前将upload文件权限放开，等文件系统模块完成以后再修改  -->
 				/upload/**=anon
+				/ueditor/**=anon
 				<!-- E  -->
 				
 				/f/** = anon

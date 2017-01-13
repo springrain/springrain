@@ -1,10 +1,40 @@
 package org.springrain.frame.util;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class FileUtils {
+	
+	public static String rootDir=null;
+	static{
+		String path=Thread.currentThread().getContextClassLoader().getResource("").toString();
+		path = path.replace("\\", "/");
+		
+		
+		if(path.startsWith("file:/")){
+			path=path.substring(6, path.length());
+		}
+		
+		
+		int _info=path.indexOf("/WEB-INF/classes");
+		if(_info>0){
+			path=path.substring(0, _info);
+		}
+		
+		rootDir=path;
+		
+		
+	}
+	
+	
+	public static String getRootDir(){
+		
+		return rootDir;
+	}
 	
 	public static List<File> getPathAllFileExt(String path,String ext){
 		List<File> list =new ArrayList<File>();
@@ -40,6 +70,40 @@ public class FileUtils {
 		return list;
 	}
 	
-	
+	 /**
+     * 获取文件后缀
+     * 
+     * @param originalFilename
+     * @return
+     */
+    public static String getSuffix(String originalFilename) {
+        return originalFilename.substring(originalFilename.lastIndexOf("."), originalFilename.length());
+    }
+
+    /**
+     * 上传文件
+     * 
+     * @param file
+     * @param fileName
+     * @return
+     * @throws IllegalStateException
+     * @throws IOException
+     */
+    public static String upload(MultipartFile file, String fileName) throws IllegalStateException, IOException {
+        File dest = new File(fileName);
+        dest.getParentFile().mkdirs();
+        file.transferTo(dest);
+        return dest.getName();
+    }
+    
+    /**
+     * 获取文件名
+     * 
+     * @param suffix
+     * @return
+     */
+    public static String reSetFileName(String suffix) {
+        return System.currentTimeMillis()+suffix;
+    }
 
 }
