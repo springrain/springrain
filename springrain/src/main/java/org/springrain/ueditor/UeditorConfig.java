@@ -1,20 +1,12 @@
 package org.springrain.ueditor;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.commons.lang3.ArrayUtils;
 
 public class UeditorConfig implements java.io.Serializable {
 
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	
-	
-	
 
+	
     public static final String ACTION_UPLOAD_IMAGE = "uploadimg";
     public static final String ACTION_UPLOAD_SCRAWL = "uploadscrawl";
     public static final String ACTION_UPLOAD_VIDEO = "uploadvideo";
@@ -26,54 +18,22 @@ public class UeditorConfig implements java.io.Serializable {
     public static final String FIELD_NAME = "file";
     public static final String SCRAWL_TYPE = ".jpg";
 
+    private static final String[] CATCHER_DOMAIN = new String[] { "127.0.0.1", "localhost", "img.baidu.com"};
+    
     private static final String[] IMAGE_ALLOW_FILES = new String[] { ".png", ".jpg", ".jpeg", ".gif", ".bmp" };
 
     private static final String[] VIDEO_ALLOW_FILES = new String[] { ".flv", ".swf", ".mkv", ".avi", ".rm", ".rmvb", ".mpeg",
             ".mpg", ".ogg", ".ogv", ".mov", ".wmv", ".mp4", ".webm", ".mp3", ".wav", ".mid" };
-    private static final String[] ALLOW_FILES = ArrayUtils.addAll(ArrayUtils.addAll(VIDEO_ALLOW_FILES, IMAGE_ALLOW_FILES),
+    public static final String[] ALLOW_FILES = ArrayUtils.addAll(ArrayUtils.addAll(VIDEO_ALLOW_FILES, IMAGE_ALLOW_FILES),
             new String[] { ".rar", ".zip", ".tar", ".gz", ".7z", ".bz2", ".cab", ".iso", ".doc", ".docx", ".xls", ".xlsx", ".ppt",
                     ".pptx", ".pdf", ".txt", ".md", ".xml" });
-    private static final Map<String, String> CONTENT_TYPE_MAP = new HashMap<String, String>() {
-        private static final long serialVersionUID = 1L;
-        {
-            put("image/gif", ".gif");
-            put("image/jpeg", ".jpg");
-            put("image/jpg", ".jpg");
-            put("image/png", ".png");
-            put("image/bmp", ".bmp");
-        }
-    };
+  
     
    public UeditorConfig(){
 	   
    }
    
-   
    public UeditorConfig(String urlPrefix){
-	   
-	   
-	   
-	   this.setImageActionName(ACTION_UPLOAD_IMAGE);
-       this.setSnapscreenActionName(ACTION_UPLOAD_IMAGE);
-       this.setScrawlActionName(ACTION_UPLOAD_SCRAWL);
-       this.setVideoActionName(ACTION_UPLOAD_VIDEO);
-       this.setFileActionName(ACTION_UPLOAD_FILE);
-       this.setCatcherActionName(ACTION_CATCHIMAGE);
-       this.setImageManagerActionName(ACTION_LISTIMAGE);
-       this.setFileManagerActionName(ACTION_LISTFILE);
-       this.setImageFieldName(FIELD_NAME);
-       this.setScrawlFieldName(FIELD_NAME);
-       this.setCatcherFieldName(FIELD_NAME);
-       this.setVideoFieldName(FIELD_NAME);
-       this.setFileFieldName(FIELD_NAME);
-
-       this.setImageAllowFiles(IMAGE_ALLOW_FILES);
-       this.setCatcherAllowFiles(IMAGE_ALLOW_FILES);
-       this.setVideoAllowFiles(VIDEO_ALLOW_FILES);
-       this.setFileAllowFiles(ALLOW_FILES);
-       this.setImageManagerAllowFiles(IMAGE_ALLOW_FILES);
-       this.setFileManagerAllowFiles(ALLOW_FILES);	   
-	   
 	   this.setImageUrlPrefix(urlPrefix+"image/");
        this.setScrawlUrlPrefix(urlPrefix+"scrawl/");
        this.setSnapscreenUrlPrefix(urlPrefix+"image/");
@@ -81,46 +41,78 @@ public class UeditorConfig implements java.io.Serializable {
        this.setVideoUrlPrefix(urlPrefix+"video/");
        this.setFileUrlPrefix(urlPrefix+"file/");
        this.setImageManagerUrlPrefix(urlPrefix+"image/");
+       this.setImageManagerListPath(urlPrefix+"image/");
        this.setFileManagerUrlPrefix(urlPrefix+"file/");
+       this.setFileManagerListPath(urlPrefix+"file/");
 	   
    }
    
-   
-   
-   private Integer listFileSize=20;
-    
-   private Integer imageManagerListSize=listFileSize;
-   private Integer fileManagerListSize=listFileSize;
-   
-    
-    private String imageActionName;
-    private String snapscreenActionName;
-    private String scrawlActionName;
-    private String videoActionName;
-    private String fileActionName;
-    private String catcherActionName;
-    private String imageManagerActionName;
-    private String fileManagerActionName;
-    private String imageFieldName;
-    private String scrawlFieldName;
-    private String catcherFieldName;
-    private String videoFieldName;
-    private String fileFieldName;
+    //上传图片配置项
+    private String imageActionName=ACTION_UPLOAD_IMAGE;
+    private String imageFieldName=FIELD_NAME;
+    private Integer imageMaxSize=2048000;
+    private String[] imageAllowFiles=IMAGE_ALLOW_FILES;
+    private boolean imageCompressEnable=true;
+    private Integer imageCompressBorder=1600;
+    private String imageInsertAlign="none";
     private String imageUrlPrefix;
-    private String scrawlUrlPrefix;
-    private String snapscreenUrlPrefix;
-    private String catcherUrlPrefix;
-    private String videoUrlPrefix;
-    private String fileUrlPrefix;
-    private String imageManagerUrlPrefix;
-    private String fileManagerUrlPrefix;
-    private String[] imageAllowFiles;
-    private String[] catcherAllowFiles;
-    private String[] videoAllowFiles;
-    private String[] fileAllowFiles;
-    private String[] imageManagerAllowFiles;
-    private String[] fileManagerAllowFiles;
 
+    //截图工具上传
+    private String snapscreenActionName=ACTION_UPLOAD_IMAGE;
+    private String snapscreenUrlPrefix;
+    private String snapscreenFieldName=FIELD_NAME;
+    private String snapscreenInsertAlign="none";
+    
+    //抓取远程图片配置
+    private String catcherActionName=ACTION_CATCHIMAGE;
+    private String catcherFieldName=FIELD_NAME;
+    private String catcherUrlPrefix;
+    private Integer catcherMaxSize=2048000;
+    private String[] catcherLocalDomain=CATCHER_DOMAIN;
+    private String[] catcherAllowFiles=IMAGE_ALLOW_FILES;
+    
+    
+    //上传视频配置
+    private String videoActionName=ACTION_UPLOAD_VIDEO;
+    private String videoFieldName=FIELD_NAME;
+    private String videoUrlPrefix;
+    private Integer videoMaxSize=102400000;
+    private String[] videoAllowFiles=VIDEO_ALLOW_FILES;
+    
+    
+    
+    //上传文件配置
+    private String fileActionName=ACTION_UPLOAD_FILE;
+    private String fileFieldName=FIELD_NAME;
+    private String fileUrlPrefix;
+    private Integer fileMaxSize=51200000;
+    private String[] fileAllowFiles=ALLOW_FILES;
+    
+    
+    
+    // 列出指定目录下的图片 
+    private String imageManagerActionName=ACTION_LISTIMAGE;
+    private String imageManagerUrlPrefix;
+    private String imageManagerListPath;
+    private Integer imageManagerListSize=20;
+    private String imageManagerInsertAlign="none";
+    private String[] imageManagerAllowFiles=IMAGE_ALLOW_FILES;
+    
+    
+    //列出指定目录下的图文件
+    private String fileManagerActionName=ACTION_LISTFILE;
+    private String fileManagerUrlPrefix;
+    private String fileManagerListPath;
+    private String[] fileManagerAllowFiles=ALLOW_FILES;
+    private Integer fileManagerListSize=imageManagerListSize;
+    
+    
+    //缩略图
+    private String scrawlActionName=ACTION_UPLOAD_SCRAWL;
+    private String scrawlUrlPrefix;
+    private String scrawlFieldName=FIELD_NAME;
+    
+   
     public String getImageActionName() {
         return imageActionName;
     }
@@ -338,15 +330,6 @@ public class UeditorConfig implements java.io.Serializable {
     }
 
 
-	public Integer getListFileSize() {
-		return listFileSize;
-	}
-
-
-	public void setListFileSize(Integer listFileSize) {
-		this.listFileSize = listFileSize;
-	}
-
 
 	public Integer getImageManagerListSize() {
 		return imageManagerListSize;
@@ -365,5 +348,135 @@ public class UeditorConfig implements java.io.Serializable {
 
 	public void setFileManagerListSize(Integer fileManagerListSize) {
 		this.fileManagerListSize = fileManagerListSize;
+	}
+
+
+	public Integer getImageMaxSize() {
+		return imageMaxSize;
+	}
+
+
+	public void setImageMaxSize(Integer imageMaxSize) {
+		this.imageMaxSize = imageMaxSize;
+	}
+
+
+	public boolean isImageCompressEnable() {
+		return imageCompressEnable;
+	}
+
+
+	public void setImageCompressEnable(boolean imageCompressEnable) {
+		this.imageCompressEnable = imageCompressEnable;
+	}
+
+
+	public Integer getImageCompressBorder() {
+		return imageCompressBorder;
+	}
+
+
+	public void setImageCompressBorder(Integer imageCompressBorder) {
+		this.imageCompressBorder = imageCompressBorder;
+	}
+
+
+	public String getImageInsertAlign() {
+		return imageInsertAlign;
+	}
+
+
+	public void setImageInsertAlign(String imageInsertAlign) {
+		this.imageInsertAlign = imageInsertAlign;
+	}
+
+
+	public String getSnapscreenFieldName() {
+		return snapscreenFieldName;
+	}
+
+
+	public void setSnapscreenFieldName(String snapscreenFieldName) {
+		this.snapscreenFieldName = snapscreenFieldName;
+	}
+
+
+	public String getSnapscreenInsertAlign() {
+		return snapscreenInsertAlign;
+	}
+
+
+	public void setSnapscreenInsertAlign(String snapscreenInsertAlign) {
+		this.snapscreenInsertAlign = snapscreenInsertAlign;
+	}
+
+
+	public Integer getCatcherMaxSize() {
+		return catcherMaxSize;
+	}
+
+
+	public void setCatcherMaxSize(Integer catcherMaxSize) {
+		this.catcherMaxSize = catcherMaxSize;
+	}
+
+
+	public String[] getCatcherLocalDomain() {
+		return catcherLocalDomain;
+	}
+
+
+	public void setCatcherLocalDomain(String[] catcherLocalDomain) {
+		this.catcherLocalDomain = catcherLocalDomain;
+	}
+
+
+	public Integer getVideoMaxSize() {
+		return videoMaxSize;
+	}
+
+
+	public void setVideoMaxSize(Integer videoMaxSize) {
+		this.videoMaxSize = videoMaxSize;
+	}
+
+
+	public Integer getFileMaxSize() {
+		return fileMaxSize;
+	}
+
+
+	public void setFileMaxSize(Integer fileMaxSize) {
+		this.fileMaxSize = fileMaxSize;
+	}
+
+
+	public String getImageManagerInsertAlign() {
+		return imageManagerInsertAlign;
+	}
+
+
+	public void setImageManagerInsertAlign(String imageManagerInsertAlign) {
+		this.imageManagerInsertAlign = imageManagerInsertAlign;
+	}
+
+
+	public String getFileManagerListPath() {
+		return fileManagerListPath;
+	}
+
+
+	public void setFileManagerListPath(String fileManagerListPath) {
+		this.fileManagerListPath = fileManagerListPath;
+	}
+
+
+	public String getImageManagerListPath() {
+		return imageManagerListPath;
+	}
+
+
+	public void setImageManagerListPath(String imageManagerListPath) {
+		this.imageManagerListPath = imageManagerListPath;
 	}
 }

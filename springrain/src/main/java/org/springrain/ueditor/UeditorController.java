@@ -1,6 +1,7 @@
 package org.springrain.ueditor;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,16 +51,16 @@ public class UeditorController extends BaseController {
     		obj=config;
     	}else if(UeditorConfig.ACTION_UPLOAD_IMAGE.equalsIgnoreCase(action)||UeditorConfig.ACTION_CATCHIMAGE.equalsIgnoreCase(action)){
     		fileuploadpath=fileuploadpath+"image/";
-    		obj=upload(requestfile, fileuploadpath);
+    		obj=upload(requestfile, fileuploadpath,config.getImageFieldName(),config.getImageAllowFiles(),config.getImageMaxSize());
     	}else if(UeditorConfig.ACTION_UPLOAD_FILE.equalsIgnoreCase(action)){
     		fileuploadpath=fileuploadpath+"file/";
-    		obj=upload(requestfile, fileuploadpath);
+    		obj=upload(requestfile, fileuploadpath,config.getFileFieldName(),config.getFileAllowFiles(),config.getFileMaxSize());
     	}else if(UeditorConfig.ACTION_UPLOAD_VIDEO.equalsIgnoreCase(action)){
     		fileuploadpath=fileuploadpath+"video/";
-    		obj=upload(requestfile, fileuploadpath);
+    		obj=upload(requestfile, fileuploadpath,config.getVideoFieldName(),config.getVideoAllowFiles(),config.getVideoMaxSize());
     	}else if(UeditorConfig.ACTION_UPLOAD_SCRAWL.equalsIgnoreCase(action)){
        		fileuploadpath=fileuploadpath+"scrawl/";
-    		obj=uploadScrawl(requestfile, fileuploadpath);
+    		obj=uploadScrawl(requestfile, fileuploadpath,config);
     	}else if(UeditorConfig.ACTION_LISTFILE.equalsIgnoreCase(action)){
        		fileuploadpath=fileuploadpath+"file/";
     		obj=listFile(requestfile, fileuploadpath,config);
@@ -77,30 +78,42 @@ public class UeditorController extends BaseController {
     	if(StringUtils.isBlank(callbackName)){
     		return obj;
     	}
-    	callbackName=URLEncoder.encode(callbackName,"UTF-8");
     	
-    	if(validCallbackName(callbackName)){
-    		return  callbackName+"("+JsonUtils.writeValueAsString(obj)+");";
+    	if(!validCallbackName(callbackName)){
+    		return obj;
     	}
-    	return  obj;
+    	
+    	callbackName=URLEncoder.encode(callbackName,"UTF-8");
+        return  callbackName+"("+JsonUtils.writeValueAsString(obj)+");";
     }
     
     
-    public Map<String, Object> upload(HttpServletRequest request,String fileuploadpath) throws Exception {
+    private Map<String, Object> upload(HttpServletRequest request,String fileuploadpath,String fieldName,String[] allows,Integer maxSize) throws Exception {
     	
         MultipartHttpServletRequest requestfile = (MultipartHttpServletRequest) request;  
 
     	
-    	MultipartFile file = requestfile.getFile(UeditorConfig.FIELD_NAME);
+    	MultipartFile file = requestfile.getFile(fieldName);
         String originalName = file.getOriginalFilename();
         String suffix = FileUtils.getSuffix(originalName);
+       
+        if(!Arrays.asList(allows).contains(suffix)){
+        	return getResultMap(false);
+        }
+        
+        long size = file.getSize();
+        if(maxSize-size<0){
+        	return getResultMap(false);
+        }
+        
+        
         String fileName = FileUtils.reSetFileName(suffix);
         
     	//保存到文件
-        FileUtils.upload(file, FileUtils.getRootDir()+fileuploadpath+fileName);
+        upload(file, FileUtils.getRootDir()+fileuploadpath+fileName);
         
         Map<String, Object> map = getResultMap(true);
-        map.put("size", file.getSize());
+        map.put("size", size);
         map.put("title", originalName);
         map.put("url", fileName);
         map.put("type", suffix);
@@ -108,9 +121,9 @@ public class UeditorController extends BaseController {
     	return  map;
     }
     
-    public Map<String, Object> uploadScrawl(HttpServletRequest request,String fileuploadpath) throws Exception {
+    private Map<String, Object> uploadScrawl(HttpServletRequest request,String fileuploadpath,UeditorConfig config) throws Exception {
     	
-    	String fileStr = request.getParameter(UeditorConfig.FIELD_NAME);
+    	String fileStr = request.getParameter(config.getScrawlFieldName());
     	
     	if(StringUtils.isBlank(fileStr)){
     		return getResultMap(false);
@@ -118,11 +131,12 @@ public class UeditorController extends BaseController {
         String fileName = FileUtils.reSetFileName(UeditorConfig.SCRAWL_TYPE);
         File file=new File(FileUtils.getRootDir()+fileuploadpath+fileName);
         byte[] decodeBase64 = Base64.decodeBase64(fileStr);
+        int length = decodeBase64.length;
         
         org.apache.commons.io.FileUtils.writeByteArrayToFile(file, decodeBase64);
         
         Map<String, Object> map = getResultMap(true);
-        map.put("size", decodeBase64.length);
+        map.put("size", length);
         map.put("title", file.getName());
         map.put("url", fileName);
         map.put("type", UeditorConfig.SCRAWL_TYPE);
@@ -131,7 +145,7 @@ public class UeditorController extends BaseController {
     }
     
     
-  public Map<String, Object> listFile(HttpServletRequest request,String fileuploadpath,UeditorConfig config) throws Exception {
+    private Map<String, Object> listFile(HttpServletRequest request,String fileuploadpath,UeditorConfig config) throws Exception {
 	  
 	  
 	    String start_str = request.getParameter("start");
@@ -152,7 +166,7 @@ public class UeditorController extends BaseController {
 		
 		Map<String, Object> resultMap = getResultMap(true);
 		
-		Integer count = config.getListFileSize();
+		Integer count = config.getImageManagerListSize();
 		
 		if ( index < 0 || index > list.length ) {
 			return resultMap;
@@ -206,7 +220,23 @@ public class UeditorController extends BaseController {
 		}
 		
 		return false;
-		
 	}
+	
+	/**
+     * 上传文件
+     * 
+     * @param file
+     * @param fileName
+     * @return
+     * @throws IllegalStateException
+     * @throws IOException
+     */
+    public  String upload(MultipartFile file, String fileName) throws IllegalStateException, IOException {
+        File dest = new File(fileName);
+        dest.getParentFile().mkdirs();
+        file.transferTo(dest);
+        return dest.getName();
+    }
+    
 
 }

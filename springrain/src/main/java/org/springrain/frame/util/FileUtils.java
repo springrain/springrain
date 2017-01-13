@@ -1,11 +1,8 @@
 package org.springrain.frame.util;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.springframework.web.multipart.MultipartFile;
 
 public class FileUtils {
 	
@@ -80,21 +77,6 @@ public class FileUtils {
         return originalFilename.substring(originalFilename.lastIndexOf("."), originalFilename.length());
     }
 
-    /**
-     * 上传文件
-     * 
-     * @param file
-     * @param fileName
-     * @return
-     * @throws IllegalStateException
-     * @throws IOException
-     */
-    public static String upload(MultipartFile file, String fileName) throws IllegalStateException, IOException {
-        File dest = new File(fileName);
-        dest.getParentFile().mkdirs();
-        file.transferTo(dest);
-        return dest.getName();
-    }
     
     /**
      * 获取文件名
