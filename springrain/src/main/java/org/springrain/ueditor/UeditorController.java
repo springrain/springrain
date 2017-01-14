@@ -31,7 +31,14 @@ public class UeditorController extends BaseController {
 	
 	private static final String UEFILEPATH="/upload";
 	
-	
+	/**
+	 * 主入口,处理所有的请求
+	 * @param requestfile
+	 * @param request
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/init")
     public @ResponseBody Object config(HttpServletRequest requestfile,HttpServletRequest request, Model model) throws Exception {
  
@@ -41,32 +48,40 @@ public class UeditorController extends BaseController {
     	}
     	
     	
+    	//项目名
        	String path = request.getContextPath();
+       	
+       	//文件的访问路径,不带项目名称,siteId可以是个变量,也可以是固定值,根据实际情况控制
        	String fileuploadpath=UEFILEPATH+"/siteId/ueditor/";
+       	
+       	//主配置,使用类直接处理,没有使用配置config.json文件,请根据实际要求处理
     	UeditorConfig config=new UeditorConfig(path+fileuploadpath);
     	
     	Object obj=null;
     	
-    	if("config".equalsIgnoreCase(action)){
+    	if("config".equals(action)){
     		obj=config;
-    	}else if(UeditorConfig.ACTION_UPLOAD_IMAGE.equalsIgnoreCase(action)||UeditorConfig.ACTION_CATCHIMAGE.equalsIgnoreCase(action)){
+    	}else if(UeditorConfig.ACTION_UPLOAD_IMAGE.equals(action)||UeditorConfig.ACTION_CATCHIMAGE.equals(action)){
     		fileuploadpath=fileuploadpath+"image/";
     		obj=upload(requestfile, fileuploadpath,config.getImageFieldName(),config.getImageAllowFiles(),config.getImageMaxSize());
-    	}else if(UeditorConfig.ACTION_UPLOAD_FILE.equalsIgnoreCase(action)){
+    	}else if(UeditorConfig.ACTION_UPLOAD_FILE.equals(action)){
     		fileuploadpath=fileuploadpath+"file/";
     		obj=upload(requestfile, fileuploadpath,config.getFileFieldName(),config.getFileAllowFiles(),config.getFileMaxSize());
-    	}else if(UeditorConfig.ACTION_UPLOAD_VIDEO.equalsIgnoreCase(action)){
+    	}else if(UeditorConfig.ACTION_UPLOAD_VIDEO.equals(action)){
     		fileuploadpath=fileuploadpath+"video/";
     		obj=upload(requestfile, fileuploadpath,config.getVideoFieldName(),config.getVideoAllowFiles(),config.getVideoMaxSize());
-    	}else if(UeditorConfig.ACTION_UPLOAD_SCRAWL.equalsIgnoreCase(action)){
+    	}else if(UeditorConfig.ACTION_UPLOAD_SCRAWL.equals(action)){
        		fileuploadpath=fileuploadpath+"scrawl/";
     		obj=uploadScrawl(requestfile, fileuploadpath,config);
-    	}else if(UeditorConfig.ACTION_LISTFILE.equalsIgnoreCase(action)){
+    	}else if(UeditorConfig.ACTION_LISTFILE.equals(action)){
        		fileuploadpath=fileuploadpath+"file/";
     		obj=listFile(requestfile, fileuploadpath,config);
-    	}else if(UeditorConfig.ACTION_LISTIMAGE.equalsIgnoreCase(action)){
+    	}else if(UeditorConfig.ACTION_LISTIMAGE.equals(action)){
        		fileuploadpath=fileuploadpath+"image/";
     		obj=listFile(requestfile, fileuploadpath,config);
+    	}else if(UeditorConfig.ACTION_CATCHIMAGE.equals(action)){
+       		fileuploadpath=fileuploadpath+"image/";
+    		obj=catchimage(requestfile, fileuploadpath,config);
     	}else{
     		return getResultMap(false);
     	}
@@ -87,7 +102,16 @@ public class UeditorController extends BaseController {
         return  callbackName+"("+JsonUtils.writeValueAsString(obj)+");";
     }
     
-    
+    /**
+     * 上传图片和文件
+     * @param request
+     * @param fileuploadpath
+     * @param fieldName
+     * @param allows
+     * @param maxSize
+     * @return
+     * @throws Exception
+     */
     private Map<String, Object> upload(HttpServletRequest request,String fileuploadpath,String fieldName,String[] allows,Integer maxSize) throws Exception {
     	
         MultipartHttpServletRequest requestfile = (MultipartHttpServletRequest) request;  
@@ -106,9 +130,7 @@ public class UeditorController extends BaseController {
         	return getResultMap(false);
         }
         
-        
         String fileName = FileUtils.reSetFileName(suffix);
-        
     	//保存到文件
         upload(file, FileUtils.getRootDir()+fileuploadpath+fileName);
         
@@ -121,30 +143,14 @@ public class UeditorController extends BaseController {
     	return  map;
     }
     
-    private Map<String, Object> uploadScrawl(HttpServletRequest request,String fileuploadpath,UeditorConfig config) throws Exception {
-    	
-    	String fileStr = request.getParameter(config.getScrawlFieldName());
-    	
-    	if(StringUtils.isBlank(fileStr)){
-    		return getResultMap(false);
-    	}
-        String fileName = FileUtils.reSetFileName(UeditorConfig.SCRAWL_TYPE);
-        File file=new File(FileUtils.getRootDir()+fileuploadpath+fileName);
-        byte[] decodeBase64 = Base64.decodeBase64(fileStr);
-        int length = decodeBase64.length;
-        
-        org.apache.commons.io.FileUtils.writeByteArrayToFile(file, decodeBase64);
-        
-        Map<String, Object> map = getResultMap(true);
-        map.put("size", length);
-        map.put("title", file.getName());
-        map.put("url", fileName);
-        map.put("type", UeditorConfig.SCRAWL_TYPE);
-        map.put("original", "scrawl"+UeditorConfig.SCRAWL_TYPE);
-    	return  map;
-    }
-    
-    
+    /**
+     * 列表展示文件或图片
+     * @param request
+     * @param fileuploadpath
+     * @param config
+     * @return
+     * @throws Exception
+     */
     private Map<String, Object> listFile(HttpServletRequest request,String fileuploadpath,UeditorConfig config) throws Exception {
     	
 	    String start_str = request.getParameter("start");
@@ -193,26 +199,101 @@ public class UeditorController extends BaseController {
 		resultMap.put("total", list.length );
     	return  resultMap;
     }
+    /**
+     * 上传缩略图
+     * @param request
+     * @param fileuploadpath
+     * @param config
+     * @return
+     * @throws Exception
+     */
+ private Map<String, Object> uploadScrawl(HttpServletRequest request,String fileuploadpath,UeditorConfig config) throws Exception {
+    	
+    	String fileStr = request.getParameter(config.getScrawlFieldName());
+    	
+    	if(StringUtils.isBlank(fileStr)){
+    		return getResultMap(false);
+    	}
+        String fileName = FileUtils.reSetFileName(UeditorConfig.SCRAWL_TYPE);
+        File file=new File(FileUtils.getRootDir()+fileuploadpath+fileName);
+        byte[] decodeBase64 = Base64.decodeBase64(fileStr);
+        int length = decodeBase64.length;
+        
+        org.apache.commons.io.FileUtils.writeByteArrayToFile(file, decodeBase64);
+        
+        Map<String, Object> map = getResultMap(true);
+        map.put("size", length);
+        map.put("title", file.getName());
+        map.put("url", fileName);
+        map.put("type", UeditorConfig.SCRAWL_TYPE);
+        map.put("original", "scrawl"+UeditorConfig.SCRAWL_TYPE);
+    	return  map;
+    }
+ 
+ 
+ /**
+  * 下载远程的文件
+  * @param request
+  * @param fileuploadpath
+  * @param config
+  * @return
+  * @throws Exception
+  */
+ private Map<String, Object> catchimage(HttpServletRequest request,String fileuploadpath,UeditorConfig config) throws Exception {
+ 	
+ 	String fileStr = request.getParameter(config.getScrawlFieldName());
+ 	
+ 	if(StringUtils.isBlank(fileStr)){
+ 		return getResultMap(false);
+ 	}
+     String fileName = FileUtils.reSetFileName(UeditorConfig.SCRAWL_TYPE);
+     File file=new File(FileUtils.getRootDir()+fileuploadpath+fileName);
+     byte[] decodeBase64 = Base64.decodeBase64(fileStr);
+     int length = decodeBase64.length;
+     
+     org.apache.commons.io.FileUtils.writeByteArrayToFile(file, decodeBase64);
+     
+     Map<String, Object> map = getResultMap(true);
+     map.put("size", length);
+     map.put("title", file.getName());
+     map.put("url", fileName);
+     map.put("type", UeditorConfig.SCRAWL_TYPE);
+     map.put("original", "scrawl"+UeditorConfig.SCRAWL_TYPE);
+ 	return  map;
+ }
+    
+    
+    
+    
+    
+    
     
     private Map<String, Object> getResultMap(boolean success) {
-        Map<String, Object> map = new HashMap<String, Object>();
         if (success) {
-            map.put("state", "SUCCESS");
+            return getResultMap("SUCCESS");
         } else {
-            map.put("state", "ERROR");
+        	return getResultMap("ERROR");
         }
+       
+    }
+    
+    private Map<String, Object> getResultMap(String message) {
+        Map<String, Object> map = new HashMap<String, Object>();
+         map.put("state", message);
         return map;
     }
     
+    
+    
     /**
-	 * callback参数验证
-	 */
-	public boolean validCallbackName ( String name ) {
-		
+     *  callback参数验证
+     * @param name
+     * @return
+     */
+	private boolean validCallbackName ( String name ) {
 		if ( name.matches( "^[a-zA-Z_]+[\\w0-9_]*$" ) ) {
 			return true;
 		}
-		
 		return false;
 	}
 	
@@ -225,7 +306,7 @@ public class UeditorController extends BaseController {
      * @throws IllegalStateException
      * @throws IOException
      */
-    public  String upload(MultipartFile file, String fileName) throws IllegalStateException, IOException {
+	private  String upload(MultipartFile file, String fileName) throws IllegalStateException, IOException {
         File dest = new File(fileName);
         dest.getParentFile().mkdirs();
         file.transferTo(dest);
