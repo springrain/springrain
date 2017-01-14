@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.shiro.web.servlet.ShiroHttpServletRequest;
 import org.apache.shiro.web.servlet.ShiroHttpServletResponse;
 
+@Deprecated
 public class FrameShiroHttpServletResponse extends ShiroHttpServletResponse {
 
 	public FrameShiroHttpServletResponse(HttpServletResponse wrapped,

@@ -120,6 +120,7 @@ import org.springframework.beans.factory.config.BeanPostProcessor;
  * @since 1.0
  */
 @SuppressWarnings("rawtypes")
+@Deprecated
 public class FrameShiroFilterFactoryBean implements FactoryBean, BeanPostProcessor {
 
     private static transient final Logger log = LoggerFactory.getLogger(FrameShiroFilterFactoryBean.class);
