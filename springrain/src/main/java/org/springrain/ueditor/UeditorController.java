@@ -241,25 +241,7 @@ public class UeditorController extends BaseController {
   */
  private Map<String, Object> catchimage(HttpServletRequest request,String fileuploadpath,UeditorConfig config) throws Exception {
  	
- 	String fileStr = request.getParameter(config.getScrawlFieldName());
- 	
- 	if(StringUtils.isBlank(fileStr)){
- 		return getResultMap(false);
- 	}
-     String fileName = FileUtils.reSetFileName(UeditorConfig.SCRAWL_TYPE);
-     File file=new File(FileUtils.getRootDir()+fileuploadpath+fileName);
-     byte[] decodeBase64 = Base64.decodeBase64(fileStr);
-     int length = decodeBase64.length;
-     
-     org.apache.commons.io.FileUtils.writeByteArrayToFile(file, decodeBase64);
-     
-     Map<String, Object> map = getResultMap(true);
-     map.put("size", length);
-     map.put("title", file.getName());
-     map.put("url", fileName);
-     map.put("type", UeditorConfig.SCRAWL_TYPE);
-     map.put("original", "scrawl"+UeditorConfig.SCRAWL_TYPE);
- 	return  map;
+	 return getResultMap(false);
  }
     
     
