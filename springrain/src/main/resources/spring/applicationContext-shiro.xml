@@ -26,6 +26,8 @@
 	<!-- session管理器 -->
 	<bean id="sessionManager"
 		class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+		<!-- URL重写中去掉jsessionId -->
+        <property name="sessionIdUrlRewritingEnabled"  value="false"  />		
 		<!-- 超时时间 -->
 		<property name="globalSessionTimeout" value="${cache.timeout}000" />
 		<!-- session存储的实现 -->
@@ -42,6 +44,9 @@
 		<constructor-arg name="name" value="SHAREJSESSIONID" />
 		<!-- jsessionId的path为 / 用于多个系统共享jsessionId -->
 		<property name="path" value="/" />
+		<!-- more secure, protects against XSS attacks -->
+		<property name="httpOnly" value="true" />
+		
 	</bean>
 	<!-- session存储的实现 -->
 	<bean id="shiroSessionDao"
