@@ -267,6 +267,12 @@ public class UeditorController extends BaseController {
 	 List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
 	 
 	 for(String fileName:fileNames){
+		 
+		 
+		 
+		 
+		 
+		 
 		 CloseableHttpClient httpClient = HttpClientUtils.getHttpClient();
 		 HttpGet httpGet=new HttpGet(fileName);
 		 CloseableHttpResponse response = httpClient.execute(httpGet);
@@ -278,6 +284,13 @@ public class UeditorController extends BaseController {
 			 if(entity==null){
 				 continue;
 			 }
+			 
+			 long contentLength = entity.getContentLength();
+			 
+			 if(config.getCatcherMaxSize()-contentLength<0){
+		        	return getResultMap(false);
+		        }
+			 
 			 HeaderElement[] headers = entity.getContentType().getElements();
 			 if(headers==null||headers.length<1){
 				 continue;
@@ -286,13 +299,18 @@ public class UeditorController extends BaseController {
 			 if(StringUtils.isEmpty(suffix)){
 				suffix=UeditorConfig.SCRAWL_TYPE;
 			 }
+			 
+		     if(!Arrays.asList(config.getCatcherAllowFiles()).contains(suffix)){
+		        return getResultMap(false);
+		     }
+		     
 			 String fileImage = FileUtils.reSetFileName(suffix);
 		    	//保存到文件
 			 File saveFile=new File(FileUtils.getRootDir()+fileuploadpath+fileImage);
 			 org.apache.commons.io.FileUtils.copyInputStreamToFile(entity.getContent(), saveFile);
 			   
 			 Map<String,Object> map=new HashMap<String,Object>();
-		     map.put("size", entity.getContentLength());
+		     map.put("size", contentLength);
 	         map.put("title", fileImage);
 	         map.put("url", fileImage);
 	         map.put("source", fileName);
