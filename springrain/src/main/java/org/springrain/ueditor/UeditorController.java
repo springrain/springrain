@@ -89,7 +89,7 @@ public class UeditorController extends BaseController {
     		fileuploadpath=fileuploadpath+"video/";
     		obj=upload(requestfile, fileuploadpath,config.getVideoFieldName(),config.getVideoAllowFiles(),config.getVideoMaxSize());
     	}else if(UeditorConfig.ACTION_UPLOAD_SCRAWL.equals(action)){
-       		fileuploadpath=fileuploadpath+"scrawl/";
+       		fileuploadpath=fileuploadpath+"image/";
     		obj=uploadScrawl(requestfile, fileuploadpath,config);
     	}else if(UeditorConfig.ACTION_LISTFILE.equals(action)){
        		fileuploadpath=fileuploadpath+"file/";

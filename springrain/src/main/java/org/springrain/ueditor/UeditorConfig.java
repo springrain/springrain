@@ -35,7 +35,7 @@ public class UeditorConfig implements java.io.Serializable {
    
    public UeditorConfig(String urlPrefix){
 	   this.setImageUrlPrefix(urlPrefix+"image/");
-       this.setScrawlUrlPrefix(urlPrefix+"scrawl/");
+       this.setScrawlUrlPrefix(urlPrefix+"image/");
        this.setSnapscreenUrlPrefix(urlPrefix+"image/");
        this.setCatcherUrlPrefix(urlPrefix+"image/");
        this.setVideoUrlPrefix(urlPrefix+"video/");
