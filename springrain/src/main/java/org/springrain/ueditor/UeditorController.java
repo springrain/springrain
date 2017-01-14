@@ -299,8 +299,12 @@ public class UeditorController extends BaseController {
 	         list.add(map);
 	         
 		  }finally{
-			 EntityUtils.consume(entity);
-			 response.close();
+			  if(entity!=null){
+				 EntityUtils.consume(entity);
+			  }
+			  if(response!=null){
+				 response.close();
+			  }
 		 }
 		 
          
