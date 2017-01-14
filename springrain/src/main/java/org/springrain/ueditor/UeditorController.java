@@ -13,6 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.HeaderElement;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.util.EntityUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springrain.frame.controller.BaseController;
 import org.springrain.frame.util.FileUtils;
+import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.frame.util.JsonUtils;
 
 
@@ -30,6 +37,17 @@ public class UeditorController extends BaseController {
 	
 	
 	private static final String UEFILEPATH="/upload";
+	
+	 private static final Map<String, String> CONTENT_TYPE_MAP = new HashMap<String, String>() {
+	        private static final long serialVersionUID = 1L;
+	        {
+	            put("image/gif", ".gif");
+	            put("image/jpeg", ".jpg");
+	            put("image/jpg", ".jpg");
+	            put("image/png", ".png");
+	            put("image/bmp", ".bmp");
+	        }
+	    };
 	
 	/**
 	 * 主入口,处理所有的请求
@@ -240,15 +258,58 @@ public class UeditorController extends BaseController {
   * @throws Exception
   */
  private Map<String, Object> catchimage(HttpServletRequest request,String fileuploadpath,UeditorConfig config) throws Exception {
+	 String[] fileNames=request.getParameterValues(config.getCatcherFieldName());
+	 if(fileNames==null||fileNames.length<1){
+	   return getResultMap(false); 
+	 }
+	 
+	 
+	 List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+	 
+	 for(String fileName:fileNames){
+		 CloseableHttpClient httpClient = HttpClientUtils.getHttpClient();
+		 HttpGet httpGet=new HttpGet(fileName);
+		 CloseableHttpResponse response = httpClient.execute(httpGet);
+		 HttpEntity entity = response.getEntity();
+		 
+		 
+		 try{
+			 
+			 if(entity==null){
+				 continue;
+			 }
+			 HeaderElement[] headers = entity.getContentType().getElements();
+			 if(headers==null||headers.length<1){
+				 continue;
+			 }
+			 String  suffix = CONTENT_TYPE_MAP.get(entity.getContentType().getElements()[0].getName());
+			 if(StringUtils.isEmpty(suffix)){
+				suffix=UeditorConfig.SCRAWL_TYPE;
+			 }
+			 String fileImage = FileUtils.reSetFileName(suffix);
+		    	//保存到文件
+			 File saveFile=new File(FileUtils.getRootDir()+fileuploadpath+fileImage);
+			 org.apache.commons.io.FileUtils.copyInputStreamToFile(entity.getContent(), saveFile);
+			   
+			 Map<String,Object> map=new HashMap<String,Object>();
+		     map.put("size", entity.getContentLength());
+	         map.put("title", fileImage);
+	         map.put("url", fileImage);
+	         map.put("source", fileName);
+	         list.add(map);
+	         
+		  }finally{
+			 EntityUtils.consume(entity);
+			 response.close();
+		 }
+		 
+         
+	 }
+     Map<String, Object> map = getResultMap(true);
+     map.put("list", list);
+     return map;
  	
-	 return getResultMap(false);
  }
-    
-    
-    
-    
-    
-    
     
     private Map<String, Object> getResultMap(boolean success) {
         if (success) {
