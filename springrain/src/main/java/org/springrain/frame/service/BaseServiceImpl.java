@@ -21,10 +21,9 @@ import java.util.UUID;
 
 import javax.annotation.Resource;
 
-import jxl.Cell;
-
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.jdbc.core.CallableStatementCreator;
 import org.springframework.jdbc.core.SqlParameter;
@@ -43,6 +42,7 @@ import org.springrain.frame.util.ReturnDatas;
 import org.springrain.frame.util.SpringUtils;
 
 import freemarker.template.Template;
+import jxl.Cell;
 /**
  * 基础的Service父类,所有的Service都必须继承此类,每个数据库都需要一个实现.</br> 
  * 例如 demo数据的实现类是org.springrain.springrain.service.BasedemoServiceImpl,demo2数据的实现类是org.springrain.demo2.service.Basedemo2ServiceImpl</br>
@@ -85,13 +85,18 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 	
 	
 	@Override
+	public Cache getCache(String cacheName) throws Exception {
+		return cacheManager.getCache(cacheName);
+	}
+	
+	@Override
 	public <T> T getByCache(String cacheName, String key, Class<T> clazz) throws Exception {
-		return cacheManager.getCache(cacheName).get(key, clazz);
+		return getCache(cacheName).get(key, clazz);
 	}
 	
 	@Override
 	public void putByCache(String cacheName, String key, Object value) throws Exception {
-		cacheManager.getCache(cacheName).put(key, value);
+		       getCache(cacheName).put(key, value);
 	}
 
 	@Override

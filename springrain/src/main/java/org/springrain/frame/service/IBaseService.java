@@ -8,6 +8,7 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.cache.Cache;
 import org.springframework.jdbc.core.CallableStatementCreator;
 import org.springframework.jdbc.core.SqlParameter;
 import org.springrain.frame.entity.IBaseEntity;
@@ -39,6 +40,15 @@ public interface IBaseService {
 	 * @throws Exception
 	 */
 	public  Object getBean(String beanName) throws Exception;
+	
+	
+	/**
+	 * 获取Cache
+	 * @param cacheName
+	 * @return
+	 * @throws Exception
+	 */
+	public Cache getCache(String cacheName) throws Exception;
 	
 	/**
 	 * 查找cache的对象
@@ -443,6 +453,7 @@ public interface IBaseService {
 	   * @throws Exception
 	   */
 	 public Object executeCallBack(CallableStatementCreator callableStatementCreator,List<SqlParameter> parameter)throws Exception;
+
 
 
 }
