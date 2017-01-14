@@ -200,7 +200,7 @@ public class UeditorController extends BaseController {
     	return  resultMap;
     }
     /**
-     * 上传缩略图
+     * 上传涂鸦图片
      * @param request
      * @param fileuploadpath
      * @param config

@@ -107,7 +107,7 @@ public class UeditorConfig implements java.io.Serializable {
     private Integer fileManagerListSize=imageManagerListSize;
     
     
-    //缩略图
+    //涂鸦
     private String scrawlActionName=ACTION_UPLOAD_SCRAWL;
     private String scrawlUrlPrefix;
     private String scrawlFieldName=FIELD_NAME;
