@@ -20,7 +20,7 @@ public class UeditorConfig implements java.io.Serializable {
     public static final String FIELD_NAME = "file";
     public static final String SCRAWL_TYPE = ".jpg";
 
-    private static  List<String> CATCHER_DOMAIN = new ArrayList<String>(Arrays.asList( "127.0.0.1", "localhost", "img.baidu.com"));
+    private static  List<String> CATCHER_DOMAIN = new ArrayList<String>(Arrays.asList( "127.0.0.1", "localhost"));
     
     private static  List<String> IMAGE_ALLOW_FILES =new ArrayList<String>( Arrays.asList( ".png", ".jpg", ".jpeg", ".gif", ".bmp" ));
 
@@ -30,15 +30,15 @@ public class UeditorConfig implements java.io.Serializable {
                     ".pptx", ".pdf", ".txt", ".md", ".xml" ));
   
     
+    static{
+ 	   ALLOW_FILES.addAll(IMAGE_ALLOW_FILES);
+ 	   ALLOW_FILES.addAll(VIDEO_ALLOW_FILES);
+    }
+    
    public UeditorConfig(){
-	   ALLOW_FILES.addAll(IMAGE_ALLOW_FILES);
-	   ALLOW_FILES.addAll(VIDEO_ALLOW_FILES);
    }
    
    public UeditorConfig(String urlPrefix){
-	   ALLOW_FILES.addAll(IMAGE_ALLOW_FILES);
-	   ALLOW_FILES.addAll(VIDEO_ALLOW_FILES);
-	   
 	   this.setImageUrlPrefix(urlPrefix+"image/");
        this.setScrawlUrlPrefix(urlPrefix+"image/");
        this.setSnapscreenUrlPrefix(urlPrefix+"image/");
