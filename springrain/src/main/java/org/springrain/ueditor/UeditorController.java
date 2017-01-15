@@ -130,7 +130,7 @@ public class UeditorController extends BaseController {
      * @return
      * @throws Exception
      */
-    private Map<String, Object> upload(HttpServletRequest request,String fileuploadpath,String fieldName,String[] allows,Integer maxSize) throws Exception {
+    private Map<String, Object> upload(HttpServletRequest request,String fileuploadpath,String fieldName,List<String> allows,Integer maxSize) throws Exception {
     	
         MultipartHttpServletRequest requestfile = (MultipartHttpServletRequest) request;  
 
@@ -139,7 +139,7 @@ public class UeditorController extends BaseController {
         String originalName = file.getOriginalFilename();
         String suffix = FileUtils.getSuffix(originalName);
        
-        if(!Arrays.asList(allows).contains(suffix)){
+        if(!allows.contains(suffix)){
         	return getResultMap(false);
         }
         
@@ -300,7 +300,7 @@ public class UeditorController extends BaseController {
 				suffix=UeditorConfig.SCRAWL_TYPE;
 			 }
 			 
-		     if(!Arrays.asList(config.getCatcherAllowFiles()).contains(suffix)){
+		     if(!config.getCatcherAllowFiles().contains(suffix)){
 		        return getResultMap(false);
 		     }
 		     

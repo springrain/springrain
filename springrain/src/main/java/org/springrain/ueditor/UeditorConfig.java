@@ -1,6 +1,7 @@
 package org.springrain.ueditor;
 
-import org.apache.commons.lang3.ArrayUtils;
+import java.util.Arrays;
+import java.util.List;
 
 public class UeditorConfig implements java.io.Serializable {
 
@@ -18,22 +19,27 @@ public class UeditorConfig implements java.io.Serializable {
     public static final String FIELD_NAME = "file";
     public static final String SCRAWL_TYPE = ".jpg";
 
-    private static final String[] CATCHER_DOMAIN = new String[] { "127.0.0.1", "localhost", "img.baidu.com"};
+    private static final List<String> CATCHER_DOMAIN = Arrays.asList( "127.0.0.1", "localhost", "img.baidu.com");
     
-    private static final String[] IMAGE_ALLOW_FILES = new String[] { ".png", ".jpg", ".jpeg", ".gif", ".bmp" };
+    private static final List<String> IMAGE_ALLOW_FILES = Arrays.asList( ".png", ".jpg", ".jpeg", ".gif", ".bmp" );
 
-    private static final String[] VIDEO_ALLOW_FILES = new String[] { ".flv", ".swf", ".mkv", ".avi", ".rm", ".rmvb", ".mpeg",
-            ".mpg", ".ogg", ".ogv", ".mov", ".wmv", ".mp4", ".webm", ".mp3", ".wav", ".mid" };
-    public static final String[] ALLOW_FILES = ArrayUtils.addAll(ArrayUtils.addAll(VIDEO_ALLOW_FILES, IMAGE_ALLOW_FILES),
-            new String[] { ".rar", ".zip", ".tar", ".gz", ".7z", ".bz2", ".cab", ".iso", ".doc", ".docx", ".xls", ".xlsx", ".ppt",
-                    ".pptx", ".pdf", ".txt", ".md", ".xml" });
+    private static final List<String> VIDEO_ALLOW_FILES = Arrays.asList(".flv", ".swf", ".mkv", ".avi", ".rm", ".rmvb", ".mpeg",
+            ".mpg", ".ogg", ".ogv", ".mov", ".wmv", ".mp4", ".webm", ".mp3", ".wav", ".mid" );
+    public static  List<String> ALLOW_FILES = Arrays.asList( ".rar", ".zip", ".tar", ".gz", ".7z", ".bz2", ".cab", ".iso", ".doc", ".docx", ".xls", ".xlsx", ".ppt",
+                    ".pptx", ".pdf", ".txt", ".md", ".xml" );
   
     
    public UeditorConfig(){
-	   
+	   ALLOW_FILES.addAll(CATCHER_DOMAIN);
+	   ALLOW_FILES.addAll(IMAGE_ALLOW_FILES);
+	   ALLOW_FILES.addAll(VIDEO_ALLOW_FILES);
    }
    
    public UeditorConfig(String urlPrefix){
+	   ALLOW_FILES.addAll(CATCHER_DOMAIN);
+	   ALLOW_FILES.addAll(IMAGE_ALLOW_FILES);
+	   ALLOW_FILES.addAll(VIDEO_ALLOW_FILES);
+	   
 	   this.setImageUrlPrefix(urlPrefix+"image/");
        this.setScrawlUrlPrefix(urlPrefix+"image/");
        this.setSnapscreenUrlPrefix(urlPrefix+"image/");
@@ -51,7 +57,7 @@ public class UeditorConfig implements java.io.Serializable {
     private String imageActionName=ACTION_UPLOAD_IMAGE;
     private String imageFieldName=FIELD_NAME;
     private Integer imageMaxSize=2048000;
-    private String[] imageAllowFiles=IMAGE_ALLOW_FILES;
+    private List<String> imageAllowFiles=IMAGE_ALLOW_FILES;
     private boolean imageCompressEnable=true;
     private Integer imageCompressBorder=1600;
     private String imageInsertAlign="none";
@@ -68,8 +74,8 @@ public class UeditorConfig implements java.io.Serializable {
     private String catcherFieldName=FIELD_NAME;
     private String catcherUrlPrefix;
     private Integer catcherMaxSize=2048000;
-    private String[] catcherLocalDomain=CATCHER_DOMAIN;
-    private String[] catcherAllowFiles=IMAGE_ALLOW_FILES;
+    private List<String> catcherLocalDomain=CATCHER_DOMAIN;
+    private List<String> catcherAllowFiles=IMAGE_ALLOW_FILES;
     
     
     //上传视频配置
@@ -77,7 +83,7 @@ public class UeditorConfig implements java.io.Serializable {
     private String videoFieldName=FIELD_NAME;
     private String videoUrlPrefix;
     private Integer videoMaxSize=102400000;
-    private String[] videoAllowFiles=VIDEO_ALLOW_FILES;
+    private List<String> videoAllowFiles=VIDEO_ALLOW_FILES;
     
     
     
@@ -86,7 +92,7 @@ public class UeditorConfig implements java.io.Serializable {
     private String fileFieldName=FIELD_NAME;
     private String fileUrlPrefix;
     private Integer fileMaxSize=51200000;
-    private String[] fileAllowFiles=ALLOW_FILES;
+    private List<String> fileAllowFiles=ALLOW_FILES;
     
     
     
@@ -96,14 +102,14 @@ public class UeditorConfig implements java.io.Serializable {
     private String imageManagerListPath;
     private Integer imageManagerListSize=20;
     private String imageManagerInsertAlign="none";
-    private String[] imageManagerAllowFiles=IMAGE_ALLOW_FILES;
+    private List<String> imageManagerAllowFiles=IMAGE_ALLOW_FILES;
     
     
     //列出指定目录下的图文件
     private String fileManagerActionName=ACTION_LISTFILE;
     private String fileManagerUrlPrefix;
     private String fileManagerListPath;
-    private String[] fileManagerAllowFiles=ALLOW_FILES;
+    private List<String> fileManagerAllowFiles=ALLOW_FILES;
     private Integer fileManagerListSize=imageManagerListSize;
     
     
@@ -281,51 +287,51 @@ public class UeditorConfig implements java.io.Serializable {
         this.fileManagerUrlPrefix = fileManagerUrlPrefix;
     }
 
-    public String[] getImageAllowFiles() {
+    public List<String> getImageAllowFiles() {
         return imageAllowFiles;
     }
 
-    public void setImageAllowFiles(String[] imageAllowFiles) {
+    public void setImageAllowFiles(List<String> imageAllowFiles) {
         this.imageAllowFiles = imageAllowFiles;
     }
 
-    public String[] getCatcherAllowFiles() {
+    public List<String> getCatcherAllowFiles() {
         return catcherAllowFiles;
     }
 
-    public void setCatcherAllowFiles(String[] catcherAllowFiles) {
+    public void setCatcherAllowFiles(List<String> catcherAllowFiles) {
         this.catcherAllowFiles = catcherAllowFiles;
     }
 
-    public String[] getVideoAllowFiles() {
+    public List<String> getVideoAllowFiles() {
         return videoAllowFiles;
     }
 
-    public void setVideoAllowFiles(String[] videoAllowFiles) {
+    public void setVideoAllowFiles(List<String> videoAllowFiles) {
         this.videoAllowFiles = videoAllowFiles;
     }
 
-    public String[] getFileAllowFiles() {
+    public List<String> getFileAllowFiles() {
         return fileAllowFiles;
     }
 
-    public void setFileAllowFiles(String[] fileAllowFiles) {
+    public void setFileAllowFiles(List<String> fileAllowFiles) {
         this.fileAllowFiles = fileAllowFiles;
     }
 
-    public String[] getImageManagerAllowFiles() {
+    public List<String> getImageManagerAllowFiles() {
         return imageManagerAllowFiles;
     }
 
-    public void setImageManagerAllowFiles(String[] imageManagerAllowFiles) {
+    public void setImageManagerAllowFiles(List<String> imageManagerAllowFiles) {
         this.imageManagerAllowFiles = imageManagerAllowFiles;
     }
 
-    public String[] getFileManagerAllowFiles() {
+    public List<String> getFileManagerAllowFiles() {
         return fileManagerAllowFiles;
     }
 
-    public void setFileManagerAllowFiles(String[] fileManagerAllowFiles) {
+    public void setFileManagerAllowFiles(List<String> fileManagerAllowFiles) {
         this.fileManagerAllowFiles = fileManagerAllowFiles;
     }
 
@@ -421,12 +427,12 @@ public class UeditorConfig implements java.io.Serializable {
 	}
 
 
-	public String[] getCatcherLocalDomain() {
+	public List<String> getCatcherLocalDomain() {
 		return catcherLocalDomain;
 	}
 
 
-	public void setCatcherLocalDomain(String[] catcherLocalDomain) {
+	public void setCatcherLocalDomain(List<String> catcherLocalDomain) {
 		this.catcherLocalDomain = catcherLocalDomain;
 	}
 
