@@ -268,11 +268,6 @@ public class UeditorController extends BaseController {
 	 
 	 for(String fileName:fileNames){
 		 
-		 
-		 
-		 
-		 
-		 
 		 CloseableHttpClient httpClient = HttpClientUtils.getHttpClient();
 		 HttpGet httpGet=new HttpGet(fileName);
 		 CloseableHttpResponse response = httpClient.execute(httpGet);
@@ -314,7 +309,7 @@ public class UeditorController extends BaseController {
 		     map.put("size", contentLength);
 	         map.put("title", fileImage);
 	         map.put("url", fileImage);
-	         map.put("original", fileImage);
+	        // map.put("original", fileImage);
 	         map.put("source", fileName);
 	         list.add(map);
 	         
