@@ -310,9 +310,11 @@ public class UeditorController extends BaseController {
 			 org.apache.commons.io.FileUtils.copyInputStreamToFile(entity.getContent(), saveFile);
 			   
 			 Map<String,Object> map=new HashMap<String,Object>();
+			 map.put("state", "SUCCESS");
 		     map.put("size", contentLength);
 	         map.put("title", fileImage);
 	         map.put("url", fileImage);
+	         map.put("original", fileImage);
 	         map.put("source", fileName);
 	         list.add(map);
 	         
