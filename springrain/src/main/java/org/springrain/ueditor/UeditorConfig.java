@@ -1,5 +1,6 @@
 package org.springrain.ueditor;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,24 +20,22 @@ public class UeditorConfig implements java.io.Serializable {
     public static final String FIELD_NAME = "file";
     public static final String SCRAWL_TYPE = ".jpg";
 
-    private static final List<String> CATCHER_DOMAIN = Arrays.asList( "127.0.0.1", "localhost", "img.baidu.com");
+    private static  List<String> CATCHER_DOMAIN = new ArrayList<String>(Arrays.asList( "127.0.0.1", "localhost", "img.baidu.com"));
     
-    private static final List<String> IMAGE_ALLOW_FILES = Arrays.asList( ".png", ".jpg", ".jpeg", ".gif", ".bmp" );
+    private static  List<String> IMAGE_ALLOW_FILES =new ArrayList<String>( Arrays.asList( ".png", ".jpg", ".jpeg", ".gif", ".bmp" ));
 
-    private static final List<String> VIDEO_ALLOW_FILES = Arrays.asList(".flv", ".swf", ".mkv", ".avi", ".rm", ".rmvb", ".mpeg",
-            ".mpg", ".ogg", ".ogv", ".mov", ".wmv", ".mp4", ".webm", ".mp3", ".wav", ".mid" );
-    public static  List<String> ALLOW_FILES = Arrays.asList( ".rar", ".zip", ".tar", ".gz", ".7z", ".bz2", ".cab", ".iso", ".doc", ".docx", ".xls", ".xlsx", ".ppt",
-                    ".pptx", ".pdf", ".txt", ".md", ".xml" );
+    private static  List<String> VIDEO_ALLOW_FILES = new ArrayList<String>(Arrays.asList(".flv", ".swf", ".mkv", ".avi", ".rm", ".rmvb", ".mpeg",
+            ".mpg", ".ogg", ".ogv", ".mov", ".wmv", ".mp4", ".webm", ".mp3", ".wav", ".mid" ));
+    public static  List<String> ALLOW_FILES = new ArrayList<String>(Arrays.asList( ".rar", ".zip", ".tar", ".gz", ".7z", ".bz2", ".cab", ".iso", ".doc", ".docx", ".xls", ".xlsx", ".ppt",
+                    ".pptx", ".pdf", ".txt", ".md", ".xml" ));
   
     
    public UeditorConfig(){
-	   ALLOW_FILES.addAll(CATCHER_DOMAIN);
 	   ALLOW_FILES.addAll(IMAGE_ALLOW_FILES);
 	   ALLOW_FILES.addAll(VIDEO_ALLOW_FILES);
    }
    
    public UeditorConfig(String urlPrefix){
-	   ALLOW_FILES.addAll(CATCHER_DOMAIN);
 	   ALLOW_FILES.addAll(IMAGE_ALLOW_FILES);
 	   ALLOW_FILES.addAll(VIDEO_ALLOW_FILES);
 	   
