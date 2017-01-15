@@ -250,7 +250,7 @@ public class UeditorController extends BaseController {
  
  
  /**
-  * 下载远程的文件,暂不实现,ueditor的功能目前不能用
+  * 下载远程的图片
   * @param request
   * @param fileuploadpath
   * @param config
