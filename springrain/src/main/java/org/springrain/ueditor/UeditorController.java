@@ -99,7 +99,7 @@ public class UeditorController extends BaseController {
     		obj=listFile(requestfile, fileuploadpath,config);
     	}else if(UeditorConfig.ACTION_CATCHIMAGE.equals(action)){
        		fileuploadpath=fileuploadpath+"image/";
-    		obj=catchimage(requestfile, fileuploadpath,config);
+    		obj=catchImage(requestfile, fileuploadpath,config);
     	}else{
     		return getResultMap(false);
     	}
@@ -257,7 +257,7 @@ public class UeditorController extends BaseController {
   * @return
   * @throws Exception
   */
- private Map<String, Object> catchimage(HttpServletRequest request,String fileuploadpath,UeditorConfig config) throws Exception {
+ private Map<String, Object> catchImage(HttpServletRequest request,String fileuploadpath,UeditorConfig config) throws Exception {
 	 String[] fileNames=request.getParameterValues(config.getCatcherFieldName()+"[]");
 	 if(fileNames==null||fileNames.length<1){
 	   return getResultMap(false); 
