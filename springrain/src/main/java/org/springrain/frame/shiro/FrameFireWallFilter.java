@@ -1,6 +1,7 @@
 package org.springrain.frame.shiro;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
+import org.springrain.cms.utils.SiteUtils;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.IPUtils;
 /**
@@ -61,7 +63,8 @@ public class FrameFireWallFilter extends OncePerRequestFilter {
 		    
 		    //次数小于0,认为不限制
 		    if(firewallLockCount<0){
-		    	chain.doFilter(req, res);
+		    	//chain.doFilter(req, res);
+		    	chainDoFilter(chain, request, res);
 		    	return;
 		    }
 		    
@@ -69,7 +72,8 @@ public class FrameFireWallFilter extends OncePerRequestFilter {
 		    
 		    //白名单IP
 		    if(whiteList.contains(ip)){
-		    	chain.doFilter(req, res);
+		    	//chain.doFilter(req, res);
+		    	chainDoFilter(chain, request, res);
 		    	return;
 		    }
 		    
@@ -83,13 +87,15 @@ public class FrameFireWallFilter extends OncePerRequestFilter {
 		    Long _end=now+firewallLockSecond;
 		    if(fw==null){//第一次访问
 		    	cache.put(ip, 1+"_"+_end+"_0");
-		    	chain.doFilter(req, res);
+		    	//chain.doFilter(req, res);
+		    	chainDoFilter(chain, request, res);
 		    	return;
 		    }
 		    String[] strs=fw.split("_");
 		    if(strs==null||strs.length!=3){
 		    	cache.put(ip, 1+"_"+_end+"_0");
-		    	chain.doFilter(req, res);
+		    	//chain.doFilter(req, res);
+		    	chainDoFilter(chain, request, res);
 		    	return;
 		    }
 		    //已请求次数
@@ -101,7 +107,8 @@ public class FrameFireWallFilter extends OncePerRequestFilter {
 		    _count=_count+1;
 		    if(_count<=firewallLockCount){//不到阀值
 		    	cache.put(ip, _count+"_"+endDateLong+"_"+active);
-		    	chain.doFilter(req, res);
+		    	//chain.doFilter(req, res);
+		    	chainDoFilter(chain, request, res);
 		    	return;
 		    	
 		    }
@@ -116,7 +123,8 @@ public class FrameFireWallFilter extends OncePerRequestFilter {
 		    
 		    if(now>endDateLong){//已经过期
 		    	cache.put(ip, 1+"_"+_end+"_0");
-		    	chain.doFilter(req, res);
+		    	//chain.doFilter(req, res);
+		    	chainDoFilter(chain, request, res);
 		    	return;
 		    }
 		    
@@ -125,6 +133,41 @@ public class FrameFireWallFilter extends OncePerRequestFilter {
 	    	return;
 		
 	}
+	
+	/**
+	 * 统一处理进入下一个过滤器
+	 * @param chain
+	 * @param req
+	 * @param res
+	 * @throws IOException
+	 * @throws ServletException
+	 */
+   private void chainDoFilter(FilterChain chain,HttpServletRequest request,ServletResponse res) throws IOException, ServletException{
+	   String requestURI = request.getRequestURI();
+	   
+	   int f_index=requestURI.indexOf("/s_");
+	   if(f_index<0){
+		   chain.doFilter(request, res);
+		   return;
+	   }
+	   
+	   String siteId=requestURI.substring(f_index+1, requestURI.indexOf("/", f_index+1));
+	   
+	   //重新编码siteId,避免注入
+	   siteId=URLEncoder.encode(siteId,"UTF-8");
+	   
+	   //避免注入
+	   if(siteId.length()>30){
+		   chain.doFilter(request, res);
+		   return;
+	   }
+	   //把siteId放入ThreadLocal
+	   SiteUtils.setSiteId(siteId);
+	   
+	   chain.doFilter(request, res);
+	   return;
+	   
+   }
 
 
 
