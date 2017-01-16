@@ -265,3 +265,11 @@ CREATE TABLE `cms_theme_template` (
   `templateId` varchar(50) NOT NULL COMMENT '模板Id',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='主题和模板中间表';
+
+
+-- ----------------------------
+-- Records of cms_theme_template
+-- ----------------------------
+INSERT INTO `t_tableindex` (`id`, `maxIndex`, `prefix`) VALUES ('cms_site', '10', 's_');
+INSERT INTO `t_tableindex` (`id`, `maxIndex`, `prefix`) VALUES ('cms_channel', '100', 'h_');
+INSERT INTO `t_tableindex` (`id`, `maxIndex`, `prefix`) VALUES ('cms_content', '1000', 'c_');
