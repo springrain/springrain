@@ -118,13 +118,14 @@
 	
 	
 	<!-- 处理后置拦截,清理ThreadLocal -->
+	<!--  
  	<mvc:interceptors> 
  	    <mvc:interceptor> 
  	        <mvc:mapping path="/f/**"/> 
  	        <bean class="org.springrain.cms.interceptor.SiteInterceptor" />
  	    </mvc:interceptor> 
  	</mvc:interceptors> 
-	
+	-->
 	
 	
 
