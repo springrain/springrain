@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springrain.cms.utils.SiteUtils;
 import org.springrain.frame.controller.BaseController;
@@ -18,7 +19,7 @@ import org.springrain.weixin.sdk.mp.bean.result.WxMpOAuth2AccessToken;
 import org.springrain.weixin.sdk.mp.bean.result.WxMpUser;
 
 @Controller
-@RequestMapping(value = "/wx/author")
+@RequestMapping(value = "/wx/author/{siteId}")
 public class WxAuthorController extends BaseController {
 	@Resource
 	IWxMpService wxMpService;
@@ -34,14 +35,8 @@ public class WxAuthorController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/oauth2")
-	public String oauth2(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String oauth2(@PathVariable String siteId,HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String url = request.getParameter("url");
-		
-		String siteId=SiteUtils.getSiteId();
-		if(StringUtils.isBlank(siteId)){
-			siteId=request.getParameter("_siteId");
-		}
-		
 		if(StringUtils.isBlank(url)||StringUtils.isBlank(siteId)){
 			return null;
 		}
@@ -50,7 +45,7 @@ public class WxAuthorController extends BaseController {
 		WxMpConfig wxmpconfig = wxMpConfigService.findWxMpConfigById(siteId);
 		
 		
-		String _url=SiteUtils.getSiteDomain(request)+"wx/author/callback?_siteId="+siteId+"&url=" + url;
+		String _url=SiteUtils.getSiteDomain(request)+"wx/author/"+siteId+"/callback?url=" + url;
 		
 		String oauthUrl = wxMpService.oauth2buildAuthorizationUrl(wxmpconfig,_url, WxConsts.OAUTH2_SCOPE_BASE, null);
 		return redirect + oauthUrl;
@@ -65,11 +60,17 @@ public class WxAuthorController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/callback")
-	public String callback(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String callback(@PathVariable String siteId,HttpServletRequest request, HttpServletResponse response) throws Exception {
 		WxMpUser wxMpUser = new WxMpUser();
 		String url = request.getParameter("url");
 		String code = request.getParameter("code");
-		String siteId=request.getParameter("_siteId");
+		
+		if(StringUtils.isBlank(url)||StringUtils.isBlank(code)||StringUtils.isBlank(siteId)){
+			return null;
+		}
+		
+		
+		
 		
 		WxMpConfig wxmpconfig = wxMpConfigService.findWxMpConfigById(siteId);
 		try {
@@ -77,7 +78,6 @@ public class WxAuthorController extends BaseController {
 			WxMpOAuth2AccessToken accessToken = wxMpService.oauth2getAccessToken(wxmpconfig, code);
 			// wxMpUser=wxMpService.oauth2getUserInfo(wxmpconfig,accessToken,"zh_CN");
 			request.getSession().setAttribute("openId", accessToken.getOpenId());
-			System.out.println("重新获取用户信息了！");
 		} catch (WxErrorException e) {
 			logger.error(e.getMessage());
 		}

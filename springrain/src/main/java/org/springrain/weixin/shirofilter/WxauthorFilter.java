@@ -22,6 +22,12 @@ public class WxauthorFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws ServletException, IOException {
+		String siteId=SiteUtils.getSiteId();
+		if(StringUtils.isBlank(siteId)){
+			return;
+		}
+		
+		
 		String openId = "";
 		try {
 			HttpServletRequest req = (HttpServletRequest) request;
@@ -36,9 +42,10 @@ public class WxauthorFilter extends OncePerRequestFilter {
 			
 			String url = SiteUtils.getRequestURL(req);
 			
-		    req.getRequestDispatcher("/wx/author/oauth2?url=" + url).forward(request, response);
+			
+		    req.getRequestDispatcher("/wx/author/"+siteId+"/oauth2?url=" + url).forward(request, response);
 		    
-			//rep.sendRedirect(SiteUtils.getSiteDomain(req)+"wx/author/oauth2?_siteId="+SiteUtils.getSiteId()+"&url="+ url);
+			//rep.sendRedirect(SiteUtils.getSiteDomain(req)+"wx/author/"+siteId+"/oauth2?url="+ url);
 		    
 		    
 		    
