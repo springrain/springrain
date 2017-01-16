@@ -15,4 +15,9 @@ public class SiteUtils {
 	public static String getSiteId(){
 		return siteThreadLocal.get();
 	}
+	public static void removeSiteId(){
+		 siteThreadLocal.remove();
+	}
+	
+	
 }

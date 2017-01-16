@@ -165,6 +165,10 @@ public class FrameFireWallFilter extends OncePerRequestFilter {
 	   SiteUtils.setSiteId(siteId);
 	   
 	   chain.doFilter(request, res);
+	   
+	   SiteUtils.removeSiteId();
+	   
+	   
 	   return;
 	   
    }
