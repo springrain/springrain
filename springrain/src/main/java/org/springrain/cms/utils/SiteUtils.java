@@ -22,7 +22,7 @@ public class SiteUtils {
 	}
 	
 	
-	public static String getSiteDomain(HttpServletRequest request){
+	public static String getSiteURLPath(HttpServletRequest request){
 		String path = request.getContextPath(); 
 		if("/".equals(path)){
 			path="";
