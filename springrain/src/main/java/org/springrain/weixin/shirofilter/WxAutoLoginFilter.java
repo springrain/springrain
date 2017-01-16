@@ -15,8 +15,8 @@ import org.apache.shiro.web.servlet.OncePerRequestFilter;
 import org.springframework.stereotype.Component;
 import org.springrain.cms.utils.SiteUtils;
 
-@Component("wxauthor")
-public class WxauthorFilter extends OncePerRequestFilter {
+@Component("wxautologin")
+public class WxAutoLoginFilter extends OncePerRequestFilter {
 
 
 	@Override
@@ -43,7 +43,7 @@ public class WxauthorFilter extends OncePerRequestFilter {
 			String url = SiteUtils.getRequestURL(req);
 			
 			
-		    req.getRequestDispatcher("/wx/author/"+siteId+"/oauth2?url=" + url).forward(request, response);
+		    req.getRequestDispatcher("/wx/autologin/"+siteId+"/oauth2?url=" + url).forward(request, response);
 		    
 			//rep.sendRedirect(SiteUtils.getSiteURLPath(req)+"wx/author/"+siteId+"/oauth2?url="+ url);
 		    
