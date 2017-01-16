@@ -50,7 +50,7 @@ public class WxAuthorController extends BaseController {
 		WxMpConfig wxmpconfig = wxMpConfigService.findWxMpConfigById(siteId);
 		
 		
-		String _url=SiteUtils.getSiteDomain(request)+"wx/author/callback?_sietId="+siteId+"&url=" + url;
+		String _url=SiteUtils.getSiteDomain(request)+"wx/author/callback?_siteId="+siteId+"&url=" + url;
 		
 		String oauthUrl = wxMpService.oauth2buildAuthorizationUrl(wxmpconfig,_url, WxConsts.OAUTH2_SCOPE_BASE, null);
 		return redirect + oauthUrl;
