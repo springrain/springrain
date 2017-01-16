@@ -323,7 +323,7 @@ public class HttpClientUtils {
 	 * @return
 	 */
 	public static String sendHttpGet(HttpGet httpGet,SSLContext sslConext) {
-		CloseableHttpClient httpClient = getHttpClient();
+		CloseableHttpClient httpClient = getHttpClient(sslConext);
 		//System.out.println(httpClient);
 		CloseableHttpResponse response = null;
 		HttpEntity entity = null;
