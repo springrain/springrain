@@ -45,7 +45,7 @@ public class WxAutoLoginFilter extends OncePerRequestFilter {
 			
 		    req.getRequestDispatcher("/wx/autologin/"+siteId+"/oauth2?url=" + url).forward(request, response);
 		    
-			//rep.sendRedirect(SiteUtils.getSiteURLPath(req)+"wx/author/"+siteId+"/oauth2?url="+ url);
+			//rep.sendRedirect(SiteUtils.getSiteURLPath(req)+"wx/autologin/"+siteId+"/oauth2?url="+ url);
 		    
 		    
 		    
