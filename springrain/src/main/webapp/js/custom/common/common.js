@@ -374,9 +374,11 @@ function ajaxpostonlayer(pageurl,listurl,mydata,msg){
 /* 赋值 */
 
 function set_val(name, val) {
-
 	if ($("#" + name + " option").length > 0) {
-		$("#" + name).val(val);
+		//按老的UI不动是这个
+		//$("#" + name).val(val);
+		//按新的layerui只能，模拟点击
+		jQuery("#"+name).siblings("div").filter(".layui-form-select").eq(0).find("dd[lay-value='"+val+"']").trigger("click");
 		return;
 	}
 

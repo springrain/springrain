@@ -246,8 +246,6 @@ description="springrain开源系统管理后台"/>
 										<div class="fl per20 line-vertical"></div>
 										<form id="updateForm" name="updateForm"	action="${ctx}/system/role/update" method="post" class="layui-form">
 											<input type="hidden" name="id" id="id">
-											<input type="hidden" name="roleType" value="0">
-											
 											<div class="layui-form-item  col-lg-9">
 									    		<label class="layui-form-label col-lg-3">名称*</label>
 											    <div class="layui-input-inline">
@@ -264,11 +262,26 @@ description="springrain开源系统管理后台"/>
 											      	<input name="menuIds" id="menuIds" type="hidden">
 											    </div>
 										  	</div>
-											
+											<div class="layui-form-item  col-lg-9">
+											    <label class="layui-form-label col-lg-3">角色类型</label>
+											    <div class="layui-input-inline ">
+											      	<select class="form-control" name="roleType" id="roleType" placeholder='请选择'>
+											      		<option value>请选择角色类型</option>
+											      		<optgroup label="<<系统级角色>>">
+															<option value="0">系统角色</option>
+														</optgroup>
+														<optgroup label="<<应用级角色>>">
+															<option value="1">部门主管</option>
+															<option value="2">业务岗位</option>
+														</optgroup>
+													</select>
+											    </div>
+										  	</div>
 											<div class="layui-form-item  col-lg-9">
 											    <label class="layui-form-label col-lg-3">是否可用</label>
 											    <div class="layui-input-inline ">
 											      	<select class="form-control" name="active" id="active">
+											      		<option value>请选择是否可用</option>
 														<option value="1">是</option>
 														<option value="0">否</option>
 													</select>
