@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import org.apache.commons.lang3.time.FastDateFormat;
 import org.springframework.stereotype.Service;
 import org.springrain.weixin.entity.WxMpConfig;
+import org.springrain.weixin.sdk.common.api.WxConsts;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
 import org.springrain.weixin.sdk.mp.api.IWxMpDataCubeService;
 import org.springrain.weixin.sdk.mp.api.IWxMpService;
@@ -27,7 +28,7 @@ import com.google.gson.JsonObject;
  */
 @Service("wxMpDataCubeService")
 public class WxMpDataCubeServiceImpl implements IWxMpDataCubeService {
-  private static final String API_URL_PREFIX = "https://api.weixin.qq.com/datacube";
+  private static final String API_URL_PREFIX = WxConsts.mpapiurl+"/datacube";
 
   private final Format dateFormat = FastDateFormat.getInstance("yyyy-MM-dd");
 

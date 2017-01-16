@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springrain.weixin.entity.WxMpConfig;
+import org.springrain.weixin.sdk.common.api.WxConsts;
 import org.springrain.weixin.sdk.common.bean.result.WxError;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
 import org.springrain.weixin.sdk.mp.api.IWxMpService;
@@ -28,7 +29,7 @@ import com.google.gson.reflect.TypeToken;
 
 @Service("wxMpUserTagService")
 public class WxMpUserTagServiceImpl implements IWxMpUserTagService {
-  private static final String API_URL_PREFIX = "https://api.weixin.qq.com/cgi-bin/tags";
+  private static final String API_URL_PREFIX = WxConsts.mpapiurl+"/cgi-bin/tags";
 
   @Resource
   private IWxMpService wxMpService;
@@ -100,7 +101,7 @@ public class WxMpUserTagServiceImpl implements IWxMpUserTagService {
   @Override
   public WxTagListUser tagListUser(WxMpConfig wxmpconfig,Long tagId, String nextOpenid)
       throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/user/tag/get";
+    String url = WxConsts.mpapiurl+"/cgi-bin/user/tag/get";
 
     JsonObject json = new JsonObject();
     json.addProperty("tagid", tagId);

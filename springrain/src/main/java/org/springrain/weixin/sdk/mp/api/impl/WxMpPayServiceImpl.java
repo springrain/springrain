@@ -32,6 +32,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.weixin.entity.WxMpConfig;
+import org.springrain.weixin.sdk.common.api.WxConsts;
 import org.springrain.weixin.sdk.common.bean.result.WxError;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
 import org.springrain.weixin.sdk.common.util.BeanUtils;
@@ -70,7 +71,7 @@ import com.thoughtworks.xstream.XStream;
 @Service("wxMpPayService")
 public class WxMpPayServiceImpl implements IWxMpPayService {
 
-  private static final String PAY_BASE_URL = "https://api.mch.weixin.qq.com";
+  private static final String PAY_BASE_URL = WxConsts.mppaybaseurl;
   private static final String[] TRADE_TYPES = new String[]{"JSAPI", "NATIVE", "APP"};
   private static final String[] REFUND_ACCOUNT = new String[]{"REFUND_SOURCE_RECHARGE_FUNDS",
     "REFUND_SOURCE_UNSETTLED_FUNDS"};

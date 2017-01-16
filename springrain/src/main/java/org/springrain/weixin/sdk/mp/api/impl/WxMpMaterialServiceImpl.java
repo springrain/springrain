@@ -45,8 +45,8 @@ import org.springrain.weixin.sdk.mp.util.json.WxMpGsonBuilder;
 
 @Service("wxMpMaterialService")
 public class WxMpMaterialServiceImpl implements IWxMpMaterialService {
-  private static final String MEDIA_API_URL_PREFIX = "https://api.weixin.qq.com/cgi-bin/media";
-  private static final String MATERIAL_API_URL_PREFIX = "https://api.weixin.qq.com/cgi-bin/material";
+  private static final String MEDIA_API_URL_PREFIX = WxConsts.mpapiurl+"/cgi-bin/media";
+  private static final String MATERIAL_API_URL_PREFIX = WxConsts.mpapiurl+"/cgi-bin/material";
   
   @Resource
   private IWxMpService wxMpService;

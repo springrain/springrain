@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 import org.springrain.weixin.entity.WxMpConfig;
+import org.springrain.weixin.sdk.common.api.WxConsts;
 import org.springrain.weixin.sdk.common.bean.result.WxError;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
 import org.springrain.weixin.sdk.common.util.http.SimplePostRequestExecutor;
@@ -25,7 +26,7 @@ import com.google.gson.JsonObject;
 
 @Service("wxMpQrcodeService")
 public class WxMpQrcodeServiceImpl implements IWxMpQrcodeService {
-  private static final String API_URL_PREFIX = "https://api.weixin.qq.com/cgi-bin/qrcode";
+  private static final String API_URL_PREFIX = WxConsts.mpapiurl+"/cgi-bin/qrcode";
  
   @Resource
   private IWxMpService wxMpService;
@@ -84,13 +85,13 @@ public class WxMpQrcodeServiceImpl implements IWxMpQrcodeService {
 
   @Override
   public File qrCodePicture(WxMpConfig wxmpconfig,WxMpQrCodeTicket ticket) throws WxErrorException {
-    String url = "https://mp.weixin.qq.com/cgi-bin/showqrcode";
+    String url = WxConsts.mpweixinurl+"/cgi-bin/showqrcode";
     return wxMpService.execute(wxmpconfig,new QrCodeRequestExecutor(), url, ticket);
   }
 
   @Override
   public String qrCodePictureUrl(WxMpConfig wxmpconfig,String ticket, boolean needShortUrl) throws WxErrorException {
-    String url = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=%s";
+    String url = WxConsts.mpweixinurl+"/cgi-bin/showqrcode?ticket=%s";
     try {
       String resultUrl = String.format(url,
               URLEncoder.encode(ticket, StandardCharsets.UTF_8.name()));

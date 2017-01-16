@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springrain.weixin.entity.WxMpConfig;
 import org.springrain.weixin.sdk.common.api.IWxMpConfigService;
+import org.springrain.weixin.sdk.common.api.WxConsts;
 import org.springrain.weixin.sdk.common.bean.WxCardApiSignature;
 import org.springrain.weixin.sdk.common.bean.result.WxError;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
@@ -83,7 +84,7 @@ public class WxMpCardServiceImpl implements IWxMpCardService {
       }
       
 
-        String url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=wx_card";
+        String url = WxConsts.mpapiurl+"/cgi-bin/ticket/getticket?type=wx_card";
         String responseContent = wxMpService.execute(wxmpconfig,new SimpleGetRequestExecutor(), url, null);
         JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
         JsonObject tmpJsonObject = tmpJsonElement.getAsJsonObject();
@@ -138,7 +139,7 @@ public class WxMpCardServiceImpl implements IWxMpCardService {
    */
   @Override
   public String decryptCardCode(WxMpConfig wxmpconfig,String encryptCode) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/card/code/decrypt";
+    String url = WxConsts.mpapiurl+"/card/code/decrypt";
     JsonObject param = new JsonObject();
     param.addProperty("encrypt_code", encryptCode);
     String responseContent = wxMpService.post(wxmpconfig,url, param.toString());
@@ -158,7 +159,7 @@ public class WxMpCardServiceImpl implements IWxMpCardService {
    */
   @Override
   public WxMpCardResult queryCardCode(WxMpConfig wxmpconfig,String cardId, String code, boolean checkConsume) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/card/code/get";
+    String url = WxConsts.mpapiurl+"/card/code/get";
     JsonObject param = new JsonObject();
     param.addProperty("card_id", cardId);
     param.addProperty("code", code);
@@ -192,7 +193,7 @@ public class WxMpCardServiceImpl implements IWxMpCardService {
    */
   @Override
   public String consumeCardCode(WxMpConfig wxmpconfig,String code, String cardId) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/card/code/consume";
+    String url = WxConsts.mpapiurl+"/card/code/consume";
     JsonObject param = new JsonObject();
     param.addProperty("code", code);
 
@@ -216,7 +217,7 @@ public class WxMpCardServiceImpl implements IWxMpCardService {
   @Override
   public void markCardCode(WxMpConfig wxmpconfig,String code, String cardId, String openId, boolean isMark) throws
           WxErrorException {
-    String url = "https://api.weixin.qq.com/card/code/mark";
+    String url = WxConsts.mpapiurl+"/card/code/mark";
     JsonObject param = new JsonObject();
     param.addProperty("code", code);
     param.addProperty("card_id", cardId);
@@ -233,7 +234,7 @@ public class WxMpCardServiceImpl implements IWxMpCardService {
 
   @Override
   public String getCardDetail(WxMpConfig wxmpconfig,String cardId) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/card/get";
+    String url = WxConsts.mpapiurl+"/card/get";
     JsonObject param = new JsonObject();
     param.addProperty("card_id", cardId);
     String responseContent = wxMpService.post(wxmpconfig,url, param.toString());

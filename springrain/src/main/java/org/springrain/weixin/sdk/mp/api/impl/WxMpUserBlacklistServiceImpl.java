@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 import org.springrain.weixin.entity.WxMpConfig;
+import org.springrain.weixin.sdk.common.api.WxConsts;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
 import org.springrain.weixin.sdk.common.util.http.SimplePostRequestExecutor;
 import org.springrain.weixin.sdk.mp.api.IWxMpService;
@@ -23,7 +24,7 @@ import com.google.gson.JsonObject;
 
 @Service("wxMpUserBlacklistService")
 public class WxMpUserBlacklistServiceImpl implements IWxMpUserBlacklistService {
-  private static final String API_BLACKLIST_PREFIX = "https://api.weixin.qq.com/cgi-bin/tags/members";
+  private static final String API_BLACKLIST_PREFIX = WxConsts.mpapiurl+"/cgi-bin/tags/members";
  
   @Resource
   private IWxMpService wxMpService;

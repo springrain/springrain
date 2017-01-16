@@ -20,6 +20,7 @@ import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.frame.util.JsonUtils;
 import org.springrain.weixin.entity.WxCpConfig;
 import org.springrain.weixin.sdk.common.api.IWxCpConfigService;
+import org.springrain.weixin.sdk.common.api.WxConsts;
 import org.springrain.weixin.sdk.common.bean.WxAccessToken;
 import org.springrain.weixin.sdk.common.bean.WxJsApiSignature;
 import org.springrain.weixin.sdk.common.bean.menu.WxMenu;
@@ -79,7 +80,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
 
   @Override
   public void userAuthenticated(WxCpConfig wxcpconfig,String userId) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/user/authsucc?userid=" + userId;
+    String url = WxConsts.qyapiurl+"/cgi-bin/user/authsucc?userid=" + userId;
     get(wxcpconfig,url, null);
   }
 
@@ -100,7 +101,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
        	  return wxcpconfig.getAccessToken();
          }
     	
-          String url = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?"
+          String url = WxConsts.qyapiurl+"/cgi-bin/gettoken?"
             + "&corpid=" + wxcpconfig.getCorpId()
             + "&corpsecret=" + wxcpconfig.getCorpSecret();
           try {
@@ -141,7 +142,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
 	      if (!wxcpconfig.isJsApiTicketExpired()) {
 	    	  return wxcpconfig.getJsApiTicket();
 	      }
-          String url = "https://qyapi.weixin.qq.com/cgi-bin/get_jsapi_ticket";
+          String url = WxConsts.qyapiurl+"/cgi-bin/get_jsapi_ticket";
           String responseContent = execute(wxcpconfig,new SimpleGetRequestExecutor(), url, null);
           JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
           JsonObject tmpJsonObject = tmpJsonElement.getAsJsonObject();
@@ -180,7 +181,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
 
   @Override
   public void messageSend(WxCpConfig wxcpconfig,WxCpMessage message) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/message/send";
+    String url = WxConsts.qyapiurl+"/cgi-bin/message/send";
     post(wxcpconfig,url, message.toJson());
   }
 
@@ -191,7 +192,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
 
   @Override
   public void menuCreate(WxCpConfig wxcpconfig,Integer agentId, WxMenu menu) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/menu/create?agentid="
+    String url = WxConsts.qyapiurl+"/cgi-bin/menu/create?agentid="
       + wxcpconfig.getAgentId();
     post(wxcpconfig,url, menu.toJson());
   }
@@ -203,7 +204,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
 
   @Override
   public void menuDelete(WxCpConfig wxcpconfig,Integer agentId) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/menu/delete?agentid=" + agentId;
+    String url = WxConsts.qyapiurl+"/cgi-bin/menu/delete?agentid=" + agentId;
     get(wxcpconfig,url, null);
   }
 
@@ -214,7 +215,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
 
   @Override
   public WxMenu menuGet(WxCpConfig wxcpconfig,Integer agentId) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/menu/get?agentid=" + agentId;
+    String url = WxConsts.qyapiurl+"/cgi-bin/menu/get?agentid=" + agentId;
     try {
       String resultContent = get(wxcpconfig,url, null);
       return WxMenu.fromJson(resultContent);
@@ -235,13 +236,13 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
 
   @Override
   public WxMediaUploadResult mediaUpload(WxCpConfig wxcpconfig,String mediaType, File file) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/media/upload?type=" + mediaType;
+    String url = WxConsts.qyapiurl+"/cgi-bin/media/upload?type=" + mediaType;
     return execute(wxcpconfig,new MediaUploadRequestExecutor(), url, file);
   }
 
   @Override
   public File mediaDownload(WxCpConfig wxcpconfig,String media_id) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/media/get";
+    String url = WxConsts.qyapiurl+"/cgi-bin/media/get";
     return execute(wxcpconfig, new MediaDownloadRequestExecutor(
         new File(wxcpconfig.getTmpDirFile())),
       url, "media_id=" + media_id);
@@ -250,7 +251,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
 
   @Override
   public Integer departCreate(WxCpConfig wxcpconfig,WxCpDepart depart) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/department/create";
+    String url = WxConsts.qyapiurl+"/cgi-bin/department/create";
     String responseContent = execute(wxcpconfig,
       new SimplePostRequestExecutor(),
       url,
@@ -261,19 +262,19 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
 
   @Override
   public void departUpdate(WxCpConfig wxcpconfig,WxCpDepart group) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/department/update";
+    String url = WxConsts.qyapiurl+"/cgi-bin/department/update";
     post(wxcpconfig,url, group.toJson());
   }
 
   @Override
   public void departDelete(WxCpConfig wxcpconfig,Integer departId) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/department/delete?id=" + departId;
+    String url = WxConsts.qyapiurl+"/cgi-bin/department/delete?id=" + departId;
     get(wxcpconfig,url, null);
   }
 
   @Override
   public List<WxCpDepart> departGet(WxCpConfig wxcpconfig) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/department/list";
+    String url = WxConsts.qyapiurl+"/cgi-bin/department/list";
     String responseContent = get(wxcpconfig,url, null);
     /*
      * 操蛋的微信API，创建时返回的是 { group : { id : ..., name : ...} }
@@ -290,25 +291,25 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
 
   @Override
   public void userCreate(WxCpConfig wxcpconfig,WxCpUser user) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/user/create";
+    String url = WxConsts.qyapiurl+"/cgi-bin/user/create";
     post(wxcpconfig,url, user.toJson());
   }
 
   @Override
   public void userUpdate(WxCpConfig wxcpconfig,WxCpUser user) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/user/update";
+    String url = WxConsts.qyapiurl+"/cgi-bin/user/update";
     post(wxcpconfig,url, user.toJson());
   }
 
   @Override
   public void userDelete(WxCpConfig wxcpconfig,String userid) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/user/delete?userid=" + userid;
+    String url = WxConsts.qyapiurl+"/cgi-bin/user/delete?userid=" + userid;
     get(wxcpconfig,url, null);
   }
 
   @Override
   public void userDelete(WxCpConfig wxcpconfig,String[] userids) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/user/batchdelete";
+    String url = WxConsts.qyapiurl+"/cgi-bin/user/batchdelete";
     JsonObject jsonObject = new JsonObject();
     JsonArray jsonArray = new JsonArray();
     for (String userid : userids) {
@@ -320,14 +321,14 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
 
   @Override
   public WxCpUser userGet(WxCpConfig wxcpconfig,String userid) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/user/get?userid=" + userid;
+    String url = WxConsts.qyapiurl+"/cgi-bin/user/get?userid=" + userid;
     String responseContent = get(wxcpconfig,url, null);
     return WxCpUser.fromJson(responseContent);
   }
 
   @Override
   public List<WxCpUser> userList(WxCpConfig wxcpconfig,Integer departId, Boolean fetchChild, Integer status) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/user/list?department_id=" + departId;
+    String url = WxConsts.qyapiurl+"/cgi-bin/user/list?department_id=" + departId;
     String params = "";
     if (fetchChild != null) {
       params += "&fetch_child=" + (fetchChild ? "1" : "0");
@@ -350,7 +351,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
 
   @Override
   public List<WxCpUser> departGetUsers(WxCpConfig wxcpconfig,Integer departId, Boolean fetchChild, Integer status) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/user/simplelist?department_id=" + departId;
+    String url = WxConsts.qyapiurl+"/cgi-bin/user/simplelist?department_id=" + departId;
     String params = "";
     if (fetchChild != null) {
       params += "&fetch_child=" + (fetchChild ? "1" : "0");
@@ -373,7 +374,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
 
   @Override
   public String tagCreate(WxCpConfig wxcpconfig,String tagName) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/tag/create";
+    String url = WxConsts.qyapiurl+"/cgi-bin/tag/create";
     JsonObject o = new JsonObject();
     o.addProperty("tagname", tagName);
     String responseContent = post(wxcpconfig,url, o.toString());
@@ -383,7 +384,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
 
   @Override
   public void tagUpdate(WxCpConfig wxcpconfig,String tagId, String tagName) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/tag/update";
+    String url = WxConsts.qyapiurl+"/cgi-bin/tag/update";
     JsonObject o = new JsonObject();
     o.addProperty("tagid", tagId);
     o.addProperty("tagname", tagName);
@@ -392,13 +393,13 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
 
   @Override
   public void tagDelete(WxCpConfig wxcpconfig,String tagId) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/tag/delete?tagid=" + tagId;
+    String url = WxConsts.qyapiurl+"/cgi-bin/tag/delete?tagid=" + tagId;
     get(wxcpconfig,url, null);
   }
 
   @Override
   public List<WxCpTag> tagGet(WxCpConfig wxcpconfig) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/tag/list";
+    String url = WxConsts.qyapiurl+"/cgi-bin/tag/list";
     String responseContent = get(wxcpconfig,url, null);
     JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
     return WxCpGsonBuilder.INSTANCE.create()
@@ -411,7 +412,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
 
   @Override
   public List<WxCpUser> tagGetUsers(WxCpConfig wxcpconfig,String tagId) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/tag/get?tagid=" + tagId;
+    String url = WxConsts.qyapiurl+"/cgi-bin/tag/get?tagid=" + tagId;
     String responseContent = get(wxcpconfig,url, null);
     JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
     return WxCpGsonBuilder.INSTANCE.create()
@@ -424,7 +425,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
 
   @Override
   public void tagAddUsers(WxCpConfig wxcpconfig,String tagId, List<String> userIds, List<String> partyIds) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/tag/addtagusers";
+    String url = WxConsts.qyapiurl+"/cgi-bin/tag/addtagusers";
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("tagid", tagId);
     if (userIds != null) {
@@ -446,7 +447,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
 
   @Override
   public void tagRemoveUsers(WxCpConfig wxcpconfig,String tagId, List<String> userIds) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/tag/deltagusers";
+    String url = WxConsts.qyapiurl+"/cgi-bin/tag/deltagusers";
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("tagid", tagId);
     JsonArray jsonArray = new JsonArray();
@@ -467,7 +468,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
 
   @Override
   public String oauth2buildAuthorizationUrl(WxCpConfig wxcpconfig,String redirectUri, String state) {
-    String url = "https://open.weixin.qq.com/connect/oauth2/authorize?";
+    String url = WxConsts.mpopenurl+"/connect/oauth2/authorize?";
     url += "appid=" + wxcpconfig.getCorpId();
     url += "&redirect_uri=" + URIUtil.encodeURIComponent(redirectUri);
     url += "&response_type=code";
@@ -486,7 +487,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
 
   @Override
   public String[] oauth2getUserInfo(WxCpConfig wxcpconfig,Integer agentId, String code) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?"
+    String url = WxConsts.qyapiurl+"/cgi-bin/user/getuserinfo?"
       + "code=" + code
       + "&agentid=" + agentId;
     String responseText = get(wxcpconfig,url, null);
@@ -497,7 +498,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
 
   @Override
   public int invite(WxCpConfig wxcpconfig,String userId, String inviteTips) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/invite/send";
+    String url = WxConsts.qyapiurl+"/cgi-bin/invite/send";
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("userid", userId);
     if (StringUtils.isNotEmpty(inviteTips)) {
@@ -510,7 +511,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
 
   @Override
   public String[] getCallbackIp(WxCpConfig wxcpconfig) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/getcallbackip";
+    String url = WxConsts.qyapiurl+"/cgi-bin/getcallbackip";
     String responseContent = get(wxcpconfig,url, null);
     JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
     JsonArray jsonArray = tmpJsonElement.getAsJsonObject().get("ip_list").getAsJsonArray();
@@ -605,7 +606,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
   
   @Override
   public String syncUser(WxCpConfig wxcpconfig,String mediaId, Map<String, String> callBack) throws WxErrorException {
-  	String url = "https://qyapi.weixin.qq.com/cgi-bin/batch/syncuser";
+  	String url = WxConsts.qyapiurl+"/cgi-bin/batch/syncuser";
   	JsonObject jsonObject = new JsonObject();
   	jsonObject.addProperty("media_id", mediaId);
   	jsonObject.addProperty("callback", JsonUtils.writeValueAsString(callBack));
@@ -614,7 +615,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
 
   @Override
   public String replaceParty(WxCpConfig wxcpconfig,String mediaId) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/batch/replaceparty";
+    String url = WxConsts.qyapiurl+"/cgi-bin/batch/replaceparty";
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("media_id", mediaId);
     return post(wxcpconfig,url, jsonObject.toString());
@@ -622,7 +623,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
 
   @Override
   public String replaceUser(WxCpConfig wxcpconfig,String mediaId) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/batch/replaceuser";
+    String url = WxConsts.qyapiurl+"/cgi-bin/batch/replaceuser";
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("media_id", mediaId);
     return post(wxcpconfig,url, jsonObject.toString());
@@ -630,7 +631,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
 
   @Override
   public String getTaskResult(WxCpConfig wxcpconfig,String joinId) throws WxErrorException {
-    String url = "https://qyapi.weixin.qq.com/cgi-bin/batch/getresult?jobid=" + joinId;
+    String url = WxConsts.qyapiurl+"/cgi-bin/batch/getresult?jobid=" + joinId;
     return get(wxcpconfig,url, null);
   }
 

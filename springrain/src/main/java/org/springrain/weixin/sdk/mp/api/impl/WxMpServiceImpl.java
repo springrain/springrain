@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.weixin.entity.WxMpConfig;
 import org.springrain.weixin.sdk.common.api.IWxMpConfigService;
+import org.springrain.weixin.sdk.common.api.WxConsts;
 import org.springrain.weixin.sdk.common.bean.WxAccessToken;
 import org.springrain.weixin.sdk.common.bean.WxJsApiSignature;
 import org.springrain.weixin.sdk.common.bean.result.WxError;
@@ -153,7 +154,7 @@ public class WxMpServiceImpl implements IWxMpService {
       if (!wxmpconfig.isAccessTokenExpired()) {
     	  return wxmpconfig.getAccessToken();
       }
-        String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential" +
+        String url = WxConsts.mpapiurl+"/cgi-bin/token?grant_type=client_credential" +
             "&appid=" + wxmpconfig.getAppId() + "&secret="
             + wxmpconfig.getSecret();
           HttpGet httpGet = new HttpGet(url);
@@ -207,7 +208,7 @@ public class WxMpServiceImpl implements IWxMpService {
       }
       
 
-        String url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi";
+        String url = WxConsts.mpapiurl+"/cgi-bin/ticket/getticket?type=jsapi";
         String responseContent = execute( wxmpconfig,new SimpleGetRequestExecutor(), url, null);
         JsonElement tmpJsonElement = JSON_PARSER.parse(responseContent);
         JsonObject tmpJsonObject = tmpJsonElement.getAsJsonObject();
@@ -257,7 +258,7 @@ public class WxMpServiceImpl implements IWxMpService {
    */
   @Override
   public WxMpMassUploadResult massNewsUpload(WxMpConfig wxmpconfig,WxMpMassNews news) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/media/uploadnews";
+    String url = WxConsts.mpapiurl+"/cgi-bin/media/uploadnews";
     String responseContent = post(wxmpconfig,url, news.toJson());
     return WxMpMassUploadResult.fromJson(responseContent);
   }
@@ -273,7 +274,7 @@ public class WxMpServiceImpl implements IWxMpService {
    */
   @Override
   public WxMpMassUploadResult massVideoUpload(WxMpConfig wxmpconfig,WxMpMassVideo video) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/media/uploadvideo";
+    String url = WxConsts.mpapiurl+"/cgi-bin/media/uploadvideo";
     String responseContent = post(wxmpconfig,url, video.toJson());
     return WxMpMassUploadResult.fromJson(responseContent);
   }
@@ -288,7 +289,7 @@ public class WxMpServiceImpl implements IWxMpService {
    */
   @Override
   public WxMpMassSendResult massGroupMessageSend(WxMpConfig wxmpconfig,WxMpMassTagMessage message) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/message/mass/sendall";
+    String url = WxConsts.mpapiurl+"/cgi-bin/message/mass/sendall";
     String responseContent = post(wxmpconfig,url, message.toJson());
     return WxMpMassSendResult.fromJson(responseContent);
   }
@@ -304,7 +305,7 @@ public class WxMpServiceImpl implements IWxMpService {
    */
   @Override
   public WxMpMassSendResult massOpenIdsMessageSend(WxMpConfig wxmpconfig,WxMpMassOpenIdsMessage message) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/message/mass/send";
+    String url = WxConsts.mpapiurl+"/cgi-bin/message/mass/send";
     String responseContent = post(wxmpconfig,url, message.toJson());
     return WxMpMassSendResult.fromJson(responseContent);
   }
@@ -323,7 +324,7 @@ public class WxMpServiceImpl implements IWxMpService {
    */
   @Override
   public WxMpMassSendResult massMessagePreview(WxMpConfig wxmpconfig,WxMpMassPreviewMessage wxMpMassPreviewMessage) throws Exception {
-    String url = "https://api.weixin.qq.com/cgi-bin/message/mass/preview";
+    String url = WxConsts.mpapiurl+"/cgi-bin/message/mass/preview";
     String responseContent = post(wxmpconfig,url, wxMpMassPreviewMessage.toJson());
     return WxMpMassSendResult.fromJson(responseContent);
   }
@@ -337,7 +338,7 @@ public class WxMpServiceImpl implements IWxMpService {
    */
   @Override
   public String shortUrl(WxMpConfig wxmpconfig,String long_url) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/shorturl";
+    String url = WxConsts.mpapiurl+"/cgi-bin/shorturl";
     JsonObject o = new JsonObject();
     o.addProperty("action", "long2short");
     o.addProperty("long_url", long_url);
@@ -354,7 +355,7 @@ public class WxMpServiceImpl implements IWxMpService {
    */
   @Override
   public WxMpSemanticQueryResult semanticQuery(WxMpConfig wxmpconfig,WxMpSemanticQuery semanticQuery) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/semantic/semproxy/search";
+    String url = WxConsts.mpapiurl+"/semantic/semproxy/search";
     String responseContent = post(wxmpconfig,url, semanticQuery.toJson());
     return WxMpSemanticQueryResult.fromJson(responseContent);
   }
@@ -374,7 +375,7 @@ public class WxMpServiceImpl implements IWxMpService {
   public String buildQrConnectUrl(WxMpConfig wxmpconfig,String redirectURI, String scope,
       String state) {
     StringBuilder url = new StringBuilder();
-    url.append("https://open.weixin.qq.com/connect/qrconnect?");
+    url.append(WxConsts.mpopenurl+"/connect/qrconnect?");
     url.append("appid=").append(wxmpconfig.getAppId());
     url.append("&redirect_uri=").append(URIUtil.encodeURIComponent(redirectURI));
     url.append("&response_type=code");
@@ -400,7 +401,7 @@ public class WxMpServiceImpl implements IWxMpService {
   @Override
   public String oauth2buildAuthorizationUrl(WxMpConfig wxmpconfig,String redirectURI, String scope, String state) {
     StringBuilder url = new StringBuilder();
-    url.append("https://open.weixin.qq.com/connect/oauth2/authorize?");
+    url.append(WxConsts.mpopenurl+"/connect/oauth2/authorize?");
     url.append("appid=").append(wxmpconfig.getAppId());
     url.append("&redirect_uri=").append(URIUtil.encodeURIComponent(redirectURI));
     url.append("&response_type=code");
@@ -432,7 +433,7 @@ public class WxMpServiceImpl implements IWxMpService {
   @Override
   public WxMpOAuth2AccessToken oauth2getAccessToken(WxMpConfig wxmpconfig,String code) throws WxErrorException {
     StringBuilder url = new StringBuilder();
-    url.append("https://api.weixin.qq.com/sns/oauth2/access_token?");
+    url.append(WxConsts.mpapiurl+"/sns/oauth2/access_token?");
     url.append("appid=").append(wxmpconfig.getAppId());
     url.append("&secret=").append(wxmpconfig.getSecret());
     url.append("&code=").append(code);
@@ -449,7 +450,7 @@ public class WxMpServiceImpl implements IWxMpService {
   @Override
   public WxMpOAuth2AccessToken oauth2refreshAccessToken(WxMpConfig wxmpconfig,String refreshToken) throws WxErrorException {
     StringBuilder url = new StringBuilder();
-    url.append("https://api.weixin.qq.com/sns/oauth2/refresh_token?");
+    url.append(WxConsts.mpapiurl+"/sns/oauth2/refresh_token?");
     url.append("appid=").append(wxmpconfig.getAppId());
     url.append("&grant_type=refresh_token");
     url.append("&refresh_token=").append(refreshToken);
@@ -467,7 +468,7 @@ public class WxMpServiceImpl implements IWxMpService {
   @Override
   public WxMpUser oauth2getUserInfo(WxMpConfig wxmpconfig,WxMpOAuth2AccessToken oAuth2AccessToken, String lang) throws WxErrorException {
     StringBuilder url = new StringBuilder();
-    url.append("https://api.weixin.qq.com/sns/userinfo?");
+    url.append(WxConsts.mpapiurl+"/sns/userinfo?");
     url.append("access_token=").append(oAuth2AccessToken.getAccessToken());
     url.append("&openid=").append(oAuth2AccessToken.getOpenId());
     if (lang == null) {
@@ -494,7 +495,7 @@ public class WxMpServiceImpl implements IWxMpService {
   @Override
   public boolean oauth2validateAccessToken(WxMpConfig wxmpconfig,WxMpOAuth2AccessToken oAuth2AccessToken) {
     StringBuilder url = new StringBuilder();
-    url.append("https://api.weixin.qq.com/sns/auth?");
+    url.append(WxConsts.mpapiurl+"/sns/auth?");
     url.append("access_token=").append(oAuth2AccessToken.getAccessToken());
     url.append("&openid=").append(oAuth2AccessToken.getOpenId());
 
@@ -517,7 +518,7 @@ public class WxMpServiceImpl implements IWxMpService {
    */
   @Override
   public String[] getCallbackIP(WxMpConfig wxmpconfig) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/getcallbackip";
+    String url = WxConsts.mpapiurl+"/cgi-bin/getcallbackip";
     String responseContent = get(wxmpconfig,url, null);
     JsonElement tmpJsonElement = JSON_PARSER.parse(responseContent);
     JsonArray ipList = tmpJsonElement.getAsJsonObject().get("ip_list").getAsJsonArray();

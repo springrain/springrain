@@ -4,6 +4,28 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class WxConsts {
+	
+
+	//微信API的访问协议,为了以后方便处理特殊情况
+	public static final String mpapiurl="https://api.weixin.qq.com";
+	//微信API的访问协议,为了以后方便处理特殊情况
+    public static final String mpweixinurl="https://mp.weixin.qq.com";
+  //微信API的访问协议,为了以后方便处理特殊情况
+    public static final String mpopenurl="https://open.weixin.qq.com";
+    
+    //微信payBaseURL
+    public static final String mppaybaseurl="https://api.mch.weixin.qq.com";
+
+    
+    
+	//企业号API的访问协议,为了以后方便处理特殊情况
+	public static final String qyapiurl="https://qyapi.weixin.qq.com";
+	
+	
+	
+	
+	
+	
 
   ///////////////////////
   // 微信推送过来的消息的类型，和发送给微信xml格式消息的消息类型

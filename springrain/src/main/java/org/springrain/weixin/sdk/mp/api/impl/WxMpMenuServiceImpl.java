@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springrain.weixin.entity.WxMpConfig;
+import org.springrain.weixin.sdk.common.api.WxConsts;
 import org.springrain.weixin.sdk.common.bean.menu.WxMenu;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
 import org.springrain.weixin.sdk.mp.api.IWxMpMenuService;
@@ -18,7 +19,7 @@ import org.springrain.weixin.sdk.mp.bean.menu.WxMpGetSelfMenuInfoResult;
 
 @Service("wxMpMenuService")
 public class WxMpMenuServiceImpl implements IWxMpMenuService {
-  private static final String API_URL_PREFIX = "https://api.weixin.qq.com/cgi-bin/menu";
+  private static final String API_URL_PREFIX = WxConsts.mpapiurl+"/cgi-bin/menu";
   private static Logger log = LoggerFactory.getLogger(WxMpMenuServiceImpl.class);
 
   @Resource
@@ -91,7 +92,7 @@ public class WxMpMenuServiceImpl implements IWxMpMenuService {
 
   @Override
   public WxMpGetSelfMenuInfoResult getSelfMenuInfo(WxMpConfig wxmpconfig) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/get_current_selfmenu_info";
+    String url = WxConsts.mpapiurl+"/cgi-bin/get_current_selfmenu_info";
     String resultContent =wxMpService.get(wxmpconfig,url, null);
     return WxMpGetSelfMenuInfoResult.fromJson(resultContent);
   }

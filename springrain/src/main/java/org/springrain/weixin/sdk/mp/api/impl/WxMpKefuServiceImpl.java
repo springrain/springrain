@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springrain.weixin.entity.WxMpConfig;
+import org.springrain.weixin.sdk.common.api.WxConsts;
 import org.springrain.weixin.sdk.common.bean.result.WxError;
 import org.springrain.weixin.sdk.common.bean.result.WxMediaUploadResult;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
@@ -36,8 +37,8 @@ import com.google.gson.JsonObject;
 public class WxMpKefuServiceImpl implements IWxMpKefuService {
   protected final Logger log = LoggerFactory
       .getLogger(WxMpKefuServiceImpl.class);
-  private static final String API_URL_PREFIX = "https://api.weixin.qq.com/customservice";
-  private static final String API_URL_PREFIX_WITH_CGI_BIN = "https://api.weixin.qq.com/cgi-bin/customservice";
+  private static final String API_URL_PREFIX = WxConsts.mpapiurl+"/customservice";
+  private static final String API_URL_PREFIX_WITH_CGI_BIN = WxConsts.mpapiurl+"/cgi-bin/customservice";
   
   //生产环境应该是spring注入
   @Resource
@@ -55,7 +56,7 @@ public class WxMpKefuServiceImpl implements IWxMpKefuService {
   @Override
   public boolean sendKefuMessage(WxMpConfig wxmpconfig,WxMpKefuMessage message)
       throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/message/custom/send";
+    String url = WxConsts.mpapiurl+"/cgi-bin/message/custom/send";
     String responseContent = wxMpService.post(wxmpconfig,url, message.toJson());
     return responseContent != null;
   }

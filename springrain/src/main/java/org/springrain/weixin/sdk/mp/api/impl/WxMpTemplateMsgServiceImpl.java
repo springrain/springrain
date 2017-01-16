@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 import org.springrain.weixin.entity.WxMpConfig;
+import org.springrain.weixin.sdk.common.api.WxConsts;
 import org.springrain.weixin.sdk.common.bean.result.WxError;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
 import org.springrain.weixin.sdk.mp.api.IWxMpService;
@@ -27,7 +28,7 @@ import com.google.gson.JsonParser;
 
 @Service("wxMpTemplateMsgService")
 public class WxMpTemplateMsgServiceImpl implements IWxMpTemplateMsgService {
-  public static final String API_URL_PREFIX = "https://api.weixin.qq.com/cgi-bin/template";
+  public static final String API_URL_PREFIX = WxConsts.mpapiurl+"/cgi-bin/template";
   private static final JsonParser JSON_PARSER = new JsonParser();
 
   @Resource
@@ -42,7 +43,7 @@ public class WxMpTemplateMsgServiceImpl implements IWxMpTemplateMsgService {
 
   @Override
   public String sendTemplateMsg(WxMpConfig wxmpconfig,WxMpTemplateMessage templateMessage) throws WxErrorException {
-    String url = "https://api.weixin.qq.com/cgi-bin/message/template/send";
+    String url = WxConsts.mpapiurl+"/cgi-bin/message/template/send";
     String responseContent = wxMpService.post(wxmpconfig,url, templateMessage.toJson());
     final JsonObject jsonObject = JSON_PARSER.parse(responseContent).getAsJsonObject();
     if (jsonObject.get("errcode").getAsInt() == 0) {
