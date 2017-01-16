@@ -1,4 +1,4 @@
-package org.springrain.cms.web;
+package org.springrain.weixin.web;
 
 import javax.servlet.http.HttpServletRequest;
 
