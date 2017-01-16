@@ -1,7 +1,6 @@
 package org.springrain.frame.shiro;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +16,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
-import org.springrain.cms.utils.SiteUtils;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.IPUtils;
 /**
@@ -143,6 +141,7 @@ public class FrameFireWallFilter extends OncePerRequestFilter {
 	 * @throws ServletException
 	 */
    private void chainDoFilter(FilterChain chain,HttpServletRequest request,ServletResponse res) throws IOException, ServletException{
+	  /*
 	   String requestURI = request.getRequestURI();
 	   
 	   int f_index=requestURI.indexOf("/s_");
@@ -170,6 +169,9 @@ public class FrameFireWallFilter extends OncePerRequestFilter {
 	   
 	   
 	   return;
+	   */
+	   
+	   chain.doFilter(request, res);
 	   
    }
 
