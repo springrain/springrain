@@ -201,168 +201,158 @@ function check(type){
 		<@h.leftMenu />
 		
 		<!-- 主体内容开始 -->
-		<div class="layui-body site-demo">
-			<div class="layui-main">
-				<fieldset class="layui-elem-field">
-			  		<legend>用户管理</legend>
-			  		<div class="layui-field-box">
-			  			<div class="container-fluid">
-			  				<div class="row">
-			  					<div class="per60 fl">
-			  						<form class="layui-form" method="post" action="${ctx}/system/user/list" name="searchForm" id="searchForm" onkeydown="if(event.keyCode==13)return false;">
-										<input type="hidden" name="pageIndex" id="pageIndex" value="${(returnDatas.page.pageIndex)!'1'}" /> 
-										<input type="hidden" name="sort" id="page_sort" value="${(returnDatas.page.sort)!'desc'}" /> 
-										<input type="hidden" name="order" id="page_order" value="${(returnDatas.page.order)!'id'}" /> 
-										
-									 	<div class="layui-inline">
-										    <label class="layui-form-label w-auto">账号:</label>
-										    <div class="layui-input-block ml65">
-										      <input type="text" id="search_account" name="account" placeholder="请填写账号" autocomplete="off" class="layui-input" value="${(returnDatas.queryBean.account)!''}">
-										    </div>
-									  	</div>
-										
-										<div class="layui-inline per20">
-										    <label class="layui-form-label w-auto">是否可用:</label>
-										    <div class="layui-input-block ml95 per50">
-										      <select id="search_state" name="state" lay-filter="search_state">
-										        <option value="是">是</option>
-												<option value="否">否</option>
-										      </select>
-										    </div>
-										  </div>
-										  
-										<div class="layui-inline">
-									      	<button class="layui-btn" lay-submit lay-filter="*">查询</button>
-									  	</div>
-									</form>
-			  					</div>
-			  					
-			  					<div class="per40 fl">
-						    		<button id="btn_delete" style="display: none;" onclick="deleteUser();" class="layui-btn layui-btn-danger fr ml10"><i class="layui-icon">&#x1006;</i> 删除</button>
-						    		<button id="btn_update" style="display: none;" onclick="check('2');" class="layui-btn fr"><i class="layui-icon">&#xe642;</i> 保存修改</button>
-						    		<button id="btn_add" onclick="check('1');" class="layui-btn fr"><i class="layui-icon"></i> 保存新增</button>
-			  						<button id="btn_reload" onclick="location.reload();" class="layui-btn display-n fr"><i class="layui-icon"></i> 跳转到新增  >></button>
-			  					</div>
-			  				</div>
-			  			</div>
-			  		</div>
-				</fieldset>
-			</div>
-			<div class="layui-main">
-				<div class="container-fluid">
-					<div class="row">
-						<div class="per50 fl">
-							<table class="layui-table">
-							 	<colgroup>
-						    		<col width="150">
-							    	<col width="200">
-							    	<col width="200">
-							    	<col width="200">
-							    	<col>
-						  		</colgroup>
-								<thead>
-									<tr>
-										<th>账号</th>
-										<th>姓名</th>
-										<th>性别</th>
-										<th>邮箱</th>
-										<th>手机号</th>
-									</tr>
-								</thead>
-								<tbody>
-									<#if (returnDatas.data??)&&(returnDatas.data?size>0)>
-									<#list returnDatas.data as _data>
-									<tr id="${(_data.id)!''}">
-										<td>${(_data.account)!''}</td>
-										<td>${(_data.name)!''}</td>
-										<td>${(_data.sex)!''}</td>
-										<td>${(_data.email)!''}</td>
-										<td>${(_data.mobile)!''}</td>
-									</tr>
-									</#list> </#if>
-								</tbody>
-							</table>
-							<div id="laypageDiv"></div>
-							<@h.layPage page=returnDatas.page/>
-						</div>
-						<div class="per50 fr">
-							<form class="layui-form" method="post" action="${ctx}/system/user/update" name="updateForm" id="updateForm">
-								<input type="hidden" id="id" name="id" value=""> 
-								<input type="hidden" id="pname" name="pname" value="">
-								
-							 	<div class="layui-form-item">
-						    		<label class="layui-form-label">账号*</label>
-								    <div class="layui-input-inline">
-								      	<input type="text" id="account" name="account"
-												placeholder="账号" datatype="*1-200"
-												errormsg="账号长度1--200位之间!" nullmsg="账号不能为空"
-												class="layui-input">
-								    </div>
-							  	</div>
-								
-								 <div class="layui-form-item">
-								    <label class="layui-form-label">密码*</label>
-								    <div class="layui-input-inline">
-								      <input type="password" id="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
-								    </div>
-							  	</div>
-								
-								<div class="layui-form-item">
-						    		<label class="layui-form-label">部门</label>
-								    <div class="layui-input-inline">
-								      	<input name="orgNames" id="orgNames" type="text" datatype="*" nullmsg="部门不能为空" readonly="readonly" class="layui-input" onclick="showZtreeOrg();">
-										<input name="orgIds" id="orgIds" type="hidden" />
-								    </div>
-							  	</div>
-								
-								<div class="layui-form-item">
-								    <label class="layui-form-label">角色</label>
-								    <div class="layui-input-inline" id="roleDiv">
-								      <select id="roleIds" name="roleIds"  multiple data-placeholder="请选择角色">
-								      	<option value=""></option>
-								      </select>
-								    </div>
-							  	</div>
-							  	
-							  	<div class="layui-form-item">
-						    		<label class="layui-form-label">手机号</label>
-								    <div class="layui-input-inline">
-								      	<input type="text" id="mobile" name="mobile" placeholder="手机号" class="layui-input">
-								    </div>
-							  	</div>
-							  	
-							  	<div class="layui-form-item">
-						    		<label class="layui-form-label">电子邮箱</label>
-								    <div class="layui-input-inline">
-								      	<input type="text" id="email" name="email" placeholder="电子邮箱" class="layui-input">
-								    </div>
-							  	</div>
-							  	
-							  	<div class="layui-form-item">
-								    <label class="layui-form-label">性别</label>
-								    <div class="layui-input-inline">
-								      <select id="sex" name="sex" >
-								        	<option value="男">男</option>
-											<option value="女">女</option>
-								      </select>
-								    </div>
-							  	</div>
-							  	
-							  	<div class="layui-form-item">
-								    <label class="layui-form-label">是否可用</label>
-								    <div class="layui-input-inline">
-								      <select id="state" name="state" >
-								        	<option value="是">是</option>
-											<option value="否">否</option>
-								      </select>
-								    </div>
-							  	</div>
-							</form>
+		<div class="layui-tab layui-tab-brief">
+			<ul class="layui-tab-title site-demo-title">
+		         <li class="layui-this">
+		            <i class="layui-icon">&#xe630;</i>
+		             	<span class="layui-breadcrumb" style="visibility: visible;">
+							<a href="${ctx}">首页<span class="layui-box">&gt;</span></a>
+							<a href="">系统管理<span class="layui-box">&gt;</span></a>
+							<a><cite>角色管理</cite></a>
+						</span>
+		          </li>
+	       	</ul>
+	       	<div class="layui-body layui-tab-content site-demo-body">
+					<div class="layui-tab-item layui-show">
+							<div class="layui-main">
+								<form class="form-horizontal" method="post" action="${ctx}/system/role/list" name="searchForm" id="searchForm">
+									<input type="hidden" name="pageIndex" id="pageIndex" value="${(returnDatas.page.pageIndex)!'1'}" /> 
+									<input type="hidden" name="sort" id="page_sort" value="${(returnDatas.page.sort)!'desc'}" /> 
+									<input type="hidden" name="order" id="page_order" value="${(returnDatas.page.order)!'id'}" />
+								</form>
+								<table class="layui-table">
+							          	<tbody>
+							          		<tr>
+							          			<th>操作</th>
+							          		</tr>
+							          		<tr>
+							          			<td>
+							          				<div class="layui-field-box">
+							          					<button id="btn_reload" onclick="location.reload();" class="layui-btn display-n "><i class="layui-icon"></i> 跳转到新增  >></button>
+							          					<button id="btn_add" onclick="check('1');" class="layui-btn"><i class="layui-icon"></i> 保存新增</button>
+											    		<button id="btn_update" style="display: none;" onclick="check('2');" class="layui-btn"><i class="layui-icon">&#xe642;</i> 保存修改</button>
+														<button id="btn_delete" style="display: none;" onclick="deleteUser();" class="layui-btn layui-btn-danger ml10"><i class="layui-icon">&#x1006;</i> 删除</button>											    		
+											  		</div>
+							          			</td>
+							          		</tr>
+							          	</tbody>
+							    </table>
+								<div class="container-fluid">
+									<div class="row">
+										<div class="per40 fl">
+											<table class="layui-table">
+											 	<colgroup>
+										    		<col width="150">
+											    	<col width="200">
+											    	<col width="100">
+											    	<col width="200">
+											    	<col width="200">
+										  		</colgroup>
+										  		<thead>
+													<tr>
+														<th>账号</th>
+														<th>姓名</th>
+														<th>性别</th>
+														<th>邮箱</th>
+														<th>手机号</th>
+													</tr>
+												</thead>
+												<tbody>
+													<#if (returnDatas.data??)&&(returnDatas.data?size>0)>
+													<#list returnDatas.data as _data>
+													<tr id="${(_data.id)!''}">
+														<td>${(_data.account)!''}</td>
+														<td>${(_data.name)!''}</td>
+														<td>${(_data.sex)!''}</td>
+														<td>${(_data.email)!''}</td>
+														<td>${(_data.mobile)!''}</td>
+													</tr>
+													</#list> </#if>
+												</tbody>
+											</table>
+											<div id="laypageDiv"></div>
+											<@h.layPage page=returnDatas.page/>
+										</div>
+										<div class="per60 fl rlt">
+											<div class="fl per20 line-vertical"></div>
+													<form class="layui-form" method="post" action="${ctx}/system/user/update" name="updateForm" id="updateForm">
+														<input type="hidden" id="id" name="id" value=""> 
+														<input type="hidden" id="pname" name="pname" value="">
+														
+													 	<div class="layui-form-item  col-lg-9">
+												    		<label class="layui-form-label col-lg-3">账号*</label>
+														    <div class="layui-input-inline">
+														      	<input type="text" id="account" name="account"
+																		placeholder="账号" datatype="*1-200"
+																		errormsg="账号长度1--200位之间!" nullmsg="账号不能为空"
+																		class="layui-input">
+														    </div>
+													  	</div>
+														
+														 <div class="layui-form-item  col-lg-9">
+														    <label class="layui-form-label col-lg-3">密码*</label>
+														    <div class="layui-input-inline">
+														      <input type="password" id="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+														    </div>
+													  	</div>
+														
+														<div class="layui-form-item  col-lg-9">
+												    		<label class="layui-form-label col-lg-3">部门</label>
+														    <div class="layui-input-inline">
+														      	<input name="orgNames" id="orgNames" type="text" datatype="*" nullmsg="部门不能为空" readonly="readonly" class="layui-input" onclick="showZtreeOrg();">
+																<input name="orgIds" id="orgIds" type="hidden" />
+														    </div>
+													  	</div>
+														
+														<div class="layui-form-item  col-lg-9">
+														    <label class="layui-form-label col-lg-3">角色</label>
+														    <div class="layui-input-inline" id="roleDiv">
+														      <select id="roleIds" name="roleIds" class="nolayer"  multiple data-placeholder="请选择角色">
+														      	<option value=""></option>
+														      </select>
+														    </div>
+													  	</div>
+													  	
+													  	<div class="layui-form-item col-lg-9">
+												    		<label class="layui-form-label col-lg-3">手机号</label>
+														    <div class="layui-input-inline">
+														      	<input type="text" id="mobile" name="mobile" placeholder="手机号" class="layui-input">
+														    </div>
+													  	</div>
+													  	
+													  	<div class="layui-form-item col-lg-9">
+												    		<label class="layui-form-label col-lg-3">电子邮箱</label>
+														    <div class="layui-input-inline">
+														      	<input type="text" id="email" name="email" placeholder="电子邮箱" class="layui-input">
+														    </div>
+													  	</div>
+													  	
+													  	<div class="layui-form-item col-lg-9">
+														    <label class="layui-form-label col-lg-3">性别</label>
+														    <div class="layui-input-inline">
+														      <select id="sex" name="sex" >
+														        	<option value="男">男</option>
+																	<option value="女">女</option>
+														      </select>
+														    </div>
+													  	</div>
+													  	
+													  	<div class="layui-form-item col-lg-9">
+														    <label class="layui-form-label col-lg-3">是否可用</label>
+														    <div class="layui-input-inline">
+														      <select id="state" name="state" >
+														        	<option value="是">是</option>
+																	<option value="否">否</option>
+														      </select>
+														    </div>
+													  	</div>
+													</form>
+										</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<!-- /.main-container -->
 		</div>
 		<!-- 主体内容结束 -->
 		<@h.footer />

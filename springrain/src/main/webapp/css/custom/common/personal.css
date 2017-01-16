@@ -6,7 +6,7 @@
 .sort-icon{font-size:14px;cursor: pointer;color:#d3d3d3;}
 .sort-icon-on{color:#333333;}
 .sort-icon-up{position:relative;top:-4px;left:4px;}
-.sort-icon-down{position:relative;top:8px;right:10px;}
+.sort-icon-down{position:relative;top:8px;right:11px;}
 /*元素宽度*/
 .col-lg-1{width:10%!important;}
 .col-lg-2{width:20%!important;}

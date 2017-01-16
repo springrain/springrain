@@ -5,13 +5,11 @@ description="springrain开源系统管理后台"/>
 	<div class="layui-layout layui-layout-admin">
 		<@h.naviHeader /> <@h.leftMenu />
 		<!-- 主体内容开始 -->
-		<div class="layui-body site-demo">
 			<script type="text/javascript">
-			<!--
 				jQuery(document)
 						.ready(
 								function() {
-									$(".sub_left_menu tbody tr")
+									$(".layui-table tbody tr")
 											.click(
 													function() {
 														$(
@@ -51,127 +49,130 @@ description="springrain开源系统管理后台"/>
 						set_val(s, result.data[s]);
 					}
 				}
-			//-->
 			</script>
-			<form class="form-horizontal" method="post"
-				action="${ctx}/system/auditlog/list" name="searchForm"
-				id="searchForm">
-				<input type="hidden" name="pageIndex" id="pageIndex"
-					value="${(returnDatas.page.pageIndex)!'1'}" /> <input
-					type="hidden" name="sort" id="page_sort"
-					value="${(returnDatas.page.sort)!'desc'}" /> <input type="hidden"
-					name="order" id="page_order"
-					value="${(returnDatas.page.order)!'id'}" />
-			</form>
-
 			<!-- 功能操作区域结束 -->
 			<!-- 列表显示区域  -->
-			<div class="row">
-				<div class="col-sm-4">
-					<div class="widget-box">
-						<div class="widget-header">
-							<h4 class="widget-title">记录</h4>
-						</div>
-						<div class="widget-body">
-							<div class="widget-main">
-								<table class="table table-striped">
-									<thead>
-										<tr>
-											<th>用户</th>
-											<th>时间</th>
-										</tr>
-									</thead>
-									<tbody>
-
-										<#if (returnDatas.data??)&&(returnDatas.data?size>0)> <#list
-										returnDatas.data as _data>
-										<tr id="${(_data.id)!''}">
-											<td>${(_data.operatorName)!''}</td>
-											<td>${(_data.operationTime)!''}</td>
-										</tr>
-										</#list> </#if>
-									</tbody>
-								</table>
-							</div>
-						</div>
-					</div>
-
-				</div>
-				<div class="col-sm-8">
-					<div class="widget-box">
-						<div class="widget-header">
-							<h4 class="widget-title">详细信息</h4>
-						</div>
-						<div class="widget-body">
-							<div class="widget-main">
-								<form id="updateForm" name="updateForm" method="post"
-									class="form-horizontal clearfix">
-									<input type="hidden" name="id" id="id">
-									<div class="form-group col-xs-9">
-										<label class="col-sm-4 control-label" for="operatorName">用户：</label>
-										<div class="col-sm-8">
-											<input class="form-control" type="text" id="operatorName"
-												name="operatorName">
-										</div>
-									</div>
-
-									<div class="form-group col-xs-9">
-										<label class="col-sm-4 control-label" for="operationTime">时间：</label>
-										<div class="col-sm-8">
-											<input class="form-control" type="text" id="operationTime"
-												name="operationTime">
-										</div>
-									</div>
-									<div class="form-group col-xs-9">
-										<label class="col-sm-4 control-label" for="operationType">操作类型：</label>
-										<div class="col-sm-8">
-											<input class="form-control" type="text" id="operationType"
-												name="operationType">
-										</div>
-									</div>
-
-									<div class="form-group col-xs-9">
-										<label class="col-sm-4 control-label" for="operationClass">操作记录：</label>
-										<div class="col-sm-8">
-											<input class="form-control" type="text" id="operationClass"
-												name="operationClass">
-										</div>
-									</div>
-
-									<div class="form-group col-xs-9">
-										<label class="col-sm-4 control-label" for="operationClassId">记录Id：</label>
-										<div class="col-sm-8">
-											<input class="form-control" type="text" id="operationClassId"
-												name="operationClassId">
-										</div>
-									</div>
-
-									<div class="form-group col-xs-9">
-										<label class="col-sm-4 control-label" for="preValue">旧值：</label>
-										<div class="col-sm-8">
-											<textarea class="form-control" name="preValue" id="preValue"
-												rows="5" class="col-xs-12"></textarea>
-										</div>
-									</div>
-									<div class="form-group col-xs-9">
-										<label class="col-sm-4 control-label" for="curValue">新值：</label>
-										<div class="col-sm-8">
-											<textarea class="form-control" name="curValue" id="curValue"
-												rows="5" class="col-xs-12"></textarea>
-										</div>
-									</div>
+			<div class="layui-tab layui-tab-brief">
+					<ul class="layui-tab-title site-demo-title">
+			             <li class="layui-this">
+			             		<i class="layui-icon">&#xe630;</i>
+			             		<span class="layui-breadcrumb" style="visibility: visible;">
+								  <a href="${ctx}">首页<span class="layui-box">&gt;</span></a>
+								  <a href="">系统管理<span class="layui-box">&gt;</span></a>
+								  <a><cite>修改日志</cite></a>
+								</span>
+			             </li>
+		       		</ul>
+		       		<div class="layui-body layui-tab-content site-demo-body">
+						<div class="layui-tab-item layui-show">
+							<div class="layui-main">
+								<form class="layui-form layui-form-pane" method="post" action="${ctx}/system/auditlog/list" name="searchForm" id="searchForm">
+									<input type="hidden" name="pageIndex" id="pageIndex" value="${(returnDatas.page.pageIndex)!'1'}" /> 
+									<input type="hidden" name="sort" id="page_sort" value="${(returnDatas.page.sort)!'desc'}" /> 
+									<input type="hidden" name="order" id="page_order" value="${(returnDatas.page.order)!'id'}" />
+									<table class="layui-table">
+										          	<tbody>
+										          		<tr>
+										          			<th>修改日志搜索</th>
+										          		</tr>
+										          		<tr>
+										          			<td>
+										          				<div class="layui-inline">
+														    		<label class="layui-form-label">用户</label>
+																    <div class="layui-input-inline">
+																      	<input type="text" name="userCode" id="search_title" placeholder="用户" value="${(returnDatas.queryBean.userCode)!''}" class="layui-input">
+																    </div>
+															  	</div>
+												                <div class="layui-inline">
+															      	<button class="layui-btn" id="searchBtn" onclick="mySubmitForm('searchForm');">查询</button>
+															  	</div>
+										          			</td>
+										          		</tr>
+										          	</tbody>
+								     </table>
 								</form>
+								<div class="container-fluid">
+									<div class="row">
+										<div class="per20 fl">
+											<table class="layui-table">
+											 	<colgroup>
+										    		<col width="80">
+											    	<col width="120">
+										  		</colgroup>
+										  		<thead>
+													<tr>
+														<th>用户</th>
+														<th>时间</th>
+													</tr>
+												</thead>
+												<tbody>
+													<#if (returnDatas.data??)&&(returnDatas.data?size>0)> 
+														<#list returnDatas.data as _data>
+															<tr id="${(_data.id)!''}">
+																<td>${(_data.operatorName)!''}</td>
+																<td>${(_data.operationTime)!''}</td>
+															</tr>
+														</#list>
+													</#if>
+												</tbody>
+											</table>
+											<div id="laypageDiv"></div>
+												<@h.layPage cont="laypageDiv" formId="searchForm" page=returnDatas.page/>
+										</div>
+										<div class="per60 fl rlt">
+											<div class="fl per20 line-vertical"></div>
+											<form id="updateForm" name="updateForm"	 class="layui-form">
+												<div class="layui-form-item  col-lg-9">
+										    		<label class="layui-form-label col-lg-3">用户*</label>
+												    <div class="layui-input-inline">
+												      	<input class="layui-input" type="text" id="operatorName" name="operatorName">
+												    </div>
+											  	</div>
+												<div class="layui-form-item  col-lg-9">
+										    		<label class="layui-form-label  col-lg-3">时间：</label>
+												    <div class="layui-input-inline  col-lg-6">
+												    	<input class="layui-input" type="text" id="operationTime" name="operationTime">
+												    </div>
+											  	</div>
+												
+												<div class="layui-form-item  col-lg-9">
+												    <label class="layui-form-label col-lg-3">操作类型：</label>
+												    <div class="layui-input-inline  col-lg-6">
+												    	<input class="layui-input" type="text" id="operationType" name="operationType">
+												    </div>
+											  	</div>
+												<div class="layui-form-item layui-form-text  col-lg-9">
+												    <label class="layui-form-label col-lg-3">操作记录:</label>
+												    <div class="layui-input-inline col-lg-6">
+												     <input class="layui-input" type="text" id="operationClass" name="operationClass">
+												    </div>
+											  	</div>
+											  	<div class="layui-form-item layui-form-text  col-lg-9">
+												    <label class="layui-form-label col-lg-3">记录Id：</label>
+												    <div class="layui-input-inline col-lg-6">
+												    	 <input class="layui-input" type="text" id="operationClassId" name="operationClassId">
+												    </div>
+											  	</div>
+											  	<div class="layui-form-item layui-form-text  col-lg-9">
+												    <label class="layui-form-label col-lg-3">旧值:</label>
+												    <div class="layui-input-inline col-lg-6">
+												     	<textarea class="layui-textarea" name="preValue" id="preValue" rows="5" class="col-xs-12"></textarea>
+												    </div>
+											  	</div>
+											  		<div class="layui-form-item layui-form-text  col-lg-9">
+												    <label class="layui-form-label col-lg-3">新值:</label>
+												    <div class="layui-input-inline col-lg-6">
+												     	<textarea class="layui-textarea" name="curValue" id="curValue" rows="5" class="col-xs-12"></textarea>
+												    </div>
+											  	</div>
+											 </form>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div id="laypageDiv"></div>
-				<@h.layPage cont="laypageDiv" formId="searchForm"
-				page=returnDatas.page/>
-			</div>
-
-
-		</div>
 		<!-- 主体内容结束 -->
 		<@h.footer />
 	</div>

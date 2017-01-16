@@ -173,25 +173,9 @@ function getLocationHashArr(){
     }
     return new Array();
 }
-
-
-/*
-内容区页面跳转
-*/
-/*function myhref(_url,menuId) {
-	mySubmitForm("springrain_default_init_ajax_form", _url);
-}*/
-
-function mzywxhref(_url,menuId) {
-	layer.load();
-	mySubmitForm("springrain_default_init_ajax_form", _url);
-	layer.closeAll();
-}
-
 function gentimestampstr(){
 	return new Date().getTime();
 }
-
 function getcurrentMenuId(){
 	var currentPageUrl=window.location.href;
 	var urlElementArr=currentPageUrl.split("?");
@@ -203,16 +187,10 @@ function getcurrentMenuId(){
 	}
 	return menuId;
 }
-
-function myhref(_url,menuId) {
-	/*var t=gentimestampstr();
-	if(menuId==null){
-		menuId=getcurrentMenuId();
-		if(menuId==''){
-			menuId=t;
-		}
-	}
-	var urlnew="index?id="+menuId+"&t="+t+"#href="+_url; */
+/*
+ * 跳转
+ * */
+function myhref(_url) {
 	location.href=_url;
 }
 
@@ -298,33 +276,7 @@ function myexport(formId, _url) {
 }
 //提交FORM
 function mySubmitForm(formId, _url) {
-	var _type=jQuery('#' + formId).attr("method");
-	if(!_type){
-		_type="POST";
-	}
-	
-	if (_url) {
-		if (_url.indexOf("?") > 0)
-			_url += "&_=" + new Date().getTime();
-		else
-			_url += "?_=" + new Date().getTime();
-		jQuery('#' + formId).ajaxSubmit({
-			url : _url,
-			type:_type,
-			target : '#ajax_target'
-		});
-	} else {
-		if(!!$('#' + formId).html()){
-			jQuery('#' + formId).ajaxSubmit({
-				type:_type,
-				target : '#ajax_target'
-			});
-		}
-		
-	}
-	//去掉select2的
-	jQuery("[role='status']").html('');
-	jQuery(".select2-drop").remove();
+	jQuery("#"+formId).submit();
 }
 
 
@@ -347,22 +299,6 @@ function commonUpdateForm(formId,listurl,message) {
 	 var pageurl=$("#"+formId).attr('action'); 
 		var mydata=$("#"+formId).serialize();
 		ajaxpostonlayer(pageurl,listurl,mydata,message);
-	
-   /*
-	jQuery.post($('#' + form).attr('action'), $('#' + form).serialize(),
-	function(_json) {
-		if (_json.status == "success") {
-			myalert(_json.message, function() {
-				myhref(listurl);
-			});
-		} else {
-			myalert(_json.message);
-		}
-	});
-	*/
-	
-	
-	
 }
 
 
@@ -385,68 +321,9 @@ function commonSaveForm(form,listurl,message,_id) {
 	if(!_validate.check(false)){
 		return false;
 	}
-	
-	
-	
-	
 	 var pageurl=$("#"+form).attr('action'); 
-		var mydata=$("#"+form).serialize();
-		ajaxpostonlayer(pageurl,listurl,mydata,message);
-	
-	
-	/*
-	jQuery.post($('#' + form).attr('action'), $('#' + form).serialize(),
-	function(_json) {
-		if (_json.status == "success") {
-			myalert(_json.message, function() {
-				myhref(listurl);
-			});
-		} else {
-			myalert(_json.message);
-		}
-	});
-	*/
-	
-}
-
-
-//提交保存表单
-function myhref2page(_url,listurl,par) {
-	if(!par){
-		par=null;
-	}
-	
-	
-	ajaxpostonlayer(_url,listurl,par);
-	
-	
-	/*
-	jQuery.post(_url, par,
-	function(_json) {
-		if (_json.status == "success") {
-			myalert(_json.message, function() {
-				myhref(listurl);
-			});
-		} else {
-			myalert(_json.message);
-		}
-	});
-	*/
-	
-}
-//打开新链接(相对路径)
-function openUrl(_url) {
-	if(_url=="#"){
-		return;
-	}
-	window.location.href = _url;
-}
-//打开新链接(全路径)
-function openUrlctx(_url) {
-	if(_url=="#"){
-		return;
-	}
-	window.location.href = ctx+_url;
+	var mydata=$("#"+form).serialize();
+	ajaxpostonlayer(pageurl,listurl,mydata,message);
 }
 /**
  * 带layer的提交 listurl跳转地址 为空不跳转  
