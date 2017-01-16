@@ -97,8 +97,7 @@ description="springrain开源系统管理后台"/>
 						return;
 					} else {
 						var _url = "${ctx}/system/role/delete?id=" + id;
-						var listurl = "${ctx}/system/role/list";
-						mydelete(_url, listurl);
+						springrain.mydelete(null,_url,'确认要删除该角色,与之绑定的帐号将失去此角色绑定关系 ',null);
 					}
 				}
 

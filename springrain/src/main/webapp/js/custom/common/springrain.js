@@ -14,10 +14,14 @@
 			 * _id要删除的ID
 			 * _url删除URL
 			 * _tips删除提示，默认“是否删除”
+			 * _redirect 删除成功，回跳的URL，传NULL默认会刷新当前页面
 			 * */
-			mydelete:function(_id,_url,_tips){
-				if(!_url||!_id)return;
-				var _pars={"id":_id};
+			mydelete:function(_id,_url,_tips,_redirect){
+				if(!_url)return;
+				var _pars=null;
+				if(_id){
+					_pars={"id":_id};
+				}
 				_tips=_tips?_tips:'是否删除?';
 				layer.confirm(_tips, {icon: 3, title:'提示'}, function(index){
 					  jQuery.ajax({
@@ -32,7 +36,11 @@
 									  icon: 1,
 									  time: 2000 //2秒关闭（如果不配置，默认是3秒）
 									}, function(){
-									   window.location.reload();
+										if(_redirect){
+											window.location.href=_redirect;
+										}else{
+											window.location.reload();
+										}
 									}); 
 							  }else{
 								  layer.msg(data.message, {icon: 1,time: 1000}); 

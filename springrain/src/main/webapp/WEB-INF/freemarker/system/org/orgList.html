@@ -9,7 +9,7 @@ description="springrain开源系统管理后台"/>
 <script type="text/javascript" src="${ctx}/js/validform/validform.min.js"></script>
 <link rel="stylesheet" href="${ctx}/js/select2/css/select2.min.css" type="text/css">
 <link rel="stylesheet" href="${ctx}/js/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
-<link rel="stylesheet" href="${ctx}/css/custom/system/orgList.css" type="text/css">
+<link rel="stylesheet" href="${ctx}/css/custom/common/myztree.css" type="text/css">
 </head>
 <body>
 	<div class="layui-layout layui-layout-admin">
@@ -171,7 +171,7 @@ description="springrain开源系统管理后台"/>
 				function showOrgTree() {
 
 					if (!selectOrgZtree) {
-						$.fn.zTree.init($("#selectOrgTree"), orgSelectSetting,
+						$.fn.zTree.init($("#selectOrgTree"), orgTreesetting,
 								orgjsondata4select.data);
 
 						selectOrgZtree = $.fn.zTree
