@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springrain.cms.base.entity.CmsSite;
 import org.springrain.cms.utils.SiteUtils;
 import org.springrain.frame.controller.BaseController;
@@ -23,7 +24,7 @@ public class WeiXinBaseController extends BaseController {
 	   
 
 	@RequestMapping("/index")
-	public String index(@PathVariable String siteId,HttpServletRequest request, Model model,CmsSite cmsSite ) 
+	public  String index(@PathVariable String siteId,HttpServletRequest request, Model model,CmsSite cmsSite ) 
 			throws Exception {
 		
 		System.out.println(SiteUtils.getSiteId());
@@ -32,6 +33,6 @@ public class WeiXinBaseController extends BaseController {
 		
 		
 
-		return "/index";
+		return "index";
 	}
 }
