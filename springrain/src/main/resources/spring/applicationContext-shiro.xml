@@ -84,7 +84,9 @@
 				/ueditor/**=firewall,user<!-- UEditor的配置访问路径  -->
 				<!-- E  -->
 				
-				/f/** = firewall,anon
+				/wx/**=firewall
+				
+				/f/** = firewall,wxauthor
 				
 				/weixin/test/** = anon
 				
@@ -130,6 +132,12 @@
 			    
 			     <!-- 防火墙 过滤器 -->
 			    <entry key="firewall" value-ref="firewall"/>
+			    
+			    
+			    <!-- 微信登录验证过滤器 -->
+			     <!-- 防火墙 过滤器 -->
+			    <entry key="wxauthor" value-ref="wxauthor"/>
+			    
 			    
 			</map>
 		</property>
