@@ -80,11 +80,11 @@
 				/favicon.ico = firewall,anon
 				
 				<!-- S 目前将upload文件权限放开，等文件系统模块完成以后再修改  -->
-				/upload/**=anon
-				/ueditor/**=user<!-- UEditor的配置访问路径  -->
+				/upload/**=firewall,anon
+				/ueditor/**=firewall,user<!-- UEditor的配置访问路径  -->
 				<!-- E  -->
 				
-				/f/** = anon
+				/f/** = firewall,anon
 				
 				/weixin/test/** = anon
 				
