@@ -24,15 +24,13 @@ public class SiteUtils {
 	
 	public static String getSiteDomain(HttpServletRequest request){
 		String path = request.getContextPath(); 
-		String basePath = request.getScheme()+"://"+request.getServerName();
-		if(80==request.getServerPort()){
-			basePath=basePath;
-		}else{
-			basePath=basePath+":"+request.getServerPort();
-		}
-		basePath=basePath+path+"/";
 		
-		return basePath;
+		String url=request.getRequestURL().toString();
+		
+		url=url.substring(0,url.indexOf(path));
+		
+		
+		return url;
 	}
 	
 	
