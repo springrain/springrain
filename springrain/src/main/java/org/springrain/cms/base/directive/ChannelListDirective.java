@@ -5,10 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Component;
 import org.springrain.cms.base.directive.abs.AbstractChannelDirective;
 import org.springrain.cms.base.directive.util.DirectiveUtils;
 import org.springrain.cms.base.entity.CmsChannel;
+import org.springrain.cms.utils.SiteUtils;
 
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
@@ -20,6 +24,9 @@ import freemarker.template.TemplateModel;
  */
 @Component("channelListDirective")
 public class ChannelListDirective extends AbstractChannelDirective {
+	
+	@Resource
+	HttpServletRequest request;
 	/**
 	 * 模板名称
 	 */
@@ -29,9 +36,12 @@ public class ChannelListDirective extends AbstractChannelDirective {
 	public void execute(Environment env, Map params, TemplateModel[] loopVars,
 			TemplateDirectiveBody body) throws TemplateException, IOException {
 		
+		
+		
 		List<CmsChannel> list=new ArrayList<CmsChannel>();
-		Object object = params.get("p");
+		Object object =request.getAttribute("siteId");
 		System.out.println("-----------------------:"+object);
+		System.out.println("-----------------------:"+SiteUtils.getCurrentSiteId());
 		for(int i=0;i<5;i++){
 			CmsChannel c=new CmsChannel();
 			c.setId("c"+i);

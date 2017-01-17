@@ -73,9 +73,17 @@ public class LoginController extends BaseController  {
 			if(SecurityUtils.getSubject().isAuthenticated()){
 				return redirect+"/index";
 			}
+			
+			
+			  String url=request.getParameter("url");
+			  if(StringUtils.isNotBlank(url)){
+			     model.addAttribute("url", url);
+			  }
+			
+			
 			//默认赋值message,避免freemarker尝试从session取值,造成异常
 			model.addAttribute("message", "");
-			return redirect+"/system/index";
+			return "/login";
 		}
 		
 		/**
@@ -103,6 +111,10 @@ public class LoginController extends BaseController  {
 			  if(StringUtils.isNotBlank(submitCode)){
 				  submitCode=submitCode.toLowerCase().toString();
 			  }
+			  
+			  String url=request.getParameter("url");
+			
+			  
 			  //如果验证码不匹配,跳转到登录
 			if (StringUtils.isBlank(submitCode) ||StringUtils.isBlank(code)||!code.equals(submitCode)) {
 				model.addAttribute("message", "验证码错误!");
@@ -123,15 +135,27 @@ public class LoginController extends BaseController  {
 				user.login(token);
 			} catch (UnknownAccountException e) {
 				model.addAttribute("message", "账号不存在!");
+				if(StringUtils.isNotBlank(url)){
+					     model.addAttribute("url", url);
+			    }
 				return "/login";
 			} catch (IncorrectCredentialsException e) {
 				model.addAttribute("message", "密码错误!");
+				if(StringUtils.isNotBlank(url)){
+			  	     model.addAttribute("url", url);
+		        }
 				return "/login";
 			} catch (LockedAccountException e) {
 				model.addAttribute("message", e.getMessage());
+				if(StringUtils.isNotBlank(url)){
+			  	     model.addAttribute("url", url);
+		        }
 				return "/login";
 			} catch (Exception e) {
 				model.addAttribute("message", "未知错误,请联系管理员.");
+				if(StringUtils.isNotBlank(url)){
+			  	     model.addAttribute("url", url);
+		        }
 				return "/login";
 			}
 		
@@ -150,7 +174,13 @@ public class LoginController extends BaseController  {
 			cache.put(currUser.getAccount(), session.getId());
 			*/
 			
-			return redirect+"/index";
+			if(StringUtils.isBlank(url)){
+				url="/index";
+			}
+			
+			
+			
+			return redirect+url;
 		}
 		
 		/**

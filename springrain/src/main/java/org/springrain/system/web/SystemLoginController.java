@@ -62,6 +62,13 @@ public class SystemLoginController extends BaseController  {
 			}
 			//默认赋值message,避免freemarker尝试从session取值,造成异常
 			model.addAttribute("message", "");
+			  String url=request.getParameter("url");
+			  if(StringUtils.isNotBlank(url)){
+			     model.addAttribute("url", url);
+			  }
+			
+			
+			
 			return "/system/login";
 		}
 		
@@ -91,9 +98,7 @@ public class SystemLoginController extends BaseController  {
 			  if(StringUtils.isNotBlank(submitCode)){
 				  submitCode=submitCode.toLowerCase().toString();
 			  }
-			  
-			 
-			  
+			  String url=request.getParameter("url");
 			  //如果验证码不匹配,跳转到登录
 			if (StringUtils.isBlank(submitCode) ||StringUtils.isBlank(code)||!code.equals(submitCode)) {
 				model.addAttribute("message", "验证码错误!");
@@ -114,15 +119,27 @@ public class SystemLoginController extends BaseController  {
 				user.login(token);
 			} catch (UnknownAccountException uae) {
 				model.addAttribute("message", "账号不存在!");
+				 if(StringUtils.isNotBlank(url)){
+				     model.addAttribute("url", url);
+				  }
 				return "/system/login";
 			} catch (IncorrectCredentialsException ice) {
 				model.addAttribute("message", "密码错误!");
+				 if(StringUtils.isNotBlank(url)){
+				     model.addAttribute("url", url);
+				  }
 				return "/system/login";
 			} catch (LockedAccountException lae) {
 				model.addAttribute("message", "账号被锁定!");
+				 if(StringUtils.isNotBlank(url)){
+				     model.addAttribute("url", url);
+				  }
 				return "/system/login";
 			} catch (Exception e) {
 				model.addAttribute("message", "未知错误,请联系管理员.");
+				 if(StringUtils.isNotBlank(url)){
+				     model.addAttribute("url", url);
+				  }
 				return "/system/login";
 			}
 		
@@ -141,7 +158,13 @@ public class SystemLoginController extends BaseController  {
 			cache.put(currUser.getAccount(), session.getId());
 			*/
 			
-			return redirect+"/system/index";
+			if(StringUtils.isBlank(url)){
+				url="/system/index";
+			}
+			
+			
+			
+			return redirect+url;
 		}
 		
 	
