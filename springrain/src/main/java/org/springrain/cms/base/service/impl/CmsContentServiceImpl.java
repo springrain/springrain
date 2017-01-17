@@ -1,6 +1,7 @@
 package org.springrain.cms.base.service.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -12,6 +13,7 @@ import org.springrain.cms.base.entity.CmsLink;
 import org.springrain.cms.base.service.ICmsContentService;
 import org.springrain.cms.base.service.ICmsLinkService;
 import org.springrain.cms.base.service.ICmsSiteService;
+import org.springrain.frame.util.Page;
 import org.springrain.system.service.BaseSpringrainServiceImpl;
 import org.springrain.system.service.ITableindexService;
 
@@ -98,7 +100,6 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 	    cmsLinkService.save(cmsLink);
 	    
 	    return id;
-	   
 	}
 
   
@@ -112,6 +113,12 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
     @Override
 	public CmsContent findCmsContentById(String id) throws Exception{
 	 return super.findById(id,CmsContent.class);
+	}
+
+	@Override
+	public List<CmsContent> findListBySiteId(String siteId, Page page) {
+		
+		return null;
 	}
 	
 

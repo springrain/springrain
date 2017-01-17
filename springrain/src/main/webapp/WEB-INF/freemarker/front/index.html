@@ -1,0 +1,45 @@
+<#escape x as x?html>
+<@h.commonHead title="站点title" keywords="站点keywords" description="站点description"/>
+</head>
+<body>
+	<div id="header" class="container">
+		<div class="row">
+			<div class="per30 fl">
+				logo
+			</div>
+			<div class="per70 fl tr">
+				<div>个人信息</div>
+				<div>
+					<span class="layui-breadcrumb" lay-separator="|">
+					  <#if (returnDatas.data)??>
+					  	<#list returnDatas.data.channelList as channel>
+					  		<a href="${ctx}/f/${returnDatas.data.site.siteType}/${returnDatas.data.site.id}/channel/${channel.id}" target="blank">${channel.name}</a>
+					  	</#list>
+					  </#if>
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="content" class="container">
+		<ul>
+			<#if (returnDatas.data.contentList)??>
+				<#list returnDatas.data.contentList as content>
+					<li>
+						<a href="${ctx}/f/${returnDatas.data.site.siteType}/${returnDatas.data.site.id}/content/${content.id}" target="blank">
+							<div>${content.title!}</div>
+							<div>${content.mintitle!}</div>
+							<div>${content.summary!}</div>
+							<div>${content.content!}</div>
+						</a>
+					</li>
+				</#list>
+			</#if>
+		</ul>
+	</div>
+	<div id="footer" class="container-fluid pos-a bottom0 tc">
+		脚部
+	</div>
+</body>
+</html>
+</#escape>

@@ -1,6 +1,9 @@
 package org.springrain.cms.base.service;
 
+import java.util.List;
+
 import org.springrain.cms.base.entity.CmsContent;
+import org.springrain.frame.util.Page;
 import org.springrain.system.service.IBaseSpringrainService;
 /**
  * TODO 在此加入类描述
@@ -22,6 +25,14 @@ public interface ICmsContentService extends IBaseSpringrainService {
 	String saveContent(CmsContent cmsContent) throws Exception;
 
 	Integer updateCmsContent(CmsContent cmsContent) throws Exception;
+
+	/**
+	 * 根据站点id分页查找
+	 * @param siteId
+	 * @param page
+	 * @return
+	 */
+	List<CmsContent> findListBySiteId(String siteId, Page page);
 	
 	
 	
