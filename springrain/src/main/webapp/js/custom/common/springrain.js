@@ -2,20 +2,23 @@
  * springrain   javascript 封装
  */
 (function($){
+	var _that=$.springrain;
 	$.springrain={
-			/*跳转
-			 * _url 要跳转的URL
-			 * */
+			/**
+			 * 跳转
+			 * @param _url 要跳转的URL
+			 */
 			goTo:function(_url){
 				if(!_url)return;
 				location.href=_url;
 			},
-			/*删除
-			 * _id要删除的ID
-			 * _url删除URL
-			 * _tips删除提示，默认“是否删除”
-			 * _redirect 删除成功，回跳的URL，传NULL默认会刷新当前页面
-			 * */
+			/**
+			 * 删除
+			 * @param _id	要删除的ID
+			 * @param _url	删除URL
+			 * @param _tips	删除提示，默认“是否删除”
+			 * @param _redirect	删除成功，回跳的URL，传NULL默认会刷新当前页面
+			 */
 			mydelete:function(_id,_url,_tips,_redirect){
 				if(!_url)return;
 				var _pars=null;
@@ -50,18 +53,18 @@
 					  layer.close(index);
 				});
 			},
-			/*
-			 * 初始化 验证表单
+			/**
+			 * 初始化 验证表单,此方法适合单纯的表单页面，不适合左边数据，右边详情的页面（下面的方法）
 			 * 要求：
 			 * 表单名为validForm，提交按钮为：smtbtn，还原按钮：rstbtn，提示：.valid-info
-			 * 参数：
-			 * _before:请求前处理函数 
-			 * _after:请求后处理函数
-			 * 
-			 * */
+			 * @param _before 请求前处理函数 
+			 * @param _after 请求后处理函数
+			 * @returns
+			 *  _form   validform的对象，可手动调用_form.check(false)手动进行表单验证或调用其它API函数
+			 */
 			initValid:function(_before,_after){
 				var index = null;
-				jQuery("#validForm").Validform({
+				var _form=jQuery("#validForm").Validform({
 					btnSubmit:"#smtbtn", 
 					btnReset:"#rstbtn",
 					tiptype:4, 
@@ -127,6 +130,215 @@
 						//ajax遇到服务端错误时也会执行回调，这时的data是{ status:**, statusText:**, readyState:**, responseText:** }；
 						//这里执行回调操作;
 						//注意：如果不是ajax方式提交表单，传入callback，这时data参数是当前表单对象，回调函数会在表单验证全部通过后执行，然后判断是否提交表单，如果callback里明确return false，则表单不会提交，如果return true或没有return，则会提交表单。
+					}
+				});
+				return _form;
+			},
+			/**
+			 * 保存
+			 * 带validform验证的表单AJAX提交,和方法"initValid"应用不同场景
+			 * @param form	表单的ID  不传默认为,"updateForm"
+			 * @param listurl 添加成功以后，跳转的URL
+			 * @param message 操作成功以后提示的信息，  不传默认为 "操作成功"
+			 * @param _id 为了防止，保存弄成修改，把ID清空
+			 * @returns
+			 */
+			commonSaveForm:function(form,listurl,message,_id){
+				var _that=this;
+				if(!form){
+					form="updateForm";
+				}
+				var id="#id";
+				if(_id){
+					id="#"+_id;
+				}
+				jQuery(id,jQuery("#"+form)).val("");//把form表单中的id弄空
+				var _form=jQuery("#"+form).Validform({
+					tiptype:4, 
+					tiptype:function(msg,o,cssctl){
+						var _obj=jQuery(o.obj).parents(".layui-form-item").find(".valid-info");
+						cssctl(_obj,o.type);
+						_obj.text(msg);
+					}
+				});
+				if(!_form.check(false)){
+					return _form;//把 验证对象返回
+				}
+				 var pageurl=jQuery("#"+form).attr('action'); 
+				var mydata=jQuery("#"+form).serialize();
+				_that.ajaxpostonlayer(pageurl,listurl,mydata,message);
+				return _form;
+			},
+			/**
+			 * 修改
+			 * 带validform验证的表单AJAX提交,和方法"initValid"应用不同场景
+			 * @param formId
+			 * @param listurl
+			 * @param message
+			 * @returns
+			 */
+			commonUpdateForm:function (formId,listurl,message) {
+				var _that=this;
+				if(!formId){
+					formId="updateForm";
+				}
+				var _form=jQuery("#"+formId).Validform({
+					tiptype:4, 
+					tiptype:function(msg,o,cssctl){
+						var _obj=jQuery(o.obj).parents(".layui-form-item").find(".valid-info");
+						cssctl(_obj,o.type);
+						_obj.text(msg);
+					}
+				});
+				if(!_form.check(false)){
+					return _form;
+				}
+				var pageurl=jQuery("#"+formId).attr('action'); 
+				var mydata=jQuery("#"+formId).serialize();
+				_that.ajaxpostonlayer(pageurl,listurl,mydata,message);
+			},
+			/**
+			 * 重置表单验证的 验证结果  ，配合“commonSaveForm”使用
+			 * @param _form 表单验证对象
+			 */
+			resetForm:function(_form){
+				if(!_form)return;
+				try{
+					_form.resetForm();
+				}catch(e){
+					console.log(e);
+				}
+				jQuery(".valid-info").html('');
+			},
+			/**
+			 * 配合 “commonSaveForm” 提交表单，也可单独使用
+			 * @param pageurl 要保存的URL
+			 * @param listurl 保存成功后 跳转的URL
+			 * @param mydata  保存的数据,为表单的 序列化数据 serialize();
+			 * @param msg 保存成功的提示消息
+			 * @returns {Boolean}
+			 */
+			ajaxpostonlayer:function(pageurl,listurl,mydata,msg){
+				var _that=this;
+				var index = layer.load(null, {shade: [0.8, '#393D49'] });
+				if(pageurl==null||pageurl==''){
+					layer.alert('提交地址不能为空！', {icon: 5});
+					layer.closeAll('loading')
+					return false;
+				}
+				if(!msg){
+					msg="操作成功!";
+				}
+				jQuery.ajax({
+					url :pageurl, 
+				    type :"post",
+					data:mydata,
+					dataType : "json",
+					success:function(ret){
+						layer.closeAll('loading')
+						if(ret.status=="success"){
+							layer.alert(msg, {icon: 1},function(){
+								layer.closeAll();
+								if(listurl!=null&&listurl!=""){
+									_that.goTo(listurl);
+								}
+							});
+							
+						}else{
+							_that.myerror('sorry,操作失败了 ...');
+							layer.closeAll('loading')
+						}
+					},
+					error:function(){
+						layer.closeAll('loading')
+						_that.myerror('sorry,操作失败了 ...');
+					}
+				});
+			},
+			/**
+			 * 消息提示
+			 * @param message 提示的内容
+			 * @param fun 确认后的回调
+			 */
+			alert:function(message, fun){
+				var _that=this;
+				_that.layerInfo(_message, 1, _fun);
+			},
+			/**
+			 * 错误提示
+			 * @param message
+			 * @param fun
+			 */
+			error:function(message, fun){
+				var _that=this;
+				_that.layerInfo(_message, 5, _fun);
+			},
+			/**
+			 * 消息提示
+			 * @param message
+			 * @param fun
+			 */
+			info:function(message, fun){
+				var _that=this;
+				_that.layerInfo(_message, 0, _fun);
+			},
+			/**
+			 * 警告
+			 * @param message
+			 * @param fun
+			 */
+			warning:function(message, fun){
+				var _that=this;
+				_that.layerInfo(_message, 2, _fun);
+			},
+			/**
+			 * 通用layer提示方法
+			 * @param message
+			 * @param fun
+			 */
+			layerInfo:function(_message,_icon,_fun) {
+				if (_fun&&typeof _fun =="function") {
+					layer.alert(_message, {
+						icon : _icon
+					}, _fun);
+				} else {
+					layer.alert(message, {
+						icon : _icon
+					});
+				}
+			},
+			/**
+			 * 确认提示
+			 * @param message
+			 * @param fun
+			 */
+			confirm:function(message, fun){
+				layer.confirm(message, {
+					title:"确认",
+					icon : 3,
+					btn : [ '确定', '取消' ]
+				// 按钮
+				}, function() {
+					if (_fun&&typeof fun =="function") {
+						fun();
+					}
+				}, function() {
+
+				});
+			},
+			/**
+			 * 输入框提示
+			 * @param message
+			 * @param fun
+			 */
+			prompt:function(message, fun){
+				layer.prompt({
+					title : message,
+					formType : 1
+				// prompt风格，支持0-2
+				}, function(pass) {
+					if (_fun&&typeof fun =="function") {
+						fun(pass);
 					}
 				});
 			}

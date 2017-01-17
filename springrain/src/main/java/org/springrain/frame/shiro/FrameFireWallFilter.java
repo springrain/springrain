@@ -3,7 +3,9 @@ package org.springrain.frame.shiro;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
@@ -11,6 +13,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.web.servlet.AdviceFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -141,26 +144,75 @@ public class FrameFireWallFilter extends AdviceFilter {
 	 * @throws ServletException
 	 */
    private boolean chainDoFilter(HttpServletRequest request,ServletResponse res) throws IOException, ServletException{
+	   
 	  
 	   String requestURI = request.getRequestURI();
 	   
-	   int f_index=requestURI.indexOf("/s_");
-	   if(f_index<0){
-		  
+	   
+	   
+	   
+	   
+	   int s_index=requestURI.indexOf("/s_");
+	   if(s_index<0){
 		   return true;
 	   }
-	   
-	   String siteId=requestURI.substring(f_index+1, requestURI.indexOf("/", f_index+1));
+	   String siteId=requestURI.substring(s_index+1, requestURI.indexOf("/", s_index+1));
 	   
 	   //重新编码siteId,避免注入
 	   siteId=URLEncoder.encode(siteId,"UTF-8");
 	   
 	   //避免注入
-	   if(siteId.length()>30){
+	   if(StringUtils.isBlank(siteId)||siteId.length()>30){
 		   return true;
 	   }
-	   //把siteId放入ThreadLocal
-	   SiteUtils.setSiteId(siteId);
+	   
+	   Map<String,String> map=new HashMap<String,String>();
+	   
+	   map.put("siteId", siteId);
+	   
+	   
+	   
+	   
+	   int h_index=requestURI.indexOf("/h_");
+	   if(h_index<0){
+		   //把siteInfo放入ThreadLocal
+		   SiteUtils.setSiteInfo(map);
+		   return true;
+	   }
+	   String channelId=requestURI.substring(h_index+1, requestURI.indexOf("/", h_index+1));
+	   //重新编码siteId,避免注入
+	   channelId=URLEncoder.encode(channelId,"UTF-8");
+	   //避免注入
+	   if(StringUtils.isBlank(channelId)||channelId.length()>30){
+		   //把siteInfo放入ThreadLocal
+		   SiteUtils.setSiteInfo(map);
+		   return true;
+	   }
+	   map.put("channelId", channelId);
+	   
+	   
+	   
+	   int c_index=requestURI.indexOf("/c_");
+	   if(c_index<0){
+		   //把siteInfo放入ThreadLocal
+		   SiteUtils.setSiteInfo(map);
+		   return true;
+	   }
+	   
+	   String contentId=requestURI.substring(c_index+1, requestURI.indexOf("/", c_index+1));
+	   //重新编码siteId,避免注入
+	   contentId=URLEncoder.encode(contentId,"UTF-8");
+	   //避免注入
+	   if(StringUtils.isBlank(contentId)||contentId.length()>30){
+		   //把siteInfo放入ThreadLocal
+		   SiteUtils.setSiteInfo(map);
+		   return true;
+	   }
+	   map.put("contentId", contentId);
+	   
+	   //把siteInfo放入ThreadLocal
+	   SiteUtils.setSiteInfo(map);
+	   
 	   return true;
 	   
    }
@@ -168,7 +220,7 @@ public class FrameFireWallFilter extends AdviceFilter {
    
    @Override
    public void afterCompletion(ServletRequest request, ServletResponse response, Exception exception) throws Exception {
-	   SiteUtils.removeSiteId();
+	   SiteUtils.removeSiteInfo();
    }
 
 

@@ -22,7 +22,7 @@ public class WxMpAutoLoginFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws ServletException, IOException {
-		String siteId=SiteUtils.getSiteId();
+		String siteId=SiteUtils.getCurrentSiteId();
 		if(StringUtils.isBlank(siteId)){
 			return;
 		}

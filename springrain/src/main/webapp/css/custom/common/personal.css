@@ -48,7 +48,7 @@ header.larry-personal-tit span {
 }
 /**/
 .layui-nav .layui-nav-more{margin-top:4px;}
-/**/
+/*select2  适合layui的JS和样式*/
 .nolayer{display: block;
     width: 100%;
     padding-left: 10px!important;
@@ -58,3 +58,7 @@ header.larry-personal-tit span {
     border: 1px solid #e6e6e6;
     background-color: #fff;
     border-radius: 2px!important;}
+.layui-table tbody tr.active{
+	background-color: #bcbcbc;
+	color:#fff;
+}
