@@ -187,56 +187,7 @@ function getcurrentMenuId(){
 	}
 	return menuId;
 }
-/*
- * 跳转
- * */
-function myhref(_url) {
-	location.href=_url;
-}
-
-/**
- * 不告诉用户删除结果，直接刷新页面
- * 
- * @param _url
- */
-function mydelete(_url) {
-	mydelete(_url,"确定删除数据?");
-}
-
-/**
- * 不告诉用户删除结果，直接刷新页面
- * 
- * @param _url
- */
-function mydelete(_url,message) {
-	myconfirm(message, function() {
-		myhref(_url);
-	});
-}
-
-
-/**
- * 列表页面删除，弹框提示用户删除结果，再刷新指定页面,一般为列表
- * 
- * @param _url
- * @param listage
- */
-function mydelete(_url, listage,par) {
-	mydelete(_url, listage,par,"确定删除数据?");
-}
-
-/**
- * 列表页面删除，弹框提示用户删除结果，再刷新指定页面,一般为列表
- * 
- * @param _url
- * @param listage
- */
-function mydelete(_url, listage,par,message) {
-	myconfirm(message, function() {
-		myhref2page(_url,listage,par);
-	});
-}
-
+ 
 
 /**
  * 批量删除
@@ -274,13 +225,11 @@ function myexport(formId, _url) {
 	_form.submit();
 	_form.action = _action;
 }
-//提交FORM
-function mySubmitForm(formId, _url) {
-	jQuery("#"+formId).submit();
-}
+ 
 
 
 //提交修改表单
+
 function commonUpdateForm(formId,listurl,message) {
 	if(!formId){
 		formId="updateForm";
@@ -303,28 +252,7 @@ function commonUpdateForm(formId,listurl,message) {
 
 
 //提交保存表单
-function commonSaveForm(form,listurl,message,_id) {
-	if(!form){
-		form="updateForm";
-	}
-	var id="#id";
-	if(_id){
-		id="#"+_id;
-	}
-	
-	jQuery(id,jQuery("#"+form)).val("");
-	
-
-	var _validate=jQuery("#"+form).Validform({
-		tiptype:3
-	});
-	if(!_validate.check(false)){
-		return false;
-	}
-	 var pageurl=$("#"+form).attr('action'); 
-	var mydata=$("#"+form).serialize();
-	ajaxpostonlayer(pageurl,listurl,mydata,message);
-}
+ 
 /**
  * 带layer的提交 listurl跳转地址 为空不跳转  
  */
@@ -333,46 +261,7 @@ function submitonlayer(formId,listurl,msg){
 	var mydata=$("#"+formId).serialize();
 	ajaxpostonlayer(pageurl,listurl,mydata,msg);
 }
-
-function ajaxpostonlayer(pageurl,listurl,mydata,msg){
-	var index = layer.load(null, {shade: [0.8, '#393D49'] });
-	if(pageurl==null||pageurl==''){
-		layer.alert('提交地址不能为空！', {icon: 5});
-		return false;
-	}
-	if(!msg){
-		msg="操作成功!";
-	}
-	$.ajax({
-		url :pageurl, 
-	    type :"post",
-		data:mydata,
-		dataType : "json",
-		success:function(ret){
-			layer.closeAll('loading')
-			if(ret.status=="success"){
-				layer.alert(msg, {icon: 1},function(){
-					layer.closeAll();
-					if(listurl!=null&&listurl!=""){
-				       myhref(listurl);
-					}
-				});
-				
-			}else{
-				myerror('sorry,操作失败了 ...');
-			}
-		},
-		error:function(){
-			layer.closeAll('loading')
-			myerror('sorry,操作失败了 ...');
-		}
-	});
-}
-
-
-
 /* 赋值 */
-
 function set_val(name, val) {
 	if ($("#" + name + " option").length > 0) {
 		//按老的UI不动是这个
