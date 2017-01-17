@@ -169,6 +169,10 @@ public class FrameFireWallFilter extends AdviceFilter {
 	   Map<String,String> map=new HashMap<String,String>();
 	   
 	   map.put("siteId", siteId);
+	   
+	   
+	   
+	   
 	   int h_index=requestURI.indexOf("/h_");
 	   if(h_index<0){
 		   //把siteInfo放入ThreadLocal
@@ -184,11 +188,31 @@ public class FrameFireWallFilter extends AdviceFilter {
 		   SiteUtils.setSiteInfo(map);
 		   return true;
 	   }
-	   
 	   map.put("channelId", channelId);
+	   
+	   
+	   
+	   int c_index=requestURI.indexOf("/c_");
+	   if(c_index<0){
+		   //把siteInfo放入ThreadLocal
+		   SiteUtils.setSiteInfo(map);
+		   return true;
+	   }
+	   
+	   String contentId=requestURI.substring(c_index+1, requestURI.indexOf("/", c_index+1));
+	   //重新编码siteId,避免注入
+	   contentId=URLEncoder.encode(contentId,"UTF-8");
+	   //避免注入
+	   if(StringUtils.isBlank(contentId)||contentId.length()>30){
+		   //把siteInfo放入ThreadLocal
+		   SiteUtils.setSiteInfo(map);
+		   return true;
+	   }
+	   map.put("contentId", contentId);
 	   
 	   //把siteInfo放入ThreadLocal
 	   SiteUtils.setSiteInfo(map);
+	   
 	   return true;
 	   
    }

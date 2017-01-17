@@ -16,26 +16,28 @@ public class SiteUtils {
 		siteThreadLocal.set(map);
 	} 
 	
-	public static String getCurrentSiteId(){
-		Map<String, String> map = siteThreadLocal.get();
+	
+	private static String getMapValue(String key){
+	Map<String, String> map = siteThreadLocal.get();
 		
 		if(map==null){
 			return null;
 		}
 		
-		return map.get("siteId");
+		return map.get(key);
+	}
+	
+	
+	public static String getCurrentSiteId(){
+		return getMapValue("siteId");
 	}
 	
 	public static String getCurrentChannelId(){
-		Map<String, String> map = siteThreadLocal.get();
-		
-		if(map==null){
-			return null;
-		}
-		
-		return map.get("channelId");
+		return getMapValue("channelId");
 	}
-	
+	public static String getCurrentContentId(){
+		return getMapValue("contentId");
+	}
 	
 	
 	public static void removeSiteInfo(){
