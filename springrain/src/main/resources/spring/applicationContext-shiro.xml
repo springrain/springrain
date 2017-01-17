@@ -86,7 +86,7 @@
 				
 				/wx/**=firewall
 				
-				/f/0/* = firewall,wxmpautologin
+				/f/0/** = firewall,wxmpautologin
 				
 				
 				/unauth = firewall
