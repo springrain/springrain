@@ -8,6 +8,7 @@ description="springrain开源系统管理后台"/>
 <script type="text/javascript" src="${ctx}/js/validform/validform.min.js"></script>
 <link rel="stylesheet" href="${ctx}/js/select2/css/select2.min.css" type="text/css">
 <link rel="stylesheet" href="${ctx}/js/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
+<link rel="stylesheet" href="${ctx}/js/validform/validform.css" media="all">
 </head>
 <body>
 	<div class="layui-layout layui-layout-admin">
@@ -15,7 +16,7 @@ description="springrain开源系统管理后台"/>
 		<!-- 主体内容开始 -->
 			<script type="text/javascript">
 				var listurl = '${ctx}/system/role/list';
-
+				var _valid_form;
 				var menuMultiSelectSetting = {
 					expandAll : true,
 					check : {
@@ -37,31 +38,27 @@ description="springrain开源系统管理后台"/>
 					}
 				};
 
-				jQuery(document).ready(
-						function() {
-							$(".layui-table tbody tr").click(
-									function() {
-										$(".sub_left_menu tbody tr.active")
-												.removeClass("active");
-										$(this).attr("class", "active");
-										var _url = ctx
-												+ "/system/role/look/json?id="
-												+ $(this).attr("id");
-
-										jQuery.ajax({
-											url : _url,
-											type : "post",
-											dataType : "json",
-											success : function(_json) {
-												if (_json.status == "success") {
-													showdata(_json);
-												}
-											}
-										});
-										return false;
-									})
+				jQuery(function(){
+					//左边tr点击的事件绑定
+					$(".springrain-table tbody tr").click(function() {
+						springrain.resetForm(_valid_form);
+						$(".springrain-table tbody tr.active").removeClass("active");
+						$(this).attr("class", "active");
+						var _url = ctx+ "/system/role/look/json?id="+ $(this).attr("id");
+						jQuery.ajax({
+							url : _url,
+							type : "post",
+							dataType : "json",
+							success : function(_json) {
+								      if (_json.status == "success") {
+												showdata(_json);
+									      }
+									}
 						});
-
+						return false;
+					});
+				});
+					
 				function showdata(result) {
 					var fixed = result.data['fixed'];
 					if (fixed == 1) {
@@ -125,13 +122,11 @@ description="springrain开源系统管理后台"/>
 						checkedZtreeNodes(jQuery("#menuIds").val(),
 								"menuMultiSelectTree");
 					}
-
 					//页面层-自定义
 					layer.open({
 						shadeClose : true,
 						type : 1,
 						title : "选择菜单",
-						skin : 'layui-layer-rim', //加上边框
 						area : [ '600px', '400px' ], //宽高
 						content : $("#div_menuMultiSelectTree"),
 						closeBtn : 1,
@@ -141,15 +136,10 @@ description="springrain开源系统管理后台"/>
 							layer.close(index); //如果设定了yes回调，需进行手工关闭
 						}
 					});
-
 					return false;
-
 				}
-
 				function selectZtreeMenu() {
-
 					var nodes = menuMultiSelectTree.getCheckedNodes(true);
-
 					var menuNames = "";
 					var menuIds = "";
 
@@ -159,15 +149,13 @@ description="springrain开源系统管理后台"/>
 					});
 					jQuery("#menuNames").val(menuNames);
 					jQuery("#menuIds").val(menuIds);
-
 				}
-
 				function doupdate() {
-					commonUpdateForm("updateForm", listurl, '角色更新成功！');
+					_valid_form=springrain.commonUpdateForm("validForm", listurl, '角色更新成功！');
 				}
 
 				function dosave() {
-					commonSaveForm("updateForm", listurl, '角色添加成功！');
+					_valid_form=springrain.commonSaveForm("validForm", listurl, '角色添加成功！');
 				}
 			//-->
 			</script>
@@ -211,7 +199,7 @@ description="springrain开源系统管理后台"/>
 							<div class="container-fluid">
 								<div class="row">
 									<div class="per20 fl">
-										<table class="layui-table">
+										<table class="layui-table springrain-table">
 										 	<colgroup>
 									    		<col width="100">
 										    	<col width="80">
@@ -243,28 +231,29 @@ description="springrain开源系统管理后台"/>
 									</div>
 									<div class="per60 fl rlt">
 										<div class="fl per20 line-vertical"></div>
-										<form id="updateForm" name="updateForm"	action="${ctx}/system/role/update" method="post" class="layui-form">
+										<form id="validForm" name="validForm"	action="${ctx}/system/role/update" method="post" class="layui-form">
 											<input type="hidden" name="id" id="id">
 											<div class="layui-form-item  col-lg-9">
 									    		<label class="layui-form-label col-lg-3">名称*</label>
-											    <div class="layui-input-inline">
+											    <div class="layui-inline">
 											      	<input type="text" id="name" name="name"
 															placeholder="名称" datatype="*"  nullmsg="名称不能为空"
 															class="layui-input">
 											    </div>
+											    <div class="layui-inline valid-info"></div>
 										  	</div>
 											
 											<div class="layui-form-item  col-lg-9">
 									    		<label class="layui-form-label  col-lg-3">权限菜单</label>
-											    <div class="layui-input-inline  col-lg-6">
+											    <div class="layui-inline  col-lg-6">
 											    	<input name="menuNames" class="layui-input" id="menuNames" type="text" readonly="readonly" onclick="showZtreeMenu();"/> 
 											      	<input name="menuIds" id="menuIds" type="hidden">
 											    </div>
 										  	</div>
 											<div class="layui-form-item  col-lg-9">
-											    <label class="layui-form-label col-lg-3">角色类型</label>
-											    <div class="layui-input-inline ">
-											      	<select class="form-control" name="roleType" id="roleType" placeholder='请选择'>
+											    <label class="layui-form-label col-lg-3">角色类型*</label>
+											    <div class="layui-inline ">
+											      	<select class="form-control" name="roleType" id="roleType"  datatype="*"  nullmsg="角色类型不能为空">
 											      		<option value>请选择角色类型</option>
 											      		<optgroup label="<<系统级角色>>">
 															<option value="0">系统角色</option>
@@ -275,21 +264,23 @@ description="springrain开源系统管理后台"/>
 														</optgroup>
 													</select>
 											    </div>
+											    <div class="layui-inline valid-info"></div>
 										  	</div>
 											<div class="layui-form-item  col-lg-9">
-											    <label class="layui-form-label col-lg-3">是否可用</label>
-											    <div class="layui-input-inline ">
-											      	<select class="form-control" name="active" id="active">
+											    <label class="layui-form-label col-lg-3">是否可用*</label>
+											    <div class="layui-inline ">
+											      	<select class="form-control" name="active" id="active" datatype="*"  nullmsg="是否可用不能为空">
 											      		<option value>请选择是否可用</option>
 														<option value="1">是</option>
 														<option value="0">否</option>
 													</select>
 											    </div>
+											     <div class="layui-inline valid-info"></div>
 										  	</div>
 											
 											<div class="layui-form-item layui-form-text  col-lg-9">
 											    <label class="layui-form-label col-lg-3">备注</label>
-											    <div class="layui-input-inline col-lg-6">
+											    <div class="layui-inline col-lg-6">
 											      <textarea name="remark" id="remark" placeholder="请输入内容" class="layui-textarea"></textarea>
 											    </div>
 										  	</div>
