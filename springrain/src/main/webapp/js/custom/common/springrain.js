@@ -135,6 +135,7 @@
 				return _form;
 			},
 			/**
+			 * 保存
 			 * 带validform验证的表单AJAX提交,和方法"initValid"应用不同场景
 			 * @param form	表单的ID  不传默认为,"updateForm"
 			 * @param listurl 添加成功以后，跳转的URL
@@ -167,6 +168,34 @@
 				var mydata=jQuery("#"+form).serialize();
 				_that.ajaxpostonlayer(pageurl,listurl,mydata,message);
 				return _form;
+			},
+			/**
+			 * 修改
+			 * 带validform验证的表单AJAX提交,和方法"initValid"应用不同场景
+			 * @param formId
+			 * @param listurl
+			 * @param message
+			 * @returns
+			 */
+			commonUpdateForm:function (formId,listurl,message) {
+				var _that=this;
+				if(!formId){
+					formId="updateForm";
+				}
+				var _form=jQuery("#"+formId).Validform({
+					tiptype:4, 
+					tiptype:function(msg,o,cssctl){
+						var _obj=jQuery(o.obj).parents(".layui-form-item").find(".valid-info");
+						cssctl(_obj,o.type);
+						_obj.text(msg);
+					}
+				});
+				if(!_form.check(false)){
+					return _form;
+				}
+				var pageurl=jQuery("#"+formId).attr('action'); 
+				var mydata=jQuery("#"+formId).serialize();
+				_that.ajaxpostonlayer(pageurl,listurl,mydata,message);
 			},
 			/**
 			 * 重置表单验证的 验证结果  ，配合“commonSaveForm”使用

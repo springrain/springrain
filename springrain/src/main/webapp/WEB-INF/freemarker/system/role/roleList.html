@@ -127,7 +127,6 @@ description="springrain开源系统管理后台"/>
 						shadeClose : true,
 						type : 1,
 						title : "选择菜单",
-						skin : 'layui-layer-rim', //加上边框
 						area : [ '600px', '400px' ], //宽高
 						content : $("#div_menuMultiSelectTree"),
 						closeBtn : 1,
@@ -232,7 +231,7 @@ description="springrain开源系统管理后台"/>
 									</div>
 									<div class="per60 fl rlt">
 										<div class="fl per20 line-vertical"></div>
-										<form id="validForm" name="validForm"	action="" method="post" class="layui-form">
+										<form id="validForm" name="validForm"	action="${ctx}/system/role/update" method="post" class="layui-form">
 											<input type="hidden" name="id" id="id">
 											<div class="layui-form-item  col-lg-9">
 									    		<label class="layui-form-label col-lg-3">名称*</label>

@@ -225,42 +225,6 @@ function myexport(formId, _url) {
 	_form.submit();
 	_form.action = _action;
 }
- 
-
-
-//提交修改表单
-
-function commonUpdateForm(formId,listurl,message) {
-	if(!formId){
-		formId="updateForm";
-	}
-	
-	
-	var _validate=jQuery("#"+formId).Validform({
-		tiptype:3
-	});
-	if(!_validate.check(false)){
-		return false;
-	}
-	
-	
-	
-	 var pageurl=$("#"+formId).attr('action'); 
-		var mydata=$("#"+formId).serialize();
-		ajaxpostonlayer(pageurl,listurl,mydata,message);
-}
-
-
-//提交保存表单
- 
-/**
- * 带layer的提交 listurl跳转地址 为空不跳转  
- */
-function submitonlayer(formId,listurl,msg){
-    var pageurl=$("#"+formId).attr('action'); 
-	var mydata=$("#"+formId).serialize();
-	ajaxpostonlayer(pageurl,listurl,mydata,msg);
-}
 /* 赋值 */
 function set_val(name, val) {
 	if ($("#" + name + " option").length > 0) {
