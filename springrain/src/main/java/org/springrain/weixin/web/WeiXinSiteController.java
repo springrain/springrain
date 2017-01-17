@@ -15,7 +15,7 @@ import org.springrain.frame.controller.BaseController;
 
 @Controller
 @RequestMapping(value="/f/0/{siteId}")
-public class WeiXinBaseController extends BaseController {
+public class WeiXinSiteController extends BaseController {
 	
 	    @ModelAttribute()
 		public void init(@PathVariable String siteId) {

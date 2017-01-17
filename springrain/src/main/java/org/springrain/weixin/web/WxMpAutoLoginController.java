@@ -19,8 +19,8 @@ import org.springrain.weixin.sdk.mp.bean.result.WxMpOAuth2AccessToken;
 import org.springrain.weixin.sdk.mp.bean.result.WxMpUser;
 
 @Controller
-@RequestMapping(value = "/wx/autologin/{siteId}")
-public class WxAutoLoginController extends BaseController {
+@RequestMapping(value = "/wx/mpautologin/{siteId}")
+public class WxMpAutoLoginController extends BaseController {
 	@Resource
 	IWxMpService wxMpService;
 	@Resource
@@ -45,7 +45,7 @@ public class WxAutoLoginController extends BaseController {
 		WxMpConfig wxmpconfig = wxMpConfigService.findWxMpConfigById(siteId);
 		
 		
-		String _url=SiteUtils.getSiteURLPath(request)+"/wx/autologin/"+siteId+"/callback?url=" + url;
+		String _url=SiteUtils.getSiteURLPath(request)+"/wx/mpautologin/"+siteId+"/callback?url=" + url;
 		
 		String oauthUrl = wxMpService.oauth2buildAuthorizationUrl(wxmpconfig,_url, WxConsts.OAUTH2_SCOPE_BASE, null);
 		return redirect + oauthUrl;
