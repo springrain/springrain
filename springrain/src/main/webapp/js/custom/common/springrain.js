@@ -35,7 +35,7 @@
 						  async:false,
 						  success:function(data){
 							  if(data!=null&&"success"==data.status){
-								  layer.msg(data.message, {
+								  layer.msg(data.message==null?'删除成功':data.message, {
 									  icon: 1,
 									  time: 2000 //2秒关闭（如果不配置，默认是3秒）
 									}, function(){
@@ -245,13 +245,13 @@
 							});
 							
 						}else{
-							_that.myerror('sorry,操作失败了 ...');
+							_that.error('sorry,操作失败了 ...');
 							layer.closeAll('loading')
 						}
 					},
 					error:function(){
 						layer.closeAll('loading')
-						_that.myerror('sorry,操作失败了 ...');
+						_that.error('sorry,操作失败了 ...');
 					}
 				});
 			},
@@ -260,7 +260,7 @@
 			 * @param message 提示的内容
 			 * @param fun 确认后的回调
 			 */
-			alert:function(message, fun){
+			alert:function(_message, _fun){
 				var _that=this;
 				_that.layerInfo(_message, 1, _fun);
 			},
@@ -269,7 +269,7 @@
 			 * @param message
 			 * @param fun
 			 */
-			error:function(message, fun){
+			error:function(_message, _fun){
 				var _that=this;
 				_that.layerInfo(_message, 5, _fun);
 			},
@@ -278,7 +278,7 @@
 			 * @param message
 			 * @param fun
 			 */
-			info:function(message, fun){
+			info:function(_message, _fun){
 				var _that=this;
 				_that.layerInfo(_message, 0, _fun);
 			},
@@ -287,7 +287,7 @@
 			 * @param message
 			 * @param fun
 			 */
-			warning:function(message, fun){
+			warning:function(_message, _fun){
 				var _that=this;
 				_that.layerInfo(_message, 2, _fun);
 			},
@@ -302,7 +302,7 @@
 						icon : _icon
 					}, _fun);
 				} else {
-					layer.alert(message, {
+					layer.alert(_message, {
 						icon : _icon
 					});
 				}
@@ -341,6 +341,46 @@
 						fun(pass);
 					}
 				});
+			},
+			/**
+			 * select2  ajax封装
+			 * @param _domId  要操作的DOM
+			 * @param _url	  AJAX的URL
+			 * @param _delay  延迟AJAX 毫秒
+			 * @param _idFildName  AJAX返回JSON，对应的ID
+			 * @param _textFildName AJAX返回JSON，对应的TEXT
+			 * @param _multival 是否是多选
+			 */
+			select2Remote:function(_domId,_url,_delay,_idFildName,_textFildName,_multival){
+				if(!_url)return;
+				_delay=_delay?_delay:1000;
+				_idFildName=_idFildName?_idFildName:"id";
+				_textFildName=_textFildName?_textFildName:"text";
+				_multival = _multival || false;
+				jQuery("#"+_domId).select2({
+				      multiple: _multival,
+					  ajax: {
+					    url: _url,
+					    dataType: 'json',
+					    delay: _delay,
+					    data: function (params) {return {q: params.term,page: params.page};},
+					    processResults: function (data, page) { 
+					    	return {results: data}
+					    },
+					    cache: false
+					  },
+					  id:function(obj){return obj["'"+_idFildName+"'"]},
+					  escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+					  minimumInputLength: 1,
+					  templateResult: function(obj){
+						  return eval("obj."+_textFildName);
+				      },
+				      templateSelection:function(obj){
+						  return eval("obj."+_textFildName);
+					  },
+					  language: "zh-CN"
+					});
 			}
+			
 	}
 })(window);

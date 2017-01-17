@@ -52,13 +52,27 @@ header.larry-personal-tit span {
 .nolayer{display: block;
     width: 100%;
     padding-left: 10px!important;
-        height: 38px!important;
-    line-height: 38px!important;
-    line-height: 36px!important;
     border: 1px solid #e6e6e6;
     background-color: #fff;
     border-radius: 2px!important;}
+.select2-container .select2-selection--single{
+    border: 1px solid #e6e6e6!important;
+    background-color: #fff;
+   	height: 38px!important;
+    line-height: 38px!important;
+    border-radius: 2px!important;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow{
+	top:4px!important;
+}
+.select2-dropdown{
+	 border: 1px solid #e6e6e6!important;
+}
+.select2-results__message{color:#333333!important;}
 .layui-table tbody tr.active{
 	background-color: #bcbcbc;
 	color:#fff;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered{
+	line-height:36px!important;
 }

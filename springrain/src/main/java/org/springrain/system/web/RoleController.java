@@ -12,12 +12,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springrain.frame.controller.BaseController;
+import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.MessageUtils;
 import org.springrain.frame.util.Page;
 import org.springrain.frame.util.ReturnDatas;
 import org.springrain.system.entity.Menu;
 import org.springrain.system.entity.Role;
+import org.springrain.system.entity.User;
 import org.springrain.system.service.IRoleService;
 import org.springrain.system.service.IUserRoleMenuService;
 
@@ -190,6 +192,17 @@ public class RoleController  extends BaseController {
 			logger.error(e.getMessage(), e);
 		}
 		return new ReturnDatas(ReturnDatas.WARNING, MessageUtils.DELETE_WARNING);
+	}
+	@RequestMapping(value = "/ajax/select2")
+	public @ResponseBody List<Role> ajaxUser(HttpServletRequest request) throws Exception {
+		String key=request.getParameter("q");
+		Page page=new Page();
+		page.setPageIndex(1);
+		
+		Finder finder=Finder.getSelectFinder(Role.class, "id,name").append(" WHERE roleType=1 and name like :name order by name asc ");
+		finder.setParam("name", key+"%");
+		return roleService.queryForList(finder,Role.class, page);
+		
 	}
 
 	

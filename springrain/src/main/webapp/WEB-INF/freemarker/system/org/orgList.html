@@ -10,12 +10,14 @@ description="springrain开源系统管理后台"/>
 <link rel="stylesheet" href="${ctx}/js/select2/css/select2.min.css" type="text/css">
 <link rel="stylesheet" href="${ctx}/js/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
 <link rel="stylesheet" href="${ctx}/css/custom/common/myztree.css" type="text/css">
+<link rel="stylesheet" href="${ctx}/js/validform/validform.css" media="all">
 </head>
 <body>
 	<div class="layui-layout layui-layout-admin">
 		<@h.naviHeader /> <@h.leftMenu />
 		<!-- 主体内容开始 -->
 			<SCRIPT type="text/javascript">
+				var _valid_form;
 				var orgTreesetting = {
 					view: {
 						showLine: false,
@@ -87,34 +89,11 @@ description="springrain开源系统管理后台"/>
 							myalert(_json.message);
 						}
 					});
-
-					//ajaxUserIdSelect2();
-
-					//ajaxUserIdSelect2("${ctx}/system/user/ajax/select2","managerId",datafunction,selectfunction);
-					$("#managerId").select2({
-						  ajax: {
-						    url: "${ctx}/system/user/ajax/select2",
-						    dataType: 'json',
-						    delay: 250,
-						    data: function (params) {return {q: params.term,page: params.page};},
-						    processResults: function (data, page) { 
-						    	return {results: data}
-						    },
-						    cache: false
-						  },
-						  escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
-						  minimumInputLength: 1,
-						  templateResult: function(obj){
-							  return obj.name
-					      },
-					      templateSelection:function(obj){
-							  return obj.name
-						  },
-						  language: "zh-CN"
-						});
+					springrain.select2Remote("managerRoleId", "${ctx}/system/role/ajax/select2", 250, "id", "name",false);
 				});
 
 				function orgzTreeOnClick(event, treeId, treeNode) {
+					springrain.resetForm(_valid_form);
 					showdata(treeNode);
 				};
 
@@ -143,17 +122,16 @@ description="springrain开源系统管理后台"/>
 					} else {
 						jQuery("#pname").val("");
 					}
-
-					//回选 下拉框
-					jQuery("#state option[value='" + result['state'] + "']")
-							.prop("selected", true);
 					//  设置 主管的下拉框
-					if (result["managerId"]) {
-						jQuery("#managerId").empty();
-						jQuery("#managerId").append(
-								"<option value='"+result["managerId"]+"'  selected>"
+					if (result["managerRoleId"]) {
+						jQuery("#managerRoleId").empty();
+						jQuery("#managerRoleId").append(
+								"<option value='"+result["managerRoleId"]+"'  selected>"
 										+ result["managerName"] + "</option>");
-						jQuery("#managerId").trigger("change");
+						jQuery("#managerRoleId").select2().trigger("change");
+					}else{
+						springrain.select2Remote("managerRoleId", "${ctx}/system/role/ajax/select2", 250, "id", "name",false);
+						jQuery("#managerRoleId").select2("val","");
 					}
 				}
 
@@ -165,7 +143,7 @@ description="springrain开源系统管理后台"/>
 					} else {
 						var _url = "${ctx}/system/org/delete?id=" + id;
 						var listurl = "${ctx}/system/org/list";
-						mydelete(_url, listurl, {}, "部门下的子部门也会被删除,确定要删除部门?");
+						springrain.mydelete(id, _url, "部门下的子部门也会被删除,确定要删除部门?", listurl);
 					}
 				}
 				function showOrgTree() {
@@ -194,6 +172,13 @@ description="springrain开源系统管理后台"/>
 					});
 
 				}
+				function doupdate() {
+					_valid_form=springrain.commonUpdateForm("validForm",'${ctx}/system/org/list', '部门更新成功！');
+				}
+
+				function dosave() {
+					_valid_form=springrain.commonSaveForm("validForm",'${ctx}/system/org/list', '部门添加成功！');
+				}
 			</SCRIPT>
 			<div class="layui-tab layui-tab-brief">
 				<ul class="layui-tab-title site-demo-title">
@@ -218,8 +203,8 @@ description="springrain开源系统管理后台"/>
 							          			<td>
 								          			<div class="layui-field-box">
 											    		<button id="btn_reload" onclick="location.reload();" class="layui-btn display-n"><i class="layui-icon"></i> 跳转到新增  >></button>
-											    		<button id="btn_add" onclick="commonSaveForm('updateForm','${ctx}/system/org/list');" class="layui-btn"><i class="layui-icon"></i> 保存新增</button>
-											    		<button id="btn_update" style="display: none;" onclick="commonUpdateForm('updateForm','${ctx}/system/org/list');" class="layui-btn"><i class="layui-icon">&#xe642;</i> 保存修改</button>
+											    		<button id="btn_add" onclick="dosave()" class="layui-btn"><i class="layui-icon"></i> 保存新增</button>
+											    		<button id="btn_update" style="display: none;" onclick="doupdate()" class="layui-btn"><i class="layui-icon">&#xe642;</i> 保存修改</button>
 											    		<button id="btn_delete" style="display: none;" onclick="deleteOrg();" class="layui-btn layui-btn-danger"><i class="layui-icon">&#xe640;</i> 删除</button>
 											  		</div>
 							          			</td>
@@ -231,22 +216,23 @@ description="springrain开源系统管理后台"/>
 								<div class="fl per20">
 									<ul id="orgListTree" class="ztree"></ul>
 								</div>
-								<div class="fl per60 rlt">
+								<div class="fl per70 rlt">
 									<div class="fl per20 line-vertical"></div>
-									<form id="updateForm" name="updateForm" method="post" action="${ctx}/system/org/update" class="layui-form">
+									<form id="validForm" name="validForm" method="post" action="${ctx}/system/org/update" class="layui-form">
 			                        	<input type="hidden" name="id" id="id"> 
 			                        	<input type="hidden" name="opmode" id="opmode" value="">
 			                            
 			                            <div class="layui-form-item col-lg-9">
-								    		<label class="layui-form-label col-lg-3">名称</label>
-										    <div class="layui-input-inline">
-										      <input datatype="*1-200" errormsg="部门名称长度1--200位之间!" nullmsg="名称不能为空" type="text" id="name" name="name" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+								    		<label class="layui-form-label col-lg-3">名称*</label>
+										    <div class="layui-inline">
+										      <input datatype="*1-200" errormsg="部门名称长度1--200位之间!" nullmsg="名称不能为空" type="text" id="name" name="name" required   placeholder="请输入标题" autocomplete="off" class="layui-input">
 										    </div>
+										    <div class="layui-inline valid-info"></div>
 									  	</div>
 										
 										<div class="layui-form-item  col-lg-9">
 								    		<label class="layui-form-label col-lg-3">上级部门</label>
-										    <div class="layui-input-inline">
+										    <div class="layui-inline">
 										      	<input onclick="showOrgTree();" name="pname" id="pname" readonly="readonly"  type="text"  placeholder="点击选择上级部门" autocomplete="off" class="layui-input">
 										    	<input name="pid" id="pid" type="hidden" />
 										    </div>
@@ -254,34 +240,38 @@ description="springrain开源系统管理后台"/>
 										
 										<div class="layui-form-item  col-lg-9">
 								    		<label class="layui-form-label col-lg-3">主管角色</label>
-										    <div class="layui-input-inline col-lg-6">
+										    <div class="layui-inline col-lg-3">
 									      		<!-- <input type="text" id="managerId" name="managerId"> -->
-										      	<select id="managerId" name="managerId" class="nolayer">
+										      	<select id="managerRoleId" name="managerRoleId" class="nolayer">
 			                                    </select> 
 										    </div>
+										    <div class="layui-inline col-lg-3">对应角色中的"部门主管"角色</div>
 									  	</div>
 										
 										<div class="layui-form-item  col-lg-9">
-								    		<label class="layui-form-label col-lg-3">排序</label>
-										    <div class="layui-input-inline">
-										      <input datatype="n1-16" errormsg="请输入正确数值" nullmsg="排序不能为空!" type="text" id="sortno" name="sortno" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+								    		<label class="layui-form-label col-lg-3">排序*</label>
+										    <div class="layui-inline">
+										    <input datatype="n1-16" errormsg="请输入正确数值" nullmsg="排序不能为空!" type="text" id="sortno" name="sortno"   placeholder="请输入排序" autocomplete="off" class="layui-input">
 										    </div>
+										     <div class="layui-inline valid-info"></div>
 									  	</div>
 										<div class="layui-form-item  col-lg-9">
 								    		<label class="layui-form-label col-lg-3">部门类型</label>
-										    <div class="layui-input-inline rlt">
+										    <div class="layui-inline rlt">
 										      	<select id="orgType" name="orgType">
 										      		<option value>请选择部门类型</option>
-													<option value="0">组织结构</option>
+										      		<optgroup label="<<常用部门设置>>">
 													<option value="1">部门</option>
-													<option value="1">虚拟权限组</option>
+													<optgroup label="<<特殊部门设置>>">
+													<option value="2">虚拟权限组</option>
+													<option value="0">组织结构</option>
 			                                    </select>
 										    </div>
 									  	</div>
 										<div class="layui-form-item  col-lg-9">
 								    		<label class="layui-form-label col-lg-3">是否可用</label>
-										    <div class="layui-input-inline rlt">
-										      	<select id="active" name="active" lay-verify="required">
+										    <div class="layui-inline rlt">
+										      	<select id="active" name="active" >
 										      		<option value>请选择是否可用</option>
 													<option value="1">是</option>
 													<option value="0">否</option>
@@ -291,7 +281,7 @@ description="springrain开源系统管理后台"/>
 									  	
 									  	<div class="layui-form-item col-lg-9">
 								    		<label class="layui-form-label col-lg-3">描述</label>
-										    <div class="layui-input-inline col-lg-6">
+										    <div class="layui-inline col-lg-6">
 										    	<textarea name="description" id="description" class="layui-textarea"></textarea>
 										    </div>
 									  	</div>

@@ -11,6 +11,7 @@ import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.Page;
 import org.springrain.frame.util.SecUtils;
 import org.springrain.system.entity.Org;
+import org.springrain.system.entity.Role;
 import org.springrain.system.entity.User;
 import org.springrain.system.entity.UserOrg;
 import org.springrain.system.service.BaseSpringrainServiceImpl;
@@ -39,7 +40,7 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
     	   
     	   super.save(entity);
     	   
-    	   updateOrgManager(id,entity.getManagerRoleId());
+    	   //updateOrgManager(id,entity.getManagerRoleId());
     	   
 	       return id;
 	}
@@ -54,8 +55,10 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
 		if(StringUtils.isEmpty(id)){
 			return null;
 		}
-		
-		updateOrgManager(id,entity.getManagerRoleId());
+		/*
+		 * 此方法不在用
+		 * */
+		//updateOrgManager(id,entity.getManagerRoleId());
 		
 		
 		Finder f_old_c=Finder.getSelectFinder(Org.class, "comcode").append(" WHERE id=:id ").setParam("id", id);
@@ -100,6 +103,9 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
 	 */
 	
 	private void updateOrgManager(String orgId,String managerId) throws Exception{
+		/*此方法不在用。
+		 * 部门没有主管，只要主管角色相关联
+		 * */
 		if(StringUtils.isBlank(orgId)||StringUtils.isBlank(managerId)){
 			return;
 		}
@@ -164,8 +170,9 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
     public <T> List<T> findListDataByFinder(Finder finder, Page page, Class<T> clazz,
 			Object o) throws Exception{
         	
-        	finder=new Finder("SELECT o.* FROM ").append(Finder.getTableName(Org.class)).append(" o ");
-        	finder.append(" WHERE   o.active=:active order by o.sortno asc ");
+        	finder=new Finder("SELECT o.*,r.name managerName FROM ").append(Finder.getTableName(Org.class)).append(" o ");
+        	finder.append(" left join ").append(Finder.getTableName(Role.class)).append(" r on  o.managerRoleId=r.id");
+        	finder.append(" WHERE o.active=:active order by o.sortno asc ");
         	 finder.setParam("active", 1);
 			 return super.queryForList(finder, clazz);
 			}
