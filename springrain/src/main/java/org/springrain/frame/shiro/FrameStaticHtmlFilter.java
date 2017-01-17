@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.system.service.IStaticHtmlService;
 /**
- * 记录访问日志的过滤器
+ * 页面静态化的过滤器
  * @author caomei
  *
  */
