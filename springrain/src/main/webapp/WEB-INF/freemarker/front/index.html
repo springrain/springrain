@@ -13,7 +13,7 @@
 					<span class="layui-breadcrumb" lay-separator="|">
 					  <#if (returnDatas.data)??>
 					  	<#list returnDatas.data.channelList as channel>
-					  		<a href="${ctx}/f/${returnDatas.data.site.siteType}/${returnDatas.data.site.id}/channel/${channel.id}" target="blank">${channel.name}</a>
+					  		<a href="${ctx}/f/${returnDatas.data.site.siteType}/${returnDatas.data.site.id}/${channel.id}" target="blank">${channel.name}</a>
 					  	</#list>
 					  </#if>
 					</span>

@@ -62,16 +62,50 @@ public class FrontController extends BaseController {
 	/**
 	 * 映射栏目页面
 	 * */
-	@RequestMapping("/channel/{channelId}")
+	@RequestMapping("/{channelId}")
 	public String channel(@PathVariable String siteType,@PathVariable String siteId,@PathVariable String channelId,HttpServletRequest request, Model model){
+		ReturnDatas returnDatas = ReturnDatas.getSuccessReturnDatas();
+		Page page = newPage(request);
+		Map<String, Object> dataMap = new HashMap<String, Object>();
+		try {
+			CmsSite site = cmsSiteService.findCmsSiteById(siteId);
+			List<CmsChannel> channelList = cmsChannelService.findTreeByPid(null, siteId);
+			List<CmsContent> contentList = cmsContentService.findContentByChannelId(channelId,page);
+			dataMap.put("site", site);
+			dataMap.put("channelList", channelList);
+			dataMap.put("contentList", contentList);
+			returnDatas.setData(dataMap);
+		} catch (Exception e) {
+			returnDatas.setMessage("系统异常:"+e.getLocalizedMessage());
+			returnDatas.setStatus(ReturnDatas.ERROR);
+			returnDatas.setStatusCode("500");
+		}
+		
+		model.addAttribute(GlobalStatic.returnDatas, returnDatas);
 		return "/front/channel";
 	}
 	
 	/**
 	 * 映射内容页面
 	 * */
-	@RequestMapping("/content/{contentId}")
-	public String content(@PathVariable String contentId,HttpServletRequest request, Model model){
+	@RequestMapping("/{channelId}/{contentId}")
+	public String content(@PathVariable String siteId,@PathVariable String channelId,@PathVariable String contentId,HttpServletRequest request, Model model){
+		ReturnDatas returnDatas = ReturnDatas.getSuccessReturnDatas();
+		Map<String, Object> dataMap = new HashMap<String, Object>();
+		try {
+			CmsSite site = cmsSiteService.findCmsSiteById(siteId);
+			List<CmsChannel> channelList = cmsChannelService.findTreeByPid(null, siteId);
+			CmsContent content = cmsContentService.findCmsContentByChannelAndContentId(channelId,contentId);
+			dataMap.put("site", site);
+			dataMap.put("channelList", channelList);
+			dataMap.put("content", content);
+			returnDatas.setData(dataMap);
+		} catch (Exception e) {
+			returnDatas.setMessage("系统异常:"+e.getLocalizedMessage());
+			returnDatas.setStatus(ReturnDatas.ERROR);
+			returnDatas.setStatusCode("500");
+		}
+		model.addAttribute(GlobalStatic.returnDatas, returnDatas);
 		return "/front/content";
 	}
 }

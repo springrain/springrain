@@ -7,12 +7,15 @@ import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springrain.cms.base.entity.CmsChannel;
 import org.springrain.cms.base.entity.CmsChannelContent;
 import org.springrain.cms.base.entity.CmsContent;
 import org.springrain.cms.base.entity.CmsLink;
+import org.springrain.cms.base.service.ICmsChannelService;
 import org.springrain.cms.base.service.ICmsContentService;
 import org.springrain.cms.base.service.ICmsLinkService;
 import org.springrain.cms.base.service.ICmsSiteService;
+import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.Page;
 import org.springrain.system.service.BaseSpringrainServiceImpl;
 import org.springrain.system.service.ITableindexService;
@@ -38,6 +41,8 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 	
 	@Resource
 	private ICmsLinkService cmsLinkService;
+	@Resource
+	private ICmsChannelService cmsChannelService;
 
 	@Override
 	public Object saveorupdate(Object entity) throws Exception {
@@ -116,9 +121,30 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 	}
 
 	@Override
-	public List<CmsContent> findListBySiteId(String siteId, Page page) {
-		
-		return null;
+	public List<CmsContent> findListBySiteId(String siteId, Page page) throws Exception {
+		Finder finder = new Finder("SELECT c.* FROM cms_site a INNER JOIN cms_channel_content b ON a.id=b.siteId INNER JOIN cms_content c ON c.id=b.contentId WHERE a.id=:siteId");
+		finder.setParam("siteId", siteId);
+		List<CmsContent> contentList = super.queryForList(finder, CmsContent.class, page);
+		for (CmsContent cmsContent : contentList) {
+			CmsChannel channel = cmsChannelService.findChannelBySiteAndContentId(siteId,cmsContent.getId());
+			cmsContent.setChannelId(channel.getId());
+		}
+		return super.queryForList(finder, CmsContent.class, page);
+	}
+
+	@Override
+	public List<CmsContent> findContentByChannelId(String channelId, Page page) throws Exception {
+		Finder finder = new Finder("SELECT c.* FROM cms_channel a INNER JOIN cms_channel_content b ON a.id=b.channelId INNER JOIN cms_content c ON c.id=b.contentId WHERE a.id=:channelId");
+		finder.setParam("channelId", channelId);
+		return super.queryForList(finder, CmsContent.class, page);
+	}
+
+	@Override
+	public CmsContent findCmsContentByChannelAndContentId(String channelId,
+			String contentId) throws Exception {
+		Finder finder = new Finder("SELECT b.* FROM cms_channel_content a INNER JOIN cms_content b ON a.contentId=b.id WHERE a.channelId=:channelId AND a.contentId=:contentId");
+		finder.setParam("channelId", channelId).setParam("contentId", contentId);
+		return super.queryForObject(finder, CmsContent.class);
 	}
 	
 

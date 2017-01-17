@@ -86,6 +86,7 @@
 				
 				/wx/**=firewall
 				
+				/f/2/** = anon
 				/f/0/* = firewall,wxmpautologin
 				
 				
