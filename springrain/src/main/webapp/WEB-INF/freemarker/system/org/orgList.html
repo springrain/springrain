@@ -9,7 +9,7 @@ description="springrain开源系统管理后台"/>
 <script type="text/javascript" src="${ctx}/js/validform/validform.min.js"></script>
 <link rel="stylesheet" href="${ctx}/js/select2/css/select2.min.css" type="text/css">
 <link rel="stylesheet" href="${ctx}/js/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
-<link rel="stylesheet" href="${ctx}/css/custom/system/orgList.css" type="text/css">
+<link rel="stylesheet" href="${ctx}/css/custom/common/myztree.css" type="text/css">
 </head>
 <body>
 	<div class="layui-layout layui-layout-admin">
@@ -171,7 +171,7 @@ description="springrain开源系统管理后台"/>
 				function showOrgTree() {
 
 					if (!selectOrgZtree) {
-						$.fn.zTree.init($("#selectOrgTree"), orgSelectSetting,
+						$.fn.zTree.init($("#selectOrgTree"), orgTreesetting,
 								orgjsondata4select.data);
 
 						selectOrgZtree = $.fn.zTree
@@ -253,7 +253,7 @@ description="springrain开源系统管理后台"/>
 									  	</div>
 										
 										<div class="layui-form-item  col-lg-9">
-								    		<label class="layui-form-label col-lg-3">主管</label>
+								    		<label class="layui-form-label col-lg-3">主管角色</label>
 										    <div class="layui-input-inline col-lg-6">
 									      		<!-- <input type="text" id="managerId" name="managerId"> -->
 										      	<select id="managerId" name="managerId" class="nolayer">
@@ -267,11 +267,22 @@ description="springrain开源系统管理后台"/>
 										      <input datatype="n1-16" errormsg="请输入正确数值" nullmsg="排序不能为空!" type="text" id="sortno" name="sortno" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
 										    </div>
 									  	</div>
-										
+										<div class="layui-form-item  col-lg-9">
+								    		<label class="layui-form-label col-lg-3">部门类型</label>
+										    <div class="layui-input-inline rlt">
+										      	<select id="orgType" name="orgType">
+										      		<option value>请选择部门类型</option>
+													<option value="0">组织结构</option>
+													<option value="1">部门</option>
+													<option value="1">虚拟权限组</option>
+			                                    </select>
+										    </div>
+									  	</div>
 										<div class="layui-form-item  col-lg-9">
 								    		<label class="layui-form-label col-lg-3">是否可用</label>
 										    <div class="layui-input-inline rlt">
 										      	<select id="active" name="active" lay-verify="required">
+										      		<option value>请选择是否可用</option>
 													<option value="1">是</option>
 													<option value="0">否</option>
 			                                    </select>

@@ -20,7 +20,13 @@ description="springrain开源系统管理后台"/>
 				var menujsondata4select;
 
 				var menuSelectSetting = {
-					
+						view: {
+							showLine: false,
+							showIcon: false,
+							selectedMulti: false,
+							dblClickExpand: false,
+							addDiyDom: addDiyDom
+						},
 					callback : {
 						onClick : clickMenuValue
 					},
@@ -77,7 +83,6 @@ description="springrain开源系统管理后台"/>
 				$(document).ready(function() {
 					$("[name='iconName']").click(function() {
 						$("#menuIcon").val("&#"+$(this).attr("textContent").replace(/(^\s+)|(\s+$)/g,""));
-						debugger;
 						jQuery("#imgIcon").html($("#menuIcon").val());
 						layer.closeAll();
 					});
@@ -201,7 +206,6 @@ description="springrain开源系统管理后台"/>
 				function showMenuZTree() {
 					if (!selectMenuZtree) {
 						$.fn.zTree.init($("#menuZtree"), menuSelectSetting,menujsondata4select.data);
-
 						selectMenuZtree = $.fn.zTree.getZTreeObj("menuZtree");
 						selectMenuZtree.expandAll(true);
 						selectZtreeOneNode(jQuery("#pid").val(), "menuZtree");
@@ -213,7 +217,6 @@ description="springrain开源系统管理后台"/>
 						btn : [ '确定' ], //按钮
 						type : 1,
 						title : "选择父菜单",
-						skin : 'layui-layer-rim', //加上边框
 						area : [ '600px', '400px' ], //宽高
 						//shadeClose: true,
 						content : $("#div_menuZtree")
@@ -343,6 +346,9 @@ description="springrain开源系统管理后台"/>
 		<!-- 主体内容结束 -->
 		<@h.footer />
 </div>
+<div id="div_menuZtree">
+				<ul id="menuZtree" class="ztree"></ul>
+			</div>
 <table class="layui-table display-n ml15 w-auto " lay-skin="nob" id="icon_wrap">
 	  <colgroup>
 	    <col width="55">

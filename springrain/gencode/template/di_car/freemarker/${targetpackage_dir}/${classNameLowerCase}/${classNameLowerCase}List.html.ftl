@@ -21,7 +21,7 @@ ${r"<@h.commonHead"} title="后台管理系统" keywords="开源,永久免费" d
 		});
 	});
 	function del(_id){
-		delWrap(_id,"${r"${ctx}"}/${classNameLowerCase}/delete");
+		springrain.mydelete(_id,"${r"${ctx}"}/${classNameLowerCase}/delete");
 	}
 </script>
 
