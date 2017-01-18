@@ -33,8 +33,7 @@ public class BaseUserFilter extends UserFilter {
 		 if(StringUtils.isBlank(referer)){
 			 return false;
 		 }
-		 String basePath = request.getScheme()+"://"+request.getServerName();
-		 if(!referer.startsWith(basePath)){
+		 if(!referer.contains(request.getServerName())){
 			 return false;
 		 }
 		 
