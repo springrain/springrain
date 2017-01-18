@@ -40,8 +40,13 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 	@Override
 	public Object saveorupdate(Object entity) throws Exception {
 		CmsSite cmsSite = (CmsSite) entity;
-		cmsSite.setUserId(SessionUser.getUserId());
-		return super.saveorupdate(cmsSite);
+		if(StringUtils.isBlank(cmsSite.getId())){
+			cmsSite.setUserId(SessionUser.getUserId());
+			return this.saveCmsSite(cmsSite);
+		}else{
+			return this.updateCmsSite(cmsSite);
+		}
+		
 	}
 	
     @Override

@@ -45,7 +45,15 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 	
 	
 
-	
+	@Override
+	public Object saveorupdate(Object entity) throws Exception {
+		CmsChannel channel = (CmsChannel) entity;
+		if(StringUtils.isBlank(channel.getId())){
+			return this.saveChannel(channel);
+		}else{
+			return this.updateChannel(channel);
+		}
+	}
 	
     @Override
 	public String  saveChannel(CmsChannel cmsChannel) throws Exception{
