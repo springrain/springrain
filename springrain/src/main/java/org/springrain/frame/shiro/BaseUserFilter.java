@@ -33,12 +33,16 @@ public class BaseUserFilter extends UserFilter {
 		 //已经登录用户,验证Referer
 		 HttpServletRequest req=(HttpServletRequest) request;
 		 String referer=req.getHeader("Referer");
+		 //System.out.println(referer+":"+req.getHeader("X-Requested-With"));
 		 if(StringUtils.isBlank(referer)){
 			 return false;
 		 }
+		 
+		 
 		 if(!referer.contains(request.getServerName())){
 			 return false;
 		 }
+		 
 		 
 		 return access;
 	 }
