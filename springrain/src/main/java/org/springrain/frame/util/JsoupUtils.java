@@ -9,6 +9,7 @@ public class JsoupUtils {
 	
 	static {
 	    user_content_filter.addTags("embed","object","param","span","div");
+	    user_content_filter.addProtocols("img", "src", "/");
 	    user_content_filter.addAttributes(":all", "style", "class", "id", "name");
 	    user_content_filter.addAttributes("object", "width", "height","classid","codebase");    
 	    user_content_filter.addAttributes("param", "name", "value");
