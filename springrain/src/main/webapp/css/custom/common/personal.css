@@ -76,3 +76,10 @@ header.larry-personal-tit span {
 .select2-container--default .select2-selection--single .select2-selection__rendered{
 	line-height:36px!important;
 }
+/*隐藏*/
+.off{display:none;}
+.on{display:block;}
+/**/
+.search{display:block;height:20px;line-height: 20px;cursor: pointer;}
+.search font{display:inline-block;vertical-align: top;}
+.search i{display:inline-block;padding-top:3px;vertical-align: top;margin-left:2px;}

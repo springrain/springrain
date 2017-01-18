@@ -72,8 +72,6 @@ public interface IUserOrgService extends IBaseSpringrainService {
 	 * @throws Exception
 	 */
 	List<String> findOrgIdsByUserId(String userId) throws Exception;
-	
-	
 	/**
 	 * 根据部门ID 查找主管
 	 * @param orgId
@@ -81,8 +79,6 @@ public interface IUserOrgService extends IBaseSpringrainService {
 	 * @throws Exception
 	 */
 	List<User> findManagerUserByOrgId(String orgId) throws Exception;
-	
-	
 	/**
 	 * 根据部门ID 查找主管Id
 	 * @param orgId
@@ -90,11 +86,6 @@ public interface IUserOrgService extends IBaseSpringrainService {
 	 * @throws Exception
 	 */
 	List<String> findManagerUserIdsByOrgId(String orgId) throws Exception;
-	
-	
-	
-	
-	
 	/**
 	 *  根据主管ID 查找主管能够管理的部门Ids
 	 * @param orgId
