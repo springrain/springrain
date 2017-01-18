@@ -1,4 +1,4 @@
-<#escape x as x?html>
+<#ftl output_format="HTML" auto_esc=true>
 <@h.commonHead title="后台管理系统" keywords="开源,永久免费" description="springrain开源系统管理后台"/>
 <SCRIPT type="text/javascript">
 	var dicDataSelectSetting = {
@@ -47,4 +47,3 @@
 <div>
 	<ul id="dicDataTree" class="ztree"></ul>
 </div>
-</#escape>
