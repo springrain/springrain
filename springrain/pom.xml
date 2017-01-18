@@ -53,6 +53,8 @@
 		<httpcore.version>4.4.5</httpcore.version>
 		<httpclient.version>4.5.2</httpclient.version>
 		
+		<jsoup.version>1.10.2</jsoup.version>
+		
 		<xstream.version>1.4.9</xstream.version>
 		
 		
@@ -480,6 +482,17 @@
 	    <artifactId>httpcore</artifactId>
 	    <version>${httpcore.version}</version>
 	 </dependency>
+	 
+	 
+	 
+	 
+	 <dependency>
+		  <!-- jsoup HTML parser library @ http://jsoup.org/ -->
+		  <groupId>org.jsoup</groupId>
+		  <artifactId>jsoup</artifactId>
+		  <version>${jsoup.version}</version>
+	  </dependency>
+	 
      
        <!--  
 		<dependency>
