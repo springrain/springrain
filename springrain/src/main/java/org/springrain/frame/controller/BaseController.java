@@ -263,7 +263,7 @@ public class BaseController extends BaseLogger {
 	        String key=me.getKey();  
 	        String[] value=me.getValue(); 
 	        if(value==null||value.length==0){
-	        	
+	        	continue;
 	        }else if(value.length==1){
 	        	model.addAttribute(key, value[0]);
 	        }else{
