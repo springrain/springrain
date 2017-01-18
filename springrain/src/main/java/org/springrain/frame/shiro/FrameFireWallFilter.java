@@ -1,25 +1,21 @@
 package org.springrain.frame.shiro;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.web.servlet.AdviceFilter;
+import org.apache.shiro.web.servlet.OncePerRequestFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
-import org.springrain.cms.utils.SiteUtils;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.IPUtils;
 /**
@@ -29,7 +25,7 @@ import org.springrain.frame.util.IPUtils;
  */
 
 
-public class FrameFireWallFilter extends AdviceFilter {
+public class FrameFireWallFilter extends OncePerRequestFilter {
 	public Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@Resource
@@ -51,8 +47,10 @@ public class FrameFireWallFilter extends AdviceFilter {
 	//黑名单
 	private List<String> blackList=new ArrayList<String>();
 	
+
 	@Override
-   protected boolean preHandle(ServletRequest req, ServletResponse res) throws Exception {
+	protected void doFilterInternal(ServletRequest req, ServletResponse res, FilterChain chain)
+			throws ServletException, IOException {
 
 		
 	    HttpServletRequest request=(HttpServletRequest) req;
@@ -60,22 +58,20 @@ public class FrameFireWallFilter extends AdviceFilter {
 	    String ip=IPUtils.getClientAddress(request);
 	    //黑名单IP
 	    if(blackList.contains(ip)){
-	    	return false;
+	    	return;
 	    }
 	    
 	    //次数小于0,认为不限制
 	    if(firewallLockCount<0){
-	    	//chain.doFilter(req, res);
-	    	return chainDoFilter(request, res);
+	        chain.doFilter(req, res);
+	    	return ;
 	    	
 	    }
 	    
-	    
-	    
 	    //白名单IP
 	    if(whiteList.contains(ip)){
-	    	//chain.doFilter(req, res);
-	    	return chainDoFilter(request, res);
+	    	chain.doFilter(req, res);
+	    	return;
 	    }
 	    
 	    
@@ -88,14 +84,14 @@ public class FrameFireWallFilter extends AdviceFilter {
 	    Long _end=now+firewallLockSecond;
 	    if(fw==null){//第一次访问
 	    	cache.put(ip, 1+"_"+_end+"_0");
-	    	//chain.doFilter(req, res);
-	    	return chainDoFilter(request, res);
+	    	chain.doFilter(req, res);
+	    	return ;
 	    }
 	    String[] strs=fw.split("_");
 	    if(strs==null||strs.length!=3){
 	    	cache.put(ip, 1+"_"+_end+"_0");
-	    	//chain.doFilter(req, res);
-	    	return chainDoFilter(request, res);
+	    	chain.doFilter(req, res);
+	    	return;
 	    }
 	    //已请求次数
 	    Integer _count=Integer.valueOf(strs[0]);
@@ -106,8 +102,8 @@ public class FrameFireWallFilter extends AdviceFilter {
 	    _count=_count+1;
 	    if(_count<=firewallLockCount){//不到阀值
 	    	cache.put(ip, _count+"_"+endDateLong+"_"+active);
-	    	//chain.doFilter(req, res);
-	    	return chainDoFilter(request, res);
+	    	chain.doFilter(req, res);
+	    	return;
 	    	
 	    }
 	    
@@ -121,64 +117,18 @@ public class FrameFireWallFilter extends AdviceFilter {
 	    
 	    if(now>endDateLong){//已经过期
 	    	cache.put(ip, 1+"_"+_end+"_0");
-	    	//chain.doFilter(req, res);
-	    	return chainDoFilter(request, res);
+	    	chain.doFilter(req, res);
+	    	return;
 	    }
 	    
 	    
 	    cache.put(ip, _count+"_"+endDateLong+"_"+active);
-    	return false;
+    	return;
 	
 
-	    }
-	
-	
-	
-
-	/**
-	 * 统一处理进入下一个过滤器
-	 * @param chain
-	 * @param req
-	 * @param res
-	 * @throws IOException
-	 * @throws ServletException
-	 */
-   private boolean chainDoFilter(HttpServletRequest request,ServletResponse res) throws IOException, ServletException{
-	   
-	  
-	   String requestURI = request.getRequestURI();
-	   
-	   int s_index=requestURI.indexOf("/s_");
-	   if(s_index<0){
-		   return true;
-	   }
-	   String siteId=requestURI.substring(s_index+1, requestURI.indexOf("/", s_index+1));
-	   
-	   //重新编码siteId,避免注入
-	   siteId=URLEncoder.encode(siteId,"UTF-8");
-	   
-	   //避免注入
-	   if(StringUtils.isBlank(siteId)||siteId.length()>30){
-		   return true;
-	   }
-	   
-	   Map<String,String> map=new HashMap<String,String>();
-	   
-	   map.put("siteId", siteId);
-	   
-	   //把siteInfo放入ThreadLocal
-	   SiteUtils.setSiteInfo(map);
-	   
-	   return true;
-	   
-   }
+	}
    
-   
-   @Override
-   public void afterCompletion(ServletRequest request, ServletResponse response, Exception exception) throws Exception {
-	   SiteUtils.removeSiteInfo();
-   }
-
+  
 
 
 	public Integer getFirewallLockCount() {
@@ -238,6 +188,10 @@ public class FrameFireWallFilter extends AdviceFilter {
 	public void setFirewallLockedMinute(Integer firewallLockedMinute) {
 		this.firewallLockedMinute = firewallLockedMinute;
 	}
+
+
+
+
 
 	
 }
