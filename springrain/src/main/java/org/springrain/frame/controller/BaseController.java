@@ -7,6 +7,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -249,6 +252,25 @@ public class BaseController extends BaseLogger {
 		return page;
 	}
 	
+	
+
+	public void addModelParameter(HttpServletRequest request,Model model){
+		Map map=request.getParameterMap();  
+	    Set keSet=map.entrySet();  
+	    for(Iterator itr=keSet.iterator();itr.hasNext();){  
+	        Map.Entry me=(Map.Entry)itr.next();  
+	        String key=me.getKey().toString();  
+	        Object value=me.getValue();  
+	        if(value instanceof String[]){  
+	            model.addAttribute(key, value);
+	        }else{  
+	        	 model.addAttribute(key, value.toString());
+	        }  
+	  
+	      }  
+		
+		
+	}
 	
 
 }
