@@ -46,21 +46,6 @@ public class LuceneUtils {
 	// 分词器
 	public static Analyzer analyzer = new SmartChineseAnalyzer();
 
-
-	// 根索引路径
-	public static  String rootdir = null;
-	//public static  String rootdir = "lucene/index";
-	
-	static{
-		String path= LuceneUtils.class.getClassLoader().getResource("").getPath();
-		path = path.replace("\\", "/");
-		int _info=path.indexOf("/WEB-INF/classes");
-		if(_info>0){
-			path=path.substring(0, _info);
-		}
-		rootdir=path+"/lucene/index";
-		
-	}
 	
 	/**
 	 * 根据实体类查询结果
@@ -72,7 +57,7 @@ public class LuceneUtils {
 	 * @throws Exception
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static List searchDocument(Class clazz, Page page,
+	public static List searchDocument(String rootdir,Class clazz, Page page,
 			String searchkeyword) throws Exception {
 		List<String> luceneFields = ClassUtils.getLuceneFields(clazz);
 		if (CollectionUtils.isEmpty(luceneFields)) {
@@ -80,7 +65,7 @@ public class LuceneUtils {
 		}
 		String[] fields = (String[]) luceneFields
 				.toArray(new String[luceneFields.size()]);
-		return searchDocument(clazz, page, fields, searchkeyword);
+		return searchDocument( rootdir,clazz, page, fields, searchkeyword);
 	}
 
 	
@@ -94,16 +79,16 @@ public class LuceneUtils {
 	 * @throws Exception
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static List searchDocument(Class clazz, Page page, String field,
+	public static List searchDocument(String rootdir,Class clazz, Page page, String field,
 			String searchkeyword) throws Exception {
 		if (StringUtils.isBlank(field)) {
 			return null;
 		}
 		String[] fields = new String[] { field };
-		return searchDocument(clazz, page, fields, searchkeyword);
+		return searchDocument( rootdir,clazz, page, fields, searchkeyword);
 	}
 
-	public static <T> List<T> searchDocument(Class<T> clazz, Page page,
+	public static <T> List<T> searchDocument(String rootdir,Class<T> clazz, Page page,
 			String[] fields, List<String> searchkeyword) throws Exception {
 		if (fields == null || fields.length < 1) {
 			return null;
@@ -112,7 +97,7 @@ public class LuceneUtils {
 		// 获取第一个组合数量
 
 		// 获取索引目录文件
-		Directory directory = getDirectory(clazz);
+		Directory directory = getDirectory(rootdir,clazz);
 		if (directory == null) {
 			return null;
 		}
@@ -192,7 +177,7 @@ public class LuceneUtils {
 	 * @return
 	 * @throws Exception
 	 */
-	public static <T> List<T> searchDocument(Class<T> clazz, Page page,
+	public static <T> List<T> searchDocument(String rootdir,Class<T> clazz, Page page,
 			String[] fields, String searchkeyword) throws Exception {
 
 		if (fields == null || fields.length < 1) {
@@ -200,7 +185,7 @@ public class LuceneUtils {
 		}
 
 		// 获取索引目录文件
-		Directory directory = getDirectory(clazz);
+		Directory directory = getDirectory( rootdir,clazz);
 		if (directory == null) {
 			return null;
 		}
@@ -270,7 +255,7 @@ public class LuceneUtils {
 	 * @return
 	 * @throws Exception
 	 */
-	public  static String saveDocument(Object entity)
+	public  static String saveDocument(String rootdir,Object entity)
 			throws Exception {
 		// 获取索引的字段,为null则不进行保存
 		List<String> luceneFields = ClassUtils.getLuceneFields(entity
@@ -282,7 +267,7 @@ public class LuceneUtils {
 		// 索引写入配置
 		IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
 		// 获取索引目录文件
-		Directory directory = getDirectory(entity.getClass());
+		Directory directory = getDirectory( rootdir,entity.getClass());
 		if (directory == null) {
 			return null;
 		}
@@ -320,12 +305,12 @@ public class LuceneUtils {
 	 * @return
 	 * @throws Exception
 	 */
-	public static <T> String saveListDocument(List<T> list) throws Exception {
+	public static <T> String saveListDocument(String rootdir,List<T> list) throws Exception {
 		if (CollectionUtils.isEmpty(list)) {
 			return "error";
 		}
 		for (T t : list) {
-			saveDocument(t);
+			saveDocument( rootdir,t);
 		}
 
 		return null;
@@ -339,7 +324,7 @@ public class LuceneUtils {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("rawtypes")
-	public  static String deleteDocument(Object id, Class clazz)
+	public  static String deleteDocument(String rootdir,Object id, Class clazz)
 			throws Exception {
 		List<String> luceneFields = ClassUtils.getLuceneFields(clazz);
 		if (CollectionUtils.isEmpty(luceneFields)) {
@@ -350,7 +335,7 @@ public class LuceneUtils {
 		// 索引写入配置
 		IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
 		// 获取索引目录文件
-		Directory directory = getDirectory(clazz);
+		Directory directory = getDirectory( rootdir,clazz);
 		if (directory == null) {
 			return null;
 		}
@@ -375,7 +360,7 @@ public class LuceneUtils {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("rawtypes")
-	public static String deleteListDocument(List<String> ids, Class clazz)
+	public static String deleteListDocument(String rootdir,List<String> ids, Class clazz)
 			throws Exception {
 		List<String> luceneFields = ClassUtils.getLuceneFields(clazz);
 		if (CollectionUtils.isEmpty(luceneFields)) {
@@ -388,7 +373,7 @@ public class LuceneUtils {
 		// 索引写入配置
 		IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
 		// 获取索引目录文件
-		Directory directory = getDirectory(clazz);
+		Directory directory = getDirectory( rootdir,clazz);
 		if (directory == null) {
 			return null;
 		}
@@ -413,12 +398,12 @@ public class LuceneUtils {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("rawtypes")
-	public static String deleteDocumentAll(Class clazz)
+	public static String deleteDocumentAll(String rootdir,Class clazz)
 			throws Exception {
 		// 索引写入配置
 		IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
 		// 获取索引目录文件
-		Directory directory = getDirectory(clazz);
+		Directory directory = getDirectory( rootdir,clazz);
 		if (directory == null) {
 			return null;
 		}
@@ -438,11 +423,11 @@ public class LuceneUtils {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String updateDocument(Object entity) throws Exception {
+	public static String updateDocument(String rootdir,Object entity) throws Exception {
 		
 		String pkValue = ClassUtils.getPKValue(entity).toString();
-		deleteDocument(pkValue, entity.getClass());
-		saveDocument(entity);
+		deleteDocument( rootdir,pkValue, entity.getClass());
+		saveDocument( rootdir,entity);
 		return null;
 	}
 
@@ -454,7 +439,7 @@ public class LuceneUtils {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("rawtypes")
-	public static <T> String updateListDocument(List<T> list) throws Exception {
+	public static <T> String updateListDocument(String rootdir,List<T> list) throws Exception {
 
 		if (CollectionUtils.isEmpty(list)) {
 			return null;
@@ -465,8 +450,8 @@ public class LuceneUtils {
 			String id = ClassUtils.getPKValue(t).toString();
 			ids.add(id);
 		}
-		deleteListDocument(ids, clazz);
-		saveListDocument(list);
+		deleteListDocument( rootdir,ids, clazz);
+		saveListDocument( rootdir,list);
 		return null;
 	}
 
@@ -477,7 +462,7 @@ public class LuceneUtils {
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
-	public static File getIndexDirFile(Class clazz) {
+	public static File getIndexDirFile(String rootdir,Class clazz) {
 		if (clazz == null) {
 			return null;
 		}
@@ -497,8 +482,8 @@ public class LuceneUtils {
 	 * @throws IOException
 	 */
 	@SuppressWarnings("rawtypes")
-	public static Directory getDirectory(Class clazz) throws IOException {
-		File indexDirFile = getIndexDirFile(clazz);
+	public static Directory getDirectory(String rootdir,Class clazz) throws IOException {
+		File indexDirFile = getIndexDirFile(rootdir,clazz);
 		if (indexDirFile == null) {
 			return null;
 		}

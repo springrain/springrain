@@ -2,6 +2,7 @@ package org.springrain.frame.task;
 
 import java.util.List;
 
+import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.LuceneUtils;
 
 public class LuceneTask implements Runnable {
@@ -38,24 +39,25 @@ public class LuceneTask implements Runnable {
 	@Override
 	public void run() {
 		try {
+			String rootdir=GlobalStatic.rootdir+"/lucene/index";
 			if (deleteDocument.equals(oper)) {
 				if(entity instanceof List){
-					LuceneUtils.deleteListDocument((List)entity,clazz);
+					LuceneUtils.deleteListDocument(rootdir,(List)entity,clazz);
 				}else{
-					LuceneUtils.deleteDocument(entity,clazz);
+					LuceneUtils.deleteDocument(rootdir,entity,clazz);
 				}
 				
 			}else if (updateDocument.equals(oper))  {
 				if(entity instanceof List){
-					 LuceneUtils.updateListDocument((List)entity);
+					 LuceneUtils.updateListDocument(rootdir,(List)entity);
 				}else{
-				   LuceneUtils.updateDocument(entity);
+				   LuceneUtils.updateDocument(rootdir,entity);
 				}
 			}else if (saveDocument.equals(oper))  {
 				if(entity instanceof List){
-					LuceneUtils.saveListDocument((List)entity);
+					LuceneUtils.saveListDocument(rootdir,(List)entity);
 				}else{
-					LuceneUtils.saveDocument(entity);
+					LuceneUtils.saveDocument(rootdir,entity);
 				}
 				
 			}
