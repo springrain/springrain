@@ -1,5 +1,6 @@
 package org.springrain.frame.shiro;
 
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.web.filter.authc.UserFilter;
 import org.apache.shiro.web.util.WebUtils;
+import org.springrain.frame.util.JsonUtils;
+import org.springrain.frame.util.ReturnDatas;
 
 
 /**
@@ -44,6 +47,21 @@ public class BaseUserFilter extends UserFilter {
 	  protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
 		     HttpServletRequest req=(HttpServletRequest) request;
 		     HttpServletResponse res=(HttpServletResponse) response;
+		     if ("XMLHttpRequest".equals(req.getHeader("X-Requested-With"))) {// ajax请求,返回JSON
+		    	 res.setCharacterEncoding("UTF-8");
+		    	 res.setContentType("application/json;charset=UTF-8");
+			     PrintWriter out = res.getWriter();
+			     ReturnDatas returnDatas=ReturnDatas.getErrorReturnDatas();
+			     returnDatas.setStatusCode("relogin");
+			     returnDatas.setMessage("登录超时,请重新登录");
+			     out.println(JsonUtils.writeValueAsString(returnDatas));
+			     out.flush();
+			     out.close();
+			     return false;
+			    }
+		     
+		     
+		     //正常http请求
 	         String loginUrl= getLoginUrl();	
 	         StringBuffer url=req.getRequestURL();
 	         String query=req.getQueryString();
