@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springrain.cms.base.directive.util.DirectiveUtils;
-import org.springrain.cms.base.entity.CmsLink;
 import org.springrain.cms.base.service.ICmsLinkService;
 
 import freemarker.core.Environment;
@@ -20,17 +20,19 @@ public class CmsLinkInfoDirective implements TemplateDirectiveModel {
 	public static final String TPL_NAME = "cms_link";
 	@Resource
 	private ICmsLinkService cmsLinkService;
-	
+	@Resource
+	HttpServletRequest request;
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void execute(Environment env, Map params, TemplateModel[] loopVars,
 			TemplateDirectiveBody body) throws TemplateException, IOException {
-		String bussinessId = DirectiveUtils.getString("businessId", params);
+		//使用request.getAttribute,不需要从前台获取参数
+		String bussinessId = (String)request.getAttribute("businessId");
 		String link;
 		try {
 			link = cmsLinkService.findLinkByBusinessId(bussinessId);
 		} catch (Exception e) {
-			link = "";
+			link = "#";
 		}
 		env.setVariable("channel_list", DirectiveUtils.wrap(link));
 	}
