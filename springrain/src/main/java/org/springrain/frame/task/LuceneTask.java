@@ -16,13 +16,14 @@ public class LuceneTask implements Runnable {
 	
 	@SuppressWarnings("rawtypes")
 	public Class clazz;
-	
+	String rootdir=null;
 
 	public LuceneTask() {
-
+		rootdir=GlobalStatic.rootdir+"/lucene/index";
 	}
 
 	public LuceneTask(Object entity, String oper) {
+		this();
 		this.oper = oper;
 		this.entity = entity;
 	}
@@ -39,7 +40,8 @@ public class LuceneTask implements Runnable {
 	@Override
 	public void run() {
 		try {
-			String rootdir=GlobalStatic.rootdir+"/lucene/index";
+			
+			
 			if (deleteDocument.equals(oper)) {
 				if(entity instanceof List){
 					LuceneUtils.deleteListDocument(rootdir,(List)entity,clazz);
