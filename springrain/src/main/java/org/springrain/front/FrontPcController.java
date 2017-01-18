@@ -40,7 +40,6 @@ public class FrontPcController extends BaseController {
 	 * */
 	@RequestMapping("/{businessId}")
 	public String channel(@PathVariable String siteId,@PathVariable String businessId,HttpServletRequest request,Model model) throws Exception{
-		model.addAttribute("businessId", businessId);
 		String url = cmsLinkService.findFtlFileByBussinessId(businessId);
 		
 	    addModelParameter(request, model);

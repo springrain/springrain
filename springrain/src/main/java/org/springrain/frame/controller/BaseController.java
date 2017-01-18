@@ -255,19 +255,23 @@ public class BaseController extends BaseLogger {
 	
 
 	public void addModelParameter(HttpServletRequest request,Model model){
-		Map map=request.getParameterMap();  
-	    Set keSet=map.entrySet();  
+		Map<String,String[]> map=request.getParameterMap();  
+	    Set<Map.Entry<String,String[]>> keSet=map.entrySet();  
 	    for(Iterator itr=keSet.iterator();itr.hasNext();){  
-	        Map.Entry me=(Map.Entry)itr.next();  
-	        String key=me.getKey().toString();  
-	        Object value=me.getValue();  
-	        if(value instanceof String[]){  
-	            model.addAttribute(key, value);
-	        }else{  
-	        	 model.addAttribute(key, value.toString());
-	        }  
+	    	
+	        Map.Entry<String,String[]> me=(Map.Entry<String,String[]>)itr.next();  
+	        String key=me.getKey();  
+	        String[] value=me.getValue(); 
+	        if(value==null||value.length==0){
+	        	
+	        }else if(value.length==1){
+	        	model.addAttribute(key, value[0]);
+	        }else{
+	        	model.addAttribute(key, value);
+	        }
+	        
 	  
-	      }  
+	     }  
 		
 		
 	}

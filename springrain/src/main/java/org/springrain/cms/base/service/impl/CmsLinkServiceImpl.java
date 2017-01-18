@@ -36,18 +36,18 @@ public class CmsLinkServiceImpl extends BaseSpringrainServiceImpl implements ICm
 
 	@Override
 	public String findFtlFileByBussinessId(String bussinessId) throws Exception {
-		Finder finder = Finder.getSelectFinder(CmsLink.class).append(" WHERE businessId=:bussinessId");
+		Finder finder = Finder.getSelectFinder(CmsLink.class,"ftlfile").append(" WHERE businessId=:bussinessId");
 		finder.setParam("bussinessId", bussinessId);
-		CmsLink link = super.queryForObject(finder, CmsLink.class); 
-		return link.getFtlfile();
+		String ftlfile = super.queryForObject(finder, String.class); 
+		return ftlfile;
 	}
 
 	@Override
 	public String findLinkByBusinessId(String bussinessId) throws Exception {
-		Finder finder = Finder.getSelectFinder(CmsLink.class).append(" WHERE businessId=:bussinessId");
+		Finder finder = Finder.getSelectFinder(CmsLink.class,"link").append(" WHERE businessId=:bussinessId");
 		finder.setParam("bussinessId", bussinessId);
-		CmsLink link = super.queryForObject(finder, CmsLink.class); 
-		return link.getFtlfile();
+		String link = super.queryForObject(finder, String.class); 
+		return link;
 	}
 
 
