@@ -1,3 +1,4 @@
+<#ftl output_format="HTML" auto_esc=true>
 <@h.commonHead title="站点title" keywords="站点keywords" description="站点description"/>
 </head>
 <body>
@@ -10,11 +11,11 @@
 				<div>个人信息</div>
 				<div>
 					<span class="layui-breadcrumb" lay-separator="|">
-					  <#if (returnDatas.data)??>
-					  	<#list returnDatas.data.channelList as channel>
-					  		<a href="${ctx}/f/${returnDatas.data.site.siteType}/${returnDatas.data.site.id}/${channel.id}" target="blank">${channel.name}</a>
-					  	</#list>
-					  </#if>
+						<@cms_channel_list p="1">
+						    <#list channel_list as a>
+						    	<a href="#" target="blank">${a.name}</a>
+						    </#list>
+						</@cms_channel_list>
 					</span>
 				</div>
 			</div>
@@ -29,7 +30,10 @@
 							<div>${content.title!}</div>
 							<div>${content.mintitle!}</div>
 							<div>${content.summary!}</div>
-							<div>${content.content!}</div>
+							<#noautoesc>
+								<div>${content.content!}</div>
+							</#noautoesc>
+							
 						</a>
 					</li>
 				</#list>

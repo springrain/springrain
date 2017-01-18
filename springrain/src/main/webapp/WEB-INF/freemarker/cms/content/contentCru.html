@@ -152,11 +152,9 @@ description="springrain开源系统管理后台"/>
 									<div class="layui-form-item col-lg-6">
 										<label class="layui-form-label">内容*</label>
 										<div class="layui-inline col-lg-5">
-											<script id="container" name="content" type="text/plain">请填写内容</script>
-											
-											<!-- <input type="text" name="content" id="content" datatype="*"
-												nullmsg="不能为空" errormsg="不能为空！" autocomplete="off"
-												class="layui-input" value="${(returnDatas.data.content)!''}"> -->
+											<#noautoesc>
+												<script id="container" name="content" type="text/plain">${(returnDatas.data.content)!'填写内容'}</script>
+											</#noautoesc>
 										</div>
 										<div class="layui-inline valid-info"></div>
 									</div>

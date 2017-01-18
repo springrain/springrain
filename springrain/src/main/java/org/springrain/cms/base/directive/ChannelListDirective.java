@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springrain.cms.base.directive.abs.AbstractChannelDirective;
 import org.springrain.cms.base.directive.util.DirectiveUtils;
 import org.springrain.cms.base.entity.CmsChannel;
-import org.springrain.cms.utils.SiteUtils;
+import org.springrain.cms.base.service.ICmsChannelService;
 
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
@@ -27,6 +27,11 @@ public class ChannelListDirective extends AbstractChannelDirective {
 	
 	@Resource
 	HttpServletRequest request;
+	@Resource
+	private ICmsChannelService cmsChannelService;
+	
+	
+	
 	/**
 	 * 模板名称
 	 */
@@ -35,25 +40,16 @@ public class ChannelListDirective extends AbstractChannelDirective {
 	@SuppressWarnings("rawtypes")
 	public void execute(Environment env, Map params, TemplateModel[] loopVars,
 			TemplateDirectiveBody body) throws TemplateException, IOException {
-		
-		
-		
-		List<CmsChannel> list=new ArrayList<CmsChannel>();
-		Object object =request.getAttribute("siteId");
-		System.out.println("-----------------------:"+object);
-		System.out.println("-----------------------:"+SiteUtils.getCurrentSiteId());
-		for(int i=0;i<5;i++){
-			CmsChannel c=new CmsChannel();
-			c.setId("c"+i);
-			c.setName("name"+i);
-			list.add(c);
+		String siteId = request.getAttribute("siteId").toString();
+		List<CmsChannel> list;
+		try {
+			list = cmsChannelService.findTreeByPid(null, siteId);
+		} catch (Exception e) {
+			list = new ArrayList<>();
 		}
 		env.setVariable("channel_list", DirectiveUtils.wrap(list));
 		if (body != null) { 
 			body.render(env.getOut());  
 		}
-		
-	
-		
 	}
 }

@@ -3,6 +3,7 @@ package org.springrain.cms.base.service.impl;
 import org.springframework.stereotype.Service;
 import org.springrain.cms.base.entity.CmsLink;
 import org.springrain.cms.base.service.ICmsLinkService;
+import org.springrain.frame.util.Finder;
 import org.springrain.system.service.BaseSpringrainServiceImpl;
 
 
@@ -30,6 +31,23 @@ public class CmsLinkServiceImpl extends BaseSpringrainServiceImpl implements ICm
     @Override
 	public CmsLink findCmsLinkById(String id) throws Exception{
 	 return super.findById(id,CmsLink.class);
+	}
+
+
+	@Override
+	public String findFtlFileByBussinessId(String bussinessId) throws Exception {
+		Finder finder = Finder.getSelectFinder(CmsLink.class).append(" WHERE businessId=:bussinessId");
+		finder.setParam("bussinessId", bussinessId);
+		CmsLink link = super.queryForObject(finder, CmsLink.class); 
+		return link.getFtlfile();
+	}
+
+	@Override
+	public String findLinkByBusinessId(String bussinessId) throws Exception {
+		Finder finder = Finder.getSelectFinder(CmsLink.class).append(" WHERE businessId=:bussinessId");
+		finder.setParam("bussinessId", bussinessId);
+		CmsLink link = super.queryForObject(finder, CmsLink.class); 
+		return link.getFtlfile();
 	}
 
 

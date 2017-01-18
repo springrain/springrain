@@ -82,8 +82,8 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 	    cmsLink.setDefaultLink(_index);
 	    cmsLink.setLink(_index);
 	    //设置模板路径
-	    cmsLink.setFtlfile("/u/"+id+"/index.html");
-	    cmsLink.setNodeftlfile("/u/"+id+"/channel.html");
+	    cmsLink.setFtlfile("/u/"+id+"/index");
+	    cmsLink.setNodeftlfile("/u/"+id+"/channel");
 	    
 	    
 	    cmsLinkService.save(cmsLink);
