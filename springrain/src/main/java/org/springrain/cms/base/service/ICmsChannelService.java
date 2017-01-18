@@ -49,12 +49,4 @@ public interface ICmsChannelService extends IBaseSpringrainService {
 	 */
 	List<CmsChannel> findTreeByPid(String pid,String siteId)throws Exception;
 
-	/**
-	 * 根据站点id和章节id查询栏目信息
-	 * @param siteId
-	 * @param id
-	 * @return
-	 */
-	CmsChannel findChannelBySiteAndContentId(String siteId, String id);
-
 }

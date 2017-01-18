@@ -246,9 +246,4 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 		return tolist;
 
 	}
-
-	@Override
-	public CmsChannel findChannelBySiteAndContentId(String siteId, String id) {
-		return null;
-	}
 }

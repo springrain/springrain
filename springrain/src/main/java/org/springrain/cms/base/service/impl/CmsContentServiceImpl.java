@@ -7,7 +7,6 @@ import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
-import org.springrain.cms.base.entity.CmsChannel;
 import org.springrain.cms.base.entity.CmsChannelContent;
 import org.springrain.cms.base.entity.CmsContent;
 import org.springrain.cms.base.entity.CmsLink;
@@ -124,11 +123,6 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 	public List<CmsContent> findListBySiteId(String siteId, Page page) throws Exception {
 		Finder finder = new Finder("SELECT c.* FROM cms_site a INNER JOIN cms_channel_content b ON a.id=b.siteId INNER JOIN cms_content c ON c.id=b.contentId WHERE a.id=:siteId");
 		finder.setParam("siteId", siteId);
-		List<CmsContent> contentList = super.queryForList(finder, CmsContent.class, page);
-		for (CmsContent cmsContent : contentList) {
-			CmsChannel channel = cmsChannelService.findChannelBySiteAndContentId(siteId,cmsContent.getId());
-			cmsContent.setChannelId(channel.getId());
-		}
 		return super.queryForList(finder, CmsContent.class, page);
 	}
 

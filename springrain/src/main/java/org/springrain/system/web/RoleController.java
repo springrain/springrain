@@ -19,7 +19,6 @@ import org.springrain.frame.util.Page;
 import org.springrain.frame.util.ReturnDatas;
 import org.springrain.system.entity.Menu;
 import org.springrain.system.entity.Role;
-import org.springrain.system.entity.User;
 import org.springrain.system.service.IRoleService;
 import org.springrain.system.service.IUserRoleMenuService;
 
