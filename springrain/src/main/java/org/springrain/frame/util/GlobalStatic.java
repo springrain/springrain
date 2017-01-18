@@ -66,13 +66,20 @@ public class GlobalStatic {
 	public static final Integer FRIEWALL_LOCKED_MINUTE = 10;
 	
 	static{
-		String path= GlobalStatic.class.getClassLoader().getResource("").getPath();
+		String path=Thread.currentThread().getContextClassLoader().getResource("").toString();
 		path = path.replace("\\", "/");
+		
+		
+		if(path.startsWith("file:/")){
+			path=path.substring(6, path.length());
+		}
+		
+		
 		int _info=path.indexOf("/WEB-INF/classes");
 		if(_info>0){
 			path=path.substring(0, _info);
 		}
-		webinfodir=path+"/WEB-INF";
+		
 		rootdir=path;
 		
 	}

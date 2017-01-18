@@ -6,32 +6,7 @@ import java.util.List;
 
 public class FileUtils {
 	
-	public static String rootDir=null;
-	static{
-		String path=Thread.currentThread().getContextClassLoader().getResource("").toString();
-		path = path.replace("\\", "/");
-		
-		
-		if(path.startsWith("file:/")){
-			path=path.substring(6, path.length());
-		}
-		
-		
-		int _info=path.indexOf("/WEB-INF/classes");
-		if(_info>0){
-			path=path.substring(0, _info);
-		}
-		
-		rootDir=path;
-		
-		
-	}
 	
-	
-	public static String getRootDir(){
-		
-		return rootDir;
-	}
 	
 	public static List<File> getPathAllFileExt(String path,String ext){
 		List<File> list =new ArrayList<File>();

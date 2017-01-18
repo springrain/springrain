@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springrain.frame.controller.BaseController;
 import org.springrain.frame.util.FileUtils;
+import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.frame.util.JsonUtils;
 
@@ -150,7 +151,7 @@ public class UeditorController extends BaseController {
         
         String fileName = FileUtils.reSetFileName(suffix);
     	//保存到文件
-        upload(file, FileUtils.getRootDir()+fileuploadpath+fileName);
+        upload(file, GlobalStatic.rootdir+fileuploadpath+fileName);
         
         Map<String, Object> map = getResultMap(true);
         map.put("size", size);
@@ -179,7 +180,7 @@ public class UeditorController extends BaseController {
 	    
 	    int index=Integer.valueOf(start_str);
 	    
-	    File dir=new  File(FileUtils.getRootDir()+fileuploadpath);
+	    File dir=new  File(GlobalStatic.rootdir+fileuploadpath);
 
 		File[] list = dir.listFiles();
 		
@@ -233,7 +234,7 @@ public class UeditorController extends BaseController {
     		return getResultMap(false);
     	}
         String fileName = FileUtils.reSetFileName(UeditorConfig.SCRAWL_TYPE);
-        File file=new File(FileUtils.getRootDir()+fileuploadpath+fileName);
+        File file=new File(GlobalStatic.rootdir+fileuploadpath+fileName);
         byte[] decodeBase64 = Base64.decodeBase64(fileStr);
         int length = decodeBase64.length;
         
@@ -301,7 +302,7 @@ public class UeditorController extends BaseController {
 		     
 			 String fileImage = FileUtils.reSetFileName(suffix);
 		    	//保存到文件
-			 File saveFile=new File(FileUtils.getRootDir()+fileuploadpath+fileImage);
+			 File saveFile=new File(GlobalStatic.rootdir+fileuploadpath+fileImage);
 			 org.apache.commons.io.FileUtils.copyInputStreamToFile(entity.getContent(), saveFile);
 			   
 			 Map<String,Object> map=new HashMap<String,Object>();
