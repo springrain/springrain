@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	version="2.5">
 	<welcome-file-list>
-		<welcome-file>index</welcome-file>
+		<welcome-file>/index</welcome-file>
 	</welcome-file-list>
 
 	<context-param>
@@ -31,6 +31,8 @@
 	</servlet-mapping>
 	
 
+<!-- 自行控制编码,不再添加这个过滤器 -->
+ <!--
 	<filter>
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -39,7 +41,7 @@
 			<param-value>UTF-8</param-value>
 		</init-param>
 	</filter>
-
+  -->
 
 	<filter>
 		<filter-name>shiroFilter</filter-name>
@@ -52,16 +54,19 @@
 
 
 	<!-- 浏览器不支持put,delete等method,由该filter将/blog?_method=delete转换为标准的http delete方法 -->
+	<!--  
 	<filter>
 		<filter-name>httpMethodFilter</filter-name>
 		<filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
 	</filter>
+	-->
 
+  <!--
 	<filter-mapping>
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-
+  -->
 	<filter-mapping>
 		<filter-name>shiroFilter</filter-name>
 		<url-pattern>/*</url-pattern>
@@ -70,9 +75,13 @@
 		<dispatcher>INCLUDE</dispatcher>
 		<dispatcher>ERROR</dispatcher>
 	</filter-mapping>
+	
+	<!-- 
 	<filter-mapping>
 		<filter-name>httpMethodFilter</filter-name>
 		<servlet-name>springrain</servlet-name>
 	</filter-mapping>
-
+    -->
+    
+    
 </web-app>
