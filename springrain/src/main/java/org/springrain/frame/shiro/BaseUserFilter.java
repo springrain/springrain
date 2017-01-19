@@ -74,7 +74,7 @@ public class BaseUserFilter extends UserFilter {
 	         }
 	        
 	         Map<String,String> parMap=new HashMap<String,String>();
-	         parMap.put("url", url.toString());
+	         parMap.put("gotourl", url.toString());
 		
 	         WebUtils.issueRedirect(request, response, loginUrl,parMap);
 	        return false;
