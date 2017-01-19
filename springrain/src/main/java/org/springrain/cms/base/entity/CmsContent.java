@@ -109,6 +109,7 @@ public class CmsContent  extends BaseEntity {
 	private java.lang.Integer active;
 
 	
+	private java.lang.String link;
 	//concstructor
 
 	public CmsContent(){
@@ -321,6 +322,17 @@ public class CmsContent  extends BaseEntity {
 		return this.sortno;
 	}
 
+	@Transient
+	public java.lang.String getLink() {
+		return link;
+	}
+
+	public void setLink(java.lang.String link) {
+		this.link = link;
+	}
+	
+	
+	
 }
 
 	

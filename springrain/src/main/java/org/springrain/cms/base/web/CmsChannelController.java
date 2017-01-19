@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springrain.cms.base.entity.CmsChannel;
 import org.springrain.cms.base.service.ICmsChannelService;
+import org.springrain.cms.base.service.ICmsLinkService;
 import org.springrain.cms.base.service.ICmsSiteService;
+import org.springrain.cms.base.service.impl.CmsLinkServiceImpl;
 import org.springrain.frame.common.SessionUser;
 import org.springrain.frame.controller.BaseController;
 import org.springrain.frame.util.GlobalStatic;
@@ -40,8 +42,11 @@ public class CmsChannelController  extends BaseController {
 	private ICmsChannelService cmsChannelService;
 	@Resource
 	private ICmsSiteService cmsSiteService;
+	@Resource
+	private ICmsLinkService cmsLinkService;
 	
 	private String listurl="/cms/channel/channelList";
+	
 	
 	
 	
@@ -85,6 +90,7 @@ public class CmsChannelController  extends BaseController {
 		for (CmsChannel channel : datas) {
 			channel.setCmsChannel(cmsChannelService.findCmsChannelById(channel.getPid()));//设置父类信息
 			channel.setCmsSite(cmsSiteService.findCmsSiteById(channel.getSiteId()));//设置所属站点信息
+			channel.setLink(cmsLinkService.findLinkByBusinessId(channel.getId()));
 		}
 		
 		returnObject.setQueryBean(cmsChannel);

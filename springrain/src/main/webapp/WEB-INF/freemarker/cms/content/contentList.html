@@ -162,7 +162,9 @@ description="springrain开源系统管理后台"/>
 
 											</td>
 											<!--end_no_export-->
-											<td>${(_data.title)!''}</td>
+											<td>
+												<a href="${ctx}${(_data.link)!'#'}" target="blank">${(_data.title)!''}</a>
+											</td>
 											<td>${(_data.mintitle)!''}</td>
 											<td>${(_data.keywords)!''}</td>
 											<td>${(_data.description)!''}</td>

@@ -165,7 +165,12 @@ description="springrain开源系统管理后台"/>
 												class="layui-btn layui-btn-danger layui-btn-mini ajax-delete">删除</a>
 											</td>
 											<!--end_no_export-->
-											<td>${(_data.name)!''}</td>
+											<td>
+												<a href="${ctx}${(_data.link)!''}" target="blank">
+													${(_data.name)!''}
+												</a>
+												
+											</td>
 											<td>${(_data.pid)!''}</td>
 											<td>${(_data.comcode)!''}</td>
 											<td>${(_data.cmsSite.name)!''}</td>
