@@ -1,5 +1,7 @@
 package org.springrain.weixin.sdk.mp.api;
 
+import java.util.List;
+
 import org.springrain.weixin.entity.WxMpConfig;
 import org.springrain.weixin.sdk.common.bean.WxJsApiSignature;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
@@ -219,7 +221,7 @@ public interface IWxMpService {
    * http://mp.weixin.qq.com/wiki/0/2ad4b6bfd29f30f71d39616c2a0fcedc.html
    * </pre>
    */
-  String[] getCallbackIP(WxMpConfig wxmpconfig) throws WxErrorException;
+  List<String> getCallbackIP(WxMpConfig wxmpconfig) throws WxErrorException;
 
   /**
    * 当本Service没有实现某个API的时候，可以用这个，针对所有微信API中的GET请求

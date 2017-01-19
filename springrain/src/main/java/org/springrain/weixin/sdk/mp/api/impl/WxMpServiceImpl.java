@@ -1,6 +1,8 @@
 package org.springrain.weixin.sdk.mp.api.impl;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -517,14 +519,14 @@ public class WxMpServiceImpl implements IWxMpService {
    * </pre>
    */
   @Override
-  public String[] getCallbackIP(WxMpConfig wxmpconfig) throws WxErrorException {
+  public List<String> getCallbackIP(WxMpConfig wxmpconfig) throws WxErrorException {
     String url = WxConsts.mpapiurl+"/cgi-bin/getcallbackip";
     String responseContent = get(wxmpconfig,url, null);
     JsonElement tmpJsonElement = JSON_PARSER.parse(responseContent);
     JsonArray ipList = tmpJsonElement.getAsJsonObject().get("ip_list").getAsJsonArray();
-    String[] ipArray = new String[ipList.size()];
+    List<String> ipArray = new ArrayList<String>();
     for (int i = 0; i < ipList.size(); i++) {
-      ipArray[i] = ipList.get(i).getAsString();
+    	ipArray.add(ipList.get(i).getAsString());
     }
     return ipArray;
   }
