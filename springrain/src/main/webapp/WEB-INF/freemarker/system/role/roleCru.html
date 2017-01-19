@@ -5,13 +5,20 @@
 <script src="${ctx}/js/validform/validform.min.js"></script>
 <link rel="stylesheet" href="${ctx}/js/validform/validform.css" media="all">
 <script>
+	 var _roleType;
+	 var _state;
 	 jQuery(function(){
+		 _roleType="${(returnDatas.data.roleType)!''}";
+		 _state="${(returnDatas.data.active)!''}";
+		 
+		 jQuery("#roleType").val(_roleType);
+		 jQuery("#active").val(_state);
 		 /*
 		 init_valid(_before,_after)
 		 @_before:提交表单前，调用 的函数   可以为空，一般有validform处理不了，独自进行处理时使用
 		 @_after:保存成功后，调用的函数  可以为空，一般为对应的列表页面
 		 */
-		 springrain.initValid(null,function(){window.location.href="${ctx}/role/list"});
+		 springrain.initValid(null,function(){window.location.href="${ctx}/system/role/list"});
 	 });
 </script>
 </head>
@@ -41,7 +48,7 @@
 													<span>添加角色</span>
 												</header>
 												<div class="larry-personal-body clearfix changepwd">
-													<form id="validForm" class="layui-form <!--  -->"  method="post" action="${ctx}/role/update">
+													<form id="validForm" class="layui-form <!--  -->"  method="post" action="${ctx}/system/role/update">
 																<input type="hidden" id="id" name="id" value="${(returnDatas.data.id)!''}"/>	
 																	<div class="layui-form-item col-lg-6">
 																		<label class="layui-form-label">角色名称*</label>
@@ -50,6 +57,7 @@
 																		</div>
 																		<div class="layui-inline valid-info"></div>
 																	</div>
+																	<#--
 																	<div class="layui-form-item col-lg-6">
 																		<label class="layui-form-label">权限编码*</label>
 																		<div class="layui-inline col-lg-5">  
@@ -57,31 +65,70 @@
 																		</div>
 																		<div class="layui-inline valid-info"></div>
 																	</div>
+																	-->
 																	<div class="layui-form-item col-lg-6">
-																		<label class="layui-form-label">上级角色ID,暂时不实现*</label>
+																		<label class="layui-form-label">角色类型*</label>
 																		<div class="layui-inline col-lg-5">  
-																			<input type="text" name="pid" id="pid" datatype="*" nullmsg="不能为空" errormsg="不能为空！" autocomplete="off" class="layui-input" value="${(returnDatas.data.pid)!''}">
+																			<select class="form-control" name="roleType" id="roleType"  datatype="*"  nullmsg="角色类型不能为空">
+																	      		<option value>请选择角色类型</option>
+																	      		<optgroup label="<<系统级角色>>">
+																					<option value="0">系统角色</option>
+																				</optgroup>
+																				<optgroup label="<<应用级角色>>">
+																					<option value="1">部门主管</option>
+																					<option value="2">业务岗位</option>
+																				</optgroup>
+																			</select>
 																		</div>
 																		<div class="layui-inline valid-info"></div>
 																	</div>
 																	<div class="layui-form-item col-lg-6">
-																		<label class="layui-form-label">0系统角色,1部门主管,2业务岗位*</label>
+																		<label class="layui-form-label">管理部门*</label>
 																		<div class="layui-inline col-lg-5">  
-																			<input type="text" name="roleType" id="roleType" datatype="*" nullmsg="不能为空" errormsg="不能为空！" autocomplete="off" class="layui-input" value="${(returnDatas.data.roleType)!''}">
+																			 <table class="layui-table">
+																				 	<colgroup>
+																			    		<col width="">
+																				    	<col width="80">
+																			  		</colgroup>
+																			  		<thead>
+																						<tr>
+																							<th>部门名称</th>
+																							<th>是否含下级</th>
+																						</tr>
+																					</thead>
+																					<tbody>
+																						<tr>
+																							<td><input type="text" id="orgId_01" name="orgIds" placeholder="先复制ID" class="layui-input"></td>
+																							<td><input type="checkbox"></td>
+																						</tr>
+																						<tr>
+																							<td><input type="text" id="orgId_01" name="orgIds" placeholder="先复制ID"  class="layui-input"></td>
+																							<td><input type="checkbox"></td>
+																						</tr>
+																						<tr>
+																							<td><input type="text" id="orgId_01" name="orgIds" placeholder="先复制ID"  class="layui-input"></td>
+																							<td><input type="checkbox"></td>
+																						</tr>
+																					</tbody>
+																				</table>
 																		</div>
 																		<div class="layui-inline valid-info"></div>
 																	</div>
 																	<div class="layui-form-item col-lg-6">
 																		<label class="layui-form-label">备注*</label>
 																		<div class="layui-inline col-lg-5">  
-																			<input type="text" name="remark" id="remark" datatype="*" nullmsg="不能为空" errormsg="不能为空！" autocomplete="off" class="layui-input" value="${(returnDatas.data.remark)!''}">
+																			<textarea name="remark" id="remark" placeholder="请输入内容" class="layui-textarea"></textarea>
 																		</div>
 																		<div class="layui-inline valid-info"></div>
 																	</div>
 																	<div class="layui-form-item col-lg-6">
-																		<label class="layui-form-label">是否有效(0否,1是)*</label>
+																		<label class="layui-form-label">是否可用*</label>
 																		<div class="layui-inline col-lg-5">  
-																			<input type="text" name="active" id="active" datatype="*" nullmsg="不能为空" errormsg="不能为空！" autocomplete="off" class="layui-input" value="${(returnDatas.data.active)!''}">
+																			<select class="form-control" name="active" id="active" datatype="*"  nullmsg="是否可用不能为空">
+																	      		<option value>请选择是否可用</option>
+																				<option value="1">是</option>
+																				<option value="0">否</option>
+																			</select>
 																		</div>
 																		<div class="layui-inline valid-info"></div>
 																	</div>
