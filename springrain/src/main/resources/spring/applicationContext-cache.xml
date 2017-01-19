@@ -25,69 +25,9 @@
 	<!-- 启用缓存注解功能，这个是必须的，否则注解不会生效,redis的实现是 redisCacheManager -->
 	<cache:annotation-driven cache-manager="cacheManager" />
 
-	<!-- spring自己的换管理器，这里定义了两个缓存位置名称 ，既注解中的value -->
+	<!-- spring自带的缓存管理器,value会自动创建,不需要指定 -->
 
-	<bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
-		<property name="caches">
-			<set>
-			    <!-- 业务缓存 -->
-				<bean
-					class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
-					<property name="name" value="springraincache" />
-				</bean>
-				
-				 <!-- 权限缓存 -->
-				<bean
-					class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
-					<property name="name" value="springrainqxcache" />
-				</bean>
-				
-				<!-- 单用户登录 -->
-				<bean
-					class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
-					<property name="name" value="springrainkeeponecache" />
-				</bean>
-				
-				<!-- 静态化缓存 -->
-				<bean
-					class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
-					<property name="name" value="statichtmlcache" />
-				</bean>
-				
-				<!-- 登录密码错误缓存 -->
-				<bean
-					class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
-					<property name="name" value="springrainlogincache" />
-				</bean>
-				
-				
-				<!-- 防火墙缓存 -->
-				<bean
-					class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
-					<property name="name" value="springrainfriewallcache" />
-				</bean>
-				
-				
-				<!-- 微信缓存 -->
-				<bean
-					class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
-					<property name="name" value="springrainweixincache" />
-				</bean>
-				
-				
-				
-				<!-- cms缓存 -->
-				<bean
-					class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
-					<property name="name" value="springraincmscache" />
-				</bean>
-				
-				
-				
-				
-			</set>
-		</property>
-	</bean>
+	<bean id="cacheManager" class="org.springframework.cache.concurrent.ConcurrentMapCacheManager" />
 	
 	
 
