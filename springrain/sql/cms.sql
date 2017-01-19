@@ -273,3 +273,5 @@ CREATE TABLE `cms_theme_template` (
 INSERT INTO `t_tableindex` (`id`, `maxIndex`, `prefix`) VALUES ('cms_site', '100', 's_');
 INSERT INTO `t_tableindex` (`id`, `maxIndex`, `prefix`) VALUES ('cms_channel', '1000', 'h_');
 INSERT INTO `t_tableindex` (`id`, `maxIndex`, `prefix`) VALUES ('cms_content', '10000', 'c_');
+
+--test
