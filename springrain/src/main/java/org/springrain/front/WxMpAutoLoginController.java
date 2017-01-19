@@ -1,4 +1,4 @@
-package org.springrain.weixin.web;
+package org.springrain.front;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
