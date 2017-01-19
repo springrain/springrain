@@ -56,7 +56,7 @@
 	<mvc:resources mapping="/js/**" location="/js/" />
 	<mvc:resources mapping="/css/**" location="/css/" />
 	<mvc:resources mapping="/layui/**" location="/layui/" />
-	<mvc:resources location="/upload/" mapping="/upload/**"/>
+	<mvc:resources mapping="/upload/**" location="/upload/"/>
 	
 	<!-- 全局异常配置 start -->
 	<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
@@ -97,15 +97,21 @@
 		<property name="prefix" value="" />
 		<property name="suffix" value=".html" />
 		<property name="contentType" value="text/html;charset=UTF-8" />
+		
+		<!-- 只支持freemarker -->
+		<!-- 
 		<property name="order" value="0" />
+		 -->
 	</bean>
-	
+	<!-- 取消jsp的支持 -->
+	<!-- 
 	 <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">  
         <property name="viewClass"  value="org.springframework.web.servlet.view.JstlView" />  
         <property name="prefix"  value="/WEB-INF/jsp/" />  
         <property name="suffix"  value=".jsp"/>  
         <property name="order" value="1" />
     </bean>  
+     -->
 
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
