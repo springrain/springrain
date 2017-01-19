@@ -3,7 +3,10 @@
 <script src="${ctx}/js/custom/common/form.js"></script>
 
 <script>
+	var _state;
 	jQuery(function(){ 
+		_state="${(returnDatas.queryBean.active)!''}";
+		jQuery("#active").val(_state);
 		/*
 		全选、反选
 		*/
@@ -35,15 +38,14 @@
 							</span>
 		             </li>
 					 <li style="float:right;">
-		             	<@shiro.hasPermission name="/role/update" >
-		             		<button type="button" class="layui-btn layui-btn-small" data-action="${ctx}/role/update/pre"><i class="layui-icon layui-icon-specil">&#xe61f;</i>新增</button>
-		             	</@shiro.hasPermission>
-		             	<@shiro.hasPermission name="/role/list/export" >
-				        	<button type="button" class="layui-btn layui-btn-small"><i class="layui-icon layui-icon-specil">&#xe609;</i>导出</button>
-				        </@shiro.hasPermission>
-		                <button type="button" class="layui-btn layui-btn-warm layui-btn-small"><i class="layui-icon layui-icon-specil">&#xe601;</i>导入</button>
-		                <@shiro.hasPermission name="/role/delete" >
-		               		 <button type="button" class="layui-btn layui-btn-danger layui-btn-small"><i class="layui-icon">&#xe640;</i>批量删除</button>
+						 <@shiro.hasPermission name="/system/role/update" >
+			             		<button type="button" class="layui-btn layui-btn-small" data-action="${ctx}/system/role/update/pre"><i class="layui-icon layui-icon-specil">&#xe61f;</i>新增</button>
+			             	</@shiro.hasPermission>
+			             	<@shiro.hasPermission name="/system/role/list/export" >
+					        	<button type="button" class="layui-btn layui-btn-small"><i class="layui-icon layui-icon-specil">&#xe609;</i>导出</button>
+					        </@shiro.hasPermission>
+		                <@shiro.hasPermission name="/system/role/delete" >
+		               		 <button type="button"  class="layui-btn layui-btn-danger layui-btn-small"><i class="layui-icon">&#xe640;</i>批量删除</button>
 		                </@shiro.hasPermission>
 		             </li>
 	       		</ul>

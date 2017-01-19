@@ -9,7 +9,10 @@ ${r"<@h.commonHead"} title="后台管理系统" keywords="开源,永久免费" d
 <#assign rootPagefloder = basepackage?substring(basepackage?last_index_of(".")+1)>
 
 <script>
+	var _state;
 	jQuery(function(){ 
+		_state="${r"${(returnDatas.queryBean.active)!''}"}";
+		jQuery("#active").val(_state);
 		/*
 		全选、反选
 		*/
@@ -42,14 +45,14 @@ ${r"<@h.commonHead"} title="后台管理系统" keywords="开源,永久免费" d
 		             </li>
 					 <li style="float:right;">
 		             	${r"<@shiro.hasPermission"} name="/${classNameLowerCase}/update" >
-		             		<button type="button" class="layui-btn layui-btn-small" data-action="${r"${ctx}"}/${classNameLowerCase}/update/pre"><i class="layui-icon layui-icon-specil">&#xe61f;</i>新增</button>
+		             		<button type="button"   class="layui-btn layui-btn-small" data-action="${r"${ctx}"}/${classNameLowerCase}/update/pre"><i class="layui-icon layui-icon-specil">&#xe61f;</i>新增</button>
 		             	${r"</@shiro.hasPermission>"}
 		             	${r"<@shiro.hasPermission"} name="/${classNameLowerCase}/list/export" >
-				        	<button type="button" class="layui-btn layui-btn-small"><i class="layui-icon layui-icon-specil">&#xe609;</i>导出</button>
+				        	<button type="button"   class="layui-btn layui-btn-small"><i class="layui-icon layui-icon-specil">&#xe609;</i>导出</button>
 				        ${r"</@shiro.hasPermission>"}
-		                <button type="button" class="layui-btn layui-btn-warm layui-btn-small"><i class="layui-icon layui-icon-specil">&#xe601;</i>导入</button>
+		                <button type="button"  class="layui-btn layui-btn-warm layui-btn-small"><i class="layui-icon layui-icon-specil">&#xe601;</i>导入</button>
 		                ${r"<@shiro.hasPermission"} name="/${classNameLowerCase}/delete" >
-		               		 <button type="button" class="layui-btn layui-btn-danger layui-btn-small"><i class="layui-icon">&#xe640;</i>批量删除</button>
+		               		 <button type="button"  class="layui-btn layui-btn-danger layui-btn-small"><i class="layui-icon">&#xe640;</i>批量删除</button>
 		                ${r"</@shiro.hasPermission>"}
 		             </li>
 	       		</ul>

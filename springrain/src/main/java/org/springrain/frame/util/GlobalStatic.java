@@ -17,9 +17,18 @@ public class GlobalStatic {
 	public static final String dataUpdate="更新";
 	public static final String dataSave="保存";
 	public static final String dataDelete="删除";
+	
+	
+	//page对象的缓存后缀key
+	public static final String pageCacheExtKey="_springrain_page_key";
+	
+	//主业务缓存
 	public static final String cacheKey="springraincache";
+	//权限缓存
 	public static final String qxCacheKey="springrainqxcache";
+	//页面静态化缓存
 	public static final String staticHtmlCacheKey="statichtmlcache";
+	//登录次数校验缓存
 	public static final String springrainloginCacheKey="springrainlogincache";
 	//缓存用户最后有效的登陆sessionId
 	public static final String springrainkeeponeCacheKey="springrainkeeponecache";

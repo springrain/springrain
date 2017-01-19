@@ -135,7 +135,6 @@
 			    
 			    
 			    <!-- 微信登录验证过滤器 -->
-			     <!-- 防火墙 过滤器 -->
 			    <entry key="wxmpautologin" value-ref="wxmpautologin"/>
 			    
 			    

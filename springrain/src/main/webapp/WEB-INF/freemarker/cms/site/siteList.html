@@ -17,6 +17,9 @@
 	function del(_id){
 		delWrap(_id,"${ctx}/system/cms/site/delete");
 	}
+	function doexport(){
+		location.href="${ctx}/system/cms/site/list/export"; 
+	}
 </script>
 
 </head>
@@ -36,7 +39,7 @@
 		             </li>
 					 <li style="float:right;">
 	             		<button type="button" class="layui-btn layui-btn-small" data-action="${ctx}/system/cms/site/update/pre"><i class="layui-icon layui-icon-specil">&#xe61f;</i>添加站点</button>
-			        	<button type="button" class="layui-btn layui-btn-small"><i class="layui-icon layui-icon-specil">&#xe609;</i>导出</button>
+			        	<button type="button" class="layui-btn layui-btn-small" onclick="doexport();"><i class="layui-icon layui-icon-specil">&#xe609;</i>导出</button>
 		                <button type="button" class="layui-btn layui-btn-warm layui-btn-small"><i class="layui-icon layui-icon-specil">&#xe601;</i>导入</button>
 	               		 <button type="button" class="layui-btn layui-btn-danger layui-btn-small"><i class="layui-icon">&#xe640;</i>批量删除</button>
 		             </li>
@@ -187,6 +190,7 @@
 						</div>
 				</div>
 			</div>
+			<!--end_export-->
 		<!-- 主体内容结束 -->
 		<@h.footer />
 	</div>

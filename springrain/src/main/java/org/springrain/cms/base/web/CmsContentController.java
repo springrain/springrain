@@ -24,9 +24,9 @@ import org.springrain.cms.base.service.ICmsSiteService;
 import org.springrain.frame.common.SessionUser;
 import org.springrain.frame.controller.BaseController;
 import org.springrain.frame.util.GlobalStatic;
-import org.springrain.frame.util.MessageUtils;
 import org.springrain.frame.util.Page;
 import org.springrain.frame.util.ReturnDatas;
+import org.springrain.frame.util.property.MessageUtils;
 
 
 /**

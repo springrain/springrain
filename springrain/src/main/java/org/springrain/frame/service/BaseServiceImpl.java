@@ -37,8 +37,10 @@ import org.springrain.frame.util.EntityInfo;
 import org.springrain.frame.util.ExcelUtils;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
+import org.springrain.frame.util.OpenOfficeKit;
 import org.springrain.frame.util.Page;
 import org.springrain.frame.util.ReturnDatas;
+import org.springrain.frame.util.SecUtils;
 import org.springrain.frame.util.SpringUtils;
 
 import freemarker.template.Template;
@@ -86,6 +88,9 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 	
 	@Override
 	public Cache getCache(String cacheName) throws Exception {
+		if(StringUtils.isBlank(cacheName)){
+			return null;
+		}
 		return cacheManager.getCache(cacheName);
 	}
 	
@@ -97,6 +102,52 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 	@Override
 	public void putByCache(String cacheName, String key, Object value) throws Exception {
 		       getCache(cacheName).put(key, value);
+	}
+	@Override
+	public void cleanCache(String cacheName)throws Exception{
+		      getCache(cacheName).clear();
+	}
+	
+	/**
+	 * 清理缓存下的一个key
+	 * @param cacheName
+	 * @throws Exception
+	 */
+	public void evictByKey(String cacheName,String key)throws Exception{
+		 getCache(cacheName).evict(key);
+	}
+	
+
+	@Override
+	public <T> T getByCache(String cacheName, String key, Class<T> clazz,Page page) throws Exception {
+		
+		T t = getByCache(cacheName,key, clazz);
+		
+		if(t==null){
+			return t;
+		}
+		
+		String pageKey=key+GlobalStatic.pageCacheExtKey;
+		Page p= getByCache(cacheName,pageKey, Page.class);
+		if(p!=null){
+			page=p;
+		}
+		return t;
+	}
+	
+	@Override
+	public void putByCache(String cacheName, String key, Object value,Page page) throws Exception {
+		
+		       putByCache(cacheName,key, value);
+		         
+		       if(page!=null){
+		    	   putByCache(cacheName,key+GlobalStatic.pageCacheExtKey, page);
+		       }
+	}
+	
+	public void evictByKey(String cacheName,String key,Page page)throws Exception{
+		 evictByKey(cacheName,key);
+		 evictByKey(cacheName,key+GlobalStatic.pageCacheExtKey);
 	}
 
 	@Override
@@ -307,7 +358,15 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 		if(excelFile.exists()){
 			excelFile.setReadOnly();
 		}
-		
+		// excel转化
+		try {
+			File excelnew = new File(GlobalStatic.tempRootpath + "/" + fileName
+					+ "/" + SecUtils.getUUID() + GlobalStatic.excelext);
+			OpenOfficeKit.cvtXls(excelFile, excelnew);
+			return excelnew;
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		}
 		return excelFile;
 	}
 

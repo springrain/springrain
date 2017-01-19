@@ -69,10 +69,46 @@ public interface IBaseService {
 	public void putByCache(String cacheName,String key,Object value)throws Exception;
 	
 	
+	/**
+	 * 清理缓存
+	 * @param cacheName
+	 * @throws Exception
+	 */
+	public void cleanCache(String cacheName)throws Exception;
+	/**
+	 * 清理缓存下的一个key
+	 * @param cacheName
+	 * @throws Exception
+	 */
+	public void evictByKey(String cacheName,String key)throws Exception;
 	
 	
 	
 	
+	/**
+	 * 查找cache的列表查询结果对象,主要用于列表的缓存.查询出缓存结果并对page对象赋值,参数Page 可以是 Page page=null,这样传入
+	 * @param cacheName
+	 * @param key
+	 * @param clazz
+	 * @return
+	 * @throws Exception
+	 */
+	public <T> T getByCache(String cacheName,String key,Class<T> clazz,Page page)throws Exception;
+	/**
+	 * 设置缓存列表查询的缓存对象,并对Page进行缓存.
+	 * @param cacheName
+	 * @param key
+	 * @param obj
+	 * @throws Exception
+	 */
+	public void putByCache(String cacheName,String key,Object value,Page page)throws Exception;
+	
+	/**
+	 * 清理缓存下的一个key,并清除缓存的page,page对象可以为null
+	 * @param cacheName
+	 * @throws Exception
+	 */
+	public void evictByKey(String cacheName,String key,Page page)throws Exception;
 	
 	/**
 	 * 根据查询列表的宏,导出Excel

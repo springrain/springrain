@@ -1,4 +1,4 @@
-package org.springrain.frame.util;
+package org.springrain.frame.util.property;
 
 import java.text.MessageFormat;
 import java.util.Locale;
@@ -11,13 +11,13 @@ import java.util.ResourceBundle;
  * @author zhengyongsheng
  */
 public class ResourceUtils {
-	private static PropertyResourceBundle properTyResourceBundle;
+	private static PropertyResourceBundle propertyResourceBundle;
 
 	public ResourceUtils() {
 	}
 
 	static {
-		properTyResourceBundle = (PropertyResourceBundle) ResourceBundle
+		propertyResourceBundle = (PropertyResourceBundle) ResourceBundle
 				.getBundle("message/messageResources", Locale.getDefault());
 	}
 
@@ -30,14 +30,14 @@ public class ResourceUtils {
 	 */
 	public static String getString(String strPropertyName) {
 		try {
-			return properTyResourceBundle.getString(strPropertyName);
+			return propertyResourceBundle.getString(strPropertyName);
 		} catch (Exception e) {
 			return strPropertyName;
 		}
 	}
 
 	public static String getString(String strPropertyName, Object... obj) {
-		String str = properTyResourceBundle.getString(strPropertyName);
+		String str = propertyResourceBundle.getString(strPropertyName);
 		if (str == null) {
 			return strPropertyName;
 		}
@@ -45,7 +45,7 @@ public class ResourceUtils {
 	}
 
 	public static PropertyResourceBundle getBundle() {
-		return properTyResourceBundle;
+		return propertyResourceBundle;
 	}
 
 	/*public static void main(String[] args) {
