@@ -37,8 +37,10 @@ import org.springrain.frame.util.EntityInfo;
 import org.springrain.frame.util.ExcelUtils;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
+import org.springrain.frame.util.OpenOfficeKit;
 import org.springrain.frame.util.Page;
 import org.springrain.frame.util.ReturnDatas;
+import org.springrain.frame.util.SecUtils;
 import org.springrain.frame.util.SpringUtils;
 
 import freemarker.template.Template;
@@ -358,13 +360,12 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 		}
 		// excel转化
 		try {
-			String newuid = UUID.randomUUID().toString();
 			File excelnew = new File(GlobalStatic.tempRootpath + "/" + fileName
-					+ "/" + newuid + GlobalStatic.excelext);
-			org.springrain.frame.util.OpenOfficeKit.cvtXls(excelFile, excelnew);
+					+ "/" + SecUtils.getUUID() + GlobalStatic.excelext);
+			OpenOfficeKit.cvtXls(excelFile, excelnew);
 			return excelnew;
 		} catch (Exception e) {
-			logger.error(e.getLocalizedMessage());
+			logger.error(e.getMessage());
 		}
 		return excelFile;
 	}
