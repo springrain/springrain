@@ -52,6 +52,13 @@ description="springrain开源系统管理后台"/>
 				}
 				
 				var orgSelectSetting = {
+						view: {
+							showLine: false,
+							showIcon: false,
+							selectedMulti: false,
+							dblClickExpand: false,
+							addDiyDom: addDiyDom
+						},
 					callback : {
 						onClick : clickOrgValue
 					},
@@ -148,7 +155,7 @@ description="springrain开源系统管理后台"/>
 				function showOrgTree() {
 
 					if (!selectOrgZtree) {
-						$.fn.zTree.init($("#selectOrgTree"), orgTreesetting,
+						$.fn.zTree.init($("#selectOrgTree"), orgSelectSetting,
 								orgjsondata4select.data);
 
 						selectOrgZtree = $.fn.zTree
