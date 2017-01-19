@@ -1,14 +1,14 @@
-package org.springrain.frame.util;
+package org.springrain.frame.util.property;
 
 import java.text.MessageFormat;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
-public class CerpTabMessage {
-	private PropertyResourceBundle properTyResourceBundle;
+public class PropertyFile {
+	private PropertyResourceBundle propertyResourceBundle;
 
-	public CerpTabMessage(String fileName) {
-		properTyResourceBundle = (PropertyResourceBundle) ResourceBundle
+	public PropertyFile(String fileName) {
+		propertyResourceBundle = (PropertyResourceBundle) ResourceBundle
 				.getBundle(fileName);
 	}
 
@@ -21,14 +21,14 @@ public class CerpTabMessage {
 	 */
 	public String getString(String strPropertyName) {
 		try {
-			return properTyResourceBundle.getString(strPropertyName);
+			return propertyResourceBundle.getString(strPropertyName);
 		} catch (Exception e) {
 			return strPropertyName;
 		}
 	}
 
 	public String getString(String strPropertyName, Object... obj) {
-		String str = properTyResourceBundle.getString(strPropertyName);
+		String str = propertyResourceBundle.getString(strPropertyName);
 		if (str == null) {
 			return strPropertyName;
 		}
@@ -36,11 +36,11 @@ public class CerpTabMessage {
 	}
 
 	public PropertyResourceBundle getBundle() {
-		return properTyResourceBundle;
+		return propertyResourceBundle;
 	}
 
 	public static void main(String[] args) {
-		CerpTabMessage cerpTab = new CerpTabMessage("db.properties");
+		PropertyFile cerpTab = new PropertyFile("db.properties");
 		System.out.print(cerpTab.getString("mail.userName"));
 	}
 

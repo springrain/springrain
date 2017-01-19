@@ -1,5 +1,4 @@
-package org.springrain.frame.util;
-
+package org.springrain.frame.util.property;
 
 /**
  * Web层信息管理类
@@ -7,7 +6,7 @@ package org.springrain.frame.util;
  * @copyright {@link weicms.net}
  * @author springrain<Auto generate>
  * @version  2013-03-19 11:08:15
- * @see org.springrain.frame.util.MessageUtils
+ * @see org.springrain.frame.util.property.MessageUtils
  */
 public class MessageUtils {
 	
