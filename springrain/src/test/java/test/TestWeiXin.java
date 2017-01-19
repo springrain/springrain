@@ -1,5 +1,7 @@
 package test;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.springrain.weixin.entity.WxMpConfig;
 import org.springrain.weixin.sdk.common.api.IWxMpConfigService;
@@ -14,7 +16,7 @@ public class TestWeiXin {
 	IWxMpConfigService wxMpConfigService=new WxMpConfigServiceImpl();
 	IWxMpService wxMpService=new WxMpServiceImpl(wxMpConfigService);
 	
-	@Test
+	
 	public void testAccessToken() {
 		//数据库查询
 		//WxMpConfig  wxmpconfig=wxMpConfigService.findWxMpConfigById("");
@@ -36,6 +38,17 @@ public class TestWeiXin {
 			e.printStackTrace();
 		}
 	}
+	@Test
+	public void testweixinIP() throws WxErrorException{
+		//测试
+		WxMpConfig  wxmpconfig=new WxMpConfig();
+		List<String> callbackIP = wxMpService.getCallbackIP(wxmpconfig);
+		System.out.println(callbackIP);
+		
+		
+	}
+	
+	
 	
 	
 	
