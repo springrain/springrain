@@ -83,3 +83,5 @@ header.larry-personal-tit span {
 .search{display:block;height:20px;line-height: 20px;cursor: pointer;}
 .search font{display:inline-block;vertical-align: top;}
 .search i{display:inline-block;padding-top:3px;vertical-align: top;margin-left:2px;}
+
+.center{text-align: center;}

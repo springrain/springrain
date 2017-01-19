@@ -93,12 +93,13 @@ layui.define("layer", function(e) {
                         var l = i(this),
                             s = l.attr("lay-skin"),
                             c = this.disabled;
+                        var m_t=n.title?("<span>" + (n.title || "勾选") + '</span>'):"";
                         "switch" === s && (s = "_" + s);
                         var u = e[s] || e.checkbox,
                             o = l.next("." + u[0]),
                             d = i(['<div class="layui-unselect ' + u[0] + (n.checked ? " " + u[1] : "") + (c ? " layui-checkbox-disbaled " + r : "") + '">', {
                                 _switch: "<i></i>"
-                            }[s] || "<span>" + (n.title || "勾选") + '</span><i class="layui-icon">&#xe618;</i>', "</div>"].join(""));
+                            }[s] || m_t+'<i class="layui-icon">&#xe618;</i>', "</div>"].join(""));
                         o[0] && o.remove(), l.after(d), t.call(this, d, u)
                     })
                 },
