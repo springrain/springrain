@@ -319,7 +319,7 @@
 					btn : [ '确定', '取消' ]
 				// 按钮
 				}, function() {
-					if (_fun&&typeof fun =="function") {
+					if (fun&&typeof fun =="function") {
 						fun();
 					}
 				}, function() {
