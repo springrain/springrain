@@ -19,6 +19,7 @@ import org.springrain.cms.base.entity.CmsChannel;
 import org.springrain.cms.base.entity.CmsContent;
 import org.springrain.cms.base.service.ICmsChannelService;
 import org.springrain.cms.base.service.ICmsContentService;
+import org.springrain.cms.base.service.ICmsLinkService;
 import org.springrain.cms.base.service.ICmsSiteService;
 import org.springrain.frame.common.SessionUser;
 import org.springrain.frame.controller.BaseController;
@@ -44,8 +45,10 @@ public class CmsContentController  extends BaseController {
 	private ICmsSiteService cmsSiteService;
 	@Resource
 	private ICmsChannelService cmsChannelService;
-	
+	@Resource
+	private ICmsLinkService cmsLinkService;
 	private String listurl="/cms/content/contentList";
+	
 	   
 	/**
 	 * 列表数据,调用listjson方法,保证和app端数据统一
@@ -81,7 +84,10 @@ public class CmsContentController  extends BaseController {
 		Page page = newPage(request);
 		// ==执行分页查询
 		List<CmsContent> datas=cmsContentService.findListDataByFinder(null,page,CmsContent.class,cmsContent);
-			returnObject.setQueryBean(cmsContent);
+		for (CmsContent content : datas) {
+			content.setLink(cmsLinkService.findLinkByBusinessId(content.getId()));
+		}
+		returnObject.setQueryBean(cmsContent);
 		returnObject.setPage(page);
 		returnObject.setData(datas);
 		return returnObject;

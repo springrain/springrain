@@ -1,11 +1,14 @@
 <#ftl output_format="HTML" auto_esc=true>
 <@h.commonHead title="站点title" keywords="站点keywords" description="站点description"/>
 </head>
-<body>
+<body class="site-demo-body">
 	<div id="header" class="container">
 		<div class="row">
 			<div class="per30 fl">
-				logo
+				<@cms_site>
+					<img alt="" src="${ctx}${site.logo!'/img/logo.png'}">
+				</@cms_site>
+				
 			</div>
 			<div class="per70 fl tr">
 				<div>个人信息</div>
@@ -13,7 +16,7 @@
 					<span class="layui-breadcrumb" lay-separator="|">
 						<@cms_channel_list p="1">
 						    <#list channel_list as a>
-						    	<a href="#" target="blank">${a.name}</a>
+						    	<a href="${ctx}${a.link!'#'}" target="blank">${a.name!}</a>
 						    </#list>
 						</@cms_channel_list>
 					</span>
@@ -23,21 +26,17 @@
 	</div>
 	<div id="content" class="container">
 		<ul>
-			<#if (returnDatas.data.contentList)??>
-				<#list returnDatas.data.contentList as content>
-					<li>
-						<a href="${ctx}/f/${returnDatas.data.site.siteType}/${returnDatas.data.site.id}/content/${content.id}" target="blank">
-							<div>${content.title!}</div>
-							<div>${content.mintitle!}</div>
-							<div>${content.summary!}</div>
-							<#noautoesc>
-								<div>${content.content!}</div>
-							</#noautoesc>
-							
-						</a>
-					</li>
-				</#list>
-			</#if>
+			<@cms_content_list p="1" type="0">
+			    <#list content_list as a>
+			    	<li>
+						<a href="${ctx}${a.link!'#'}" target="blank">
+			    			<div>${a.title!}</div>
+                            <div>${a.mintitle!}</div>
+                            <div>${a.summary!}</div>
+			    		</a>
+			    	</li>
+			    </#list>
+			</@cms_content_list>
 		</ul>
 	</div>
 	<div id="footer" class="container-fluid pos-a bottom0 tc">

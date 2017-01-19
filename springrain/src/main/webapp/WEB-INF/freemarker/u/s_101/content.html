@@ -1,1 +1,36 @@
-内容页面
+<#ftl output_format="HTML" auto_esc=true>
+<@h.commonHead title="站点title" keywords="站点keywords" description="站点description"/>
+</head>
+<body>
+	<div id="header" class="container">
+		<div class="row">
+			<div class="per30 fl">
+				logo
+			</div>
+			<div class="per70 fl tr">
+				<div>个人信息</div>
+				<div>
+					<span class="layui-breadcrumb" lay-separator="|">
+						<@cms_channel_list p="1">
+						    <#list channel_list as a>
+						    	<a href="${ctx}${a.link!'#'}" target="blank">${a.name!}</a>
+						    </#list>
+						</@cms_channel_list>
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="content" class="container">
+		<@cms_content>
+			<div>${content.title!}</div>
+			<#noautoesc>
+				<div>${content.content}</div>
+			</#noautoesc>
+		</@cms_content>
+	</div>
+	<div id="footer" class="container-fluid pos-a bottom0 tc">
+		脚部
+	</div>
+</body>
+</html>

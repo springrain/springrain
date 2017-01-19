@@ -2,6 +2,7 @@ package org.springrain.cms.base.entity;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -122,7 +123,7 @@ public class CmsSite  extends BaseEntity {
 	 */
 	private java.lang.String springbeanid;
 	//columns END 数据库字段结束
-	
+	private java.lang.String link;
 	
 	
 	//concstructor
@@ -331,6 +332,16 @@ public class CmsSite  extends BaseEntity {
 	public void setSpringbeanid(java.lang.String springbeanid) {
 		this.springbeanid = springbeanid;
 	}
+	
+	@Transient
+	public java.lang.String getLink() {
+		return link;
+	}
+
+	public void setLink(java.lang.String link) {
+		this.link = link;
+	}
+
 	public String toString() {
 		return new StringBuffer()
 			.append("id[").append(getId()).append("],")
