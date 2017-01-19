@@ -100,6 +100,7 @@ public class CmsChannel  extends BaseEntity {
 	 */
 	private CmsChannel cmsChannel;
 	
+	private String link;
 	//concstructor
 
 	public CmsChannel(){
@@ -284,6 +285,18 @@ public class CmsChannel  extends BaseEntity {
 	public void setLeaf(List<CmsChannel> leaf) {
 		this.leaf = leaf;
 	}
+	
+	@Transient
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
+	}
+	
+	
+	
 }
 
 	

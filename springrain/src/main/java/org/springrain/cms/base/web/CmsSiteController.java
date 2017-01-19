@@ -2,6 +2,7 @@ package  org.springrain.cms.base.web;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -14,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springrain.cms.base.entity.CmsSite;
+import org.springrain.cms.base.service.ICmsLinkService;
 import org.springrain.cms.base.service.ICmsSiteService;
 import org.springrain.frame.controller.BaseController;
 import org.springrain.frame.util.GlobalStatic;
@@ -34,8 +36,11 @@ import org.springrain.frame.util.ReturnDatas;
 public class CmsSiteController  extends BaseController {
 	@Resource
 	private ICmsSiteService cmsSiteService;
-	
+	@Resource
+	private ICmsLinkService cmsLinkService;
 	private String listurl="/cms/site/siteList";
+	
+	
 	
 	
 	   
@@ -73,7 +78,10 @@ public class CmsSiteController  extends BaseController {
 		Page page = newPage(request);
 		// ==执行分页查询
 		List<CmsSite> datas=cmsSiteService.findListDataByFinder(null,page,CmsSite.class,cmsSite);
-			returnObject.setQueryBean(cmsSite);
+		for (CmsSite site : datas) {//站点数量不会太多，目前先用遍历设置link属性
+			site.setLink(cmsLinkService.findLinkByBusinessId(site.getId()));
+		}
+		returnObject.setQueryBean(cmsSite);
 		returnObject.setPage(page);
 		returnObject.setData(datas);
 		return returnObject;

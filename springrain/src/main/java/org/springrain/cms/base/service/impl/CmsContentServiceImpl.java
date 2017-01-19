@@ -120,14 +120,14 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 
 	@Override
 	public List<CmsContent> findListBySiteId(String siteId, Page page) throws Exception {
-		Finder finder = new Finder("SELECT c.* FROM cms_site a INNER JOIN cms_channel_content b ON a.id=b.siteId INNER JOIN cms_content c ON c.id=b.contentId WHERE a.id=:siteId");
+		Finder finder = new Finder("SELECT c.*,d.link FROM cms_site a INNER JOIN cms_channel_content b ON a.id=b.siteId INNER JOIN cms_content c ON c.id=b.contentId INNER JOIN cms_link d ON d.businessId = c.id WHERE a.id=:siteId");
 		finder.setParam("siteId", siteId);
 		return super.queryForList(finder, CmsContent.class, page);
 	}
 
 	@Override
 	public List<CmsContent> findContentByChannelId(String channelId, Page page) throws Exception {
-		Finder finder = new Finder("SELECT c.* FROM cms_channel a INNER JOIN cms_channel_content b ON a.id=b.channelId INNER JOIN cms_content c ON c.id=b.contentId WHERE a.id=:channelId");
+		Finder finder = new Finder("SELECT c.*,d.link FROM cms_channel a INNER JOIN cms_channel_content b ON a.id=b.channelId INNER JOIN cms_content c ON c.id=b.contentId INNER JOIN cms_link d ON c.id=d.businessId WHERE a.id=:channelId");
 		finder.setParam("channelId", channelId);
 		return super.queryForList(finder, CmsContent.class, page);
 	}
