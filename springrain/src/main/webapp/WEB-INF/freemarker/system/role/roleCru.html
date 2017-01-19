@@ -1,15 +1,34 @@
 <#escape x as x?html>
 <@h.commonHead title="后台管理系统" keywords="开源,永久免费" description="springrain开源系统管理后台"/>
-<script src="${ctx}/js/custom/common/form.js"></script>
+<script type="text/javascript" src="${ctx}/js/ztree/js/jquery.ztree.all-3.5.js"></script>
+<script type="text/javascript" src="${ctx}/js/ztree/js/ztreeUtils.js"></script>
+<script type="text/javascript" src="${ctx}/js/select2/js/select2.full.min.js"></script>
+<script type="text/javascript" src="${ctx}/js/select2/js/i18n/zh-CN.js"></script>
+<script type="text/javascript" src="${ctx}/js/custom/common/select2remote.js"></script>
+<script type="text/javascript" src="${ctx}/js/validform/validform.min.js"></script>
+<link rel="stylesheet" href="${ctx}/js/select2/css/select2.min.css" type="text/css">
+<link rel="stylesheet" href="${ctx}/js/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
+<link rel="stylesheet" href="${ctx}/js/validform/validform.css" media="all">
 
 <script src="${ctx}/js/validform/validform.min.js"></script>
 <link rel="stylesheet" href="${ctx}/js/validform/validform.css" media="all">
 <script>
 	 var _roleType;
 	 var _state;
+	 var menuNames = "";
+	 var menuIds = "";
 	 jQuery(function(){
 		 _roleType="${(returnDatas.data.roleType)!''}";
 		 _state="${(returnDatas.data.active)!''}";
+		 
+		 <#if returnDatas.data?? && returnDatas.data.menus?size gt 0>
+		 	<#list returnDatas.data.menus as _data>
+				 	menuNames+="${(_data.name)!''},";
+				 	menuIds+="${(_data.id)!''},";
+		 	</#list>
+		 	jQuery("#menuNames").val(menuNames);
+			jQuery("#menuIds").val(menuIds);
+		 </#if>
 		 
 		 jQuery("#roleType").val(_roleType);
 		 jQuery("#active").val(_state);
@@ -21,6 +40,101 @@
 		 springrain.initValid(null,function(){window.location.href="${ctx}/system/role/list"});
 	 });
 </script>
+<script type="text/javascript">
+				var listurl = '${ctx}/system/role/list';
+				var _valid_form;
+				var menuMultiSelectSetting = {
+					expandAll : true,
+					check : {
+						enable : true,
+						chkStyle : "checkbox",
+						//chkboxType:  { "Y" : "", "N" : "" }
+						chkboxType : {
+							"Y" : "ps",
+							"N" : "ps"
+						}
+					},
+					data : {
+						simpleData : {
+							enable : true,
+							idKey : "id",
+							pIdKey : "pid",
+							rootPId : "null"
+						}
+					}
+				};
+				function deleteRole() {
+					var id = jQuery("#id").val();
+					if (!id || id == "") {
+						myalert("请选择你要删除的记录");
+						return;
+					} else {
+						var _url = "${ctx}/system/role/delete?id=" + id;
+						springrain.mydelete(null,_url,'确认要删除该角色,与之绑定的帐号将失去此角色绑定关系 ',null);
+					}
+				}
+
+				var menuMultiSelectTree;
+				function showZtreeMenu() {
+
+					if (!menuMultiSelectTree) {
+						jQuery.post("${ctx}/system/menu/list/json", function(
+								_json) {
+							if (_json.status == "success") {
+								$.fn.zTree.init($("#menuMultiSelectTree"),
+										menuMultiSelectSetting, _json.data);
+								menuMultiSelectTree = $.fn.zTree
+										.getZTreeObj("menuMultiSelectTree");
+								//zTree.expandAll(true);
+								checkedZtreeNodes(jQuery("#menuIds").val(),
+										"menuMultiSelectTree");
+							} else {
+								myalert(_json.message);
+								return false;
+							}
+						});
+
+					} else {
+						checkedZtreeNodes(jQuery("#menuIds").val(),
+								"menuMultiSelectTree");
+					}
+					//页面层-自定义
+					layer.open({
+						shadeClose : true,
+						type : 1,
+						title : "选择菜单",
+						area : [ '600px', '400px' ], //宽高
+						content : $("#div_menuMultiSelectTree"),
+						closeBtn : 1,
+						btn : [ '确定' ], //按钮
+						yes : function(index, layero) {
+							selectZtreeMenu();
+							layer.close(index); //如果设定了yes回调，需进行手工关闭
+						}
+					});
+					return false;
+				}
+				function selectZtreeMenu() {
+					var nodes = menuMultiSelectTree.getCheckedNodes(true);
+					var menuNames = "";
+					var menuIds = "";
+
+					jQuery(nodes).each(function(i, obj) {
+						menuNames = menuNames + obj.name + ",";
+						menuIds = menuIds + obj.id + ",";
+					});
+					jQuery("#menuNames").val(menuNames);
+					jQuery("#menuIds").val(menuIds);
+				}
+				function doupdate() {
+					_valid_form=springrain.commonUpdateForm("validForm", listurl, '角色更新成功！');
+				}
+
+				function dosave() {
+					_valid_form=springrain.commonSaveForm("validForm", listurl, '角色添加成功！');
+				}
+			//-->
+			</script>
 </head>
 <body>
 	<div class="layui-layout layui-layout-admin">
@@ -66,6 +180,13 @@
 																		<div class="layui-inline valid-info"></div>
 																	</div>
 																	-->
+																	<div class="layui-form-item  col-lg-6">
+															    		<label class="layui-form-label">权限菜单</label>
+																	    <div class="layui-inline  col-lg-5">
+																	    	<input name="menuNames" class="layui-input" id="menuNames" type="text" readonly="readonly" onclick="showZtreeMenu();"/> 
+																	      	<input name="menuIds" id="menuIds" type="hidden">
+																	    </div>
+																  	</div>
 																	<div class="layui-form-item col-lg-6">
 																		<label class="layui-form-label">角色类型*</label>
 																		<div class="layui-inline col-lg-5">  
@@ -149,6 +270,10 @@
 		<!-- 主体内容结束 -->
 		<@h.footer />
 	</div>
+	<div id="div_menuMultiSelectTree">
+		<ul id="menuMultiSelectTree" class="ztree"></ul>
+	</div>
+	<script src="${ctx}/js/custom/common/form.js"></script>
 </body>
 </html>
 </#escape>
