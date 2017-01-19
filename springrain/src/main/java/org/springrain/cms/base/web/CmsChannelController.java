@@ -19,7 +19,6 @@ import org.springrain.cms.base.entity.CmsChannel;
 import org.springrain.cms.base.service.ICmsChannelService;
 import org.springrain.cms.base.service.ICmsLinkService;
 import org.springrain.cms.base.service.ICmsSiteService;
-import org.springrain.cms.base.service.impl.CmsLinkServiceImpl;
 import org.springrain.frame.common.SessionUser;
 import org.springrain.frame.controller.BaseController;
 import org.springrain.frame.util.GlobalStatic;
