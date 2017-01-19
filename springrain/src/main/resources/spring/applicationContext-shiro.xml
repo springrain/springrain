@@ -72,15 +72,15 @@
 		<!-- 访问地址的过滤规则,从上至下,从左至右的优先级,如果有匹配的规则,就会返回,不会再进行匹配 -->
 		<property name="filterChainDefinitions">
 			<value>
-			    /layui/** = anon
-				/js/** =  anon
-				/css/** = anon
-				/images/** = anon
-				/img/** = anon
-				/favicon.ico = anon
+			    /layui/** = noSessionCreation
+				/js/** =  noSessionCreation
+				/css/** = noSessionCreation
+				/images/** = noSessionCreation
+				/img/** = noSessionCreation
+				/favicon.ico = noSessionCreation
 				
 				<!-- S 目前将upload文件权限放开，等文件系统模块完成以后再修改  -->
-				/upload/**=anon
+				/upload/**=noSessionCreation
 				/ueditor/**=user<!-- UEditor的配置访问路径  -->
 				<!-- E  -->
 				
