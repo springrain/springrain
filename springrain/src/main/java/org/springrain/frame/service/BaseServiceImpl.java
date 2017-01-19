@@ -115,7 +115,38 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 		 getCache(cacheName).evict(key);
 	}
 	
+
+	@Override
+	public <T> T getByCache(String cacheName, String key, Class<T> clazz,Page page) throws Exception {
+		
+		T t = getByCache(cacheName,key, clazz);
+		
+		if(t==null){
+			return t;
+		}
+		
+		String pageKey=key+GlobalStatic.pageCacheExtKey;
+		Page p= getByCache(cacheName,pageKey, Page.class);
+		if(p!=null){
+			page=p;
+		}
+		return t;
+	}
 	
+	@Override
+	public void putByCache(String cacheName, String key, Object value,Page page) throws Exception {
+		
+		       putByCache(cacheName,key, value);
+		         
+		       if(page!=null){
+		    	   putByCache(cacheName,key+GlobalStatic.pageCacheExtKey, page);
+		       }
+	}
+	
+	public void evictByKey(String cacheName,String key,Page page)throws Exception{
+		 evictByKey(cacheName,key);
+		 evictByKey(cacheName,key+GlobalStatic.pageCacheExtKey);
+	}
 
 	@Override
 	public <T> List<T> queryForList(Finder finder, Class<T> clazz)
