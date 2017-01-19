@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Component;
 import org.springrain.cms.base.directive.util.DirectiveUtils;
@@ -13,15 +12,12 @@ import org.springrain.cms.base.service.ICmsContentService;
 
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
-import freemarker.template.TemplateDirectiveModel;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
 
 @Component("contentDirective")
-public class ContentDirective implements TemplateDirectiveModel {
+public class ContentDirective  extends AbstractCMSDirective  {
 	
-	@Resource
-	HttpServletRequest request;
 	@Resource
 	private ICmsContentService cmsContentService;
 	
@@ -31,10 +27,9 @@ public class ContentDirective implements TemplateDirectiveModel {
 	@Override
 	public void execute(Environment env, Map params, TemplateModel[] loopVars,
 			TemplateDirectiveBody body) throws TemplateException, IOException {
-		String contentId = request.getAttribute("businessId").toString();
 		CmsContent content;
 		try {
-			content = cmsContentService.findById(contentId, CmsContent.class);
+			content = cmsContentService.findById(getBusinessId(), CmsContent.class);
 		} catch (Exception e) {
 			content = null;
 		}

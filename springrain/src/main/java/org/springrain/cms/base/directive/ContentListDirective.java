@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Component;
 import org.springrain.cms.base.directive.util.DirectiveUtils;
@@ -16,15 +15,12 @@ import org.springrain.frame.util.Page;
 
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
-import freemarker.template.TemplateDirectiveModel;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
 
 @Component("contentListDirective")
-public class ContentListDirective implements TemplateDirectiveModel {
+public class ContentListDirective  extends AbstractCMSDirective  {
 	
-	@Resource
-	HttpServletRequest request;
 	@Resource
 	private ICmsContentService cmsContentService;
 	
@@ -46,11 +42,9 @@ public class ContentListDirective implements TemplateDirectiveModel {
 		List<CmsContent> contentList;
 		try {
 			if(type.equals("0")){//查询站点首页下的内容
-				String siteId = request.getAttribute("siteId").toString();
-				contentList = cmsContentService.findListBySiteId(siteId, page);
+				contentList = cmsContentService.findListBySiteId(getSiteId(), page);
 			}else if (type.equals("1")){//查询栏目下的内容
-				String channelId = request.getAttribute("businessId").toString();
-				contentList = cmsContentService.findContentByChannelId(channelId, page);
+				contentList = cmsContentService.findContentByChannelId(getBusinessId(), page);
 			}else{
 				//目前暂时没有其它类型，先占位
 				contentList = new ArrayList<>();

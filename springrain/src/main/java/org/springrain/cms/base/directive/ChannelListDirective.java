@@ -6,10 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Component;
-import org.springrain.cms.base.directive.abs.AbstractChannelDirective;
 import org.springrain.cms.base.directive.util.DirectiveUtils;
 import org.springrain.cms.base.entity.CmsChannel;
 import org.springrain.cms.base.service.ICmsChannelService;
@@ -24,10 +22,8 @@ import freemarker.template.TemplateModel;
  * 栏目列表标签
  */
 @Component("channelListDirective")
-public class ChannelListDirective extends AbstractChannelDirective {
+public class ChannelListDirective extends AbstractCMSDirective {
 	
-	@Resource
-	HttpServletRequest request;
 	@Resource
 	private ICmsChannelService cmsChannelService;
 	@Resource
@@ -43,10 +39,10 @@ public class ChannelListDirective extends AbstractChannelDirective {
 	@SuppressWarnings("rawtypes")
 	public void execute(Environment env, Map params, TemplateModel[] loopVars,
 			TemplateDirectiveBody body) throws TemplateException, IOException {
-		String siteId = request.getAttribute("siteId").toString();
+		
 		List<CmsChannel> list;
 		try {
-			list = cmsChannelService.findTreeByPid(null, siteId);
+			list = cmsChannelService.findTreeByPid(null, getSiteId());
 			for (CmsChannel cmsChannel : list) {//栏目内容较少，可以用遍历方式设置链接属性
 				cmsChannel.setLink(cmsLinkService.findLinkByBusinessId(cmsChannel.getId()));
 			}
