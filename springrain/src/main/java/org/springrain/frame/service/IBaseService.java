@@ -69,7 +69,18 @@ public interface IBaseService {
 	public void putByCache(String cacheName,String key,Object value)throws Exception;
 	
 	
-	
+	/**
+	 * 清理缓存
+	 * @param cacheName
+	 * @throws Exception
+	 */
+	public void cleanCache(String cacheName)throws Exception;
+	/**
+	 * 清理缓存下的一个key
+	 * @param cacheName
+	 * @throws Exception
+	 */
+	public void evictByKey(String cacheName,String key)throws Exception;
 	
 	
 	

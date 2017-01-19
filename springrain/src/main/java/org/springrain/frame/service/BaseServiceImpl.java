@@ -86,6 +86,9 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 	
 	@Override
 	public Cache getCache(String cacheName) throws Exception {
+		if(StringUtils.isBlank(cacheName)){
+			return null;
+		}
 		return cacheManager.getCache(cacheName);
 	}
 	
@@ -98,6 +101,21 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 	public void putByCache(String cacheName, String key, Object value) throws Exception {
 		       getCache(cacheName).put(key, value);
 	}
+	@Override
+	public void cleanCache(String cacheName)throws Exception{
+		      getCache(cacheName).clear();
+	}
+	
+	/**
+	 * 清理缓存下的一个key
+	 * @param cacheName
+	 * @throws Exception
+	 */
+	public void evictByKey(String cacheName,String key)throws Exception{
+		 getCache(cacheName).evict(key);
+	}
+	
+	
 
 	@Override
 	public <T> List<T> queryForList(Finder finder, Class<T> clazz)
