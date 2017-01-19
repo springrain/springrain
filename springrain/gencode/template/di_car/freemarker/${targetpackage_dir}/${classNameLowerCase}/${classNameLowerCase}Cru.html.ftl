@@ -1,7 +1,7 @@
 ${r"<#escape x as x?html>"}
 ${r"<@h.commonHead"} title="后台管理系统" keywords="开源,永久免费" description="springrain开源系统管理后台"/>
-<script src="${ctx}/js/custom/common/form.js"></script>
-<#assign className = table.className>   
+<script src="${r"${ctx}"}/js/custom/common/form.js"></script>
+<#assign className = table.className>
 <#assign tableName = table.tableAlias>   
 <#assign classNameLower = className?uncap_first>  
 <#assign classNameLowerCase = className?lower_case>
@@ -78,6 +78,7 @@ ${r"<@h.commonHead"} title="后台管理系统" keywords="开源,永久免费" d
 															</#if>
 													</#list>
 													<div class="layui-form-item change-submit">
+													<label class="layui-form-label"></label>
 															<div class="layui-inline">
 																<button type="button" class="layui-btn" id="smtbtn">立即提交</button>
 																<button type="button" class="layui-btn layui-btn-primary" id="rstbtn">重置</button>

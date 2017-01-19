@@ -24,7 +24,7 @@ function loadMenu(){
 
 
 function exit(){
-	myconfirm("确定退出？", function(){
+	springrain.confirm("确定退出？", function(){
 		try{
 			locache.flush();
 		}catch(e){}

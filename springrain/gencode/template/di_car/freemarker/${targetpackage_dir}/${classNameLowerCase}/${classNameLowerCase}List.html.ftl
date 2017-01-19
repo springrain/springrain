@@ -1,6 +1,6 @@
 ${r"<#escape x as x?html>"}
 ${r"<@h.commonHead"} title="后台管理系统" keywords="开源,永久免费" description="springrain开源系统管理后台"/>
-
+<script src="${r"${ctx}"}/js/custom/common/form.js"></script>
 <#assign className = table.className>   
 <#assign tableName = table.tableAlias>   
 <#assign classNameLower = className?uncap_first>  
@@ -94,7 +94,7 @@ ${r"<@h.commonHead"} title="后台管理系统" keywords="开源,永久免费" d
 							          	</tbody>
 							          </table>
 									  <!-- 查询  结束 -->
-									
+									</form>
 									<!--start_export-->
 									<table class="layui-table" lay-even>
 										  <colgroup>
@@ -111,9 +111,7 @@ ${r"<@h.commonHead"} title="后台管理系统" keywords="开源,永久免费" d
 												<tr>
 												  <!--first_start_no_export-->
 												  <th class="center">
-														<label class="position-relative">
-															<input id="checkAll" class="ace" type="checkbox">
-														</label>
+															<input id="checkAll"  type="checkbox">
 												  </th>
 												  <th>操作</th>
 												  <!--first_end_no_export-->
@@ -132,9 +130,7 @@ ${r"<@h.commonHead"} title="后台管理系统" keywords="开源,永久免费" d
 										    		<!--start_no_export-->
 													<tr class="">
 														<td class="center">
-															<label class="position-relative">
-																<input name="check_li" value="${r"${_data.id}"}" class="ace" type="checkbox"> <span class="lbl"></span>
-															</label>
+																<input name="check_li" value="${r"${_data.id}"}"  type="checkbox">
 														</td>
 														<td>
 															${r"<@shiro.hasPermission"} name="/${classNameLowerCase}/update" >
