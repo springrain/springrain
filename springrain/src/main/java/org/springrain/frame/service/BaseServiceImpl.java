@@ -307,7 +307,16 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 		if(excelFile.exists()){
 			excelFile.setReadOnly();
 		}
-		
+		// excel转化
+		try {
+			String newuid = UUID.randomUUID().toString();
+			File excelnew = new File(GlobalStatic.tempRootpath + "/" + fileName
+					+ "/" + newuid + GlobalStatic.excelext);
+			org.springrain.frame.util.OpenOfficeKit.cvtXls(excelFile, excelnew);
+			return excelnew;
+		} catch (Exception e) {
+			logger.error(e.getLocalizedMessage());
+		}
 		return excelFile;
 	}
 
