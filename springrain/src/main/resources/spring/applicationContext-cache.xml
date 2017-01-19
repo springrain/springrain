@@ -68,11 +68,20 @@
 				</bean>
 				
 				
-				<!-- 微信token缓存 -->
+				<!-- 微信缓存 -->
 				<bean
 					class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
 					<property name="name" value="springrainweixincache" />
 				</bean>
+				
+				
+				
+				<!-- cms缓存 -->
+				<bean
+					class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
+					<property name="name" value="springraincmscache" />
+				</bean>
+				
 				
 				
 				
