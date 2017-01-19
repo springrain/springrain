@@ -191,9 +191,12 @@ public class LoginController extends BaseController  {
 		 */
 		@RequestMapping(value = "/unauth")
 		public String unauth(Model model) throws Exception {
+			/*
 			if(SecurityUtils.getSubject().isAuthenticated()==false){
 				return redirect+"/login";
 			}
+			*/
+			
 				return "/unauth";
 			
 		}
