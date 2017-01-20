@@ -188,7 +188,6 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
     
     @SuppressWarnings("unchecked")
 	@Override
-    @Cacheable(value = GlobalStatic.cacheKey, key = "'findTreeByPid_'+#pid+'_'+#siteId")
 	public List<CmsChannel> findTreeByPid(String pid,String siteId) throws Exception {
     	
     	if(StringUtils.isBlank(siteId)){
