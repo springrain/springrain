@@ -32,7 +32,7 @@ public class SystemUserFilter extends BaseUserFilter {
 		 HttpServletRequest req=(HttpServletRequest) request;
 		 String uri=req.getRequestURI();
 		 
-		 Object obj=req.getAttribute(GlobalStatic.tokeyKey);
+		 Object obj=req.getSession().getAttribute(GlobalStatic.tokeyKey);
 		 if(obj==null||(!obj.toString().startsWith("system_"))){//tokenKey必须是system_开头
 			 Subject subject = SecurityUtils.getSubject();
 		        if (subject != null) {           
