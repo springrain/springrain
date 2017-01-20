@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.UserFilter;
 import org.apache.shiro.web.util.WebUtils;
 import org.springrain.frame.util.JsonUtils;
@@ -34,14 +36,14 @@ public class BaseUserFilter extends UserFilter {
 		 HttpServletRequest req=(HttpServletRequest) request;
 		 String referer=req.getHeader("Referer");
 		 //System.out.println(referer+":"+req.getHeader("X-Requested-With"));
-		 if(StringUtils.isBlank(referer)){
+		 if(StringUtils.isBlank(referer)||(!referer.contains(request.getServerName()))){
+			 Subject subject = SecurityUtils.getSubject();
+		        if (subject != null) {           
+		            subject.logout();
+		        }
 			 return false;
 		 }
 		 
-		 
-		 if(!referer.contains(request.getServerName())){
-			 return false;
-		 }
 		 
 		 
 		 return access;
