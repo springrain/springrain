@@ -103,7 +103,8 @@
 				
 				/index = firewall,user,keepone
 				/system/index =firewall,systemuser,framefwlog,keepone
-				/logout = firewall,logout
+				/logout = firewall,user
+				/system/logout = firewall,user
 				
 			
 				/system/menu/leftMenu=firewall,systemuser,keepone
