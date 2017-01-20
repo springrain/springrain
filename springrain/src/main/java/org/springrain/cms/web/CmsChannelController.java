@@ -89,7 +89,7 @@ public class CmsChannelController  extends BaseController {
 		for (CmsChannel channel : datas) {
 			channel.setCmsChannel(cmsChannelService.findCmsChannelById(channel.getPid()));//设置父类信息
 			channel.setCmsSite(cmsSiteService.findCmsSiteById(channel.getSiteId()));//设置所属站点信息
-			channel.setLink(cmsLinkService.findLinkByBusinessId(channel.getId()));
+			channel.setLink(cmsLinkService.findLinkBySiteBusinessId(channel.getSiteId(),channel.getId()).getLink());
 		}
 		
 		returnObject.setQueryBean(cmsChannel);

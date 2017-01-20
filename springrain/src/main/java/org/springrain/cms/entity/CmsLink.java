@@ -31,7 +31,7 @@ public class CmsLink  extends BaseEntity {
 	public static final String ALIAS_SITEID = "网站ID";
 	public static final String ALIAS_BUSINESSID = "业务Id";
 	public static final String ALIAS_LOOKCOUNT = "打开次数";
-	public static final String ALIAS_MODELTYPE = "0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)";
+	public static final String ALIAS_MODELTYPE = " 0使用freemarker模板,1redirect,2forward";
 	public static final String ALIAS_FTLFILE = "当前渲染使用的模板路径";
 	public static final String ALIAS_NODEFTLFILE = "子内容使用的ftl模板文件";
 	public static final String ALIAS_STATICHTML = "是否静态化 0否,1是";
@@ -70,9 +70,9 @@ public class CmsLink  extends BaseEntity {
 	 */
 	private java.lang.Integer lookcount;
 	/**
-	 * 0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)
+	 * 0使用freemarker模板,1redirect,2forward
 	 */
-	private java.lang.Integer modelType;
+	private java.lang.Integer jumpType;
 	/**
 	 * 当前渲染使用的模板路径
 	 */
@@ -93,6 +93,7 @@ public class CmsLink  extends BaseEntity {
 	 * 状态 0不可用,1可用
 	 */
 	private java.lang.Integer active;
+	
 	//columns END 数据库字段结束
 	
 	//concstructor
@@ -182,13 +183,13 @@ public class CmsLink  extends BaseEntity {
 	public java.lang.Integer getLookcount() {
 		return this.lookcount;
 	}
-	public void setModelType(java.lang.Integer value) {
-		this.modelType = value;
+	public void setJumpType(java.lang.Integer value) {
+		this.jumpType = value;
 	}
 	
-     @WhereSQL(sql="modelType=:CmsLink_modelType")
-	public java.lang.Integer getModelType() {
-		return this.modelType;
+     @WhereSQL(sql="jumpType=:CmsLink_jumpType")
+	public java.lang.Integer getJumpType() {
+		return this.jumpType;
 	}
 	public void setFtlfile(java.lang.String value) {
 		    if(StringUtils.isNotBlank(value)){
@@ -246,7 +247,7 @@ public class CmsLink  extends BaseEntity {
 			.append("网站ID[").append(getSiteId()).append("],")
 			.append("业务Id[").append(getBusinessId()).append("],")
 			.append("打开次数[").append(getLookcount()).append("],")
-			.append("0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)[").append(getModelType()).append("],")
+			.append("0使用freemarker模板,1redirect,2forward[").append(getJumpType()).append("],")
 			.append("当前渲染使用的模板路径[").append(getFtlfile()).append("],")
 			.append("子内容使用的ftl模板文件[").append(getNodeftlfile()).append("],")
 			.append("是否静态化 0否,1是[").append(getStatichtml()).append("],")

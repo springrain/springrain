@@ -1,5 +1,6 @@
 package org.springrain.cms.service.impl;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springrain.cms.entity.CmsLink;
 import org.springrain.cms.service.ICmsLinkService;
@@ -35,18 +36,25 @@ public class CmsLinkServiceImpl extends BaseSpringrainServiceImpl implements ICm
 
 
 	@Override
-	public String findFtlFileByBussinessId(String bussinessId) throws Exception {
-		Finder finder = Finder.getSelectFinder(CmsLink.class,"ftlfile").append(" WHERE businessId=:bussinessId");
-		finder.setParam("bussinessId", bussinessId);
-		String ftlfile = super.queryForObject(finder, String.class); 
-		return ftlfile;
-	}
-
-	@Override
-	public String findLinkByBusinessId(String bussinessId) throws Exception {
-		Finder finder = Finder.getSelectFinder(CmsLink.class,"link").append(" WHERE businessId=:bussinessId");
-		finder.setParam("bussinessId", bussinessId);
-		String link = super.queryForObject(finder, String.class); 
+	public CmsLink findLinkBySiteBusinessId(String siteId,String bussinessId) throws Exception {
+		
+		if(StringUtils.isBlank(siteId)||StringUtils.isBlank(bussinessId)){
+			return null;
+		}
+		String cacheKey="findLinkBySiteBusinessId_"+siteId+"_"+bussinessId;
+		
+		CmsLink link =super.getByCache(siteId, cacheKey, CmsLink.class);
+		if(link!=null){
+			return link;
+		}
+		
+		
+		Finder finder = Finder.getSelectFinder(CmsLink.class).append(" WHERE siteId=:siteId and  businessId=:bussinessId ");
+		finder.setParam("siteId", siteId).setParam("bussinessId", bussinessId);
+		link = super.queryForObject(finder, CmsLink.class); 
+		
+		super.putByCache(siteId, cacheKey, link);
+		
 		return link;
 	}
 

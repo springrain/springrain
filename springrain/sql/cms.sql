@@ -140,7 +140,7 @@ CREATE TABLE `cms_link` (
   `siteId` varchar(50) NOT NULL COMMENT '网站ID',
   `businessId` varchar(50) NOT NULL COMMENT '业务Id',
   `lookcount` int(11) DEFAULT NULL COMMENT '打开次数',
-  `modelType` int(11) NOT NULL DEFAULT '0' COMMENT '0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)',
+  `jumpType` int(11) NOT NULL DEFAULT '0' COMMENT '0使用freemarker模板,1redirect,2forward',
   `ftlfile` varchar(1000) NOT NULL COMMENT '当前渲染使用的模板路径',
   `nodeftlfile` varchar(1000) DEFAULT NULL COMMENT '子内容使用的ftl模板文件',
   `statichtml` int(11) NOT NULL DEFAULT '0' COMMENT '是否静态化 0否,1是',
@@ -207,6 +207,7 @@ CREATE TABLE `cms_site` (
   `themeId` varchar(50) DEFAULT NULL COMMENT '主题Id',
   `lookcount` int(11) DEFAULT NULL COMMENT '打开次数',
   `siteType` int(11) NOT NULL DEFAULT '0' COMMENT '0微信订阅服务号,1wap,2网站   ',
+  `springbeanid` varchar(50) DEFAULT NULL COMMENT 'springbeanid',
   `active` int(11) NOT NULL DEFAULT '1' COMMENT '状态 0不可用,1可用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='站点表';

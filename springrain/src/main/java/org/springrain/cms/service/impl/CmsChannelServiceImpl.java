@@ -106,7 +106,7 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 	    cmsLink.setBusinessId(id);
 	    cmsLink.setSiteId(siteId);
 	    cmsLink.setName(cmsChannel.getName());
-	    cmsLink.setModelType(1);//栏目
+	    cmsLink.setJumpType(0);
 	    cmsLink.setLookcount(1);
 	    cmsLink.setStatichtml(0);//默认不静态化
 	    cmsLink.setActive(0);//默认可以使用

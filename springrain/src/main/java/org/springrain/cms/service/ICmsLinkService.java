@@ -26,23 +26,13 @@ public interface ICmsLinkService extends IBaseSpringrainService {
 
     Integer updateCmsLink(CmsLink cmsLink ) throws Exception;
 
-
 	/**
-	 * 根据业务id查询资源模板路径
-	 * @param businessId
-	 * @return
-	 * @throws Exception 
-	 */
-	String findFtlFileByBussinessId(String businessId) throws Exception;
-
-
-	/**
-	 * 根据资源id查询资源链接
+	 * 查询资源链接
 	 * @param bussinessId
 	 * @return
 	 * @throws Exception 
 	 */
-	String findLinkByBusinessId(String bussinessId) throws Exception;
+    CmsLink findLinkBySiteBusinessId(String siteId,String bussinessId) throws Exception;
 	
 	
 }

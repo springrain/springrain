@@ -78,7 +78,7 @@ public class CmsSiteController  extends BaseController {
 		// ==执行分页查询
 		List<CmsSite> datas=cmsSiteService.findListDataByFinder(null,page,CmsSite.class,cmsSite);
 		for (CmsSite site : datas) {//站点数量不会太多，目前先用遍历设置link属性
-			site.setLink(cmsLinkService.findLinkByBusinessId(site.getId()));
+			site.setLink(cmsLinkService.findLinkBySiteBusinessId(site.getId(),site.getId()).getLink());
 		}
 		returnObject.setQueryBean(cmsSite);
 		returnObject.setPage(page);

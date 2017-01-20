@@ -102,7 +102,7 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 	    cmsLink.setBusinessId(id);
 	    cmsLink.setSiteId(cmsContent.getSiteId());
 	    cmsLink.setName(cmsContent.getTitle());
-	    cmsLink.setModelType(2);//内容
+	    cmsLink.setJumpType(0);
 	    cmsLink.setLookcount(1);
 	    cmsLink.setStatichtml(0);//默认不静态化
 	    cmsLink.setActive(cmsContent.getActive());//默认可以使用

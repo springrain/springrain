@@ -1,21 +1,16 @@
 package org.springrain.front;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springrain.cms.service.ICmsLinkService;
-import org.springrain.frame.controller.BaseController;
 
 @Controller
 @RequestMapping("/f/2/{siteId}")
-public class FrontPcController extends BaseController {
+public class FrontPcController extends FrontBaseController {
 	
-	@Resource
-	private ICmsLinkService cmsLinkService;
 	
 	
 	/**
@@ -24,15 +19,7 @@ public class FrontPcController extends BaseController {
 	 * */
 	@RequestMapping("/index")
 	public String index(@PathVariable String siteId,HttpServletRequest request,Model model) throws Exception{
-		String url = cmsLinkService.findFtlFileByBussinessId(siteId);
-		
-		addModelParameter(request, model);
-		
-		model.addAttribute("siteId", siteId);
-		model.addAttribute("businessId", siteId);
-		model.addAttribute("siteType", 2);
-		
-		return url;
+		return jump(siteId, siteId, 2, request, model);
 	}
 	
 	/**
@@ -41,15 +28,7 @@ public class FrontPcController extends BaseController {
 	 * */
 	@RequestMapping("/{businessId}")
 	public String channel(@PathVariable String siteId,@PathVariable String businessId,HttpServletRequest request,Model model) throws Exception{
-		String url = cmsLinkService.findFtlFileByBussinessId(businessId);
-		
-	    addModelParameter(request, model);
-	    
-	    model.addAttribute("siteId", siteId);
-		model.addAttribute("businessId", businessId);
-		model.addAttribute("siteType", 2);
-		
-		return url;
+		return jump(siteId, businessId, 2, request, model);
 	}
 	
 	
