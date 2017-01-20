@@ -7,7 +7,7 @@
 			appendToken:function(_url){
 				var _that=this;
 				if(!_url)return;
-				if(_url.indexOf("springraintoken"))return _url;
+				if(_url.indexOf("springraintoken")!=-1)return _url;
 				if(_url.indexOf("?")!=-1){
 					return _url+"&springraintoken="+_that.token;
 				}else{

@@ -44,7 +44,7 @@ public class LoginController extends BaseController  {
 	 */
 		@RequestMapping(value = "/")
 		public String index() throws Exception {
-				return super.redirect+"/system/index";
+				return super.redirect+"/index";
 			
 		}
 		
@@ -212,12 +212,12 @@ public class LoginController extends BaseController  {
 		 * @param request
 		 */
 		@RequestMapping(value="/logout")
-	    public void logout(HttpServletRequest request){
+	    public String logout(HttpServletRequest request){
 	        Subject subject = SecurityUtils.getSubject();
 	        if (subject != null) {           
 	            subject.logout();
 	        }
-	        //request.getSession().invalidate();
+	        return super.redirect+"/login";
 	    }
 		
 		/**
