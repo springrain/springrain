@@ -88,17 +88,17 @@
 				
 				/wx/**=firewall
 				
-				/f/2/** = firewall,anon
+				/f/2/** = firewall
 				/f/0/** = firewall,wxmpautologin
 				
 				
 				/unauth = firewall,user
-				/system/unauth = firewall,anon
+				/system/unauth = firewall
 				
 				/getCaptcha=firewall
 				
-				/login = firewall,anon
-				/system/login = firewall,anon
+				/login = firewall
+				/system/login = firewall
 				
 				
 				/index = firewall,user,keepone
