@@ -33,7 +33,6 @@ public class FrontUserFilter extends BaseUserFilter {
 		 
 		 //已经登录用户,验证Referer
 		 HttpServletRequest req=(HttpServletRequest) request;
-		 String uri=req.getRequestURI();
 		 
 		 Object obj=req.getSession().getAttribute(GlobalStatic.tokeyKey);
 		 if(obj==null||(!obj.toString().startsWith("f_"))){//tokenKey必须是system_开头
@@ -46,15 +45,13 @@ public class FrontUserFilter extends BaseUserFilter {
 	
 		String token=obj.toString();
 		
-		if(uri.contains("/update")&&("POST".equalsIgnoreCase(req.getMethod()))){//包含 update的 post方法
-			String userToken=req.getParameter(GlobalStatic.tokeyKey);
-			if(!token.equals(userToken)){
-				 Subject subject = SecurityUtils.getSubject();
-			        if (subject != null) {           
-			            subject.logout();
-			        }
-			     return false;
+		String userToken=req.getParameter(GlobalStatic.tokeyKey);
+		if(!token.equals(userToken)){
+			Subject subject = SecurityUtils.getSubject();
+			if (subject != null) {           
+			    subject.logout();
 			}
+			return false;
 		}
 		 
 		 
