@@ -154,10 +154,10 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 	
     @Override
 	public CmsSite findCmsSiteById(String id) throws Exception{
-    	CmsSite site = getByCache(id, "'findCmsSiteById_'+#"+id, CmsSite.class);
+    	CmsSite site = getByCache(id, "findCmsSiteById_"+id, CmsSite.class);
     	if(site == null){
     		site = super.findById(id,CmsSite.class);
-    		putByCache(id, "'findCmsSiteById_'+#"+id, site);
+    		putByCache(id,  "findCmsSiteById_"+id, site);
     	}
     	return site;
 	}
@@ -168,8 +168,8 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 	public String updateCmsSite(CmsSite cmsSite) throws Exception {
 		super.update(cmsSite,true);
 		String siteId = cmsSite.getId();
-		evictByKey(siteId, "'findCmsSiteById_'+#"+siteId);
-		putByCache(siteId, "'findCmsSiteById_'+#"+siteId, cmsSite);
+		//evictByKey(siteId, "findCmsSiteById_"+siteId);
+		putByCache(siteId, "findCmsSiteById_"+siteId, cmsSite);
 		return null;
 	}
 
