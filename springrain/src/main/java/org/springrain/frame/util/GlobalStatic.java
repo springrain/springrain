@@ -40,7 +40,7 @@ public class GlobalStatic {
     public static final String springraincmsCacheKey="springraincmscache";
     
     
-    public static final String tokeyKey="springraintoken";
+    public static final String tokenKey="springraintoken";
 	public static final String defaultCharset="UTF-8";
 	
 	public static final String tableExt="_history_";

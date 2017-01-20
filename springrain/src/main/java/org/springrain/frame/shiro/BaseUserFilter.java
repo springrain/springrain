@@ -68,7 +68,7 @@ public class BaseUserFilter extends UserFilter {
 			    }
 		     
 		     //跳转前 清除 参数
-		     request.removeAttribute(GlobalStatic.tokeyKey);
+		     request.removeAttribute(GlobalStatic.tokenKey);
 		     //正常http请求
 	         String loginUrl= getLoginUrl();	
 	         StringBuffer url=req.getRequestURL();

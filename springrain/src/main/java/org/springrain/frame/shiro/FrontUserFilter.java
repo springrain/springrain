@@ -34,7 +34,7 @@ public class FrontUserFilter extends BaseUserFilter {
 		 //已经登录用户,验证Referer
 		 HttpServletRequest req=(HttpServletRequest) request;
 		 
-		 Object obj=req.getSession().getAttribute(GlobalStatic.tokeyKey);
+		 Object obj=req.getSession().getAttribute(GlobalStatic.tokenKey);
 		 if(obj==null||(!obj.toString().startsWith("f_"))){//tokenKey必须是system_开头
 			 Subject subject = SecurityUtils.getSubject();
 		        if (subject != null) {           
@@ -45,7 +45,7 @@ public class FrontUserFilter extends BaseUserFilter {
 	
 		String token=obj.toString();
 		
-		String userToken=req.getParameter(GlobalStatic.tokeyKey);
+		String userToken=req.getParameter(GlobalStatic.tokenKey);
 		if(!token.equals(userToken)){
 			Subject subject = SecurityUtils.getSubject();
 			if (subject != null) {           

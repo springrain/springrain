@@ -182,10 +182,8 @@ public class LoginController extends BaseController  {
 			
 			//设置tokenkey
 			String springraintoken="f_"+SecUtils.getUUID();
-			session.setAttribute(GlobalStatic.tokeyKey, springraintoken);
-			if(!gotourl.contains(GlobalStatic.tokeyKey)){
-				model.addAttribute(GlobalStatic.tokeyKey,springraintoken);
-			}
+			session.setAttribute(GlobalStatic.tokenKey, springraintoken);
+			model.addAttribute(GlobalStatic.tokenKey,springraintoken);
 			return redirect+gotourl;
 		}
 		
