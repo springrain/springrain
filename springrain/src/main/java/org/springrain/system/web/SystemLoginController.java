@@ -172,6 +172,18 @@ public class SystemLoginController extends BaseController  {
 			return redirect+gotourl;
 		}
 		
+		/**
+		 * 退出
+		 * @param request
+		 */
+		@RequestMapping(value="/logout")
+	    public String logout(HttpServletRequest request){
+	        Subject subject = SecurityUtils.getSubject();
+	        if (subject != null) {           
+	            subject.logout();
+	        }
+	        return super.redirect+"/login";
+	    }
 	
 		
 		

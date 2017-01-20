@@ -7,7 +7,6 @@ import javax.annotation.Resource;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springrain.cms.entity.CmsChannel;
 import org.springrain.cms.entity.CmsLink;
@@ -15,7 +14,6 @@ import org.springrain.cms.service.ICmsChannelService;
 import org.springrain.cms.service.ICmsLinkService;
 import org.springrain.cms.service.ICmsSiteService;
 import org.springrain.frame.util.Finder;
-import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.Page;
 import org.springrain.system.service.BaseSpringrainServiceImpl;
 import org.springrain.system.service.ITableindexService;
@@ -188,7 +186,6 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
     
     @SuppressWarnings("unchecked")
 	@Override
-    @Cacheable(value = GlobalStatic.cacheKey, key = "'findTreeByPid_'+#pid+'_'+#siteId")
 	public List<CmsChannel> findTreeByPid(String pid,String siteId) throws Exception {
     	
     	if(StringUtils.isBlank(siteId)){
