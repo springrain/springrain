@@ -150,7 +150,7 @@ function getParentModule(childrenMenuList) {
                  tmpData = tmpData['leaf'][0];
              }
              url = ctx+url;
-            htmlStr = htmlStr+url+'" ><i class="layui-icon">'+childrenMenuList[i].menuIcon+'</i><cute>'+childrenMenuList[i].name+'</cute></a>';
+            htmlStr = htmlStr+url+'" ><i class="layui-icon">'+childrenMenuList[i].menuIcon+'</i><cite>'+childrenMenuList[i].name+'</cite></a>';
         }
         htmlStr = htmlStr+'</li>';
     }
