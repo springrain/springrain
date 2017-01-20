@@ -8,7 +8,6 @@ import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.util.CollectionUtils;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springrain.cms.entity.CmsLink;
 import org.springrain.cms.entity.CmsSite;
