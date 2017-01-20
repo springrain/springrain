@@ -10,8 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.UserFilter;
 import org.apache.shiro.web.util.WebUtils;
 import org.springrain.frame.util.JsonUtils;
@@ -25,6 +23,7 @@ import org.springrain.frame.util.ReturnDatas;
  */
 public class BaseUserFilter extends UserFilter {
 	
+	/*
 	@Override
 	 protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
 		 boolean access=super.isAccessAllowed(request, response, mappedValue);
@@ -43,11 +42,12 @@ public class BaseUserFilter extends UserFilter {
 		        }
 			 return false;
 		 }
-		 
+		
 		 
 		 
 		 return access;
 	 }
+	 */
 	
 	@Override
 	  protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {

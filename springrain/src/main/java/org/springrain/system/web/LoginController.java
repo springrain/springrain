@@ -58,7 +58,8 @@ public class LoginController extends BaseController  {
 	 */
 		@RequestMapping(value = "/index")
 		public String index(Model model) throws Exception {
-				return "/index";
+			
+			return "/index";
 			
 		}
 		/**
@@ -113,7 +114,7 @@ public class LoginController extends BaseController  {
 				  submitCode=submitCode.toLowerCase().toString();
 			  }
 			  
-			  String gourl=request.getParameter("gotourl");
+			  String gotourl=request.getParameter("gotourl");
 			
 			  
 			  //如果验证码不匹配,跳转到登录
@@ -136,26 +137,26 @@ public class LoginController extends BaseController  {
 				user.login(token);
 			} catch (UnknownAccountException e) {
 				model.addAttribute("message", "账号不存在!");
-				if(StringUtils.isNotBlank(gourl)){
-					     model.addAttribute("gotourl", gourl);
+				if(StringUtils.isNotBlank(gotourl)){
+					     model.addAttribute("gotourl", gotourl);
 			    }
 				return "/login";
 			} catch (IncorrectCredentialsException e) {
 				model.addAttribute("message", "密码错误!");
-				if(StringUtils.isNotBlank(gourl)){
-			  	     model.addAttribute("gotourl", gourl);
+				if(StringUtils.isNotBlank(gotourl)){
+			  	     model.addAttribute("gotourl", gotourl);
 		        }
 				return "/login";
 			} catch (LockedAccountException e) {
 				model.addAttribute("message", e.getMessage());
-				if(StringUtils.isNotBlank(gourl)){
-			  	     model.addAttribute("gotourl", gourl);
+				if(StringUtils.isNotBlank(gotourl)){
+			  	     model.addAttribute("gotourl", gotourl);
 		        }
 				return "/login";
 			} catch (Exception e) {
 				model.addAttribute("message", "未知错误,请联系管理员.");
-				if(StringUtils.isNotBlank(gourl)){
-			  	     model.addAttribute("gotourl", gourl);
+				if(StringUtils.isNotBlank(gotourl)){
+			  	     model.addAttribute("gotourl", gotourl);
 		        }
 				return "/login";
 			}
@@ -175,14 +176,15 @@ public class LoginController extends BaseController  {
 			cache.put(currUser.getAccount(), session.getId());
 			*/
 			
-			if(StringUtils.isBlank(gourl)){
-				gourl="/index";
+			if(StringUtils.isBlank(gotourl)){
+				gotourl="/index";
 			}
 			
 			//设置tokenkey
-			session.setAttribute(GlobalStatic.tokeyKey, "f_"+SecUtils.getUUID());
-			
-			return redirect+gourl;
+			String springraintoken="f_"+SecUtils.getUUID();
+			session.setAttribute(GlobalStatic.tokeyKey, springraintoken);
+			model.addAttribute(GlobalStatic.tokeyKey,springraintoken);
+			return redirect+gotourl;
 		}
 		
 		/**
