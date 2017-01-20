@@ -29,6 +29,7 @@ import org.springrain.frame.shiro.FrameAuthenticationToken;
 import org.springrain.frame.shiro.ShiroUser;
 import org.springrain.frame.util.CaptchaUtils;
 import org.springrain.frame.util.GlobalStatic;
+import org.springrain.frame.util.SecUtils;
 import org.springrain.system.entity.User;
 
 @Controller
@@ -178,7 +179,8 @@ public class LoginController extends BaseController  {
 				gourl="/index";
 			}
 			
-			
+			//设置tokenkey
+			session.setAttribute(GlobalStatic.tokeyKey, "f_"+SecUtils.getUUID());
 			
 			return redirect+gourl;
 		}

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springrain.frame.controller.BaseController;
 import org.springrain.frame.shiro.FrameAuthenticationToken;
 import org.springrain.frame.util.GlobalStatic;
+import org.springrain.frame.util.SecUtils;
 import org.springrain.system.entity.User;
 
 @Controller
@@ -161,7 +162,8 @@ public class SystemLoginController extends BaseController  {
 			if(StringUtils.isBlank(gotourl)){
 				gotourl="/system/index";
 			}
-			
+			//设置tokenkey
+			session.setAttribute(GlobalStatic.tokeyKey, "system_"+SecUtils.getUUID());
 			
 			
 			return redirect+gotourl;
