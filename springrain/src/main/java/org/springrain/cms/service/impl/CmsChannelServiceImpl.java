@@ -61,11 +61,11 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 		if(page.getPageIndex()==1){
 			channelList = getByCache("channelList", "cmsChannelService_findListDataByFinder", List.class,page);
 			if(CollectionUtils.isEmpty(channelList)){
-				channelList = findListDataByFinder(finder, page, CmsChannel.class, queryBean);
+				channelList = super.findListDataByFinder(finder, page, CmsChannel.class, queryBean);
 				putByCache("channelList", "cmsChannelService_findListDataByFinder", channelList,page);
 			}
 		}else{
-			channelList = findListDataByFinder(finder, page, CmsChannel.class, queryBean);
+			channelList =  super.findListDataByFinder(finder, page, CmsChannel.class, queryBean);
 		}
 		return (List<T>) channelList;
 	}
