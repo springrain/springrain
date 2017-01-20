@@ -59,10 +59,10 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 			Class<T> clazz, Object queryBean) throws Exception {
 		List<CmsChannel> channelList;
 		if(page.getPageIndex()==1){
-			channelList = getByCache("channelList", "'findListDataByFinder'", List.class,page);
+			channelList = getByCache("channelList", "cmsChannelService_findListDataByFinder", List.class,page);
 			if(CollectionUtils.isEmpty(channelList)){
 				channelList = findListDataByFinder(finder, page, CmsChannel.class, queryBean);
-				putByCache("channelList", "'findListDataByFinder'", channelList,page);
+				putByCache("channelList", "cmsChannelService_findListDataByFinder", channelList,page);
 			}
 		}else{
 			channelList = findListDataByFinder(finder, page, CmsChannel.class, queryBean);
