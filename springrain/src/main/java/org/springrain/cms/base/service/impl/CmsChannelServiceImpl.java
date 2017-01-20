@@ -7,9 +7,7 @@ import javax.annotation.Resource;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springrain.cms.base.entity.CmsChannel;
 import org.springrain.cms.base.entity.CmsLink;
@@ -18,6 +16,7 @@ import org.springrain.cms.base.service.ICmsLinkService;
 import org.springrain.cms.base.service.ICmsSiteService;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
+import org.springrain.frame.util.Page;
 import org.springrain.system.service.BaseSpringrainServiceImpl;
 import org.springrain.system.service.ITableindexService;
 
@@ -49,10 +48,28 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 	public Object saveorupdate(Object entity) throws Exception {
 		CmsChannel channel = (CmsChannel) entity;
 		if(StringUtils.isBlank(channel.getId())){
+			evictByKey("channelList", "'findListDataByFinder'");
 			return this.saveChannel(channel);
 		}else{
 			return this.updateChannel(channel);
 		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> List<T> findListDataByFinder(Finder finder, Page page,
+			Class<T> clazz, Object queryBean) throws Exception {
+		List<CmsChannel> channelList;
+		if(page.getPageIndex()==1){
+			channelList = getByCache("channelList", "'findListDataByFinder'", List.class);
+			if(CollectionUtils.isEmpty(channelList)){
+				channelList = findListDataByFinder(finder, page, CmsChannel.class, queryBean);
+				putByCache("channelList", "'findListDataByFinder'", channelList);
+			}
+		}else{
+			channelList = findListDataByFinder(finder, page, CmsChannel.class, queryBean);
+		}
+		return (List<T>) channelList;
 	}
 	
     @Override
@@ -105,14 +122,13 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 	    cmsLink.setNodeftlfile("/u/"+siteId+"/content.html");
 	    cmsLinkService.save(cmsLink);
 	    
+	    putByCache(siteId, "'findTreeByPid_'+#"+cmsChannel.getPid()+"+'_'+#"+siteId, cmsChannel);
+	    putByCache(siteId, "'findTreeChannel_'+#"+siteId, cmsChannel);
 	    return id;
 	}
 
   
 	@Override
-	//@CacheEvict(value = GlobalStatic.cacheKey, key = "'findTreeByPid_'+#cmsChannel.id+'_'+#cmsChannel.siteId")
-	//@CacheEvict(value = GlobalStatic.cacheKey, key = "'findTreeChannel_'+#cmsChannel.siteId")
-	@Caching(evict={@CacheEvict(value = GlobalStatic.cacheKey,key = "'findTreeByPid_'+#cmsChannel.id+'_'+#cmsChannel.siteId"),@CacheEvict(value = GlobalStatic.cacheKey, key = "'findTreeChannel_'+#cmsChannel.siteId")})
     public Integer updateChannel(CmsChannel cmsChannel) throws Exception{
 		if(cmsChannel==null){
     		return null;
@@ -156,18 +172,22 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 	    
 		
 		super.update(list,true);
-		 
+		
+		evictByKey(siteId, "'findTreeByPid_'+#"+pid+"+'_'+#"+siteId);
+		
+		putByCache(siteId, "'findTreeByPid_'+#"+pid+"+'_'+#"+siteId, cmsChannel);
 	    return update;
 
     }
     @Override
 	public CmsChannel findCmsChannelById(String id) throws Exception{
-	 return super.findById(id,CmsChannel.class);
+    	return super.findById(id,CmsChannel.class);
 	}
     
     
     
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     @Cacheable(value = GlobalStatic.cacheKey, key = "'findTreeByPid_'+#pid+'_'+#siteId")
 	public List<CmsChannel> findTreeByPid(String pid,String siteId) throws Exception {
     	
@@ -175,21 +195,28 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
     		return null;
     	}
     	
-    	Finder finder=Finder.getSelectFinder(CmsChannel.class).append("  WHERE active=:active and siteId=:siteId ").setParam("siteId", siteId).setParam("active", 1);
-        
-        if(StringUtils.isNotBlank(pid)){
-        	finder.append(" and comcode like :comcode and id<>:pid ").setParam("comcode", "%,"+pid+",%").setParam("pid", pid);
-        }
-        finder.append(" order by sortno asc ");
-        
-		List<CmsChannel> list=super.queryForList(finder, CmsChannel.class);
-		if(CollectionUtils.isEmpty(list)){
-			return null;
-		}
-		List<CmsChannel> wrapList=new ArrayList<CmsChannel>();
-		diguiwrapList(list, wrapList, null);
-		
-		return wrapList;
+    	List<CmsChannel> channelList = getByCache(siteId, "'findTreeByPid_'+#"+pid+"+'_'+#"+siteId, List.class);
+    	if(CollectionUtils.isEmpty(channelList)){
+    		Finder finder=Finder.getSelectFinder(CmsChannel.class).append("  WHERE active=:active and siteId=:siteId ").setParam("siteId", siteId).setParam("active", 1);
+            
+            if(StringUtils.isNotBlank(pid)){
+            	finder.append(" and comcode like :comcode and id<>:pid ").setParam("comcode", "%,"+pid+",%").setParam("pid", pid);
+            }
+            finder.append(" order by sortno asc ");
+            
+            channelList=super.queryForList(finder, CmsChannel.class);
+    		if(CollectionUtils.isEmpty(channelList)){
+    			return null;
+    		}
+    		List<CmsChannel> wrapList=new ArrayList<CmsChannel>();
+    		diguiwrapList(channelList, wrapList, null);
+    		evictByKey(siteId, "'findTreeByPid_'+#"+pid+"+'_'+#"+siteId);
+    		return wrapList;
+    	}else{
+    		return channelList;
+    	}
+    	
+    	
 	}
 	@Override
 	public List<CmsChannel> findTreeChannel(String siteId) throws Exception {
