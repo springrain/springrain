@@ -8,12 +8,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springrain.cms.base.entity.CmsChannel;
-import org.springrain.cms.base.entity.CmsContent;
-import org.springrain.cms.base.entity.CmsSite;
-import org.springrain.cms.base.service.ICmsChannelService;
-import org.springrain.cms.base.service.ICmsContentService;
-import org.springrain.cms.base.service.ICmsSiteService;
+import org.springrain.cms.entity.CmsChannel;
+import org.springrain.cms.entity.CmsContent;
+import org.springrain.cms.entity.CmsSite;
+import org.springrain.cms.service.ICmsChannelService;
+import org.springrain.cms.service.ICmsContentService;
+import org.springrain.cms.service.ICmsSiteService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:applicationContext.xml")

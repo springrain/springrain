@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springrain.cms.base.service.ICmsLinkService;
+import org.springrain.cms.service.ICmsLinkService;
 import org.springrain.frame.controller.BaseController;
 
 @Controller
@@ -29,7 +29,8 @@ public class FrontPcController extends BaseController {
 		addModelParameter(request, model);
 		
 		model.addAttribute("siteId", siteId);
-		model.addAttribute("siteType", "2");
+		model.addAttribute("businessId", siteId);
+		model.addAttribute("siteType", 2);
 		
 		return url;
 	}
@@ -46,7 +47,7 @@ public class FrontPcController extends BaseController {
 	    
 	    model.addAttribute("siteId", siteId);
 		model.addAttribute("businessId", businessId);
-		model.addAttribute("siteType", "2");
+		model.addAttribute("siteType", 2);
 		
 		return url;
 	}

@@ -17,6 +17,7 @@ import org.springrain.frame.util.SerializeUtil;
  * @author caomei
  *
  */
+@Deprecated
 public class RedisShiroSessionDao extends AbstractSessionDAO {
 	public Logger logger = LoggerFactory.getLogger(getClass());
 	private String sessionprefix="ss-";

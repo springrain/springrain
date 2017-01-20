@@ -37,8 +37,10 @@ import org.springrain.frame.util.EntityInfo;
 import org.springrain.frame.util.ExcelUtils;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
+import org.springrain.frame.util.OpenOfficeKit;
 import org.springrain.frame.util.Page;
 import org.springrain.frame.util.ReturnDatas;
+import org.springrain.frame.util.SecUtils;
 import org.springrain.frame.util.SpringUtils;
 
 import freemarker.template.Template;
@@ -115,7 +117,38 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 		 getCache(cacheName).evict(key);
 	}
 	
+
+	@Override
+	public <T> T getByCache(String cacheName, String key, Class<T> clazz,Page page) throws Exception {
+		
+		T t = getByCache(cacheName,key, clazz);
+		
+		if(t==null){
+			return t;
+		}
+		
+		String pageKey=key+GlobalStatic.pageCacheExtKey;
+		Page p= getByCache(cacheName,pageKey, Page.class);
+		if(p!=null){
+			page=p;
+		}
+		return t;
+	}
 	
+	@Override
+	public void putByCache(String cacheName, String key, Object value,Page page) throws Exception {
+		
+		       putByCache(cacheName,key, value);
+		         
+		       if(page!=null){
+		    	   putByCache(cacheName,key+GlobalStatic.pageCacheExtKey, page);
+		       }
+	}
+	
+	public void evictByKey(String cacheName,String key,Page page)throws Exception{
+		 evictByKey(cacheName,key);
+		 evictByKey(cacheName,key+GlobalStatic.pageCacheExtKey);
+	}
 
 	@Override
 	public <T> List<T> queryForList(Finder finder, Class<T> clazz)
@@ -327,13 +360,12 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 		}
 		// excel转化
 		try {
-			String newuid = UUID.randomUUID().toString();
 			File excelnew = new File(GlobalStatic.tempRootpath + "/" + fileName
-					+ "/" + newuid + GlobalStatic.excelext);
-			org.springrain.frame.util.OpenOfficeKit.cvtXls(excelFile, excelnew);
+					+ "/" + SecUtils.getUUID() + GlobalStatic.excelext);
+			OpenOfficeKit.cvtXls(excelFile, excelnew);
 			return excelnew;
 		} catch (Exception e) {
-			logger.error(e.getLocalizedMessage());
+			logger.error(e.getMessage());
 		}
 		return excelFile;
 	}

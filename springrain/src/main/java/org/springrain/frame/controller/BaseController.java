@@ -254,6 +254,7 @@ public class BaseController extends BaseLogger {
 	
 	
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void addModelParameter(HttpServletRequest request,Model model){
 		Map<String,String[]> map=request.getParameterMap();  
 	    Set<Map.Entry<String,String[]>> keSet=map.entrySet();  

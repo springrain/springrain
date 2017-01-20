@@ -29,6 +29,7 @@ import org.springrain.frame.shiro.FrameAuthenticationToken;
 import org.springrain.frame.shiro.ShiroUser;
 import org.springrain.frame.util.CaptchaUtils;
 import org.springrain.frame.util.GlobalStatic;
+import org.springrain.frame.util.SecUtils;
 import org.springrain.system.entity.User;
 
 @Controller
@@ -75,9 +76,9 @@ public class LoginController extends BaseController  {
 			}
 			
 			
-			  String url=request.getParameter("url");
+			  String url=request.getParameter("gotourl");
 			  if(StringUtils.isNotBlank(url)){
-			     model.addAttribute("url", url);
+			     model.addAttribute("gotourl", url);
 			  }
 			
 			
@@ -112,7 +113,7 @@ public class LoginController extends BaseController  {
 				  submitCode=submitCode.toLowerCase().toString();
 			  }
 			  
-			  String url=request.getParameter("url");
+			  String gourl=request.getParameter("gotourl");
 			
 			  
 			  //如果验证码不匹配,跳转到登录
@@ -135,26 +136,26 @@ public class LoginController extends BaseController  {
 				user.login(token);
 			} catch (UnknownAccountException e) {
 				model.addAttribute("message", "账号不存在!");
-				if(StringUtils.isNotBlank(url)){
-					     model.addAttribute("url", url);
+				if(StringUtils.isNotBlank(gourl)){
+					     model.addAttribute("gotourl", gourl);
 			    }
 				return "/login";
 			} catch (IncorrectCredentialsException e) {
 				model.addAttribute("message", "密码错误!");
-				if(StringUtils.isNotBlank(url)){
-			  	     model.addAttribute("url", url);
+				if(StringUtils.isNotBlank(gourl)){
+			  	     model.addAttribute("gotourl", gourl);
 		        }
 				return "/login";
 			} catch (LockedAccountException e) {
 				model.addAttribute("message", e.getMessage());
-				if(StringUtils.isNotBlank(url)){
-			  	     model.addAttribute("url", url);
+				if(StringUtils.isNotBlank(gourl)){
+			  	     model.addAttribute("gotourl", gourl);
 		        }
 				return "/login";
 			} catch (Exception e) {
 				model.addAttribute("message", "未知错误,请联系管理员.");
-				if(StringUtils.isNotBlank(url)){
-			  	     model.addAttribute("url", url);
+				if(StringUtils.isNotBlank(gourl)){
+			  	     model.addAttribute("gotourl", gourl);
 		        }
 				return "/login";
 			}
@@ -174,13 +175,14 @@ public class LoginController extends BaseController  {
 			cache.put(currUser.getAccount(), session.getId());
 			*/
 			
-			if(StringUtils.isBlank(url)){
-				url="/index";
+			if(StringUtils.isBlank(gourl)){
+				gourl="/index";
 			}
 			
+			//设置tokenkey
+			session.setAttribute(GlobalStatic.tokeyKey, "f_"+SecUtils.getUUID());
 			
-			
-			return redirect+url;
+			return redirect+gourl;
 		}
 		
 		/**
@@ -191,9 +193,12 @@ public class LoginController extends BaseController  {
 		 */
 		@RequestMapping(value = "/unauth")
 		public String unauth(Model model) throws Exception {
+			/*
 			if(SecurityUtils.getSubject().isAuthenticated()==false){
 				return redirect+"/login";
 			}
+			*/
+			
 				return "/unauth";
 			
 		}
