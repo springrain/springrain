@@ -1,12 +1,13 @@
 package org.springrain.cms.service.impl;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.cache.annotation.Cacheable;
+import org.apache.shiro.util.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springrain.cms.entity.CmsLink;
 import org.springrain.cms.entity.CmsSite;
@@ -15,6 +16,7 @@ import org.springrain.cms.service.ICmsSiteService;
 import org.springrain.frame.common.SessionUser;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
+import org.springrain.frame.util.Page;
 import org.springrain.system.service.BaseSpringrainServiceImpl;
 import org.springrain.system.service.ITableindexService;
 
@@ -40,13 +42,35 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 	@Override
 	public Object saveorupdate(Object entity) throws Exception {
 		CmsSite cmsSite = (CmsSite) entity;
+		String siteId;
 		if(StringUtils.isBlank(cmsSite.getId())){
 			cmsSite.setUserId(SessionUser.getUserId());
-			return this.saveCmsSite(cmsSite);
+			siteId = this.saveCmsSite(cmsSite);
+			//清除站点下的站点列表缓存
 		}else{
-			return this.updateCmsSite(cmsSite);
+			siteId = this.updateCmsSite(cmsSite);
+		}
+		evictByKey("siteList", "'findListDataByFinder'");
+		return siteId;
+		
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> List<T> findListDataByFinder(Finder finder, Page page,
+			Class<T> clazz, Object queryBean) throws Exception {
+		List<CmsSite> siteList;
+		if(page.getPageIndex()==1){
+			siteList = getByCache("siteList", "'findListDataByFinder'", ArrayList.class);
+			if(CollectionUtils.isEmpty(siteList)){//缓存中没有
+				siteList =  super.findListDataByFinder(finder, page, CmsSite.class, queryBean);
+				putByCache("siteList", "'findListDataByFinder'", siteList);
+			}
+		}else{
+			siteList =  super.findListDataByFinder(finder, page, CmsSite.class, queryBean);
 		}
 		
+		return (List<T>) siteList;
 	}
 	
     @Override
@@ -121,14 +145,21 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 		 if(!uploaddir.exists()){
 			 uploaddir.mkdirs();
 		 }
-		      
+		 
+		 putByCache(id, "'findCmsSiteById_'+#"+id, cmsSite);
+		 
 		 return id;
 	 
 	}
 	
     @Override
 	public CmsSite findCmsSiteById(String id) throws Exception{
-	 return super.findById(id,CmsSite.class);
+    	CmsSite site = getByCache(id, "'findCmsSiteById_'+#"+id, CmsSite.class);
+    	if(site == null){
+    		site = super.findById(id,CmsSite.class);
+    		putByCache(id, "'findCmsSiteById_'+#"+id, site);
+    	}
+    	return site;
 	}
 
 
@@ -136,17 +167,17 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 	@Override
 	public String updateCmsSite(CmsSite cmsSite) throws Exception {
 		super.update(cmsSite,true);
-		
+		String siteId = cmsSite.getId();
+		evictByKey(siteId, "'findCmsSiteById_'+#"+siteId);
+		putByCache(siteId, "'findCmsSiteById_'+#"+siteId, cmsSite);
 		return null;
 	}
 
 	@Override
-	@Cacheable(value = GlobalStatic.cacheKey, key = "'findSiteTypeById_'+#siteId")
 	public Integer findSiteTypeById(String siteId) throws Exception {
 		if(StringUtils.isBlank(siteId)){
 			return null;
 		}
-		
 		Finder finder=Finder.getSelectFinder(CmsSite.class, "siteType").append(" WHERE id=:siteId ");
 		finder.setParam("siteId", siteId);
 		
@@ -160,5 +191,4 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 		return super.queryForList(finder, CmsSite.class);
 	}
 	
-
 }

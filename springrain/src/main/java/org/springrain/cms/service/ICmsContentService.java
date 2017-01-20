@@ -43,14 +43,4 @@ public interface ICmsContentService extends IBaseSpringrainService {
 	 * @throws Exception 
 	 */
 	List<CmsContent> findContentByChannelId(String channelId, Page page) throws Exception;
-
-	/**
-	 * 根据栏目id和内容id查找内容
-	 * @param channelId
-	 * @param contentId
-	 * @return
-	 * @throws Exception 
-	 */
-	CmsContent findCmsContentByChannelAndContentId(String channelId,
-			String contentId) throws Exception;
 }

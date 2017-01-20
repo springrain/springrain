@@ -163,8 +163,11 @@ public class SystemLoginController extends BaseController  {
 				gotourl="/system/index";
 			}
 			//设置tokenkey
-			session.setAttribute(GlobalStatic.tokeyKey, "system_"+SecUtils.getUUID());
-			
+			String springraintoken="system_"+SecUtils.getUUID();
+			session.setAttribute(GlobalStatic.tokeyKey, springraintoken);
+			if(!gotourl.contains(GlobalStatic.tokeyKey)){
+				model.addAttribute(GlobalStatic.tokeyKey,springraintoken);
+			}
 			
 			return redirect+gotourl;
 		}

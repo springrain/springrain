@@ -2,8 +2,18 @@
  * springrain   javascript 封装
  */
 (function($){
-	var _that=$.springrain;
 	$.springrain={
+			token:springraintoken,
+			appendToken:function(_url){
+				var _that=this;
+				if(!_url)return;
+				if(_url.indexOf("springraintoken")!=-1)return _url;
+				if(_url.indexOf("?")!=-1){
+					return _url+"&springraintoken="+_that.token;
+				}else{
+					return _url+"?springraintoken="+_that.token;
+				}
+			},
 			/**
 			 * 跳转
 			 * @param _url 要跳转的URL
@@ -64,6 +74,8 @@
 			 */
 			initValid:function(_before,_after){
 				var index = null;
+				var _that=this;
+				jQuery("#validForm").append("<input type='hidden' name='springraintoken' value='"+_that.token+"'/>");
 				var _form=jQuery("#validForm").Validform({
 					btnSubmit:"#smtbtn", 
 					btnReset:"#rstbtn",
@@ -229,6 +241,7 @@
 				if(!msg){
 					msg="操作成功!";
 				}
+				mydata.springraintoken=_that.token;
 				jQuery.ajax({
 					url :pageurl, 
 				    type :"post",
