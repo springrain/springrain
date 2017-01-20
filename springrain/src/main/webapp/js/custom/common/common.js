@@ -1,5 +1,16 @@
 $(document).ready(function(){
-	
+	jQuery.ajaxSetup({
+		beforeSend:function(e){
+			var _that=this;
+			var _url=_that.url;
+			if(_url.indexOf("springraintoken")!=-1)return;
+			if(_url.indexOf("?")!=-1){
+				_that.url= _url+"&springraintoken="+springraintoken;
+			}else{
+				_that.url= _url+"?springraintoken="+springraintoken;
+			}
+		}
+	});
 	//初始化插件
 	configLayui("global");
 	//加载菜单
@@ -7,7 +18,6 @@ $(document).ready(function(){
 	init_sort_btn();
 	init_button_action();
 });
-
 function loadMenu(){
 	//加载菜单
     if(!(!!locache.get("menuData"))){//没有数据
