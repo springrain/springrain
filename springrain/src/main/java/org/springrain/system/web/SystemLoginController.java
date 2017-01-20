@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springrain.frame.controller.BaseController;
 import org.springrain.frame.shiro.FrameAuthenticationToken;
 import org.springrain.frame.util.GlobalStatic;
+import org.springrain.frame.util.SecUtils;
 import org.springrain.system.entity.User;
 
 @Controller
@@ -62,9 +63,9 @@ public class SystemLoginController extends BaseController  {
 			}
 			//默认赋值message,避免freemarker尝试从session取值,造成异常
 			model.addAttribute("message", "");
-			  String url=request.getParameter("url");
+			  String url=request.getParameter("gotourl");
 			  if(StringUtils.isNotBlank(url)){
-			     model.addAttribute("url", url);
+			     model.addAttribute("gotourl", url);
 			  }
 			
 			
@@ -98,7 +99,7 @@ public class SystemLoginController extends BaseController  {
 			  if(StringUtils.isNotBlank(submitCode)){
 				  submitCode=submitCode.toLowerCase().toString();
 			  }
-			  String url=request.getParameter("url");
+			  String gotourl=request.getParameter("gotourl");
 			  //如果验证码不匹配,跳转到登录
 			if (StringUtils.isBlank(submitCode) ||StringUtils.isBlank(code)||!code.equals(submitCode)) {
 				model.addAttribute("message", "验证码错误!");
@@ -119,26 +120,26 @@ public class SystemLoginController extends BaseController  {
 				user.login(token);
 			} catch (UnknownAccountException uae) {
 				model.addAttribute("message", "账号不存在!");
-				 if(StringUtils.isNotBlank(url)){
-				     model.addAttribute("url", url);
+				 if(StringUtils.isNotBlank(gotourl)){
+				     model.addAttribute("gotourl", gotourl);
 				  }
 				return "/system/login";
 			} catch (IncorrectCredentialsException ice) {
 				model.addAttribute("message", "密码错误!");
-				 if(StringUtils.isNotBlank(url)){
-				     model.addAttribute("url", url);
+				 if(StringUtils.isNotBlank(gotourl)){
+				     model.addAttribute("gotourl", gotourl);
 				  }
 				return "/system/login";
 			} catch (LockedAccountException lae) {
 				model.addAttribute("message", "账号被锁定!");
-				 if(StringUtils.isNotBlank(url)){
-				     model.addAttribute("url", url);
+				 if(StringUtils.isNotBlank(gotourl)){
+				     model.addAttribute("gotourl", gotourl);
 				  }
 				return "/system/login";
 			} catch (Exception e) {
 				model.addAttribute("message", "未知错误,请联系管理员.");
-				 if(StringUtils.isNotBlank(url)){
-				     model.addAttribute("url", url);
+				 if(StringUtils.isNotBlank(gotourl)){
+				     model.addAttribute("gotourl", gotourl);
 				  }
 				return "/system/login";
 			}
@@ -158,13 +159,17 @@ public class SystemLoginController extends BaseController  {
 			cache.put(currUser.getAccount(), session.getId());
 			*/
 			
-			if(StringUtils.isBlank(url)){
-				url="/system/index";
+			if(StringUtils.isBlank(gotourl)){
+				gotourl="/system/index";
+			}
+			//设置tokenkey
+			String springraintoken="system_"+SecUtils.getUUID();
+			session.setAttribute(GlobalStatic.tokeyKey, springraintoken);
+			if(!gotourl.contains(GlobalStatic.tokeyKey)){
+				model.addAttribute(GlobalStatic.tokeyKey,springraintoken);
 			}
 			
-			
-			
-			return redirect+url;
+			return redirect+gotourl;
 		}
 		
 	

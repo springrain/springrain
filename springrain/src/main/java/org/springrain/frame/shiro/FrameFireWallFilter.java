@@ -61,6 +61,13 @@ public class FrameFireWallFilter extends OncePerRequestFilter {
 	    	return;
 	    }
 	    
+	    //设置编码
+	   if( request.getCharacterEncoding() == null){
+		   request.setCharacterEncoding(GlobalStatic.defaultCharset);
+	   }
+	    
+	    
+	    
 	    //次数小于0,认为不限制
 	    if(firewallLockCount<0){
 	        chain.doFilter(req, res);

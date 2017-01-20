@@ -69,6 +69,7 @@ function ajaxmenu() {
     jQuery.ajax({
         url : ctx + "/system/menu/leftMenu",
         type : "post",
+        data:{"springraintoken":springraintoken},
         cache : false,
         async : false,
         scriptCharset : "utf-8",
@@ -101,10 +102,10 @@ function buildModule(data) {
             }
             url = ctx + url;
             if((data[i].id == naviMenuId) || (!(!!naviMenuId) && i==0)){//url中有第一个菜单的键值
-                htmlStr += '<li id="pmenu'+data[i].id+'" class="layui-nav-item layui-this"><a href="'+url+'">'+data[i].name+'</a></li>';
+                htmlStr += '<li id="pmenu'+data[i].id+'" class="layui-nav-item layui-this"><a data-action="'+url+'">'+data[i].name+'</a></li>';
                 childrenMenuList = data[i]['leaf'];
             }else{
-                htmlStr += '<li id="pmenu'+data[i].id+'" class="layui-nav-item"><a href="'+url+'">'+data[i].name+'</a></li>';
+                htmlStr += '<li id="pmenu'+data[i].id+'" class="layui-nav-item"><a data-action="'+url+'">'+data[i].name+'</a></li>';
             }
         }
         $("#naviHeaderMenu").html(htmlStr);
@@ -131,7 +132,7 @@ function getParentModule(childrenMenuList) {
             htmlStr = htmlStr+ ' javascript:;"> <i class="layui-icon">'+childrenMenuList[i].menuIcon+'</i><cute>'+childrenMenuList[i].name+'</cute></a>';
             htmlStr = htmlStr+getChindModule(_leaf);
         }else{
-        	htmlStr += '<li class="layui-nav-item '+showItem+'" id="'+childrenMenuList[i].id+'"><a href="';
+        	htmlStr += '<li class="layui-nav-item '+showItem+'" id="'+childrenMenuList[i].id+'"><a data-action="';
         	 var url = childrenMenuList[i].pageurl;
              var tmpData = childrenMenuList[i]['leaf'][0];
              while(!!tmpData){
@@ -304,7 +305,12 @@ function  init_sort_btn(){
 	});
 }
 function init_button_action(){
-	jQuery("button[data-action]").bind("click",function(){window.location.href=jQuery(this).attr("data-action")});
+	jQuery("button[data-action]").bind("click",function(){
+		window.location.href=springrain.appendToken(jQuery(this).attr("data-action"))
+	});
+	jQuery("a[data-action]").bind("click",function(){
+		window.location.href=springrain.appendToken(jQuery(this).attr("data-action"))
+	});
 }
 
 

@@ -68,6 +68,8 @@
 		depends-on="frameperms">
 		<!-- 安全管理器 -->
 		<property name="securityManager" ref="securityManager" />
+		
+		 <property name="unauthorizedUrl" value="/unauth"/>
 	
 		<!-- 访问地址的过滤规则,从上至下,从左至右的优先级,如果有匹配的规则,就会返回,不会再进行匹配 -->
 		<property name="filterChainDefinitions">
@@ -86,11 +88,11 @@
 				
 				/wx/**=firewall
 				
-				/f/2/** = anon
+				/f/2/** = firewall
 				/f/0/** = firewall,wxmpautologin
 				
 				
-				/unauth = firewall
+				/unauth = firewall,user
 				/system/unauth = firewall
 				
 				/getCaptcha=firewall
@@ -103,10 +105,7 @@
 				/system/index =firewall,systemuser,framefwlog,keepone
 				/logout = firewall,logout
 				
-				
-				
 			
-				/servlet/fileupload=firewall,user
 				/system/menu/leftMenu=firewall,systemuser,keepone
 				
 				/system/**=firewall,systemuser,framefwlog,keepone
