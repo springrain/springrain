@@ -21,9 +21,11 @@ import org.springrain.cms.service.ICmsChannelService;
 import org.springrain.cms.service.ICmsContentService;
 import org.springrain.cms.service.ICmsLinkService;
 import org.springrain.cms.service.ICmsSiteService;
+import org.springrain.cms.utils.SiteUtils;
 import org.springrain.frame.common.SessionUser;
 import org.springrain.frame.controller.BaseController;
 import org.springrain.frame.util.GlobalStatic;
+import org.springrain.frame.util.JsoupUtils;
 import org.springrain.frame.util.Page;
 import org.springrain.frame.util.ReturnDatas;
 import org.springrain.frame.util.property.MessageUtils;
@@ -148,6 +150,10 @@ public class CmsContentController  extends BaseController {
 	ReturnDatas saveorupdate(Model model,CmsContent cmsContent,HttpServletRequest request,HttpServletResponse response) throws Exception{
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		returnObject.setMessage(MessageUtils.UPDATE_SUCCESS);
+		
+		
+		String content=cmsContent.getContent();
+		cmsContent.setContent(JsoupUtils.filterUserInputContent(content, SiteUtils.getBaseURL(request)));
 		try {
 			java.lang.String id =cmsContent.getId();
 			if(StringUtils.isBlank(id)){

@@ -9,7 +9,6 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.springrain.frame.annotation.WhereSQL;
 import org.springrain.frame.entity.BaseEntity;
-import org.springrain.frame.util.JsoupUtils;
 /**
  * TODO 在此加入类描述
  * @copyright {@link weicms.net}
@@ -215,7 +214,7 @@ public class CmsContent  extends BaseEntity {
 	}
 	public void setContent(java.lang.String value) {
 		    if(StringUtils.isNotBlank(value)){
-			 value=JsoupUtils.filterUserInputContent(value);
+		    	value=value.trim();
 			}
 		this.content = value;
 	}

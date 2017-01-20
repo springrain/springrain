@@ -6,7 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 
 public class SiteUtils {
 	
-	public static String getSiteURLPath(HttpServletRequest request){
+	public static String getBaseURL(HttpServletRequest request){
 		String path = request.getContextPath(); 
 		if("/".equals(path)){
 			path="";
