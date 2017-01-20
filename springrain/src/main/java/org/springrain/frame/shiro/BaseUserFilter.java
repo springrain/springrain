@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.web.filter.authc.UserFilter;
 import org.apache.shiro.web.util.WebUtils;
+import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.JsonUtils;
 import org.springrain.frame.util.ReturnDatas;
 
@@ -66,7 +67,8 @@ public class BaseUserFilter extends UserFilter {
 			     return false;
 			    }
 		     
-		     
+		     //跳转前 清除 参数
+		     request.removeAttribute(GlobalStatic.tokeyKey);
 		     //正常http请求
 	         String loginUrl= getLoginUrl();	
 	         StringBuffer url=req.getRequestURL();
