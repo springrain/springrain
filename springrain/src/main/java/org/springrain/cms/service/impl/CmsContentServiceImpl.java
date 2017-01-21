@@ -16,6 +16,7 @@ import org.springrain.cms.service.ICmsContentService;
 import org.springrain.cms.service.ICmsLinkService;
 import org.springrain.cms.service.ICmsSiteService;
 import org.springrain.frame.util.Finder;
+import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.Page;
 import org.springrain.system.service.BaseSpringrainServiceImpl;
 import org.springrain.system.service.ITableindexService;
@@ -50,10 +51,10 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 			Class<T> clazz, Object queryBean) throws Exception {
 		List<CmsContent> contentList;
 		if(page.getPageIndex()==1){
-			contentList = getByCache("contentList", "'findListDataByFinder'", List.class);
+			contentList = getByCache(GlobalStatic.cacheKey, "cmsContentService_findListDataByFinder", List.class,page);
 			if(CollectionUtils.isEmpty(contentList)){
 				contentList = super.findListDataByFinder(finder, page, CmsContent.class, queryBean);
-				putByCache("contentList", "'findListDataByFinder'", contentList);
+				putByCache(GlobalStatic.cacheKey, "cmsContentService_findListDataByFinder", contentList,page);
 			}
 		}else{
 			contentList = super.findListDataByFinder(finder, page, CmsContent.class, queryBean);
