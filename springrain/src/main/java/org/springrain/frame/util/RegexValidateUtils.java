@@ -255,7 +255,7 @@ public class RegexValidateUtils {
 				  
 			  }
 		  
-		  System.out.println(countSql);
+		 // System.out.println(countSql);
 		
 	}
 }
