@@ -71,16 +71,16 @@ public class SpringUtils  implements ApplicationContextAware {
 	
 	private void initEntityInfo() throws Exception{
 
-		String name= BaseEntity.class.getName();
-		String[] names=name.split("\\.");
+		String basePathName= BaseEntity.class.getName();
+		String[] basePaths=basePathName.split("\\.");
 		
 		String classPath="**/*.class";
 		
-		if(names==null||names.length<2){
+		if(basePaths==null||basePaths.length<2){
 			return;
 		}
 		
-	    String packagePath=names[0]+"/"+names[1]+"/";
+	    String packagePath=basePaths[0]+"/"+basePaths[1]+"/";
 	    classPath=packagePath+classPath;
 		
 		PathMatchingResourcePatternResolver pmrpr=new PathMatchingResourcePatternResolver();
