@@ -116,7 +116,7 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 	    cmsLinkService.save(cmsLink);
 	    
 	    //清除缓存
-	    evictByKey(cmsContent.getChannelId(), "'findContentByChannelId_'#"+cmsContent.getChannelId());
+	    evictByKey(siteId, "'findContentByChannelId_'#"+siteId+"_#"+cmsContent.getChannelId());
 	    evictByKey(siteId, "'findListBySiteId_'#"+siteId);
 	    //添加新缓存
 	    putByCache(siteId, "'findCmsContentById_'+#"+id, cmsContent);
@@ -131,7 +131,7 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
     	}
 		//清除缓存
 		evictByKey("contentList", "'findListDataByFinder'");//清空后台列表缓存
-		evictByKey(cmsContent.getChannelId(), "'findContentByChannelId_'#"+cmsContent.getChannelId());
+		evictByKey(cmsContent.getSiteId(), "'findContentByChannelId_'#"+cmsContent.getSiteId()+"_#"+cmsContent.getChannelId());
 	    evictByKey(cmsContent.getSiteId(), "'findListBySiteId_'#"+cmsContent.getSiteId());
 	    evictByKey(cmsContent.getSiteId(), "'findCmsContentById_'+#"+cmsContent.getId());
 	    
@@ -166,15 +166,15 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<CmsContent> findContentByChannelId(String channelId, Page page) throws Exception {
+	public List<CmsContent> findContentByChannelId(String siteId,String channelId, Page page) throws Exception {
 		List<CmsContent> contentList;
 		if(page.getPageIndex()==1){
-			contentList = getByCache(channelId, "'findContentByChannelId_'#"+channelId, List.class);
+			contentList = getByCache(siteId, "'findContentByChannelId_'#"+siteId+"_#"+channelId, List.class);
 			if(CollectionUtils.isEmpty(contentList)){
 				Finder finder = new Finder("SELECT c.*,d.link FROM cms_channel a INNER JOIN cms_channel_content b ON a.id=b.channelId INNER JOIN cms_content c ON c.id=b.contentId INNER JOIN cms_link d ON c.id=d.businessId WHERE a.id=:channelId");
 				finder.setParam("channelId", channelId);
 				contentList = super.queryForList(finder, CmsContent.class, page);
-				putByCache(channelId, "'findContentByChannelId_'#"+channelId, contentList);
+				putByCache(siteId, "'findContentByChannelId_'#"+siteId+"_#"+channelId, contentList);
 			}
 		}else{
 			Finder finder = new Finder("SELECT c.*,d.link FROM cms_channel a INNER JOIN cms_channel_content b ON a.id=b.channelId INNER JOIN cms_content c ON c.id=b.contentId INNER JOIN cms_link d ON c.id=d.businessId WHERE a.id=:channelId");
