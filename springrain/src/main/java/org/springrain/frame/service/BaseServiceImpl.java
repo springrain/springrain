@@ -123,9 +123,9 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 		
 		T t = getByCache(cacheName,key, clazz);
 		
-		if(t==null){
-			return t;
-		}
+		//if(t==null){
+		//	return t;
+		//}
 		
 		String pageKey=key+GlobalStatic.pageCacheExtKey;
 		Page p= getByCache(cacheName,pageKey, Page.class);
