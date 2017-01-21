@@ -1,10 +1,15 @@
 
 package org.springrain.frame.util;
 
+import java.net.URI;
+
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Component;
+import org.springrain.frame.entity.BaseEntity;
 
 /**
 * Spring 工具类
@@ -26,6 +31,15 @@ public class SpringUtils  implements ApplicationContextAware {
 	@Override
 	public void setApplicationContext(ApplicationContext context) throws BeansException {
 		this.applicationContext=context;
+		
+		try {
+				initEntityInfo();
+		} catch (Exception e) {
+				e.printStackTrace();
+		}
+		
+		System.out.println("----------------------started------------------- ");
+		
 	}
 	/**
 	 * 根据beanName 获取 spring bean
@@ -52,6 +66,42 @@ public class SpringUtils  implements ApplicationContextAware {
 	 */
 	public static ApplicationContext getContext() {
 		return applicationContext;
+	}
+	
+	
+	private void initEntityInfo() throws Exception{
+
+		String name= BaseEntity.class.getName();
+		String[] names=name.split("\\.");
+		
+		String classPath="**/*.class";
+		
+		if(names==null||names.length<2){
+			return;
+		}
+		
+	    String packagePath=names[0]+"/"+names[1]+"/";
+	    classPath=packagePath+classPath;
+		
+		PathMatchingResourcePatternResolver pmrpr=new PathMatchingResourcePatternResolver();
+		Resource[] resources = pmrpr.getResources(PathMatchingResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX+classPath);
+		
+		
+		for (Resource resource:resources) {
+			
+			URI uri = resource.getURI();
+			String entityClassName=uri.toString();
+			
+			entityClassName=entityClassName.substring(entityClassName.lastIndexOf(packagePath), entityClassName.lastIndexOf(".class"));
+			entityClassName=entityClassName.replaceAll("/", ".");
+			
+			Class clazz=Class.forName(entityClassName);
+			ClassUtils.getEntityInfoByClass(clazz);
+			
+		}
+		
+		
+		
 	}
 	
 
