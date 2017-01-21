@@ -44,7 +44,7 @@ public class ContentListDirective  extends AbstractCMSDirective  {
 			if(type.equals("0")){//查询站点首页下的内容
 				contentList = cmsContentService.findListBySiteId(getSiteId(), page);
 			}else if (type.equals("1")){//查询栏目下的内容
-				contentList = cmsContentService.findContentByChannelId(getBusinessId(), page);
+				contentList = cmsContentService.findContentByChannelId(getSiteId(),getBusinessId(), page);
 			}else{
 				//目前暂时没有其它类型，先占位
 				contentList = new ArrayList<>();
