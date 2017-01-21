@@ -27,6 +27,9 @@ public class Finder {
     //设置总条数查询的finder
     private Finder countFinder=null;
     
+    //默认进行sql编码,处理字符串的拼接注入
+    private boolean escapeSql=true;
+    
     
     public Finder(){}
     
@@ -157,10 +160,16 @@ public class Finder {
 	}
 	*/
 
-	public String getSql() {
+	public String getSql() throws Exception {
 		if(sql==null)
 			return null;
-		return sql.toString();
+		
+		
+		String _sql=sql.toString();
+		if(isEscapeSql()&&_sql.contains("'")){
+			throw new Exception("Please do not splice the SQL statement!!!");
+		}
+		return _sql;
 	}
 
 	public void setSql(String sql) {
@@ -210,6 +219,14 @@ public class Finder {
 
 	public void setCountFinder(Finder countFinder) {
 		this.countFinder = countFinder;
+	}
+
+	public boolean isEscapeSql() {
+		return escapeSql;
+	}
+
+	public void setEscapeSql(boolean escapeSql) {
+		this.escapeSql = escapeSql;
 	}
 
 }

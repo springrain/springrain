@@ -227,7 +227,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 	}
 
 	@Override
-	public List<Map<String, Object>> queryForList(Finder finder) {
+	public List<Map<String, Object>> queryForList(Finder finder) throws Exception {
 		// 打印sql
 		logInfoSql(finder.getSql());
 		return getReadJdbc().queryForList(finder.getSql(), finder.getParams());
