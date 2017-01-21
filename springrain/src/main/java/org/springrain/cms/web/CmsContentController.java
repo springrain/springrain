@@ -25,7 +25,7 @@ import org.springrain.cms.utils.SiteUtils;
 import org.springrain.frame.common.SessionUser;
 import org.springrain.frame.controller.BaseController;
 import org.springrain.frame.util.GlobalStatic;
-import org.springrain.frame.util.JsoupUtils;
+import org.springrain.frame.util.InputSafeUtils;
 import org.springrain.frame.util.Page;
 import org.springrain.frame.util.ReturnDatas;
 import org.springrain.frame.util.property.MessageUtils;
@@ -153,7 +153,7 @@ public class CmsContentController  extends BaseController {
 		
 		
 		String content=cmsContent.getContent();
-		cmsContent.setContent(JsoupUtils.filterUserInputContent(content, SiteUtils.getBaseURL(request)));
+		cmsContent.setContent(InputSafeUtils.filterRichTextContent(content, SiteUtils.getBaseURL(request)));
 		try {
 			java.lang.String id =cmsContent.getId();
 			if(StringUtils.isBlank(id)){
