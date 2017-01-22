@@ -37,7 +37,7 @@
 		 @_before:提交表单前，调用 的函数   可以为空，一般有validform处理不了，独自进行处理时使用
 		 @_after:保存成功后，调用的函数  可以为空，一般为对应的列表页面
 		 */
-		 springrain.initValid(null,function(){window.location.href="${ctx}/system/role/list"});
+		 springrain.initValid(null,function(){window.location.href="${ctx}/system/role/list?springraintoken="+springraintoken});
 	 });
 </script>
 <script type="text/javascript">
@@ -200,38 +200,6 @@
 																					<option value="2">业务岗位</option>
 																				</optgroup>
 																			</select>
-																		</div>
-																		<div class="layui-inline valid-info"></div>
-																	</div>
-																	<div class="layui-form-item col-lg-6">
-																		<label class="layui-form-label">管理部门*</label>
-																		<div class="layui-inline col-lg-5">  
-																			 <table class="layui-table">
-																				 	<colgroup>
-																			    		<col width="">
-																				    	<col width="80">
-																			  		</colgroup>
-																			  		<thead>
-																						<tr>
-																							<th>部门名称</th>
-																							<th>是否含下级</th>
-																						</tr>
-																					</thead>
-																					<tbody>
-																						<tr>
-																							<td><input type="text" id="orgId_01" name="orgIds" placeholder="先复制ID" class="layui-input"></td>
-																							<td><input type="checkbox"></td>
-																						</tr>
-																						<tr>
-																							<td><input type="text" id="orgId_01" name="orgIds" placeholder="先复制ID"  class="layui-input"></td>
-																							<td><input type="checkbox"></td>
-																						</tr>
-																						<tr>
-																							<td><input type="text" id="orgId_01" name="orgIds" placeholder="先复制ID"  class="layui-input"></td>
-																							<td><input type="checkbox"></td>
-																						</tr>
-																					</tbody>
-																				</table>
 																		</div>
 																		<div class="layui-inline valid-info"></div>
 																	</div>

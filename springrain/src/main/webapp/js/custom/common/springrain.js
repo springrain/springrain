@@ -19,8 +19,9 @@
 			 * @param _url 要跳转的URL
 			 */
 			goTo:function(_url){
+				var _that=this;
 				if(!_url)return;
-				location.href=_url;
+				location.href=this.appendToken(_url);
 			},
 			/**
 			 * 删除
@@ -30,6 +31,7 @@
 			 * @param _redirect	删除成功，回跳的URL，传NULL默认会刷新当前页面
 			 */
 			mydelete:function(_id,_url,_tips,_redirect){
+				var _that=this;
 				if(!_url)return;
 				var _pars=null;
 				if(_id){
@@ -50,7 +52,7 @@
 									  time: 2000 //2秒关闭（如果不配置，默认是3秒）
 									}, function(){
 										if(_redirect){
-											window.location.href=_redirect;
+											_that.goTo(_redirect);
 										}else{
 											window.location.reload();
 										}

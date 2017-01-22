@@ -56,10 +56,6 @@ public class Org  extends BaseEntity {
 	 */
 	private java.lang.String pid;
 	/**
-	 * 子系统ID
-	 */
-	private java.lang.String sysid;
-	/**
 	 * 0,组织机构 1.部门,2.虚拟部门
 	 */
 	private java.lang.Integer orgType;
@@ -79,19 +75,6 @@ public class Org  extends BaseEntity {
 	 * 0.失效 1.有效
 	 */
 	private java.lang.Integer active;
-	
-	/**
-	 * 主管Id
-	 */
-	private String managerRoleId;
-	//columns END 数据库字段结束
-	
-	
-
-	
-	private String managerName;
-	
-	
 	
 	private List<Org> leafOrg;
 	
@@ -140,14 +123,6 @@ public class Org  extends BaseEntity {
 	public java.lang.String getPid() {
 		return this.pid;
 	}
-	public void setSysid(java.lang.String value) {
-		this.sysid = value;
-	}
-	
-     @WhereSQL(sql="sysid=:Org_sysid")
-	public java.lang.String getSysid() {
-		return this.sysid;
-	}
 	public void setOrgType(java.lang.Integer value) {
 		this.orgType = value;
 	}
@@ -188,14 +163,6 @@ public class Org  extends BaseEntity {
 	public Integer getActive() {
 		return this.active;
 	}
-     @WhereSQL(sql="managerRoleId=:Org_managerRoleId")
-    public String getManagerRoleId() {
- 		return managerRoleId;
- 	}
-
- 	public void setManagerRoleId(String managerId) {
- 		this.managerRoleId = managerId;
- 	}
 
 	public String toString() {
 		return new StringBuffer()
@@ -203,7 +170,6 @@ public class Org  extends BaseEntity {
 			.append("名称[").append(getName()).append("],")
 			.append("代码[").append(getComcode()).append("],")
 			.append("上级部门ID[").append(getPid()).append("],")
-			.append("子系统ID[").append(getSysid()).append("],")
 			.append("0,组织机构 1.部门,2虚拟部门[").append(getOrgType()).append("],")
 			.append("叶子节点(0:树枝节点;1:叶子节点)[").append(getLeaf()).append("],")
 			.append("排序号[").append(getSortno()).append("],")
@@ -234,16 +200,6 @@ public class Org  extends BaseEntity {
 
 	public void setLeafOrg(List<Org> leafOrg) {
 		this.leafOrg = leafOrg;
-	}
-
-	
-	@Transient
-	public String getManagerName() {
-		return managerName;
-	}
-
-	public void setManagerName(String managerName) {
-		this.managerName = managerName;
 	}
 }
 
