@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,7 @@ import org.springrain.system.entity.User;
 import org.springrain.system.entity.UserOrg;
 import org.springrain.system.service.BaseSpringrainServiceImpl;
 import org.springrain.system.service.IOrgService;
+import org.springrain.system.service.ITableindexService;
 
 /**
  * TODO 在此加入类描述
@@ -26,11 +29,13 @@ import org.springrain.system.service.IOrgService;
 @Service("orgService")
 public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgService {
 
-   
+    @Resource
+    private ITableindexService tableindexService;
     @Override
 	public String  saveOrg(Org entity) throws Exception{
     	
-    	   String id=SecUtils.getUUID();
+    	  // String id=SecUtils.getUUID();
+    	  String id=tableindexService.updateNewId(Org.class);
     	   entity.setId(id);
     	   
     	   String comcode= findOrgNewComcode(id, entity.getPid());

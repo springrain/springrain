@@ -126,8 +126,7 @@ description="springrain开源系统管理后台"/>
 					//console.log(result);
 					for ( var s in result) {
 						set_val(s, result[s]);
-					}
-
+					}				
 					var _pid = result["pid"];
 					if ((!_pid) || _pid == null || _pid == "null" || _pid == "") {
 						jQuery("#pid").val("");
@@ -180,9 +179,9 @@ description="springrain开源系统管理后台"/>
 					}
 					var listurl = '${ctx}/system/menu/list';
 					if (i == 0) {
-						commonSaveForm("updateForm", listurl, msg);
+						springrain.commonSaveForm("updateForm",listurl, '菜单添加成功！');
 					} else {
-						commonUpdateForm("updateForm", listurl, msg);
+						springrain.commonUpdateForm("updateForm",listurl, '菜单更新成功！');
 					}
 
 				}
