@@ -24,6 +24,7 @@ import org.springrain.frame.util.property.MessageUtils;
 import org.springrain.system.entity.Org;
 import org.springrain.system.entity.Role;
 import org.springrain.system.entity.User;
+import org.springrain.system.entity.UserOrg;
 import org.springrain.system.service.IUserService;
 
 /**
@@ -179,6 +180,20 @@ public class UserController extends BaseController {
 				}
 			}
 			user.setUserRoles(listRole);
+			
+			//处理管理的部门  韩彦阳   开始
+			String[]  managerOrgNames= request.getParameterValues("managerOrgNames");
+			String[] managerOrgIds = request.getParameterValues("managerOrgIds");
+			String[] hasleafs = request.getParameterValues("hasleaf");
+			if(managerOrgNames!=null&&managerOrgIds!=null&&managerOrgIds.length==managerOrgNames.length){
+				List<UserOrg> managerOrgs=new ArrayList<UserOrg>();
+				UserOrg managerOrg=null;
+				for(int i=0;i<managerOrgIds.length;i++){
+					managerOrg=new UserOrg();
+					managerOrg.setId(managerOrgIds[i]);
+				}
+			}
+			//处理管理的部门  韩彦阳  结束
 			if (StringUtils.isBlank(id)) {
 				user.setId(null);
 				userService.saveUser(user);

@@ -336,6 +336,7 @@
 				}, function() {
 					if (fun&&typeof fun =="function") {
 						fun();
+						layer.closeAll();
 					}
 				}, function() {
 
