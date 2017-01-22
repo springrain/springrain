@@ -30,7 +30,6 @@ public class FrontBaseController extends BaseController {
 			model.addAttribute("siteType", siteType);
 			
 			
-			
 			if(link==null||jumpType==null||jumpType==0){
 				return ftlFile;
 			}else if(jumpType==1){
@@ -40,7 +39,6 @@ public class FrontBaseController extends BaseController {
 			}
 			
 			return ftlFile;
-			
 	}
 	
 

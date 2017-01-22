@@ -11,7 +11,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.Page;
-import org.springrain.frame.util.SecUtils;
 import org.springrain.system.entity.Org;
 import org.springrain.system.entity.User;
 import org.springrain.system.entity.UserOrg;
@@ -106,6 +105,7 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
 	 * @throws Exception
 	 */
 	
+	@SuppressWarnings("unused")
 	private void updateOrgManager(String orgId,String managerId) throws Exception{
 		/*此方法不在用。
 		 * 部门没有主管，只要主管角色相关联
@@ -152,7 +152,7 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
     		return org;
     	}
     	
-    	User u=list.get(0);
+    	//User u=list.get(0);
     	
 	 return org;
 	}
