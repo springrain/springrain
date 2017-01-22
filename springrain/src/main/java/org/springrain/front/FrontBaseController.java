@@ -17,7 +17,7 @@ public class FrontBaseController extends BaseController {
 	public  String jump( String siteId,String businessId,Integer siteType,HttpServletRequest request, Model model) 
 			throws Exception {
 		
-		    CmsLink  cmsLink = cmsLinkService.findLinkBySiteBusinessId(siteId,siteId);
+		    CmsLink  cmsLink = cmsLinkService.findLinkBySiteBusinessId(siteId,businessId);
 		    
 		    String link=cmsLink.getLink();
 		    String ftlFile=cmsLink.getFtlfile();

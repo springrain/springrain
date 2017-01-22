@@ -54,7 +54,7 @@ public class TestClassUtils {
 			entityClassName=entityClassName.substring(entityClassName.lastIndexOf(packagePath), entityClassName.lastIndexOf(".class"));
 			entityClassName=entityClassName.replaceAll("/", ".");
 			
-			Class clazz=Class.forName(entityClassName);
+			Class<?> clazz=Class.forName(entityClassName);
 			//ClassUtils.getEntityInfoByClass(clazz);
 			System.out.println(clazz.getName());
 			
