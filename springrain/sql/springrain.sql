@@ -380,6 +380,7 @@ CREATE TABLE `t_tableindex` (
 INSERT INTO `t_tableindex` VALUES ('cms_channel', '1001', 'h_', null, null, null, null, null);
 INSERT INTO `t_tableindex` VALUES ('cms_content', '10001', 'c_', null, null, null, null, null);
 INSERT INTO `t_tableindex` VALUES ('cms_site', '101', 's_', null, null, null, null, null);
+INSERT INTO `t_tableindex` VALUES ('t_org', '1000', 'o_', NULL, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for t_user
