@@ -14,6 +14,7 @@ import org.springrain.cms.service.ICmsChannelService;
 import org.springrain.cms.service.ICmsLinkService;
 import org.springrain.cms.service.ICmsSiteService;
 import org.springrain.frame.util.Finder;
+import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.Page;
 import org.springrain.system.service.BaseSpringrainServiceImpl;
 import org.springrain.system.service.ITableindexService;
@@ -46,7 +47,7 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 	public Object saveorupdate(Object entity) throws Exception {
 		CmsChannel channel = (CmsChannel) entity;
 		if(StringUtils.isBlank(channel.getId())){
-			evictByKey("channelList", "'findListDataByFinder'");
+			evictByKey(GlobalStatic.cacheKey, "cmsChannelService_findListDataByFinder");
 			return this.saveChannel(channel);
 		}else{
 			return this.updateChannel(channel);
@@ -59,10 +60,10 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 			Class<T> clazz, Object queryBean) throws Exception {
 		List<CmsChannel> channelList;
 		if(page.getPageIndex()==1){
-			channelList = getByCache("channelList", "cmsChannelService_findListDataByFinder", List.class,page);
+			channelList = getByCache(GlobalStatic.cacheKey, "cmsChannelService_findListDataByFinder", List.class,page);
 			if(CollectionUtils.isEmpty(channelList)){
 				channelList = super.findListDataByFinder(finder, page, CmsChannel.class, queryBean);
-				putByCache("channelList", "cmsChannelService_findListDataByFinder", channelList,page);
+				putByCache(GlobalStatic.cacheKey, "cmsChannelService_findListDataByFinder", channelList,page);
 			}
 		}else{
 			channelList =  super.findListDataByFinder(finder, page, CmsChannel.class, queryBean);
@@ -120,8 +121,8 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 	    cmsLink.setNodeftlfile("/u/"+siteId+"/content.html");
 	    cmsLinkService.save(cmsLink);
 	    
-	    putByCache(siteId, "'findTreeByPid_'+#"+cmsChannel.getPid()+"+'_'+#"+siteId, cmsChannel);
-	    putByCache(siteId, "'findTreeChannel_'+#"+siteId, cmsChannel);
+	    putByCache(siteId, "cmsChannelService_findTreeByPid_"+cmsChannel.getPid()+"_"+siteId, cmsChannel);
+	    putByCache(siteId, "cmsChannelService_findTreeChannel_"+siteId, cmsChannel);
 	    return id;
 	}
 
@@ -171,9 +172,9 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 		
 		super.update(list,true);
 		
-		evictByKey(siteId, "'findTreeByPid_'+#"+pid+"+'_'+#"+siteId);
+		evictByKey(siteId, "cmsChannelService_findTreeByPid_"+pid+"_"+siteId);
 		
-		putByCache(siteId, "'findTreeByPid_'+#"+pid+"+'_'+#"+siteId, cmsChannel);
+		putByCache(siteId, "cmsChannelService_findTreeByPid_"+pid+"_"+siteId, cmsChannel);
 	    return update;
 
     }
@@ -192,7 +193,7 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
     		return null;
     	}
     	
-    	List<CmsChannel> channelList = getByCache(siteId, "'findTreeByPid_'+#"+pid+"+'_'+#"+siteId, List.class);
+    	List<CmsChannel> channelList = getByCache(siteId, "cmsChannelService_findTreeByPid_"+pid+"_"+siteId, List.class);
     	if(CollectionUtils.isEmpty(channelList)){
     		Finder finder=Finder.getSelectFinder(CmsChannel.class).append("  WHERE active=:active and siteId=:siteId ").setParam("siteId", siteId).setParam("active", 1);
             
@@ -207,7 +208,7 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
     		}
     		List<CmsChannel> wrapList=new ArrayList<CmsChannel>();
     		diguiwrapList(channelList, wrapList, null);
-    		evictByKey(siteId, "'findTreeByPid_'+#"+pid+"+'_'+#"+siteId);
+    		evictByKey(siteId, "cmsChannelService_findTreeByPid_"+pid+"_"+siteId);
     		return wrapList;
     	}else{
     		return channelList;

@@ -50,7 +50,7 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 		}else{
 			siteId = this.updateCmsSite(cmsSite);
 		}
-		evictByKey("siteList", "'findListDataByFinder'");
+		evictByKey(GlobalStatic.cacheKey, "cmsSiteService_findListDataByFinder");
 		return siteId;
 		
 	}
@@ -61,10 +61,10 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 			Class<T> clazz, Object queryBean) throws Exception {
 		List<CmsSite> siteList;
 		if(page.getPageIndex()==1){
-			siteList = getByCache("siteList", "'findListDataByFinder'", ArrayList.class);
+			siteList = getByCache(GlobalStatic.cacheKey, "cmsSiteService_findListDataByFinder", ArrayList.class);
 			if(CollectionUtils.isEmpty(siteList)){//缓存中没有
 				siteList =  super.findListDataByFinder(finder, page, CmsSite.class, queryBean);
-				putByCache("siteList", "'findListDataByFinder'", siteList);
+				putByCache(GlobalStatic.cacheKey, "cmsSiteService_findListDataByFinder", siteList);
 			}
 		}else{
 			siteList =  super.findListDataByFinder(finder, page, CmsSite.class, queryBean);
@@ -146,7 +146,7 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 			 uploaddir.mkdirs();
 		 }
 		 
-		 putByCache(id, "'findCmsSiteById_'+#"+id, cmsSite);
+		 putByCache(id, "cmsSiteService_findCmsSiteById_"+id, cmsSite);
 		 
 		 return id;
 	 
@@ -154,10 +154,10 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 	
     @Override
 	public CmsSite findCmsSiteById(String id) throws Exception{
-    	CmsSite site = getByCache(id, "findCmsSiteById_"+id, CmsSite.class);
+    	CmsSite site = getByCache(id, "cmsSiteService_findCmsSiteById_"+id, CmsSite.class);
     	if(site == null){
     		site = super.findById(id,CmsSite.class);
-    		putByCache(id,  "findCmsSiteById_"+id, site);
+    		putByCache(id,  "cmsSiteService_findCmsSiteById_"+id, site);
     	}
     	return site;
 	}
@@ -169,7 +169,7 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 		super.update(cmsSite,true);
 		String siteId = cmsSite.getId();
 		//evictByKey(siteId, "findCmsSiteById_"+siteId);
-		putByCache(siteId, "findCmsSiteById_"+siteId, cmsSite);
+		putByCache(siteId, "cmsSiteService_findCmsSiteById_"+siteId, cmsSite);
 		return null;
 	}
 
