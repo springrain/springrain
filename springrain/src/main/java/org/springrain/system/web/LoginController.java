@@ -206,10 +206,10 @@ public class LoginController extends BaseController  {
 		}
 		
 		/**
-		 * 退出
+		 * 退出,防止csrf,必须使用POST方法
 		 * @param request
 		 */
-		@RequestMapping(value="/logout")
+		@RequestMapping(value="/logout",method=RequestMethod.POST)
 	    public String logout(HttpServletRequest request){
 	        Subject subject = SecurityUtils.getSubject();
 	        if (subject != null) {           
