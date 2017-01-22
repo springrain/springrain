@@ -11,7 +11,6 @@ import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.Page;
 import org.springrain.frame.util.SecUtils;
 import org.springrain.system.entity.Org;
-import org.springrain.system.entity.Role;
 import org.springrain.system.entity.User;
 import org.springrain.system.entity.UserOrg;
 import org.springrain.system.service.BaseSpringrainServiceImpl;
@@ -149,10 +148,6 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
     	}
     	
     	User u=list.get(0);
-    	org.setManagerRoleId(u.getId());
-    	org.setManagerName(u.getName());
-    	
-    	
     	
 	 return org;
 	}
@@ -170,8 +165,7 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
     public <T> List<T> findListDataByFinder(Finder finder, Page page, Class<T> clazz,
 			Object o) throws Exception{
         	
-        	finder=new Finder("SELECT o.*,r.name managerName FROM ").append(Finder.getTableName(Org.class)).append(" o ");
-        	finder.append(" left join ").append(Finder.getTableName(Role.class)).append(" r on  o.managerRoleId=r.id");
+        	finder=new Finder("SELECT o.* FROM ").append(Finder.getTableName(Org.class)).append(" o ");
         	finder.append(" WHERE o.active=:active order by o.sortno asc ");
         	 finder.setParam("active", 1);
 			 return super.queryForList(finder, clazz);

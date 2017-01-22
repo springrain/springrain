@@ -266,25 +266,31 @@ description="springrain开源系统管理后台"/>
 										<div class="layui-form-item  col-lg-9">
 								    		<label class="layui-form-label col-lg-3">部门类型</label>
 										    <div class="layui-inline rlt">
-										      	<select id="orgType" name="orgType">
+										      	<select id="orgType" name="orgType" >
 										      		<option value>请选择部门类型</option>
-										      		<optgroup label="<<常用部门设置>>">
+										      		<optgroup label="<<组织类设置>>">
 													<option value="1">部门</option>
-													<optgroup label="<<特殊部门设置>>">
 													<option value="2">虚拟权限组</option>
-													<option value="0">组织结构</option>
+													<optgroup label="<<网站类设置>>">
+													<option value="10">站长部门</option>
+													<option value="11">微信</option>
+													<option value="12">企业号</option>
+													<option value="13">pc</option>
+													<option value="14">wap</option>
+													<option value="15">投票</option>
 			                                    </select>
 										    </div>
 									  	</div>
 										<div class="layui-form-item  col-lg-9">
 								    		<label class="layui-form-label col-lg-3">是否可用</label>
 										    <div class="layui-inline rlt">
-										      	<select id="active" name="active" >
+										      	<select id="active" name="active"  datatype="*" errormsg="请输入正确数值" nullmsg="排序不能为空!">
 										      		<option value>请选择是否可用</option>
 													<option value="1">是</option>
 													<option value="0">否</option>
 			                                    </select>
 										    </div>
+										    <div class="layui-inline valid-info"></div>
 									  	</div>
 									  	
 									  	<div class="layui-form-item col-lg-9">
