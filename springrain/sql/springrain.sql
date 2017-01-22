@@ -281,6 +281,7 @@ CREATE TABLE `t_role` (
 -- ----------------------------
 -- Records of t_role
 -- ----------------------------
+INSERT INTO `t_role` (`id`, `name`, `code`, `pid`, `roleType`, `remark`, `active`, `orgId`, `bak1`, `bak2`, `bak3`, `bak4`, `bak5`) VALUES ('admin', 'admin', NULL, NULL, '0', NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for t_role_menu
