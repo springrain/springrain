@@ -2,13 +2,16 @@ package org.springrain.frame.shiro;
 
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.web.filter.authc.UserFilter;
 import org.apache.shiro.web.util.WebUtils;
@@ -72,10 +75,44 @@ public class BaseUserFilter extends UserFilter {
 		     //正常http请求
 	         String loginUrl= getLoginUrl();	
 	         StringBuffer url=req.getRequestURL();
-	         String query=req.getQueryString();
-	         if(StringUtils.isNotBlank(query)){
-	        	 url=url.append("?").append(query);
-	         }
+	         //String query=req.
+
+	 		Map<String,String[]> map=request.getParameterMap();  
+	 	    Set<Map.Entry<String,String[]>> keSet=map.entrySet();  
+	 	    
+	 	    for(Iterator itr=keSet.iterator();itr.hasNext();){  
+	 	    	
+	 	        Map.Entry<String,String[]> me=(Map.Entry<String,String[]>)itr.next();  
+	 	        String key=me.getKey();  
+	 	        if(GlobalStatic.tokenKey.equals(key)){
+	 	        	continue;
+	 	        }
+	 	        
+	 	        String[] value=me.getValue(); 
+	 	        if(value==null||value.length==0){
+	 	        	continue;
+	 	        }else if(value.length==1){
+	 	        	if(url.indexOf("?")<0){
+	 	        		url.append("?");
+	 	        	}else{
+	 	        		url.append("&");
+	 	        	}
+	 	        	
+	 	        	url.append(key).append("=").append(value[0]);
+	 	        		
+	 	        }else{
+	 	        	if(url.indexOf("?")<0){
+	 	        		url.append("?");
+	 	        	}else{
+	 	        		url.append("&");
+	 	        	}
+	 	        	
+	 	        	url.append(key).append("=").append(value);
+	 	        }
+	 	        
+	 	  
+	 	     }  
+	 		
 	        
 	         Map<String,String> parMap=new HashMap<String,String>();
 	         parMap.put("gotourl", url.toString());
