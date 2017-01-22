@@ -95,7 +95,10 @@ description="springrain开源系统管理后台"/>
 							myalert(_json.message);
 						}
 					});
-					springrain.select2Remote("managerRoleId", "${ctx}/system/role/ajax/select2", 250, "id", "name",false);
+					/*
+					不要此方法了，org中去掉了 部门主管角色 
+					*/
+					//springrain.select2Remote("managerRoleId", "${ctx}/system/role/ajax/select2", 250, "id", "name",false);
 				});
 
 				function orgzTreeOnClick(event, treeId, treeNode) {
@@ -243,17 +246,16 @@ description="springrain开源系统管理后台"/>
 										    	<input name="pid" id="pid" type="hidden" />
 										    </div>
 									  	</div>
-										
+										<#--
 										<div class="layui-form-item  col-lg-9">
 								    		<label class="layui-form-label col-lg-3">主管角色</label>
 										    <div class="layui-inline col-lg-3">
-									      		<!-- <input type="text" id="managerId" name="managerId"> -->
 										      	<select id="managerRoleId" name="managerRoleId" class="nolayer">
 			                                    </select> 
 										    </div>
 										    <div class="layui-inline col-lg-3">对应角色中的"部门主管"角色</div>
 									  	</div>
-										
+										-->
 										<div class="layui-form-item  col-lg-9">
 								    		<label class="layui-form-label col-lg-3">排序*</label>
 										    <div class="layui-inline">
