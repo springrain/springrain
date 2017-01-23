@@ -91,7 +91,7 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 		if(StringUtils.isBlank(userId)){
 			return null;
 		}
-		Finder finder=new Finder("SELECT re.*,org.name  orgName FROM  ").append(Finder.getTableName(UserOrg.class)).append(" re ,").append(Finder.getTableName(Org.class)).append(" org  WHERE re.userId=:userId and org.id=re.orgId and re.qxType=1  order by org.id asc   ");
+		Finder finder=new Finder("SELECT re.*,org.name  orgName FROM  ").append(Finder.getTableName(UserOrg.class)).append(" re ,").append(Finder.getTableName(Org.class)).append(" org  WHERE re.userId=:userId and org.id=re.orgId  order by org.id asc   ");
 		finder.setParam("userId", userId);
 		return super.queryForList(finder, UserOrg.class);
 	}
