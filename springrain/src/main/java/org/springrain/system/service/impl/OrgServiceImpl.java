@@ -177,7 +177,7 @@ public <T> List<T> findListDataByFinder(Finder finder, Page page, Class<T> clazz
     	finder=new Finder("SELECT o.* FROM ").append(Finder.getTableName(Org.class)).append(" o ");
     	finder.append(" WHERE o.active=:active  ");
    	 finder.setParam("active", 1);
-   	 finder.setEscapeSql(false);  
+   	 finder.setEscapeSql(false);
     	String qxsql=userOrgService.findOrgIdsSQLByManagerUserId(SessionUser
 				.getUserId());
     	if(StringUtils.isNotBlank(qxsql)){
@@ -310,10 +310,12 @@ public <T> List<T> findListDataByFinder(Finder finder, Page page, Class<T> clazz
 		
 		return comcode;
 	}
-	
-	
-	
-	
-	
-		
+
+
+	@Override
+	public Org findCmsOrgByUserId(String userId) throws Exception {
+		Finder finder = new Finder("SELECT b.* FROM t_user_org a INNER JOIN t_org b ON a.orgId=b.id WHERE b.orgType=10 AND a.userId=:userId");
+		finder.setParam("userId", userId);
+		return super.queryForObject(finder, Org.class);
+	}
 }

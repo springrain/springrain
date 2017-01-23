@@ -13,18 +13,25 @@ import org.springrain.cms.entity.CmsLink;
 import org.springrain.cms.entity.CmsSite;
 import org.springrain.cms.service.ICmsLinkService;
 import org.springrain.cms.service.ICmsSiteService;
+import org.springrain.cms.utils.Enumerations.OrgType;
+import org.springrain.cms.utils.Enumerations.SiteType;
 import org.springrain.frame.common.SessionUser;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.Page;
+import org.springrain.frame.util.SecUtils;
+import org.springrain.system.entity.Org;
+import org.springrain.system.entity.UserOrg;
 import org.springrain.system.service.BaseSpringrainServiceImpl;
+import org.springrain.system.service.IOrgService;
 import org.springrain.system.service.ITableindexService;
+import org.springrain.system.service.IUserOrgService;
 
 
 
 
 /**
- * TODO 在此加入类描述
+ * 在此加入类描述
  * @copyright {@link weicms.net}
  * @author springrain<Auto generate>
  * @version  2016-11-10 11:55:21
@@ -38,6 +45,11 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 	
 	@Resource
 	private ICmsLinkService cmsLinkService;
+	
+	@Resource
+	private IOrgService orgService;
+	@Resource
+	private IUserOrgService userOrgService;
 	
 	@Override
 	public Object saveorupdate(Object entity) throws Exception {
@@ -148,15 +160,38 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 		 
 		 putByCache(id, "cmsSiteService_findCmsSiteById_"+id, cmsSite);
 		 
+		 //创建站点部门
+		 Org parentOrg = orgService.findCmsOrgByUserId(SessionUser.getUserId());
+		 Org org = new Org(cmsSite.getId());
+		 org.setName(cmsSite.getName());
+		 org.setDescription(cmsSite.getDescription());
+		 org.setOrgType(getOrgTypeBySiteType(cmsSite.getSiteType()));
+		 org.setPid(parentOrg.getId());
+		 org.setActive(1);
+		 String orgId = orgService.saveOrg(org);
+		 //创建站点用户关联新
+		 UserOrg userOrg = new UserOrg(SecUtils.getUUID());
+		 userOrg.setUserId(SessionUser.getUserId());
+		 userOrg.setOrgId(orgId);
+		 userOrgService.save(userOrg);
 		 return id;
-	 
 	}
 	
-    @Override
+    /**
+     * 站点类型和部门类型转换
+     * @param siteType
+     * @return
+     */
+    private Integer getOrgTypeBySiteType(Integer siteType) {
+		String name = SiteType.getSiteType(siteType).name();
+		return OrgType.getOrgTypeByName(name).getType();
+	}
+
+	@Override
 	public CmsSite findCmsSiteById(String id) throws Exception{
     	CmsSite site = getByCache(id, "cmsSiteService_findCmsSiteById_"+id, CmsSite.class);
     	if(site == null){
-    		site = super.findById(id,CmsSite.class);
+    		site = findById(id,CmsSite.class);
     		putByCache(id,  "cmsSiteService_findCmsSiteById_"+id, site);
     	}
     	return site;
@@ -189,5 +224,10 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 		Finder finder = Finder.getSelectFinder(CmsSite.class).append(" WHERE userId=:userId");
 		finder.setParam("userId", userId);
 		return super.queryForList(finder, CmsSite.class);
+	}
+	
+	@Override
+	public <T> T findById(Object id, Class<T> clazz) throws Exception {
+		return super.findById(id, clazz);
 	}
 }

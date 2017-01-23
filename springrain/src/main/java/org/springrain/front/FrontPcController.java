@@ -10,9 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/f/2/{siteId}")
 public class FrontPcController extends FrontBaseController {
-	
-	
-	
 	/**
 	 * 映射首页页面
 	 * @throws Exception 
@@ -30,11 +27,4 @@ public class FrontPcController extends FrontBaseController {
 	public String channel(@PathVariable String siteId,@PathVariable String businessId,HttpServletRequest request,Model model) throws Exception{
 		return jump(siteId, businessId, 2, request, model);
 	}
-	
-	
-	
-	
-	
-	
-	
 }

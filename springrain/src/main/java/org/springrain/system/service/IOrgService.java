@@ -69,6 +69,14 @@ public interface IOrgService extends IBaseSpringrainService {
 	 * @throws Exception
 	 */
 	String findOrgNewComcode(String id,String pid) throws Exception ;
+
+	/**
+	 * 根据站长id查找cms站点所属的部门
+	 * @param userId
+	 * @return
+	 * @throws Exception 
+	 */
+	Org findCmsOrgByUserId(String userId) throws Exception;
 	
 	
 	
