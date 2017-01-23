@@ -5,6 +5,7 @@ import java.util.List;
 import org.springrain.frame.util.Page;
 import org.springrain.system.entity.Org;
 import org.springrain.system.entity.User;
+import org.springrain.system.entity.UserOrg;
 
 
 /**
@@ -64,6 +65,13 @@ public interface IUserOrgService extends IBaseSpringrainService {
 	 * @throws Exception
 	 */
 	List<Org> findOrgByUserId(String userId) throws Exception;
+	/**
+	 * 根据用户ID 查找管理的部门
+	 * @param userId
+	 * @return
+	 * @throws Exception
+	 */
+	List<UserOrg> findManagerOrgByUserId(String userId) throws Exception;
 	
 	/**
 	 * 根据用户ID 查找所在的部门的Id

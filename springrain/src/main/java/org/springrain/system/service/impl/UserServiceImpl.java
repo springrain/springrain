@@ -80,10 +80,10 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
 			uo.setOrgId(org.getId());
 			uo.setIsmanager(0);//这里添加的永远是结构，不是主管
 			uo.setHasleaf(0);
-			uo.setQxType(1);//正常的组织 结构
+			uo.setQxType(0);//正常的组织 结构
 			listuo.add(uo);
 		}
-		//处理  管理部门，如果 在组织结构中也有这个部门的话，此管理总站不做保存，且在组织 结构加特殊处理
+		//处理  管理部门，如果 在组织结构中也有这个部门的话，此管理部门不做保存，且在组织 结构加特殊处理
 		boolean hasManger=false;
 		if(CollectionUtils.isNotEmpty(managerOrgs)&&CollectionUtils.isNotEmpty(listuo)){
 			lastSaveManagerOrgs=new ArrayList<UserOrg>();
@@ -93,12 +93,15 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
 						//把管理 继承 到组织 
 						userOrg.setIsmanager(e.getIsmanager());
 						userOrg.setHasleaf(e.getHasleaf());
-						userOrg.setQxType(e.getQxType());
+						userOrg.setQxType(0);//正常
 						hasManger=true;
 						break;
 					}
 				}
 				if(!hasManger){
+					//组织结构中  不包含 虚拟 只管理
+					e.setQxType(1);//特殊
+					e.setIsmanager(1);
 					lastSaveManagerOrgs.add(e);
 				}
 				hasManger=false;
@@ -145,7 +148,10 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
 		String userId=u.getId();
 		
 		List<Org> listOrg = userOrgService.findOrgByUserId(userId);
+		
+		List<UserOrg> managerOrgs = userOrgService.findManagerOrgByUserId(userId);
 		u.setUserOrgs(listOrg);
+		u.setManagerOrgs(managerOrgs);
 		List<Role> roleByUserId = userRoleMenuService.findRoleByUserId(userId);
 		u.setUserRoles(roleByUserId);
 		

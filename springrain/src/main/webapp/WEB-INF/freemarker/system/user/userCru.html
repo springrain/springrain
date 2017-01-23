@@ -389,7 +389,7 @@ function clickOrgValue(event, treeId, treeNode) {
 																  	<div class="layui-form-item col-lg-6">
 															    		<label class="layui-form-label"></label>
 																		   <div class="layui-inline col-lg-6">  
-																				 <table class="layui-table  off">
+																				 <table class="layui-table <#if (returnDatas.data??) &&(returnDatas.data.managerOrgs??) &&(returnDatas.data.managerOrgs?size gt 0)><#else>off</#if>">
 																					 	<colgroup>
 																				    		<col width="">
 																					    	<col width="120">
@@ -402,6 +402,19 @@ function clickOrgValue(event, treeId, treeNode) {
 																							</tr>
 																						</thead>
 																						<tbody id="addTbody">
+																							<#if (returnDatas.data??) &&(returnDatas.data.managerOrgs??) &&(returnDatas.data.managerOrgs?size gt 0)>
+																								<#list returnDatas.data.managerOrgs as _data>
+																									<tr>
+																										<td><input type='text' readonly onclick='showMangerZtreeOrg(this)'   name='managerOrgNames' placeholder='单击选择' class='layui-input' value="${(_data.orgName)!''}"><input type='hidden' name='managerOrgIds' value="${(_data.orgId)!''}"></td>
+																										<td>
+																											<select name='hasleaf'>
+																												<option value='0' <#if _data.hasleaf?c=='0'>selected</#if>>不包含</option>
+																												<option value='1' <#if _data.hasleaf?c=='1'>selected</#if>>包含</option>
+																											</select></td>
+																										<td><a onclick='del(this)' class='layui-btn layui-btn-danger layui-btn-mini ajax-delete'>删除</a></td>
+																									</tr>
+																								</#list>
+																							</#if>
 																						</tbody>
 																					</table>
 																			</div>

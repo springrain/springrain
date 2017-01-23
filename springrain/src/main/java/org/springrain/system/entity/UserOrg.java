@@ -2,6 +2,7 @@ package org.springrain.system.entity;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -48,6 +49,7 @@ public class UserOrg  extends BaseEntity {
 	 * 0不是，1是
 	 */
 	private Integer ismanager;
+	private String orgName;
 	public Integer getIsmanager() {
 		return ismanager;
 	}
@@ -144,6 +146,14 @@ public class UserOrg  extends BaseEntity {
 		return new EqualsBuilder()
 			.append(getId(),other.getId())
 			.isEquals();
+	}
+	@Transient
+	public String getOrgName() {
+		return orgName;
+	}
+
+	public void setOrgName(String orgName) {
+		this.orgName = orgName;
 	}
 }
 
