@@ -17,7 +17,7 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface TableSuffix  {
 	/**
-	 * 扩展后缀,默认为空,可以指定字段 例如 ext 的getExt() 返回值是 _history_2013
+	 * 扩展后缀,默认为空,可以指定字段 例如 suffix 的getSuffix() 返回值是 _history_2013
 	 * @return
 	 */
 	String name() default "";  
