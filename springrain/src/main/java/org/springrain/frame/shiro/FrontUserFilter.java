@@ -39,17 +39,17 @@ public class FrontUserFilter extends BaseUserFilter {
 		String token=obj.toString();
 		
 		String userToken=req.getParameter(GlobalStatic.tokenKey);
-		if(!token.equals(userToken)){
-			try {
-				WebUtils.issueRedirect(request, response, "/unauth");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			return true;
+		if(token.equals(userToken)){
+			 return true;
 		}
-		 
-		 
-		 return access;
+		
+		try {
+			WebUtils.issueRedirect(request, response, "/unauth");
+		} catch (IOException e) {
+				e.printStackTrace();
+		}
+		
+		return false;
 	}
 
 }
