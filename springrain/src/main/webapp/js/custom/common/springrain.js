@@ -270,6 +270,22 @@
 					}
 				});
 			},
+			msg:function(_msg,_icon,_time,_fun){
+				_msg=_msg?_msg:"默认消息";
+				_icon=_icon?_icon:"1";
+				_time=_time?_time:2000;
+				
+				layer.msg(_msg, {
+					  icon: 1,
+					  time: 2000 //2秒关闭（如果不配置，默认是3秒）
+					}, function(){
+						if (_fun&&typeof _fun =="function") {
+							_fun();
+							layer.closeAll();
+						}
+					}
+				);   
+			},
 			/**
 			 * 消息提示
 			 * @param message 提示的内容
@@ -353,7 +369,7 @@
 					formType : 1
 				// prompt风格，支持0-2
 				}, function(pass) {
-					if (_fun&&typeof fun =="function") {
+					if (fun&&typeof fun =="function") {
 						fun(pass);
 					}
 				});
