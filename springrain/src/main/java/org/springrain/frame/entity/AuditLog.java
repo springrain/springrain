@@ -197,8 +197,8 @@ public class AuditLog  extends BaseEntity  {
 			return suffix;
 	}
 
-	public void setSuffix(String ext) {
-		this.suffix = ext;
+	public void setSuffix(String suffix) {
+		this.suffix = suffix;
 	}
 	
 }
