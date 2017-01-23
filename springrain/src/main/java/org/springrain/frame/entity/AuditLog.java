@@ -80,6 +80,10 @@ public class AuditLog  extends BaseEntity  {
 	
 	//concstructor
 
+	public void setSuffix(String suffix) {
+		this.suffix = suffix;
+	}
+
 	public AuditLog(){
 	}
 
