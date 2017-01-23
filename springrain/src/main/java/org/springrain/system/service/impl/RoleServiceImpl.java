@@ -11,16 +11,18 @@ import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.util.CollectionUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
-
+import org.springrain.frame.common.SessionUser;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.Page;
+import org.springrain.frame.util.SecUtils;
 import org.springrain.system.entity.Menu;
 import org.springrain.system.entity.Role;
 import org.springrain.system.entity.RoleMenu;
 import org.springrain.system.entity.UserRole;
 import org.springrain.system.service.BaseSpringrainServiceImpl;
 import org.springrain.system.service.IRoleService;
+import org.springrain.system.service.IUserOrgService;
 import org.springrain.system.service.IUserRoleMenuService;
 
 /**
@@ -36,6 +38,8 @@ public class RoleServiceImpl extends BaseSpringrainServiceImpl implements IRoleS
     private IUserRoleMenuService userRoleMenuService;
 	@Resource
 	private CacheManager shiroCacheManager;
+	@Resource
+	private IUserOrgService userOrgService;
    
     @Override
 	public String  saveRole(Role entity) throws Exception{
@@ -102,8 +106,17 @@ public class RoleServiceImpl extends BaseSpringrainServiceImpl implements IRoleS
         @Override
     public <T> List<T> findListDataByFinder(Finder finder, Page page, Class<T> clazz,
 			Object o) throws Exception{
-			 return super.findListDataByFinder(finder,page,clazz,o);
-			}
+//			 return super.findListDataByFinder(finder,page,clazz,o);
+        	//角色查询加权限
+        	Finder f=Finder.getSelectFinder(Role.class);
+        	f.setEscapeSql(false); 
+        	f.append(" where 1=1 ");
+        	String qxsql=userOrgService.findOrgIdsSQLByManagerUserId(SessionUser.getUserId());
+        	if(StringUtils.isNotBlank(qxsql)){
+        		f.append(" and pid in ( ").append(qxsql).append(")");
+        	}
+        	 return super.findListDataByFinder(f,page,clazz,o);   
+	}
 	/**
 	 * 根据查询列表的宏,导出Excel
 	 * @param finder 为空则只查询 clazz表
@@ -148,6 +161,5 @@ public class RoleServiceImpl extends BaseSpringrainServiceImpl implements IRoleS
 		
 		return null;
 	}
-
 
 }
