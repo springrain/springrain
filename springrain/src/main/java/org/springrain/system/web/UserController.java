@@ -185,14 +185,21 @@ public class UserController extends BaseController {
 			String[]  managerOrgNames= request.getParameterValues("managerOrgNames");
 			String[] managerOrgIds = request.getParameterValues("managerOrgIds");
 			String[] hasleafs = request.getParameterValues("hasleaf");
+			List<UserOrg> managerOrgs=null;
 			if(managerOrgNames!=null&&managerOrgIds!=null&&managerOrgIds.length==managerOrgNames.length){
-				List<UserOrg> managerOrgs=new ArrayList<UserOrg>();
+				managerOrgs=new ArrayList<UserOrg>();
 				UserOrg managerOrg=null;
 				for(int i=0;i<managerOrgIds.length;i++){
 					managerOrg=new UserOrg();
-					managerOrg.setId(managerOrgIds[i]);
+					managerOrg.setOrgId(managerOrgIds[i]);
+					managerOrg.setUserId(id);//可能为空，service中再补全
+					managerOrg.setIsmanager(1);//这里，永远添加的都是主管
+					managerOrg.setHasleaf(Integer.valueOf(hasleafs[i]));
+					managerOrg.setQxType(1);//这里永远都是正常的，显示到组织结构。虚拟的放到特殊菜单中处理
+					managerOrgs.add(managerOrg);
 				}
 			}
+			user.setManagerOrgs(managerOrgs);
 			//处理管理的部门  韩彦阳  结束
 			if (StringUtils.isBlank(id)) {
 				user.setId(null);

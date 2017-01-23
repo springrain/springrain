@@ -43,7 +43,45 @@ public class UserOrg  extends BaseEntity {
 	 * 机构编号
 	 */
 	private java.lang.String orgId;
+	/**
+	 * 是否是主管
+	 * 0不是，1是
+	 */
+	private Integer ismanager;
+	public Integer getIsmanager() {
+		return ismanager;
+	}
 
+	public void setIsmanager(Integer ismanager) {
+		this.ismanager = ismanager;
+	}
+
+	public Integer getHasleaf() {
+		return hasleaf;
+	}
+
+	public void setHasleaf(Integer hasleaf) {
+		this.hasleaf = hasleaf;
+	}
+
+	public Integer getQxType() {
+		return qxType;
+	}
+
+	public void setQxType(Integer qxType) {
+		this.qxType = qxType;
+	}
+
+	/**
+	 * 是否包含子部门  和是否是主管合用
+	 * 0不包含  1包含
+	 */
+	private Integer hasleaf;
+	/**
+	 * 人员部门关系，是正常还是虚拟
+	 * 0正常  1虚拟
+	 */
+	private Integer qxType;
 	//columns END 数据库字段结束
 	
 	//concstructor
