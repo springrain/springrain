@@ -6,8 +6,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.util.CollectionUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
@@ -59,33 +59,61 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
 	}
 	
 	private void  updateUserInfo(User user)throws Exception {
+		//韩彦阳   20160123 start
 		String userId=user.getId();
-		Finder f_del=Finder.getDeleteFinder(UserOrg.class).append(" WHERE userId=:userId ");
+		//删除原有的组织结构+管理部门
+		Finder f_del=Finder.getDeleteFinder(UserOrg.class).append(" WHERE userId=:userId");
 		f_del.setParam("userId",userId);
 		super.update(f_del);
-		
+		//删除原有的管理权限
 		Finder f_del_role=Finder.getDeleteFinder(UserRole.class).append(" WHERE userId=:userId ");
 		f_del_role.setParam("userId",userId);
 		super.update(f_del_role);
-		
-		
-		
+		//开始处理部门和门门主管数据
 		List<Org> list = user.getUserOrgs();
 		List<UserOrg> listuo=new ArrayList<UserOrg>();
+		List<UserOrg> managerOrgs=user.getManagerOrgs();
+		List<UserOrg> lastSaveManagerOrgs=null;
 		for(Org org:list){
 			UserOrg uo=new UserOrg();
 			uo.setUserId(userId);
 			uo.setOrgId(org.getId());
+			uo.setIsmanager(0);//这里添加的永远是结构，不是主管
+			uo.setHasleaf(0);
+			uo.setQxType(1);//正常的组织 结构
 			listuo.add(uo);
 		}
+		//处理  管理部门，如果 在组织结构中也有这个部门的话，此管理总站不做保存，且在组织 结构加特殊处理
+		boolean hasManger=false;
+		if(CollectionUtils.isNotEmpty(managerOrgs)&&CollectionUtils.isNotEmpty(listuo)){
+			lastSaveManagerOrgs=new ArrayList<UserOrg>();
+			for(UserOrg e:managerOrgs){
+				for(UserOrg userOrg:listuo){
+					if(e.getOrgId().equals(userOrg.getOrgId())){
+						//把管理 继承 到组织 
+						userOrg.setIsmanager(e.getIsmanager());
+						userOrg.setHasleaf(e.getHasleaf());
+						userOrg.setQxType(e.getQxType());
+						hasManger=true;
+						break;
+					}
+				}
+				if(!hasManger){
+					lastSaveManagerOrgs.add(e);
+				}
+				hasManger=false;
+			}
+		}
+		
 		if(CollectionUtils.isEmpty(listuo)){
 			return;
 		}
 		
-		super.save(listuo);
+		super.save(listuo);//保存组织 结构
+		super.save(lastSaveManagerOrgs);//保存  管理的部门
 		
-		
-		
+		//hyy   20160123  end
+		//老代码不动
 		List<Role> listRole = user.getUserRoles();
 		List<UserRole> listur=new ArrayList<UserRole>();
 		for(Role role:listRole){
