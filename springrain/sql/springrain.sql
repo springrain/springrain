@@ -467,3 +467,5 @@ INSERT INTO `t_org` (`id`, `name`, `comcode`, `pid`, `orgType`, `leaf`, `sortno`
 VALUES ('de8619d68ec54927a573d1371e46497d', '平台', ',de8619d68ec54927a573d1371e46497d,', NULL, NULL, NULL, '1', '', '1', NULL, NULL, NULL, NULL, NULL);
 
 update t_org set pid='de8619d68ec54927a573d1371e46497d',comcode=',de8619d68ec54927a573d1371e46497d,8ab05a1acfd54590942b88fc6d4d77ee,' where id='8ab05a1acfd54590942b88fc6d4d77ee';
+
+INSERT INTO `t_user_org` (`id`, `userId`, `orgId`, `ismanager`, `hasleaf`, `qxType`, `bak1`, `bak2`, `bak3`, `bak4`, `bak5`) VALUES ('1', 'admin', 'de8619d68ec54927a573d1371e46497d', '1', '1', '0', NULL, NULL, NULL, NULL, NULL);
