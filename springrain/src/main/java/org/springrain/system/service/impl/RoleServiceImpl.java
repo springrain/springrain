@@ -162,8 +162,4 @@ public class RoleServiceImpl extends BaseSpringrainServiceImpl implements IRoleS
 		return null;
 	}
 
-	public static void main(String[] args) {
-		System.out.println(SecUtils.encoderByMd5With32Bit("111111"));
-	}
-
 }
