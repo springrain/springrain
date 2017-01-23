@@ -67,6 +67,8 @@ public class Role  extends BaseEntity {
 	//columns END 数据库字段结束
 	
 	private List<Menu> menus;
+	//归属部门名称
+	private String pname;
 	
 	//concstructor
 
@@ -83,7 +85,15 @@ public class Role  extends BaseEntity {
 	public void setId(java.lang.String value) {
 		this.id = value;
 	}
-	
+	@Transient
+	public String getPname() {
+		return pname;
+	}
+
+	public void setPname(String pname) {
+		this.pname = pname;
+	}
+
 	@Id
      @WhereSQL(sql="id=:Role_id")
 	public java.lang.String getId() {

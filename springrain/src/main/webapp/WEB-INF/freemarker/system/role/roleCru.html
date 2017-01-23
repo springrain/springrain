@@ -133,6 +133,102 @@
 				function dosave() {
 					_valid_form=springrain.commonSaveForm("validForm", listurl, '角色添加成功！');
 				}
+				
+				
+	
+	
+				var orgSelectSetting = {
+						view: {
+							showLine: false,
+							showIcon: false,
+							selectedMulti: false,
+							dblClickExpand: false,
+							addDiyDom: addDiyDom
+						},
+					callback : {
+						onClick : clickOrgValue
+					},
+					data : {
+						simpleData : {
+							enable : true,
+							idKey : "id",
+							pIdKey : "pid",
+							rootPId : "null",
+						}
+					}
+				};
+				
+				function clickOrgValue(event, treeId, treeNode) {
+					jQuery("#pname").val(treeNode.name);
+					jQuery("#pid").val(treeNode.id);
+				};
+				
+				function addDiyDom(treeId, treeNode) {
+					var spaceWidth = 5;
+					var switchObj = $("#" + treeNode.tId + "_switch"),
+					icoObj = $("#" + treeNode.tId + "_ico");
+					switchObj.remove();
+					icoObj.before(switchObj);
+
+					if (treeNode.level > 1) {
+						var spaceStr = "<span style='display: inline-block;width:" + (spaceWidth * treeNode.level)+ "px'></span>";
+						switchObj.before(spaceStr);
+					}
+				}
+				var selectOrgZtree;
+				var orgjsondata4select;
+
+				$(document).ready(function() {
+					jQuery.post("${ctx}/system/org/list/json",function(_json) {
+						if (_json.status == "success") {
+							orgjsondata4select = _json;
+							$.fn.zTree.init($("#orgListTree"),orgTreesetting,_json.data);
+							var zTree = $.fn.zTree.getZTreeObj("orgListTree");
+							zTree.expandAll(true);
+							
+							var treeObj = $("#orgListTree");
+							treeObj.hover(function () {
+								if (!treeObj.hasClass("showIcon")) {
+									treeObj.addClass("showIcon");
+								}
+							}, function() {
+								treeObj.removeClass("showIcon");
+							});
+						} else {
+							myalert(_json.message);
+						}
+					});
+					/*
+					不要此方法了，org中去掉了 部门主管角色 
+					*/
+					//springrain.select2Remote("managerRoleId", "${ctx}/system/role/ajax/select2", 250, "id", "name",false);
+				});
+				
+				function showOrgTree() {
+					if (!selectOrgZtree) {
+						$.fn.zTree.init($("#selectOrgTree"), orgSelectSetting,
+								orgjsondata4select.data);
+
+						selectOrgZtree = $.fn.zTree
+								.getZTreeObj("selectOrgTree");
+						selectOrgZtree.expandAll(true);
+						selectZtreeOneNode(jQuery("#pid").val(),
+								"selectOrgTree");
+					}
+
+					//页面层-自定义
+					layer.open({
+						shadeClose : true,
+						closeBtn : 1,
+						btn : [ '确定' ], //按钮
+						type : 1,
+						title : "选择所属部门",
+						area : [ '600px', '400px' ], //宽高
+						//shadeClose: true,
+						content : $("#div_select_org_tree")
+					});
+
+				}
 			//-->
 			</script>
 </head>
@@ -203,6 +299,15 @@
 																		</div>
 																		<div class="layui-inline valid-info"></div>
 																	</div>
+																	
+																    <div class="layui-form-item  col-lg-6">
+															    		<label class="layui-form-label">归属部门*</label>
+																	    <div class="layui-inline">
+																	      	<input onclick="showOrgTree();" name="pname" id="pname"  value="${(returnDatas.data.pname)!''}" readonly="readonly"  type="text"  placeholder="点击选择归属部门" autocomplete="off" class="layui-input">
+																	    	<input name="pid" id="pid" type="hidden" value="${(returnDatas.data.pid)!''}"/>
+																	    </div>
+																  	</div>
+																	
 																	<div class="layui-form-item col-lg-6">
 																		<label class="layui-form-label">备注*</label>
 																		<div class="layui-inline col-lg-5">  
@@ -241,6 +346,9 @@
 	<div id="div_menuMultiSelectTree">
 		<ul id="menuMultiSelectTree" class="ztree"></ul>
 	</div>
+		<div id="div_select_org_tree">
+       	<ul id="selectOrgTree" class="ztree"></ul>
+     </div>
 	<script src="${ctx}/js/custom/common/form.js"></script>
 </body>
 </html>

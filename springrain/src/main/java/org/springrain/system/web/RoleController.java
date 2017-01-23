@@ -18,7 +18,9 @@ import org.springrain.frame.util.Page;
 import org.springrain.frame.util.ReturnDatas;
 import org.springrain.frame.util.property.MessageUtils;
 import org.springrain.system.entity.Menu;
+import org.springrain.system.entity.Org;
 import org.springrain.system.entity.Role;
+import org.springrain.system.service.IOrgService;
 import org.springrain.system.service.IRoleService;
 import org.springrain.system.service.IUserRoleMenuService;
 
@@ -37,6 +39,8 @@ public class RoleController  extends BaseController {
 	private IRoleService roleService;
 	@Resource
 	private IUserRoleMenuService userRoleMenuService;
+	@Resource
+	private IOrgService orgService;
 	
 	private String listurl="/system/role/roleList";
 	
@@ -104,6 +108,10 @@ public class RoleController  extends BaseController {
 		String id = request.getParameter("id");
 		if (StringUtils.isNotBlank(id)) {
 			Role role = userRoleMenuService.findRoleAndMenu(id);
+			if(role!=null&&StringUtils.isNotBlank(role.getPid())){
+				Org org=orgService.findById(role.getPid(),Org.class); 
+				role.setPname(org.getName()); 
+			}
 			returnObject.setData(role);
 		} else {
 			returnObject.setStatus(ReturnDatas.ERROR);
