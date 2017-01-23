@@ -181,7 +181,7 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 		
 		StringBuffer hasLeafBuffer=new StringBuffer();
 		hasLeafBuffer.append(" SELECT _system_temp_org.*  FROM ").append(Finder.getTableName(Org.class));
-		hasLeafBuffer.append(" _system_temp_org WHERE  ").append(sql);
+		hasLeafBuffer.append(" _system_temp_org WHERE 1=1 ").append(sql);  
 		hasLeafBuffer.append(" order by _system_temp_org.id  asc ");
 		
 		Finder finder=new Finder(hasLeafBuffer.toString());
@@ -216,7 +216,7 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 		}
 		Finder finder=new Finder("SELECT u.* FROM ");
 		finder.append(Finder.getTableName(User.class)).append(" u,").append(Finder.getTableName(UserOrg.class)).append(" re,").append(Finder.getTableName(Org.class)).append(" _system_temp_org ");
-		finder.append(" WHERE u.id=re.userId and re.orgId=_system_temp_org.id and ");
+		finder.append(" WHERE u.id=re.userId and re.orgId=_system_temp_org.id ");
 		finder.append(wheresql);
 		finder.append(" order by  u.id asc ");
 		return super.queryForList(finder, User.class,page);
@@ -258,8 +258,8 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 		}
 		StringBuffer hasLeafBuffer=new StringBuffer();
 		hasLeafBuffer.append(" SELECT _system_temp_org.id  FROM ").append(Finder.getTableName(Org.class));
-		hasLeafBuffer.append(" _system_temp_org WHERE  ").append(sql);
-		hasLeafBuffer.append(" order by _system_temp_org.id  asc ");
+		hasLeafBuffer.append(" _system_temp_org WHERE 1=1 ").append(sql); 
+//		hasLeafBuffer.append(" order by _system_temp_org.id  asc "); 
 		
 		 return hasLeafBuffer.toString();
 		
@@ -292,10 +292,12 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 		if(StringUtils.isEmpty(managerUserId)){
 			return null;
 		}
-		Finder f1=new Finder("SELECT re.* FROM  ").append(Finder.getTableName(RoleOrg.class)).append(" re,").append(Finder.getTableName(UserOrg.class)).append(" uo WHERE re.orgId=uo.orgId and uo.userId=:userId   order by re.id asc ");
+		//Finder f1=new Finder("SELECT re.* FROM  ").append(Finder.getTableName(RoleOrg.class)).append(" re,").append(Finder.getTableName(UserOrg.class)).append(" uo WHERE re.orgId=uo.orgId and uo.userId=:userId   order by re.id asc ");
+		Finder f1=new Finder("SELECT * FROM  ").append(Finder.getTableName(UserOrg.class)).append(" WHERE  userId=:userId   ");
 		f1.setParam("userId", managerUserId);
 		
-		List<RoleOrg> list = super.queryForList(f1, RoleOrg.class);
+//		List<RoleOrg> list = super.queryForList(f1, RoleOrg.class);
+		List<UserOrg> list = super.queryForList(f1, UserOrg.class);
 		
 		if(CollectionUtils.isEmpty(list)){
 			return null;
@@ -305,11 +307,13 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 		List<String> noLeafList=new ArrayList<String>();
 		StringBuffer hasLeafBuffer=new StringBuffer();
 		
-		hasLeafBuffer.append("   ( 1=1  ");
+		hasLeafBuffer.append("  and ( 1=1  ");
 		
-		for(RoleOrg re:list){
+//		for(RoleOrg re:list){
+	    for(UserOrg re:list){
 			String orgId=re.getOrgId();
-			Integer hasLeaf = re.getHasLeaf();
+			//Integer hasLeaf = re.getHasLeaf();
+			Integer hasLeaf = re.getHasleaf();
 			if(hasLeaf==0){//不包含子部门
 				noLeafList.add(orgId);
 			}else if(hasLeaf==1){//包含子部门
@@ -318,20 +322,22 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 		}
 		
 		
-		if(CollectionUtils.isEmpty(noLeafList)){
-			return hasLeafBuffer.toString();
-		}
-		
-		hasLeafBuffer.append(" or _system_temp_org.id in (");
-	
-		for (int i = 0; i < noLeafList.size(); i++) {
-			hasLeafBuffer.append("'").append(noLeafList.get(i)).append("'");
-			if(i<(noLeafList.size()-1)){
-				hasLeafBuffer.append(",");
+//		if(CollectionUtils.isEmpty(noLeafList)){
+//			return hasLeafBuffer.toString();
+//		}
+	    
+		if(!CollectionUtils.isEmpty(noLeafList)){
+			hasLeafBuffer.append(" or _system_temp_org.id in (");
+			for (int i = 0; i < noLeafList.size(); i++) {
+				hasLeafBuffer.append("'").append(noLeafList.get(i)).append("'");
+				if(i<(noLeafList.size()-1)){
+					hasLeafBuffer.append(",");
+				}
 			}
+			hasLeafBuffer.append(") ");
 		}
 		
-		hasLeafBuffer.append(") )  ");
+		hasLeafBuffer.append(") "); 
 		
 		return hasLeafBuffer.toString();
 	

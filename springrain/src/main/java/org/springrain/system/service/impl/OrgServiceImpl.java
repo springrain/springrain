@@ -9,15 +9,16 @@ import javax.annotation.Resource;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springrain.frame.common.SessionUser;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.Page;
-import org.springrain.frame.util.SecUtils;
 import org.springrain.system.entity.Org;
 import org.springrain.system.entity.User;
 import org.springrain.system.entity.UserOrg;
 import org.springrain.system.service.BaseSpringrainServiceImpl;
 import org.springrain.system.service.IOrgService;
 import org.springrain.system.service.ITableindexService;
+import org.springrain.system.service.IUserOrgService;
 
 /**
  * TODO 在此加入类描述
@@ -31,6 +32,8 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
 
     @Resource
     private ITableindexService tableindexService;
+    @Resource
+    private IUserOrgService userOrgService;
     @Override
 	public String  saveOrg(Org entity) throws Exception{
     	
@@ -166,15 +169,28 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
  * @return
  * @throws Exception
  */
-        @Override
-    public <T> List<T> findListDataByFinder(Finder finder, Page page, Class<T> clazz,
-			Object o) throws Exception{
-        	
-        	finder=new Finder("SELECT o.* FROM ").append(Finder.getTableName(Org.class)).append(" o ");
-        	finder.append(" WHERE o.active=:active order by o.sortno asc ");
-        	 finder.setParam("active", 1);
-			 return super.queryForList(finder, clazz);
-			}
+    @Override
+public <T> List<T> findListDataByFinder(Finder finder, Page page, Class<T> clazz,
+		Object o) throws Exception{
+    	
+    	finder=new Finder("SELECT o.* FROM ").append(Finder.getTableName(Org.class)).append(" o ");
+    	finder.append(" WHERE o.active=:active  ");
+   	 finder.setParam("active", 1);
+   	 finder.setEscapeSql(false);  
+    	String qxsql=userOrgService.findOrgIdsSQLByManagerUserId(SessionUser
+				.getUserId());
+    	if(StringUtils.isNotBlank(qxsql)){
+    		//有权限的时候
+    	finder.append(" and id in (").append(qxsql
+				).append(")"); 
+    	}else{
+    		//没有权限的时候
+    		finder.append(" and 1=2 ");
+    	}
+    	finder.append(" order by o.sortno asc ");
+
+		 return super.queryForList(finder, clazz); 
+		}
 	/**
 	 * 根据查询列表的宏,导出Excel
 	 * @param finder 为空则只查询 clazz表
