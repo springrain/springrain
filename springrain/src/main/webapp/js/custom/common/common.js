@@ -117,9 +117,13 @@ function getParentModule(childrenMenuList) {
         }
        
         var _leaf=childrenMenuList[i]["leaf"];
+        var menuIcon_df="&#xe63c;";
+        if(childrenMenuList[i].menuIcon!=null){
+        	menuIcon_df=childrenMenuList[i].menuIcon;
+        }
         if(_leaf&&_leaf.length>0){
         	 htmlStr += '<li class="layui-nav-item '+showItem+'" id="'+childrenMenuList[i].id+'"><a href="';
-            htmlStr = htmlStr+ ' javascript:;"> <i class="layui-icon">'+childrenMenuList[i].menuIcon+'</i><cute>'+childrenMenuList[i].name+'</cute></a>';
+            htmlStr = htmlStr+ ' javascript:;"> <i class="layui-icon">'+menuIcon_df+'</i><cute>'+childrenMenuList[i].name+'</cute></a>';
             htmlStr = htmlStr+getChindModule(_leaf);
         }else{
         	htmlStr += '<li class="layui-nav-item '+showItem+'" id="'+childrenMenuList[i].id+'"><a data-pid="'+childrenMenuList[i].pid+'" data-action="';
@@ -130,7 +134,7 @@ function getParentModule(childrenMenuList) {
                  tmpData = tmpData['leaf'][0];
              }
              url = ctx+url;
-            htmlStr = htmlStr+url+'" ><i class="layui-icon">'+childrenMenuList[i].menuIcon+'</i><cite>'+childrenMenuList[i].name+'</cite></a>';
+            htmlStr = htmlStr+url+'" ><i class="layui-icon">'+menuIcon_df+'</i><cite>'+childrenMenuList[i].name+'</cite></a>';
         }
         htmlStr = htmlStr+'</li>';
     }
@@ -291,7 +295,8 @@ function  init_sort_btn(){
 			jQuery("#page_order").val(jQuery(this).parent("th").attr("id").split("_")[1]);
 		}
 		//提交表单
-		$("#searchForm").submit();
+		springrain.commonSubmit("searchForm");
+		//$("#searchForm").submit();
 	});
 }
 function init_button_action(){

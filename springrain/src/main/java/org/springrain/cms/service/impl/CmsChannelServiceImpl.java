@@ -41,8 +41,6 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 	@Resource
 	private ICmsSiteService cmsSiteService;
 	
-	
-
 	@Override
 	public Object saveorupdate(Object entity) throws Exception {
 		CmsChannel channel = (CmsChannel) entity;
@@ -178,7 +176,7 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
     }
     @Override
 	public CmsChannel findCmsChannelById(String id) throws Exception{
-    	return super.findById(id,CmsChannel.class);
+    	return findById(id,CmsChannel.class);
 	}
     
     
@@ -268,5 +266,10 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 		
 		return tolist;
 
+	}
+	@Override
+	public <T> T findById(Object id, Class<T> clazz) throws Exception {
+		// TODO Auto-generated method stub
+		return super.findById(id, clazz);
 	}
 }

@@ -145,7 +145,7 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
     }
     @Override
 	public CmsContent findCmsContentById(String id) throws Exception{
-	 return super.findById(id,CmsContent.class);
+	 return findById(id,CmsContent.class);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -187,5 +187,10 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 		
 		return contentList;
 	}
-
+	
+	@Override
+	public <T> T findById(Object id, Class<T> clazz) throws Exception {
+		// TODO Auto-generated method stub
+		return super.findById(id, clazz);
+	}
 }
