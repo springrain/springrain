@@ -109,6 +109,7 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
 	 * @throws Exception
 	 */
 	
+	@SuppressWarnings("unused")
 	private void updateOrgManager(String orgId,String managerId) throws Exception{
 		/*此方法不在用。
 		 * 部门没有主管，只要主管角色相关联
@@ -155,7 +156,7 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
     		return org;
     	}
     	
-    	User u=list.get(0);
+    	//User u=list.get(0);
     	
 	 return org;
 	}

@@ -2,6 +2,7 @@ package org.springrain.cms.service.impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -58,6 +59,12 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 			}
 		}else{
 			contentList = super.findListDataByFinder(finder, page, CmsContent.class, queryBean);
+		}
+		for (CmsContent cmsContent : contentList) {
+			Map<String, Object> addtionInfo = super.queryForObject(new Finder("SELECT a.siteId,a.channelId,b.link FROM cms_channel_content a INNER JOIN cms_link b ON a.contentId=b.businessId"));
+			cmsContent.setSiteId((String) addtionInfo.get("siteId"));
+			cmsContent.setChannelId((String) addtionInfo.get("channelId"));
+			cmsContent.setLink((String) addtionInfo.get("link"));
 		}
 		return (List<T>) contentList;
 	}
@@ -151,7 +158,6 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 				finder.setParam("siteId", siteId);
 				contentList = super.queryForList(finder, CmsContent.class, page);
 				putByCache(siteId, "cmsContentService_findListBySiteId_"+siteId, contentList);
-				
 			}
 			return contentList;
 		}else{

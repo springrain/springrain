@@ -22,12 +22,10 @@ function loadMenu(){
 	//加载菜单
     if(!(!!locache.get("menuData"))){//没有数据
     	ajaxmenu();
-    	var tmpData = locache.get("menuData");
-    	setCacheUrlPath("",tmpData);
-    	setCacheLeftMenu(tmpData);
+    }else{
+    	var menuData = locache.get("menuData");
+    	buildModule(menuData);
     }
-    var menuData = locache.get("menuData");
-    buildModule(menuData);
 }
 
 
@@ -49,28 +47,7 @@ function configLayui(par){
 		}).use(par);
 }
 
-function setCacheUrlPath(pid,tmpData){	
-	for ( var index in tmpData) {
-		if(!(!!pid) || !(!!tmpData[index].pid)){
-			pid = tmpData[index].id;
-		}
-		var cacheVal = pid;
-		var cacheKey = ctx+tmpData[index]['pageurl']; 
-		var tmpLeaf = tmpData[index]['leaf'];
-		if(!!tmpLeaf){
-			setCacheUrlPath(pid,tmpLeaf);
-		}
-		if(!!cacheKey){
-			locache.set(cacheKey,cacheVal);
-		}
-	}
-}
 
-function setCacheLeftMenu(tmpData){
-	for ( var index in tmpData) {
-		locache.set(tmpData[index].id,tmpData[index]['leaf']);
-	}
-}
 
 /**
  * 获取所有导航资源
@@ -87,6 +64,8 @@ function ajaxmenu() {
         success : function(_json) {
             if(_json.status=="success"){
             	locache.set("menuData",_json.data);
+            	var menuData = locache.get("menuData");
+                buildModule(menuData);
             }
         }
     });
@@ -101,7 +80,6 @@ function buildModule(data) {
         	_url=_url.substring(0,_url.indexOf("/update/pre"))+"/list";
         } 
         /*处理/update时丢了菜单 状态*/
-        var naviMenuId = locache.get(_url);
         var childrenMenuList = null;
         for ( var i = 0; i < data.length; i++) {
             var url = data[i].pageurl;
@@ -110,12 +88,14 @@ function buildModule(data) {
                 url = tmpData.pageurl;
                 tmpData = tmpData['leaf'][0];
             }
-            url = ctx + url;
-            if((data[i].id == naviMenuId) || (!(!!naviMenuId) && i==0)){//url中有第一个菜单的键值
-                htmlStr += '<li id="pmenu'+data[i].id+'" class="layui-nav-item layui-this"><a data-action="'+url+'">'+data[i].name+'</a></li>';
+            var tmpPid = locache.get("currentPagePid");
+            if((tmpPid == data[i].id) || (!(!!tmpPid) && i==0)){//url中有第一个菜单的键值
+            	url = ctx + url;
+            	htmlStr += '<li id="pmenu'+data[i].id+'" class="layui-nav-item layui-this"><a data-pid="'+data[i].id+'" data-action="'+url+'">'+data[i].name+'</a></li>';
                 childrenMenuList = data[i]['leaf'];
             }else{
-                htmlStr += '<li id="pmenu'+data[i].id+'" class="layui-nav-item"><a data-action="'+url+'">'+data[i].name+'</a></li>';
+            	url = ctx + url;
+                htmlStr += '<li id="pmenu'+data[i].id+'" class="layui-nav-item"><a data-pid="'+data[i].id+'" data-action="'+url+'">'+data[i].name+'</a></li>';
             }
         }
         $("#naviHeaderMenu").html(htmlStr);
@@ -142,7 +122,7 @@ function getParentModule(childrenMenuList) {
             htmlStr = htmlStr+ ' javascript:;"> <i class="layui-icon">'+childrenMenuList[i].menuIcon+'</i><cute>'+childrenMenuList[i].name+'</cute></a>';
             htmlStr = htmlStr+getChindModule(_leaf);
         }else{
-        	htmlStr += '<li class="layui-nav-item '+showItem+'" id="'+childrenMenuList[i].id+'"><a data-action="';
+        	htmlStr += '<li class="layui-nav-item '+showItem+'" id="'+childrenMenuList[i].id+'"><a data-pid="'+childrenMenuList[i].pid+'" data-action="';
         	 var url = childrenMenuList[i].pageurl;
              var tmpData = childrenMenuList[i]['leaf'][0];
              while(!!tmpData){
@@ -316,9 +296,13 @@ function  init_sort_btn(){
 }
 function init_button_action(){
 	jQuery("button[data-action]").bind("click",function(){
-		window.location.href=springrain.appendToken(jQuery(this).attr("data-action"))
+		if(!!$(this).attr("data-pid"))
+			locache.set("currentPagePid",$(this).attr("data-pid"));
+		window.location.href=springrain.appendToken(jQuery(this).attr("data-action"));
 	});
 	jQuery("a[data-action]").bind("click",function(){
+		if(!!$(this).attr("data-pid"))
+			locache.set("currentPagePid",$(this).attr("data-pid"));
 		window.location.href=springrain.appendToken(jQuery(this).attr("data-action"))
 	});
 }

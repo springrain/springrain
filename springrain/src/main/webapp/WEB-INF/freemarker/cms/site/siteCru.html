@@ -16,9 +16,7 @@ description="springrain开源系统管理后台"/>
 		@_before:提交表单前，调用 的函数   可以为空，一般有validform处理不了，独自进行处理时使用
 		@_after:保存成功后，调用的函数  可以为空，一般为对应的列表页面
 		 */
-		springrain.initValid(null, function() {
-			window.location.href = "${ctx}/system/cms/site/list"
-		});
+		 springrain.initValid(null,function(){window.location.href="${ctx}/system/cms/site/list?springraintoken="+springraintoken});
 	});
 	var uploader = WebUploader.create({
 	    // swf文件路径
@@ -191,8 +189,7 @@ description="springrain开源系统管理后台"/>
 									<div class="layui-form-item change-submit">
 										<div class="layui-inline">
 											<button type="button" class="layui-btn" id="smtbtn">立即提交</button>
-											<button type="button" class="layui-btn layui-btn-primary"
-												id="rstbtn">重置</button>
+											<button type="button" class="layui-btn layui-btn-primary" id="rstbtn">重置</button>
 										</div>
 									</div>
 								</form>
