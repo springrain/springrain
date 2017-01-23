@@ -86,9 +86,6 @@ public class CmsContentController  extends BaseController {
 		Page page = newPage(request);
 		// ==执行分页查询
 		List<CmsContent> datas=cmsContentService.findListDataByFinder(null,page,CmsContent.class,cmsContent);
-		for (CmsContent content : datas) {
-			content.setLink(cmsLinkService.findLinkBySiteBusinessId(content.getSiteId(),content.getId()).getLink());
-		}
 		returnObject.setQueryBean(cmsContent);
 		returnObject.setPage(page);
 		returnObject.setData(datas);

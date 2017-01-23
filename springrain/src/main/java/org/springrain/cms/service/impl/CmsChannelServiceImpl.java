@@ -46,8 +46,8 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 	@Override
 	public Object saveorupdate(Object entity) throws Exception {
 		CmsChannel channel = (CmsChannel) entity;
+		evictByKey(GlobalStatic.cacheKey, "cmsChannelService_findListDataByFinder");
 		if(StringUtils.isBlank(channel.getId())){
-			evictByKey(GlobalStatic.cacheKey, "cmsChannelService_findListDataByFinder");
 			return this.saveChannel(channel);
 		}else{
 			return this.updateChannel(channel);
@@ -121,7 +121,7 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 	    cmsLink.setNodeftlfile("/u/"+siteId+"/content.html");
 	    cmsLinkService.save(cmsLink);
 	    
-	    putByCache(siteId, "cmsChannelService_findTreeByPid_"+cmsChannel.getPid()+"_"+siteId, cmsChannel);
+	    evictByKey(siteId, "cmsChannelService_findTreeByPid_"+cmsChannel.getPid()+"_"+siteId);
 	    putByCache(siteId, "cmsChannelService_findTreeChannel_"+siteId, cmsChannel);
 	    return id;
 	}
@@ -150,8 +150,8 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 		String new_c=findChannelNewComcode(id, pid,siteId);
 		
 		if(new_c.equalsIgnoreCase(old_c)){//编码没有改变
+			evictByKey(siteId, "cmsChannelService_findTreeByPid_"+pid+"_"+siteId);
 			return super.update(cmsChannel,true);
-			
 		}
 		cmsChannel.setComcode(new_c);
 		Integer update = super.update(cmsChannel,true);
@@ -173,8 +173,6 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 		super.update(list,true);
 		
 		evictByKey(siteId, "cmsChannelService_findTreeByPid_"+pid+"_"+siteId);
-		
-		putByCache(siteId, "cmsChannelService_findTreeByPid_"+pid+"_"+siteId, cmsChannel);
 	    return update;
 
     }
@@ -208,7 +206,7 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
     		}
     		List<CmsChannel> wrapList=new ArrayList<CmsChannel>();
     		diguiwrapList(channelList, wrapList, null);
-    		evictByKey(siteId, "cmsChannelService_findTreeByPid_"+pid+"_"+siteId);
+    		putByCache(siteId, "cmsChannelService_findTreeByPid_"+pid+"_"+siteId,wrapList);
     		return wrapList;
     	}else{
     		return channelList;

@@ -95,7 +95,7 @@ public class SpringUtils  implements ApplicationContextAware {
 			entityClassName=entityClassName.substring(entityClassName.lastIndexOf(packagePath), entityClassName.lastIndexOf(".class"));
 			entityClassName=entityClassName.replaceAll("/", ".");
 			
-			Class clazz=Class.forName(entityClassName);
+			Class<?> clazz=Class.forName(entityClassName);
 			ClassUtils.getEntityInfoByClass(clazz);
 			
 		}

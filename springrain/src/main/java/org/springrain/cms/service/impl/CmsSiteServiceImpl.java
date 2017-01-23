@@ -190,5 +190,4 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 		finder.setParam("userId", userId);
 		return super.queryForList(finder, CmsSite.class);
 	}
-	
 }

@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.servlet.ServletRequest;
@@ -11,8 +12,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.web.filter.authc.UserFilter;
 import org.apache.shiro.web.util.WebUtils;
 import org.springrain.frame.util.GlobalStatic;
@@ -80,9 +79,9 @@ public class BaseUserFilter extends UserFilter {
 	 		Map<String,String[]> map=request.getParameterMap();  
 	 	    Set<Map.Entry<String,String[]>> keSet=map.entrySet();  
 	 	    
-	 	    for(Iterator itr=keSet.iterator();itr.hasNext();){  
+	 	    for(Iterator<Entry<String, String[]>> itr=keSet.iterator();itr.hasNext();){  
 	 	    	
-	 	        Map.Entry<String,String[]> me=(Map.Entry<String,String[]>)itr.next();  
+	 	        Map.Entry<String,String[]> me=itr.next();  
 	 	        String key=me.getKey();  
 	 	        if(GlobalStatic.tokenKey.equals(key)){
 	 	        	continue;

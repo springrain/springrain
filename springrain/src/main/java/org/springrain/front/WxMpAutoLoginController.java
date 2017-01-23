@@ -16,7 +16,6 @@ import org.springrain.weixin.sdk.common.api.WxConsts;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
 import org.springrain.weixin.sdk.mp.api.IWxMpService;
 import org.springrain.weixin.sdk.mp.bean.result.WxMpOAuth2AccessToken;
-import org.springrain.weixin.sdk.mp.bean.result.WxMpUser;
 
 @Controller
 @RequestMapping(value = "/wx/mpautologin/{siteId}")
@@ -61,7 +60,7 @@ public class WxMpAutoLoginController extends BaseController {
 	 */
 	@RequestMapping("/callback")
 	public String callback(@PathVariable String siteId,HttpServletRequest request, HttpServletResponse response) throws Exception {
-		WxMpUser wxMpUser = new WxMpUser();
+		//WxMpUser wxMpUser = new WxMpUser();
 		String url = request.getParameter("url");
 		String code = request.getParameter("code");
 		

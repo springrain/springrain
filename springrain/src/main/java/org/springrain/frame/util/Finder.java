@@ -167,7 +167,7 @@ public class Finder {
 		
 		String _sql=sql.toString();
 		if(isEscapeSql()&&_sql.contains("'")){
-			throw new Exception("Please do not splice the SQL statement!!!");
+			throw new Exception("请不要拼接SQL语句!!!");
 		}
 		return _sql;
 	}

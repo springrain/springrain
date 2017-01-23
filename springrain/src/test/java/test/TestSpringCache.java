@@ -19,6 +19,7 @@ public class TestSpringCache {
 	@Resource
 IUserService userService;
 	
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testUser() throws Exception{
 		
