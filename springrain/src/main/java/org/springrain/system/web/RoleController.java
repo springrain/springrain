@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.util.CollectionUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -78,6 +79,26 @@ public class RoleController  extends BaseController {
 		Page page = newPage(request);
 	
 		List<Role> datas =roleService.findListDataByFinder(null, page, Role.class, role);
+		if(!CollectionUtils.isEmpty(datas)){
+			for(Role r:datas){
+				StringBuffer menunames=new StringBuffer();
+				//查询部门名称
+				if(StringUtils.isNotBlank(r.getPid())){
+					Org org=orgService.findById(r.getPid(), Org.class);
+					if(org!=null){
+						r.setPname(org.getName()); 
+					}
+				}
+				//查询角色对应菜单
+				List<Menu> lsmenu=userRoleMenuService.findMenuByRoleId(r.getId());
+				if(!CollectionUtils.isEmpty(lsmenu)){
+					for(Menu m:lsmenu){
+						menunames.append(m.getName()).append(",");
+					}
+				}
+				r.setMenunames(menunames.toString());
+			}
+		}
 		returnObject.setQueryBean(role);
 		returnObject.setPage(page);
 		returnObject.setData(datas);

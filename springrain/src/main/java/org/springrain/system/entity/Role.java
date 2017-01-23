@@ -69,6 +69,8 @@ public class Role  extends BaseEntity {
 	private List<Menu> menus;
 	//归属部门名称
 	private String pname;
+	//对应目录名称 逗号分隔
+	private String menunames;
 	
 	//concstructor
 
@@ -79,6 +81,14 @@ public class Role  extends BaseEntity {
 		java.lang.String id
 	){
 		this.id = id;
+	}
+    @Transient
+	public String getMenunames() {
+		return menunames;
+	}
+
+	public void setMenunames(String menunames) {
+		this.menunames = menunames;
 	}
 
 	//get and set
