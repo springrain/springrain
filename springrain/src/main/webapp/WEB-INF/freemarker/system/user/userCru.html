@@ -320,6 +320,19 @@ function clickOrgValue(event, treeId, treeNode) {
 	jQuery(_current_btn).siblings("input").eq(0).val(id);
 	layer.closeAll();
 };
+function modifyPWD(_obj){
+	springrain.prompt("修改密码为", function(data){
+		var _input=jQuery(_obj).parent("div").find("#password");
+		if(_input==null||_input.length==0){
+			_input="<input id='password' type='hidden' name='password' value='"+data+"'>";
+			jQuery(_obj).parent("div").append(_input);
+		}else{
+			jQuery(_input).val(data);
+		}
+		layer.closeAll();
+		springrain.msg("保存后生效");
+	})
+}
 </script>
 </head>
 <body>
@@ -366,8 +379,12 @@ function clickOrgValue(event, treeId, treeNode) {
 																	</div>
 																	<div class="layui-form-item col-lg-6">
 																		<label class="layui-form-label">密码*</label>
-																		<div class="layui-inline col-lg-5">  
-																			<input type="password" name="password" id="password" datatype="*" nullmsg="不能为空" errormsg="不能为空！" autocomplete="off" class="layui-input" value="${(returnDatas.data.password)!''}">
+																		<div class="layui-inline col-lg-5"> 
+																			<#if (returnDatas.data??)>
+																				 <button type="button" onclick="modifyPWD(this)" class="layui-btn layui-btn-normal"><i class="layui-icon">&#xe642;</i>修改密码</button>
+																			<#else>
+																				<input type="password" name="password" id="password" datatype="*" nullmsg="不能为空" errormsg="不能为空！" autocomplete="off" class="layui-input" value="${(returnDatas.data.password)!''}">
+																			</#if>
 																		</div>
 																		<div class="layui-inline valid-info"></div>
 																	</div>
