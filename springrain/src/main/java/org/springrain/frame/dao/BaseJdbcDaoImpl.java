@@ -674,7 +674,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		auditLog.setOperationTime(new Date());
 		auditLog.setCurValue(entity.toString());
 		auditLog.setPreValue("无");
-		auditLog.setExt(tableExt);
+		auditLog.setSuffix(tableExt);
 		saveNoLog(auditLog);// 保存日志
 
 		return id;
@@ -859,7 +859,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 			int year = Calendar.getInstance().get(Calendar.YEAR);
 			audit_tableExt = GlobalStatic.tableSuffix + year;
 		}
-		auditLog.setExt(audit_tableExt);
+		auditLog.setSuffix(audit_tableExt);
 		// 保存日志
 		saveNoLog(auditLog);
 
@@ -945,7 +945,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		auditLog.setOperationClassId(id.toString());
 		auditLog.setOperationTime(new Date());
 		auditLog.setPreValue(findEntityByID.toString());
-		auditLog.setExt(tableExt);
+		auditLog.setSuffix(tableExt);
 		auditLog.setCurValue("无");
 		// 保存日志
 		saveNoLog(auditLog);

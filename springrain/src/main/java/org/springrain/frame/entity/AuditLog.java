@@ -80,9 +80,7 @@ public class AuditLog  extends BaseEntity  {
 	
 	//concstructor
 
-	public void setSuffix(String suffix) {
-		this.suffix = suffix;
-	}
+
 
 	public AuditLog(){
 	}
@@ -199,7 +197,7 @@ public class AuditLog  extends BaseEntity  {
 			return suffix;
 	}
 
-	public void setExt(String ext) {
+	public void setSuffix(String ext) {
 		this.suffix = ext;
 	}
 	
