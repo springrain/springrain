@@ -291,7 +291,8 @@ function  init_sort_btn(){
 			jQuery("#page_order").val(jQuery(this).parent("th").attr("id").split("_")[1]);
 		}
 		//提交表单
-		$("#searchForm").submit();
+		springrain.commonSubmit("searchForm");
+		//$("#searchForm").submit();
 	});
 }
 function init_button_action(){
