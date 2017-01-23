@@ -11,7 +11,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import org.springrain.frame.annotation.NotLog;
-import org.springrain.frame.annotation.TableGroup;
+import org.springrain.frame.annotation.TableSuffix;
 import org.springrain.frame.annotation.WhereSQL;
 import org.springrain.frame.entity.BaseEntity;
 import org.springrain.frame.util.GlobalStatic;
@@ -23,7 +23,7 @@ import org.springrain.frame.util.GlobalStatic;
  * @see org.springrain.system.entity.Fwlog
  */
 @Table(name="t_fwlog")
-@TableGroup(name="ext")
+@TableSuffix(name="ext")
 @NotLog
 public class Fwlog  extends BaseEntity {
 	
@@ -271,7 +271,7 @@ public class Fwlog  extends BaseEntity {
 	public String getExt() {
 		if(StringUtils.isBlank(ext)){
 			int year= Calendar.getInstance().get(Calendar.YEAR);
-			this.ext= GlobalStatic.tableExt + year;
+			this.ext= GlobalStatic.tableSuffix + year;
 		}
 			return ext;
 	}

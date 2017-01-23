@@ -9,7 +9,7 @@ import javax.persistence.Transient;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.springrain.frame.annotation.TableGroup;
+import org.springrain.frame.annotation.TableSuffix;
 import org.springrain.frame.annotation.WhereSQL;
 import org.springrain.frame.util.GlobalStatic;
 /**
@@ -20,7 +20,7 @@ import org.springrain.frame.util.GlobalStatic;
  * @see org.springrain.frame.entity.AuditLog
  */
 @Table(name="t_auditlog")
-@TableGroup(name="ext")
+@TableSuffix(name="suffix")
 public class AuditLog  extends BaseEntity  {
 	
 	private static final long serialVersionUID = 1L;
@@ -76,7 +76,7 @@ public class AuditLog  extends BaseEntity  {
 	//columns END
 	
 	
-	private String ext;
+	private String suffix;
 	
 	//concstructor
 
@@ -187,16 +187,16 @@ public class AuditLog  extends BaseEntity  {
 	}
 	
 	@Transient
-	public String getExt() {
-		if(StringUtils.isBlank(ext)){
+	public String getSuffix() {
+		if(StringUtils.isBlank(suffix)){
 			int year= Calendar.getInstance().get(Calendar.YEAR);
-			this.ext= GlobalStatic.tableExt + year;
+			this.suffix= GlobalStatic.tableSuffix + year;
 		}
-			return ext;
+			return suffix;
 	}
 
 	public void setExt(String ext) {
-		this.ext = ext;
+		this.suffix = ext;
 	}
 	
 }

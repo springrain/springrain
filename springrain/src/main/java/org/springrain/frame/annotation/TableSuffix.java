@@ -12,10 +12,10 @@ import java.lang.annotation.RetentionPolicy;
  * @copyright {@link weicms.net}
  * @author springrain<9iuorg@gmail.com>
  * @version  2013-03-19 11:08:15
- * @see org.springrain.frame.annotation.TableGroup
+ * @see org.springrain.frame.annotation.TableSuffix
  */
 @Retention(RetentionPolicy.RUNTIME)
-public @interface TableGroup  {
+public @interface TableSuffix  {
 	/**
 	 * 扩展后缀,默认为空,可以指定字段 例如 ext 的getExt() 返回值是 _history_2013
 	 * @return

@@ -43,7 +43,7 @@ public class GlobalStatic {
     public static final String tokenKey="springraintoken";
 	public static final String defaultCharset="UTF-8";
 	
-	public static final String tableExt="_history_";
+	public static final String tableSuffix="_history_";
 	public static final String frameTableAlias="frameTableAlias";
 	public static final String pageurlName="pageurlName";
 	public static final String returnDatas="returnDatas";

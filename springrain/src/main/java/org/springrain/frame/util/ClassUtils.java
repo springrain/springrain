@@ -23,7 +23,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springrain.frame.annotation.LuceneField;
 import org.springrain.frame.annotation.NotLog;
 import org.springrain.frame.annotation.PKSequence;
-import org.springrain.frame.annotation.TableGroup;
+import org.springrain.frame.annotation.TableSuffix;
 import org.springrain.frame.annotation.WhereSQL;
 
 
@@ -115,7 +115,7 @@ public class ClassUtils {
  		 }
     	
     	
-   	 if(clazz.isAnnotationPresent(TableGroup.class)){
+   	 if(clazz.isAnnotationPresent(TableSuffix.class)){
    		info.setGroup(true);
 	 }
  	 if(clazz.isAnnotationPresent(NotLog.class)){
@@ -392,10 +392,10 @@ public class ClassUtils {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static String getTableExt(Object o) throws Exception{
 		Class clazz=o.getClass();
-		if(clazz.isAnnotationPresent(TableGroup.class)==false)
+		if(clazz.isAnnotationPresent(TableSuffix.class)==false)
 			return "";
 		
-		TableGroup group =	(TableGroup)clazz.getAnnotation(TableGroup.class);
+		TableSuffix group =	(TableSuffix)clazz.getAnnotation(TableSuffix.class);
 		String p=group.name();
 		String  tableExt= (String) getPropertieValue(p, o);
 		return tableExt;
@@ -412,10 +412,10 @@ public class ClassUtils {
 	@Deprecated
 	public static String getGroupPropertyName(Object o) throws Exception{
 		Class clazz=o.getClass();
-		if(clazz.isAnnotationPresent(TableGroup.class)==false){
+		if(clazz.isAnnotationPresent(TableSuffix.class)==false){
 			return "";
 		}
-		TableGroup group =	(TableGroup)clazz.getAnnotation(TableGroup.class);
+		TableSuffix group =	(TableSuffix)clazz.getAnnotation(TableSuffix.class);
 		String p=group.name();
 		return p;
 		

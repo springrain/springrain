@@ -662,7 +662,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		String tableExt = entityInfo.getTableExt();
 		if (StringUtils.isBlank(tableExt)) {
 			int year = Calendar.getInstance().get(Calendar.YEAR);
-			tableExt = GlobalStatic.tableExt + year;
+			tableExt = GlobalStatic.tableSuffix + year;
 		}
 		auditLog.setOperationClass(entity.getClass().getName());
 		auditLog.setOperationType(GlobalStatic.dataSave);
@@ -857,7 +857,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		String audit_tableExt = tableExt;
 		if (StringUtils.isBlank(tableExt)) {
 			int year = Calendar.getInstance().get(Calendar.YEAR);
-			audit_tableExt = GlobalStatic.tableExt + year;
+			audit_tableExt = GlobalStatic.tableSuffix + year;
 		}
 		auditLog.setExt(audit_tableExt);
 		// 保存日志
@@ -937,7 +937,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		 */
 
 		int year = Calendar.getInstance().get(Calendar.YEAR);
-		String tableExt = GlobalStatic.tableExt + year;
+		String tableExt = GlobalStatic.tableSuffix + year;
 
 		auditLog.setOperationClass(clazz.getName());
 		auditLog.setOperationType(GlobalStatic.dataDelete);
