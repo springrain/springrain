@@ -112,8 +112,8 @@
 													  <th>操作</th>
 													  <!--first_end_no_export-->
 															<th id="th_name" >角色名称<i class="layui-icon sort-icon-up sort-icon">&#xe619;</i><i class="layui-icon sort-icon-down sort-icon">&#xe61a;</i></th>
-															<th id="th_code" >权限编码<i class="layui-icon sort-icon-up sort-icon">&#xe619;</i><i class="layui-icon sort-icon-down sort-icon">&#xe61a;</i></th>
 															<th id="th_roleType" >角色类型<i class="layui-icon sort-icon-up sort-icon">&#xe619;</i><i class="layui-icon sort-icon-down sort-icon">&#xe61a;</i></th>
+															<th id="th_code" >角色菜单<i class="layui-icon sort-icon-up sort-icon">&#xe619;</i><i class="layui-icon sort-icon-down sort-icon">&#xe61a;</i></th>
 															<th id="th_active" >是否有效<i class="layui-icon sort-icon-up sort-icon">&#xe619;</i><i class="layui-icon sort-icon-down sort-icon">&#xe61a;</i></th>
 													</tr> 
 												</thead>
@@ -140,9 +140,6 @@
 																${(_data.name)!''}
 															</td>
 															<td >
-																${(_data.code)!''}
-															</td>
-															<td >
 																<#if (_data.roleType)?? && (_data.roleType==0)>
 																	系统角色
 																<#elseif (_data.roleType)?? && (_data.roleType==1)>
@@ -150,6 +147,9 @@
 																<#elseif (_data.roleType)?? && (_data.roleType==2)>
 																	业务岗位
 																</#if>
+															</td>
+															<td >
+															
 															</td>
 															<td >
 																<#if (_data.active)?? && (_data.active==1)>

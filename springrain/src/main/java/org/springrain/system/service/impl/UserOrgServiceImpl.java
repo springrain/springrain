@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.Page;
 import org.springrain.system.entity.Org;
-import org.springrain.system.entity.RoleOrg;
 import org.springrain.system.entity.User;
 import org.springrain.system.entity.UserOrg;
 import org.springrain.system.entity.UserRole;
@@ -91,7 +90,7 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 		if(StringUtils.isBlank(userId)){
 			return null;
 		}
-		Finder finder=new Finder("SELECT re.*,org.name  orgName FROM  ").append(Finder.getTableName(UserOrg.class)).append(" re ,").append(Finder.getTableName(Org.class)).append(" org  WHERE re.userId=:userId and org.id=re.orgId and re.qxType=1  order by org.id asc   ");
+		Finder finder=new Finder("SELECT re.*,org.name  orgName FROM  ").append(Finder.getTableName(UserOrg.class)).append(" re ,").append(Finder.getTableName(Org.class)).append(" org  WHERE re.userId=:userId and org.id=re.orgId  order by org.id asc   ");
 		finder.setParam("userId", userId);
 		return super.queryForList(finder, UserOrg.class);
 	}
@@ -315,7 +314,8 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 		List<String> noLeafList=new ArrayList<String>();
 		StringBuffer hasLeafBuffer=new StringBuffer();
 		
-		hasLeafBuffer.append("  and ( 1=1  ");
+//		hasLeafBuffer.append("  and ( 1=1  ");
+		hasLeafBuffer.append("  and ( ");
 		
 //		for(RoleOrg re:list){
 	    for(UserOrg re:list){
@@ -325,7 +325,11 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 			if(hasLeaf==0){//不包含子部门
 				noLeafList.add(orgId);
 			}else if(hasLeaf==1){//包含子部门
-				hasLeafBuffer.append(" or _system_temp_org.comcode like '%,").append(orgId).append(",%' ");
+				if(list.indexOf(re)!=0){
+					//第一个不加
+					hasLeafBuffer.append(" or ");
+				}
+				hasLeafBuffer.append(" _system_temp_org.comcode like '%,").append(orgId).append(",%' ");
 			}
 		}
 		
@@ -335,7 +339,11 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 //		}
 	    
 		if(!CollectionUtils.isEmpty(noLeafList)){
-			hasLeafBuffer.append(" or _system_temp_org.id in (");
+			if(!CollectionUtils.isEmpty(list)){
+				//前面有sql加连接符
+				hasLeafBuffer.append(" or ");
+			}
+			hasLeafBuffer.append(" _system_temp_org.id in (");
 			for (int i = 0; i < noLeafList.size(); i++) {
 				hasLeafBuffer.append("'").append(noLeafList.get(i)).append("'");
 				if(i<(noLeafList.size()-1)){

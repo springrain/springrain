@@ -36,7 +36,7 @@ function exit(){
 		try{
 			locache.flush();
 		}catch(e){}
-		window.location = ctx+"/logout";
+		window.location = ctx+"/system/logout";
 	});
 	
 }

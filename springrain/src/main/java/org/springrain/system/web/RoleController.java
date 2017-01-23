@@ -211,8 +211,6 @@ public class RoleController  extends BaseController {
 		return roleService.queryForList(finder,Role.class, page);
 		
 	}
-
-	
 	
 
 }
