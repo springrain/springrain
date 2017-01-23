@@ -183,6 +183,14 @@
 				_that.ajaxpostonlayer(pageurl,listurl,mydata,message);
 				return _form;
 			},
+			commonSubmit:function(formId){
+				var _that=this;
+				if(!formId){
+					formId="updateForm";
+				}
+				var _action=jQuery("#"+formId).attr("action");
+				jQuery("#"+formId).attr("action",_that.appendToken(_action)).submit();
+			},
 			/**
 			 * 修改
 			 * 带validform验证的表单AJAX提交,和方法"initValid"应用不同场景
