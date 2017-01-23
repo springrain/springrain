@@ -30,7 +30,7 @@
 		 @_before:提交表单前，调用 的函数   可以为空，一般有validform处理不了，独自进行处理时使用
 		 @_after:保存成功后，调用的函数  可以为空，一般为对应的列表页面
 		 */
-		 springrain.initValid(null,function(){window.location.href="${ctx}/system/user/list?springraintoken"+=springraintoken});
+		 springrain.initValid(null,function(){window.location.href="${ctx}/system/user/list?springraintoken="+springraintoken});
 	 });
 </script>
 <script>
@@ -49,9 +49,25 @@ var orgMultiSelectSetting = {
             pIdKey : "pid",
             rootPId : "null"
         }
-    }
+    } 
 };
-    
+var orgMultiSelectSetting_manager = {
+	    expandAll:true,
+	    data : {
+	        simpleData : {
+	            enable : true,
+	            idKey : "id",
+	            pIdKey : "pid",
+	            rootPId : "null"
+	        }
+	    },
+	    callback : {
+			onClick : clickOrgValue
+		},
+	    view: {
+			selectedMulti: false,
+		}
+	};
 var orgMultiSelectTree;
 function showZtreeOrg(){
     if(!orgMultiSelectTree){
@@ -98,7 +114,52 @@ function showZtreeOrg(){
     });
     return false;
 }
-
+var orgMangeMultiSelectTree;
+function showMangerZtreeOrg(_obj){
+	_current_btn=_obj;
+	if(!orgMangeMultiSelectTree){
+        jQuery.post("${ctx}/system/org/list/json",function(_json) {
+             if (_json.status == "success") {
+            	 //对datas进行处理
+            	 if(_json!=null&&_json.data!=null&&_json.data.length>0){
+            		 for(var i=0;i<_json.data.length;i++){
+            			 if(_json.data[i].orgType=="2"){
+            				 _json.data[i].name+="【虚拟权限部门】";
+            			 }else if(_json.data[i].orgType=="1"){
+            				 _json.data[i].name+="【部门】";
+            			 }else if(_json.data[i].orgType=="0"){
+            				 _json.data[i].name+="【组织结构】";
+            			 }
+            		 }
+            	 }
+                 $.fn.zTree.init($("#orgMultiSelectTree_manger"), orgMultiSelectSetting_manager,_json.data);
+                 orgMangeMultiSelectTree =$.fn.zTree.getZTreeObj("orgMultiSelectTree_manger");
+                 orgMangeMultiSelectTree.expandAll(true);
+                 checkedZtreeNodes(jQuery("#ManageOrgIds").val(),"orgMultiSelectTree_manger");
+             } else {
+                 myalert(_json.message);
+                 return false;
+             }
+         });
+        
+    }else{
+        checkedZtreeNodes(jQuery("#ManageOrgIds").val(),"orgMultiSelectTree_manger");
+    }
+    //页面层-自定义
+    layer.open({
+      shadeClose:true,
+      type: 1,
+      title: "管理部门",
+      area: ['600px', '400px'], //宽高
+      content: $("#div_orgMultiSelectTree_manger"),
+      closeBtn: 1,
+      btn: ['取消'], //按钮
+      yes:function(index, layero){
+            layer.close(index); //如果设定了yes回调，需进行手工关闭
+       }
+    });
+    return false;
+}
 
 
 function selectZtreeOrg(){
@@ -222,6 +283,43 @@ function check(type){
     var listurl='${ctx}/system/user/list';
     springrain.commonUpdateForm("updateForm", listurl, null);
 }
+var _current_btn=null;
+function add(){
+	jQuery("#addTbody").parents("table").removeClass("off");
+	var _html=["<tr>",
+					"<td><input type='text' readonly onclick='showMangerZtreeOrg(this)'   name='managerOrgNames' placeholder='单击选择' class='layui-input'><input type='hidden' name='managerOrgIds'></td>",
+					"<td><select name='hasleaf'><option value='0'>不包含</option><option value='1'>包含</option></select></td>",
+					"<td><a onclick='del(this)' class='layui-btn layui-btn-danger layui-btn-mini ajax-delete'>删除</a></td>",
+				"</tr>"].join('');
+	var _html=jQuery(_html);
+	jQuery("#addTbody").append(_html);
+	form.render();
+	jQuery(_html).find("input[name='managerOrgNames']").trigger("click");
+	
+}
+function del(_obj){
+	springrain.confirm("确认删除?",function(){
+		jQuery(_obj).parents("tr").remove();
+	});
+}
+function clickOrgValue(event, treeId, treeNode) {
+	var name=treeNode.name;
+	var id=treeNode.id;
+	//先看一下，有没有
+	var _flag=false;
+	jQuery(_current_btn).parents("tr").siblings("tr").find("input[name='managerOrgIds']").each(function(_i,_o){
+		if(jQuery(_o).val()==id){
+			_flag=true;
+		}
+	});
+	if(_flag){
+		springrain.alert("已经添加该部门，请重新选择.");
+		return;
+	}
+	jQuery(_current_btn).val(name);
+	jQuery(_current_btn).siblings("input").eq(0).val(id);
+	layer.closeAll();
+};
 </script>
 </head>
 <body>
@@ -274,6 +372,51 @@ function check(type){
 																		<div class="layui-inline valid-info"></div>
 																	</div>
 																	<div class="layui-form-item col-lg-6">
+															    		<label class="layui-form-label">所属部门*</label>
+																	    <div class="layui-inline  col-lg-5">
+																	      	<input name="orgNames" id="orgNames" type="text" datatype="*" nullmsg="部门不能为空" readonly="readonly" class="layui-input" onclick="showZtreeOrg();">
+																			<input name="orgIds" id="orgIds" type="hidden" />
+																	    </div>
+																	     <div class="layui-inline valid-info"></div>
+																  	</div>
+																   <div class="layui-form-item col-lg-6">
+															    		<label class="layui-form-label">管理部门*</label>
+																		   <div class="layui-inline col-lg-5">  
+																				 <button type="button" onclick="add()" class="layui-btn layui-btn-normal"><i class="layui-icon">&#xe64c;</i>添加管理关系</button>
+																			</div>
+																	     <div class="layui-inline valid-info"></div>
+																  	</div>
+																  	<div class="layui-form-item col-lg-6">
+															    		<label class="layui-form-label"></label>
+																		   <div class="layui-inline col-lg-6">  
+																				 <table class="layui-table  off">
+																					 	<colgroup>
+																				    		<col width="">
+																					    	<col width="120">
+																				  		</colgroup>
+																				  		<thead>
+																							<tr>
+																								<th>部门名称</th>
+																								<th>是否含下级</th>
+																								<th>操作</th>
+																							</tr>
+																						</thead>
+																						<tbody id="addTbody">
+																						</tbody>
+																					</table>
+																			</div>
+																	     <div class="layui-inline valid-info"></div>
+																  	</div>
+																  	<div class="layui-form-item  col-lg-6">
+																	    <label class="layui-form-label">角色*</label>
+																		    <div class="layui-inline  col-lg-5" id="roleDiv">
+																		      <select id="roleIds" name="roleIds" class="nolayer" datatype="*" nullmsg="角不能为空"  multiple data-placeholder="请选择角色">
+																		      	<option value=""></option>
+																		      </select>
+																		    </div>
+																	     <div class="layui-inline valid-info"></div>
+																  	</div>
+																	<div class="layui-form-item col-lg-6">
 																		<label class="layui-form-label">性别*</label>
 																		<div class="layui-inline col-lg-5">  
 																			 <select id="sex" name="sex" >
@@ -318,28 +461,11 @@ function check(type){
 																		<div class="layui-inline valid-info"></div>
 																	</div>
 																	<div class="layui-form-item col-lg-6">
-															    		<label class="layui-form-label">部门*</label>
-																	    <div class="layui-inline  col-lg-5">
-																	      	<input name="orgNames" id="orgNames" type="text" datatype="*" nullmsg="部门不能为空" readonly="readonly" class="layui-input" onclick="showZtreeOrg();">
-																			<input name="orgIds" id="orgIds" type="hidden" />
-																	    </div>
-																	     <div class="layui-inline valid-info"></div>
-																  	</div>
-																  	<div class="layui-form-item  col-lg-6">
-																	    <label class="layui-form-label">角色*</label>
-																		    <div class="layui-inline  col-lg-5" id="roleDiv">
-																		      <select id="roleIds" name="roleIds" class="nolayer" datatype="*" nullmsg="角不能为空"  multiple data-placeholder="请选择角色">
-																		      	<option value=""></option>
-																		      </select>
-																		    </div>
-																	     <div class="layui-inline valid-info"></div>
-																  	</div>
-																	<div class="layui-form-item col-lg-6">
 																		<label class="layui-form-label">是否有效*</label>
 																		<div class="layui-inline col-lg-5">  
-																			<select id="active" name="active" >
-																		        	<option value="是">是</option>
-																					<option value="否">否</option>
+																			<select id="active" name="active" datatype="*" nullmsg="用户类型不能为空" >
+																		        	<option value="1">是</option>
+																					<option value="0">否</option>
 																		      </select>
 																		</div>
 																		<div class="layui-inline valid-info"></div>
@@ -363,6 +489,9 @@ function check(type){
 	</div>
 	<div id="div_orgMultiSelectTree">
 		<ul id="orgMultiSelectTree" class="ztree"></ul>
+	</div>
+	<div id="div_orgMultiSelectTree_manger">
+		<ul id="orgMultiSelectTree_manger" class="ztree"></ul>
 	</div>
 </body>
 </html>

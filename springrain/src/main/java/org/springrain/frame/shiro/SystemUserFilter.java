@@ -1,11 +1,14 @@
 package org.springrain.frame.shiro;
 
+import java.io.IOException;
+
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.util.WebUtils;
 import org.springframework.stereotype.Component;
 import org.springrain.frame.util.GlobalStatic;
 
@@ -43,14 +46,18 @@ public class SystemUserFilter extends BaseUserFilter {
 		String token=obj.toString();
 
 		String userToken=req.getParameter(GlobalStatic.tokenKey);
-		if(!token.equals(userToken)){
-			 Subject subject = SecurityUtils.getSubject();
-		     if (subject != null) {           
-			     subject.logout();
-			 }
-			return false;
+		if(token.equals(userToken)){
+			 return true;
 		}
-		 return access;
+		
+		try {
+			WebUtils.issueRedirect(request, response, "/unauth");
+		} catch (IOException e) {
+				e.printStackTrace();
+		}
+		
+		return false;
+		
 	}
 
 }

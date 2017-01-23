@@ -20,6 +20,7 @@ public class JsonUtils  {
 		   //为 null 的不转换
 		  // mapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL); 
 		   mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+		   mapper.getFactory().setCharacterEscapes(new HTMLCharacterEscapes());
 	   }
 	 public static <T> T readValue(String content,Class<T> clazz) {
 		 T t=null;

@@ -81,7 +81,7 @@ public class User  extends BaseEntity {
 	//用户的所有角色
 	private List<Role> userRoles;
 	
-	
+	private List<UserOrg> managerOrgs;
 	
 
 	
@@ -249,6 +249,14 @@ public class User  extends BaseEntity {
 
 		public void setWeixinId(String weixinId) {
 			this.weixinId = weixinId;
+		}
+		@Transient
+		public List<UserOrg> getManagerOrgs() {
+			return managerOrgs;
+		}
+
+		public void setManagerOrgs(List<UserOrg> managerOrgs) {
+			this.managerOrgs = managerOrgs;
 		}
 	
 	

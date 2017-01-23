@@ -159,7 +159,7 @@ public class UserRoleMenuServiceImpl extends BaseSpringrainServiceImpl implement
 			return null;
 		}
 		//Finder finder = new Finder("SELECT * FROM t_user WHERE  account=:account ");
-		Finder finder = Finder.getSelectFinder(User.class).append(" WHERE  account=:account ");
+		Finder finder = Finder.getSelectFinder(User.class).append(" WHERE active=1 and  account=:account ");
 		finder.setParam("account", account);
 		if (StringUtils.isNotBlank(password)) {
 			finder.append(" and password=:password ").setParam("password",
