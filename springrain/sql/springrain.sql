@@ -418,7 +418,7 @@ CREATE TABLE `t_user_org` (
   `id` varchar(50) NOT NULL COMMENT '编号',
   `userId` varchar(50) NOT NULL COMMENT '用户编号',
   `orgId` varchar(50) NOT NULL COMMENT '机构编号',
-  `ismanager` int(11) NOT NULL DEFAULT '1' COMMENT '是否主管(0不是1是)',
+  `ismanager` int(11) NOT NULL DEFAULT '1' COMMENT '是否主管(0非主管1主管2代主管',
   `hasleaf` int(11) NOT NULL DEFAULT '1' COMMENT '是否包含子部门(0不包含1包含)',
   `qxType` int(11) NOT NULL DEFAULT '0' COMMENT '0正常权限,1特殊权限,不显示在组织结构,只处理虚拟权限主管',
   `bak1` varchar(100) DEFAULT NULL,
@@ -472,5 +472,3 @@ INSERT INTO `t_user_org` (`id`, `userId`, `orgId`, `ismanager`, `hasleaf`, `qxTy
 
 -- 20170124管理员角色加归属部门
 update t_role set pid='de8619d68ec54927a573d1371e46497d' where id='admin';
--- 20170124修改用户部门中间表的备注
-ALTER TABLE `t_user_org` MODIFY COLUMN `ismanager`  int(11) NOT NULL DEFAULT 1 COMMENT '是否主管(0非主管1主管2代主管)' AFTER `orgId`;
