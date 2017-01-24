@@ -50,11 +50,7 @@ public class SystemUserFilter extends BaseUserFilter {
 			 return true;
 		}
 		
-		try {
-			WebUtils.issueRedirect(request, response, "/unauth");
-		} catch (IOException e) {
-				e.printStackTrace();
-		}
+		request.setAttribute(GlobalStatic.errorTokentoURLKey, GlobalStatic.errorTokentoURL);
 		
 		return false;
 		
