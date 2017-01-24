@@ -70,51 +70,11 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
 		f_del_role.setParam("userId",userId);
 		super.update(f_del_role);
 		//开始处理部门和门门主管数据
-		List<Org> list = user.getUserOrgs();
-		List<UserOrg> listuo=new ArrayList<UserOrg>();
 		List<UserOrg> managerOrgs=user.getManagerOrgs();
-		List<UserOrg> lastSaveManagerOrgs=null;
-		for(Org org:list){
-			UserOrg uo=new UserOrg();
-			uo.setUserId(userId);
-			uo.setOrgId(org.getId());
-			uo.setIsmanager(0);//这里添加的永远是结构，不是主管
-			uo.setHasleaf(0);
-			uo.setQxType(0);//正常的组织 结构
-			listuo.add(uo);
-		}
-		//处理  管理部门，如果 在组织结构中也有这个部门的话，此管理部门不做保存，且在组织 结构加特殊处理
-		boolean hasManger=false;
-		if(CollectionUtils.isNotEmpty(managerOrgs)&&CollectionUtils.isNotEmpty(listuo)){
-			lastSaveManagerOrgs=new ArrayList<UserOrg>();
-			for(UserOrg e:managerOrgs){
-				for(UserOrg userOrg:listuo){
-					if(e.getOrgId().equals(userOrg.getOrgId())){
-						//如果  这个人  要管理的部门 ，在他的组织结构中存在的话，把管理继承给结构去保存
-						userOrg.setIsmanager(e.getIsmanager());
-						userOrg.setHasleaf(e.getHasleaf());
-						userOrg.setIsmanager(e.getIsmanager());
-						userOrg.setQxType(0);//正常
-						hasManger=true;
-						break;
-					}
-				}
-				if(!hasManger){
-					//组织结构中  不包含 虚拟 只管理
-					e.setQxType(1);//特殊
-					lastSaveManagerOrgs.add(e);
-				}
-				hasManger=false;
-			}
-		}
-		
-		if(CollectionUtils.isEmpty(listuo)){
+		if(CollectionUtils.isEmpty(managerOrgs)){
 			return;
 		}
-		
-		super.save(listuo);//保存组织 结构
-		super.save(lastSaveManagerOrgs);//保存  管理的部门
-		
+		super.save(managerOrgs);//保存  管理的部门
 		//hyy   20160123  end
 		//老代码不动
 		List<Role> listRole = user.getUserRoles();
@@ -147,10 +107,7 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
 		
 		String userId=u.getId();
 		
-		List<Org> listOrg = userOrgService.findOrgByUserId(userId);
-		
 		List<UserOrg> managerOrgs = userOrgService.findManagerOrgByUserId(userId);
-		u.setUserOrgs(listOrg);
 		u.setManagerOrgs(managerOrgs);
 		List<Role> roleByUserId = userRoleMenuService.findRoleByUserId(userId);
 		u.setUserRoles(roleByUserId);

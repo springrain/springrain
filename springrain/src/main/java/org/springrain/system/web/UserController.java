@@ -138,30 +138,6 @@ public class UserController extends BaseController {
 			} else {
 				user.setPassword(SecUtils.encoderByMd5With32Bit(password));
 			}
-			
-			String str_orgIds=request.getParameter("orgIds");
-			String[] orgIds=null;
-			List<Org> listOrg=null;
-			
-			if(StringUtils.isNotBlank(str_orgIds)){
-			 orgIds = str_orgIds.split(",");
-			}
-			if(orgIds!=null&&orgIds.length>0){
-				Set<String> set=new HashSet<String>();
-				for(String s:orgIds){
-					if(StringUtils.isBlank(s)){
-						continue;
-					}
-					set.add(s);
-				}
-				listOrg=new ArrayList<Org>();
-				for(String s2:set){
-					Org org=new Org();
-					org.setId(s2);
-					listOrg.add(org);
-				}
-			}
-			user.setUserOrgs(listOrg);
 			String[] roleIds=request.getParameterValues("roleIds");
 			List<Role> listRole=null;
 			if(roleIds!=null&&roleIds.length>0){
@@ -185,7 +161,7 @@ public class UserController extends BaseController {
 			String[]  managerOrgNames= request.getParameterValues("managerOrgNames");
 			String[] managerOrgIds = request.getParameterValues("managerOrgIds");
 			String[] hasleafs = request.getParameterValues("hasleaf");
-			String[] ismanagers = request.getParameterValues("ismanager");
+			String[] managerTypes = request.getParameterValues("managerType");
 			List<UserOrg> managerOrgs=null;
 			if(managerOrgNames!=null&&managerOrgIds!=null&&managerOrgIds.length==managerOrgNames.length){
 				managerOrgs=new ArrayList<UserOrg>();
@@ -194,9 +170,12 @@ public class UserController extends BaseController {
 					managerOrg=new UserOrg();
 					managerOrg.setOrgId(managerOrgIds[i]);
 					managerOrg.setUserId(id);//可能为空，service中再补全
-					managerOrg.setIsmanager(Integer.valueOf(ismanagers[i]));
+					managerOrg.setManagerType(Integer.valueOf(managerTypes[i]));
 					managerOrg.setHasleaf(Integer.valueOf(hasleafs[i]));
-					//managerOrg.setQxType(1);// 虚拟 不虚拟，到service中判断 ，如果在org组织结构中，就是非虚拟0，如果不在就是虚拟1
+					if(Integer.valueOf(managerTypes[i])<=10){
+						//会员  或 员工
+						managerOrg.setHasleaf(0);//没有用
+					}
 					managerOrgs.add(managerOrg);
 				}
 			}
