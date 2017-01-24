@@ -472,3 +472,5 @@ INSERT INTO `t_user_org` (`id`, `userId`, `orgId`, `ismanager`, `hasleaf`, `qxTy
 
 -- 20170124管理员角色加归属部门
 update t_role set pid='de8619d68ec54927a573d1371e46497d' where id='admin';
+-- 20170124修改用户部门中间表的备注
+ALTER TABLE `t_user_org` MODIFY COLUMN `ismanager`  int(11) NOT NULL DEFAULT 1 COMMENT '是否主管(0非主管1主管2代主管)' AFTER `orgId`;
