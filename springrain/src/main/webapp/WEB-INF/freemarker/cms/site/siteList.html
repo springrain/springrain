@@ -149,12 +149,16 @@
 															${(_data.themeId)!''}
 														</td>
 														<td >
-															<#if (_data.siteType??) && (_data.siteType==0)>
-																微信订阅服务号
-															<#elseif (_data.siteType??) && (_data.siteType==1)>
-																wap
-															<#elseif (_data.siteType??) && (_data.siteType==2)>
-																网站
+															<#if (_data.siteType??) && (_data.siteType==11)>
+																微信
+															<#elseif (_data.siteType??) && (_data.siteType==12)>
+																企业号
+															<#elseif (_data.siteType??) && (_data.siteType==13)>
+																pc站
+															<#elseif (_data.siteType??) && (_data.siteType==14)>
+																wap站
+															<#elseif (_data.siteType??) && (_data.siteType==15)>
+																投票
 															<#else>
 																错误类型
 															</#if>

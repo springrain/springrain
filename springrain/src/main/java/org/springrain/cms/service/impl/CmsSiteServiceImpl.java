@@ -13,8 +13,6 @@ import org.springrain.cms.entity.CmsLink;
 import org.springrain.cms.entity.CmsSite;
 import org.springrain.cms.service.ICmsLinkService;
 import org.springrain.cms.service.ICmsSiteService;
-import org.springrain.cms.utils.Enumerations.OrgType;
-import org.springrain.cms.utils.Enumerations.SiteType;
 import org.springrain.cms.utils.ObjectUtils;
 import org.springrain.frame.common.SessionUser;
 import org.springrain.frame.util.Finder;
@@ -101,7 +99,7 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 		 Org org = new Org();
 		 org.setName(cmsSite.getName());
 		 org.setDescription(cmsSite.getDescription());
-		 org.setOrgType(getOrgTypeBySiteType(cmsSite.getSiteType()));
+		 org.setOrgType(cmsSite.getSiteType());
 		 org.setPid(cmsSite.getOrgId());
 		 org.setActive(1);
 		 String orgId = orgService.saveOrg(org);
@@ -186,16 +184,6 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 		 
 		
 		 return id;
-	}
-	
-    /**
-     * 站点类型和部门类型转换
-     * @param siteType
-     * @return
-     */
-    private Integer getOrgTypeBySiteType(Integer siteType) {
-		String name = SiteType.getSiteType(siteType).name();
-		return OrgType.getOrgTypeByName(name).getType();
 	}
 
 	@Override
