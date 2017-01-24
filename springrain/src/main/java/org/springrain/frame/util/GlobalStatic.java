@@ -40,7 +40,14 @@ public class GlobalStatic {
     public static final String springraincmsCacheKey="springraincmscache";
     
     
+    //前后台传递的tokenKey
     public static final String tokenKey="springraintoken";
+    //如果token错误,跳转地址的key
+    public static final String errorTokentoURLKey="errorspringraintokentourlkey";
+    //没有权限跳转的页面
+    public static final String errorTokentoURL="/unauth";
+    
+    
 	public static final String defaultCharset="UTF-8";
 	
 	public static final String tableSuffix="_history_";

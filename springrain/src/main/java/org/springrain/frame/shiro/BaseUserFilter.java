@@ -56,18 +56,45 @@ public class BaseUserFilter extends UserFilter {
 	  protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
 		     HttpServletRequest req=(HttpServletRequest) request;
 		     HttpServletResponse res=(HttpServletResponse) response;
+		     
+		     //先处理
+		     
+		     
+		     boolean isauth=true;
+		     String jsonStatusCode="relogin";
+		     String jsonMessage="登录超时,请重新登录!";
+		     
+		     Object errorTokentoURLKey=request.getAttribute(GlobalStatic.errorTokentoURLKey);
+		     if(errorTokentoURLKey!=null){
+		    	 isauth=false;
+		    	 jsonStatusCode="errortoken";
+			     jsonMessage="token错误";
+			     request.removeAttribute(GlobalStatic.errorTokentoURLKey);
+		     }
+		     
+		     
+		     
+		     
 		     if ("XMLHttpRequest".equals(req.getHeader("X-Requested-With"))) {// ajax请求,返回JSON
 		    	 res.setCharacterEncoding("UTF-8");
 		    	 res.setContentType("application/json;charset=UTF-8");
 			     PrintWriter out = res.getWriter();
 			     ReturnDatas returnDatas=ReturnDatas.getErrorReturnDatas();
-			     returnDatas.setStatusCode("relogin");
-			     returnDatas.setMessage("登录超时,请重新登录");
+			     returnDatas.setStatusCode(jsonStatusCode);
+			     returnDatas.setMessage(jsonMessage);
 			     out.println(JsonUtils.writeValueAsString(returnDatas));
 			     out.flush();
 			     out.close();
 			     return false;
 			    }
+		     
+		     if(!isauth){//没有权限,处理tokenKey错误
+		    	 WebUtils.issueRedirect(request, response, GlobalStatic.errorTokentoURL);
+		    	 return false;
+		     }
+		     
+		     
+		     
 		     
 		     //跳转前 清除 参数
 		     request.removeAttribute(GlobalStatic.tokenKey);
