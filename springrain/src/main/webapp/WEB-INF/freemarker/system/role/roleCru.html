@@ -159,8 +159,8 @@
 				};
 				
 				function clickOrgValue(event, treeId, treeNode) {
-					jQuery("#pname").val(treeNode.name);
-					jQuery("#pid").val(treeNode.id);
+					jQuery("#orgname").val(treeNode.name);
+					jQuery("#orgId").val(treeNode.id);
 				};
 				
 				function addDiyDom(treeId, treeNode) {
@@ -212,7 +212,7 @@
 						selectOrgZtree = $.fn.zTree
 								.getZTreeObj("selectOrgTree");
 						selectOrgZtree.expandAll(true);
-						selectZtreeOneNode(jQuery("#pid").val(),
+						selectZtreeOneNode(jQuery("#orgId").val(),
 								"selectOrgTree");
 					}
 
@@ -287,7 +287,7 @@
 																		<label class="layui-form-label">角色类型*</label>
 																		<div class="layui-inline col-lg-5">  
 																			<select class="form-control" name="roleType" id="roleType"  datatype="*"  nullmsg="角色类型不能为空">
-																	      		<option value>请选择角色类型</option>
+																	      		<option value="">请选择角色类型</option>
 																	      		<optgroup label="<<系统级角色>>">
 																					<option value="0">系统角色</option>
 																				</optgroup>
@@ -303,8 +303,8 @@
 																    <div class="layui-form-item  col-lg-6">
 															    		<label class="layui-form-label">归属部门*</label>
 																	    <div class="layui-inline">
-																	      	<input onclick="showOrgTree();" name="pname" id="pname"  value="${(returnDatas.data.pname)!''}" readonly="readonly"  type="text"  placeholder="点击选择归属部门" autocomplete="off" class="layui-input">
-																	    	<input name="pid" id="pid" type="hidden" value="${(returnDatas.data.pid)!''}"/>
+																	      	<input onclick="showOrgTree();" name="orgname" id="orgname"  value="${(returnDatas.data.orgname)!''}" readonly="readonly"  type="text"  placeholder="点击选择归属部门" autocomplete="off" class="layui-input">
+																	    	<input name="orgId" id="orgId" type="hidden" value="${(returnDatas.data.orgId)!''}"/>
 																	    </div>
 																  	</div>
 																	

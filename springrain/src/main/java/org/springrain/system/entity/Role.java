@@ -49,7 +49,7 @@ public class Role  extends BaseEntity {
 	 */
 	private java.lang.String code;
 	/**
-	 * 所属部门
+	 * 父角色
 	 */
 	private java.lang.String pid;
 	/**
@@ -64,11 +64,16 @@ public class Role  extends BaseEntity {
 	 * 状态(0:禁用1:启用)
 	 */
 	private java.lang.Integer active;
+	/**
+	 * 所属部门
+	 * 
+	 */
+	private String orgId;
 	//columns END 数据库字段结束
 	
 	private List<Menu> menus;
 	//归属部门名称
-	private String pname;
+	private String orgname;
 	//对应目录名称 逗号分隔
 	private String menunames;
 	
@@ -91,17 +96,25 @@ public class Role  extends BaseEntity {
 		this.menunames = menunames;
 	}
 
+	public String getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
+	}
+
 	//get and set
 	public void setId(java.lang.String value) {
 		this.id = value;
 	}
 	@Transient
-	public String getPname() {
-		return pname;
+	public String getOrgname() {
+		return orgname;
 	}
 
-	public void setPname(String pname) {
-		this.pname = pname;
+	public void setOrgname(String orgname) {
+		this.orgname = orgname;
 	}
 
 	@Id

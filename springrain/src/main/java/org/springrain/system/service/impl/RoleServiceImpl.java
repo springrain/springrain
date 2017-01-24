@@ -112,7 +112,7 @@ public class RoleServiceImpl extends BaseSpringrainServiceImpl implements IRoleS
         	f.append(" where 1=1 ");
         	String qxsql=userOrgService.findOrgIdsSQLByManagerUserId(SessionUser.getUserId());
         	if(StringUtils.isNotBlank(qxsql)){
-        		f.append(" and pid in ( ").append(qxsql).append(")");
+        		f.append(" and orgId in ( ").append(qxsql).append(")");
         	}
         	 return super.findListDataByFinder(f,page,clazz,o);   
 	}
