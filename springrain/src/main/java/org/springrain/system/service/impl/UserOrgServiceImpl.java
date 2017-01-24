@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.util.CollectionUtils;
 import org.springframework.stereotype.Service;
+import org.springrain.frame.util.Enumerations.UserOrgType;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.Page;
 import org.springrain.system.entity.Org;
@@ -298,7 +299,7 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 			return null;
 		}
 		//只有主管和代主管有部门管理权限 普通员工没有管理权限
-		Finder f1=new Finder("SELECT * FROM  ").append(Finder.getTableName(UserOrg.class)).append(" WHERE  userId=:userId  and isManager in (1,2) ");
+		Finder f1=new Finder("SELECT * FROM  ").append(Finder.getTableName(UserOrg.class)).append(" WHERE  userId=:userId  and managerType in ("+UserOrgType.主管.getType()+","+UserOrgType.虚拟主管.getType()+","+UserOrgType.代理主管.getType()+") ");
 		f1.setParam("userId", managerUserId);
 		
 		List<UserOrg> list = super.queryForList(f1, UserOrg.class); 
