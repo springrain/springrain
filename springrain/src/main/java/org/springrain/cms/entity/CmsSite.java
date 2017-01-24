@@ -122,6 +122,11 @@ public class CmsSite  extends BaseEntity {
 	 * springbeanid
 	 */
 	private java.lang.String springbeanid;
+	
+	/**
+	 * 部门关联字段
+	 */
+	private java.lang.String orgId;
 	//columns END 数据库字段结束
 	private java.lang.String link;
 	
@@ -328,11 +333,19 @@ public class CmsSite  extends BaseEntity {
 	public java.lang.String getSpringbeanid() {
 		return springbeanid;
 	}
-
+	
 	public void setSpringbeanid(java.lang.String springbeanid) {
 		this.springbeanid = springbeanid;
 	}
-	
+	@WhereSQL(sql="orgId=:CmsSite_orgId")
+	public java.lang.String getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(java.lang.String orgId) {
+		this.orgId = orgId;
+	}
+
 	@Transient
 	public java.lang.String getLink() {
 		return link;
@@ -341,7 +354,7 @@ public class CmsSite  extends BaseEntity {
 	public void setLink(java.lang.String link) {
 		this.link = link;
 	}
-
+	
 	public String toString() {
 		return new StringBuffer()
 			.append("id[").append(getId()).append("],")

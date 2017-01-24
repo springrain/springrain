@@ -71,9 +71,9 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 	@Override
 	public <T> List<T> findListDataByFinder(Finder finder, Page page,
 			Class<T> clazz, Object queryBean) throws Exception {
-		List<String> siteIds = userOrgService.findOrgIdsByManagerUserId(SessionUser.getUserId());
-		finder = Finder.getSelectFinder(CmsSite.class).append(" where id in (:siteIds)");
-		finder.setParam("siteIds", siteIds);
+		List<String> orgIds = userOrgService.findOrgIdsByManagerUserId(SessionUser.getUserId());
+		finder = Finder.getSelectFinder(CmsSite.class).append(" where orgId in (:orgIds)");
+		finder.setParam("orgIds", orgIds);
 		List<CmsSite> siteList;
 		if(page.getPageIndex()==1){
 			siteList = getByCache(GlobalStatic.cacheKey, "cmsSiteService_findListDataByFinder", ArrayList.class);
@@ -94,12 +94,30 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
     		return null;
     	}
 	    
+    	 //创建站点部门
+		 Org org = new Org();
+		 org.setName(cmsSite.getName());
+		 org.setDescription(cmsSite.getDescription());
+		 org.setOrgType(getOrgTypeBySiteType(cmsSite.getSiteType()));
+		 org.setPid(cmsSite.getOrgId());
+		 org.setActive(1);
+		 String orgId = orgService.saveOrg(org);
+		 //创建站点用户关联新
+		 UserOrg userOrg = new UserOrg(SecUtils.getUUID());
+		 userOrg.setUserId(SessionUser.getUserId());
+		 userOrg.setOrgId(orgId);
+		 userOrg.setQxType(0);
+		 userOrg.setHasleaf(0);
+		 userOrg.setIsmanager(1);
+		 userOrgService.save(userOrg);
+    	
+    	
 	    String id= tableindexService.updateNewId(CmsSite.class);
 	    if(StringUtils.isEmpty(id)){
 	    	return null;
 	    }
 	    cmsSite.setId(id);
-	    
+	    cmsSite.setOrgId(orgId);
 	    super.save(cmsSite);
 	    
 
@@ -163,23 +181,7 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 		 
 		 putByCache(id, "cmsSiteService_findCmsSiteById_"+id, cmsSite);
 		 
-		 //创建站点部门
-		 Org parentOrg = orgService.findCmsOrgByUserId(SessionUser.getUserId());
-		 Org org = new Org(cmsSite.getId());
-		 org.setName(cmsSite.getName());
-		 org.setDescription(cmsSite.getDescription());
-		 org.setOrgType(getOrgTypeBySiteType(cmsSite.getSiteType()));
-		 org.setPid(parentOrg.getId());
-		 org.setActive(1);
-		 String orgId = orgService.saveOrg(org);
-		 //创建站点用户关联新
-		 UserOrg userOrg = new UserOrg(SecUtils.getUUID());
-		 userOrg.setUserId(SessionUser.getUserId());
-		 userOrg.setOrgId(orgId);
-		 userOrg.setQxType(0);
-		 userOrg.setHasleaf(0);
-		 userOrg.setIsmanager(1);
-		 userOrgService.save(userOrg);
+		
 		 return id;
 	}
 	

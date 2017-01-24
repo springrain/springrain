@@ -1,7 +1,8 @@
 <#ftl output_format="HTML" auto_esc=true> <@h.commonHead title="后台管理系统" keywords="开源,永久免费"
 description="springrain开源系统管理后台"/>
 
-
+<script type="text/javascript" src="${ctx}/js/ztree/js/jquery.ztree.all-3.5.js"></script>
+<script type="text/javascript" src="${ctx}/js/ztree/js/ztreeUtils.js"></script>
 <script src="${ctx}/js/validform/validform.min.js"></script>
 <script src="${ctx}/js/webuploader/webuploader.min.js"></script>
 <script src="${ctx}/js/custom/common/form.js"></script>
@@ -10,6 +11,8 @@ description="springrain开源系统管理后台"/>
 <link rel="stylesheet" type="text/css" href="${ctx}/js/webuploader/webuploader.css">
 <link rel="stylesheet" href="${ctx}/js/validform/validform.css" media="all">
 <script>
+	var selectOrgZtree;
+	var orgjsondata4select;
 	jQuery(function() {
 		/*
 		init_valid(_before,_after)
@@ -17,6 +20,15 @@ description="springrain开源系统管理后台"/>
 		@_after:保存成功后，调用的函数  可以为空，一般为对应的列表页面
 		 */
 		 springrain.initValid(null,function(){window.location.href="${ctx}/system/cms/site/list?springraintoken="+springraintoken});
+		
+		
+		 jQuery.post("${ctx}/system/org/list/json",function(_json) {
+			if (_json.status == "success") {
+				orgjsondata4select = _json;
+			} else {
+				myalert(_json.message);
+			}
+		});
 	});
 	var uploader = WebUploader.create({
 	    // swf文件路径
@@ -29,6 +41,70 @@ description="springrain开源系统管理后台"/>
 	    // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
 	    resize: false
 	});
+	
+	var orgSelectSetting = {
+			view: {
+				showLine: false,
+				showIcon: false,
+				selectedMulti: false,
+				dblClickExpand: false,
+				addDiyDom: addDiyDom
+			},
+		callback : {
+			onClick : clickOrgValue
+		},
+		data : {
+			simpleData : {
+				enable : true,
+				idKey : "id",
+				pIdKey : "pid",
+				rootPId : "null",
+			}
+		}
+	};
+	function showOrgTree() {
+
+		if (!selectOrgZtree) {
+			$.fn.zTree.init($("#selectOrgTree"), orgSelectSetting,orgjsondata4select.data);
+
+			selectOrgZtree = $.fn.zTree
+					.getZTreeObj("selectOrgTree");
+			selectOrgZtree.expandAll(true);
+			selectZtreeOneNode(jQuery("#orgId").val(),
+					"selectOrgTree");
+		}
+
+		//页面层-自定义
+		layer.open({
+			shadeClose : true,
+			closeBtn : 1,
+			btn : [ '确定' ], //按钮
+			type : 1,
+			title : "选择父部门",
+			area : [ '600px', '400px' ], //宽高
+			//shadeClose: true,
+			content : $("#div_select_org_tree")
+		});
+
+	}
+	
+	function addDiyDom(treeId, treeNode) {
+		var spaceWidth = 5;
+		var switchObj = $("#" + treeNode.tId + "_switch"),
+		icoObj = $("#" + treeNode.tId + "_ico");
+		switchObj.remove();
+		icoObj.before(switchObj);
+
+		if (treeNode.level > 1) {
+			var spaceStr = "<span style='display: inline-block;width:" + (spaceWidth * treeNode.level)+ "px'></span>";
+			switchObj.before(spaceStr);
+		}
+	}
+	
+	function clickOrgValue(event, treeId, treeNode) {
+		jQuery("#orgName").val(treeNode.name);
+		jQuery("#orgId").val(treeNode.id);
+	};
 </script>
 </head>
 <body>
@@ -59,6 +135,15 @@ description="springrain开源系统管理后台"/>
 							<div class="larry-personal-body clearfix changepwd">
 								<form id="validForm" class="layui-form " method="post" action="${ctx}/system/cms/site/update">
 									<input type="hidden" id="id" name="id" value="${(returnDatas.data.id)!''}" />
+									
+									<div class="layui-form-item col-lg-6">
+							    		<label class="layui-form-label">上级部门</label>
+									    <div class="layui-inline col-lg-5">
+									      	<input onclick="showOrgTree();" name="orgName" id="orgName" readonly="readonly"  type="text"  placeholder="点击选择部门" autocomplete="off" class="layui-input">
+									    	<input name="orgId" id="orgId" type="hidden" />
+									    </div>
+								  	</div>
+									
 									<div class="layui-form-item col-lg-6">
 										<label class="layui-form-label">网站名称*</label>
 										<div class="layui-inline col-lg-5">
@@ -202,6 +287,9 @@ description="springrain开源系统管理后台"/>
 		<!-- 主体内容结束 -->
 		<@h.footer />
 	</div>
+	<div id="div_select_org_tree">
+       	<ul id="selectOrgTree" class="ztree"></ul>
+     </div>
 </body>
 </html>
 
