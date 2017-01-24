@@ -90,7 +90,7 @@ ${r"<@h.commonHead"} title="后台管理系统" keywords="开源,永久免费" d
 									                    </div>
 									                </div>
 									                <div class="layui-inline">
-									                    <button class="layui-btn"><i class="layui-icon" style="top:4px;right:5px;">&#xe615;</i>搜索</button>
+									                    <button class="layui-btn" type="button" onclick="springrain.commonSubmit('searchForm');"><i class="layui-icon" style="top:4px;right:5px;">&#xe615;</i>搜索</button>
 									                </div>
 							          			</td>
 							          		</tr>
