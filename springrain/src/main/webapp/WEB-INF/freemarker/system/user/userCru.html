@@ -17,14 +17,6 @@
 	 jQuery(function(){
 		 _userType="${(returnDatas.data.userType)!''}";
 		 jQuery("#userType").val(_userType);
-		 <#if returnDatas.data?? && returnDatas.data.userOrgs?size gt 0>
-		 	<#list returnDatas.data.userOrgs as _data>
-				orgNames+="${(_data.name)!''},";
-	            orgIds+="${(_data.id)!''},";
-		 	</#list>
-		 	 jQuery("#orgNames").val(orgNames);
-		     jQuery("#orgIds").val(orgIds);
-		 </#if>
 		 /*
 		 init_valid(_before,_after)
 		 @_before:提交表单前，调用 的函数   可以为空，一般有validform处理不了，独自进行处理时使用
@@ -288,7 +280,7 @@ function add(){
 	jQuery("#addTbody").parents("table").removeClass("off");
 	var _html=["<tr>",
 					"<td><input type='text' readonly onclick='showMangerZtreeOrg(this)'   name='managerOrgNames' placeholder='单击选择' class='layui-input'><input type='hidden' name='managerOrgIds'></td>",
-					"<td><select name='ismanager'><option value='1'>主管</option><option value='2'>代主管</option></select></td><td><select name='hasleaf'><option value='0'>不包含</option><option value='1'>包含</option></select></td>",
+					"<td><select name='ismanager'><option value='10'>员工</option><option value='11'>主管</option><option value='12'>代主管</option><option value='14'>虚拟主管</option></select></td><td><select name='hasleaf'><option value='0'>不包含</option><option value='1'>包含</option></select></td>",
 					"<td><a onclick='del(this)' class='layui-btn layui-btn-danger layui-btn-mini ajax-delete'>删除</a></td>",
 				"</tr>"].join('');
 	var _html=jQuery(_html);
@@ -332,6 +324,14 @@ function modifyPWD(_obj){
 		layer.closeAll();
 		springrain.msg("保存后生效");
 	})
+}
+jQuery(function(){
+	selectListener("hasleaf",function(){
+		
+	})
+});
+function hasleafFun(_obj){
+	
 }
 </script>
 </head>
@@ -388,6 +388,7 @@ function modifyPWD(_obj){
 																		</div>
 																		<div class="layui-inline valid-info"></div>
 																	</div>
+																	<#--
 																	<div class="layui-form-item col-lg-6">
 															    		<label class="layui-form-label">所属部门*</label>
 																	    <div class="layui-inline  col-lg-5">
@@ -396,12 +397,13 @@ function modifyPWD(_obj){
 																	    </div>
 																	     <div class="layui-inline valid-info"></div>
 																  	</div>
+																  	-->
 																   <div class="layui-form-item col-lg-6">
-															    		<label class="layui-form-label">管理部门*</label>
+															    		<label class="layui-form-label">部门*</label>
 																		   <div class="layui-inline col-lg-5">  
 																				 <button type="button" onclick="add()" class="layui-btn layui-btn-normal"><i class="layui-icon">&#xe64c;</i>添加管理关系</button>
 																			</div>
-																	     <div class="layui-inline valid-info">说明：此处即添加部门主管</div>
+																	     <div class="layui-inline valid-info"></div>
 																  	</div>
 																  	<div class="layui-form-item col-lg-8">
 															    		<label class="layui-form-label"></label>
@@ -427,13 +429,15 @@ function modifyPWD(_obj){
 																									<tr>
 																										<td><input type='text' readonly onclick='showMangerZtreeOrg(this)'   name='managerOrgNames' placeholder='单击选择' class='layui-input' value="${(_data.orgName)!''}"><input type='hidden' name='managerOrgIds' value="${(_data.orgId)!''}"></td>
 																										<td>
-																											<select name='ismanager'>
-																												<option value='1' <#if _data.ismanager?c=='1'>selected</#if>>主管</option>
-																												<option value='2' <#if _data.ismanager?c=='2'>selected</#if>>代理主管</option>
+																											<select name='managerType'>
+																												<option value='10' <#if _data.managerType?c=='10'>selected</#if>>员工</option>
+																												<option value='11' <#if _data.managerType?c=='11'>selected</#if>>主管</option>
+																												<option value='12' <#if _data.managerType?c=='12'>selected</#if>>代理主管</option>
+																												<option value='13' <#if _data.managerType?c=='13'>selected</#if>>虚拟主管</option>
 																											</select>
 																										</td>
 																										<td>
-																											<select name='hasleaf'>
+																											<select name='hasleaf'  lay-filter="hasleaf">
 																												<option value='0' <#if _data.hasleaf?c=='0'>selected</#if>>不包含</option>
 																												<option value='1' <#if _data.hasleaf?c=='1'>selected</#if>>包含</option>
 																											</select>

@@ -48,16 +48,8 @@ public class UserOrg  extends BaseEntity {
 	 * 是否主管(0非主管1主管2代主管)
 	 * 
 	 */
-	private Integer ismanager;
+	private Integer managerType;
 	private String orgName;
-	public Integer getIsmanager() {
-		return ismanager;
-	}
-
-	public void setIsmanager(Integer ismanager) {
-		this.ismanager = ismanager;
-	}
-
 	public Integer getHasleaf() {
 		return hasleaf;
 	}
@@ -65,15 +57,6 @@ public class UserOrg  extends BaseEntity {
 	public void setHasleaf(Integer hasleaf) {
 		this.hasleaf = hasleaf;
 	}
-
-	public Integer getQxType() {
-		return qxType;
-	}
-
-	public void setQxType(Integer qxType) {
-		this.qxType = qxType;
-	}
-
 	/**
 	 * 是否包含子部门  和是否是主管合用
 	 * 0不包含  1包含
@@ -83,7 +66,6 @@ public class UserOrg  extends BaseEntity {
 	 * 人员部门关系，是正常还是虚拟
 	 * 0正常  1虚拟
 	 */
-	private Integer qxType;
 	//columns END 数据库字段结束
 	
 	//concstructor
@@ -154,6 +136,14 @@ public class UserOrg  extends BaseEntity {
 
 	public void setOrgName(String orgName) {
 		this.orgName = orgName;
+	}
+
+	public Integer getManagerType() {
+		return managerType;
+	}
+
+	public void setManagerType(Integer managerType) {
+		this.managerType = managerType;
 	}
 }
 

@@ -14,6 +14,7 @@ import org.springrain.cms.entity.CmsSite;
 import org.springrain.cms.service.ICmsLinkService;
 import org.springrain.cms.service.ICmsSiteService;
 import org.springrain.frame.common.SessionUser;
+import org.springrain.frame.util.Enumerations.UserOrgType;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.Page;
@@ -102,9 +103,8 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 		 UserOrg userOrg = new UserOrg(SecUtils.getUUID());
 		 userOrg.setUserId(SessionUser.getUserId());
 		 userOrg.setOrgId(orgId);
-		 userOrg.setQxType(0);
 		 userOrg.setHasleaf(0);
-		 userOrg.setIsmanager(1);
+		 userOrg.setManagerType(UserOrgType.getUserOrgTypeByName(UserOrgType.主管.name()).getType());
 		 userOrgService.save(userOrg);
     	
     	

@@ -76,8 +76,6 @@ public class User  extends BaseEntity {
 	
 
 
-	//用户所有的部门
-	private List<Org> userOrgs;
 	//用户的所有角色
 	private List<Role> userRoles;
 	
@@ -225,14 +223,6 @@ public class User  extends BaseEntity {
 				.isEquals();
 		}
 
-		@Transient
-		public List<Org> getUserOrgs() {
-			return userOrgs;
-		}
-
-		public void setUserOrgs(List<Org> userOrgs) {
-			this.userOrgs = userOrgs;
-		}
 
 		@Transient
 		public List<Role> getUserRoles() {
