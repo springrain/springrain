@@ -185,6 +185,7 @@ public class UserController extends BaseController {
 			String[]  managerOrgNames= request.getParameterValues("managerOrgNames");
 			String[] managerOrgIds = request.getParameterValues("managerOrgIds");
 			String[] hasleafs = request.getParameterValues("hasleaf");
+			String[] ismanagers = request.getParameterValues("ismanager");
 			List<UserOrg> managerOrgs=null;
 			if(managerOrgNames!=null&&managerOrgIds!=null&&managerOrgIds.length==managerOrgNames.length){
 				managerOrgs=new ArrayList<UserOrg>();
@@ -193,9 +194,9 @@ public class UserController extends BaseController {
 					managerOrg=new UserOrg();
 					managerOrg.setOrgId(managerOrgIds[i]);
 					managerOrg.setUserId(id);//可能为空，service中再补全
-					managerOrg.setIsmanager(1);//这里，永远添加的都是主管
+					managerOrg.setIsmanager(Integer.valueOf(ismanagers[i]));
 					managerOrg.setHasleaf(Integer.valueOf(hasleafs[i]));
-					managerOrg.setQxType(1);//这里永远都是正常的，显示到组织结构。虚拟的放到特殊菜单中处理
+					//managerOrg.setQxType(1);// 虚拟 不虚拟，到service中判断 ，如果在org组织结构中，就是非虚拟0，如果不在就是虚拟1
 					managerOrgs.add(managerOrg);
 				}
 			}
