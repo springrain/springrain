@@ -15,6 +15,7 @@ import org.springrain.cms.service.ICmsLinkService;
 import org.springrain.cms.service.ICmsSiteService;
 import org.springrain.cms.utils.Enumerations.OrgType;
 import org.springrain.cms.utils.Enumerations.SiteType;
+import org.springrain.cms.utils.ObjectUtils;
 import org.springrain.frame.common.SessionUser;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
@@ -77,9 +78,11 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 		List<CmsSite> siteList;
 		if(page.getPageIndex()==1){
 			siteList = getByCache(GlobalStatic.cacheKey, "cmsSiteService_findListDataByFinder", ArrayList.class);
-			if(CollectionUtils.isEmpty(siteList)){//缓存中没有
+			if(CollectionUtils.isEmpty(siteList) && !ObjectUtils.checkAllField(queryBean)){//缓存中没有
 				siteList =  super.findListDataByFinder(finder, page, CmsSite.class, queryBean);
 				putByCache(GlobalStatic.cacheKey, "cmsSiteService_findListDataByFinder", siteList);
+			}else{
+				siteList =  super.findListDataByFinder(finder, page, CmsSite.class, queryBean);
 			}
 		}else{
 			siteList =  super.findListDataByFinder(finder, page, CmsSite.class, queryBean);

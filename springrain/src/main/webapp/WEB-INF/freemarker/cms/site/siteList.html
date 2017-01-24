@@ -40,7 +40,6 @@
 					 <li style="float:right;">
 	             		<button type="button" class="layui-btn layui-btn-small" data-action="${ctx}/system/cms/site/update/pre"><i class="layui-icon layui-icon-specil">&#xe61f;</i>添加站点</button>
 			        	<button type="button" class="layui-btn layui-btn-small" onclick="doexport();"><i class="layui-icon layui-icon-specil">&#xe609;</i>导出</button>
-		                <button type="button" class="layui-btn layui-btn-warm layui-btn-small"><i class="layui-icon layui-icon-specil">&#xe601;</i>导入</button>
 	               		 <button type="button" class="layui-btn layui-btn-danger layui-btn-small"><i class="layui-icon">&#xe640;</i>批量删除</button>
 		             </li>
 	       		</ul>
@@ -67,16 +66,7 @@
 									                           <input type="text" name="name" value="${(returnDatas.queryBean.name)!''}" placeholder="请输入名称 " class="layui-input">
 									                    </div>
 							                		</div>
-									                 <div class="layui-inline">
-									                    <label class="layui-form-label">是否可用</label>
-									                    <div class="layui-input-inline">
-									                        <select name="active" id="active" class="layui-input">
-									                          <option value="">==请选择==</option>
-															  <option value="1">是</option>
-															  <option value="0">否</option>
-															</select>   
-									                    </div>
-									                </div>
+									                
 									                <div class="layui-inline">
 									                    <button class="layui-btn" type="button" onclick="springrain.commonSubmit('searchForm');"><i class="layui-icon" style="top:4px;right:5px;">&#xe615;</i>搜索</button>
 									                </div>

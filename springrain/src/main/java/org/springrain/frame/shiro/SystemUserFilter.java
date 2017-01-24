@@ -1,14 +1,11 @@
 package org.springrain.frame.shiro;
 
-import java.io.IOException;
-
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
-import org.apache.shiro.web.util.WebUtils;
 import org.springframework.stereotype.Component;
 import org.springrain.frame.util.GlobalStatic;
 
