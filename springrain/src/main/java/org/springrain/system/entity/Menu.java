@@ -78,6 +78,12 @@ public class Menu  extends BaseEntity {
 	private Integer active;
 	//columns END 数据库字段结束
 	private String pidName;
+	
+	//路径编码
+	private String comcode;
+	
+	
+	
 	@Transient
 	public String getPidName() {
 		return pidName;
@@ -214,6 +220,14 @@ public class Menu  extends BaseEntity {
 
 	public void setLeaf(List<Menu> leaf) {
 		this.leaf = leaf;
+	}
+	@Transient
+	public String getComcode() {
+		return comcode;
+	}
+
+	public void setComcode(String comcode) {
+		this.comcode = comcode;
 	}
 }
 
