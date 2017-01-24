@@ -13,7 +13,6 @@ import org.springrain.cms.entity.CmsLink;
 import org.springrain.cms.entity.CmsSite;
 import org.springrain.cms.service.ICmsLinkService;
 import org.springrain.cms.service.ICmsSiteService;
-import org.springrain.cms.utils.ObjectUtils;
 import org.springrain.frame.common.SessionUser;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
@@ -76,11 +75,9 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 		List<CmsSite> siteList;
 		if(page.getPageIndex()==1){
 			siteList = getByCache(GlobalStatic.cacheKey, "cmsSiteService_findListDataByFinder", ArrayList.class);
-			if(CollectionUtils.isEmpty(siteList) && !ObjectUtils.checkAllField(queryBean)){//缓存中没有
+			if(CollectionUtils.isEmpty(siteList)){//缓存中没有
 				siteList =  super.findListDataByFinder(finder, page, CmsSite.class, queryBean);
 				putByCache(GlobalStatic.cacheKey, "cmsSiteService_findListDataByFinder", siteList);
-			}else{
-				siteList =  super.findListDataByFinder(finder, page, CmsSite.class, queryBean);
 			}
 		}else{
 			siteList =  super.findListDataByFinder(finder, page, CmsSite.class, queryBean);
@@ -94,34 +91,34 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
     	if(cmsSite==null){
     		return null;
     	}
+    
+	     //创建站点部门
+	     Org org = new Org();
+	     org.setName(cmsSite.getName());
+	     org.setDescription(cmsSite.getDescription());
+	     org.setOrgType(cmsSite.getSiteType());
+	     org.setPid(cmsSite.getOrgId());
+	     org.setActive(1);
+	     String orgId = orgService.saveOrg(org);
+	     //创建站点用户关联新
+	     UserOrg userOrg = new UserOrg(SecUtils.getUUID());
+	     userOrg.setUserId(SessionUser.getUserId());
+	     userOrg.setOrgId(orgId);
+	     userOrg.setQxType(0);
+	     userOrg.setHasleaf(0);
+	     userOrg.setIsmanager(1);
+	     userOrgService.save(userOrg);
 	    
-    	 //创建站点部门
-		 Org org = new Org();
-		 org.setName(cmsSite.getName());
-		 org.setDescription(cmsSite.getDescription());
-		 org.setOrgType(cmsSite.getSiteType());
-		 org.setPid(cmsSite.getOrgId());
-		 org.setActive(1);
-		 String orgId = orgService.saveOrg(org);
-		 //创建站点用户关联新
-		 UserOrg userOrg = new UserOrg(SecUtils.getUUID());
-		 userOrg.setUserId(SessionUser.getUserId());
-		 userOrg.setOrgId(orgId);
-		 userOrg.setQxType(0);
-		 userOrg.setHasleaf(0);
-		 userOrg.setIsmanager(1);
-		 userOrgService.save(userOrg);
-    	
-    	
+	    
 	    String id= tableindexService.updateNewId(CmsSite.class);
 	    if(StringUtils.isEmpty(id)){
-	    	return null;
+	        return null;
 	    }
 	    cmsSite.setId(id);
 	    cmsSite.setOrgId(orgId);
 	    super.save(cmsSite);
 	    
-
+	
 	    
 	    //保存 相应的 link 链接
 	    
@@ -149,43 +146,43 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 	    
 	   File t_file=new File(GlobalStatic.webinfodir+"/u/"+id+"/");
 	   if(!t_file.exists()){
-		   t_file.mkdirs();
-		 }
+	       t_file.mkdirs();
+	     }
 	    
 	    
 	    
 	    
 	    
-		 String str_jsdir=GlobalStatic.rootdir+"/u/"+id+"/js/";
-		 String str_cssdir=GlobalStatic.rootdir+"/u/"+id+"/css/";
-		 String str_imgdir=GlobalStatic.rootdir+"/u/"+id+"/img/";
-		 
-		 String str_upload=GlobalStatic.rootdir+"/upload/u/"+id+"/";
-		 
-		 File jsdir=new File(str_jsdir);
-		 if(!jsdir.exists()){
-			 jsdir.mkdirs();
-		 }
-		 File cssdir=new File(str_cssdir);
-		 if(!cssdir.exists()){
-			 cssdir.mkdirs();
-		 }
-		 File imgdir=new File(str_imgdir);
-		 if(!imgdir.exists()){
-			 imgdir.mkdirs();
-		 }
-		 
-		 File uploaddir=new File(str_upload);
-		 if(!uploaddir.exists()){
-			 uploaddir.mkdirs();
-		 }
-		 
-		 putByCache(id, "cmsSiteService_findCmsSiteById_"+id, cmsSite);
-		 
-		
-		 return id;
-	}
-
+	     String str_jsdir=GlobalStatic.rootdir+"/u/"+id+"/js/";
+	     String str_cssdir=GlobalStatic.rootdir+"/u/"+id+"/css/";
+	     String str_imgdir=GlobalStatic.rootdir+"/u/"+id+"/img/";
+	     
+	     String str_upload=GlobalStatic.rootdir+"/upload/u/"+id+"/";
+	     
+	     File jsdir=new File(str_jsdir);
+	     if(!jsdir.exists()){
+	         jsdir.mkdirs();
+	     }
+	     File cssdir=new File(str_cssdir);
+	     if(!cssdir.exists()){
+	         cssdir.mkdirs();
+	     }
+	     File imgdir=new File(str_imgdir);
+	     if(!imgdir.exists()){
+	         imgdir.mkdirs();
+	     }
+	     
+	     File uploaddir=new File(str_upload);
+	     if(!uploaddir.exists()){
+	         uploaddir.mkdirs();
+	     }
+	     
+	     putByCache(id, "cmsSiteService_findCmsSiteById_"+id, cmsSite);
+	     
+	    
+	     return id;
+    }
+	
 	@Override
 	public CmsSite findCmsSiteById(String id) throws Exception{
     	CmsSite site = getByCache(id, "cmsSiteService_findCmsSiteById_"+id, CmsSite.class);

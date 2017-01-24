@@ -83,10 +83,10 @@ public class RoleController  extends BaseController {
 			for(Role r:datas){
 				StringBuffer menunames=new StringBuffer();
 				//查询部门名称
-				if(StringUtils.isNotBlank(r.getPid())){
-					Org org=orgService.findById(r.getPid(), Org.class);
+				if(StringUtils.isNotBlank(r.getOrgId())){
+					Org org=orgService.findById(r.getOrgId(), Org.class);
 					if(org!=null){
-						r.setPname(org.getName()); 
+						r.setOrgname(org.getName()); 
 					}
 				}
 				//查询角色对应菜单
@@ -129,9 +129,9 @@ public class RoleController  extends BaseController {
 		String id = request.getParameter("id");
 		if (StringUtils.isNotBlank(id)) {
 			Role role = userRoleMenuService.findRoleAndMenu(id);
-			if(role!=null&&StringUtils.isNotBlank(role.getPid())){
-				Org org=orgService.findById(role.getPid(),Org.class); 
-				role.setPname(org.getName()); 
+			if(role!=null&&StringUtils.isNotBlank(role.getOrgId())){
+				Org org=orgService.findById(role.getOrgId(),Org.class); 
+				role.setOrgname(org.getName());    
 			}
 			returnObject.setData(role);
 		} else {

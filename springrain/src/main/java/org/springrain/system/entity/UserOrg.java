@@ -45,8 +45,8 @@ public class UserOrg  extends BaseEntity {
 	 */
 	private java.lang.String orgId;
 	/**
-	 * 是否是主管
-	 * 0不是，1是
+	 * 是否主管(0非主管1主管2代主管)
+	 * 
 	 */
 	private Integer ismanager;
 	private String orgName;
