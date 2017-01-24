@@ -63,7 +63,6 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 		}
 		evictByKey(GlobalStatic.cacheKey, "cmsSiteService_findListDataByFinder");
 		return siteId;
-		
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -83,7 +82,6 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 		}else{
 			siteList =  super.findListDataByFinder(finder, page, CmsSite.class, queryBean);
 		}
-		
 		return (List<T>) siteList;
 	}
 	

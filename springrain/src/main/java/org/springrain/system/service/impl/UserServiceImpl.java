@@ -74,6 +74,9 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
 		if(CollectionUtils.isEmpty(managerOrgs)){
 			return;
 		}
+		for(UserOrg e:managerOrgs){
+			e.setUserId(userId);
+		}
 		super.save(managerOrgs);//保存  管理的部门
 		//hyy   20160123  end
 		//老代码不动

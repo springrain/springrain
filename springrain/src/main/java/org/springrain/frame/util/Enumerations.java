@@ -3,7 +3,7 @@ package org.springrain.frame.util;
 public class Enumerations {
 	
 	public enum OrgType{
-		微信订阅服务号(11),wap站(14),PC站(13),企业号(12),投票(15);
+		部门(1),虚拟权限组(2),站长部门(10),微信订阅服务号(11),wap站(14),PC站(13),企业号(12),投票(15);
 		int type;
 		private OrgType(Integer type){
 			this.type = type;
@@ -15,6 +15,12 @@ public class Enumerations {
 		
 		public static OrgType getOrgType(Integer type){
 			switch (type) {
+				case 1:
+					return 部门;
+				case 2:
+					return 虚拟权限组;
+				case 10:
+					return 站长部门;
 				case 11:
 					return 微信订阅服务号;
 				case 12:
