@@ -139,7 +139,7 @@ public class UeditorController extends BaseController {
     	MultipartFile file = requestfile.getFile(fieldName);
         String originalName = file.getOriginalFilename();
         String suffix = FileUtils.getSuffix(originalName);
-       
+        
         if(!allows.contains(suffix)){
         	return getResultMap(false);
         }

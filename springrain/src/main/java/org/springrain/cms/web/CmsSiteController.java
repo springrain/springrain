@@ -213,8 +213,16 @@ public class CmsSiteController  extends BaseController {
 		}
 		return new ReturnDatas(ReturnDatas.SUCCESS,
 				MessageUtils.DELETE_ALL_SUCCESS);
-		
-		
 	}
-
+	
+	/**
+	 * 上传logo
+	 * */
+	@RequestMapping("/logoupload")
+	public @ResponseBody ReturnDatas logoUpload(HttpServletRequest request){
+		ReturnDatas returnDatas=ReturnDatas.getSuccessReturnDatas();
+		
+		return returnDatas;
+	}
+	
 }
