@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : 127.0.0.1
-Source Server Version : 50716
-Source Host           : 127.0.0.1:3306
+Source Server         : 4.57
+Source Server Version : 50615
+Source Host           : 10.0.4.57:3306
 Source Database       : springrain
 
 Target Server Type    : MYSQL
-Target Server Version : 50716
+Target Server Version : 50615
 File Encoding         : 65001
 
-Date: 2017-01-22 12:59:28
+Date: 2017-01-24 17:45:59
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -35,17 +35,8 @@ CREATE TABLE `cms_attachment` (
   `sortno` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
   `lookcount` int(11) DEFAULT NULL COMMENT '打开次数',
   `active` int(11) NOT NULL DEFAULT '1' COMMENT '状态 0不可用,1可用',
-  `bak1` varchar(100) DEFAULT NULL,
-  `bak2` varchar(100) DEFAULT NULL,
-  `bak3` varchar(100) DEFAULT NULL,
-  `bak4` varchar(100) DEFAULT NULL,
-  `bak5` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='附件表';
-
--- ----------------------------
--- Records of cms_attachment
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for cms_channel
@@ -63,18 +54,8 @@ CREATE TABLE `cms_channel` (
   `lookcount` int(11) DEFAULT NULL COMMENT '打开次数',
   `sortno` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
   `active` int(11) NOT NULL DEFAULT '1' COMMENT '状态 0不可用,1可用',
-  `bak1` varchar(100) DEFAULT NULL,
-  `bak2` varchar(100) DEFAULT NULL,
-  `bak3` varchar(100) DEFAULT NULL,
-  `bak4` varchar(100) DEFAULT NULL,
-  `bak5` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='栏目表';
-
--- ----------------------------
--- Records of cms_channel
--- ----------------------------
-INSERT INTO `cms_channel` VALUES ('h_1001', 'test', null, ',h_1001,', 's_101', '1', '1', '1', null, '1', '1', null, null, null, null, null);
 
 -- ----------------------------
 -- Table structure for cms_channel_content
@@ -87,18 +68,8 @@ CREATE TABLE `cms_channel_content` (
   `contentId` varchar(50) NOT NULL,
   `sortno` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
   `active` int(11) NOT NULL DEFAULT '1' COMMENT '状态 0不可用,1可用',
-  `bak1` varchar(100) DEFAULT NULL,
-  `bak2` varchar(100) DEFAULT NULL,
-  `bak3` varchar(100) DEFAULT NULL,
-  `bak4` varchar(100) DEFAULT NULL,
-  `bak5` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='栏目内容中间表';
-
--- ----------------------------
--- Records of cms_channel_content
--- ----------------------------
-INSERT INTO `cms_channel_content` VALUES ('e7ce4368a6fa4a66a8c9ba1d5f570e97', 's_101', 'h_1001', 'c_10001', '1', '1', null, null, null, null, null);
 
 -- ----------------------------
 -- Table structure for cms_comment
@@ -117,17 +88,8 @@ CREATE TABLE `cms_comment` (
   `downs` smallint(6) NOT NULL DEFAULT '0' COMMENT '反对数',
   `checked` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否审核',
   `score` int(11) DEFAULT NULL COMMENT '评分',
-  `bak1` varchar(100) DEFAULT NULL,
-  `bak2` varchar(100) DEFAULT NULL,
-  `bak3` varchar(100) DEFAULT NULL,
-  `bak4` varchar(100) DEFAULT NULL,
-  `bak5` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='CMS评论表';
-
--- ----------------------------
--- Records of cms_comment
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for cms_content
@@ -148,18 +110,8 @@ CREATE TABLE `cms_content` (
   `sourceurl` varchar(1000) DEFAULT NULL COMMENT '来源地址',
   `status` int(11) DEFAULT NULL COMMENT '状态  0未审核  1审核通过',
   `active` int(11) DEFAULT NULL COMMENT '是否可用',
-  `bak1` varchar(100) DEFAULT NULL,
-  `bak2` varchar(100) DEFAULT NULL,
-  `bak3` varchar(100) DEFAULT NULL,
-  `bak4` varchar(100) DEFAULT NULL,
-  `bak5` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='内容表';
-
--- ----------------------------
--- Records of cms_content
--- ----------------------------
-INSERT INTO `cms_content` VALUES ('c_10001', '测试内容', '内容', null, '<p><img title=\"blob.png\" alt=\"blob.png\"></p>', '123', '1', null, null, '2017-01-18 15:24:21', '1', '1', null, '1', null, null, null, null, null);
 
 -- ----------------------------
 -- Table structure for cms_friend_site
@@ -174,17 +126,8 @@ CREATE TABLE `cms_friend_site` (
   `logo` varchar(2000) NOT NULL COMMENT '网站logo',
   `sortno` int(11) DEFAULT NULL COMMENT '排序',
   `active` int(11) NOT NULL DEFAULT '1' COMMENT '状态 0不可用,1可用',
-  `bak1` varchar(100) DEFAULT NULL,
-  `bak2` varchar(100) DEFAULT NULL,
-  `bak3` varchar(100) DEFAULT NULL,
-  `bak4` varchar(100) DEFAULT NULL,
-  `bak5` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='友情链接';
-
--- ----------------------------
--- Records of cms_friend_site
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for cms_link
@@ -198,26 +141,15 @@ CREATE TABLE `cms_link` (
   `siteId` varchar(50) NOT NULL COMMENT '网站ID',
   `businessId` varchar(50) NOT NULL COMMENT '业务Id',
   `lookcount` int(11) DEFAULT NULL COMMENT '打开次数',
-  `jumpType` int(11) NOT NULL DEFAULT '0' COMMENT '0使用freemarker模板,1redirect,2forward',
+  `modelType` int(11) NOT NULL DEFAULT '0' COMMENT '0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)',
   `ftlfile` varchar(1000) NOT NULL COMMENT '当前渲染使用的模板路径',
   `nodeftlfile` varchar(1000) DEFAULT NULL COMMENT '子内容使用的ftl模板文件',
   `statichtml` int(11) NOT NULL DEFAULT '0' COMMENT '是否静态化 0否,1是',
   `sortno` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
   `active` int(11) NOT NULL DEFAULT '1' COMMENT '状态 0不可用,1可用',
-  `bak1` varchar(100) DEFAULT NULL,
-  `bak2` varchar(100) DEFAULT NULL,
-  `bak3` varchar(100) DEFAULT NULL,
-  `bak4` varchar(100) DEFAULT NULL,
-  `bak5` varchar(100) DEFAULT NULL,
+  `jumpType` int(11) DEFAULT NULL COMMENT '跳转方式',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='业务链接表';
-
--- ----------------------------
--- Records of cms_link
--- ----------------------------
-INSERT INTO `cms_link` VALUES ('6d2354eb66314f2986ebf7ddef9f3080', '测试内容', '/f/2/s_101/c_10001', '/f/2/s_101/c_10001', 's_101', 'c_10001', '1', '2', '/u/s_101/content', null, '0', '1', '1', null, null, null, null, null);
-INSERT INTO `cms_link` VALUES ('95c10276dc8543a7aeaac95a6081d199', 'test', '/f/2/s_101/h_1001', '/f/2/s_101/h_1001', 's_101', 'h_1001', '1', '1', '/u/s_101/channel', '/u/s_101/content.html', '0', '1', '0', null, null, null, null, null);
-INSERT INTO `cms_link` VALUES ('c14ac00a948146b69b67135d6345eda9', 'test', '/f/2/s_101/index', '/f/2/s_101/index', 's_101', 's_101', '1', '0', '/u/s_101/index', '/u/s_101/channel.html', '0', '1', '0', null, null, null, null, null);
 
 -- ----------------------------
 -- Table structure for cms_property
@@ -237,17 +169,8 @@ CREATE TABLE `cms_property` (
   `style` varchar(500) DEFAULT NULL COMMENT '样式',
   `sortno` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
   `active` int(11) NOT NULL DEFAULT '1' COMMENT '状态 0不可用,1可用',
-  `bak1` varchar(100) DEFAULT NULL,
-  `bak2` varchar(100) DEFAULT NULL,
-  `bak3` varchar(100) DEFAULT NULL,
-  `bak4` varchar(100) DEFAULT NULL,
-  `bak5` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='自定义属性表';
-
--- ----------------------------
--- Records of cms_property
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for cms_propertyvalue
@@ -261,17 +184,8 @@ CREATE TABLE `cms_propertyvalue` (
   `businessId` varchar(50) NOT NULL COMMENT '业务Id',
   `sortno` int(11) DEFAULT NULL COMMENT '排序',
   `active` int(11) NOT NULL DEFAULT '1' COMMENT '状态 0不可用,1可用',
-  `bak1` varchar(100) DEFAULT NULL,
-  `bak2` varchar(100) DEFAULT NULL,
-  `bak3` varchar(100) DEFAULT NULL,
-  `bak4` varchar(100) DEFAULT NULL,
-  `bak5` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='自定义属性对应值表';
-
--- ----------------------------
--- Records of cms_propertyvalue
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for cms_site
@@ -294,21 +208,14 @@ CREATE TABLE `cms_site` (
   `description` varchar(1000) DEFAULT NULL,
   `themeId` varchar(50) DEFAULT NULL COMMENT '主题Id',
   `lookcount` int(11) DEFAULT NULL COMMENT '打开次数',
-  `siteType` int(11) NOT NULL DEFAULT '0' COMMENT '0微信订阅服务号,1wap,2网站   ',
+  `siteType` int(11) NOT NULL DEFAULT '0' COMMENT '11微信,12企业号,13pc,14wap,15投票',
   `active` int(11) NOT NULL DEFAULT '1' COMMENT '状态 0不可用,1可用',
   `springbeanid` varchar(100) DEFAULT NULL COMMENT 'springbeanid',
-  `bak1` varchar(100) DEFAULT NULL,
-  `bak2` varchar(100) DEFAULT NULL,
-  `bak3` varchar(100) DEFAULT NULL,
-  `bak4` varchar(100) DEFAULT NULL,
-  `bak5` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `orgId` varchar(50) DEFAULT NULL COMMENT '部门id',
+  PRIMARY KEY (`id`),
+  KEY `orgId` (`orgId`),
+  CONSTRAINT `orgId` FOREIGN KEY (`orgId`) REFERENCES `t_org` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='站点表';
-
--- ----------------------------
--- Records of cms_site
--- ----------------------------
-INSERT INTO `cms_site` VALUES ('s_101', null, null, 'admin', 'test', '1', '1', '/upload/test', '1', '1', '1', '1', '1', '1', '', null, '2', '1', null, null, null, null, null, null);
 
 -- ----------------------------
 -- Table structure for cms_site_wxconfig
@@ -323,17 +230,8 @@ CREATE TABLE `cms_site_wxconfig` (
   `encodingAESKey` varchar(500) DEFAULT NULL COMMENT '消息加解密密钥',
   `wxId` varchar(500) DEFAULT NULL COMMENT '原始ID',
   `active` int(11) NOT NULL DEFAULT '1' COMMENT '状态 0不可用,1可用',
-  `bak1` varchar(100) DEFAULT NULL,
-  `bak2` varchar(100) DEFAULT NULL,
-  `bak3` varchar(100) DEFAULT NULL,
-  `bak4` varchar(100) DEFAULT NULL,
-  `bak5` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='微信号需要的配置信息';
-
--- ----------------------------
--- Records of cms_site_wxconfig
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for cms_template
@@ -348,17 +246,8 @@ CREATE TABLE `cms_template` (
   `modelType` int(11) NOT NULL DEFAULT '0' COMMENT '0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)',
   `usecount` int(11) DEFAULT NULL COMMENT '使用次数',
   `active` int(11) NOT NULL DEFAULT '1' COMMENT '状态 0不可用,1可用',
-  `bak1` varchar(100) DEFAULT NULL,
-  `bak2` varchar(100) DEFAULT NULL,
-  `bak3` varchar(100) DEFAULT NULL,
-  `bak4` varchar(100) DEFAULT NULL,
-  `bak5` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='模板表';
-
--- ----------------------------
--- Records of cms_template
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for cms_theme
@@ -369,17 +258,8 @@ CREATE TABLE `cms_theme` (
   `name` varchar(500) NOT NULL COMMENT '名称',
   `usecount` int(11) DEFAULT NULL COMMENT '使用次数',
   `active` int(11) NOT NULL DEFAULT '1' COMMENT '状态 0不可用,1可用',
-  `bak1` varchar(100) DEFAULT NULL,
-  `bak2` varchar(100) DEFAULT NULL,
-  `bak3` varchar(100) DEFAULT NULL,
-  `bak4` varchar(100) DEFAULT NULL,
-  `bak5` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='主题表';
-
--- ----------------------------
--- Records of cms_theme
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for cms_theme_template
@@ -389,14 +269,5 @@ CREATE TABLE `cms_theme_template` (
   `id` varchar(50) NOT NULL COMMENT 'ID',
   `themeId` varchar(50) NOT NULL COMMENT '主题Id',
   `templateId` varchar(50) NOT NULL COMMENT '模板Id',
-  `bak1` varchar(100) DEFAULT NULL,
-  `bak2` varchar(100) DEFAULT NULL,
-  `bak3` varchar(100) DEFAULT NULL,
-  `bak4` varchar(100) DEFAULT NULL,
-  `bak5` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='主题和模板中间表';
-
--- ----------------------------
--- Records of cms_theme_template
--- ----------------------------
