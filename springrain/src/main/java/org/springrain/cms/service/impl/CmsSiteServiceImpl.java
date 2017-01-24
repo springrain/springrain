@@ -71,6 +71,9 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 	@Override
 	public <T> List<T> findListDataByFinder(Finder finder, Page page,
 			Class<T> clazz, Object queryBean) throws Exception {
+		List<String> siteIds = userOrgService.findOrgIdsByManagerUserId(SessionUser.getUserId());
+		finder = Finder.getSelectFinder(CmsSite.class).append(" where id in (:siteIds)");
+		finder.setParam("siteIds", siteIds);
 		List<CmsSite> siteList;
 		if(page.getPageIndex()==1){
 			siteList = getByCache(GlobalStatic.cacheKey, "cmsSiteService_findListDataByFinder", ArrayList.class);
@@ -173,6 +176,9 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 		 UserOrg userOrg = new UserOrg(SecUtils.getUUID());
 		 userOrg.setUserId(SessionUser.getUserId());
 		 userOrg.setOrgId(orgId);
+		 userOrg.setQxType(0);
+		 userOrg.setHasleaf(0);
+		 userOrg.setIsmanager(1);
 		 userOrgService.save(userOrg);
 		 return id;
 	}

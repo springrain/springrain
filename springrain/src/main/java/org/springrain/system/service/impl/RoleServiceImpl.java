@@ -15,7 +15,6 @@ import org.springrain.frame.common.SessionUser;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.Page;
-import org.springrain.frame.util.SecUtils;
 import org.springrain.system.entity.Menu;
 import org.springrain.system.entity.Role;
 import org.springrain.system.entity.RoleMenu;

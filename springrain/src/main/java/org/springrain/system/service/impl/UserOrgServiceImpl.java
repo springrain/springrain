@@ -160,8 +160,7 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 			return null;
 		}
 		Finder finder=new Finder(findOrgIdsSQLByManagerUserId);
-		
-		
+		finder.setEscapeSql(false);
 		return super.queryForList(finder, String.class,page);
 	}
 
