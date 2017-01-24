@@ -86,10 +86,10 @@
 				/ueditor/**=user<!-- UEditor的配置访问路径  -->
 				<!-- E  -->
 				
-				/wx/**=firewall
+				/mp/**=firewall
 				
-				/f/2/** = firewall
-				/f/0/** = firewall,wxmpautologin
+				/f/pc/** = firewall
+				/f/mp/** = firewall,wxmpautologin
 				
 				
 				/unauth = firewall,user
