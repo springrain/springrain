@@ -147,6 +147,7 @@ function showMangerZtreeOrg(_obj){
       closeBtn: 1,
       btn: ['取消'], //按钮
       yes:function(index, layero){
+    	  jQuery("#addTbody tr").last().remove();
             layer.close(index); //如果设定了yes回调，需进行手工关闭
        }
     });
@@ -277,10 +278,11 @@ function check(type){
 }
 var _current_btn=null;
 function add(){
+	debugger;
 	jQuery("#addTbody").parents("table").removeClass("off");
 	var _html=["<tr>",
 					"<td><input type='text' readonly onclick='showMangerZtreeOrg(this)'   name='managerOrgNames' placeholder='单击选择' class='layui-input'><input type='hidden' name='managerOrgIds'></td>",
-					"<td><select name='ismanager'><option value='10'>员工</option><option value='11'>主管</option><option value='12'>代主管</option><option value='14'>虚拟主管</option></select></td><td><select name='hasleaf'><option value='0'>不包含</option><option value='1'>包含</option></select></td>",
+					"<td><select name='managerType'><option value='10'>员工</option><option value='11'>主管</option><option value='12'>代主管</option><option value='14'>虚拟主管</option></select></td><td><select name='hasleaf'><option value='0'>不包含</option><option value='1'>包含</option></select></td>",
 					"<td><a onclick='del(this)' class='layui-btn layui-btn-danger layui-btn-mini ajax-delete'>删除</a></td>",
 				"</tr>"].join('');
 	var _html=jQuery(_html);
@@ -305,7 +307,9 @@ function clickOrgValue(event, treeId, treeNode) {
 		}
 	});
 	if(_flag){
-		springrain.alert("已经添加该部门，请重新选择.");
+		springrain.alert("已经添加该部门，请重新选择.",function(){
+			alert(0)
+		});
 		return;
 	}
 	jQuery(_current_btn).val(name);
