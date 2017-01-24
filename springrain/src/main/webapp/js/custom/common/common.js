@@ -122,11 +122,11 @@ function getParentModule(childrenMenuList) {
         	menuIcon_df=childrenMenuList[i].menuIcon;
         }
         if(_leaf&&_leaf.length>0){
-        	 htmlStr += '<li class="layui-nav-item '+showItem+'" id="'+childrenMenuList[i].id+'"><a href="';
+        	 htmlStr += '<li class="layui-nav-item layui-nav-itemed'+showItem+'" id="'+childrenMenuList[i].id+'"><a href="';
             htmlStr = htmlStr+ ' javascript:;"> <i class="layui-icon">'+menuIcon_df+'</i><cute>'+childrenMenuList[i].name+'</cute></a>';
             htmlStr = htmlStr+getChindModule(_leaf);
         }else{
-        	htmlStr += '<li class="layui-nav-item '+showItem+'" id="'+childrenMenuList[i].id+'"><a data-pid="'+childrenMenuList[i].pid+'" data-action="';
+        	htmlStr += '<li class="layui-nav-item layui-nav-itemed'+showItem+'" id="'+childrenMenuList[i].id+'"><a data-pid="'+childrenMenuList[i].pid+'" data-action="';
         	 var url = childrenMenuList[i].pageurl;
              var tmpData = childrenMenuList[i]['leaf'][0];
              while(!!tmpData){
