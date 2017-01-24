@@ -260,12 +260,12 @@ public class UserRoleMenuServiceImpl extends BaseSpringrainServiceImpl implement
 			return null;
 		}
 		List<Menu> wrapList=new ArrayList<Menu>();
-		diguiwrapList(list, wrapList, null);
+		diguiwrapList(list, wrapList, null,"");
 		
 		return wrapList;
 	}
 	
-	private List<Menu> diguiwrapList(List<Menu> from,List<Menu> tolist,String parentId){
+	private List<Menu> diguiwrapList(List<Menu> from,List<Menu> tolist,String parentId,String comcode){
 		if(CollectionUtils.isEmpty(from)){
 			return null;
 		}
@@ -285,11 +285,13 @@ public class UserRoleMenuServiceImpl extends BaseSpringrainServiceImpl implement
 		
 			if((parentId==m.getPid())||(m.getPid().equals(parentId))){
 				List<Menu> leaf=new ArrayList<Menu>();
+				String _comcode=comcode+m.getId();
+				m.setComcode(_comcode);
 				m.setLeaf(leaf);
 				tolist.add(m);
 				//from.remove(i);
 				//i=i-1;
-			  diguiwrapList(from, leaf, m.getId());
+			  diguiwrapList(from, leaf, m.getId(),_comcode+",");
 			  /**
 			   * 神级 bug,待细则
 			   */
