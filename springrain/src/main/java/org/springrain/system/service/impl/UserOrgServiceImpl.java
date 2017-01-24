@@ -283,7 +283,7 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 		
 		StringBuffer sb=new StringBuffer("SELECT  _system_temp_user_org.userId FROM ");
 		sb.append(Finder.getTableName(UserOrg.class)).append(" _system_temp_user_org,").append(Finder.getTableName(Org.class)).append(" _system_temp_org ");
-		sb.append(" WHERE _system_temp_user_org.orgId=_system_temp_org.id and ");
+		sb.append(" WHERE _system_temp_user_org.orgId=_system_temp_org.id  ");
 		sb.append(wheresql);
 		
 		 return sb.toString();
