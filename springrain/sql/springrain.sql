@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : 127.0.0.1
-Source Server Version : 50530
-Source Host           : localhost:3306
+Source Server Version : 50716
+Source Host           : 127.0.0.1:3306
 Source Database       : springrain
 
 Target Server Type    : MYSQL
-Target Server Version : 50530
+Target Server Version : 50716
 File Encoding         : 65001
 
-Date: 2017-01-24 17:41:45
+Date: 2017-01-24 21:53:59
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -124,53 +124,6 @@ CREATE TABLE `t_fwlog_history_2017` (
 -- ----------------------------
 -- Records of t_fwlog_history_2017
 -- ----------------------------
-INSERT INTO `t_fwlog_history_2017` VALUES ('041dea2241d345498f46919299d9fb59', '2017-01-24 17:39:03', '2017-01-24 17:39:03.0507', null, 'admin', '超级管理员', 'c4fa651f-bc54-4b77-b74e-a9825c2a9af9', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/menu/list/json', '[菜单管理]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('0cbfcd295a5c4a668141ecaa9532ddf8', '2017-01-24 17:36:35', '2017-01-24 17:36:35.0004', null, 'admin', '超级管理员', 'c4fa651f-bc54-4b77-b74e-a9825c2a9af9', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/org/list', '[部门管理]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('12e10c511cba4962ad51d17e9274d4e7', '2017-01-24 17:17:33', '2017-01-24 17:17:33.0064', null, 'admin', '超级管理员', 'e6321da8-3d8b-4e70-a402-27ad1590fc6f', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/user/update/pre', '[修改用户]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('19eabd2d870e4cd4b64befe57546dbce', '2017-01-24 17:36:24', '2017-01-24 17:36:24.0378', null, 'admin', '超级管理员', 'c4fa651f-bc54-4b77-b74e-a9825c2a9af9', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/org/list/json', '[部门管理]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('1b1017b590ec4e45876e8430283f2b38', '2017-01-24 17:36:29', '2017-01-24 17:36:29.0773', null, 'admin', '超级管理员', 'c4fa651f-bc54-4b77-b74e-a9825c2a9af9', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/org/list', '[部门管理]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('1f6b80e4fc8143cfa2ae7b2224c1c781', '2017-01-24 17:39:04', '2017-01-24 17:39:04.0540', null, 'admin', '超级管理员', 'c4fa651f-bc54-4b77-b74e-a9825c2a9af9', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/fwlog/list', '[访问日志]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('22d7ac52452e4ac9aec88a658bf0f1ee', '2017-01-24 17:17:20', '2017-01-24 17:17:20.0836', null, 'admin', '超级管理员', 'e6321da8-3d8b-4e70-a402-27ad1590fc6f', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/role/list', '[角色管理]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('256da7bca81e48e0a38799256e6d36f8', '2017-01-24 17:39:03', '2017-01-24 17:39:03.0388', null, 'admin', '超级管理员', 'c4fa651f-bc54-4b77-b74e-a9825c2a9af9', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/menu/list', '[菜单管理]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('2e0af9e2fa854d67a346b0996f28073d', '2017-01-24 17:36:32', '2017-01-24 17:36:32.0709', null, 'admin', '超级管理员', 'c4fa651f-bc54-4b77-b74e-a9825c2a9af9', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/org/list', '[部门管理]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('38dc47cf8c094407a38388b0c0c0fe33', '2017-01-24 17:36:18', '2017-01-24 17:36:18.0076', null, 'admin', '超级管理员', 'c4fa651f-bc54-4b77-b74e-a9825c2a9af9', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/org/list', '[部门管理]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('40386796b92843bfbc4adb4609935d0e', '2017-01-24 17:36:16', '2017-01-24 17:36:16.0155', null, 'admin', '超级管理员', 'c4fa651f-bc54-4b77-b74e-a9825c2a9af9', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/role/list/json', '[角色管理]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('41e466550ee74b618e3a520d71e51940', '2017-01-24 17:37:37', '2017-01-24 17:37:37.0172', null, 'admin', '超级管理员', 'c4fa651f-bc54-4b77-b74e-a9825c2a9af9', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/org/list/json', '[部门管理]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('4374850b90dc44ef98f42c097ea9799e', '2017-01-24 17:36:27', '2017-01-24 17:36:27.0756', null, 'admin', '超级管理员', 'c4fa651f-bc54-4b77-b74e-a9825c2a9af9', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/role/list', '[角色管理]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('457f03da6c644f9bb5941b713734b464', '2017-01-24 17:36:31', '2017-01-24 17:36:31.0396', null, 'admin', '超级管理员', 'c4fa651f-bc54-4b77-b74e-a9825c2a9af9', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/dicdata/minzu/list', '[民族管理]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('45b535edd8ab4da181fe56d0e6bf5bfb', '2017-01-24 17:39:05', '2017-01-24 17:39:05.0373', null, 'admin', '超级管理员', 'c4fa651f-bc54-4b77-b74e-a9825c2a9af9', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/auditlog/list', '[修改日志]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('490e7d0bded34a129e3f25e594d2e08a', '2017-01-24 17:37:43', '2017-01-24 17:37:43.0652', null, 'admin', '超级管理员', 'c4fa651f-bc54-4b77-b74e-a9825c2a9af9', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/cms/site/list', '[站点管理]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('55698f89a58c405aab31629ba4966456', '2017-01-24 17:17:33', '2017-01-24 17:17:33.0166', null, 'admin', '超级管理员', 'e6321da8-3d8b-4e70-a402-27ad1590fc6f', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/role/list/json', '[角色管理]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('5da5c40ac2cd4ba4bfb5c54bcc80059c', '2017-01-24 17:39:00', '2017-01-24 17:39:00.0046', null, 'admin', '超级管理员', 'c4fa651f-bc54-4b77-b74e-a9825c2a9af9', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/auditlog/list', '[修改日志]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('5e62055308c440e5be6fd00f38cefb6b', '2017-01-24 17:39:12', '2017-01-24 17:39:12.0563', null, 'admin', '超级管理员', 'c4fa651f-bc54-4b77-b74e-a9825c2a9af9', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/auditlog/list', '[修改日志]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('602316be96794954bc6f66b4812cff23', '2017-01-24 17:17:28', '2017-01-24 17:17:28.0083', null, 'admin', '超级管理员', 'e6321da8-3d8b-4e70-a402-27ad1590fc6f', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/user/list', '[用户管理]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('687c7cfd26f741cd8118f50a9fdcdbf3', '2017-01-24 17:36:18', '2017-01-24 17:36:18.0181', null, 'admin', '超级管理员', 'c4fa651f-bc54-4b77-b74e-a9825c2a9af9', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/org/list/json', '[部门管理]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('6d5e3892308044009d243f7639cb1b04', '2017-01-24 17:37:19', '2017-01-24 17:37:19.0963', null, 'admin', '超级管理员', 'c4fa651f-bc54-4b77-b74e-a9825c2a9af9', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/org/list/json', '[部门管理]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('71138b63095a412486205dc698169f4d', '2017-01-24 17:17:19', '2017-01-24 17:17:19.0461', null, 'admin', '超级管理员', 'e6321da8-3d8b-4e70-a402-27ad1590fc6f', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/menu/list', '[菜单管理]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('71e63961f4ff451dbf9572d332671716', '2017-01-24 17:37:36', '2017-01-24 17:37:36.0219', null, 'admin', '超级管理员', 'c4fa651f-bc54-4b77-b74e-a9825c2a9af9', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/user/list', '[用户管理]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('73763da9aaf04bc6bba4335e9b065c64', '2017-01-24 17:17:19', '2017-01-24 17:17:19.0554', null, 'admin', '超级管理员', 'e6321da8-3d8b-4e70-a402-27ad1590fc6f', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/menu/list/json', '[菜单管理]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('73af7b4dd5ed4ad88b70dc44e4edd0b9', '2017-01-24 17:36:34', '2017-01-24 17:36:34.0261', null, 'admin', '超级管理员', 'c4fa651f-bc54-4b77-b74e-a9825c2a9af9', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/user/list', '[用户管理]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('80d8525fcdf7439eb7f97744628030cf', '2017-01-24 17:36:24', '2017-01-24 17:36:24.0244', null, 'admin', '超级管理员', 'c4fa651f-bc54-4b77-b74e-a9825c2a9af9', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/org/list', '[部门管理]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('81409cf00a884f7eac00606598c5f266', '2017-01-24 17:39:00', '2017-01-24 17:39:00.0987', null, 'admin', '超级管理员', 'c4fa651f-bc54-4b77-b74e-a9825c2a9af9', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/role/list', '[角色管理]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('8283773ff4d04c978266de3dc92f9af3', '2017-01-24 17:39:06', '2017-01-24 17:39:06.0260', null, 'admin', '超级管理员', 'c4fa651f-bc54-4b77-b74e-a9825c2a9af9', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/fwlog/list', '[访问日志]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('87b220c6727c4494b8d47150106db8cc', '2017-01-24 17:17:23', '2017-01-24 17:17:23.0243', null, 'admin', '超级管理员', 'e6321da8-3d8b-4e70-a402-27ad1590fc6f', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/dicdata/minzu/list', '[民族管理]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('89f0ac16004a4623970a074578b5a2eb', '2017-01-24 17:37:42', '2017-01-24 17:37:42.0589', null, 'admin', '超级管理员', 'c4fa651f-bc54-4b77-b74e-a9825c2a9af9', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/cms/channel/list', '[栏目管理]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('9039f73a7380443bbb03a2e5c9de7c21', '2017-01-24 17:37:41', '2017-01-24 17:37:41.0893', null, 'admin', '超级管理员', 'c4fa651f-bc54-4b77-b74e-a9825c2a9af9', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/cms/site/list', '[站点管理]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('9a7082e57f0b4f69b6edbf04286fc494', '2017-01-24 17:17:23', '2017-01-24 17:17:23.0912', null, 'admin', '超级管理员', 'e6321da8-3d8b-4e70-a402-27ad1590fc6f', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/org/list/json', '[部门管理]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('9ba05a312fc4436d8fd5b7fc2934b2aa', '2017-01-24 17:37:40', '2017-01-24 17:37:40.0220', null, 'admin', '超级管理员', 'c4fa651f-bc54-4b77-b74e-a9825c2a9af9', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/user/list', '[用户管理]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('9c6d8233c982400994d0438860f7384c', '2017-01-24 17:36:23', '2017-01-24 17:36:23.0493', null, 'admin', '超级管理员', 'c4fa651f-bc54-4b77-b74e-a9825c2a9af9', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/user/list', '[用户管理]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('b356024424e749ef9672c47521a649fa', '2017-01-24 17:39:13', '2017-01-24 17:39:13.0804', null, 'admin', '超级管理员', 'c4fa651f-bc54-4b77-b74e-a9825c2a9af9', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/org/list', '[部门管理]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('be50b7996e5a4cfb89a9b87d03467b96', '2017-01-24 17:36:26', '2017-01-24 17:36:26.0188', null, 'admin', '超级管理员', 'c4fa651f-bc54-4b77-b74e-a9825c2a9af9', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/auditlog/list', '[修改日志]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('c5f8ef89196e405e80985a08c74578a8', '2017-01-24 17:17:23', '2017-01-24 17:17:23.0829', null, 'admin', '超级管理员', 'e6321da8-3d8b-4e70-a402-27ad1590fc6f', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/org/list', '[部门管理]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('d5dfbce06e34408fb751e265260cec27', '2017-01-24 17:36:35', '2017-01-24 17:36:35.0097', null, 'admin', '超级管理员', 'c4fa651f-bc54-4b77-b74e-a9825c2a9af9', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/org/list/json', '[部门管理]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('dd6b2cc352034f7391b3b8988794a3a8', '2017-01-24 17:36:32', '2017-01-24 17:36:32.0791', null, 'admin', '超级管理员', 'c4fa651f-bc54-4b77-b74e-a9825c2a9af9', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/org/list/json', '[部门管理]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('e28c25b4a94d4d26bda25ed5a1c3a39b', '2017-01-24 17:36:29', '2017-01-24 17:36:29.0866', null, 'admin', '超级管理员', 'c4fa651f-bc54-4b77-b74e-a9825c2a9af9', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/org/list/json', '[部门管理]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('e42addb5796b4f12be1bbdf76ee89fb0', '2017-01-24 17:36:15', '2017-01-24 17:36:15.0981', null, 'admin', '超级管理员', 'c4fa651f-bc54-4b77-b74e-a9825c2a9af9', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/user/update/pre', '[修改用户]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('e4fce4df679a47479a9265baab003f36', '2017-01-24 17:37:19', '2017-01-24 17:37:19.0733', null, 'admin', '超级管理员', 'c4fa651f-bc54-4b77-b74e-a9825c2a9af9', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/org/list', '[部门管理]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('f50075dcca3a42ac9988585c1e274ea7', '2017-01-24 17:36:25', '2017-01-24 17:36:25.0107', null, 'admin', '超级管理员', 'c4fa651f-bc54-4b77-b74e-a9825c2a9af9', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/dicdata/minzu/list', '[民族管理]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('f529b9be645f4fd0b89768e32afa91e0', '2017-01-24 17:37:37', '2017-01-24 17:37:37.0092', null, 'admin', '超级管理员', 'c4fa651f-bc54-4b77-b74e-a9825c2a9af9', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/org/list', '[部门管理]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('fb5e942b03b64ce39c3f2e3e7f1d5e12', '2017-01-24 17:17:16', '2017-01-24 17:17:16.0524', null, 'admin', '超级管理员', 'e6321da8-3d8b-4e70-a402-27ad1590fc6f', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/auditlog/list', '[修改日志]', '是', null, null, null, null, null);
-INSERT INTO `t_fwlog_history_2017` VALUES ('fb9e8e1eba90453dac9c524af79cfd6c', '2017-01-24 17:39:13', '2017-01-24 17:39:13.0898', null, 'admin', '超级管理员', 'c4fa651f-bc54-4b77-b74e-a9825c2a9af9', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/org/list/json', '[部门管理]', '是', null, null, null, null, null);
 
 -- ----------------------------
 -- Table structure for t_fwlog_history_2018
@@ -228,7 +181,7 @@ CREATE TABLE `t_menu` (
 INSERT INTO `t_menu` VALUES ('169815aca9cf41d390e7feb6629d361d', '栏目管理', 'business_manager', '', '/system/cms/channel/list', '1', '1', '4', '&#xe60a;', null, null, null, null, null);
 INSERT INTO `t_menu` VALUES ('b9c4e8ecffe949c0b346e1fd0d6b9977', '内容管理', 'business_manager', '内容管理', '/system/cms/content/list', '1', '1', '5', '&#xe63c;', null, null, null, null, null);
 INSERT INTO `t_menu` VALUES ('business_manager', '业务管理', null, null, null, '1', '1', null, null, null, null, null, null, null);
-INSERT INTO `t_menu` VALUES ('dic_manager', '字典管理', null, null, null, '1', '1', null, null, null, null, null, null, null);
+INSERT INTO `t_menu` VALUES ('dic_manager', '字典管理', 'system_manager', '', null, '1', '1', null, '', null, null, null, null, null);
 INSERT INTO `t_menu` VALUES ('f41b9f3b4a0d45f5a3b5842ee40e0e96', '站点管理', 'business_manager', '', '/system/cms/site/list', '1', '1', '3', '&#xe641;', null, null, null, null, null);
 INSERT INTO `t_menu` VALUES ('system_manager', '系统管理', null, null, null, '1', '1', null, null, null, null, null, null, null);
 INSERT INTO `t_menu` VALUES ('t_auditlog_list', '修改日志', 'system_manager', '', '/system/auditlog/list', '1', '1', '1', '&#xe632;', null, null, null, null, null);
@@ -330,7 +283,7 @@ CREATE TABLE `t_role` (
 -- ----------------------------
 -- Records of t_role
 -- ----------------------------
-INSERT INTO `t_role` VALUES ('r_10001', '超级管理员', null, null, '0', null, '1', 'o_10001', null, null, null, null, null);
+INSERT INTO `t_role` VALUES ('r_10001', '超级管理员', null, null, '0', '', '1', 'o_10001', null, null, null, null, null);
 
 -- ----------------------------
 -- Table structure for t_role_menu
@@ -355,57 +308,80 @@ CREATE TABLE `t_role_menu` (
 -- ----------------------------
 -- Records of t_role_menu
 -- ----------------------------
-INSERT INTO `t_role_menu` VALUES ('001a1c624ce2429bbca105c58792fd8d', 'r_10001', 't_user_deletemore', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('0324dd16a332483a915483771d491842', 'r_10001', 't_dic_data_grade_update', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('087c9f7b0a6244a2920c76bb603216b6', 'r_10001', 't_role_update', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('0d2ea133cb27486baf771d4a5672f4d5', 'r_10001', 'dic_manager', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('19d04ce149d5471687ddf09dafd464ee', 'r_10001', 't_menu_list', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('1be39c19215d4eae941a001442c49da8', 'r_10001', 't_role_list', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('210b35dfa70c4d26907c2cb97bbeec90', 'r_10001', 'f41b9f3b4a0d45f5a3b5842ee40e0e96', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('2c12cc9b747541b6950fdb980554e7b6', 'r_10001', 't_dic_data_xueli_tree', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('2eab95dd4dda4241a8303fbf7047b2ca', 'r_10001', 't_menu_delete', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('2ef151ce8a8e45d09635f21337205d09', 'r_10001', 't_user_look', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('2fdf23167fd64d899183224aabc935c6', 'r_10001', 't_menu_tree', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('31422f219b874cf5985f9b4e3ccc0a00', 'r_10001', 't_auditlog_look', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('3294654b0aa247018264f7bbb95e447b', 'r_10001', 't_org_update', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('37789dbfad7140988b849b6f3e246ae5', 'r_10001', 't_dic_data_minzu_tree', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('3a0a3e3853cd466e8cf0bf1306cfc985', 'r_10001', 't_org_deletemore', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('3bfcf1b6d71847148c3717b4f58da91a', 'r_10001', 't_user_list_export', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('4a38cefab0874d5b83c6534c4b47aeda', 'r_10001', 't_dic_data_minzu_list', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('51a0a2d1e004422c83163813dee8a8ee', 'r_10001', 't_dic_data_xueli_look', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('560956a9f29943d0be1106db643bb009', 'r_10001', 'b9c4e8ecffe949c0b346e1fd0d6b9977', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('560e55ca7bc14e659bb2ba56706c45d7', 'r_10001', 't_user_delete', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('5776b6b6e3484213afbec97f79d3957c', 'r_10001', 't_fwlog_look', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('59616f2b6b364d1e89a7be64e053032c', 'r_10001', 't_dic_data_grade_delete', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('59d4b9ed98074717b4e5f9a995dd857d', 'r_10001', 't_role_deletemore', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('5e59a6a7ba11493e85f9ed86777157a7', 'r_10001', 't_menu_deletemore', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('60ea86d6422b4060ba9c257c4cc1eec4', 'r_10001', '169815aca9cf41d390e7feb6629d361d', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('65cb03bb4a4d4f33a6c213d0f1a5a0a6', 'r_10001', 't_org_look', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('665571fdc13e4a1985707c246d5686b0', 'r_10001', 't_user_list', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('691fe8c0ad844d2fa9feb1958193c69e', 'r_10001', 't_role_look', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('6b4179fa942d4ad9922ab8864f6393a7', 'r_10001', 't_dic_data_minzu_update', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('700476536d8643759a1849f1ffc9b9fd', 'r_10001', 't_auditlog_list', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('7203ca2bc497423b8247eeabc6e630bf', 'r_10001', 't_dic_data_grade_deletemore', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('7db22a6554a54385ad79614859cac705', 'r_10001', 't_dic_data_grade_look', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('8c8309acb74f4dcbbc614db07ac05def', 'r_10001', 't_fwlog_list', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('9536c440ea8142ab881c6335c903a7ad', 'r_10001', 'business_manager', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('a26b9aaaac874f26ba6170a6ec2e0237', 'r_10001', 't_dic_data_xueli_list', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('a755f59664694a01ba2d3f6060b4ce2a', 'r_10001', 't_dic_data_minzu_deletemore', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('b44a7f18a7d149b0a002b98cf04dda77', 'r_10001', 't_user_update', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('b7949985b3e545ddbb93a057a3e5c6c4', 'r_10001', 't_dic_data_minzu_look', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('b8aecccfd89d4355a3bb57164480977b', 'r_10001', 't_menu_update', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('ba8c13b6db6645fab3e573d4fe35521c', 'r_10001', 't_org_list', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('ba93b2e17dab4adcb78104b1fa7c13de', 'r_10001', 't_menu_look', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('bae8949f420d45e5a0af630524cb2aa6', 'r_10001', 't_dic_data_minzu_delete', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('bc72823cd678418d9318257ef6df35d3', 'r_10001', 't_dic_data_xueli_deletemore', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('bf04febd9a7949249b93491e4feaf0e5', 'r_10001', 't_role_delete', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('d1ead29d5b9e4bd8ad2abd1d245436b7', 'r_10001', 't_dic_data_grade_tree', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('df60df3f97ad4c4d8bf171d8b2259329', 'r_10001', 'system_manager', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('ece2acfdc14647a79b8ae46dfcd27b06', 'r_10001', 't_dic_data_xueli_delete', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('f2082e78793140038122e06cfc655e63', 'r_10001', 't_dic_data_grade_list', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('f6605e3916d44a9baffa173e85a2c427', 'r_10001', 't_org_delete', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('f69713ca657e4e20986a372b597e9363', 'r_10001', 't_org_tree', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('fb3b50a9a5ae4f4399bae84355b0b66d', 'r_10001', 't_dic_data_xueli_update', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('003f6efe4e9b4b2998792953596258a2', 'r_10001', 't_org_list', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('005c20d1fba549bfabea4cd1aa23e3b6', 'r_10001', 't_fwlog_list', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('0365b249ec8c480cba9e77124a4fb4d7', 'r_10001', 't_dic_data_minzu_deletemore', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('06bd3f0154314c60aaab50ef3d62bf46', 'r_10001', 't_dic_data_minzu_look', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('0b1d8f9d4d7d4efb9724ec8d66864be5', 'r_10001', 't_role_list', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('0b26312eb0f641d1af7b06caad5a3c2f', 'r_10001', 't_dic_data_xueli_list', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('14646b5594ad4980872e55a197755960', 'r_10001', 't_role_update', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('168ba9288da24624bbb8e997539454b0', 'r_10001', 't_menu_tree', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('175860c599784439990ba4cbfffbb4c9', 'r_10001', 't_org_deletemore', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('1a97031270ee4116883b1754716eba5f', 'r_10001', 't_dic_data_grade_delete', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('1b73c387d13b4eb9a178e3a42b226ab6', 'r_10001', 't_org_look', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('23242847985c4bac9b0d7eb230cc5a9b', 'r_10001', 't_dic_data_xueli_update', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('2475300de6c64cf980becf7ebc37a668', 'r_10001', 'business_manager', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('2ddab4f6efd241b6a62b71401076aa89', 'r_10001', 'dic_manager', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('2e91d0783e404eb79051a92152c28b60', 'r_10001', '169815aca9cf41d390e7feb6629d361d', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('30b397a9791c4756bd828fbd25ae19dd', 'r_10001', 'b9c4e8ecffe949c0b346e1fd0d6b9977', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('3f12fb2443b74c7eab7a81f30a6cacc2', 'r_10001', 't_dic_data_grade_look', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('54385aa1b6234add88e341ce5cda95cc', 'r_10001', 't_menu_look', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('555c8bd2df5143a2ad3a70f7ec96bdc9', 'r_10001', 't_auditlog_look', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('559538ebb2bb4bbe912aa3f18f73ab49', 'r_10001', 't_role_deletemore', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('562b8419a9954d3aa2998ed99dd2e534', 'r_10001', 't_dic_data_xueli_look', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('593c9b0b78864686869df09299b5186f', 'r_10001', 'f41b9f3b4a0d45f5a3b5842ee40e0e96', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('5c7dc109475b49df887ee16983703664', 'r_10001', 't_dic_data_xueli_tree', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('626433cf94fa49ce86d3bbfbddb1c2e9', 'r_10001', 't_dic_data_minzu_list', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('649535986d5b4514a0d4c863b8db1a83', 'r_10001', 't_user_delete', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('69a2190c890a48cfb2a790b865f8ae82', 'r_10001', 't_dic_data_grade_list', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('6d56f8bdc0cb47dd80a06a7d82f1da39', 'r_10001', 't_dic_data_grade_deletemore', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('6ea4295a9a994a2f8e3bdf3b1fb427c4', 'r_10001', 't_user_list_export', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('71c806f8e2424b058102f8b8203ed53a', 'r_10001', 't_dic_data_xueli_delete', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('72b283c5abe34f4e9714e5f9e96122a3', 'r_10001', 't_dic_data_grade_tree', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('73288e75ae7e45feab6ca674274baef8', 'r_10001', 't_dic_data_minzu_delete', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('76805a185e4941bb8d1281f056274172', 'r_10001', 't_dic_data_grade_update', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('84718a1752a64691a062d19c90862583', 'r_10001', 't_dic_data_xueli_deletemore', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('8cdc76c5528447ca959b65d79cdcc77d', 'r_10001', 't_auditlog_list', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('9206eb1c8bf349d8bf23b19c5b137094', 'r_10001', 't_menu_update', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('9995e3e16b584fa78c92fffcd9e4027c', 'r_10001', 't_dic_data_minzu_tree', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('9aec524c4d304f8bba498834d11db56c', 'r_10001', 't_menu_delete', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('a28d0fd8e8214f0688497a67447294d5', 'r_10001', 't_menu_deletemore', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('a3b411a659c247b79f0d05115c153164', 'r_10001', 't_role_delete', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('a4532af8f0bd4f20b26c4d87f5a9fb58', 'r_10001', 't_org_update', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('a5516c8c746c4caabcd18c6613789838', 'r_10001', 't_user_look', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('aaf19f9f5fa74ab69c36952a185b26bc', 'r_10001', 't_org_tree', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('b09b753c388343678571f977093cd59b', 'r_10001', 'system_manager', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('b231af6db31a4fb7b55241f1f7a0c689', 'r_10001', 't_dic_data_minzu_update', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('b458712095464c0fabb4c037034fd532', 'r_10001', 't_fwlog_look', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('c630d47141194cf7bcdb7779e5a8d45b', 'r_10001', 't_user_list', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('e74f1ca58d934c7395735ac642509002', 'r_10001', 't_user_deletemore', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('ee381117ef634c27bda3eaa1b6260e38', 'r_10001', 't_user_update', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('f45d21402ed1412497e568d8a00e4a50', 'r_10001', 't_org_delete', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('fd3368ff61904e199a921102e0e71d9a', 'r_10001', 't_menu_list', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('ffdb77d726c949088953ddb35ebd1e5c', 'r_10001', 't_role_look', null, null, null, null, null);
+
+-- ----------------------------
+-- Table structure for t_role_org
+-- ----------------------------
+DROP TABLE IF EXISTS `t_role_org`;
+CREATE TABLE `t_role_org` (
+  `id` varchar(50) NOT NULL COMMENT '编号',
+  `roleId` varchar(50) NOT NULL COMMENT '角色编号',
+  `orgId` varchar(50) NOT NULL COMMENT '部门编号',
+  `orgType` int(11) DEFAULT NULL COMMENT '0组织机构 ,1.部门,2.虚拟权限组',
+  `hasLeaf` int(11) NOT NULL DEFAULT '0' COMMENT '是否包含子部门,0不包含,1包含',
+  `active` int(11) NOT NULL DEFAULT '1' COMMENT '是否可用,0不可用,1可用',
+  `manager` int(11) DEFAULT '0' COMMENT '0:非主管，1:主管',
+  PRIMARY KEY (`id`),
+  KEY `fk_t_role_org_roleId_t_role_id` (`roleId`),
+  KEY `fk_t_role_org_orgId_t_org_id` (`orgId`),
+  CONSTRAINT `fk_t_role_org_orgId_t_org_id` FOREIGN KEY (`orgId`) REFERENCES `t_org` (`id`),
+  CONSTRAINT `fk_t_role_org_roleId_t_role_id` FOREIGN KEY (`roleId`) REFERENCES `t_role` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色部门中间表';
+
+-- ----------------------------
+-- Records of t_role_org
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for t_tableindex
