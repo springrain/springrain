@@ -294,14 +294,14 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 	
 	
 	private String wrapWheresSQLByManagerUserId(String managerUserId) throws Exception {
+
 		if(StringUtils.isEmpty(managerUserId)){
 			return null;
 		}
-		//只有主管和代主管有部门管理权限 普通员工没有管理权限
-		Finder f1=new Finder("SELECT * FROM  ").append(Finder.getTableName(UserOrg.class)).append(" WHERE  userId=:userId  and isManager in (1,2) ");
+		Finder f1=new Finder("SELECT * FROM  ").append(Finder.getTableName(UserOrg.class)).append(" WHERE  userId=:userId   ");
 		f1.setParam("userId", managerUserId);
 		
-		List<UserOrg> list = super.queryForList(f1, UserOrg.class); 
+		List<UserOrg> list = super.queryForList(f1, UserOrg.class);
 		
 		if(CollectionUtils.isEmpty(list)){
 			return null;
@@ -318,6 +318,10 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 			if(hasLeaf==0){//不包含子部门
 				noLeafList.add(orgId);
 			}else if(hasLeaf==1){//包含子部门
+//				if(list.indexOf(re)!=0){
+//					//第一个不加
+//					hasLeafBuffer.append(" or ");
+//				}
 				hasLeafBuffer.append(" or _system_temp_org.comcode like '%,").append(orgId).append(",%' ");
 			}
 		}
