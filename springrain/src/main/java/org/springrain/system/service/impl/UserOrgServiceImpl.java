@@ -298,45 +298,34 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 		if(StringUtils.isEmpty(managerUserId)){
 			return null;
 		}
-		//Finder f1=new Finder("SELECT re.* FROM  ").append(Finder.getTableName(RoleOrg.class)).append(" re,").append(Finder.getTableName(UserOrg.class)).append(" uo WHERE re.orgId=uo.orgId and uo.userId=:userId   order by re.id asc ");
 		Finder f1=new Finder("SELECT * FROM  ").append(Finder.getTableName(UserOrg.class)).append(" WHERE  userId=:userId   ");
 		f1.setParam("userId", managerUserId);
 		
-//		List<RoleOrg> list = super.queryForList(f1, RoleOrg.class);
 		List<UserOrg> list = super.queryForList(f1, UserOrg.class);
 		
 		if(CollectionUtils.isEmpty(list)){
 			return null;
 		}
 		
-		
 		List<String> noLeafList=new ArrayList<String>();
 		StringBuffer hasLeafBuffer=new StringBuffer();
 		
-//		hasLeafBuffer.append("  and ( 1=1  ");
-		hasLeafBuffer.append("  and ( ");
+		hasLeafBuffer.append("  and ( 1=2 ");
 		
-//		for(RoleOrg re:list){
 	    for(UserOrg re:list){
 			String orgId=re.getOrgId();
-			//Integer hasLeaf = re.getHasLeaf();
 			Integer hasLeaf = re.getHasleaf();
 			if(hasLeaf==0){//不包含子部门
 				noLeafList.add(orgId);
 			}else if(hasLeaf==1){//包含子部门
-				if(list.indexOf(re)!=0){
-					//第一个不加
-					hasLeafBuffer.append(" or ");
-				}
-				hasLeafBuffer.append(" _system_temp_org.comcode like '%,").append(orgId).append(",%' ");
+//				if(list.indexOf(re)!=0){
+//					//第一个不加
+//					hasLeafBuffer.append(" or ");
+//				}
+				hasLeafBuffer.append(" or _system_temp_org.comcode like '%,").append(orgId).append(",%' ");
 			}
 		}
 		
-		
-//		if(CollectionUtils.isEmpty(noLeafList)){
-//			return hasLeafBuffer.toString();
-//		}
-	    
 		if(!CollectionUtils.isEmpty(noLeafList)){
 			if(!CollectionUtils.isEmpty(list)){
 				//前面有sql加连接符
@@ -355,10 +344,6 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 		hasLeafBuffer.append(") "); 
 		
 		return hasLeafBuffer.toString();
-	
-		
-		
-		
 	}
 
 
