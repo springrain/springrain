@@ -43,9 +43,9 @@ public class WxMpAutoLoginFilter extends OncePerRequestFilter {
 			String url = SiteUtils.getRequestURL(req);
 			
 			
-		    req.getRequestDispatcher("/wx/mpautologin/"+siteId+"/oauth2?url=" + url).forward(request, response);
+		    req.getRequestDispatcher("/mp/mpautologin/"+siteId+"/oauth2?url=" + url).forward(request, response);
 		    
-			//rep.sendRedirect(SiteUtils.getSiteURLPath(req)+"/wx/mpautologin/"+siteId+"/oauth2?url="+ url);
+			//rep.sendRedirect(SiteUtils.getSiteURLPath(req)+"/mp/mpautologin/"+siteId+"/oauth2?url="+ url);
 		    
 		    
 		    

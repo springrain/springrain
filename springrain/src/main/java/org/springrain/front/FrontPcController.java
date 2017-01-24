@@ -6,9 +6,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springrain.cms.utils.Enumerations.SiteType;
 
 @Controller
-@RequestMapping("/f/2/{siteId}")
+@RequestMapping("/f/pc/{siteId}")
 public class FrontPcController extends FrontBaseController {
 	/**
 	 * 映射首页页面
@@ -16,7 +17,7 @@ public class FrontPcController extends FrontBaseController {
 	 * */
 	@RequestMapping("/index")
 	public String index(@PathVariable String siteId,HttpServletRequest request,Model model) throws Exception{
-		return jump(siteId, siteId, 2, request, model);
+		return jump(siteId, siteId, SiteType.PC站.getType(), request, model);
 	}
 	
 	/**
@@ -25,6 +26,6 @@ public class FrontPcController extends FrontBaseController {
 	 * */
 	@RequestMapping("/{businessId}")
 	public String channel(@PathVariable String siteId,@PathVariable String businessId,HttpServletRequest request,Model model) throws Exception{
-		return jump(siteId, businessId, 2, request, model);
+		return jump(siteId, businessId, SiteType.PC站.getType(), request, model);
 	}
 }

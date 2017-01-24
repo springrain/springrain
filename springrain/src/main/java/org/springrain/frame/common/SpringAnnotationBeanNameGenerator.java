@@ -7,6 +7,7 @@ import org.springframework.context.annotation.AnnotationBeanNameGenerator;
  * @author zhengyongshegn
  *
  */
+@Deprecated
 public class SpringAnnotationBeanNameGenerator extends  AnnotationBeanNameGenerator  {
 /*
 	@Override
