@@ -90,9 +90,10 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
 			for(UserOrg e:managerOrgs){
 				for(UserOrg userOrg:listuo){
 					if(e.getOrgId().equals(userOrg.getOrgId())){
-						//把管理 继承 到组织 
+						//如果  这个人  要管理的部门 ，在他的组织结构中存在的话，把管理继承给结构去保存
 						userOrg.setIsmanager(e.getIsmanager());
 						userOrg.setHasleaf(e.getHasleaf());
+						userOrg.setIsmanager(e.getIsmanager());
 						userOrg.setQxType(0);//正常
 						hasManger=true;
 						break;
@@ -101,7 +102,6 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
 				if(!hasManger){
 					//组织结构中  不包含 虚拟 只管理
 					e.setQxType(1);//特殊
-					e.setIsmanager(1);
 					lastSaveManagerOrgs.add(e);
 				}
 				hasManger=false;
