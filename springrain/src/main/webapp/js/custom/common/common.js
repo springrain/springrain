@@ -91,11 +91,11 @@ function buildModule(data) {
             var tmpPid = locache.get("currentPagePid");
             if((tmpPid == data[i].id) || (!(!!tmpPid) && i==0)){//url中有第一个菜单的键值
             	url = ctx + url;
-            	htmlStr += '<li id="pmenu'+data[i].id+'" class="layui-nav-item layui-this"><a data-pid="'+data[i].id+'" data-action="'+url+'">'+data[i].name+'</a></li>';
+            	htmlStr += '<li id="pmenu'+data[i].id+'" class="layui-nav-item layui-this"><a href="javascript:void(0);" data-pid="'+data[i].id+'" data-action="'+url+'">'+data[i].name+'</a></li>';
                 childrenMenuList = data[i]['leaf'];
             }else{
             	url = ctx + url;
-                htmlStr += '<li id="pmenu'+data[i].id+'" class="layui-nav-item"><a data-pid="'+data[i].id+'" data-action="'+url+'">'+data[i].name+'</a></li>';
+                htmlStr += '<li id="pmenu'+data[i].id+'" class="layui-nav-item"><a href="javascript:void(0);" data-pid="'+data[i].id+'" data-action="'+url+'">'+data[i].name+'</a></li>';
             }
         }
         $("#naviHeaderMenu").html(htmlStr);
@@ -115,7 +115,7 @@ function getParentModule(childrenMenuList) {
         if((ctx+childrenMenuList[i].pageurl) ==_url){
             showItem = "layui-this";
         }
-       
+        
         var _leaf=childrenMenuList[i]["leaf"];
         var menuIcon_df="&#xe63c;";
         if(childrenMenuList[i].menuIcon!=null){
@@ -126,7 +126,7 @@ function getParentModule(childrenMenuList) {
             htmlStr = htmlStr+ ' javascript:;"> <i class="layui-icon">'+menuIcon_df+'</i><cute>'+childrenMenuList[i].name+'</cute></a>';
             htmlStr = htmlStr+getChindModule(_leaf);
         }else{
-        	htmlStr += '<li class="layui-nav-item layui-nav-itemed'+showItem+'" id="'+childrenMenuList[i].id+'"><a data-pid="'+childrenMenuList[i].pid+'" data-action="';
+        	htmlStr += '<li class="layui-nav-item layui-nav-itemed'+showItem+'" id="'+childrenMenuList[i].id+'"><a href="javascript:void(0);" data-pid="'+childrenMenuList[i].pid+'" data-action="';
         	 var url = childrenMenuList[i].pageurl;
              var tmpData = childrenMenuList[i]['leaf'][0];
              while(!!tmpData){
@@ -142,13 +142,12 @@ function getParentModule(childrenMenuList) {
 }
 
 function getChindModule(_leaf) {
-    var showItem = "";
     var t = '<dl class="layui-nav-child">';
     for ( var menuObj in _leaf) {
         if((ctx+_leaf[menuObj].pageurl)==window.location.pathname){
-        	 t = t+'<dd class="layui-this" pageUrl="'+_leaf[menuObj].pageurl+'" id="'+_leaf[menuObj].id+'"><a href="#" data-action="'+ctx+_leaf[menuObj].pageurl+'"><i class="layui-icon">'+_leaf[menuObj].menuIcon+'</i><cite>'+_leaf[menuObj].name+'</cite></a></dd>';
+        	 t = t+'<dd class="layui-this" pageUrl="'+_leaf[menuObj].pageurl+'" id="'+_leaf[menuObj].id+'"><a href="javascript:void(0);" data-action="'+ctx+_leaf[menuObj].pageurl+'"><i class="layui-icon">'+_leaf[menuObj].menuIcon+'</i><cite>'+_leaf[menuObj].name+'</cite></a></dd>';
         }else{
-        	t = t+'<dd pageUrl="'+_leaf[menuObj].pageurl+'" id="'+_leaf[menuObj].id+'"><a href="#" data-action="'+ctx+_leaf[menuObj].pageurl+'"><i class="layui-icon">'+_leaf[menuObj].menuIcon+'</i><cite>'+_leaf[menuObj].name+'</cite></a></dd>';
+        	t = t+'<dd pageUrl="'+_leaf[menuObj].pageurl+'" id="'+_leaf[menuObj].id+'"><a href="javascript:void(0);" data-action="'+ctx+_leaf[menuObj].pageurl+'"><i class="layui-icon">'+_leaf[menuObj].menuIcon+'</i><cite>'+_leaf[menuObj].name+'</cite></a></dd>';
         }
     }
     t = t+'</dl>';
