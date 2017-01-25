@@ -1,7 +1,6 @@
 package test;
 
 import org.junit.Test;
-import org.springrain.frame.util.InputSafeUtils;
 import org.springrain.frame.util.JsonUtils;
 import org.springrain.system.entity.User;
 

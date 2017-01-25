@@ -21,7 +21,6 @@ import org.springrain.frame.util.Page;
 import org.springrain.frame.util.ReturnDatas;
 import org.springrain.frame.util.SecUtils;
 import org.springrain.frame.util.property.MessageUtils;
-import org.springrain.system.entity.Org;
 import org.springrain.system.entity.Role;
 import org.springrain.system.entity.User;
 import org.springrain.system.entity.UserOrg;
