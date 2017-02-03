@@ -22,6 +22,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springrain.frame.controller.BaseController;
@@ -59,7 +60,8 @@ public class LoginController extends BaseController  {
 		@RequestMapping(value = "/index")
 		public String index(Model model) throws Exception {
 			
-			return "/index";
+			return "/system/index"; 
+//			return "/index";  
 			
 		}
 		/**
@@ -69,8 +71,8 @@ public class LoginController extends BaseController  {
 		 * @return
 		 * @throws Exception
 		 */
-		@RequestMapping(value = "/login",method=RequestMethod.GET)
-		public String login(Model model,HttpServletRequest request) throws Exception {
+		@RequestMapping(value = "/{siteId}/login",method=RequestMethod.GET)
+		public String login(Model model,HttpServletRequest request,@PathVariable String siteId) throws Exception {
 			//判断用户是否登录
 			if(SecurityUtils.getSubject().isAuthenticated()){
 				return redirect+"/index";
@@ -85,7 +87,8 @@ public class LoginController extends BaseController  {
 			
 			//默认赋值message,避免freemarker尝试从session取值,造成异常
 			model.addAttribute("message", "");
-			return "/login";
+			model.addAttribute("siteId",siteId);
+			return "/s/login";
 		}
 		
 		/**
@@ -120,7 +123,7 @@ public class LoginController extends BaseController  {
 			  //如果验证码不匹配,跳转到登录
 			if (StringUtils.isBlank(submitCode) ||StringUtils.isBlank(code)||!code.equals(submitCode)) {
 				model.addAttribute("message", "验证码错误!");
-				return "/login";
+				return "/s/login";
 	        }
 			//通过账号和密码获取 UsernamePasswordToken token
 			FrameAuthenticationToken token = new FrameAuthenticationToken(currUser.getAccount(),currUser.getPassword());
@@ -140,25 +143,25 @@ public class LoginController extends BaseController  {
 				if(StringUtils.isNotBlank(gotourl)){
 					     model.addAttribute("gotourl", gotourl);
 			    }
-				return "/login";
+				return "/s/login";
 			} catch (IncorrectCredentialsException e) {
 				model.addAttribute("message", "密码错误!");
 				if(StringUtils.isNotBlank(gotourl)){
 			  	     model.addAttribute("gotourl", gotourl);
 		        }
-				return "/login";
+				return "/s/login";
 			} catch (LockedAccountException e) {
 				model.addAttribute("message", e.getMessage());
 				if(StringUtils.isNotBlank(gotourl)){
 			  	     model.addAttribute("gotourl", gotourl);
 		        }
-				return "/login";
+				return "/s/login";
 			} catch (Exception e) {
 				model.addAttribute("message", "未知错误,请联系管理员.");
 				if(StringUtils.isNotBlank(gotourl)){
 			  	     model.addAttribute("gotourl", gotourl);
 		        }
-				return "/login";
+				return "/s/login";
 			}
 		
 			//String sessionId = session.getId();
