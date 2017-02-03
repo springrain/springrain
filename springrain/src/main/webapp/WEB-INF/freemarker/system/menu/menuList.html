@@ -1,6 +1,5 @@
 <#ftl output_format="HTML" auto_esc=true> <@h.commonHead title="后台管理系统" keywords="开源,永久免费"
 description="springrain开源系统管理后台"/>
-<script src="${ctx}/js/custom/common/form.js"></script>
 <script type="text/javascript" src="${ctx}/js/ztree/js/jquery.ztree.all-3.5.js"></script>
 <script type="text/javascript" src="${ctx}/js/ztree/js/ztreeUtils.js"></script>
 <script type="text/javascript" src="${ctx}/js/select2/js/select2.full.min.js"></script>
@@ -10,6 +9,18 @@ description="springrain开源系统管理后台"/>
 <link rel="stylesheet" href="${ctx}/js/select2/css/select2.min.css" type="text/css">
 <link rel="stylesheet" href="${ctx}/js/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
 <link rel="stylesheet" href="${ctx}/css/custom/common/myztree.css" type="text/css">
+<script>
+	function addTree(_obj,e){
+		alert(_obj);
+		stopBubble(e)
+	}
+	function stopBubble(e){
+	    if (e && e.stopPropagation)
+	        e.stopPropagation()
+	    else
+	        window.event.cancelBubble=true
+	}
+</script>
 </head>
 <body>
 	<div class="layui-layout layui-layout-admin">
@@ -46,7 +57,7 @@ description="springrain开源系统管理后台"/>
 					icoObj = $("#" + treeNode.tId + "_ico");
 					switchObj.remove();
 					icoObj.before(switchObj);
-
+					switchObj.after('<a onclick="addTree(this)"  href="javascript:void(0)" class="ztree_add layui-btn layui-btn-normal layui-btn-mini" style="display:none!important;">添加子菜单</a>');
 					if (treeNode.level > 1) {
 						var spaceStr = "<span style='display: inline-block;width:" + (spaceWidth * treeNode.level)+ "px'></span>";
 						switchObj.before(spaceStr);
@@ -109,6 +120,8 @@ description="springrain开源系统管理后台"/>
 				});
 
 				function MenuzTreeOnClick(event, treeId, treeNode) {
+					 
+					alert(jQuery(".curSelectedNode").attr("class"))
 					showdata(treeNode);
 				};
 
@@ -462,9 +475,10 @@ description="springrain开源系统管理后台"/>
 			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe64a;">&#xe64a; </i>  </td>
 			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe644;">&#xe644; </i>  </td>
 			</tr>
-
+		
 	  </tbody>
 	</table>
+	<script src="${ctx}/js/custom/common/form.js"></script>
 </body>
 </html>
 

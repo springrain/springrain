@@ -31,3 +31,29 @@
 
 .ztree li span.button.noline_docu:after{content:"\e621";top:10px;right:-14px;}
 
+.ztree_add{float:right;display:inline-block;width:80px!important;text-align: right;
+    height: 22px!important;
+    line-height: 22px!important;
+    padding: 0 5px!important;
+    font-size: 12px!important;
+    background-color: #1E9FFF!important;
+    white-space: nowrap!important;
+    text-align: center!important;
+    border: none!important;
+    border-radius: 2px!important;
+    cursor: pointer!important;
+    outline: 0!important;
+    -webkit-transition: border-color .3s cubic-bezier(.65,.05,.35,.5)!important;
+    transition: border-color .3s cubic-bezier(.65,.05,.35,.5)!important;
+    -webkit-box-sizing: border-box!important;
+    -moz-box-sizing: border-box!important;
+    box-sizing: border-box!important;vertical-align: middle!important;text-decoration: none!important;
+     color: #fff!important;
+     margin-top:4px!important;
+}
+.ztree_add:hover{
+	opacity: .8;
+    filter: alpha(opacity=80);
+    color: #fff;
+	
+}
