@@ -21,6 +21,8 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.transaction.NoTransactionException;
+import org.springframework.transaction.interceptor.TransactionInterceptor;
 import org.springrain.frame.annotation.LuceneSearch;
 import org.springrain.frame.common.BaseLogger;
 import org.springrain.frame.common.SessionUser;
@@ -263,6 +265,9 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 
 	@Override
 	public Integer update(Finder finder) throws Exception {
+		checkMethodName();
+		
+		
 		// 打印sql
 		logInfoSql(finder.getSql());
 		return getWriteJdbc().update(finder.getSql(), finder.getParams());
@@ -639,6 +644,9 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 
 	@Override
 	public Object save(Object entity) throws Exception {
+		checkMethodName();
+		
+		
 		// 保存到数据库
 		Object id = saveNoLog(entity);
 			 
@@ -689,6 +697,8 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public List<Integer> update(List list, boolean onlyupdatenotnull) throws Exception {
+		checkMethodName();
+		
 		if (CollectionUtils.isEmpty(list)) {
 			return null;
 		}
@@ -722,6 +732,8 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public List<Integer> save(List list) throws Exception {
+		checkMethodName();
+		
 		if (CollectionUtils.isEmpty(list)) {
 			return null;
 		}
@@ -810,6 +822,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public Integer update(Object entity, boolean onlyupdatenotnull) throws Exception {
+		checkMethodName();
 		Class clazz = entity.getClass();
 		// entity的信息
 		EntityInfo entityInfo = ClassUtils.getEntityInfoByEntity(entity);
@@ -903,8 +916,13 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public void deleteById(Object id, Class clazz) throws Exception {
+		checkMethodName();
+		
 		if (id == null)
 			return;
+		
+		
+		
 		EntityInfo entityInfo = ClassUtils.getEntityInfoByClass(clazz);
 		String tableName = entityInfo.getTableName();
 		String idName = entityInfo.getPkName();
@@ -962,8 +980,11 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void deleteByIds(List ids, Class clazz) throws Exception {
+		checkMethodName();
+		
 		if (CollectionUtils.isEmpty(ids))
 			return;
+		
 		EntityInfo entityInfo = ClassUtils.getEntityInfoByClass(clazz);
 		String tableName = entityInfo.getTableName();
 		String idName = entityInfo.getPkName();
@@ -1108,53 +1129,31 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 	 * @return
 	 * @throws Exception
 	 */
+	@Override
 	public Object executeCallBack(CallableStatementCreator callableStatementCreator, List<SqlParameter> parameter)
 			throws Exception {
 		return getWriteJdbc().getJdbcOperations().call(callableStatementCreator, parameter);
 
 	}
-
-	/*
-	 * //private String dataBaseType = null; //private String dataBaseVersion =
-	 * null; //private List<String> dataBaseAllTables;
-	 * 
-	 * @Override public String getDataBaseVersion() { if (dataBaseVersion !=
-	 * null) { return dataBaseVersion; } getDataBaseType(); return
-	 * dataBaseVersion; }
-	 * 
-	 * @Override public String getDataBaseType() { if (dataBaseType != null) {
-	 * return dataBaseType; } String databaseProductName =
-	 * getJdbc().getJdbcOperations().execute( new ConnectionCallback<String>() {
-	 * public String doInConnection(Connection connection) throws SQLException,
-	 * DataAccessException { String databaseProductName =
-	 * connection.getMetaData() .getDatabaseProductName(); dataBaseVersion =
-	 * connection.getMetaData() .getDatabaseProductVersion(); return
-	 * databaseProductName; } }); if (databaseProductName == null) { throw new
-	 * NullPointerException("dataBase DriverName is null"); }
-	 * databaseProductName = databaseProductName.trim().toLowerCase(); if
-	 * (databaseProductName.contains("mysql")) { this.dataBaseType = "mysql"; }
-	 * else if (databaseProductName.contains("oracle")) { this.dataBaseType =
-	 * "oracle"; } else if (databaseProductName.contains("db2")) {
-	 * this.dataBaseType = "db2"; } else if
-	 * (databaseProductName.contains("sqlserver")) { this.dataBaseType =
-	 * "mssql"; } else if (databaseProductName.contains("jtds")) {
-	 * this.dataBaseType = "mssql"; } else if
-	 * (databaseProductName.contains("sybase")) { this.dataBaseType = "sybase";
-	 * }
-	 * 
-	 * return dataBaseType; }
-	 * 
-	 * @Override public List<String> getDataBaseAllTables() { if
-	 * (dataBaseAllTables != null) return dataBaseAllTables; dataBaseAllTables =
-	 * getJdbc().getJdbcOperations().execute( new
-	 * ConnectionCallback<List<String>>() { public List<String>
-	 * doInConnection(Connection connection) throws SQLException,
-	 * DataAccessException { List<String> tables = new ArrayList<String>();
-	 * DatabaseMetaData dbMetaData = connection.getMetaData(); // 可为:"TABLE",
-	 * "VIEW", "SYSTEM   TABLE", // "GLOBAL   TEMPORARY", "LOCAL   TEMPORARY",
-	 * "ALIAS", // "SYNONYM" String[] types = { "TABLE" }; ResultSet tabs =
-	 * dbMetaData.getTables(null, null, null, types);//只要表就好了 while
-	 * (tabs.next()) { // 只要表名这一列 tables.add(tabs.getString("TABLE_NAME")); }
-	 * return tables; } }); return dataBaseAllTables; }
+	@Override
+	public boolean  isCheckMethodName(){
+		return true;
+	}
+	
+	/**
+	 * 检查方法是否有事务
+	 * @throws Exception
 	 */
+	private void checkMethodName()throws NoTransactionException {
+		if(isCheckMethodName()){//方法是否具有事务
+			try{
+	            TransactionInterceptor.currentTransactionStatus();
+			}catch(NoTransactionException e){
+				throw new NoTransactionException("save和update方法,请按照事务拦截方法名书写规范!具体参见:applicationContext-tx.xml");
+			}
+			
+		}
+	}
+
+	
 }
