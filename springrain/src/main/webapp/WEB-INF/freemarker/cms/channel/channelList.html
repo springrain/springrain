@@ -1,5 +1,6 @@
-<#ftl output_format="HTML" auto_esc=true> <@h.commonHead title="后台管理系统" keywords="开源,永久免费"
-description="springrain开源系统管理后台"/>
+<#ftl output_format="HTML" auto_esc=true> 
+<@h.commonHead title="后台管理系统" keywords="开源,永久免费" description="springrain开源系统管理后台"/>
+<script src="${ctx}/js/custom/common/form.js"></script>
 
 
 <script>
@@ -80,7 +81,7 @@ description="springrain开源系统管理后台"/>
 												<div class="layui-inline">
 													<label class="layui-form-label">是否可用</label>
 													<div class="layui-input-inline">
-														<select name="active" id="active" class="layui-input">
+														<select name="active" id="active">
 															<option value="">==请选择==</option>
 															<option value="1">是</option>
 															<option value="0">否</option>
