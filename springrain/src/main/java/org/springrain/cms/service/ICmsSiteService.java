@@ -1,7 +1,11 @@
 package org.springrain.cms.service;
 
+import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.web.multipart.MultipartFile;
 import org.springrain.cms.entity.CmsSite;
 import org.springrain.system.service.IBaseSpringrainService;
 /**
@@ -51,5 +55,14 @@ public interface ICmsSiteService extends IBaseSpringrainService {
 	* @throws Exception 
    */
 	List<CmsSite> findSiteByUserId(String userId) throws Exception;
+	
+	/**
+	 * 上传logo保存临时文件
+	 * @param tempFile
+	 * @param request
+	 * @return
+	 * @throws IOException 
+	 */
+	String saveTmpLogo(MultipartFile tempFile, HttpServletRequest request) throws IOException;
 	
 	}

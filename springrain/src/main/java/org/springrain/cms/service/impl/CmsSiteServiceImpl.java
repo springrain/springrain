@@ -1,14 +1,18 @@
 package org.springrain.cms.service.impl;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.util.CollectionUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springrain.cms.entity.CmsLink;
 import org.springrain.cms.entity.CmsSite;
 import org.springrain.cms.service.ICmsLinkService;
@@ -224,5 +228,13 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 	@Override
 	public <T> T findById(Object id, Class<T> clazz) throws Exception {
 		return super.findById(id, clazz);
+	}
+
+	@Override
+	public String saveTmpLogo(MultipartFile tempFile, HttpServletRequest request) throws IOException {
+		String filePath = request.getServletContext().getRealPath("/")+"upload"+File.separator+"tmp"+File.separator+tempFile.getName();
+		File file = new File(filePath);
+		FileUtils.copyToFile(tempFile.getInputStream(), file);
+		return filePath;
 	}
 }
