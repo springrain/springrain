@@ -33,19 +33,24 @@ description="springrain开源系统管理后台"/>
 		 
 		 
 		 var uploader = WebUploader.create({
+			 auto:true,
 		    // swf文件路径
 		    swf: '${ctx}/js/webuploader/Uploader.swf',
 		    // 文件接收服务端。
-		    server: '${ctx}/system/cms/site/logoupload',
+		    server: '${ctx}/system/cms/site/logoupload?springraintoken='+springraintoken,
 		    // 选择文件的按钮。可选。
 		    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
 		    pick: '#filePicker',
 		    // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
-		    resize: false
+		     accept: {
+		        title: 'Images',
+		        extensions: 'gif,jpg,jpeg,bmp,png',
+		        mimeTypes: 'image/*'
+		    }
 		});
 		
 		 uploader.on( 'fileQueued', function( file ) {
-		    var $li = $('<div id="' + file.id + '" class="file-item thumbnail">' +
+		    var $li = $('<div id="' + file.id + '" class="file-item thumbnail layui-inline">' +
 		                '<img>' +
 		                '<div class="info">' + file.name + '</div>' 
 		                +'</div>'),
@@ -86,7 +91,8 @@ description="springrain开源系统管理后台"/>
 		 });
 
 		 // 文件上传成功，给item添加成功class, 用样式标记上传成功。
-		 uploader.on( 'uploadSuccess', function( file ) {
+		 uploader.on( 'uploadSuccess', function( file,response ) {
+			 $("[name=logo]").val(response.data);
 		     $( '#'+file.id ).addClass('upload-state-done');
 		 });
 
@@ -247,7 +253,7 @@ description="springrain开源系统管理后台"/>
 											    <!--用来存放item-->
 											    <div id="fileList" class="uploader-list"></div>
 											    <div id="filePicker" class="">选择图片</div>
-											    <input type="hidden" value="/upload/test" name="logo">
+											    <input type="hidden" value="" name="logo">
 											</div>
 										</div>
 										<div class="layui-inline valid-info"></div>

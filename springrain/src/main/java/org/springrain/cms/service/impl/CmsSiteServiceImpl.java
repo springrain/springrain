@@ -232,8 +232,8 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 
 	@Override
 	public String saveTmpLogo(MultipartFile tempFile, HttpServletRequest request) throws IOException {
-		String filePath = request.getServletContext().getRealPath("/")+"upload"+File.separator+"tmp"+File.separator+tempFile.getName();
-		File file = new File(filePath);
+		String filePath = "upload"+File.separator+"tmp"+File.separator+tempFile.getOriginalFilename();
+		File file = new File(request.getServletContext().getRealPath("/")+filePath);
 		FileUtils.copyToFile(tempFile.getInputStream(), file);
 		return filePath;
 	}
