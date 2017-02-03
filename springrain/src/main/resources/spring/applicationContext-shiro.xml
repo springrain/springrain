@@ -99,6 +99,7 @@
 				
 				/login = firewall
 				/system/login = firewall
+				/**/login = firewall
 				
 				
 				/index = firewall,user,keepone

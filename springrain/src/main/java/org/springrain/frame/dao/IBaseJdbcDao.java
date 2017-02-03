@@ -367,6 +367,14 @@ public interface IBaseJdbcDao {
 	 */
 	Finder getFinderOrderBy(Finder finder, Page page) throws Exception;
 
+	
+	/**
+	 * 处理严格检查事务的方法名称,默认是true
+	 * @return
+	 */
+	boolean isCheckMethodName();
+	
+	
 	/**
 	 * 获取数据库的版本
 	 * 
