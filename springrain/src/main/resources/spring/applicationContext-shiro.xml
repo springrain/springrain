@@ -30,16 +30,20 @@
         <property name="sessionIdUrlRewritingEnabled"  value="false"  />		
 		<!-- 超时时间 -->
 		<property name="globalSessionTimeout" value="${cache.timeout}000" />
+		
+		<!-- 相隔多久检查一次session的有效性  -->
+		<property name="sessionValidationInterval" value="${cache.timeout}000" />
+		
 		<!-- session存储的实现 -->
 		<property name="sessionDAO" ref="shiroSessionDao" />
 		<!-- sessionIdCookie的实现,用于重写覆盖容器默认的JSESSIONID -->
-		<property name="sessionIdCookie" ref="sharesession" />
+		<property name="sessionIdCookie" ref="shareSessionCookie" />
 		<!-- 定时检查失效的session -->
 		<property name="sessionValidationSchedulerEnabled" value="true" />
 	</bean>
 
 	<!-- sessionIdCookie的实现,用于重写覆盖容器默认的JSESSIONID -->
-	<bean id="sharesession" class="org.apache.shiro.web.servlet.SimpleCookie">
+	<bean id="shareSessionCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
 		<!-- cookie的name,对应的默认是 JSESSIONID -->
 		<constructor-arg name="name" value="SHAREJSESSIONID" />
 		<!-- jsessionId的path为 / 用于多个系统共享jsessionId -->
