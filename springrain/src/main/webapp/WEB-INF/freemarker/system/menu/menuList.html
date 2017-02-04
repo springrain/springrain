@@ -13,7 +13,7 @@ description="springrain开源系统管理后台"/>
 <script type="text/javascript">
 	//添加
 	function addTree(_obj,_id,e){
-		jQuery('#menuListTree').parent("div").css("width","35%");
+		jQuery('#menuListTree').parent("div").css({"min-width":"360px","width":"35%"});
 		jQuery('.myanimate').animate({'right':"0px"});
 		jQuery(".curSelectedNode").removeClass("curSelectedNode");
 		jQuery("#"+_id+"_a").addClass("curSelectedNode");
@@ -31,7 +31,7 @@ description="springrain开源系统管理后台"/>
 	function editTree(_obj,_id,e){
 		jQuery(".curSelectedNode").removeClass("curSelectedNode");
 		jQuery("#"+_id+"_a").addClass("curSelectedNode");
-		jQuery('#menuListTree').parent("div").css("width","35%");
+		jQuery('#menuListTree').parent("div").css({"min-width":"360px","width":"35%"});
 		jQuery('.myanimate').animate({'right':"0px"})
 		saveType=1;//修改保存类型为  修改
 		var node = zTree.getNodeByTId(_id);
@@ -282,7 +282,7 @@ description="springrain开源系统管理后台"/>
 									<div class="fl" style="width:80%">
 										<ul id="menuListTree" class="ztree"></ul>
 									</div>
-									<div class="fl per60 rlt myanimate">
+									<div class="fl per50 rlt myanimate">
 										<div class="fl per20 line-vertical"></div>
 										<form id="updateForm" name="updateForm" action="${ctx}/system/menu/update" method="post" class="layui-form">
 											<input type="hidden" name="id" id="id">
