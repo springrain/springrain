@@ -52,7 +52,7 @@ public class GlobalStatic {
 	
 	public static final String tableSuffix="_history_";
 	public static final String frameTableAlias="frameTableAlias";
-	public static final String pageurlName="pageurlName";
+	//public static final String pageurlName="pageurlName";
 	public static final String returnDatas="returnDatas";
 	
 
