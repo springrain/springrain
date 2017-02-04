@@ -19,7 +19,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springrain.frame.common.SessionUser;
 import org.springrain.frame.util.DateUtils;
-import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.IPUtils;
 import org.springrain.system.entity.Fwlog;
 import org.springrain.system.service.IMenuService;
@@ -93,7 +92,7 @@ public class FrameFWLogFilter extends OncePerRequestFilter {
 		}
 		try {
 			String menuName = menuService.getNameByPageurl(uri);
-			req.setAttribute(GlobalStatic.pageurlName, menuName);
+			//req.setAttribute(GlobalStatic.pageurlName, menuName);
 			fwlog.setMenuName(menuName);
 			menuService.save(fwlog);
 		} catch (Exception e) {

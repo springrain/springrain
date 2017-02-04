@@ -30,7 +30,6 @@ public class SystemUserFilter extends BaseUserFilter {
 		 
 		 //已经登录用户,验证Referer
 		 HttpServletRequest req=(HttpServletRequest) request;
-		 
 		 Object obj=req.getSession().getAttribute(GlobalStatic.tokenKey);
 		 if(obj==null||(!obj.toString().startsWith("system_"))){//tokenKey必须是system_开头
 			 Subject subject = SecurityUtils.getSubject();

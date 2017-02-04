@@ -9,6 +9,22 @@ $(document).ready(function(){
 			}else{
 				_that.url= _url+"?springraintoken="+springraintoken;
 			}
+		},
+		complete:function(data){
+			var _that=this;
+			try{
+				var _obj=data.responseText;
+				_obj=eval("("+_obj+")");
+				if(_obj.statusCode=='relogin'){
+					this.success=null;
+					springrain.info("登录超时，请重新登录.", null);
+					setTimeout(function(){
+						window.location.href=ctx+"/system/login";
+					},1000);
+				}
+			}catch(e){
+				springrain.info(e, null)
+			}
 		}
 	});
 	//初始化插件
