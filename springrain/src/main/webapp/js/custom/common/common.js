@@ -308,7 +308,7 @@ function init_button_action(){
 	jQuery("a[data-action]").bind("click",function(){
 		if(!!$(this).attr("data-pid"))
 			locache.set("currentPagePid",$(this).attr("data-pid"));
-		window.location.href=springrain.appendToken(jQuery(this).attr("data-action"))
+		window.location.href=springrain.appendToken(jQuery(this).attr("data-action"));
 	});
 }
 
