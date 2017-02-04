@@ -96,21 +96,7 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
     		return null;
     	}
 	    
-    	 //创建站点部门
-		 Org org = new Org();
-		 org.setName(cmsSite.getName());
-		 org.setDescription(cmsSite.getDescription());
-		 org.setOrgType(cmsSite.getSiteType());
-		 org.setPid(cmsSite.getOrgId());
-		 org.setActive(1);
-		 String orgId = orgService.saveOrg(org);
-		 //创建站点用户关联新
-		 UserOrg userOrg = new UserOrg(SecUtils.getUUID());
-		 userOrg.setUserId(SessionUser.getUserId());
-		 userOrg.setOrgId(orgId);
-		 userOrg.setHasleaf(0);
-		 userOrg.setManagerType(UserOrgType.getUserOrgTypeByName(UserOrgType.主管.name()).getType());
-		 userOrgService.save(userOrg);
+    	
     	
     	
 	    String id= tableindexService.updateNewId(CmsSite.class);
@@ -118,7 +104,7 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 	    	return null;
 	    }
 	    cmsSite.setId(id);
-	    cmsSite.setOrgId(orgId);
+	    //cmsSite.setOrgId(orgId);
 	    super.save(cmsSite);
 	    
 
@@ -182,7 +168,22 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 		 
 		 putByCache(id, "cmsSiteService_findCmsSiteById_"+id, cmsSite);
 		 
-		
+		 //创建站点部门
+		 Org org = new Org(id);
+		 org.setName(cmsSite.getName());
+		 org.setDescription(cmsSite.getDescription());
+		 org.setOrgType(cmsSite.getSiteType());
+		 org.setPid(cmsSite.getOrgId());
+		 org.setActive(1);
+		 String orgId = orgService.saveOrg(org);
+		 //创建站点用户关联新
+		 UserOrg userOrg = new UserOrg(SecUtils.getUUID());
+		 userOrg.setUserId(SessionUser.getUserId());
+		 userOrg.setOrgId(orgId);
+		 userOrg.setHasleaf(0);
+		 userOrg.setManagerType(UserOrgType.getUserOrgTypeByName(UserOrgType.主管.name()).getType());
+		 userOrgService.save(userOrg);
+		 
 		 return id;
 	}
 	
