@@ -301,7 +301,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 
 		if (finder == null) {
 
-			String tableName = ClassUtils.getTableName(queryBean);
+			String tableName = Finder.getTableName(queryBean);
 
 			finder = new Finder("SELECT * FROM " + tableName);
 			finder.append(" WHERE 1=1 ");
@@ -1089,7 +1089,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T queryForObject(T entity) throws Exception {
-		String tableName = ClassUtils.getTableName(entity);
+		String tableName = Finder.getTableName(entity);
 		Finder finder = new Finder("SELECT * FROM ");
 		finder.append(tableName).append("  WHERE 1=1 ");
 		getFinderWhereByQueryBean(finder, entity);
@@ -1111,7 +1111,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T> List<T> queryForListByEntity(T entity, Page page) throws Exception {
-		String tableName = ClassUtils.getTableName(entity);
+		String tableName = Finder.getTableName(entity);
 		Finder finder = new Finder("SELECT * FROM ");
 		finder.append(tableName).append("  WHERE 1=1 ");
 		getFinderWhereByQueryBean(finder, entity);

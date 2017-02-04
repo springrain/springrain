@@ -167,7 +167,7 @@ public class Finder {
 		
 		String _sql=sql.toString();
 		if(isEscapeSql()&&_sql.contains("'")){
-			throw new Exception("请不要拼接SQL语句!!!");
+			throw new Exception("SQL语句请不要直接拼接字符串参数!!!使用标准的占位符实现,例如  finder.append(' and id=:id').setParam('id',_id);  ");
 		}
 		return _sql;
 	}
