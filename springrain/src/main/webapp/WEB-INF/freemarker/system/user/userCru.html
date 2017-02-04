@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="${ctx}/js/select2/css/select2.min.css" type="text/css">
 <link rel="stylesheet" href="${ctx}/js/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
 <link rel="stylesheet" href="${ctx}/js/validform/validform.css" media="all">
+<link rel="stylesheet" href="${ctx}/css/custom/common/myztree.css" type="text/css">
 <script>
 	 var _userType;
 	 var orgNames="";
@@ -57,9 +58,26 @@ var orgMultiSelectSetting_manager = {
 			onClick : clickOrgValue
 		},
 	    view: {
+	    	showLine: false,
+			showIcon: false,
 			selectedMulti: false,
+			dblClickExpand: false,
+			addDiyDom: addDiyDom
 		}
 	};
+function addDiyDom(treeId, treeNode) {
+	var spaceWidth = 5;
+	var switchObj = $("#" + treeNode.tId + "_switch"),
+	icoObj = $("#" + treeNode.tId + "_ico");
+	switchObj.remove();
+	icoObj.before(switchObj);
+
+	if (treeNode.level > 1) {
+		var spaceStr = "<span style='display: inline-block;width:" + (spaceWidth * treeNode.level)+ "px'></span>";
+		switchObj.before(spaceStr);
+	}
+}
+
 var orgMultiSelectTree;
 function showZtreeOrg(){
     if(!orgMultiSelectTree){
@@ -107,6 +125,7 @@ function showZtreeOrg(){
     return false;
 }
 var orgMangeMultiSelectTree;
+var _is_cancle=false;
 function showMangerZtreeOrg(_obj){
 	_current_btn=_obj;
 	if(!orgMangeMultiSelectTree){
@@ -149,7 +168,14 @@ function showMangerZtreeOrg(_obj){
       yes:function(index, layero){
     	  jQuery("#addTbody tr").last().remove();
             layer.close(index); //如果设定了yes回调，需进行手工关闭
-       }
+      },
+      end:function(){
+    	  if(!_is_cancle){
+    		  jQuery("#addTbody tr").last().remove();
+    	  }else{
+    		  _is_cancle=false;
+    	  }
+      }
     });
     return false;
 }
@@ -278,7 +304,7 @@ function check(type){
 }
 var _current_btn=null;
 function add(){
-	debugger;
+	//debugger;
 	jQuery("#addTbody").parents("table").removeClass("off");
 	var _html=["<tr>",
 					"<td><input type='text' readonly onclick='showMangerZtreeOrg(this)'   name='managerOrgNames' placeholder='单击选择' class='layui-input'><input type='hidden' name='managerOrgIds'></td>",
@@ -308,12 +334,12 @@ function clickOrgValue(event, treeId, treeNode) {
 	});
 	if(_flag){
 		springrain.alert("已经添加该部门，请重新选择.",function(){
-			alert(0)
 		});
 		return;
 	}
 	jQuery(_current_btn).val(name);
 	jQuery(_current_btn).siblings("input").eq(0).val(id);
+	_is_cancle=true;
 	layer.closeAll();
 };
 function modifyPWD(_obj){
