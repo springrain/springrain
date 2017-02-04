@@ -35,7 +35,7 @@ import org.springrain.frame.util.property.MessageUtils;
  * @see org.springrain.cms.entity.CmsChannel
  */
 @Controller
-@RequestMapping(value="/system/cms/channel")
+@RequestMapping(value="/s/cms/channel")
 public class CmsChannelController  extends BaseController {
 	@Resource
 	private ICmsChannelService cmsChannelService;

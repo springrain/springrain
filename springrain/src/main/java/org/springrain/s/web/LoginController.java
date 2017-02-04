@@ -43,6 +43,7 @@ public class LoginController extends BaseController {
 	 */
 	@RequestMapping(value="/index")
 	public String index(Model model,@PathVariable String siteId){
+		model.addAttribute("siteId", siteId);
 		return "/s/index";
 	}
 	
@@ -55,6 +56,7 @@ public class LoginController extends BaseController {
 	 */
 	@RequestMapping(value="/login",method=RequestMethod.GET)
 	public String login(Model model,HttpServletRequest request,@PathVariable String siteId){
+		model.addAttribute("siteId", siteId);
 		//判断用户是否登录
 		if(SecurityUtils.getSubject().isAuthenticated()){
 			return redirect+"/s/"+siteId+"/index";
@@ -77,7 +79,7 @@ public class LoginController extends BaseController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value = "/login",method=RequestMethod.POST)
+	/*@RequestMapping(value = "/login",method=RequestMethod.POST)
 	public String login(User currUser,HttpSession session,Model model,HttpServletRequest request){
 		Subject user = SecurityUtils.getSubject();
 		//系统产生的验证码
@@ -149,7 +151,7 @@ public class LoginController extends BaseController {
 		session.setAttribute(GlobalStatic.tokenKey, springraintoken);
 		model.addAttribute(GlobalStatic.tokenKey,springraintoken);
 		return redirect+gotourl;
-	}
+	}*/
 	
 	/**
 	 * 处理登录提交的方法
@@ -163,6 +165,7 @@ public class LoginController extends BaseController {
 	
 	@RequestMapping(value = "/login",method=RequestMethod.POST)
 	public String loginPost(User currUser,HttpSession session,Model model,HttpServletRequest request,@PathVariable String siteId) throws Exception {
+		model.addAttribute("siteId", siteId);
 		Subject user = SecurityUtils.getSubject();
 		//系统产生的验证码
 		  String code = (String) session.getAttribute(GlobalStatic.DEFAULT_CAPTCHA_PARAM);
