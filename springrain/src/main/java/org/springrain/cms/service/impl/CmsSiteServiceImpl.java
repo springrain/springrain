@@ -18,6 +18,7 @@ import org.springrain.cms.entity.CmsSite;
 import org.springrain.cms.service.ICmsLinkService;
 import org.springrain.cms.service.ICmsSiteService;
 import org.springrain.frame.common.SessionUser;
+import org.springrain.frame.util.Enumerations.SiteType;
 import org.springrain.frame.util.Enumerations.UserOrgType;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
@@ -135,7 +136,7 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 	    cmsLink.setActive(0);//默认可以使用
 	    cmsLink.setSortno(1);
 	    //首页默认
-	    String _index="/f/"+cmsSite.getSiteType()+"/"+id+"/index";
+	    String _index="/f/"+SiteType.getSiteType(cmsSite.getSiteType()).name()+"/"+id+"/index";
 	    cmsLink.setDefaultLink(_index);
 	    cmsLink.setLink(_index);
 	    //设置模板路径
@@ -235,6 +236,6 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 		String filePath = "upload"+File.separator+"tmp"+File.separator+tempFile.getOriginalFilename();
 		File file = new File(request.getServletContext().getRealPath("/")+filePath);
 		FileUtils.copyToFile(tempFile.getInputStream(), file);
-		return filePath;
+		return File.separator+filePath;
 	}
 }

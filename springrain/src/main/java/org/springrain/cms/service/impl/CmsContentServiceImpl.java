@@ -19,6 +19,7 @@ import org.springrain.cms.service.ICmsSiteService;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.Page;
+import org.springrain.frame.util.Enumerations.SiteType;
 import org.springrain.system.service.BaseSpringrainServiceImpl;
 import org.springrain.system.service.ITableindexService;
 
@@ -116,7 +117,7 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 	    cmsLink.setActive(cmsContent.getActive());//默认可以使用
 	    cmsLink.setSortno(cmsContent.getSortno());
 	    //首页默认
-	    String _index="/f/"+siteType+"/"+siteId+"/"+id;
+	    String _index="/f/"+SiteType.getSiteType(siteType).name()+"/"+siteId+"/"+id;
 	    cmsLink.setDefaultLink(_index);
 	    cmsLink.setLink(_index);
 	    //设置模板路径

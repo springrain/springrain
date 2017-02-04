@@ -94,4 +94,34 @@ public class Enumerations {
 				return null;
 		}
 	}
+	
+	/**
+	 * @author Administrator
+	 * 站点类型
+	 */
+	public enum SiteType{
+		mp(11),cp(12),pc(13),wap(14),poll(15);
+		int type;
+		
+		private SiteType(Integer type) {
+			this.type = type;
+		}
+		
+		public static SiteType getSiteType(int type){
+			switch (type) {
+				case 11:
+					return mp;
+				case 12:
+					return cp;
+				case 13:
+					return pc;
+				case 14:
+					return wap;
+				case 15:
+					return poll;
+				default:
+					return null;
+			}
+		}
+	}
 }
