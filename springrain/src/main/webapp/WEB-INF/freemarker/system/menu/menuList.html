@@ -9,27 +9,66 @@ description="springrain开源系统管理后台"/>
 <link rel="stylesheet" href="${ctx}/js/select2/css/select2.min.css" type="text/css">
 <link rel="stylesheet" href="${ctx}/js/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
 <link rel="stylesheet" href="${ctx}/css/custom/common/myztree.css" type="text/css">
-<script>
-	function addTree(_obj,e){
-		alert(_obj);
-		stopBubble(e)
+<link rel="stylesheet" href="${ctx}/js/validform/validform.css" media="all">
+<script type="text/javascript">
+	//添加
+	function addTree(_obj,_id,e){
+		jQuery('#menuListTree').parent("div").css("width","35%");
+		jQuery('.myanimate').animate({'right':"0px"});
+		jQuery(".curSelectedNode").removeClass("curSelectedNode");
+		jQuery("#"+_id+"_a").addClass("curSelectedNode");
+		saveType=0;
+		var node = zTree.getNodeByTId(_id);
+		removeHoverDom(_id,node);
+		jQuery("#updateForm")[0].reset();
+		jQuery("#pname").val(node.name);
+		jQuery("#pid").val(node.id);
+		jQuery("#imgIcon").html('');
+		jQuery("#menuIcon").val('');
+		springrain.stopBubble(e);
 	}
-	function stopBubble(e){
-	    if (e && e.stopPropagation)
-	        e.stopPropagation()
-	    else
-	        window.event.cancelBubble=true
+	//编辑
+	function editTree(_obj,_id,e){
+		jQuery(".curSelectedNode").removeClass("curSelectedNode");
+		jQuery("#"+_id+"_a").addClass("curSelectedNode");
+		jQuery('#menuListTree').parent("div").css("width","35%");
+		jQuery('.myanimate').animate({'right':"0px"})
+		saveType=1;//修改保存类型为  修改
+		var node = zTree.getNodeByTId(_id);
+		removeHoverDom(_id,node);
+		showdata(node);
+		springrain.stopBubble(e);
+	}
+	//删除
+	function deleteMenu(_obj,_id,e) {
+		jQuery(".curSelectedNode").removeClass("curSelectedNode");
+		jQuery("#"+_id+"_a").addClass("curSelectedNode");
+		var node = zTree.getNodeByTId(_id);
+		removeHoverDom(_id,node);
+		springrain.confirm('删除这个菜单，是否继续?', function(index) {
+			var id = node.id;
+			if (!id || id == "") {
+				springrain.alert('请选择你要删除的记录!');
+				return false;
+			} else {
+				var _url = "${ctx}/system/menu/delete";
+				var listurl = "${ctx}/system/menu/list";
+				var data = {
+					"id" : id
+				};
+				springrain.ajaxpostonlayer(_url, listurl, data, '删除菜单成功！');
+			}
+			layer.close(index);
+		});
 	}
 </script>
 </head>
-<body>
 	<div class="layui-layout layui-layout-admin">
 		<@h.naviHeader /> <@h.leftMenu />
 		<!-- 主体内容开始 -->
 			<SCRIPT type="text/javascript">
 				var selectMenuZtree;
 				var menujsondata4select;
-
 				var menuSelectSetting = {
 						view: {
 							showLine: false,
@@ -38,47 +77,46 @@ description="springrain开源系统管理后台"/>
 							dblClickExpand: false,
 							addDiyDom: addDiyDom
 						},
-					callback : {
-						onClick : clickMenuValue
-					},
-					data : {
-						simpleData : {
-							enable : true,
-							idKey : "id",
-							pIdKey : "pid",
-							rootPId : "null"
+						callback : {
+							onClick : clickMenuValue
+						},
+						data : {
+							simpleData : {
+								enable : true,
+								idKey : "id",
+								pIdKey : "pid",
+								rootPId : "null"
+							}
 						}
-					}
 				};
+				function clickMenuValue(event, treeId, treeNode) {
+					jQuery("#pname").val(treeNode.name);
+					jQuery("#pid").val(treeNode.id);
 
+				};
 				function addDiyDom(treeId, treeNode) {
 					var spaceWidth = 5;
 					var switchObj = $("#" + treeNode.tId + "_switch"),
 					icoObj = $("#" + treeNode.tId + "_ico");
 					switchObj.remove();
 					icoObj.before(switchObj);
-					switchObj.after('<a onclick="addTree(this)"  href="javascript:void(0)" class="ztree_add layui-btn layui-btn-normal layui-btn-mini" style="display:none!important;">添加子菜单</a>');
 					if (treeNode.level > 1) {
 						var spaceStr = "<span style='display: inline-block;width:" + (spaceWidth * treeNode.level)+ "px'></span>";
 						switchObj.before(spaceStr);
 					}
 				}
-				
-				function clickMenuValue(event, treeId, treeNode) {
-					jQuery("#pname").val(treeNode.name);
-					jQuery("#pid").val(treeNode.id);
-
-				};
-
 				var menuTreesetting = {
 						view: {
 							showLine: false,
 							showIcon: false,
 							selectedMulti: false,
 							dblClickExpand: false,
-							addDiyDom: addDiyDom
+							addDiyDom: addDiyDom,
+							addHoverDom: addHoverDom,
+					　　　　 removeHoverDom: removeHoverDom
 						},
 					callback : {
+						beforeClick:MenuzTreeOnClick,
 						onClick : MenuzTreeOnClick
 					},
 					data : {
@@ -90,14 +128,26 @@ description="springrain开源系统管理后台"/>
 						}
 					}
 				};
-
+				function addHoverDom(treeId, treeNode) {
+				　　　　　　var sObj = $("#" + treeNode.tId + "_span");
+				　　　　　　if ($("#addBtn_" + treeNode.id).length > 0) return;
+						   sObj.after('<a id="addBtn2_' + treeNode.id +'"  onclick="editTree(this,\''+treeNode.tId+'\')"  href="#" class="ztree_edit layui-btn layui-btn-normal layui-btn-mini">修改</a>');
+						   sObj.after('<a id="addBtn_' + treeNode.id +'"  onclick="addTree(this,\''+treeNode.tId+'\')"  href="#" class="ztree_add layui-btn layui-btn-normal layui-btn-mini">添加子菜单</a>');
+						   sObj.after('<a id="addBtn1_' + treeNode.id +'"  onclick="deleteMenu(this,\''+treeNode.tId+'\')"  href="#" class="ztree_del layui-btn layui-btn-normal layui-btn-mini">删除</a>');
+				
+				};
+				function removeHoverDom(treeId, treeNode) {
+						   $("#addBtn1_" + treeNode.id).unbind().remove();
+						   $("#addBtn2_" + treeNode.id).unbind().remove();
+				　　　　　　$("#addBtn_" + treeNode.id).unbind().remove();
+				};
+				var zTree=null;
 				$(document).ready(function() {
 					$("[name='iconName']").click(function() {
 						$("#menuIcon").val("&#"+$(this).attr("textContent").replace(/(^\s+)|(\s+$)/g,""));
 						jQuery("#imgIcon").html($("#menuIcon").val());
 						layer.closeAll();
 					});
-
 					jQuery.post("${ctx}/system/menu/list/json",function(_json) {
 						if (_json.status == "success") {
 							menujsondata4select = _json;
@@ -120,17 +170,14 @@ description="springrain开源系统管理后台"/>
 				});
 
 				function MenuzTreeOnClick(event, treeId, treeNode) {
-					 
-					alert(jQuery(".curSelectedNode").attr("class"))
-					showdata(treeNode);
+					return false;
 				};
-
+				function delParent(){
+					jQuery("#pname").val('');
+					jQuery("#pid").val('');
+					springrain.msg("清除成功，保存生效",null);
+				}
 				function showdata(result) {
-					$("#btn_add").hide();
-					$("#btn_update").show();
-					$("#btn_reload").show();
-					$("#btn_delete").show();
-
 					$("#updateForm select ").each(
 							function() {
 								$(this).find('option:first').attr('selected',
@@ -160,38 +207,17 @@ description="springrain开源系统管理后台"/>
 
 				}
 				/*
-				删除
-				*/
-				function deleteMenu() {
-					myconfirm('删除这个菜单，是否继续?', function(index) {
-						var id = jQuery("#id").val();
-						if (!id || id == "") {
-							//myalert("请选择你要删除的记录");
-							myalert('请选择你要删除的记录!');
-							return false;
-						} else {
-							//var _url="${ctx}/system/menu/delete?id="+id;
-							var _url = "${ctx}/system/menu/delete";
-							var listurl = "${ctx}/system/menu/list";
-							//mydelete(_url,listurl);
-							var data = {
-								"id" : id
-							};
-							ajaxpostonlayer(_url, listurl, data, '删除菜单成功！');
-						}
-						layer.close(index);
-					});
-				}
-				/*
 				保存  0添加   1更新
 				*/
-				function dosubmit(i) {
+				var saveType=0;
+				function dosubmit() {
+					
 					var msg = "菜单添加成功！";
-					if (i == 1) {
+					if (saveType == 1) {
 						msg = "菜单更新成功！";
 					}
 					var listurl = '${ctx}/system/menu/list';
-					if (i == 0) {
+					if (saveType == 0) {
 						springrain.commonSaveForm("updateForm",listurl, '菜单添加成功！');
 					} else {
 						springrain.commonUpdateForm("updateForm",listurl, '菜单更新成功！');
@@ -236,7 +262,7 @@ description="springrain开源系统管理后台"/>
 
 				}
 			</SCRIPT>
-			
+<body>			
 			<div class="layui-tab layui-tab-brief">
 				<ul class="layui-tab-title site-demo-title">
 		             <li class="layui-this">
@@ -251,37 +277,21 @@ description="springrain开源系统管理后台"/>
 				<div class="layui-body layui-tab-content site-demo-body">
 					<div class="layui-tab-item layui-show">
 						<div class="layui-main">
-									 <table class="layui-table">
-							          	<tbody>
-							          		<tr>
-							          			<th>操作</th>
-							          		</tr>
-							          		<tr>
-							          			<td>
-							          				<div class="layui-field-box">
-											    		<button id="btn_reload" onclick="location.reload();" class="layui-btn display-n"><i class="layui-icon"></i> 跳转到新增  >></button>
-											    		<button id="btn_add" onclick="dosubmit(0);" class="layui-btn"><i class="layui-icon"></i> 保存新增</button>
-											    		<button id="btn_update" style="display: none;" onclick="dosubmit(1);" class="layui-btn"><i class="layui-icon">&#xe642;</i> 保存修改</button>
-											    		<button id="btn_delete" style="display: none;" onclick="deleteMenu();" class="layui-btn layui-btn-danger"><i class="layui-icon">&#xe640;</i> 删除</button>
-						  							</div>
-							          			</td>
-							          		</tr>
-							          	</tbody>
-							          </table>
-							<div class="container-fluid">
+							<div class="container-fluid" style="overflow:hidden;">
 								<div class="row">
-									<div class="fl per20">
+									<div class="fl" style="width:80%">
 										<ul id="menuListTree" class="ztree"></ul>
 									</div>
-									<div class="fl per60 rlt">
+									<div class="fl per60 rlt myanimate">
 										<div class="fl per20 line-vertical"></div>
 										<form id="updateForm" name="updateForm" action="${ctx}/system/menu/update" method="post" class="layui-form">
 											<input type="hidden" name="id" id="id">
 											<div class="layui-form-item  col-lg-9">
 											    <label class="layui-form-label col-lg-3">名称*</label>
-											    <div class="layui-input-inline">
+											    <div class="layui-inline">
 											      <input type="text" id="name" name="name" datatype="*" nullmsg="名称不能为空" required  lay-verify="required" placeholder="请输入菜单名称" autocomplete="off" class="layui-input">
 											    </div>
+											    <div class="layui-inline valid-info"></div>
 										  	</div>
 										  	
 											<div class="layui-form-item  col-lg-9">
@@ -293,9 +303,12 @@ description="springrain开源系统管理后台"/>
 										  	
 											<div class="layui-form-item  col-lg-9">
 											    <label class="layui-form-label col-lg-3">父级</label>
-											    <div class="layui-input-inline">
+											    <div class="layui-input-inline  col-lg-3">
 											      <input type="text" name="pname" id="pname" readonly="readonly" class="layui-input" onclick="showMenuZTree();">
 											      <input name="pid" id="pid" type="hidden" msg="请选择父节点" check="require" /> 
+											    </div>
+											    <div class="layui-input-inline  col-lg-2">
+											    	 <button type="button" onclick="delParent()" class="layui-btn layui-btn-normal">清空父级</button>
 											    </div>
 										  	</div>
 											
@@ -343,7 +356,13 @@ description="springrain开源系统管理后台"/>
 											    <div class="layui-input-inline col-lg-6">
 											      <textarea name="description" id="description" placeholder="请输入内容" class="layui-textarea"></textarea>
 											    </div>
-											  </div>
+											</div>
+											<div class="layui-form-item change-submit  col-lg-9">
+															<label class="layui-form-label  col-lg-3"></label>
+															<div class="layui-inline  col-lg-6">
+																<button type="button" class="layui-btn"  onclick="dosubmit();" id="smtbtn">立即提交</button>
+															</div>
+											</div>
 										</form>
 									</div>
 								</div>

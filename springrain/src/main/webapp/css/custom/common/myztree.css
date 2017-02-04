@@ -1,7 +1,7 @@
 .ztree * {font-size: 10pt;font-family:"Microsoft Yahei",Verdana,Simsun,"Segoe UI Web Light","Segoe UI Light","Segoe UI Web Regular","Segoe UI","Segoe UI Symbol","Helvetica Neue",Arial}
 .ztree li ul{ margin:0; padding:0}
 .ztree li {line-height:30px;}
-.ztree li a {width:200px;height:30px;padding-top: 0px;}
+.ztree li a {width:auto;height:30px;padding-top: 0px;}
 .ztree li a:hover {text-decoration:none; background-color: #E7E7E7;}
  
  
@@ -31,12 +31,15 @@
 
 .ztree li span.button.noline_docu:after{content:"\e621";top:10px;right:-14px;}
 
-.ztree_add{float:right;display:inline-block;width:80px!important;text-align: right;
+.ztree_add{width:80px!important;background-color: #1E9FFF!important;}
+.ztree_del{width:40px!important;background-color:#FF5722!important;}
+.ztree_edit{width:40px!important;background-color:#1E9FFF!important;}
+.ztree_add,.ztree_del,.ztree_edit{float:right;display:inline-block;text-align: right;
     height: 22px!important;
+    margin-left:20px!important;
     line-height: 22px!important;
     padding: 0 5px!important;
     font-size: 12px!important;
-    background-color: #1E9FFF!important;
     white-space: nowrap!important;
     text-align: center!important;
     border: none!important;
