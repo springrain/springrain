@@ -161,7 +161,7 @@ public class LoginController extends BaseController {
 	 * @throws Exception
 	 */
 	
-	@RequestMapping(value = "/{siteId}/login",method=RequestMethod.POST)
+	@RequestMapping(value = "/login",method=RequestMethod.POST)
 	public String loginPost(User currUser,HttpSession session,Model model,HttpServletRequest request,@PathVariable String siteId) throws Exception {
 		Subject user = SecurityUtils.getSubject();
 		//系统产生的验证码
