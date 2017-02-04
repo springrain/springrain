@@ -20,7 +20,7 @@ import org.springrain.frame.util.ReturnDatas;
 
 
 /**
- * 处理登录重定向和验证HTTP Referer,防御CSRF漏洞
+ * 处理登录重定向并验证token,防御CSRF漏洞
  * @author caomei
  *
  */
@@ -76,8 +76,8 @@ public class BaseUserFilter extends UserFilter {
 		     
 		     
 		     if ("XMLHttpRequest".equals(req.getHeader("X-Requested-With"))) {// ajax请求,返回JSON
-		    	 res.setCharacterEncoding("UTF-8");
-		    	 res.setContentType("application/json;charset=UTF-8");
+		    	 res.setCharacterEncoding(GlobalStatic.defaultCharset);
+		    	 res.setContentType("application/json;charset="+GlobalStatic.defaultCharset);
 			     PrintWriter out = res.getWriter();
 			     ReturnDatas returnDatas=ReturnDatas.getErrorReturnDatas();
 			     returnDatas.setStatusCode(jsonStatusCode);
