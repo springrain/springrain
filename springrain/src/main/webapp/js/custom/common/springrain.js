@@ -420,6 +420,17 @@
 					  },
 					  language: "zh-CN"
 					});
+			},
+			/**
+			 * 阻止冒泡事件 
+			 * @param e
+			 */
+			stopBubble:function (e){
+			    if (e && e.stopPropagation){
+			    	e.stopPropagation();
+			    }else{
+			    	window.event.cancelBubble=true
+			    }
 			}
 			
 	}
