@@ -285,6 +285,10 @@ function set_val(name, val) {
 	}
 }
 function  init_sort_btn(){
+	jQuery("th[id^='th_']").each(function(_i,_o){
+		jQuery(_o).append('<i class="layui-icon sort-icon-up sort-icon">&#xe619;</i><i class="layui-icon sort-icon-down sort-icon">&#xe61a;</i>');
+	});
+	
 	//加载颜色
 	var _sort=jQuery("#page_sort").val();
 	var _order=jQuery("#page_order").val();

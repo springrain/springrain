@@ -157,8 +157,7 @@
                     jump:function(obj, first){
                         if("${page.pageIndex}"!=obj.curr){
                             $("[name='pageIndex']",$("#${formId}")).val(obj.curr);
-                            $("#${formId}").attr("action",springrain.appendToken($("#${formId}").attr("action")));
-                        	$("#${formId}").submit();
+                            springrain.commonSubmit("${formId}");
                         }
                     }
             }

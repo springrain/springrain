@@ -120,7 +120,7 @@ ${r"<@h.commonHead"} title="后台管理系统" keywords="开源,永久免费" d
 												  <!--first_end_no_export-->
 												  	<#list table.columns as column>
 														<#if !column.pk>
-														<th id="th_${column.columnNameFirstLower}" >${column.columnAlias}<i class="layui-icon sort-icon-up sort-icon">&#xe619;</i><i class="layui-icon sort-icon-down sort-icon">&#xe61a;</i></th>
+														<th id="th_${column.columnNameFirstLower}" >${column.columnAlias}</th>
 														</#if>
 													</#list>	
 												</tr> 

@@ -56,7 +56,7 @@
 						<div id="LAY_preview">
 							<!-- 查询  开始 -->
 							<form class="layui-form layui-form-pane" id="searchForm"
-								action="${ctx}/system/cms/channel/list" method="post">
+								action="${ctx}/s/cms/channel/list" method="post">
 								<input type="hidden" name="pageIndex" id="pageIndex"
 									value="${(returnDatas.page.pageIndex)!'1'}" /> <input
 									type="hidden" name="sort" id="page_sort"
@@ -97,6 +97,7 @@
 										</tr>
 									</tbody>
 								</table>
+								</form>
 								<!-- 查询  结束 -->
 
 								<!--start_export-->
@@ -119,33 +120,15 @@
 											</label></th>
 											<th>操作</th>
 											<!--first_end_no_export-->
-											<th id="th_name">名称<i
-												class="layui-icon sort-icon-up sort-icon">&#xe619;</i><i
-												class="layui-icon sort-icon-down sort-icon">&#xe61a;</i></th>
-											<th id="th_pid">父类<i
-												class="layui-icon sort-icon-up sort-icon">&#xe619;</i><i
-												class="layui-icon sort-icon-down sort-icon">&#xe61a;</i></th>
-											<th id="th_comcode">编号<i
-												class="layui-icon sort-icon-up sort-icon">&#xe619;</i><i
-												class="layui-icon sort-icon-down sort-icon">&#xe61a;</i></th>
-											<th id="th_siteId">所属站点<i
-												class="layui-icon sort-icon-up sort-icon">&#xe619;</i><i
-												class="layui-icon sort-icon-down sort-icon">&#xe61a;</i></th>
-											<th id="th_positionLevel">级别<i
-												class="layui-icon sort-icon-up sort-icon">&#xe619;</i><i
-												class="layui-icon sort-icon-down sort-icon">&#xe61a;</i></th>
-											<th id="th_keywords">关键字<i
-												class="layui-icon sort-icon-up sort-icon">&#xe619;</i><i
-												class="layui-icon sort-icon-down sort-icon">&#xe61a;</i></th>
-											<th id="th_description">描述<i
-												class="layui-icon sort-icon-up sort-icon">&#xe619;</i><i
-												class="layui-icon sort-icon-down sort-icon">&#xe61a;</i></th>
-											<th id="th_sortno">排序<i
-												class="layui-icon sort-icon-up sort-icon">&#xe619;</i><i
-												class="layui-icon sort-icon-down sort-icon">&#xe61a;</i></th>
-											<th id="th_active">状态<i
-												class="layui-icon sort-icon-up sort-icon">&#xe619;</i><i
-												class="layui-icon sort-icon-down sort-icon">&#xe61a;</i></th>
+											<th id="th_name">名称</th>
+											<th id="th_pid">父类</th>
+											<th id="th_comcode">编号</th>
+											<th id="th_siteId">所属站点</th>
+											<th id="th_positionLevel">级别</th>
+											<th id="th_keywords">关键字</th>
+											<th id="th_description">描述</th>
+											<th id="th_sortno">排序</th>
+											<th id="th_active">状态</th>
 										</tr>
 									</thead>
 									<!--first_end_export-->
