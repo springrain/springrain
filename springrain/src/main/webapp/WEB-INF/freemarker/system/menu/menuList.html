@@ -116,7 +116,6 @@ description="springrain开源系统管理后台"/>
 					　　　　 removeHoverDom: removeHoverDom
 						},
 					callback : {
-						beforeClick:MenuzTreeOnClick,
 						onClick : MenuzTreeOnClick
 					},
 					data : {
@@ -171,6 +170,7 @@ description="springrain开源系统管理后台"/>
 				});
 
 				function MenuzTreeOnClick(event, treeId, treeNode) {
+					showdata(treeNode);
 					//return false;
 				};
 				function delParent(){
@@ -273,10 +273,6 @@ description="springrain开源系统管理后台"/>
 							  <a href="">字典管理<span class="layui-box">&gt;</span></a>
 							  <a><cite>级别管理</cite></a>
 							</span>
-		             </li>
-		             <li style="float:right;">
-		             		 <a id="addBtn"  onclick="editTree(this,null)"  href="#" class="layui-btn layui-btn-small"><i class="layui-icon layui-icon-specil">&#xe61f;</i>添加子部门</a>
-		               		<a id="delBtn"  onclick="deleteMenu(this,null)"  href="#" class="layui-btn layui-btn-danger layui-btn-small"><i class="layui-icon">&#xe640;</i>删除</a>
 		             </li>
 	       		</ul>
 				<div class="layui-body layui-tab-content site-demo-body">
