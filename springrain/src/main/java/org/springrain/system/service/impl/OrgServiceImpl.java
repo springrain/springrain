@@ -186,12 +186,12 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements
 				Finder.getTableName(Org.class)).append(" o ");
 		finder.append(" WHERE o.active=:active  ");
 		finder.setParam("active", 1);
-		finder.setEscapeSql(false);
-		String qxsql = userOrgService.findOrgIdsSQLByManagerUserId(SessionUser
+//		finder.setEscapeSql(false);
+		Finder qxfinder = userOrgService.findOrgIdsSQLByManagerUserId(SessionUser
 				.getUserId());
-		if (StringUtils.isNotBlank(qxsql)) {
+		if (StringUtils.isNotBlank(qxfinder.getSql())) {
 			// 有权限的时候
-			finder.append(" and id in (").append(qxsql).append(")");
+			finder.append(" and id in (").appendFinder(qxfinder).append(")");
 		} else {
 			// 没有权限的时候
 			finder.append(" and 1=2 ");

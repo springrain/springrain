@@ -156,12 +156,12 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 			return null;
 		}
 		
-		String findOrgIdsSQLByManagerUserId = findOrgIdsSQLByManagerUserId(managerUserId);
-		if(StringUtils.isEmpty(findOrgIdsSQLByManagerUserId)){
+		Finder finder = findOrgIdsSQLByManagerUserId(managerUserId);
+		if(StringUtils.isEmpty(finder.getSql())){
 			return null;
 		}
-		Finder finder=new Finder(findOrgIdsSQLByManagerUserId);
-		finder.setEscapeSql(false);
+//		Finder finder=new Finder(findOrgIdsSQLByManagerUserId);
+//		finder.setEscapeSql(false);
 		return super.queryForList(finder, String.class,page);
 	}
 
@@ -173,25 +173,25 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 		}
 		
 		
-		String findOrgIdsSQLByManagerUserId = findOrgIdsSQLByManagerUserId(managerUserId);
-		if(StringUtils.isEmpty(findOrgIdsSQLByManagerUserId)){
-			return null;
-		}
+//		Finder f = findOrgIdsSQLByManagerUserId(managerUserId);
+//		if(StringUtils.isEmpty(f.getSql())){
+//			return null;
+//		}
 		
 		
+       Finder  f=wrapWheresSQLByManagerUserId(managerUserId);
 		
-       String sql=wrapWheresSQLByManagerUserId(managerUserId);
-		
-		if(StringUtils.isEmpty(sql)){
+		if(StringUtils.isEmpty(f.getSql())){
 			return null;
 		}
 		
 		StringBuffer hasLeafBuffer=new StringBuffer();
-		hasLeafBuffer.append(" SELECT _system_temp_org.*  FROM ").append(Finder.getTableName(Org.class));
-		hasLeafBuffer.append(" _system_temp_org WHERE 1=1 ").append(sql);  
-		hasLeafBuffer.append(" order by _system_temp_org.id  asc ");
-		
 		Finder finder=new Finder(hasLeafBuffer.toString());
+		finder.append(" SELECT _system_temp_org.*  FROM ").append(Finder.getTableName(Org.class));
+		finder.append(" _system_temp_org WHERE 1=1 ");
+		finder.appendFinder(f);
+		finder.append(" order by _system_temp_org.id  asc ");
+		
 		
 		return super.queryForList(finder,Org.class,page);
 		
@@ -201,15 +201,17 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 	@Override
 	public List<String> findUserIdsByManagerUserId(String managerUserId,Page page) throws Exception {
 		
-		String userIdsSQLByManagerUserId = findUserIdsSQLByManagerUserId(managerUserId);
+		Finder f = findUserIdsSQLByManagerUserId(managerUserId);
 		
-		if(StringUtils.isEmpty(userIdsSQLByManagerUserId)){
+		if(StringUtils.isEmpty(f.getSql())){
 			return null;
 		}
 		
-		userIdsSQLByManagerUserId=userIdsSQLByManagerUserId+" order by  _system_temp_user_org.userId asc ";
+//		userIdsSQLByManagerUserId=userIdsSQLByManagerUserId+" order by  _system_temp_user_org.userId asc ";
 		
-		Finder finder=new Finder(userIdsSQLByManagerUserId);
+		Finder finder=new Finder();
+		finder.appendFinder(f);
+		finder.append(" order by  _system_temp_user_org.userId asc ");
 		
 		return super.queryForList(finder, String.class,page);
 	}
@@ -217,14 +219,15 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 
 	@Override
 	public List<User> findUserByManagerUserId(String managerUserId,Page page) throws Exception {
-		String wheresql=wrapWheresSQLByManagerUserId(managerUserId);
-		if(StringUtils.isBlank(wheresql)){
+		Finder f=wrapWheresSQLByManagerUserId(managerUserId);
+		if(StringUtils.isBlank(f.getSql())){
 			return null;
 		}
 		Finder finder=new Finder("SELECT u.* FROM ");
 		finder.append(Finder.getTableName(User.class)).append(" u,").append(Finder.getTableName(UserOrg.class)).append(" re,").append(Finder.getTableName(Org.class)).append(" _system_temp_org ");
 		finder.append(" WHERE u.id=re.userId and re.orgId=_system_temp_org.id ");
-		finder.append(wheresql);
+//		finder.append(wheresql);
+		finder.appendFinder(f);
 		finder.append(" order by  u.id asc ");
 		return super.queryForList(finder, User.class,page);
 	}
@@ -257,44 +260,46 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 	
 
 	@Override
-	public String findOrgIdsSQLByManagerUserId(String managerUserId) throws Exception {
-		String sql=wrapWheresSQLByManagerUserId(managerUserId);
+	public Finder findOrgIdsSQLByManagerUserId(String managerUserId) throws Exception {
+		Finder f=wrapWheresSQLByManagerUserId(managerUserId);
 		
-		if(StringUtils.isEmpty(sql)){
+		if(StringUtils.isEmpty(f.getSql())){
 			return null;
 		}
-		StringBuffer hasLeafBuffer=new StringBuffer();
+		Finder hasLeafBuffer=new Finder();
 		hasLeafBuffer.append(" SELECT _system_temp_org.id  FROM ").append(Finder.getTableName(Org.class));
-		hasLeafBuffer.append(" _system_temp_org WHERE 1=1 ").append(sql); 
+		hasLeafBuffer.append(" _system_temp_org WHERE 1=1 ").appendFinder(f); 
 //		hasLeafBuffer.append(" order by _system_temp_org.id  asc "); 
 		
-		 return hasLeafBuffer.toString();
+		 return hasLeafBuffer;
 		
 		
 	}
 	
 	@Override
-	public String findUserIdsSQLByManagerUserId(String managerUserId) throws Exception {
-		String wheresql=wrapWheresSQLByManagerUserId(managerUserId);
-		if(StringUtils.isBlank(wheresql)){
+	public Finder findUserIdsSQLByManagerUserId(String managerUserId) throws Exception {
+		Finder f=wrapWheresSQLByManagerUserId(managerUserId);
+		if(StringUtils.isBlank(f.getSql())){
 			return null;
 		}
 		
 		
-		StringBuffer sb=new StringBuffer("SELECT  _system_temp_user_org.userId FROM ");
+		Finder sb=new Finder("SELECT  _system_temp_user_org.userId FROM ");
 		sb.append(Finder.getTableName(UserOrg.class)).append(" _system_temp_user_org,").append(Finder.getTableName(Org.class)).append(" _system_temp_org ");
 		sb.append(" WHERE _system_temp_user_org.orgId=_system_temp_org.id  ");
-		sb.append(wheresql);
+		sb.appendFinder(f);
 		
-		 return sb.toString();
-		
-		
+		 return sb;
 	}
 	
 	
 	
 	
-	private String wrapWheresSQLByManagerUserId(String managerUserId) throws Exception {
+	
+
+	
+
+	private Finder wrapWheresSQLByManagerUserId(String managerUserId) throws Exception {
 		if(StringUtils.isEmpty(managerUserId)){
 			return null;
 		}
@@ -309,7 +314,9 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 		}
 		
 		List<String> noLeafList=new ArrayList<String>();
-		StringBuffer hasLeafBuffer=new StringBuffer();
+		
+		Finder hasLeafBuffer=new Finder();
+//		StringBuffer hasLeafBuffer=new StringBuffer();
 		
 		hasLeafBuffer.append("  and ( 1=2 ");
 		
@@ -319,7 +326,10 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 			if(hasLeaf==0){//不包含子部门
 				noLeafList.add(orgId);
 			}else if(hasLeaf==1){//包含子部门
-				hasLeafBuffer.append(" or _system_temp_org.comcode like '%,").append(orgId).append(",%' ");
+//				hasLeafBuffer.append(" or _system_temp_org.comcode like '%,").append(orgId).append(",%' ");
+				String indexsign="comcode"+String.valueOf(list.indexOf(re));
+				hasLeafBuffer.append(" or _system_temp_org.comcode like :").append(indexsign).append(" ");
+				hasLeafBuffer.setParam(indexsign, "%,"+orgId+",%");
 			}
 		}
 		
@@ -328,25 +338,23 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 				//前面有sql加连接符
 				hasLeafBuffer.append(" or ");
 			}
-			hasLeafBuffer.append(" _system_temp_org.id in (");
-			for (int i = 0; i < noLeafList.size(); i++) {
-				hasLeafBuffer.append("'").append(noLeafList.get(i)).append("'");
-				if(i<(noLeafList.size()-1)){
-					hasLeafBuffer.append(",");
-				}
-			}
-			hasLeafBuffer.append(") ");
+//			hasLeafBuffer.append(" _system_temp_org.id in (");
+//			for (int i = 0; i < noLeafList.size(); i++) {
+//				hasLeafBuffer.append("'").append(noLeafList.get(i)).append("'");
+//				if(i<(noLeafList.size()-1)){
+//					hasLeafBuffer.append(",");
+//				}
+//			}
+//			hasLeafBuffer.append(") ");
+			
+			hasLeafBuffer.append(" _system_temp_org.id in (:_system_temp_orglist) ");
+			hasLeafBuffer.setParam("_system_temp_orglist", noLeafList); 
 		}
 		
 		hasLeafBuffer.append(") "); 
 		
-		return hasLeafBuffer.toString();
+		return hasLeafBuffer;
 	}
-
-
-	
-
-   
 
 		
 }

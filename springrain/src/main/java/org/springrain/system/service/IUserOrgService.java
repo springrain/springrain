@@ -2,6 +2,7 @@ package org.springrain.system.service;
 
 import java.util.List;
 
+import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.Page;
 import org.springrain.system.entity.Org;
 import org.springrain.system.entity.User;
@@ -173,7 +174,7 @@ public interface IUserOrgService extends IBaseSpringrainService {
 	 * @return
 	 * @throws Exception
 	 */
-	String findOrgIdsSQLByManagerUserId(String managerUserId) throws Exception;
+	Finder findOrgIdsSQLByManagerUserId(String managerUserId) throws Exception;
 	
 	
 	/**
@@ -182,7 +183,7 @@ public interface IUserOrgService extends IBaseSpringrainService {
 	 * @return
 	 * @throws Exception
 	 */
-	String findUserIdsSQLByManagerUserId(String managerUserId) throws Exception;
+	Finder findUserIdsSQLByManagerUserId(String managerUserId) throws Exception;
 	
 	
 	

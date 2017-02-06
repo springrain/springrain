@@ -136,8 +136,8 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
 		// user.setFrameTableAlias("tu");
 		// finder=Finder.getSelectFinder(User.class,"tu.*,tg.name as gradeName ").append(" tu,").append(Finder.getTableName(DicData.class)).append(" tg WHERE tu.gradeId=tg.id and tg.typekey='grade' ");
       
-		String qxsql=userOrgService.findUserIdsSQLByManagerUserId(SessionUser.getUserId());
-        if(StringUtils.isBlank(qxsql)){
+		Finder qxfinder=userOrgService.findUserIdsSQLByManagerUserId(SessionUser.getUserId());
+        if(StringUtils.isBlank(qxfinder.getSql())){
         	//没有权限返回null
         	return null;
         }
@@ -145,14 +145,14 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
         user.setFrameTableAlias("u");
         
 		finder = Finder.getSelectFinder(User.class).append(" as u ").append(" WHERE 1=1 ");
-		finder.setEscapeSql(false); 
+//		finder.setEscapeSql(false); 
 		
 //		finder = new Finder("select u.* from "+Finder.getTableName(User.class));
 //		finder.append("(select userId from "+Finder.getTableName(User.class)+" as u ,"+Finder.getTableName(UserOrg.class)+" as re where u.id=re.userId ")
 //		.append(" and re.orgId in (").append(qxsql).append(")").append("  group by userId ")
 //		.append(") as m where m.userId=u.id ");
 		
-		finder.append(" and id in ").append("(").append(qxsql).append(")");
+		finder.append(" and id in ").append("(").appendFinder(qxfinder).append(")");
 		
 		super.getFinderWhereByQueryBean(finder, user);
 		super.getFinderOrderBy(finder, page);

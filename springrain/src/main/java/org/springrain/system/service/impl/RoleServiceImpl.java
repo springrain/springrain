@@ -108,11 +108,11 @@ public class RoleServiceImpl extends BaseSpringrainServiceImpl implements IRoleS
 //			 return super.findListDataByFinder(finder,page,clazz,o);
         	//角色查询加权限
         	Finder f=Finder.getSelectFinder(Role.class);
-        	f.setEscapeSql(false); 
+//        	f.setEscapeSql(false); 
         	f.append(" where 1=1 ");
-        	String qxsql=userOrgService.findOrgIdsSQLByManagerUserId(SessionUser.getUserId());
-        	if(StringUtils.isNotBlank(qxsql)){
-        		f.append(" and orgId in ( ").append(qxsql).append(")");
+        	Finder qxfinder=userOrgService.findOrgIdsSQLByManagerUserId(SessionUser.getUserId());
+        	if(StringUtils.isNotBlank(qxfinder.getSql())){
+        		f.append(" and orgId in ( ").appendFinder(qxfinder).append(")");
         	}
         	 return super.findListDataByFinder(f,page,clazz,o);   
 	}
