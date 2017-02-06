@@ -57,8 +57,8 @@ public class CmsSiteWxconfigServiceImpl extends BaseSpringrainServiceImpl implem
         @Override
     public <T> List<T> findListDataByFinder(Finder finder, Page page, Class<T> clazz,
 			Object o) throws Exception{
-			 return super.findListDataByFinder(finder,page,clazz,o);
-			}
+		 return super.findListDataByFinder(finder,page,clazz,o);
+	}
 	/**
 	 * 根据查询列表的宏,导出Excel
 	 * @param finder 为空则只查询 clazz表

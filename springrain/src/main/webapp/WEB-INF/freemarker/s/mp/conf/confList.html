@@ -34,7 +34,7 @@
 							<!--网站地图导航-->
 		             		<span class="layui-breadcrumb" style="visibility: visible;">
 							  <a href="${ctx}">首页<span class="layui-box">&gt;</span></a>
-							  <a><cite>微信号需要的配置信息管理</cite></a>
+							  <a><cite>微信服务号配置信息管理</cite></a>
 							</span>
 		             </li>
 					 <li style="float:right;">
@@ -67,16 +67,6 @@
 									                           <input type="text" name="name" value="${(returnDatas.queryBean.name)!''}" placeholder="请输入名称 " class="layui-input">
 									                    </div>
 							                		</div>
-									                 <div class="layui-inline">
-									                    <label class="layui-form-label">是否可用</label>
-									                    <div class="layui-input-inline">
-									                        <select name="active" id="active" class="layui-input">
-									                          <option value="">==请选择==</option>
-															  <option value="1">是</option>
-															  <option value="0">否</option>
-															</select>   
-									                    </div>
-									                </div>
 									                <div class="layui-inline">
 									                    <button class="layui-btn" type="button" onclick="springrain.commonSubmit('searchForm');"><i class="layui-icon" style="top:4px;right:5px;">&#xe615;</i>搜索</button>
 									                </div>
@@ -106,13 +96,13 @@
 												  </th>
 												  <th>操作</th>
 												  <!--first_end_no_export-->
-														<th id="th_siteId" >站点Id</th>
-														<th id="th_appId" >开发者Id</th>
-														<th id="th_appSecret" >应用密钥</th>
-														<th id="th_token" >开发者Id</th>
-														<th id="th_encodingAESKey" >消息加解密密钥</th>
-														<th id="th_wxId" >原始ID</th>
-														<th id="th_active" >状态 0不可用,1可用</th>
+														<th id="th_siteId" >站点名称</th>
+														<th id="th_appId" >appID</th>
+														<th id="th_appSecret" >appSecret</th>
+														<th id="th_token" >token</th>
+														<th id="th_encodingAESKey" >EncodingAESKey</th>
+														<th id="th_wxId" >公众号ID</th>
+														<th id="th_active" >状态</th>
 												</tr> 
 											</thead>
 										  <!--first_end_export-->
@@ -152,8 +142,12 @@
 														<td >
 															${(_data.wxId)!''}
 														</td>
-														<td >
-															${(_data.active)!0}
+														<td>
+															<#if (_data.active)?? && (_data.active=1)>
+																可用
+															<#else>
+																不可用
+															</#if>
 														</td>
 													</tr>
 												</#list>

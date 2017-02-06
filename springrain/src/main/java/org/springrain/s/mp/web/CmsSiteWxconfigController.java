@@ -2,7 +2,9 @@ package  org.springrain.s.mp.web;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +16,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springrain.cms.entity.CmsSiteWxconfig;
+import org.springrain.cms.service.ICmsSiteService;
+import org.springrain.frame.common.SessionUser;
 import org.springrain.frame.controller.BaseController;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.Page;
@@ -23,7 +27,6 @@ import org.springrain.s.mp.service.ICmsSiteWxconfigService;
 
 
 /**
- * TODO 在此加入类描述
  * @copyright {@link weicms.net}
  * @author springrain<Auto generate>
  * @version  2017-02-06 11:38:43
@@ -34,8 +37,11 @@ import org.springrain.s.mp.service.ICmsSiteWxconfigService;
 public class CmsSiteWxconfigController  extends BaseController {
 	@Resource
 	private ICmsSiteWxconfigService cmsSiteWxconfigService;
-	
+	@Resource
+	private ICmsSiteService cmsSiteService;
 	private String listurl="/s/mp/conf/confList";
+
+	
 	
 	
 	   
@@ -73,7 +79,7 @@ public class CmsSiteWxconfigController  extends BaseController {
 		Page page = newPage(request);
 		// ==执行分页查询
 		List<CmsSiteWxconfig> datas=cmsSiteWxconfigService.findListDataByFinder(null,page,CmsSiteWxconfig.class,cmsSiteWxconfig);
-			returnObject.setQueryBean(cmsSiteWxconfig);
+		returnObject.setQueryBean(cmsSiteWxconfig);
 		returnObject.setPage(page);
 		returnObject.setData(datas);
 		return returnObject;
@@ -154,6 +160,9 @@ public class CmsSiteWxconfigController  extends BaseController {
 	@RequestMapping(value = "/update/pre")
 	public String updatepre(Model model,HttpServletRequest request,HttpServletResponse response)  throws Exception{
 		ReturnDatas returnObject = lookjson(model, request, response);
+		Map<String, Object> map = new HashMap<>();
+		map.put("siteList", cmsSiteService.findSiteByUserId(SessionUser.getUserId()));
+		returnObject.setMap(map);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
 		return "/s/mp/conf/confCru";
 	}
