@@ -70,11 +70,7 @@ public class Finder {
 	 * @return
 	 */
 	public Finder setParam(String param, Object value) {
-		if(params==null){
-			params=new HashMap<String,Object>();
-		}
-			
-		params.put(param, value);
+		getParams().put(param, value);
 		return this;
 	}
 	/**
