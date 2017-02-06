@@ -123,5 +123,9 @@ public class Enumerations {
 					return null;
 			}
 		}
+
+		public int getType() {
+			return type;
+		}
 	}
 }

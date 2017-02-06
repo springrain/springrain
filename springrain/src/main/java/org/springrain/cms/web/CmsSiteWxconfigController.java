@@ -1,4 +1,4 @@
-package  org.springrain.s.mp.web;
+package  org.springrain.cms.web;
 
 import java.io.File;
 import java.util.Arrays;
@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springrain.cms.entity.CmsSiteWxconfig;
 import org.springrain.cms.service.ICmsSiteService;
+import org.springrain.cms.service.ICmsSiteWxconfigService;
 import org.springrain.frame.common.SessionUser;
 import org.springrain.frame.controller.BaseController;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.Page;
 import org.springrain.frame.util.ReturnDatas;
 import org.springrain.frame.util.property.MessageUtils;
-import org.springrain.s.mp.service.ICmsSiteWxconfigService;
 
 
 /**
@@ -161,7 +161,7 @@ public class CmsSiteWxconfigController  extends BaseController {
 	public String updatepre(Model model,HttpServletRequest request,HttpServletResponse response)  throws Exception{
 		ReturnDatas returnObject = lookjson(model, request, response);
 		Map<String, Object> map = new HashMap<>();
-		map.put("siteList", cmsSiteService.findSiteByUserId(SessionUser.getUserId()));
+		map.put("siteList", cmsSiteService.findMpSiteByUserId(SessionUser.getUserId()));
 		returnObject.setMap(map);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
 		return "/s/mp/conf/confCru";

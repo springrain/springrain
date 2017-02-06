@@ -1,4 +1,4 @@
-package org.springrain.s.mp.service;
+package org.springrain.cms.service;
 
 import org.springrain.cms.entity.CmsSiteWxconfig;
 import org.springrain.system.service.IBaseSpringrainService;
