@@ -246,7 +246,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 		EntityInfo entityInfoByEntity = ClassUtils
 				.getEntityInfoByEntity(entity);
 		String tableName = entityInfoByEntity.getTableName();
-		String tableExt = entityInfoByEntity.getTableExt();
+		String tableExt = entityInfoByEntity.getTableSuffix();
 		if (StringUtils.isNotBlank(tableExt)) {
 			tableName = tableName + tableExt;
 		}
