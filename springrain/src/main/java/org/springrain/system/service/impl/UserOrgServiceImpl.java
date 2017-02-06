@@ -316,7 +316,6 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 		List<String> noLeafList=new ArrayList<String>();
 		
 		Finder hasLeafBuffer=new Finder();
-//		StringBuffer hasLeafBuffer=new StringBuffer();
 		
 		hasLeafBuffer.append("  and ( 1=2 ");
 		
@@ -326,7 +325,6 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 			if(hasLeaf==0){//不包含子部门
 				noLeafList.add(orgId);
 			}else if(hasLeaf==1){//包含子部门
-//				hasLeafBuffer.append(" or _system_temp_org.comcode like '%,").append(orgId).append(",%' ");
 				String indexsign="comcode"+String.valueOf(list.indexOf(re));
 				hasLeafBuffer.append(" or _system_temp_org.comcode like :").append(indexsign).append(" ");
 				hasLeafBuffer.setParam(indexsign, "%,"+orgId+",%");
@@ -338,14 +336,6 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 				//前面有sql加连接符
 				hasLeafBuffer.append(" or ");
 			}
-//			hasLeafBuffer.append(" _system_temp_org.id in (");
-//			for (int i = 0; i < noLeafList.size(); i++) {
-//				hasLeafBuffer.append("'").append(noLeafList.get(i)).append("'");
-//				if(i<(noLeafList.size()-1)){
-//					hasLeafBuffer.append(",");
-//				}
-//			}
-//			hasLeafBuffer.append(") ");
 			
 			hasLeafBuffer.append(" _system_temp_org.id in (:_system_temp_orglist) ");
 			hasLeafBuffer.setParam("_system_temp_orglist", noLeafList); 
