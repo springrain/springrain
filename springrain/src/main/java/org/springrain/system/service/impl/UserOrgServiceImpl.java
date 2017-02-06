@@ -325,9 +325,9 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 			if(hasLeaf==0){//不包含子部门
 				noLeafList.add(orgId);
 			}else if(hasLeaf==1){//包含子部门
-				String indexsign="comcode"+String.valueOf(list.indexOf(re));
+				String indexsign="_system_temp_comcode_"+String.valueOf(list.indexOf(re));
 				hasLeafBuffer.append(" or _system_temp_org.comcode like :").append(indexsign).append(" ");
-				hasLeafBuffer.setParam(indexsign, "%,"+orgId+",%");
+				hasLeafBuffer.setParam(indexsign, "%,"+orgId+",%"); 
 			}
 		}
 		
