@@ -1,14 +1,14 @@
-package org.springrain.s.mp.service.impl;
+package org.springrain.cms.service.impl;
 
 import java.io.File;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springrain.cms.entity.CmsSiteWxconfig;
+import org.springrain.cms.service.ICmsSiteWxconfigService;
 import org.springrain.frame.entity.IBaseEntity;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.Page;
-import org.springrain.s.mp.service.ICmsSiteWxconfigService;
 import org.springrain.system.service.BaseSpringrainServiceImpl;
 
 
@@ -45,15 +45,15 @@ public class CmsSiteWxconfigServiceImpl extends BaseSpringrainServiceImpl implem
 	 return super.findById(id,CmsSiteWxconfig.class);
 	}
 	
-/**
- * 列表查询,每个service都会重载,要把sql语句封装到service中,Finder只是最后的方案
- * @param finder
- * @param page
- * @param clazz
- * @param o
- * @return
- * @throws Exception
- */
+	/**
+	 * 列表查询,每个service都会重载,要把sql语句封装到service中,Finder只是最后的方案
+	 * @param finder
+	 * @param page
+	 * @param clazz
+	 * @param o
+	 * @return
+	 * @throws Exception
+	 */
         @Override
     public <T> List<T> findListDataByFinder(Finder finder, Page page, Class<T> clazz,
 			Object o) throws Exception{

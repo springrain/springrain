@@ -39,7 +39,7 @@ import org.springrain.frame.util.property.MessageUtils;
  * @see org.springrain.cms.entity.CmsContent
  */
 @Controller
-@RequestMapping(value="/s/cms/content")
+@RequestMapping(value="/system/cms/content")
 public class CmsContentController  extends BaseController {
 	@Resource
 	private ICmsContentService cmsContentService;

@@ -239,4 +239,11 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 		FileUtils.copyToFile(tempFile.getInputStream(), file);
 		return File.separator+filePath;
 	}
+
+	@Override
+	public List<CmsSite> findMpSiteByUserId(String userId) throws Exception {
+		Finder finder = Finder.getSelectFinder(CmsSite.class).append(" WHERE userId=:userId and siteType=:siteType");
+		finder.setParam("userId", userId).setParam("siteType", SiteType.mp.getType());
+		return super.queryForList(finder, CmsSite.class);
+	}
 }

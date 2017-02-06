@@ -1,4 +1,4 @@
-package  org.springrain.s.mp.web;
+package  org.springrain.cms.web;
 
 import java.io.File;
 import java.util.Arrays;
@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springrain.cms.entity.CmsSiteWxconfig;
 import org.springrain.cms.service.ICmsSiteService;
+import org.springrain.cms.service.ICmsSiteWxconfigService;
 import org.springrain.frame.common.SessionUser;
 import org.springrain.frame.controller.BaseController;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.Page;
 import org.springrain.frame.util.ReturnDatas;
 import org.springrain.frame.util.property.MessageUtils;
-import org.springrain.s.mp.service.ICmsSiteWxconfigService;
 
 
 /**
@@ -33,18 +33,14 @@ import org.springrain.s.mp.service.ICmsSiteWxconfigService;
  * @see org.springrain.cms.base.web.CmsSiteWxconfig
  */
 @Controller
-@RequestMapping(value="/s/cms/wxconfig")
+@RequestMapping(value="/system/cms/wxconfig")
 public class CmsSiteWxconfigController  extends BaseController {
 	@Resource
 	private ICmsSiteWxconfigService cmsSiteWxconfigService;
 	@Resource
 	private ICmsSiteService cmsSiteService;
-	private String listurl="/s/mp/conf/confList";
+	private String listurl="/mp/conf/confList";
 
-	
-	
-	
-	   
 	/**
 	 * 列表数据,调用listjson方法,保证和app端数据统一
 	 * 
@@ -103,7 +99,7 @@ public class CmsSiteWxconfigController  extends BaseController {
 	public String look(Model model,HttpServletRequest request,HttpServletResponse response)  throws Exception {
 		ReturnDatas returnObject = lookjson(model, request, response);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
-		return "/s/mp/conf/confLook";
+		return "/mp/conf/confLook";
 	}
 
 	
@@ -161,10 +157,10 @@ public class CmsSiteWxconfigController  extends BaseController {
 	public String updatepre(Model model,HttpServletRequest request,HttpServletResponse response)  throws Exception{
 		ReturnDatas returnObject = lookjson(model, request, response);
 		Map<String, Object> map = new HashMap<>();
-		map.put("siteList", cmsSiteService.findSiteByUserId(SessionUser.getUserId()));
+		map.put("siteList", cmsSiteService.findMpSiteByUserId(SessionUser.getUserId()));
 		returnObject.setMap(map);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
-		return "/s/mp/conf/confCru";
+		return "/mp/conf/confCru";
 	}
 	
 	/**
@@ -216,8 +212,6 @@ public class CmsSiteWxconfigController  extends BaseController {
 		}
 		return new ReturnDatas(ReturnDatas.SUCCESS,
 				MessageUtils.DELETE_ALL_SUCCESS);
-		
-		
 	}
 
 }

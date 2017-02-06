@@ -8,11 +8,14 @@
 .ztree li a.curSelectedNode {background-color:#D4D4D4;border:0;height:30px;}
 .ztree li span {line-height:30px;}
 .ztree li span.button {margin-top: -7px;}
-.ztree li span.button.switch {width: 16px;height: 16px;}
-
+.ztree li span.button.switch {width: 16px;height: 16px;background:none;position:relative;font-family: layui-icon!important;font-size: 16px;font-style: normal;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;}
+.ztree li span.button.switch:before{position:absolute;top:12px;right:-14px;}
+.ztree li span.button.switch:after{position:absolute;top:12px;}
 .ztree li a.level0 span {font-size: 16px;}
-.ztree li span.button {position:relative;background:none;font-family: layui-icon!important;font-size: 16px;font-style: normal;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;}
+.ztree li span.button {position:relative;font-family: layui-icon!important;font-size: 16px;font-style: normal;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;}
+.ztree li span.button:not(.ztree li span.chk){background:none;}
 .ztree li span.button:after{position:absolute;top:12px;}
+
 .ztree li span.button:before{position:absolute;top:12px;right:-14px;}
 .ztree li span.button.level1:before{top:13px!important;right:-14px;}
 .ztree li span.button.level1:after{top:14px!important;}
@@ -31,10 +34,13 @@
 
 .ztree li span.button.noline_docu:after{content:"\e621";top:10px;right:-14px;}
 
+/*多选 */
+
+
 .ztree_add{width:80px!important;background-color: #1E9FFF!important;}
 .ztree_del{width:40px!important;background-color:#FF5722!important;}
 .ztree_edit{width:40px!important;background-color:#1E9FFF!important;}
-.ztree_add,.ztree_del,.ztree_edit{float:right;display:inline-block;text-align: right;
+.ztree_add,.ztree_del,.ztree_edit{display:inline-block;text-align: right;
     height: 22px!important;
     margin-left:20px!important;
     line-height: 22px!important;
@@ -52,7 +58,7 @@
     -moz-box-sizing: border-box!important;
     box-sizing: border-box!important;vertical-align: middle!important;text-decoration: none!important;
      color: #fff!important;
-     margin-top:4px!important;
+     margin-top:-4px!important;
 }
 .ztree_add:hover{
 	opacity: .8;
