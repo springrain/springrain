@@ -23,7 +23,6 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.transaction.NoTransactionException;
 import org.springframework.transaction.interceptor.TransactionInterceptor;
-import org.springrain.frame.annotation.LuceneSearch;
 import org.springrain.frame.common.BaseLogger;
 import org.springrain.frame.common.SessionUser;
 import org.springrain.frame.dao.dialect.IDialect;
@@ -547,7 +546,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		Class<?> returnType = entityInfo.getPkReturnType();
 		String pkName = entityInfo.getPkName();
 		// 获取 分表的扩展
-		String tableExt = entityInfo.getTableExt();
+		String tableExt = entityInfo.getTableSuffix();
 
 		StringBuffer sql = new StringBuffer("INSERT INTO ").append(tableName).append(tableExt).append("(");
 
@@ -650,7 +649,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		// 保存到数据库
 		Object id = saveNoLog(entity);
 			 
-		 if(entity.getClass().isAnnotationPresent(LuceneSearch.class)){
+	     if(ClassUtils.isLuceneSearch(entity.getClass())){	 
 			// 保存到索引文件
 			LuceneTask luceneTask = new LuceneTask(entity, LuceneTask.saveDocument);
 			ThreadPoolManager.addThread(luceneTask);
@@ -667,7 +666,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 			return id;
 		}
 
-		String tableExt = entityInfo.getTableExt();
+		String tableExt = entityInfo.getTableSuffix();
 		if (StringUtils.isBlank(tableExt)) {
 			int year = Calendar.getInstance().get(Calendar.YEAR);
 			tableExt = GlobalStatic.tableSuffix + year;
@@ -719,7 +718,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 			updateList.add(i);
 		}
 		
-		if(list.get(0).getClass().isAnnotationPresent(LuceneSearch.class)){
+		if(ClassUtils.isLuceneSearch(list.get(0).getClass())){	 
 				// 更新到索引文件
 				LuceneTask luceneTask = new LuceneTask(list, LuceneTask.updateDocument);
 				ThreadPoolManager.addThread(luceneTask);
@@ -755,7 +754,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 			updateList.add(i);
 		}
 		
-		if(list.get(0).getClass().isAnnotationPresent(LuceneSearch.class)){
+		if(ClassUtils.isLuceneSearch(list.get(0).getClass())){
 			// 更新到索引文件
 			LuceneTask luceneTask = new LuceneTask(list, LuceneTask.saveDocument);
 			ThreadPoolManager.addThread(luceneTask);
@@ -775,7 +774,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		String pkName = entityInfo.getPkName();
 
 		// 获取 分表的扩展
-		String tableExt = entityInfo.getTableExt();
+		String tableExt = entityInfo.getTableSuffix();
 		StringBuffer sql = new StringBuffer("UPDATE ").append(tableName).append(tableExt).append("  SET  ");
 
 		StringBuffer whereSQL = new StringBuffer(" WHERE ").append(pkName).append("=:").append(pkName);
@@ -827,7 +826,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		// entity的信息
 		EntityInfo entityInfo = ClassUtils.getEntityInfoByEntity(entity);
 		// 获取 分表的扩展
-		String tableExt = entityInfo.getTableExt();
+		String tableExt = entityInfo.getTableSuffix();
 		Map paramMap = new HashMap();
 		String sql = warpupdatesql(entity, paramMap, onlyupdatenotnull);
 		Object id = ClassUtils.getPKValue(entity);
@@ -843,7 +842,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		Integer hang = getWriteJdbc().update(sql.toString(), paramMap);
 		
 		
-		if(entity.getClass().isAnnotationPresent(LuceneSearch.class)){
+		if(ClassUtils.isLuceneSearch(entity.getClass())){
 			// 更新到索引文件
 			LuceneTask luceneTask = new LuceneTask(entity, LuceneTask.updateDocument);
 			ThreadPoolManager.addThread(luceneTask);
@@ -969,7 +968,8 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		saveNoLog(auditLog);
 
 		
-		if(CollectionUtils.isNotEmpty(ClassUtils.getLuceneFields(clazz))){
+		//if(CollectionUtils.isNotEmpty(ClassUtils.getLuceneFields(clazz))){
+	    if(ClassUtils.isLuceneSearch(clazz)){
 			// 更新到索引文件
 			LuceneTask luceneTask = new LuceneTask(id, clazz);
 			ThreadPoolManager.addThread(luceneTask);
@@ -977,7 +977,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 
 	}
 
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes"})
 	@Override
 	public void deleteByIds(List ids, Class clazz) throws Exception {
 		checkMethodName();
@@ -993,7 +993,8 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		finder.setParam("ids", ids);
 		update(finder);
 		
-		if(CollectionUtils.isNotEmpty(ClassUtils.getLuceneFields(clazz))){
+		//if(CollectionUtils.isNotEmpty(ClassUtils.getLuceneFields(clazz))){
+		 if(ClassUtils.isLuceneSearch(clazz)){
 			// 更新到索引文件
 			LuceneTask luceneTask = new LuceneTask(ids, clazz);
 			ThreadPoolManager.addThread(luceneTask);

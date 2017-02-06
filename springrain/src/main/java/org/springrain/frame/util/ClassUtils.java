@@ -21,6 +21,7 @@ import javax.persistence.Transient;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springrain.frame.annotation.LuceneField;
+import org.springrain.frame.annotation.LuceneSearch;
 import org.springrain.frame.annotation.NotLog;
 import org.springrain.frame.annotation.PKSequence;
 import org.springrain.frame.annotation.TableSuffix;
@@ -47,6 +48,10 @@ public class ClassUtils {
 	public static Map<String, Set<String>> allFieldmap=new  ConcurrentHashMap<String, Set<String>>();
 	//缓存 所有的数据库字段
 	public static Map<String, List<String>> allDBFieldmap=new  ConcurrentHashMap<String, List<String>>();
+	
+	
+	//缓存 实体类是否进行LuceneSearch
+    public static Map<String,Boolean> luceneSearchmap=new  ConcurrentHashMap<String, Boolean>();
 	
 	//缓存 所有的参与Lucene的字段
 	public static Map<String,List<String>> allLucenemap=new  ConcurrentHashMap<String, List<String>>();
@@ -116,7 +121,7 @@ public class ClassUtils {
     	
     	
    	 if(clazz.isAnnotationPresent(TableSuffix.class)){
-   		info.setGroup(true);
+   		info.setSharding(true);
 	 }
  	 if(clazz.isAnnotationPresent(NotLog.class)){
     		info.setNotLog(true);
@@ -140,7 +145,7 @@ public class ClassUtils {
 			return null;
 		}
 		String tableExt=getTableExt(o);
-		info.setTableExt(tableExt);
+		info.setTableSuffix(tableExt);
 		return info;
 	}
 
@@ -342,7 +347,7 @@ public class ClassUtils {
 			EntityInfo entityInfoByEntity = ClassUtils
 					.getEntityInfoByEntity(object);
 			 tableName = entityInfoByEntity.getTableName();
-			String tableExt = entityInfoByEntity.getTableExt();
+			String tableExt = entityInfoByEntity.getTableSuffix();
 			if (StringUtils.isNotBlank(tableExt)) {
 				tableName = tableName + tableExt;
 			}
@@ -547,6 +552,30 @@ public class ClassUtils {
 			return false;
 		}
 	}
+	
+	
+	//实体类是否进行Lucene检索
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static boolean isLuceneSearch(Class clazz) throws Exception{
+		if(clazz==null)
+			return false;
+		String className=clazz.getName();
+		if(className==null){
+			return false;
+		}
+			
+		boolean iskey=luceneSearchmap.containsKey(className);
+		if(iskey){
+			return luceneSearchmap.get(className);
+		}
+
+		boolean isLuceneSearch=clazz.isAnnotationPresent(LuceneSearch.class);
+		luceneSearchmap.put(className,isLuceneSearch );
+		return isLuceneSearch;
+		
+	}
+	
+	
 	
 	
 }
