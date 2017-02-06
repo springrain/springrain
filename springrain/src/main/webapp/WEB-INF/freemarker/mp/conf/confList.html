@@ -18,7 +18,7 @@
 		});
 	});
 	function del(_id){
-		springrain.mydelete(_id,"${ctx}/s/cms/wxconfig/delete");
+		springrain.mydelete(_id,"${ctx}/system/cms/wxconfig/delete");
 	}
 </script>
 
@@ -38,7 +38,7 @@
 							</span>
 		             </li>
 					 <li style="float:right;">
-             			<button type="button"   class="layui-btn layui-btn-small" data-action="${ctx}/s/cms/wxconfig/update/pre"><i class="layui-icon layui-icon-specil">&#xe61f;</i>新增</button>
+             			<button type="button"   class="layui-btn layui-btn-small" data-action="${ctx}/system/cms/wxconfig/update/pre"><i class="layui-icon layui-icon-specil">&#xe61f;</i>新增</button>
 			        	<button type="button"   class="layui-btn layui-btn-small"><i class="layui-icon layui-icon-specil">&#xe609;</i>导出</button>
 		                <button type="button"  class="layui-btn layui-btn-warm layui-btn-small"><i class="layui-icon layui-icon-specil">&#xe601;</i>导入</button>
                		 	<button type="button"  class="layui-btn layui-btn-danger layui-btn-small"><i class="layui-icon">&#xe640;</i>批量删除</button>
@@ -50,7 +50,7 @@
 							<div class="layui-main">
 						          <div id="LAY_preview">
 						          <!-- 查询  开始 -->
-							          <form class="layui-form layui-form-pane" id="searchForm" action="${ctx}/s/cms/wxconfig/list" method="post">
+							          <form class="layui-form layui-form-pane" id="searchForm" action="${ctx}/system/cms/wxconfig/list" method="post">
 							          <input type="hidden" name="pageIndex" id="pageIndex" value="${(returnDatas.page.pageIndex)!'1'}" /> 
 							          <input type="hidden" name="sort" id="page_sort" value="${(returnDatas.page.sort)!'desc'}" />
 							          <input type="hidden" name="order" id="page_order" value="${(returnDatas.page.order)!'id'}" />

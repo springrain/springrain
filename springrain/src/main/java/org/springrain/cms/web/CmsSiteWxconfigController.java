@@ -33,18 +33,14 @@ import org.springrain.frame.util.property.MessageUtils;
  * @see org.springrain.cms.base.web.CmsSiteWxconfig
  */
 @Controller
-@RequestMapping(value="/s/cms/wxconfig")
+@RequestMapping(value="/system/cms/wxconfig")
 public class CmsSiteWxconfigController  extends BaseController {
 	@Resource
 	private ICmsSiteWxconfigService cmsSiteWxconfigService;
 	@Resource
 	private ICmsSiteService cmsSiteService;
-	private String listurl="/s/mp/conf/confList";
+	private String listurl="/mp/conf/confList";
 
-	
-	
-	
-	   
 	/**
 	 * 列表数据,调用listjson方法,保证和app端数据统一
 	 * 
@@ -103,7 +99,7 @@ public class CmsSiteWxconfigController  extends BaseController {
 	public String look(Model model,HttpServletRequest request,HttpServletResponse response)  throws Exception {
 		ReturnDatas returnObject = lookjson(model, request, response);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
-		return "/s/mp/conf/confLook";
+		return "/mp/conf/confLook";
 	}
 
 	
@@ -164,7 +160,7 @@ public class CmsSiteWxconfigController  extends BaseController {
 		map.put("siteList", cmsSiteService.findMpSiteByUserId(SessionUser.getUserId()));
 		returnObject.setMap(map);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
-		return "/s/mp/conf/confCru";
+		return "/mp/conf/confCru";
 	}
 	
 	/**
@@ -216,8 +212,6 @@ public class CmsSiteWxconfigController  extends BaseController {
 		}
 		return new ReturnDatas(ReturnDatas.SUCCESS,
 				MessageUtils.DELETE_ALL_SUCCESS);
-		
-		
 	}
 
 }
