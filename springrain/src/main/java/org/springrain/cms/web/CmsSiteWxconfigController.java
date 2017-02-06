@@ -16,8 +16,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springrain.cms.entity.CmsSiteWxconfig;
+import org.springrain.cms.entity.CmsWxMenu;
 import org.springrain.cms.service.ICmsSiteService;
 import org.springrain.cms.service.ICmsSiteWxconfigService;
+import org.springrain.cms.service.ICmsWxMenuService;
 import org.springrain.frame.common.SessionUser;
 import org.springrain.frame.controller.BaseController;
 import org.springrain.frame.util.GlobalStatic;
@@ -39,6 +41,8 @@ public class CmsSiteWxconfigController  extends BaseController {
 	private ICmsSiteWxconfigService cmsSiteWxconfigService;
 	@Resource
 	private ICmsSiteService cmsSiteService;
+	@Resource
+	private ICmsWxMenuService cmsWxMenuService;
 	private String listurl="/mp/conf/confList";
 
 	/**
@@ -213,5 +217,35 @@ public class CmsSiteWxconfigController  extends BaseController {
 		return new ReturnDatas(ReturnDatas.SUCCESS,
 				MessageUtils.DELETE_ALL_SUCCESS);
 	}
-
+	
+	/**
+	 * 映射菜单管理列表页面
+	 * @throws Exception 
+	 * */
+	@RequestMapping("/mpList")
+	public String mpList(HttpServletRequest request, Model model,CmsSiteWxconfig cmsSiteWxconfig) throws Exception{
+		ReturnDatas returnObject = listjson(request, model, cmsSiteWxconfig);
+		model.addAttribute(GlobalStatic.returnDatas, returnObject);
+		return "/mp/menu/mpList";
+	}
+	
+	/**
+	 * 映射菜单设置页面
+	 * @throws Exception
+	 * */
+	@RequestMapping("/menu/update/pre")
+	public String menuUpdate(HttpServletRequest request, Model model,CmsSiteWxconfig cmsSiteWxconfig) throws Exception{
+		ReturnDatas returnDatas=ReturnDatas.getSuccessReturnDatas();
+		
+		String siteId = cmsSiteWxconfig.getSiteId();
+		List<CmsWxMenu> datas = cmsWxMenuService.findParentMenuList(siteId);
+		if (datas != null){
+			for (CmsWxMenu cmsWxMenu : datas) {
+				cmsWxMenu.setChildMenuList(cmsWxMenuService.findChildMenuListByPid(cmsWxMenu.getId()));
+			}
+		}
+		returnDatas.setData(datas);
+		model.addAttribute(GlobalStatic.returnDatas, returnDatas);
+		return "/mp/menu/menuCru";
+	}
 }
