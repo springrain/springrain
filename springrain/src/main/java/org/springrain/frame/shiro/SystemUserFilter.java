@@ -4,13 +4,13 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springrain.frame.util.GlobalStatic;
+import org.springrain.frame.util.InputSafeUtils;
 
 /**
- * 系统用户的过滤器，主要设置登陆界面
+ * 系统后台管理用户的过滤器
  * @author caomei
  */
 
@@ -24,18 +24,21 @@ public class SystemUserFilter extends BaseUserFilter {
 	@Override
 	 protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
 		 boolean access=super.isAccessAllowed(request, response, mappedValue);
-		 if(!access){
+		 
+		 HttpServletRequest req=(HttpServletRequest) request;
+		 if(!access){//登录失败了,需要设置一下需要跳转的登录URL
+			 String siteId=InputSafeUtils.substringByURI(req.getRequestURI(), "/s_");
+			 if(StringUtils.isNotBlank(siteId)){
+				 request.setAttribute(GlobalStatic.customLoginURLKey, "/system/"+siteId+"/login");
+			 }
+			
 			 return access;
 		 } 
 		 
-		 //已经登录用户,验证Referer
-		 HttpServletRequest req=(HttpServletRequest) request;
+		
 		 Object obj=req.getSession().getAttribute(GlobalStatic.tokenKey);
 		 if(obj==null||(!obj.toString().startsWith("system_"))){//tokenKey必须是system_开头
-			 Subject subject = SecurityUtils.getSubject();
-		        if (subject != null) {           
-		            subject.logout();
-		        }
+			 request.setAttribute(GlobalStatic.errorTokentoURLKey, GlobalStatic.errorTokentoURL);
 		    return false;
 		 }
 	

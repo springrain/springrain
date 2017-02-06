@@ -37,13 +37,13 @@ public class DateTypeEditor extends PropertyEditorSupport {
 		}
 		try {
 			if (text.length() <= YEAR_DATE) {
-				setValue(new java.sql.Date(DF_YEAR.parse(text).getTime()));
+				setValue(DF_YEAR.parse(text));
 			}else  if (text.length() <= MONTH_DATE) {
-				setValue(new java.sql.Date(DF_MONTH.parse(text).getTime()));
+				setValue(DF_MONTH.parse(text));
 			}else if (text.length() <= SHORT_DATE) {
-				setValue(new java.sql.Date(DF_SHORT.parse(text).getTime()));
+				setValue(DF_SHORT.parse(text));
 			} else {
-				setValue(new java.sql.Timestamp(DF_LONG.parse(text).getTime()));
+				setValue(DF_LONG.parse(text));
 			}
 		} catch (ParseException ex) {
 			IllegalArgumentException iae = new IllegalArgumentException(

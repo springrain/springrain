@@ -15,10 +15,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springrain.cms.entity.CmsChannel;
-import org.springrain.cms.service.ICmsChannelService;
-import org.springrain.cms.service.ICmsLinkService;
+import org.springrain.cms.entity.CmsSiteWxconfig;
 import org.springrain.cms.service.ICmsSiteService;
+import org.springrain.cms.service.ICmsSiteWxconfigService;
 import org.springrain.frame.common.SessionUser;
 import org.springrain.frame.controller.BaseController;
 import org.springrain.frame.util.GlobalStatic;
@@ -28,41 +27,33 @@ import org.springrain.frame.util.property.MessageUtils;
 
 
 /**
- * TODO 在此加入类描述
  * @copyright {@link weicms.net}
  * @author springrain<Auto generate>
- * @version  2017-01-11 11:12:18
- * @see org.springrain.cms.entity.CmsChannel
+ * @version  2017-02-06 11:38:43
+ * @see org.springrain.cms.base.web.CmsSiteWxconfig
  */
 @Controller
-@RequestMapping(value="/system/cms/channel")
-public class CmsChannelController  extends BaseController {
+@RequestMapping(value="/system/cms/wxconfig")
+public class CmsSiteWxconfigController  extends BaseController {
 	@Resource
-	private ICmsChannelService cmsChannelService;
+	private ICmsSiteWxconfigService cmsSiteWxconfigService;
 	@Resource
 	private ICmsSiteService cmsSiteService;
-	@Resource
-	private ICmsLinkService cmsLinkService;
-	
-	private String listurl="/cms/channel/channelList";
-	
-	
-	
-	
-	   
+	private String listurl="/mp/conf/confList";
+
 	/**
 	 * 列表数据,调用listjson方法,保证和app端数据统一
 	 * 
 	 * @param request
 	 * @param model
-	 * @param cmsChannel
+	 * @param cmsSiteWxconfig
 	 * @return
 	 * @throws Exception
 	 */
 	@RequestMapping("/list")
-	public String list(HttpServletRequest request, Model model,CmsChannel cmsChannel) 
+	public String list(HttpServletRequest request, Model model,CmsSiteWxconfig cmsSiteWxconfig) 
 			throws Exception {
-		ReturnDatas returnObject = listjson(request, model, cmsChannel);
+		ReturnDatas returnObject = listjson(request, model, cmsSiteWxconfig);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
 		return listurl;
 	}
@@ -72,39 +63,31 @@ public class CmsChannelController  extends BaseController {
 	 * 
 	 * @param request
 	 * @param model
-	 * @param cmsChannel
+	 * @param cmsSiteWxconfig
 	 * @return
 	 * @throws Exception
 	 */
 	@RequestMapping("/list/json")
 	public @ResponseBody
-	ReturnDatas listjson(HttpServletRequest request, Model model,CmsChannel cmsChannel) throws Exception{
+	ReturnDatas listjson(HttpServletRequest request, Model model,CmsSiteWxconfig cmsSiteWxconfig) throws Exception{
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		// ==构造分页请求
 		Page page = newPage(request);
 		// ==执行分页查询
-		List<CmsChannel> datas=cmsChannelService.findListDataByFinder(null,page,CmsChannel.class,cmsChannel);
-		
-		//遍历栏目信息给每个栏目设置父类信息以及所属站点信息
-		for (CmsChannel channel : datas) {
-			channel.setCmsChannel(cmsChannelService.findCmsChannelById(channel.getPid()));//设置父类信息
-			channel.setCmsSite(cmsSiteService.findCmsSiteById(channel.getSiteId()));//设置所属站点信息
-			channel.setLink(cmsLinkService.findLinkBySiteBusinessId(channel.getSiteId(),channel.getId()).getLink());
-		}
-		
-		returnObject.setQueryBean(cmsChannel);
+		List<CmsSiteWxconfig> datas=cmsSiteWxconfigService.findListDataByFinder(null,page,CmsSiteWxconfig.class,cmsSiteWxconfig);
+		returnObject.setQueryBean(cmsSiteWxconfig);
 		returnObject.setPage(page);
 		returnObject.setData(datas);
 		return returnObject;
 	}
 	
 	@RequestMapping("/list/export")
-	public void listexport(HttpServletRequest request,HttpServletResponse response, Model model,CmsChannel cmsChannel) throws Exception{
+	public void listexport(HttpServletRequest request,HttpServletResponse response, Model model,CmsSiteWxconfig cmsSiteWxconfig) throws Exception{
 		// ==构造分页请求
 		Page page = newPage(request);
 	
-		File file = cmsChannelService.findDataExportExcel(null,listurl, page,CmsChannel.class,cmsChannel);
-		String fileName="cmsChannel"+GlobalStatic.excelext;
+		File file = cmsSiteWxconfigService.findDataExportExcel(null,listurl, page,CmsSiteWxconfig.class,cmsSiteWxconfig);
+		String fileName="cmsSiteWxconfig"+GlobalStatic.excelext;
 		downFile(response, file, fileName,true);
 		return;
 	}
@@ -116,7 +99,7 @@ public class CmsChannelController  extends BaseController {
 	public String look(Model model,HttpServletRequest request,HttpServletResponse response)  throws Exception {
 		ReturnDatas returnObject = lookjson(model, request, response);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
-		return "/cms/channel/channelLook";
+		return "/mp/conf/confLook";
 	}
 
 	
@@ -129,8 +112,8 @@ public class CmsChannelController  extends BaseController {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		java.lang.String id=request.getParameter("id");
 		if(StringUtils.isNotBlank(id)){
-		  CmsChannel cmsChannel = cmsChannelService.findCmsChannelById(id);
-		   returnObject.setData(cmsChannel);
+		  CmsSiteWxconfig cmsSiteWxconfig = cmsSiteWxconfigService.findCmsSiteWxconfigById(id);
+		   returnObject.setData(cmsSiteWxconfig);
 		}else{
 		returnObject.setStatus(ReturnDatas.ERROR);
 		}
@@ -145,17 +128,17 @@ public class CmsChannelController  extends BaseController {
 	 */
 	@RequestMapping("/update")
 	public @ResponseBody
-	ReturnDatas saveorupdate(Model model,CmsChannel cmsChannel,HttpServletRequest request,HttpServletResponse response) throws Exception{
+	ReturnDatas saveorupdate(Model model,CmsSiteWxconfig cmsSiteWxconfig,HttpServletRequest request,HttpServletResponse response) throws Exception{
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		returnObject.setMessage(MessageUtils.UPDATE_SUCCESS);
 		try {
 		
-			java.lang.String id =cmsChannel.getId();
+			java.lang.String id =cmsSiteWxconfig.getId();
 			if(StringUtils.isBlank(id)){
-			  cmsChannel.setId(null);
+			  cmsSiteWxconfig.setId(null);
 			}
 		
-			cmsChannelService.saveorupdate(cmsChannel);
+			cmsSiteWxconfigService.saveorupdate(cmsSiteWxconfig);
 			
 		} catch (Exception e) {
 			String errorMessage = e.getLocalizedMessage();
@@ -174,10 +157,10 @@ public class CmsChannelController  extends BaseController {
 	public String updatepre(Model model,HttpServletRequest request,HttpServletResponse response)  throws Exception{
 		ReturnDatas returnObject = lookjson(model, request, response);
 		Map<String, Object> map = new HashMap<>();
-		map.put("siteList", cmsSiteService.findSiteByUserId(SessionUser.getUserId()));
+		map.put("siteList", cmsSiteService.findMpSiteByUserId(SessionUser.getUserId()));
 		returnObject.setMap(map);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
-		return "/cms/channel/channelCru";
+		return "/mp/conf/confCru";
 	}
 	
 	/**
@@ -190,7 +173,7 @@ public class CmsChannelController  extends BaseController {
 		try {
 		java.lang.String id=request.getParameter("id");
 		if(StringUtils.isNotBlank(id)){
-				cmsChannelService.deleteById(id,CmsChannel.class);
+				cmsSiteWxconfigService.deleteById(id,CmsSiteWxconfig.class);
 				return new ReturnDatas(ReturnDatas.SUCCESS,
 						MessageUtils.DELETE_SUCCESS);
 			} else {
@@ -222,7 +205,7 @@ public class CmsChannelController  extends BaseController {
 		}
 		try {
 			List<String> ids = Arrays.asList(rs);
-			cmsChannelService.deleteByIds(ids,CmsChannel.class);
+			cmsSiteWxconfigService.deleteByIds(ids,CmsSiteWxconfig.class);
 		} catch (Exception e) {
 			return new ReturnDatas(ReturnDatas.ERROR,
 					MessageUtils.DELETE_ALL_FAIL);
@@ -230,4 +213,5 @@ public class CmsChannelController  extends BaseController {
 		return new ReturnDatas(ReturnDatas.SUCCESS,
 				MessageUtils.DELETE_ALL_SUCCESS);
 	}
+
 }

@@ -14,7 +14,7 @@ public class EntityInfo {
 	private String tableName=null;
 	private String className=null;
 	private String filedsName=null;
-	private String tableExt="";
+	private String tableSuffix="";
 	private Map<String,String> sqlmap=null;
 
 	private Class<?> pkReturnType;
@@ -22,8 +22,8 @@ public class EntityInfo {
 	
 	private String pkName=null;
 
-	
-	private boolean isGroup=false;
+	//是否分表
+	private boolean sharding=false;
 	/**
 	 * 主键序列
 	 */
@@ -32,6 +32,7 @@ public class EntityInfo {
 	 * 是否不记录日志,默认false 为记录
 	 */
 	private boolean notLog=false;
+	
 	
 	/**
 	 * 数据库的表名
@@ -68,11 +69,11 @@ public class EntityInfo {
 	 * 数据库分表的后缀名 例如 _history_2012
 	 * @return
 	 */
-	public String getTableExt() {
-		return tableExt;
+	public String getTableSuffix() {
+		return tableSuffix;
 	}
-	public void setTableExt(String tableExt) {
-		this.tableExt = tableExt;
+	public void setTableSuffix(String tableSuffix) {
+		this.tableSuffix = tableSuffix;
 	}
 	/**
 	 * 获取table主键对应Enitty属性名称
@@ -90,11 +91,11 @@ public class EntityInfo {
 	public void setSqlmap(Map<String, String> sqlmap) {
 		this.sqlmap = sqlmap;
 	}
-	public boolean isGroup() {
-		return isGroup;
+	public boolean isSharding() {
+		return sharding;
 	}
-	public void setGroup(boolean isGroup) {
-		this.isGroup = isGroup;
+	public void setSharding(boolean sharding) {
+		this.sharding = sharding;
 	}
 	public String getPksequence() {
 		return pksequence;

@@ -99,7 +99,16 @@ public class BaseUserFilter extends UserFilter {
 		     //跳转前 清除 参数
 		     request.removeAttribute(GlobalStatic.tokenKey);
 		     //正常http请求
-	         String loginUrl= getLoginUrl();	
+	         String loginUrl= getLoginUrl();
+	         
+	         //程序控制自定义的登录地址
+	         if(request.getAttribute(GlobalStatic.customLoginURLKey)!=null){//有自定义的登录地址
+	        	 loginUrl=request.getAttribute(GlobalStatic.customLoginURLKey).toString();
+	        	//跳转前 清除 参数
+			     request.removeAttribute(GlobalStatic.customLoginURLKey);
+	         }
+	         
+	         
 	         StringBuffer url=req.getRequestURL();
 	         //String query=req.
 

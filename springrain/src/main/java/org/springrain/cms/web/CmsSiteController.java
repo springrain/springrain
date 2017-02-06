@@ -37,7 +37,7 @@ import org.springrain.frame.util.property.MessageUtils;
  * @see org.springrain.cms.entity.CmsSite
  */
 @Controller
-@RequestMapping(value="/s/cms/site")
+@RequestMapping(value="/system/cms/site")
 public class CmsSiteController  extends BaseController {
 	@Resource
 	private ICmsSiteService cmsSiteService;
@@ -103,7 +103,7 @@ public class CmsSiteController  extends BaseController {
 		return;
 	}
 	
-		/**
+	/**
 	 * 查看操作,调用APP端lookjson方法
 	 */
 	@RequestMapping(value = "/look")

@@ -64,5 +64,12 @@ public interface ICmsSiteService extends IBaseSpringrainService {
 	 * @throws IOException 
 	 */
 	String saveTmpLogo(MultipartFile tempFile, HttpServletRequest request) throws IOException;
+	/**
+	 * 根据用户ID查找该用户下的微信服务号站点列表
+	 * @param userId
+	 * @return
+	 * @throws Exception 
+	 */
+	List<CmsSite> findMpSiteByUserId(String userId) throws Exception;
 	
 	}
