@@ -42,6 +42,25 @@ public class Finder {
 		sql.append(s);
 		return this;
 	}
+	
+	/**
+	 * 拼接一个finder对象的sql和参数
+	 * @param f
+	 * @return
+	 * @throws Exception 
+	 */
+	public Finder appendFinder(Finder f) throws Exception {
+		if(f==null||StringUtils.isBlank(f.getSql())){
+			return this;
+		}
+	    sql.append(f.getSql());
+	    
+	    getParams().putAll(f.getParams());
+	    
+	    return this;
+	}
+	
+	
 
 	/**
 	 * 设置参数。
@@ -51,8 +70,10 @@ public class Finder {
 	 * @return
 	 */
 	public Finder setParam(String param, Object value) {
-		if(params==null)
+		if(params==null){
 			params=new HashMap<String,Object>();
+		}
+			
 		params.put(param, value);
 		return this;
 	}
@@ -151,6 +172,9 @@ public class Finder {
 	
 
 	public Map<String, Object> getParams() {
+		if(params==null){
+			params=new HashMap<String,Object>();
+		}
 		return params;
 	}
 
