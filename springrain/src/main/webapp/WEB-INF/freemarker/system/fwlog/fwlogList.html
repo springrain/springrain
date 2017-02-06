@@ -5,18 +5,6 @@ description="springrain开源系统管理后台"/>
 		<@h.naviHeader /> <@h.leftMenu />
 		<!-- 主体内容开始 -->
 			<!-- /.page-header -->
-			<script type="text/javascript">
-				$(document).ready(function(){
-					$("[name='searchForm']").submit(function(){
-						myhref("${ctx}/system/fwlog/list?pageIndex="+$("#pageIndex").val()+"&sort="+$("#sort").val()+"&order="+$("#order").val()+"&title="+$("#search_title").val());
-						return false;
-					});
-					
-					$("#searchBtn").click(function(){
-						myhref("${ctx}/system/fwlog/list?pageIndex="+$("#pageIndex").val()+"&sort="+$("#sort").val()+"&order="+$("#order").val()+"&title="+$("#search_title").val());
-					});
-				});
-			</script>
 		<div class="layui-tab layui-tab-brief">
 				<ul class="layui-tab-title site-demo-title">
 		             <li class="layui-this">
@@ -39,7 +27,7 @@ description="springrain开源系统管理后台"/>
 				<div class="layui-body layui-tab-content site-demo-body">
 						<div class="layui-tab-item layui-show">
 							<div class="layui-main">
-										<form class="layui-form layui-form-pane" name="searchForm" id="searchForm" action="${ctx}/system/fwlog/list" role="form">
+										<form class="layui-form layui-form-pane" name="searchForm" method="post" id="searchForm" action="${ctx}/system/fwlog/list" role="form">
 											<input type="hidden" name="pageIndex" id="pageIndex" value="${(returnDatas.page.pageIndex)!'1'}" /> 
 											<input type="hidden" name="sort" id="page_sort" value="${(returnDatas.page.sort)!'desc'}" /> 
 											<input type="hidden" name="order" id="page_order" value="${(returnDatas.page.order)!'createTime'}" />
@@ -57,7 +45,7 @@ description="springrain开源系统管理后台"/>
 															    </div>
 														  	</div>
 											                <div class="layui-inline">
-														      	<button class="layui-btn" id="searchBtn" onclick="mySubmitForm('searchForm');">查询</button>
+														      	<button class="layui-btn" id="searchBtn" onclick="springrain.commonSubmit('searchForm');">查询</button>
 														  	</div>
 									          			</td>
 									          		</tr>
