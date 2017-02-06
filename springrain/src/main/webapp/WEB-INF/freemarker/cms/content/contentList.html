@@ -55,7 +55,7 @@
 						<div id="LAY_preview">
 							<!-- 查询  开始 -->
 							<form class="layui-form layui-form-pane" id="searchForm"
-								action="${ctx}/system/cms/content/list" method="post">
+								action="${ctx}/s/cms/content/list" method="post">
 								<input type="hidden" name="pageIndex" id="pageIndex"
 									value="${(returnDatas.page.pageIndex)!'1'}" /> <input
 									type="hidden" name="sort" id="page_sort"
@@ -96,8 +96,8 @@
 										</tr>
 									</tbody>
 								</table>
+								</form>
 								<!-- 查询  结束 -->
-
 								<!--start_export-->
 								<table class="layui-table" lay-even>
 									<colgroup>
@@ -118,29 +118,12 @@
 											</label></th>
 											<th>操作</th>
 											<!--first_end_no_export-->
-											<th id="th_title">标题
-												<i class="layui-icon sort-icon-up sort-icon">&#xe619;</i>
-												<i class="layui-icon sort-icon-down sort-icon">&#xe61a;</i>
-											</th>
-											<th id="th_mintitle">副标题
-												<i class="layui-icon sort-icon-up sort-icon">&#xe619;</i>
-												<i class="layui-icon sort-icon-down sort-icon">&#xe61a;</i>
-											</th>
-											<th id="th_keywords">关键字
-												<i class="layui-icon sort-icon-up sort-icon">&#xe619;</i>
-												<i class="layui-icon sort-icon-down sort-icon">&#xe61a;</i></th>
-											<th id="th_description">描述
-												<i class="layui-icon sort-icon-up sort-icon">&#xe619;</i>
-												<i class="layui-icon sort-icon-down sort-icon">&#xe61a;</i>
-											</th>
-											<th id="th_createPerson">创建人
-												<i class="layui-icon sort-icon-up sort-icon">&#xe619;</i>
-												<i class="layui-icon sort-icon-down sort-icon">&#xe61a;</i>
-											</th>
-											<th id="th_createDate">创建时间
-												<i class="layui-icon sort-icon-up sort-icon">&#xe619;</i>
-												<i class="layui-icon sort-icon-down sort-icon">&#xe61a;</i>
-											</th>
+											<th id="th_title">标题</th>
+											<th id="th_mintitle">副标题</th>
+											<th id="th_keywords">关键字</th>
+											<th id="th_description">描述</th>
+											<th id="th_createPerson">创建人</th>
+											<th id="th_createDate">创建时间</th>
 										</tr>
 									</thead>
 									<!--first_end_export-->
