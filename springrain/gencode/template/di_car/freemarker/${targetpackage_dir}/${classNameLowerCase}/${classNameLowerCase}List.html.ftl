@@ -109,7 +109,7 @@ ${r"<@h.commonHead"} title="后台管理系统" keywords="开源,永久免费" d
 										  <!--first_start_export-->
 											<thead>
 												<tr>
-													<th colspan="9">${tableName}列表</th>
+													<th colspan="9">${tableName}列表<font id='recordsView' class='recorsView'>共<span></span>页,共 <span></span>条记录</font></th>
 												</tr>
 												<tr>
 												  <!--first_start_no_export-->
