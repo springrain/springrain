@@ -32,7 +32,7 @@ public class FrontUserFilter extends BaseUserFilter {
 		 //已经登录用户,验证Referer
 		 HttpServletRequest req=(HttpServletRequest) request;
 		 
-		 Object obj=req.getSession().getAttribute(GlobalStatic.tokenKey);
+		Object obj=req.getSession().getAttribute(GlobalStatic.tokenKey);
 		String token=obj.toString();
 		
 		String userToken=req.getParameter(GlobalStatic.tokenKey);

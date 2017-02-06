@@ -232,7 +232,7 @@ public class LoginController extends BaseController {
 		}
 		
 		//设置tokenkey
-		String springraintoken="f_"+SecUtils.getUUID();
+		String springraintoken="s_"+SecUtils.getUUID();
 		session.setAttribute(GlobalStatic.tokenKey, springraintoken);
 		model.addAttribute(GlobalStatic.tokenKey,springraintoken);
 		return redirect+gotourl;

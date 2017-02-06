@@ -1,7 +1,6 @@
 package org.springrain.weixin.shirofilter;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -14,6 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.web.servlet.OncePerRequestFilter;
 import org.springframework.stereotype.Component;
 import org.springrain.cms.utils.SiteUtils;
+import org.springrain.frame.util.InputSafeUtils;
 
 @Component("wxmpautologin")
 public class WxMpAutoLoginFilter extends OncePerRequestFilter {
@@ -23,7 +23,7 @@ public class WxMpAutoLoginFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws ServletException, IOException {
 		HttpServletRequest req = (HttpServletRequest) request;
-		String siteId=getSiteId(req);
+		String siteId=InputSafeUtils.substringByURI(req.getRequestURI(), "/s_");
 		if(StringUtils.isBlank(siteId)){
 			return;
 		}
@@ -56,29 +56,7 @@ public class WxMpAutoLoginFilter extends OncePerRequestFilter {
 		
 	}
 	
-	private String getSiteId(HttpServletRequest request) throws IOException, ServletException{
-		   
-		  
-		   String requestURI = request.getRequestURI();
-		   
-		   int s_index=requestURI.indexOf("/s_");
-		   if(s_index<0){
-			   return null;
-		   }
-		   String siteId=requestURI.substring(s_index+1, requestURI.indexOf("/", s_index+1));
-		   
-		   //重新编码siteId,避免注入
-		   siteId=URLEncoder.encode(siteId,"UTF-8");
-		   
-		   //避免注入
-		   if(StringUtils.isBlank(siteId)||siteId.length()>30){
-			   return null;
-		   }
-		
-		   
-		   return siteId;
-		   
-	   }
+	
 	
 	
 

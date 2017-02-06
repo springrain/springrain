@@ -44,15 +44,17 @@ public class GlobalStatic {
     public static final String tokenKey="springraintoken";
     //如果token错误,跳转地址的key
     public static final String errorTokentoURLKey="errorspringraintokentourlkey";
-    //没有权限跳转的页面
+    //token错误跳转的页面
     public static final String errorTokentoURL="/unauth";
+    
+    //自定义的登录地址key
+    public static final String customLoginURLKey="customLoginURLKey";
     
     
 	public static final String defaultCharset="UTF-8";
 	
 	public static final String tableSuffix="_history_";
 	public static final String frameTableAlias="frameTableAlias";
-	//public static final String pageurlName="pageurlName";
 	public static final String returnDatas="returnDatas";
 	
 

@@ -1,5 +1,8 @@
 package org.springrain.frame.util;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
@@ -60,6 +63,43 @@ public class InputSafeUtils {
 	    
 	    return Jsoup.clean(html,baseUrl, user_content_filter);
 	}
+	
+	public static String substringByURI(String uri,String key,boolean isencode,int maxLength) {
+		
+		if(StringUtils.isBlank(uri)||StringUtils.isBlank(key)){
+			return null;
+		}
+		
+		 int s_index=uri.indexOf(key);
+		   if(s_index<0){
+			   return null;
+		   }
+		   String substring=uri.substring(s_index+1, uri.indexOf("/", s_index+1));
+		   
+		   //重新编码siteId,避免注入
+		   if(isencode){
+			   try {
+				substring=URLEncoder.encode(substring,GlobalStatic.defaultCharset);
+			} catch (UnsupportedEncodingException e) {
+				return null;
+			}
+		   }
+		  
+		   //避免注入
+		   if(StringUtils.isBlank(substring)||substring.length()>maxLength){
+			   return null;
+		   }
+		
+		   
+		   return substring;
+	}
+	
+	public static String substringByURI(String uri,String key) {
+		   return substringByURI(uri, key, true, 50);
+	}
+	
+	
+	
 	
 	
 }
