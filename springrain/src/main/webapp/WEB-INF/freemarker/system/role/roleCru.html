@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="${ctx}/js/select2/css/select2.min.css" type="text/css">
 <link rel="stylesheet" href="${ctx}/js/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
 <link rel="stylesheet" href="${ctx}/js/validform/validform.css" media="all">
-<link rel="stylesheet" href="${ctx}/css/custom/common/myztree.css" type="text/css">
+ 
 
 <script src="${ctx}/js/validform/validform.min.js"></script>
 <link rel="stylesheet" href="${ctx}/js/validform/validform.css" media="all">
@@ -62,7 +62,7 @@
 							pIdKey : "pid",
 							rootPId : "null"
 						}
-					}
+					} 
 				};
 				function deleteRole() {
 					var id = jQuery("#id").val();
@@ -140,8 +140,8 @@
 	
 				var orgSelectSetting = {
 						view: {
-							showLine: false,
-							showIcon: false,
+							showLine: true,
+							showIcon: true,
 							selectedMulti: false,
 							dblClickExpand: false,
 							addDiyDom: addDiyDom
