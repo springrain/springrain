@@ -8,7 +8,6 @@ import javax.annotation.Resource;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.jetty.util.StringUtil;
 import org.springframework.stereotype.Service;
 import org.springrain.frame.common.SessionUser;
 import org.springrain.frame.util.Finder;
@@ -43,7 +42,7 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements
 
 		// String id=SecUtils.getUUID();
 		String id = null;
-		if (StringUtil.isNotBlank(entity.getId())) { 
+		if (StringUtils.isNotBlank(entity.getId())) { 
 			id=entity.getId();
 		} else {
 			id = tableindexService.updateNewId(Org.class);
