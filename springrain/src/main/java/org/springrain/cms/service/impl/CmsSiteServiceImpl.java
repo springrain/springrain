@@ -3,6 +3,7 @@ package org.springrain.cms.service.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -18,6 +19,7 @@ import org.springrain.cms.entity.CmsSite;
 import org.springrain.cms.service.ICmsLinkService;
 import org.springrain.cms.service.ICmsSiteService;
 import org.springrain.frame.common.SessionUser;
+import org.springrain.frame.util.DateUtils;
 import org.springrain.frame.util.Enumerations.SiteType;
 import org.springrain.frame.util.Enumerations.UserOrgType;
 import org.springrain.frame.util.Finder;
@@ -165,6 +167,14 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 		 if(!uploaddir.exists()){
 			 uploaddir.mkdirs();
 		 }
+		 if(StringUtils.isNotBlank(cmsSite.getLogo())){//如果有logo，将logo从临时文件夹移动到正式文件夹
+			 File tmpLogo = new File(GlobalStatic.rootdir+cmsSite.getLogo());
+			 File formalLogo = new File(str_upload+tmpLogo.getName());
+			 if(!formalLogo.exists())
+				 formalLogo.createNewFile();
+			 FileUtils.copyFile(tmpLogo, formalLogo);
+			 tmpLogo.deleteOnExit();
+		 }
 		 
 		 putByCache(id, "cmsSiteService_findCmsSiteById_"+id, cmsSite);
 		 
@@ -234,7 +244,7 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 
 	@Override
 	public String saveTmpLogo(MultipartFile tempFile, HttpServletRequest request) throws IOException {
-		String filePath = "upload"+File.separator+"tmp"+File.separator+tempFile.getOriginalFilename();
+		String filePath = "upload"+File.separator+"tmp"+File.separator+DateUtils.convertDate2String("yyyyMMddHHmmss", new Date())+tempFile.getOriginalFilename();
 		File file = new File(request.getServletContext().getRealPath("/")+filePath);
 		FileUtils.copyToFile(tempFile.getInputStream(), file);
 		return File.separator+filePath;
