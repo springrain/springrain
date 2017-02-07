@@ -474,7 +474,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 			return getDialect().getPageSql(sql, orderSql, page); 
 		}
 
-		Long count = null;
+		Integer count = null;
 
 		if (finder.getCountFinder() == null) {
 			String countSql = new String(sql);
@@ -502,9 +502,9 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 			}
 
 			// count = getReadJdbc().queryForInt(countSql, paramMap);
-			count = getReadJdbc().queryForObject(countSql, paramMap, Long.class);
+			count = getReadJdbc().queryForObject(countSql, paramMap, Integer.class);
 		} else {
-			count = queryForObject(finder.getCountFinder(), Long.class);
+			count = queryForObject(finder.getCountFinder(), Integer.class);
 		}
 		// 记录总行数(区分是否使用占位符)
 		if (count == 0) {
