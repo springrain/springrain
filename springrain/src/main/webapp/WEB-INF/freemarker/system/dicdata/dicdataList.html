@@ -138,7 +138,7 @@
 														</td>
 														<td>
 															<@shiro.hasPermission name="/system/dicdata/${returnDatas.map.typekey}/update" >
-								                           		 <a href="${ctx}/system/dicdata/${returnDatas.map.typekey}/update/pre?id=${(_data.id)!''}" class="layui-btn layui-btn-normal layui-btn-mini">编辑</a>
+								                           		 <a data-action="${ctx}/system/dicdata/${returnDatas.map.typekey}/update/pre?id=${(_data.id)!''}" class="layui-btn layui-btn-normal layui-btn-mini">编辑</a>
 								                            </@shiro.hasPermission>
 								                            <@shiro.hasPermission name="/system/dicdata/${returnDatas.map.typekey}/delete" >
 								                            	<a href="javascript:del('${(_data.id)!''}')" class="layui-btn layui-btn-danger layui-btn-mini ajax-delete">删除</a>

@@ -105,13 +105,17 @@ function buildModule(data) {
                 tmpData = tmpData['leaf'][0];
             }
             var tmpPid = locache.get("currentPagePid");
+            var menuIcon_df="&#xe63c;";
+            if(data[i].menuIcon!=null){
+            	menuIcon_df=data[i].menuIcon;
+            }
             if((tmpPid == data[i].id) || (!(!!tmpPid) && i==0)){//url中有第一个菜单的键值
             	url = ctx + url;
-            	htmlStr += '<li id="pmenu'+data[i].id+'" class="layui-nav-item layui-this"><a href="javascript:void(0);" data-pid="'+data[i].id+'" data-action="'+url+'">'+data[i].name+'</a></li>';
+            	htmlStr += '<li id="pmenu'+data[i].id+'" class="layui-nav-item layui-this"><a href="javascript:void(0);" data-pid="'+data[i].id+'" data-action="'+url+'"><i class="layui-icon">'+menuIcon_df+'</i><cite>'+data[i].name+'</cite></a></li>';
                 childrenMenuList = data[i]['leaf'];
             }else{
             	url = ctx + url;
-                htmlStr += '<li id="pmenu'+data[i].id+'" class="layui-nav-item"><a href="javascript:void(0);" data-pid="'+data[i].id+'" data-action="'+url+'">'+data[i].name+'</a></li>';
+                htmlStr += '<li id="pmenu'+data[i].id+'" class="layui-nav-item"><a href="javascript:void(0);" data-pid="'+data[i].id+'" data-action="'+url+'"><i class="layui-icon">'+menuIcon_df+'</i><cite>'+data[i].name+'</cite></a></li>';
             }
         }
         $("#naviHeaderMenu").html(htmlStr);
