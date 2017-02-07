@@ -1,11 +1,9 @@
 package org.springrain.frame.controller;
 
-import java.beans.PropertyEditorSupport;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
@@ -91,7 +89,7 @@ public class BaseController extends BaseLogger {
 		});
 		
 		
-		*/
+		
 
 		binder.registerCustomEditor(Integer.class, new PropertyEditorSupport() {
 			public void setAsText(String value) {
@@ -150,6 +148,8 @@ public class BaseController extends BaseLogger {
 				}
 			}
 		});
+		
+		*/
 
 	}
 
