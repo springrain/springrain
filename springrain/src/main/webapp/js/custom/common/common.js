@@ -33,6 +33,10 @@ $(document).ready(function(){
 	loadMenu();
 	init_sort_btn();
 	init_button_action();
+	//赋予 元素特殊事件 ，如TAB和菜单 的滑过事件 ,不添加没有动画效果，且必须加到ready后
+	layui.use(['element'], function(){
+		  var element = layui.element();   
+	});
 });
 function loadMenu(){
 	//加载菜单
