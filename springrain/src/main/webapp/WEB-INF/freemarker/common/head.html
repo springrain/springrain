@@ -140,6 +140,8 @@
 <!-- 分页模块，需要传入参数  -->
 <#macro layPage   page groups="10"  skin="#009688" cont="laypageDiv" formId="searchForm">
     <script>
+    	jQuery("#recordsView span").eq(0).html('${page.pageCount}');
+    	jQuery("#recordsView span").eq(1).html('${page.totalCount}');
         layui.use(['laypage'], function(){
             var prev = !${page.hasPrev?c}?false:"上一页";
             var next = !${page.hasNext?c}?false:"下一页";

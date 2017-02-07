@@ -113,15 +113,11 @@
 										    		<!--start_no_export-->
 													<tr class="">
 														<td class="center">
-																<input name="check_li" value="${_data.id}"  type="checkbox">
+															<input name="check_li" value="${_data.id}"  type="checkbox">
 														</td>
 														<td>
-															<@shiro.hasPermission name="/cmssitewxconfig/update" >
-								                           		 <a href="#" data-action="${ctx}/system/role/update/pre?id=" class="layui-btn layui-btn-normal layui-btn-mini">编辑</a>
-								                            </@shiro.hasPermission>
-								                            <@shiro.hasPermission name="/cmssitewxconfig/delete" >
-								                            	<a href="javascript:del('${(_data.id)!''}')" class="layui-btn layui-btn-danger layui-btn-mini ajax-delete">删除</a>
-								                            </@shiro.hasPermission>
+						                           		 	<a href="#" data-action="${ctx}/system/role/update/pre?id=" class="layui-btn layui-btn-normal layui-btn-mini">编辑</a>
+					                            			<a href="javascript:del('${(_data.id)!''}')" class="layui-btn layui-btn-danger layui-btn-mini ajax-delete">删除</a>
 														</td>
 														<!--end_no_export-->
 														<td >

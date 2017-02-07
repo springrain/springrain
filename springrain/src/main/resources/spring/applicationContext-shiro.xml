@@ -101,12 +101,11 @@
 				
 				
 				/unauth = firewall,user
-				/system/unauth = firewall
+				/tokenerror = firewall,user
 				
 				/getCaptcha=firewall
 				
 				/login = firewall
-				/system/login = firewall
 				/**/login = firewall
 				
 				

@@ -13,8 +13,8 @@ description="springrain开源系统管理后台"/>
 <script type="text/javascript">
 	//添加
 	function addTree(_obj,_id,e){
-		jQuery('#menuListTree').parent("div").css({"min-width":"360px","width":"35%"});
-		jQuery('.myanimate').animate({'right':"0px"});
+		//jQuery('#menuListTree').parent("div").css({"min-width":"360px","width":"35%"});
+		//jQuery('.myanimate').animate({'right':"0px"});
 		jQuery(".curSelectedNode").removeClass("curSelectedNode");
 		jQuery("#"+_id+"_a").addClass("curSelectedNode");
 		saveType=0;
@@ -116,7 +116,6 @@ description="springrain开源系统管理后台"/>
 					　　　　 removeHoverDom: removeHoverDom
 						},
 					callback : {
-						beforeClick:MenuzTreeOnClick,
 						onClick : MenuzTreeOnClick
 					},
 					data : {
@@ -136,7 +135,6 @@ description="springrain开源系统管理后台"/>
 						   sObj.after('<a id="addBtn1_' + treeNode.id +'"  onclick="deleteMenu(this,\''+treeNode.tId+'\')"  href="#" class="ztree_del layui-btn layui-btn-normal layui-btn-mini">删除</a>');
 				
 				};
-				 
 				function removeHoverDom(treeId, treeNode) {
 						   $("#addBtn1_" + treeNode.id).unbind().remove();
 						   $("#addBtn2_" + treeNode.id).unbind().remove();
@@ -172,7 +170,8 @@ description="springrain开源系统管理后台"/>
 				});
 
 				function MenuzTreeOnClick(event, treeId, treeNode) {
-					return false;
+					showdata(treeNode);
+					//return false;
 				};
 				function delParent(){
 					jQuery("#pname").val('');
@@ -281,10 +280,10 @@ description="springrain开源系统管理后台"/>
 						<div class="layui-main">
 							<div class="container-fluid" style="overflow:hidden;">
 								<div class="row">
-									<div class="fl" style="width:80%">
+									<div class="fl per30">
 										<ul id="menuListTree" class="ztree"></ul>
 									</div>
-									<div class="fl per50 rlt myanimate">
+									<div class="fl per50 rlt">
 										<div class="fl per20 line-vertical"></div>
 										<form id="updateForm" name="updateForm" action="${ctx}/system/menu/update" method="post" class="layui-form">
 											<input type="hidden" name="id" id="id">

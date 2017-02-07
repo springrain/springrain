@@ -21,7 +21,7 @@ public class Page implements Serializable{
 	/** 每页多少行 */
 	private int pageSize=20;
 	/** 数据总行数 */
-	private int totalCount = 0;
+	private long totalCount = 0;
 	/** 总共可以分多少页 */
 	private int pageCount;
 	/**排序方式 desc asc*/
@@ -124,7 +124,7 @@ public class Page implements Serializable{
 	 * 
 	 * @return
 	 */
-	public int getTotalCount() {
+	public long getTotalCount() {
 		return totalCount;
 	}
 
@@ -133,9 +133,9 @@ public class Page implements Serializable{
 	 * 
 	 * @param totalCount
 	 */
-	public void setTotalCount(int totalCount) {
+	public void setTotalCount(long totalCount) {
 		this.totalCount = totalCount;
-		this.pageCount = (totalCount+pageSize-1) / pageSize;
+		this.pageCount = (int) ((totalCount+pageSize-1) / pageSize);
 				
 		if(pageIndex>=pageCount){
 			this.lastPage=true;
