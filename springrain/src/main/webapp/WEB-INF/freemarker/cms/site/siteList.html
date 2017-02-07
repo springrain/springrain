@@ -37,9 +37,15 @@
 							</span>
 		             </li>
 					 <li style="float:right;">
+					 	<@shiro.hasPermission name="/system/cms/site/update" >
 	             		<button type="button" class="layui-btn layui-btn-small" data-action="${ctx}/system/cms/site/update/pre"><i class="layui-icon layui-icon-specil">&#xe61f;</i>添加站点</button>
+			        	</@shiro.hasPermission>
+			        	<@shiro.hasPermission name="/system/cms/site/export" >
 			        	<button type="button" class="layui-btn layui-btn-small" onclick="doexport();"><i class="layui-icon layui-icon-specil">&#xe609;</i>导出</button>
+	               		</@shiro.hasPermission>
+	               		 <@shiro.hasPermission name="/system/cms/site/delete" >
 	               		 <button type="button" class="layui-btn layui-btn-danger layui-btn-small"><i class="layui-icon">&#xe640;</i>批量删除</button>
+		             	</@shiro.hasPermission>
 		             </li>
 	       		</ul>
 				
@@ -121,8 +127,12 @@
 															</label>
 														</td>
 														<td>
-							                           		 <a href="#" data-action="${ctx}/system/cms/site/update/pre?id=${(_data.id)!''}" class="layui-btn layui-btn-normal layui-btn-mini">修改</a>
+															<@shiro.hasPermission name="/system/cms/site/update" >
+							                           		<a href="#" data-action="${ctx}/system/cms/site/update/pre?id=${(_data.id)!''}" class="layui-btn layui-btn-normal layui-btn-mini">修改</a>
+							                            	</@shiro.hasPermission>
+							                            	<@shiro.hasPermission name="/system/cms/site/delete" >
 							                            	<a href="javascript:del('${(_data.id)!''}')" class="layui-btn layui-btn-danger layui-btn-mini ajax-delete">删除</a>
+															</@shiro.hasPermission>
 														</td>
 														<!--end_no_export-->
 														<td >

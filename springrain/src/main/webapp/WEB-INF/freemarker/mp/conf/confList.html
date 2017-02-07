@@ -37,10 +37,12 @@
 							</span>
 		             </li>
 					 <li style="float:right;">
+					 	<@shiro.hasPermission name="/system/cms/wxconfig/update" >
              			<button type="button"   class="layui-btn layui-btn-small" data-action="${ctx}/system/cms/wxconfig/update/pre"><i class="layui-icon layui-icon-specil">&#xe61f;</i>新增</button>
+			        	</@shiro.hasPermission>
+			        	<@shiro.hasPermission name="/system/cms/wxconfig/export" >
 			        	<button type="button"   class="layui-btn layui-btn-small"><i class="layui-icon layui-icon-specil">&#xe609;</i>导出</button>
-		                <button type="button"  class="layui-btn layui-btn-warm layui-btn-small"><i class="layui-icon layui-icon-specil">&#xe601;</i>导入</button>
-               		 	<button type="button"  class="layui-btn layui-btn-danger layui-btn-small"><i class="layui-icon">&#xe640;</i>批量删除</button>
+		                </@shiro.hasPermission>
 		             </li>
 	       		</ul>
 				
@@ -115,8 +117,12 @@
 															<input name="check_li" value="${_data.id}"  type="checkbox">
 														</td>
 														<td>
+															<@shiro.hasPermission name="/system/cms/wxconfig/update" >
 						                           		 	<a href="#" data-action="${ctx}/system/role/update/pre?id=" class="layui-btn layui-btn-normal layui-btn-mini">修改</a>
+					                            			</@shiro.hasPermission>
+					                            			<@shiro.hasPermission name="/system/cms/wxconfig/delete" >
 					                            			<a href="javascript:del('${(_data.id)!''}')" class="layui-btn layui-btn-danger layui-btn-mini ajax-delete">删除</a>
+															</@shiro.hasPermission>
 														</td>
 														<!--end_no_export-->
 														<td >
