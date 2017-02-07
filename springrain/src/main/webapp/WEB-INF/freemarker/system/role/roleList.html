@@ -130,7 +130,7 @@
 															</td>
 															<td>
 																<@shiro.hasPermission name="/system/role/update" >
-									                           		 <a href="#" data-action="${ctx}/system/role/update/pre?id=${(_data.id)!''}" class="layui-btn layui-btn-normal layui-btn-mini">编辑</a>
+									                           		 <a href="#" data-action="${ctx}/system/role/update/pre?id=${(_data.id)!''}" class="layui-btn layui-btn-normal layui-btn-mini">修改</a>
 									                            </@shiro.hasPermission>
 									                            <@shiro.hasPermission name="/system/role/delete" >
 									                            	<a href="javascript:del('${(_data.id)!''}')" class="layui-btn layui-btn-danger layui-btn-mini ajax-delete">删除</a>
