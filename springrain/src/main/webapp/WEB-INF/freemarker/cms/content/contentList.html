@@ -28,7 +28,7 @@
 			<ul class="layui-tab-title site-demo-title">
 				<li class="layui-this"><i class="layui-icon">&#xe630;</i> <!--网站地图导航-->
 					<span class="layui-breadcrumb" style="visibility: visible;">
-						<a href="${ctx}">首页<span class="layui-box">&gt;</span></a> <a><cite>内容表管理</cite></a>
+						<a><cite>内容管理</cite></a>
 				</span></li>
 				<li style="float: right;">
 					<button type="button" class="layui-btn layui-btn-small"
@@ -138,7 +138,7 @@
 													type="checkbox"> <span class="lbl"></span>
 											</label></td>
 											<td>
-												<a href="#" data-action="${ctx}/system/cms/content/update/pre?id=${(_data.id)!''}" class="layui-btn layui-btn-normal layui-btn-mini">编辑</a> 
+												<a href="#" data-action="${ctx}/system/cms/content/update/pre?id=${(_data.id)!''}" class="layui-btn layui-btn-normal layui-btn-mini">修改</a> 
 												<a href="javascript:del('${(_data.id)!''}')" class="layui-btn layui-btn-danger layui-btn-mini ajax-delete">删除</a>
 											</td>
 											<!--end_no_export-->

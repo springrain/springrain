@@ -28,8 +28,6 @@
 		             <li class="layui-this">
 		             		<i class="layui-icon">&#xe630;</i>
 		             		<span class="layui-breadcrumb" style="visibility: visible;">
-							  <a href="${ctx}">首页<span class="layui-box">&gt;</span></a>
-							  <a href="">字典管理<span class="layui-box">&gt;</span></a>
 							  <a><cite>级别管理</cite></a>
 							</span>
 		             </li>
@@ -138,7 +136,7 @@
 														</td>
 														<td>
 															<@shiro.hasPermission name="/system/dicdata/${returnDatas.map.typekey}/update" >
-								                           		 <a href="${ctx}/system/dicdata/${returnDatas.map.typekey}/update/pre?id=${(_data.id)!''}" class="layui-btn layui-btn-normal layui-btn-mini">编辑</a>
+								                           		 <a href="${ctx}/system/dicdata/${returnDatas.map.typekey}/update/pre?id=${(_data.id)!''}" class="layui-btn layui-btn-normal layui-btn-mini">修改</a>
 								                            </@shiro.hasPermission>
 								                            <@shiro.hasPermission name="/system/dicdata/${returnDatas.map.typekey}/delete" >
 								                            	<a href="javascript:del('${(_data.id)!''}')" class="layui-btn layui-btn-danger layui-btn-mini ajax-delete">删除</a>
