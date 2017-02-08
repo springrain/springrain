@@ -50,12 +50,7 @@ public class SystemLoginController extends BaseController  {
 			
 		}
 		
-		
-		@RequestMapping(value = "/{siteId}/index")
-		public String siteIndex(Model model,@PathVariable String siteId) throws Exception {
-			model.addAttribute("siteId", siteId);
-			return index(model);
-		}
+	
 		
 		
 		
@@ -88,7 +83,7 @@ public class SystemLoginController extends BaseController  {
 			
 			//判断用户是否登录
 			if(SecurityUtils.getSubject().isAuthenticated()){
-				return redirect+"/system"+sub+"/index";
+				return redirect+"/system/index";
 			}
 			//默认赋值message,避免freemarker尝试从session取值,造成异常
 			model.addAttribute("message", "");
