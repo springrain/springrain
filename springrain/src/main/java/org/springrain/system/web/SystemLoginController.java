@@ -75,9 +75,8 @@ public class SystemLoginController extends BaseController  {
 		
 		
 		private String getLoginUrl(Model model,HttpServletRequest request,String siteId){
-			String sub="";
 			if(StringUtils.isNotBlank(siteId)){
-				sub="/"+siteId;
+				model.addAttribute("siteId", siteId);
 			}
 			
 			
