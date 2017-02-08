@@ -45,6 +45,7 @@ description="springrain开源系统管理后台"/>
 		springrain.stopBubble(e);
 	}
 	//编辑
+	/*
 	function editTree(_id,e){
 		jQuery("#"+_id+"_a").addClass("curSelectedNode");
 		//jQuery('#menuListTree').parent("div").css({"min-width":"360px","width":"35%"});
@@ -54,10 +55,9 @@ description="springrain开源系统管理后台"/>
 		removeHoverDom(_id,node);
 		showdata(node);
 		jQuery(".add_div").css('display','none');
-		jQuery("#smtbtn").css('display','block');
-		
 		springrain.stopBubble(e);
 	}
+	*/
 	//删除
 	function deleteMenu(_id,e) {
 		jQuery("#"+_id+"_a").addClass("curSelectedNode");
@@ -148,7 +148,7 @@ description="springrain开源系统管理后台"/>
 				function addHoverDom(treeId, treeNode) {
 				　　　　　　var sObj = $("#" + treeNode.tId + "_span");
 				　　　　　　if ($("#ctr_" + treeNode.id).length > 0) return;
-						   sObj.after('<a  class="myctr myctrwrap" tid="'+treeNode.tId+'" onclick="openMenu(\''+treeNode.tId+'\')" id="ctr_'+treeNode.id+'"><i  class="myctr layui-icon layui-icon-specil">&#xe61a;</i></a>');
+						   sObj.after('<a  class="myctr myctrwrap" tid="'+treeNode.tId+'" onclick="openMenu(\''+treeNode.tId+'\')" id="ctr_'+treeNode.id+'"></a>');
 				
 				};
 				function removeHoverDom(treeId, treeNode) {
@@ -201,8 +201,6 @@ description="springrain开源系统管理后台"/>
 						//阻止事件冒泡
 						return;
 					}
-					jQuery("#smtbtn").css('display','none');
-					jQuery(".add_div").css('display','none');
 					jQuery(".add_div a").attr('tid',treeNode.tId);
 					showdata(treeNode);
 				};
@@ -298,7 +296,7 @@ description="springrain开源系统管理后台"/>
 			</SCRIPT>
 <body>			
 <div class="add_div" id="addDiv_t_auditlog_list" style="display:none;position:absolute;">
-	<a id="editBtn" onclick="clickBefore('edit',this)" tid='' href="#" class="ztree_edit">修改</a>
+	<#--<a id="editBtn" onclick="clickBefore('edit',this)" tid='' href="#" class="ztree_edit">修改</a>-->
 	<a id="addBtn" onclick="clickBefore('add',this)"  tid=''  href="#" class="ztree_add">添加子菜单</a>
 	<a id="deleteBtn" onclick="clickBefore('delete',this)"  tid=''  href="#" class="ztree_del">删除</a>
 </div>
@@ -402,7 +400,7 @@ description="springrain开源系统管理后台"/>
 											<div class="layui-form-item change-submit  col-lg-9">
 															<label class="layui-form-label  col-lg-3"></label>
 															<div class="layui-inline  col-lg-6">
-																<button type="button" class="layui-btn"  style='dislpay:none;' onclick="dosubmit();" id="smtbtn">立即提交</button>
+																<button type="button" class="layui-btn"   onclick="dosubmit();" id="smtbtn">立即提交</button>
 															</div>
 											</div>
 										</form>
