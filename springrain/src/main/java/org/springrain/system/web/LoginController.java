@@ -71,7 +71,7 @@ public class LoginController extends BaseController  {
 		 * @return
 		 * @throws Exception
 		 */
-		@RequestMapping(value = "/{siteId}/login",method=RequestMethod.GET)
+		@RequestMapping(value = "/login",method=RequestMethod.GET)
 		public String login(Model model,HttpServletRequest request,@PathVariable String siteId) throws Exception {
 			//判断用户是否登录
 			if(SecurityUtils.getSubject().isAuthenticated()){
@@ -213,10 +213,10 @@ public class LoginController extends BaseController  {
 		}
 		
 		/**
-		 * 退出,防止csrf,必须使用POST方法
+		 * 退出,防止csrf
 		 * @param request
 		 */
-		@RequestMapping(value="/logout",method=RequestMethod.POST)
+		@RequestMapping(value="/logout")
 	    public String logout(HttpServletRequest request){
 	        Subject subject = SecurityUtils.getSubject();
 	        if (subject != null) {           
@@ -224,6 +224,23 @@ public class LoginController extends BaseController  {
 	        }
 	        return super.redirect+"/login";
 	    }
+		
+		
+		/**
+		 * 退出,防止csrf
+		 * @param request
+		 */
+		@RequestMapping(value="/{siteId}/logout")
+	    public String siteLogout(HttpServletRequest request){
+	        Subject subject = SecurityUtils.getSubject();
+	        if (subject != null) {           
+	            subject.logout();
+	        }
+	        return super.redirect+"/login";
+	    }
+		
+		
+		
 		
 		/**
 		 * 自动登录,无需账号密码,测试代码,默认注释，根据实际修改

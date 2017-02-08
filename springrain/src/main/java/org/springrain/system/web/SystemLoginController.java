@@ -180,7 +180,7 @@ public class SystemLoginController extends BaseController  {
 	        if (subject != null) {           
 	            subject.logout();
 	        }
-	        return super.redirect+"/login";
+	        return super.redirect+"/system/login";
 	    }
 	
 		
