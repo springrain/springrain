@@ -5,7 +5,6 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JavaType;
@@ -13,15 +12,9 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JsonUtils  {
-	   static 	ObjectMapper mapper = null;
+	   static 	ObjectMapper mapper = new FrameObjectMapper();
 	   public static Logger logger = LoggerFactory.getLogger(JsonUtils.class);
-	   static{
-		   mapper = new ObjectMapper();
-		   //为 null 的不转换
-		  // mapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL); 
-		   mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-		   mapper.getFactory().setCharacterEscapes(new HTMLCharacterEscapes());
-	   }
+	  
 	 public static <T> T readValue(String content,Class<T> clazz) {
 		 T t=null;
 		try {
