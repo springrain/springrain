@@ -11,11 +11,27 @@ description="springrain开源系统管理后台"/>
 <link rel="stylesheet" href="${ctx}/css/custom/common/myztree.css" type="text/css">
 <link rel="stylesheet" href="${ctx}/js/validform/validform.css" media="all">
 <script type="text/javascript">
+	function clickBefore(_flag,_obj){
+		var _tid=jQuery(_obj).attr('tid');
+		if(!_tid)return;
+		switch(_flag){
+			case 'edit':
+				editTree(_tid,null);
+				break;
+			case 'add':
+				addTree(_tid,null);
+				break;
+			case 'delete':
+				deleteMenu(_tid,null);
+				break;
+			default:
+				return;
+		}
+	}
 	//添加
-	function addTree(_obj,_id,e){
+	function addTree(_id,e){
 		//jQuery('#menuListTree').parent("div").css({"min-width":"360px","width":"35%"});
 		//jQuery('.myanimate').animate({'right':"0px"});
-		jQuery(".curSelectedNode").removeClass("curSelectedNode");
 		jQuery("#"+_id+"_a").addClass("curSelectedNode");
 		saveType=0;
 		var node = zTree.getNodeByTId(_id);
@@ -25,23 +41,25 @@ description="springrain开源系统管理后台"/>
 		jQuery("#pid").val(node.id);
 		jQuery("#imgIcon").html('');
 		jQuery("#menuIcon").val('');
+		jQuery(".add_div").css('display','none');
 		springrain.stopBubble(e);
 	}
 	//编辑
-	function editTree(_obj,_id,e){
-		jQuery(".curSelectedNode").removeClass("curSelectedNode");
+	function editTree(_id,e){
 		jQuery("#"+_id+"_a").addClass("curSelectedNode");
-		jQuery('#menuListTree').parent("div").css({"min-width":"360px","width":"35%"});
-		jQuery('.myanimate').animate({'right':"0px"})
+		//jQuery('#menuListTree').parent("div").css({"min-width":"360px","width":"35%"});
+		//jQuery('.myanimate').animate({'right':"0px"})
 		saveType=1;//修改保存类型为  修改
 		var node = zTree.getNodeByTId(_id);
 		removeHoverDom(_id,node);
 		showdata(node);
+		jQuery(".add_div").css('display','none');
+		jQuery("#smtbtn").css('display','block');
+		
 		springrain.stopBubble(e);
 	}
 	//删除
-	function deleteMenu(_obj,_id,e) {
-		jQuery(".curSelectedNode").removeClass("curSelectedNode");
+	function deleteMenu(_id,e) {
 		jQuery("#"+_id+"_a").addClass("curSelectedNode");
 		var node = zTree.getNodeByTId(_id);
 		removeHoverDom(_id,node);
@@ -113,7 +131,7 @@ description="springrain开源系统管理后台"/>
 							dblClickExpand: false,
 							addDiyDom: addDiyDom,
 							addHoverDom: addHoverDom,
-					　　　　 removeHoverDom: removeHoverDom
+					　　　　removeHoverDom: removeHoverDom
 						},
 					callback : {
 						onClick : MenuzTreeOnClick
@@ -129,20 +147,23 @@ description="springrain开源系统管理后台"/>
 				};
 				function addHoverDom(treeId, treeNode) {
 				　　　　　　var sObj = $("#" + treeNode.tId + "_span");
-				　　　　　　if ($("#addBtn_" + treeNode.id).length > 0) return;
-						   sObj.after('<a id="addBtn2_' + treeNode.id +'"  onclick="editTree(this,\''+treeNode.tId+'\')"  href="#" class="ztree_edit layui-btn layui-btn-normal layui-btn-mini">修改</a>');
-						   sObj.after('<a id="addBtn_' + treeNode.id +'"  onclick="addTree(this,\''+treeNode.tId+'\')"  href="#" class="ztree_add layui-btn layui-btn-normal layui-btn-mini">添加子菜单</a>');
-						   sObj.after('<a id="addBtn1_' + treeNode.id +'"  onclick="deleteMenu(this,\''+treeNode.tId+'\')"  href="#" class="ztree_del layui-btn layui-btn-normal layui-btn-mini">删除</a>');
+				　　　　　　if ($("#ctr_" + treeNode.id).length > 0) return;
+						   sObj.after('<a  class="myctr myctrwrap" tid="'+treeNode.tId+'" onclick="openMenu(\''+treeNode.tId+'\')" id="ctr_'+treeNode.id+'"><i  class="myctr layui-icon layui-icon-specil">&#xe61a;</i></a>');
 				
 				};
 				function removeHoverDom(treeId, treeNode) {
-						   $("#addBtn1_" + treeNode.id).unbind().remove();
-						   $("#addBtn2_" + treeNode.id).unbind().remove();
-				　　　　　　$("#addBtn_" + treeNode.id).unbind().remove();
+					 $("#ctr_" + treeNode.id).unbind().remove();
 				};
 			 
 				var zTree=null;
 				$(document).ready(function() {
+					jQuery('body').bind('click',function(e){
+						if(jQuery(event.target).hasClass("myctr")){
+							//阻止事件冒泡
+							return;
+						}
+						jQuery(".add_div").css('display','none');
+					});
 					$("[name='iconName']").click(function() {
 						$("#menuIcon").val("&#"+$(this).attr("textContent").replace(/(^\s+)|(\s+$)/g,""));
 						jQuery("#imgIcon").html($("#menuIcon").val());
@@ -168,10 +189,22 @@ description="springrain开源系统管理后台"/>
 					});
 
 				});
-
+				function openMenu(treeId,e){
+					if(!treeId)return;
+					var _offset=jQuery(event.target).offset();
+					jQuery(".add_div").css({'display':'block',"top":_offset.top+16,"left":_offset.left-125});
+					jQuery(".add_div a").attr('tid',treeId);
+					
+				}
 				function MenuzTreeOnClick(event, treeId, treeNode) {
+					if(jQuery(event.target).hasClass("myctr")){
+						//阻止事件冒泡
+						return;
+					}
+					jQuery("#smtbtn").css('display','none');
+					jQuery(".add_div").css('display','none');
+					jQuery(".add_div a").attr('tid',treeNode.tId);
 					showdata(treeNode);
-					//return false;
 				};
 				function delParent(){
 					jQuery("#pname").val('');
@@ -264,6 +297,11 @@ description="springrain开源系统管理后台"/>
 				}
 			</SCRIPT>
 <body>			
+<div class="add_div" id="addDiv_t_auditlog_list" style="display:none;position:absolute;">
+	<a id="editBtn" onclick="clickBefore('edit',this)" tid='' href="#" class="ztree_edit">修改</a>
+	<a id="addBtn" onclick="clickBefore('add',this)"  tid=''  href="#" class="ztree_add">添加子菜单</a>
+	<a id="deleteBtn" onclick="clickBefore('delete',this)"  tid=''  href="#" class="ztree_del">删除</a>
+</div>
 			<div class="layui-tab layui-tab-brief">
 				<ul class="layui-tab-title site-demo-title">
 		             <li class="layui-this">
@@ -278,7 +316,7 @@ description="springrain开源系统管理后台"/>
 						<div class="layui-main">
 							<div class="container-fluid" style="overflow:hidden;">
 								<div class="row">
-									<div class="fl per30">
+									<div class="fl per30" style="min-width:360px">
 										<ul id="menuListTree" class="ztree"></ul>
 									</div>
 									<div class="fl per50 rlt">
@@ -364,7 +402,7 @@ description="springrain开源系统管理后台"/>
 											<div class="layui-form-item change-submit  col-lg-9">
 															<label class="layui-form-label  col-lg-3"></label>
 															<div class="layui-inline  col-lg-6">
-																<button type="button" class="layui-btn"  onclick="dosubmit();" id="smtbtn">立即提交</button>
+																<button type="button" class="layui-btn"  style='dislpay:none;' onclick="dosubmit();" id="smtbtn">立即提交</button>
 															</div>
 											</div>
 										</form>

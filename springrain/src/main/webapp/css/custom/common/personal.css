@@ -94,10 +94,11 @@ header.larry-personal-tit span {
 .header-demo .layui-nav .layui-nav-item a:hover, .header-demo .layui-nav .layui-this a{color:#fff!important;}
 .header-demo .layui-nav .layui-this:after, .header-demo .layui-nav-bar{background-color: #009688!important;}
 .header-demo .layui-nav .layui-nav-item a{color:#A9B7B7}
-body .header .layui-nav .layui-nav-item {border-left: 1px solid #2b2e37;}
 .header .layui-nav .layui-nav-item{margin:0px!important;}
+.header .layui-nav .layui-nav-item:after{height:50px;width:2px;background:#000;}
 .header-demo .layui-nav .layui-this a{padding:0px 20px!important;}
-.header-demo .layui-nav .layui-nav-item{line-height: 63px!important;}
+.header-demo .layui-nav .layui-nav-item{line-height: 66px!important;}
 .header-demo .layui-nav .layui-nav-item a:hover{background:#009688!important;}
 .layui-nav-tree .layui-nav-item  a:hover{background:#535660!important;}
 .layui-nav-itemedlayui-this a{background:#009688!important;}
+.layui-nav-item .layui-icon{top:3px;}

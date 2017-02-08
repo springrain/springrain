@@ -1,16 +1,16 @@
 .ztree * {font-size: 10pt;font-family:"Microsoft Yahei",Verdana,Simsun,"Segoe UI Web Light","Segoe UI Light","Segoe UI Web Regular","Segoe UI","Segoe UI Symbol","Helvetica Neue",Arial}
 .ztree li ul{ margin:0; padding:0}
-.ztree li {line-height:30px;}
-.ztree li a {width:auto;height:30px;padding-top: 0px;}
-.ztree li a:hover {text-decoration:none; background-color: #E7E7E7;}
+.ztree li {line-height:30px;position:relative;}
+.ztree li a {width:300px;height:30px;padding-top: 0px;}
+.ztree li a:hover {text-decoration:none; background-color: #C4DDF9;}
+.ztree li a span:nth-child(3){width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:inline-block;vertical-align: middle;}
  
- 
-.ztree li a.curSelectedNode {background-color:#D4D4D4;border:0;height:30px;}
+.ztree li a.curSelectedNode {background-color:#C4DDF9;border:0;height:30px;}
 .ztree li span {line-height:30px;}
 .ztree li span.button {margin-top: -7px;}
 .ztree li span.button.switch {width: 16px;height: 16px;background:none;position:relative;font-family: layui-icon!important;font-size: 16px;font-style: normal;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;}
-.ztree li span.button.switch:before{position:absolute;top:12px;right:-14px;}
-.ztree li span.button.switch:after{position:absolute;top:12px;}
+.ztree li span.button.switch:before{position:absolute;top:14px;right:-14px;}
+.ztree li span.button.switch:after{position:absolute;top:14px;}
 .ztree li a.level0 span {font-size: 16px;}
 .ztree li span.button {position:relative;font-family: layui-icon!important;font-size: 16px;font-style: normal;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;}
 .ztree li span.button:not(.ztree li span.chk){background:none;}
@@ -35,34 +35,12 @@
 .ztree li span.button.noline_docu:after{content:"\e621";top:10px;right:-14px;}
 
 /*多选 */
-
-
-.ztree_add{width:80px!important;background-color: #1E9FFF!important;}
-.ztree_del{width:40px!important;background-color:#FF5722!important;}
-.ztree_edit{width:40px!important;background-color:#1E9FFF!important;}
-.ztree_add,.ztree_del,.ztree_edit{display:inline-block;text-align: right;
-    height: 22px!important;
-    margin-left:20px!important;
-    line-height: 22px!important;
-    padding: 0 5px!important;
-    font-size: 12px!important;
-    white-space: nowrap!important;
-    text-align: center!important;
-    border: none!important;
-    border-radius: 2px!important;
-    cursor: pointer!important;
-    outline: 0!important;
-    -webkit-transition: border-color .3s cubic-bezier(.65,.05,.35,.5)!important;
-    transition: border-color .3s cubic-bezier(.65,.05,.35,.5)!important;
-    -webkit-box-sizing: border-box!important;
-    -moz-box-sizing: border-box!important;
-    box-sizing: border-box!important;vertical-align: middle!important;text-decoration: none!important;
-     color: #fff!important;
-     margin-top:-4px!important;
-}
-.ztree_add:hover{
-	opacity: .8;
-    filter: alpha(opacity=80);
-    color: #fff;
-	
-}
+/*树形结构的东西*/
+.ztree li a{position:relative;z-index:0}
+.add_div{background:#D4D4D4;margin-top:10px;position:absolute;width:140px;right:0px;top:20px;z-index: 99999;padding:6px 0px;
+background:#fff;border:1px solid #d3d3d3;box-shadow:2px 2px 5px #d3d3d3;border-radius: 2px;}
+.add_div a{display:block!important;text-align:left;width:110px!important;z-index: 99999;padding:4px 15px;}
+.add_div a:hover{background:#d3d3d3;}
+.myctrwrap{width:14px!important;border:1px solid #c0c0c0;height:14px!important;margin-top:8px!important;position:absolute!important;right:4px;}
+.myctrwrap i{position:absolute!important;top:-6px;font-size:10px!important;}
+ 
