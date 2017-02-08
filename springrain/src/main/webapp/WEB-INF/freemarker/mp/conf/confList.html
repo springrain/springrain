@@ -29,13 +29,6 @@
 			<!-- 主体内容开始 -->
 			<div class="layui-tab layui-tab-brief">
 				<ul class="layui-tab-title site-demo-title">
-		             <li class="layui-this">
-		             		<i class="layui-icon">&#xe630;</i>
-							<!--网站地图导航-->
-		             		<span class="layui-breadcrumb" style="visibility: visible;">
-							  <a><cite>微信服务号配置信息管理</cite></a>
-							</span>
-		             </li>
 					 <li style="float:right;">
 					 	<@shiro.hasPermission name="/system/cms/wxconfig/update" >
              			<button type="button"   class="layui-btn layui-btn-small" data-action="${ctx}/system/cms/wxconfig/update/pre"><i class="layui-icon layui-icon-specil">&#xe61f;</i>新增</button>
@@ -80,7 +73,7 @@
 									<!--start_export-->
 									<table class="layui-table" lay-even>
 										  <colgroup>
-										    <col width="40">
+										    <col width="120">
 										    <col width="120">
 										    <col>
 										  </colgroup>
@@ -91,10 +84,6 @@
 													<th colspan="9">微信号需要的配置信息列表</th>
 												</tr>
 												<tr>
-												  <!--first_start_no_export-->
-												  <th class="center">
-															<input id="checkAll"  type="checkbox">
-												  </th>
 												  <th>操作</th>
 												  <!--first_end_no_export-->
 														<th id="th_siteId" >站点名称</th>
@@ -113,9 +102,6 @@
 										    	<#list	returnDatas.data as _data>
 										    		<!--start_no_export-->
 													<tr class="">
-														<td class="center">
-															<input name="check_li" value="${_data.id}"  type="checkbox">
-														</td>
 														<td>
 															<@shiro.hasPermission name="/system/cms/wxconfig/update" >
 						                           		 	<a href="#" data-action="${ctx}/system/role/update/pre?id=" class="layui-btn layui-btn-normal layui-btn-mini">修改</a>

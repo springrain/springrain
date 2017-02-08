@@ -29,10 +29,6 @@ description="springrain开源系统管理后台"/>
 		<!-- 主体内容开始 -->
 		<div class="layui-tab layui-tab-brief">
 			<ul class="layui-tab-title site-demo-title">
-				<li class="layui-this"><i class="layui-icon">&#xe630;</i> <!--网站地图导航-->
-					<span class="layui-breadcrumb" style="visibility: visible;">
-					<a><cite>微信服务号菜单管理</cite></a>
-				</span></li>
 			</ul>
 
 			<div class="layui-body layui-tab-content site-demo-body">
@@ -90,8 +86,6 @@ description="springrain开源系统管理后台"/>
 									</tr>
 									<tr>
 										<!--first_start_no_export-->
-										<th class="center"><input id="checkAll" type="checkbox">
-										</th>
 										<th>操作</th>
 										<!--first_end_no_export-->
 										<th id="th_siteId">站点名称</th>
@@ -110,8 +104,6 @@ description="springrain开源系统管理后台"/>
 									returnDatas.data as _data>
 									<!--start_no_export-->
 									<tr class="">
-										<td class="center"><input name="check_li"
-											value="${_data.id}" type="checkbox"></td>
 										<td><a href="#"
 											data-action="${ctx}/system/cms/wxconfig/menu/update/pre?siteId=${_data.siteId}"
 											class="layui-btn layui-btn-normal layui-btn-mini">修改菜单</a> 
