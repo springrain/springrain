@@ -119,6 +119,13 @@ function buildModule(data) {
             	url = ctx + url;
             	htmlStr += '<li id="pmenu'+data[i].id+'" class="layui-nav-item layui-this"><a href="javascript:void(0);" data-pid="'+data[i].id+'" data-action="'+url+'"><i class="layui-icon">'+menuIcon_df+'</i><cite>'+data[i].name+'</cite></a></li>';
                 childrenMenuList = data[i]['leaf'];
+                
+                $("ul.site-demo-title").prepend('<li class="">\
+	             		<i class="layui-icon">&#xe630;</i>\
+	             		<span class="layui-breadcrumb" style="visibility: visible;">\
+						  <a><cite>'+data[i].name+'</cite></a>\
+						</span>\
+             		</li>');
             }else{
             	url = ctx + url;
                 htmlStr += '<li id="pmenu'+data[i].id+'" class="layui-nav-item"><a href="javascript:void(0);" data-pid="'+data[i].id+'" data-action="'+url+'"><i class="layui-icon">'+menuIcon_df+'</i><cite>'+data[i].name+'</cite></a></li>';
@@ -139,7 +146,13 @@ function getParentModule(childrenMenuList) {
     for(var i=0;i<childrenMenuList.length;i++){
     	 var showItem = "";
         if((ctx+childrenMenuList[i].pageurl) ==_url){
-            showItem = "layui-this";
+        	showItem = "layui-this";
+        	$("ul.site-demo-title li:eq(0)").after('<li class="layui-this">\
+               		<i class="layui-icon">&#xe630;</i>\
+               		<span class="layui-breadcrumb" style="visibility: visible;">\
+  					  <a><cite>'+childrenMenuList[i].name+'</cite></a>\
+  					</span>\
+           		</li>');
         }
         
         var _leaf=childrenMenuList[i]["leaf"];
@@ -150,7 +163,7 @@ function getParentModule(childrenMenuList) {
         if(_leaf&&_leaf.length>0){
         	 htmlStr += '<li class="layui-nav-item layui-nav-itemed'+showItem+'" id="'+childrenMenuList[i].id+'"><a href="';
             htmlStr = htmlStr+ ' javascript:;"> <i class="layui-icon">'+menuIcon_df+'</i><cute>'+childrenMenuList[i].name+'</cute></a>';
-            htmlStr = htmlStr+getChindModule(_leaf);
+            htmlStr = htmlStr+getChindModule(_leaf,childrenMenuList[i]);
         }else{
         	htmlStr += '<li class="layui-nav-item layui-nav-itemed'+showItem+'" id="'+childrenMenuList[i].id+'"><a href="javascript:void(0);" data-pid="'+childrenMenuList[i].pid+'" data-action="';
         	 var url = childrenMenuList[i].pageurl;
@@ -167,11 +180,23 @@ function getParentModule(childrenMenuList) {
     return htmlStr;
 }
 
-function getChindModule(_leaf) {
+function getChindModule(_leaf,parentMenu) {
     var t = '<dl class="layui-nav-child">';
     for ( var menuObj in _leaf) {
         if((ctx+_leaf[menuObj].pageurl)==window.location.pathname){
         	 t = t+'<dd class="layui-this" pageUrl="'+_leaf[menuObj].pageurl+'" id="'+_leaf[menuObj].id+'"><a href="javascript:void(0);" data-action="'+ctx+_leaf[menuObj].pageurl+'"><i class="layui-icon">'+_leaf[menuObj].menuIcon+'</i><cite>'+_leaf[menuObj].name+'</cite></a></dd>';
+        	 $("ul.site-demo-title li:eq(0)").after('<li class="">\
+               		<i class="layui-icon">&#xe630;</i>\
+               		<span class="layui-breadcrumb" style="visibility: visible;">\
+  					  <a><cite>'+parentMenu.name+'</cite></a>\
+  					</span>\
+           		</li>');
+        	 $("ul.site-demo-title li:eq(1)").after('<li class="layui-this">\
+              		<i class="layui-icon">&#xe630;</i>\
+              		<span class="layui-breadcrumb" style="visibility: visible;">\
+ 					  <a><cite>'+_leaf[menuObj].name+'</cite></a>\
+ 					</span>\
+          		</li>');
         }else{
         	t = t+'<dd pageUrl="'+_leaf[menuObj].pageurl+'" id="'+_leaf[menuObj].id+'"><a href="javascript:void(0);" data-action="'+ctx+_leaf[menuObj].pageurl+'"><i class="layui-icon">'+_leaf[menuObj].menuIcon+'</i><cite>'+_leaf[menuObj].name+'</cite></a></dd>';
         }
