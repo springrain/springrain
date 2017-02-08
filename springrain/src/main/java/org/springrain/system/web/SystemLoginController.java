@@ -12,6 +12,7 @@ import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.util.WebUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springrain.frame.controller.BaseController;
@@ -48,6 +49,16 @@ public class SystemLoginController extends BaseController  {
 				return "/system/index";
 			
 		}
+		
+		
+		@RequestMapping(value = "/{siteId}/index")
+		public String siteIndex(Model model,@PathVariable String siteId) throws Exception {
+			model.addAttribute("siteId", siteId);
+			return index(model);
+		}
+		
+		
+		
 		/**
 		 * 渲染登录/login的界面展示,如果已经登录,跳转到首页,如果没有登录,就渲染login.html
 		 * @param model
@@ -57,9 +68,27 @@ public class SystemLoginController extends BaseController  {
 		 */
 		@RequestMapping(value = "/login",method=RequestMethod.GET)
 		public String login(Model model,HttpServletRequest request) throws Exception {
+			
+			return getLoginUrl(model,request,null);
+		}
+		
+		@RequestMapping(value = "/{siteId}/login",method=RequestMethod.GET)
+		public String siteLogin(Model model,HttpServletRequest request,@PathVariable String siteId) throws Exception {
+			model.addAttribute("siteId", siteId);
+			return getLoginUrl(model, request, siteId);
+		}
+		
+		
+		private String getLoginUrl(Model model,HttpServletRequest request,String siteId){
+			String sub="";
+			if(StringUtils.isNotBlank(siteId)){
+				sub="/"+siteId;
+			}
+			
+			
 			//判断用户是否登录
 			if(SecurityUtils.getSubject().isAuthenticated()){
-				return redirect+"/system/index";
+				return redirect+"/system"+sub+"/index";
 			}
 			//默认赋值message,避免freemarker尝试从session取值,造成异常
 			model.addAttribute("message", "");
@@ -72,6 +101,15 @@ public class SystemLoginController extends BaseController  {
 			
 			return "/system/login";
 		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		/**
 		 * 处理登录提交的方法
@@ -90,6 +128,12 @@ public class SystemLoginController extends BaseController  {
 			  String code = (String) session.getAttribute(GlobalStatic.DEFAULT_CAPTCHA_PARAM);
 			  
 			  session.removeAttribute(GlobalStatic.DEFAULT_CAPTCHA_PARAM);
+			  
+			  
+			  String siteId=request.getParameter("siteId");
+			  if(StringUtils.isNotBlank(siteId)){
+					model.addAttribute("siteId", siteId);
+				}
 			  
 			  if(StringUtils.isNotBlank(code)){
 				  code=code.toLowerCase().toString();
@@ -160,7 +204,12 @@ public class SystemLoginController extends BaseController  {
 			*/
 			
 			if(StringUtils.isBlank(gotourl)){
-				gotourl="/system/index";
+				if(StringUtils.isBlank(siteId)){
+					gotourl="/system/index";
+				}else{
+					gotourl="/system/"+siteId+"/index";
+				}
+				
 			}
 			//设置tokenkey
 			String springraintoken="system_"+SecUtils.getUUID();
@@ -182,7 +231,16 @@ public class SystemLoginController extends BaseController  {
 	        }
 	        return super.redirect+"/system/login";
 	    }
-	
+		/**
+		 * 退出,防止csrf
+		 * @param request
+		 */
+		@RequestMapping(value="/{siteId}/logout")
+	    public String siteLogout(HttpServletRequest request,@PathVariable String siteId){
+			logout(request);
+	        return super.redirect+"/system/"+siteId+"/login";
+	    }
+		
 		
 		
 		

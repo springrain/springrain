@@ -226,18 +226,6 @@ public class LoginController extends BaseController  {
 	    }
 		
 		
-		/**
-		 * 退出,防止csrf
-		 * @param request
-		 */
-		@RequestMapping(value="/{siteId}/logout")
-	    public String siteLogout(HttpServletRequest request){
-	        Subject subject = SecurityUtils.getSubject();
-	        if (subject != null) {           
-	            subject.logout();
-	        }
-	        return super.redirect+"/login";
-	    }
 		
 		
 		
