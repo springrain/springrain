@@ -96,7 +96,19 @@ public class SpringUtils  implements ApplicationContextAware {
 			entityClassName=entityClassName.replaceAll("/", ".");
 			
 			Class<?> clazz=Class.forName(entityClassName);
-			ClassUtils.getEntityInfoByClass(clazz);
+			
+			
+			EntityInfo entityInfo = ClassUtils.getEntityInfoByClass(clazz);
+			
+			if(entityInfo==null){
+				continue;
+			}
+			
+			ClassUtils.getAllFieldNames(clazz);
+			ClassUtils.getAllDBFields(clazz);
+			ClassUtils.getWhereSQLInfo(clazz);
+			ClassUtils.isLuceneSearch(clazz);
+			ClassUtils.getLuceneFields(clazz);
 			
 		}
 		

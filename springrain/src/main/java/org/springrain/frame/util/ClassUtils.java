@@ -407,24 +407,7 @@ public class ClassUtils {
 		
 	}
 	
-	/**
-	 * 获取数据库分表的属性名称 例如 ext 实际是调用 getExt获取后缀
-	 * @param o
-	 * @return
-	 * @throws Exception
-	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@Deprecated
-	public static String getGroupPropertyName(Object o) throws Exception{
-		Class clazz=o.getClass();
-		if(clazz.isAnnotationPresent(TableSuffix.class)==false){
-			return "";
-		}
-		TableSuffix group =	(TableSuffix)clazz.getAnnotation(TableSuffix.class);
-		String p=group.name();
-		return p;
-		
-	}
+	
 	
 	/**
 	 * 递归查询父类的所有属性,set 去掉重复的属性
