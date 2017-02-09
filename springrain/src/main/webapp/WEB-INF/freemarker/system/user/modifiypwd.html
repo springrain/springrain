@@ -3,19 +3,64 @@
 
 <script src="${ctx}/js/validform/validform.min.js"></script>
 <link rel="stylesheet" href="${ctx}/js/validform/validform.css" media="all">
-<script>
-	 var _active="${(returnDatas.data.active)!''}";
-	 jQuery(function(){
-		 jQuery("#active").val(_active);
-		 /*
-		 init_valid(_before,_after)
-		 @_before:提交表单前，调用 的函数   可以为空，一般有validform处理不了，独自进行处理时使用
-		 @_after:保存成功后，调用的函数  可以为空，一般为对应的列表页面
-		 */
-		 springrain.initValid(null,function(){window.location.href="${ctx}/system/dicdata/${returnDatas.map.typekey}/list"});
-	 });
-	 
-</script>
+<SCRIPT type="text/javascript">
+var _flag=false;
+jQuery(document).ready(function(){
+	var _userId=jQuery("#id").val();
+	if(_userId==null||_userId==""){
+		springrain.alert('数据有问题，正在返回主页');
+		setTimeout(function(){
+			exit("${siteId!}");//退出
+		},2000);
+	}
+	jQuery("#oldpassword").bind('blur',function(){
+		var _val=jQuery.trim(jQuery(this).val());
+		if(_val==null||_val==""){
+			springrain.alert('原始密码不能为空');
+			return;
+		}
+		jQuery.ajax({
+			url:"${ctx}/system/user/modifiypwd/ispwd",
+			type:"post",
+			dataType:"json",
+			data:{'pwd':_val},
+			success:function(data){
+				if(data.msg=="0"){
+					jQuery("#info").removeClass("Validform_right").addClass("Validform_wrong").removeClass("Validform_checktip");
+					jQuery('#info').html('原始密码错误');
+				}else if(data.msg=="-1"){
+					springrain.alert(data.msgbox);
+					setTimeout(function(){
+						exit("${siteId!}");//退出
+					},2000);
+				}else{
+					_flag=true;
+					jQuery("#info").removeClass("Validform_wrong").addClass("Validform_right").addClass("Validform_checktip");
+					jQuery('#info').html('原始密码正确');
+				}
+			}
+			
+		});
+	});
+	jQuery("#smtbtn").bind('click',function(){
+		if(!_flag){
+			springrain.alert("原始密码不正确。");
+			return false;
+		}
+		springrain.commonUpdateForm("validForm", null, null, function(data){
+			if("success"==data.status){
+				springrain.alert(data.message);
+				setTimeout(function(){
+					exit("${siteId!}",true);//退出
+				},2000);
+			}else{
+				springrain.alert(data.message);
+			}
+		});
+	});
+	
+});
+</SCRIPT>
 </head>
 <body>
 	<div class="layui-layout layui-layout-admin">
@@ -24,9 +69,7 @@
 			<div class="layui-tab layui-tab-brief">
 				<ul class="layui-tab-title site-demo-title">
 		            <li class="layui-this">
-		            		<i class="layui-icon">&#xe630;</i>
 		             		<span class="layui-breadcrumb" style="visibility: visible;">
-							  <a><cite>修改密码</cite></a>
 							</span>
 		            </li>
 		             <li style="float:right;">
@@ -42,26 +85,26 @@
 												</header>
 												<!-- /header -->
 												<div class="larry-personal-body clearfix changepwd">
-													<form id="validForm" class="layui-form"  method="post" action="${ctx}/system/dicdata/${returnDatas.map.typekey}/update">
-														<input type="hidden" name="id" value="${(returnDatas.data.id)!''}">
+													<form id="validForm" class="layui-form"  method="post" action="${ctx}/system/user/modifiypwd/save">
+														<input type="hidden" id="id" name="id" value="${returnDatas.data.id}"> 
 													 	<div class="layui-form-item col-lg-6">
-															<label class="layui-form-label">原始密码**</label>
+															<label class="layui-form-label">原始密码*</label>
 															<div class="layui-inline col-lg-5">  
-															  	<input type="password" name="oldpassword" datatype="*" nullmsg="不能为空" errormsg="不能为空！" autocomplete="off" class="layui-input" value="${(returnDatas.data.name)!''}">
+															  	<input type="text" id="oldpassword" name="oldpassword" datatype="*" nullmsg="不能为空" errormsg="不能为空！" autocomplete="off" class="layui-input">
 															</div>
-															<div class="layui-inline valid-info"></div>
+															<div class="layui-inline valid-info" id='info'></div>
 														</div>
 														<div class="layui-form-item col-lg-6">
 															<label class="layui-form-label">新密码*</label>
 															<div class="layui-inline">  
-															  	<input type="password" name="password" datatype="*" nullmsg="不能为空" errormsg="不能为空！" autocomplete="off" class="layui-input"  value="${(returnDatas.data.code)!''}">
+															  	<input type="password" id='password' name="newpwd" datatype="*" nullmsg="不能为空" errormsg="不能为空！" autocomplete="off" class="layui-input">
 															</div>
 															<div class="layui-inline valid-info"></div>
 														</div>
 														 <div class="layui-form-item col-lg-6">
 															<label class="layui-form-label">重复新密码*</label>
 															<div class="layui-inline">  
-															  	<input type="password" name="repassword" datatype="*" nullmsg="不能为空" errormsg="不能为空！" autocomplete="off" class="layui-input"  value="${(returnDatas.data.code)!''}">
+															  	<input type="password" id="repassword" name="renewpwd" datatype="*" nullmsg="不能为空" errormsg="不能为空！" autocomplete="off" class="layui-input">
 															</div>
 															<div class="layui-inline valid-info"></div>
 														</div>

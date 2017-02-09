@@ -155,9 +155,10 @@
 			 * @param listurl 添加成功以后，跳转的URL
 			 * @param message 操作成功以后提示的信息，  不传默认为 "操作成功"
 			 * @param _id 为了防止，保存弄成修改，把ID清空
+			 * @param callback 回调，如果有回调就不跳转listurl，跳转自己处理，调用 springrain.goTo(url)
 			 * @returns
 			 */
-			commonSaveForm:function(form,listurl,message,_id){
+			commonSaveForm:function(form,listurl,message,_id,callback){
 				var _that=this;
 				if(!form){
 					form="updateForm";
@@ -180,7 +181,7 @@
 				}
 				 var pageurl=jQuery("#"+form).attr('action'); 
 				var mydata=jQuery("#"+form).serialize();
-				_that.ajaxpostonlayer(pageurl,listurl,mydata,message);
+				_that.ajaxpostonlayer(pageurl,listurl,mydata,message,callback);
 				return _form;
 			},
 			commonSubmit:function(formId){
@@ -197,9 +198,10 @@
 			 * @param formId
 			 * @param listurl
 			 * @param message
+			 * @param callback 回调，如果有回调就不跳转到Listurl
 			 * @returns
 			 */
-			commonUpdateForm:function (formId,listurl,message) {
+			commonUpdateForm:function (formId,listurl,message,callback) {
 				var _that=this;
 				if(!formId){
 					formId="updateForm";
@@ -217,7 +219,7 @@
 				}
 				var pageurl=jQuery("#"+formId).attr('action'); 
 				var mydata=jQuery("#"+formId).serialize();
-				_that.ajaxpostonlayer(pageurl,listurl,mydata,message);
+				_that.ajaxpostonlayer(pageurl,listurl,mydata,message,callback);
 			},
 			/**
 			 * 重置表单验证的 验证结果  ，配合“commonSaveForm”使用
@@ -240,7 +242,7 @@
 			 * @param msg 保存成功的提示消息
 			 * @returns {Boolean}
 			 */
-			ajaxpostonlayer:function(pageurl,listurl,mydata,msg){
+			ajaxpostonlayer:function(pageurl,listurl,mydata,msg,callback){
 				var _that=this;
 				var index = layer.load(null, {shade: [0.8, '#393D49'] });
 				if(pageurl==null||pageurl==''){
@@ -259,6 +261,10 @@
 					dataType : "json",
 					success:function(ret){
 						layer.closeAll('loading')
+						if(callback&&typeof callback=="function"){
+							callback(ret);
+							return;
+						}
 						if(ret.status=="success"){
 							layer.alert(msg, {icon: 1},function(){
 								layer.closeAll();

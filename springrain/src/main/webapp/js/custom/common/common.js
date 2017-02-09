@@ -51,10 +51,8 @@ function loadMenu(){
 }
 
 
-
-
-function exit(siteId){
-	springrain.confirm("确定退出？", function(){
+function exit(siteId,kill){
+	if(kill){
 		try{
 			locache.flush();
 		}catch(e){}
@@ -64,8 +62,19 @@ function exit(siteId){
 			_url=ctx+"/system/"+siteId+"/logout"
 		}
 		springrain.goTo(_url);
-	});
-	
+	}else{
+		springrain.confirm("确定退出？", function(){
+			try{
+				locache.flush();
+			}catch(e){}
+			
+			var _url=ctx+"/system/logout"
+			if(""!=siteId){
+				_url=ctx+"/system/"+siteId+"/logout"
+			}
+			springrain.goTo(_url);
+		});
+	}
 }
 
 function configLayui(par){

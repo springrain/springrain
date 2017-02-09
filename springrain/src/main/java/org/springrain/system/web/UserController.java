@@ -267,7 +267,7 @@ public class UserController extends BaseController {
 	}
 	@RequestMapping(value="/modifiypwd/ispwd")
 	public @ResponseBody Map<String, Object> checkPwd(HttpServletRequest request,HttpServletResponse response,Model model)throws Exception{
-		String userId=request.getParameter("userId");
+		String userId = SessionUser.getUserId();
 		String pwd=request.getParameter("pwd");
 		Map<String, Object> maps=new HashMap<String, Object>();
 		User user = userService.findById(userId, User.class);
@@ -288,39 +288,38 @@ public class UserController extends BaseController {
 		
 	}
 	@RequestMapping(value="/modifiypwd/save")
-	public @ResponseBody Map<String, Object> modifiySave(HttpServletRequest request,HttpServletResponse response,Model model)throws Exception{
+	public @ResponseBody ReturnDatas modifiySave(HttpServletRequest request,HttpServletResponse response,Model model)throws Exception{
+		ReturnDatas datas=ReturnDatas.getSuccessReturnDatas();
 		String userId=request.getParameter("id");
 		String pwd=request.getParameter("newpwd");
 		String repwd=request.getParameter("renewpwd");
-		Map<String, Object> maps=new HashMap<String, Object>();
 		User user = userService.findById(userId, User.class);
 		if(user==null){
-			maps.put("msg", "-1");
-			maps.put("msgbox", "数据有问题，正在返回");
-			return maps;
+			datas.setStatus(ReturnDatas.ERROR);
+			datas.setMessage("数据有问题，正在返回");
+			return datas;
 		}
 		if(StringUtils.isEmpty(pwd)||StringUtils.isEmpty(repwd)){
-			maps.put("msg", "0");
-			maps.put("msgbox", "新密码或重复密码为空，请修改。");
-			return maps;
+			datas.setStatus(ReturnDatas.ERROR);
+			datas.setMessage("新密码或重复密码为空，请修改。");
+			return datas;
 		}
 		pwd=pwd.trim();
 		repwd=repwd.trim();
 		if(!pwd.equals(repwd)){
-			maps.put("msg", "0");
-			maps.put("msgbox", "两次密码不一致，请修改。");
-			return maps;
+			datas.setStatus(ReturnDatas.ERROR);
+			datas.setMessage("两次密码不一致，请修改。");
+			return datas;
 		}
 		try{
 			user.setPassword(SecUtils.encoderByMd5With32Bit(pwd));
 			userService.update(user);
-			maps.put("msg", "1");
-			maps.put("msgbox", "修改成功，请用新密码登录，即将退出。");
-			return maps;
+			datas.setMessage("修改成功，请用新密码登录，即将退出。");
+			return datas;
 		}catch(Exception e){
-			maps.put("msg", "0");
-			maps.put("msgbox", "系统故障，请稍后再试。");
-			return maps;
+			datas.setStatus(ReturnDatas.ERROR);
+			datas.setMessage("系统故障，请稍后再试。");
+			return datas;
 		}
 		
 	}
