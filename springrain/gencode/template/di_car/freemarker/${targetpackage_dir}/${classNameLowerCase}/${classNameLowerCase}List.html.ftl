@@ -1,4 +1,4 @@
-${r"<#escape x as x?html>"}
+${r'<#ftl output_format="HTML" auto_esc=true>'}
 ${r"<@h.commonHead"} title="后台管理系统" keywords="开源,永久免费" description="springrain开源系统管理后台"/>
 <script src="${r"${ctx}"}/js/custom/common/form.js"></script>
 <#assign className = table.className>   
@@ -186,4 +186,4 @@ ${r"<@h.commonHead"} title="后台管理系统" keywords="开源,永久免费" d
 	</div>
 </body>
 </html>
-${r"</#escape>"}
+

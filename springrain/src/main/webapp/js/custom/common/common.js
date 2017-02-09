@@ -53,12 +53,17 @@ function loadMenu(){
 
 
 
-function exit(){
+function exit(siteId){
 	springrain.confirm("确定退出？", function(){
 		try{
 			locache.flush();
 		}catch(e){}
-		window.location = ctx+"/system/logout";
+		
+		var _url=ctx+"/system/logout"
+		if(""!=siteId){
+			_url=ctx+"/system/"+siteId+"/logout"
+		}
+		springrain.goTo(_url)
 	});
 	
 }

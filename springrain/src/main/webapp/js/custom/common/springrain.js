@@ -431,7 +431,145 @@
 			    }else{
 			    	window.event.cancelBubble=true
 			    }
-			}
-			
+			},
+			/**
+			 * 私用，tree外界回调使用。对外无用 
+			 */
+			openMenu:function(treeId,e){
+				if(!treeId)return;
+				var _offset=jQuery(event.target).offset();
+				jQuery(".add_div").css({'display':'block',"top":_offset.top+12,"left":_offset.left-125});
+				jQuery(".add_div a").attr('tid',treeId);
+				
+			},
+			beforeClick:function(_fun){
+				_fun();
+			},
+			/**
+			 * ztree的封装，可有点击菜单或无有菜单
+			 * 需要引入ztree相关
+			 * 如果要layerui的主题，要引入myztree.css
+			 * @param opts配置参数【
+			 * hasMenu:是否有点击菜单；
+			 * id:放ztree的DOM对象ID；
+			 * data:JSON对象，id,pid,name；
+			 * treeNodeClick:点击ztree元素时的事件；btns:菜单数组，格式为[{'text':'菜单名','callback':'回调方法function（ztree实体，点击的ztrteId）'},{},{},...]】
+			 * @returns 返回 ztree的实体,可调用ztree的API方法
+			 */
+			tree : function(opts) {
+				var _that = this;
+				var _defauts={
+						hasMenu:false,
+						btns:null
+				}
+				jQuery.extend(_defauts,opts);
+				var menuTreesetting = {
+					view : opts.hasMenu ? {
+						showLine : false,//是否显示线
+						showIcon : false,//是否显示图标,此入不显示，用自定义的图标
+						selectedMulti : false,//不支持多选
+						dblClickExpand : false,//不支持双击
+						addDiyDom : addDiyDom,//自定义的dom，为模仿layerui的样式
+						addHoverDom : addHoverDom,//鼠标放上去，显示菜单按钮
+						removeHoverDom : removeHoverDom
+					//鼠标移去后，不显示菜单按钮
+					} : {
+						showLine : false,//是否显示线
+						showIcon : false,//是否显示图标,此入不显示，用自定义的图标
+						selectedMulti : false,//不支持多选
+						dblClickExpand : false,//不支持双击
+						addDiyDom : addDiyDom,//自定义的dom，为模仿layerui的样式
+					},
+					callback : {
+						onClick : opts.treeNodeClick
+					//单击事件，显示数据并可修改
+					},
+					data : {
+						simpleData : {
+							enable : true,
+							idKey : "id",//指定id  key
+							pIdKey : "pid",//指定 父id key
+							rootPId : "null"//根PID 默认为空
+						}
+					}
+				};
+				//私有方法
+				function addDiyDom(treeId, treeNode) {
+					var spaceWidth = 5;
+					var switchObj = jQuery("#" + treeNode.tId + "_switch"), icoObj = jQuery("#"
+							+ treeNode.tId + "_ico");
+					switchObj.remove();
+					icoObj.before(switchObj);
+					if (treeNode.level > 1) {
+						var spaceStr = "<span style='display: inline-block;width:"
+								+ (spaceWidth * treeNode.level) + "px'></span>";
+						switchObj.before(spaceStr);
+					}
+				}
+				function addHoverDom(treeId, treeNode) {
+					var sObj = jQuery("#" + treeNode.tId + "_span");
+					if (jQuery("#ctr_" + treeNode.id).length > 0)
+						return;
+					sObj.after('<a  class="myctr myctrwrap" tid="' + treeNode.tId
+							+ '" onclick="springrain.openMenu(\'' + treeNode.tId
+							+ '\')" id="ctr_' + treeNode.id + '"></a>');
+	
+				}
+				;
+				function removeHoverDom(treeId, treeNode) {
+					jQuery("#ctr_" + treeNode.id).unbind().remove();
+				}
+				;
+				function clickBefore(_flag, _obj) {
+					var _tid = jQuery(_obj).attr('tid');
+					if (!_tid)
+						return;
+					switch (_flag) {
+					case 'edit':
+						editTree(_tid, null);
+						break;
+					case 'add':
+						addTree(_tid, null);
+						break;
+					case 'delete':
+						deleteMenu(_tid, null);
+						break;
+					default:
+						return;
+					}
+				}
+				var _ztree = jQuery.fn.zTree.init(jQuery("#" + opts.id),
+						menuTreesetting, opts.data);
+				var _btns = opts.btns;
+				debugger;
+				if (!opts.hasMenu)
+					return _ztree;
+				if (_btns == null || _btns.length <= 0)
+					return _ztree;
+				var _btn = null;
+				var _html_wrap = [
+						'<div class="add_div" id="addDiv_t_auditlog_list" style="display:none;position:absolute;">',
+						'</div>' ].join('');
+				var _btn_html = [ '<a id="addBtn"  tid=""  href="#" class="ztree_add">{name}</a>' ]
+						.join('');
+				jQuery('body').append(_html_wrap);
+				var _calls = new Array();
+				for (var i = 0; i < _btns.length; i++) {
+					_btn = _btn_html.replace('{name}', _btns[i].text);
+					jQuery('.add_div').append(_btn);
+					_calls.push(_btns[i].callback);
+					jQuery(".add_div a").last().get(0).index = i;
+					jQuery(".add_div a").last().get(0).onclick = function() {
+						var _index = jQuery(this).get(0).index;
+						var _tid = jQuery(this).attr('tid');
+						var node = _ztree.getNodeByTId(_tid);
+						removeHoverDom(_tid, node);
+						_calls[_index](_ztree, _tid);
+					};
+				}
+				return _ztree;
+		}
 	}
+//私有方法
+	
 })(window);
