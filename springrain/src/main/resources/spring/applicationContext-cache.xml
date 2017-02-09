@@ -22,18 +22,15 @@
 	default-lazy-init="false">
 
 
-	<!-- 启用缓存注解功能，这个是必须的，否则注解不会生效,redis的实现是 redisCacheManager -->
+	<!-- 启用缓存注解功能，这个是必须的，否则注解不会生效  -->
 	<cache:annotation-driven cache-manager="cacheManager" />
 
 	<!-- spring自带的缓存管理器,value会自动创建,不需要指定 -->
 
 	<bean id="cacheManager" class="org.springframework.cache.concurrent.ConcurrentMapCacheManager" />
-	
-	
 
-<!--  cacheManager 用于spring 缓存, redisCached 为redis的工具类,用于业务的缓存. 基于redis分布的session共享也是基于这个redisCached -->
 
- 
+<!-- 用于集中缓存 缓存, redisCached 为redis的工具类,用于业务的缓存. 基于redis分布的session共享也是基于这个redisCached -->
 <!--  
 <bean id="cacheManager" class="org.springframework.data.redis.cache.RedisCacheManager">
       <constructor-arg ref="redisTemplate" />
