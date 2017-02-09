@@ -84,7 +84,7 @@ public class CmsWxMenuServiceImpl extends BaseSpringrainServiceImpl implements I
 		finder.setParam("siteId", siteId);
 		return super.queryForList(finder,CmsWxMenu.class);
 	}
-
+	
 	@Override
 	public List<CmsWxMenu> findChildMenuListByPid(String pid) throws Exception {
 		Finder finder = Finder.getSelectFinder(CmsWxMenu.class);

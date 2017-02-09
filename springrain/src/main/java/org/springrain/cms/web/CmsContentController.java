@@ -96,14 +96,14 @@ public class CmsContentController  extends BaseController {
 	public void listexport(HttpServletRequest request,HttpServletResponse response, Model model,CmsContent cmsContent) throws Exception{
 		// ==构造分页请求
 		Page page = newPage(request);
-	
+		
 		File file = cmsContentService.findDataExportExcel(null,listurl, page,CmsContent.class,cmsContent);
 		String fileName="cmsContent"+GlobalStatic.excelext;
 		downFile(response, file, fileName,true);
 		return;
 	}
 	
-		/**
+	/**
 	 * 查看操作,调用APP端lookjson方法
 	 */
 	@RequestMapping(value = "/look")
@@ -123,16 +123,16 @@ public class CmsContentController  extends BaseController {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		java.lang.String id=request.getParameter("id");
 		if(StringUtils.isNotBlank(id)){
-		  CmsContent cmsContent = cmsContentService.findCmsContentById(id);
-		  Map<String, Object> map = new HashMap<String, Object>();
-		  map.put("siteList", cmsSiteService.findSiteByUserId(SessionUser.getUserId()));
-		  returnObject.setMap(map);
-		  returnObject.setData(cmsContent);
+			CmsContent cmsContent = cmsContentService.findCmsContentById(id);
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("siteList", cmsSiteService.findSiteByUserId(SessionUser.getUserId()));
+			returnObject.setMap(map);
+			returnObject.setData(cmsContent);
 		}else{
-			 Map<String, Object> map = new HashMap<String, Object>();
-			 map.put("siteList", cmsSiteService.findSiteByUserId(SessionUser.getUserId()));
-			 returnObject.setMap(map);
-			 returnObject.setStatus(ReturnDatas.ERROR);
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("siteList", cmsSiteService.findSiteByUserId(SessionUser.getUserId()));
+			returnObject.setMap(map);
+			returnObject.setStatus(ReturnDatas.ERROR);
 		}
 		return returnObject;
 	}
