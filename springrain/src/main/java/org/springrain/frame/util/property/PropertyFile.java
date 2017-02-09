@@ -23,14 +23,14 @@ public class PropertyFile {
 		try {
 			return propertyResourceBundle.getString(strPropertyName);
 		} catch (Exception e) {
-			return strPropertyName;
+			return null;
 		}
 	}
 
 	public String getString(String strPropertyName, Object... obj) {
 		String str = propertyResourceBundle.getString(strPropertyName);
 		if (str == null) {
-			return strPropertyName;
+			return null;
 		}
 		return MessageFormat.format(str, obj);
 	}
@@ -39,9 +39,6 @@ public class PropertyFile {
 		return propertyResourceBundle;
 	}
 
-	public static void main(String[] args) {
-		PropertyFile cerpTab = new PropertyFile("db.properties");
-		System.out.print(cerpTab.getString("mail.userName"));
-	}
+	
 
 }

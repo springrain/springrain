@@ -3,23 +3,25 @@ package org.springrain.weixin.sdk.common.api;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springrain.frame.util.property.PropertyFile;
+
 public class WxConsts {
 	
 
 	//微信API的访问协议,为了以后方便处理特殊情况
-	public static final String mpapiurl="https://api.weixin.qq.com";
+	public static  String mpapiurl="https://api.weixin.qq.com";
 	//微信API的访问协议,为了以后方便处理特殊情况
-    public static final String mpweixinurl="https://mp.weixin.qq.com";
+    public static  String mpweixinurl="https://mp.weixin.qq.com";
   //微信API的访问协议,为了以后方便处理特殊情况
-    public static final String mpopenurl="https://open.weixin.qq.com";
+    public static  String mpopenurl="https://open.weixin.qq.com";
     
     //微信payBaseURL
-    public static final String mppaybaseurl="https://api.mch.weixin.qq.com";
+    public static  String mppaybaseurl="https://api.mch.weixin.qq.com";
 
     
     
 	//企业号API的访问协议,为了以后方便处理特殊情况
-	public static final String qyapiurl="https://qyapi.weixin.qq.com";
+	public static  String qyapiurl="https://qyapi.weixin.qq.com";
 	
 	
 	
@@ -247,5 +249,44 @@ public class WxConsts {
     MASS_ST_2_DESC.put(MASS_ST_涉嫌版权, "涉嫌版权");
     MASS_ST_2_DESC.put(MASS_ST_涉嫌互推_互相宣传, "涉嫌互推_互相宣传");
     MASS_ST_2_DESC.put(MASS_ST_涉嫌其他, "涉嫌其他");
+    
+    
+    try{
+	    //处理配置文件默认值
+	    PropertyFile wechat=new PropertyFile("wechat");
+	    
+	    String _mpapiurl=wechat.getString("mpapiurl");
+	    if(_mpapiurl!=null){
+	    	mpapiurl=_mpapiurl;
+	    }
+	    
+	    String _mpweixinurl=wechat.getString("mpweixinurl");
+	    if(_mpweixinurl!=null){
+	    	mpweixinurl=_mpweixinurl;
+	    }
+	    
+	    String _mpopenurl=wechat.getString("mpopenurl");
+	    if(_mpopenurl!=null){
+	    	mpopenurl=_mpopenurl;
+	    }
+	    
+	    String _mppaybaseurl=wechat.getString("mppaybaseurl");
+	    if(_mppaybaseurl!=null){
+	    	mppaybaseurl=_mppaybaseurl;
+	    }
+	    
+	    String _qyapiurl=wechat.getString("qyapiurl");
+	    if(_qyapiurl!=null){
+	    	qyapiurl=_qyapiurl;
+	    }
+    }catch(Exception e){
+    	System.out.println("wechat配置文件加载失败:"+e);
+    }
+    
+    
+    
+    
+    
+    
   }
 }
