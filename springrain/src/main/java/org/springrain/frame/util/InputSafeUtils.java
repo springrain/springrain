@@ -18,10 +18,6 @@ public class InputSafeUtils {
 	    user_content_filter.addAttributes("param", "name", "value");
 	    user_content_filter.addAttributes("embed", "src","quality","width","height","allowFullScreen","allowScriptAccess","flashvars","name","type","pluginspage");
 	}
-	 
-	
-	
-	
 	
 	/**
 	 * 对用户输入内容进行过滤,用于普通的文本字段

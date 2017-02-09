@@ -63,7 +63,7 @@ function exit(siteId){
 		if(""!=siteId){
 			_url=ctx+"/system/"+siteId+"/logout"
 		}
-		springrain.goTo(_url)
+		springrain.goTo(_url);
 	});
 	
 }
