@@ -15,30 +15,30 @@ public class Page implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
-	public static final int DEFAULT_PAGE_SIZE = 20;
+	public static final Integer DEFAULT_PAGE_SIZE = 20;
 	/** 页码,从1开始 */
-	private int pageIndex;
+	private Integer pageIndex=1;
 	/** 每页多少行 */
-	private int pageSize=20;
+	private Integer pageSize=20;
 	/** 数据总行数 */
-	private int totalCount = 0;
+	private Integer totalCount = 0;
 	/** 总共可以分多少页 */
-	private int pageCount;
+	private Integer pageCount=1;
 	/**排序方式 desc asc*/
 	private String sort;
 	/**排序字段*/
 	private String order;
 	/**第一页 */
-	private boolean firstPage=false;
+	private Boolean firstPage=false;
 	/**上一页 */
-	private boolean hasPrev=false;
+	private Boolean hasPrev=false;
 	/**下一页 */
-	private boolean hasNext=false;
+	private Boolean hasNext=false;
 	/**最末页 */
-	private boolean lastPage=false;
+	private Boolean lastPage=false;
 	
 	//是否查询 分页的总条数,默认进行查询
-	private boolean selectpagecount=true;
+	private Boolean selectpagecount=true;
 	
 
 	/**
