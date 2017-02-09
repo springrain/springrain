@@ -133,7 +133,6 @@ function buildModule(data) {
             	url = ctx + url;
             	htmlStr += '<li id="pmenu'+data[i].id+'" class="layui-nav-item layui-this"><a href="javascript:void(0);" data-pid="'+data[i].id+'" data-action="'+url+'"><i class="layui-icon">'+menuIcon_df+'</i><cite>'+data[i].name+'</cite></a></li>';
                 childrenMenuList = data[i]['leaf'];
-                
                 $("ul.site-demo-title").prepend('<li class="layui-this">\
 	             		<i class="layui-icon">&#xe630;</i>\
 	             		<span class="layui-breadcrumb" style="visibility: visible;" id="neckNavi">\
@@ -156,6 +155,9 @@ function getParentModule(childrenMenuList) {
     var _url=window.location.pathname;
     if(_url.indexOf('/update/pre')!=-1){
     	_url=_url.substring(0,_url.indexOf("/update/pre"))+"/list";
+    } 
+    if(_url.indexOf('/look')!=-1){
+    	_url=_url.substring(0,_url.indexOf("/look"))+"/list";
     } 
     for(var i=0;i<childrenMenuList.length;i++){
     	 var showItem = "";

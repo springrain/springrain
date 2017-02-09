@@ -78,8 +78,8 @@ public class BaseSpringrainDaoImpl extends BaseJdbcDaoImpl implements IBaseJdbcD
  */
 	@Override
 	public AuditLog getAuditLog() {
-		return null;
-		//return new AuditLog();
+		//return null;
+		return new AuditLog();
 	}
 	
 	/**
