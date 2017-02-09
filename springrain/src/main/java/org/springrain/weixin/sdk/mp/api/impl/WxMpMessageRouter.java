@@ -65,6 +65,10 @@ public class WxMpMessageRouter {
   public WxMpMessageRouter(IWxMpService wxMpService) {
     this.wxMpService = wxMpService;
     this.executorService = Executors.newFixedThreadPool(DEFAULT_THREAD_POOL_SIZE);
+    
+    
+  //  this.executorService = new ThreadPoolExecutor(8, DEFAULT_THREAD_POOL_SIZE, 10L,TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
+    
     this.messageDuplicateChecker = new WxMessageInMemoryDuplicateChecker();
     this.exceptionHandler = new LogExceptionHandler();
   }
