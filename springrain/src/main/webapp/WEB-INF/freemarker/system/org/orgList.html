@@ -17,100 +17,58 @@ description="springrain开源系统管理后台"/>
 		<!-- 主体内容开始 -->
 			<SCRIPT type="text/javascript">
 				var _valid_form;
-				var orgTreesetting = {
-					view: {
-						showLine: false,
-						showIcon: false,
-						selectedMulti: false,
-						dblClickExpand: false,
-						addDiyDom: addDiyDom
-					},
-					callback : {
-						onClick : orgzTreeOnClick
-					},
-					data : {
-						simpleData : {
-							enable : true,
-							idKey : "id",
-							pIdKey : "pid",
-							rootPId : "null"
-						}
-					}
-				};
-				
-				function addDiyDom(treeId, treeNode) {
-					var spaceWidth = 5;
-					var switchObj = $("#" + treeNode.tId + "_switch"),
-					icoObj = $("#" + treeNode.tId + "_ico");
-					switchObj.remove();
-					icoObj.before(switchObj);
-
-					if (treeNode.level > 1) {
-						var spaceStr = "<span style='display: inline-block;width:" + (spaceWidth * treeNode.level)+ "px'></span>";
-						switchObj.before(spaceStr);
-					}
-				}
-				
-				var orgSelectSetting = {
-						view: {
-							showLine: false,
-							showIcon: false,
-							selectedMulti: false,
-							dblClickExpand: false,
-							addDiyDom: addDiyDom
-						},
-					callback : {
-						onClick : clickOrgValue
-					},
-					data : {
-						simpleData : {
-							enable : true,
-							idKey : "id",
-							pIdKey : "pid",
-							rootPId : "null",
-						}
-					}
-				};
-
 				var selectOrgZtree;
 				var orgjsondata4select;
-
 				$(document).ready(function() {
 					jQuery.post("${ctx}/system/org/list/json",function(_json) {
 						if (_json.status == "success") {
 							orgjsondata4select = _json;
-							$.fn.zTree.init($("#orgListTree"),orgTreesetting,_json.data);
-							var zTree = $.fn.zTree.getZTreeObj("orgListTree");
+							var zTree=springrain.tree({
+								id:"orgListTree",
+								hasMenu:true,
+								data:_json.data,
+								treeNodeClick:function(event, treeId, treeNode){
+									if(jQuery(event.target).hasClass("myctr")){
+										//阻止事件冒泡
+										return;
+									}
+									saveType=1;
+									springrain.resetForm(_valid_form);
+									showdata(treeNode);
+								},
+								btns:[
+								        {'text':'添加子部门','callback':function(tree,id,e){
+								    		jQuery("#"+id+"_a").addClass("curSelectedNode");
+								    		saveType=0;
+								    		var node = tree.getNodeByTId(id);
+								    		jQuery("#validForm")[0].reset();
+								    		jQuery("#pname").val(node.name);
+								    		jQuery("#pid").val(node.id);
+								    		jQuery(".add_div").css('display','none');
+								    		springrain.stopBubble(e);
+								        }},
+								        {'text':'删除','callback':function(tree,id){
+								        	jQuery("#"+id+"_a").addClass("curSelectedNode");
+								    		var node = tree.getNodeByTId(id);
+								    		var id = node.id;
+											if (!id || id == "") {
+												springrain.alert("请选择你要删除的记录");
+												return;
+											} else {
+												var _url = "${ctx}/system/org/delete?id=" + id;
+												var listurl = "${ctx}/system/org/list";
+												springrain.mydelete(id, _url, "部门下的子部门也会被删除,确定要删除部门?", listurl);
+											}
+								        }}
+								       ]
+							})
 							zTree.expandAll(true);
-							
-							var treeObj = $("#orgListTree");
-							treeObj.hover(function () {
-								if (!treeObj.hasClass("showIcon")) {
-									treeObj.addClass("showIcon");
-								}
-							}, function() {
-								treeObj.removeClass("showIcon");
-							});
+							 
 						} else {
 							myalert(_json.message);
 						}
 					});
-					/*
-					不要此方法了，org中去掉了 部门主管角色 
-					*/
-					//springrain.select2Remote("managerRoleId", "${ctx}/system/role/ajax/select2", 250, "id", "name",false);
 				});
-
-				function orgzTreeOnClick(event, treeId, treeNode) {
-					springrain.resetForm(_valid_form);
-					showdata(treeNode);
-				};
-
-				function clickOrgValue(event, treeId, treeNode) {
-					jQuery("#pname").val(treeNode.name);
-					jQuery("#pid").val(treeNode.id);
-				};
-
 				function showdata(result) {
 					$("#btn_add").hide();
 					$("#btn_update").show();
@@ -143,31 +101,22 @@ description="springrain开源系统管理后台"/>
 						jQuery("#managerRoleId").select2("val","");
 					}
 				}
-
-				function deleteOrg() {
-					var id = jQuery("#id").val();
-					if (!id || id == "") {
-						myalert("请选择你要删除的记录");
-						return;
-					} else {
-						var _url = "${ctx}/system/org/delete?id=" + id;
-						var listurl = "${ctx}/system/org/list";
-						springrain.mydelete(id, _url, "部门下的子部门也会被删除,确定要删除部门?", listurl);
-					}
-				}
 				function showOrgTree() {
 
 					if (!selectOrgZtree) {
-						$.fn.zTree.init($("#selectOrgTree"), orgSelectSetting,
-								orgjsondata4select.data);
-
-						selectOrgZtree = $.fn.zTree
-								.getZTreeObj("selectOrgTree");
+						selectOrgZtree=springrain.tree({
+							'hasMenu':false,
+							'id':'selectOrgTree',
+							'data':orgjsondata4select.data,
+							'treeNodeClick':function(event, treeId, treeNode){
+								jQuery("#pname").val(treeNode.name);
+								jQuery("#pid").val(treeNode.id);
+							}
+						});
 						selectOrgZtree.expandAll(true);
 						selectZtreeOneNode(jQuery("#pid").val(),
 								"selectOrgTree");
 					}
-
 					//页面层-自定义
 					layer.open({
 						shadeClose : true,
@@ -181,12 +130,18 @@ description="springrain开源系统管理后台"/>
 					});
 
 				}
-				function doupdate() {
-					_valid_form=springrain.commonUpdateForm("validForm",'${ctx}/system/org/list', '部门更新成功！');
-				}
-
-				function dosave() {
-					_valid_form=springrain.commonSaveForm("validForm",'${ctx}/system/org/list', '部门添加成功！');
+				/*
+				保存  0添加   1更新
+				*/
+				var saveType=0;
+				function dosubmit() {
+					var listurl = '${ctx}/system/menu/list';
+					if (saveType == 0) {
+						_valid_form=springrain.commonSaveForm("validForm",'${ctx}/system/org/list', '部门添加成功！');
+					} else {
+						_valid_form=springrain.commonUpdateForm("validForm",'${ctx}/system/org/list', '部门更新成功！');
+					
+					}
 				}
 			</SCRIPT>
 			<div class="layui-tab layui-tab-brief">
@@ -195,29 +150,12 @@ description="springrain开源系统管理后台"/>
 	       		<div class="layui-body layui-tab-content site-demo-body">
 					<div class="layui-tab-item layui-show">
 						<div class="layui-main">
-							 <table class="layui-table">
-							          	<tbody>
-							          		<tr>
-							          			<th>操作</th>
-							          		</tr>
-							          		<tr>
-							          			<td>
-								          			<div class="layui-field-box">
-											    		<button id="btn_reload" onclick="location.reload();" class="layui-btn display-n"><i class="layui-icon"></i> 跳转到新增  >></button>
-											    		<button id="btn_add" onclick="dosave()" class="layui-btn"><i class="layui-icon"></i> 保存新增</button>
-											    		<button id="btn_update" style="display: none;" onclick="doupdate()" class="layui-btn"><i class="layui-icon">&#xe642;</i> 保存修改</button>
-											    		<button id="btn_delete" style="display: none;" onclick="deleteOrg();" class="layui-btn layui-btn-danger"><i class="layui-icon">&#xe640;</i> 删除</button>
-											  		</div>
-							          			</td>
-							          		</tr>
-							          	</tbody>
-							 </table>
 						<div class="container-fluid">
 							<div class="row">
-								<div class="fl per20">
+								<div class="fl per30">
 									<ul id="orgListTree" class="ztree"></ul>
 								</div>
-								<div class="fl per70 rlt">
+								<div class="fl per50 rlt">
 									<div class="fl per20 line-vertical"></div>
 									<form id="validForm" name="validForm" method="post" action="${ctx}/system/org/update" class="layui-form">
 			                        	<input type="hidden" name="id" id="id"> 
@@ -291,6 +229,12 @@ description="springrain开源系统管理后台"/>
 										    	<textarea name="description" id="description" class="layui-textarea"></textarea>
 										    </div>
 									  	</div>
+									  	<div class="layui-form-item change-submit  col-lg-9">
+															<label class="layui-form-label  col-lg-3"></label>
+															<div class="layui-inline  col-lg-6">
+																<button type="button" class="layui-btn"   onclick="dosubmit();" id="smtbtn">立即提交</button>
+															</div>
+											</div>
 			                         </form>
 								</div>
 							</div>
