@@ -3,10 +3,10 @@ package org.springrain.frame.util;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -60,8 +60,10 @@ public class ThreadPoolManager {
  /*
   * 创建一个调度线程池
   */
- final ScheduledExecutorService scheduler = Executors
-   .newScheduledThreadPool(1);
+// final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+ 
+ final ScheduledExecutorService scheduler  = new ScheduledThreadPoolExecutor(10);
+ 
 
  /*
   * 通过调度线程周期性的执行缓冲队列中任务
