@@ -47,10 +47,14 @@
 							          <input type="hidden" name="pageIndex" id="pageIndex" value="${(returnDatas.page.pageIndex)!'1'}" /> 
 							          <input type="hidden" name="sort" id="page_sort" value="${(returnDatas.page.sort)!'desc'}" />
 							          <input type="hidden" name="order" id="page_order" value="${(returnDatas.page.order)!'id'}" />
-							          <table class="layui-table">
+							         <table class="layui-table search-wrap">
+									  	<colgroup>
+										    <col width="">
+										    <col width="150">
+										</colgroup>
 							          	<tbody>
 							          		<tr>
-							          			<th>字典搜索</th>
+							          			<th colspan="2">字典搜索</th>
 							          		</tr>
 							          		<tr>
 							          			<td>
@@ -76,7 +80,9 @@
 															</select>   
 									                    </div>
 									                </div>
-									                <div class="layui-inline">
+							          			</td>
+							          			<td>
+							          			 	<div class="layui-inline">
 									                    <button class="layui-btn" type="button" onclick="springrain.commonSubmit('searchForm');"><i class="layui-icon" style="top:4px;right:5px;">&#xe615;</i>搜索</button>
 									                </div>
 							          			</td>

@@ -66,10 +66,14 @@ ${r"<@h.commonHead"} title="后台管理系统" keywords="开源,永久免费" d
 							          <input type="hidden" name="pageIndex" id="pageIndex" value="${r"${(returnDatas.page.pageIndex)!'1'}"}" /> 
 							          <input type="hidden" name="sort" id="page_sort" value="${r"${(returnDatas.page.sort)!'desc'}"}" />
 							          <input type="hidden" name="order" id="page_order" value="${r"${(returnDatas.page.order)!'id'}"}" />
-									  <table class="layui-table">
+									  <table class="layui-table search-wrap">
+									  	<colgroup>
+										    <col width="">
+										    <col width="150">
+										</colgroup>
 							          	<tbody>
 							          		<tr>
-							          			<th>${tableName}搜索</th>
+							          			<th colspan="2">${tableName}搜索</th>
 							          		</tr>
 							          		<tr>
 							          			<td>
@@ -89,7 +93,9 @@ ${r"<@h.commonHead"} title="后台管理系统" keywords="开源,永久免费" d
 															</select>   
 									                    </div>
 									                </div>
-									                <div class="layui-inline">
+							          			</td>
+							          			<td>
+							          			   <div class="layui-inline">
 									                    <button class="layui-btn" type="button" onclick="springrain.commonSubmit('searchForm');"><i class="layui-icon" style="top:4px;right:5px;">&#xe615;</i>搜索</button>
 									                </div>
 							          			</td>

@@ -52,30 +52,36 @@
 							          <input type="hidden" name="pageIndex" id="pageIndex" value="${(returnDatas.page.pageIndex)!'1'}" /> 
 							          <input type="hidden" name="sort" id="page_sort" value="${(returnDatas.page.sort)!'desc'}" />
 							          <input type="hidden" name="order" id="page_order" value="${(returnDatas.page.order)!'id'}" />
-									  <table class="layui-table">
+									  <table class="layui-table search-wrap">
+									  	<colgroup>
+										    <col width="">
+										    <col width="150">
+										</colgroup>
 							          	<tbody>
 							          		<tr>
-							          			<th>用户搜索</th>
+							          			<th colspan="2">用户搜索</th>
 							          		</tr>
 							          		<tr>
 							          			<td>
+								                		<div class="layui-inline">
+										                    <label class="layui-form-label">名称</label>
+										                    <div class="layui-input-inline">
+										                           <input type="text" name="name" value="${(returnDatas.queryBean.name)!''}" placeholder="请输入名称 " class="layui-input">
+										                    </div>
+								                		</div>
+										                 <div class="layui-inline">
+										                    <label class="layui-form-label">是否可用</label>
+										                    <div class="layui-input-inline">
+										                        <select name="active" id="active">
+										                          <option value>==请选择==</option>
+																  <option value="1">是</option>
+																  <option value="0">否</option>
+																</select>   
+										                    </div>
+										                </div>
+							          			</td>
+							          			<td>
 							          				<div class="layui-inline">
-									                    <label class="layui-form-label">名称</label>
-									                    <div class="layui-input-inline">
-									                           <input type="text" name="name" value="${(returnDatas.queryBean.name)!''}" placeholder="请输入名称 " class="layui-input">
-									                    </div>
-							                		</div>
-									                 <div class="layui-inline">
-									                    <label class="layui-form-label">是否可用</label>
-									                    <div class="layui-input-inline">
-									                        <select name="active" id="active" class="layui-input">
-									                          <option>==请选择==</option>
-															  <option value="1">是</option>
-															  <option value="0">否</option>
-															</select>   
-									                    </div>
-									                </div>
-									                <div class="layui-inline">
 									                     <button class="layui-btn" type="button" onclick="springrain.commonSubmit('searchForm');"><i class="layui-icon" style="top:4px;right:5px;">&#xe615;</i>搜索</button>
 									                </div>
 							          			</td>

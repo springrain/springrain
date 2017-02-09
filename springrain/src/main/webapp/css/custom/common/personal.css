@@ -102,3 +102,8 @@ header.larry-personal-tit span {
 .layui-nav-tree .layui-nav-item  a:hover{background:#535660!important;}
 .layui-nav-itemedlayui-this a{background:#009688!important;}
 .layui-nav-item .layui-icon{top:3px;}
+/*搜索框修改*/
+ .search-wrap  .layui-inline{margin-top:5px!important;margin-bottom:5px!important;}
+ .search-wrap td{border:none!important;}
+ .search-wrap tr{border-left: 1px solid #e2e2e2!important;border-right: 1px solid #e2e2e2!important;border-bottom: 1px solid #e2e2e2!important;}
+.layui-form-select .layui-input{padding-right:0px!important;}
