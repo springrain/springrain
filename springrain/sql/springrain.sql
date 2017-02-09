@@ -229,6 +229,14 @@ INSERT INTO `t_menu` VALUES ('t_user_list', '用户管理', 'business_manager', 
 INSERT INTO `t_menu` VALUES ('t_user_list_export', '导出用户', 't_user_list', null, '/system/user/list/export', '0', '1', null, null, null, null, null, null, null);
 INSERT INTO `t_menu` VALUES ('t_user_look', '查看用户', 't_user_list', null, '/system/user/look', '0', '1', null, null, null, null, null, null, null);
 INSERT INTO `t_menu` VALUES ('t_user_update', '修改用户', 't_user_list', null, '/system/user/update', '0', '1', null, null, null, null, null, null, null);
+-- ----------------------------
+-- 修改密码相关
+-- ----------------------------
+INSERT INTO `t_menu`  VALUES ('36ab9175f7b7423eadda974ba046be05', '修改密码', 't_user_list', '', '/system/user/modifiypwd/pre', '0', '1', NULL, '', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_menu`  VALUES ('ca152df1a7b44d4f81162f34b808934a', '验证老密码', '36ab9175f7b7423eadda974ba046be05', '', '/system/user/modifiypwd/ispwd', '0', '1', NULL, '', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_menu`  VALUES ('e51808e351c24a7e9fb4d47392930a2d', '保存新密码', '36ab9175f7b7423eadda974ba046be05', '', '/system/user/modifiypwd/save', '0', '1', NULL, '', NULL, NULL, NULL, NULL, NULL);
+
+
 
 -- ----------------------------
 -- Table structure for t_org
@@ -359,6 +367,13 @@ INSERT INTO `t_role_menu` VALUES ('ee381117ef634c27bda3eaa1b6260e38', 'r_10001',
 INSERT INTO `t_role_menu` VALUES ('f45d21402ed1412497e568d8a00e4a50', 'r_10001', 't_org_delete', null, null, null, null, null);
 INSERT INTO `t_role_menu` VALUES ('fd3368ff61904e199a921102e0e71d9a', 'r_10001', 't_menu_list', null, null, null, null, null);
 INSERT INTO `t_role_menu` VALUES ('ffdb77d726c949088953ddb35ebd1e5c', 'r_10001', 't_role_look', null, null, null, null, null);
+-- ----------------------------
+-- 修改密码
+-- ----------------------------
+INSERT INTO `t_role_menu`  VALUES ('b1a49ce6d46541298b801dde806d12e6', 'r_10001', '36ab9175f7b7423eadda974ba046be05', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu`  VALUES ('02e22012d3084dbe86981b23ef6e9b53', 'r_10001', 'ca152df1a7b44d4f81162f34b808934a', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu`  VALUES ('8b737892a2f54d14966f235e0c362cf7', 'r_10001', 'e51808e351c24a7e9fb4d47392930a2d', NULL, NULL, NULL, NULL, NULL);
+
 
 -- ----------------------------
 -- Table structure for t_role_org

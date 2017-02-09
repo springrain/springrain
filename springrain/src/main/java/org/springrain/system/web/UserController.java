@@ -1,8 +1,10 @@
 package org.springrain.system.web;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Resource;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springrain.frame.common.SessionUser;
 import org.springrain.frame.controller.BaseController;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
@@ -245,7 +248,82 @@ public class UserController extends BaseController {
 		return userService.queryForList(finder,User.class, page);
 		
 	}
-	
+	/**
+	 * 进入修改页面,APP端可以调用 lookjson 获取json格式数据
+	 */
+	@RequestMapping(value = "/modifiypwd/pre")
+	public String modifiypwdpre(Model model, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		String userId = SessionUser.getUserId();
+		if(StringUtils.isEmpty(userId)){
+			return "/system/user/modifiypwd";
+		}
+		//获取当前登录人
+		User currentUser = userService.findUserById(userId);
+		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
+		returnObject.setData(currentUser);
+		model.addAttribute(GlobalStatic.returnDatas, returnObject);
+		return "/system/user/modifiypwd";
+	}
+	@RequestMapping(value="/modifiypwd/ispwd")
+	public @ResponseBody Map<String, Object> checkPwd(HttpServletRequest request,HttpServletResponse response,Model model)throws Exception{
+		String userId=request.getParameter("userId");
+		String pwd=request.getParameter("pwd");
+		Map<String, Object> maps=new HashMap<String, Object>();
+		User user = userService.findById(userId, User.class);
+		if(user==null){
+			maps.put("msg", "-1");
+			maps.put("msgbox", "数据有问题，正在返回");
+			return maps;
+		}
+		if(user.getPassword().equals(SecUtils.encoderByMd5With32Bit(pwd))){
+			maps.put("msg", "1");
+			maps.put("msgbox", "正确");
+			return maps;
+		}else{
+			maps.put("msg", "0");
+			maps.put("msgbox", "原始密码错误，请修改");
+			return maps;
+		}
+		
+	}
+	@RequestMapping(value="/modifiypwd/save")
+	public @ResponseBody Map<String, Object> modifiySave(HttpServletRequest request,HttpServletResponse response,Model model)throws Exception{
+		String userId=request.getParameter("id");
+		String pwd=request.getParameter("newpwd");
+		String repwd=request.getParameter("renewpwd");
+		Map<String, Object> maps=new HashMap<String, Object>();
+		User user = userService.findById(userId, User.class);
+		if(user==null){
+			maps.put("msg", "-1");
+			maps.put("msgbox", "数据有问题，正在返回");
+			return maps;
+		}
+		if(StringUtils.isEmpty(pwd)||StringUtils.isEmpty(repwd)){
+			maps.put("msg", "0");
+			maps.put("msgbox", "新密码或重复密码为空，请修改。");
+			return maps;
+		}
+		pwd=pwd.trim();
+		repwd=repwd.trim();
+		if(!pwd.equals(repwd)){
+			maps.put("msg", "0");
+			maps.put("msgbox", "两次密码不一致，请修改。");
+			return maps;
+		}
+		try{
+			user.setPassword(SecUtils.encoderByMd5With32Bit(pwd));
+			userService.update(user);
+			maps.put("msg", "1");
+			maps.put("msgbox", "修改成功，请用新密码登录，即将退出。");
+			return maps;
+		}catch(Exception e){
+			maps.put("msg", "0");
+			maps.put("msgbox", "系统故障，请稍后再试。");
+			return maps;
+		}
+		
+	}
 	
 	
 	
