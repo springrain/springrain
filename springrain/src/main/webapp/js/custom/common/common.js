@@ -125,10 +125,10 @@ function buildModule(data) {
             	htmlStr += '<li id="pmenu'+data[i].id+'" class="layui-nav-item layui-this"><a href="javascript:void(0);" data-pid="'+data[i].id+'" data-action="'+url+'"><i class="layui-icon">'+menuIcon_df+'</i><cite>'+data[i].name+'</cite></a></li>';
                 childrenMenuList = data[i]['leaf'];
                 
-                $("ul.site-demo-title").prepend('<li class="">\
+                $("ul.site-demo-title").prepend('<li class="layui-this">\
 	             		<i class="layui-icon">&#xe630;</i>\
-	             		<span class="layui-breadcrumb" style="visibility: visible;">\
-						  <a><cite>'+data[i].name+'</cite></a>\
+	             		<span class="layui-breadcrumb" style="visibility: visible;" id="neckNavi">\
+						  <a><cite>'+data[i].name+'</cite></a><span class="layui-box">&gt;</span>\
 						</span>\
              		</li>');
             }else{
@@ -152,12 +152,7 @@ function getParentModule(childrenMenuList) {
     	 var showItem = "";
         if((ctx+childrenMenuList[i].pageurl) ==_url){
         	showItem = "layui-this";
-        	$("ul.site-demo-title li:eq(0)").after('<li class="layui-this">\
-               		<i class="layui-icon">&#xe630;</i>\
-               		<span class="layui-breadcrumb" style="visibility: visible;">\
-  					  <a><cite>'+childrenMenuList[i].name+'</cite></a>\
-  					</span>\
-           		</li>');
+        	$("#neckNavi").append('<a><cite>'+childrenMenuList[i].name+'</cite></a>');
         }
         
         var _leaf=childrenMenuList[i]["leaf"];
@@ -190,18 +185,8 @@ function getChindModule(_leaf,parentMenu) {
     for ( var menuObj in _leaf) {
         if((ctx+_leaf[menuObj].pageurl)==window.location.pathname){
         	 t = t+'<dd class="layui-this" pageUrl="'+_leaf[menuObj].pageurl+'" id="'+_leaf[menuObj].id+'"><a href="javascript:void(0);" data-action="'+ctx+_leaf[menuObj].pageurl+'"><i class="layui-icon">'+_leaf[menuObj].menuIcon+'</i><cite>'+_leaf[menuObj].name+'</cite></a></dd>';
-        	 $("ul.site-demo-title li:eq(0)").after('<li class="">\
-               		<i class="layui-icon">&#xe630;</i>\
-               		<span class="layui-breadcrumb" style="visibility: visible;">\
-  					  <a><cite>'+parentMenu.name+'</cite></a>\
-  					</span>\
-           		</li>');
-        	 $("ul.site-demo-title li:eq(1)").after('<li class="layui-this">\
-              		<i class="layui-icon">&#xe630;</i>\
-              		<span class="layui-breadcrumb" style="visibility: visible;">\
- 					  <a><cite>'+_leaf[menuObj].name+'</cite></a>\
- 					</span>\
-          		</li>');
+        	 $("#neckNavi").append('<a><cite>'+parentMenu.name+'</cite></a><span class="layui-box">&gt;</span>');
+        	 $("#neckNavi").append('<a><cite>'+_leaf[menuObj].name+'</cite></a>');
         }else{
         	t = t+'<dd pageUrl="'+_leaf[menuObj].pageurl+'" id="'+_leaf[menuObj].id+'"><a href="javascript:void(0);" data-action="'+ctx+_leaf[menuObj].pageurl+'"><i class="layui-icon">'+_leaf[menuObj].menuIcon+'</i><cite>'+_leaf[menuObj].name+'</cite></a></dd>';
         }
