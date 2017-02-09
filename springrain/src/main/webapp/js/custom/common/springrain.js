@@ -463,6 +463,13 @@
 						btns:null
 				}
 				jQuery.extend(_defauts,opts);
+				jQuery('body').bind('click',function(e){
+					if(jQuery(event.target).hasClass("myctr")){
+						//阻止事件冒泡
+						return;
+					}
+					jQuery(".add_div").css('display','none');
+				});
 				var menuTreesetting = {
 					view : opts.hasMenu ? {
 						showLine : false,//是否显示线
@@ -481,7 +488,15 @@
 						addDiyDom : addDiyDom,//自定义的dom，为模仿layerui的样式
 					},
 					callback : {
-						onClick : opts.treeNodeClick
+						onClick : function(event, treeId, treeNode){
+							if(jQuery(event.target).hasClass("myctr")){
+								//阻止事件冒泡
+								return false;
+							}
+							jQuery(".add_div a").attr('tid',treeNode.tId);
+							opts.treeNodeClick(event, treeId, treeNode);
+							jQuery(".add_div").css('display','none');
+						}
 					//单击事件，显示数据并可修改
 					},
 					data : {
@@ -515,28 +530,8 @@
 							+ '\')" id="ctr_' + treeNode.id + '"></a>');
 	
 				}
-				;
 				function removeHoverDom(treeId, treeNode) {
 					jQuery("#ctr_" + treeNode.id).unbind().remove();
-				}
-				;
-				function clickBefore(_flag, _obj) {
-					var _tid = jQuery(_obj).attr('tid');
-					if (!_tid)
-						return;
-					switch (_flag) {
-					case 'edit':
-						editTree(_tid, null);
-						break;
-					case 'add':
-						addTree(_tid, null);
-						break;
-					case 'delete':
-						deleteMenu(_tid, null);
-						break;
-					default:
-						return;
-					}
 				}
 				var _ztree = jQuery.fn.zTree.init(jQuery("#" + opts.id),
 						menuTreesetting, opts.data);
@@ -564,7 +559,9 @@
 						var _tid = jQuery(this).attr('tid');
 						var node = _ztree.getNodeByTId(_tid);
 						removeHoverDom(_tid, node);
-						_calls[_index](_ztree, _tid);
+						jQuery("#"+_tid+"_a").addClass("curSelectedNode");
+						_calls[_index](_ztree, node);
+						jQuery(".add_div").css('display','none');
 					};
 				}
 				return _ztree;

@@ -28,28 +28,18 @@ description="springrain开源系统管理后台"/>
 								hasMenu:true,
 								data:_json.data,
 								treeNodeClick:function(event, treeId, treeNode){
-									if(jQuery(event.target).hasClass("myctr")){
-										//阻止事件冒泡
-										return;
-									}
 									saveType=1;
 									springrain.resetForm(_valid_form);
 									showdata(treeNode);
 								},
 								btns:[
-								        {'text':'添加子部门','callback':function(tree,id,e){
-								    		jQuery("#"+id+"_a").addClass("curSelectedNode");
+								        {'text':'添加子部门','callback':function(tree,node){
 								    		saveType=0;
-								    		var node = tree.getNodeByTId(id);
 								    		jQuery("#validForm")[0].reset();
 								    		jQuery("#pname").val(node.name);
 								    		jQuery("#pid").val(node.id);
-								    		jQuery(".add_div").css('display','none');
-								    		springrain.stopBubble(e);
 								        }},
-								        {'text':'删除','callback':function(tree,id){
-								        	jQuery("#"+id+"_a").addClass("curSelectedNode");
-								    		var node = tree.getNodeByTId(id);
+								        {'text':'删除','callback':function(tree,node){
 								    		var id = node.id;
 											if (!id || id == "") {
 												springrain.alert("请选择你要删除的记录");
