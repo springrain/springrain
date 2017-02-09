@@ -2,10 +2,12 @@ package org.springrain.weixin.sdk.mp.api.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,10 +66,10 @@ public class WxMpMessageRouter {
 
   public WxMpMessageRouter(IWxMpService wxMpService) {
     this.wxMpService = wxMpService;
-    this.executorService = Executors.newFixedThreadPool(DEFAULT_THREAD_POOL_SIZE);
+   // this.executorService = Executors.newFixedThreadPool(DEFAULT_THREAD_POOL_SIZE);
     
     
-  //  this.executorService = new ThreadPoolExecutor(8, DEFAULT_THREAD_POOL_SIZE, 10L,TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
+    this.executorService = new ThreadPoolExecutor(10, DEFAULT_THREAD_POOL_SIZE, 10L,TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(1000));
     
     this.messageDuplicateChecker = new WxMessageInMemoryDuplicateChecker();
     this.exceptionHandler = new LogExceptionHandler();
