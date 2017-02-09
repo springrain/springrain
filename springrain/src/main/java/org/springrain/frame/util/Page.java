@@ -15,7 +15,7 @@ public class Page implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
-	public static final Integer DEFAULT_PAGE_SIZE = 20;
+	private static final Integer DEFAULT_PAGE_SIZE = 20;
 	/** 页码,从1开始 */
 	private Integer pageIndex=1;
 	/** 每页多少行 */
@@ -47,7 +47,7 @@ public class Page implements Serializable{
 	 * @param pageIndex
 	 *            页码,从1开始
 	 */
-	public Page(int pageIndex) {
+	public Page(Integer pageIndex) {
 		this(pageIndex, DEFAULT_PAGE_SIZE);
 	}
 
@@ -55,7 +55,7 @@ public class Page implements Serializable{
 
 	}
 
-	public void setPageIndex(int pageIndex) {
+	public void setPageIndex(Integer pageIndex) {
 		this.pageIndex = pageIndex;
 	}
 
@@ -67,11 +67,15 @@ public class Page implements Serializable{
 	 * @param pageSize
 	 *            每页多少行,默认为 20
 	 */
-	public Page(int pageIndex, int pageSize) {
-		if (pageIndex < 1)
+	public Page(Integer pageIndex, Integer pageSize) {
+		if (pageIndex < 1){
 			pageIndex = 1;
-		if (pageSize < 1)
+		}
+			
+		if (pageSize < 1){
 			pageSize = DEFAULT_PAGE_SIZE;
+		}
+			
 		this.pageIndex = pageIndex;
 		this.pageSize = pageSize;
 	}
@@ -81,11 +85,15 @@ public class Page implements Serializable{
 	 * 
 	 * @return
 	 */
-	public int getPageIndex() {
-		if (pageIndex < 1)
-		pageIndex = 1;
-		if (pageSize < 1)
+	public Integer getPageIndex() {
+		if (pageIndex < 1){
+			pageIndex = 1;
+		}
+		
+		if (pageSize < 1){
 			pageSize = DEFAULT_PAGE_SIZE;
+		}
+			
 		return pageIndex;
 	}
 
@@ -94,9 +102,11 @@ public class Page implements Serializable{
 	 * 
 	 * @return
 	 */
-	public int getPageSize() {
-		if (pageSize == 0)
+	public Integer getPageSize() {
+		if (pageSize <1){
 			pageSize = DEFAULT_PAGE_SIZE;
+		}
+			
 		return pageSize;
 	}
 
@@ -105,7 +115,7 @@ public class Page implements Serializable{
 	 * 
 	 * @return
 	 */
-	public int getPageCount() {
+	public Integer getPageCount() {
 		
 		return pageCount;
 	}
@@ -115,7 +125,7 @@ public class Page implements Serializable{
 	 * 
 	 * @return
 	 */
-	public int getFirstResult() {
+	public Integer getFirstResult() {
 		return (pageIndex - 1) * pageSize;
 	}
 
@@ -124,7 +134,7 @@ public class Page implements Serializable{
 	 * 
 	 * @return
 	 */
-	public long getTotalCount() {
+	public Integer getTotalCount() {
 		return totalCount;
 	}
 
@@ -133,7 +143,7 @@ public class Page implements Serializable{
 	 * 
 	 * @param totalCount
 	 */
-	public void setTotalCount(int totalCount) {
+	public void setTotalCount(Integer totalCount) {
 		this.totalCount = totalCount;
 		this.pageCount = (totalCount+pageSize-1) / pageSize;
 				
@@ -169,8 +179,8 @@ public class Page implements Serializable{
 	 * 
 	 * @return
 	 */
-	public boolean isEmpty() {
-		return totalCount == 0;
+	public Boolean isEmpty() {
+		return totalCount<1;
 	}
 
 	/**
@@ -178,7 +188,7 @@ public class Page implements Serializable{
 	 * 
 	 * @param pageSize
 	 */
-	public void setPageSize(int pageSize) {
+	public void setPageSize(Integer pageSize) {
 		this.pageSize = pageSize;
 	}
 	/**
@@ -207,7 +217,7 @@ public class Page implements Serializable{
  * 是否是第一页
  * @return boolean
  */
-	public boolean getFirstPage() {
+	public Boolean getFirstPage() {
 		return firstPage;
 		
 	}
@@ -215,14 +225,14 @@ public class Page implements Serializable{
 	 * 是否有上一页
 	 * @return boolean
 	 */
-	public boolean getHasPrev() {
+	public Boolean getHasPrev() {
 		return hasPrev;
 	}
 	/**
 	 * 是否是最后一页
 	 * @return boolean
 	 */
-	public boolean getLastPage() {
+	public Boolean getLastPage() {
 		
 		return lastPage;
 	}
@@ -231,12 +241,12 @@ public class Page implements Serializable{
 	 * 是否有下一页
 	 * @return boolean
 	 */
-	public boolean getHasNext() {
+	public Boolean getHasNext() {
 		
 		return hasNext;
 	}
 
-	public boolean getSelectpagecount() {
+	public Boolean getSelectpagecount() {
 		return selectpagecount;
 	}
 
@@ -244,7 +254,7 @@ public class Page implements Serializable{
 		this.selectpagecount = selectpagecount;
 	}
 
-	public boolean isFirstPage() {
+	public Boolean isFirstPage() {
 		return firstPage;
 	}
 
@@ -252,7 +262,7 @@ public class Page implements Serializable{
 		this.firstPage = firstPage;
 	}
 
-	public boolean isHasNext() {
+	public Boolean isHasNext() {
 		return hasNext;
 	}
 
@@ -260,7 +270,7 @@ public class Page implements Serializable{
 		this.hasNext = hasNext;
 	}
 
-	public boolean isLastPage() {
+	public Boolean isLastPage() {
 		return lastPage;
 	}
 
