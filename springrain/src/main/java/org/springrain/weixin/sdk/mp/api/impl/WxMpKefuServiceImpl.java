@@ -5,8 +5,6 @@ import java.util.Date;
 
 import javax.annotation.Resource;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springrain.weixin.entity.WxMpConfig;
 import org.springrain.weixin.sdk.common.api.WxConsts;
@@ -35,7 +33,7 @@ import com.google.gson.JsonObject;
  */
 @Service("wxMpKefuService")
 public class WxMpKefuServiceImpl implements IWxMpKefuService {
-	 private final Logger log = LoggerFactory.getLogger(getClass());
+//	 private final Logger log = LoggerFactory.getLogger(getClass());
   private static final String API_URL_PREFIX = WxConsts.mpapiurl+"/customservice";
   private static final String API_URL_PREFIX_WITH_CGI_BIN = WxConsts.mpapiurl+"/cgi-bin/customservice";
   
