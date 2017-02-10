@@ -225,30 +225,31 @@
                                     <ul id="channelListTree" class="ztree"></ul>
                                 </div>
                                 <div class="fl per50 rlt">
+                                	<div class="fl per20 line-vertical"></div>
                                		<form id="updateForm" name="updateForm" action="${ctx}/system/cms/channel/update" method="post" class="layui-form">
                                			<input type="hidden" id="id" name="id"
 										value="" />
 										<input type="hidden" id="siteId" name="siteId" value=""/>
-										<div class="layui-form-item col-lg-6">
-											<label class="layui-form-label">栏目名称*</label>
-											<div class="layui-inline col-lg-5">
+										<div class="layui-form-item col-lg-9">
+											<label class="layui-form-label col-lg-3">栏目名称*</label>
+											<div class="layui-inline">
 												<input type="text" name="name" id="name" datatype="*"
 													nullmsg="不能为空" errormsg="不能为空！" autocomplete="off"
 													class="layui-input" value="">
 											</div>
 											<div class="layui-inline valid-info"></div>
 										</div>
-										<div class="layui-form-item col-lg-6">
-											<label class="layui-form-label">父级栏目*</label>
-											<div class="layui-inline col-lg-5">
+										<div class="layui-form-item col-lg-9">
+											<label class="layui-form-label col-lg-3">父级栏目*</label>
+											<div class="layui-inline">
 												<input type="hidden" name="pid" id="pid" value="">
 												<input type="text" name="pname" id="pname" class="layui-input" value="" onclick="showChannelZTree();"/>
 											</div>
 											<div class="layui-inline valid-info"></div>
 										</div>
-										<div class="layui-form-item col-lg-6">
-											<label class="layui-form-label">编号</label>
-											<div class="layui-inline col-lg-5">
+										<div class="layui-form-item col-lg-9">
+											<label class="layui-form-label  col-lg-3">编号</label>
+											<div class="layui-inline">
 												<input type="text" name="comcode" id="comcode" datatype="*"
 													nullmsg="不能为空" errormsg="不能为空！" autocomplete="off"
 													class="layui-input" value="">
@@ -256,9 +257,9 @@
 											<div class="layui-inline valid-info"></div>
 										</div>
 										
-										<div class="layui-form-item col-lg-6">
-											<label class="layui-form-label">级别</label>
-											<div class="layui-inline col-lg-5">
+										<div class="layui-form-item col-lg-9">
+											<label class="layui-form-label  col-lg-3">级别</label>
+											<div class="layui-inline">
 												<input type="text" name="positionLevel" id="positionLevel"
 													datatype="*" nullmsg="不能为空" errormsg="不能为空！"
 													autocomplete="off" class="layui-input"
@@ -266,9 +267,9 @@
 											</div>
 											<div class="layui-inline valid-info"></div>
 										</div>
-										<div class="layui-form-item col-lg-6">
-											<label class="layui-form-label">关键字*</label>
-											<div class="layui-inline col-lg-5">
+										<div class="layui-form-item col-lg-9">
+											<label class="layui-form-label col-lg-3">关键字*</label>
+											<div class="layui-inline">
 												<input type="text" name="keywords" id="keywords" datatype="*"
 													nullmsg="不能为空" errormsg="不能为空！" autocomplete="off"
 													class="layui-input"
@@ -276,9 +277,9 @@
 											</div>
 											<div class="layui-inline valid-info"></div>
 										</div>
-										<div class="layui-form-item col-lg-6">
-											<label class="layui-form-label">描述*</label>
-											<div class="layui-inline col-lg-5">
+										<div class="layui-form-item col-lg-9">
+											<label class="layui-form-label  col-lg-3">描述*</label>
+											<div class="layui-inline">
 												<input type="text" name="description" id="description"
 													datatype="*" nullmsg="不能为空" errormsg="不能为空！"
 													autocomplete="off" class="layui-input"
@@ -286,18 +287,18 @@
 											</div>
 											<div class="layui-inline valid-info"></div>
 										</div>
-										<div class="layui-form-item col-lg-6">
-											<label class="layui-form-label">排序*</label>
-											<div class="layui-inline col-lg-5">
+										<div class="layui-form-item col-lg-9">
+											<label class="layui-form-label col-lg-3">排序*</label>
+											<div class="layui-inline">
 												<input type="text" name="sortno" id="sortno" datatype="*"
 													nullmsg="不能为空" errormsg="不能为空！" autocomplete="off"
 													class="layui-input" value="">
 											</div>
 											<div class="layui-inline valid-info"></div>
 										</div>
-										<div class="layui-form-item col-lg-6">
-											<label class="layui-form-label">状态 *</label>
-											<div class="layui-inline col-lg-5">
+										<div class="layui-form-item col-lg-9">
+											<label class="layui-form-label col-lg-3">状态 *</label>
+											<div class="layui-inline">
 												<select name="active" id="active" lay-verify="required">
 													<option value="1">是</option>
 													<option value="0">否</option>
@@ -305,7 +306,8 @@
 											</div>
 											<div class="layui-inline valid-info"></div>
 										</div>
-										<div class="layui-form-item change-submit col-lg-5 tc">
+										<div class="layui-form-item change-submit col-lg-9 tc">
+											<label class="layui-form-label  col-lg-3"></label>
 											<div class="layui-inline  col-lg-6">
 												<button type="button" class="layui-btn"   onclick="dosubmit();" id="smtbtn">立即提交</button>
 											</div>

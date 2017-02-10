@@ -114,6 +114,12 @@
 			dataType: 'json',
 			data: {siteId: siteId,channelId,channelId},
 			success:function(ret){
+				
+				if(!!ret.data && ret.data.length>0){
+        			for ( var tempDataIndex in ret.data) {
+						ret.data[tempDataIndex].createDate=millisecondToDateStr(ret.data[tempDataIndex].createDate);
+					}
+        		}
 				var htmlStr = template('gridDataTemp', ret);
 				$('#dataGrid').html(htmlStr);
 			}
@@ -128,8 +134,12 @@
     	}else{
     		springrain.alert('请选择栏目!');
     	}
-    	
     }
+    
+    function millisecondToDateStr(millisecs){
+		var date=new Date(millisecs);
+		return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
+	}
 </script>
 
 </head>
@@ -177,7 +187,8 @@
                                 	<ul id="channelListTree" class="ztree"></ul>
                                 </div>
                                 <div class="fl per50 rlt">
-                                	<table class="layui-table" lay-even>
+                                	<div class="fl per20 line-vertical"></div>
+                                	<table class="layui-table" lay-even style="margin-left:20%;">
 							            <colgroup>
 							                <col width="40">
 							                <col width="120">
