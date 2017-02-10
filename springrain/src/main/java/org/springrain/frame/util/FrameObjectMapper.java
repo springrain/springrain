@@ -1,5 +1,7 @@
 package org.springrain.frame.util;
 
+import java.text.SimpleDateFormat;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -24,15 +26,22 @@ public class FrameObjectMapper extends ObjectMapper {
 		   this.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS,false);
 			   //键 支持 不带 双引号 ""
 		   this.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
+		       //设置日期格式
+		   this.setDateFormat(new SimpleDateFormat(DateUtils.DATETIME_FORMAT));
+		   
 			   //过滤敏感字符
 		   this.getFactory().setCharacterEscapes(new HTMLCharacterEscapes());
 			   
-			   //属性别名:@JsonProperty 序列化/反序列化都有效
-			   //排除属性:@JsonIgnore 一般标记在属性或方法上,作用于序列化与反序列化
-			   //排除属性:@JsonIgnoreProperties 如果是代理类,由于无法标记在属性或方法上,可以标记在类声明上,也作用于反序列化时的字段解析
-			   //属性排序:@JsonPropertyOrder
-			   //自定义序列化:@JsonSerialize
-			   //自定义反序列化:@JsonDeserialize
+		   //属性别名:@JsonProperty 序列化/反序列化都有效
+		   //排除属性:@JsonIgnore 一般标记在属性或方法上,作用于序列化与反序列化
+		   //排除属性:@JsonIgnoreProperties 如果是代理类,由于无法标记在属性或方法上,可以标记在类声明上,也作用于反序列化时的字段解析
+		   //属性排序:@JsonPropertyOrder
+		   //自定义序列化:@JsonSerialize
+		   //自定义反序列化:@JsonDeserialize
+		   
+		   //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+		   //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern=DateUtils.DATETIME_FORMAT,timezone = DateUtils.DATE_TIMEZONE)
+		   
 		   
 		
 	}

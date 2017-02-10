@@ -22,6 +22,7 @@ public class DateUtils {
 	private static  Logger logger = LoggerFactory.getLogger(DateUtils.class);
 	public static String DATETIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 	public static String DATE_FORMAT = "yyyy-MM-dd";
+	public static String DATE_TIMEZONE="GMT+8";
 
 	/**
 	 * Get the previous time, from how many days to now.
