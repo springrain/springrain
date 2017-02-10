@@ -29,9 +29,11 @@
 				<!-- jackson 值为null的属性不转换,默认是com.fasterxml.jackson.databind.ObjectMapper,扩展实现了字符编码,防止xss -->
 				<property name="objectMapper">
                     <bean class="org.springrain.frame.util.FrameObjectMapper">
+                    <!-- 
                         <property name="serializationInclusion">
                             <value type="com.fasterxml.jackson.annotation.JsonInclude.Include">NON_NULL</value>
                         </property>
+                      -->
                     </bean>
                 </property>
 				
@@ -59,6 +61,8 @@
 	<mvc:resources mapping="/upload/**" location="/upload/"/>
 	
 	<!-- 全局异常配置 start -->
+	
+	<!-- 
 	<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
 		<property name="exceptionMappings">
 			<props>
@@ -66,23 +70,20 @@
 				<prop key="java.lang.Throwable">/404</prop>
 			</props>
 		</property>
-		<!--  
+		
 		<property name="statusCodes">
 			<props>
 				<prop key="/500">500</prop>
 				<prop key="/500">404</prop>
 			</props>
 		</property>
-		-->
-		<!--定义异常处理页面用来获取异常信息的变量名，默认名value为exception-->
+		
 		<property name="exceptionAttribute" value="exception"></property>  
-		<!-- 设置日志输出级别，不定义则默认不输出警告等错误日志信息 -->
 		<property name="warnLogCategory" value="WARN"></property>
-		<!-- 默认错误页面，当找不到上面mappings中指定的异常对应视图时，使用本默认配置 -->
 		<property name="defaultErrorView" value="/error"></property>
-		<!-- 默认HTTP状态码 -->
 		<property name="defaultStatusCode" value="500"></property>
 	</bean>
+	 -->
 	<!-- 全局异常配置 end -->
 	
 	
