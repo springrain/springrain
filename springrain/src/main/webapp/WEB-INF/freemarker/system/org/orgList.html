@@ -133,6 +133,18 @@ description="springrain开源系统管理后台"/>
 					
 					}
 				}
+				/*
+				清空父级
+				*/
+				function delParent(){
+					if(jQuery("#pid").val()==null||jQuery("#pid").val()==""){
+						springrain.msg("没有要清空的数据",5);
+						return;
+					}
+					jQuery("#pname").val('');
+					jQuery("#pid").val('');
+					springrain.msg("清除成功，保存生效",null);
+				}
 			</SCRIPT>
 			<div class="layui-tab layui-tab-brief">
 				<ul class="layui-tab-title site-demo-title">
@@ -165,17 +177,16 @@ description="springrain开源系统管理后台"/>
 										      	<input onclick="showOrgTree();" name="pname" id="pname" readonly="readonly"  type="text"  placeholder="点击选择上级部门" autocomplete="off" class="layui-input">
 										    	<input name="pid" id="pid" type="hidden" />
 										    </div>
+										     <div class="layui-inline  col-lg-2">
+											    	 <button type="button" onclick="delParent()" class="layui-btn layui-btn-normal">清空父级</button>
+											    </div>
 									  	</div>
-										<#--
-										<div class="layui-form-item  col-lg-9">
-								    		<label class="layui-form-label col-lg-3">主管角色</label>
-										    <div class="layui-inline col-lg-3">
-										      	<select id="managerRoleId" name="managerRoleId" class="nolayer">
-			                                    </select> 
-										    </div>
-										    <div class="layui-inline col-lg-3">对应角色中的"部门主管"角色</div>
-									  	</div>
-										-->
+									  	<div class="layui-form-item  col-lg-9">
+												<label class="layui-form-label col-lg-3"></label>
+												<div class="layui-inline  col-lg-6">
+													说明：清空父级后做为顶级存在
+												</div>
+											</div>
 										<div class="layui-form-item  col-lg-9">
 								    		<label class="layui-form-label col-lg-3">排序*</label>
 										    <div class="layui-inline">
