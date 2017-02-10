@@ -16,19 +16,35 @@
 		http://www.springframework.org/schema/aop/spring-aop.xsd"
 	default-lazy-init="false">
 	
-	
-	
 
-	<bean id="freemarkerConfiguration"
-		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
-		<property name="location" value="classpath:freemarker.properties" />
-	</bean>
 	
 	<bean id="freeMarkerConfigurer"
 		class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
 		<property name="templateLoaderPath" value="/WEB-INF/freemarker/" />
 		<property name="defaultEncoding" value="UTF-8" />
-		<property name="freemarkerSettings" ref="freemarkerConfiguration" />
+		<property name="freemarkerSettings">
+		   <props>
+                <prop key="template_update_delay">10000</prop>
+                <prop key="default_encoding">UTF-8</prop>
+                <prop key="url_escaping_charset">UTF-8</prop>
+                 
+               
+                <prop key="date_format">yyyy-MM-dd</prop>
+                <prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
+                
+                <prop key="locale">zh_CN</prop>
+                <prop key="whitespace_stripping">true</prop>
+                <prop key="tag_syntax">auto_detect</prop>
+                <prop key="number_format">#.##</prop>
+                <prop key="auto_import">/common/head.html as h</prop>
+               
+               
+                <!-- 配置自定义的freemarker异常处理-->
+                <!--  
+                <prop key = "template_exception_handler"></prop>
+                -->
+            </props>
+		</property>
 		<property name="freemarkerVariables">  
             <map>   
                 <entry key="shiro"  value-ref="shiroTags"/>   
