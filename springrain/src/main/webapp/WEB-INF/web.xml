@@ -112,7 +112,7 @@
     <error-page>
 	   <exception-type>java.lang.Exception</exception-type>
 	   <location>/errorpage/error</location>
-</error-page>
+	</error-page>
     
     
 </web-app>
