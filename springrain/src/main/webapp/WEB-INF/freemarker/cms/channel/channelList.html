@@ -8,48 +8,6 @@
 <link rel="stylesheet" href="${ctx}/css/custom/common/myztree.css" type="text/css">
 
 
-<script id="gridDataTemp" type="text/html">
-{{each data as tempData}}
-<tr class="">
-    <td class="center">
-        <label class="position-relative">
-            <input name="check_li" value="{{tempData.id}}" class="ace" type="checkbox"> 
-            <span class="lbl"></span>
-        </label>
-    </td>
-    <td>
-        <@shiro.hasPermission name="/system/cms/channel/update" >
-        <a href="#" data-action="${ctx}/system/cms/channel/update/pre?id={{tempData.id}}"
-        class="layui-btn layui-btn-normal layui-btn-mini">修改</a> 
-        </@shiro.hasPermission>
-        <@shiro.hasPermission name="/system/cms/channel/delete" >
-        <a href="javascript:del('{{tempData.id}}')"
-        class="layui-btn layui-btn-danger layui-btn-mini ajax-delete">删除</a>
-        </@shiro.hasPermission>
-    </td>
-    <td>
-        <a href="${ctx}{{tempData.link}}" target="blank">
-            {{tempData.name}}
-        </a>
-    </td>
-    <td>{{tempData.pid}}</td>
-    <td>{{tempData.comcode}}</td>
-    <td>{{tempData.cmsSite.name}}</td>
-    <td>{{tempData.positionLevel}}</td>
-    <td>{{tempData.keywords}}</td>
-    <td>{{tempData.description}}</td>
-    <td>{{tempData.sortno}}</td>
-    <td>
-        {{ if tempData.active==1 }}
-                是
-        {{ else }}
-             否 
-        {{/if}}
-    </td>
-</tr>
-{{/each}}
-</script>
-
 <script>
     jQuery(function(){ 
         /*
@@ -64,15 +22,13 @@
         
         //加载栏目列表
         loadChannelList();
-        //分页加载栏目信息
-        loadChannelGridData("","");
     });
     function del(_id){
         delWrap(_id,"${ctx}/system/cms/channel/delete");
     }
     
     function loadChannelList(){
-        jQuery.post("${ctx}/system/menu/list/json",function(_json) {
+        jQuery.post("${ctx}/system/cms/channel/list/json",function(_json) {
             if (_json.status == "success") {
                 //树节点点击事件
                 var treeNodeClickFunc = function(event, treeId, treeNode){
@@ -82,7 +38,9 @@
                     } 
                     saveType=1;
                     jQuery(".add_div a").attr('tid',treeNode.tId);
-                    showdata(treeNode);
+                    if (treeNode.pid!='null'){
+                    	showdata(treeNode);
+                    }
                 };
                 //添加子栏目方法回调
                 var addSubChannelFunc = function(tree,id,e){
@@ -98,10 +56,14 @@
                     springrain.stopBubble(e);
                 };
                 //删除方法回调
-                var delChannelFunc = function(tree,id){
+                var delChannelFunc = function(treeSetting,treeObj){
+                	var id = treeObj.id;
                     jQuery("#"+id+"_a").addClass("curSelectedNode");
-                    var node = tree.getNodeByTId(id);
-                    springrain.confirm('删除这个菜单，是否继续?', function(index) {
+                    console.log(id);
+                    console.log(treeSetting);
+                    var node = treeSetting.getNodeByTId(id);
+                    console.log(node);
+                    /* springrain.confirm('删除这个菜单，是否继续?', function(index) {
                         var id = node.id;
                         if (!id || id == "") {
                             springrain.alert('请选择你要删除的记录!');
@@ -115,7 +77,7 @@
                             springrain.ajaxpostonlayer(_url, listurl, data, '删除菜单成功！');
                         }
                         layer.close(index);
-                    });
+                    }); */
                 };
                 var opt = {
                     'hasMenu':true,
@@ -134,26 +96,32 @@
         });
     }
     
-    
-    
-    //加载右侧列表信息
-    function loadChannelGridData(type,id){
-        $.ajax({
-            url: '${ctx}/system/cms/list/json',
-            type: 'POST',
-            dataType: 'json',
-            data: {type: type,id:id},
-            success:function(ret){
-                if(ret.status=="success"){
-                    debugger;
-                    var dataList = ret.data;
-                    var htmlStr = template('gridDataTemp', dataList);
-                    $("#dataGrid").html(htmlStr);
-                }else{
-                    myalert(ret.message);
-                }
-            }
-        });
+    //树节点点击方法
+    function showData(treeNode){
+    	$("#updateForm select ").each(function() {
+			$(this).find('option:first').attr('selected','selected');
+		});
+		//console.log(result);
+		for ( var s in result) {
+			set_val(s, result[s]);
+		}				
+		var _pid = result["pid"];
+		if ((!_pid) || _pid == null || _pid == "null" || _pid == "") {
+			jQuery("#pid").val("");
+		} else {
+			jQuery("#pid").val(_pid);
+		}
+		var _imgIcon=result["menuIcon"];
+		if ((!_imgIcon) || _imgIcon == null || _imgIcon == "null" || _imgIcon == "") {
+		}else{
+			jQuery("#imgIcon").html(_imgIcon);
+		}
+		var _pNode = result.getParentNode();
+		if (_pNode) {
+			jQuery("#pname").val(_pNode["name"]);
+		} else {
+			jQuery("#pname").val("");
+		}
     }
 </script>
 
@@ -200,45 +168,93 @@
                                     <ul id="channelListTree" class="ztree"></ul>
                                 </div>
                                 <div class="fl per75 rlt">
-                                    <table class="layui-table" lay-even class="line-vertical">
-                                        <colgroup>
-                                            <col width="40">
-                                            <col width="120">
-                                            <col>
-                                        </colgroup>
-                                    <!--end_no_export-->
-                                    <!--first_start_export-->
-                                    <thead>
-                                        <tr>
-                                            <th colspan="11">栏目表列表<font id='recordsView' class='recorsView'>共<span></span>页 ,共<span></span>条记录</font></th>
-                                        </tr>
-                                        <tr>
-                                            <!--first_start_no_export-->
-                                            <th class="center"><label class="position-relative">
-                                                    <input id="checkAll" class="ace" type="checkbox">
-                                            </label></th>
-                                            <th>操作</th>
-                                            <!--first_end_no_export-->
-                                            <th id="th_name">名称</th>
-                                            <th id="th_pid">父类</th>
-                                            <th id="th_comcode">编号</th>
-                                            <th id="th_siteId">所属站点</th>
-                                            <th id="th_positionLevel">级别</th>
-                                            <th id="th_keywords">关键字</th>
-                                            <th id="th_description">描述</th>
-                                            <th id="th_sortno">排序</th>
-                                            <th id="th_active">状态</th>
-                                        </tr>
-                                    </thead>
-                                    <!--first_end_export-->
-                                    <!--start_export-->
-                                    <tbody id="dataGrid">
-                                        
-                                    </tbody>
-                                </table>
-                                <#if returnDatas.page??>
-                                <div id='laypageDiv'></div>
-                                <@h.layPage page=returnDatas.page /> </#if>
+                               		<form id="updateForm" name="updateForm" action="${ctx}/system/cms/channel/update" method="post" class="layui-form">
+                               			<input type="hidden" id="id" name="id"
+										value="" />
+										<input type="hidden" id="siteId" name="siteId" value=""/>
+										<div class="layui-form-item col-lg-6">
+											<label class="layui-form-label">栏目名称*</label>
+											<div class="layui-inline col-lg-5">
+												<input type="text" name="name" id="name" datatype="*"
+													nullmsg="不能为空" errormsg="不能为空！" autocomplete="off"
+													class="layui-input" value="">
+											</div>
+											<div class="layui-inline valid-info"></div>
+										</div>
+										<div class="layui-form-item col-lg-6">
+											<label class="layui-form-label">父级栏目*</label>
+											<div class="layui-inline col-lg-5">
+												<input type="text" name="pid" id="pid"  class="layui-input" value="">
+											</div>
+											<div class="layui-inline valid-info"></div>
+										</div>
+										<div class="layui-form-item col-lg-6">
+											<label class="layui-form-label">编号</label>
+											<div class="layui-inline col-lg-5">
+												<input type="text" name="comcode" id="comcode" datatype="*"
+													nullmsg="不能为空" errormsg="不能为空！" autocomplete="off"
+													class="layui-input" value="">
+											</div>
+											<div class="layui-inline valid-info"></div>
+										</div>
+										
+										<div class="layui-form-item col-lg-6">
+											<label class="layui-form-label">级别</label>
+											<div class="layui-inline col-lg-5">
+												<input type="text" name="positionLevel" id="positionLevel"
+													datatype="*" nullmsg="不能为空" errormsg="不能为空！"
+													autocomplete="off" class="layui-input"
+													value="">
+											</div>
+											<div class="layui-inline valid-info"></div>
+										</div>
+										<div class="layui-form-item col-lg-6">
+											<label class="layui-form-label">关键字*</label>
+											<div class="layui-inline col-lg-5">
+												<input type="text" name="keywords" id="keywords" datatype="*"
+													nullmsg="不能为空" errormsg="不能为空！" autocomplete="off"
+													class="layui-input"
+													value="">
+											</div>
+											<div class="layui-inline valid-info"></div>
+										</div>
+										<div class="layui-form-item col-lg-6">
+											<label class="layui-form-label">描述*</label>
+											<div class="layui-inline col-lg-5">
+												<input type="text" name="description" id="description"
+													datatype="*" nullmsg="不能为空" errormsg="不能为空！"
+													autocomplete="off" class="layui-input"
+													value="">
+											</div>
+											<div class="layui-inline valid-info"></div>
+										</div>
+										<div class="layui-form-item col-lg-6">
+											<label class="layui-form-label">排序*</label>
+											<div class="layui-inline col-lg-5">
+												<input type="text" name="sortno" id="sortno" datatype="*"
+													nullmsg="不能为空" errormsg="不能为空！" autocomplete="off"
+													class="layui-input" value="">
+											</div>
+											<div class="layui-inline valid-info"></div>
+										</div>
+										<div class="layui-form-item col-lg-6">
+											<label class="layui-form-label">状态 *</label>
+											<div class="layui-inline col-lg-5">
+												<select name="active" id="active" lay-verify="required">
+													<option value="1">是</option>
+													<option value="0">否</option>
+												</select>
+											</div>
+											<div class="layui-inline valid-info"></div>
+										</div>
+										<div class="layui-form-item change-submit col-lg-5 tc">
+											<div class="layui-inline">
+												<button type="button" class="layui-btn" id="smtbtn">立即提交</button>
+												<button type="button" class="layui-btn layui-btn-primary"
+													id="rstbtn">重置</button>
+											</div>
+										</div>
+                               		</form>     
                                 </div>
                             </div>
                         </div>

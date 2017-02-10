@@ -1,6 +1,7 @@
 package  org.springrain.cms.web;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springrain.cms.entity.CmsChannel;
+import org.springrain.cms.entity.CmsSite;
 import org.springrain.cms.service.ICmsChannelService;
 import org.springrain.cms.service.ICmsLinkService;
 import org.springrain.cms.service.ICmsSiteService;
@@ -80,21 +82,27 @@ public class CmsChannelController  extends BaseController {
 	public @ResponseBody
 	ReturnDatas listjson(HttpServletRequest request, Model model,CmsChannel cmsChannel) throws Exception{
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
-		// ==构造分页请求
+		
+		List<CmsChannel> treeList = new ArrayList<>();
+		//查询站点列表
 		Page page = newPage(request);
-		// ==执行分页查询
-		List<CmsChannel> datas=cmsChannelService.findListDataByFinder(null,page,CmsChannel.class,cmsChannel);
-		
-		//遍历栏目信息给每个栏目设置父类信息以及所属站点信息
-		for (CmsChannel channel : datas) {
-			channel.setCmsChannel(cmsChannelService.findCmsChannelById(channel.getPid()));//设置父类信息
-			channel.setCmsSite(cmsSiteService.findCmsSiteById(channel.getSiteId()));//设置所属站点信息
-			channel.setLink(cmsLinkService.findLinkBySiteBusinessId(channel.getSiteId(),channel.getId()).getLink());
+		List<CmsSite> siteTreeList = cmsSiteService.findListDataByFinder(null, page, CmsSite.class, cmsChannel);
+		for (CmsSite cmsSite : siteTreeList) {
+			String siteId = cmsSite.getId();
+			List<CmsChannel> channelList = cmsChannelService.findTreeByPid(null, siteId);
+			if (channelList == null)
+				continue;
+			treeList.addAll(channelList);
+			for (CmsChannel channel : channelList) {
+				if(StringUtils.isBlank(channel.getPid()))
+					channel.setPid(siteId);
+			}
+			//将site转为channel
+			CmsChannel tmpChannel = new CmsChannel(siteId);
+			tmpChannel.setName(cmsSite.getName());
+			treeList.add(tmpChannel);
 		}
-		
-		returnObject.setQueryBean(cmsChannel);
-		returnObject.setPage(page);
-		returnObject.setData(datas);
+		returnObject.setData(treeList);
 		return returnObject;
 	}
 	

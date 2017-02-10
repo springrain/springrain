@@ -13,10 +13,10 @@ import org.springrain.cms.entity.CmsLink;
 import org.springrain.cms.service.ICmsChannelService;
 import org.springrain.cms.service.ICmsLinkService;
 import org.springrain.cms.service.ICmsSiteService;
+import org.springrain.frame.util.Enumerations.SiteType;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.Page;
-import org.springrain.frame.util.Enumerations.SiteType;
 import org.springrain.system.service.BaseSpringrainServiceImpl;
 import org.springrain.system.service.ITableindexService;
 
@@ -261,12 +261,9 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 				tolist.add(m);
 			    diguiwrapList(from, leaf, m.getId());
 			}
-			
-			
 		}
 		
 		return tolist;
-
 	}
 	@Override
 	public <T> T findById(Object id, Class<T> clazz) throws Exception {

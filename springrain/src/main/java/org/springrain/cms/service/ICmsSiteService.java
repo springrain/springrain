@@ -71,5 +71,4 @@ public interface ICmsSiteService extends IBaseSpringrainService {
 	 * @throws Exception 
 	 */
 	List<CmsSite> findMpSiteByUserId(String userId) throws Exception;
-	
-	}
+}
