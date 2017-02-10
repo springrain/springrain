@@ -542,7 +542,6 @@
 				var _ztree = jQuery.fn.zTree.init(jQuery("#" + opts.id),
 						menuTreesetting, opts.data);
 				var _btns = opts.btns;
-				debugger;
 				if (!opts.hasMenu)
 					return _ztree;
 				if (_btns == null || _btns.length <= 0)
