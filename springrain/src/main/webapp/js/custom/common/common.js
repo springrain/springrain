@@ -33,13 +33,26 @@ $(document).ready(function(){
 	loadMenu();
 	init_sort_btn();
 	init_button_action();
-	//赋予 元素特殊事件 ，如TAB和菜单 的滑过事件 ,不添加没有动画效果，且必须加到ready后
+	//赋予 元素特殊事件 ，和表单的样式处理。如TAB和菜单 的滑过事件 ,不添加没有动画效果，且必须加到ready后
 	setTimeout(function(){
+		if(jQuery("form").length>0){
+			layui.use('form', function(){
+				  form = layui.form();
+			});
+		}
 		layui.use(['element'], function(){
 			  var element = layui.element();   
 		});
 	},200);
 });
+var form;
+/*添加form的监听回调*/
+function selectListener(filterId,callback){
+	console.log(123);
+	form.on('select('+filterId+')', function(data){
+		  callback(data);
+	});
+}
 function loadMenu(){
 	//加载菜单
     if(!(!!locache.get("menuData"))){//没有数据

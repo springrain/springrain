@@ -2,10 +2,12 @@ package org.springrain.weixin.sdk.cp.api;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,7 +52,7 @@ public class WxCpMessageRouter {
   protected final Logger log = LoggerFactory.getLogger(WxCpMessageRouter.class);
   private final List<WxCpMessageRouterRule> rules = new ArrayList<>();
 
-  private final IWxCpService iWxCpService;
+  private final IWxCpService wxCpService;
 
   private ExecutorService executorService;
 
@@ -59,9 +61,12 @@ public class WxCpMessageRouter {
 
   private WxErrorExceptionHandler exceptionHandler;
 
-  public WxCpMessageRouter(IWxCpService iWxCpService) {
-    this.iWxCpService = iWxCpService;
-    this.executorService = Executors.newFixedThreadPool(DEFAULT_THREAD_POOL_SIZE);
+  public WxCpMessageRouter(IWxCpService wxCpService) {
+    this.wxCpService = wxCpService;
+    //this.executorService = Executors.newFixedThreadPool(DEFAULT_THREAD_POOL_SIZE);
+    
+    this.executorService = new ThreadPoolExecutor(10, DEFAULT_THREAD_POOL_SIZE, 10L,TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(1000));
+    
     this.messageDuplicateChecker = new WxMessageInMemoryDuplicateChecker();
     this.exceptionHandler = new LogExceptionHandler();
   }
@@ -149,12 +154,12 @@ public WxCpXmlOutMessage route(final WxCpXmlMessage wxMessage) {
           this.executorService.submit(new Runnable() {
             @Override
             public void run() {
-              rule.service(wxMessage, WxCpMessageRouter.this.iWxCpService, WxCpMessageRouter.this.exceptionHandler);
+              rule.service(wxMessage, WxCpMessageRouter.this.wxCpService, WxCpMessageRouter.this.exceptionHandler);
             }
           })
         );
       } else {
-        res = rule.service(wxMessage, this.iWxCpService, this.exceptionHandler);
+        res = rule.service(wxMessage, this.wxCpService, this.exceptionHandler);
         // 在同步操作结束，session访问结束
         this.log.debug("End session access: async=false, sessionId={}", wxMessage.getFromUserName());
       }

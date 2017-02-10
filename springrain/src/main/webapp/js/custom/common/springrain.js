@@ -290,7 +290,7 @@
 				_time=_time?_time:2000;
 				
 				layer.msg(_msg, {
-					  icon: 1,
+					  icon: _icon,
 					  time: 2000 //2秒关闭（如果不配置，默认是3秒）
 					}, function(){
 						if (_fun&&typeof _fun =="function") {
@@ -542,7 +542,6 @@
 				var _ztree = jQuery.fn.zTree.init(jQuery("#" + opts.id),
 						menuTreesetting, opts.data);
 				var _btns = opts.btns;
-				debugger;
 				if (!opts.hasMenu)
 					return _ztree;
 				if (_btns == null || _btns.length <= 0)

@@ -36,7 +36,7 @@
 		<appender-ref ref="sqlFile" />
 	</logger>
 	
-	<logger name="org" level="ERROR" />
+	<logger name="org" level="ERROR" additivity="false"  />
 	
 	<root level="DEBUG">
 		<appender-ref ref="stdout" />

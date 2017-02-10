@@ -2,7 +2,7 @@
 .ztree li ul{ margin:0; padding:0}
 .ztree li {line-height:30px;position:relative;}
 .ztree li a {width:300px;height:30px;padding-top: 0px;}
-.ztree li a:hover {text-decoration:none; background-color: #C4DDF9;}
+.ztree li a:hover {text-decoration:none; background-color: #eff0f1;}
 .ztree li a span:not(.button){width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:inline-block;vertical-align: middle;}
  
 .ztree li a.curSelectedNode {background-color:#C4DDF9;border:0;height:30px;}
@@ -41,15 +41,5 @@
 background:#fff;border:1px solid #d3d3d3;box-shadow:2px 2px 5px #d3d3d3;border-radius: 2px;}
 .add_div a{display:block!important;text-align:left;width:110px!important;z-index: 99999;padding:4px 15px;}
 .add_div a:hover{background:#d3d3d3;}
-.myctrwrap{width:14px!important;border:1px solid #c0c0c0;height:14px!important;margin-top:8px!important;position:absolute!important;right:4px;position:relative;}
-.myctrwrap:after{
-	position:absolute;
-	left:2px;
-	top:2px;
-	content:'';
-	width: 0;
-    height: 0;
-    border-left: 4px solid transparent;
-    border-right: 4px solid transparent;
-    border-top: 8px solid #777777;
-}
+.myctrwrap{background:url("../../../img/narrow.png");width:14px!important;height:14px!important;margin-top:8px!important;position:absolute!important;right:4px;position:relative;}
+.ztree li a.curSelectedNode{opacity:1!important;}
