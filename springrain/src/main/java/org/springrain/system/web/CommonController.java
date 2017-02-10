@@ -48,8 +48,9 @@ public class CommonController extends BaseController  {
 			
 			if(exception!=null){
 				logger.error(exception.getMessage(), exception);
+				request.setAttribute("exception", exception.getMessage());
 			}
-			request.setAttribute("exception", exception.getMessage());
+			
 			
 			return "/errorpage/"+error;
 		}
