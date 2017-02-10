@@ -47,6 +47,7 @@ description="springrain开源系统管理后台"/>
 					$("#channelId").html(htmlStr);
 				}else{
 					$("#channelId").html('<option value=""></option>');
+					$("#channelId").val('${channelId!}');
 				}
 			}
 		});
@@ -77,22 +78,7 @@ description="springrain开源系统管理后台"/>
 							<div class="larry-personal-body clearfix changepwd">
 								<form id="validForm" class="layui-form" method="post" action="${ctx}/system/cms/content/update">
 									<input type="hidden" id="id" name="id" value="${(returnDatas.data.id)!''}" />
-									
-									<div class="layui-form-item col-lg-6">
-										<label class="layui-form-label">所属站点*</label>
-										<div class="layui-inline col-lg-5">
-											 <select name="siteId" id="siteId" lay-verify="required">
-										        <#if (returnDatas.map.siteList)??>
-										        	<#list returnDatas.map.siteList as site>
-										        		<option value="${site.id}">${site.name}</option>
-										        	</#list>
-										        <#else>
-										        	<option value=""></option>
-										        </#if>
-										      </select>
-										</div>
-										<div class="layui-inline valid-info"></div>
-									</div>
+									<input type="hidden" id="siteId" name="siteId" value="${siteId}" />
 									
 									<div class="layui-form-item col-lg-6">
 										<label class="layui-form-label">所属栏目*</label>

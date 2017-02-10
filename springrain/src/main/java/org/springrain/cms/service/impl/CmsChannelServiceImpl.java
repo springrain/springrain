@@ -185,7 +185,6 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
     @SuppressWarnings("unchecked")
 	@Override
 	public List<CmsChannel> findTreeByPid(String pid,String siteId) throws Exception {
-    	
     	if(StringUtils.isBlank(siteId)){
     		return null;
     	}
@@ -210,8 +209,6 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
     	}else{
     		return channelList;
     	}
-    	
-    	
 	}
 	@Override
 	public List<CmsChannel> findTreeChannel(String siteId) throws Exception {

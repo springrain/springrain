@@ -37,11 +37,11 @@ public interface ICmsContentService extends IBaseSpringrainService {
 
 	/**
 	 * 根据栏目id分页查找内容列表
-	 * @param channelId
-	 * @param string 
+	 * @param siteId
+	 * @param channelId 
 	 * @param page
 	 * @return
 	 * @throws Exception 
 	 */
-	List<CmsContent> findContentByChannelId(String channelId, String string, Page page) throws Exception;
+	List<CmsContent> findContentByChannelId(String siteId, String channelId, Page page) throws Exception;
 }

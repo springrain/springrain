@@ -1,6 +1,44 @@
 <#ftl output_format="HTML" auto_esc=true> 
 <@h.commonHead title="后台管理系统" keywords="开源,永久免费" description="springrain开源系统管理后台"/>
 
+<script type="text/javascript" src="${ctx}/js/ztree/js/jquery.ztree.all-3.5.js"></script>
+<script type="text/javascript" src="${ctx}/js/ztree/js/ztreeUtils.js"></script>
+<script type="text/javascript" src="${ctx}/js/artTemplate/artTemplate.js"></script>
+
+<link rel="stylesheet" href="${ctx}/js/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
+<link rel="stylesheet" href="${ctx}/css/custom/common/myztree.css" type="text/css">
+
+ <script id="gridDataTemp" type="text/html">
+ {{each data as tempData}}
+    <tr class="">
+        <td class="center">
+            <label class="position-relative">
+                <input name="check_li" value="{{tempData.id}}" class="ace" type="checkbox"/> 
+                <span class="lbl"></span>
+            </label>
+        </td>
+        <td>
+            <@shiro.hasPermission name="/system/cms/content/update" >
+            <a href="#" data-action="${ctx}/system/cms/content/update/pre?id={{tempData.id}}" class="layui-btn layui-btn-normal layui-btn-mini">修改</a> 
+            </@shiro.hasPermission>
+            <@shiro.hasPermission name="/system/cms/content/delete" >
+            <a href="javascript:del('{{tempData.id}}')" class="layui-btn layui-btn-danger layui-btn-mini ajax-delete">删除</a>
+            </@shiro.hasPermission>
+        </td>
+        <!--end_no_export-->
+        <td>
+            <a href="${ctx}{{tempData.link}}" target="blank">{{tempData.title}}</a>
+        </td>
+        <td>{{tempData.mintitle}}</td>
+        <td>{{tempData.keywords}}</td>
+        <td>{{tempData.description}}</td>
+        <td>{{tempData.createPerson}}</td>
+        <td>
+            <!--日期型--> {{tempData.createDate}}
+        </td>
+    </tr>
+{{/each}}
+</script>
 
 <script>
 	jQuery(function(){ 
@@ -13,14 +51,92 @@
 				jQuery(_o).get(0).checked=_is_check;
 			});
 		});
+		
+		//加载栏目列表
+        loadChannelList();
 	});
 	function del(_id){
 		delWrap(_id,"${ctx}/system/cms/content/delete");
 	}
+	
+    function loadChannelList(){
+        jQuery.post("${ctx}/system/cms/channel/list/json",function(_json) {
+            if (_json.status == "success") {
+            	channelJsondata4select = _json;
+                //树节点点击事件
+                var treeNodeClickFunc = function(event, treeId, treeNode){
+                    if(jQuery(event.target).hasClass("myctr")){
+                        //阻止事件冒泡
+                        return;
+                    }
+                    jQuery(".add_div a").attr('tid',treeNode.tId);
+                   	showdata(treeNode);
+                };
+                var opt = {
+                    'hasMenu':true,
+                    'id':'channelListTree',
+                    'data':_json.data,
+                    'treeNodeClick':treeNodeClickFunc
+                };
+                springrain.tree(opt);
+            }else{
+                myalert(_json.message);
+            }
+        });
+    }
+    
+    //树节点点击方法
+    function showdata(treeNode){
+    	var siteId=channelId='';
+    	if(treeNode.pid=='null'){
+    		siteId = treeNode.id;
+    	}else{
+    		var parentNode = treeNode.getParentNode();
+			while(!!parentNode){
+				var tempParentNode = parentNode.getParentNode();
+				if(!!tempParentNode){
+					parentNode = tempParentNode;
+				}else{
+					break;
+				}
+					
+			}
+			siteId = parentNode.id;
+    		channelId = treeNode.id
+    	}
+    	
+    	$("#siteId").val(siteId);
+    	$("#channelId").val(channelId);
+    	
+    	$.ajax({
+			url: '${ctx}/system/cms/content/list/json',
+			type: 'POST',
+			dataType: 'json',
+			data: {siteId: siteId,channelId,channelId},
+			success:function(ret){
+				var htmlStr = template('gridDataTemp', ret);
+				$('#dataGrid').html(htmlStr);
+			}
+		});
+    }
+    
+    function addNewContent(){
+    	var siteId = $("#siteId").val();
+    	var channelId = $("#channelId").val();
+    	if(!!channelId){
+    		springrain.goTo('${ctx}/system/cms/content/update/pre?siteId='+siteId+'&channelId='+channelId);	
+    	}else{
+    		springrain.alert('请选择栏目!');
+    	}
+    	
+    }
 </script>
 
 </head>
 <body>
+	<input type="hidden" id="siteId" value=""/>
+	<input type="hidden" id="channelId" value=""/>
+	
 	<div class="layui-layout layui-layout-admin">
 		<@h.naviHeader /><@h.leftMenu />
 		<!-- 主体内容开始 -->
@@ -28,8 +144,7 @@
 			<ul class="layui-tab-title site-demo-title">
 				<li style="float: right;">
 					<@shiro.hasPermission name="/system/cms/content/update" >
-					<button type="button" class="layui-btn layui-btn-small"
-						data-action="${ctx}/system/cms/content/update/pre">
+					<button type="button" class="layui-btn layui-btn-small" onclick="addNewContent();">
 						<i class="layui-icon layui-icon-specil">&#xe61f;</i>新增
 					</button>
 					</@shiro.hasPermission>
@@ -56,122 +171,76 @@
 			<div class="layui-body layui-tab-content site-demo-body">
 				<div class="layui-tab-item layui-show">
 					<div class="layui-main">
-						<div id="LAY_preview">
-							<!-- 查询  开始 -->
-							<form class="layui-form layui-form-pane" id="searchForm"
-								action="${ctx}/system/cms/content/list" method="post">
-								<input type="hidden" name="pageIndex" id="pageIndex"
-									value="${(returnDatas.page.pageIndex)!'1'}" /> <input
-									type="hidden" name="sort" id="page_sort"
-									value="${(returnDatas.page.sort)!'desc'}" /> <input
-									type="hidden" name="order" id="page_order"
-									value="${(returnDatas.page.order)!'id'}" />
-								 <table class="layui-table search-wrap">
-									 	<colgroup>
-										    <col width="">
-										    <col width="150">
-										</colgroup>
-							          <tbody>
-										<tr>
-											<th colspan="2">内容表搜索</th>
-										</tr>
-										<tr>
-											<td>
-												<div class="layui-inline">
-													<label class="layui-form-label">名称</label>
-													<div class="layui-input-inline">
-														<input type="text" name="name"
-															value="${(returnDatas.queryBean.name)!''}"
-															placeholder="请输入名称 " class="layui-input">
-													</div>
-												</div>
-												<div class="layui-inline">
-													<label class="layui-form-label">是否可用</label>
-													<div class="layui-input-inline">
-														<select name="active" id="active">
-															<option value="">==请选择==</option>
-															<option value="1">是</option>
-															<option value="0">否</option>
-														</select>
-													</div>
-												</div>
-											</td>
-											<td>
-												<div class="layui-inline">
-													 <button class="layui-btn" type="button" onclick="springrain.commonSubmit('searchForm');"><i class="layui-icon" style="top:4px;right:5px;">&#xe615;</i>搜索</button>
-												</div>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-								</form>
-								<!-- 查询  结束 -->
-								<!--start_export-->
-								<table class="layui-table" lay-even>
-									<colgroup>
-										<col width="40">
-										<col width="120">
-										<col>
-									</colgroup>
-									<!--end_no_export-->
-									<!--first_start_export-->
-									<thead>
-										<tr>
-											<th colspan="8">内容表列表<font id='recordsView' class='recorsView'>共<span></span>页 ,共<span></span>条记录</font></th>
-										</tr>
-										<tr>
-											<!--first_start_no_export-->
-											<th class="center"><label class="position-relative">
-													<input id="checkAll" class="ace" type="checkbox">
-											</label></th>
-											<th>操作</th>
-											<!--first_end_no_export-->
-											<th id="th_title">标题</th>
-											<th id="th_mintitle">副标题</th>
-											<th id="th_keywords">关键字</th>
-											<th id="th_description">描述</th>
-											<th id="th_createPerson">创建人</th>
-											<th id="th_createDate">创建时间</th>
-										</tr>
-									</thead>
-									<!--first_end_export-->
-									<!--start_export-->
-									<tbody>
-										<#if (returnDatas.data??)&&(returnDatas.data?size>0)> <#list
-										returnDatas.data as _data>
-										<!--start_no_export-->
-										<tr class="">
-											<td class="center"><label class="position-relative">
-													<input name="check_li" value="${_data.id}" class="ace"
-													type="checkbox"> <span class="lbl"></span>
-											</label></td>
-											<td>
-												<@shiro.hasPermission name="/system/cms/content/update" >
-												<a href="#" data-action="${ctx}/system/cms/content/update/pre?id=${(_data.id)!''}" class="layui-btn layui-btn-normal layui-btn-mini">修改</a> 
-												</@shiro.hasPermission>
-												<@shiro.hasPermission name="/system/cms/content/delete" >
-												<a href="javascript:del('${(_data.id)!''}')" class="layui-btn layui-btn-danger layui-btn-mini ajax-delete">删除</a>
-												</@shiro.hasPermission>
-											</td>
-											<!--end_no_export-->
-											<td>
-												<a href="${ctx}${(_data.link)!'#'}" target="blank">${(_data.title)!''}</a>
-											</td>
-											<td>${(_data.mintitle)!''}</td>
-											<td>${(_data.keywords)!''}</td>
-											<td>${(_data.description)!''}</td>
-											<td>${(_data.createPerson)!''}</td>
-											<td>
-												<!--日期型--> ${((_data.createDate)?string('yyyy-MM-dd'))!''}
-											</td>
-										</tr>
-										</#list> </#if>
-									</tbody>
-								</table>
-								<#if returnDatas.page??>
-								<div id='laypageDiv'></div>
-								<@h.layPage page=returnDatas.page /> </#if>
-						</div>
+						<div class="container-fluid" style="overflow:hidden;">
+                            <div class="row">
+                            	<div class="fl per20" style="min-width:360px">
+                                	<ul id="channelListTree" class="ztree"></ul>
+                                </div>
+                                <div class="fl per75 rlt">
+                                	<table class="layui-table" lay-even>
+							            <colgroup>
+							                <col width="40">
+							                <col width="120">
+							                <col>
+							            </colgroup>
+							            <!--end_no_export-->
+							            <!--first_start_export-->
+							            <thead>
+							                <tr>
+							                    <th colspan="8">内容表列表<font id='recordsView' class='recorsView'>共<span></span>页 ,共<span></span>条记录</font></th>
+							                </tr>
+							                <tr>
+							                    <!--first_start_no_export-->
+							                    <th class="center"><label class="position-relative">
+							                            <input id="checkAll" class="ace" type="checkbox">
+							                    </label></th>
+							                    <th>操作</th>
+							                    <!--first_end_no_export-->
+							                    <th id="th_title">标题</th>
+							                    <th id="th_mintitle">副标题</th>
+							                    <th id="th_keywords">关键字</th>
+							                    <th id="th_description">描述</th>
+							                    <th id="th_createPerson">创建人</th>
+							                    <th id="th_createDate">创建时间</th>
+							                </tr>
+							            </thead>
+							            <!--first_end_export-->
+							            <!--start_export-->
+							            <tbody id="dataGrid">
+							                <#if (returnDatas.data??)&&(returnDatas.data?size>0)> <#list
+							                returnDatas.data as _data>
+							                <!--start_no_export-->
+							                <tr class="">
+							                    <td class="center"><label class="position-relative">
+							                            <input name="check_li" value="${_data.id}" class="ace"
+							                            type="checkbox"> <span class="lbl"></span>
+							                    </label></td>
+							                    <td>
+							                        <@shiro.hasPermission name="/system/cms/content/update" >
+							                        <a href="#" data-action="${ctx}/system/cms/content/update/pre?id=${(_data.id)!''}" class="layui-btn layui-btn-normal layui-btn-mini">修改</a> 
+							                        </@shiro.hasPermission>
+							                        <@shiro.hasPermission name="/system/cms/content/delete" >
+							                        <a href="javascript:del('${(_data.id)!''}')" class="layui-btn layui-btn-danger layui-btn-mini ajax-delete">删除</a>
+							                        </@shiro.hasPermission>
+							                    </td>
+							                    <!--end_no_export-->
+							                    <td>
+							                        <a href="${ctx}${(_data.link)!'#'}" target="blank">${(_data.title)!''}</a>
+							                    </td>
+							                    <td>${(_data.mintitle)!''}</td>
+							                    <td>${(_data.keywords)!''}</td>
+							                    <td>${(_data.description)!''}</td>
+							                    <td>${(_data.createPerson)!''}</td>
+							                    <td>
+							                        <!--日期型--> ${((_data.createDate)?string('yyyy-MM-dd'))!''}
+							                    </td>
+							                </tr>
+							                </#list> </#if>
+							            </tbody>
+							        </table>
+                                </div>
+                            </div>
+                        </div>
 					</div>
 				</div>
 			</div>

@@ -85,7 +85,17 @@ public class CmsContentController  extends BaseController {
 		// ==构造分页请求
 		Page page = newPage(request);
 		// ==执行分页查询
-		List<CmsContent> datas=cmsContentService.findListDataByFinder(null,page,CmsContent.class,cmsContent);
+		String siteId = cmsContent.getSiteId();
+		String channelId = cmsContent.getChannelId();
+		List<CmsContent> datas = null;
+		if(StringUtils.isBlank(siteId) && StringUtils.isBlank(channelId)){//页面初始化加载所有数据
+			datas = cmsContentService.findListDataByFinder(null,page,CmsContent.class,cmsContent);
+		}else if(StringUtils.isBlank(channelId)){//站点点击，获取站点下的数据
+			datas = cmsContentService.findListBySiteId(siteId, page);
+		}else if(StringUtils.isNotBlank(channelId)){//栏目点击，获取栏目下的数据
+			datas = cmsContentService.findContentByChannelId(siteId, channelId, page);
+		}
+
 		returnObject.setQueryBean(cmsContent);
 		returnObject.setPage(page);
 		returnObject.setData(datas);
@@ -174,7 +184,11 @@ public class CmsContentController  extends BaseController {
 	@RequestMapping(value = "/update/pre")
 	public String updatepre(Model model,HttpServletRequest request,HttpServletResponse response)  throws Exception{
 		ReturnDatas returnObject = lookjson(model, request, response);
+		String siteId = request.getParameter("siteId");
+		String channelId = request.getParameter("channelId");
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
+		model.addAttribute("siteId", siteId);
+		model.addAttribute("channelId", channelId);
 		return "/cms/content/contentCru";
 	}
 	

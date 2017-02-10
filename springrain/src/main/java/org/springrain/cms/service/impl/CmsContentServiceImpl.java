@@ -62,7 +62,7 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 			contentList = super.findListDataByFinder(finder, page, CmsContent.class, queryBean);
 		}
 		for (CmsContent cmsContent : contentList) {
-			Map<String, Object> addtionInfo = super.queryForObject(new Finder("SELECT a.siteId,a.channelId,b.link FROM cms_channel_content a INNER JOIN cms_link b ON a.contentId=b.businessId"));
+			Map<String, Object> addtionInfo = super.queryForObject(new Finder("SELECT a.siteId,a.channelId,b.link FROM cms_channel_content a INNER JOIN cms_link b ON a.contentId=b.businessId WHERE a.contentId=:contentId").setParam("contentId", cmsContent.getId()));
 			cmsContent.setSiteId((String) addtionInfo.get("siteId"));
 			cmsContent.setChannelId((String) addtionInfo.get("channelId"));
 			cmsContent.setLink((String) addtionInfo.get("link"));
