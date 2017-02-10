@@ -51,10 +51,12 @@ public class User  extends BaseEntity {
 	/**
 	 * 手机号码
 	 */
+	@JsonIgnore
 	private java.lang.String mobile;
 	/**
 	 * 邮箱
 	 */
+	@JsonIgnore
 	private java.lang.String email;
 	
 	/**
