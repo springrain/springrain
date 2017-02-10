@@ -61,7 +61,7 @@
 	<mvc:resources mapping="/upload/**" location="/upload/"/>
 	
 	<!-- 全局异常配置 start -->
-	
+	<!-- 使用 web.xml的 errorpage 处理,不再使用 spring mvc 控制 -->
 	<!-- 
 	<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
 		<property name="exceptionMappings">
