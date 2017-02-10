@@ -48,7 +48,7 @@ public final class ImageUtils {
 			g.dispose();
 			ImageIO.write((BufferedImage) image, "jpg", img);
 		} catch (Exception e) {
-			logger.error(e.getLocalizedMessage());
+			logger.error(e.getLocalizedMessage(),e);
 		}
 	}
 
@@ -80,7 +80,7 @@ public final class ImageUtils {
 			g.dispose();
 			ImageIO.write((BufferedImage) image, "jpg", img);
 		} catch (Exception e) {
-			logger.error(e.getLocalizedMessage());
+			logger.error(e.getLocalizedMessage(),e);
 		}
 	}
 
@@ -122,7 +122,7 @@ public final class ImageUtils {
 			}
 			ImageIO.write((BufferedImage) itemp, "jpg", f);
 		} catch (IOException e) {
-			logger.error(e.getLocalizedMessage());
+			logger.error(e.getLocalizedMessage(),e);
 		}
 	}
 

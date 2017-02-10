@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springrain.frame.util.property.PropertyFile;
 
 public class WxConsts {
-	public static   Logger log = LoggerFactory.getLogger(WxConsts.class);
+	private static   Logger logger = LoggerFactory.getLogger(WxConsts.class);
 
 	//微信API的访问协议,为了以后方便处理特殊情况
 	public static  String mpapiurl="https://api.weixin.qq.com";
@@ -282,7 +282,7 @@ public class WxConsts {
 	    	qyapiurl=_qyapiurl;
 	    }
     }catch(Exception e){
-    	log.error("wechat配置文件加载失败:"+e);
+    	logger.error("wechat配置文件加载失败:",e);
     }
     
     

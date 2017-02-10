@@ -20,7 +20,7 @@ import org.springrain.weixin.sdk.mp.bean.menu.WxMpGetSelfMenuInfoResult;
 @Service("wxMpMenuService")
 public class WxMpMenuServiceImpl implements IWxMpMenuService {
   private static final String API_URL_PREFIX = WxConsts.mpapiurl+"/cgi-bin/menu";
-  private static Logger log = LoggerFactory.getLogger(WxMpMenuServiceImpl.class);
+  private final Logger log = LoggerFactory.getLogger(getClass());
 
   @Resource
   private IWxMpService wxMpService;

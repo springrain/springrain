@@ -11,13 +11,15 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.web.servlet.OncePerRequestFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springrain.cms.utils.SiteUtils;
 import org.springrain.frame.util.InputSafeUtils;
 
 @Component("wxmpautologin")
 public class WxMpAutoLoginFilter extends OncePerRequestFilter {
-
+	private   Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Override
 	protected void doFilterInternal(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -51,7 +53,7 @@ public class WxMpAutoLoginFilter extends OncePerRequestFilter {
 		    
 		    
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(),e);
 		}
 		
 	}

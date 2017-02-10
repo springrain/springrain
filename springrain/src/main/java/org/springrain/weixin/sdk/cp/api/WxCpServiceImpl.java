@@ -54,7 +54,7 @@ import com.google.gson.reflect.TypeToken;
 @Service("wxCpService")
 public class WxCpServiceImpl implements IWxCpService {
 
-  protected final Logger log = LoggerFactory.getLogger(WxCpServiceImpl.class);
+	 private final Logger log = LoggerFactory.getLogger(getClass());
 
   @Resource
   private IWxCpConfigService wxCpConfigService;

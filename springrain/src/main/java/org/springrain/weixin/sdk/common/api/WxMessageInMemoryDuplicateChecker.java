@@ -4,6 +4,9 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * <pre>
  * 默认消息重复检查器
@@ -11,7 +14,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * </pre>
  */
 public class WxMessageInMemoryDuplicateChecker implements WxMessageDuplicateChecker {
-
+	public   Logger logger = LoggerFactory.getLogger(getClass());
   /**
    * 一个消息ID在内存的过期时间：15秒
    */
@@ -73,7 +76,7 @@ public class WxMessageInMemoryDuplicateChecker implements WxMessageDuplicateChec
             }
           }
         } catch (InterruptedException e) {
-          e.printStackTrace();
+        	logger.error(e.getMessage(),e);
         }
       }
     });

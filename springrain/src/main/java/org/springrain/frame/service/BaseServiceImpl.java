@@ -365,7 +365,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 			OpenOfficeKit.cvtXls(excelFile, excelnew);
 			return excelnew;
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			logger.error(e.getMessage(),e);
 		}
 		return excelFile;
 	}

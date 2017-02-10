@@ -145,7 +145,6 @@ public class FwlogController  extends BaseController {
 		     try { 
 		    	 response.getWriter().write(jsonpcallback + "("+_json+")"); //返回jsonp数据 
 		     } catch (IOException e) { 
-		         e.printStackTrace(); 
 		     } 
 	}
     */

@@ -36,11 +36,10 @@ import org.slf4j.LoggerFactory;
 
 public class HttpClientUtils {
 	
-	
 	private static  PoolingHttpClientConnectionManager connectionManager = null;
 	//private static  HttpClientBuilder httpClientBuilder=null;
 	
-	private static   Logger logger = LoggerFactory.getLogger(HttpClientUtils.class);
+	private static final   Logger logger = LoggerFactory.getLogger(HttpClientUtils.class);
 	private static RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(5000).setConnectTimeout(5000)
 			.setConnectionRequestTimeout(3000).build();
 	
@@ -146,7 +145,7 @@ public class HttpClientUtils {
 			stringEntity.setContentType("application/x-www-form-urlencoded");
 			httpPost.setEntity(stringEntity);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e.getLocalizedMessage(),e);
 		}
 		return sendHttpPost(httpPost,sslContext);
 	}
@@ -184,7 +183,7 @@ public class HttpClientUtils {
 		try {
 			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 		}
 		return sendHttpPost(httpPost,null);
 	}
@@ -261,7 +260,7 @@ public class HttpClientUtils {
 			entity = response.getEntity();
 			responseContent = EntityUtils.toString(entity, "UTF-8");
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			logger.error(e.getMessage(),e);
 		} finally {
 			
 			try{
@@ -274,7 +273,7 @@ public class HttpClientUtils {
 				}
 				
 			}catch (Exception e) {
-				logger.error(e.getMessage());
+				logger.error(e.getMessage(),e);
 			} 
 			
 	}
@@ -334,7 +333,7 @@ public class HttpClientUtils {
 			entity = response.getEntity();
 			responseContent = EntityUtils.toString(entity, "UTF-8");
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			logger.error(e.getMessage(),e);
 		} finally {
 				
 			try{
@@ -347,7 +346,7 @@ public class HttpClientUtils {
 				}
 				
 			}catch (Exception e) {
-				logger.error(e.getMessage());
+				logger.error(e.getMessage(),e);
 			} 
 				
 				

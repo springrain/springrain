@@ -33,7 +33,7 @@ import com.google.gson.reflect.TypeToken;
 @Service("wxMpCardService")
 public class WxMpCardServiceImpl implements IWxMpCardService {
 
-  private final Logger log = LoggerFactory.getLogger(WxMpCardServiceImpl.class);
+	 private final Logger log = LoggerFactory.getLogger(getClass());
 
   //生产环境应该是spring注入
   @Resource

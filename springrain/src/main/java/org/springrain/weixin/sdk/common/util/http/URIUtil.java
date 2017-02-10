@@ -2,11 +2,13 @@ package org.springrain.weixin.sdk.common.util.http;
 
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.UnsupportedEncodingException;
 
 public class URIUtil {
-
+  private static final Logger log = LoggerFactory.getLogger(URIUtil.class);
   private static final String ALLOWED_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.!~*'()";
 
   public static String encodeURIComponent(String input) {
@@ -28,7 +30,7 @@ public class URIUtil {
       }
       return o.toString();
     } catch (UnsupportedEncodingException e) {
-      e.printStackTrace();
+    	log.error(e.getMessage(),e);
     }
     return input;
   }
