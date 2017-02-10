@@ -1,9 +1,5 @@
 package org.springrain.system.web;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -18,8 +14,6 @@ import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ThreadContext;
 import org.apache.shiro.web.subject.WebSubject;
 import org.apache.shiro.web.util.WebUtils;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springrain.frame.controller.BaseController;
 import org.springrain.frame.shiro.FrameAuthenticationToken;
 import org.springrain.frame.shiro.ShiroUser;
-import org.springrain.frame.util.CaptchaUtils;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.SecUtils;
 import org.springrain.system.entity.User;
@@ -60,10 +53,17 @@ public class LoginController extends BaseController  {
 		@RequestMapping(value = "/index")
 		public String index(Model model) throws Exception {
 			
-			return "/system/index"; 
+			return "/s/index"; 
 //			return "/index";  
 			
 		}
+		
+		@RequestMapping(value = "/login",method=RequestMethod.GET)
+		public String login(Model model,HttpServletRequest request) throws Exception {
+			
+			return getLoginUrl(model,request,null);
+		}
+		
 		/**
 		 * 渲染登录/login的界面展示,如果已经登录,跳转到首页,如果没有登录,就渲染login.html
 		 * @param model
@@ -71,11 +71,18 @@ public class LoginController extends BaseController  {
 		 * @return
 		 * @throws Exception
 		 */
-		@RequestMapping(value = "/login",method=RequestMethod.GET)
-		public String login(Model model,HttpServletRequest request,@PathVariable String siteId) throws Exception {
+		@RequestMapping(value = "/{siteId}/login",method=RequestMethod.GET)
+		public String siteLogin(Model model,HttpServletRequest request,@PathVariable String siteId) throws Exception {
+			model.addAttribute("siteId", siteId);
+			return getLoginUrl(model, request, siteId);
+		}
+		
+		
+		
+		private String getLoginUrl(Model model,HttpServletRequest request,String siteId){
 			//判断用户是否登录
 			if(SecurityUtils.getSubject().isAuthenticated()){
-				return redirect+"/index";
+				return redirect+"/"+siteId+"/index";
 			}
 			
 			
@@ -90,6 +97,9 @@ public class LoginController extends BaseController  {
 			model.addAttribute("siteId",siteId);
 			return "/s/login";
 		}
+		
+		
+		
 		
 		/**
 		 * 处理登录提交的方法
@@ -190,27 +200,6 @@ public class LoginController extends BaseController  {
 			return redirect+gotourl;
 		}
 		
-		/**
-		 * 没有权限
-		 * @param model
-		 * @return
-		 * @throws Exception
-		 */
-		@RequestMapping(value = "/unauth")
-		public String unauth(Model model) throws Exception {
-				return "/unauth";
-		}
-		
-		/**
-		 * token错误
-		 * @param model
-		 * @return
-		 * @throws Exception
-		 */
-		@RequestMapping(value = "/tokenerror")
-		public String tokenerror(Model model) throws Exception {
-				return "/tokenerror";
-		}
 		
 		/**
 		 * 退出,防止csrf
@@ -254,26 +243,6 @@ public class LoginController extends BaseController  {
 		}
 		
 		
-		/**
-		 * 生成验证码
-		 * 
-		 * @return
-		 * @throws IOException 
-		 */
-		@RequestMapping("/getCaptcha")
-		public void getCaptcha(HttpSession session,HttpServletResponse response) throws IOException {
-
-			HttpHeaders headers = new HttpHeaders();
-			headers.setContentType(MediaType.IMAGE_JPEG);
-
-			StringBuffer code = new StringBuffer();
-			BufferedImage image = CaptchaUtils.genRandomCodeImage(code);
-			session.removeAttribute(GlobalStatic.DEFAULT_CAPTCHA_PARAM);
-			session.setAttribute(GlobalStatic.DEFAULT_CAPTCHA_PARAM, code.toString());
-
-			// 将内存中的图片通过流动形式输出到客户端
-			ImageIO.write(image, "JPEG", response.getOutputStream());
-			return;
-		}
+		
 		
 }
