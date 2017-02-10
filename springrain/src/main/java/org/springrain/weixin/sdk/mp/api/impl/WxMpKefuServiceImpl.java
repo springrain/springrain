@@ -35,8 +35,7 @@ import com.google.gson.JsonObject;
  */
 @Service("wxMpKefuService")
 public class WxMpKefuServiceImpl implements IWxMpKefuService {
-  protected final Logger log = LoggerFactory
-      .getLogger(WxMpKefuServiceImpl.class);
+	 private final Logger log = LoggerFactory.getLogger(getClass());
   private static final String API_URL_PREFIX = WxConsts.mpapiurl+"/customservice";
   private static final String API_URL_PREFIX_WITH_CGI_BIN = WxConsts.mpapiurl+"/cgi-bin/customservice";
   

@@ -95,7 +95,7 @@ public class WxMpConfigServiceImpl extends BaseSpringrainServiceImpl implements 
 			wxMpConfig = super.getByCache(GlobalStatic.springrainweixinCacheKey, id, WxMpConfig.class);
 		} catch (Exception e) {
 			wxMpConfig=null;
-			logger.error(e.getMessage());
+			logger.error(e.getMessage(),e);
 		}
 		if(wxMpConfig!=null){
 			return wxMpConfig;
@@ -125,7 +125,7 @@ public class WxMpConfigServiceImpl extends BaseSpringrainServiceImpl implements 
 		try {
 			super.putByCache(GlobalStatic.springrainweixinCacheKey, id, wxmpconfig);
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			logger.error(e.getMessage(),e);
 		}
 		
 		

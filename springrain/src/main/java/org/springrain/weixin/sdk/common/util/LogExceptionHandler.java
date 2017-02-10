@@ -8,12 +8,12 @@ import org.springrain.weixin.sdk.common.exception.WxErrorException;
 
 public class LogExceptionHandler implements WxErrorExceptionHandler {
 
-  private Logger log = LoggerFactory.getLogger(WxErrorExceptionHandler.class);
+  private Logger logger = LoggerFactory.getLogger(WxErrorExceptionHandler.class);
 
   @Override
   public void handle(WxErrorException e) {
 
-    this.log.error("Error happens", e);
+    this.logger.error("Error happens", e);
 
   }
 

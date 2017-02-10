@@ -21,7 +21,7 @@ public class ExcelUtils {
 			workbook = Workbook.getWorkbook(excelFile);
 			row = workbook.getSheet(0).getRow(rowIndex);
 		} catch (Exception e) {
-			logger.error(e.getLocalizedMessage());
+			logger.error(e.getLocalizedMessage(),e);
 		} finally {
 			if (workbook != null) {
 				workbook.close();
@@ -46,7 +46,7 @@ public class ExcelUtils {
 			}
 			
 		} catch (Exception e) {
-			logger.error(e.getLocalizedMessage());
+			logger.error(e.getLocalizedMessage(),e);
 		} finally {
 			if (workbook != null) {
 				workbook.close();

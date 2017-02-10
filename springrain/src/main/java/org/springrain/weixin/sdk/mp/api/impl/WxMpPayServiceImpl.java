@@ -75,7 +75,7 @@ public class WxMpPayServiceImpl implements IWxMpPayService {
   private static final String[] TRADE_TYPES = new String[]{"JSAPI", "NATIVE", "APP"};
   private static final String[] REFUND_ACCOUNT = new String[]{"REFUND_SOURCE_RECHARGE_FUNDS",
     "REFUND_SOURCE_UNSETTLED_FUNDS"};
-  protected final Logger log = LoggerFactory.getLogger(getClass());
+  private final Logger log = LoggerFactory.getLogger(getClass());
   
   @Resource
   private IWxMpService wxMpService;
@@ -177,7 +177,7 @@ public class WxMpPayServiceImpl implements IWxMpPayService {
       xstream.alias("xml", WxPayJsSDKCallback.class);
       return (WxPayJsSDKCallback) xstream.fromXML(xmlData);
     } catch (Exception e) {
-      e.printStackTrace();
+    	log.error(e.getMessage(), e);
       throw new WxErrorException(WxError.newBuilder().setErrorMsg("发生异常" + e.getMessage()).build());
     }
   }

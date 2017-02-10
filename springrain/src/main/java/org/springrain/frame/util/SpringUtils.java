@@ -3,6 +3,8 @@ package org.springrain.frame.util;
 
 import java.net.URI;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -21,7 +23,7 @@ import org.springrain.frame.entity.BaseEntity;
 @Component("springUtils")
 public class SpringUtils  implements ApplicationContextAware {
 	
-	
+	public   Logger logger = LoggerFactory.getLogger(getClass());
 	private static ApplicationContext applicationContext;
 
 	public SpringUtils() {
@@ -35,10 +37,10 @@ public class SpringUtils  implements ApplicationContextAware {
 		try {
 				initEntityInfo();
 		} catch (Exception e) {
-				e.printStackTrace();
+			logger.error(e.getLocalizedMessage(),e);
 		}
 		
-		System.out.println("----------------------started------------------- ");
+		System.out.println("----------------------started----------------------");
 		
 	}
 	/**

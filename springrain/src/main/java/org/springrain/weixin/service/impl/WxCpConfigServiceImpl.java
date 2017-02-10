@@ -89,7 +89,7 @@ public class WxCpConfigServiceImpl extends BaseSpringrainServiceImpl implements 
 			wxcpConfig = super.getByCache(GlobalStatic.springrainweixinCacheKey, id, WxCpConfig.class);
 		} catch (Exception e) {
 			wxcpConfig=null;
-			logger.error(e.getMessage());
+			logger.error(e.getMessage(),e);
 		}
 		if(wxcpConfig!=null){
 			return wxcpConfig;
@@ -119,7 +119,7 @@ public class WxCpConfigServiceImpl extends BaseSpringrainServiceImpl implements 
 		try {
 			super.putByCache(GlobalStatic.springrainweixinCacheKey, id, WxCpConfig.class);
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			logger.error(e.getMessage(),e);
 		}
 		
 		

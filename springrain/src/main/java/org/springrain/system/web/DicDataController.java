@@ -168,7 +168,7 @@ public class DicDataController  extends BaseController {
 			
 		} catch (Exception e) {
 			String errorMessage = e.getLocalizedMessage();
-			logger.error(errorMessage);
+			logger.error(errorMessage,e);
 			returnObject.setStatus(ReturnDatas.ERROR);
 			returnObject.setMessage(MessageUtils.UPDATE_ERROR);
 		}

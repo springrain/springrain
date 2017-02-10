@@ -16,7 +16,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springrain.frame.common.BaseLogger;
 import org.springrain.frame.util.DateTypeEditor;
@@ -153,13 +152,14 @@ public class BaseController extends BaseLogger {
 
 	}
 
+	/*
 	@ExceptionHandler
 	public String exp(HttpServletRequest request, Exception e) {
-		e.printStackTrace();
 		request.setAttribute("e", e);
 		logger.error(e.getMessage(), e);
 		return "/error";
 	}
+	*/
 
 	/**
 	 * 公共下载方法

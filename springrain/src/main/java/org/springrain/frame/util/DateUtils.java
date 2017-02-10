@@ -55,7 +55,7 @@ public class DateUtils {
 		try {
 			return new SimpleDateFormat(DATE_FORMAT).parse(d);
 		} catch (Exception e) {
-			logger.error(e.getLocalizedMessage());
+			logger.error(e.getLocalizedMessage(),e);
 		}
 		return null;
 	}
@@ -67,7 +67,7 @@ public class DateUtils {
 		try {
 			return new SimpleDateFormat(DATETIME_FORMAT).parse(dt);
 		} catch (Exception e) {
-			logger.error(e.getLocalizedMessage());
+			logger.error(e.getLocalizedMessage(),e);
 		}
 		return null;
 	}
@@ -208,7 +208,7 @@ public class DateUtils {
 				return 0;
 			}
 		} catch (Exception e) {
-			logger.error(e.getLocalizedMessage());
+			logger.error(e.getLocalizedMessage(),e);
 		}
 		return 0;
 	}
@@ -273,7 +273,7 @@ public class DateUtils {
 			Date d2 = convertString2Date(DEFAILT_DATE_PATTERN, date2);
 			return d1.equals(d2);
 		} catch (ParseException e) {
-			logger.error(e.getLocalizedMessage());
+			logger.error(e.getLocalizedMessage(),e);
 			return false;
 		}
 	}

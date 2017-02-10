@@ -78,7 +78,7 @@ public class WxMpAutoLoginController extends BaseController {
 			// wxMpUser=wxMpService.oauth2getUserInfo(wxmpconfig,accessToken,"zh_CN");
 			request.getSession().setAttribute("openId", accessToken.getOpenId());
 		} catch (WxErrorException e) {
-			logger.error(e.getMessage());
+			logger.error(e.getMessage(),e);
 		}
 		return redirect + url;
 	}

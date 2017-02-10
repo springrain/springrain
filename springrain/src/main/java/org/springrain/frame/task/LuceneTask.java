@@ -2,10 +2,15 @@ package org.springrain.frame.task;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.LuceneUtils;
 
 public class LuceneTask implements Runnable {
+	
+	private final  Logger logger = LoggerFactory.getLogger(getClass());
+	
 	public final static String deleteDocument = "delete";
 	public final static String updateDocument = "update";
 	public final static String saveDocument = "save";
@@ -64,7 +69,7 @@ public class LuceneTask implements Runnable {
 				
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e.getLocalizedMessage(),e);
 		}
 
 	}

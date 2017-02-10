@@ -49,7 +49,7 @@ import org.springrain.weixin.sdk.cp.bean.WxCpXmlOutMessage;
 public class WxCpMessageRouter {
 
   private static final int DEFAULT_THREAD_POOL_SIZE = 100;
-  protected final Logger log = LoggerFactory.getLogger(WxCpMessageRouter.class);
+  private final Logger log = LoggerFactory.getLogger(getClass());
   private final List<WxCpMessageRouterRule> rules = new ArrayList<>();
 
   private final IWxCpService wxCpService;

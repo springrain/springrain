@@ -219,19 +219,6 @@ public class RegexValidateUtils {
 	
 	
 	public static void main(String[] args) {
-		/*
-		try {
-
-			
-			System.out.println(RegexValidateUtils.isContainNumber("dss1fasd;f"));
-			System.out.println(RegexValidateUtils.isContainNumber("2dsf"));
-			System.out.println(RegexValidateUtils.isContainNumber("dsf3"));
-			System.out.println(RegexValidateUtils.isContainNumber("dsf"));
-			System.out.println(RegexValidateUtils.isContainNumber("123"));
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
 		//System.out.println(RegexValidateUtils.isFloat("-012416545.000"));
 		 String countSql="select 1,(select id from ddddd) FROM abc1 where 1=1  and faa id in (select id from abc2)  distinct a order by   ";
 		 

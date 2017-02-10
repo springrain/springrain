@@ -52,7 +52,7 @@ public class OpenOfficeKit {
 				}
 			}
 		} catch (Exception e) {
-			logger.error(e.getLocalizedMessage());
+			logger.error(e.getLocalizedMessage(),e);
 		}
 	}
 
@@ -70,7 +70,7 @@ public class OpenOfficeKit {
 				pro.destroy();
 			}
 		} catch (Exception e) {
-			logger.error(e.getLocalizedMessage());
+			logger.error(e.getLocalizedMessage(),e);
 		}
 	}
 
