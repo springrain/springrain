@@ -4,8 +4,11 @@
 <script type="text/javascript" src="${ctx}/js/ztree/js/jquery.ztree.all-3.5.js"></script>
 <script type="text/javascript" src="${ctx}/js/ztree/js/ztreeUtils.js"></script>
 <script type="text/javascript" src="${ctx}/js/artTemplate/artTemplate.js"></script>
+<script type="text/javascript" src="${ctx}/js/validform/validform.min.js"></script>
+
 <link rel="stylesheet" href="${ctx}/js/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
 <link rel="stylesheet" href="${ctx}/css/custom/common/myztree.css" type="text/css">
+<link rel="stylesheet" href="${ctx}/js/validform/validform.css" media="all">
 
 
 <script>
@@ -27,15 +30,18 @@
         delWrap(_id,"${ctx}/system/cms/channel/delete");
     }
     
+    var channelJsondata4select;
+    var saveType=0;
     function loadChannelList(){
         jQuery.post("${ctx}/system/cms/channel/list/json",function(_json) {
             if (_json.status == "success") {
+            	channelJsondata4select = _json;
                 //树节点点击事件
                 var treeNodeClickFunc = function(event, treeId, treeNode){
                     if(jQuery(event.target).hasClass("myctr")){
                         //阻止事件冒泡
                         return;
-                    } 
+                    }
                     saveType=1;
                     jQuery(".add_div a").attr('tid',treeNode.tId);
                     if (treeNode.pid!='null'){
@@ -43,41 +49,49 @@
                     }
                 };
                 //添加子栏目方法回调
-                var addSubChannelFunc = function(tree,id,e){
-                    jQuery("#"+id+"_a").addClass("curSelectedNode");
-                    saveType=0;
-                    var node = tree.getNodeByTId(id);
-                    jQuery("#updateForm")[0].reset();
-                    jQuery("#pname").val(node.name);
-                    jQuery("#pid").val(node.id);
-                    jQuery("#imgIcon").html('');
-                    jQuery("#menuIcon").val('');
-                    jQuery(".add_div").css('display','none');
-                    springrain.stopBubble(e);
+                var addSubChannelFunc = function(tree,node){
+                	saveType=0;
+		    		jQuery("#updateForm")[0].reset();
+		    		jQuery("#pname").val(node.name);
+		    		var parentNode = node.getParentNode();
+		    		if(!!parentNode){
+		    			jQuery("#pid").val(node.id);
+		    			while(!!parentNode){
+			    			var tempParentNode = parentNode.getParentNode();
+							if(!!tempParentNode){
+								parentNode = tempParentNode;
+							}else{
+								break;
+							}
+			    		}
+		    		}else{
+		    			parentNode = node;	
+		    		}
+		    		$("#siteId").val(parentNode.id);
                 };
                 //删除方法回调
-                var delChannelFunc = function(treeSetting,treeObj){
-                	var id = treeObj.id;
-                    jQuery("#"+id+"_a").addClass("curSelectedNode");
-                    console.log(id);
-                    console.log(treeSetting);
-                    var node = treeSetting.getNodeByTId(id);
-                    console.log(node);
-                    /* springrain.confirm('删除这个菜单，是否继续?', function(index) {
-                        var id = node.id;
-                        if (!id || id == "") {
-                            springrain.alert('请选择你要删除的记录!');
-                            return false;
-                        } else {
-                            var _url = "${ctx}/system/menu/delete";
-                            var listurl = "${ctx}/system/menu/list";
-                            var data = {
-                                "id" : id
-                            };
-                            springrain.ajaxpostonlayer(_url, listurl, data, '删除菜单成功！');
-                        }
-                        layer.close(index);
-                    }); */
+                var delChannelFunc = function(tree,node){
+                	if(!!node.pid){
+                		springrain.alert('站点信息不能删除!');
+                	}else{
+                		springrain.confirm('删除这个菜单，是否继续?', function(index) {
+                   			var id = node.id;
+       		    			if (!id || id == "") {
+       		    				springrain.alert('请选择你要删除的记录!');
+       		    				return false;
+       		    			} else {
+       		    				var _url = "${ctx}/system/cms/channel/delete";
+       		    				var listurl = "${ctx}/system/cms/channel/list";
+       		    				var data = {
+       		    					"id" : id
+       		    				};
+       		    				springrain.ajaxpostonlayer(_url, listurl, data, '删除菜单成功！');
+       		    			}
+                    		
+    		    			layer.close(index);
+                    	});
+                	}
+                	
                 };
                 var opt = {
                     'hasMenu':true,
@@ -97,7 +111,7 @@
     }
     
     //树节点点击方法
-    function showData(treeNode){
+    function showdata(result){
     	$("#updateForm select ").each(function() {
 			$(this).find('option:first').attr('selected','selected');
 		});
@@ -111,11 +125,6 @@
 		} else {
 			jQuery("#pid").val(_pid);
 		}
-		var _imgIcon=result["menuIcon"];
-		if ((!_imgIcon) || _imgIcon == null || _imgIcon == "null" || _imgIcon == "") {
-		}else{
-			jQuery("#imgIcon").html(_imgIcon);
-		}
 		var _pNode = result.getParentNode();
 		if (_pNode) {
 			jQuery("#pname").val(_pNode["name"]);
@@ -123,6 +132,65 @@
 			jQuery("#pname").val("");
 		}
     }
+    
+    //点击显示父级菜单函数
+    var selectChannelZtree;
+    function showChannelZTree() {
+		if (!selectChannelZtree) {
+			selectChannelZtree=springrain.tree({
+				'hasMenu':false,
+				'id':'channelZtree',
+				'data':channelJsondata4select.data,
+				'treeNodeClick':function(event, treeId, treeNode){
+					if(!!treeNode.pid){
+						jQuery("#pid").val(treeNode.id);
+						var parentNode = treeNode.getParentNode();
+						while(!!parentNode){
+							var tempParentNode = parentNode.getParentNode();
+							if(!!tempParentNode){
+								parentNode = tempParentNode;
+							}else{
+								break;
+							}
+								
+						}
+						console.log(parentNode);
+						$("#siteId").val(parentNode.id);
+					}
+						
+					jQuery("#pname").val(treeNode.name);
+				}
+			});
+			
+			selectChannelZtree.expandAll(true);
+			selectZtreeOneNode(jQuery("#pid").val(), "channelZtree");
+		}
+		//页面层-自定义
+		layer.open({
+			shadeClose : true,
+			closeBtn : 1,
+			btn : [ '确定' ], //按钮
+			type : 1,
+			title : "选择父菜单",
+			area : [ '600px', '400px' ], //宽高
+			//shadeClose: true,
+			content : $("#div_channelZtree")
+		});
+	}
+    
+    
+	function dosubmit() {
+		var msg = "菜单添加成功！";
+		if (saveType == 1) {
+			msg = "菜单更新成功！";
+		}
+		var listurl = '${ctx}/system/cms/channel/list';
+		if (saveType == 0) {
+			springrain.commonSaveForm("updateForm",listurl, '菜单添加成功！');
+		} else {
+			springrain.commonUpdateForm("updateForm",listurl, '菜单更新成功！');
+		}
+	}
 </script>
 
 </head>
@@ -134,27 +202,16 @@
             <ul class="layui-tab-title site-demo-title">
                 <li style="float: right;">
                     <@shiro.hasPermission name="/system/cms/channel/update" >
-                    <button type="button" class="layui-btn layui-btn-small"
+                    <!-- <button type="button" class="layui-btn layui-btn-small"
                         data-action="${ctx}/system/cms/channel/update/pre">
                         <i class="layui-icon layui-icon-specil">&#xe61f;</i>新增
-                    </button>
-                    </@shiro.hasPermission>
-                    <@shiro.hasPermission name="/system/cms/channel/export" >
-                    <button type="button" class="layui-btn layui-btn-small">
-                        <i class="layui-icon layui-icon-specil">&#xe609;</i>导出
-                    </button>
-                    </@shiro.hasPermission>
-                    <@shiro.hasPermission name="/system/cms/channel/import" >
-                    <button type="button"
-                        class="layui-btn layui-btn-warm layui-btn-small">
-                        <i class="layui-icon layui-icon-specil">&#xe601;</i>导入
-                    </button>
+                    </button> -->
                     </@shiro.hasPermission>
                     <@shiro.hasPermission name="/system/cms/channel/delete" >
-                    <button type="button"
+                    <!-- <button type="button"
                         class="layui-btn layui-btn-danger layui-btn-small">
                         <i class="layui-icon">&#xe640;</i>批量删除
-                    </button>
+                    </button> -->
                     </@shiro.hasPermission>
                 </li>
             </ul>
@@ -184,7 +241,8 @@
 										<div class="layui-form-item col-lg-6">
 											<label class="layui-form-label">父级栏目*</label>
 											<div class="layui-inline col-lg-5">
-												<input type="text" name="pid" id="pid"  class="layui-input" value="">
+												<input type="hidden" name="pid" id="pid" value="">
+												<input type="text" name="pname" id="pname" class="layui-input" value="" onclick="showChannelZTree();"/>
 											</div>
 											<div class="layui-inline valid-info"></div>
 										</div>
@@ -248,10 +306,8 @@
 											<div class="layui-inline valid-info"></div>
 										</div>
 										<div class="layui-form-item change-submit col-lg-5 tc">
-											<div class="layui-inline">
-												<button type="button" class="layui-btn" id="smtbtn">立即提交</button>
-												<button type="button" class="layui-btn layui-btn-primary"
-													id="rstbtn">重置</button>
+											<div class="layui-inline  col-lg-6">
+												<button type="button" class="layui-btn"   onclick="dosubmit();" id="smtbtn">立即提交</button>
 											</div>
 										</div>
                                		</form>     
