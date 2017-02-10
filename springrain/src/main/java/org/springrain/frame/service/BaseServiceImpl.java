@@ -59,8 +59,8 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 
 	@Resource
 	public SpringUtils springUtils;
-	@Resource
-	public FreeMarkerConfigurer freeMarkerConfigurer;
+	//@Resource
+	public FreeMarkerConfigurer freeMarkerConfigurer=null;
 	
 	@Resource
 	private CacheManager cacheManager;
@@ -309,6 +309,16 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 	@Override
 	public <T> File findDataExportExcel(Finder finder, String ftlurl,
 			Page page, Class<T> clazz, Object queryBean) throws Exception {
+		
+		if(freeMarkerConfigurer==null){
+			freeMarkerConfigurer=(FreeMarkerConfigurer) SpringUtils.getBean("freeMarkerConfigurer");
+		}
+		
+		if(freeMarkerConfigurer==null){
+			return null;
+		}
+		
+		
 		Map map = new HashMap();
 		ReturnDatas returnDatas=new ReturnDatas();
 		map.put(GlobalStatic.exportexcel, true);// 设置导出excel变量
