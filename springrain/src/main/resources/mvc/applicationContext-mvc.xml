@@ -128,7 +128,7 @@
 	
 
 	<!--  
-	 <import resource="classpath*:mvc/applicationContext-mvc-share.xml" />
+	 <import resource="classpath*:mvc/applicationContext-freemarker-config.xml" />
 	-->
 
 </beans>
