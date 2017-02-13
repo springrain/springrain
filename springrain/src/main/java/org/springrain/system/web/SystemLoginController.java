@@ -10,6 +10,7 @@ import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.util.WebUtils;
+import org.springframework.aop.ThrowsAdvice;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +24,7 @@ import org.springrain.system.entity.User;
 
 @Controller
 @RequestMapping(value="/system")
-public class SystemLoginController extends BaseController  {
+public class SystemLoginController extends BaseController   {
 	
 	/**
 	 * 首页的映射
@@ -67,7 +68,6 @@ public class SystemLoginController extends BaseController  {
 		 */
 		@RequestMapping(value = "/login",method=RequestMethod.GET)
 		public String login(Model model,HttpServletRequest request) throws Exception {
-			
 			return getLoginUrl(model,request,null);
 		}
 		

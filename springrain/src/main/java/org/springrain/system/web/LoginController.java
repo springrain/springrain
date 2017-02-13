@@ -52,15 +52,11 @@ public class LoginController extends BaseController  {
 	 */
 		@RequestMapping(value = "/{siteId}/index")
 		public String index(Model model,@PathVariable String siteId) throws Exception {
-			
 			return "/index"; 
-//			return "/index";  
-			
 		}
 		
 		@RequestMapping(value = "/login",method=RequestMethod.GET)
 		public String login(Model model,HttpServletRequest request) throws Exception {
-			
 			return getLoginUrl(model,request,null);
 		}
 		
