@@ -228,7 +228,7 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
 		if(StringUtils.isBlank(userId)){
 			return null;
 		}
-		
+		//删除前判断
 		
 		Finder f_del_role=Finder.getDeleteFinder(UserRole.class).append(" WHERE userId=:userId ").setParam("userId", userId);
 		super.update(f_del_role);

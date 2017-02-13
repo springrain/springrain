@@ -133,36 +133,6 @@
 				function dosave() {
 					_valid_form=springrain.commonSaveForm("validForm", listurl, '角色添加成功！');
 				}
-				
-				
-	
-	
-				var orgSelectSetting = {
-						view: {
-							showLine: true,
-							showIcon: true,
-							selectedMulti: false,
-							dblClickExpand: false,
-							addDiyDom: addDiyDom
-						},
-					callback : {
-						onClick : clickOrgValue
-					},
-					data : {
-						simpleData : {
-							enable : true,
-							idKey : "id",
-							pIdKey : "pid",
-							rootPId : "null",
-						}
-					}
-				};
-				
-				function clickOrgValue(event, treeId, treeNode) {
-					jQuery("#orgname").val(treeNode.name);
-					jQuery("#orgId").val(treeNode.id);
-				};
-				
 				function addDiyDom(treeId, treeNode) {
 					var spaceWidth = 5;
 					var switchObj = $("#" + treeNode.tId + "_switch"),
@@ -177,45 +147,20 @@
 				}
 				var selectOrgZtree;
 				var orgjsondata4select;
-
-				$(document).ready(function() {
-					jQuery.post("${ctx}/system/org/list/json",function(_json) {
-						if (_json.status == "success") {
-							orgjsondata4select = _json;
-							$.fn.zTree.init($("#orgListTree"),orgTreesetting,_json.data);
-							var zTree = $.fn.zTree.getZTreeObj("orgListTree");
-							zTree.expandAll(true);
-							
-							var treeObj = $("#orgListTree");
-							treeObj.hover(function () {
-								if (!treeObj.hasClass("showIcon")) {
-									treeObj.addClass("showIcon");
-								}
-							}, function() {
-								treeObj.removeClass("showIcon");
-							});
-						} else {
-							myalert(_json.message);
-						}
-					});
-					/*
-					不要此方法了，org中去掉了 部门主管角色 
-					*/
-					//springrain.select2Remote("managerRoleId", "${ctx}/system/role/ajax/select2", 250, "id", "name",false);
-				});
-				
 				function showOrgTree() {
 					if (!selectOrgZtree) {
-						$.fn.zTree.init($("#selectOrgTree"), orgSelectSetting,
-								orgjsondata4select.data);
-
-						selectOrgZtree = $.fn.zTree
-								.getZTreeObj("selectOrgTree");
+						selectOrgZtree=selectMenuZtree=springrain.tree({
+							'hasMenu':false,
+							'id':'selectOrgTree',
+							'data':orgjsondata4select.data,
+							'treeNodeClick':function(event, treeId, treeNode){
+								jQuery("#orgname").val(treeNode.name);
+								jQuery("#orgId").val(treeNode.id);
+							}
+						});
 						selectOrgZtree.expandAll(true);
-						selectZtreeOneNode(jQuery("#orgId").val(),
-								"selectOrgTree");
+						selectZtreeOneNode(jQuery("#orgId").val(),"selectOrgTree");
 					}
-
 					//页面层-自定义
 					layer.open({
 						shadeClose : true,
