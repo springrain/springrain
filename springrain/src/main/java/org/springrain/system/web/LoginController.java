@@ -52,15 +52,11 @@ public class LoginController extends BaseController  {
 	 */
 		@RequestMapping(value = "/index")
 		public String index(Model model) throws Exception {
-			
 			return "/index"; 
-//			return "/index";  
-			
 		}
 		
 		@RequestMapping(value = "/login",method=RequestMethod.GET)
 		public String login(Model model,HttpServletRequest request) throws Exception {
-			
 			return getLoginUrl(model,request,null);
 		}
 		
@@ -94,7 +90,6 @@ public class LoginController extends BaseController  {
 			
 			//默认赋值message,避免freemarker尝试从session取值,造成异常
 			model.addAttribute("message", "");
-			model.addAttribute("siteId",siteId);
 			return "/login";
 		}
 		

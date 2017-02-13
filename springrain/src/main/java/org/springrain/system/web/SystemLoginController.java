@@ -10,6 +10,7 @@ import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.util.WebUtils;
+import org.springframework.aop.ThrowsAdvice;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +24,7 @@ import org.springrain.system.entity.User;
 
 @Controller
 @RequestMapping(value="/system")
-public class SystemLoginController extends BaseController  {
+public class SystemLoginController extends BaseController   {
 	
 	/**
 	 * 首页的映射
@@ -45,7 +46,11 @@ public class SystemLoginController extends BaseController  {
 	 * @throws Exception
 	 */
 		@RequestMapping(value = "/index")
-		public String index(Model model) throws Exception {
+		public String index(Model model,HttpSession session,HttpServletRequest request) throws Exception {
+			String siteId = (String) session.getAttribute("siteId");
+			if(StringUtils.isNotBlank(siteId)){
+				model.addAttribute("siteId", siteId);
+			}
 				return "/system/index";
 			
 		}
@@ -63,22 +68,17 @@ public class SystemLoginController extends BaseController  {
 		 */
 		@RequestMapping(value = "/login",method=RequestMethod.GET)
 		public String login(Model model,HttpServletRequest request) throws Exception {
-			
 			return getLoginUrl(model,request,null);
 		}
 		
-		@RequestMapping(value = "/{siteId}/login",method=RequestMethod.GET)
-		public String siteLogin(Model model,HttpServletRequest request,@PathVariable String siteId) throws Exception {
-			model.addAttribute("siteId", siteId);
-			return getLoginUrl(model, request, siteId);
+		@RequestMapping(value = "/{systemSiteId}/login",method=RequestMethod.GET)
+		public String siteLogin(Model model,HttpServletRequest request,@PathVariable String systemSiteId) throws Exception {
+			model.addAttribute("systemSiteId", systemSiteId);
+			return getLoginUrl(model, request, systemSiteId);
 		}
 		
 		
 		private String getLoginUrl(Model model,HttpServletRequest request,String siteId){
-			if(StringUtils.isNotBlank(siteId)){
-				model.addAttribute("siteId", siteId);
-			}
-			
 			
 			//判断用户是否登录
 			if(SecurityUtils.getSubject().isAuthenticated()){
@@ -95,14 +95,6 @@ public class SystemLoginController extends BaseController  {
 			
 			return "/system/login";
 		}
-		
-		
-		
-		
-		
-		
-		
-		
 		
 		
 		/**
@@ -124,9 +116,10 @@ public class SystemLoginController extends BaseController  {
 			  session.removeAttribute(GlobalStatic.DEFAULT_CAPTCHA_PARAM);
 			  
 			  
-			  String siteId=request.getParameter("siteId");
-			  if(StringUtils.isNotBlank(siteId)){
-					model.addAttribute("siteId", siteId);
+			  String systemSiteId=request.getParameter("systemSiteId");
+			  if(StringUtils.isNotBlank(systemSiteId)){
+					model.addAttribute("systemSiteId", systemSiteId);
+					session.setAttribute("siteId",systemSiteId);
 				}
 			  
 			  if(StringUtils.isNotBlank(code)){
@@ -198,12 +191,11 @@ public class SystemLoginController extends BaseController  {
 			*/
 			
 			if(StringUtils.isBlank(gotourl)){
-				if(StringUtils.isBlank(siteId)){
+				if(StringUtils.isBlank(systemSiteId)){
 					gotourl="/system/index";
 				}else{
-					gotourl="/system/"+siteId+"/index";
+					gotourl="/system/"+systemSiteId+"/index";
 				}
-				
 			}
 			//设置tokenkey
 			String springraintoken="system_"+SecUtils.getUUID();
