@@ -94,6 +94,8 @@
 				/ueditor/**=user<!-- UEditor的配置访问路径  -->
 				<!-- E  -->
 				
+				/errorpage/*=noSessionCreation
+				
 				/mp/**=firewall
 				
 				/f/pc/** = firewall

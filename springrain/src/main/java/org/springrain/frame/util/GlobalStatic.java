@@ -45,7 +45,7 @@ public class GlobalStatic {
     //如果token错误,跳转地址的key
     public static final String errorTokentoURLKey="errorspringraintokentourlkey";
     //token错误跳转的页面
-    public static final String errorTokentoURL="/tokenerror";
+    public static final String errorTokentoURL="/errorpage/tokenerror";
     
     //自定义的登录地址key
     public static final String customLoginURLKey="customLoginURLKey";

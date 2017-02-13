@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -11,6 +12,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springrain.frame.controller.BaseController;
 import org.springrain.frame.util.CaptchaUtils;
@@ -33,31 +35,25 @@ public class CommonController extends BaseController  {
 		}
 		
 		/**
-		 * token错误
+		 * 错误页面
 		 * @param model
 		 * @return
 		 * @throws Exception
 		 */
-		@RequestMapping(value = "/tokenerror")
-		public String tokenerror(Model model) throws Exception {
-				return "/tokenerror";
+		@RequestMapping(value = "/errorpage/{error}")
+		public String errorpage(HttpServletRequest request,@PathVariable String error) throws Exception {
+			
+			
+			Exception exception = (Exception) request.getAttribute("javax.servlet.error.exception");
+			
+			if(exception!=null){
+				logger.error(exception.getMessage(), exception);
+				request.setAttribute("exception", exception.getMessage());
+			}
+			
+			
+			return "/errorpage/"+error;
 		}
-		
-		
-		/**
-		 * token错误
-		 * @param model
-		 * @return
-		 * @throws Exception
-		 */
-		@RequestMapping(value = "/error")
-		public String error(Model model) throws Exception {
-				return "/error";
-		}
-		
-		
-		
-		
 		
 		
 		
