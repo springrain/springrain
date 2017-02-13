@@ -45,7 +45,11 @@ public class SystemLoginController extends BaseController  {
 	 * @throws Exception
 	 */
 		@RequestMapping(value = "/index")
-		public String index(Model model) throws Exception {
+		public String index(Model model,HttpSession session,HttpServletRequest request) throws Exception {
+			String siteId = (String) session.getAttribute("siteId");
+			if(StringUtils.isNotBlank(siteId)){
+				model.addAttribute("siteId", siteId);
+			}
 				return "/system/index";
 			
 		}
@@ -126,6 +130,7 @@ public class SystemLoginController extends BaseController  {
 			  
 			  String siteId=request.getParameter("siteId");
 			  if(StringUtils.isNotBlank(siteId)){
+				  session.setAttribute("siteId",siteId);
 					model.addAttribute("siteId", siteId);
 				}
 			  
@@ -198,11 +203,12 @@ public class SystemLoginController extends BaseController  {
 			*/
 			
 			if(StringUtils.isBlank(gotourl)){
-				if(StringUtils.isBlank(siteId)){
+				/*if(StringUtils.isBlank(siteId)){
 					gotourl="/system/index";
 				}else{
 					gotourl="/system/"+siteId+"/index";
-				}
+				}*/
+				gotourl="/system/index";
 				
 			}
 			//设置tokenkey
