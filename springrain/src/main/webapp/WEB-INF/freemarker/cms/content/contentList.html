@@ -122,6 +122,10 @@
         		}
 				var htmlStr = template('gridDataTemp', ret);
 				$('#dataGrid').html(htmlStr);
+				
+				var page = ret.page;
+				("#recordsView span").eq(0).html(page.pageCount);
+				("#recordsView span").eq(1).html(page.totalCount);
 			}
 		});
     }
@@ -249,6 +253,10 @@
 							                </#list> </#if>
 							            </tbody>
 							        </table>
+							        <#if returnDatas.page??> 
+										<div id='laypageDiv'></div>
+										<@h.layPage page=returnDatas.page /> 
+									</#if>
                                 </div>
                             </div>
                         </div>
