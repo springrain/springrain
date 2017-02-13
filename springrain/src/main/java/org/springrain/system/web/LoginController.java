@@ -50,8 +50,8 @@ public class LoginController extends BaseController  {
 	 * @return
 	 * @throws Exception
 	 */
-		@RequestMapping(value = "/index")
-		public String index(Model model) throws Exception {
+		@RequestMapping(value = "/{siteId}/index")
+		public String index(Model model,@PathVariable String siteId) throws Exception {
 			
 			return "/index"; 
 //			return "/index";  
@@ -94,7 +94,6 @@ public class LoginController extends BaseController  {
 			
 			//默认赋值message,避免freemarker尝试从session取值,造成异常
 			model.addAttribute("message", "");
-			model.addAttribute("siteId",siteId);
 			return "/login";
 		}
 		

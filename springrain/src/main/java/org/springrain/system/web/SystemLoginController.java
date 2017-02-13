@@ -71,18 +71,14 @@ public class SystemLoginController extends BaseController  {
 			return getLoginUrl(model,request,null);
 		}
 		
-		@RequestMapping(value = "/{siteId}/login",method=RequestMethod.GET)
-		public String siteLogin(Model model,HttpServletRequest request,@PathVariable String siteId) throws Exception {
-			model.addAttribute("siteId", siteId);
-			return getLoginUrl(model, request, siteId);
+		@RequestMapping(value = "/{systemSiteId}/login",method=RequestMethod.GET)
+		public String siteLogin(Model model,HttpServletRequest request,@PathVariable String systemSiteId) throws Exception {
+			model.addAttribute("systemSiteId", systemSiteId);
+			return getLoginUrl(model, request, systemSiteId);
 		}
 		
 		
 		private String getLoginUrl(Model model,HttpServletRequest request,String siteId){
-			if(StringUtils.isNotBlank(siteId)){
-				model.addAttribute("siteId", siteId);
-			}
-			
 			
 			//判断用户是否登录
 			if(SecurityUtils.getSubject().isAuthenticated()){
@@ -99,14 +95,6 @@ public class SystemLoginController extends BaseController  {
 			
 			return "/system/login";
 		}
-		
-		
-		
-		
-		
-		
-		
-		
 		
 		
 		/**
@@ -128,10 +116,10 @@ public class SystemLoginController extends BaseController  {
 			  session.removeAttribute(GlobalStatic.DEFAULT_CAPTCHA_PARAM);
 			  
 			  
-			  String siteId=request.getParameter("siteId");
-			  if(StringUtils.isNotBlank(siteId)){
-				  session.setAttribute("siteId",siteId);
-					model.addAttribute("siteId", siteId);
+			  String systemSiteId=request.getParameter("systemSiteId");
+			  if(StringUtils.isNotBlank(systemSiteId)){
+					model.addAttribute("systemSiteId", systemSiteId);
+					session.setAttribute("siteId",systemSiteId);
 				}
 			  
 			  if(StringUtils.isNotBlank(code)){
@@ -203,13 +191,11 @@ public class SystemLoginController extends BaseController  {
 			*/
 			
 			if(StringUtils.isBlank(gotourl)){
-				/*if(StringUtils.isBlank(siteId)){
+				if(StringUtils.isBlank(systemSiteId)){
 					gotourl="/system/index";
 				}else{
-					gotourl="/system/"+siteId+"/index";
-				}*/
-				gotourl="/system/index";
-				
+					gotourl="/system/"+systemSiteId+"/index";
+				}
 			}
 			//设置tokenkey
 			String springraintoken="system_"+SecUtils.getUUID();
