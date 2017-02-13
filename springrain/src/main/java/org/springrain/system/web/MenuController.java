@@ -73,7 +73,8 @@ public class MenuController  extends BaseController {
 	ReturnDatas listjson(HttpServletRequest request, Model model, Menu menu) throws Exception {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 	
-		List<Menu> datas = menuService.findListDataByFinder(null, null, Menu.class, menu);
+		//List<Menu> datas = menuService.findListDataByFinder(null, null, Menu.class, menu); 
+		List<Menu> datas =userRoleMenuService.findMenuByUserId(SessionUser.getUserId());
 		returnObject.setQueryBean(menu);
 		//returnObject.setPage(page);
 		returnObject.setData(datas);
