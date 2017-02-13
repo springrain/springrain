@@ -108,7 +108,9 @@
 				/getCaptcha=firewall
 				
 				/login = firewall
-				/**/login = firewall
+				/system/login = firewall
+				/system/*/login = firewall
+				
 				
 				
 				/index = firewall,user,keepone
@@ -119,7 +121,6 @@
 			
 				/system/menu/leftMenu=firewall,systemuser,keepone
 				
-				/system/**=firewall,systemuser,framefwlog,keepone
 				/** = firewall,frontuser,framefwlog,keepone,frameperms
 			</value>
 		</property>
