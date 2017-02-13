@@ -94,7 +94,6 @@ public class LoginController extends BaseController  {
 			
 			//默认赋值message,避免freemarker尝试从session取值,造成异常
 			model.addAttribute("message", "");
-			model.addAttribute("siteId",siteId);
 			return "/login";
 		}
 		
