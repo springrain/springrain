@@ -50,8 +50,8 @@ public class LoginController extends BaseController  {
 	 * @return
 	 * @throws Exception
 	 */
-		@RequestMapping(value = "/index")
-		public String index(Model model) throws Exception {
+		@RequestMapping(value = "/{siteId}/index")
+		public String index(Model model,@PathVariable String siteId) throws Exception {
 			return "/index"; 
 		}
 		
