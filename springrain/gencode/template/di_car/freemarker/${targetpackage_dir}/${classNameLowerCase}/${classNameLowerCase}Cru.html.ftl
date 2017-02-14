@@ -79,7 +79,7 @@ ${r"<@h.commonHead"} title="后台管理系统" keywords="开源,永久免费" d
 													<div class="layui-form-item change-submit">
 													<label class="layui-form-label"></label>
 															<div class="layui-inline">
-																<button type="button" class="layui-btn" id="smtbtn">立即提交</button>
+																<button type="button" class="layui-btn" id="smtbtn">保存</button>
 																<button type="button" class="layui-btn layui-btn-primary" id="rstbtn">重置</button>
 															</div>
 														</div>

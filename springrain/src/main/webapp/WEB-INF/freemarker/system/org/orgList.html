@@ -92,13 +92,22 @@ description="springrain开源系统管理后台"/>
 					}
 				}
 				function showOrgTree() {
-
+					debugger;
 					if (!selectOrgZtree) {
 						selectOrgZtree=springrain.tree({
 							'hasMenu':false,
 							'id':'selectOrgTree',
 							'data':orgjsondata4select.data,
 							'treeNodeClick':function(event, treeId, treeNode){
+								//父级不让选择自己
+								debugger;
+								var _now_id=jQuery("#id").val();
+								if(_now_id!=null&&_now_id!=''&&_now_id==treeNode.id){
+									jQuery("#pname").val('');
+									jQuery("#pid").val('');
+									springrain.msg("父级不能选择自己",1);
+									return false;
+								}
 								jQuery("#pname").val(treeNode.name);
 								jQuery("#pid").val(treeNode.id);
 							}
@@ -141,8 +150,8 @@ description="springrain开源系统管理后台"/>
 						springrain.msg("没有要清空的数据",5);
 						return;
 					}
-					jQuery("#pname").val('');
-					jQuery("#pid").val('');
+					jQuery("#pname").val('平台');
+					jQuery("#pid").val('o_10001');
 					springrain.msg("清除成功，保存生效",null);
 				}
 			</SCRIPT>
@@ -154,11 +163,11 @@ description="springrain开源系统管理后台"/>
 						<div class="layui-main">
 						<div class="container-fluid">
 							<div class="row">
-								<div class="fl per30">
+								<div class="fl per30" style="min-width:360px">
 									<ul id="orgListTree" class="ztree"></ul>
 								</div>
-								<div class="fl per50 rlt">
-									<div class="fl per20 line-vertical"></div>
+								<div class="fl per60 rlt">
+									<div class="fl line-vertical"></div>
 									<form id="validForm" name="validForm" method="post" action="${ctx}/system/org/update" class="layui-form">
 			                        	<input type="hidden" name="id" id="id"> 
 			                        	<input type="hidden" name="opmode" id="opmode" value="">
@@ -184,7 +193,7 @@ description="springrain开源系统管理后台"/>
 									  	<div class="layui-form-item  col-lg-9">
 												<label class="layui-form-label col-lg-3"></label>
 												<div class="layui-inline  col-lg-6">
-													说明：清空父级后做为顶级存在
+													说明：清空父级后做为平台下顶级
 												</div>
 											</div>
 										<div class="layui-form-item  col-lg-9">
@@ -233,7 +242,7 @@ description="springrain开源系统管理后台"/>
 									  	<div class="layui-form-item change-submit  col-lg-9">
 															<label class="layui-form-label  col-lg-3"></label>
 															<div class="layui-inline  col-lg-6">
-																<button type="button" class="layui-btn"   onclick="dosubmit();" id="smtbtn">立即提交</button>
+																<button type="button" class="layui-btn"   onclick="dosubmit();" id="smtbtn">保存</button>
 															</div>
 											</div>
 			                         </form>
@@ -248,7 +257,7 @@ description="springrain开源系统管理后台"/>
 		<!-- 主体内容结束 -->
 		<@h.footer />
 	</div>
-	<div id="div_select_org_tree">
+	<div id="div_select_org_tree" style="display:none;">
        	<ul id="selectOrgTree" class="ztree"></ul>
      </div>
     <script>

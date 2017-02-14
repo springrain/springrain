@@ -41,5 +41,5 @@
 background:#fff;border:1px solid #d3d3d3;box-shadow:2px 2px 5px #d3d3d3;border-radius: 2px;}
 .add_div a{display:block!important;text-align:left;width:110px!important;z-index: 99999;padding:4px 15px;}
 .add_div a:hover{background:#d3d3d3;}
-.myctrwrap{background:url("../../../img/narrow.png");width:14px!important;height:14px!important;margin-top:8px!important;position:absolute!important;right:4px;position:relative;}
+.myctrwrap{background:url("../../../img/narrow.png");z-index:99999;width:14px!important;height:14px!important;top:8px!important;position:absolute!important;right:4px;position:relative;}
 .ztree li a.curSelectedNode{opacity:1!important;}
