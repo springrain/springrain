@@ -1,7 +1,6 @@
 package org.springrain.frame.util;
 
 import java.beans.PropertyEditorSupport;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -15,11 +14,6 @@ import org.springframework.util.StringUtils;
  * 扩展支持yyyy,yyyy-MM日期格式
  */
 public class DateTypeEditor extends PropertyEditorSupport {
-	public static final DateFormat DF_LONG = new SimpleDateFormat(
-			"yyyy-MM-dd HH:mm:ss");
-	public static final DateFormat DF_SHORT = new SimpleDateFormat("yyyy-MM-dd");
-	public static final DateFormat DF_YEAR = new SimpleDateFormat("yyyy");
-	public static final DateFormat DF_MONTH = new SimpleDateFormat("yyyy-MM");
 	/**
 	 * 短类型日期长度
 	 */
@@ -37,13 +31,13 @@ public class DateTypeEditor extends PropertyEditorSupport {
 		}
 		try {
 			if (text.length() <= YEAR_DATE) {
-				setValue(DF_YEAR.parse(text));
+				setValue(new SimpleDateFormat("yyyy").parse(text));
 			}else  if (text.length() <= MONTH_DATE) {
-				setValue(DF_MONTH.parse(text));
+				setValue(new SimpleDateFormat("yyyy-MM").parse(text));
 			}else if (text.length() <= SHORT_DATE) {
-				setValue(DF_SHORT.parse(text));
+				setValue(new SimpleDateFormat("yyyy-MM-dd").parse(text));
 			} else {
-				setValue(DF_LONG.parse(text));
+				setValue(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(text));
 			}
 		} catch (ParseException ex) {
 			IllegalArgumentException iae = new IllegalArgumentException(
@@ -58,6 +52,6 @@ public class DateTypeEditor extends PropertyEditorSupport {
 	 */
 	public String getAsText() {
 		Date value = (Date) getValue();
-		return (value != null ? DF_LONG.format(value) : "");
+		return (value != null ? new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(value) : "");
 	}
 }
