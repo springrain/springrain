@@ -17,6 +17,7 @@
         <meta name="format-detection" content="telephone=no" />
         <script type="text/javascript">
             var ctx="${ctx}";
+            var springSysSiteId = "${siteId!''}";
             var springraintoken="${springraintoken!''}";
         </script>
 </#macro>
@@ -52,7 +53,8 @@
         <div class="layui-header header header-demo">
           <div class="layui-main">
      		<a class="logo" href='javascript:springrain.goTo("${ctx}/system/index")'; style="left:0px;">
-              	<img src="<#if siteId??><@cms_site siteId="${siteId!}">${(site.logo)!'{ctx}/img/logo.png'}</@cms_site><#else>${ctx}/img/logo.png</#if>" alt="springrain"  style="width:30%;height:auto;">
+              	<!-- <img src="<#if siteId??><@cms_site siteId="${siteId!}">${(site.logo)!'{ctx}/img/logo.png'}</@cms_site><#else>${ctx}/img/logo.png</#if>" alt="springrain"  style="width:30%;height:auto;"> -->
+              	<img id="siteLogo" src="${ctx}/img/logo.png" alt="springrain"  style="width:30%;height:auto;">
             </a>
             <ul class="layui-nav" style="left:185px;height:50px;" id="naviHeaderMenu">
             </ul>
@@ -104,13 +106,13 @@
       
      <!-- footer -->
         <div class="layui-footer footer footer-demo">
-          <div class="layui-main">
-          	<#if siteId??>
+          <div class="layui-main" id="siteFooter">
+          	<!-- <#if siteId??>
           		<@cms_site siteId="${siteId!}">${(site.footer)!'<p>2016 &copy; <a href="http://www.weicms.net">www.weicms.net</a>Apache Licence 2.0</p>'}</@cms_site>
           	<#else>
           		<p>2016 &copy; <a href="http://www.weicms.net">www.weicms.net</a>Apache Licence 2.0</p>
-          	</#if>
-            
+          	</#if> -->
+            <p>2016 &copy; <a href="http://www.weicms.net">www.weicms.net</a>Apache Licence 2.0</p>
           </div>
         </div>
         

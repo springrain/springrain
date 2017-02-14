@@ -10,7 +10,6 @@ import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.util.WebUtils;
-import org.springframework.aop.ThrowsAdvice;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,12 +46,7 @@ public class SystemLoginController extends BaseController   {
 	 */
 		@RequestMapping(value = "/index")
 		public String index(Model model,HttpSession session,HttpServletRequest request) throws Exception {
-			String siteId = (String) session.getAttribute("siteId");
-			if(StringUtils.isNotBlank(siteId)){
-				model.addAttribute("siteId", siteId);
-			}
 				return "/system/index";
-			
 		}
 		
 	
@@ -90,9 +84,6 @@ public class SystemLoginController extends BaseController   {
 			  if(StringUtils.isNotBlank(url)){
 			     model.addAttribute("gotourl", url);
 			  }
-			
-			
-			
 			return "/system/login";
 		}
 		
@@ -119,7 +110,6 @@ public class SystemLoginController extends BaseController   {
 			  String systemSiteId=request.getParameter("systemSiteId");
 			  if(StringUtils.isNotBlank(systemSiteId)){
 					model.addAttribute("systemSiteId", systemSiteId);
-					session.setAttribute("siteId",systemSiteId);
 				}
 			  
 			  if(StringUtils.isNotBlank(code)){
@@ -141,7 +131,7 @@ public class SystemLoginController extends BaseController   {
 			
 			String rememberme=request.getParameter("rememberme");
 			if(StringUtils.isNotBlank(rememberme)){
-			token.setRememberMe(true);
+				token.setRememberMe(true);
 			}else{
 				token.setRememberMe(false);
 			}

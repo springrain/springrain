@@ -98,6 +98,8 @@ public class CmsContent  extends BaseEntity {
 	private String siteId;
 	//栏目Id
 	private java.lang.String channelId;
+	
+	private String channelName;
 	/**
 	 * 排序
 	 */
@@ -263,6 +265,14 @@ public class CmsContent  extends BaseEntity {
 
 	public void setSummary(java.lang.String summary) {
 		this.summary = summary;
+	}
+	@Transient
+	public String getChannelName() {
+		return channelName;
+	}
+
+	public void setChannelName(String channelName) {
+		this.channelName = channelName;
 	}
 
 	public String toString() {
