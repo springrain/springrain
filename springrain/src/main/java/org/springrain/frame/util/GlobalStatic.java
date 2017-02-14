@@ -9,7 +9,7 @@ package org.springrain.frame.util;
 public class GlobalStatic {
 	public static  String rootdir=null;
 	public static  String webinfodir=null;
-	public static final String tempRootpath = System.getProperty("user.dir") + "/temp/";
+	public static  String tempRootpath = System.getProperty("user.dir") + "/temp/";
 	public static final int excelPageSize=1000;
 	public static final  String suffix=".html";
 	public static final String excelext=".xls";
@@ -102,6 +102,8 @@ public class GlobalStatic {
 		}
 		
 		rootdir=path;
+		
+		tempRootpath = rootdir + "/temp/";
 		
 	}
 	
