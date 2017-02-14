@@ -36,48 +36,52 @@
     //点击显示父级菜单函数
     var selectChannelZtree;
     function showChannelZTree() {
-    	jQuery.post("${ctx}/system/cms/channel/list/json",function(_json) {
-    		if (!selectChannelZtree) {
-    			selectChannelZtree=springrain.tree({
-    				'hasMenu':false,
-    				'id':'channelZtree',
-    				'data':_json.data,
-    				'treeNodeClick':function(event, treeId, treeNode){
-    					if(!!treeNode.pid){
-    						jQuery("#channelId").val(treeNode.id);
-    						var parentNode = treeNode.getParentNode();
-    						while(!!parentNode){
-    							var tempParentNode = parentNode.getParentNode();
-    							if(!!tempParentNode){
-    								parentNode = tempParentNode;
-    							}else{
-    								break;
-    							}
-    						}
-    						$("#siteId").val(parentNode.id);
-    					}
-    						
-    					jQuery("#channelName").val(treeNode.name);
-    				}
-    			});
-    			
-    			selectChannelZtree.expandAll(true);
-    			selectZtreeOneNode(jQuery("#channelId").val(), "channelZtree");
-    		}
-    		//页面层-自定义
-    		layer.open({
-    			shadeClose : true,
-    			closeBtn : 1,
-    			btn : [ '确定' ], //按钮
-    			type : 1,
-    			title : "选择父菜单",
-    			area : [ '600px', '400px' ], //宽高
-    			//shadeClose: true,
-    			content : $("#div_channelZtree")
+    	if(!!selectChannelZtree){
+    		initTree(selectChannelZtree);
+    	}else{
+    		jQuery.post("${ctx}/system/cms/channel/list/json",function(_json) {
+    			selectChannelZtree = springrain.tree({
+    	            'hasMenu':false,
+    	            'id':'channelZtree',
+    	            'data':_json.data,
+    	            'treeNodeClick':function(event, treeId, treeNode){
+    	                if(!!treeNode.pid){
+    	                    jQuery("#channelId").val(treeNode.id);
+    	                    var parentNode = treeNode.getParentNode();
+    	                    while(!!parentNode){
+    	                        var tempParentNode = parentNode.getParentNode();
+    	                        if(!!tempParentNode){
+    	                            parentNode = tempParentNode;
+    	                        }else{
+    	                            break;
+    	                        }
+    	                    }
+    	                    $("#siteId").val(parentNode.id);
+    	                }
+    	                    
+    	                jQuery("#channelName").val(treeNode.name);
+    	            }
+    	        });
+    			initTree(selectChannelZtree);
     		});
-    	});
-		
+    	}
 	}
+    
+    function initTree(selectChannelZtree){
+        selectChannelZtree.expandAll(true);
+        selectZtreeOneNode(jQuery("#channelId").val(), "channelZtree");
+      //页面层-自定义
+        layer.open({
+            shadeClose : true,
+            closeBtn : 1,
+            btn : [ '确定' ], //按钮
+            type : 1,
+            title : "选择父菜单",
+            area : [ '600px', '400px' ], //宽高
+            //shadeClose: true,
+            content : $("#div_channelZtree")
+        });
+    }
 </script>
 
 </head>
