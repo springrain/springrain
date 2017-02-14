@@ -394,7 +394,7 @@ function loadSiteInfo(){
 				url: ctx+'/system/cms/site/look/json',
 				type: 'POST',
 				dataType: 'json',
-				data: {id: springSysSiteId},
+				data: {id: springSysSiteId,"springraintoken":springraintoken},
 				success:function(ret){
 					if(ret.status == "success"){
 						siteLogo = !!ret.data.logo?ret.data.logo:(ctx+'/img/logo.png');

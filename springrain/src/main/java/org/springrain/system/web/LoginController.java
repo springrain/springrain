@@ -52,6 +52,7 @@ public class LoginController extends BaseController  {
 	 */
 		@RequestMapping(value = "/{siteId}/index")
 		public String index(Model model,@PathVariable String siteId) throws Exception {
+			model.addAttribute("sietId", siteId);
 			return "/index"; 
 		}
 		

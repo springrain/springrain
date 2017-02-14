@@ -46,7 +46,10 @@ public class SystemLoginController extends BaseController   {
 	 */
 		@RequestMapping(value = "/index")
 		public String index(Model model,HttpSession session,HttpServletRequest request) throws Exception {
-				return "/system/index";
+			String siteId = request.getParameter("systemSiteId");
+			if(StringUtils.isNotBlank(siteId))
+				model.addAttribute("systemSiteId", siteId);
+			return "/system/index";
 		}
 		
 	
@@ -181,11 +184,12 @@ public class SystemLoginController extends BaseController   {
 			*/
 			
 			if(StringUtils.isBlank(gotourl)){
-				if(StringUtils.isBlank(systemSiteId)){
+				gotourl="/system/index";
+				/*if(StringUtils.isBlank(systemSiteId)){
 					gotourl="/system/index";
 				}else{
 					gotourl="/system/"+systemSiteId+"/index";
-				}
+				}*/
 			}
 			//设置tokenkey
 			String springraintoken="system_"+SecUtils.getUUID();

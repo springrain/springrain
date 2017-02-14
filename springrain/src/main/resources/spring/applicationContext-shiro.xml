@@ -110,7 +110,7 @@
 				/login = firewall
 				/system/login = firewall
 				/system/*/login = firewall
-				
+				/system/cms/**/look/** = firewall
 				
 				
 				/index = firewall,user,keepone
