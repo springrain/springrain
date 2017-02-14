@@ -108,7 +108,9 @@
 				 
 							//注意return可以返回true 或 false 或 字符串文字，true表示验证通过，返回字符串表示验证失败，字符串作为错误提示显示，返回false则用errmsg或默认的错误提示;
 						},
-						"phone":function(){
+						"email":/(^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$)|(^$)/,
+						"phone":/(^1(3|4|5|7|8)\d{9}$)|(^$)/,
+						"phone1":function(){
 							// 5.0 版本之后，要实现二选一的验证效果，datatype 的名称 不 需要以 "option_" 开头;	
 						}
 					},
