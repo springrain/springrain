@@ -3,11 +3,9 @@ description="springrain开源系统管理后台"/>
 
 
 <script src="${ctx}/js/validform/validform.min.js"></script>
-
 <script src="${ctx}/js/ueditor/ueditor.config.js"></script>
 <script src="${ctx}/js/ueditor/ueditor.all.js"></script>
 <script src="${ctx}/js/ueditor/lang/zh-cn/zh-cn.js"></script>
-
 <link rel="stylesheet" href="${ctx}/js/validform/validform.css"
 	media="all">
 <script>
@@ -36,7 +34,7 @@ description="springrain开源系统管理后台"/>
 			url: '${ctx}/system/cms/content/channelList',
 			type: 'POST',
 			dataType: 'json',
-			data: {siteId: siteId},
+			data: {siteId: siteId,springraintoken:springraintoken},
 			success:function(ret){
 				if(ret.status=="success"){
 					var htmlStr = '';
@@ -45,6 +43,7 @@ description="springrain开源系统管理后台"/>
 						htmlStr += '<option value="'+channel.id+'">'+channel.name+'</option>';
 					}
 					$("#channelId").html(htmlStr);
+					form.render('select');
 				}else{
 					$("#channelId").html('<option value=""></option>');
 					$("#channelId").val('${channelId!}');
@@ -84,6 +83,7 @@ description="springrain开源系统管理后台"/>
 										<label class="layui-form-label">所属栏目*</label>
 										<div class="layui-inline col-lg-5">
 											 <select name="channelId" id="channelId" lay-verify="required">
+											 	<option value=""></option>
 										      </select>
 										</div>
 										<div class="layui-inline valid-info"></div>

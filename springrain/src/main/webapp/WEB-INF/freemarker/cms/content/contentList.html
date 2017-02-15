@@ -46,16 +46,22 @@
     	            'data':_json.data,
     	            'treeNodeClick':function(event, treeId, treeNode){
     	                if(!!treeNode.pid){
-    	                    jQuery("#channelId").val(treeNode.id);
+    	                   
     	                    var parentNode = treeNode.getParentNode();
-    	                    while(!!parentNode){
-    	                        var tempParentNode = parentNode.getParentNode();
-    	                        if(!!tempParentNode){
-    	                            parentNode = tempParentNode;
-    	                        }else{
-    	                            break;
-    	                        }
-    	                    }
+    	                   	if(!!parentNode){
+    	                   		while(!!parentNode){
+        	                        var tempParentNode = parentNode.getParentNode();
+        	                        if(!!tempParentNode){
+        	                            parentNode = tempParentNode;
+        	                        }else{
+        	                            break;
+        	                        }
+        	                    }
+    	                   	 	jQuery("#channelId").val(treeNode.id);
+    	                   	}else{
+    	                   		parentNode = treeNode;
+    	                   	}
+    	                    
     	                    $("#siteId").val(parentNode.id);
     	                }
     	                    
@@ -204,7 +210,7 @@
 					                    </label></td>
 					                    <td>
 					                        <@shiro.hasPermission name="/system/cms/content/update" >
-					                        <a href="#" data-action="${ctx}/system/cms/content/update/pre?id=${(_data.id)!''}" class="layui-btn layui-btn-normal layui-btn-mini">修改</a> 
+					                        <a href="#" data-action="${ctx}/system/cms/content/update/pre?id=${(_data.id)!''}&siteId=${(_data.siteId)!''}&channelId=${(_data.channelId)!''}" class="layui-btn layui-btn-normal layui-btn-mini">修改</a> 
 					                        </@shiro.hasPermission>
 					                        <@shiro.hasPermission name="/system/cms/content/delete" >
 					                        <a href="javascript:del('${(_data.id)!''}')" class="layui-btn layui-btn-danger layui-btn-mini ajax-delete">删除</a>
