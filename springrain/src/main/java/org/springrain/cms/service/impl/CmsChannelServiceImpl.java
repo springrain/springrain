@@ -111,6 +111,7 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 	    cmsLink.setStatichtml(0);//默认不静态化
 	    cmsLink.setActive(0);//默认可以使用
 	    cmsLink.setSortno(1);
+	    cmsLink.setLoginuser(cmsChannel.getLoginuser());
 	    //首页默认
 	    String _index="/f/"+SiteType.getSiteType(siteType).name()+"/"+siteId+"/"+id;
 	    cmsLink.setDefaultLink(_index);
@@ -132,6 +133,8 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
     		return null;
     	}
 		
+		
+		
 		String id=cmsChannel.getId();
 		String pid=cmsChannel.getPid();
 		String siteId=cmsChannel.getSiteId();
@@ -140,7 +143,12 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 			return null;
 		}
 		
-		
+		//修改cmsLink
+		CmsLink link = cmsLinkService.findLinkBySiteBusinessId(siteId, id);
+		if(link!=null){
+			link.setLoginuser(cmsChannel.getLoginuser());
+			cmsLinkService.saveorupdate(link);
+		}
 
 		Finder f_old_c=Finder.getSelectFinder(CmsChannel.class, "comcode").append(" WHERE id=:id ").setParam("id", id);
 		

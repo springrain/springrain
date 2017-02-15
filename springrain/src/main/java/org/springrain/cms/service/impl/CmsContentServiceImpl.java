@@ -105,7 +105,7 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 	   super.save(ccc);
 	   
 	   
-	 //保存 相应的 link 链接
+	   //保存 相应的 link 链接
 	    CmsLink cmsLink=new CmsLink();
 	    
 	    cmsLink.setBusinessId(id);
@@ -122,6 +122,7 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 	    cmsLink.setLink(_index);
 	    //设置模板路径
 	    cmsLink.setFtlfile("/u/"+siteId+"/content");
+	    cmsLink.setLoginuser(cmsContent.getLoginuser());
 	    cmsLinkService.save(cmsLink);
 	    
 	    //清除缓存
@@ -137,6 +138,11 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 		if(cmsContent==null){
     		return null;
     	}
+		CmsLink link = cmsLinkService.findLinkBySiteBusinessId(cmsContent.getSiteId(), cmsContent.getId());
+		if(link!=null){
+			link.setLoginuser(cmsContent.getLoginuser());
+			cmsLinkService.saveorupdate(link);
+		}
 		//清除缓存
 		evictByKey(GlobalStatic.cacheKey, "cmsContentService_findListDataByFinder");//清空后台列表缓存
 		evictByKey(cmsContent.getSiteId(), "cmsContentService_findContentByChannelId_"+cmsContent.getSiteId()+"_"+cmsContent.getChannelId());

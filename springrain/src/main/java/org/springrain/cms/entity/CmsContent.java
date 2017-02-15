@@ -111,6 +111,11 @@ public class CmsContent  extends BaseEntity {
 
 	
 	private java.lang.String link;
+	
+	/**
+	 * 登陆访问标识
+	 */
+	private Integer loginuser;
 	//concstructor
 
 	public CmsContent(){
@@ -273,6 +278,14 @@ public class CmsContent  extends BaseEntity {
 
 	public void setChannelName(String channelName) {
 		this.channelName = channelName;
+	}
+	@Transient
+	public Integer getLoginuser() {
+		return loginuser;
+	}
+
+	public void setLoginuser(Integer loginuser) {
+		this.loginuser = loginuser;
 	}
 
 	public String toString() {
