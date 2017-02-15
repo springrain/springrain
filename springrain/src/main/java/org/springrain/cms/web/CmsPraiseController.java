@@ -1,11 +1,8 @@
 package  org.springrain.cms.web;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -16,12 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springrain.cms.entity.CmsChannel;
-import org.springrain.cms.entity.CmsSite;
-import org.springrain.cms.service.ICmsChannelService;
-import org.springrain.cms.service.ICmsLinkService;
-import org.springrain.cms.service.ICmsSiteService;
-import org.springrain.frame.common.SessionUser;
+import org.springrain.cms.entity.CmsPraise;
+import org.springrain.cms.service.ICmsPraiseService;
 import org.springrain.frame.controller.BaseController;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.Page;
@@ -33,22 +26,16 @@ import org.springrain.frame.util.property.MessageUtils;
  * TODO 在此加入类描述
  * @copyright {@link weicms.net}
  * @author springrain<Auto generate>
- * @version  2017-01-11 11:12:18
- * @see org.springrain.cms.entity.CmsChannel
+ * @version  2017-02-15 15:02:34
+ * @see org.springrain.cms.base.web.CmsPraise
  */
 @Controller
-@RequestMapping(value="/system/cms/channel")
-public class CmsChannelController  extends BaseController {
+@RequestMapping(value="/system/cms/praise")
+public class CmsPraiseController  extends BaseController {
 	@Resource
-	private ICmsChannelService cmsChannelService;
-	@Resource
-	private ICmsSiteService cmsSiteService;
-	@Resource
-	private ICmsLinkService cmsLinkService;
+	private ICmsPraiseService cmsPraiseService;
 	
-	private String listurl="/cms/channel/channelList";
-	
-	
+	private String listurl="/base/cmspraise/cmspraiseList";
 	
 	
 	   
@@ -57,14 +44,14 @@ public class CmsChannelController  extends BaseController {
 	 * 
 	 * @param request
 	 * @param model
-	 * @param cmsChannel
+	 * @param cmsPraise
 	 * @return
 	 * @throws Exception
 	 */
 	@RequestMapping("/list")
-	public String list(HttpServletRequest request, Model model,CmsChannel cmsChannel) 
+	public String list(HttpServletRequest request, Model model,CmsPraise cmsPraise) 
 			throws Exception {
-		ReturnDatas returnObject = listjson(request, model, cmsChannel);
+		ReturnDatas returnObject = listjson(request, model, cmsPraise);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
 		return listurl;
 	}
@@ -74,46 +61,31 @@ public class CmsChannelController  extends BaseController {
 	 * 
 	 * @param request
 	 * @param model
-	 * @param cmsChannel
+	 * @param cmsPraise
 	 * @return
 	 * @throws Exception
 	 */
 	@RequestMapping("/list/json")
 	public @ResponseBody
-	ReturnDatas listjson(HttpServletRequest request, Model model,CmsChannel cmsChannel) throws Exception{
+	ReturnDatas listjson(HttpServletRequest request, Model model,CmsPraise cmsPraise) throws Exception{
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
-		
-		List<CmsChannel> treeList = new ArrayList<>();
-		//查询站点列表
+		// ==构造分页请求
 		Page page = newPage(request);
-		List<CmsSite> siteTreeList = cmsSiteService.findListDataByFinder(null, page, CmsSite.class, cmsChannel);
-		for (CmsSite cmsSite : siteTreeList) {
-			String siteId = cmsSite.getId();
-			List<CmsChannel> channelList = cmsChannelService.findTreeByPid(null, siteId);
-			if (channelList != null){
-				treeList.addAll(channelList);
-				for (CmsChannel channel : channelList) {
-					if(StringUtils.isBlank(channel.getPid()))
-						channel.setPid(siteId);
-				}
-			}
-			
-			//将site转为channel
-			CmsChannel tmpChannel = new CmsChannel(siteId);
-			tmpChannel.setName(cmsSite.getName());
-			treeList.add(tmpChannel);
-		}
-		returnObject.setData(treeList);
+		// ==执行分页查询
+		List<CmsPraise> datas=cmsPraiseService.findListDataByFinder(null,page,CmsPraise.class,cmsPraise);
+			returnObject.setQueryBean(cmsPraise);
+		returnObject.setPage(page);
+		returnObject.setData(datas);
 		return returnObject;
 	}
 	
 	@RequestMapping("/list/export")
-	public void listexport(HttpServletRequest request,HttpServletResponse response, Model model,CmsChannel cmsChannel) throws Exception{
+	public void listexport(HttpServletRequest request,HttpServletResponse response, Model model,CmsPraise cmsPraise) throws Exception{
 		// ==构造分页请求
 		Page page = newPage(request);
 	
-		File file = cmsChannelService.findDataExportExcel(null,listurl, page,CmsChannel.class,cmsChannel);
-		String fileName="cmsChannel"+GlobalStatic.excelext;
+		File file = cmsPraiseService.findDataExportExcel(null,listurl, page,CmsPraise.class,cmsPraise);
+		String fileName="cmsPraise"+GlobalStatic.excelext;
 		downFile(response, file, fileName,true);
 		return;
 	}
@@ -125,7 +97,7 @@ public class CmsChannelController  extends BaseController {
 	public String look(Model model,HttpServletRequest request,HttpServletResponse response)  throws Exception {
 		ReturnDatas returnObject = lookjson(model, request, response);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
-		return "/cms/channel/channelLook";
+		return "/base/cmspraise/cmspraiseLook";
 	}
 
 	
@@ -138,8 +110,8 @@ public class CmsChannelController  extends BaseController {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		java.lang.String id=request.getParameter("id");
 		if(StringUtils.isNotBlank(id)){
-		  CmsChannel cmsChannel = cmsChannelService.findCmsChannelById(id);
-		   returnObject.setData(cmsChannel);
+		  CmsPraise cmsPraise = cmsPraiseService.findCmsPraiseById(id);
+		   returnObject.setData(cmsPraise);
 		}else{
 		returnObject.setStatus(ReturnDatas.ERROR);
 		}
@@ -154,17 +126,17 @@ public class CmsChannelController  extends BaseController {
 	 */
 	@RequestMapping("/update")
 	public @ResponseBody
-	ReturnDatas saveorupdate(Model model,CmsChannel cmsChannel,HttpServletRequest request,HttpServletResponse response) throws Exception{
+	ReturnDatas saveorupdate(Model model,CmsPraise cmsPraise,HttpServletRequest request,HttpServletResponse response) throws Exception{
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		returnObject.setMessage(MessageUtils.UPDATE_SUCCESS);
 		try {
 		
-			java.lang.String id =cmsChannel.getId();
+			java.lang.String id =cmsPraise.getId();
 			if(StringUtils.isBlank(id)){
-			  cmsChannel.setId(null);
+			  cmsPraise.setId(null);
 			}
 		
-			cmsChannelService.saveorupdate(cmsChannel);
+			cmsPraiseService.saveorupdate(cmsPraise);
 			
 		} catch (Exception e) {
 			String errorMessage = e.getLocalizedMessage();
@@ -182,11 +154,8 @@ public class CmsChannelController  extends BaseController {
 	@RequestMapping(value = "/update/pre")
 	public String updatepre(Model model,HttpServletRequest request,HttpServletResponse response)  throws Exception{
 		ReturnDatas returnObject = lookjson(model, request, response);
-		Map<String, Object> map = new HashMap<>();
-		map.put("siteList", cmsSiteService.findSiteByUserId(SessionUser.getUserId()));
-		returnObject.setMap(map);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
-		return "/cms/channel/channelCru";
+		return "/base/cmspraise/cmspraiseCru";
 	}
 	
 	/**
@@ -199,7 +168,7 @@ public class CmsChannelController  extends BaseController {
 		try {
 		java.lang.String id=request.getParameter("id");
 		if(StringUtils.isNotBlank(id)){
-				cmsChannelService.deleteById(id,CmsChannel.class);
+				cmsPraiseService.deleteById(id,CmsPraise.class);
 				return new ReturnDatas(ReturnDatas.SUCCESS,
 						MessageUtils.DELETE_SUCCESS);
 			} else {
@@ -231,12 +200,15 @@ public class CmsChannelController  extends BaseController {
 		}
 		try {
 			List<String> ids = Arrays.asList(rs);
-			cmsChannelService.deleteByIds(ids,CmsChannel.class);
+			cmsPraiseService.deleteByIds(ids,CmsPraise.class);
 		} catch (Exception e) {
 			return new ReturnDatas(ReturnDatas.ERROR,
 					MessageUtils.DELETE_ALL_FAIL);
 		}
 		return new ReturnDatas(ReturnDatas.SUCCESS,
 				MessageUtils.DELETE_ALL_SUCCESS);
+		
+		
 	}
+
 }

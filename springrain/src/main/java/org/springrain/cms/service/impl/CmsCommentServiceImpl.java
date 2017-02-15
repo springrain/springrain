@@ -1,6 +1,7 @@
 package org.springrain.cms.service.impl;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -76,4 +77,28 @@ public class CmsCommentServiceImpl extends BaseSpringrainServiceImpl implements 
 			 return super.findDataExportExcel(finder,ftlurl,page,clazz,o);
 		}
 
+	@Override
+	public Integer findCommentsNumByBusinessId(String businessId) throws Exception {
+		Finder finder = new Finder("SELECT COUNT(id) AS sumNum FROM ")
+					.append(Finder.getTableName(CmsComment.class))
+					.append(" WHERE businessId=:businessId");
+		finder.setParam("businessId", businessId);
+		Integer commentsNum = super.queryForObject(finder,Integer.class);
+		if(commentsNum==null){
+			return 0;
+		}else{
+			return commentsNum;
+		}
+	}
+
+	@Override
+	public List<CmsComment> findCommentListByBusinessId(String businessId) throws Exception {
+		Finder finder = Finder.getSelectFinder(CmsComment.class).append(" WHERE businessId=:businessId");
+		finder.setParam("businessId", businessId);
+		List<CmsComment> commentList = super.queryForList(finder, CmsComment.class);
+		if (commentList == null){
+			commentList = new ArrayList<>();
+		}
+		return commentList;
+	}
 }

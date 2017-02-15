@@ -18,7 +18,7 @@ public class JettyUtils {
 		webContext.setClassLoader(Thread.currentThread()
 				.getContextClassLoader());
 		webContext.setContextPath(contextPath);
-
+		
 		Server server = new Server(port);
 		server.setHandler(webContext);
 		server.setStopAtShutdown(true);

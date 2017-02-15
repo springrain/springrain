@@ -2400,4 +2400,4 @@ h6{margin-bottom:10px;}
 .w-300{width:300px;}
 /*hyy add*/
 .rlt{position:relative;}
-.line-vertical{border-left:1px solid #e2e2e2;height:90%;top:5%;position:absolute;left:30px;}
+.line-vertical{border-left:1px solid #e2e2e2;height:90%;top:5%;position:absolute;left:0px;width:10px;}

@@ -11,7 +11,6 @@ $(document).ready(function(){
 			}
 		},
 		complete:function(data){
-			var _that=this;
 			try{
 				var _obj=data.responseText;
 				_obj=eval("("+_obj+")");
@@ -23,7 +22,7 @@ $(document).ready(function(){
 					},1000);
 				}
 			}catch(e){
-				springrain.info(e, null)
+				springrain.info(e, null);
 			}
 		}
 	});
@@ -33,6 +32,8 @@ $(document).ready(function(){
 	loadMenu();
 	init_sort_btn();
 	init_button_action();
+	//加载站点logo页脚等信息
+	loadSiteInfo();
 	//赋予 元素特殊事件 ，和表单的样式处理。如TAB和菜单 的滑过事件 ,不添加没有动画效果，且必须加到ready后
 	setTimeout(function(){
 		if(jQuery("form").length>0){
@@ -50,10 +51,11 @@ var form;
 function selectListener(filterId,callback){
 	console.log(123);
 	form.on('select('+filterId+')', function(data){
-		  callback(data);
+		callback(data);
 	});
 }
 function loadMenu(){
+	
 	//加载菜单
     if(!(!!locache.get("menuData"))){//没有数据
     	ajaxmenu();
@@ -70,9 +72,9 @@ function exit(siteId,kill){
 			locache.flush();
 		}catch(e){}
 		
-		var _url=ctx+"/system/logout"
+		var _url=ctx+"/system/logout";
 		if(""!=siteId){
-			_url=ctx+"/system/"+siteId+"/logout"
+			_url=ctx+"/system/"+siteId+"/logout";
 		}
 		springrain.goTo(_url);
 	}else{
@@ -81,9 +83,9 @@ function exit(siteId,kill){
 				locache.flush();
 			}catch(e){}
 			
-			var _url=ctx+"/system/logout"
+			var _url=ctx+"/system/logout";
 			if(""!=siteId){
-				_url=ctx+"/system/"+siteId+"/logout"
+				_url=ctx+"/system/"+siteId+"/logout";
 			}
 			springrain.goTo(_url);
 		});
@@ -381,4 +383,30 @@ function init_button_action(){
 	});
 }
 
-
+function loadSiteInfo(){
+	var siteLogo=siteFooter='';
+	siteLogo = locache.get("siteLogo");
+	siteFooter = locache.get("siteFooter");
+	if(!(!!siteLogo) || !(!!siteFooter)){
+		//将站点信息存储到缓存
+		if(!!springSysSiteId){
+			$.ajax({
+				url: ctx+'/system/cms/site/look/json',
+				type: 'POST',
+				dataType: 'json',
+				data: {id: springSysSiteId,"springraintoken":springraintoken},
+				success:function(ret){
+					if(ret.status == "success"){
+						siteLogo = !!ret.data.logo?ret.data.logo:(ctx+'/img/logo.png');
+						siteFooter = !!ret.data.footer?ret.data.footer:'<p>2016 &copy; <a href="http://www.weicms.net">www.weicms.net</a>Apache Licence 2.0</p>';
+						locache.set("siteLogo",siteLogo);
+						locache.set("siteFooter",siteFooter);
+						$("#siteLogo").attr("src",siteLogo);
+						$("#siteFooter").html(siteFooter);
+					}
+				}
+			});
+		}
+	}
+	
+}

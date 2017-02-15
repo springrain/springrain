@@ -113,11 +113,13 @@ public class UeditorController extends BaseController {
     		return obj;
     	}
     	
+    	callbackName=URLEncoder.encode(callbackName,"UTF-8");
+    	
     	if(!validCallbackName(callbackName)){
     		return obj;
     	}
     	
-    	callbackName=URLEncoder.encode(callbackName,"UTF-8");
+    	
         return  callbackName+"("+JsonUtils.writeValueAsString(obj)+");";
     }
     

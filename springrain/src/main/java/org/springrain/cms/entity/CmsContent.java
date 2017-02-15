@@ -98,6 +98,8 @@ public class CmsContent  extends BaseEntity {
 	private String siteId;
 	//栏目Id
 	private java.lang.String channelId;
+	
+	private String channelName;
 	/**
 	 * 排序
 	 */
@@ -109,8 +111,20 @@ public class CmsContent  extends BaseEntity {
 
 	
 	private java.lang.String link;
+	
+	/**
+	 * 评论权限开关
+	 */
+	private java.lang.Integer commentPerm;
+	/**
+	 * 登陆访问标识
+	 */
+	private Integer loginuser;
 	//concstructor
-
+	
+	private Integer commentsNum;
+	private Integer praiseNum;
+	
 	public CmsContent(){
 	}
 
@@ -263,6 +277,48 @@ public class CmsContent  extends BaseEntity {
 
 	public void setSummary(java.lang.String summary) {
 		this.summary = summary;
+	}
+	
+	 @WhereSQL(sql="commentPerm=:CmsContent_commentPerm")
+	public java.lang.Integer getCommentPerm() {
+		return commentPerm;
+	}
+
+	public void setCommentPerm(java.lang.Integer commentPerm) {
+		this.commentPerm = commentPerm;
+	}
+
+	@Transient
+	public String getChannelName() {
+		return channelName;
+	}
+
+	public void setChannelName(String channelName) {
+		this.channelName = channelName;
+	}
+	@Transient
+	public Integer getLoginuser() {
+		return loginuser;
+	}
+
+	public void setLoginuser(Integer loginuser) {
+		this.loginuser = loginuser;
+	}
+	@Transient
+	public Integer getCommentsNum() {
+		return commentsNum;
+	}
+
+	public void setCommentsNum(Integer commentsNum) {
+		this.commentsNum = commentsNum;
+	}
+	@Transient
+	public Integer getPraiseNum() {
+		return praiseNum;
+	}
+
+	public void setPraiseNum(Integer praiseNum) {
+		this.praiseNum = praiseNum;
 	}
 
 	public String toString() {

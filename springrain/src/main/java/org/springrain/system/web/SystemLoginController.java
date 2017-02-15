@@ -23,7 +23,7 @@ import org.springrain.system.entity.User;
 
 @Controller
 @RequestMapping(value="/system")
-public class SystemLoginController extends BaseController  {
+public class SystemLoginController extends BaseController   {
 	
 	/**
 	 * 首页的映射
@@ -45,9 +45,11 @@ public class SystemLoginController extends BaseController  {
 	 * @throws Exception
 	 */
 		@RequestMapping(value = "/index")
-		public String index(Model model) throws Exception {
-				return "/system/index";
-			
+		public String index(Model model,HttpSession session,HttpServletRequest request) throws Exception {
+			String siteId = request.getParameter("systemSiteId");
+			if(StringUtils.isNotBlank(siteId))
+				model.addAttribute("systemSiteId", siteId);
+			return "/system/index";
 		}
 		
 	
@@ -63,7 +65,6 @@ public class SystemLoginController extends BaseController  {
 		 */
 		@RequestMapping(value = "/login",method=RequestMethod.GET)
 		public String login(Model model,HttpServletRequest request) throws Exception {
-			
 			return getLoginUrl(model,request,null);
 		}
 		
@@ -86,9 +87,6 @@ public class SystemLoginController extends BaseController  {
 			  if(StringUtils.isNotBlank(url)){
 			     model.addAttribute("gotourl", url);
 			  }
-			
-			
-			
 			return "/system/login";
 		}
 		
@@ -136,7 +134,7 @@ public class SystemLoginController extends BaseController  {
 			
 			String rememberme=request.getParameter("rememberme");
 			if(StringUtils.isNotBlank(rememberme)){
-			token.setRememberMe(true);
+				token.setRememberMe(true);
 			}else{
 				token.setRememberMe(false);
 			}
@@ -186,12 +184,12 @@ public class SystemLoginController extends BaseController  {
 			*/
 			
 			if(StringUtils.isBlank(gotourl)){
-				if(StringUtils.isBlank(systemSiteId)){
+				gotourl="/system/index";
+				/*if(StringUtils.isBlank(systemSiteId)){
 					gotourl="/system/index";
 				}else{
 					gotourl="/system/"+systemSiteId+"/index";
-				}
-				
+				}*/
 			}
 			//设置tokenkey
 			String springraintoken="system_"+SecUtils.getUUID();

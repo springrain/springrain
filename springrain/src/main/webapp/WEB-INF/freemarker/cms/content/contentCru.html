@@ -3,11 +3,9 @@ description="springrain开源系统管理后台"/>
 
 
 <script src="${ctx}/js/validform/validform.min.js"></script>
-
 <script src="${ctx}/js/ueditor/ueditor.config.js"></script>
 <script src="${ctx}/js/ueditor/ueditor.all.js"></script>
 <script src="${ctx}/js/ueditor/lang/zh-cn/zh-cn.js"></script>
-
 <link rel="stylesheet" href="${ctx}/js/validform/validform.css"
 	media="all">
 <script>
@@ -36,7 +34,7 @@ description="springrain开源系统管理后台"/>
 			url: '${ctx}/system/cms/content/channelList',
 			type: 'POST',
 			dataType: 'json',
-			data: {siteId: siteId},
+			data: {siteId: siteId,springraintoken:springraintoken},
 			success:function(ret){
 				if(ret.status=="success"){
 					var htmlStr = '';
@@ -45,6 +43,7 @@ description="springrain开源系统管理后台"/>
 						htmlStr += '<option value="'+channel.id+'">'+channel.name+'</option>';
 					}
 					$("#channelId").html(htmlStr);
+					form.render('select');
 				}else{
 					$("#channelId").html('<option value=""></option>');
 					$("#channelId").val('${channelId!}');
@@ -84,6 +83,7 @@ description="springrain开源系统管理后台"/>
 										<label class="layui-form-label">所属栏目*</label>
 										<div class="layui-inline col-lg-5">
 											 <select name="channelId" id="channelId" lay-verify="required">
+											 	<option value=""></option>
 										      </select>
 										</div>
 										<div class="layui-inline valid-info"></div>
@@ -181,9 +181,27 @@ description="springrain开源系统管理后台"/>
 										<div class="layui-inline valid-info"></div>
 									</div>
 									
+									<div class="layui-form-item col-lg-6">
+										<label class="layui-form-label">评论开关*</label>
+										<div class="layui-inline col-lg-5">
+										 	<input type="radio" name="commentPerm" value="0" title="不允许评论">
+											<input type="radio" name="commentPerm" value="1" title="允许评论" checked>
+										</div>
+										<div class="layui-inline valid-info"></div>
+									</div>
+									
+									<div class="layui-form-item col-lg-6">
+										<label class="layui-form-label">登陆访问*</label>
+										<div class="layui-inline col-lg-5">
+										 	<input type="radio" name="loginuser" value="0" title="不允许匿名访问">
+											<input type="radio" name="loginuser" value="1" title="允许匿名访问"  checked>
+										</div>
+										<div class="layui-inline valid-info"></div>
+									</div>
+									
 									<div class="layui-form-item change-submit">
 										<div class="layui-inline">
-											<button type="button" class="layui-btn" id="smtbtn">立即提交</button>
+											<button type="button" class="layui-btn" id="smtbtn">保存</button>
 											<button type="button" class="layui-btn layui-btn-primary"
 												id="rstbtn">重置</button>
 										</div>

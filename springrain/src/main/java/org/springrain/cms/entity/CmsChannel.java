@@ -101,6 +101,11 @@ public class CmsChannel  extends BaseEntity {
 	private CmsChannel cmsChannel;
 	
 	private String link;
+	
+	/**
+	 * 登陆访问标识
+	 */
+	private Integer loginuser;
 	//concstructor
 
 	public CmsChannel(){
@@ -243,6 +248,14 @@ public class CmsChannel  extends BaseEntity {
 
 	public void setCmsChannel(CmsChannel cmsChannel) {
 		this.cmsChannel = cmsChannel;
+	}
+	@Transient
+	public Integer getLoginuser() {
+		return loginuser;
+	}
+
+	public void setLoginuser(Integer loginuser) {
+		this.loginuser = loginuser;
 	}
 
 	public String toString() {
