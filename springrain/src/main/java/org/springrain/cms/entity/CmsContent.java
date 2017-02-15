@@ -113,6 +113,10 @@ public class CmsContent  extends BaseEntity {
 	private java.lang.String link;
 	
 	/**
+	 * 评论权限开关
+	 */
+	private java.lang.Integer commentPerm;
+	/**
 	 * 登陆访问标识
 	 */
 	private Integer loginuser;
@@ -271,6 +275,16 @@ public class CmsContent  extends BaseEntity {
 	public void setSummary(java.lang.String summary) {
 		this.summary = summary;
 	}
+	
+	 @WhereSQL(sql="commentPerm=:CmsContent_commentPerm")
+	public java.lang.Integer getCommentPerm() {
+		return commentPerm;
+	}
+
+	public void setCommentPerm(java.lang.Integer commentPerm) {
+		this.commentPerm = commentPerm;
+	}
+
 	@Transient
 	public String getChannelName() {
 		return channelName;

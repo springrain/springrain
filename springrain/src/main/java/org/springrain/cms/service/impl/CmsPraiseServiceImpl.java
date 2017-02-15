@@ -28,7 +28,7 @@ public class CmsPraiseServiceImpl extends BaseSpringrainServiceImpl implements I
 	      CmsPraise cmsPraise=(CmsPraise) entity;
 	       return super.save(cmsPraise).toString();
 	}
-
+    
     @Override
 	public String  saveorupdate(Object entity ) throws Exception{
 	      CmsPraise cmsPraise=(CmsPraise) entity;

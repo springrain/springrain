@@ -182,10 +182,19 @@ description="springrain开源系统管理后台"/>
 									</div>
 									
 									<div class="layui-form-item col-lg-6">
+										<label class="layui-form-label">评论开关*</label>
+										<div class="layui-inline col-lg-5">
+										 	<input type="radio" name="commentPerm" value="0" title="不允许评论">
+											<input type="radio" name="commentPerm" value="1" title="允许评论" checked>
+										</div>
+										<div class="layui-inline valid-info"></div>
+									</div>
+									
+									<div class="layui-form-item col-lg-6">
 										<label class="layui-form-label">登陆访问*</label>
 										<div class="layui-inline col-lg-5">
-										 	<input type="radio" name="loginuser" value="0" title="否" checked>
-											<input type="radio" name="loginuser" value="1" title="是">
+										 	<input type="radio" name="loginuser" value="0" title="不允许匿名访问">
+											<input type="radio" name="loginuser" value="1" title="允许匿名访问"  checked>
 										</div>
 										<div class="layui-inline valid-info"></div>
 									</div>
