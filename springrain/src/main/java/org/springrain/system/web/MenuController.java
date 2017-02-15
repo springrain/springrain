@@ -44,7 +44,7 @@ public class MenuController  extends BaseController {
 	private String listurl="/system/menu/menuList";  //菜单列表路径
 	
 	/**
-	 * 列表数据,调用listjson方法,保证和app端数据统一
+	 * 带权限查询
 	 * 
 	 * @param request
 	 * @param model
@@ -60,7 +60,7 @@ public class MenuController  extends BaseController {
 	}
 
 	/**
-	 * json数据,为APP提供数据
+	 * 带权限查询
 	 * 
 	 * @param request
 	 * @param model
@@ -74,7 +74,42 @@ public class MenuController  extends BaseController {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 	
 		//List<Menu> datas = menuService.findListDataByFinder(null, null, Menu.class, menu); 
-		List<Menu> datas =userRoleMenuService.findMenuByUserId(SessionUser.getUserId());
+		List<Menu> datas =userRoleMenuService.findMenuByUserIdAll(SessionUser.getUserId());
+		returnObject.setQueryBean(menu);
+		//returnObject.setPage(page);
+		returnObject.setData(datas);
+		return returnObject;
+	}
+	
+	/**
+	 * 查询菜单 管理员使用
+	 * 
+	 * @param request
+	 * @param model
+	 * @param menu
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/list/all")
+	public String listall(HttpServletRequest request, Model model, Menu menu) throws Exception {
+		ReturnDatas returnObject = listjson(request, model, menu);
+		model.addAttribute(GlobalStatic.returnDatas, returnObject);
+		return listurl;
+	}
+	/**
+	 * 查询菜单 管理员使用
+	 * 
+	 * @param request
+	 * @param model
+	 * @param menu
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/list/all/json")
+	public @ResponseBody
+	ReturnDatas listalljson(HttpServletRequest request, Model model, Menu menu) throws Exception {
+		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
+		List<Menu> datas = menuService.findListDataByFinder(null, null, Menu.class, menu); 
 		returnObject.setQueryBean(menu);
 		//returnObject.setPage(page);
 		returnObject.setData(datas);

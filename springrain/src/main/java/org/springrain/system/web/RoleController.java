@@ -21,6 +21,7 @@ import org.springrain.frame.util.property.MessageUtils;
 import org.springrain.system.entity.Menu;
 import org.springrain.system.entity.Org;
 import org.springrain.system.entity.Role;
+import org.springrain.system.service.IMenuService;
 import org.springrain.system.service.IOrgService;
 import org.springrain.system.service.IRoleService;
 import org.springrain.system.service.IUserRoleMenuService;
@@ -42,12 +43,16 @@ public class RoleController  extends BaseController {
 	private IUserRoleMenuService userRoleMenuService;
 	@Resource
 	private IOrgService orgService;
-	
+	@Resource
+	private IMenuService menuService;
+	//角色管理页面  普通用户使用
 	private String listurl="/system/role/roleList";
+	//角色管理页面  管理员使用
+	private String listurlAdmin="/system/role/roleListAdmin";
 	
 
 	/**
-	 * 列表数据,调用listjson方法,保证和app端数据统一
+	 * 查询角色带权限  非管理员使用
 	 * 
 	 * @param request
 	 * @param model
@@ -61,9 +66,25 @@ public class RoleController  extends BaseController {
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
 		return listurl;
 	}
+	
+	/**
+	 * 查询角色带权限  管理员使用
+	 * 
+	 * @param request
+	 * @param model
+	 * @param role
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/list/all")
+	public String listall(HttpServletRequest request, Model model, Role role) throws Exception {
+		ReturnDatas returnObject = listjson(request, model, role);
+		model.addAttribute(GlobalStatic.returnDatas, returnObject);
+		return listurlAdmin;
+	}
 
 	/**
-	 * json数据,为APP提供数据
+	 * 查询角色 带权限  非管理员使用
 	 * 
 	 * @param request
 	 * @param model
@@ -104,6 +125,8 @@ public class RoleController  extends BaseController {
 		returnObject.setData(datas);
 		return returnObject;
 	}
+
+	
 
 	
 
@@ -191,7 +214,7 @@ public class RoleController  extends BaseController {
 	}
 
 	/**
-	 * 进入修改页面,APP端可以调用 lookjson 获取json格式数据
+	 * 角色添加修改页面   普通人员使用
 	 */
 	@RequestMapping(value = "/update/pre")
 	public String edit(Model model, HttpServletRequest request, HttpServletResponse response)
@@ -199,6 +222,16 @@ public class RoleController  extends BaseController {
 		ReturnDatas returnObject = lookjson(model, request, response);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
 		return "/system/role/roleCru";
+	}
+	/**
+	 * 角色添加修改页面  普通人员使用
+	 */
+	@RequestMapping(value = "/update/admin/pre")
+	public String editadmin(Model model, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		ReturnDatas returnObject = lookjson(model, request, response);
+		model.addAttribute(GlobalStatic.returnDatas, returnObject);
+		return "/system/role/roleCruAdmin";
 	}
 
 	/**

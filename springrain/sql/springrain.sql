@@ -502,3 +502,13 @@ CREATE TABLE `t_user_role` (
 -- Records of t_user_role
 -- ----------------------------
 INSERT INTO `t_user_role` VALUES ('1', 'u_10001', 'r_10001', null, null, null, null, null);
+
+
+-- 角色管理-系统 分给管理员
+INSERT INTO `t_menu` (`id`, `name`, `pid`, `description`, `pageurl`, `menuType`, `active`, `sortno`, `menuIcon`, `bak1`, `bak2`, `bak3`, `bak4`, `bak5`) VALUES ('91779a0d304f4b91932b63dec87a8536', '角色管理-系统', 'system_manager', '', '/system/role/list/all', '1', '1', NULL, '&#xe60a;', NULL, NULL, NULL, NULL, NULL);
+insert t_role_menu(id,roleId,menuId) values(UUID(),'r_10001','91779a0d304f4b91932b63dec87a8536');
+
+INSERT INTO `t_menu` (`id`, `name`, `pid`, `description`, `pageurl`, `menuType`, `active`, `sortno`, `menuIcon`, `bak1`, `bak2`, `bak3`, `bak4`, `bak5`) VALUES ('b94392f7b8714f64819c5c0222eb134a', '角色修改-系统', 't_role_list', '', '/system/role/update/admin', '0', '1', NULL, '', NULL, NULL, NULL, NULL, NULL);
+insert t_role_menu(id,roleId,menuId) values(UUID(),'r_10001','b94392f7b8714f64819c5c0222eb134a');
+
+update t_menu set pageurl='/system/menu/list/all' where id='t_menu_list';

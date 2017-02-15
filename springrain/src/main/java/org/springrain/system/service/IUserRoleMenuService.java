@@ -38,12 +38,20 @@ public interface IUserRoleMenuService extends IBaseSpringrainService {
 	 */
 	List<User> findUserByRoleId(String roleId) throws Exception;
 	/**
-	 * 根据userId 查询能够看到的菜单
+	 * 根据userId 查询能够看到的菜单  只查导航菜单
 	 * @param userId
 	 * @return
 	 * @throws Exception
 	 */
 	List<Menu> findMenuByUserId(String userId) throws Exception;
+	
+	/**
+	 * 根据userId 查询能够看到的菜单  查所有菜单
+	 * @param userId
+	 * @return
+	 * @throws Exception
+	 */
+	List<Menu> findMenuByUserIdAll(String userId) throws Exception;
 	
 	
 	/**
