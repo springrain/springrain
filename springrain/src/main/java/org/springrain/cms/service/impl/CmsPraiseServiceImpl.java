@@ -2,10 +2,13 @@ package org.springrain.cms.service.impl;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.collections4.MapUtils;
 import org.springframework.stereotype.Service;
 import org.springrain.cms.entity.CmsPraise;
 import org.springrain.cms.service.ICmsPraiseService;
+import org.springrain.frame.common.SessionUser;
 import org.springrain.frame.entity.IBaseEntity;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.Page;
@@ -31,8 +34,16 @@ public class CmsPraiseServiceImpl extends BaseSpringrainServiceImpl implements I
     
     @Override
 	public String  saveorupdate(Object entity ) throws Exception{
-	      CmsPraise cmsPraise=(CmsPraise) entity;
-		 return super.saveorupdate(cmsPraise).toString();
+    	CmsPraise cmsPraise=(CmsPraise) entity;
+    	String userId = SessionUser.getUserId();
+    	String businessId = cmsPraise.getBusinessId();
+    	boolean exist = findPraiseIsExist(userId,businessId);
+    	if(exist){//存在，执行删除
+    		deletePraise(userId, businessId);
+    	}else{//不存在，新增
+    		return save(cmsPraise);
+    	}
+	    return "";
 	}
 	
 	@Override
@@ -75,5 +86,35 @@ public class CmsPraiseServiceImpl extends BaseSpringrainServiceImpl implements I
 			throws Exception {
 			 return super.findDataExportExcel(finder,ftlurl,page,clazz,o);
 		}
+
+	@Override
+	public Integer findPraiseNumByBusinessId(String businessId) throws Exception {
+		Finder finder = new Finder("SELECT COUNT(id)  FROM ")
+				.append(Finder.getTableName(CmsPraise.class))
+				.append(" WHERE businessId=:businessId");
+		finder.setParam("businessId", businessId);
+		Integer countNum = super.queryForObject(finder,Integer.class);
+	    if(countNum==null){
+	    	countNum=0;
+	    }
+	    return countNum;
+	}
+
+	@Override
+	public boolean findPraiseIsExist(String userId, String businessId) throws Exception {
+		Finder finder = Finder.getSelectFinder(CmsPraise.class).append(" where userId=:userId and businessId=:businessId");
+		finder.setParam("userId", userId).setParam("businessId", businessId);
+		Map<String, Object> queryResult = super.queryForObject(finder);
+		if(MapUtils.isNotEmpty(queryResult))
+			return true;
+		return false;
+	}
+
+	@Override
+	public void deletePraise(String userId, String businessId) throws Exception {
+		Finder finder = Finder.getDeleteFinder(CmsPraise.class).append(" where userId=:userId and businessId=:businessId");
+		finder.setParam("userId", userId).setParam("businessId", businessId);
+		super.update(finder);
+	}
 
 }

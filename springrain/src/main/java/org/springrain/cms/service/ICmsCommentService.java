@@ -1,5 +1,7 @@
 package org.springrain.cms.service;
 
+import java.util.List;
+
 import org.springrain.cms.entity.CmsComment;
 import org.springrain.system.service.IBaseSpringrainService;
 /**
@@ -18,7 +20,15 @@ public interface ICmsCommentService extends IBaseSpringrainService {
 	 * @throws Exception
 	 */
 	CmsComment findCmsCommentById(String id) throws Exception;
+
+	/**
+	 * 根据业务id查询评论数量
+	 * @param businessId
+	 * @return
+	 * @throws Exception
+	 */
+	Integer findCommentsNumByBusinessId(String businessId) throws Exception;
 	
-	
+	List<CmsComment> findCommentListByBusinessId(String businessId) throws Exception;
 	
 }

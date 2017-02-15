@@ -121,7 +121,10 @@ public class CmsContent  extends BaseEntity {
 	 */
 	private Integer loginuser;
 	//concstructor
-
+	
+	private Integer commentsNum;
+	private Integer praiseNum;
+	
 	public CmsContent(){
 	}
 
@@ -300,6 +303,22 @@ public class CmsContent  extends BaseEntity {
 
 	public void setLoginuser(Integer loginuser) {
 		this.loginuser = loginuser;
+	}
+	@Transient
+	public Integer getCommentsNum() {
+		return commentsNum;
+	}
+
+	public void setCommentsNum(Integer commentsNum) {
+		this.commentsNum = commentsNum;
+	}
+	@Transient
+	public Integer getPraiseNum() {
+		return praiseNum;
+	}
+
+	public void setPraiseNum(Integer praiseNum) {
+		this.praiseNum = praiseNum;
 	}
 
 	public String toString() {

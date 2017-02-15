@@ -18,7 +18,29 @@ public interface ICmsPraiseService extends IBaseSpringrainService {
 	 * @throws Exception
 	 */
 	CmsPraise findCmsPraiseById(Object id) throws Exception;
+
+	/**
+	 * 根据业务id查询评论数量
+	 * @param id
+	 * @return
+	 * @throws Exception 
+	 */
+	Integer findPraiseNumByBusinessId(String businessId) throws Exception;
 	
+	/**
+	 * 查询用户是否点过赞，点过返回true，没点过返回false
+	 * @param userId
+	 * @param businessId
+	 * @return
+	 * @throws Exception 
+	 */
+	boolean findPraiseIsExist(String userId,String businessId) throws Exception;
 	
-	
+	/**
+	 * 删除该条点赞信息
+	 * @param userId
+	 * @param businessId
+	 * @throws Exception 
+	 */
+	void deletePraise(String userId,String businessId) throws Exception;
 }
