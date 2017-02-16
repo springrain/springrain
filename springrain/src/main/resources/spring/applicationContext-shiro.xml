@@ -121,8 +121,7 @@
 				
 			
 				/system/menu/leftMenu=firewall,systemuser,keepone
-				
-				/** = firewall,frontuser,framefwlog,keepone,frameperms
+				/** = firewall,user,keepone,frameperms
 			</value>
 		</property>
 		<!-- 声明自定义的过滤器 -->
