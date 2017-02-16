@@ -37,7 +37,23 @@ public class SiteUserFilter extends BaseUserFilter {
 		 
 		
 		 Object obj=req.getSession().getAttribute(GlobalStatic.tokenKey);
-		 if(obj==null||(!obj.toString().startsWith("s_"))||(!obj.toString().startsWith("system_"))){//tokenKey必须是s_开头或者system_
+		 
+		 
+		 
+		 if(obj==null){
+			 request.setAttribute(GlobalStatic.errorTokentoURLKey, GlobalStatic.errorTokentoURL);
+			  return false;
+		 }
+		 
+		 boolean tokenerror=true;
+		 String stoken=obj.toString();
+		 
+		 if(stoken.startsWith("s_")||stoken.startsWith("system_")){//tokenKey必须是s_开头或者system_
+			 tokenerror=false;
+		 }
+		 
+		 
+		 if(tokenerror){
 			 request.setAttribute(GlobalStatic.errorTokentoURLKey, GlobalStatic.errorTokentoURL);
 		    return false;
 		 }
