@@ -88,6 +88,26 @@ public class CmsComment  extends BaseEntity {
 	 * 评分
 	 */
 	private java.lang.Integer score;
+	
+	/**
+	 * 类型
+	 */
+	private java.lang.Integer type;
+	
+	/**
+	 * 手机号
+	 */
+	private java.lang.String mobile;
+	
+	/**
+	 * 邮箱
+	 */
+	private java.lang.String email;
+	
+	/**
+	 * 用户姓名
+	 */
+	private java.lang.String userName;
 	//columns END 数据库字段结束
 	
 	//concstructor
@@ -226,6 +246,39 @@ public class CmsComment  extends BaseEntity {
 		return this.score;
 	}
 	
+     @WhereSQL(sql="type=:CmsComment_type")
+	public java.lang.Integer getType() {
+		return type;
+	}
+
+	public void setType(java.lang.Integer type) {
+		this.type = type;
+	}
+	@WhereSQL(sql="mobile=:CmsComment_mobile")
+	public java.lang.String getMobile() {
+		return mobile;
+	}
+
+	public void setMobile(java.lang.String mobile) {
+		this.mobile = mobile;
+	}
+	@WhereSQL(sql="email=:CmsComment_email")
+	public java.lang.String getEmail() {
+		return email;
+	}
+
+	public void setEmail(java.lang.String email) {
+		this.email = email;
+	}
+	@WhereSQL(sql="userName=:CmsComment_userName")
+	public java.lang.String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(java.lang.String userName) {
+		this.userName = userName;
+	}
+
 	public String toString() {
 		return new StringBuffer()
 			.append("id[").append(getId()).append("],")

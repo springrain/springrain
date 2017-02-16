@@ -32,8 +32,6 @@ $(document).ready(function(){
 	loadMenu();
 	init_sort_btn();
 	init_button_action();
-	//加载站点logo页脚等信息
-	loadSiteInfo();
 	//赋予 元素特殊事件 ，和表单的样式处理。如TAB和菜单 的滑过事件 ,不添加没有动画效果，且必须加到ready后
 	setTimeout(function(){
 		if(jQuery("form").length>0){
@@ -381,32 +379,4 @@ function init_button_action(){
 			locache.set("currentPagePid",$(this).attr("data-pid"));
 		window.location.href=springrain.appendToken(jQuery(this).attr("data-action"));
 	});
-}
-
-function loadSiteInfo(){
-	var siteLogo=siteFooter='';
-	siteLogo = locache.get("siteLogo");
-	siteFooter = locache.get("siteFooter");
-	if(!(!!siteLogo) || !(!!siteFooter)){
-		//将站点信息存储到缓存
-		if(!!springSysSiteId){
-			$.ajax({
-				url: ctx+'/system/cms/site/look/json',
-				type: 'POST',
-				dataType: 'json',
-				data: {id: springSysSiteId,"springraintoken":springraintoken},
-				success:function(ret){
-					if(ret.status == "success"){
-						siteLogo = !!ret.data.logo?ret.data.logo:(ctx+'/img/logo.png');
-						siteFooter = !!ret.data.footer?ret.data.footer:'<p>2016 &copy; <a href="http://www.weicms.net">www.weicms.net</a>Apache Licence 2.0</p>';
-						locache.set("siteLogo",siteLogo);
-						locache.set("siteFooter",siteFooter);
-						$("#siteLogo").attr("src",siteLogo);
-						$("#siteFooter").html(siteFooter);
-					}
-				}
-			});
-		}
-	}
-	
 }
