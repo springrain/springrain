@@ -1,4 +1,4 @@
-package org.springrain.system.web;
+package org.springrain.front;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

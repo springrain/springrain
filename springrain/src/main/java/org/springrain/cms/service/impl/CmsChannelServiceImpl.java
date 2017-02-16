@@ -198,7 +198,13 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
     	}
     	
     	List<CmsChannel> channelList = getByCache(siteId, "cmsChannelService_findTreeByPid_"+pid+"_"+siteId, List.class);
-    	if(CollectionUtils.isEmpty(channelList)){
+    	if(CollectionUtils.isNotEmpty(channelList)){
+    		return channelList;
+    	}
+    	
+    	
+    	
+    	
     		Finder finder=Finder.getSelectFinder(CmsChannel.class).append("  WHERE active=:active and siteId=:siteId ").setParam("siteId", siteId).setParam("active", 1);
             
             if(StringUtils.isNotBlank(pid)){
@@ -214,9 +220,7 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
     		diguiwrapList(channelList, wrapList, null);
     		putByCache(siteId, "cmsChannelService_findTreeByPid_"+pid+"_"+siteId,wrapList);
     		return wrapList;
-    	}else{
-    		return channelList;
-    	}
+    	
 	}
 	@Override
 	public List<CmsChannel> findTreeChannel(String siteId) throws Exception {
