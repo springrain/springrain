@@ -1,11 +1,11 @@
 package  org.springrain.s.web;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -16,12 +16,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springrain.cms.entity.CmsChannel;
 import org.springrain.cms.entity.CmsSite;
+import org.springrain.cms.service.ICmsChannelService;
 import org.springrain.cms.service.ICmsLinkService;
 import org.springrain.cms.service.ICmsSiteService;
+import org.springrain.frame.common.SessionUser;
 import org.springrain.frame.controller.BaseController;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.Page;
@@ -30,20 +30,23 @@ import org.springrain.frame.util.property.MessageUtils;
 
 
 /**
- *  站点管理类
+ * TODO 在此加入类描述
  * @copyright {@link weicms.net}
  * @author springrain<Auto generate>
- * @version  2017-01-10 15:15:36
- * @see org.springrain.cms.entity.CmsSite
+ * @version  2017-01-11 11:12:18
+ * @see org.springrain.cms.entity.CmsChannel
  */
-@Controller(value="SCmsSiteController")
-@RequestMapping(value="/s/cms/site")
-public class CmsSiteController  extends BaseController {
+@Controller
+@RequestMapping(value="/s/cms/channel")
+public class ChannelController  extends BaseController {
+	@Resource
+	private ICmsChannelService cmsChannelService;
 	@Resource
 	private ICmsSiteService cmsSiteService;
 	@Resource
 	private ICmsLinkService cmsLinkService;
-	private String listurl="/cms/site/siteList";
+	
+	private String listurl="/cms/channel/channelList";
 	
 	
 	
@@ -54,14 +57,14 @@ public class CmsSiteController  extends BaseController {
 	 * 
 	 * @param request
 	 * @param model
-	 * @param cmsCmsSite
+	 * @param cmsChannel
 	 * @return
 	 * @throws Exception
 	 */
 	@RequestMapping("/list")
-	public String list(HttpServletRequest request, Model model,CmsSite cmsSite) 
+	public String list(HttpServletRequest request, Model model,CmsChannel cmsChannel) 
 			throws Exception {
-		ReturnDatas returnObject = listjson(request, model, cmsSite);
+		ReturnDatas returnObject = listjson(request, model, cmsChannel);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
 		return listurl;
 	}
@@ -71,46 +74,58 @@ public class CmsSiteController  extends BaseController {
 	 * 
 	 * @param request
 	 * @param model
-	 * @param cmsSite
+	 * @param cmsChannel
 	 * @return
 	 * @throws Exception
 	 */
 	@RequestMapping("/list/json")
 	public @ResponseBody
-	ReturnDatas listjson(HttpServletRequest request, Model model,CmsSite cmsSite) throws Exception{
+	ReturnDatas listjson(HttpServletRequest request, Model model,CmsChannel cmsChannel) throws Exception{
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
-		// ==构造分页请求
+		
+		List<CmsChannel> treeList = new ArrayList<>();
+		//查询站点列表
 		Page page = newPage(request);
-		// ==执行分页查询
-		List<CmsSite> datas=cmsSiteService.findListDataByFinder(null,page,CmsSite.class,cmsSite);
-		for (CmsSite site : datas) {//站点数量不会太多，目前先用遍历设置link属性
-			site.setLink(cmsLinkService.findLinkBySiteBusinessId(site.getId(),site.getId()).getLink());
+		List<CmsSite> siteTreeList = cmsSiteService.findListDataByFinder(null, page, CmsSite.class, cmsChannel);
+		for (CmsSite cmsSite : siteTreeList) {
+			String siteId = cmsSite.getId();
+			List<CmsChannel> channelList = cmsChannelService.findTreeByPid(null, siteId);
+			if (channelList != null){
+				treeList.addAll(channelList);
+				for (CmsChannel channel : channelList) {
+					if(StringUtils.isBlank(channel.getPid()))
+						channel.setPid(siteId);
+				}
+			}
+			
+			//将site转为channel
+			CmsChannel tmpChannel = new CmsChannel(siteId);
+			tmpChannel.setName(cmsSite.getName());
+			treeList.add(tmpChannel);
 		}
-		returnObject.setQueryBean(cmsSite);
-		returnObject.setPage(page);
-		returnObject.setData(datas);
+		returnObject.setData(treeList);
 		return returnObject;
 	}
 	
 	@RequestMapping("/list/export")
-	public void listexport(HttpServletRequest request,HttpServletResponse response, Model model,CmsSite cmsSite) throws Exception{
+	public void listexport(HttpServletRequest request,HttpServletResponse response, Model model,CmsChannel cmsChannel) throws Exception{
 		// ==构造分页请求
 		Page page = newPage(request);
 	
-		File file = cmsSiteService.findDataExportExcel(null,listurl, page,CmsSite.class,cmsSite);
-		String fileName="CmsSite"+GlobalStatic.excelext;
+		File file = cmsChannelService.findDataExportExcel(null,listurl, page,CmsChannel.class,cmsChannel);
+		String fileName="cmsChannel"+GlobalStatic.excelext;
 		downFile(response, file, fileName,true);
 		return;
 	}
 	
-	/**
+		/**
 	 * 查看操作,调用APP端lookjson方法
 	 */
 	@RequestMapping(value = "/look")
 	public String look(Model model,HttpServletRequest request,HttpServletResponse response)  throws Exception {
 		ReturnDatas returnObject = lookjson(model, request, response);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
-		return "/base/CmsSite/CmsSiteLook";
+		return "/cms/channel/channelLook";
 	}
 
 	
@@ -123,8 +138,8 @@ public class CmsSiteController  extends BaseController {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		java.lang.String id=request.getParameter("id");
 		if(StringUtils.isNotBlank(id)){
-		  CmsSite CmsSite = cmsSiteService.findCmsSiteById(id);
-		   returnObject.setData(CmsSite);
+		  CmsChannel cmsChannel = cmsChannelService.findCmsChannelById(id);
+		   returnObject.setData(cmsChannel);
 		}else{
 		returnObject.setStatus(ReturnDatas.ERROR);
 		}
@@ -139,17 +154,17 @@ public class CmsSiteController  extends BaseController {
 	 */
 	@RequestMapping("/update")
 	public @ResponseBody
-	ReturnDatas saveorupdate(Model model,CmsSite cmsSite,HttpServletRequest request,HttpServletResponse response) throws Exception{
+	ReturnDatas saveorupdate(Model model,CmsChannel cmsChannel,HttpServletRequest request,HttpServletResponse response) throws Exception{
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		returnObject.setMessage(MessageUtils.UPDATE_SUCCESS);
 		try {
 		
-			java.lang.String id =cmsSite.getId();
+			java.lang.String id =cmsChannel.getId();
 			if(StringUtils.isBlank(id)){
-			  cmsSite.setId(null);
+			  cmsChannel.setId(null);
 			}
 		
-			cmsSiteService.saveorupdate(cmsSite);
+			cmsChannelService.saveorupdate(cmsChannel);
 			
 		} catch (Exception e) {
 			String errorMessage = e.getLocalizedMessage();
@@ -158,6 +173,7 @@ public class CmsSiteController  extends BaseController {
 			returnObject.setMessage(MessageUtils.UPDATE_ERROR);
 		}
 		return returnObject;
+	
 	}
 	
 	/**
@@ -166,8 +182,11 @@ public class CmsSiteController  extends BaseController {
 	@RequestMapping(value = "/update/pre")
 	public String updatepre(Model model,HttpServletRequest request,HttpServletResponse response)  throws Exception{
 		ReturnDatas returnObject = lookjson(model, request, response);
+		Map<String, Object> map = new HashMap<>();
+		map.put("siteList", cmsSiteService.findSiteByUserId(SessionUser.getUserId()));
+		returnObject.setMap(map);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
-		return "/cms/site/siteCru";
+		return "/cms/channel/channelCru";
 	}
 	
 	/**
@@ -180,7 +199,7 @@ public class CmsSiteController  extends BaseController {
 		try {
 		java.lang.String id=request.getParameter("id");
 		if(StringUtils.isNotBlank(id)){
-				cmsSiteService.deleteById(id,CmsSite.class);
+				cmsChannelService.deleteById(id,CmsChannel.class);
 				return new ReturnDatas(ReturnDatas.SUCCESS,
 						MessageUtils.DELETE_SUCCESS);
 			} else {
@@ -212,7 +231,7 @@ public class CmsSiteController  extends BaseController {
 		}
 		try {
 			List<String> ids = Arrays.asList(rs);
-			cmsSiteService.deleteByIds(ids,CmsSite.class);
+			cmsChannelService.deleteByIds(ids,CmsChannel.class);
 		} catch (Exception e) {
 			return new ReturnDatas(ReturnDatas.ERROR,
 					MessageUtils.DELETE_ALL_FAIL);
@@ -220,36 +239,4 @@ public class CmsSiteController  extends BaseController {
 		return new ReturnDatas(ReturnDatas.SUCCESS,
 				MessageUtils.DELETE_ALL_SUCCESS);
 	}
-	
-	/**
-	 * 上传logo
-	 * */
-	@RequestMapping("/logoupload")
-	public @ResponseBody ReturnDatas logoUpload(HttpServletRequest request){
-		ReturnDatas returnDatas=ReturnDatas.getSuccessReturnDatas();
-		//创建一个通用的多部分解析器
-		List<String> logoIdList = new ArrayList<>();
-	    CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
-	    if(multipartResolver.isMultipart(request)){
-	    	 MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest)request;
-	    	 //取得request中的所有文件名
-	    	 Iterator<String> iter = multiRequest.getFileNames();
-	    	 while(iter.hasNext()){
-	    		 MultipartFile tempFile = multiRequest.getFile(iter.next());
-	    		 String logoId;
-				try {
-					logoId = cmsSiteService.saveTmpLogo(tempFile,request);
-					logoIdList.add(logoId);
-				} catch (IOException e) {
-					returnDatas.setMessage("系统异常");
-					returnDatas.setStatus(ReturnDatas.ERROR);
-					returnDatas.setStatusCode("500");
-				}
-	    		 
-	    	 }
-	    }
-	    returnDatas.setData(logoIdList);
-		return returnDatas;
-	}
-	
 }

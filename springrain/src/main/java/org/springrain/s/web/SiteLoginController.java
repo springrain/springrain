@@ -21,9 +21,9 @@ import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.SecUtils;
 import org.springrain.system.entity.User;
 
-@Controller(value="sLoginContorller")
+@Controller
 @RequestMapping(value="/s/{siteId}")
-public class LoginController extends BaseController  {
+public class SiteLoginController extends BaseController  {
 	/**
 	 * 首页的映射
 	 * @param model
@@ -142,21 +142,6 @@ public class LoginController extends BaseController  {
 		        }
 				return "/u/"+siteId+"/s/login";
 			}
-		
-			//String sessionId = session.getId();
-			
-			//Cache<Object, Object> cache = shiroCacheManager.getCache(GlobalStatic.authenticationCacheName);
-			//cache.put(GlobalStatic.authenticationCacheName+"-"+currUser.getAccount(), sessionId);
-			
-			/*
-			Cache<String, Object> cache = shiroCacheManager.getCache(GlobalStatic.shiroActiveSessionCacheName);
-			Serializable oldSessionId = (Serializable) cache.get(currUser.getAccount());
-			if(oldSessionId!=null){
-				Subject subject=new Subject.Builder().sessionId(oldSessionId).buildSubject();
-				subject.logout();
-			}
-			cache.put(currUser.getAccount(), session.getId());
-			*/
 			
 			if(StringUtils.isBlank(gotourl)){
 				gotourl="/s/"+siteId+"/index";
