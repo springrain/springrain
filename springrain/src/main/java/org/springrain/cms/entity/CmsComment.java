@@ -55,7 +55,7 @@ public class CmsComment  extends BaseEntity {
 	/**
 	 * 父级评论Id
 	 */
-	private java.lang.String pcommentId;
+	private java.lang.String pid;
 	/**
 	 * 站点ID
 	 */
@@ -136,16 +136,16 @@ public class CmsComment  extends BaseEntity {
 	public java.lang.String getBusinessId() {
 		return this.businessId;
 	}
-	public void setPcommentId(java.lang.String value) {
+	public void setPid(java.lang.String value) {
 		    if(StringUtils.isNotBlank(value)){
 			 value=value.trim();
 			}
-		this.pcommentId = value;
+		this.pid = value;
 	}
 	
-     @WhereSQL(sql="pcommentId=:CmsComment_pcommentId")
-	public java.lang.String getPcommentId() {
-		return this.pcommentId;
+     @WhereSQL(sql="pid=:CmsComment_pid")
+	public java.lang.String getPid() {
+		return this.pid;
 	}
 	public void setSiteId(java.lang.Integer value) {
 		this.siteId = value;
@@ -231,7 +231,7 @@ public class CmsComment  extends BaseEntity {
 			.append("id[").append(getId()).append("],")
 			.append("评论用户ID[").append(getUserId()).append("],")
 			.append("业务Id[").append(getBusinessId()).append("],")
-			.append("父级评论Id[").append(getPcommentId()).append("],")
+			.append("父级评论Id[").append(getPid()).append("],")
 			.append("站点ID[").append(getSiteId()).append("],")
 			.append("评论时间[").append(getCreateDate()).append("],")
 			.append("IP地址[").append(getIp()).append("],")

@@ -1,0 +1,70 @@
+<#ftl output_format="HTML" auto_esc=true>
+<@h.commonHead title="站点title" keywords="站点keywords" description="站点description"/>
+<script>
+	function clickPraise(contentId){
+		if(!!contentId){
+			$.ajax({
+				url: '${ctx}/cms/system/praise/update',
+				type: 'POST',
+				dataType: 'json',
+				data: {businessId: contentId},
+				success:function(ret){
+					if(ret.status=="success"){
+						$("#praiseNum").val(ret.data);
+					}
+				}
+			});
+		}
+	}
+</script>
+</head>
+<body class="site-demo-body">
+    <div id="header" class="container">
+        <div class="row">
+            <div class="per20 fl tc ht80" style="font-size:70px;font-family: Georgia;">
+                <@cms_site>
+                    <!-- <img alt="" src="${ctx}${site.logo!'/img/logo.png'}"> -->
+                    <a href="${ctx}/">
+                        <i>${site.name!''}</i>
+                    </a>
+                    
+                </@cms_site>
+            </div>
+            <div class="per70 fl tr ht80">
+                <div class="ht20">
+                    <a href="#">登陆</a> | <a href="#">注册</a>
+                </div>
+                <div class="ht60" style="padding-top:40px;">
+                    <span class="layui-breadcrumb" lay-separator="|">
+                        <@cms_channel_list p="1">
+                            <#list channel_list as a>
+                                <a href="${ctx}${a.link!'#'}" target="blank"><b style="font-size:24px;">${a.name!}</b></a>
+                            </#list>
+                        </@cms_channel_list>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <hr>
+    <div id="content" class="container" style="background-color:white;padding:0 10 10 10;">
+        <@cms_content>
+            <h3>${content.title!}</h3>
+            <div style="color:#bdbdbd;">
+            	${content.createUser!'admin'} | ${content.createDate!''}&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" target="blank">评论(${content.commentsNum!''})</a> | <a href="javascript:clickPraise('${content.createDate!''}');" target="blank">点赞(<span id="praiseNum">${content.praiseNum!''}</span>)</a>
+            </div>
+            <#noautoesc>
+                <div style="padding-top:5px;">${content.content}</div>
+            </#noautoesc>
+            <hr>
+        </@cms_content>
+    </div>
+    <div id="footer" class="container-fluid pos-a bottom0 tc footer" style="height:40px;background-color:white;line-height:40px;">
+        2016 © www.weicms.netApache Licence 2.0
+    </div>
+    <div id="div_comment">
+    	<input>
+    </div>
+</body>
+</html>

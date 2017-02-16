@@ -74,7 +74,7 @@ function exit(siteId,kill){
 		
 		var _url=ctx+"/system/logout";
 		if(""!=siteId){
-			_url=ctx+"/system/"+siteId+"/logout";
+			_url=ctx+"/s/"+siteId+"/logout";
 		}
 		springrain.goTo(_url);
 	}else{
@@ -85,7 +85,7 @@ function exit(siteId,kill){
 			
 			var _url=ctx+"/system/logout";
 			if(""!=siteId){
-				_url=ctx+"/system/"+siteId+"/logout";
+				_url=ctx+"/s/"+siteId+"/logout";
 			}
 			springrain.goTo(_url);
 		});

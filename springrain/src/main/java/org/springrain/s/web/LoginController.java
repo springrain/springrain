@@ -21,14 +21,9 @@ import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.SecUtils;
 import org.springrain.system.entity.User;
 
-@Controller
+@Controller(value="sLoginContorller")
 @RequestMapping(value="/s/{siteId}")
 public class LoginController extends BaseController  {
-	
-	
-		
-	
-	
 	/**
 	 * 首页的映射
 	 * @param model
@@ -38,12 +33,7 @@ public class LoginController extends BaseController  {
 		@RequestMapping(value = "/index")
 		public String index(Model model,@PathVariable String siteId) throws Exception {
 			model.addAttribute("sietId", siteId);
-			return "/index"; 
-		}
-		
-		@RequestMapping(value = "/login",method=RequestMethod.GET)
-		public String login(Model model,HttpServletRequest request) throws Exception {
-			return getLoginUrl(model,request,null);
+			return "/u/"+siteId+"/s/index"; 
 		}
 		
 		/**
@@ -64,7 +54,7 @@ public class LoginController extends BaseController  {
 		private String getLoginUrl(Model model,HttpServletRequest request,String siteId){
 			//判断用户是否登录
 			if(SecurityUtils.getSubject().isAuthenticated()){
-				return redirect+"/"+siteId+"/index";
+				return redirect+"/u/"+siteId+"/s/index";
 			}
 			
 			
@@ -75,12 +65,10 @@ public class LoginController extends BaseController  {
 			
 			
 			//默认赋值message,避免freemarker尝试从session取值,造成异常
+			model.addAttribute("siteId",siteId);
 			model.addAttribute("message", "");
-			return "/login";
+			return "/u/"+siteId+"/s/login";
 		}
-		
-		
-		
 		
 		/**
 		 * 处理登录提交的方法
@@ -134,25 +122,25 @@ public class LoginController extends BaseController  {
 				if(StringUtils.isNotBlank(gotourl)){
 					     model.addAttribute("gotourl", gotourl);
 			    }
-				return "/login";
+				return "/u/"+siteId+"/s/login";
 			} catch (IncorrectCredentialsException e) {
 				model.addAttribute("message", "密码错误!");
 				if(StringUtils.isNotBlank(gotourl)){
 			  	     model.addAttribute("gotourl", gotourl);
 		        }
-				return "/login";
+				return "/u/"+siteId+"/s/login";
 			} catch (LockedAccountException e) {
 				model.addAttribute("message", e.getMessage());
 				if(StringUtils.isNotBlank(gotourl)){
 			  	     model.addAttribute("gotourl", gotourl);
 		        }
-				return "/login";
+				return "/u/"+siteId+"/s/login";
 			} catch (Exception e) {
 				model.addAttribute("message", "未知错误,请联系管理员.");
 				if(StringUtils.isNotBlank(gotourl)){
 			  	     model.addAttribute("gotourl", gotourl);
 		        }
-				return "/login";
+				return "/u/"+siteId+"/s/login";
 			}
 		
 			//String sessionId = session.getId();
@@ -171,7 +159,7 @@ public class LoginController extends BaseController  {
 			*/
 			
 			if(StringUtils.isBlank(gotourl)){
-				gotourl="/index";
+				gotourl="/s/"+siteId+"/index";
 			}
 			
 			//设置tokenkey
@@ -192,15 +180,7 @@ public class LoginController extends BaseController  {
 	        if (subject != null) {           
 	            subject.logout();
 	        }
-	        return super.redirect+"/login";
+	        return super.redirect+"/s/"+siteId+"/login";
 	    }
-		
-		
-		
-		
-		
-	
-		
-		
 		
 }
