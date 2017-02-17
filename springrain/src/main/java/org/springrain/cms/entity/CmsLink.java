@@ -99,10 +99,7 @@ public class CmsLink  extends BaseEntity {
 	 */
 	private java.lang.Integer loginuser;
 	
-	/**
-	 * 模板类型  0前台模板  1后台管理模板
-	 */
-	private java.lang.Integer type;
+	private java.lang.Integer modelType;
 	//columns END 数据库字段结束
 	
 	//concstructor
@@ -254,13 +251,13 @@ public class CmsLink  extends BaseEntity {
 	public void setLoginuser(java.lang.Integer loginuser) {
 		this.loginuser = loginuser;
 	}
-	@WhereSQL(sql="type=:CmsLink_type")
-	public java.lang.Integer getType() {
-		return type;
+	 @WhereSQL(sql="modelType=:CmsLink_modelType")
+	public java.lang.Integer getModelType() {
+		return modelType;
 	}
 
-	public void setType(java.lang.Integer type) {
-		this.type = type;
+	public void setModelType(java.lang.Integer modelType) {
+		this.modelType = modelType;
 	}
 
 	public String toString() {

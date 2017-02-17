@@ -54,6 +54,7 @@
                 <entry key="cms_content_list"  value-ref="contentListDirective"/>   
                 <entry key="cms_content"  value-ref="contentDirective"/>   
                 <entry key="cms_site"  value-ref="siteDirective"/>   
+                <entry key="cms_site_list"  value-ref="siteListDirective"/>   
             </map>   
         </property>  
 	</bean>

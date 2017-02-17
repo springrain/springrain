@@ -20,16 +20,15 @@ import org.springrain.cms.service.ICmsContentService;
 import org.springrain.cms.service.ICmsLinkService;
 import org.springrain.cms.utils.SiteUtils;
 import org.springrain.frame.controller.BaseController;
-import org.springrain.frame.util.Enumerations.LinkFtlType;
-import org.springrain.frame.util.property.MessageUtils;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.InputSafeUtils;
 import org.springrain.frame.util.Page;
 import org.springrain.frame.util.ReturnDatas;
+import org.springrain.frame.util.property.MessageUtils;
 
 @Controller
-@RequestMapping(value="/s/{siteId}/{businessId}")
-public class SiteAdminController extends BaseController {
+@RequestMapping(value="/s/{siteId}/{businessId}/content")
+public class ContentController extends BaseController {
 	@Resource
 	private ICmsLinkService cmsLinkService;
 	@Resource
@@ -42,14 +41,14 @@ public class SiteAdminController extends BaseController {
 		List<CmsContent> contentList = cmsContentService.findListDataByFinder(null, page, CmsContent.class, cmsContent);
 		returnDatas.setData(contentList);
 		model.addAttribute(GlobalStatic.returnDatas, returnDatas);
-		return jump(siteId, businessId, request, model,LinkFtlType.站长后台内容列表页面模板类型.getType());
+		return jump(siteId, businessId, request, model,"/s/"+siteId+"/"+businessId+"/list");
 	}
 	
 	@RequestMapping(value = "/update/pre")
 	public String updatepre(Model model,HttpServletRequest request,HttpServletResponse response,@PathVariable String siteId,@PathVariable String businessId,CmsContent cmsContent) throws Exception{
 		ReturnDatas returnObject = lookjson(model, request, response);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
-		return jump(siteId,businessId,request,model,LinkFtlType.站长后台内容新增修改页面模板类型.getType());
+		return jump(siteId,businessId,request,model,"/s/"+siteId+"/"+businessId+"/update/pre");
 	}
 	
 	/**
@@ -91,7 +90,7 @@ public class SiteAdminController extends BaseController {
 	public String look(Model model,HttpServletRequest request,HttpServletResponse response,@PathVariable String siteId,@PathVariable String businessId)  throws Exception {
 		ReturnDatas returnObject = lookjson(model, request, response);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
-		return jump(siteId,businessId,request,model,LinkFtlType.站长后台内容新增修改页面模板类型.getType());
+		return jump(siteId,businessId,request,model,"/s/"+siteId+"/"+businessId+"/look");
 	}
 	
 	@RequestMapping(value = "/look/json")
@@ -109,8 +108,8 @@ public class SiteAdminController extends BaseController {
 	}
 	
 	private String jump(String siteId, String businessId,
-			HttpServletRequest request, Model model,Integer type) throws Exception {
-		CmsLink  cmsLink = cmsLinkService.findLinkBySiteBusinessId(siteId,businessId,type);
+			HttpServletRequest request, Model model,String defaultLink) throws Exception {
+		CmsLink  cmsLink = cmsLinkService.findLinkBySiteBusinessId(siteId,businessId,defaultLink);
 		String ftlFile=cmsLink.getFtlfile();
 		
 		addModelParameter(request, model);

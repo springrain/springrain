@@ -114,9 +114,9 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 	    //保存 相应的前台 link 链接
 	    
 	    CmsLink cmsLink=new CmsLink();
-	    cmsLink.setType(0);
 	    cmsLink.setBusinessId(id);
 	    cmsLink.setSiteId(id);
+	    cmsLink.setModelType(0);
 	    cmsLink.setName(cmsSite.getName());
 	    cmsLink.setJumpType(0);
 	    cmsLink.setLookcount(1);
@@ -133,23 +133,14 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 	    cmsLinkService.save(cmsLink);
 	    
 	    //保存 相应的后台台 link 链接
-	    CmsLink cmsAdminLink=new CmsLink();
-	    cmsAdminLink.setType(1);
-	    cmsAdminLink.setBusinessId(id);
-	    cmsAdminLink.setSiteId(id);
-	    cmsAdminLink.setName(cmsSite.getName());
-	    cmsAdminLink.setJumpType(0);
-	    cmsAdminLink.setLookcount(1);
-	    cmsAdminLink.setStatichtml(0);//默认不静态化
-	    cmsAdminLink.setActive(0);//默认可以使用
-	    cmsAdminLink.setSortno(1);
-	    //首页默认
-	    String admin_index="/s/"+id+"/index";
-	    cmsAdminLink.setDefaultLink(admin_index);
-	    cmsAdminLink.setLink(admin_index);
-	    //设置模板路径
-	    cmsAdminLink.setFtlfile("/u/"+id+"/s/index");
-	    cmsLinkService.save(cmsAdminLink);
+	    cmsLink=new CmsLink();
+	    cmsLink.setId(null);
+	    cmsLink.setModelType(4);
+	    _index="/s/"+id+"/index";
+	    cmsLink.setDefaultLink(_index);
+	    cmsLink.setLink(_index);
+	    cmsLink.setFtlfile("/u/"+id+"/s/index");
+	    cmsLinkService.save(cmsLink);
 	    
 	   File t_file=new File(GlobalStatic.webinfodir+"/u/"+id+"/");
 	   if(!t_file.exists()){

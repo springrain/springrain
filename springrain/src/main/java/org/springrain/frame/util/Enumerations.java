@@ -128,23 +128,4 @@ public class Enumerations {
 			return type;
 		}
 	}
-	
-	public enum LinkFtlType{
-		前台页面连接(0),站长后台内容列表页面模板类型(1),站长后台内容新增修改页面模板类型(2),站长后台内容查看页面模板类型(3);
-		Integer type;
-		
-		private LinkFtlType(Integer type) {
-			this.type = type;
-		}
-
-		public Integer getType() {
-			return type;
-		}
-
-		public void setType(Integer type) {
-			this.type = type;
-		}
-		
-		
-	}
 }

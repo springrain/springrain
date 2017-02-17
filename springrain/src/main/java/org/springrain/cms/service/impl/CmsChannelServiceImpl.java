@@ -13,7 +13,6 @@ import org.springrain.cms.entity.CmsLink;
 import org.springrain.cms.service.ICmsChannelService;
 import org.springrain.cms.service.ICmsLinkService;
 import org.springrain.cms.service.ICmsSiteService;
-import org.springrain.frame.util.Enumerations.LinkFtlType;
 import org.springrain.frame.util.Enumerations.SiteType;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
@@ -100,7 +99,7 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 	    
        //保存 相应的 link 链接
 	    CmsLink cmsLink=new CmsLink();
-	    cmsLink.setType(LinkFtlType.前台页面连接.getType());
+	    cmsLink.setModelType(0);
 	    cmsLink.setBusinessId(id);
 	    cmsLink.setSiteId(siteId);
 	    cmsLink.setName(cmsChannel.getName());
@@ -121,7 +120,7 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 	    
 	    //保存 相应的站长管理后台list列表 link 链接
 	    cmsLink.setId(null);
-	    cmsLink.setType(LinkFtlType.站长后台内容列表页面模板类型.getType());
+	    cmsLink.setModelType(4);
 	    _index="/s/"+siteId+"/"+id+"/list";
 	    cmsLink.setDefaultLink(_index);
 	    cmsLink.setLink(_index);
@@ -129,7 +128,7 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 	    cmsLinkService.save(cmsLink);
 	    //保存 相应的站长管理后台update link 链接
 	    cmsLink.setId(null);
-	    cmsLink.setType(LinkFtlType.站长后台内容新增修改页面模板类型.getType());
+	    cmsLink.setModelType(4);
 	    _index = "/s/"+siteId+"/"+id+"/update/pre";
 	    cmsLink.setDefaultLink(_index);
 	    cmsLink.setLink(_index);
@@ -137,7 +136,7 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 	    cmsLinkService.save(cmsLink);
 	    //保存 相应的站长管理后台look link 链接
 	    cmsLink.setId(null);
-	    cmsLink.setType(LinkFtlType.站长后台内容查看页面模板类型.getType());
+	    cmsLink.setModelType(4);
 	    _index = "/s/"+siteId+"/"+id+"/look";
 	    cmsLink.setDefaultLink(_index);
 	    cmsLink.setLink(_index);
@@ -164,25 +163,28 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 		}
 		
 		//修改cmsLink
-		CmsLink link = cmsLinkService.findLinkBySiteBusinessId(siteId, id,LinkFtlType.前台页面连接.getType());
+		CmsLink link = cmsLinkService.findLinkBySiteBusinessId(siteId, id);
 		if(link!=null){
 			link.setLoginuser(cmsChannel.getLoginuser());
 			cmsLinkService.saveorupdate(link);
 		}
 		
-		link = cmsLinkService.findLinkBySiteBusinessId(siteId, id,LinkFtlType.站长后台内容列表页面模板类型.getType());
+		String defaultLink = "/s/"+siteId+"/"+id+"/list";
+		link = cmsLinkService.findLinkBySiteBusinessId(siteId, id,defaultLink);
 		if(link!=null){
 			link.setFtlfile(cmsChannel.getFtlListPath());
 			cmsLinkService.saveorupdate(link);
 		}
 		
-		link = cmsLinkService.findLinkBySiteBusinessId(siteId, id,LinkFtlType.站长后台内容新增修改页面模板类型.getType());
+		defaultLink = "/s/"+siteId+"/"+id+"/update/pre";
+		link = cmsLinkService.findLinkBySiteBusinessId(siteId, id,defaultLink);
 		if(link!=null){
 			link.setFtlfile(cmsChannel.getFtlUpdatePath());
 			cmsLinkService.saveorupdate(link);
 		}
 		
-		link = cmsLinkService.findLinkBySiteBusinessId(siteId, id,LinkFtlType.站长后台内容查看页面模板类型.getType());
+		defaultLink = "/s/"+siteId+"/"+id+"/look";
+		link = cmsLinkService.findLinkBySiteBusinessId(siteId, id,defaultLink);
 		if(link!=null){
 			link.setFtlfile(cmsChannel.getFtlLookPath());
 			cmsLinkService.saveorupdate(link);

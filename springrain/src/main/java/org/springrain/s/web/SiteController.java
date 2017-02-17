@@ -1,4 +1,4 @@
-package  org.springrain.cms.web;
+package  org.springrain.s.web;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,18 +38,14 @@ import org.springrain.frame.util.property.MessageUtils;
  * @see org.springrain.cms.entity.CmsSite
  */
 @Controller
-@RequestMapping(value="/system/cms/site")
-public class CmsSiteController  extends BaseController {
+@RequestMapping(value="/s/{siteId}/{businessId}/site")
+public class SiteController  extends BaseController {
 	@Resource
 	private ICmsSiteService cmsSiteService;
 	@Resource
 	private ICmsLinkService cmsLinkService;
-	private String listurl="/cms/site/siteList";
+	//private String listurl="/cms/site/siteList";
 	
-	
-	
-	
-	   
 	/**
 	 * 列表数据,调用listjson方法,保证和app端数据统一
 	 * 
@@ -59,11 +56,13 @@ public class CmsSiteController  extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/list")
-	public String list(HttpServletRequest request, Model model,CmsSite cmsSite) 
+	public String list(HttpServletRequest request, Model model,CmsSite cmsSite,@PathVariable String siteId,@PathVariable String businessId) 
 			throws Exception {
 		ReturnDatas returnObject = listjson(request, model, cmsSite);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
-		return listurl;
+		model.addAttribute("siteId", siteId);
+		model.addAttribute("businessId", businessId);
+		return "/u/"+siteId+"/s/site/siteList";
 	}
 	
 	/**
@@ -79,25 +78,18 @@ public class CmsSiteController  extends BaseController {
 	public @ResponseBody
 	ReturnDatas listjson(HttpServletRequest request, Model model,CmsSite cmsSite) throws Exception{
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
-		// ==构造分页请求
-		Page page = newPage(request);
-		// ==执行分页查询
-		List<CmsSite> datas=cmsSiteService.findListDataByFinder(null,page,CmsSite.class,cmsSite);
-		for (CmsSite site : datas) {//站点数量不会太多，目前先用遍历设置link属性
-			site.setLink(cmsLinkService.findLinkBySiteBusinessId(site.getId(),site.getId()).getLink());
-		}
 		returnObject.setQueryBean(cmsSite);
+		Page page = newPage(request);
 		returnObject.setPage(page);
-		returnObject.setData(datas);
 		return returnObject;
 	}
 	
 	@RequestMapping("/list/export")
-	public void listexport(HttpServletRequest request,HttpServletResponse response, Model model,CmsSite cmsSite) throws Exception{
+	public void listexport(HttpServletRequest request,HttpServletResponse response, Model model,CmsSite cmsSite,@PathVariable String siteId,@PathVariable String businessId) throws Exception{
 		// ==构造分页请求
 		Page page = newPage(request);
-	
-		File file = cmsSiteService.findDataExportExcel(null,listurl, page,CmsSite.class,cmsSite);
+		String listUrl = "/u/"+siteId+"/s/site/siteList";
+		File file = cmsSiteService.findDataExportExcel(null,listUrl, page,CmsSite.class,cmsSite);
 		String fileName="CmsSite"+GlobalStatic.excelext;
 		downFile(response, file, fileName,true);
 		return;
@@ -107,8 +99,8 @@ public class CmsSiteController  extends BaseController {
 	 * 查看操作,调用APP端lookjson方法
 	 */
 	@RequestMapping(value = "/look")
-	public String look(Model model,HttpServletRequest request,HttpServletResponse response)  throws Exception {
-		ReturnDatas returnObject = lookjson(model, request, response);
+	public String look(Model model,HttpServletRequest request,HttpServletResponse response,CmsSite cmsSite)  throws Exception {
+		ReturnDatas returnObject = lookjson(model, request, response,cmsSite);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
 		return "/base/CmsSite/CmsSiteLook";
 	}
@@ -119,17 +111,10 @@ public class CmsSiteController  extends BaseController {
 	 */
 	@RequestMapping(value = "/look/json")
 	public @ResponseBody
-	ReturnDatas lookjson(Model model,HttpServletRequest request,HttpServletResponse response) throws Exception {
+	ReturnDatas lookjson(Model model,HttpServletRequest request,HttpServletResponse response,CmsSite cmsSite) throws Exception {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
-		java.lang.String id=request.getParameter("id");
-		if(StringUtils.isNotBlank(id)){
-		  CmsSite CmsSite = cmsSiteService.findCmsSiteById(id);
-		   returnObject.setData(CmsSite);
-		}else{
-		returnObject.setStatus(ReturnDatas.ERROR);
-		}
+		returnObject.setQueryBean(cmsSite);
 		return returnObject;
-		
 	}
 	
 	
@@ -164,8 +149,8 @@ public class CmsSiteController  extends BaseController {
 	 * 进入修改页面,APP端可以调用 lookjson 获取json格式数据
 	 */
 	@RequestMapping(value = "/update/pre")
-	public String updatepre(Model model,HttpServletRequest request,HttpServletResponse response)  throws Exception{
-		ReturnDatas returnObject = lookjson(model, request, response);
+	public String updatepre(Model model,HttpServletRequest request,HttpServletResponse response,CmsSite cmsSite)  throws Exception{
+		ReturnDatas returnObject = lookjson(model, request, response,cmsSite);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
 		return "/cms/site/siteCru";
 	}
