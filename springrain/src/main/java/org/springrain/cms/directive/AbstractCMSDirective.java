@@ -18,7 +18,7 @@ import freemarker.template.TemplateException;
  */
 public abstract class AbstractCMSDirective implements
 		TemplateDirectiveModel {
-	private final static  Logger logger = LoggerFactory.getLogger(AbstractCMSDirective.class);
+	private   Logger logger = LoggerFactory.getLogger(getClass());
 	public String getReuestSiteId(){
 		return getRequestAttributeString("siteId");
 	}
