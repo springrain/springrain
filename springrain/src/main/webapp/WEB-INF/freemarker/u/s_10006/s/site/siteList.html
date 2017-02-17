@@ -37,7 +37,7 @@
 							<div class="layui-main">
 						          <div id="LAY_preview">
 						          <!-- 查询  开始 -->
-							          <form class="layui-form layui-form-pane" id="searchForm" action="${ctx}/system/cms/site/list" method="post">
+							          <form class="layui-form layui-form-pane" id="searchForm" action="${ctx}/s/${siteId!}/${businessId!}/site/list" method="post">
 							          <input type="hidden" name="pageIndex" id="pageIndex" value="${(returnDatas.page.pageIndex)!'1'}" /> 
 							          <input type="hidden" name="sort" id="page_sort" value="${(returnDatas.page.sort)!'desc'}" />
 							          <input type="hidden" name="order" id="page_order" value="${(returnDatas.page.order)!'id'}" />
@@ -106,7 +106,68 @@
 										  <!--start_export-->
 										   <tbody>
 										   		<@cms_site_list queryBean=returnDatas.queryBean page=returnDatas.page>
-										   			11
+										   			<#if (siteList??)&&(siteList?size>0)> 
+		                                                <#list  siteList as _data>
+		                                                    <!--start_no_export-->
+		                                                    <tr class="">
+		                                                        <td class="center">
+		                                                            <label class="position-relative">
+		                                                                <input name="check_li" value="${_data.id}" class="ace" type="checkbox"> <span class="lbl"></span>
+		                                                            </label>
+		                                                        </td>
+		                                                        <td>
+		                                                            <@shiro.hasPermission name="/s/${siteId}/${businessId}/site/update" >
+		                                                            <a href="#" data-action="${ctx}/s/${siteId!}/${businessId!}/site/update/pre?id=${(_data.id)!''}" class="layui-btn layui-btn-normal layui-btn-mini">修改</a>
+		                                                            </@shiro.hasPermission>
+		                                                        </td>
+		                                                        <!--end_no_export-->
+		                                                        <td >
+		                                                            <a href="${ctx}${(_data.link)!''}" target="blank">${(_data.name)!''}</a>
+		                                                            
+		                                                        </td>
+		                                                        <td >
+		                                                            ${(_data.title)!''}
+		                                                        </td>
+		                                                        <td >
+		                                                            ${(_data.domainurl)!''}
+		                                                        </td>
+		                                                        <td >
+		                                                            ${(_data.qq)!''}
+		                                                        </td>
+		                                                        <td >
+		                                                            ${(_data.phone)!''}
+		                                                        </td>
+		                                                        <td >
+		                                                            ${(_data.contacts)!''}
+		                                                        </td>
+		                                                        <td >
+		                                                            ${(_data.themeId)!''}
+		                                                        </td>
+		                                                        <td >
+		                                                            <#if (_data.siteType??) && (_data.siteType==11)>
+		                                                               	 微信
+		                                                            <#elseif (_data.siteType??) && (_data.siteType==12)>
+		                                                                	企业号
+		                                                            <#elseif (_data.siteType??) && (_data.siteType==13)>
+		                                                                pc站
+		                                                            <#elseif (_data.siteType??) && (_data.siteType==14)>
+		                                                                wap站
+		                                                            <#elseif (_data.siteType??) && (_data.siteType==15)>
+		                                                                	投票
+		                                                            <#else>
+		                                                               	 错误类型
+		                                                            </#if>
+		                                                        </td>
+		                                                        <td >
+		                                                            <#if (_data.active??) && (_data.active == 0)>
+		                                                                不可用
+		                                                            <#else>
+		                                                                可用
+		                                                            </#if>
+		                                                        </td>
+		                                                    </tr>
+		                                                </#list>
+		                                             </#if>
 										   		</@cms_site_list>
 										    
 											</tbody>

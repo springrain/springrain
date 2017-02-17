@@ -1,7 +1,6 @@
 package org.springrain.s.web;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -38,17 +37,19 @@ public class ContentController extends BaseController {
 	public String list(HttpServletRequest request, Model model,@PathVariable String siteId,@PathVariable String businessId,CmsContent cmsContent) throws Exception{
 		ReturnDatas returnDatas = ReturnDatas.getSuccessReturnDatas();
 		Page page = newPage(request);
-		List<CmsContent> contentList = cmsContentService.findListDataByFinder(null, page, CmsContent.class, cmsContent);
+		returnDatas.setPage(page);
+		returnDatas.setQueryBean(cmsContent);
+		/*List<CmsContent> contentList = cmsContentService.findListDataByFinder(null, page, CmsContent.class, cmsContent);
 		returnDatas.setData(contentList);
-		model.addAttribute(GlobalStatic.returnDatas, returnDatas);
-		return jump(siteId, businessId, request, model,"/s/"+siteId+"/"+businessId+"/list");
+		model.addAttribute(GlobalStatic.returnDatas, returnDatas);*/
+		return jump(siteId, businessId, request, model,"/s/"+siteId+"/"+businessId+"/content/list");
 	}
 	
 	@RequestMapping(value = "/update/pre")
 	public String updatepre(Model model,HttpServletRequest request,HttpServletResponse response,@PathVariable String siteId,@PathVariable String businessId,CmsContent cmsContent) throws Exception{
 		ReturnDatas returnObject = lookjson(model, request, response);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
-		return jump(siteId,businessId,request,model,"/s/"+siteId+"/"+businessId+"/update/pre");
+		return jump(siteId,businessId,request,model,"/s/"+siteId+"/"+businessId+"/content/update/pre");
 	}
 	
 	/**
@@ -90,7 +91,7 @@ public class ContentController extends BaseController {
 	public String look(Model model,HttpServletRequest request,HttpServletResponse response,@PathVariable String siteId,@PathVariable String businessId)  throws Exception {
 		ReturnDatas returnObject = lookjson(model, request, response);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
-		return jump(siteId,businessId,request,model,"/s/"+siteId+"/"+businessId+"/look");
+		return jump(siteId,businessId,request,model,"/s/"+siteId+"/"+businessId+"/content/look");
 	}
 	
 	@RequestMapping(value = "/look/json")

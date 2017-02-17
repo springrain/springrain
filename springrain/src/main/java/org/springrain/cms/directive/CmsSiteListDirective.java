@@ -14,6 +14,7 @@ import org.springrain.cms.utils.DirectiveUtils;
 import org.springrain.frame.util.Page;
 
 import freemarker.core.Environment;
+import freemarker.ext.beans.StringModel;
 import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
@@ -30,13 +31,15 @@ public class CmsSiteListDirective extends AbstractCMSDirective {
 	@Override
 	public void execute(Environment env, Map params, TemplateModel[] loopVars,
 			TemplateDirectiveBody body) throws TemplateException, IOException {
-		Page page = (Page) params.get("page");
-		CmsSite cmsSite = (CmsSite) params.get("queryBean");
+		StringModel stringModel = (StringModel) params.get("page");
+		Page page = (Page) stringModel.getAdaptedObject(Page.class);
+		
+		stringModel = (StringModel) params.get("queryBean");
+		CmsSite cmsSite = (CmsSite) stringModel.getAdaptedObject(CmsSite.class);
 		List<CmsSite> siteList = new ArrayList<>();
 		try {
 			siteList = cmsSiteService.findListDataByFinder(null, page, CmsSite.class, cmsSite);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		env.setVariable("siteList", DirectiveUtils.wrap(siteList));

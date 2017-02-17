@@ -25,13 +25,14 @@ public class CmsSiteDirective extends AbstractCMSDirective {
 	
 	public static final String TPL_NAME = "cms_site";
 	
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public void execute(Environment env, Map params, TemplateModel[] loopVars,
 			TemplateDirectiveBody body) throws TemplateException, IOException {
+		String siteId = DirectiveUtils.getString("id", params);
 		CmsSite site;
 		try {
-			site = cmsSiteService.findCmsSiteById(getSiteId(params));
+			site = cmsSiteService.findCmsSiteById(siteId);
 		} catch (Exception e) {
 			site = new CmsSite();
 		}

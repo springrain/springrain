@@ -115,69 +115,6 @@ description="springrain开源系统管理后台"/>
 	});
 	
 	
-	var orgSelectSetting = {
-			view: {
-				showLine: false,
-				showIcon: false,
-				selectedMulti: false,
-				dblClickExpand: false,
-				addDiyDom: addDiyDom
-			},
-		callback : {
-			onClick : clickOrgValue
-		},
-		data : {
-			simpleData : {
-				enable : true,
-				idKey : "id",
-				pIdKey : "pid",
-				rootPId : "null",
-			}
-		}
-	};
-	function showOrgTree() {
-
-		if (!selectOrgZtree) {
-			$.fn.zTree.init($("#selectOrgTree"), orgSelectSetting,orgjsondata4select.data);
-
-			selectOrgZtree = $.fn.zTree
-					.getZTreeObj("selectOrgTree");
-			selectOrgZtree.expandAll(true);
-			selectZtreeOneNode(jQuery("#orgId").val(),
-					"selectOrgTree");
-		}
-
-		//页面层-自定义
-		layer.open({
-			shadeClose : true,
-			closeBtn : 1,
-			btn : [ '确定' ], //按钮
-			type : 1,
-			title : "选择父部门",
-			area : [ '600px', '400px' ], //宽高
-			//shadeClose: true,
-			content : $("#div_select_org_tree")
-		});
-
-	}
-	
-	function addDiyDom(treeId, treeNode) {
-		var spaceWidth = 5;
-		var switchObj = $("#" + treeNode.tId + "_switch"),
-		icoObj = $("#" + treeNode.tId + "_ico");
-		switchObj.remove();
-		icoObj.before(switchObj);
-
-		if (treeNode.level > 1) {
-			var spaceStr = "<span style='display: inline-block;width:" + (spaceWidth * treeNode.level)+ "px'></span>";
-			switchObj.before(spaceStr);
-		}
-	}
-	
-	function clickOrgValue(event, treeId, treeNode) {
-		jQuery("#orgName").val(treeNode.name);
-		jQuery("#orgId").val(treeNode.id);
-	};
 </script>
 </head>
 <body>
@@ -202,23 +139,15 @@ description="springrain开源系统管理后台"/>
 								<span>添加站点表</span>
 							</header>
 							<div class="larry-personal-body clearfix changepwd">
-								<form id="validForm" class="layui-form " method="post" action="${ctx}/system/cms/site/update">
-									<input type="hidden" id="id" name="id" value="${(returnDatas.data.id)!''}" />
-									
-									<div class="layui-form-item col-lg-6">
-							    		<label class="layui-form-label">上级部门</label>
-									    <div class="layui-inline col-lg-5">
-									      	<input onclick="showOrgTree();" name="orgName" id="orgName" readonly="readonly"  type="text"  placeholder="点击选择部门" autocomplete="off" class="layui-input">
-									    	<input name="orgId" id="orgId" type="hidden" />
-									    </div>
-								  	</div>
+								<form id="validForm" class="layui-form " method="post" action="${ctx}/s/${siteId!}/${businessId!}/site/update">
+									<input type="hidden" id="id" name="id" value="<@cms_site id=siteId!''>${site.id!''}</@cms_site>" />
 									
 									<div class="layui-form-item col-lg-6">
 										<label class="layui-form-label">网站名称*</label>
 										<div class="layui-inline col-lg-5">
 											<input type="text" name="name" id="name" datatype="*"
 												nullmsg="不能为空" errormsg="不能为空！" autocomplete="off"
-												class="layui-input" value="${(returnDatas.data.name)!''}">
+												class="layui-input" value="<@cms_site id=siteId!''>${site.name!''}</@cms_site>">
 										</div>
 										<div class="layui-inline valid-info"></div>
 									</div>
@@ -227,7 +156,7 @@ description="springrain开源系统管理后台"/>
 										<div class="layui-inline col-lg-5">
 											<input type="text" name="title" id="title" datatype="*"
 												nullmsg="不能为空" errormsg="不能为空！" autocomplete="off"
-												class="layui-input" value="${(returnDatas.data.title)!''}">
+												class="layui-input" value="<@cms_site id=siteId!''>${site.title!''}</@cms_site>">
 										</div>
 										<div class="layui-inline valid-info"></div>
 									</div>
@@ -237,19 +166,7 @@ description="springrain开源系统管理后台"/>
 											<input type="text" name="domainurl" id="domainurl"
 												datatype="*" nullmsg="不能为空" errormsg="不能为空！"
 												autocomplete="off" class="layui-input"
-												value="${(returnDatas.data.domainurl)!''}">
-										</div>
-										<div class="layui-inline valid-info"></div>
-									</div>
-									<div class="layui-form-item col-lg-6">
-										<label class="layui-form-label">网站logo*</label>
-										<div class="layui-inline col-lg-5">
-											<div id="uploader-demo">
-											    <!--用来存放item-->
-											    <div id="fileList" class="uploader-list"></div>
-											    <div id="filePicker" class="">选择图片</div>
-											    <input type="hidden" value="" name="logo">
-											</div>
+												value="<@cms_site id=siteId!''>${site.domainurl!''}</@cms_site>">
 										</div>
 										<div class="layui-inline valid-info"></div>
 									</div>
@@ -258,7 +175,7 @@ description="springrain开源系统管理后台"/>
 										<div class="layui-inline col-lg-5">
 											<input type="text" name="qq" id="qq" datatype="*"
 												nullmsg="不能为空" errormsg="不能为空！" autocomplete="off"
-												class="layui-input" value="${(returnDatas.data.qq)!''}">
+												class="layui-input" value="<@cms_site id=siteId!''>${site.qq!''}</@cms_site>">
 										</div>
 										<div class="layui-inline valid-info"></div>
 									</div>
@@ -267,7 +184,7 @@ description="springrain开源系统管理后台"/>
 										<div class="layui-inline col-lg-5">
 											<input type="text" name="phone" id="phone" datatype="*"
 												nullmsg="不能为空" errormsg="不能为空！" autocomplete="off"
-												class="layui-input" value="${(returnDatas.data.phone)!''}">
+												class="layui-input" value="<@cms_site id=siteId!''>${site.phone!''}</@cms_site>">
 										</div>
 										<div class="layui-inline valid-info"></div>
 									</div>
@@ -277,7 +194,7 @@ description="springrain开源系统管理后台"/>
 											<input type="text" name="contacts" id="contacts" datatype="*"
 												nullmsg="不能为空" errormsg="不能为空！" autocomplete="off"
 												class="layui-input"
-												value="${(returnDatas.data.contacts)!''}">
+												value="<@cms_site id=siteId!''>${site.contacts!''}</@cms_site>">
 										</div>
 										<div class="layui-inline valid-info"></div>
 									</div>
@@ -287,7 +204,7 @@ description="springrain开源系统管理后台"/>
 											<input type="text" name="keywords" id="keywords" datatype="*"
 												nullmsg="不能为空" errormsg="不能为空！" autocomplete="off"
 												class="layui-input"
-												value="${(returnDatas.data.keywords)!''}">
+												value="<@cms_site id=siteId!''>${site.keywords!''}</@cms_site>">
 										</div>
 										<div class="layui-inline valid-info"></div>
 									</div>
@@ -297,16 +214,7 @@ description="springrain开源系统管理后台"/>
 											<input type="text" name="description" id="description"
 												datatype="*" nullmsg="不能为空" errormsg="不能为空！"
 												autocomplete="off" class="layui-input"
-												value="${(returnDatas.data.description)!''}">
-										</div>
-										<div class="layui-inline valid-info"></div>
-									</div>
-									<div class="layui-form-item col-lg-6">
-										<label class="layui-form-label">主题*</label>
-										<div class="layui-inline col-lg-5">
-											<select name="themeId" id="themeId" lay-verify="required">
-										        <option value=""></option>
-									      	</select>
+												value="<@cms_site id=siteId!''>${site.description!''}</@cms_site>">
 										</div>
 										<div class="layui-inline valid-info"></div>
 									</div>
@@ -314,31 +222,7 @@ description="springrain开源系统管理后台"/>
 									<div class="layui-form-item col-lg-6">
 										<label class="layui-form-label">页脚*</label>
 										<div class="layui-inline col-lg-5">
-											 <textarea name="footer" id="footer" placeholder="请输入内容" class="layui-textarea">${(returnDatas.data.footer)!''}</textarea>
-										</div>
-										<div class="layui-inline valid-info"></div>
-									</div>
-									
-									<div class="layui-form-item col-lg-6">
-										<label class="layui-form-label">站点类型</label>
-										<div class="layui-inline col-lg-5">
-											<select name="siteType" id="siteType" lay-verify="required">
-											    <option value="11">微信服务号</option>
-											    <option value="12">企业号</option>
-											    <option value="13">pc站</option>
-											    <option value="14">wap站</option>
-											    <option value="15">投票</option>
-											</select>
-										</div>
-										<div class="layui-inline valid-info"></div>
-									</div>
-									<div class="layui-form-item col-lg-6">
-										<label class="layui-form-label">状态</label>
-										<div class="layui-inline col-lg-5">
-											<select name="active" id="active" lay-verify="required">
-										        <option value="1">可用</option>
-										        <option value="0">不可用</option>
-									      	</select>
+											 <textarea name="footer" id="footer" placeholder="请输入内容" class="layui-textarea"><@cms_site id=siteId!''>${site.footer!''}</@cms_site></textarea>
 										</div>
 										<div class="layui-inline valid-info"></div>
 									</div>

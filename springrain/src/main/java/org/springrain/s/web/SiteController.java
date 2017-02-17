@@ -149,10 +149,12 @@ public class SiteController  extends BaseController {
 	 * 进入修改页面,APP端可以调用 lookjson 获取json格式数据
 	 */
 	@RequestMapping(value = "/update/pre")
-	public String updatepre(Model model,HttpServletRequest request,HttpServletResponse response,CmsSite cmsSite)  throws Exception{
+	public String updatepre(Model model,HttpServletRequest request,HttpServletResponse response,CmsSite cmsSite,@PathVariable String siteId,@PathVariable String businessId)  throws Exception{
 		ReturnDatas returnObject = lookjson(model, request, response,cmsSite);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
-		return "/cms/site/siteCru";
+		model.addAttribute("siteId", siteId);
+		model.addAttribute("businessId", businessId);
+		return "/u/"+siteId+"/s/site/siteCru";
 	}
 	
 	/**
