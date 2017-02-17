@@ -310,24 +310,25 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		if (queryBean != null) {
 			getFinderWhereByQueryBean(finder, queryBean);
 		}
+		
+		
+		if (page == null) {
+			return this.queryForList(finder, clazz, page);
+		}
+		
 
 		int _index = RegexValidateUtils.getOrderByIndex(finder.getSql());
 		if (_index > 0) {
 			finder.setSql(finder.getSql().substring(0, _index));
 		}
 
-		if (page == null) {
-			return this.queryForList(finder, clazz, page);
-		}
+		
 
 		// 根据page的参数 添加 order by
 		getFinderOrderBy(finder, page);
 
-		List<T> datas = this.queryForList(finder, clazz, page);
-		if (datas == null) {
-			datas = new ArrayList<T>();
-		}
-		return datas;
+		
+		return this.queryForList(finder, clazz, page);
 	}
 
 	@Override
