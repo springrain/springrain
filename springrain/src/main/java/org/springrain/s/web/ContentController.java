@@ -14,11 +14,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springrain.cms.entity.CmsContent;
-import org.springrain.cms.entity.CmsLink;
 import org.springrain.cms.service.ICmsContentService;
 import org.springrain.cms.service.ICmsLinkService;
 import org.springrain.cms.utils.SiteUtils;
-import org.springrain.frame.controller.BaseController;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.InputSafeUtils;
 import org.springrain.frame.util.Page;
@@ -27,7 +25,7 @@ import org.springrain.frame.util.property.MessageUtils;
 
 @Controller
 @RequestMapping(value="/s/{siteId}/{businessId}/content")
-public class ContentController extends BaseController {
+public class ContentController extends SiteBaseController{
 	@Resource
 	private ICmsLinkService cmsLinkService;
 	@Resource
@@ -39,17 +37,15 @@ public class ContentController extends BaseController {
 		Page page = newPage(request);
 		returnDatas.setPage(page);
 		returnDatas.setQueryBean(cmsContent);
-		/*List<CmsContent> contentList = cmsContentService.findListDataByFinder(null, page, CmsContent.class, cmsContent);
-		returnDatas.setData(contentList);
-		model.addAttribute(GlobalStatic.returnDatas, returnDatas);*/
-		return jump(siteId, businessId, request, model,"/s/"+siteId+"/"+businessId+"/content/list");
+
+		return jump(siteId, businessId,"/s/"+siteId+"/"+businessId+"/content/list", request, model);
 	}
 	
 	@RequestMapping(value = "/update/pre")
 	public String updatepre(Model model,HttpServletRequest request,HttpServletResponse response,@PathVariable String siteId,@PathVariable String businessId,CmsContent cmsContent) throws Exception{
 		ReturnDatas returnObject = lookjson(model, request, response);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
-		return jump(siteId,businessId,request,model,"/s/"+siteId+"/"+businessId+"/content/update/pre");
+		return jump(siteId,businessId,"/s/"+siteId+"/"+businessId+"/content/update/pre",request,model);
 	}
 	
 	/**
@@ -79,8 +75,6 @@ public class ContentController extends BaseController {
 			returnObject.setStatus(ReturnDatas.ERROR);
 			returnObject.setMessage(MessageUtils.UPDATE_ERROR);
 		}
-		model.addAttribute("siteId", siteId);
-		model.addAttribute("businessId", businessId);
 		return returnObject;
 	}
 	
@@ -91,7 +85,7 @@ public class ContentController extends BaseController {
 	public String look(Model model,HttpServletRequest request,HttpServletResponse response,@PathVariable String siteId,@PathVariable String businessId)  throws Exception {
 		ReturnDatas returnObject = lookjson(model, request, response);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
-		return jump(siteId,businessId,request,model,"/s/"+siteId+"/"+businessId+"/content/look");
+		return jump(siteId,businessId,"/s/"+siteId+"/"+businessId+"/content/look",request,model);
 	}
 	
 	@RequestMapping(value = "/look/json")
@@ -108,15 +102,5 @@ public class ContentController extends BaseController {
 		return returnObject;
 	}
 	
-	private String jump(String siteId, String businessId,
-			HttpServletRequest request, Model model,String defaultLink) throws Exception {
-		CmsLink  cmsLink = cmsLinkService.findLinkBySiteBusinessId(siteId,businessId,defaultLink);
-		String ftlFile=cmsLink.getFtlfile();
-		
-		addModelParameter(request, model);
-		model.addAttribute("siteId", siteId);
-		model.addAttribute("businessId", businessId);
-		
-		return ftlFile;
-	}
+	
 }
