@@ -43,7 +43,7 @@ public class ContentController extends SiteBaseController{
 	
 	@RequestMapping(value = "/update/pre")
 	public String updatepre(Model model,HttpServletRequest request,HttpServletResponse response,@PathVariable String siteId,@PathVariable String businessId,CmsContent cmsContent) throws Exception{
-		ReturnDatas returnObject = lookjson(model, request, response);
+		ReturnDatas returnObject = lookjson(model, request, response,siteId,businessId);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
 		return jump(siteId,businessId,"/s/"+siteId+"/"+businessId+"/content/update/pre",request,model);
 	}
@@ -83,18 +83,18 @@ public class ContentController extends SiteBaseController{
 	 */
 	@RequestMapping(value = "/look")
 	public String look(Model model,HttpServletRequest request,HttpServletResponse response,@PathVariable String siteId,@PathVariable String businessId)  throws Exception {
-		ReturnDatas returnObject = lookjson(model, request, response);
+		ReturnDatas returnObject = lookjson(model, request, response,siteId,businessId);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
 		return jump(siteId,businessId,"/s/"+siteId+"/"+businessId+"/content/look",request,model);
 	}
 	
 	@RequestMapping(value = "/look/json")
 	public @ResponseBody
-	ReturnDatas lookjson(Model model,HttpServletRequest request,HttpServletResponse response) throws Exception{
+	ReturnDatas lookjson(Model model,HttpServletRequest request,HttpServletResponse response,@PathVariable String siteId,@PathVariable String businessId) throws Exception{
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		java.lang.String id=request.getParameter("id");
 		if(StringUtils.isNotBlank(id)){
-			CmsContent cmsContent = cmsContentService.findCmsContentById(id);
+			CmsContent cmsContent = cmsContentService.findCmsContentById(siteId,id);
 			Map<String, Object> map = new HashMap<String, Object>();
 			returnObject.setMap(map);
 			returnObject.setData(cmsContent);

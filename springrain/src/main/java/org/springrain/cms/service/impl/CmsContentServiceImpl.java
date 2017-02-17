@@ -12,8 +12,10 @@ import org.springrain.cms.entity.CmsChannelContent;
 import org.springrain.cms.entity.CmsContent;
 import org.springrain.cms.entity.CmsLink;
 import org.springrain.cms.service.ICmsChannelService;
+import org.springrain.cms.service.ICmsCommentService;
 import org.springrain.cms.service.ICmsContentService;
 import org.springrain.cms.service.ICmsLinkService;
+import org.springrain.cms.service.ICmsPraiseService;
 import org.springrain.cms.service.ICmsSiteService;
 import org.springrain.frame.util.Enumerations.SiteType;
 import org.springrain.frame.util.Finder;
@@ -44,6 +46,12 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 	private ICmsLinkService cmsLinkService;
 	@Resource
 	private ICmsChannelService cmsChannelService;
+	
+	@Resource
+	private ICmsCommentService cmsCommentService;
+	@Resource
+	private ICmsPraiseService cmsPraiseService;
+	
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -151,8 +159,33 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 	    return update;
     }
     @Override
-	public CmsContent findCmsContentById(String id) throws Exception{
-	 return findById(id,CmsContent.class);
+	public CmsContent findCmsContentById(String siteId,String id) throws Exception{
+    	
+    	if(StringUtils.isBlank(siteId)||StringUtils.isBlank(id)){
+    		return null;
+    	}
+    	
+    	String key="cmsContentService_findCmsContentById_"+id;
+    	
+    	CmsContent content= getByCache(siteId, key, CmsContent.class);
+    	
+    	if(content!=null){
+    		return content;
+    	}
+    	
+    	
+    	
+    	 content= findById(id,CmsContent.class);
+    	
+    	Integer commentsNum = cmsCommentService.findCommentsNumByBusinessId(content.getId());
+		Integer praiseNum = cmsPraiseService.findPraiseNumByBusinessId(content.getId());
+		content.setCommentsNum(commentsNum);
+		content.setPraiseNum(praiseNum);
+		
+		putByCache(siteId, key, content);
+    	
+    	
+	 return content;
 	}
 
 	@SuppressWarnings("unchecked")

@@ -20,7 +20,7 @@ public interface ICmsContentService extends IBaseSpringrainService {
 	 * @return
 	 * @throws Exception
 	 */
-	CmsContent findCmsContentById(String id) throws Exception;
+	CmsContent findCmsContentById(String findCmsContentById,String id) throws Exception;
 
 	String saveContent(CmsContent cmsContent) throws Exception;
 
