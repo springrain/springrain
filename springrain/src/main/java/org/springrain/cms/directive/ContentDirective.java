@@ -35,7 +35,7 @@ public class ContentDirective  extends AbstractCMSDirective  {
 			TemplateDirectiveBody body) throws TemplateException, IOException {
 		CmsContent content;
 		try {
-			content = cmsContentService.findById(getBusinessId(), CmsContent.class);
+			content = cmsContentService.findById(getBusinessId(params), CmsContent.class);
 			Integer commentsNum = cmsCommentService.findCommentsNumByBusinessId(content.getId());
 			Integer praiseNum = cmsPraiseService.findPraiseNumByBusinessId(content.getId());
 			content.setCommentsNum(commentsNum);

@@ -42,7 +42,7 @@ public class ChannelListDirective extends AbstractCMSDirective {
 		
 		List<CmsChannel> list;
 		try {
-			list = cmsChannelService.findTreeByPid(null, getSiteId());
+			list = cmsChannelService.findTreeByPid(null, getSiteId(params));
 			for (CmsChannel cmsChannel : list) {//栏目内容较少，可以用遍历方式设置链接属性
 				cmsChannel.setLink(cmsLinkService.findLinkBySiteBusinessId(cmsChannel.getSiteId(), cmsChannel.getId()).getLink());
 			}
