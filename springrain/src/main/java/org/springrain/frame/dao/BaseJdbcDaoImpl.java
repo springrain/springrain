@@ -50,7 +50,7 @@ import org.springrain.frame.util.WhereSQLInfo;
  * @see org.springrain.frame.dao.BaseJdbcDaoImpl
  */
 public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao {
-	private String frame_jdbc_call_key = "frame_jdbc_call_key";
+	private static final String frame_jdbc_call_key = "frame_jdbc_call_key";
 
 	/**
 	 * 抽象方法.每个数据库的代理Dao都必须实现.在多库情况下,用于区分底层数据库的连接对象,对数据库进行增删改查.</br>
@@ -310,24 +310,25 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		if (queryBean != null) {
 			getFinderWhereByQueryBean(finder, queryBean);
 		}
+		
+		
+		if (page == null) {
+			return this.queryForList(finder, clazz, page);
+		}
+		
 
 		int _index = RegexValidateUtils.getOrderByIndex(finder.getSql());
 		if (_index > 0) {
 			finder.setSql(finder.getSql().substring(0, _index));
 		}
 
-		if (page == null) {
-			return this.queryForList(finder, clazz, page);
-		}
+		
 
 		// 根据page的参数 添加 order by
 		getFinderOrderBy(finder, page);
 
-		List<T> datas = this.queryForList(finder, clazz, page);
-		if (datas == null) {
-			datas = new ArrayList<T>();
-		}
-		return datas;
+		
+		return this.queryForList(finder, clazz, page);
 	}
 
 	@Override
