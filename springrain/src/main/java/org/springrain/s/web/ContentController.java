@@ -17,7 +17,6 @@ import org.springrain.cms.entity.CmsContent;
 import org.springrain.cms.service.ICmsContentService;
 import org.springrain.cms.service.ICmsLinkService;
 import org.springrain.cms.utils.SiteUtils;
-import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.InputSafeUtils;
 import org.springrain.frame.util.Page;
 import org.springrain.frame.util.ReturnDatas;
@@ -43,8 +42,6 @@ public class ContentController extends SiteBaseController{
 	
 	@RequestMapping(value = "/update/pre")
 	public String updatepre(Model model,HttpServletRequest request,HttpServletResponse response,@PathVariable String siteId,@PathVariable String businessId,CmsContent cmsContent) throws Exception{
-		ReturnDatas returnObject = lookjson(model, request, response,siteId,businessId);
-		model.addAttribute(GlobalStatic.returnDatas, returnObject);
 		return jump(siteId,businessId,"/s/"+siteId+"/"+businessId+"/content/update/pre",request,model);
 	}
 	
@@ -83,8 +80,6 @@ public class ContentController extends SiteBaseController{
 	 */
 	@RequestMapping(value = "/look")
 	public String look(Model model,HttpServletRequest request,HttpServletResponse response,@PathVariable String siteId,@PathVariable String businessId)  throws Exception {
-		ReturnDatas returnObject = lookjson(model, request, response,siteId,businessId);
-		model.addAttribute(GlobalStatic.returnDatas, returnObject);
 		return jump(siteId,businessId,"/s/"+siteId+"/"+businessId+"/content/look",request,model);
 	}
 	
