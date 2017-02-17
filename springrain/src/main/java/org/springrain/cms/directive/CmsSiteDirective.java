@@ -31,7 +31,7 @@ public class CmsSiteDirective extends AbstractCMSDirective {
 			TemplateDirectiveBody body) throws TemplateException, IOException {
 		CmsSite site;
 		try {
-			site = cmsSiteService.findCmsSiteById(getSiteId());
+			site = cmsSiteService.findCmsSiteById(getSiteId(params));
 		} catch (Exception e) {
 			site = new CmsSite();
 		}
