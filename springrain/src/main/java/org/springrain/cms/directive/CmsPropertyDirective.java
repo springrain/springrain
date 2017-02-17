@@ -31,6 +31,7 @@ public class CmsPropertyDirective extends AbstractCMSDirective {
 			list = cmsPropertyService.findByBusinessId(getBusinessId(params),
 					null);
 		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
 		}
 		env.setVariable("content", DirectiveUtils.wrap(list));
 		if (body != null) {
