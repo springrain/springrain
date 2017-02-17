@@ -72,7 +72,7 @@ public class UeditorController extends BaseController {
        	String path = request.getContextPath();
        	
        	//文件的访问路径,不带项目名称,siteId可以是个变量,也可以是固定值,根据实际情况控制
-       	String fileuploadpath=UEFILEPATH+"/"+siteId+"/ueditor/";
+       	String fileuploadpath=UEFILEPATH+"/u/"+siteId+"/ueditor/";
        	
        	//主配置,使用类直接处理,没有使用配置config.json文件,请根据实际要求处理
     	UeditorConfig config=new UeditorConfig(path+fileuploadpath);
