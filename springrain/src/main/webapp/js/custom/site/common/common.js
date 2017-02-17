@@ -114,7 +114,7 @@ function ajaxmenu() {
         dataType : "json",
         success : function(_json) {
             if(_json.status=="success"){
-            	locache.set("menuData",_json.data);
+            	locache.set("menuData",_json.data[0].leaf);
             	var menuData = locache.get("menuData");
                 buildModule(menuData);
             }

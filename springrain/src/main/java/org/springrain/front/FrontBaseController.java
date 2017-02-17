@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springrain.cms.entity.CmsLink;
 import org.springrain.cms.service.ICmsLinkService;
 import org.springrain.frame.controller.BaseController;
+import org.springrain.frame.util.Enumerations.LinkFtlType;
 
 
 public class FrontBaseController extends BaseController {
@@ -17,7 +18,7 @@ public class FrontBaseController extends BaseController {
 	public  String jump( String siteId,String businessId,Integer siteType,HttpServletRequest request, Model model) 
 			throws Exception {
 		
-		    CmsLink  cmsLink = cmsLinkService.findLinkBySiteBusinessId(siteId,businessId);
+		    CmsLink  cmsLink = cmsLinkService.findLinkBySiteBusinessId(siteId,businessId,LinkFtlType.前台页面连接.getType());
 		    
 		    String link=cmsLink.getLink();
 		    String ftlFile=cmsLink.getFtlfile();

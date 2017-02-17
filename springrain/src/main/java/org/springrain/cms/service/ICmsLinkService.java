@@ -32,7 +32,5 @@ public interface ICmsLinkService extends IBaseSpringrainService {
 	 * @return
 	 * @throws Exception 
 	 */
-    CmsLink findLinkBySiteBusinessId(String siteId,String bussinessId) throws Exception;
-	
-	
+    CmsLink findLinkBySiteBusinessId(String siteId,String bussinessId,Integer type) throws Exception;
 }

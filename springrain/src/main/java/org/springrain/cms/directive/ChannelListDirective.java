@@ -12,6 +12,7 @@ import org.springrain.cms.entity.CmsChannel;
 import org.springrain.cms.service.ICmsChannelService;
 import org.springrain.cms.service.ICmsLinkService;
 import org.springrain.cms.utils.DirectiveUtils;
+import org.springrain.frame.util.Enumerations.LinkFtlType;
 
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
@@ -44,7 +45,7 @@ public class ChannelListDirective extends AbstractCMSDirective {
 		try {
 			list = cmsChannelService.findTreeByPid(null, getSiteId());
 			for (CmsChannel cmsChannel : list) {//栏目内容较少，可以用遍历方式设置链接属性
-				cmsChannel.setLink(cmsLinkService.findLinkBySiteBusinessId(cmsChannel.getSiteId(), cmsChannel.getId()).getLink());
+				cmsChannel.setLink(cmsLinkService.findLinkBySiteBusinessId(cmsChannel.getSiteId(), cmsChannel.getId(), LinkFtlType.前台页面连接.getType()).getLink());
 			}
 		} catch (Exception e) {
 			list = new ArrayList<>();

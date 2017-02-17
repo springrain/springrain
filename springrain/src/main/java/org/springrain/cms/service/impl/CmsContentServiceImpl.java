@@ -16,6 +16,7 @@ import org.springrain.cms.service.ICmsChannelService;
 import org.springrain.cms.service.ICmsContentService;
 import org.springrain.cms.service.ICmsLinkService;
 import org.springrain.cms.service.ICmsSiteService;
+import org.springrain.frame.util.Enumerations.LinkFtlType;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.Page;
@@ -138,7 +139,7 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 		if(cmsContent==null){
     		return null;
     	}
-		CmsLink link = cmsLinkService.findLinkBySiteBusinessId(cmsContent.getSiteId(), cmsContent.getId());
+		CmsLink link = cmsLinkService.findLinkBySiteBusinessId(cmsContent.getSiteId(), cmsContent.getId(),LinkFtlType.前台页面连接.getType());
 		if(link!=null){
 			link.setLoginuser(cmsContent.getLoginuser());
 			cmsLinkService.saveorupdate(link);

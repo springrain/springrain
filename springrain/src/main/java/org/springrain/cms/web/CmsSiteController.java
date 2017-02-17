@@ -23,6 +23,7 @@ import org.springrain.cms.entity.CmsSite;
 import org.springrain.cms.service.ICmsLinkService;
 import org.springrain.cms.service.ICmsSiteService;
 import org.springrain.frame.controller.BaseController;
+import org.springrain.frame.util.Enumerations.LinkFtlType;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.Page;
 import org.springrain.frame.util.ReturnDatas;
@@ -84,7 +85,7 @@ public class CmsSiteController  extends BaseController {
 		// ==执行分页查询
 		List<CmsSite> datas=cmsSiteService.findListDataByFinder(null,page,CmsSite.class,cmsSite);
 		for (CmsSite site : datas) {//站点数量不会太多，目前先用遍历设置link属性
-			site.setLink(cmsLinkService.findLinkBySiteBusinessId(site.getId(),site.getId()).getLink());
+			site.setLink(cmsLinkService.findLinkBySiteBusinessId(site.getId(),site.getId(), LinkFtlType.前台页面连接.getType()).getLink());
 		}
 		returnObject.setQueryBean(cmsSite);
 		returnObject.setPage(page);

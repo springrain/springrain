@@ -103,6 +103,20 @@ public class CmsChannel  extends BaseEntity {
 	private String link;
 	
 	/**
+	 * list模板路径
+	 */
+	private String ftlListPath;
+	
+	/**
+	 * look模板路径
+	 */
+	private String ftlLookPath;
+	
+	/**
+	 * 更新模板路径
+	 */
+	private String ftlUpdatePath;
+	/**
 	 * 登陆访问标识
 	 */
 	private Integer loginuser;
@@ -256,6 +270,33 @@ public class CmsChannel  extends BaseEntity {
 
 	public void setLoginuser(Integer loginuser) {
 		this.loginuser = loginuser;
+	}
+	
+	
+	
+	@Transient
+	public String getFtlListPath() {
+		return ftlListPath;
+	}
+
+	public void setFtlListPath(String ftlListPath) {
+		this.ftlListPath = ftlListPath;
+	}
+	@Transient
+	public String getFtlLookPath() {
+		return ftlLookPath;
+	}
+
+	public void setFtlLookPath(String ftlLookPath) {
+		this.ftlLookPath = ftlLookPath;
+	}
+	@Transient
+	public String getFtlUpdatePath() {
+		return ftlUpdatePath;
+	}
+
+	public void setFtlUpdatePath(String ftlUpdatePath) {
+		this.ftlUpdatePath = ftlUpdatePath;
 	}
 
 	public String toString() {
