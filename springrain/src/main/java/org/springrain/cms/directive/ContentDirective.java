@@ -7,7 +7,9 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
 import org.springrain.cms.entity.CmsContent;
+import org.springrain.cms.service.ICmsCommentService;
 import org.springrain.cms.service.ICmsContentService;
+import org.springrain.cms.service.ICmsPraiseService;
 import org.springrain.cms.utils.DirectiveUtils;
 
 import freemarker.core.Environment;
@@ -20,6 +22,11 @@ public class ContentDirective  extends AbstractCMSDirective  {
 	
 	@Resource
 	private ICmsContentService cmsContentService;
+	
+	@Resource
+	private ICmsCommentService cmsCommentService;
+	@Resource
+	private ICmsPraiseService cmsPraiseService;
 
 	public static final String TPL_NAME = "cms_content";
 	
@@ -30,7 +37,10 @@ public class ContentDirective  extends AbstractCMSDirective  {
 		CmsContent content;
 		try {
 			content = cmsContentService.findCmsContentById(getSiteId(params),getBusinessId(params));
-			
+			Integer commentsNum = cmsCommentService.findCommentsNumByBusinessId(getSiteId(params),content.getId());
+			Integer praiseNum = cmsPraiseService.findPraiseNumByBusinessId(getSiteId(params),content.getId());
+			content.setCommentsNum(commentsNum);
+			content.setPraiseNum(praiseNum);
 		} catch (Exception e) {
 			content = null;
 			logger.error(e.getMessage(), e);

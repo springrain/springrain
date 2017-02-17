@@ -47,10 +47,7 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 	@Resource
 	private ICmsChannelService cmsChannelService;
 	
-	@Resource
-	private ICmsCommentService cmsCommentService;
-	@Resource
-	private ICmsPraiseService cmsPraiseService;
+
 	
 
 	@SuppressWarnings("unchecked")
@@ -177,10 +174,7 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
     	
     	 content= findById(id,CmsContent.class);
     	
-    	Integer commentsNum = cmsCommentService.findCommentsNumByBusinessId(content.getId());
-		Integer praiseNum = cmsPraiseService.findPraiseNumByBusinessId(content.getId());
-		content.setCommentsNum(commentsNum);
-		content.setPraiseNum(praiseNum);
+    	
 		
 		putByCache(siteId, key, content);
     	

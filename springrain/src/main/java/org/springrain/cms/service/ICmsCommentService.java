@@ -27,8 +27,8 @@ public interface ICmsCommentService extends IBaseSpringrainService {
 	 * @return
 	 * @throws Exception
 	 */
-	Integer findCommentsNumByBusinessId(String businessId) throws Exception;
+	Integer findCommentsNumByBusinessId(String siteId,String businessId) throws Exception;
 	
-	List<CmsComment> findCommentListByBusinessId(String businessId) throws Exception;
+	List<CmsComment> findCommentListByBusinessId(String siteId,String businessId) throws Exception;
 	
 }

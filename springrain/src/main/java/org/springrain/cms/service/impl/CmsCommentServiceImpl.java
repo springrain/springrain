@@ -78,27 +78,51 @@ public class CmsCommentServiceImpl extends BaseSpringrainServiceImpl implements 
 		}
 
 	@Override
-	public Integer findCommentsNumByBusinessId(String businessId) throws Exception {
-		Finder finder = new Finder("SELECT COUNT(id) AS sumNum FROM ")
+	public Integer findCommentsNumByBusinessId(String siteId,String businessId) throws Exception {
+		
+		
+		String cacheKey="cmsCommentService_findCommentsNumByBusinessId_"+siteId+"_"+businessId;
+		
+		Integer num=super.getByCache(siteId, cacheKey, Integer.class);
+		if(num!=null){
+			return num;
+		}
+		
+		
+		
+		Finder finder = new Finder("SELECT COUNT(*) FROM ")
 					.append(Finder.getTableName(CmsComment.class))
 					.append(" WHERE businessId=:businessId");
 		finder.setParam("businessId", businessId);
-		Integer commentsNum = super.queryForObject(finder,Integer.class);
-		if(commentsNum==null){
-			return 0;
-		}else{
-			return commentsNum;
+		 num = super.queryForObject(finder,Integer.class);
+		if(num==null){
+			num=0;
 		}
+		
+		super.putByCache(siteId, cacheKey, num);
+		
+	     return num;
+		
 	}
 
 	@Override
-	public List<CmsComment> findCommentListByBusinessId(String businessId) throws Exception {
+	public List<CmsComment> findCommentListByBusinessId(String siteId,String businessId) throws Exception {
+		String cacheKey="cmsCommentService_findCommentListByBusinessId_"+siteId+"_"+businessId;
+		List<CmsComment> commentList=super.getByCache(siteId, cacheKey, List.class);
+		if(commentList!=null){
+			return commentList;
+		}
+		
+		
 		Finder finder = Finder.getSelectFinder(CmsComment.class).append(" WHERE businessId=:businessId");
 		finder.setParam("businessId", businessId);
-		List<CmsComment> commentList = super.queryForList(finder, CmsComment.class);
+		commentList = super.queryForList(finder, CmsComment.class);
 		if (commentList == null){
 			commentList = new ArrayList<>();
 		}
+		
+		super.putByCache(siteId, cacheKey, commentList);
+		
 		return commentList;
 	}
 }

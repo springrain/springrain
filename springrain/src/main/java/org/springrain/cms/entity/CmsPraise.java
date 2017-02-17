@@ -42,6 +42,10 @@ public class CmsPraise  extends BaseEntity {
 	 * 点赞人
 	 */
 	private java.lang.String userId;
+	
+	
+	private String siteId;
+	
 	//columns END 数据库字段结束
 	
 	//concstructor
@@ -91,6 +95,14 @@ public class CmsPraise  extends BaseEntity {
 		return this.userId;
 	}
 	
+	public String getSiteId() {
+		return siteId;
+	}
+
+	public void setSiteId(String siteId) {
+		this.siteId = siteId;
+	}
+
 	public String toString() {
 		return new StringBuffer()
 			.append("id[").append(getId()).append("],")

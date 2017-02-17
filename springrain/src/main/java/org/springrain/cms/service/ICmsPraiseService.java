@@ -25,7 +25,7 @@ public interface ICmsPraiseService extends IBaseSpringrainService {
 	 * @return
 	 * @throws Exception 
 	 */
-	Integer findPraiseNumByBusinessId(String businessId) throws Exception;
+	Integer findPraiseNumByBusinessId(String siteId,String businessId) throws Exception;
 	
 	/**
 	 * 查询用户是否点过赞，点过返回true，没点过返回false
@@ -34,7 +34,7 @@ public interface ICmsPraiseService extends IBaseSpringrainService {
 	 * @return
 	 * @throws Exception 
 	 */
-	boolean findPraiseIsExist(String userId,String businessId) throws Exception;
+	boolean findPraiseIsExist(String siteId,String userId,String businessId) throws Exception;
 	
 	/**
 	 * 删除该条点赞信息
@@ -42,5 +42,12 @@ public interface ICmsPraiseService extends IBaseSpringrainService {
 	 * @param businessId
 	 * @throws Exception 
 	 */
-	void deletePraise(String userId,String businessId) throws Exception;
+	void deletePraise(String siteId,String userId,String businessId) throws Exception;
+/**
+ * 保存点赞
+ * @param cmsPraise
+ * @return
+ * @throws Exception
+ */
+	String saveCmsPraise(CmsPraise cmsPraise) throws Exception;
 }

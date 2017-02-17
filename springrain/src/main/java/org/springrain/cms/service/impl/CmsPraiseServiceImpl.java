@@ -2,14 +2,12 @@ package org.springrain.cms.service.impl;
 
 import java.io.File;
 import java.util.List;
-import java.util.Map;
 
-import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springrain.cms.entity.CmsPraise;
 import org.springrain.cms.service.ICmsPraiseService;
 import org.springrain.frame.common.SessionUser;
-import org.springrain.frame.entity.IBaseEntity;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.Page;
 import org.springrain.system.service.BaseSpringrainServiceImpl;
@@ -27,9 +25,19 @@ public class CmsPraiseServiceImpl extends BaseSpringrainServiceImpl implements I
 
    
     @Override
-	public String  save(Object entity ) throws Exception{
-	      CmsPraise cmsPraise=(CmsPraise) entity;
-	       return super.save(cmsPraise).toString();
+	public String  saveCmsPraise( CmsPraise cmsPraise ) throws Exception{
+    	Object saveId = super.save(cmsPraise);
+    	
+    	String userId=cmsPraise.getUserId();
+    	String siteId=cmsPraise.getSiteId();
+    	String businessId=cmsPraise.getBusinessId();
+    	
+    	
+    	String cacheKey1="cmsPraiseService_findPraiseIsExist_"+userId+"_"+businessId;
+		String cacheKey2="cmsPraiseService_findPraiseNumByBusinessId_"+siteId+"_"+businessId;
+		super.evictByKey(siteId, cacheKey1);
+		super.evictByKey(siteId, cacheKey2);
+	       return saveId.toString();
 	}
     
     @Override
@@ -37,20 +45,17 @@ public class CmsPraiseServiceImpl extends BaseSpringrainServiceImpl implements I
     	CmsPraise cmsPraise=(CmsPraise) entity;
     	String userId = SessionUser.getUserId();
     	String businessId = cmsPraise.getBusinessId();
-    	boolean exist = findPraiseIsExist(userId,businessId);
+    	String siteId=cmsPraise.getSiteId();
+    	boolean exist = findPraiseIsExist(siteId,userId,businessId);
     	if(exist){//存在，执行删除
-    		deletePraise(userId, businessId);
+    		deletePraise(siteId,userId, businessId);
     	}else{//不存在，新增
-    		return save(cmsPraise);
+    		return saveCmsPraise(cmsPraise);
     	}
 	    return "";
 	}
 	
-	@Override
-    public Integer update(IBaseEntity entity ) throws Exception{
-	 CmsPraise cmsPraise=(CmsPraise) entity;
-	return super.update(cmsPraise);
-    }
+	
     @Override
 	public CmsPraise findCmsPraiseById(Object id) throws Exception{
 	 return super.findById(id,CmsPraise.class);
@@ -88,30 +93,63 @@ public class CmsPraiseServiceImpl extends BaseSpringrainServiceImpl implements I
 		}
 
 	@Override
-	public Integer findPraiseNumByBusinessId(String businessId) throws Exception {
-		Finder finder = new Finder("SELECT COUNT(id)  FROM ")
+	public Integer findPraiseNumByBusinessId(String siteId,String businessId) throws Exception {
+		
+		String cacheKey="cmsPraiseService_findPraiseNumByBusinessId_"+siteId+"_"+businessId;
+		
+		Integer countNum = super.getByCache(siteId, cacheKey, Integer.class);
+		if(countNum!=null){
+			return countNum;
+		}
+		
+		
+		Finder finder = new Finder("SELECT COUNT(*)  FROM ")
 				.append(Finder.getTableName(CmsPraise.class))
 				.append(" WHERE businessId=:businessId");
 		finder.setParam("businessId", businessId);
-		Integer countNum = super.queryForObject(finder,Integer.class);
+		 countNum = super.queryForObject(finder,Integer.class);
 	    if(countNum==null){
 	    	countNum=0;
 	    }
+	    
+	    super.putByCache(siteId, cacheKey, countNum);
+	    
+	    
 	    return countNum;
 	}
 
 	@Override
-	public boolean findPraiseIsExist(String userId, String businessId) throws Exception {
-		Finder finder = Finder.getSelectFinder(CmsPraise.class).append(" where userId=:userId and businessId=:businessId");
-		finder.setParam("userId", userId).setParam("businessId", businessId);
-		Map<String, Object> queryResult = super.queryForObject(finder);
-		if(MapUtils.isNotEmpty(queryResult))
+	public boolean findPraiseIsExist(String siteId,String userId, String businessId) throws Exception {
+		
+		String cacheKey="cmsPraiseService_findPraiseIsExist_"+userId+"_"+businessId;
+		
+		String id = super.getByCache(siteId, cacheKey, String.class);
+		if(id!=null){
 			return true;
-		return false;
+		}
+		
+		
+		
+		Finder finder = Finder.getSelectFinder(CmsPraise.class,"id").append(" where userId=:userId and businessId=:businessId");
+		finder.setParam("userId", userId).setParam("businessId", businessId);
+		 id = super.queryForObject(finder,String.class);
+		if(StringUtils.isEmpty(id)){
+			return false;
+		}
+		
+		super.putByCache(siteId, cacheKey, id);
+		
+		return true;
 	}
 
 	@Override
-	public void deletePraise(String userId, String businessId) throws Exception {
+	public void deletePraise(String siteId,String userId, String businessId) throws Exception {
+		
+		String cacheKey1="cmsPraiseService_findPraiseIsExist_"+userId+"_"+businessId;
+		String cacheKey2="cmsPraiseService_findPraiseNumByBusinessId_"+siteId+"_"+businessId;
+		super.evictByKey(siteId, cacheKey1);
+		super.evictByKey(siteId, cacheKey2);
+		
 		Finder finder = Finder.getDeleteFinder(CmsPraise.class).append(" where userId=:userId and businessId=:businessId");
 		finder.setParam("userId", userId).setParam("businessId", businessId);
 		super.update(finder);
