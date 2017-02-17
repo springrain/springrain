@@ -31,7 +31,7 @@ public abstract class AbstractCMSDirective implements
 	 * @param params
 	 * @return
 	 */
-	public String getSiteId(Map params){
+	public String getSiteId(Map params) throws TemplateException{
 		return getParameter("siteId", params);
 		}
 	/**
@@ -39,13 +39,12 @@ public abstract class AbstractCMSDirective implements
 	 * @param params
 	 * @return
 	 */
-	public String getBusinessId(Map params){
+	public String getBusinessId(Map params) throws TemplateException{
 		return getParameter("businessId", params);
 	}
 	
 	
-	private String getParameter(String key,Map params){
-		try {
+	private String getParameter(String key,Map params) throws TemplateException{
 			if(params==null){
 				return getRequestAttributeString(key);
 			}
@@ -55,10 +54,7 @@ public abstract class AbstractCMSDirective implements
 				return getRequestAttributeString(key);
 			}
 			return value;
-		} catch (TemplateException e) {
-			logger.error(e.getMessage(),e);
-		}
-		return null;
+		
 	}
 	
 	public String getRequestAttributeString(String key){
