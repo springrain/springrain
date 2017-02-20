@@ -105,7 +105,8 @@
 										  <!--first_end_export-->
 										  <!--start_export-->
 										   <tbody>
-										   		<@cms_site_list queryBean=returnDatas.queryBean page=returnDatas.page>
+										   		
+										   		<@cms_site_list queryBean=(returnDatas.queryBean)! page=(returnDatas.page)!>
 										   			<#if (siteList??)&&(siteList?size>0)> 
 		                                                <#list  siteList as _data>
 		                                                    <!--start_no_export-->

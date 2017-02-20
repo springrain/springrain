@@ -61,8 +61,8 @@ public class ContentController extends SiteBaseController{
 		try {
 			java.lang.String id =cmsContent.getId();
 			if(StringUtils.isBlank(id)){
-			  cmsContent.setId(null);
-			  cmsContentService.saveContent(cmsContent);
+				cmsContent.setId(null);
+			  	cmsContentService.saveContent(cmsContent);
 			}else{
 				cmsContentService.updateCmsContent(cmsContent);
 			}

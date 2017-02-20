@@ -32,11 +32,11 @@ description="springrain开源系统管理后台"/>
 		 
 		 
 		 var uploader = WebUploader.create({
-			 auto:true,
+		 	auto:true,
 		    // swf文件路径
 		    swf: '${ctx}/js/webuploader/Uploader.swf',
 		    // 文件接收服务端。
-		    server: '${ctx}/system/cms/site/logoupload?springraintoken='+springraintoken,
+		    server: '${ctx}/s/${siteId!''}/${businessId!''}/site/logoupload?siteId=${siteId!}&springraintoken='+springraintoken,
 		    // 选择文件的按钮。可选。
 		    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
 		    pick: '#filePicker',
@@ -148,6 +148,19 @@ description="springrain开源系统管理后台"/>
 											<input type="text" name="name" id="name" datatype="*"
 												nullmsg="不能为空" errormsg="不能为空！" autocomplete="off"
 												class="layui-input" value="<@cms_site id=siteId!''>${site.name!''}</@cms_site>">
+										</div>
+										<div class="layui-inline valid-info"></div>
+									</div>
+									<div class="layui-form-item col-lg-6">
+										<label class="layui-form-label">网站logo*</label>
+										<div class="layui-inline col-lg-5">
+											<div id="uploader-demo">
+											    <!--用来存放item-->
+											    <img alt="" src="<@cms_site id=siteId!''><#if (site.logo)?? && (site.logo!='')>${ctx}${site.logo!''}</#if></@cms_site>">
+											    <div id="fileList" class="uploader-list"></div>
+											    <div id="filePicker" class="">选择图片</div>
+											    <input type="hidden" value="" name="logo">
+											</div>
 										</div>
 										<div class="layui-inline valid-info"></div>
 									</div>

@@ -138,7 +138,6 @@ public class UeditorController extends BaseController {
     	
         MultipartHttpServletRequest requestfile = (MultipartHttpServletRequest) request;  
 
-    	
     	MultipartFile file = requestfile.getFile(fieldName);
         String originalName = file.getOriginalFilename();
         String suffix = FileUtils.getSuffix(originalName);

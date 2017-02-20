@@ -1,10 +1,7 @@
 package  org.springrain.cms.web;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -16,9 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springrain.cms.entity.CmsSite;
 import org.springrain.cms.service.ICmsLinkService;
 import org.springrain.cms.service.ICmsSiteService;
@@ -227,7 +221,7 @@ public class CmsSiteController  extends BaseController {
 	@RequestMapping("/logoupload")
 	public @ResponseBody ReturnDatas logoUpload(HttpServletRequest request){
 		ReturnDatas returnDatas=ReturnDatas.getSuccessReturnDatas();
-		//创建一个通用的多部分解析器
+		/*//创建一个通用的多部分解析器
 		List<String> logoIdList = new ArrayList<>();
 	    CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
 	    if(multipartResolver.isMultipart(request)){
@@ -248,7 +242,7 @@ public class CmsSiteController  extends BaseController {
 	    		 
 	    	 }
 	    }
-	    returnDatas.setData(logoIdList);
+	    returnDatas.setData(logoIdList);*/
 		return returnDatas;
 	}
 	

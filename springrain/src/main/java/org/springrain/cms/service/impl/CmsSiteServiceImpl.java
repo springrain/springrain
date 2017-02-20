@@ -3,11 +3,9 @@ package org.springrain.cms.service.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -19,7 +17,6 @@ import org.springrain.cms.entity.CmsSite;
 import org.springrain.cms.service.ICmsLinkService;
 import org.springrain.cms.service.ICmsSiteService;
 import org.springrain.frame.common.SessionUser;
-import org.springrain.frame.util.DateUtils;
 import org.springrain.frame.util.Enumerations.SiteType;
 import org.springrain.frame.util.Enumerations.UserOrgType;
 import org.springrain.frame.util.Finder;
@@ -246,10 +243,15 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 	}
 
 	@Override
-	public String saveTmpLogo(MultipartFile tempFile, HttpServletRequest request) throws IOException {
-		String filePath = "upload"+File.separator+"tmp"+File.separator+DateUtils.convertDate2String("yyyyMMddHHmmss", new Date())+tempFile.getOriginalFilename();
-		File file = new File(request.getServletContext().getRealPath("/")+filePath);
-		FileUtils.copyToFile(tempFile.getInputStream(), file);
+	public String saveTmpLogo(MultipartFile tempFile, String siteId) throws IOException {
+		String filePath = "/upload/"+siteId+"/logo/"+SecUtils.getUUID()+tempFile.getOriginalFilename();
+		File file = new File(GlobalStatic.rootdir+filePath);
+		File fileParentDir = file.getParentFile();
+		if(!fileParentDir.exists())
+			fileParentDir.mkdirs();
+		if(!file.exists())
+			file.createNewFile();
+		tempFile.transferTo(file);
 		return File.separator+filePath;
 	}
 

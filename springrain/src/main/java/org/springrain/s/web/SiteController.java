@@ -1,9 +1,7 @@
 package  org.springrain.s.web;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -19,11 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springrain.cms.entity.CmsSite;
 import org.springrain.cms.service.ICmsLinkService;
 import org.springrain.cms.service.ICmsSiteService;
-import org.springrain.frame.controller.BaseController;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.Page;
 import org.springrain.frame.util.ReturnDatas;
@@ -39,7 +35,7 @@ import org.springrain.frame.util.property.MessageUtils;
  */
 @Controller
 @RequestMapping(value="/s/{siteId}/{businessId}/site")
-public class SiteController  extends BaseController {
+public class SiteController  extends SiteBaseController {
 	@Resource
 	private ICmsSiteService cmsSiteService;
 	@Resource
@@ -58,65 +54,22 @@ public class SiteController  extends BaseController {
 	@RequestMapping("/list")
 	public String list(HttpServletRequest request, Model model,CmsSite cmsSite,@PathVariable String siteId,@PathVariable String businessId) 
 			throws Exception {
-		ReturnDatas returnObject = listjson(request, model, cmsSite);
-		model.addAttribute(GlobalStatic.returnDatas, returnObject);
-		model.addAttribute("siteId", siteId);
-		model.addAttribute("businessId", businessId);
-		return "/u/"+siteId+"/s/site/siteList";
-	}
-	
-	/**
-	 * json数据,为APP提供数据
-	 * 
-	 * @param request
-	 * @param model
-	 * @param cmsSite
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping("/list/json")
-	public @ResponseBody
-	ReturnDatas listjson(HttpServletRequest request, Model model,CmsSite cmsSite) throws Exception{
-		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
-		returnObject.setQueryBean(cmsSite);
+		ReturnDatas returnDatas = ReturnDatas.getSuccessReturnDatas();
 		Page page = newPage(request);
-		returnObject.setPage(page);
-		return returnObject;
+		returnDatas.setPage(page);
+		returnDatas.setQueryBean(cmsSite);
+		model.addAttribute(GlobalStatic.returnDatas, returnDatas);
+		return jump(siteId, businessId, "/s/"+siteId+"/"+businessId+"/site/list", request, model);
 	}
 	
-	@RequestMapping("/list/export")
-	public void listexport(HttpServletRequest request,HttpServletResponse response, Model model,CmsSite cmsSite,@PathVariable String siteId,@PathVariable String businessId) throws Exception{
-		// ==构造分页请求
-		Page page = newPage(request);
-		String listUrl = "/u/"+siteId+"/s/site/siteList";
-		File file = cmsSiteService.findDataExportExcel(null,listUrl, page,CmsSite.class,cmsSite);
-		String fileName="CmsSite"+GlobalStatic.excelext;
-		downFile(response, file, fileName,true);
-		return;
-	}
 	
 	/**
-	 * 查看操作,调用APP端lookjson方法
+	 * 进入修改页面,APP端可以调用 lookjson 获取json格式数据
 	 */
-	@RequestMapping(value = "/look")
-	public String look(Model model,HttpServletRequest request,HttpServletResponse response,CmsSite cmsSite)  throws Exception {
-		ReturnDatas returnObject = lookjson(model, request, response,cmsSite);
-		model.addAttribute(GlobalStatic.returnDatas, returnObject);
-		return "/base/CmsSite/CmsSiteLook";
+	@RequestMapping(value = "/update/pre")
+	public String updatepre(Model model,HttpServletRequest request,HttpServletResponse response,CmsSite cmsSite,@PathVariable String siteId,@PathVariable String businessId)  throws Exception{
+		return jump(siteId, businessId, "/s/"+siteId+"/"+businessId+"/site/update/pre", request, model);
 	}
-
-	
-	/**
-	 * 查看的Json格式数据,为APP端提供数据
-	 */
-	@RequestMapping(value = "/look/json")
-	public @ResponseBody
-	ReturnDatas lookjson(Model model,HttpServletRequest request,HttpServletResponse response,CmsSite cmsSite) throws Exception {
-		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
-		returnObject.setQueryBean(cmsSite);
-		return returnObject;
-	}
-	
 	
 	/**
 	 * 新增/修改 操作吗,返回json格式数据
@@ -146,95 +99,37 @@ public class SiteController  extends BaseController {
 	}
 	
 	/**
-	 * 进入修改页面,APP端可以调用 lookjson 获取json格式数据
+	 * 查看操作,调用APP端lookjson方法
 	 */
-	@RequestMapping(value = "/update/pre")
-	public String updatepre(Model model,HttpServletRequest request,HttpServletResponse response,CmsSite cmsSite,@PathVariable String siteId,@PathVariable String businessId)  throws Exception{
-		ReturnDatas returnObject = lookjson(model, request, response,cmsSite);
-		model.addAttribute(GlobalStatic.returnDatas, returnObject);
-		model.addAttribute("siteId", siteId);
-		model.addAttribute("businessId", businessId);
-		return "/u/"+siteId+"/s/site/siteCru";
-	}
-	
-	/**
-	 * 删除操作
-	 */
-	@RequestMapping(value="/delete")
-	public @ResponseBody ReturnDatas delete(HttpServletRequest request) throws Exception {
-
-			// 执行删除
-		try {
-		java.lang.String id=request.getParameter("id");
-		if(StringUtils.isNotBlank(id)){
-				cmsSiteService.deleteById(id,CmsSite.class);
-				return new ReturnDatas(ReturnDatas.SUCCESS,
-						MessageUtils.DELETE_SUCCESS);
-			} else {
-				return new ReturnDatas(ReturnDatas.WARNING,
-						MessageUtils.DELETE_WARNING);
-			}
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-		}
-		return new ReturnDatas(ReturnDatas.WARNING, MessageUtils.DELETE_WARNING);
-	}
-	
-	/**
-	 * 删除多条记录
-	 * 
-	 */
-	@RequestMapping("/delete/more")
-	public @ResponseBody
-	ReturnDatas deleteMore(HttpServletRequest request, Model model) {
-		String records = request.getParameter("records");
-		if(StringUtils.isBlank(records)){
-			 return new ReturnDatas(ReturnDatas.ERROR,
-					MessageUtils.DELETE_ALL_FAIL);
-		}
-		String[] rs = records.split(",");
-		if (rs == null || rs.length < 1) {
-			return new ReturnDatas(ReturnDatas.ERROR,
-					MessageUtils.DELETE_NULL_FAIL);
-		}
-		try {
-			List<String> ids = Arrays.asList(rs);
-			cmsSiteService.deleteByIds(ids,CmsSite.class);
-		} catch (Exception e) {
-			return new ReturnDatas(ReturnDatas.ERROR,
-					MessageUtils.DELETE_ALL_FAIL);
-		}
-		return new ReturnDatas(ReturnDatas.SUCCESS,
-				MessageUtils.DELETE_ALL_SUCCESS);
+	@RequestMapping(value = "/look")
+	public String look(Model model,HttpServletRequest request,HttpServletResponse response,CmsSite cmsSite,@PathVariable String siteId,@PathVariable String businessId)  throws Exception {
+		return jump(siteId, businessId, "/s/"+siteId+"/"+businessId+"/content/look", request, model);
 	}
 	
 	/**
 	 * 上传logo
 	 * */
 	@RequestMapping("/logoupload")
-	public @ResponseBody ReturnDatas logoUpload(HttpServletRequest request){
+	public @ResponseBody ReturnDatas logoUpload(HttpServletRequest request,String siteId){
 		ReturnDatas returnDatas=ReturnDatas.getSuccessReturnDatas();
-		//创建一个通用的多部分解析器
+		
 		List<String> logoIdList = new ArrayList<>();
-	    CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
-	    if(multipartResolver.isMultipart(request)){
-	    	 MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest)request;
-	    	 //取得request中的所有文件名
-	    	 Iterator<String> iter = multiRequest.getFileNames();
-	    	 while(iter.hasNext()){
-	    		 MultipartFile tempFile = multiRequest.getFile(iter.next());
-	    		 String logoId;
-				try {
-					logoId = cmsSiteService.saveTmpLogo(tempFile,request);
-					logoIdList.add(logoId);
-				} catch (IOException e) {
-					returnDatas.setMessage("系统异常");
-					returnDatas.setStatus(ReturnDatas.ERROR);
-					returnDatas.setStatusCode("500");
-				}
-	    		 
-	    	 }
-	    }
+		MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest)request;
+		//取得request中的所有文件名
+		Iterator<String> iter = multiRequest.getFileNames();
+		while(iter.hasNext()){
+    		 MultipartFile tempFile = multiRequest.getFile(iter.next());
+    		 String logoId;
+			try {
+				logoId = cmsSiteService.saveTmpLogo(tempFile,siteId);
+				logoIdList.add(logoId);
+			} catch (IOException e) {
+				returnDatas.setMessage("系统异常");
+				returnDatas.setStatus(ReturnDatas.ERROR);
+				returnDatas.setStatusCode("500");
+			}
+    		 
+    	 }
 	    returnDatas.setData(logoIdList);
 		return returnDatas;
 	}
