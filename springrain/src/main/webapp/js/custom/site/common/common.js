@@ -67,13 +67,14 @@ function loadMenu(){
 
 
 function exit(siteId,kill){
+	siteId = locache.get("defaultSiteId");
 	if(kill){
 		try{
 			locache.flush();
 		}catch(e){}
 		
 		var _url=ctx+"/system/logout";
-		if(""!=siteId){
+		if(!!siteId){
 			_url=ctx+"/s/"+siteId+"/logout";
 		}
 		springrain.goTo(_url);
@@ -84,7 +85,7 @@ function exit(siteId,kill){
 			}catch(e){}
 			
 			var _url=ctx+"/system/logout";
-			if(""!=siteId){
+			if(!!siteId){
 				_url=ctx+"/s/"+siteId+"/logout";
 			}
 			springrain.goTo(_url);
