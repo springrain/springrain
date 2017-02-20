@@ -1,5 +1,6 @@
 package org.springrain.cms.service;
 
+import org.springframework.web.multipart.MultipartFile;
 import org.springrain.cms.entity.CmsAttachment;
 import org.springrain.system.service.IBaseSpringrainService;
 /**
@@ -18,7 +19,15 @@ public interface ICmsAttachmentService extends IBaseSpringrainService {
 	 * @throws Exception
 	 */
 	CmsAttachment findCmsAttachmentById(String id) throws Exception;
-	
-	
-	
+
+	/**
+	 * 保存附件
+	 * @param file
+	 * @param siteId
+	 * @param businessId
+	 * @return
+	 * @throws Exception 
+	 */
+	String saveAttachment(MultipartFile file, String siteId,
+			String businessId) throws Exception;
 }

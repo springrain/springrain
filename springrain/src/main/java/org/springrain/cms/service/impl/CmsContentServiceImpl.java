@@ -12,10 +12,8 @@ import org.springrain.cms.entity.CmsChannelContent;
 import org.springrain.cms.entity.CmsContent;
 import org.springrain.cms.entity.CmsLink;
 import org.springrain.cms.service.ICmsChannelService;
-import org.springrain.cms.service.ICmsCommentService;
 import org.springrain.cms.service.ICmsContentService;
 import org.springrain.cms.service.ICmsLinkService;
-import org.springrain.cms.service.ICmsPraiseService;
 import org.springrain.cms.service.ICmsSiteService;
 import org.springrain.frame.util.Enumerations.SiteType;
 import org.springrain.frame.util.Finder;
@@ -50,7 +48,6 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 
 	
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public <T> List<T> findListDataByFinder(Finder finder, Page page,
 			Class<T> clazz, Object queryBean) throws Exception {

@@ -4,11 +4,14 @@ import java.io.File;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springrain.cms.entity.CmsAttachment;
 import org.springrain.cms.service.ICmsAttachmentService;
 import org.springrain.frame.entity.IBaseEntity;
 import org.springrain.frame.util.Finder;
+import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.Page;
+import org.springrain.frame.util.SecUtils;
 import org.springrain.system.service.BaseSpringrainServiceImpl;
 
 
@@ -75,5 +78,24 @@ public class CmsAttachmentServiceImpl extends BaseSpringrainServiceImpl implemen
 			throws Exception {
 			 return super.findDataExportExcel(finder,ftlurl,page,clazz,o);
 		}
+
+	@Override
+	public String saveAttachment(MultipartFile file, String siteId,
+			String businessId) throws Exception {
+		
+		//保存附件对象
+		String fileUrl = "/upload/"+siteId+"/"+businessId+"/"+SecUtils.getUUID()+file.getOriginalFilename();
+		String filePath = GlobalStatic.rootdir+fileUrl;
+		
+		
+		
+		File destFile = new File(filePath);
+		if(!destFile.getParentFile().exists())
+			destFile.getParentFile().mkdirs();
+		if(!destFile.exists())
+			destFile.createNewFile();
+		file.transferTo(destFile);
+		return fileUrl;
+	}
 
 }

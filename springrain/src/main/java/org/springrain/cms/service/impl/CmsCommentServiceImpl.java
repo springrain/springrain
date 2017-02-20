@@ -23,7 +23,7 @@ import org.springrain.system.service.BaseSpringrainServiceImpl;
 @Service("cmsCommentService")
 public class CmsCommentServiceImpl extends BaseSpringrainServiceImpl implements ICmsCommentService {
 
-   
+	
     @Override
 	public String  save(Object entity ) throws Exception{
 	      CmsComment cmsComment=(CmsComment) entity;
