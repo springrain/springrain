@@ -72,9 +72,9 @@ function exit(siteId,kill){
 			locache.flush();
 		}catch(e){}
 		
-		var _url=ctx+"/s/"+locache.get("defaultSiteId")+"/logout";
+		var _url=ctx+"/system/logout";
 		if(""!=siteId){
-			_url=ctx+"/s/"+locache.get("defaultSiteId")+"/login";
+			_url=ctx+"/s/"+siteId+"/logout";
 		}
 		springrain.goTo(_url);
 	}else{
@@ -83,12 +83,12 @@ function exit(siteId,kill){
 				locache.flush();
 			}catch(e){}
 			
-			var _url=ctx+"/s/"+locache.get("defaultSiteId")+"/login";
+			var _url=ctx+"/system/logout";
 			if(""!=siteId){
-				 _url=ctx+"/s/"+siteId+"/logout";
-	        }
-	        springrain.goTo(_url);
-	    });
+				_url=ctx+"/s/"+siteId+"/logout";
+			}
+			springrain.goTo(_url);
+		});
 	}
 }
 
