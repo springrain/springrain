@@ -3,6 +3,7 @@ package org.springrain.cms.directive;
 import java.io.IOException;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
@@ -22,8 +23,7 @@ public class CmsSiteDirective extends AbstractCMSDirective {
 	private ICmsSiteService cmsSiteService;
 	
 	
-	
-	public static final String TPL_NAME = "cms_site";
+	private static final String TPL_NAME = "cms_site";
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
@@ -40,6 +40,12 @@ public class CmsSiteDirective extends AbstractCMSDirective {
 		if (body != null) { 
 			body.render(env.getOut());  
 		}
+	}
+	
+	
+	@PostConstruct
+	public void  registerFreeMarkerVariable(){
+		setFreeMarkerSharedVariable(TPL_NAME, this);
 	}
 
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
@@ -25,7 +26,8 @@ public class CmsSiteListDirective extends AbstractCMSDirective {
 	@Resource
 	private ICmsSiteService cmsSiteService;
 	
-	public static final String TPL_NAME = "cms_site_list";
+	
+	private static final String TPL_NAME = "cms_site_list";
 	
 	@SuppressWarnings("rawtypes")
 	@Override
@@ -36,16 +38,22 @@ public class CmsSiteListDirective extends AbstractCMSDirective {
 		
 		stringModel = (StringModel) params.get("queryBean");
 		CmsSite cmsSite = (CmsSite) stringModel.getAdaptedObject(CmsSite.class);
-		List<CmsSite> siteList = new ArrayList<>();
+		List<CmsSite> siteList = new ArrayList<CmsSite>();
 		try {
 			siteList = cmsSiteService.findListDataByFinder(null, page, CmsSite.class, cmsSite);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(),e);
 		}
 		env.setVariable("siteList", DirectiveUtils.wrap(siteList));
 		if (body != null) { 
 			body.render(env.getOut());  
 		}
+	}
+	
+	@PostConstruct
+	public void  registerFreeMarkerVariable(){
+		setFreeMarkerSharedVariable(TPL_NAME, this);
+		
 	}
 
 }

@@ -8,16 +8,25 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfig;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springrain.cms.utils.DirectiveUtils;
+import org.springrain.frame.util.SpringUtils;
 
 import freemarker.template.TemplateDirectiveModel;
 import freemarker.template.TemplateException;
+import freemarker.template.TemplateModel;
 
 /**
  * 标签基类
  */
 public abstract class AbstractCMSDirective implements
 		TemplateDirectiveModel {
+	
+	
+	
+	
+	
 	public   Logger logger = LoggerFactory.getLogger(getClass());
 	public String getReuestSiteId(){
 		return getRequestAttributeString("siteId");
@@ -70,6 +79,20 @@ public abstract class AbstractCMSDirective implements
 	public HttpServletRequest getRequest(){
 		return ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
 	}
+	
+	
+	public FreeMarkerConfig getFreeMarkerConfig(){
+		return (FreeMarkerConfigurer) SpringUtils.getBean("freeMarkerConfigurer");
+	}
+	
+	public void  setFreeMarkerSharedVariable(String key,TemplateModel model){
+		FreeMarkerConfigurer freeMarkerConfigurer=(FreeMarkerConfigurer) SpringUtils.getBean("freeMarkerConfigurer");
+		freeMarkerConfigurer.getConfiguration().setSharedVariable(key, model);
+	}
+	
+	
+	
+	
 	
 	
 }
