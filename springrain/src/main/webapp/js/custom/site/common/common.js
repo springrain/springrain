@@ -18,7 +18,7 @@ $(document).ready(function(){
 					this.success=null;
 					springrain.info("登录超时，请重新登录.", null);
 					setTimeout(function(){
-						window.location.href=ctx+"/s/"+locache.get("defaultSiteId")+"/login";
+						window.location.href=ctx+"/s/"+getDefaultSiteId()+"/login";
 					},1000);
 				}
 			}catch(e){
@@ -49,7 +49,6 @@ $(document).ready(function(){
 var form;
 /*添加form的监听回调*/
 function selectListener(filterId,callback){
-	console.log(123);
 	form.on('select('+filterId+')', function(data){
 		callback(data);
 	});
@@ -66,32 +65,28 @@ function loadMenu(){
 }
 
 
-function exit(siteId,kill){
-	siteId = locache.get("defaultSiteId");
-	if(kill){
-		try{
-			locache.flush();
-		}catch(e){}
-		
-		var _url=ctx+"/system/logout";
-		if(!!siteId){
-			_url=ctx+"/s/"+siteId+"/logout";
-		}
-		springrain.goTo(_url);
-	}else{
+function exit(){
 		springrain.confirm("确定退出？", function(){
 			try{
 				locache.flush();
 			}catch(e){}
 			
-			var _url=ctx+"/system/logout";
 			if(!!siteId){
-				_url=ctx+"/s/"+siteId+"/logout";
+				_url=ctx+"/s/"+getDefaultSiteId()+"/logout";
+				springrain.goTo(_url);
 			}
-			springrain.goTo(_url);
+			
 		});
-	}
+	
 }
+
+
+function getDefaultSiteId(){
+	return  locache.get("defaultSiteId");
+}
+
+
+
 
 function configLayui(par){
 	layui.config({
@@ -106,7 +101,7 @@ function configLayui(par){
  */
 function ajaxmenu() {
     jQuery.ajax({
-        url : ctx + "/s/"+locache.get("defaultSiteId")+"/menu/leftMenu",
+        url : ctx + "/s/"+getDefaultSiteId()+"/menu/leftMenu",
         type : "post",
         data:{"springraintoken":springraintoken},
         cache : false,
