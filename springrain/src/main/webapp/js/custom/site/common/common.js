@@ -72,7 +72,7 @@ function exit(siteId,kill){
 			locache.flush();
 		}catch(e){}
 		
-		var _url=ctx+"/s/"+locache.get("defaultSiteId")+"/login";
+		var _url=ctx+"/s/"+locache.get("defaultSiteId")+"/logout";
 		if(""!=siteId){
 			_url=ctx+"/s/"+locache.get("defaultSiteId")+"/login";
 		}
@@ -85,10 +85,10 @@ function exit(siteId,kill){
 			
 			var _url=ctx+"/s/"+locache.get("defaultSiteId")+"/login";
 			if(""!=siteId){
-				_url=ctx+"/s/"+locache.get("defaultSiteId")+"/login";
-			}
-			springrain.goTo(_url);
-		});
+				 _url=ctx+"/s/"+siteId+"/logout";
+	        }
+	        springrain.goTo(_url);
+	    });
 	}
 }
 
@@ -387,8 +387,7 @@ function loadSiteInfo(){
 	var siteLogo=siteFooter='';
 	siteLogo = locache.get("defaultSiteLogoUrl");
 	siteFooter = locache.get("defaultSiteFooter");
-	console.log(siteLogo);
-	console.log(siteFooter);
 	$("#siteLogo").attr("src",ctx+siteLogo);
 	$("#siteFooter").html(siteFooter);
+	$("a.logo").attr('href','javascript:springrain.goTo("'+ctx+'/s/'+locache.get("defaultSiteId")+'/index?springraintoken='+springraintoken+'")');
 }
