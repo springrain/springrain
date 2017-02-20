@@ -114,6 +114,7 @@
 				/s/*/login = firewall
 				/s/*/index = firewall,siteuser,keepone
 				/s/*/logout = firewall,siteuser
+				/s/*/menu/leftMenu=firewall,siteuser,keepone
 				
 				/system/login = firewall
 				/system/index =firewall,systemuser,framefwlog,keepone
