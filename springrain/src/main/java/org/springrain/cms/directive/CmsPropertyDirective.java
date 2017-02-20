@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
@@ -21,6 +22,11 @@ public class CmsPropertyDirective extends AbstractCMSDirective {
 
 	@Resource
 	private ICmsPropertyService cmsPropertyService;
+	
+	/**
+	 * 模板名称
+	 */
+	private static final String TPL_NAME = "cms_property_list";
 
 	@SuppressWarnings("rawtypes")
 	@Override
@@ -33,10 +39,18 @@ public class CmsPropertyDirective extends AbstractCMSDirective {
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 		}
-		env.setVariable("content", DirectiveUtils.wrap(list));
+		env.setVariable("propertyList", DirectiveUtils.wrap(list));
 		if (body != null) {
 			body.render(env.getOut());
 		}
 	}
+	
+	
+	@PostConstruct
+	public void  registerFreeMarkerVariable(){
+		setFreeMarkerSharedVariable(TPL_NAME, this);
+	}
+	
+	
 
 }

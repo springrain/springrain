@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
@@ -29,12 +30,14 @@ public class ChannelListDirective extends AbstractCMSDirective {
 	@Resource
 	private ICmsLinkService cmsLinkService;
 	
+
+	
 	
 	
 	/**
 	 * 模板名称
 	 */
-	public static final String TPL_NAME = "cms_channel_list";
+	private static final String TPL_NAME = "cms_channel_list";
 
 	@SuppressWarnings("rawtypes")
 	public void execute(Environment env, Map params, TemplateModel[] loopVars,
@@ -54,4 +57,12 @@ public class ChannelListDirective extends AbstractCMSDirective {
 			body.render(env.getOut());  
 		}
 	}
+	
+	@PostConstruct
+	public void  registerFreeMarkerVariable(){
+		setFreeMarkerSharedVariable(TPL_NAME, this);
+		
+	}
+	
+	
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
@@ -29,7 +30,7 @@ public class ContentListDirective  extends AbstractCMSDirective  {
 	/**
 	 * 模板名称
 	 */
-	public static final String TPL_NAME = "cms_content_list";
+	private static final String TPL_NAME = "cms_content_list";
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
@@ -56,6 +57,12 @@ public class ContentListDirective  extends AbstractCMSDirective  {
 		if (body != null) { 
 			body.render(env.getOut());  
 		}
+	}
+	
+	
+	@PostConstruct
+	public void  registerFreeMarkerVariable(){
+		setFreeMarkerSharedVariable(TPL_NAME, this);
 	}
 	
 }
