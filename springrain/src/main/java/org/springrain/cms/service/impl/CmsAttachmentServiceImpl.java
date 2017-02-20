@@ -80,14 +80,12 @@ public class CmsAttachmentServiceImpl extends BaseSpringrainServiceImpl implemen
 		}
 
 	@Override
-	public String saveAttachment(MultipartFile file, String siteId,
+	public String uploadFiles(MultipartFile file, String siteId,
 			String businessId) throws Exception {
 		
 		//保存附件对象
 		String fileUrl = "/upload/"+siteId+"/"+businessId+"/"+SecUtils.getUUID()+file.getOriginalFilename();
 		String filePath = GlobalStatic.rootdir+fileUrl;
-		
-		
 		
 		File destFile = new File(filePath);
 		if(!destFile.getParentFile().exists())

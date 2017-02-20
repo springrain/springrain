@@ -35,7 +35,7 @@ public class CmsAttachmentController extends BaseController {
 		List<String> attachmentPathList = new ArrayList<>();
 		while(fileNames.hasNext()){
 			MultipartFile file = multiRequest.getFile(fileNames.next());
-			String attachmentPathUrl = cmsAttachmentService.saveAttachment(file,siteId,businessId);
+			String attachmentPathUrl = cmsAttachmentService.uploadFiles(file,siteId,businessId);
 			attachmentPathList.add(attachmentPathUrl);
 		}
 		

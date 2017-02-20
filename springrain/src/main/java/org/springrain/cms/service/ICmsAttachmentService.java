@@ -28,6 +28,6 @@ public interface ICmsAttachmentService extends IBaseSpringrainService {
 	 * @return
 	 * @throws Exception 
 	 */
-	String saveAttachment(MultipartFile file, String siteId,
+	String uploadFiles(MultipartFile file, String siteId,
 			String businessId) throws Exception;
 }
