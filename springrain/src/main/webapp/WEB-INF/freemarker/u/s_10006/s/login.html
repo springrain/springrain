@@ -21,8 +21,19 @@
 			.per30{width: 40%;}.per70{width: 60%;}.tr{text-align: right;}.ht36{height: 36px;}.mt2{margin-top: 2px;}
 		</style>
 		<script src="${ctx}/js/jquery/jquery-1.12.4.js"></script>
+		<script src="${ctx}/js/cache/locache.min.js"></script>
+		<script>
+			//清除缓存
+			locache.flush();
+			locache.set("defaultSiteId","${siteId!''}");
+			locache.set("defaultSiteLogoUrl","<@cms_site id=siteId!''>${site.logo!''}</@cms_site>");
+			locache.set("defaultSiteFooter","<@cms_site id=siteId!''>${site.footer!''}</@cms_site>");
+		</script>
 	</head>
 	<body>
+		<div id="header">
+			<img style="width: 80px;height: 80px;margin-left: 10px;margin-top: 10px;" alt="" src="${ctx}<@cms_site id=siteId!''>${site.logo!''}</@cms_site>">
+		</div>
 		<form action="${ctx}/s/${siteId!''}/login" method="post" id="loginForm">
 		 <input type="hidden" name="gotourl" value="${gotourl!''}" />
 		 <input type="hidden" name="systemSiteId" value="${siteId!''}" />
@@ -70,6 +81,7 @@
 				</div>
 			</div>
 		</form>
+		<div id="footer" style="position:fixed;width:100%;bottom:0px;"><p style="text-align:center;"><@cms_site id=siteId!''>${site.footer!''}</@cms_site></p></div>
 		<script>
 			jQuery(function($) {
 	            $("#sbtButton").click(function(){

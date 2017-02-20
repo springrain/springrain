@@ -18,7 +18,7 @@ $(document).ready(function(){
 					this.success=null;
 					springrain.info("登录超时，请重新登录.", null);
 					setTimeout(function(){
-						window.location.href=ctx+"/system/login";
+						window.location.href=ctx+"/s/"+locache.get("defaultSiteId")+"/login";
 					},1000);
 				}
 			}catch(e){
@@ -72,9 +72,9 @@ function exit(siteId,kill){
 			locache.flush();
 		}catch(e){}
 		
-		var _url=ctx+"/system/logout";
+		var _url=ctx+"/s/"+locache.get("defaultSiteId")+"/login";
 		if(""!=siteId){
-			_url=ctx+"/s/"+siteId+"/logout";
+			_url=ctx+"/s/"+locache.get("defaultSiteId")+"/login";
 		}
 		springrain.goTo(_url);
 	}else{
@@ -83,9 +83,9 @@ function exit(siteId,kill){
 				locache.flush();
 			}catch(e){}
 			
-			var _url=ctx+"/system/logout";
+			var _url=ctx+"/s/"+locache.get("defaultSiteId")+"/login";
 			if(""!=siteId){
-				_url=ctx+"/s/"+siteId+"/logout";
+				_url=ctx+"/s/"+locache.get("defaultSiteId")+"/login";
 			}
 			springrain.goTo(_url);
 		});
@@ -105,7 +105,7 @@ function configLayui(par){
  */
 function ajaxmenu() {
     jQuery.ajax({
-        url : ctx + "/s/"+siteId+"/menu/leftMenu",
+        url : ctx + "/s/"+locache.get("defaultSiteId")+"/menu/leftMenu",
         type : "post",
         data:{"springraintoken":springraintoken},
         cache : false,
@@ -385,28 +385,10 @@ function init_button_action(){
 
 function loadSiteInfo(){
 	var siteLogo=siteFooter='';
-	siteLogo = locache.get("siteLogo");
-	siteFooter = locache.get("siteFooter");
-	if(!(!!siteLogo) || !(!!siteFooter)){
-		//将站点信息存储到缓存
-		if(!!siteId){
-			$.ajax({
-				url: ctx+'/s/'+siteId+'/look/json',
-				type: 'POST',
-				dataType: 'json',
-				data: {id: siteId,"springraintoken":springraintoken},
-				success:function(ret){
-					if(ret.status == "success"){
-						siteLogo = !!ret.data.logo?ret.data.logo:(ctx+'/img/logo.png');
-						siteFooter = !!ret.data.footer?ret.data.footer:'<p>2016 &copy; <a href="http://www.weicms.net">www.weicms.net</a>Apache Licence 2.0</p>';
-						locache.set("siteLogo",siteLogo);
-						locache.set("siteFooter",siteFooter);
-						$("#siteLogo").attr("src",siteLogo);
-						$("#siteFooter").html(siteFooter);
-					}
-				}
-			});
-		}
-	}
-	
+	siteLogo = locache.get("defaultSiteLogoUrl");
+	siteFooter = locache.get("defaultSiteFooter");
+	console.log(siteLogo);
+	console.log(siteFooter);
+	$("#siteLogo").attr("src",ctx+siteLogo);
+	$("#siteFooter").html(siteFooter);
 }

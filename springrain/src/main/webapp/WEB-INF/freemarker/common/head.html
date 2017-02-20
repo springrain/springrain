@@ -53,9 +53,6 @@
 <#macro siteCommonHead title keywords description>
     <@h.head title="${title}" keywords="${keywords}" description="${description}"/>
     <@h.commonHeadContent/>
-    <script>
-    	var siteId = '${siteId!''}';
-    </script>
  	<script src="${ctx}/js/custom/site/common/common.js"></script>
 </#macro>
 
@@ -67,7 +64,7 @@
           <div class="layui-main">
      		<a class="logo" href='javascript:springrain.goTo("${ctx}/system/index")'; style="left:0px;">
               	<!-- <img src="<#if siteId??><@cms_site siteId="${siteId!}">${(site.logo)!'{ctx}/img/logo.png'}</@cms_site><#else>${ctx}/img/logo.png</#if>" alt="springrain"  style="width:30%;height:auto;"> -->
-              	<img id="siteLogo" src="${ctx}/img/logo.png" alt="springrain"  style="width:30%;height:auto;">
+              	<img id="siteLogo" src="${ctx}/img/logo.png" alt="springrain"  style="width:6%;height:auto;">
             </a>
             <ul class="layui-nav" style="left:185px;height:50px;" id="naviHeaderMenu">
             </ul>
