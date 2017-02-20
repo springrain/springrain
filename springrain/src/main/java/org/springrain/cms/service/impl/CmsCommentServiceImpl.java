@@ -105,6 +105,7 @@ public class CmsCommentServiceImpl extends BaseSpringrainServiceImpl implements 
 		
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<CmsComment> findCommentListByBusinessId(String siteId,String businessId) throws Exception {
 		String cacheKey="cmsCommentService_findCommentListByBusinessId_"+siteId+"_"+businessId;
