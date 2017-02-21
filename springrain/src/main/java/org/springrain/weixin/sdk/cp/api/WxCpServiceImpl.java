@@ -118,7 +118,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
             }
             WxAccessToken accessToken = WxAccessToken.fromJson(resultContent);
             wxcpconfig.setAccessToken(accessToken.getAccessToken());
-            wxcpconfig.setExpiresTime(Long.valueOf(accessToken.getExpiresIn()));
+            wxcpconfig.setAccessTokenExpiresTime(Long.valueOf(accessToken.getExpiresIn()));
             
             wxCpConfigService.updateAccessToken(wxcpconfig);
             

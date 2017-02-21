@@ -11,4 +11,8 @@ public interface IWxMpConfig extends IWxConfig {
 	String getPartnerKey();
 
 
+
+
+
+
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springrain.frame.controller.BaseController;
 import org.springrain.weixin.entity.WxCpConfig;
+import org.springrain.weixin.sdk.common.api.IWxCpConfig;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
 import org.springrain.weixin.sdk.cp.api.IWxCpService;
 import org.springrain.weixin.sdk.cp.bean.WxCpUser;
@@ -36,7 +37,7 @@ public class TestController extends BaseController {
 	 */
 	@RequestMapping("/callback")
 	public void testCallBack(HttpServletRequest request,HttpServletResponse response) throws IOException{
-		WxCpConfig config = new WxCpConfig();
+		IWxCpConfig config = new WxCpConfig();
 		config.setCorpId(corpId);
 		config.setCorpSecret(secret);
 		config.setToken(token);
@@ -82,7 +83,7 @@ public class TestController extends BaseController {
 	 */
 	@RequestMapping("/tooauth")
 	public String testOauthRedirect(HttpServletRequest request,HttpServletResponse response){
-		WxCpConfig config = new WxCpConfig();
+		IWxCpConfig config = new WxCpConfig();
 		config.setCorpId(corpId);
 		config.setCorpSecret(secret);
 		
@@ -99,7 +100,7 @@ public class TestController extends BaseController {
 	 */
 	@RequestMapping("/oauth")
 	public String oauthRedirect(HttpServletRequest request,HttpServletResponse response) throws WxErrorException{
-		WxCpConfig config = new WxCpConfig();
+		IWxCpConfig config = new WxCpConfig();
 		String code = request.getParameter("code");
 		config.setCorpId(corpId);
 		config.setCorpSecret(secret);

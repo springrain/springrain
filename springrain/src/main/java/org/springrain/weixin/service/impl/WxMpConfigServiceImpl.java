@@ -18,7 +18,7 @@ public class WxMpConfigServiceImpl extends BaseSpringrainServiceImpl implements 
 
 	@Override
 	public IWxMpConfig expireAccessToken(IWxMpConfig wxmpconfig) {
-		wxmpconfig.setExpiresTime(0L);
+		wxmpconfig.setAccessTokenExpiresTime(0L);
 		
 		//缓存操作
 		updateWxMpConfig(wxmpconfig);

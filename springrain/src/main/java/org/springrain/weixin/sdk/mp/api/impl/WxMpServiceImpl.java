@@ -172,7 +172,7 @@ public class WxMpServiceImpl implements IWxMpService {
             }
             WxAccessToken accessToken = WxAccessToken.fromJson(resultContent);
             wxmpconfig.setAccessToken(accessToken.getAccessToken());
-            wxmpconfig.setExpiresTime(Long.valueOf(accessToken.getExpiresIn()));
+            wxmpconfig.setAccessTokenExpiresTime(Long.valueOf(accessToken.getExpiresIn()));
             wxMpConfigService.updateAccessToken(wxmpconfig);
         
            return wxmpconfig.getAccessToken();

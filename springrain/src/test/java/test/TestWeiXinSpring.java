@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springrain.weixin.entity.WxMpConfig;
+import org.springrain.weixin.sdk.common.api.IWxMpConfig;
 import org.springrain.weixin.sdk.common.api.IWxMpConfigService;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
 import org.springrain.weixin.sdk.mp.api.IWxMpService;
@@ -30,7 +31,7 @@ public class TestWeiXinSpring {
 	    //WxMpConfig  wxmpconfig=wxMpConfigService.findWxMpConfigById("");
 		
 	      //测试
-		WxMpConfig  wxmpconfig=new WxMpConfig();
+		IWxMpConfig  wxmpconfig=new WxMpConfig();
 		wxmpconfig.setId("testId");		
 		wxmpconfig.setAppId("");
 		wxmpconfig.setSecret("");

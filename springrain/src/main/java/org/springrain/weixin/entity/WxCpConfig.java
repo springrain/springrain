@@ -38,7 +38,7 @@ public class WxCpConfig   extends BaseEntity implements IWxCpConfig {
 	  
 	  
 	  private volatile String accessToken;
-	  private volatile Long expiresTime=0L;
+	  private volatile Long accessTokenExpiresTime=0L;
 	  
 	  private volatile String jsApiTicket;
 	  private volatile Long jsApiTicketExpiresTime=0L;
@@ -160,11 +160,11 @@ public class WxCpConfig   extends BaseEntity implements IWxCpConfig {
 	
 	
 	@Transient
-	public Long getExpiresTime() {
-		return expiresTime;
+	public Long getAccessTokenExpiresTime() {
+		return accessTokenExpiresTime;
 	}
-	public void setExpiresTime(Long expiresTime) {
-		this.expiresTime =  System.currentTimeMillis() + (expiresTime - 600) * 1000L;//预留10分钟
+	public void setAccessTokenExpiresTime(Long accessTokenExpiresTime) {
+		this.accessTokenExpiresTime =  System.currentTimeMillis() + (accessTokenExpiresTime - 600) * 1000L;//预留10分钟
 	}
 	
 	
@@ -189,7 +189,7 @@ public class WxCpConfig   extends BaseEntity implements IWxCpConfig {
 	
 	@Transient
 	public boolean isAccessTokenExpired() {
-		 return System.currentTimeMillis() > this.expiresTime;
+		 return System.currentTimeMillis() > this.accessTokenExpiresTime;
 	}
 	@Transient
 	public boolean isJsApiTicketExpired() {

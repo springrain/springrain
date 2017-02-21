@@ -2,26 +2,72 @@ package org.springrain.weixin.sdk.common.api;
 
 public interface IWxConfig {
 	 String getId();//业务Id
+	 void setId(String string);
+	 
+	 
 	 String getAppId();
+	 void setAppId(String string);
+
+	
 	 String getToken();
-	 String getAccessToken();
+	 void setToken(String token);
+	 
 	 String getAesKey();
-	 String getHttpProxyHost();
-	 Integer getHttpProxyPort();
-	 String getHttpProxyUsername();
-	 String getHttpProxyPassword();
-	 String getJsApiTicket();
-	 String getCardApiTicket();
-	 String getCertificateFile();
+	 void setAesKey(String aesKey);
+	 
+	 
 	 String getTmpDirFile();
-	 void setExpiresTime(Long l);
-	 void setJsApiTicketExpiresTime(Long l);
-	 void setCardApiTicketExpiresTime(Long l);
-     boolean isAccessTokenExpired();
-	 String getSecret();
+	 void setTmpDirFile(String string);
+	 
+	 
+	 String getHttpProxyHost();
+	 void setHttpProxyHost(String httpProxyHost);
+	 Integer getHttpProxyPort();
+	 void setHttpProxyPort(Integer httpProxyPort);
+	 String getHttpProxyUsername();
+	 void setHttpProxyUsername(String httpProxyUsername);
+	 String getHttpProxyPassword();
+	 void setHttpProxyPassword(String httpProxyPassword);
+	 
+	 
+	 
+	 String getAccessToken();
 	 void setAccessToken(String accessToken);
-	 boolean isJsApiTicketExpired();
+	 void setAccessTokenExpiresTime(Long l);
+	 boolean isAccessTokenExpired();
+	 
+	 
+	 String getSecret();
+	 void setSecret(String string);
+
+	 String getOauth2redirectUri();
+	 void setOauth2redirectUri(String oauth2redirectUri);
+	 
+	 
+	 String getJsApiTicket();
 	 void setJsApiTicket(String jsapiTicket);
+	 void setJsApiTicketExpiresTime(Long l);
+	 boolean isJsApiTicketExpired();
+	
+	 
+	 String getCardApiTicket();
+	 void setCardApiTicket(String cardApiTicket);
+	 void setCardApiTicketExpiresTime(Long l);
+	 boolean isCardApiTicketExpired();
+	 
+	 
+	 String getCertificateFile();
+	 void setCertificateFile(String certificateFile);
+	
+
+	
+	 
+     
+
+	 
+	
+	
+	
 	 boolean autoRefreshToken();
 
 	 
