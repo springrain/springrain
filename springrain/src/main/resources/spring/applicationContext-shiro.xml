@@ -102,7 +102,7 @@
 				/f/mp/** = firewall,wxmpautologin
 				
 				
-				/unauth = firewall,user
+				/unauth = firewall
 				/tokenerror = firewall,user
 				
 				/getCaptcha=firewall
