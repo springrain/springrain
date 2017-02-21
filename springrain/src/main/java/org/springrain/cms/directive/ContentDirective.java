@@ -37,7 +37,17 @@ public class ContentDirective  extends AbstractCMSDirective  {
 	@Override
 	public void execute(Environment env, Map params, TemplateModel[] loopVars,
 			TemplateDirectiveBody body) throws TemplateException, IOException {
-		CmsContent content;
+		CmsContent content=(CmsContent) getDirectiveData();
+		if(content!=null){
+			env.setVariable("content", DirectiveUtils.wrap(content));
+			if (body != null) { 
+				body.render(env.getOut());  
+			}
+			return;
+		}
+		
+		
+		
 		try {
 			
 			String siteId=getSiteId(params);
@@ -56,6 +66,10 @@ public class ContentDirective  extends AbstractCMSDirective  {
 			content = null;
 			logger.error(e.getMessage(), e);
 		}
+		
+		
+		setDirectiveData(content);
+		
 		env.setVariable("content", DirectiveUtils.wrap(content));
 		if (body != null) { 
 			body.render(env.getOut());  
