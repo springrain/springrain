@@ -60,10 +60,9 @@
 									</div>
 									
 									<div class="layui-form-item col-lg-6">
-										<label class="layui-form-label">副标题*</label>
+										<label class="layui-form-label">副标题</label>
 										<div class="layui-inline col-lg-5">
-											<input type="text" name="mintitle" id="mintitle" datatype="*"
-												nullmsg="不能为空" errormsg="不能为空！" autocomplete="off"
+											<input type="text" name="mintitle" id="mintitle" autocomplete="off"
 												class="layui-input"
 												value="<@cms_content id="${id!}">${content.mintitle!}</@cms_content>">
 										</div>
@@ -71,65 +70,49 @@
 									</div>
 									
 									<div class="layui-form-item col-lg-6">
-										<label class="layui-form-label">关键字*</label>
+										<label class="layui-form-label">关键字</label>
 										<div class="layui-inline col-lg-5">
-											<input type="text" name="keywords" id="keywords" datatype="*"
-												nullmsg="不能为空" errormsg="不能为空！" autocomplete="off"
+											<input type="text" name="keywords" id="keywords" 
 												class="layui-input"
 												value="<@cms_content id="${id!}">${content.keywords!}</@cms_content>">
 										</div>
 										<div class="layui-inline valid-info"></div>
 									</div>
 									<div class="layui-form-item col-lg-6">
-										<label class="layui-form-label">描述*</label>
+										<label class="layui-form-label">描述</label>
 										<div class="layui-inline col-lg-5">
 											<input type="text" name="description" id="description"
-												datatype="*" nullmsg="不能为空" errormsg="不能为空！"
-												autocomplete="off" class="layui-input"
+												 class="layui-input"
 												value="<@cms_content id="${id!}">${content.description!}</@cms_content>">
 										</div>
 										<div class="layui-inline valid-info"></div>
 									</div>
-									
 									<div class="layui-form-item col-lg-6">
-										<label class="layui-form-label">内容*</label>
+										<label class="layui-form-label">来源</label>
 										<div class="layui-inline col-lg-5">
-											<#noautoesc>
-												<script id="container" name="content" type="text/plain"><@cms_content id="${id!}">${content.content!}</@cms_content></script>
-											</#noautoesc>
-										</div>
-										<div class="layui-inline valid-info"></div>
-									</div>
-									<div class="layui-form-item col-lg-6">
-										<label class="layui-form-label">来源*</label>
-										<div class="layui-inline col-lg-5">
-											<input type="text" name="source" id="source" datatype="*"
-												nullmsg="不能为空" errormsg="不能为空！" autocomplete="off"
+											<input type="text" name="source" id="source" 
 												class="layui-input" value="<@cms_content id="${id!}">${content.source!}</@cms_content>">
 										</div>
 										<div class="layui-inline valid-info"></div>
 									</div>
 									<div class="layui-form-item col-lg-6">
-										<label class="layui-form-label">来源地址*</label>
+										<label class="layui-form-label">来源地址</label>
 										<div class="layui-inline col-lg-5">
 											<input type="text" name="sourceurl" id="sourceurl"
-												datatype="*" nullmsg="不能为空" errormsg="不能为空！"
-												autocomplete="off" class="layui-input"
+												 class="layui-input"
 												value="<@cms_content id="${id!}">${content.sourceurl!}</@cms_content>">
 										</div>
 										<div class="layui-inline valid-info"></div>
 									</div>
 									<div class="layui-form-item col-lg-6">
-										<label class="layui-form-label">排序*</label>
+										<label class="layui-form-label">排序</label>
 										<div class="layui-inline col-lg-5">
 											<input type="text" name="sortno" id="sortno"
-												datatype="*" nullmsg="不能为空" errormsg="不能为空！"
-												autocomplete="off" class="layui-input"
+												 class="layui-input"
 												value="<@cms_content id="${id!}">${content.sortno!}</@cms_content>">
 										</div>
 										<div class="layui-inline valid-info"></div>
 									</div>
-									
 									<div class="layui-form-item col-lg-6">
 										<label class="layui-form-label">是否可用</label>
 										<div class="layui-inline col-lg-5">
@@ -143,14 +126,12 @@
 											 			<option value="0" selected="selected">不可用</option>
 											 		</#if>
 											 	</@cms_content>
-											 	
 										      </select>
 										</div>
 										<div class="layui-inline valid-info"></div>
 									</div>
-									
 									<div class="layui-form-item col-lg-6">
-										<label class="layui-form-label">评论开关*</label>
+										<label class="layui-form-label">评论开关</label>
 										<div class="layui-inline col-lg-5">
 											<@cms_content id="${id!}">
 										 		<#if (content.commentPerm)?? && (content.commentPerm)==1>
@@ -161,29 +142,40 @@
 													<input type="radio" name="commentPerm" value="1" title="允许评论" >
 										 		</#if>
 										 	</@cms_content>
-										
-										 	
 										</div>
 										<div class="layui-inline valid-info"></div>
 									</div>
-									
 									<div class="layui-form-item col-lg-6">
-										<label class="layui-form-label">登陆访问*</label>
+										<label class="layui-form-label">登陆访问</label>
 										<div class="layui-inline col-lg-5">
 											<@cms_content id="${id!}">
-										 		<#if (content.loginuser)?? && (content.loginuser)==1>
-										 			<input type="radio" name="loginuser" value="0" title="不允许匿名访问">
+										        <#if content??>
+									                <@cms_link businessId=(content.id!)>
+								                        <#if (cmsLink.loginuser)?? && (cmsLink.loginuser==0)>
+							                                <input type="radio" name="loginuser" value="0" title="不允许匿名访问" checked>
+															<input type="radio" name="loginuser" value="1" title="允许匿名访问"  >
+														<#else>
+															<input type="radio" name="loginuser" value="0" title="不允许匿名访问">
+															<input type="radio" name="loginuser" value="1" title="允许匿名访问"  checked>
+								                        </#if>
+									                </@cms_link>
+										        <#else>
+									                <input type="radio" name="loginuser" value="0" title="不允许匿名访问">
 													<input type="radio" name="loginuser" value="1" title="允许匿名访问"  checked>
-										 		<#else>
-										 			<input type="radio" name="loginuser" value="0" title="不允许匿名访问" checked>
-													<input type="radio" name="loginuser" value="1" title="允许匿名访问"  >
-										 		</#if>
-										 	</@cms_content>
-										 	
+										        </#if>
+											</@cms_content>
 										</div>
 										<div class="layui-inline valid-info"></div>
 									</div>
-									
+									<div class="layui-form-item col-lg-6">
+										<label class="layui-form-label">内容*</label>
+										<div class="layui-inline col-lg-5">
+											<#noautoesc>
+												<script id="container" name="content" type="text/plain"><@cms_content id="${id!}">${content.content!}</@cms_content></script>
+											</#noautoesc>
+										</div>
+										<div class="layui-inline valid-info"></div>
+									</div>
 									<div class="layui-form-item change-submit">
 										<div class="layui-inline">
 											<button type="button" class="layui-btn" id="smtbtn">保存</button>

@@ -125,6 +125,7 @@ public class CmsContent  extends BaseEntity {
 	private Integer commentsNum;
 	private Integer praiseNum;
 	
+	
 	public CmsContent(){
 	}
 
@@ -372,7 +373,7 @@ public class CmsContent  extends BaseEntity {
 	public void setSortno(java.lang.Integer value) {
 		this.sortno = value;
 	}
-	@Transient
+	@WhereSQL(sql="sortno=:CmsContent_sortno")
 	public java.lang.Integer getSortno() {
 		return this.sortno;
 	}

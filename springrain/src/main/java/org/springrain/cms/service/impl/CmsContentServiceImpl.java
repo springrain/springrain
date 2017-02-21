@@ -93,6 +93,8 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 	 
 	   cmsContent.setId(id);
 	   cmsContent.setCreateDate(new Date());
+	   if(cmsContent.getSortno() == null)
+		   cmsContent.setSortno(Integer.parseInt(id.substring(2)));
 	   super.save(cmsContent);
 	   
 	   //保存中间对应
