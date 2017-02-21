@@ -18,7 +18,7 @@ import org.springrain.frame.util.InputSafeUtils;
 public class SiteUserFilter extends BaseUserFilter {
 	public SiteUserFilter(){
 		//跳转到登录界面
-	    super.setLoginUrl("/s/login");
+	  //  super.setLoginUrl("/s/login");
 	}
 	
 	@Override

@@ -19,7 +19,7 @@ public class FrontUserFilter extends BaseUserFilter {
 	
 	public FrontUserFilter(){
 		//跳转到登录界面
-		super.setLoginUrl("/login");
+		//super.setLoginUrl("/login");
 	}
 
 	@Override
