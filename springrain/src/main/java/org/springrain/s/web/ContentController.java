@@ -1,6 +1,8 @@
 package org.springrain.s.web;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -42,6 +44,8 @@ public class ContentController extends SiteBaseController{
 	
 	@RequestMapping(value = "/update/pre")
 	public String updatepre(Model model,HttpServletRequest request,HttpServletResponse response,@PathVariable String siteId,@PathVariable String businessId,CmsContent cmsContent) throws Exception{
+		String id = request.getParameter("id");
+		model.addAttribute("id", id);
 		return jump(siteId,businessId,"/s/"+siteId+"/"+businessId+"/content/update/pre",request,model);
 	}
 	
@@ -97,5 +101,54 @@ public class ContentController extends SiteBaseController{
 		return returnObject;
 	}
 	
+	/**
+	 * 删除操作
+	 */
+	@RequestMapping(value="/delete")
+	public @ResponseBody ReturnDatas delete(HttpServletRequest request,@PathVariable String siteId) throws Exception {
+
+			// 执行删除
+		try {
+		java.lang.String id=request.getParameter("id");
+		if(StringUtils.isNotBlank(id)){
+				cmsContentService.deleteById(id,siteId);
+				return new ReturnDatas(ReturnDatas.SUCCESS,
+						MessageUtils.DELETE_SUCCESS);
+			} else {
+				return new ReturnDatas(ReturnDatas.WARNING,
+						MessageUtils.DELETE_WARNING);
+			}
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
+		return new ReturnDatas(ReturnDatas.WARNING, MessageUtils.DELETE_WARNING);
+	}
 	
+	/**
+	 * 删除多条记录
+	 * 
+	 */
+	@RequestMapping("/delete/more")
+	public @ResponseBody
+	ReturnDatas deleteMore(HttpServletRequest request, Model model,@PathVariable String siteId) {
+		String records = request.getParameter("records");
+		if(StringUtils.isBlank(records)){
+			 return new ReturnDatas(ReturnDatas.ERROR,
+					MessageUtils.DELETE_ALL_FAIL);
+		}
+		String[] rs = records.split(",");
+		if (rs == null || rs.length < 1) {
+			return new ReturnDatas(ReturnDatas.ERROR,
+					MessageUtils.DELETE_NULL_FAIL);
+		}
+		try {
+			List<String> ids = Arrays.asList(rs);
+			cmsContentService.deleteByIds(ids,siteId);
+		} catch (Exception e) {
+			return new ReturnDatas(ReturnDatas.ERROR,
+					MessageUtils.DELETE_ALL_FAIL);
+		}
+		return new ReturnDatas(ReturnDatas.SUCCESS,
+				MessageUtils.DELETE_ALL_SUCCESS);
+	}
 }

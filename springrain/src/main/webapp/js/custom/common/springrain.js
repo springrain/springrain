@@ -65,6 +65,50 @@
 					  layer.close(index);
 				});
 			},
+			mydeletemore:function(formId,_url,_tips,_redirect){
+				var _that=this;
+				var arr="";
+				var checks = jQuery(":checkbox[name='check_li']");
+				checks.each(function(i, _obj) {
+					if (_obj.checked) {
+						arr += _obj.value+",";
+					}
+				});
+				if (arr=="") {
+					layer.confirm("没有选择待删除的数据", {icon: 3, title:'提示'}, function(index){
+						  layer.close(index);
+					});
+					return false;
+				}
+				
+				_tips=_tips?_tips:'是否删除?';
+				layer.confirm(_tips, {icon: 3, title:'提示'}, function(index){
+					  jQuery.ajax({
+						  url:_url,
+						  type:"post",
+						  data:{records:arr},
+						  dataType:"json",
+						  async:false,
+						  success:function(data){
+							  if(data!=null&&"success"==data.status){
+								  layer.msg(data.message==null?'删除成功':data.message, {
+									  icon: 1,
+									  time: 2000 //2秒关闭（如果不配置，默认是3秒）
+									}, function(){
+										if(_redirect){
+											_that.goTo(_redirect);
+										}else{
+											window.location.reload();
+										}
+									}); 
+							  }else{
+								  layer.msg(data.message, {icon: 1,time: 1000}); 
+							  }
+						  }
+					  });
+					  layer.close(index);
+				});
+			},
 			/**
 			 * 初始化 验证表单,此方法适合单纯的表单页面，不适合左边数据，右边详情的页面（下面的方法）
 			 * 要求：

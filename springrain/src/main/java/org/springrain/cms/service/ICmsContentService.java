@@ -44,4 +44,8 @@ public interface ICmsContentService extends IBaseSpringrainService {
 	 * @throws Exception 
 	 */
 	List<CmsContent> findContentByChannelId(String siteId, String channelId, Page page) throws Exception;
+
+	void deleteById(String id, String siteId) throws Exception;
+
+	void deleteByIds(List<String> ids, String siteId) throws Exception;
 }

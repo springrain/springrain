@@ -221,6 +221,16 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 		
 		return contentList;
 	}
-	
-	
+
+	@Override
+	public void deleteById(String id, String siteId) throws Exception {
+		//清除缓存
+	    super.cleanCache(siteId);
+		super.deleteById(id, CmsContent.class);
+	}
+	@Override
+	public void deleteByIds(List<String> ids,String siteId) throws Exception {
+		 super.cleanCache(siteId);
+		super.deleteByIds(ids, CmsContent.class);
+	}
 }

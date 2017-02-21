@@ -33,17 +33,22 @@ public class ContentDirective  extends AbstractCMSDirective  {
 
 	private static final String TPL_NAME = "cms_content";
 	
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public void execute(Environment env, Map params, TemplateModel[] loopVars,
 			TemplateDirectiveBody body) throws TemplateException, IOException {
 		CmsContent content;
 		try {
-			content = cmsContentService.findCmsContentById(getSiteId(params),getBusinessId(params));
-			Integer commentsNum = cmsCommentService.findCommentsNumByBusinessId(getSiteId(params),content.getId());
-			Integer praiseNum = cmsPraiseService.findPraiseNumByBusinessId(getSiteId(params),content.getId());
-			content.setCommentsNum(commentsNum);
-			content.setPraiseNum(praiseNum);
+			content = cmsContentService.findById(DirectiveUtils.getString("id", params), CmsContent.class);
+			if(content!=null){
+				Integer commentsNum = cmsCommentService.findCommentsNumByBusinessId(getSiteId(params),content.getId());
+				Integer praiseNum = cmsPraiseService.findPraiseNumByBusinessId(getSiteId(params),content.getId());
+				content.setCommentsNum(commentsNum);
+				content.setPraiseNum(praiseNum);
+			}else{
+				content = new CmsContent();
+			}
+			
 		} catch (Exception e) {
 			content = null;
 			logger.error(e.getMessage(), e);

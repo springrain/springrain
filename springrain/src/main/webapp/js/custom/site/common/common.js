@@ -267,7 +267,7 @@ function mydeletemore(_url, formId,listage) {
 		myalert("请选择要删除的记录!");
 		return false;
 	}
-
+	
 	myconfirm("确定删除选中数据?", function() {
 		myhref2page(_url,listage,"records=" + arr.join(","));
 	});
