@@ -34,7 +34,6 @@
 	</head>
 	<body>
 		<div id="header">
-			<img style="width: 80px;height: 80px;margin-left: 10px;margin-top: 10px;" alt="" src="${ctx}<@cms_site id=siteId!''>${site.logo!''}</@cms_site>">
 		</div>
 		<form action="${ctx}/s/${siteId!''}/login" method="post" id="loginForm">
 		 <input type="hidden" name="gotourl" value="${gotourl!''}" />
@@ -82,7 +81,9 @@
 				</div>
 			</div>
 		</form>
-		<div id="footer" style="position:fixed;width:100%;bottom:0px;"><p style="text-align:center;"><@cms_site id=siteId!''>${site.footer!''}</@cms_site></p></div>
+		<div id="footer" style="position:fixed;width:100%;bottom:0px;">
+		
+		</div>
 		<script>
 			jQuery(function($) {
 	            $("#sbtButton").click(function(){
