@@ -22,6 +22,6 @@ public interface WxCpMessageHandler {
    */
   WxCpXmlOutMessage handle(WxCpXmlMessage wxMessage,
                            Map<String, Object> context,
-                           IWxCpService iWxCpService) throws WxErrorException;
+                           IWxCpService wxCpService) throws WxErrorException;
 
 }

@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
-import org.springrain.weixin.entity.WxCpConfig;
+import org.springrain.weixin.sdk.common.api.IWxCpConfig;
 import org.springrain.weixin.sdk.common.bean.WxJsApiSignature;
 import org.springrain.weixin.sdk.common.bean.menu.WxMenu;
 import org.springrain.weixin.sdk.common.bean.result.WxMediaUploadResult;
@@ -33,7 +33,7 @@ public interface IWxCpService {
    * @param nonce
    * @param data         微信传输过来的数据，有可能是echoStr，有可能是xml消息
    */
-  boolean checkSignature(WxCpConfig wxcpconfig,String msgSignature, String timestamp, String nonce, String data);
+  boolean checkSignature(IWxCpConfig wxcpconfig,String msgSignature, String timestamp, String nonce, String data);
 
   /**
    * <pre>
@@ -43,7 +43,7 @@ public interface IWxCpService {
    *
    * @param userId
    */
-  void userAuthenticated(WxCpConfig wxcpconfig,String userId) throws WxErrorException;
+  void userAuthenticated(IWxCpConfig wxcpconfig,String userId) throws WxErrorException;
 
   /**
    * 获取access_token, 不强制刷新access_token
@@ -51,7 +51,7 @@ public interface IWxCpService {
    * @throws WxErrorException
    * @see #getAccessToken(boolean)
    */
-  String getAccessToken(WxCpConfig wxcpconfig) throws WxErrorException;
+  String getAccessToken(IWxCpConfig wxcpconfig) throws WxErrorException;
 
   /**
    * <pre>
@@ -65,7 +65,7 @@ public interface IWxCpService {
    * @param forceRefresh 强制刷新
    * @throws org.springrain.weixin.sdk.common.exception.WxErrorException
    */
-  String getAccessToken(WxCpConfig wxcpconfig,boolean forceRefresh) throws WxErrorException;
+  String getAccessToken(IWxCpConfig wxcpconfig,boolean forceRefresh) throws WxErrorException;
 
   /**
    * 获得jsapi_ticket,不强制刷新jsapi_ticket
@@ -73,7 +73,7 @@ public interface IWxCpService {
    * @throws WxErrorException
    * @see #getJsApiTicket(boolean)
    */
-  String getJsApiTicket(WxCpConfig wxcpconfig) throws WxErrorException;
+  String getJsApiTicket(IWxCpConfig wxcpconfig) throws WxErrorException;
 
   /**
    * <pre>
@@ -86,7 +86,7 @@ public interface IWxCpService {
    * @param forceRefresh 强制刷新
    * @throws WxErrorException
    */
-  String getJsApiTicket(WxCpConfig wxcpconfig,boolean forceRefresh) throws WxErrorException;
+  String getJsApiTicket(IWxCpConfig wxcpconfig,boolean forceRefresh) throws WxErrorException;
 
   /**
    * <pre>
@@ -97,7 +97,7 @@ public interface IWxCpService {
    *
    * @param url url
    */
-  WxJsApiSignature createJsApiSignature(WxCpConfig wxcpconfig,String url) throws WxErrorException;
+  WxJsApiSignature createJsApiSignature(IWxCpConfig wxcpconfig,String url) throws WxErrorException;
 
   /**
    * <pre>
@@ -115,7 +115,7 @@ public interface IWxCpService {
    * @param inputStream 输入流
    * @throws WxErrorException
    */
-  WxMediaUploadResult mediaUpload(WxCpConfig wxcpconfig,String mediaType, String fileType, InputStream inputStream)
+  WxMediaUploadResult mediaUpload(IWxCpConfig wxcpconfig,String mediaType, String fileType, InputStream inputStream)
           throws WxErrorException, IOException;
 
   /**
@@ -124,7 +124,7 @@ public interface IWxCpService {
    * @throws WxErrorException
    * @see #mediaUpload(String, String, InputStream)
    */
-  WxMediaUploadResult mediaUpload(WxCpConfig wxcpconfig,String mediaType, File file) throws WxErrorException;
+  WxMediaUploadResult mediaUpload(IWxCpConfig wxcpconfig,String mediaType, File file) throws WxErrorException;
 
   /**
    * <pre>
@@ -137,7 +137,7 @@ public interface IWxCpService {
    * @return 保存到本地的临时文件
    * @throws WxErrorException
    */
-  File mediaDownload(WxCpConfig wxcpconfig,String media_id) throws WxErrorException;
+  File mediaDownload(IWxCpConfig wxcpconfig,String media_id) throws WxErrorException;
 
   /**
    * <pre>
@@ -148,7 +148,7 @@ public interface IWxCpService {
    * @param message
    * @throws WxErrorException
    */
-  void messageSend(WxCpConfig wxcpconfig,WxCpMessage message) throws WxErrorException;
+  void messageSend(IWxCpConfig wxcpconfig,WxCpMessage message) throws WxErrorException;
 
   /**
    * <pre>
@@ -162,7 +162,7 @@ public interface IWxCpService {
    * @throws WxErrorException
    * @see #menuCreate(Integer, WxMenu)
    */
-  void menuCreate(WxCpConfig wxcpconfig,WxMenu menu) throws WxErrorException;
+  void menuCreate(IWxCpConfig wxcpconfig,WxMenu menu) throws WxErrorException;
 
   /**
    * <pre>
@@ -177,7 +177,7 @@ public interface IWxCpService {
    * @throws WxErrorException
    * @see #menuCreate(org.springrain.weixin.sdk.common.bean.menu.WxMenu)
    */
-  void menuCreate(WxCpConfig wxcpconfig,Integer agentId, WxMenu menu) throws WxErrorException;
+  void menuCreate(IWxCpConfig wxcpconfig,Integer agentId, WxMenu menu) throws WxErrorException;
 
   /**
    * <pre>
@@ -190,7 +190,7 @@ public interface IWxCpService {
    * @throws WxErrorException
    * @see #menuDelete(Integer)
    */
-  void menuDelete(WxCpConfig wxcpconfig) throws WxErrorException;
+  void menuDelete(IWxCpConfig wxcpconfig) throws WxErrorException;
 
   /**
    * <pre>
@@ -204,7 +204,7 @@ public interface IWxCpService {
    * @throws WxErrorException
    * @see #menuDelete()
    */
-  void menuDelete(WxCpConfig wxcpconfig,Integer agentId) throws WxErrorException;
+  void menuDelete(IWxCpConfig wxcpconfig,Integer agentId) throws WxErrorException;
 
   /**
    * <pre>
@@ -217,7 +217,7 @@ public interface IWxCpService {
    * @throws WxErrorException
    * @see #menuGet(Integer)
    */
-  WxMenu menuGet(WxCpConfig wxcpconfig) throws WxErrorException;
+  WxMenu menuGet(IWxCpConfig wxcpconfig) throws WxErrorException;
 
   /**
    * <pre>
@@ -231,7 +231,7 @@ public interface IWxCpService {
    * @throws WxErrorException
    * @see #menuGet()
    */
-  WxMenu menuGet(WxCpConfig wxcpconfig,Integer agentId) throws WxErrorException;
+  WxMenu menuGet(IWxCpConfig wxcpconfig,Integer agentId) throws WxErrorException;
 
   /**
    * <pre>
@@ -244,7 +244,7 @@ public interface IWxCpService {
    * @return 部门id
    * @throws WxErrorException
    */
-  Integer departCreate(WxCpConfig wxcpconfig,WxCpDepart depart) throws WxErrorException;
+  Integer departCreate(IWxCpConfig wxcpconfig,WxCpDepart depart) throws WxErrorException;
 
   /**
    * <pre>
@@ -254,7 +254,7 @@ public interface IWxCpService {
    *
    * @throws WxErrorException
    */
-  List<WxCpDepart> departGet(WxCpConfig wxcpconfig) throws WxErrorException;
+  List<WxCpDepart> departGet(IWxCpConfig wxcpconfig) throws WxErrorException;
 
   /**
    * <pre>
@@ -266,7 +266,7 @@ public interface IWxCpService {
    * @param group 要更新的group，group的id,name必须设置
    * @throws WxErrorException
    */
-  void departUpdate(WxCpConfig wxcpconfig,WxCpDepart group) throws WxErrorException;
+  void departUpdate(IWxCpConfig wxcpconfig,WxCpDepart group) throws WxErrorException;
 
   /**
    * <pre>
@@ -276,7 +276,7 @@ public interface IWxCpService {
    * @param departId
    * @throws WxErrorException
    */
-  void departDelete(WxCpConfig wxcpconfig,Integer departId) throws WxErrorException;
+  void departDelete(IWxCpConfig wxcpconfig,Integer departId) throws WxErrorException;
 
   /**
    * <pre>
@@ -290,7 +290,7 @@ public interface IWxCpService {
    * @param status     非必填。0获取全部员工，1获取已关注成员列表，2获取禁用成员列表，4获取未关注成员列表。status可叠加
    * @throws WxErrorException
    */
-  List<WxCpUser> userList(WxCpConfig wxcpconfig,Integer departId, Boolean fetchChild, Integer status) throws WxErrorException;
+  List<WxCpUser> userList(IWxCpConfig wxcpconfig,Integer departId, Boolean fetchChild, Integer status) throws WxErrorException;
 
   /**
    * <pre>
@@ -304,7 +304,7 @@ public interface IWxCpService {
    * @param status     非必填。0获取全部员工，1获取已关注成员列表，2获取禁用成员列表，4获取未关注成员列表。status可叠加
    * @throws WxErrorException
    */
-  List<WxCpUser> departGetUsers(WxCpConfig wxcpconfig,Integer departId, Boolean fetchChild, Integer status) throws WxErrorException;
+  List<WxCpUser> departGetUsers(IWxCpConfig wxcpconfig,Integer departId, Boolean fetchChild, Integer status) throws WxErrorException;
 
   /**
    * 新建用户
@@ -312,7 +312,7 @@ public interface IWxCpService {
    * @param user
    * @throws WxErrorException
    */
-  void userCreate(WxCpConfig wxcpconfig,WxCpUser user) throws WxErrorException;
+  void userCreate(IWxCpConfig wxcpconfig,WxCpUser user) throws WxErrorException;
 
   /**
    * 更新用户
@@ -320,7 +320,7 @@ public interface IWxCpService {
    * @param user
    * @throws WxErrorException
    */
-  void userUpdate(WxCpConfig wxcpconfig,WxCpUser user) throws WxErrorException;
+  void userUpdate(IWxCpConfig wxcpconfig,WxCpUser user) throws WxErrorException;
 
   /**
    * 删除用户
@@ -328,7 +328,7 @@ public interface IWxCpService {
    * @param userid
    * @throws WxErrorException
    */
-  void userDelete(WxCpConfig wxcpconfig,String userid) throws WxErrorException;
+  void userDelete(IWxCpConfig wxcpconfig,String userid) throws WxErrorException;
 
   /**
    * <pre>
@@ -340,7 +340,7 @@ public interface IWxCpService {
    * @param userids 员工UserID列表。对应管理端的帐号
    * @throws WxErrorException
    */
-  void userDelete(WxCpConfig wxcpconfig,String[] userids) throws WxErrorException;
+  void userDelete(IWxCpConfig wxcpconfig,String[] userids) throws WxErrorException;
 
   /**
    * 获取用户
@@ -348,14 +348,14 @@ public interface IWxCpService {
    * @param userid
    * @throws WxErrorException
    */
-  WxCpUser userGet(WxCpConfig wxcpconfig,String userid) throws WxErrorException;
+  WxCpUser userGet(IWxCpConfig wxcpconfig,String userid) throws WxErrorException;
 
   /**
    * 创建标签
    *
    * @param tagName
    */
-  String tagCreate(WxCpConfig wxcpconfig,String tagName) throws WxErrorException;
+  String tagCreate(IWxCpConfig wxcpconfig,String tagName) throws WxErrorException;
 
   /**
    * 更新标签
@@ -363,26 +363,26 @@ public interface IWxCpService {
    * @param tagId
    * @param tagName
    */
-  void tagUpdate(WxCpConfig wxcpconfig,String tagId, String tagName) throws WxErrorException;
+  void tagUpdate(IWxCpConfig wxcpconfig,String tagId, String tagName) throws WxErrorException;
 
   /**
    * 删除标签
    *
    * @param tagId
    */
-  void tagDelete(WxCpConfig wxcpconfig,String tagId) throws WxErrorException;
+  void tagDelete(IWxCpConfig wxcpconfig,String tagId) throws WxErrorException;
 
   /**
    * 获得标签列表
    */
-  List<WxCpTag> tagGet(WxCpConfig wxcpconfig) throws WxErrorException;
+  List<WxCpTag> tagGet(IWxCpConfig wxcpconfig) throws WxErrorException;
 
   /**
    * 获取标签成员
    *
    * @param tagId
    */
-  List<WxCpUser> tagGetUsers(WxCpConfig wxcpconfig,String tagId) throws WxErrorException;
+  List<WxCpUser> tagGetUsers(IWxCpConfig wxcpconfig,String tagId) throws WxErrorException;
 
   /**
    * 增加标签成员
@@ -390,7 +390,7 @@ public interface IWxCpService {
    * @param tagId
    * @param userIds
    */
-  void tagAddUsers(WxCpConfig wxcpconfig,String tagId, List<String> userIds, List<String> partyIds) throws WxErrorException;
+  void tagAddUsers(IWxCpConfig wxcpconfig,String tagId, List<String> userIds, List<String> partyIds) throws WxErrorException;
 
   /**
    *  <pre>
@@ -400,7 +400,7 @@ public interface IWxCpService {
    * @param state
    * @return url
    */
-  String oauth2buildAuthorizationUrl(WxCpConfig wxcpconfig,String state);
+  String oauth2buildAuthorizationUrl(IWxCpConfig wxcpconfig,String state);
 
   /**
    * <pre>
@@ -412,7 +412,7 @@ public interface IWxCpService {
    * @param state
    * @return url
    */
-  String oauth2buildAuthorizationUrl(WxCpConfig wxcpconfig,String redirectUri, String state);
+  String oauth2buildAuthorizationUrl(IWxCpConfig wxcpconfig,String redirectUri, String state);
 
   /**
    * <pre>
@@ -427,7 +427,7 @@ public interface IWxCpService {
    * @return [userid, deviceid]
    * @see #oauth2getUserInfo(Integer, String)
    */
-  String[] oauth2getUserInfo(WxCpConfig wxcpconfig,String code) throws WxErrorException;
+  String[] oauth2getUserInfo(IWxCpConfig wxcpconfig,String code) throws WxErrorException;
 
   /**
    * <pre>
@@ -443,7 +443,7 @@ public interface IWxCpService {
    * @return [userid, deviceid]
    * @see #oauth2getUserInfo(String)
    */
-  String[] oauth2getUserInfo(WxCpConfig wxcpconfig,Integer agentId, String code) throws WxErrorException;
+  String[] oauth2getUserInfo(IWxCpConfig wxcpconfig,Integer agentId, String code) throws WxErrorException;
 
 
   /**
@@ -452,7 +452,7 @@ public interface IWxCpService {
    * @param tagId
    * @param userIds
    */
-  void tagRemoveUsers(WxCpConfig wxcpconfig,String tagId, List<String> userIds) throws WxErrorException;
+  void tagRemoveUsers(IWxCpConfig wxcpconfig,String tagId, List<String> userIds) throws WxErrorException;
 
   /**
    * <pre>
@@ -465,7 +465,7 @@ public interface IWxCpService {
    * @return 1:微信邀请 2.邮件邀请
    * @throws WxErrorException
    */
-  int invite(WxCpConfig wxcpconfig,String userId, String inviteTips) throws WxErrorException;
+  int invite(IWxCpConfig wxcpconfig,String userId, String inviteTips) throws WxErrorException;
 
   /**
    * <pre>
@@ -476,7 +476,7 @@ public interface IWxCpService {
    * @return { "ip_list": ["101.226.103.*", "101.226.62.*"] }
    * @throws WxErrorException
    */
-  String[] getCallbackIp(WxCpConfig wxcpconfig) throws WxErrorException;
+  String[] getCallbackIp(IWxCpConfig wxcpconfig) throws WxErrorException;
 
   /**
    * 当本Service没有实现某个API的时候，可以用这个，针对所有微信API中的GET请求
@@ -485,7 +485,7 @@ public interface IWxCpService {
    * @param queryParam
    * @throws WxErrorException
    */
-  String get(WxCpConfig wxcpconfig,String url, String queryParam) throws WxErrorException;
+  String get(IWxCpConfig wxcpconfig,String url, String queryParam) throws WxErrorException;
 
   /**
    * 当本Service没有实现某个API的时候，可以用这个，针对所有微信API中的POST请求
@@ -494,7 +494,7 @@ public interface IWxCpService {
    * @param postData
    * @throws WxErrorException
    */
-  String post(WxCpConfig wxcpconfig,String url, String postData) throws WxErrorException;
+  String post(IWxCpConfig wxcpconfig,String url, String postData) throws WxErrorException;
 
   /**
    * <pre>
@@ -510,7 +510,7 @@ public interface IWxCpService {
    * @param <E>
    * @throws WxErrorException
    */
-  <T, E> T execute(WxCpConfig wxcpconfig,RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException;
+  <T, E> T execute(IWxCpConfig wxcpconfig,RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException;
 
 
 
@@ -522,7 +522,7 @@ public interface IWxCpService {
  * @return
  * @throws WxErrorException
  */
-String syncUser(WxCpConfig wxcpconfig,String mediaId,Map<String, String> callBack) throws WxErrorException;
+String syncUser(IWxCpConfig wxcpconfig,String mediaId,Map<String, String> callBack) throws WxErrorException;
   
   /**
    * 上传部门列表覆盖企业号上的部门信息
@@ -530,7 +530,7 @@ String syncUser(WxCpConfig wxcpconfig,String mediaId,Map<String, String> callBac
    * @param mediaId
    * @throws WxErrorException
    */
-  String replaceParty(WxCpConfig wxcpconfig,String mediaId) throws WxErrorException;
+  String replaceParty(IWxCpConfig wxcpconfig,String mediaId) throws WxErrorException;
 
   /**
    * 上传用户列表覆盖企业号上的用户信息
@@ -538,7 +538,7 @@ String syncUser(WxCpConfig wxcpconfig,String mediaId,Map<String, String> callBac
    * @param mediaId
    * @throws WxErrorException
    */
-  String replaceUser(WxCpConfig wxcpconfig,String mediaId) throws WxErrorException;
+  String replaceUser(IWxCpConfig wxcpconfig,String mediaId) throws WxErrorException;
 
   /**
    * 获取异步任务结果
@@ -546,7 +546,7 @@ String syncUser(WxCpConfig wxcpconfig,String mediaId,Map<String, String> callBac
    * @param joinId
    * @throws WxErrorException
    */
-  String getTaskResult(WxCpConfig wxcpconfig,String joinId) throws WxErrorException;
+  String getTaskResult(IWxCpConfig wxcpconfig,String joinId) throws WxErrorException;
   
   
 }

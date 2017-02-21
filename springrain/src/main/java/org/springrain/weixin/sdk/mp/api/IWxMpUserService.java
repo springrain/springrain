@@ -2,7 +2,7 @@ package org.springrain.weixin.sdk.mp.api;
 
 import java.util.List;
 
-import org.springrain.weixin.entity.WxMpConfig;
+import org.springrain.weixin.sdk.common.api.IWxMpConfig;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
 import org.springrain.weixin.sdk.mp.bean.WxMpUserQuery;
 import org.springrain.weixin.sdk.mp.bean.result.WxMpUser;
@@ -26,7 +26,7 @@ public interface IWxMpUserService {
    * @param openid 用户openid
    * @param remark 备注名
    */
-  void userUpdateRemark(WxMpConfig wxmpconfig,String openid, String remark) throws WxErrorException;
+  void userUpdateRemark(IWxMpConfig wxmpconfig,String openid, String remark) throws WxErrorException;
 
   /**
    * <pre>
@@ -38,7 +38,7 @@ public interface IWxMpUserService {
    *
    * @param openid 用户openid
    */
-  WxMpUser userInfo(WxMpConfig wxmpconfig,String openid) throws WxErrorException;
+  WxMpUser userInfo(IWxMpConfig wxmpconfig,String openid) throws WxErrorException;
 
   /**
    * <pre>
@@ -51,7 +51,7 @@ public interface IWxMpUserService {
    * @param openid 用户openid
    * @param lang 语言，zh_CN 简体(默认)，zh_TW 繁体，en 英语
    */
-  WxMpUser userInfo(WxMpConfig wxmpconfig,String openid, String lang) throws WxErrorException;
+  WxMpUser userInfo(IWxMpConfig wxmpconfig,String openid, String lang) throws WxErrorException;
 
   /**
    * <pre>
@@ -64,7 +64,7 @@ public interface IWxMpUserService {
    *
    * @param openids 用户openid列表
    */
-  List<WxMpUser> userInfoList(WxMpConfig wxmpconfig,List<String> openids) throws WxErrorException;
+  List<WxMpUser> userInfoList(IWxMpConfig wxmpconfig,List<String> openids) throws WxErrorException;
 
   /**
    * <pre>
@@ -77,7 +77,7 @@ public interface IWxMpUserService {
    *
    * @param userQuery 详细查询参数
    */
-  List<WxMpUser> userInfoList(WxMpConfig wxmpconfig,WxMpUserQuery userQuery) throws WxErrorException;
+  List<WxMpUser> userInfoList(IWxMpConfig wxmpconfig,WxMpUserQuery userQuery) throws WxErrorException;
 
   /**
    * <pre>
@@ -90,5 +90,5 @@ public interface IWxMpUserService {
    *
    * @param nextOpenid 可选，第一个拉取的OPENID，null为从头开始拉取
    */
-  WxMpUserList userList(WxMpConfig wxmpconfig,String nextOpenid) throws WxErrorException;
+  WxMpUserList userList(IWxMpConfig wxmpconfig,String nextOpenid) throws WxErrorException;
 }

@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springrain.frame.util.HttpClientUtils;
-import org.springrain.weixin.entity.WxMpConfig;
+import org.springrain.weixin.sdk.common.api.IWxMpConfig;
 import org.springrain.weixin.sdk.common.api.IWxMpConfigService;
 import org.springrain.weixin.sdk.common.api.WxConsts;
 import org.springrain.weixin.sdk.common.bean.WxAccessToken;
@@ -112,7 +112,7 @@ public class WxMpServiceImpl implements IWxMpService {
    * </pre>
    */
   @Override
-  public boolean checkSignature(WxMpConfig wxmpconfig,String timestamp, String nonce, String signature) {
+  public boolean checkSignature(IWxMpConfig wxmpconfig,String timestamp, String nonce, String signature) {
     try {
       return SHA1.gen(wxmpconfig.getToken(), timestamp, nonce)
           .equals(signature);
@@ -128,7 +128,7 @@ public class WxMpServiceImpl implements IWxMpService {
    * @see #getAccessToken(boolean)
    */
   @Override
-  public String getAccessToken(WxMpConfig wxmpconfig) throws WxErrorException {
+  public String getAccessToken(IWxMpConfig wxmpconfig) throws WxErrorException {
     return getAccessToken(wxmpconfig,false);
   }
 
@@ -147,7 +147,7 @@ public class WxMpServiceImpl implements IWxMpService {
    * @param forceRefresh 强制刷新
    */
   @Override
-  public String getAccessToken(WxMpConfig wxmpconfig,boolean forceRefresh) throws WxErrorException {
+  public String getAccessToken(IWxMpConfig wxmpconfig,boolean forceRefresh) throws WxErrorException {
 
       if (forceRefresh) {
     	  wxMpConfigService.expireAccessToken(wxmpconfig);
@@ -184,7 +184,7 @@ public class WxMpServiceImpl implements IWxMpService {
    * @see #getJsApiTicket(boolean)
    */
   @Override
-  public String getJsApiTicket(WxMpConfig wxmpconfig) throws WxErrorException {
+  public String getJsApiTicket(IWxMpConfig wxmpconfig) throws WxErrorException {
     return getJsApiTicket(wxmpconfig,false);
   }
 
@@ -199,7 +199,7 @@ public class WxMpServiceImpl implements IWxMpService {
    * @param forceRefresh 强制刷新
    */
   @Override
-  public String getJsApiTicket(WxMpConfig wxmpconfig,boolean forceRefresh) throws WxErrorException {
+  public String getJsApiTicket(IWxMpConfig wxmpconfig,boolean forceRefresh) throws WxErrorException {
 
       if (forceRefresh) {
     	  wxMpConfigService.expireJsApiTicket(wxmpconfig);
@@ -232,7 +232,7 @@ public class WxMpServiceImpl implements IWxMpService {
    * </pre>
    */
   @Override
-  public WxJsApiSignature createJsApiSignature(WxMpConfig wxmpconfig,String url) throws WxErrorException {
+  public WxJsApiSignature createJsApiSignature(IWxMpConfig wxmpconfig,String url) throws WxErrorException {
     long timestamp = System.currentTimeMillis() / 1000;
     String noncestr = RandomUtils.getRandomStr();
     String jsapiTicket = getJsApiTicket(wxmpconfig,false);
@@ -259,7 +259,7 @@ public class WxMpServiceImpl implements IWxMpService {
    * @see #massOpenIdsMessageSend(org.springrain.weixin.sdk.mp.bean.WxMpMassOpenIdsMessage)
    */
   @Override
-  public WxMpMassUploadResult massNewsUpload(WxMpConfig wxmpconfig,WxMpMassNews news) throws WxErrorException {
+  public WxMpMassUploadResult massNewsUpload(IWxMpConfig wxmpconfig,WxMpMassNews news) throws WxErrorException {
     String url = WxConsts.mpapiurl+"/cgi-bin/media/uploadnews";
     String responseContent = post(wxmpconfig,url, news.toJson());
     return WxMpMassUploadResult.fromJson(responseContent);
@@ -275,7 +275,7 @@ public class WxMpServiceImpl implements IWxMpService {
    * @see #massOpenIdsMessageSend(org.springrain.weixin.sdk.mp.bean.WxMpMassOpenIdsMessage)
    */
   @Override
-  public WxMpMassUploadResult massVideoUpload(WxMpConfig wxmpconfig,WxMpMassVideo video) throws WxErrorException {
+  public WxMpMassUploadResult massVideoUpload(IWxMpConfig wxmpconfig,WxMpMassVideo video) throws WxErrorException {
     String url = WxConsts.mpapiurl+"/cgi-bin/media/uploadvideo";
     String responseContent = post(wxmpconfig,url, video.toJson());
     return WxMpMassUploadResult.fromJson(responseContent);
@@ -290,7 +290,7 @@ public class WxMpServiceImpl implements IWxMpService {
    * </pre>
    */
   @Override
-  public WxMpMassSendResult massGroupMessageSend(WxMpConfig wxmpconfig,WxMpMassTagMessage message) throws WxErrorException {
+  public WxMpMassSendResult massGroupMessageSend(IWxMpConfig wxmpconfig,WxMpMassTagMessage message) throws WxErrorException {
     String url = WxConsts.mpapiurl+"/cgi-bin/message/mass/sendall";
     String responseContent = post(wxmpconfig,url, message.toJson());
     return WxMpMassSendResult.fromJson(responseContent);
@@ -306,7 +306,7 @@ public class WxMpServiceImpl implements IWxMpService {
    * </pre>
    */
   @Override
-  public WxMpMassSendResult massOpenIdsMessageSend(WxMpConfig wxmpconfig,WxMpMassOpenIdsMessage message) throws WxErrorException {
+  public WxMpMassSendResult massOpenIdsMessageSend(IWxMpConfig wxmpconfig,WxMpMassOpenIdsMessage message) throws WxErrorException {
     String url = WxConsts.mpapiurl+"/cgi-bin/message/mass/send";
     String responseContent = post(wxmpconfig,url, message.toJson());
     return WxMpMassSendResult.fromJson(responseContent);
@@ -325,7 +325,7 @@ public class WxMpServiceImpl implements IWxMpService {
    * @return wxMpMassSendResult
    */
   @Override
-  public WxMpMassSendResult massMessagePreview(WxMpConfig wxmpconfig,WxMpMassPreviewMessage wxMpMassPreviewMessage) throws Exception {
+  public WxMpMassSendResult massMessagePreview(IWxMpConfig wxmpconfig,WxMpMassPreviewMessage wxMpMassPreviewMessage) throws Exception {
     String url = WxConsts.mpapiurl+"/cgi-bin/message/mass/preview";
     String responseContent = post(wxmpconfig,url, wxMpMassPreviewMessage.toJson());
     return WxMpMassSendResult.fromJson(responseContent);
@@ -339,7 +339,7 @@ public class WxMpServiceImpl implements IWxMpService {
    *
    */
   @Override
-  public String shortUrl(WxMpConfig wxmpconfig,String long_url) throws WxErrorException {
+  public String shortUrl(IWxMpConfig wxmpconfig,String long_url) throws WxErrorException {
     String url = WxConsts.mpapiurl+"/cgi-bin/shorturl";
     JsonObject o = new JsonObject();
     o.addProperty("action", "long2short");
@@ -356,7 +356,7 @@ public class WxMpServiceImpl implements IWxMpService {
    * </pre>
    */
   @Override
-  public WxMpSemanticQueryResult semanticQuery(WxMpConfig wxmpconfig,WxMpSemanticQuery semanticQuery) throws WxErrorException {
+  public WxMpSemanticQueryResult semanticQuery(IWxMpConfig wxmpconfig,WxMpSemanticQuery semanticQuery) throws WxErrorException {
     String url = WxConsts.mpapiurl+"/semantic/semproxy/search";
     String responseContent = post(wxmpconfig,url, semanticQuery.toJson());
     return WxMpSemanticQueryResult.fromJson(responseContent);
@@ -374,7 +374,7 @@ public class WxMpServiceImpl implements IWxMpService {
    * @return url
    */
   @Override
-  public String buildQrConnectUrl(WxMpConfig wxmpconfig,String redirectURI, String scope,
+  public String buildQrConnectUrl(IWxMpConfig wxmpconfig,String redirectURI, String scope,
       String state) {
     StringBuilder url = new StringBuilder();
     url.append(WxConsts.mpopenurl+"/connect/qrconnect?");
@@ -401,7 +401,7 @@ public class WxMpServiceImpl implements IWxMpService {
    * @return url
    */
   @Override
-  public String oauth2buildAuthorizationUrl(WxMpConfig wxmpconfig,String redirectURI, String scope, String state) {
+  public String oauth2buildAuthorizationUrl(IWxMpConfig wxmpconfig,String redirectURI, String scope, String state) {
     StringBuilder url = new StringBuilder();
     url.append(WxConsts.mpopenurl+"/connect/oauth2/authorize?");
     url.append("appid=").append(wxmpconfig.getAppId());
@@ -416,7 +416,7 @@ public class WxMpServiceImpl implements IWxMpService {
   }
 
   
-  private WxMpOAuth2AccessToken getOAuth2AccessToken(WxMpConfig wxmpconfig,StringBuilder url) throws WxErrorException {
+  private WxMpOAuth2AccessToken getOAuth2AccessToken(IWxMpConfig wxmpconfig,StringBuilder url) throws WxErrorException {
     try {
       RequestExecutor<String, String> executor = new SimpleGetRequestExecutor();
       String responseText = executor.execute(wxmpconfig, url.toString(), null);
@@ -433,7 +433,7 @@ public class WxMpServiceImpl implements IWxMpService {
    * </pre>
    */
   @Override
-  public WxMpOAuth2AccessToken oauth2getAccessToken(WxMpConfig wxmpconfig,String code) throws WxErrorException {
+  public WxMpOAuth2AccessToken oauth2getAccessToken(IWxMpConfig wxmpconfig,String code) throws WxErrorException {
     StringBuilder url = new StringBuilder();
     url.append(WxConsts.mpapiurl+"/sns/oauth2/access_token?");
     url.append("appid=").append(wxmpconfig.getAppId());
@@ -450,7 +450,7 @@ public class WxMpServiceImpl implements IWxMpService {
    * </pre>
    */
   @Override
-  public WxMpOAuth2AccessToken oauth2refreshAccessToken(WxMpConfig wxmpconfig,String refreshToken) throws WxErrorException {
+  public WxMpOAuth2AccessToken oauth2refreshAccessToken(IWxMpConfig wxmpconfig,String refreshToken) throws WxErrorException {
     StringBuilder url = new StringBuilder();
     url.append(WxConsts.mpapiurl+"/sns/oauth2/refresh_token?");
     url.append("appid=").append(wxmpconfig.getAppId());
@@ -468,7 +468,7 @@ public class WxMpServiceImpl implements IWxMpService {
    * @param lang              zh_CN, zh_TW, en
    */
   @Override
-  public WxMpUser oauth2getUserInfo(WxMpConfig wxmpconfig,WxMpOAuth2AccessToken oAuth2AccessToken, String lang) throws WxErrorException {
+  public WxMpUser oauth2getUserInfo(IWxMpConfig wxmpconfig,WxMpOAuth2AccessToken oAuth2AccessToken, String lang) throws WxErrorException {
     StringBuilder url = new StringBuilder();
     url.append(WxConsts.mpapiurl+"/sns/userinfo?");
     url.append("access_token=").append(oAuth2AccessToken.getAccessToken());
@@ -495,7 +495,7 @@ public class WxMpServiceImpl implements IWxMpService {
    *
    */
   @Override
-  public boolean oauth2validateAccessToken(WxMpConfig wxmpconfig,WxMpOAuth2AccessToken oAuth2AccessToken) {
+  public boolean oauth2validateAccessToken(IWxMpConfig wxmpconfig,WxMpOAuth2AccessToken oAuth2AccessToken) {
     StringBuilder url = new StringBuilder();
     url.append(WxConsts.mpapiurl+"/sns/auth?");
     url.append("access_token=").append(oAuth2AccessToken.getAccessToken());
@@ -519,7 +519,7 @@ public class WxMpServiceImpl implements IWxMpService {
    * </pre>
    */
   @Override
-  public List<String> getCallbackIP(WxMpConfig wxmpconfig) throws WxErrorException {
+  public List<String> getCallbackIP(IWxMpConfig wxmpconfig) throws WxErrorException {
     String url = WxConsts.mpapiurl+"/cgi-bin/getcallbackip";
     String responseContent = get(wxmpconfig,url, null);
     JsonElement tmpJsonElement = JSON_PARSER.parse(responseContent);
@@ -536,7 +536,7 @@ public class WxMpServiceImpl implements IWxMpService {
    * 当本Service没有实现某个API的时候，可以用这个，针对所有微信API中的GET请求
    */
   @Override
-  public String get(WxMpConfig wxmpconfig,String url, String queryParam) throws WxErrorException {
+  public String get(IWxMpConfig wxmpconfig,String url, String queryParam) throws WxErrorException {
     return execute(wxmpconfig,new SimpleGetRequestExecutor(), url, queryParam);
   }
 
@@ -545,7 +545,7 @@ public class WxMpServiceImpl implements IWxMpService {
    * 当本Service没有实现某个API的时候，可以用这个，针对所有微信API中的POST请求
    */
   @Override
-  public String post(WxMpConfig wxmpconfig,String url, String postData) throws WxErrorException {
+  public String post(IWxMpConfig wxmpconfig,String url, String postData) throws WxErrorException {
     return execute(wxmpconfig,new SimplePostRequestExecutor(), url, postData);
   }
 
@@ -560,7 +560,7 @@ public class WxMpServiceImpl implements IWxMpService {
    * </pre>
    */
   @Override
-  public <T, E> T execute(WxMpConfig wxmpconfig,RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
+  public <T, E> T execute(IWxMpConfig wxmpconfig,RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
 	int retrySleepMillis = 1000;
 	int maxRetryTimes = 5;
     int retryTimes = 0;
@@ -590,7 +590,7 @@ public class WxMpServiceImpl implements IWxMpService {
     throw new RuntimeException("微信服务端异常，超出重试次数");
   }
 
-  protected synchronized <T, E> T executeInternal(WxMpConfig wxmpconfig,RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
+  protected synchronized <T, E> T executeInternal(IWxMpConfig wxmpconfig,RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
     if (uri.indexOf("access_token=") != -1) {
       throw new IllegalArgumentException("uri参数中不允许有access_token: " + uri);
     }

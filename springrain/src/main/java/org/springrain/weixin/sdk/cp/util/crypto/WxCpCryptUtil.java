@@ -18,7 +18,7 @@
 package org.springrain.weixin.sdk.cp.util.crypto;
 
 import org.apache.commons.codec.binary.Base64;
-import org.springrain.weixin.entity.WxCpConfig;
+import org.springrain.weixin.sdk.common.api.IWxCpConfig;
 import org.springrain.weixin.sdk.common.util.crypto.WxCryptUtil;
 
 public class WxCpCryptUtil extends WxCryptUtil {
@@ -28,7 +28,7 @@ public class WxCpCryptUtil extends WxCryptUtil {
    *
    * @param wxCpConfigStorage
    */
-  public WxCpCryptUtil(WxCpConfig wxcpconfig) {
+  public WxCpCryptUtil(IWxCpConfig wxcpconfig) {
     /*
      * @param token          公众平台上，开发者设置的token
      * @param encodingAesKey 公众平台上，开发者设置的EncodingAESKey

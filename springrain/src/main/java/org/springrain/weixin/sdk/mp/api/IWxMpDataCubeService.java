@@ -3,7 +3,7 @@ package org.springrain.weixin.sdk.mp.api;
 import java.util.Date;
 import java.util.List;
 
-import org.springrain.weixin.entity.WxMpConfig;
+import org.springrain.weixin.sdk.common.api.IWxMpConfig;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
 import org.springrain.weixin.sdk.mp.bean.datacube.WxDataCubeArticleResult;
 import org.springrain.weixin.sdk.mp.bean.datacube.WxDataCubeArticleTotal;
@@ -30,7 +30,7 @@ public interface IWxMpDataCubeService {
    * @param beginDate 开始时间
    * @param endDate   最大时间跨度7天，endDate不能早于begingDate
    */
-  List<WxDataCubeUserSummary> getUserSummary(WxMpConfig wxmpconfig,Date beginDate, Date endDate) throws WxErrorException;
+  List<WxDataCubeUserSummary> getUserSummary(IWxMpConfig wxmpconfig,Date beginDate, Date endDate) throws WxErrorException;
 
   /**
    * <pre>
@@ -42,7 +42,7 @@ public interface IWxMpDataCubeService {
    * @param beginDate 开始时间
    * @param endDate   最大时间跨度7天，endDate不能早于begingDate
    */
-  List<WxDataCubeUserCumulate> getUserCumulate(WxMpConfig wxmpconfig,Date beginDate, Date endDate) throws WxErrorException;
+  List<WxDataCubeUserCumulate> getUserCumulate(IWxMpConfig wxmpconfig,Date beginDate, Date endDate) throws WxErrorException;
 
   //*******************图文分析数据接口***********************//
 
@@ -56,7 +56,7 @@ public interface IWxMpDataCubeService {
    * @param beginDate 开始时间
    * @param endDate   最大时间跨度1天，endDate不能早于begingDate
    */
-  List<WxDataCubeArticleResult> getArticleSummary(WxMpConfig wxmpconfig,Date beginDate, Date endDate) throws WxErrorException;
+  List<WxDataCubeArticleResult> getArticleSummary(IWxMpConfig wxmpconfig,Date beginDate, Date endDate) throws WxErrorException;
 
   /**
    * <pre>
@@ -67,7 +67,7 @@ public interface IWxMpDataCubeService {
    * @param beginDate 开始时间
    * @param endDate   最大时间跨度1天，endDate不能早于begingDate
    */
-  List<WxDataCubeArticleTotal> getArticleTotal(WxMpConfig wxmpconfig,Date beginDate, Date endDate) throws WxErrorException;
+  List<WxDataCubeArticleTotal> getArticleTotal(IWxMpConfig wxmpconfig,Date beginDate, Date endDate) throws WxErrorException;
 
   /**
    * <pre>
@@ -78,7 +78,7 @@ public interface IWxMpDataCubeService {
    * @param beginDate 开始时间
    * @param endDate   最大时间跨度3天，endDate不能早于begingDate
    */
-  List<WxDataCubeArticleResult> getUserRead(WxMpConfig wxmpconfig,Date beginDate, Date endDate) throws WxErrorException;
+  List<WxDataCubeArticleResult> getUserRead(IWxMpConfig wxmpconfig,Date beginDate, Date endDate) throws WxErrorException;
 
   /**
    * <pre>
@@ -89,7 +89,7 @@ public interface IWxMpDataCubeService {
    * @param beginDate 开始时间
    * @param endDate   最大时间跨度1天，endDate不能早于begingDate
    */
-  List<WxDataCubeArticleResult> getUserReadHour(WxMpConfig wxmpconfig,Date beginDate, Date endDate) throws WxErrorException;
+  List<WxDataCubeArticleResult> getUserReadHour(IWxMpConfig wxmpconfig,Date beginDate, Date endDate) throws WxErrorException;
 
   /**
    * <pre>
@@ -100,7 +100,7 @@ public interface IWxMpDataCubeService {
    * @param beginDate 开始时间
    * @param endDate   最大时间跨度7天，endDate不能早于begingDate
    */
-  List<WxDataCubeArticleResult> getUserShare(WxMpConfig wxmpconfig,Date beginDate, Date endDate) throws WxErrorException;
+  List<WxDataCubeArticleResult> getUserShare(IWxMpConfig wxmpconfig,Date beginDate, Date endDate) throws WxErrorException;
 
   /**
    * <pre>
@@ -111,7 +111,7 @@ public interface IWxMpDataCubeService {
    * @param beginDate 开始时间
    * @param endDate   最大时间跨度1天，endDate不能早于begingDate
    */
-  List<WxDataCubeArticleResult> getUserShareHour(WxMpConfig wxmpconfig,Date beginDate, Date endDate) throws WxErrorException;
+  List<WxDataCubeArticleResult> getUserShareHour(IWxMpConfig wxmpconfig,Date beginDate, Date endDate) throws WxErrorException;
 
   //*******************消息分析数据接口***********************//
 
@@ -124,7 +124,7 @@ public interface IWxMpDataCubeService {
    * @param beginDate 开始时间
    * @param endDate   最大时间跨度7天，endDate不能早于begingDate
    */
-  List<WxDataCubeMsgResult> getUpstreamMsg(WxMpConfig wxmpconfig,Date beginDate, Date endDate) throws WxErrorException;
+  List<WxDataCubeMsgResult> getUpstreamMsg(IWxMpConfig wxmpconfig,Date beginDate, Date endDate) throws WxErrorException;
 
   /**
    * <pre>
@@ -135,7 +135,7 @@ public interface IWxMpDataCubeService {
    * @param beginDate 开始时间
    * @param endDate   最大时间跨度1天，endDate不能早于begingDate
    */
-  List<WxDataCubeMsgResult> getUpstreamMsgHour(WxMpConfig wxmpconfig,Date beginDate, Date endDate) throws WxErrorException;
+  List<WxDataCubeMsgResult> getUpstreamMsgHour(IWxMpConfig wxmpconfig,Date beginDate, Date endDate) throws WxErrorException;
 
   /**
    * <pre>
@@ -146,7 +146,7 @@ public interface IWxMpDataCubeService {
    * @param beginDate 开始时间
    * @param endDate   最大时间跨度30天，endDate不能早于begingDate
    */
-  List<WxDataCubeMsgResult> getUpstreamMsgWeek(WxMpConfig wxmpconfig,Date beginDate, Date endDate) throws WxErrorException;
+  List<WxDataCubeMsgResult> getUpstreamMsgWeek(IWxMpConfig wxmpconfig,Date beginDate, Date endDate) throws WxErrorException;
 
   /**
    * <pre>
@@ -157,7 +157,7 @@ public interface IWxMpDataCubeService {
    * @param beginDate 开始时间
    * @param endDate   最大时间跨度30天，endDate不能早于begingDate
    */
-  List<WxDataCubeMsgResult> getUpstreamMsgMonth(WxMpConfig wxmpconfig,Date beginDate, Date endDate) throws WxErrorException;
+  List<WxDataCubeMsgResult> getUpstreamMsgMonth(IWxMpConfig wxmpconfig,Date beginDate, Date endDate) throws WxErrorException;
 
   /**
    * <pre>
@@ -168,7 +168,7 @@ public interface IWxMpDataCubeService {
    * @param beginDate 开始时间
    * @param endDate   最大时间跨度15天，endDate不能早于begingDate
    */
-  List<WxDataCubeMsgResult> getUpstreamMsgDist(WxMpConfig wxmpconfig,Date beginDate, Date endDate) throws WxErrorException;
+  List<WxDataCubeMsgResult> getUpstreamMsgDist(IWxMpConfig wxmpconfig,Date beginDate, Date endDate) throws WxErrorException;
 
   /**
    * <pre>
@@ -179,7 +179,7 @@ public interface IWxMpDataCubeService {
    * @param beginDate 开始时间
    * @param endDate   最大时间跨度30天，endDate不能早于begingDate
    */
-  List<WxDataCubeMsgResult> getUpstreamMsgDistWeek(WxMpConfig wxmpconfig,Date beginDate, Date endDate) throws WxErrorException;
+  List<WxDataCubeMsgResult> getUpstreamMsgDistWeek(IWxMpConfig wxmpconfig,Date beginDate, Date endDate) throws WxErrorException;
 
   /**
    * <pre>
@@ -190,7 +190,7 @@ public interface IWxMpDataCubeService {
    * @param beginDate 开始时间
    * @param endDate   最大时间跨度30天，endDate不能早于begingDate
    */
-  List<WxDataCubeMsgResult> getUpstreamMsgDistMonth(WxMpConfig wxmpconfig,Date beginDate, Date endDate) throws WxErrorException;
+  List<WxDataCubeMsgResult> getUpstreamMsgDistMonth(IWxMpConfig wxmpconfig,Date beginDate, Date endDate) throws WxErrorException;
 
   //*******************接口分析数据接口***********************//
   /**
@@ -202,7 +202,7 @@ public interface IWxMpDataCubeService {
    * @param beginDate 开始时间
    * @param endDate   最大时间跨度30天，endDate不能早于begingDate
    */
-  List<WxDataCubeInterfaceResult> getInterfaceSummary(WxMpConfig wxmpconfig,Date beginDate, Date endDate) throws WxErrorException;
+  List<WxDataCubeInterfaceResult> getInterfaceSummary(IWxMpConfig wxmpconfig,Date beginDate, Date endDate) throws WxErrorException;
 
   /**
    * <pre>
@@ -213,6 +213,6 @@ public interface IWxMpDataCubeService {
    * @param beginDate 开始时间
    * @param endDate   最大时间跨度1天，endDate不能早于begingDate
    */
-  List<WxDataCubeInterfaceResult> getInterfaceSummaryHour(WxMpConfig wxmpconfig,Date beginDate, Date endDate) throws WxErrorException;
+  List<WxDataCubeInterfaceResult> getInterfaceSummaryHour(IWxMpConfig wxmpconfig,Date beginDate, Date endDate) throws WxErrorException;
 
 }

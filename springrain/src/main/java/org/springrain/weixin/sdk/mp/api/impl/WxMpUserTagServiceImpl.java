@@ -6,7 +6,7 @@ import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
-import org.springrain.weixin.entity.WxMpConfig;
+import org.springrain.weixin.sdk.common.api.IWxMpConfig;
 import org.springrain.weixin.sdk.common.api.WxConsts;
 import org.springrain.weixin.sdk.common.bean.result.WxError;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
@@ -42,7 +42,7 @@ public class WxMpUserTagServiceImpl implements IWxMpUserTagService {
   }
 
   @Override
-  public WxUserTag tagCreate(WxMpConfig wxmpconfig,String name) throws WxErrorException {
+  public WxUserTag tagCreate(IWxMpConfig wxmpconfig,String name) throws WxErrorException {
     String url = API_URL_PREFIX + "/create";
     JsonObject json = new JsonObject();
     JsonObject tagJson = new JsonObject();
@@ -54,7 +54,7 @@ public class WxMpUserTagServiceImpl implements IWxMpUserTagService {
   }
 
   @Override
-  public List<WxUserTag> tagGet(WxMpConfig wxmpconfig) throws WxErrorException {
+  public List<WxUserTag> tagGet(IWxMpConfig wxmpconfig) throws WxErrorException {
     String url = API_URL_PREFIX + "/get";
 
     String responseContent = wxMpService.get(wxmpconfig,url, null);
@@ -62,7 +62,7 @@ public class WxMpUserTagServiceImpl implements IWxMpUserTagService {
   }
 
   @Override
-  public Boolean tagUpdate(WxMpConfig wxmpconfig,Long id, String name) throws WxErrorException {
+  public Boolean tagUpdate(IWxMpConfig wxmpconfig,Long id, String name) throws WxErrorException {
     String url = API_URL_PREFIX + "/update";
 
     JsonObject json = new JsonObject();
@@ -81,7 +81,7 @@ public class WxMpUserTagServiceImpl implements IWxMpUserTagService {
   }
 
   @Override
-  public Boolean tagDelete(WxMpConfig wxmpconfig,Long id) throws WxErrorException {
+  public Boolean tagDelete(IWxMpConfig wxmpconfig,Long id) throws WxErrorException {
     String url = API_URL_PREFIX + "/delete";
 
     JsonObject json = new JsonObject();
@@ -99,7 +99,7 @@ public class WxMpUserTagServiceImpl implements IWxMpUserTagService {
   }
 
   @Override
-  public WxTagListUser tagListUser(WxMpConfig wxmpconfig,Long tagId, String nextOpenid)
+  public WxTagListUser tagListUser(IWxMpConfig wxmpconfig,Long tagId, String nextOpenid)
       throws WxErrorException {
     String url = WxConsts.mpapiurl+"/cgi-bin/user/tag/get";
 
@@ -112,7 +112,7 @@ public class WxMpUserTagServiceImpl implements IWxMpUserTagService {
   }
 
   @Override
-  public boolean batchTagging(WxMpConfig wxmpconfig,Long tagId, String[] openids)
+  public boolean batchTagging(IWxMpConfig wxmpconfig,Long tagId, String[] openids)
       throws WxErrorException {
     String url = API_URL_PREFIX + "/members/batchtagging";
 
@@ -134,7 +134,7 @@ public class WxMpUserTagServiceImpl implements IWxMpUserTagService {
   }
 
   @Override
-  public boolean batchUntagging(WxMpConfig wxmpconfig,Long tagId, String[] openids)
+  public boolean batchUntagging(IWxMpConfig wxmpconfig,Long tagId, String[] openids)
       throws WxErrorException {
     String url = API_URL_PREFIX + "/members/batchuntagging";
 
@@ -156,7 +156,7 @@ public class WxMpUserTagServiceImpl implements IWxMpUserTagService {
   }
 
   @Override
-  public List<Long> userTagList(WxMpConfig wxmpconfig,String openid) throws WxErrorException {
+  public List<Long> userTagList(IWxMpConfig wxmpconfig,String openid) throws WxErrorException {
     String url = API_URL_PREFIX + "/getidlist";
 
     JsonObject json = new JsonObject();
