@@ -19,7 +19,14 @@
      * window.UEDITOR_HOME_URL = "/xxxx/xxxx/";
      */
     var URL = window.UEDITOR_HOME_URL || getUEBasePath();
-
+    
+    var siteId = locache.get("defaultSiteId");
+    var serverUrl;
+    if(!!siteId){
+    	serverUrl = URL+siteId+"/"+"ueditor/init";
+    }else{
+    	serverUrl = URL+"ueditor/init";
+    }
     /**
      * 配置项主体。注意，此处所有涉及到路径的配置别遗漏URL变量。
      */
@@ -29,7 +36,7 @@
         UEDITOR_HOME_URL: URL+"js/ueditor/"
 
         // 服务器统一请求接口路径
-        , serverUrl: URL + "ueditor/init"
+        , serverUrl: serverUrl + "ueditor/init"
 
         //工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的从新定义
       /*  , toolbars: [[

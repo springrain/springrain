@@ -40,6 +40,7 @@ public abstract class AbstractCMSDirective implements
 	 * @param params
 	 * @return
 	 */
+	@SuppressWarnings("rawtypes")
 	public String getSiteId(Map params) throws TemplateException{
 		return getParameter("siteId", params);
 		}
@@ -48,11 +49,13 @@ public abstract class AbstractCMSDirective implements
 	 * @param params
 	 * @return
 	 */
+	@SuppressWarnings("rawtypes")
 	public String getBusinessId(Map params) throws TemplateException{
 		return getParameter("businessId", params);
 	}
 	
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private String getParameter(String key,Map params) throws TemplateException{
 			if(params==null){
 				return getRequestAttributeString(key);

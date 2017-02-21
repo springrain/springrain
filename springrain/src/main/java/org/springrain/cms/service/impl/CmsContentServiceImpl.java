@@ -116,6 +116,7 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 	    cmsLink.setStatichtml(0);//默认不静态化
 	    cmsLink.setActive(cmsContent.getActive());//默认可以使用
 	    cmsLink.setSortno(cmsContent.getSortno());
+	    cmsLink.setModelType(0);
 	    //首页默认
 	    String _index="/f/"+SiteType.getSiteType(siteType).name()+"/"+siteId+"/"+id;
 	    cmsLink.setDefaultLink(_index);
