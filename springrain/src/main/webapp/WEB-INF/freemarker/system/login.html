@@ -21,6 +21,11 @@
 			.per30{width: 40%;}.per70{width: 60%;}.tr{text-align: right;}.ht36{height: 36px;}.mt2{margin-top: 2px;}
 		</style>
 		<script src="${ctx}/js/jquery/jquery-1.12.4.js"></script>
+		<script src="${ctx}/js/cache/locache.min.js"></script>
+		<script type="text/javascript">
+			//清除缓存
+			locache.flush();
+		</script>
 	</head>
 	<body>
 		<form action="${ctx}/system/login" method="post" id="loginForm">

@@ -22,12 +22,14 @@
 		</style>
 		<script src="${ctx}/js/jquery/jquery-1.12.4.js"></script>
 		<script src="${ctx}/js/cache/locache.min.js"></script>
-		<script>
+		<script type="text/javascript">
 			//清除缓存
 			locache.flush();
 			locache.set("defaultSiteId","${siteId!''}");
-			locache.set("defaultSiteLogoUrl","<@cms_site id=siteId!''>${site.logo!''}</@cms_site>");
-			locache.set("defaultSiteFooter","<@cms_site id=siteId!''>${site.footer!''}</@cms_site>");
+			<@cms_site id=siteId!''>
+			locache.set("defaultSiteLogoUrl","${site.logo!''}");
+			locache.set("defaultSiteFooter","${site.footer!''}");
+			</@cms_site>
 		</script>
 	</head>
 	<body>
@@ -36,7 +38,6 @@
 		</div>
 		<form action="${ctx}/s/${siteId!''}/login" method="post" id="loginForm">
 		 <input type="hidden" name="gotourl" value="${gotourl!''}" />
-		 <input type="hidden" name="systemSiteId" value="${siteId!''}" />
 			<div class="ht300 w-500 bg-F4F4F4 pt40 boxSizing boxShadow radius4">
 				<div class="ht40 tc mb40">
 					<div class="display-ib per80 ht40 border bg-white radius4">
