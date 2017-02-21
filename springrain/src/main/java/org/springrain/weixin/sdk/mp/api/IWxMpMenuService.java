@@ -1,6 +1,6 @@
 package org.springrain.weixin.sdk.mp.api;
 
-import org.springrain.weixin.entity.WxMpConfig;
+import org.springrain.weixin.sdk.common.api.IWxMpConfig;
 import org.springrain.weixin.sdk.common.bean.menu.WxMenu;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
 import org.springrain.weixin.sdk.mp.bean.menu.WxMpGetSelfMenuInfoResult;
@@ -20,7 +20,7 @@ public interface IWxMpMenuService {
    * 详情请见:http://mp.weixin.qq.com/wiki/0/c48ccd12b69ae023159b4bfaa7c39c20.html
    * </pre>
    */
-  void menuCreate(WxMpConfig wxmpconfig,WxMenu menu) throws WxErrorException;
+  void menuCreate(IWxMpConfig wxmpconfig,WxMenu menu) throws WxErrorException;
 
   /**
    * <pre>
@@ -28,7 +28,7 @@ public interface IWxMpMenuService {
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=自定义菜单删除接口
    * </pre>
    */
-  void menuDelete(WxMpConfig wxmpconfig) throws WxErrorException;
+  void menuDelete(IWxMpConfig wxmpconfig) throws WxErrorException;
 
   /**
    * <pre>
@@ -38,7 +38,7 @@ public interface IWxMpMenuService {
    *
    * @param menuid
    */
-  void menuDelete(WxMpConfig wxmpconfig,String menuid) throws WxErrorException;
+  void menuDelete(IWxMpConfig wxmpconfig,String menuid) throws WxErrorException;
 
   /**
    * <pre>
@@ -46,7 +46,7 @@ public interface IWxMpMenuService {
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=自定义菜单查询接口
    * </pre>
    */
-  WxMenu menuGet(WxMpConfig wxmpconfig) throws WxErrorException;
+  WxMenu menuGet(IWxMpConfig wxmpconfig) throws WxErrorException;
 
   /**
    * <pre>
@@ -56,7 +56,7 @@ public interface IWxMpMenuService {
    *
    * @param userid 可以是粉丝的OpenID，也可以是粉丝的微信号。
    */
-  WxMenu menuTryMatch(WxMpConfig wxmpconfig,String userid) throws WxErrorException;
+  WxMenu menuTryMatch(IWxMpConfig wxmpconfig,String userid) throws WxErrorException;
 
   /**
    * <pre>
@@ -73,5 +73,5 @@ public interface IWxMpMenuService {
         https://api.weixin.qq.com/cgi-bin/get_current_selfmenu_info?access_token=ACCESS_TOKEN
    *</pre>
    */
-  WxMpGetSelfMenuInfoResult getSelfMenuInfo(WxMpConfig wxmpconfig) throws WxErrorException;
+  WxMpGetSelfMenuInfoResult getSelfMenuInfo(IWxMpConfig wxmpconfig) throws WxErrorException;
 }

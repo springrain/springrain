@@ -2,7 +2,7 @@ package org.springrain.weixin.sdk.mp.api;
 
 import java.io.File;
 
-import org.springrain.weixin.entity.WxMpConfig;
+import org.springrain.weixin.sdk.common.api.IWxMpConfig;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
 import org.springrain.weixin.sdk.mp.bean.result.WxMpQrCodeTicket;
 
@@ -22,7 +22,7 @@ public interface IWxMpQrcodeService {
    * @param scene_id       参数。
    * @param expire_seconds 过期秒数，默认60秒，最小60秒，最大1800秒
    */
-  WxMpQrCodeTicket qrCodeCreateTmpTicket(WxMpConfig wxmpconfig,int scene_id, Integer expire_seconds) throws WxErrorException;
+  WxMpQrCodeTicket qrCodeCreateTmpTicket(IWxMpConfig wxmpconfig,int scene_id, Integer expire_seconds) throws WxErrorException;
 
   /**
    * <pre>
@@ -32,7 +32,7 @@ public interface IWxMpQrcodeService {
    *
    * @param scene_id 参数。永久二维码时最大值为100000（目前参数只支持1--100000）
    */
-  WxMpQrCodeTicket qrCodeCreateLastTicket(WxMpConfig wxmpconfig,int scene_id) throws WxErrorException;
+  WxMpQrCodeTicket qrCodeCreateLastTicket(IWxMpConfig wxmpconfig,int scene_id) throws WxErrorException;
 
   /**
    * <pre>
@@ -42,7 +42,7 @@ public interface IWxMpQrcodeService {
    *
    * @param scene_str 参数。字符串类型长度现在为1到64
    */
-  WxMpQrCodeTicket qrCodeCreateLastTicket(WxMpConfig wxmpconfig,String scene_str) throws WxErrorException;
+  WxMpQrCodeTicket qrCodeCreateLastTicket(IWxMpConfig wxmpconfig,String scene_str) throws WxErrorException;
 
   /**
    * <pre>
@@ -52,7 +52,7 @@ public interface IWxMpQrcodeService {
    *
    * @param ticket 二维码ticket
    */
-  File qrCodePicture(WxMpConfig wxmpconfig,WxMpQrCodeTicket ticket) throws WxErrorException;
+  File qrCodePicture(IWxMpConfig wxmpconfig,WxMpQrCodeTicket ticket) throws WxErrorException;
 
   /**
    * <pre>
@@ -63,7 +63,7 @@ public interface IWxMpQrcodeService {
    * @param ticket       二维码ticket
    * @param needShortUrl 是否需要压缩的二维码地址
    */
-  String qrCodePictureUrl(WxMpConfig wxmpconfig,String ticket, boolean needShortUrl) throws WxErrorException;
+  String qrCodePictureUrl(IWxMpConfig wxmpconfig,String ticket, boolean needShortUrl) throws WxErrorException;
 
   /**
    * <pre>
@@ -73,6 +73,6 @@ public interface IWxMpQrcodeService {
    *
    * @param ticket 二维码ticket
    */
-  String qrCodePictureUrl(WxMpConfig wxmpconfig,String ticket) throws WxErrorException;
+  String qrCodePictureUrl(IWxMpConfig wxmpconfig,String ticket) throws WxErrorException;
 
 }

@@ -23,7 +23,7 @@
     var siteId = locache.get("defaultSiteId");
     var serverUrl;
     if(!!siteId){
-    	serverUrl = URL+siteId+"/"+"ueditor/init";
+    	serverUrl = URL+"ueditor/"+siteId+"/init";
     }else{
     	serverUrl = URL+"ueditor/init";
     }
@@ -36,7 +36,8 @@
         UEDITOR_HOME_URL: URL+"js/ueditor/"
 
         // 服务器统一请求接口路径
-        , serverUrl: serverUrl + "ueditor/init"
+       // , serverUrl: serverUrl + "ueditor/init"
+        , serverUrl: serverUrl
 
         //工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的从新定义
       /*  , toolbars: [[

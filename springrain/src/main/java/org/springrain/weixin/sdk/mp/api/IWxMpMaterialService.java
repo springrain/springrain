@@ -3,7 +3,7 @@ package org.springrain.weixin.sdk.mp.api;
 import java.io.File;
 import java.io.InputStream;
 
-import org.springrain.weixin.entity.WxMpConfig;
+import org.springrain.weixin.sdk.common.api.IWxMpConfig;
 import org.springrain.weixin.sdk.common.bean.result.WxMediaUploadResult;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
 import org.springrain.weixin.sdk.mp.bean.material.WxMediaImgUploadResult;
@@ -52,7 +52,7 @@ public interface IWxMpMaterialService {
    * @throws WxErrorException
    * @see #mediaUpload(String, String, InputStream)
    */
-  WxMediaUploadResult mediaUpload(WxMpConfig wxmpconfig,String mediaType, File file) throws WxErrorException;
+  WxMediaUploadResult mediaUpload(IWxMpConfig wxmpconfig,String mediaType, File file) throws WxErrorException;
 
   /**
    * <pre>
@@ -69,7 +69,7 @@ public interface IWxMpMaterialService {
    * @throws WxErrorException
    * @see #mediaUpload(java.lang.String, java.io.File)
    */
-  WxMediaUploadResult mediaUpload(WxMpConfig wxmpconfig,String mediaType, String fileType, InputStream inputStream) throws WxErrorException;
+  WxMediaUploadResult mediaUpload(IWxMpConfig wxmpconfig,String mediaType, String fileType, InputStream inputStream) throws WxErrorException;
 
   /**
    * <pre>
@@ -85,7 +85,7 @@ public interface IWxMpMaterialService {
    * @return 保存到本地的临时文件
    * @throws WxErrorException
    */
-  File mediaDownload(WxMpConfig wxmpconfig,String media_id) throws WxErrorException;
+  File mediaDownload(IWxMpConfig wxmpconfig,String media_id) throws WxErrorException;
 
   /**
    * <pre>
@@ -99,7 +99,7 @@ public interface IWxMpMaterialService {
    * @return WxMediaImgUploadResult 返回图片url
    * @throws WxErrorException
    */
-  WxMediaImgUploadResult mediaImgUpload(WxMpConfig wxmpconfig,File file) throws WxErrorException;
+  WxMediaImgUploadResult mediaImgUpload(IWxMpConfig wxmpconfig,File file) throws WxErrorException;
 
   /**
    * <pre>
@@ -123,7 +123,7 @@ public interface IWxMpMaterialService {
    * @param mediaType 媒体类型, 请看{@link org.springrain.weixin.sdk.common.api.WxConsts}
    * @param material  上传的素材, 请看{@link WxMpMaterial}
    */
-  WxMpMaterialUploadResult materialFileUpload(WxMpConfig wxmpconfig,String mediaType, WxMpMaterial material) throws WxErrorException;
+  WxMpMaterialUploadResult materialFileUpload(IWxMpConfig wxmpconfig,String mediaType, WxMpMaterial material) throws WxErrorException;
 
   /**
    * <pre>
@@ -143,7 +143,7 @@ public interface IWxMpMaterialService {
    *
    * @param news 上传的图文消息, 请看{@link WxMpMaterialNews}
    */
-  WxMpMaterialUploadResult materialNewsUpload(WxMpConfig wxmpconfig,WxMpMaterialNews news) throws WxErrorException;
+  WxMpMaterialUploadResult materialNewsUpload(IWxMpConfig wxmpconfig,WxMpMaterialNews news) throws WxErrorException;
 
   /**
    * <pre>
@@ -155,7 +155,7 @@ public interface IWxMpMaterialService {
    *
    * @param mediaId 永久素材的id
    */
-  InputStream materialImageOrVoiceDownload(WxMpConfig wxmpconfig,String mediaId) throws WxErrorException;
+  InputStream materialImageOrVoiceDownload(IWxMpConfig wxmpconfig,String mediaId) throws WxErrorException;
 
   /**
    * <pre>
@@ -167,7 +167,7 @@ public interface IWxMpMaterialService {
    *
    * @param mediaId 永久素材的id
    */
-  WxMpMaterialVideoInfoResult materialVideoInfo(WxMpConfig wxmpconfig,String mediaId) throws WxErrorException;
+  WxMpMaterialVideoInfoResult materialVideoInfo(IWxMpConfig wxmpconfig,String mediaId) throws WxErrorException;
 
   /**
    * <pre>
@@ -179,7 +179,7 @@ public interface IWxMpMaterialService {
    *
    * @param mediaId 永久素材的id
    */
-  WxMpMaterialNews materialNewsInfo(WxMpConfig wxmpconfig,String mediaId) throws WxErrorException;
+  WxMpMaterialNews materialNewsInfo(IWxMpConfig wxmpconfig,String mediaId) throws WxErrorException;
 
   /**
    * <pre>
@@ -191,7 +191,7 @@ public interface IWxMpMaterialService {
    *
    * @param wxMpMaterialArticleUpdate 用来更新图文素材的bean, 请看{@link WxMpMaterialArticleUpdate}
    */
-  boolean materialNewsUpdate(WxMpConfig wxmpconfig,WxMpMaterialArticleUpdate wxMpMaterialArticleUpdate) throws WxErrorException;
+  boolean materialNewsUpdate(IWxMpConfig wxmpconfig,WxMpMaterialArticleUpdate wxMpMaterialArticleUpdate) throws WxErrorException;
 
   /**
    * <pre>
@@ -207,7 +207,7 @@ public interface IWxMpMaterialService {
    *
    * @param mediaId 永久素材的id
    */
-  boolean materialDelete(WxMpConfig wxmpconfig,String mediaId) throws WxErrorException;
+  boolean materialDelete(IWxMpConfig wxmpconfig,String mediaId) throws WxErrorException;
 
   /**
    * <pre>
@@ -222,7 +222,7 @@ public interface IWxMpMaterialService {
    * 接口url格式：https://api.weixin.qq.com/cgi-bin/material/get_materialcount?access_token=ACCESS_TOKEN
    * </pre>
    */
-  WxMpMaterialCountResult materialCount(WxMpConfig wxmpconfig) throws WxErrorException;
+  WxMpMaterialCountResult materialCount(IWxMpConfig wxmpconfig) throws WxErrorException;
 
   /**
    * <pre>
@@ -235,7 +235,7 @@ public interface IWxMpMaterialService {
    * @param offset 从全部素材的该偏移位置开始返回，0表示从第一个素材 返回
    * @param count  返回素材的数量，取值在1到20之间
    */
-  WxMpMaterialNewsBatchGetResult materialNewsBatchGet(WxMpConfig wxmpconfig,int offset, int count) throws WxErrorException;
+  WxMpMaterialNewsBatchGetResult materialNewsBatchGet(IWxMpConfig wxmpconfig,int offset, int count) throws WxErrorException;
 
   /**
    * <pre>
@@ -249,6 +249,6 @@ public interface IWxMpMaterialService {
    * @param offset 从全部素材的该偏移位置开始返回，0表示从第一个素材 返回
    * @param count  返回素材的数量，取值在1到20之间
    */
-  WxMpMaterialFileBatchGetResult materialFileBatchGet(WxMpConfig wxmpconfig,String type, int offset, int count) throws WxErrorException;
+  WxMpMaterialFileBatchGetResult materialFileBatchGet(IWxMpConfig wxmpconfig,String type, int offset, int count) throws WxErrorException;
 
 }

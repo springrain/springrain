@@ -2,7 +2,7 @@ package org.springrain.weixin.sdk.cp.bean;
 
 import java.io.Serializable;
 
-import org.springrain.weixin.entity.WxCpConfig;
+import org.springrain.weixin.sdk.common.api.IWxCpConfig;
 import org.springrain.weixin.sdk.common.util.xml.XStreamCDataConverter;
 import org.springrain.weixin.sdk.cp.bean.outxmlbuilder.ImageBuilder;
 import org.springrain.weixin.sdk.cp.bean.outxmlbuilder.NewsBuilder;
@@ -110,7 +110,7 @@ protected String toXml() {
   /**
    * 转换成加密的xml格式
    */
-  public String toEncryptedXml(WxCpConfig wxcpconfig) {
+  public String toEncryptedXml(IWxCpConfig wxcpconfig) {
     String plainXml = toXml();
     WxCpCryptUtil pc = new WxCpCryptUtil(wxcpconfig);
     return pc.encrypt(plainXml);

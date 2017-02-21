@@ -5,7 +5,7 @@ import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springrain.weixin.entity.WxMpConfig;
+import org.springrain.weixin.sdk.common.api.IWxMpConfig;
 import org.springrain.weixin.sdk.common.api.WxConsts;
 import org.springrain.weixin.sdk.common.bean.menu.WxMenu;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
@@ -32,7 +32,7 @@ public class WxMpMenuServiceImpl implements IWxMpMenuService {
   }
 
   @Override
-  public void menuCreate(WxMpConfig wxmpconfig,WxMenu menu) throws WxErrorException {
+  public void menuCreate(IWxMpConfig wxmpconfig,WxMenu menu) throws WxErrorException {
     String menuJson = menu.toJson();
     String url = API_URL_PREFIX + "/create";
     if (menu.getMatchRule() != null) {
@@ -46,21 +46,21 @@ public class WxMpMenuServiceImpl implements IWxMpMenuService {
   }
 
   @Override
-  public void menuDelete(WxMpConfig wxmpconfig) throws WxErrorException {
+  public void menuDelete(IWxMpConfig wxmpconfig) throws WxErrorException {
     String url = API_URL_PREFIX + "/delete";
     String result =wxMpService.get(wxmpconfig,url, null);
     log.debug("删除菜单结果：{}", result);
   }
 
   @Override
-  public void menuDelete(WxMpConfig wxmpconfig,String menuid) throws WxErrorException {
+  public void menuDelete(IWxMpConfig wxmpconfig,String menuid) throws WxErrorException {
     String url = API_URL_PREFIX + "/delconditional";
     String result =wxMpService.get(wxmpconfig,url, "menuid=" + menuid);
     log.debug("根据MeunId({})删除菜单结果：{}", menuid, result);
   }
 
   @Override
-  public WxMenu menuGet(WxMpConfig wxmpconfig) throws WxErrorException {
+  public WxMenu menuGet(IWxMpConfig wxmpconfig) throws WxErrorException {
     String url = API_URL_PREFIX + "/get";
     try {
       String resultContent =wxMpService.get(wxmpconfig,url, null);
@@ -75,7 +75,7 @@ public class WxMpMenuServiceImpl implements IWxMpMenuService {
   }
 
   @Override
-  public WxMenu menuTryMatch(WxMpConfig wxmpconfig,String userid) throws WxErrorException {
+  public WxMenu menuTryMatch(IWxMpConfig wxmpconfig,String userid) throws WxErrorException {
     String url = API_URL_PREFIX + "/trymatch";
     try {
       String resultContent =wxMpService.get(wxmpconfig,url, "user_id=" + userid);
@@ -91,7 +91,7 @@ public class WxMpMenuServiceImpl implements IWxMpMenuService {
   }
 
   @Override
-  public WxMpGetSelfMenuInfoResult getSelfMenuInfo(WxMpConfig wxmpconfig) throws WxErrorException {
+  public WxMpGetSelfMenuInfoResult getSelfMenuInfo(IWxMpConfig wxmpconfig) throws WxErrorException {
     String url = WxConsts.mpapiurl+"/cgi-bin/get_current_selfmenu_info";
     String resultContent =wxMpService.get(wxmpconfig,url, null);
     return WxMpGetSelfMenuInfoResult.fromJson(resultContent);

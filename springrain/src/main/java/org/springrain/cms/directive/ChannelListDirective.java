@@ -50,7 +50,7 @@ public class ChannelListDirective extends AbstractCMSDirective {
 				cmsChannel.setLink(cmsLinkService.findLinkBySiteBusinessId(cmsChannel.getSiteId(), cmsChannel.getId()).getLink());
 			}
 		} catch (Exception e) {
-			list = new ArrayList<>();
+			list = new ArrayList<CmsChannel>();
 		}
 		env.setVariable("channel_list", DirectiveUtils.wrap(list));
 		if (body != null) { 

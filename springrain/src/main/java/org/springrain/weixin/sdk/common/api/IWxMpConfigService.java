@@ -1,7 +1,5 @@
 package org.springrain.weixin.sdk.common.api;
 
-import org.springrain.weixin.entity.WxMpConfig;
-
 public interface IWxMpConfigService {
 	
 	/**
@@ -9,7 +7,7 @@ public interface IWxMpConfigService {
 	 * @param id
 	 * @return
 	 */
-	WxMpConfig findWxMpConfigById(String id);
+	IWxMpConfig findWxMpConfigById(String id);
 	
 	
 	/**
@@ -17,7 +15,7 @@ public interface IWxMpConfigService {
 	 * @param wxmpconfig
 	 * @return
 	 */
-	WxMpConfig updateWxMpConfig(WxMpConfig wxmpconfig);
+	IWxMpConfig updateWxMpConfig(IWxMpConfig wxmpconfig);
 	
 
 	
@@ -26,7 +24,7 @@ public interface IWxMpConfigService {
 	 * @param wxMpConfig
 	 * @return
 	 */
-	WxMpConfig expireAccessToken(WxMpConfig wxmpconfig);
+	IWxMpConfig expireAccessToken(IWxMpConfig wxmpconfig);
 	
 
 	/**
@@ -34,7 +32,7 @@ public interface IWxMpConfigService {
 	 * @param wxMpConfig
 	 * @return
 	 */
-    WxMpConfig updateAccessToken(WxMpConfig wxmpconfig);
+    IWxMpConfig updateAccessToken(IWxMpConfig wxmpconfig);
    
    
     /**
@@ -42,7 +40,7 @@ public interface IWxMpConfigService {
 	 * @param wxMpConfig
 	 * @return
 	 */
-	WxMpConfig expireJsApiTicket(WxMpConfig wxmpconfig);
+	IWxMpConfig expireJsApiTicket(IWxMpConfig wxmpconfig);
    
 
     /**
@@ -50,7 +48,7 @@ public interface IWxMpConfigService {
 	 * @param wxMpConfig
 	 * @return
 	 */
-	WxMpConfig updateJsApiTicket(WxMpConfig wxmpconfig);
+	IWxMpConfig updateJsApiTicket(IWxMpConfig wxmpconfig);
 	
 	
 	/**
@@ -58,7 +56,7 @@ public interface IWxMpConfigService {
 	 * @param wxMpConfig
 	 * @return
 	 */
-	WxMpConfig expireCardApiTicket(WxMpConfig wxmpconfig);
+	IWxMpConfig expireCardApiTicket(IWxMpConfig wxmpconfig);
    
 	
 	/**
@@ -66,7 +64,7 @@ public interface IWxMpConfigService {
 	 * @param wxMpConfig
 	 * @return
 	 */
-	WxMpConfig updateCardApiTicket(WxMpConfig wxmpconfig);
+	IWxMpConfig updateCardApiTicket(IWxMpConfig wxmpconfig);
 	
 	
 }

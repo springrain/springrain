@@ -3,7 +3,7 @@ package org.springrain.weixin.sdk.mp.api;
 import java.io.File;
 import java.util.Map;
 
-import org.springrain.weixin.entity.WxMpConfig;
+import org.springrain.weixin.sdk.common.api.IWxMpConfig;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
 import org.springrain.weixin.sdk.mp.bean.pay.WxPayJsSDKCallback;
 import org.springrain.weixin.sdk.mp.bean.pay.request.WxEntPayRequest;
@@ -44,7 +44,7 @@ public interface IWxMpPayService {
    * @param outTradeNo    商户系统内部的订单号，当没提供transaction_id时需要传这个。
    * @throws WxErrorException
    */
-  WxPayOrderQueryResult queryOrder(WxMpConfig wxmpconfig,String transactionId, String outTradeNo) throws WxErrorException;
+  WxPayOrderQueryResult queryOrder(IWxMpConfig wxmpconfig,String transactionId, String outTradeNo) throws WxErrorException;
 
   /**
    * <pre>
@@ -61,7 +61,7 @@ public interface IWxMpPayService {
    * @param outTradeNo 商户系统内部的订单号，当没提供transaction_id时需要传这个。
    * @throws WxErrorException
    */
-  WxPayOrderCloseResult closeOrder(WxMpConfig wxmpconfig,String outTradeNo) throws WxErrorException;
+  WxPayOrderCloseResult closeOrder(IWxMpConfig wxmpconfig,String outTradeNo) throws WxErrorException;
 
   /**
    * 统一下单(详见http://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1)
@@ -71,7 +71,7 @@ public interface IWxMpPayService {
    * @param request 请求对象，注意一些参数如appid、mchid等不用设置，方法内会自动从配置对象中获取到（前提是对应配置中已经设置）
    * @throws WxErrorException
    */
-  WxPayUnifiedOrderResult unifiedOrder(WxMpConfig wxmpconfig,WxPayUnifiedOrderRequest request) throws WxErrorException;
+  WxPayUnifiedOrderResult unifiedOrder(IWxMpConfig wxmpconfig,WxPayUnifiedOrderRequest request) throws WxErrorException;
 
   /**
    * 该接口调用“统一下单”接口，并拼装发起支付请求需要的参数
@@ -80,7 +80,7 @@ public interface IWxMpPayService {
    * @param request 请求对象，注意一些参数如appid、mchid等不用设置，方法内会自动从配置对象中获取到（前提是对应配置中已经设置）
    * @throws WxErrorException
    */
-  Map<String, String> getPayInfo(WxMpConfig wxmpconfig,WxPayUnifiedOrderRequest request) throws WxErrorException;
+  Map<String, String> getPayInfo(IWxMpConfig wxmpconfig,WxPayUnifiedOrderRequest request) throws WxErrorException;
 
   /**
    * <pre>
@@ -93,7 +93,7 @@ public interface IWxMpPayService {
    * @param keyFile 证书文件对象
    * @return 退款操作结果
    */
-  WxPayRefundResult refund(WxMpConfig wxmpconfig,WxPayRefundRequest request, File keyFile) throws WxErrorException;
+  WxPayRefundResult refund(IWxMpConfig wxmpconfig,WxPayRefundRequest request, File keyFile) throws WxErrorException;
 
   /**
    * <pre>
@@ -110,13 +110,13 @@ public interface IWxMpPayService {
    * @param refundId      微信退款单号
    * @return 退款信息
    */
-  WxPayRefundQueryResult refundQuery(WxMpConfig wxmpconfig,String transactionId, String outTradeNo, String outRefundNo, String refundId) throws WxErrorException;
+  WxPayRefundQueryResult refundQuery(IWxMpConfig wxmpconfig,String transactionId, String outTradeNo, String outRefundNo, String refundId) throws WxErrorException;
 
   /**
    * 读取支付结果通知
    * 详见http://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_7
    */
-  WxPayJsSDKCallback getJSSDKCallbackData(WxMpConfig wxmpconfig,String xmlData) throws WxErrorException;
+  WxPayJsSDKCallback getJSSDKCallbackData(IWxMpConfig wxmpconfig,String xmlData) throws WxErrorException;
 
   /**
    * <pre>
@@ -124,7 +124,7 @@ public interface IWxMpPayService {
    * 按照字段名的 ASCII 码从小到大排序(字典序)后,使用 URL 键值对的 格式(即 key1=value1&key2=value2...)拼接成字符串
    * </pre>
    */
-  boolean checkJSSDKCallbackDataSignature(WxMpConfig wxmpconfig,Map<String, String> kvm, String signature);
+  boolean checkJSSDKCallbackDataSignature(IWxMpConfig wxmpconfig,Map<String, String> kvm, String signature);
 
   /**
    * 发送微信红包给个人用户
@@ -139,7 +139,7 @@ public interface IWxMpPayService {
    * @param request 请求对象
    * @param keyFile 证书文件对象
    */
-  WxPaySendRedpackResult sendRedpack(WxMpConfig wxmpconfig,WxPaySendRedpackRequest request, File keyFile) throws WxErrorException;
+  WxPaySendRedpackResult sendRedpack(IWxMpConfig wxmpconfig,WxPaySendRedpackRequest request, File keyFile) throws WxErrorException;
 
   /**
    * <pre>
@@ -152,7 +152,7 @@ public interface IWxMpPayService {
    * @param mchBillNo 商户发放红包的商户订单号，比如10000098201411111234567890
    * @param keyFile 证书文件对象
    */
-  WxPayRedpackQueryResult queryRedpack(WxMpConfig wxmpconfig,String mchBillNo, File keyFile) throws WxErrorException;
+  WxPayRedpackQueryResult queryRedpack(IWxMpConfig wxmpconfig,String mchBillNo, File keyFile) throws WxErrorException;
 
   /**
    * <pre>
@@ -167,7 +167,7 @@ public interface IWxMpPayService {
    * @param request 请求对象
    * @param keyFile 证书文件对象
    */
-  WxEntPayResult entPay(WxMpConfig wxmpconfig,WxEntPayRequest request, File keyFile) throws WxErrorException;
+  WxEntPayResult entPay(IWxMpConfig wxmpconfig,WxEntPayRequest request, File keyFile) throws WxErrorException;
 
   /**
    * <pre>
@@ -180,6 +180,6 @@ public interface IWxMpPayService {
    * @param partnerTradeNo 商户订单号
    * @param keyFile        证书文件对象
    */
-  WxEntPayQueryResult queryEntPay(WxMpConfig wxmpconfig,String partnerTradeNo, File keyFile) throws WxErrorException;
+  WxEntPayQueryResult queryEntPay(IWxMpConfig wxmpconfig,String partnerTradeNo, File keyFile) throws WxErrorException;
 
 }

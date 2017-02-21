@@ -4,9 +4,9 @@ import javax.persistence.Id;
 import javax.persistence.Transient;
 
 import org.springrain.frame.entity.BaseEntity;
-import org.springrain.weixin.sdk.common.api.IWxConfig;
+import org.springrain.weixin.sdk.common.api.IWxMpConfig;
 
-public class WxMpConfig   extends BaseEntity implements IWxConfig {
+public class WxMpConfig   extends BaseEntity implements IWxMpConfig {
 	private static final long serialVersionUID = 1L;
 	 
 	  private volatile String id;

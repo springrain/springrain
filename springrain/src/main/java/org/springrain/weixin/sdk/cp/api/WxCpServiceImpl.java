@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.frame.util.JsonUtils;
-import org.springrain.weixin.entity.WxCpConfig;
+import org.springrain.weixin.sdk.common.api.IWxCpConfig;
 import org.springrain.weixin.sdk.common.api.IWxCpConfigService;
 import org.springrain.weixin.sdk.common.api.WxConsts;
 import org.springrain.weixin.sdk.common.bean.WxAccessToken;
@@ -69,7 +69,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
   
 
   @Override
-  public boolean checkSignature(WxCpConfig wxcpconfig,String msgSignature, String timestamp, String nonce, String data) {
+  public boolean checkSignature(IWxCpConfig wxcpconfig,String msgSignature, String timestamp, String nonce, String data) {
     try {
       return SHA1.gen(wxcpconfig.getToken(), timestamp, nonce, data)
         .equals(msgSignature);
@@ -79,18 +79,18 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
   }
 
   @Override
-  public void userAuthenticated(WxCpConfig wxcpconfig,String userId) throws WxErrorException {
+  public void userAuthenticated(IWxCpConfig wxcpconfig,String userId) throws WxErrorException {
     String url = WxConsts.qyapiurl+"/cgi-bin/user/authsucc?userid=" + userId;
     get(wxcpconfig,url, null);
   }
 
   @Override
-  public String getAccessToken(WxCpConfig wxcpconfig) throws WxErrorException {
+  public String getAccessToken(IWxCpConfig wxcpconfig) throws WxErrorException {
     return getAccessToken(wxcpconfig,false);
   }
 
   @Override
-  public String getAccessToken(WxCpConfig wxcpconfig,boolean forceRefresh) throws WxErrorException {
+  public String getAccessToken(IWxCpConfig wxcpconfig,boolean forceRefresh) throws WxErrorException {
 
     	
     	 if (forceRefresh) {
@@ -129,12 +129,12 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
   }
 
   @Override
-  public String getJsApiTicket(WxCpConfig wxcpconfig) throws WxErrorException {
+  public String getJsApiTicket(IWxCpConfig wxcpconfig) throws WxErrorException {
     return getJsApiTicket(wxcpconfig,false);
   }
 
   @Override
-  public String getJsApiTicket(WxCpConfig wxcpconfig,boolean forceRefresh) throws WxErrorException {
+  public String getJsApiTicket(IWxCpConfig wxcpconfig,boolean forceRefresh) throws WxErrorException {
 		  if (forceRefresh) {
 	    	  wxCpConfigService.expireJsApiTicket(wxcpconfig);
 	      }
@@ -157,7 +157,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
   }
 
   @Override
-  public WxJsApiSignature createJsApiSignature(WxCpConfig wxcpconfig,String url) throws WxErrorException {
+  public WxJsApiSignature createJsApiSignature(IWxCpConfig wxcpconfig,String url) throws WxErrorException {
     long timestamp = System.currentTimeMillis() / 1000;
     String noncestr = RandomUtils.getRandomStr();
     String jsapiTicket = getJsApiTicket(wxcpconfig,false);
@@ -180,41 +180,41 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
   }
 
   @Override
-  public void messageSend(WxCpConfig wxcpconfig,WxCpMessage message) throws WxErrorException {
+  public void messageSend(IWxCpConfig wxcpconfig,WxCpMessage message) throws WxErrorException {
     String url = WxConsts.qyapiurl+"/cgi-bin/message/send";
     post(wxcpconfig,url, message.toJson());
   }
 
   @Override
-  public void menuCreate(WxCpConfig wxcpconfig,WxMenu menu) throws WxErrorException {
+  public void menuCreate(IWxCpConfig wxcpconfig,WxMenu menu) throws WxErrorException {
     menuCreate(wxcpconfig,wxcpconfig.getAgentId(), menu);
   }
 
   @Override
-  public void menuCreate(WxCpConfig wxcpconfig,Integer agentId, WxMenu menu) throws WxErrorException {
+  public void menuCreate(IWxCpConfig wxcpconfig,Integer agentId, WxMenu menu) throws WxErrorException {
     String url = WxConsts.qyapiurl+"/cgi-bin/menu/create?agentid="
       + wxcpconfig.getAgentId();
     post(wxcpconfig,url, menu.toJson());
   }
 
   @Override
-  public void menuDelete(WxCpConfig wxcpconfig) throws WxErrorException {
+  public void menuDelete(IWxCpConfig wxcpconfig) throws WxErrorException {
     menuDelete(wxcpconfig,wxcpconfig.getAgentId());
   }
 
   @Override
-  public void menuDelete(WxCpConfig wxcpconfig,Integer agentId) throws WxErrorException {
+  public void menuDelete(IWxCpConfig wxcpconfig,Integer agentId) throws WxErrorException {
     String url = WxConsts.qyapiurl+"/cgi-bin/menu/delete?agentid=" + agentId;
     get(wxcpconfig,url, null);
   }
 
   @Override
-  public WxMenu menuGet(WxCpConfig wxcpconfig) throws WxErrorException {
+  public WxMenu menuGet(IWxCpConfig wxcpconfig) throws WxErrorException {
     return menuGet(wxcpconfig,wxcpconfig.getAgentId());
   }
 
   @Override
-  public WxMenu menuGet(WxCpConfig wxcpconfig,Integer agentId) throws WxErrorException {
+  public WxMenu menuGet(IWxCpConfig wxcpconfig,Integer agentId) throws WxErrorException {
     String url = WxConsts.qyapiurl+"/cgi-bin/menu/get?agentid=" + agentId;
     try {
       String resultContent = get(wxcpconfig,url, null);
@@ -229,19 +229,19 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
   }
 
   @Override
-  public WxMediaUploadResult mediaUpload(WxCpConfig wxcpconfig,String mediaType, String fileType, InputStream inputStream)
+  public WxMediaUploadResult mediaUpload(IWxCpConfig wxcpconfig,String mediaType, String fileType, InputStream inputStream)
     throws WxErrorException, IOException {
     return mediaUpload(wxcpconfig,mediaType, FileUtils.createTmpFile(inputStream, UUID.randomUUID().toString(), fileType));
   }
 
   @Override
-  public WxMediaUploadResult mediaUpload(WxCpConfig wxcpconfig,String mediaType, File file) throws WxErrorException {
+  public WxMediaUploadResult mediaUpload(IWxCpConfig wxcpconfig,String mediaType, File file) throws WxErrorException {
     String url = WxConsts.qyapiurl+"/cgi-bin/media/upload?type=" + mediaType;
     return execute(wxcpconfig,new MediaUploadRequestExecutor(), url, file);
   }
 
   @Override
-  public File mediaDownload(WxCpConfig wxcpconfig,String media_id) throws WxErrorException {
+  public File mediaDownload(IWxCpConfig wxcpconfig,String media_id) throws WxErrorException {
     String url = WxConsts.qyapiurl+"/cgi-bin/media/get";
     return execute(wxcpconfig, new MediaDownloadRequestExecutor(
         new File(wxcpconfig.getTmpDirFile())),
@@ -250,7 +250,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
 
 
   @Override
-  public Integer departCreate(WxCpConfig wxcpconfig,WxCpDepart depart) throws WxErrorException {
+  public Integer departCreate(IWxCpConfig wxcpconfig,WxCpDepart depart) throws WxErrorException {
     String url = WxConsts.qyapiurl+"/cgi-bin/department/create";
     String responseContent = execute(wxcpconfig,
       new SimplePostRequestExecutor(),
@@ -261,19 +261,19 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
   }
 
   @Override
-  public void departUpdate(WxCpConfig wxcpconfig,WxCpDepart group) throws WxErrorException {
+  public void departUpdate(IWxCpConfig wxcpconfig,WxCpDepart group) throws WxErrorException {
     String url = WxConsts.qyapiurl+"/cgi-bin/department/update";
     post(wxcpconfig,url, group.toJson());
   }
 
   @Override
-  public void departDelete(WxCpConfig wxcpconfig,Integer departId) throws WxErrorException {
+  public void departDelete(IWxCpConfig wxcpconfig,Integer departId) throws WxErrorException {
     String url = WxConsts.qyapiurl+"/cgi-bin/department/delete?id=" + departId;
     get(wxcpconfig,url, null);
   }
 
   @Override
-  public List<WxCpDepart> departGet(WxCpConfig wxcpconfig) throws WxErrorException {
+  public List<WxCpDepart> departGet(IWxCpConfig wxcpconfig) throws WxErrorException {
     String url = WxConsts.qyapiurl+"/cgi-bin/department/list";
     String responseContent = get(wxcpconfig,url, null);
     /*
@@ -290,25 +290,25 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
   }
 
   @Override
-  public void userCreate(WxCpConfig wxcpconfig,WxCpUser user) throws WxErrorException {
+  public void userCreate(IWxCpConfig wxcpconfig,WxCpUser user) throws WxErrorException {
     String url = WxConsts.qyapiurl+"/cgi-bin/user/create";
     post(wxcpconfig,url, user.toJson());
   }
 
   @Override
-  public void userUpdate(WxCpConfig wxcpconfig,WxCpUser user) throws WxErrorException {
+  public void userUpdate(IWxCpConfig wxcpconfig,WxCpUser user) throws WxErrorException {
     String url = WxConsts.qyapiurl+"/cgi-bin/user/update";
     post(wxcpconfig,url, user.toJson());
   }
 
   @Override
-  public void userDelete(WxCpConfig wxcpconfig,String userid) throws WxErrorException {
+  public void userDelete(IWxCpConfig wxcpconfig,String userid) throws WxErrorException {
     String url = WxConsts.qyapiurl+"/cgi-bin/user/delete?userid=" + userid;
     get(wxcpconfig,url, null);
   }
 
   @Override
-  public void userDelete(WxCpConfig wxcpconfig,String[] userids) throws WxErrorException {
+  public void userDelete(IWxCpConfig wxcpconfig,String[] userids) throws WxErrorException {
     String url = WxConsts.qyapiurl+"/cgi-bin/user/batchdelete";
     JsonObject jsonObject = new JsonObject();
     JsonArray jsonArray = new JsonArray();
@@ -320,14 +320,14 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
   }
 
   @Override
-  public WxCpUser userGet(WxCpConfig wxcpconfig,String userid) throws WxErrorException {
+  public WxCpUser userGet(IWxCpConfig wxcpconfig,String userid) throws WxErrorException {
     String url = WxConsts.qyapiurl+"/cgi-bin/user/get?userid=" + userid;
     String responseContent = get(wxcpconfig,url, null);
     return WxCpUser.fromJson(responseContent);
   }
 
   @Override
-  public List<WxCpUser> userList(WxCpConfig wxcpconfig,Integer departId, Boolean fetchChild, Integer status) throws WxErrorException {
+  public List<WxCpUser> userList(IWxCpConfig wxcpconfig,Integer departId, Boolean fetchChild, Integer status) throws WxErrorException {
     String url = WxConsts.qyapiurl+"/cgi-bin/user/list?department_id=" + departId;
     String params = "";
     if (fetchChild != null) {
@@ -350,7 +350,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
   }
 
   @Override
-  public List<WxCpUser> departGetUsers(WxCpConfig wxcpconfig,Integer departId, Boolean fetchChild, Integer status) throws WxErrorException {
+  public List<WxCpUser> departGetUsers(IWxCpConfig wxcpconfig,Integer departId, Boolean fetchChild, Integer status) throws WxErrorException {
     String url = WxConsts.qyapiurl+"/cgi-bin/user/simplelist?department_id=" + departId;
     String params = "";
     if (fetchChild != null) {
@@ -373,7 +373,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
   }
 
   @Override
-  public String tagCreate(WxCpConfig wxcpconfig,String tagName) throws WxErrorException {
+  public String tagCreate(IWxCpConfig wxcpconfig,String tagName) throws WxErrorException {
     String url = WxConsts.qyapiurl+"/cgi-bin/tag/create";
     JsonObject o = new JsonObject();
     o.addProperty("tagname", tagName);
@@ -383,7 +383,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
   }
 
   @Override
-  public void tagUpdate(WxCpConfig wxcpconfig,String tagId, String tagName) throws WxErrorException {
+  public void tagUpdate(IWxCpConfig wxcpconfig,String tagId, String tagName) throws WxErrorException {
     String url = WxConsts.qyapiurl+"/cgi-bin/tag/update";
     JsonObject o = new JsonObject();
     o.addProperty("tagid", tagId);
@@ -392,13 +392,13 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
   }
 
   @Override
-  public void tagDelete(WxCpConfig wxcpconfig,String tagId) throws WxErrorException {
+  public void tagDelete(IWxCpConfig wxcpconfig,String tagId) throws WxErrorException {
     String url = WxConsts.qyapiurl+"/cgi-bin/tag/delete?tagid=" + tagId;
     get(wxcpconfig,url, null);
   }
 
   @Override
-  public List<WxCpTag> tagGet(WxCpConfig wxcpconfig) throws WxErrorException {
+  public List<WxCpTag> tagGet(IWxCpConfig wxcpconfig) throws WxErrorException {
     String url = WxConsts.qyapiurl+"/cgi-bin/tag/list";
     String responseContent = get(wxcpconfig,url, null);
     JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
@@ -411,7 +411,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
   }
 
   @Override
-  public List<WxCpUser> tagGetUsers(WxCpConfig wxcpconfig,String tagId) throws WxErrorException {
+  public List<WxCpUser> tagGetUsers(IWxCpConfig wxcpconfig,String tagId) throws WxErrorException {
     String url = WxConsts.qyapiurl+"/cgi-bin/tag/get?tagid=" + tagId;
     String responseContent = get(wxcpconfig,url, null);
     JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
@@ -424,7 +424,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
   }
 
   @Override
-  public void tagAddUsers(WxCpConfig wxcpconfig,String tagId, List<String> userIds, List<String> partyIds) throws WxErrorException {
+  public void tagAddUsers(IWxCpConfig wxcpconfig,String tagId, List<String> userIds, List<String> partyIds) throws WxErrorException {
     String url = WxConsts.qyapiurl+"/cgi-bin/tag/addtagusers";
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("tagid", tagId);
@@ -446,7 +446,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
   }
 
   @Override
-  public void tagRemoveUsers(WxCpConfig wxcpconfig,String tagId, List<String> userIds) throws WxErrorException {
+  public void tagRemoveUsers(IWxCpConfig wxcpconfig,String tagId, List<String> userIds) throws WxErrorException {
     String url = WxConsts.qyapiurl+"/cgi-bin/tag/deltagusers";
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("tagid", tagId);
@@ -459,7 +459,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
   }
 
   @Override
-  public String oauth2buildAuthorizationUrl(WxCpConfig wxcpconfig,String state) {
+  public String oauth2buildAuthorizationUrl(IWxCpConfig wxcpconfig,String state) {
     return oauth2buildAuthorizationUrl(wxcpconfig,
       wxcpconfig.getOauth2redirectUri(),
       state
@@ -467,7 +467,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
   }
 
   @Override
-  public String oauth2buildAuthorizationUrl(WxCpConfig wxcpconfig,String redirectUri, String state) {
+  public String oauth2buildAuthorizationUrl(IWxCpConfig wxcpconfig,String redirectUri, String state) {
     String url = WxConsts.mpopenurl+"/connect/oauth2/authorize?";
     url += "appid=" + wxcpconfig.getCorpId();
     url += "&redirect_uri=" + URIUtil.encodeURIComponent(redirectUri);
@@ -481,12 +481,12 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
   }
 
   @Override
-  public String[] oauth2getUserInfo(WxCpConfig wxcpconfig,String code) throws WxErrorException {
+  public String[] oauth2getUserInfo(IWxCpConfig wxcpconfig,String code) throws WxErrorException {
     return oauth2getUserInfo(wxcpconfig,wxcpconfig.getAgentId(), code);
   }
 
   @Override
-  public String[] oauth2getUserInfo(WxCpConfig wxcpconfig,Integer agentId, String code) throws WxErrorException {
+  public String[] oauth2getUserInfo(IWxCpConfig wxcpconfig,Integer agentId, String code) throws WxErrorException {
     String url = WxConsts.qyapiurl+"/cgi-bin/user/getuserinfo?"
       + "code=" + code
       + "&agentid=" + agentId;
@@ -497,7 +497,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
   }
 
   @Override
-  public int invite(WxCpConfig wxcpconfig,String userId, String inviteTips) throws WxErrorException {
+  public int invite(IWxCpConfig wxcpconfig,String userId, String inviteTips) throws WxErrorException {
     String url = WxConsts.qyapiurl+"/cgi-bin/invite/send";
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("userid", userId);
@@ -510,7 +510,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
   }
 
   @Override
-  public String[] getCallbackIp(WxCpConfig wxcpconfig) throws WxErrorException {
+  public String[] getCallbackIp(IWxCpConfig wxcpconfig) throws WxErrorException {
     String url = WxConsts.qyapiurl+"/cgi-bin/getcallbackip";
     String responseContent = get(wxcpconfig,url, null);
     JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
@@ -523,12 +523,12 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
   }
 
   @Override
-  public String get(WxCpConfig wxcpconfig,String url, String queryParam) throws WxErrorException {
+  public String get(IWxCpConfig wxcpconfig,String url, String queryParam) throws WxErrorException {
     return execute(wxcpconfig,new SimpleGetRequestExecutor(), url, queryParam);
   }
 
   @Override
-  public String post(WxCpConfig wxcpconfig,String url, String postData) throws WxErrorException {
+  public String post(IWxCpConfig wxcpconfig,String url, String postData) throws WxErrorException {
     return execute(wxcpconfig,new SimplePostRequestExecutor(), url, postData);
   }
 
@@ -536,7 +536,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
    * 向微信端发送请求，在这里执行的策略是当发生access_token过期时才去刷新，然后重新执行请求，而不是全局定时请求
    */
   @Override
-  public <T, E> T execute(WxCpConfig wxcpconfig,RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
+  public <T, E> T execute(IWxCpConfig wxcpconfig,RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
 	int retrySleepMillis = 1000;
 	int maxRetryTimes = 5;
 	
@@ -568,7 +568,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
     throw new RuntimeException("微信服务端异常，超出重试次数");
   }
 
-  protected synchronized <T, E> T executeInternal(WxCpConfig wxcpconfig,RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
+  protected synchronized <T, E> T executeInternal(IWxCpConfig wxcpconfig,RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException {
     if (uri.contains("access_token=")) {
       throw new IllegalArgumentException("uri参数中不允许有access_token: " + uri);
     }
@@ -605,7 +605,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
   }
   
   @Override
-  public String syncUser(WxCpConfig wxcpconfig,String mediaId, Map<String, String> callBack) throws WxErrorException {
+  public String syncUser(IWxCpConfig wxcpconfig,String mediaId, Map<String, String> callBack) throws WxErrorException {
   	String url = WxConsts.qyapiurl+"/cgi-bin/batch/syncuser";
   	JsonObject jsonObject = new JsonObject();
   	jsonObject.addProperty("media_id", mediaId);
@@ -614,7 +614,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
   }
 
   @Override
-  public String replaceParty(WxCpConfig wxcpconfig,String mediaId) throws WxErrorException {
+  public String replaceParty(IWxCpConfig wxcpconfig,String mediaId) throws WxErrorException {
     String url = WxConsts.qyapiurl+"/cgi-bin/batch/replaceparty";
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("media_id", mediaId);
@@ -622,7 +622,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
   }
 
   @Override
-  public String replaceUser(WxCpConfig wxcpconfig,String mediaId) throws WxErrorException {
+  public String replaceUser(IWxCpConfig wxcpconfig,String mediaId) throws WxErrorException {
     String url = WxConsts.qyapiurl+"/cgi-bin/batch/replaceuser";
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("media_id", mediaId);
@@ -630,7 +630,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
   }
 
   @Override
-  public String getTaskResult(WxCpConfig wxcpconfig,String joinId) throws WxErrorException {
+  public String getTaskResult(IWxCpConfig wxcpconfig,String joinId) throws WxErrorException {
     String url = WxConsts.qyapiurl+"/cgi-bin/batch/getresult?jobid=" + joinId;
     return get(wxcpconfig,url, null);
   }
