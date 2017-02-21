@@ -4,10 +4,7 @@ import java.text.Format;
 import java.util.Date;
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.apache.commons.lang3.time.FastDateFormat;
-import org.springframework.stereotype.Service;
 import org.springrain.weixin.sdk.common.api.IWxMpConfig;
 import org.springrain.weixin.sdk.common.api.WxConsts;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
@@ -26,7 +23,6 @@ import com.google.gson.JsonObject;
  *  Created by springrain on 2017/1/8.
  * @author springrain (http://git.oschina.net/chunanyong/springrain)
  */
-@Service("wxMpDataCubeService")
 public class WxMpDataCubeServiceImpl implements IWxMpDataCubeService {
   private static final String API_URL_PREFIX = WxConsts.mpapiurl+"/datacube";
 
@@ -34,7 +30,6 @@ public class WxMpDataCubeServiceImpl implements IWxMpDataCubeService {
 
   
   //生产环境应该是spring bean
-  @Resource
   private IWxMpService wxMpService;
   //private WxMpService wxMpService=new WxMpServiceImpl();
 

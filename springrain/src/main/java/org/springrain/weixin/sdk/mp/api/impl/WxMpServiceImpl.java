@@ -4,14 +4,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
 import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.weixin.sdk.common.api.IWxMpConfig;
 import org.springrain.weixin.sdk.common.api.IWxMpConfigService;
@@ -46,7 +43,6 @@ import com.google.gson.JsonParser;
 
 
 
-@Service("wxMpService")
 public class WxMpServiceImpl implements IWxMpService {
 
   private static final JsonParser JSON_PARSER = new JsonParser();
@@ -54,8 +50,7 @@ public class WxMpServiceImpl implements IWxMpService {
   protected final Logger logger = LoggerFactory.getLogger(getClass());
   
   //生产环境应该是spring注入
-  @Resource
-   private IWxMpConfigService wxMpConfigService;
+  private IWxMpConfigService wxMpConfigService;
   
   public WxMpServiceImpl(){
 	  

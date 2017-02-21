@@ -3,9 +3,6 @@ package org.springrain.weixin.sdk.mp.api.impl;
 import java.io.File;
 import java.util.Date;
 
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Service;
 import org.springrain.weixin.sdk.common.api.IWxMpConfig;
 import org.springrain.weixin.sdk.common.api.WxConsts;
 import org.springrain.weixin.sdk.common.bean.result.WxError;
@@ -31,14 +28,12 @@ import com.google.gson.JsonObject;
  * @author springrain
  *
  */
-@Service("wxMpKefuService")
 public class WxMpKefuServiceImpl implements IWxMpKefuService {
 //	 private final Logger log = LoggerFactory.getLogger(getClass());
   private static final String API_URL_PREFIX = WxConsts.mpapiurl+"/customservice";
   private static final String API_URL_PREFIX_WITH_CGI_BIN = WxConsts.mpapiurl+"/cgi-bin/customservice";
   
   //生产环境应该是spring注入
-  @Resource
   private IWxMpService wxMpService;
 
   public WxMpKefuServiceImpl() {

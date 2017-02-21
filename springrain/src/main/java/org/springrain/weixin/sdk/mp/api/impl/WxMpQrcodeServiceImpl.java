@@ -5,9 +5,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Service;
 import org.springrain.weixin.sdk.common.api.IWxMpConfig;
 import org.springrain.weixin.sdk.common.api.WxConsts;
 import org.springrain.weixin.sdk.common.bean.result.WxError;
@@ -24,11 +21,9 @@ import com.google.gson.JsonObject;
  * Created by springrain on 2017/1/8.
  */
 
-@Service("wxMpQrcodeService")
 public class WxMpQrcodeServiceImpl implements IWxMpQrcodeService {
   private static final String API_URL_PREFIX = WxConsts.mpapiurl+"/cgi-bin/qrcode";
  
-  @Resource
   private IWxMpService wxMpService;
 
   public WxMpQrcodeServiceImpl() {

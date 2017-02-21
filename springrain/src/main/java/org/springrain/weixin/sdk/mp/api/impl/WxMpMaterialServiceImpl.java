@@ -7,11 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.annotation.Resource;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
 import org.springrain.weixin.sdk.common.api.IWxMpConfig;
 import org.springrain.weixin.sdk.common.api.WxConsts;
 import org.springrain.weixin.sdk.common.bean.result.WxError;
@@ -45,7 +42,6 @@ import org.springrain.weixin.sdk.mp.util.json.WxMpGsonBuilder;
  */
 
 
-@Service("wxMpMaterialService")
 public class WxMpMaterialServiceImpl implements IWxMpMaterialService {
 	private   Logger logger = LoggerFactory.getLogger(getClass());
 	
@@ -53,7 +49,6 @@ public class WxMpMaterialServiceImpl implements IWxMpMaterialService {
   private static final String MEDIA_API_URL_PREFIX = WxConsts.mpapiurl+"/cgi-bin/media";
   private static final String MATERIAL_API_URL_PREFIX = WxConsts.mpapiurl+"/cgi-bin/material";
   
-  @Resource
   private IWxMpService wxMpService;
 
   public WxMpMaterialServiceImpl() {

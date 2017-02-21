@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import javax.annotation.Resource;
 import javax.net.ssl.SSLContext;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -29,7 +28,6 @@ import org.apache.http.ssl.SSLContexts;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
 import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.weixin.sdk.common.api.IWxMpConfig;
 import org.springrain.weixin.sdk.common.api.WxConsts;
@@ -68,7 +66,6 @@ import com.thoughtworks.xstream.XStream;
  * @author springrain (http://git.oschina.net/chunanyong/springrain)
  */
 
-@Service("wxMpPayService")
 public class WxMpPayServiceImpl implements IWxMpPayService {
 
   private static final String PAY_BASE_URL = WxConsts.mppaybaseurl;
@@ -77,7 +74,6 @@ public class WxMpPayServiceImpl implements IWxMpPayService {
     "REFUND_SOURCE_UNSETTLED_FUNDS"};
   private final Logger log = LoggerFactory.getLogger(getClass());
   
-  @Resource
   private IWxMpService wxMpService;
 
   public WxMpPayServiceImpl() {

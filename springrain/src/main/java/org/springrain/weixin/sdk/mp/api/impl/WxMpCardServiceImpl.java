@@ -2,11 +2,8 @@ package org.springrain.weixin.sdk.mp.api.impl;
 
 import java.util.Arrays;
 
-import javax.annotation.Resource;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
 import org.springrain.weixin.sdk.common.api.IWxMpConfig;
 import org.springrain.weixin.sdk.common.api.IWxMpConfigService;
 import org.springrain.weixin.sdk.common.api.WxConsts;
@@ -30,15 +27,12 @@ import com.google.gson.reflect.TypeToken;
 /**
  * Created by springrain on 2017/1/8.
  */
-@Service("wxMpCardService")
 public class WxMpCardServiceImpl implements IWxMpCardService {
 
 	 private final Logger log = LoggerFactory.getLogger(getClass());
 
   //生产环境应该是spring注入
-  @Resource
   private IWxMpConfigService wxMpConfigService;
-  @Resource
   private IWxMpService wxMpService;
 
   public WxMpCardServiceImpl() {

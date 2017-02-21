@@ -7,15 +7,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.annotation.Resource;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
 import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.frame.util.JsonUtils;
 import org.springrain.weixin.sdk.common.api.IWxCpConfig;
@@ -51,12 +48,10 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.reflect.TypeToken;
 
 
-@Service("wxCpService")
 public class WxCpServiceImpl implements IWxCpService {
 
 	 private final Logger log = LoggerFactory.getLogger(getClass());
 
-  @Resource
   private IWxCpConfigService wxCpConfigService;
   
   public WxCpServiceImpl(){
