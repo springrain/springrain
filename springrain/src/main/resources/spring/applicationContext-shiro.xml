@@ -118,7 +118,7 @@
 				
 				/system/login = firewall
 				/system/index =firewall,systemuser,framefwlog,keepone
-				/system/logout = firewall,frontuser
+				/system/logout = firewall,systemuser
 				
 			
 				/system/menu/leftMenu=firewall,systemuser,keepone
