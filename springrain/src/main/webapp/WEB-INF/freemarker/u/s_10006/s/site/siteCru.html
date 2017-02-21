@@ -21,15 +21,6 @@
 		 springrain.initValid(null,function(){window.location.href="${ctx}/system/cms/site/list?springraintoken="+springraintoken});
 		
 		
-		 jQuery.post("${ctx}/system/org/list/json",function(_json) {
-			if (_json.status == "success") {
-				orgjsondata4select = _json;
-			} else {
-				myalert(_json.message);
-			}
-		});
-		 
-		 
 		 
 		 var uploader = WebUploader.create({
 		 	auto:true,

@@ -1,4 +1,4 @@
-package  org.springrain.cms.web;
+package  org.springrain.front;
 
 import java.io.File;
 import java.util.Arrays;
@@ -13,8 +13,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springrain.cms.entity.CmsPraise;
-import org.springrain.cms.service.ICmsPraiseService;
+import org.springrain.cms.entity.CmsComment;
+import org.springrain.cms.service.ICmsCommentService;
+import org.springrain.cms.utils.SensitiveWordUtils;
 import org.springrain.frame.controller.BaseController;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.Page;
@@ -26,16 +27,16 @@ import org.springrain.frame.util.property.MessageUtils;
  * TODO 在此加入类描述
  * @copyright {@link weicms.net}
  * @author springrain<Auto generate>
- * @version  2017-02-15 15:02:34
- * @see org.springrain.cms.base.web.CmsPraise
+ * @version  2017-02-21 16:32:10
+ * @see org.springrain.cms.base.web.CmsComment
  */
 @Controller
-@RequestMapping(value="/system/cms/praise")
-public class CmsPraiseController  extends BaseController {
+@RequestMapping(value="/f/{siteType}/{siteId}/comment")
+public class CmsCommentController  extends BaseController {
 	@Resource
-	private ICmsPraiseService cmsPraiseService;
+	private ICmsCommentService cmsCommentService;
 	
-	private String listurl="/base/cmspraise/cmspraiseList";
+	private String listurl="/base/cmscomment/cmscommentList";
 	
 	
 	   
@@ -44,14 +45,14 @@ public class CmsPraiseController  extends BaseController {
 	 * 
 	 * @param request
 	 * @param model
-	 * @param cmsPraise
+	 * @param cmsComment
 	 * @return
 	 * @throws Exception
 	 */
 	@RequestMapping("/list")
-	public String list(HttpServletRequest request, Model model,CmsPraise cmsPraise) 
+	public String list(HttpServletRequest request, Model model,CmsComment cmsComment) 
 			throws Exception {
-		ReturnDatas returnObject = listjson(request, model, cmsPraise);
+		ReturnDatas returnObject = listjson(request, model, cmsComment);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
 		return listurl;
 	}
@@ -61,31 +62,31 @@ public class CmsPraiseController  extends BaseController {
 	 * 
 	 * @param request
 	 * @param model
-	 * @param cmsPraise
+	 * @param cmsComment
 	 * @return
 	 * @throws Exception
 	 */
 	@RequestMapping("/list/json")
 	public @ResponseBody
-	ReturnDatas listjson(HttpServletRequest request, Model model,CmsPraise cmsPraise) throws Exception{
+	ReturnDatas listjson(HttpServletRequest request, Model model,CmsComment cmsComment) throws Exception{
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		// ==构造分页请求
 		Page page = newPage(request);
 		// ==执行分页查询
-		List<CmsPraise> datas=cmsPraiseService.findListDataByFinder(null,page,CmsPraise.class,cmsPraise);
-			returnObject.setQueryBean(cmsPraise);
+		List<CmsComment> datas=cmsCommentService.findListDataByFinder(null,page,CmsComment.class,cmsComment);
+			returnObject.setQueryBean(cmsComment);
 		returnObject.setPage(page);
 		returnObject.setData(datas);
 		return returnObject;
 	}
 	
 	@RequestMapping("/list/export")
-	public void listexport(HttpServletRequest request,HttpServletResponse response, Model model,CmsPraise cmsPraise) throws Exception{
+	public void listexport(HttpServletRequest request,HttpServletResponse response, Model model,CmsComment cmsComment) throws Exception{
 		// ==构造分页请求
 		Page page = newPage(request);
 	
-		File file = cmsPraiseService.findDataExportExcel(null,listurl, page,CmsPraise.class,cmsPraise);
-		String fileName="cmsPraise"+GlobalStatic.excelext;
+		File file = cmsCommentService.findDataExportExcel(null,listurl, page,CmsComment.class,cmsComment);
+		String fileName="cmsComment"+GlobalStatic.excelext;
 		downFile(response, file, fileName,true);
 		return;
 	}
@@ -97,7 +98,7 @@ public class CmsPraiseController  extends BaseController {
 	public String look(Model model,HttpServletRequest request,HttpServletResponse response)  throws Exception {
 		ReturnDatas returnObject = lookjson(model, request, response);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
-		return "/base/cmspraise/cmspraiseLook";
+		return "/base/cmscomment/cmscommentLook";
 	}
 
 	
@@ -110,8 +111,8 @@ public class CmsPraiseController  extends BaseController {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		java.lang.String id=request.getParameter("id");
 		if(StringUtils.isNotBlank(id)){
-		  CmsPraise cmsPraise = cmsPraiseService.findCmsPraiseById(id);
-		   returnObject.setData(cmsPraise);
+		  CmsComment cmsComment = cmsCommentService.findCmsCommentById(id);
+		   returnObject.setData(cmsComment);
 		}else{
 		returnObject.setStatus(ReturnDatas.ERROR);
 		}
@@ -126,17 +127,18 @@ public class CmsPraiseController  extends BaseController {
 	 */
 	@RequestMapping("/update")
 	public @ResponseBody
-	ReturnDatas saveorupdate(Model model,CmsPraise cmsPraise,HttpServletRequest request,HttpServletResponse response) throws Exception{
+	ReturnDatas saveorupdate(Model model,CmsComment cmsComment,HttpServletRequest request,HttpServletResponse response) throws Exception{
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		returnObject.setMessage(MessageUtils.UPDATE_SUCCESS);
 		try {
 		
-			java.lang.String id =cmsPraise.getId();
+			java.lang.String id =cmsComment.getId();
 			if(StringUtils.isBlank(id)){
-			  cmsPraise.setId(null);
+			  cmsComment.setId(null);
 			}
-		
-			cmsPraiseService.saveorupdate(cmsPraise);
+			String filePath = GlobalStatic.rootdir+"upload/sensitiveWords.txt";
+			cmsComment.setContent(SensitiveWordUtils.validateBanWords(cmsComment.getContent(), filePath));
+			cmsCommentService.saveorupdate(cmsComment);
 			
 		} catch (Exception e) {
 			String errorMessage = e.getLocalizedMessage();
@@ -155,7 +157,7 @@ public class CmsPraiseController  extends BaseController {
 	public String updatepre(Model model,HttpServletRequest request,HttpServletResponse response)  throws Exception{
 		ReturnDatas returnObject = lookjson(model, request, response);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
-		return "/base/cmspraise/cmspraiseCru";
+		return "/base/cmscomment/cmscommentCru";
 	}
 	
 	/**
@@ -168,7 +170,7 @@ public class CmsPraiseController  extends BaseController {
 		try {
 		java.lang.String id=request.getParameter("id");
 		if(StringUtils.isNotBlank(id)){
-				cmsPraiseService.deleteById(id,CmsPraise.class);
+				cmsCommentService.deleteById(id,CmsComment.class);
 				return new ReturnDatas(ReturnDatas.SUCCESS,
 						MessageUtils.DELETE_SUCCESS);
 			} else {
@@ -200,7 +202,7 @@ public class CmsPraiseController  extends BaseController {
 		}
 		try {
 			List<String> ids = Arrays.asList(rs);
-			cmsPraiseService.deleteByIds(ids,CmsPraise.class);
+			cmsCommentService.deleteByIds(ids,CmsComment.class);
 		} catch (Exception e) {
 			return new ReturnDatas(ReturnDatas.ERROR,
 					MessageUtils.DELETE_ALL_FAIL);
