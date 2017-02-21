@@ -115,13 +115,17 @@
 				/s/*/index = firewall,siteuser,keepone
 				/s/*/logout = firewall,siteuser
 				/s/*/menu/leftMenu=firewall,siteuser,keepone
+				/s/**=firewall,siteuser,keepone,frameperms
+				
 				
 				/system/login = firewall
 				/system/index =firewall,systemuser,framefwlog,keepone
 				/system/logout = firewall,systemuser
+				/system/menu/leftMenu=firewall,systemuser,keepone
+				/system/** = firewall,systemuser,keepone,frameperms
 				
 			
-				/system/menu/leftMenu=firewall,systemuser,keepone
+				
 				/** = firewall,user,keepone,frameperms
 			</value>
 		</property>
