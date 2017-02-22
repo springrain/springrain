@@ -121,7 +121,7 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 	    //保存 相应的站长管理后台list列表 link 链接
 	    cmsLink.setId(null);
 	    cmsLink.setModelType(4);
-	    _index="/s/"+siteId+"/"+id+"/list";
+	    _index="/s/"+siteId+"/"+id+"/content/list";
 	    cmsLink.setDefaultLink(_index);
 	    cmsLink.setLink(_index);
 	    cmsLink.setFtlfile(cmsChannel.getFtlListPath());
@@ -129,7 +129,7 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 	    //保存 相应的站长管理后台update link 链接
 	    cmsLink.setId(null);
 	    cmsLink.setModelType(4);
-	    _index = "/s/"+siteId+"/"+id+"/update/pre";
+	    _index = "/s/"+siteId+"/"+id+"/content/update/pre";
 	    cmsLink.setDefaultLink(_index);
 	    cmsLink.setLink(_index);
 	    cmsLink.setFtlfile(cmsChannel.getFtlUpdatePath());
@@ -137,7 +137,7 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 	    //保存 相应的站长管理后台look link 链接
 	    cmsLink.setId(null);
 	    cmsLink.setModelType(4);
-	    _index = "/s/"+siteId+"/"+id+"/look";
+	    _index = "/s/"+siteId+"/"+id+"/content/look";
 	    cmsLink.setDefaultLink(_index);
 	    cmsLink.setLink(_index);
 	    cmsLink.setFtlfile(cmsChannel.getFtlLookPath());
