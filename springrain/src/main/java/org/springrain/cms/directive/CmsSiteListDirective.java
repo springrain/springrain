@@ -1,7 +1,6 @@
 package org.springrain.cms.directive;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -34,8 +33,9 @@ public class CmsSiteListDirective extends AbstractCMSDirective {
 	public void execute(Environment env, Map params, TemplateModel[] loopVars,
 			TemplateDirectiveBody body) throws TemplateException, IOException {
 		
-		List<CmsSite> siteList = (List<CmsSite>) getDirectiveData();
-		if(siteList == null){
+		
+		List<CmsSite> siteList = null;
+	
 			StringModel stringModel = (StringModel) params.get("page");
 			Page page = (Page) stringModel.getAdaptedObject(Page.class);
 			
@@ -45,11 +45,10 @@ public class CmsSiteListDirective extends AbstractCMSDirective {
 				siteList = cmsSiteService.findListDataByFinder(null, page, CmsSite.class, cmsSite);
 			} catch (Exception e) {
 				logger.error(e.getMessage(),e);
-				siteList = new ArrayList<>();
+				
 			}
-			setDirectiveData(siteList);
 			
-		}
+			
 		env.setVariable("siteList", DirectiveUtils.wrap(siteList));
 		if (body != null) { 
 			body.render(env.getOut());  

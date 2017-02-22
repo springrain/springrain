@@ -30,15 +30,19 @@ public class CmsSiteDirective extends AbstractCMSDirective {
 	public void execute(Environment env, Map params, TemplateModel[] loopVars,
 			TemplateDirectiveBody body) throws TemplateException, IOException {
 		
-		CmsSite site = (CmsSite) getDirectiveData();
+		String siteId=DirectiveUtils.getString("id", params);
+		
+		String cacheKey=TPL_NAME+"_cache_key_"+siteId;
+		
+		
+		CmsSite site = (CmsSite) getDirectiveData(cacheKey);
 		if(site == null){
 			try {
-				String siteId = DirectiveUtils.getString("id", params);
 				site = cmsSiteService.findCmsSiteById(siteId);
 			} catch (Exception e) {
 				site = new CmsSite();
 			}
-			setDirectiveData(site);
+			setDirectiveData(cacheKey,site);
 		}
 		
 		env.setVariable("site", DirectiveUtils.wrap(site));
