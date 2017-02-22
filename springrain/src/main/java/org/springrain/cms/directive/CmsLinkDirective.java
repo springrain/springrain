@@ -24,7 +24,7 @@ public class CmsLinkDirective extends AbstractCMSDirective {
 	private ICmsLinkService cmsLinkService;
 	private static final String TPL_NAME = "cms_link";
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({ "rawtypes" })
 	@Override
 	public void execute(Environment env, Map params, TemplateModel[] loopVars,
 			TemplateDirectiveBody body) throws TemplateException, IOException {

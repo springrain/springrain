@@ -28,7 +28,7 @@ public class CmsSiteListDirective extends AbstractCMSDirective {
 	
 	private static final String TPL_NAME = "cms_site_list";
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({ "rawtypes" })
 	@Override
 	public void execute(Environment env, Map params, TemplateModel[] loopVars,
 			TemplateDirectiveBody body) throws TemplateException, IOException {

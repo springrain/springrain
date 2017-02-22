@@ -1,5 +1,5 @@
-<#ftl output_format="HTML" auto_esc=true>  <@h.siteCommonHead title="后台管理系统" keywords="开源,永久免费"
-description="springrain开源系统管理后台"/>
+<#ftl output_format="HTML" auto_esc=true>  
+<@h.siteCommonHead title="后台管理系统" keywords="开源,永久免费" description="springrain开源系统管理后台"/>
 
 <script src="${ctx}/js/validform/validform.min.js"></script>
 
@@ -13,7 +13,7 @@ description="springrain开源系统管理后台"/>
 		 @_before:提交表单前，调用 的函数   可以为空，一般有validform处理不了，独自进行处理时使用
 		 @_after:保存成功后，调用的函数  可以为空，一般为对应的列表页面
 		 */
-		 springrain.initValid(null,function(){window.location.href="${ctx}/system/cms/wxconfig/list?springraintoken="+springraintoken});
+		 springrain.initValid(null,function(){window.location.href="${ctx}/s/${siteId!}/${businessId!}/mp/list?springraintoken="+springraintoken});
 	 });
 </script>
 </head>
@@ -43,90 +43,86 @@ description="springrain开源系统管理后台"/>
 								<span>添加微信服务号配置信息</span>
 							</header>
 							<div class="larry-personal-body clearfix changepwd">
-								<form id="validForm" class="layui-form <!--  -->" method="post"
-									action="${ctx}/system/cms/wxconfig/update">
-									<input type="hidden" id="id" name="id"
-										value="${(returnDatas.data.id)!''}" />
-									<div class="layui-form-item col-lg-6">
-										<label class="layui-form-label">站点*</label>
-										<div class="layui-inline col-lg-5">
-											 <select name="siteId" id="siteId" lay-verify="required">
-										        <#if (returnDatas.map.siteList)?? && (returnDatas.map.siteList?size>0)>
-										        	<#list returnDatas.map.siteList as site>
-										        		<option value="${site.id}">${site.name}</option>
-										        	</#list>
-										        <#else>
-										        	<option value=""></option>
-										        </#if>
-										      </select>
+								<@cms_site_wxconfig id=id>
+									<form id="validForm" class="layui-form <!--  -->" method="post"
+									action="${ctx}/s/${siteId!}/${businessId!}/mp/update">
+										<input type="hidden" name="siteId"
+											value="${siteId!}" />
+										<input type="hidden" id="id" name="id"
+											value="${id!}" />
+										<div class="layui-form-item col-lg-6">
+											<label class="layui-form-label">appId*</label>
+											<div class="layui-inline col-lg-5">
+												<input type="text" name="appId" id="appId" datatype="*"
+													nullmsg="不能为空" errormsg="不能为空！" autocomplete="off"
+													class="layui-input" value="${(config.appId)!''}">
+											</div>
+											<div class="layui-inline valid-info"></div>
 										</div>
-										<div class="layui-inline valid-info"></div>
-									</div>
-									<div class="layui-form-item col-lg-6">
-										<label class="layui-form-label">appId*</label>
-										<div class="layui-inline col-lg-5">
-											<input type="text" name="appId" id="appId" datatype="*"
-												nullmsg="不能为空" errormsg="不能为空！" autocomplete="off"
-												class="layui-input" value="${(returnDatas.data.appId)!''}">
+										<div class="layui-form-item col-lg-6">
+											<label class="layui-form-label">appSecret*</label>
+											<div class="layui-inline col-lg-5">
+												<input type="text" name="appSecret" id="appSecret"
+													datatype="*" nullmsg="不能为空" errormsg="不能为空！"
+													autocomplete="off" class="layui-input"
+													value="${(config.appSecret)!''}">
+											</div>
+											<div class="layui-inline valid-info"></div>
 										</div>
-										<div class="layui-inline valid-info"></div>
-									</div>
-									<div class="layui-form-item col-lg-6">
-										<label class="layui-form-label">appSecret*</label>
-										<div class="layui-inline col-lg-5">
-											<input type="text" name="appSecret" id="appSecret"
-												datatype="*" nullmsg="不能为空" errormsg="不能为空！"
-												autocomplete="off" class="layui-input"
-												value="${(returnDatas.data.appSecret)!''}">
+										<div class="layui-form-item col-lg-6">
+											<label class="layui-form-label">token*</label>
+											<div class="layui-inline col-lg-5">
+												<input type="text" name="token" id="token" datatype="*"
+													nullmsg="不能为空" errormsg="不能为空！" autocomplete="off"
+													class="layui-input" value="${(config.token)!''}">
+											</div>
+											<div class="layui-inline valid-info"></div>
 										</div>
-										<div class="layui-inline valid-info"></div>
-									</div>
-									<div class="layui-form-item col-lg-6">
-										<label class="layui-form-label">token*</label>
-										<div class="layui-inline col-lg-5">
-											<input type="text" name="token" id="token" datatype="*"
-												nullmsg="不能为空" errormsg="不能为空！" autocomplete="off"
-												class="layui-input" value="${(returnDatas.data.token)!''}">
+										<div class="layui-form-item col-lg-6">
+											<label class="layui-form-label">EncodingAESKey</label>
+											<div class="layui-inline col-lg-5">
+												<input type="text" name="encodingAESKey" id="encodingAESKey"
+													autocomplete="off" class="layui-input"
+													value="${(config.encodingAESKey)!''}">
+											</div>
+											<div class="layui-inline valid-info"></div>
 										</div>
-										<div class="layui-inline valid-info"></div>
-									</div>
-									<div class="layui-form-item col-lg-6">
-										<label class="layui-form-label">EncodingAESKey</label>
-										<div class="layui-inline col-lg-5">
-											<input type="text" name="encodingAESKey" id="encodingAESKey"
-												autocomplete="off" class="layui-input"
-												value="${(returnDatas.data.encodingAESKey)!''}">
+										<div class="layui-form-item col-lg-6">
+											<label class="layui-form-label">公众号ID*</label>
+											<div class="layui-inline col-lg-5">
+												<input type="text" name="wxId" id="wxId" datatype="*"
+													nullmsg="不能为空" errormsg="不能为空！" autocomplete="off"
+													class="layui-input" value="${(config.wxId)!''}">
+											</div>
+											<div class="layui-inline valid-info"></div>
 										</div>
-										<div class="layui-inline valid-info"></div>
-									</div>
-									<div class="layui-form-item col-lg-6">
-										<label class="layui-form-label">公众号ID*</label>
-										<div class="layui-inline col-lg-5">
-											<input type="text" name="wxId" id="wxId" datatype="*"
-												nullmsg="不能为空" errormsg="不能为空！" autocomplete="off"
-												class="layui-input" value="${(returnDatas.data.wxId)!''}">
+										<div class="layui-form-item col-lg-6">
+											<label class="layui-form-label">状态*</label>
+											<div class="layui-inline col-lg-5">
+												<select name="active" id="active" lay-verify="required">
+													<#if (config.active)?? && (config.active==0)>
+														<option value="1">可用</option>
+														<option value="0" selected="selected">不可用</option>
+													<#else>
+														<option value="1" selected="selected">可用</option>
+														<option value="0">不可用</option>
+													</#if>
+													
+												</select>
+											</div>
+											<div class="layui-inline valid-info"></div>
 										</div>
-										<div class="layui-inline valid-info"></div>
-									</div>
-									<div class="layui-form-item col-lg-6">
-										<label class="layui-form-label">状态*</label>
-										<div class="layui-inline col-lg-5">
-											<select name="active" id="active" lay-verify="required">
-												<option value="1">是</option>
-												<option value="0">否</option>
-											</select>
+										<div class="layui-form-item change-submit">
+											<label class="layui-form-label"></label>
+											<div class="layui-inline">
+												<button type="button" class="layui-btn" id="smtbtn">保存</button>
+												<button type="button" class="layui-btn layui-btn-primary"
+													id="rstbtn">重置</button>
+											</div>
 										</div>
-										<div class="layui-inline valid-info"></div>
-									</div>
-									<div class="layui-form-item change-submit">
-										<label class="layui-form-label"></label>
-										<div class="layui-inline">
-											<button type="button" class="layui-btn" id="smtbtn">保存</button>
-											<button type="button" class="layui-btn layui-btn-primary"
-												id="rstbtn">重置</button>
-										</div>
-									</div>
-								</form>
+									</form>
+								</@cms_site_wxconfig>
+								
 							</div>
 						</div>
 					</div>

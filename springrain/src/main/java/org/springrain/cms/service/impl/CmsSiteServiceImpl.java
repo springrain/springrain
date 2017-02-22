@@ -16,9 +16,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springrain.cms.entity.CmsAttachment;
 import org.springrain.cms.entity.CmsLink;
 import org.springrain.cms.entity.CmsSite;
+import org.springrain.cms.entity.CmsSiteWxconfig;
 import org.springrain.cms.service.ICmsAttachmentService;
 import org.springrain.cms.service.ICmsLinkService;
 import org.springrain.cms.service.ICmsSiteService;
+import org.springrain.cms.service.ICmsSiteWxconfigService;
 import org.springrain.frame.common.SessionUser;
 import org.springrain.frame.util.Enumerations.SiteType;
 import org.springrain.frame.util.Enumerations.UserOrgType;
@@ -58,6 +60,8 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 	private IUserOrgService userOrgService;
 	@Resource
 	private ICmsAttachmentService cmsAttachmentService;
+	@Resource
+	private ICmsSiteWxconfigService cmsSiteWxconfigService;
 	
 	@Override
 	public Object saveorupdate(Object entity) throws Exception {
@@ -99,9 +103,6 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
     	if(cmsSite==null){
     		return null;
     	}
-	    
-    	
-    	
     	
 	    String id= tableindexService.updateNewId(CmsSite.class);
 	    if(StringUtils.isEmpty(id)){
@@ -111,10 +112,16 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 	    //cmsSite.setOrgId(orgId);
 	    super.save(cmsSite);
 	    
-
+	    //如果是企业号或服务号，新建配置信息
+	    Integer siteType = cmsSite.getSiteType();
+	    if(SiteType.cp.getType()==siteType.intValue() || SiteType.mp.getType() == siteType.intValue()){
+	    	CmsSiteWxconfig config = new CmsSiteWxconfig(SecUtils.getUUID());
+	    	config.setActive(1);
+	    	config.setSiteId(id);
+	    	cmsSiteWxconfigService.save(config);
+	    }
 	    
 	    //保存 相应的前台 link 链接
-	    
 	    CmsLink cmsLink=new CmsLink();
 	    cmsLink.setBusinessId(id);
 	    cmsLink.setSiteId(id);

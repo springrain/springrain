@@ -1,5 +1,7 @@
 package org.springrain.cms.service;
 
+import java.util.List;
+
 import org.springrain.cms.entity.CmsSiteWxconfig;
 import org.springrain.system.service.IBaseSpringrainService;
 /**
@@ -18,7 +20,12 @@ public interface ICmsSiteWxconfigService extends IBaseSpringrainService {
 	 * @throws Exception
 	 */
 	CmsSiteWxconfig findCmsSiteWxconfigById(Object id) throws Exception;
-	
-	
-	
+
+	/**
+	 * 根据用户id查找用户权限可查看的微信配置
+	 * @param userId
+	 * @return
+	 * @throws Exception 
+	 */
+	List<CmsSiteWxconfig> findWxconfigByUserId(String userId) throws Exception;
 }

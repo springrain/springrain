@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springrain.cms.entity.CmsSite;
 import org.springrain.cms.entity.CmsSiteWxconfig;
+import org.springrain.cms.service.ICmsSiteService;
 import org.springrain.cms.service.ICmsSiteWxconfigService;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.Page;
@@ -23,6 +24,8 @@ import org.springrain.frame.util.property.MessageUtils;
 public class SiteWxconfigController extends SiteBaseController {
 	@Resource
 	private ICmsSiteWxconfigService cmsSiteWxconfigService;
+	@Resource
+	private ICmsSiteService cmsSiteService;
 
 	/**
 	 * 列表数据,调用listjson方法,保证和app端数据统一
@@ -49,6 +52,8 @@ public class SiteWxconfigController extends SiteBaseController {
 	 */
 	@RequestMapping(value = "/update/pre")
 	public String updatepre(Model model,HttpServletRequest request,HttpServletResponse response,CmsSiteWxconfig cmsSiteWxconfig,@PathVariable String siteId,@PathVariable String businessId)  throws Exception{
+		String id = request.getParameter("id");
+		model.addAttribute("id", id);
 		return jump(siteId, businessId, "/s/"+siteId+"/"+businessId+"/mp/update/pre", request, model);
 	}
 	
