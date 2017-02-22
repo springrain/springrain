@@ -39,6 +39,7 @@ public class CmsPropertyDirective extends AbstractCMSDirective {
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 		}
+		setDirectiveData(list);
 		env.setVariable("propertyList", DirectiveUtils.wrap(list));
 		if (body != null) {
 			body.render(env.getOut());

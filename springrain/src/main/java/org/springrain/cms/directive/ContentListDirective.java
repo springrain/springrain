@@ -53,6 +53,7 @@ public class ContentListDirective  extends AbstractCMSDirective  {
 		} catch (Exception e) {
 			contentList = new ArrayList<>();
 		}
+		setDirectiveData(contentList);
 		env.setVariable("content_list", DirectiveUtils.wrap(contentList));
 		if (body != null) { 
 			body.render(env.getOut());  

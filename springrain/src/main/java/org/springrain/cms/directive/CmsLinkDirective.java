@@ -38,6 +38,7 @@ public class CmsLinkDirective extends AbstractCMSDirective {
 		} catch (Exception e) {
 			cmsLink = new CmsLink();
 		}
+		setDirectiveData(cmsLink);
 		env.setVariable("cmsLink", DirectiveUtils.wrap(cmsLink));
 		if (body != null) { 
 			body.render(env.getOut());  

@@ -52,6 +52,7 @@ public class ChannelListDirective extends AbstractCMSDirective {
 		} catch (Exception e) {
 			list = new ArrayList<CmsChannel>();
 		}
+		setDirectiveData(list);
 		env.setVariable("channel_list", DirectiveUtils.wrap(list));
 		if (body != null) { 
 			body.render(env.getOut());  

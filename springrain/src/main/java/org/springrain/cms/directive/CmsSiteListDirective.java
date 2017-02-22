@@ -44,6 +44,7 @@ public class CmsSiteListDirective extends AbstractCMSDirective {
 		} catch (Exception e) {
 			logger.error(e.getMessage(),e);
 		}
+		setDirectiveData(siteList);
 		env.setVariable("siteList", DirectiveUtils.wrap(siteList));
 		if (body != null) { 
 			body.render(env.getOut());  

@@ -36,6 +36,7 @@ public class CmsSiteDirective extends AbstractCMSDirective {
 		} catch (Exception e) {
 			site = new CmsSite();
 		}
+		setDirectiveData(site);
 		env.setVariable("site", DirectiveUtils.wrap(site));
 		if (body != null) { 
 			body.render(env.getOut());  
