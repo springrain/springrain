@@ -130,7 +130,10 @@ public class CmsSite  extends BaseEntity {
 	//columns END 数据库字段结束
 	private java.lang.String link;
 	
-	
+	/**
+	 * 附件
+	 */
+	private CmsAttachment attachment;
 	//concstructor
 
 	
@@ -354,7 +357,15 @@ public class CmsSite  extends BaseEntity {
 	public void setLink(java.lang.String link) {
 		this.link = link;
 	}
-	
+	@Transient
+	public CmsAttachment getAttachment() {
+		return attachment;
+	}
+
+	public void setAttachment(CmsAttachment attachment) {
+		this.attachment = attachment;
+	}
+
 	public String toString() {
 		return new StringBuffer()
 			.append("id[").append(getId()).append("],")

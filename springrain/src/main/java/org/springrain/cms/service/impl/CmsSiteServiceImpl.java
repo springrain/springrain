@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springrain.cms.entity.CmsAttachment;
 import org.springrain.cms.entity.CmsLink;
 import org.springrain.cms.entity.CmsSite;
+import org.springrain.cms.service.ICmsAttachmentService;
 import org.springrain.cms.service.ICmsLinkService;
 import org.springrain.cms.service.ICmsSiteService;
 import org.springrain.frame.common.SessionUser;
@@ -55,6 +56,8 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 	private IOrgService orgService;
 	@Resource
 	private IUserOrgService userOrgService;
+	@Resource
+	private ICmsAttachmentService cmsAttachmentService;
 	
 	@Override
 	public Object saveorupdate(Object entity) throws Exception {
@@ -216,24 +219,28 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 	public String updateCmsSite(CmsSite cmsSite) throws Exception {
 		//保存图片附件
 		if(StringUtils.isNotBlank(cmsSite.getLogo())){
-			CmsAttachment attachment = new CmsAttachment(SecUtils.getUUID());
-			attachment.setBusinessId(cmsSite.getId());
-			attachment.setCreateDate(new Date());
+			CmsAttachment attachment = cmsAttachmentService.findCmsAttachmentByBusinessIdAndModleType(cmsSite.getId(),cmsSite.getAttachment().getModelType());
+			if(attachment==null){//没有附件，第一次新增
+				attachment = new CmsAttachment();
+				attachment.setBusinessId(cmsSite.getId());
+				attachment.setCreateDate(new Date());
+				attachment.setLookcount(0);
+				attachment.setSiteId(cmsSite.getId());
+				attachment.setSortno(0);
+				attachment.setActive(1);
+			}
 			attachment.setFileurl(cmsSite.getLogo());
 			attachment.setFilepath(GlobalStatic.rootdir+cmsSite.getLogo());
-			attachment.setLookcount(0);
-			attachment.setModelType(cmsSite.getSiteType());
+			attachment.setModelType(cmsSite.getAttachment().getModelType());
 			
-			attachment.setSiteId(cmsSite.getId());
-			attachment.setSortno(0);
-			attachment.setActive(1);
+			
 			File file = new File(GlobalStatic.rootdir+cmsSite.getLogo());
 			if(file.exists()){
 				String[] fileFullName = StringUtils.split(file.getName(), ".");
 				attachment.setName(fileFullName[0]);
 				attachment.setFilesuffix(fileFullName[1]);
 			}
-			super.save(attachment);
+			super.saveorupdate(attachment);
 		}
 		
 		super.update(cmsSite,true);

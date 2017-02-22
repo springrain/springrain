@@ -27,7 +27,7 @@
 		    // swf文件路径
 		    swf: '${ctx}/js/webuploader/Uploader.swf',
 		    // 文件接收服务端。
-		    server: '${ctx}/cms/attachment/${siteId!''}/logo/upload?springraintoken='+springraintoken,
+		    server: '${ctx}/cms/attachment/${siteId!''}/${businessId!''}/upload?springraintoken='+springraintoken,
 		    // 选择文件的按钮。可选。
 		    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
 		    pick: '#filePicker',
@@ -152,6 +152,7 @@
 											    <div id="fileList" class="uploader-list"></div>
 											    <div id="filePicker" class="">选择图片</div>
 											    <input type="hidden" value="" name="logo">
+											    <input type="hidden" value="4" name="attachment.modelType">
 											</div>
 										</div>
 										<div class="layui-inline valid-info"></div>

@@ -30,4 +30,14 @@ public interface ICmsAttachmentService extends IBaseSpringrainService {
 	 */
 	String uploadFiles(MultipartFile file, String siteId,
 			String businessId) throws Exception;
+
+	/**
+	 * 根据businessId和modletype查找附件
+	 * @param businessId
+	 * @param modelType
+	 * @return
+	 * @throws Exception 
+	 */
+	CmsAttachment findCmsAttachmentByBusinessIdAndModleType(String businessId,
+			Integer modelType) throws Exception;
 }

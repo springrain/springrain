@@ -96,4 +96,12 @@ public class CmsAttachmentServiceImpl extends BaseSpringrainServiceImpl implemen
 		return fileUrl;
 	}
 
+	@Override
+	public CmsAttachment findCmsAttachmentByBusinessIdAndModleType(
+			String businessId, Integer modelType) throws Exception {
+		Finder finder = Finder.getSelectFinder(CmsAttachment.class).append(" where businessId=:businessId and modelType=:modelType");
+		finder.setParam("businessId", businessId).setParam("modelType", modelType);
+		return super.queryForObject(finder, CmsAttachment.class);
+	}
+
 }
