@@ -5,7 +5,7 @@ layui.define(['layer','util'], function(exports){
   ,device = layui.device();
   //阻止IE7以下访问
   if(device.ie && device.ie < 8){
-    layer.alert('最低支持ie8，您当前使用的是古老的 IE'+ device.ie + ',请更新您的浏览器！');
+    layer.alert('最低支持ie8，您当前使用的是IE'+ device.ie + ',请更新您的浏览器！');
   }
 //固定Bar
   util.fixbar({
