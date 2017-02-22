@@ -37,11 +37,17 @@ public class ContentDirective  extends AbstractCMSDirective  {
 	@Override
 	public void execute(Environment env, Map params, TemplateModel[] loopVars,
 			TemplateDirectiveBody body) throws TemplateException, IOException {
-		CmsContent content=(CmsContent) getDirectiveData();
+		
+		
+		String id = DirectiveUtils.getString("id", params);
+		String siteId=getSiteId(params);
+		
+		String cacheKey=TPL_NAME+"_cache_key_"+siteId+"_"+id;
+		
+		CmsContent content=(CmsContent) getDirectiveData(cacheKey);
 		if(content==null){
 			try {
-				String siteId=getSiteId(params);
-				content = cmsContentService.findCmsContentById(getSiteId(params),DirectiveUtils.getString("id", params));
+				content = cmsContentService.findCmsContentById(siteId,id);
 				if(content!=null){
 					Integer commentsNum = cmsCommentService.findCommentsNumByBusinessId(siteId,content.getId());
 					Integer praiseNum = cmsPraiseService.findPraiseNumByBusinessId(siteId,content.getId());
@@ -54,7 +60,7 @@ public class ContentDirective  extends AbstractCMSDirective  {
 				content = null;
 				logger.error(e.getMessage(), e);
 			}
-			setDirectiveData(content);
+			setDirectiveData(cacheKey,content);
 		}
 		
 		env.setVariable("content", DirectiveUtils.wrap(content));

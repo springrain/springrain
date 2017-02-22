@@ -33,16 +33,23 @@ public class CmsPropertyDirective extends AbstractCMSDirective {
 	@Override
 	public void execute(Environment env, Map params, TemplateModel[] loopVars,
 			TemplateDirectiveBody body) throws TemplateException, IOException {
-		List<CmsProperty> list = (List<CmsProperty>) getDirectiveData();
+		
+
+		String businessId = getBusinessId(params);
+		
+		String cacheKey=TPL_NAME+"_cache_key_"+businessId;
+		
+		
+		List<CmsProperty> list = (List<CmsProperty>) getDirectiveData(cacheKey);
 		if(list == null){
 			try {
-				list = cmsPropertyService.findByBusinessId(getBusinessId(params),
+				list = cmsPropertyService.findByBusinessId(businessId,
 						null);
 			} catch (Exception e) {
 				logger.error(e.getMessage(), e);
 				list = new ArrayList<>();
 			}
-			setDirectiveData(list);
+			setDirectiveData(cacheKey,list);
 		}
 		
 		env.setVariable("propertyList", DirectiveUtils.wrap(list));

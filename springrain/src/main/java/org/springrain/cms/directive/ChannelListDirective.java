@@ -43,17 +43,23 @@ public class ChannelListDirective extends AbstractCMSDirective {
 	public void execute(Environment env, Map params, TemplateModel[] loopVars,
 			TemplateDirectiveBody body) throws TemplateException, IOException {
 		
-		List<CmsChannel> list = (List<CmsChannel>) getDirectiveData();
+		String siteId=getSiteId(params);
+		
+		String cacheKey=TPL_NAME+"_cache_key_"+siteId;
+		
+				
+		
+		List<CmsChannel> list = (List<CmsChannel>) getDirectiveData(cacheKey);
 		if(list == null){
 			try {
-				list = cmsChannelService.findTreeByPid(null, getSiteId(params));
+				list = cmsChannelService.findTreeByPid(null, siteId);
 				for (CmsChannel cmsChannel : list) {//栏目内容较少，可以用遍历方式设置链接属性
 					cmsChannel.setLink(cmsLinkService.findLinkBySiteBusinessId(cmsChannel.getSiteId(), cmsChannel.getId()).getLink());
 				}
 			} catch (Exception e) {
 				list = new ArrayList<CmsChannel>();
 			}
-			setDirectiveData(list);
+			setDirectiveData(cacheKey,list);
 		}
 		
 		env.setVariable("channel_list", DirectiveUtils.wrap(list));

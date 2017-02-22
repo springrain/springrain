@@ -36,8 +36,7 @@ public class ContentListDirective  extends AbstractCMSDirective  {
 	@Override
 	public void execute(Environment env, Map params, TemplateModel[] loopVars,
 			TemplateDirectiveBody body) throws TemplateException, IOException {
-		List<CmsContent> contentList = (List<CmsContent>) getDirectiveData();
-		if(contentList == null){
+		List<CmsContent> contentList = null;
 			String type = DirectiveUtils.getString("type", params);
 			int pageIndex = DirectiveUtils.getInt("p", params);
 			Page page = new Page(pageIndex);
@@ -53,8 +52,6 @@ public class ContentListDirective  extends AbstractCMSDirective  {
 			} catch (Exception e) {
 				contentList = new ArrayList<>();
 			}
-			setDirectiveData(contentList);
-		}
 		
 		env.setVariable("content_list", DirectiveUtils.wrap(contentList));
 		if (body != null) { 

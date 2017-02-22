@@ -24,7 +24,6 @@ public abstract class AbstractCMSDirective implements
 		TemplateDirectiveModel {
 	
 	
-	private static final String directiveRequestAttributeKey="directiveRequestAttributeKey";
 	
 	
 	public   Logger logger = LoggerFactory.getLogger(getClass());
@@ -94,12 +93,12 @@ public abstract class AbstractCMSDirective implements
 	}
 	
 	
-	public Object getDirectiveData(){
-		return getRequest().getAttribute(directiveRequestAttributeKey);
+	public Object getDirectiveData(String key){
+		return getRequest().getAttribute(key);
 	}
 	
-	public void setDirectiveData(Object obj){
-		 getRequest().setAttribute(directiveRequestAttributeKey,obj);
+	public void setDirectiveData(String key,Object obj){
+		 getRequest().setAttribute(key,obj);
 	}
 	
 	
