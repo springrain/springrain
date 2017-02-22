@@ -62,8 +62,8 @@
 									<!--start_export-->
 									<table class="layui-table" lay-even>
 										  <colgroup>
-										    <col width="120">
-										    <col width="120">
+										    <col width="140">
+										    <col width="140">
 										    <col>
 										  </colgroup>
 										  <!--end_no_export-->
@@ -93,7 +93,10 @@
 													<tr class="">
 														<td>
 															<@shiro.hasPermission name="/s/${siteId!}/${businessId!}/mp/update" >
-						                           		 	<a href="#" data-action="${ctx}/s/${siteId!}/${businessId!}/mp/update/pre?id=${_data.id!}" class="layui-btn layui-btn-normal layui-btn-mini">修改</a>
+						                           		 		<a href="#" data-action="${ctx}/s/${siteId!}/${businessId!}/mp/update/pre?id=${_data.id!}" class="layui-btn layui-btn-normal layui-btn-mini">修改</a>
+					                            			</@shiro.hasPermission>
+					                            			<@shiro.hasPermission name="/s/${siteId!}/${businessId!}/mp/menu/update" >
+						                           		 		<a href="#" data-action="${ctx}/s/${siteId!}/${businessId!}/mp/menu/update/pre?id=${_data.id!}" class="layui-btn layui-btn-normal layui-btn-mini">修改菜单</a>
 					                            			</@shiro.hasPermission>
 														</td>
 														<!--end_no_export-->

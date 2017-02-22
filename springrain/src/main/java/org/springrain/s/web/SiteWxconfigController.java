@@ -58,6 +58,16 @@ public class SiteWxconfigController extends SiteBaseController {
 	}
 	
 	/**
+	 * 进入修改页面,APP端可以调用 lookjson 获取json格式数据
+	 */
+	@RequestMapping(value = "/menu/update/pre")
+	public String menuUpdatepre(Model model,HttpServletRequest request,HttpServletResponse response,CmsSiteWxconfig cmsSiteWxconfig,@PathVariable String siteId,@PathVariable String businessId)  throws Exception{
+		String id = request.getParameter("id");
+		model.addAttribute("id", id);
+		return jump(siteId, businessId, "/s/"+siteId+"/"+businessId+"/mp/menu/update/pre", request, model);
+	}
+	
+	/**
 	 * 新增/修改 操作吗,返回json格式数据
 	 * 
 	 */

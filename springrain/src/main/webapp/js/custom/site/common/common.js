@@ -67,6 +67,7 @@ function loadMenu(){
 
 function exit(){
 		springrain.confirm("确定退出？", function(){
+			var siteId = locache.get("defaultSiteId");
 			try{
 				locache.flush();
 			}catch(e){}
