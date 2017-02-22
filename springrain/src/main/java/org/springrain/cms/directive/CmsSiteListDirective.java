@@ -29,22 +29,27 @@ public class CmsSiteListDirective extends AbstractCMSDirective {
 	
 	private static final String TPL_NAME = "cms_site_list";
 	
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public void execute(Environment env, Map params, TemplateModel[] loopVars,
 			TemplateDirectiveBody body) throws TemplateException, IOException {
-		StringModel stringModel = (StringModel) params.get("page");
-		Page page = (Page) stringModel.getAdaptedObject(Page.class);
 		
-		stringModel = (StringModel) params.get("queryBean");
-		CmsSite cmsSite = (CmsSite) stringModel.getAdaptedObject(CmsSite.class);
-		List<CmsSite> siteList = new ArrayList<CmsSite>();
-		try {
-			siteList = cmsSiteService.findListDataByFinder(null, page, CmsSite.class, cmsSite);
-		} catch (Exception e) {
-			logger.error(e.getMessage(),e);
+		List<CmsSite> siteList = (List<CmsSite>) getDirectiveData();
+		if(siteList == null){
+			StringModel stringModel = (StringModel) params.get("page");
+			Page page = (Page) stringModel.getAdaptedObject(Page.class);
+			
+			stringModel = (StringModel) params.get("queryBean");
+			CmsSite cmsSite = (CmsSite) stringModel.getAdaptedObject(CmsSite.class);
+			try {
+				siteList = cmsSiteService.findListDataByFinder(null, page, CmsSite.class, cmsSite);
+			} catch (Exception e) {
+				logger.error(e.getMessage(),e);
+				siteList = new ArrayList<>();
+			}
+			setDirectiveData(siteList);
+			
 		}
-		setDirectiveData(siteList);
 		env.setVariable("siteList", DirectiveUtils.wrap(siteList));
 		if (body != null) { 
 			body.render(env.getOut());  

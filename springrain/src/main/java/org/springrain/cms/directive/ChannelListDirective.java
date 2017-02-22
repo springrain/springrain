@@ -39,20 +39,23 @@ public class ChannelListDirective extends AbstractCMSDirective {
 	 */
 	private static final String TPL_NAME = "cms_channel_list";
 
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void execute(Environment env, Map params, TemplateModel[] loopVars,
 			TemplateDirectiveBody body) throws TemplateException, IOException {
 		
-		List<CmsChannel> list;
-		try {
-			list = cmsChannelService.findTreeByPid(null, getSiteId(params));
-			for (CmsChannel cmsChannel : list) {//栏目内容较少，可以用遍历方式设置链接属性
-				cmsChannel.setLink(cmsLinkService.findLinkBySiteBusinessId(cmsChannel.getSiteId(), cmsChannel.getId()).getLink());
+		List<CmsChannel> list = (List<CmsChannel>) getDirectiveData();
+		if(list == null){
+			try {
+				list = cmsChannelService.findTreeByPid(null, getSiteId(params));
+				for (CmsChannel cmsChannel : list) {//栏目内容较少，可以用遍历方式设置链接属性
+					cmsChannel.setLink(cmsLinkService.findLinkBySiteBusinessId(cmsChannel.getSiteId(), cmsChannel.getId()).getLink());
+				}
+			} catch (Exception e) {
+				list = new ArrayList<CmsChannel>();
 			}
-		} catch (Exception e) {
-			list = new ArrayList<CmsChannel>();
+			setDirectiveData(list);
 		}
-		setDirectiveData(list);
+		
 		env.setVariable("channel_list", DirectiveUtils.wrap(list));
 		if (body != null) { 
 			body.render(env.getOut());  

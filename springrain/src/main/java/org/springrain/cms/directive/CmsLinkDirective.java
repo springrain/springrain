@@ -28,17 +28,20 @@ public class CmsLinkDirective extends AbstractCMSDirective {
 	@Override
 	public void execute(Environment env, Map params, TemplateModel[] loopVars,
 			TemplateDirectiveBody body) throws TemplateException, IOException {
-		CmsLink cmsLink;
-		try {
-			String businessId = DirectiveUtils.getString("businessId", params);
-			if(StringUtils.isBlank(businessId)){
-				businessId = getBusinessId(params);
+		CmsLink cmsLink = (CmsLink) getDirectiveData();
+		if(cmsLink == null){
+			try {
+				String businessId = DirectiveUtils.getString("businessId", params);
+				if(StringUtils.isBlank(businessId)){
+					businessId = getBusinessId(params);
+				}
+				cmsLink = cmsLinkService.findLinkBySiteBusinessId(getSiteId(params), businessId);
+			} catch (Exception e) {
+				cmsLink = new CmsLink();
 			}
-			cmsLink = cmsLinkService.findLinkBySiteBusinessId(getSiteId(params), businessId);
-		} catch (Exception e) {
-			cmsLink = new CmsLink();
+			setDirectiveData(cmsLink);
 		}
-		setDirectiveData(cmsLink);
+		
 		env.setVariable("cmsLink", DirectiveUtils.wrap(cmsLink));
 		if (body != null) { 
 			body.render(env.getOut());  

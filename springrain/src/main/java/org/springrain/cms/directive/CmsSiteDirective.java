@@ -29,14 +29,18 @@ public class CmsSiteDirective extends AbstractCMSDirective {
 	@Override
 	public void execute(Environment env, Map params, TemplateModel[] loopVars,
 			TemplateDirectiveBody body) throws TemplateException, IOException {
-		String siteId = DirectiveUtils.getString("id", params);
-		CmsSite site;
-		try {
-			site = cmsSiteService.findCmsSiteById(siteId);
-		} catch (Exception e) {
-			site = new CmsSite();
+		
+		CmsSite site = (CmsSite) getDirectiveData();
+		if(site == null){
+			try {
+				String siteId = DirectiveUtils.getString("id", params);
+				site = cmsSiteService.findCmsSiteById(siteId);
+			} catch (Exception e) {
+				site = new CmsSite();
+			}
+			setDirectiveData(site);
 		}
-		setDirectiveData(site);
+		
 		env.setVariable("site", DirectiveUtils.wrap(site));
 		if (body != null) { 
 			body.render(env.getOut());  

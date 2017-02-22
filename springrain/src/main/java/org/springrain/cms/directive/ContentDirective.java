@@ -38,37 +38,24 @@ public class ContentDirective  extends AbstractCMSDirective  {
 	public void execute(Environment env, Map params, TemplateModel[] loopVars,
 			TemplateDirectiveBody body) throws TemplateException, IOException {
 		CmsContent content=(CmsContent) getDirectiveData();
-		if(content!=null){
-			env.setVariable("content", DirectiveUtils.wrap(content));
-			if (body != null) { 
-				body.render(env.getOut());  
+		if(content==null){
+			try {
+				String siteId=getSiteId(params);
+				content = cmsContentService.findCmsContentById(getSiteId(params),DirectiveUtils.getString("id", params));
+				if(content!=null){
+					Integer commentsNum = cmsCommentService.findCommentsNumByBusinessId(siteId,content.getId());
+					Integer praiseNum = cmsPraiseService.findPraiseNumByBusinessId(siteId,content.getId());
+					content.setCommentsNum(commentsNum);
+					content.setPraiseNum(praiseNum);
+				}else{
+					content = new CmsContent();
+				}
+			} catch (Exception e) {
+				content = null;
+				logger.error(e.getMessage(), e);
 			}
-			return;
+			setDirectiveData(content);
 		}
-		
-		
-		
-		try {
-			
-			String siteId=getSiteId(params);
-			
-			content = cmsContentService.findCmsContentById(getSiteId(params),DirectiveUtils.getString("id", params));
-			if(content!=null){
-				Integer commentsNum = cmsCommentService.findCommentsNumByBusinessId(siteId,content.getId());
-				Integer praiseNum = cmsPraiseService.findPraiseNumByBusinessId(siteId,content.getId());
-				content.setCommentsNum(commentsNum);
-				content.setPraiseNum(praiseNum);
-			}else{
-				content = new CmsContent();
-			}
-			
-		} catch (Exception e) {
-			content = null;
-			logger.error(e.getMessage(), e);
-		}
-		
-		
-		setDirectiveData(content);
 		
 		env.setVariable("content", DirectiveUtils.wrap(content));
 		if (body != null) { 

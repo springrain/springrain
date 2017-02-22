@@ -1,6 +1,7 @@
 package org.springrain.cms.directive;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -28,18 +29,22 @@ public class CmsPropertyDirective extends AbstractCMSDirective {
 	 */
 	private static final String TPL_NAME = "cms_property_list";
 
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public void execute(Environment env, Map params, TemplateModel[] loopVars,
 			TemplateDirectiveBody body) throws TemplateException, IOException {
-		List<CmsProperty> list = null;
-		try {
-			list = cmsPropertyService.findByBusinessId(getBusinessId(params),
-					null);
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
+		List<CmsProperty> list = (List<CmsProperty>) getDirectiveData();
+		if(list == null){
+			try {
+				list = cmsPropertyService.findByBusinessId(getBusinessId(params),
+						null);
+			} catch (Exception e) {
+				logger.error(e.getMessage(), e);
+				list = new ArrayList<>();
+			}
+			setDirectiveData(list);
 		}
-		setDirectiveData(list);
+		
 		env.setVariable("propertyList", DirectiveUtils.wrap(list));
 		if (body != null) {
 			body.render(env.getOut());
