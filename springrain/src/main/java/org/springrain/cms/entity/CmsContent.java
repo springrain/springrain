@@ -123,6 +123,12 @@ public class CmsContent  extends BaseEntity {
 	 * 登陆访问标识
 	 */
 	private Integer loginuser;
+	
+	/**
+	 * 封面
+	 */
+	private String cover;
+	
 	//concstructor
 	
 	private Integer commentsNum;
@@ -293,7 +299,15 @@ public class CmsContent  extends BaseEntity {
 	public void setCommentPerm(java.lang.Integer commentPerm) {
 		this.commentPerm = commentPerm;
 	}
+	@WhereSQL(sql="cover=:CmsContent_cover")
+	public String getCover() {
+		return cover;
+	}
 
+	public void setCover(String cover) {
+		this.cover = cover;
+	}
+	
 	@Transient
 	public String getChannelName() {
 		return channelName;
@@ -327,6 +341,8 @@ public class CmsContent  extends BaseEntity {
 		this.praiseNum = praiseNum;
 	}
 	
+	
+
 	@Transient
 	public List<CmsProperty> getPropertyList() {
 		return propertyList;

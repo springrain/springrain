@@ -121,6 +121,11 @@ public class CmsChannel  extends BaseEntity {
 	 * 登陆访问标识
 	 */
 	private Integer loginuser;
+	
+	/**
+	 * 封面
+	 */
+	private String cover;
 	//concstructor
 	
 	
@@ -255,7 +260,15 @@ public class CmsChannel  extends BaseEntity {
 	public java.lang.Integer getActive() {
 		return this.active;
 	}
-	
+    
+     @WhereSQL(sql="cover=:CmsChannel_cover")
+     public String getCover() {
+ 		return cover;
+ 	}
+
+ 	public void setCover(String cover) {
+ 		this.cover = cover;
+ 	}
     
     @Transient
 	public CmsSite getCmsSite() {
@@ -309,6 +322,8 @@ public class CmsChannel  extends BaseEntity {
 	public void setFtlUpdatePath(String ftlUpdatePath) {
 		this.ftlUpdatePath = ftlUpdatePath;
 	}
+
+	
 
 	public String toString() {
 		return new StringBuffer()
