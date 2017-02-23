@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -107,10 +106,13 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 			   CmsProperty cmsProperty = propertyList.get(i);
 			   String pvalue = cmsProperty.getPvalue();
 			   CmsProperty tmpProperty = cmsPropertyService.findCmsPropertyById(cmsProperty.getId());
-			   BeanUtils.copyProperties(cmsProperty, tmpProperty);
-			   cmsProperty.setId(null);
-			   cmsProperty.setBusinessId(id);
-			   cmsProperty.setPvalue(pvalue);
+			   //BeanUtils.copyProperties(cmsProperty, tmpProperty);
+			   tmpProperty.setId(null);
+			   tmpProperty.setBusinessId(id);
+			   tmpProperty.setPvalue(pvalue);
+			   propertyList.set(i, tmpProperty);
+			   
+			   
 		   }
 	   }
 	   cmsPropertyService.save(propertyList);
@@ -170,16 +172,9 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 	    
 		List<CmsProperty> propertyList = cmsContent.getPropertyList();
 		if(CollectionUtils.isNotEmpty(propertyList)){//有扩展属性
-			int listSize = propertyList.size();
-			for (int i = 0; i < listSize; i++) {
-			   CmsProperty cmsProperty = propertyList.get(i);
-			   String pvalue = cmsProperty.getPvalue();
-			   CmsProperty tmpProperty = cmsPropertyService.findCmsPropertyById(cmsProperty.getId());
-			   BeanUtils.copyProperties(cmsProperty, tmpProperty);
-			   cmsProperty.setPvalue(pvalue);
-			}
+			cmsPropertyService.update(propertyList,true);
 		}
-		cmsPropertyService.update(propertyList);
+		
 		
 		
 	    super.cleanCache(cmsContent.getSiteId());
