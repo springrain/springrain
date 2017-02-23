@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springrain.cms.entity.CmsProperty;
 import org.springrain.cms.service.ICmsPropertyService;
@@ -33,12 +34,10 @@ public class CmsPropertyDirective extends AbstractCMSDirective {
 	@Override
 	public void execute(Environment env, Map params, TemplateModel[] loopVars,
 			TemplateDirectiveBody body) throws TemplateException, IOException {
-		
-
-		String businessId = getBusinessId(params);
-		
+		String businessId = DirectiveUtils.getString("businessId", params);
+		if(StringUtils.isBlank(businessId))
+			businessId = getBusinessId(params);
 		String cacheKey=TPL_NAME+"_cache_key_"+businessId;
-		
 		
 		List<CmsProperty> list = (List<CmsProperty>) getDirectiveData(cacheKey);
 		if(list == null){

@@ -1,5 +1,8 @@
 package org.springrain.cms.entity;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -125,6 +128,8 @@ public class CmsContent  extends BaseEntity {
 	private Integer commentsNum;
 	private Integer praiseNum;
 	
+	private List<CmsProperty> propertyList;
+	private Map<String,CmsProperty> propertyMap;
 	
 	public CmsContent(){
 	}
@@ -321,7 +326,24 @@ public class CmsContent  extends BaseEntity {
 	public void setPraiseNum(Integer praiseNum) {
 		this.praiseNum = praiseNum;
 	}
+	
+	@Transient
+	public List<CmsProperty> getPropertyList() {
+		return propertyList;
+	}
 
+	public void setPropertyList(List<CmsProperty> propertyList) {
+		this.propertyList = propertyList;
+	}
+	
+	@Transient
+	public Map<String, CmsProperty> getPropertyMap() {
+		return propertyMap;
+	}
+
+	public void setPropertyMap(Map<String, CmsProperty> propertyMap) {
+		this.propertyMap = propertyMap;
+	}
 	public String toString() {
 		return new StringBuffer()
 			.append("ID[").append(getId()).append("],")

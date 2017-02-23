@@ -5,15 +5,18 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springrain.cms.entity.CmsChannelContent;
 import org.springrain.cms.entity.CmsContent;
 import org.springrain.cms.entity.CmsLink;
+import org.springrain.cms.entity.CmsProperty;
 import org.springrain.cms.service.ICmsChannelService;
 import org.springrain.cms.service.ICmsContentService;
 import org.springrain.cms.service.ICmsLinkService;
+import org.springrain.cms.service.ICmsPropertyService;
 import org.springrain.cms.service.ICmsSiteService;
 import org.springrain.frame.util.Enumerations.SiteType;
 import org.springrain.frame.util.Finder;
@@ -44,6 +47,8 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 	private ICmsLinkService cmsLinkService;
 	@Resource
 	private ICmsChannelService cmsChannelService;
+	@Resource
+	private ICmsPropertyService cmsPropertyService;
 	
 
 	
@@ -77,9 +82,6 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
     	if(cmsContent==null){
     		return null;
     	}
-    	
-
-    	
     	String siteId=cmsContent.getSiteId();
     	if(StringUtils.isBlank(siteId)){
     		return null;
@@ -96,6 +98,22 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 	   if(cmsContent.getSortno() == null)
 		   cmsContent.setSortno(Integer.parseInt(id.substring(2)));
 	   super.save(cmsContent);
+	   
+	   List<CmsProperty> propertyList = cmsContent.getPropertyList();
+	   if(CollectionUtils.isNotEmpty(propertyList)){//有扩展属性
+		   int listSize = propertyList.size();
+		   for (int i = 0; i < listSize; i++) {
+			 
+			   CmsProperty cmsProperty = propertyList.get(i);
+			   String pvalue = cmsProperty.getPvalue();
+			   CmsProperty tmpProperty = cmsPropertyService.findCmsPropertyById(cmsProperty.getId());
+			   BeanUtils.copyProperties(cmsProperty, tmpProperty);
+			   cmsProperty.setId(null);
+			   cmsProperty.setBusinessId(id);
+			   cmsProperty.setPvalue(pvalue);
+		   }
+	   }
+	   cmsPropertyService.save(propertyList);
 	   
 	   //保存中间对应
 	   CmsChannelContent ccc=new CmsChannelContent();
@@ -148,8 +166,22 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 			String cacheKey="findLinkBySiteBusinessId_"+cmsContent.getSiteId()+"_"+cmsContent.getId();
 			super.evictByKey(cmsContent.getSiteId(), cacheKey);
 		}
-		 Integer update = super.update(cmsContent,true);
+		Integer update = super.update(cmsContent,true);
 	    
+		List<CmsProperty> propertyList = cmsContent.getPropertyList();
+		if(CollectionUtils.isNotEmpty(propertyList)){//有扩展属性
+			int listSize = propertyList.size();
+			for (int i = 0; i < listSize; i++) {
+			   CmsProperty cmsProperty = propertyList.get(i);
+			   String pvalue = cmsProperty.getPvalue();
+			   CmsProperty tmpProperty = cmsPropertyService.findCmsPropertyById(cmsProperty.getId());
+			   BeanUtils.copyProperties(cmsProperty, tmpProperty);
+			   cmsProperty.setPvalue(pvalue);
+			}
+		}
+		cmsPropertyService.update(propertyList);
+		
+		
 	    super.cleanCache(cmsContent.getSiteId());
 	    
 	    

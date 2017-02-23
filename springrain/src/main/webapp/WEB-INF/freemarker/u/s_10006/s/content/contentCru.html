@@ -10,9 +10,16 @@
 	media="all">
 <script>
 	 jQuery(function(){
-		 var ue = UE.getEditor('container',{
+	 	var ue = UE.getEditor('container',{
 			autoHeight: false
 		});
+		 
+	 /* 	layui.upload({
+		  	url: '#',
+		  	success: function(res){
+		    	console.log(res); //上传成功返回值，必须为json格式
+		  	}
+		});  */
 		 
 		 /*
 		 init_valid(_before,_after)
@@ -167,6 +174,47 @@
 										</div>
 										<div class="layui-inline valid-info"></div>
 									</div>
+									
+									<@cms_property_list businessId=id>
+										<#if propertyList?? && (propertyList?size>0)>
+											<#list propertyList as property>
+												<div class="layui-form-item col-lg-6">
+													<label class="layui-form-label">${(property.name)!}</label>
+													<div class="layui-inline col-lg-5">
+														<#if property.inputType==0>
+															<textarea name="propertyList[${property_index}].pvalue" placeholder="请输入内容" class="layui-textarea">${(property.pvalue)!}</textarea>
+															<input type="hidden" value="${(property.id)!}" name="propertyList[${property_index}].id">
+														<#elseif property.inputType==1>
+															<input type="text" name="propertyList[${property_index}].pvalue" class="layui-input" value="${(property.pvalue)!}">
+															<input type="hidden" value="${(property.id)!}" name="propertyList[${property_index}].id">
+														<#elseif property.inputType==2>
+															<input type="text" name="propertyList[${property_index}].pvalue" class="layui-input" value="${(property.pvalue)!}">
+															<input type="hidden" value="${(property.id)!}" name="propertyList[${property_index}].id">
+														<#elseif property.inputType==3>
+															<input type="text" name="propertyList[${property_index}].pvalue" class="layui-input" value="${(property.pvalue)!}">
+															<input type="hidden" value="${(property.id)!}" name="propertyList[${property_index}].id">
+														<#elseif property.inputType==4>
+															<input type="text" name="propertyList[${property_index}].pvalue" class="layui-input" value="${(property.pvalue)!}">
+															<input type="hidden" value="${(property.id)!}" name="propertyList[${property_index}].id">
+														<#elseif property.inputType==5>
+															<select name="propertyList[${property_index}].pvalue" lay-verify="required">
+												 				<option value=""></option>
+													      	</select>
+															<input type="hidden" value="${(property.id)!}" name="propertyList[${property_index}].id">
+														<#elseif property.inputType==6>
+															<input type="file" name="propertyList[${property_index}].pvalue" class="layui-upload-file">
+															<input type="hidden" value="${(property.id)!}" name="propertyList[${property_index}].id">
+														<#elseif property.inputType==7>
+															<input type="file" name="propertyList[${property_index}].pvalue" class="layui-upload-file">
+															<input type="hidden" value="${(property.id)!}" name="propertyList[${property_index}].id">
+														</#if>
+													</div>
+													<div class="layui-inline valid-info"></div>
+												</div>
+											</#list>
+										</#if>
+									</@cms_property_list>
+									
 									<div class="layui-form-item col-lg-6">
 										<label class="layui-form-label">内容*</label>
 										<div class="layui-inline col-lg-5">
@@ -176,6 +224,9 @@
 										</div>
 										<div class="layui-inline valid-info"></div>
 									</div>
+									
+									
+									
 									<div class="layui-form-item change-submit">
 										<div class="layui-inline">
 											<button type="button" class="layui-btn" id="smtbtn">保存</button>
