@@ -1,6 +1,7 @@
 package org.springrain.cms.entity;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -121,6 +122,16 @@ public class CmsChannel  extends BaseEntity {
 	 */
 	private Integer loginuser;
 	//concstructor
+	
+	
+	private List<CmsProperty> propertyList;
+	
+	private Map<String,CmsProperty> propertyMap;
+	
+	
+	
+	
+	
 
 	public CmsChannel(){
 	}
@@ -347,6 +358,24 @@ public class CmsChannel  extends BaseEntity {
 
 	public void setLink(String link) {
 		this.link = link;
+	}
+
+	@Transient
+	public List<CmsProperty> getPropertyList() {
+		return propertyList;
+	}
+
+	public void setPropertyList(List<CmsProperty> propertyList) {
+		this.propertyList = propertyList;
+	}
+	
+	@Transient
+	public Map<String, CmsProperty> getPropertyMap() {
+		return propertyMap;
+	}
+
+	public void setPropertyMap(Map<String, CmsProperty> propertyMap) {
+		this.propertyMap = propertyMap;
 	}
 	
 	
