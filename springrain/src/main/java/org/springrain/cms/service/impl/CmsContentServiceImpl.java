@@ -172,6 +172,12 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 	    
 		List<CmsProperty> propertyList = cmsContent.getPropertyList();
 		if(CollectionUtils.isNotEmpty(propertyList)){//有扩展属性
+			
+			for (CmsProperty cmsProperty : propertyList) {
+				if(StringUtils.isBlank(cmsProperty.getPvalue()))
+					cmsProperty.setPvalue("");
+			}
+			
 			cmsPropertyService.update(propertyList,true);
 		}
 		

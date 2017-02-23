@@ -182,19 +182,19 @@
 													<label class="layui-form-label">${(property.name)!}</label>
 													<div class="layui-inline col-lg-5">
 														<#if property.inputType==0>
-															<textarea name="propertyList[${property_index}].pvalue" placeholder="请输入内容" class="layui-textarea">${(property.pvalue)!}</textarea>
+															<textarea name="propertyList[${property_index}].pvalue" placeholder="请输入内容" class="layui-textarea">${(property.pvalue)!''}</textarea>
 															<input type="hidden" value="${(property.id)!}" name="propertyList[${property_index}].id">
 														<#elseif property.inputType==1>
-															<input type="text" name="propertyList[${property_index}].pvalue" class="layui-input" value="${(property.pvalue)!}">
+															<input type="text" name="propertyList[${property_index}].pvalue" class="layui-input" value="${(property.pvalue)!''}">
 															<input type="hidden" value="${(property.id)!}" name="propertyList[${property_index}].id">
 														<#elseif property.inputType==2>
-															<input type="text" name="propertyList[${property_index}].pvalue" class="layui-input" value="${(property.pvalue)!}">
+															<input type="text" name="propertyList[${property_index}].pvalue" class="layui-input" value="${(property.pvalue)!''}">
 															<input type="hidden" value="${(property.id)!}" name="propertyList[${property_index}].id">
 														<#elseif property.inputType==3>
-															<input type="text" name="propertyList[${property_index}].pvalue" class="layui-input" value="${(property.pvalue)!}">
+															<input type="text" name="propertyList[${property_index}].pvalue" class="layui-input" value="${(property.pvalue)!''}">
 															<input type="hidden" value="${(property.id)!}" name="propertyList[${property_index}].id">
 														<#elseif property.inputType==4>
-															<input type="text" name="propertyList[${property_index}].pvalue" class="layui-input" value="${(property.pvalue)!}">
+															<input type="text" name="propertyList[${property_index}].pvalue" class="layui-input" value="${(property.pvalue)!''}">
 															<input type="hidden" value="${(property.id)!}" name="propertyList[${property_index}].id">
 														<#elseif property.inputType==5>
 															<select name="propertyList[${property_index}].pvalue" lay-verify="required">
