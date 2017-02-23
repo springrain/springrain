@@ -109,6 +109,7 @@ public class CmsPropertyServiceImpl extends BaseSpringrainServiceImpl implements
 		if (StringUtils.isNotBlank(state)) {
 			finder.append(" and state=:state").setParam("state", state);
 		}
+		finder.append(" order by sortno");
 		List<CmsProperty> list = super.queryForList(finder, CmsProperty.class);
 		return list;
 	}
