@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50615
 File Encoding         : 65001
 
-Date: 2017-01-24 17:45:59
+Date: 2017-02-23 10:20:02
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -31,7 +31,7 @@ CREATE TABLE `cms_attachment` (
   `thumbnail` varchar(1000) DEFAULT NULL COMMENT '缩略图',
   `createDate` datetime NOT NULL COMMENT '创建时间',
   `remark` varchar(1000) DEFAULT NULL COMMENT '备注',
-  `modelType` int(11) NOT NULL DEFAULT '0' COMMENT '0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)',
+  `modelType` int(11) NOT NULL DEFAULT '0' COMMENT '0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车) 4 站点logologo',
   `sortno` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
   `lookcount` int(11) DEFAULT NULL COMMENT '打开次数',
   `active` int(11) NOT NULL DEFAULT '1' COMMENT '状态 0不可用,1可用',
@@ -79,7 +79,7 @@ CREATE TABLE `cms_comment` (
   `id` varchar(50) NOT NULL,
   `userId` varchar(50) DEFAULT NULL COMMENT '评论用户ID',
   `businessId` varchar(50) NOT NULL COMMENT '业务Id',
-  `pcommentId` varchar(50) NOT NULL COMMENT '父级评论Id',
+  `pid` varchar(50) NOT NULL COMMENT '父级评论Id',
   `siteId` int(11) NOT NULL COMMENT '站点ID',
   `createDate` datetime NOT NULL COMMENT '评论时间',
   `ip` varchar(50) DEFAULT NULL COMMENT 'IP地址',
@@ -88,6 +88,15 @@ CREATE TABLE `cms_comment` (
   `downs` smallint(6) NOT NULL DEFAULT '0' COMMENT '反对数',
   `checked` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否审核',
   `score` int(11) DEFAULT NULL COMMENT '评分',
+  `type` int(11) DEFAULT NULL COMMENT '类型',
+  `mobile` varchar(50) DEFAULT NULL COMMENT '手机号',
+  `email` varchar(100) DEFAULT NULL COMMENT '邮箱',
+  `userName` varchar(50) DEFAULT NULL COMMENT '姓名',
+  `bak1` varchar(255) DEFAULT NULL,
+  `bak2` varchar(255) DEFAULT NULL,
+  `bak3` varchar(255) DEFAULT NULL,
+  `bak4` varchar(255) DEFAULT NULL,
+  `bak5` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='CMS评论表';
 
@@ -100,7 +109,7 @@ CREATE TABLE `cms_content` (
   `title` varchar(500) DEFAULT NULL,
   `mintitle` varchar(200) DEFAULT NULL COMMENT '小标题',
   `summary` text COMMENT '摘要',
-  `content` text NOT NULL COMMENT '内容',
+  `content` text COMMENT '内容',
   `keywords` varchar(1000) DEFAULT NULL COMMENT '关键字',
   `description` varchar(1000) DEFAULT NULL COMMENT '描述',
   `lookcount` int(11) DEFAULT NULL COMMENT '打开次数',
@@ -110,6 +119,8 @@ CREATE TABLE `cms_content` (
   `sourceurl` varchar(1000) DEFAULT NULL COMMENT '来源地址',
   `status` int(11) DEFAULT NULL COMMENT '状态  0未审核  1审核通过',
   `active` int(11) DEFAULT NULL COMMENT '是否可用',
+  `commentPerm` int(11) DEFAULT NULL COMMENT '评论开关  0不允许评论  1 允许评论',
+  `sortno` int(11) DEFAULT NULL COMMENT '排序',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='内容表';
 
@@ -141,15 +152,33 @@ CREATE TABLE `cms_link` (
   `siteId` varchar(50) NOT NULL COMMENT '网站ID',
   `businessId` varchar(50) NOT NULL COMMENT '业务Id',
   `lookcount` int(11) DEFAULT NULL COMMENT '打开次数',
-  `modelType` int(11) NOT NULL DEFAULT '0' COMMENT '0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)',
+  `modelType` int(11) NOT NULL DEFAULT '0' COMMENT '0site,1channel,2content,3投票 4,站长后台模板(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)',
   `ftlfile` varchar(1000) NOT NULL COMMENT '当前渲染使用的模板路径',
   `nodeftlfile` varchar(1000) DEFAULT NULL COMMENT '子内容使用的ftl模板文件',
   `statichtml` int(11) NOT NULL DEFAULT '0' COMMENT '是否静态化 0否,1是',
   `sortno` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
   `active` int(11) NOT NULL DEFAULT '1' COMMENT '状态 0不可用,1可用',
   `jumpType` int(11) DEFAULT NULL COMMENT '跳转方式',
+  `loginuser` int(11) DEFAULT NULL COMMENT '是否需要登录访问  0否 1是',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='业务链接表';
+
+-- ----------------------------
+-- Table structure for cms_praise
+-- ----------------------------
+DROP TABLE IF EXISTS `cms_praise`;
+CREATE TABLE `cms_praise` (
+  `id` varchar(50) NOT NULL,
+  `businessId` varchar(50) NOT NULL COMMENT '业务id',
+  `userId` varchar(50) NOT NULL COMMENT '点赞人',
+  `siteId` varchar(50) NOT NULL COMMENT '站点id',
+  `bak1` varchar(255) DEFAULT NULL,
+  `bak2` varchar(255) DEFAULT NULL,
+  `bak3` varchar(255) DEFAULT NULL,
+  `bak4` varchar(255) DEFAULT NULL,
+  `bak5` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='点赞表';
 
 -- ----------------------------
 -- Table structure for cms_property
@@ -166,7 +195,9 @@ CREATE TABLE `cms_property` (
   `createPerson` varchar(50) NOT NULL COMMENT '创建人',
   `createDate` datetime NOT NULL COMMENT '创建时间',
   `defaultValue` varchar(100) DEFAULT NULL COMMENT '默认值',
+  `pvalue` varchar(500) DEFAULT NULL,
   `style` varchar(500) DEFAULT NULL COMMENT '样式',
+  `leafUse` int(11) NOT NULL DEFAULT '0' COMMENT '自是否可用,0不可用,1可以用',
   `sortno` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
   `active` int(11) NOT NULL DEFAULT '1' COMMENT '状态 0不可用,1可用',
   PRIMARY KEY (`id`)
@@ -271,3 +302,19 @@ CREATE TABLE `cms_theme_template` (
   `templateId` varchar(50) NOT NULL COMMENT '模板Id',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='主题和模板中间表';
+
+-- ----------------------------
+-- Table structure for cms_wx_menu
+-- ----------------------------
+DROP TABLE IF EXISTS `cms_wx_menu`;
+CREATE TABLE `cms_wx_menu` (
+  `id` varchar(50) NOT NULL COMMENT 'id',
+  `name` varchar(100) DEFAULT NULL COMMENT '菜单名称',
+  `type` varchar(50) DEFAULT NULL COMMENT '菜单类型',
+  `keyword` varchar(255) DEFAULT NULL COMMENT '消息内容',
+  `url` varchar(255) DEFAULT NULL COMMENT '跳转地址',
+  `pid` varchar(50) DEFAULT NULL COMMENT '上级菜单id',
+  `createDate` datetime DEFAULT NULL COMMENT '创建时间',
+  `siteId` varchar(50) DEFAULT NULL COMMENT '站点id',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
