@@ -3,7 +3,6 @@ package org.springrain.cms.service.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -13,11 +12,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.util.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springrain.cms.entity.CmsAttachment;
 import org.springrain.cms.entity.CmsLink;
 import org.springrain.cms.entity.CmsSite;
 import org.springrain.cms.entity.CmsSiteWxconfig;
-import org.springrain.cms.service.ICmsAttachmentService;
 import org.springrain.cms.service.ICmsLinkService;
 import org.springrain.cms.service.ICmsSiteService;
 import org.springrain.cms.service.ICmsSiteWxconfigService;
@@ -58,8 +55,6 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 	private IOrgService orgService;
 	@Resource
 	private IUserOrgService userOrgService;
-	@Resource
-	private ICmsAttachmentService cmsAttachmentService;
 	@Resource
 	private ICmsSiteWxconfigService cmsSiteWxconfigService;
 	
@@ -225,31 +220,6 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 	@Override
 	public String updateCmsSite(CmsSite cmsSite) throws Exception {
 		//保存图片附件
-		if(StringUtils.isNotBlank(cmsSite.getLogo())){
-			CmsAttachment attachment = cmsAttachmentService.findCmsAttachmentByBusinessIdAndModleType(cmsSite.getId(),cmsSite.getAttachment().getModelType());
-			if(attachment==null){//没有附件，第一次新增
-				attachment = new CmsAttachment();
-				attachment.setBusinessId(cmsSite.getId());
-				attachment.setCreateDate(new Date());
-				attachment.setLookcount(0);
-				attachment.setSiteId(cmsSite.getId());
-				attachment.setSortno(0);
-				attachment.setActive(1);
-			}
-			attachment.setFileurl(cmsSite.getLogo());
-			attachment.setFilepath(GlobalStatic.rootdir+cmsSite.getLogo());
-			attachment.setModelType(cmsSite.getAttachment().getModelType());
-			
-			
-			File file = new File(GlobalStatic.rootdir+cmsSite.getLogo());
-			if(file.exists()){
-				String[] fileFullName = StringUtils.split(file.getName(), ".");
-				attachment.setName(fileFullName[0]);
-				attachment.setFilesuffix(fileFullName[1]);
-			}
-			super.saveorupdate(attachment);
-		}
-		
 		super.update(cmsSite,true);
 		String siteId = cmsSite.getId();
 		putByCache(siteId, "cmsSiteService_findCmsSiteById_"+siteId, cmsSite);
