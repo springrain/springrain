@@ -1,5 +1,7 @@
 package org.springrain.cms.service;
 
+import java.util.List;
+
 import org.springrain.cms.entity.CmsBanner;
 import org.springrain.system.service.IBaseSpringrainService;
 /**
@@ -18,6 +20,15 @@ public interface ICmsBannerService extends IBaseSpringrainService {
 	 * @throws Exception
 	 */
 	CmsBanner findCmsBannerById(Object id) throws Exception;
+
+	/**
+	 * 根据站点id和businessId查找banner列表
+	 * @param siteId
+	 * @param businessId
+	 * @return
+	 * @throws Exception 
+	 */
+	List<CmsBanner> findBannerListByBusinessId(String siteId, String businessId) throws Exception;
 	
 	
 	

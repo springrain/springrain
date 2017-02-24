@@ -76,4 +76,13 @@ public class CmsBannerServiceImpl extends BaseSpringrainServiceImpl implements I
 			 return super.findDataExportExcel(finder,ftlurl,page,clazz,o);
 		}
 
+	@Override
+	public List<CmsBanner> findBannerListByBusinessId(String siteId,
+			String businessId) throws Exception {
+		Finder finder = Finder.getSelectFinder(CmsBanner.class).append(" where siteId=:siteId and businessId=:businessId");
+		finder.setParam("siteId", siteId);
+		finder.setParam("businessId", businessId);
+		return super.queryForList(finder, CmsBanner.class);
+	}
+
 }
