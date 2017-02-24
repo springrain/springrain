@@ -1,8 +1,6 @@
 <#ftl output_format="HTML" auto_esc=true> 
 <@h.siteCommonHead title="后台管理系统" keywords="开源,永久免费" description="springrain开源系统管理后台"/>
 
-<script type="text/javascript" src="${ctx}/js/ztree/js/jquery.ztree.all-3.5.js"></script>
-<script type="text/javascript" src="${ctx}/js/ztree/js/ztreeUtils.js"></script>
 <script src="${ctx}/js/validform/validform.min.js"></script>
 <script src="${ctx}/js/webuploader/webuploader.html5only.min.js"></script>
 
@@ -10,8 +8,6 @@
 <link rel="stylesheet" type="text/css" href="${ctx}/js/webuploader/webuploader.css">
 <link rel="stylesheet" href="${ctx}/js/validform/validform.css" media="all">
 <script>
-	var selectOrgZtree;
-	var orgjsondata4select;
 	jQuery(function() {
 		/*
 		init_valid(_before,_after)
@@ -156,7 +152,6 @@
 											    <div id="fileList" class="uploader-list"></div>
 											    <div id="filePicker" class="">选择图片</div>
 											    <input type="hidden" value="<@cms_site id=siteId!''><#if (site.logo)?? && (site.logo!='')>${site.logo!''}</#if></@cms_site>" name="logo">
-											    <input type="hidden" value="4" name="attachment.modelType">
 											</div>
 										</div>
 										<div class="layui-inline valid-info"></div>

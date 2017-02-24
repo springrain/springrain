@@ -1,13 +1,19 @@
 package org.springrain.cms.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.springrain.frame.annotation.WhereSQL;
 import org.springrain.frame.entity.BaseEntity;
+import org.springrain.frame.util.JsonUtils;
 /**
  * TODO 在此加入类描述
  * @copyright {@link weicms.net}
@@ -68,6 +74,7 @@ public class CmsBanner  extends BaseEntity {
 	 */
 	private java.lang.Integer active;
 	//columns END 数据库字段结束
+	private List<Map<String, String>> imgMap;
 	
 	//concstructor
 
@@ -115,11 +122,13 @@ public class CmsBanner  extends BaseEntity {
 	public java.lang.String getBusinessId() {
 		return this.businessId;
 	}
+	@SuppressWarnings("unchecked")
 	public void setImgSrc(java.lang.String value) {
 		    if(StringUtils.isNotBlank(value)){
 			 value=value.trim();
 			}
 		this.imgSrc = value;
+		this.imgMap = JsonUtils.readValue(value, ArrayList.class);
 	}
 	
      @WhereSQL(sql="imgSrc=:CmsBanner_imgSrc")
@@ -131,6 +140,7 @@ public class CmsBanner  extends BaseEntity {
 			 value=value.trim();
 			}
 		this.imgAlt = value;
+		
 	}
 	
      @WhereSQL(sql="imgAlt=:CmsBanner_imgAlt")
@@ -164,7 +174,15 @@ public class CmsBanner  extends BaseEntity {
 	public java.lang.Integer getActive() {
 		return this.active;
 	}
-	
+	@Transient
+	public List<Map<String, String>> getImgMap() {
+		return imgMap;
+	}
+
+	public void setImgMap(List<Map<String, String>> imgMap) {
+		this.imgMap = imgMap;
+	}
+
 	public String toString() {
 		return new StringBuffer()
 			.append("id[").append(getId()).append("],")
@@ -178,6 +196,8 @@ public class CmsBanner  extends BaseEntity {
 			.toString();
 	}
 	
+	
+
 	public int hashCode() {
 		return new HashCodeBuilder()
 			.append(getId())

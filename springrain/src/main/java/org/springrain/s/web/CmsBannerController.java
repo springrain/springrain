@@ -55,7 +55,7 @@ public class CmsBannerController extends SiteBaseController {
 	public String updatepre(Model model,HttpServletRequest request,HttpServletResponse response,@PathVariable String siteId,@PathVariable String businessId,CmsBanner cmsBanner) throws Exception{
 		String id = request.getParameter("id");
 		model.addAttribute("id", id);
-		return jump(siteId,businessId,"/s/"+siteId+"/"+businessId+"/content/banner/pre",request,model);
+		return jump(siteId,businessId,"/s/"+siteId+"/"+businessId+"/banner/update/pre",request,model);
 	}
 	
 	/**

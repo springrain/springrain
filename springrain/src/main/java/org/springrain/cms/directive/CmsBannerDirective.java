@@ -33,6 +33,8 @@ public class CmsBannerDirective extends AbstractCMSDirective {
 		CmsBanner banner;
 		try {
 			banner = cmsBannerService.findCmsBannerById(id);
+			if(banner==null)
+				banner = new CmsBanner();
 		} catch (Exception e) {
 			banner = new CmsBanner();
 		}
