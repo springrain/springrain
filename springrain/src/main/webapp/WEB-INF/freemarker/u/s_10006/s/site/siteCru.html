@@ -20,14 +20,14 @@
 		 */
 		 springrain.initValid(null,function(){window.location.href="${ctx}/system/cms/site/list?springraintoken="+springraintoken});
 		
-		
+		loadLogo();
 		 
 		 var uploader = WebUploader.create({
 		 	auto:true,
 		    // swf文件路径
 		    swf: '${ctx}/js/webuploader/Uploader.swf',
 		    // 文件接收服务端。
-		    server: '${ctx}/cms/attachment/${siteId!''}/${businessId!''}/upload?springraintoken='+springraintoken,
+		    server: '${ctx}/s/${siteId!''}/${businessId!''}/file/logoupload?springraintoken='+springraintoken,
 		    // 选择文件的按钮。可选。
 		    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
 		    pick: '#filePicker',
@@ -83,7 +83,7 @@
 
 		 // 文件上传成功，给item添加成功class, 用样式标记上传成功。
 		 uploader.on( 'uploadSuccess', function( file,response ) {
-			 $("[name=logo]").val(response.data[0]);
+			 $("[name=logo]").val(JSON.stringify(response.data));
 		     $( '#'+file.id ).addClass('upload-state-done');
 		 });
 
@@ -106,7 +106,11 @@
 		 });
 	});
 	
-	
+	function loadLogo(){
+		var logoData = JSON.parse($("[name='logo']").val());
+		var logoUrl = logoData[0].path;
+		$("#tmpLogo").prop("src",ctx+logoUrl);
+	}
 </script>
 </head>
 <body>
@@ -148,10 +152,10 @@
 										<div class="layui-inline col-lg-5">
 											<div id="uploader-demo">
 											    <!--用来存放item-->
-											    <img id="tmpLogo" height="100" width="100" alt="" src="<@cms_site id=siteId!''><#if (site.logo)?? && (site.logo!='')>${ctx}${site.logo!''}</#if></@cms_site>">
+											    <img id="tmpLogo" height="100" width="100" alt="" src="">
 											    <div id="fileList" class="uploader-list"></div>
 											    <div id="filePicker" class="">选择图片</div>
-											    <input type="hidden" value="" name="logo">
+											    <input type="hidden" value="<@cms_site id=siteId!''><#if (site.logo)?? && (site.logo!='')>${site.logo!''}</#if></@cms_site>" name="logo">
 											    <input type="hidden" value="4" name="attachment.modelType">
 											</div>
 										</div>

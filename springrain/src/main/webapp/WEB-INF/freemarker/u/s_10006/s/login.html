@@ -27,8 +27,11 @@
 			locache.flush();
 			locache.set("defaultSiteId","${siteId!''}");
 			<@cms_site id=siteId!''>
-			locache.set("defaultSiteLogoUrl","${site.logo!''}");
-			locache.set("defaultSiteFooter","${site.footer!''}");
+				var logoData = "${site.logo!''}".replace(/&quot;/g, "\""); 
+				logoData = JSON.parse(logoData);
+				var logoUrl = logoData[0].path;
+				locache.set("defaultSiteLogoUrl",logoUrl);
+				locache.set("defaultSiteFooter","${site.footer!''}");
 			</@cms_site>
 		</script>
 	</head>

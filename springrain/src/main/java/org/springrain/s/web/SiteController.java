@@ -1,10 +1,5 @@
 package  org.springrain.s.web;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,8 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springrain.cms.entity.CmsSite;
 import org.springrain.cms.service.ICmsLinkService;
 import org.springrain.cms.service.ICmsSiteService;
@@ -40,7 +33,6 @@ public class SiteController  extends SiteBaseController {
 	private ICmsSiteService cmsSiteService;
 	@Resource
 	private ICmsLinkService cmsLinkService;
-	//private String listurl="/cms/site/siteList";
 	
 	/**
 	 * 列表数据,调用listjson方法,保证和app端数据统一
@@ -105,33 +97,4 @@ public class SiteController  extends SiteBaseController {
 	public String look(Model model,HttpServletRequest request,HttpServletResponse response,CmsSite cmsSite,@PathVariable String siteId,@PathVariable String businessId)  throws Exception {
 		return jump(siteId, businessId, "/s/"+siteId+"/"+businessId+"/content/look", request, model);
 	}
-	
-	/**
-	 * 上传logo
-	 * */
-	@RequestMapping("/logoupload")
-	public @ResponseBody ReturnDatas logoUpload(HttpServletRequest request,String siteId){
-		ReturnDatas returnDatas=ReturnDatas.getSuccessReturnDatas();
-		
-		List<String> logoIdList = new ArrayList<>();
-		MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest)request;
-		//取得request中的所有文件名
-		Iterator<String> iter = multiRequest.getFileNames();
-		while(iter.hasNext()){
-    		 MultipartFile tempFile = multiRequest.getFile(iter.next());
-    		 String logoId;
-			try {
-				logoId = cmsSiteService.saveTmpLogo(tempFile,siteId);
-				logoIdList.add(logoId);
-			} catch (IOException e) {
-				returnDatas.setMessage("系统异常");
-				returnDatas.setStatus(ReturnDatas.ERROR);
-				returnDatas.setStatusCode("500");
-			}
-    		 
-    	 }
-	    returnDatas.setData(logoIdList);
-		return returnDatas;
-	}
-	
 }
