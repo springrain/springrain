@@ -44,7 +44,7 @@ import org.apache.lucene.store.FSDirectory;
 public class LuceneUtils {
 
 	// 分词器
-	public static Analyzer analyzer = new SmartChineseAnalyzer();
+	private static Analyzer analyzer = new SmartChineseAnalyzer();
 
 	
 	/**

@@ -10,6 +10,7 @@ import javax.persistence.Transient;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.springrain.frame.annotation.LuceneField;
 import org.springrain.frame.annotation.WhereSQL;
 import org.springrain.frame.entity.BaseEntity;
 /**
@@ -98,6 +99,7 @@ public class CmsContent  extends BaseEntity {
 	//columns END 数据库字段结束
 	
 	//站点ID
+	
 	private String siteId;
 	//栏目Id
 	private java.lang.String channelId;
@@ -156,6 +158,7 @@ public class CmsContent  extends BaseEntity {
 	
 	@Id
      @WhereSQL(sql="id=:CmsContent_id")
+	@LuceneField
 	public java.lang.String getId() {
 		return this.id;
 	}
@@ -167,6 +170,7 @@ public class CmsContent  extends BaseEntity {
 	}
 	
      @WhereSQL(sql="title=:CmsContent_title")
+     @LuceneField
 	public java.lang.String getTitle() {
 		return this.title;
 	}
@@ -178,6 +182,7 @@ public class CmsContent  extends BaseEntity {
 	}
 	
      @WhereSQL(sql="keywords=:CmsContent_keywords")
+     @LuceneField
 	public java.lang.String getKeywords() {
 		return this.keywords;
 	}
@@ -189,6 +194,7 @@ public class CmsContent  extends BaseEntity {
 	}
 	
      @WhereSQL(sql="description=:CmsContent_description")
+     @LuceneField
 	public java.lang.String getDescription() {
 		return this.description;
 	}
@@ -200,6 +206,7 @@ public class CmsContent  extends BaseEntity {
 	}
 	
      @WhereSQL(sql="mintitle=:CmsContent_mintitle")
+     @LuceneField
 	public java.lang.String getMintitle() {
 		return this.mintitle;
 	}
@@ -283,6 +290,7 @@ public class CmsContent  extends BaseEntity {
 	
      
  	 @WhereSQL(sql="summary=:CmsContent_summary")
+ 	@LuceneField
 	public java.lang.String getSummary() {
 		return summary;
 	}
@@ -309,6 +317,7 @@ public class CmsContent  extends BaseEntity {
 	}
 	
 	@Transient
+	@LuceneField
 	public String getChannelName() {
 		return channelName;
 	}
@@ -393,6 +402,7 @@ public class CmsContent  extends BaseEntity {
 	}
 	
 	@Transient
+	@LuceneField
     public String getSiteId() {
 		return siteId;
 	}
@@ -401,6 +411,7 @@ public class CmsContent  extends BaseEntity {
 		this.siteId = siteId;
 	}
 	@Transient
+	@LuceneField
 	public java.lang.String getChannelId() {
 		return channelId;
 	}
