@@ -19,6 +19,8 @@ import org.springrain.cms.service.ICmsPropertyService;
 import org.springrain.cms.service.ICmsSiteService;
 import org.springrain.frame.util.Enumerations.SiteType;
 import org.springrain.frame.util.Finder;
+import org.springrain.frame.util.GlobalStatic;
+import org.springrain.frame.util.LuceneUtils;
 import org.springrain.frame.util.Page;
 import org.springrain.system.service.BaseSpringrainServiceImpl;
 import org.springrain.system.service.ITableindexService;
@@ -97,6 +99,7 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 	   if(cmsContent.getSortno() == null)
 		   cmsContent.setSortno(Integer.parseInt(id.substring(2)));
 	   super.save(cmsContent);
+	   LuceneUtils.saveDocument(getLuceneDir(siteId), cmsContent);
 	   
 	   List<CmsProperty> propertyList = cmsContent.getPropertyList();
 	   if(CollectionUtils.isNotEmpty(propertyList)){//有扩展属性
@@ -162,6 +165,10 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 	}
 
   
+	private String getLuceneDir(String siteId) {
+		return GlobalStatic.rootdir+"/lucene/"+siteId;
+	}
+
 	@Override
     public Integer updateCmsContent(CmsContent cmsContent) throws Exception{
 		if(cmsContent==null){
@@ -175,6 +182,7 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 			super.evictByKey(cmsContent.getSiteId(), cacheKey);
 		}
 		Integer update = super.update(cmsContent,true);
+		LuceneUtils.updateDocument(getLuceneDir(cmsContent.getSiteId()), CmsContent.class);
 	    
 		List<CmsProperty> propertyList = cmsContent.getPropertyList();
 		if(CollectionUtils.isNotEmpty(propertyList)){//有扩展属性
@@ -268,10 +276,12 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 		//清除缓存
 	    super.cleanCache(siteId);
 		super.deleteById(id, CmsContent.class);
+		LuceneUtils.deleteDocument(getLuceneDir(siteId), id, CmsContent.class);
 	}
 	@Override
 	public void deleteByIds(List<String> ids,String siteId) throws Exception {
 		 super.cleanCache(siteId);
 		super.deleteByIds(ids, CmsContent.class);
+		LuceneUtils.deleteListDocument(getLuceneDir(siteId), ids, CmsContent.class);
 	}
 }

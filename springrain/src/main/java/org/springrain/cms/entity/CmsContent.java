@@ -182,7 +182,6 @@ public class CmsContent  extends BaseEntity {
 	}
 	
      @WhereSQL(sql="keywords=:CmsContent_keywords")
-     @LuceneField
 	public java.lang.String getKeywords() {
 		return this.keywords;
 	}
@@ -194,7 +193,6 @@ public class CmsContent  extends BaseEntity {
 	}
 	
      @WhereSQL(sql="description=:CmsContent_description")
-     @LuceneField
 	public java.lang.String getDescription() {
 		return this.description;
 	}
@@ -317,7 +315,6 @@ public class CmsContent  extends BaseEntity {
 	}
 	
 	@Transient
-	@LuceneField
 	public String getChannelName() {
 		return channelName;
 	}
