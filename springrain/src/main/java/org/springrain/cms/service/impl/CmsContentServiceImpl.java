@@ -106,6 +106,12 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 			   CmsProperty cmsProperty = propertyList.get(i);
 			   String pvalue = cmsProperty.getPvalue();
 			   CmsProperty tmpProperty = cmsPropertyService.findCmsPropertyById(cmsProperty.getId());
+			   
+			   if(tmpProperty==null){
+				   continue;
+			   }
+			   
+			   
 			   //BeanUtils.copyProperties(cmsProperty, tmpProperty);
 			   tmpProperty.setId(null);
 			   tmpProperty.setBusinessId(id);
