@@ -7,7 +7,7 @@ import javax.persistence.Transient;
 import org.springrain.frame.entity.BaseEntity;
 import org.springrain.weixin.sdk.common.api.IWxCpConfig;
 
-@Table(name="cms_wx_cpconfig")
+@Table(name="wx_cpconfig")
 public class WxCpConfig   extends BaseEntity implements IWxCpConfig {
 	private static final long serialVersionUID = 1L;
 	
