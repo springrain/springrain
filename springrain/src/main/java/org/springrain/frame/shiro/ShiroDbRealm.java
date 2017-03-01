@@ -40,7 +40,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 	
 	
 	@Resource
-	private CredentialsMatcher frameHashedCredentialsMatcher;
+	private CredentialsMatcher frameSimpleCredentialsMatcher;
 
 	//public static final String HASH_ALGORITHM = "MD5";
 	//public static final int HASH_INTERATIONS = 1;
@@ -178,7 +178,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		matcher.setHashIterations(HASH_INTERATIONS);
 		setCredentialsMatcher(matcher);
 		*/
-		setCredentialsMatcher(frameHashedCredentialsMatcher);
+		setCredentialsMatcher(frameSimpleCredentialsMatcher);
 	}
 	
 	

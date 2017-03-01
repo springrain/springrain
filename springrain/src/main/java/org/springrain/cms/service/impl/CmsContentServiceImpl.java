@@ -256,7 +256,7 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 		String cacheKey="cmsContentService_findContentByChannelId_"+siteId+"_"+channelId;
 		
 		if(page.getPageIndex()==1){
-			contentList = getByCache(siteId, cacheKey, List.class);
+			contentList = getByCache(siteId, cacheKey, List.class,page);
 			if(CollectionUtils.isNotEmpty(contentList)){
 				return contentList;
 			}
@@ -266,7 +266,7 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 		finder.setParam("channelId", channelId);
 		contentList = super.queryForList(finder, CmsContent.class, page);
 	
-		putByCache(siteId, cacheKey, contentList);
+		putByCache(siteId, cacheKey, contentList,page);
 		
 		return contentList;
 	}

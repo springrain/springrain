@@ -22,6 +22,7 @@
 		</style>
 		<script src="${ctx}/js/jquery/jquery-1.12.4.js"></script>
 		<script src="${ctx}/js/cache/locache.min.js"></script>
+		<script type="text/javascript" src="${ctx}/js/md5/md5.min.js"></script>
 		<script type="text/javascript">
 			//清除缓存
 			locache.flush();
@@ -90,6 +91,13 @@
 		<script>
 			jQuery(function($) {
 	            $("#sbtButton").click(function(){
+	            	var pw=jQuery(":input[name='password']").val();
+	            	if(!pw||pw==""){
+	            		return false;
+	            	}
+	            	
+	            	pw=md5(pw);
+	            	jQuery(":input[name='password']").val(pw);
 	                $("#loginForm").submit(function(){
 	                    return true;
 	                });

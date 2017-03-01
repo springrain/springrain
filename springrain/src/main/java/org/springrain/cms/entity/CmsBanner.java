@@ -131,7 +131,7 @@ public class CmsBanner  extends BaseEntity {
 		this.imgMap = JsonUtils.readValue(value, ArrayList.class);
 	}
 	
-     @WhereSQL(sql="imgSrc=:CmsBanner_imgSrc")
+    @WhereSQL(sql="imgSrc=:CmsBanner_imgSrc")
 	public java.lang.String getImgSrc() {
 		return this.imgSrc;
 	}
@@ -140,7 +140,6 @@ public class CmsBanner  extends BaseEntity {
 			 value=value.trim();
 			}
 		this.imgAlt = value;
-		
 	}
 	
      @WhereSQL(sql="imgAlt=:CmsBanner_imgAlt")

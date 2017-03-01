@@ -19,6 +19,7 @@ import org.springrain.cms.entity.CmsContent;
 import org.springrain.cms.service.ICmsContentService;
 import org.springrain.cms.service.ICmsLinkService;
 import org.springrain.cms.utils.SiteUtils;
+import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.InputSafeUtils;
 import org.springrain.frame.util.Page;
 import org.springrain.frame.util.ReturnDatas;
@@ -38,7 +39,7 @@ public class ContentController extends SiteBaseController{
 		Page page = newPage(request);
 		returnDatas.setPage(page);
 		returnDatas.setQueryBean(cmsContent);
-
+		model.addAttribute(GlobalStatic.returnDatas, returnDatas);
 		return jump(siteId, businessId,"/s/"+siteId+"/"+businessId+"/content/list", request, model);
 	}
 	

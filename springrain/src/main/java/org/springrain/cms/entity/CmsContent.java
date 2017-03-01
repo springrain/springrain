@@ -13,6 +13,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.springrain.frame.annotation.LuceneField;
 import org.springrain.frame.annotation.WhereSQL;
 import org.springrain.frame.entity.BaseEntity;
+import org.springrain.frame.util.SecUtils;
 /**
  * TODO 在此加入类描述
  * @copyright {@link weicms.net}
@@ -433,7 +434,11 @@ public class CmsContent  extends BaseEntity {
 		this.link = link;
 	}
 	
-	
+	public static void main(String[] args) {
+		for (int i = 0; i < 437; i++) {
+			System.out.println(SecUtils.getUUID());
+		}
+	}
 	
 }
 

@@ -102,6 +102,35 @@ public class SystemRootController extends BaseController {
 		return "/system/file/fileList";
 	}
 
+	@RequestMapping("/delete")
+	public @ResponseBody ReturnDatas delete(HttpServletRequest request,
+			HttpServletResponse response, String t, String p) throws Exception {
+		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
+		String currpath = "";
+		if (StringUtils.isBlank(t)) {
+			currpath = path;
+		} else {
+			currpath = webinfpath;
+		}
+
+		if (StringUtils.isBlank(p)) {
+			returnObject = ReturnDatas.getErrorReturnDatas();
+
+			returnObject.setMessage("文件错误!");
+			return returnObject;
+
+		} else {
+			p = currpath + p;
+		}
+
+		File file = new File(p);
+		if (file.exists()) {
+			file.delete();
+		}
+		returnObject.setData(p);
+		return returnObject;
+	}
+
 	@RequestMapping("/uploadDic")
 	public @ResponseBody ReturnDatas uploadDic(HttpServletRequest request,
 			HttpServletResponse response, String t, String p, String name)

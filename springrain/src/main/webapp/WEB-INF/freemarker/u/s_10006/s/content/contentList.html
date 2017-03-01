@@ -147,7 +147,7 @@
 					            <!--first_end_export-->
 					            <!--start_export-->
 					            <tbody id="dataGrid">
-					               <@cms_content_list p=(returnDatas.page.pageIndex)!'1' type="1">
+					               <@cms_content_list page=(returnDatas.page)! type="1">
 					               		 <#if content_list?? && (content_list?size>0)> 
 					               		 <#list content_list as _data>
 										<!--start_no_export-->
