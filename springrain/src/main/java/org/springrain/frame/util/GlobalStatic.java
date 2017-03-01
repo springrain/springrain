@@ -35,7 +35,7 @@ public class GlobalStatic {
 	//防火墙缓存
     public static final String springrainfirewallCacheKey="springrainfriewallcache";
 	//微信缓存
-    public static final String springrainweixinCacheKey="springrainweixincache";
+   // public static final String springrainweixinCacheKey="springrainweixincache";
     //cms 缓存
     public static final String springraincmsCacheKey="springraincmscache";
     

@@ -1,11 +1,13 @@
 package org.springrain.weixin.entity;
 
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.springrain.frame.entity.BaseEntity;
 import org.springrain.weixin.sdk.common.api.IWxMpConfig;
 
+@Table(name="wx_mpconfig")
 public class WxMpConfig   extends BaseEntity implements IWxMpConfig {
 	private static final long serialVersionUID = 1L;
 	 
