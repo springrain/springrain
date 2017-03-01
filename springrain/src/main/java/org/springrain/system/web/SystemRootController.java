@@ -49,7 +49,7 @@ public class SystemRootController extends BaseController {
 		List<FileDto> dtos = systemRootService.findFileDtosByPath(p, path);
 		returnObject.setData(dtos);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
-
+		
 		// 获取上级目录
 		String parent = "";
 		if (!p.equals(path)) {
