@@ -521,3 +521,17 @@ INSERT INTO `t_menu` (`id`, `name`, `pid`, `description`, `pageurl`, `menuType`,
 insert t_role_menu(id,roleId,menuId) values(UUID(),'r_10001','b94392f7b8714f64819c5c0222eb134a');
 
 update t_menu set pageurl='/system/menu/list/all' where id='t_menu_list';
+
+--添加文件管理SQL
+INSERT INTO `t_menu` (`id`, `name`, `pid`, `description`, `pageurl`, `menuType`, `active`, `sortno`, `menuIcon`, `bak1`, `bak2`, `bak3`, `bak4`, `bak5`) VALUES ('4adc1e3e3e244c0991d9dab66c63badf', '目录创建', 'f5203235547342f094a2c126ad4603bb', '', '/system/file/uploadDic', '0', '1', '2', '', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_menu` (`id`, `name`, `pid`, `description`, `pageurl`, `menuType`, `active`, `sortno`, `menuIcon`, `bak1`, `bak2`, `bak3`, `bak4`, `bak5`) VALUES ('7cd0678633d5407dba2bd6a1553cadce', '文件下载', 'f5203235547342f094a2c126ad4603bb', '', '/system/file/downfile', '0', '1', '3', '', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_menu` (`id`, `name`, `pid`, `description`, `pageurl`, `menuType`, `active`, `sortno`, `menuIcon`, `bak1`, `bak2`, `bak3`, `bak4`, `bak5`) VALUES ('ca28235dbd234b7585e133e70cc7999a', '文件上传', 'f5203235547342f094a2c126ad4603bb', '', '/system/file/uploadFile', '0', '1', '1', '', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_menu` (`id`, `name`, `pid`, `description`, `pageurl`, `menuType`, `active`, `sortno`, `menuIcon`, `bak1`, `bak2`, `bak3`, `bak4`, `bak5`) VALUES ('d6abe682007849869c3a168215ae40d4', 'WEB-INF文件管理', 'system_manager', '', '/system/file/web/list', '1', '1', '7', '&#xe61d;', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_menu` (`id`, `name`, `pid`, `description`, `pageurl`, `menuType`, `active`, `sortno`, `menuIcon`, `bak1`, `bak2`, `bak3`, `bak4`, `bak5`) VALUES ('f5203235547342f094a2c126ad4603bb', '文件管理', 'system_manager', '', '/system/file/list', '1', '1', '6', '&#xe61d;', NULL, NULL, NULL, NULL, NULL);
+
+
+INSERT INTO `t_role_menu` (`id`, `roleId`, `menuId`, `bak1`, `bak2`, `bak3`, `bak4`, `bak5`) VALUES ('file001', 'r_10001', '4adc1e3e3e244c0991d9dab66c63badf', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` (`id`, `roleId`, `menuId`, `bak1`, `bak2`, `bak3`, `bak4`, `bak5`) VALUES ('file002', 'r_10001', 'ca28235dbd234b7585e133e70cc7999a', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` (`id`, `roleId`, `menuId`, `bak1`, `bak2`, `bak3`, `bak4`, `bak5`) VALUES ('file003', 'r_10001', 'd6abe682007849869c3a168215ae40d4', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` (`id`, `roleId`, `menuId`, `bak1`, `bak2`, `bak3`, `bak4`, `bak5`) VALUES ('file004', 'r_10001', 'f5203235547342f094a2c126ad4603bb', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` (`id`, `roleId`, `menuId`, `bak1`, `bak2`, `bak3`, `bak4`, `bak5`) VALUES ('file005', 'r_10001', '7cd0678633d5407dba2bd6a1553cadce', NULL, NULL, NULL, NULL, NULL);
