@@ -1,4 +1,8 @@
 @CHARSET "UTF-8";
+/*升级1.09后菜单 没了*/
+.layui-tab-title{white-space: inherit!important;}
+/*nav a升级后的问题*/
+.layui-tab-title li a{display:inline-block;}
 /*火狐获取高度问题*/
 html,body{height:100%;width: 100%;}
 /*图标会有不对齐的，微调*/
