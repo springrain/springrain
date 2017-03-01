@@ -2,7 +2,6 @@ package org.springrain.weixin.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
-import org.springrain.frame.util.GlobalStatic;
 import org.springrain.system.service.BaseSpringrainServiceImpl;
 import org.springrain.weixin.entity.WxMpConfig;
 import org.springrain.weixin.sdk.common.api.IWxMpConfig;
@@ -93,10 +92,10 @@ public class WxMpConfigServiceImpl extends BaseSpringrainServiceImpl implements 
 		
 		IWxMpConfig wxMpConfig=null;
 		try {
-			wxMpConfig = super.getByCache(GlobalStatic.springrainweixinCacheKey, id, IWxMpConfig.class);
+			wxMpConfig = super.getByCache(id, id, IWxMpConfig.class);
 			if(wxMpConfig==null){
 				wxMpConfig = super.findById(id, WxMpConfig.class);
-				super.putByCache(GlobalStatic.springrainweixinCacheKey, id, wxMpConfig);
+				super.putByCache(id, id, wxMpConfig);
 			}
 		} catch (Exception e) {
 			wxMpConfig=null;
@@ -119,7 +118,7 @@ public class WxMpConfigServiceImpl extends BaseSpringrainServiceImpl implements 
 		}
 		
 		try {
-			super.putByCache(GlobalStatic.springrainweixinCacheKey, id, wxmpconfig);
+			super.putByCache(id, id, wxmpconfig);
 		} catch (Exception e) {
 			logger.error(e.getMessage(),e);
 		}

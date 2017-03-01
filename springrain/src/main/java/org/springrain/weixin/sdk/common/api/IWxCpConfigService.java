@@ -8,7 +8,7 @@ public interface IWxCpConfigService  {
 	 * @param id
 	 * @return
 	 */
-	IWxCpConfig findWxCpConfigById(String id);
+	IWxCpConfig findWxCpConfigById(String id)throws Exception ;
 	
 	
 	/**

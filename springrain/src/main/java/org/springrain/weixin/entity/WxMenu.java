@@ -1,4 +1,4 @@
-package org.springrain.cms.entity;
+package org.springrain.weixin.entity;
 
 import java.util.List;
 
@@ -16,10 +16,10 @@ import org.springrain.frame.entity.BaseEntity;
  * @copyright {@link weicms.net}
  * @author springrain<Auto generate>
  * @version  2017-02-06 17:23:12
- * @see org.springrain.cms.base.entity.CmsWxMenu
+ * @see org.springrain.weixin.entity.WxMenu.entity.CmsWxMenu
  */
-@Table(name="cms_wx_menu")
-public class CmsWxMenu  extends BaseEntity {
+@Table(name="wx_menu")
+public class WxMenu  extends BaseEntity {
 	
 	private static final long serialVersionUID = 1L;
 
@@ -71,14 +71,14 @@ public class CmsWxMenu  extends BaseEntity {
 	 */
 	private java.lang.String siteId;
 	//columns END 数据库字段结束
-	private List<CmsWxMenu> childMenuList;
+	private List<WxMenu> childMenuList;
 	
 	//concstructor
 
-	public CmsWxMenu(){
+	public WxMenu(){
 	}
 
-	public CmsWxMenu(
+	public WxMenu(
 		java.lang.String id
 	){
 		this.id = id;
@@ -177,10 +177,10 @@ public class CmsWxMenu  extends BaseEntity {
 		this.siteId = siteId;
 	}
 	 @Transient
-	public List<CmsWxMenu> getChildMenuList() {
+	public List<WxMenu> getChildMenuList() {
 		return childMenuList;
 	}
-	public void setChildMenuList(List<CmsWxMenu> childMenuList) {
+	public void setChildMenuList(List<WxMenu> childMenuList) {
 		this.childMenuList = childMenuList;
 	}
 
@@ -204,9 +204,9 @@ public class CmsWxMenu  extends BaseEntity {
 	}
 	
 	public boolean equals(Object obj) {
-		if(obj instanceof CmsWxMenu == false) return false;
+		if(obj instanceof WxMenu == false) return false;
 		if(this == obj) return true;
-		CmsWxMenu other = (CmsWxMenu)obj;
+		WxMenu other = (WxMenu)obj;
 		return new EqualsBuilder()
 			.append(getId(),other.getId())
 			.isEquals();
