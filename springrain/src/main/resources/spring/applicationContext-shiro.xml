@@ -102,26 +102,31 @@
 				/f/mp/** = firewall,wxmpautologin
 				
 				
-				/unauth = firewall,user
+				/unauth = firewall
 				/tokenerror = firewall,user
 				
 				/getCaptcha=firewall
 				
 				/login = firewall
-				/system/login = firewall
-				/system/*/login = firewall
-				
-				
-				
 				/index = firewall,user,keepone
-				/system/index =firewall,systemuser,framefwlog,keepone
 				/logout = firewall,frontuser
-				/system/logout = firewall,frontuser
+				
+				/s/*/login = firewall
+				/s/*/index = firewall,siteuser,keepone
+				/s/*/logout = firewall,siteuser
+				/s/*/menu/leftMenu=firewall,siteuser,keepone
+				/s/**=firewall,siteuser,keepone,frameperms
+				
+				
+				/system/login = firewall
+				/system/index =firewall,systemuser,framefwlog,keepone
+				/system/logout = firewall,systemuser
+				/system/menu/leftMenu=firewall,systemuser,keepone
+				/system/** = firewall,systemuser,keepone,frameperms
 				
 			
-				/system/menu/leftMenu=firewall,systemuser,keepone
 				
-				/** = firewall,frontuser,framefwlog,keepone,frameperms
+				/** = firewall,user,keepone,frameperms
 			</value>
 		</property>
 		<!-- 声明自定义的过滤器 -->
@@ -131,11 +136,14 @@
 			    <entry key="framefwlog" value-ref="framefwlog"></entry>
 			    <!--权限校验的过滤器 -->
 				<entry key="frameperms" value-ref="frameperms"></entry>
+				
 				 <!-- 前台用户过滤器 -->
 				<entry key="frontuser" value-ref="frontuser"></entry>
-				
+				 <!-- 网站后台用户过滤器 -->
+				<entry key="siteuser" value-ref="siteuser"></entry>
 				 <!-- 后台用户过滤器 -->
 				<entry key="systemuser" value-ref="systemuser"></entry>
+				
 			    <!-- 踢出上个账户的过滤器 -->
 			    <entry key="keepone" value-ref="keepone"/>
 			     <!-- 静态化 过滤器 -->

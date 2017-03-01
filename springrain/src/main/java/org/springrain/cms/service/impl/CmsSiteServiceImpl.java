@@ -3,11 +3,9 @@ package org.springrain.cms.service.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -16,10 +14,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springrain.cms.entity.CmsLink;
 import org.springrain.cms.entity.CmsSite;
+import org.springrain.cms.entity.CmsSiteWxconfig;
 import org.springrain.cms.service.ICmsLinkService;
 import org.springrain.cms.service.ICmsSiteService;
+import org.springrain.cms.service.ICmsSiteWxconfigService;
 import org.springrain.frame.common.SessionUser;
-import org.springrain.frame.util.DateUtils;
 import org.springrain.frame.util.Enumerations.SiteType;
 import org.springrain.frame.util.Enumerations.UserOrgType;
 import org.springrain.frame.util.Finder;
@@ -56,6 +55,8 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 	private IOrgService orgService;
 	@Resource
 	private IUserOrgService userOrgService;
+	@Resource
+	private ICmsSiteWxconfigService cmsSiteWxconfigService;
 	
 	@Override
 	public Object saveorupdate(Object entity) throws Exception {
@@ -97,9 +98,6 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
     	if(cmsSite==null){
     		return null;
     	}
-	    
-    	
-    	
     	
 	    String id= tableindexService.updateNewId(CmsSite.class);
 	    if(StringUtils.isEmpty(id)){
@@ -109,14 +107,20 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 	    //cmsSite.setOrgId(orgId);
 	    super.save(cmsSite);
 	    
-
+	    //如果是企业号或服务号，新建配置信息
+	    Integer siteType = cmsSite.getSiteType();
+	    if(SiteType.cp.getType()==siteType.intValue() || SiteType.mp.getType() == siteType.intValue()){
+	    	CmsSiteWxconfig config = new CmsSiteWxconfig(SecUtils.getUUID());
+	    	config.setActive(1);
+	    	config.setSiteId(id);
+	    	cmsSiteWxconfigService.save(config);
+	    }
 	    
-	    //保存 相应的 link 链接
-	    
+	    //保存 相应的前台 link 链接
 	    CmsLink cmsLink=new CmsLink();
-	    
 	    cmsLink.setBusinessId(id);
 	    cmsLink.setSiteId(id);
+	    cmsLink.setModelType(0);
 	    cmsLink.setName(cmsSite.getName());
 	    cmsLink.setJumpType(0);
 	    cmsLink.setLookcount(1);
@@ -130,19 +134,22 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 	    //设置模板路径
 	    cmsLink.setFtlfile("/u/"+id+"/index");
 	    cmsLink.setNodeftlfile("/u/"+id+"/channel");
-	    
-	    
 	    cmsLinkService.save(cmsLink);
 	    
+	    //保存 相应的后台台 link 链接
+	    cmsLink=new CmsLink();
+	    cmsLink.setId(null);
+	    cmsLink.setModelType(4);
+	    _index="/s/"+id+"/index";
+	    cmsLink.setDefaultLink(_index);
+	    cmsLink.setLink(_index);
+	    cmsLink.setFtlfile("/u/"+id+"/s/index");
+	    cmsLinkService.save(cmsLink);
 	    
 	   File t_file=new File(GlobalStatic.webinfodir+"/u/"+id+"/");
 	   if(!t_file.exists()){
 		   t_file.mkdirs();
 		 }
-	    
-	    
-	    
-	    
 	    
 		 String str_jsdir=GlobalStatic.rootdir+"/u/"+id+"/js/";
 		 String str_cssdir=GlobalStatic.rootdir+"/u/"+id+"/css/";
@@ -212,9 +219,9 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 
 	@Override
 	public String updateCmsSite(CmsSite cmsSite) throws Exception {
+		//保存图片附件
 		super.update(cmsSite,true);
 		String siteId = cmsSite.getId();
-		//evictByKey(siteId, "findCmsSiteById_"+siteId);
 		putByCache(siteId, "cmsSiteService_findCmsSiteById_"+siteId, cmsSite);
 		return null;
 	}
@@ -243,10 +250,15 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 	}
 
 	@Override
-	public String saveTmpLogo(MultipartFile tempFile, HttpServletRequest request) throws IOException {
-		String filePath = "upload"+File.separator+"tmp"+File.separator+DateUtils.convertDate2String("yyyyMMddHHmmss", new Date())+tempFile.getOriginalFilename();
-		File file = new File(request.getServletContext().getRealPath("/")+filePath);
-		FileUtils.copyToFile(tempFile.getInputStream(), file);
+	public String saveTmpLogo(MultipartFile tempFile, String siteId) throws IOException {
+		String filePath = "/upload/"+siteId+"/logo/"+SecUtils.getUUID()+tempFile.getOriginalFilename();
+		File file = new File(GlobalStatic.rootdir+filePath);
+		File fileParentDir = file.getParentFile();
+		if(!fileParentDir.exists())
+			fileParentDir.mkdirs();
+		if(!file.exists())
+			file.createNewFile();
+		tempFile.transferTo(file);
 		return File.separator+filePath;
 	}
 

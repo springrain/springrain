@@ -82,6 +82,15 @@ public class CmsProperty  extends BaseEntity {
 	 */
 	private java.lang.String defaultValue;
 	/**
+	 * pvalue
+	 */
+	private java.lang.String pvalue;
+	
+	//子是否可用
+	private Integer leafUse;
+	
+	
+	/**
 	 * 样式
 	 */
 	private java.lang.String style;
@@ -232,7 +241,28 @@ public class CmsProperty  extends BaseEntity {
 		this.sortno = value;
 	}
 	
-     @WhereSQL(sql="sortno=:CmsProperty_sortno")
+	public void setPvalue(java.lang.String value) {
+	    if(StringUtils.isNotBlank(value)){
+		 value=value.trim();
+		}
+	this.pvalue = value;
+}
+
+	 @WhereSQL(sql="pvalue=:CmsProperty_pvalue")
+	public java.lang.String getPvalue() {
+		return this.pvalue;
+	}
+		
+	 @WhereSQL(sql="leafUse=:CmsProperty_leafUse")
+	public Integer getLeafUse() {
+		return leafUse;
+	}
+	
+	public void setLeafUse(Integer leafUse) {
+		this.leafUse = leafUse;
+	}
+
+	@WhereSQL(sql="sortno=:CmsProperty_sortno")
 	public java.lang.Integer getSortno() {
 		return this.sortno;
 	}

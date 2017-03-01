@@ -3,8 +3,6 @@ package org.springrain.cms.service;
 import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.web.multipart.MultipartFile;
 import org.springrain.cms.entity.CmsSite;
 import org.springrain.system.service.IBaseSpringrainService;
@@ -63,7 +61,7 @@ public interface ICmsSiteService extends IBaseSpringrainService {
 	 * @return
 	 * @throws IOException 
 	 */
-	String saveTmpLogo(MultipartFile tempFile, HttpServletRequest request) throws IOException;
+	String saveTmpLogo(MultipartFile tempFile, String siteId) throws IOException;
 	/**
 	 * 根据用户ID查找该用户下的微信服务号站点列表
 	 * @param userId

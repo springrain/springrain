@@ -3,6 +3,8 @@ package org.springrain.cms.service.impl;
 import java.io.File;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Service;
 import org.springrain.cms.entity.CmsSiteWxconfig;
 import org.springrain.cms.service.ICmsSiteWxconfigService;
@@ -10,6 +12,7 @@ import org.springrain.frame.entity.IBaseEntity;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.Page;
 import org.springrain.system.service.BaseSpringrainServiceImpl;
+import org.springrain.system.service.IUserOrgService;
 
 
 /**
@@ -22,8 +25,10 @@ import org.springrain.system.service.BaseSpringrainServiceImpl;
 @Service("cmsSiteWxconfigService")
 public class CmsSiteWxconfigServiceImpl extends BaseSpringrainServiceImpl implements ICmsSiteWxconfigService {
 
-   
-    @Override
+	@Resource
+    private IUserOrgService userOrgService;
+
+	@Override
 	public String  save(Object entity ) throws Exception{
 	      CmsSiteWxconfig cmsSiteWxconfig=(CmsSiteWxconfig) entity;
 	       return super.save(cmsSiteWxconfig).toString();
@@ -75,5 +80,13 @@ public class CmsSiteWxconfigServiceImpl extends BaseSpringrainServiceImpl implem
 			throws Exception {
 			 return super.findDataExportExcel(finder,ftlurl,page,clazz,o);
 		}
+
+	@Override
+	public List<CmsSiteWxconfig> findWxconfigByUserId(String userId) throws Exception {
+		List<String> orgIds = userOrgService.findOrgIdsByManagerUserId(userId);
+		Finder finder = new Finder("SELECT a.* FROM cms_site_wxconfig a INNER JOIN cms_site b ON a.siteId = b.id WHERE a.active=1 AND b.active=1 AND b.orgId in (:orgIds)");
+		finder.setParam("orgIds", orgIds);
+		return super.queryForList(finder, CmsSiteWxconfig.class);
+	}
 
 }

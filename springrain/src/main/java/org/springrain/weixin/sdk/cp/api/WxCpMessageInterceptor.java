@@ -23,6 +23,6 @@ public interface WxCpMessageInterceptor {
    */
   boolean intercept(WxCpXmlMessage wxMessage,
                     Map<String, Object> context,
-                    IWxCpService iWxCpService) throws WxErrorException;
+                    IWxCpService wxCpService) throws WxErrorException;
 
 }

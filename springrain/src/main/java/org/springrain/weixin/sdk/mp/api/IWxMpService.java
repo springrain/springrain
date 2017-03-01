@@ -2,7 +2,7 @@ package org.springrain.weixin.sdk.mp.api;
 
 import java.util.List;
 
-import org.springrain.weixin.entity.WxMpConfig;
+import org.springrain.weixin.sdk.common.api.IWxMpConfig;
 import org.springrain.weixin.sdk.common.bean.WxJsApiSignature;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
 import org.springrain.weixin.sdk.common.util.http.RequestExecutor;
@@ -29,7 +29,7 @@ public interface IWxMpService {
    * 详情请见: http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421135319&token=&lang=zh_CN
    * </pre>
    */
-  boolean checkSignature(WxMpConfig wxmpconfig,String timestamp, String nonce, String signature);
+  boolean checkSignature(IWxMpConfig wxmpconfig,String timestamp, String nonce, String signature);
 
   /**
    * 获取access_token, 不强制刷新access_token
@@ -37,7 +37,7 @@ public interface IWxMpService {
    *
    * @see #getAccessToken(boolean)
    */
-  String getAccessToken(WxMpConfig wxmpconfig) throws WxErrorException;
+  String getAccessToken(IWxMpConfig wxmpconfig) throws WxErrorException;
 
   /**
    * <pre>
@@ -54,14 +54,14 @@ public interface IWxMpService {
    * @param forceRefresh 强制刷新
  * @throws Exception 
    */
-  String getAccessToken(WxMpConfig wxmpconfig,boolean forceRefresh) throws WxErrorException, Exception;
+  String getAccessToken(IWxMpConfig wxmpconfig,boolean forceRefresh) throws WxErrorException, Exception;
 
   /**
    * 获得jsapi_ticket,不强制刷新jsapi_ticket
    *
    * @see #getJsApiTicket(boolean)
    */
-  String getJsApiTicket(WxMpConfig wxmpconfig) throws WxErrorException;
+  String getJsApiTicket(IWxMpConfig wxmpconfig) throws WxErrorException;
 
   /**
    * <pre>
@@ -73,7 +73,7 @@ public interface IWxMpService {
    *
    * @param forceRefresh 强制刷新
    */
-  String getJsApiTicket(WxMpConfig wxmpconfig,boolean forceRefresh) throws WxErrorException;
+  String getJsApiTicket(IWxMpConfig wxmpconfig,boolean forceRefresh) throws WxErrorException;
 
   /**
    * <pre>
@@ -82,7 +82,7 @@ public interface IWxMpService {
    * 详情请见：http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141115&token=&lang=zh_CN
    * </pre>
    */
-  WxJsApiSignature createJsApiSignature(WxMpConfig wxmpconfig,String url) throws WxErrorException;
+  WxJsApiSignature createJsApiSignature(IWxMpConfig wxmpconfig,String url) throws WxErrorException;
 
   /**
    * <pre>
@@ -94,7 +94,7 @@ public interface IWxMpService {
    * @see #massGroupMessageSend(org.springrain.weixin.sdk.mp.bean.WxMpMassTagMessage)
    * @see #massOpenIdsMessageSend(org.springrain.weixin.sdk.mp.bean.WxMpMassOpenIdsMessage)
    */
-  WxMpMassUploadResult massNewsUpload(WxMpConfig wxmpconfig,WxMpMassNews news) throws WxErrorException;
+  WxMpMassUploadResult massNewsUpload(IWxMpConfig wxmpconfig,WxMpMassNews news) throws WxErrorException;
 
   /**
    * <pre>
@@ -105,7 +105,7 @@ public interface IWxMpService {
    * @see #massGroupMessageSend(org.springrain.weixin.sdk.mp.bean.WxMpMassTagMessage)
    * @see #massOpenIdsMessageSend(org.springrain.weixin.sdk.mp.bean.WxMpMassOpenIdsMessage)
    */
-  WxMpMassUploadResult massVideoUpload(WxMpConfig wxmpconfig,WxMpMassVideo video) throws WxErrorException;
+  WxMpMassUploadResult massVideoUpload(IWxMpConfig wxmpconfig,WxMpMassVideo video) throws WxErrorException;
 
   /**
    * <pre>
@@ -115,7 +115,7 @@ public interface IWxMpService {
    * 详情请见: http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140549&token=&lang=zh_CN
    * </pre>
    */
-  WxMpMassSendResult massGroupMessageSend(WxMpConfig wxmpconfig,WxMpMassTagMessage message) throws WxErrorException;
+  WxMpMassSendResult massGroupMessageSend(IWxMpConfig wxmpconfig,WxMpMassTagMessage message) throws WxErrorException;
 
   /**
    * <pre>
@@ -125,7 +125,7 @@ public interface IWxMpService {
    * 详情请见: http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421140549&token=&lang=zh_CN
    * </pre>
    */
-  WxMpMassSendResult massOpenIdsMessageSend(WxMpConfig wxmpconfig,WxMpMassOpenIdsMessage message) throws WxErrorException;
+  WxMpMassSendResult massOpenIdsMessageSend(IWxMpConfig wxmpconfig,WxMpMassOpenIdsMessage message) throws WxErrorException;
 
   /**
    * <pre>
@@ -139,7 +139,7 @@ public interface IWxMpService {
    *
    * @return wxMpMassSendResult
    */
-  WxMpMassSendResult massMessagePreview(WxMpConfig wxmpconfig,WxMpMassPreviewMessage wxMpMassPreviewMessage) throws Exception;
+  WxMpMassSendResult massMessagePreview(IWxMpConfig wxmpconfig,WxMpMassPreviewMessage wxMpMassPreviewMessage) throws Exception;
 
   /**
    * <pre>
@@ -148,7 +148,7 @@ public interface IWxMpService {
    * </pre>
    *
    */
-  String shortUrl(WxMpConfig wxmpconfig,String long_url) throws WxErrorException;
+  String shortUrl(IWxMpConfig wxmpconfig,String long_url) throws WxErrorException;
 
   /**
    * <pre>
@@ -156,7 +156,7 @@ public interface IWxMpService {
    * 详情请见：http://mp.weixin.qq.com/wiki/index.php?title=语义理解
    * </pre>
    */
-  WxMpSemanticQueryResult semanticQuery(WxMpConfig wxmpconfig,WxMpSemanticQuery semanticQuery) throws WxErrorException;
+  WxMpSemanticQueryResult semanticQuery(IWxMpConfig wxmpconfig,WxMpSemanticQuery semanticQuery) throws WxErrorException;
 
   /**
    * <pre>
@@ -170,7 +170,7 @@ public interface IWxMpService {
    * @param state 非必填，用于保持请求和回调的状态，授权请求后原样带回给第三方。该参数可用于防止csrf攻击（跨站请求伪造攻击），建议第三方带上该参数，可设置为简单的随机数加session进行校验
    * @return url
    */
-  String buildQrConnectUrl(WxMpConfig wxmpconfig,String redirectURI, String scope, String state);
+  String buildQrConnectUrl(IWxMpConfig wxmpconfig,String redirectURI, String scope, String state);
 
   /**
    * <pre>
@@ -181,7 +181,7 @@ public interface IWxMpService {
    * @param redirectURI 用户授权完成后的重定向链接，无需urlencode, 方法内会进行encode
    * @return url
    */
-  String oauth2buildAuthorizationUrl(WxMpConfig wxmpconfig,String redirectURI, String scope, String state);
+  String oauth2buildAuthorizationUrl(IWxMpConfig wxmpconfig,String redirectURI, String scope, String state);
 
   /**
    * <pre>
@@ -189,14 +189,14 @@ public interface IWxMpService {
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=网页授权获取用户基本信息
    * </pre>
    */
-  WxMpOAuth2AccessToken oauth2getAccessToken(WxMpConfig wxmpconfig,String code) throws WxErrorException;
+  WxMpOAuth2AccessToken oauth2getAccessToken(IWxMpConfig wxmpconfig,String code) throws WxErrorException;
 
   /**
    * <pre>
    * 刷新oauth2的access token
    * </pre>
    */
-  WxMpOAuth2AccessToken oauth2refreshAccessToken(WxMpConfig wxmpconfig,String refreshToken) throws WxErrorException;
+  WxMpOAuth2AccessToken oauth2refreshAccessToken(IWxMpConfig wxmpconfig,String refreshToken) throws WxErrorException;
 
   /**
    * <pre>
@@ -205,7 +205,7 @@ public interface IWxMpService {
    *
    * @param lang              zh_CN, zh_TW, en
    */
-  WxMpUser oauth2getUserInfo(WxMpConfig wxmpconfig,WxMpOAuth2AccessToken oAuth2AccessToken, String lang) throws WxErrorException;
+  WxMpUser oauth2getUserInfo(IWxMpConfig wxmpconfig,WxMpOAuth2AccessToken oAuth2AccessToken, String lang) throws WxErrorException;
 
   /**
    * <pre>
@@ -213,7 +213,7 @@ public interface IWxMpService {
    * </pre>
    *
    */
-  boolean oauth2validateAccessToken(WxMpConfig wxmpconfig,WxMpOAuth2AccessToken oAuth2AccessToken);
+  boolean oauth2validateAccessToken(IWxMpConfig wxmpconfig,WxMpOAuth2AccessToken oAuth2AccessToken);
 
   /**
    * <pre>
@@ -221,17 +221,17 @@ public interface IWxMpService {
    * http://mp.weixin.qq.com/wiki/0/2ad4b6bfd29f30f71d39616c2a0fcedc.html
    * </pre>
    */
-  List<String> getCallbackIP(WxMpConfig wxmpconfig) throws WxErrorException;
+  List<String> getCallbackIP(IWxMpConfig wxmpconfig) throws WxErrorException;
 
   /**
    * 当本Service没有实现某个API的时候，可以用这个，针对所有微信API中的GET请求
    */
-  String get(WxMpConfig wxmpconfig,String url, String queryParam) throws WxErrorException;
+  String get(IWxMpConfig wxmpconfig,String url, String queryParam) throws WxErrorException;
 
   /**
    * 当本Service没有实现某个API的时候，可以用这个，针对所有微信API中的POST请求
    */
-  String post(WxMpConfig wxmpconfig,String url, String postData) throws WxErrorException;
+  String post(IWxMpConfig wxmpconfig,String url, String postData) throws WxErrorException;
 
   /**
    * <pre>
@@ -240,7 +240,7 @@ public interface IWxMpService {
    * 可以参考，{@link org.springrain.weixin.sdk.common.util.http.MediaUploadRequestExecutor}的实现方法
    * </pre>
    */
-  <T, E> T execute(WxMpConfig wxmpconfig,RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException;
+  <T, E> T execute(IWxMpConfig wxmpconfig,RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException;
 
 
 

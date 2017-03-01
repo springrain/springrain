@@ -96,13 +96,10 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 	    cmsChannel.setComcode(_c);
 	    super.save(cmsChannel);
 	    
-	
-	    
-	    
 	    
        //保存 相应的 link 链接
 	    CmsLink cmsLink=new CmsLink();
-	    
+	    cmsLink.setModelType(0);
 	    cmsLink.setBusinessId(id);
 	    cmsLink.setSiteId(siteId);
 	    cmsLink.setName(cmsChannel.getName());
@@ -111,6 +108,7 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 	    cmsLink.setStatichtml(0);//默认不静态化
 	    cmsLink.setActive(0);//默认可以使用
 	    cmsLink.setSortno(1);
+	    cmsLink.setLoginuser(cmsChannel.getLoginuser());
 	    //首页默认
 	    String _index="/f/"+SiteType.getSiteType(siteType).name()+"/"+siteId+"/"+id;
 	    cmsLink.setDefaultLink(_index);
@@ -118,6 +116,31 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 	    //设置模板路径
 	    cmsLink.setFtlfile("/u/"+siteId+"/channel");
 	    cmsLink.setNodeftlfile("/u/"+siteId+"/content.html");
+	    cmsLinkService.save(cmsLink);
+	    
+	    //保存 相应的站长管理后台list列表 link 链接
+	    cmsLink.setId(null);
+	    cmsLink.setModelType(4);
+	    _index="/s/"+siteId+"/"+id+"/content/list";
+	    cmsLink.setDefaultLink(_index);
+	    cmsLink.setLink(_index);
+	    cmsLink.setFtlfile(cmsChannel.getFtlListPath());
+	    cmsLinkService.save(cmsLink);
+	    //保存 相应的站长管理后台update link 链接
+	    cmsLink.setId(null);
+	    cmsLink.setModelType(4);
+	    _index = "/s/"+siteId+"/"+id+"/content/update/pre";
+	    cmsLink.setDefaultLink(_index);
+	    cmsLink.setLink(_index);
+	    cmsLink.setFtlfile(cmsChannel.getFtlUpdatePath());
+	    cmsLinkService.save(cmsLink);
+	    //保存 相应的站长管理后台look link 链接
+	    cmsLink.setId(null);
+	    cmsLink.setModelType(4);
+	    _index = "/s/"+siteId+"/"+id+"/content/look";
+	    cmsLink.setDefaultLink(_index);
+	    cmsLink.setLink(_index);
+	    cmsLink.setFtlfile(cmsChannel.getFtlLookPath());
 	    cmsLinkService.save(cmsLink);
 	    
 	    evictByKey(siteId, "cmsChannelService_findTreeByPid_"+cmsChannel.getPid()+"_"+siteId);
@@ -131,7 +154,6 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 		if(cmsChannel==null){
     		return null;
     	}
-		
 		String id=cmsChannel.getId();
 		String pid=cmsChannel.getPid();
 		String siteId=cmsChannel.getSiteId();
@@ -140,8 +162,34 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 			return null;
 		}
 		
+		//修改cmsLink
+		CmsLink link = cmsLinkService.findLinkBySiteBusinessId(siteId, id);
+		if(link!=null){
+			link.setLoginuser(cmsChannel.getLoginuser());
+			cmsLinkService.saveorupdate(link);
+		}
 		
-
+		String defaultLink = "/s/"+siteId+"/"+id+"/list";
+		link = cmsLinkService.findLinkBySiteBusinessId(siteId, id,defaultLink);
+		if(link!=null){
+			link.setFtlfile(cmsChannel.getFtlListPath());
+			cmsLinkService.saveorupdate(link);
+		}
+		
+		defaultLink = "/s/"+siteId+"/"+id+"/update/pre";
+		link = cmsLinkService.findLinkBySiteBusinessId(siteId, id,defaultLink);
+		if(link!=null){
+			link.setFtlfile(cmsChannel.getFtlUpdatePath());
+			cmsLinkService.saveorupdate(link);
+		}
+		
+		defaultLink = "/s/"+siteId+"/"+id+"/look";
+		link = cmsLinkService.findLinkBySiteBusinessId(siteId, id,defaultLink);
+		if(link!=null){
+			link.setFtlfile(cmsChannel.getFtlLookPath());
+			cmsLinkService.saveorupdate(link);
+		}
+		
 		Finder f_old_c=Finder.getSelectFinder(CmsChannel.class, "comcode").append(" WHERE id=:id ").setParam("id", id);
 		
 		String old_c=super.queryForObject(f_old_c, String.class);
@@ -190,7 +238,13 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
     	}
     	
     	List<CmsChannel> channelList = getByCache(siteId, "cmsChannelService_findTreeByPid_"+pid+"_"+siteId, List.class);
-    	if(CollectionUtils.isEmpty(channelList)){
+    	if(CollectionUtils.isNotEmpty(channelList)){
+    		return channelList;
+    	}
+    	
+    	
+    	
+    	
     		Finder finder=Finder.getSelectFinder(CmsChannel.class).append("  WHERE active=:active and siteId=:siteId ").setParam("siteId", siteId).setParam("active", 1);
             
             if(StringUtils.isNotBlank(pid)){
@@ -206,9 +260,7 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
     		diguiwrapList(channelList, wrapList, null);
     		putByCache(siteId, "cmsChannelService_findTreeByPid_"+pid+"_"+siteId,wrapList);
     		return wrapList;
-    	}else{
-    		return channelList;
-    	}
+    	
 	}
 	@Override
 	public List<CmsChannel> findTreeChannel(String siteId) throws Exception {

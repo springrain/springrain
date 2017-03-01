@@ -33,6 +33,12 @@ public interface ICmsLinkService extends IBaseSpringrainService {
 	 * @throws Exception 
 	 */
     CmsLink findLinkBySiteBusinessId(String siteId,String bussinessId) throws Exception;
-	
-	
+    
+    /**
+	 * 查询资源链接
+	 * @param bussinessId
+	 * @return
+	 * @throws Exception 
+	 */
+    CmsLink findLinkBySiteBusinessId(String siteId,String bussinessId,String defaultLink) throws Exception;
 }

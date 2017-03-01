@@ -20,7 +20,7 @@ public interface ICmsContentService extends IBaseSpringrainService {
 	 * @return
 	 * @throws Exception
 	 */
-	CmsContent findCmsContentById(String id) throws Exception;
+	CmsContent findCmsContentById(String findCmsContentById,String id) throws Exception;
 
 	String saveContent(CmsContent cmsContent) throws Exception;
 
@@ -44,4 +44,8 @@ public interface ICmsContentService extends IBaseSpringrainService {
 	 * @throws Exception 
 	 */
 	List<CmsContent> findContentByChannelId(String siteId, String channelId, Page page) throws Exception;
+
+	void deleteById(String id, String siteId) throws Exception;
+
+	void deleteByIds(List<String> ids, String siteId) throws Exception;
 }

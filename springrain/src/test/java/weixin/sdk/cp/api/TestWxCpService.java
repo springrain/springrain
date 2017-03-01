@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.frame.util.JsonUtils;
 import org.springrain.weixin.entity.WxCpConfig;
+import org.springrain.weixin.sdk.common.api.IWxCpConfig;
 import org.springrain.weixin.sdk.common.bean.menu.WxMenu;
 import org.springrain.weixin.sdk.common.bean.menu.WxMenuButton;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
@@ -39,7 +40,7 @@ public class TestWxCpService {
 	 */
 	@Test
 	public void testAccessToken(){
-		WxCpConfig config = new WxCpConfig();
+		IWxCpConfig config = new WxCpConfig();
 		config.setCorpId(corpId);
 		config.setCorpSecret(secret);
 		
@@ -59,7 +60,7 @@ public class TestWxCpService {
 	 */
 	@Test
 	public void testGetAppInfo(){
-		WxCpConfig config = new WxCpConfig();
+		IWxCpConfig config = new WxCpConfig();
 		config.setCorpId(corpId);
 		config.setCorpSecret(secret);
 		try {
@@ -80,7 +81,7 @@ public class TestWxCpService {
 	 */
 	@Test
 	public void testSetApp(){
-		WxCpConfig config = new WxCpConfig();
+		IWxCpConfig config = new WxCpConfig();
 		config.setCorpId(corpId);
 		config.setCorpSecret(secret);
 		
@@ -113,7 +114,7 @@ public class TestWxCpService {
 	 */
 	@Test
 	public void testGetAppsInfo(){
-		WxCpConfig config = new WxCpConfig();
+		IWxCpConfig config = new WxCpConfig();
 		config.setCorpId(corpId);
 		config.setCorpSecret(secret);
 		
@@ -134,7 +135,7 @@ public class TestWxCpService {
 	 */
 	@Test
 	public void testMenuCreate(){
-		WxCpConfig config = new WxCpConfig();
+		IWxCpConfig config = new WxCpConfig();
 		config.setCorpId(corpId);
 		config.setCorpSecret(secret);
 		
@@ -161,7 +162,7 @@ public class TestWxCpService {
 	 */
 	@Test
 	public void testMenuGet(){
-		WxCpConfig config = new WxCpConfig();
+		IWxCpConfig config = new WxCpConfig();
 		config.setCorpId(corpId);
 		config.setCorpSecret(secret);
 		try {
@@ -177,7 +178,7 @@ public class TestWxCpService {
 	 * 测试邀请关注
 	 */
 	public void testInviteUser(){
-		WxCpConfig config = new WxCpConfig();
+		IWxCpConfig config = new WxCpConfig();
 		config.setCorpId(corpId);
 		config.setCorpSecret(secret);
 		
@@ -195,7 +196,7 @@ public class TestWxCpService {
 	 */
 	@Test
 	public void testUserAuthenticated(){
-		WxCpConfig config = new WxCpConfig();
+		IWxCpConfig config = new WxCpConfig();
 		config.setCorpId(corpId);
 		config.setCorpSecret(secret);
 		try {
@@ -211,7 +212,7 @@ public class TestWxCpService {
 	 */
 	@Test
 	public void testDeptListGet(){
-		WxCpConfig config = new WxCpConfig();
+		IWxCpConfig config = new WxCpConfig();
 		config.setCorpId(corpId);
 		config.setCorpSecret(secret);
 		
@@ -229,7 +230,7 @@ public class TestWxCpService {
 	 */
 	@Test
 	public void testDeptCreate(){
-		WxCpConfig config = new WxCpConfig();
+		IWxCpConfig config = new WxCpConfig();
 		config.setCorpId(corpId);
 		config.setCorpSecret(secret);
 		
@@ -261,7 +262,7 @@ public class TestWxCpService {
 	 */
 	@Test
 	public void testGetUserList(){
-		WxCpConfig config = new WxCpConfig();
+		IWxCpConfig config = new WxCpConfig();
 		config.setCorpId(corpId);
 		config.setCorpSecret(secret);
 		
@@ -282,7 +283,7 @@ public class TestWxCpService {
 	 */
 	@Test
 	public void testUserOperate(){
-		WxCpConfig config = new WxCpConfig();
+		IWxCpConfig config = new WxCpConfig();
 		config.setCorpId(corpId);
 		config.setCorpSecret(secret);
 		
@@ -332,7 +333,7 @@ public class TestWxCpService {
 	 */
 	@Test
 	public void testGetTags(){
-		WxCpConfig config = new WxCpConfig();
+		IWxCpConfig config = new WxCpConfig();
 		config.setCorpId(corpId);
 		config.setCorpSecret(secret);
 		
@@ -353,7 +354,7 @@ public class TestWxCpService {
 	 */
 	@Test
 	public void testTagsOperate(){
-		WxCpConfig config = new WxCpConfig();
+		IWxCpConfig config = new WxCpConfig();
 		config.setCorpId(corpId);
 		config.setCorpSecret(secret);
 		
@@ -384,7 +385,7 @@ public class TestWxCpService {
 	 */
 	@Test
 	public void testTmpMedia() throws IOException{
-		WxCpConfig config = new WxCpConfig();
+		IWxCpConfig config = new WxCpConfig();
 		config.setCorpId(corpId);
 		config.setCorpSecret(secret);
 		config.setTmpDirFile("E://1//");
@@ -411,7 +412,7 @@ public class TestWxCpService {
 	 */
 	@Test
 	public void testMessageSend(){
-		WxCpConfig config = new WxCpConfig();
+		IWxCpConfig config = new WxCpConfig();
 		config.setCorpId(corpId);
 		config.setCorpSecret(secret);
 		Map<String, String> maps = new HashMap<String, String>();

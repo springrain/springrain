@@ -26,7 +26,7 @@ description="springrain开源系统管理后台"/>
 					/*
 					加载菜单的JSON
 					*/
-					jQuery.post("${ctx}/system/menu/list/json",function(_json) {
+					jQuery.post("${ctx}/system/menu/list/all/json",function(_json) {
 						if (_json.status == "success") {
 							menujsondata4select = _json;
 							springrain.tree({

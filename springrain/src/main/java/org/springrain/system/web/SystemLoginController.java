@@ -10,10 +10,8 @@ import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.util.WebUtils;
-import org.springframework.aop.ThrowsAdvice;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springrain.frame.controller.BaseController;
@@ -47,12 +45,10 @@ public class SystemLoginController extends BaseController   {
 	 */
 		@RequestMapping(value = "/index")
 		public String index(Model model,HttpSession session,HttpServletRequest request) throws Exception {
-			String siteId = (String) session.getAttribute("siteId");
-			if(StringUtils.isNotBlank(siteId)){
-				model.addAttribute("siteId", siteId);
-			}
-				return "/system/index";
-			
+			String siteId = request.getParameter("systemSiteId");
+			if(StringUtils.isNotBlank(siteId))
+				model.addAttribute("systemSiteId", siteId);
+			return "/system/index";
 		}
 		
 	
@@ -71,13 +67,6 @@ public class SystemLoginController extends BaseController   {
 			return getLoginUrl(model,request,null);
 		}
 		
-		@RequestMapping(value = "/{systemSiteId}/login",method=RequestMethod.GET)
-		public String siteLogin(Model model,HttpServletRequest request,@PathVariable String systemSiteId) throws Exception {
-			model.addAttribute("systemSiteId", systemSiteId);
-			return getLoginUrl(model, request, systemSiteId);
-		}
-		
-		
 		private String getLoginUrl(Model model,HttpServletRequest request,String siteId){
 			
 			//判断用户是否登录
@@ -90,9 +79,6 @@ public class SystemLoginController extends BaseController   {
 			  if(StringUtils.isNotBlank(url)){
 			     model.addAttribute("gotourl", url);
 			  }
-			
-			
-			
 			return "/system/login";
 		}
 		
@@ -119,7 +105,6 @@ public class SystemLoginController extends BaseController   {
 			  String systemSiteId=request.getParameter("systemSiteId");
 			  if(StringUtils.isNotBlank(systemSiteId)){
 					model.addAttribute("systemSiteId", systemSiteId);
-					session.setAttribute("siteId",systemSiteId);
 				}
 			  
 			  if(StringUtils.isNotBlank(code)){
@@ -141,7 +126,7 @@ public class SystemLoginController extends BaseController   {
 			
 			String rememberme=request.getParameter("rememberme");
 			if(StringUtils.isNotBlank(rememberme)){
-			token.setRememberMe(true);
+				token.setRememberMe(true);
 			}else{
 				token.setRememberMe(false);
 			}
@@ -174,28 +159,9 @@ public class SystemLoginController extends BaseController   {
 				  }
 				return "/system/login";
 			}
-		
-			//String sessionId = session.getId();
-			
-			//Cache<Object, Object> cache = shiroCacheManager.getCache(GlobalStatic.authenticationCacheName);
-			//cache.put(GlobalStatic.authenticationCacheName+"-"+currUser.getAccount(), sessionId);
-			
-			/*
-			Cache<String, Object> cache = shiroCacheManager.getCache(GlobalStatic.shiroActiveSessionCacheName);
-			Serializable oldSessionId = (Serializable) cache.get(currUser.getAccount());
-			if(oldSessionId!=null){
-				Subject subject=new Subject.Builder().sessionId(oldSessionId).buildSubject();
-				subject.logout();
-			}
-			cache.put(currUser.getAccount(), session.getId());
-			*/
 			
 			if(StringUtils.isBlank(gotourl)){
-				if(StringUtils.isBlank(systemSiteId)){
-					gotourl="/system/index";
-				}else{
-					gotourl="/system/"+systemSiteId+"/index";
-				}
+				gotourl="/system/index";
 			}
 			//设置tokenkey
 			String springraintoken="system_"+SecUtils.getUUID();
@@ -217,17 +183,4 @@ public class SystemLoginController extends BaseController   {
 	        }
 	        return super.redirect+"/system/login";
 	    }
-		/**
-		 * 退出,防止csrf
-		 * @param request
-		 */
-		@RequestMapping(value="/{siteId}/logout")
-	    public String siteLogout(HttpServletRequest request,@PathVariable String siteId){
-			logout(request);
-	        return super.redirect+"/system/"+siteId+"/login";
-	    }
-		
-		
-		
-		
 }

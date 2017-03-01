@@ -238,7 +238,8 @@ public class CmsSiteController  extends BaseController {
 	    		 MultipartFile tempFile = multiRequest.getFile(iter.next());
 	    		 String logoId;
 				try {
-					logoId = cmsSiteService.saveTmpLogo(tempFile,request);
+					String siteId = request.getParameter("siteId");
+					logoId = cmsSiteService.saveTmpLogo(tempFile,siteId);
 					logoIdList.add(logoId);
 				} catch (IOException e) {
 					returnDatas.setMessage("系统异常");

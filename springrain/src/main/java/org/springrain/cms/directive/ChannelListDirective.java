@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
@@ -29,29 +30,49 @@ public class ChannelListDirective extends AbstractCMSDirective {
 	@Resource
 	private ICmsLinkService cmsLinkService;
 	
+
+	
 	
 	
 	/**
 	 * 模板名称
 	 */
-	public static final String TPL_NAME = "cms_channel_list";
+	private static final String TPL_NAME = "cms_channel_list";
 
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void execute(Environment env, Map params, TemplateModel[] loopVars,
 			TemplateDirectiveBody body) throws TemplateException, IOException {
 		
-		List<CmsChannel> list;
-		try {
-			list = cmsChannelService.findTreeByPid(null, getSiteId());
-			for (CmsChannel cmsChannel : list) {//栏目内容较少，可以用遍历方式设置链接属性
-				cmsChannel.setLink(cmsLinkService.findLinkBySiteBusinessId(cmsChannel.getSiteId(), cmsChannel.getId()).getLink());
+		String siteId=getSiteId(params);
+		
+		String cacheKey=TPL_NAME+"_cache_key_"+siteId;
+		
+				
+		
+		List<CmsChannel> list = (List<CmsChannel>) getDirectiveData(cacheKey);
+		if(list == null){
+			try {
+				list = cmsChannelService.findTreeByPid(null, siteId);
+				for (CmsChannel cmsChannel : list) {//栏目内容较少，可以用遍历方式设置链接属性
+					cmsChannel.setLink(cmsLinkService.findLinkBySiteBusinessId(cmsChannel.getSiteId(), cmsChannel.getId()).getLink());
+				}
+			} catch (Exception e) {
+				list = new ArrayList<CmsChannel>();
 			}
-		} catch (Exception e) {
-			list = new ArrayList<>();
+			setDirectiveData(cacheKey,list);
 		}
+		
 		env.setVariable("channel_list", DirectiveUtils.wrap(list));
 		if (body != null) { 
 			body.render(env.getOut());  
 		}
 	}
+	
+	@PostConstruct
+	public void  registerFreeMarkerVariable(){
+		setFreeMarkerSharedVariable(TPL_NAME, this);
+		
+	}
+	
+	
 }

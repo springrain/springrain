@@ -5,7 +5,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
-import org.springrain.weixin.entity.WxMpConfig;
+import org.springrain.weixin.sdk.common.api.IWxMpConfig;
 import org.springrain.weixin.sdk.common.bean.result.WxError;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
 import org.springrain.weixin.sdk.common.util.BeanUtils;
@@ -42,7 +42,7 @@ public class WxMpStoreServiceImpl implements IWxMpStoreService {
   }
 
   @Override
-  public void add(WxMpConfig wxmpconfig,WxMpStoreBaseInfo request) throws WxErrorException {
+  public void add(IWxMpConfig wxmpconfig,WxMpStoreBaseInfo request) throws WxErrorException {
     BeanUtils.checkRequiredFields(request);
 
     String url = API_BASE_URL + "/addpoi";
@@ -54,7 +54,7 @@ public class WxMpStoreServiceImpl implements IWxMpStoreService {
   }
 
   @Override
-  public WxMpStoreBaseInfo get(WxMpConfig wxmpconfig,String poiId) throws WxErrorException {
+  public WxMpStoreBaseInfo get(IWxMpConfig wxmpconfig,String poiId) throws WxErrorException {
     String url = API_BASE_URL + "/getpoi";
     JsonObject paramObject = new JsonObject();
     paramObject.addProperty("poi_id",poiId);
@@ -68,7 +68,7 @@ public class WxMpStoreServiceImpl implements IWxMpStoreService {
   }
 
   @Override
-  public void delete(WxMpConfig wxmpconfig,String poiId) throws WxErrorException {
+  public void delete(IWxMpConfig wxmpconfig,String poiId) throws WxErrorException {
     String url = API_BASE_URL + "/delpoi";
     JsonObject paramObject = new JsonObject();
     paramObject.addProperty("poi_id",poiId);
@@ -80,7 +80,7 @@ public class WxMpStoreServiceImpl implements IWxMpStoreService {
   }
 
   @Override
-  public WxMpStoreListResult list(WxMpConfig wxmpconfig,int begin, int limit)
+  public WxMpStoreListResult list(IWxMpConfig wxmpconfig,int begin, int limit)
       throws WxErrorException {
     String url = API_BASE_URL + "/getpoilist";
     JsonObject params = new JsonObject();
@@ -97,7 +97,7 @@ public class WxMpStoreServiceImpl implements IWxMpStoreService {
   }
 
   @Override
-  public List<WxMpStoreInfo> listAll(WxMpConfig wxmpconfig) throws WxErrorException {
+  public List<WxMpStoreInfo> listAll(IWxMpConfig wxmpconfig) throws WxErrorException {
     int limit = 50;
     WxMpStoreListResult list = list(wxmpconfig,0, limit);
     List<WxMpStoreInfo> stores = list.getBusinessList();
@@ -118,7 +118,7 @@ public class WxMpStoreServiceImpl implements IWxMpStoreService {
   }
 
   @Override
-  public void update(WxMpConfig wxmpconfig,WxMpStoreBaseInfo request) throws WxErrorException {
+  public void update(IWxMpConfig wxmpconfig,WxMpStoreBaseInfo request) throws WxErrorException {
     String url = API_BASE_URL + "/updatepoi";
     String response = wxMpService.post(wxmpconfig,url, request.toJson());
     WxError wxError = WxError.fromJson(response);
@@ -128,7 +128,7 @@ public class WxMpStoreServiceImpl implements IWxMpStoreService {
   }
 
   @Override
-  public List<String> listCategories(WxMpConfig wxmpconfig) throws WxErrorException {
+  public List<String> listCategories(IWxMpConfig wxmpconfig) throws WxErrorException {
     String url = API_BASE_URL + "/getwxcategory";
     String response = wxMpService.get(wxmpconfig,url, null);
     WxError wxError = WxError.fromJson(response);

@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import javax.annotation.Resource;
 import javax.net.ssl.SSLContext;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -29,9 +28,8 @@ import org.apache.http.ssl.SSLContexts;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
 import org.springrain.frame.util.HttpClientUtils;
-import org.springrain.weixin.entity.WxMpConfig;
+import org.springrain.weixin.sdk.common.api.IWxMpConfig;
 import org.springrain.weixin.sdk.common.api.WxConsts;
 import org.springrain.weixin.sdk.common.bean.result.WxError;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
@@ -68,7 +66,6 @@ import com.thoughtworks.xstream.XStream;
  * @author springrain (http://git.oschina.net/chunanyong/springrain)
  */
 
-@Service("wxMpPayService")
 public class WxMpPayServiceImpl implements IWxMpPayService {
 
   private static final String PAY_BASE_URL = WxConsts.mppaybaseurl;
@@ -77,7 +74,6 @@ public class WxMpPayServiceImpl implements IWxMpPayService {
     "REFUND_SOURCE_UNSETTLED_FUNDS"};
   private final Logger log = LoggerFactory.getLogger(getClass());
   
-  @Resource
   private IWxMpService wxMpService;
 
   public WxMpPayServiceImpl() {
@@ -88,7 +84,7 @@ public class WxMpPayServiceImpl implements IWxMpPayService {
   
 
   @Override
-  public WxPayRefundResult refund(WxMpConfig wxmpconfig,WxPayRefundRequest request, File keyFile)
+  public WxPayRefundResult refund(IWxMpConfig wxmpconfig,WxPayRefundRequest request, File keyFile)
     throws WxErrorException {
     checkParameters(wxmpconfig,request);
 
@@ -112,7 +108,7 @@ public class WxMpPayServiceImpl implements IWxMpPayService {
   }
 
   @Override
-  public WxPayRefundQueryResult refundQuery(WxMpConfig wxmpconfig,String transactionId, String outTradeNo, String outRefundNo, String refundId) throws WxErrorException {
+  public WxPayRefundQueryResult refundQuery(IWxMpConfig wxmpconfig,String transactionId, String outTradeNo, String outRefundNo, String refundId) throws WxErrorException {
     if ((StringUtils.isBlank(transactionId) && StringUtils.isBlank(outTradeNo) && StringUtils.isBlank(outRefundNo) && StringUtils.isBlank(refundId)) ||
       (StringUtils.isNotBlank(transactionId) && StringUtils.isNotBlank(outTradeNo) && StringUtils.isNotBlank(outRefundNo) && StringUtils.isNotBlank(refundId))) {
       throw new IllegalArgumentException("transaction_id ， out_trade_no，out_refund_no， refund_id 必须四选一");
@@ -145,7 +141,7 @@ public class WxMpPayServiceImpl implements IWxMpPayService {
     return result;
   }
 
-  private void checkResult(WxMpConfig wxmpconfig,WxPayBaseResult result) throws WxErrorException {
+  private void checkResult(IWxMpConfig wxmpconfig,WxPayBaseResult result) throws WxErrorException {
     if (!"SUCCESS".equalsIgnoreCase(result.getReturnCode())
       || !"SUCCESS".equalsIgnoreCase(result.getResultCode())) {
       throw new WxErrorException(WxError.newBuilder().setErrorCode(-1)
@@ -156,7 +152,7 @@ public class WxMpPayServiceImpl implements IWxMpPayService {
     }
   }
 
-  private void checkParameters(WxMpConfig wxmpconfig,WxPayRefundRequest request) throws WxErrorException {
+  private void checkParameters(IWxMpConfig wxmpconfig,WxPayRefundRequest request) throws WxErrorException {
     BeanUtils.checkRequiredFields(request);
 
     if (StringUtils.isNotBlank(request.getRefundAccount())) {
@@ -171,7 +167,7 @@ public class WxMpPayServiceImpl implements IWxMpPayService {
   }
 
   @Override
-  public WxPayJsSDKCallback getJSSDKCallbackData(WxMpConfig wxmpconfig,String xmlData) throws WxErrorException {
+  public WxPayJsSDKCallback getJSSDKCallbackData(IWxMpConfig wxmpconfig,String xmlData) throws WxErrorException {
     try {
       XStream xstream = XStreamInitializer.getInstance();
       xstream.alias("xml", WxPayJsSDKCallback.class);
@@ -183,13 +179,13 @@ public class WxMpPayServiceImpl implements IWxMpPayService {
   }
 
   @Override
-  public boolean checkJSSDKCallbackDataSignature(WxMpConfig wxmpconfig,Map<String, String> kvm,
+  public boolean checkJSSDKCallbackDataSignature(IWxMpConfig wxmpconfig,Map<String, String> kvm,
                                                  String signature) {
     return signature.equals(createSign(wxmpconfig,kvm,wxmpconfig.getPartnerKey()));
   }
 
   @Override
-  public WxPaySendRedpackResult sendRedpack(WxMpConfig wxmpconfig,WxPaySendRedpackRequest request, File keyFile)
+  public WxPaySendRedpackResult sendRedpack(IWxMpConfig wxmpconfig,WxPaySendRedpackRequest request, File keyFile)
     throws WxErrorException {
     XStream xstream = XStreamInitializer.getInstance();
     xstream.processAnnotations(WxPaySendRedpackRequest.class);
@@ -218,7 +214,7 @@ public class WxMpPayServiceImpl implements IWxMpPayService {
   }
 
   @Override
-  public WxPayRedpackQueryResult queryRedpack(WxMpConfig wxmpconfig,String mchBillNo, File keyFile) throws WxErrorException {
+  public WxPayRedpackQueryResult queryRedpack(IWxMpConfig wxmpconfig,String mchBillNo, File keyFile) throws WxErrorException {
     XStream xstream = XStreamInitializer.getInstance();
     xstream.processAnnotations(WxPayRedpackQueryRequest.class);
     xstream.processAnnotations(WxPayRedpackQueryResult.class);
@@ -250,7 +246,7 @@ public class WxMpPayServiceImpl implements IWxMpPayService {
    * @param signKey       加密Key(即 商户Key)
    * @return 签名字符串
    */
-  private String createSign(WxMpConfig wxmpconfig,Map<String, String> packageParams, String signKey) {
+  private String createSign(IWxMpConfig wxmpconfig,Map<String, String> packageParams, String signKey) {
     SortedMap<String, String> sortedMap = new TreeMap<>(packageParams);
 
     StringBuilder toSign = new StringBuilder();
@@ -268,7 +264,7 @@ public class WxMpPayServiceImpl implements IWxMpPayService {
   }
 
   @Override
-  public WxPayOrderQueryResult queryOrder(WxMpConfig wxmpconfig,String transactionId, String outTradeNo) throws WxErrorException {
+  public WxPayOrderQueryResult queryOrder(IWxMpConfig wxmpconfig,String transactionId, String outTradeNo) throws WxErrorException {
     if ((StringUtils.isBlank(transactionId) && StringUtils.isBlank(outTradeNo)) ||
       (StringUtils.isNotBlank(transactionId) && StringUtils.isNotBlank(outTradeNo))) {
       throw new IllegalArgumentException("transaction_id 和 out_trade_no 不能同时存在或同时为空，必须二选一");
@@ -299,7 +295,7 @@ public class WxMpPayServiceImpl implements IWxMpPayService {
   }
 
   @Override
-  public WxPayOrderCloseResult closeOrder(WxMpConfig wxmpconfig,String outTradeNo) throws WxErrorException {
+  public WxPayOrderCloseResult closeOrder(IWxMpConfig wxmpconfig,String outTradeNo) throws WxErrorException {
     if (StringUtils.isBlank(outTradeNo)) {
       throw new IllegalArgumentException("out_trade_no 不能为空");
     }
@@ -328,7 +324,7 @@ public class WxMpPayServiceImpl implements IWxMpPayService {
   }
 
   @Override
-  public WxPayUnifiedOrderResult unifiedOrder(WxMpConfig wxmpconfig,WxPayUnifiedOrderRequest request)
+  public WxPayUnifiedOrderResult unifiedOrder(IWxMpConfig wxmpconfig,WxPayUnifiedOrderRequest request)
     throws WxErrorException {
     checkParameters(wxmpconfig,request);
 
@@ -353,7 +349,7 @@ public class WxMpPayServiceImpl implements IWxMpPayService {
     return result;
   }
 
-  private void checkParameters(WxMpConfig wxmpconfig,WxPayUnifiedOrderRequest request) throws WxErrorException {
+  private void checkParameters(IWxMpConfig wxmpconfig,WxPayUnifiedOrderRequest request) throws WxErrorException {
     BeanUtils.checkRequiredFields(request);
 
     if (!ArrayUtils.contains(TRADE_TYPES, request.getTradeType())) {
@@ -370,7 +366,7 @@ public class WxMpPayServiceImpl implements IWxMpPayService {
   }
 
   @Override
-  public Map<String, String> getPayInfo(WxMpConfig wxmpconfig,WxPayUnifiedOrderRequest request) throws WxErrorException {
+  public Map<String, String> getPayInfo(IWxMpConfig wxmpconfig,WxPayUnifiedOrderRequest request) throws WxErrorException {
     WxPayUnifiedOrderResult unifiedOrderResult = unifiedOrder(wxmpconfig,request);
     String prepayId = unifiedOrderResult.getPrepayId();
     if (StringUtils.isBlank(prepayId)) {
@@ -395,7 +391,7 @@ public class WxMpPayServiceImpl implements IWxMpPayService {
   }
 
   @Override
-  public WxEntPayResult entPay(WxMpConfig wxmpconfig,WxEntPayRequest request, File keyFile) throws WxErrorException {
+  public WxEntPayResult entPay(IWxMpConfig wxmpconfig,WxEntPayRequest request, File keyFile) throws WxErrorException {
     BeanUtils.checkRequiredFields(request);
 
     XStream xstream = XStreamInitializer.getInstance();
@@ -418,7 +414,7 @@ public class WxMpPayServiceImpl implements IWxMpPayService {
   }
 
   @Override
-  public WxEntPayQueryResult queryEntPay(WxMpConfig wxmpconfig,String partnerTradeNo, File keyFile) throws WxErrorException {
+  public WxEntPayQueryResult queryEntPay(IWxMpConfig wxmpconfig,String partnerTradeNo, File keyFile) throws WxErrorException {
     XStream xstream = XStreamInitializer.getInstance();
     xstream.processAnnotations(WxEntPayQueryRequest.class);
     xstream.processAnnotations(WxEntPayQueryResult.class);
@@ -439,7 +435,7 @@ public class WxMpPayServiceImpl implements IWxMpPayService {
     return result;
   }
 
-  private String executeRequest(WxMpConfig wxmpconfig,String url, String requestStr) throws WxErrorException {
+  private String executeRequest(IWxMpConfig wxmpconfig,String url, String requestStr) throws WxErrorException {
 	  HttpPost httpPost = new HttpPost(url);
 	    if (wxmpconfig.getHttpProxyHost()!=null) {
 	        RequestConfig config = RequestConfig.custom().setProxy(new HttpHost(wxmpconfig.getHttpProxyHost(), wxmpconfig.getHttpProxyPort())).build();
@@ -463,7 +459,7 @@ public class WxMpPayServiceImpl implements IWxMpPayService {
     }
   }
 
-  private String executeRequestWithKeyFile(WxMpConfig wxmpconfig,String url, File keyFile, String requestStr, String mchId) throws WxErrorException {
+  private String executeRequestWithKeyFile(IWxMpConfig wxmpconfig,String url, File keyFile, String requestStr, String mchId) throws WxErrorException {
     try (FileInputStream inputStream = new FileInputStream(keyFile)) {
       KeyStore keyStore = KeyStore.getInstance("PKCS12");
       keyStore.load(inputStream, mchId.toCharArray());

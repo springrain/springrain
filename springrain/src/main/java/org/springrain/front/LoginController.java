@@ -1,4 +1,4 @@
-package org.springrain.system.web;
+package org.springrain.front;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -52,6 +52,7 @@ public class LoginController extends BaseController  {
 	 */
 		@RequestMapping(value = "/{siteId}/index")
 		public String index(Model model,@PathVariable String siteId) throws Exception {
+			model.addAttribute("sietId", siteId);
 			return "/index"; 
 		}
 		

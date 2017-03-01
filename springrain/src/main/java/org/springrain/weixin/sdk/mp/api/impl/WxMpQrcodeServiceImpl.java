@@ -5,10 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Service;
-import org.springrain.weixin.entity.WxMpConfig;
+import org.springrain.weixin.sdk.common.api.IWxMpConfig;
 import org.springrain.weixin.sdk.common.api.WxConsts;
 import org.springrain.weixin.sdk.common.bean.result.WxError;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
@@ -24,11 +21,9 @@ import com.google.gson.JsonObject;
  * Created by springrain on 2017/1/8.
  */
 
-@Service("wxMpQrcodeService")
 public class WxMpQrcodeServiceImpl implements IWxMpQrcodeService {
   private static final String API_URL_PREFIX = WxConsts.mpapiurl+"/cgi-bin/qrcode";
  
-  @Resource
   private IWxMpService wxMpService;
 
   public WxMpQrcodeServiceImpl() {
@@ -39,7 +34,7 @@ public class WxMpQrcodeServiceImpl implements IWxMpQrcodeService {
   }
 
   @Override
-  public WxMpQrCodeTicket qrCodeCreateTmpTicket(WxMpConfig wxmpconfig,int scene_id, Integer expire_seconds) throws WxErrorException {
+  public WxMpQrCodeTicket qrCodeCreateTmpTicket(IWxMpConfig wxmpconfig,int scene_id, Integer expire_seconds) throws WxErrorException {
     String url = API_URL_PREFIX + "/create";
     JsonObject json = new JsonObject();
     json.addProperty("action_name", "QR_SCENE");
@@ -56,7 +51,7 @@ public class WxMpQrcodeServiceImpl implements IWxMpQrcodeService {
   }
 
   @Override
-  public WxMpQrCodeTicket qrCodeCreateLastTicket(WxMpConfig wxmpconfig,int scene_id) throws WxErrorException {
+  public WxMpQrCodeTicket qrCodeCreateLastTicket(IWxMpConfig wxmpconfig,int scene_id) throws WxErrorException {
     String url = API_URL_PREFIX + "/create";
     JsonObject json = new JsonObject();
     json.addProperty("action_name", "QR_LIMIT_SCENE");
@@ -70,7 +65,7 @@ public class WxMpQrcodeServiceImpl implements IWxMpQrcodeService {
   }
 
   @Override
-  public WxMpQrCodeTicket qrCodeCreateLastTicket(WxMpConfig wxmpconfig,String scene_str) throws WxErrorException {
+  public WxMpQrCodeTicket qrCodeCreateLastTicket(IWxMpConfig wxmpconfig,String scene_str) throws WxErrorException {
     String url = API_URL_PREFIX + "/create";
     JsonObject json = new JsonObject();
     json.addProperty("action_name", "QR_LIMIT_STR_SCENE");
@@ -84,13 +79,13 @@ public class WxMpQrcodeServiceImpl implements IWxMpQrcodeService {
   }
 
   @Override
-  public File qrCodePicture(WxMpConfig wxmpconfig,WxMpQrCodeTicket ticket) throws WxErrorException {
+  public File qrCodePicture(IWxMpConfig wxmpconfig,WxMpQrCodeTicket ticket) throws WxErrorException {
     String url = WxConsts.mpweixinurl+"/cgi-bin/showqrcode";
     return wxMpService.execute(wxmpconfig,new QrCodeRequestExecutor(), url, ticket);
   }
 
   @Override
-  public String qrCodePictureUrl(WxMpConfig wxmpconfig,String ticket, boolean needShortUrl) throws WxErrorException {
+  public String qrCodePictureUrl(IWxMpConfig wxmpconfig,String ticket, boolean needShortUrl) throws WxErrorException {
     String url = WxConsts.mpweixinurl+"/cgi-bin/showqrcode?ticket=%s";
     try {
       String resultUrl = String.format(url,
@@ -108,7 +103,7 @@ public class WxMpQrcodeServiceImpl implements IWxMpQrcodeService {
   }
 
   @Override
-  public String qrCodePictureUrl(WxMpConfig wxmpconfig,String ticket) throws WxErrorException {
+  public String qrCodePictureUrl(IWxMpConfig wxmpconfig,String ticket) throws WxErrorException {
     return qrCodePictureUrl(wxmpconfig,ticket, false);
   }
 

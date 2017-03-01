@@ -1,5 +1,8 @@
 package org.springrain.cms.entity;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -7,6 +10,7 @@ import javax.persistence.Transient;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.springrain.frame.annotation.LuceneField;
 import org.springrain.frame.annotation.WhereSQL;
 import org.springrain.frame.entity.BaseEntity;
 /**
@@ -95,9 +99,12 @@ public class CmsContent  extends BaseEntity {
 	//columns END 数据库字段结束
 	
 	//站点ID
+	
 	private String siteId;
 	//栏目Id
 	private java.lang.String channelId;
+	
+	private String channelName;
 	/**
 	 * 排序
 	 */
@@ -109,8 +116,29 @@ public class CmsContent  extends BaseEntity {
 
 	
 	private java.lang.String link;
+	
+	/**
+	 * 评论权限开关
+	 */
+	private java.lang.Integer commentPerm;
+	/**
+	 * 登陆访问标识
+	 */
+	private Integer loginuser;
+	
+	/**
+	 * 封面
+	 */
+	private String cover;
+	
 	//concstructor
-
+	
+	private Integer commentsNum;
+	private Integer praiseNum;
+	
+	private List<CmsProperty> propertyList;
+	private Map<String,CmsProperty> propertyMap;
+	
 	public CmsContent(){
 	}
 
@@ -130,6 +158,7 @@ public class CmsContent  extends BaseEntity {
 	
 	@Id
      @WhereSQL(sql="id=:CmsContent_id")
+	@LuceneField
 	public java.lang.String getId() {
 		return this.id;
 	}
@@ -141,6 +170,7 @@ public class CmsContent  extends BaseEntity {
 	}
 	
      @WhereSQL(sql="title=:CmsContent_title")
+     @LuceneField
 	public java.lang.String getTitle() {
 		return this.title;
 	}
@@ -174,6 +204,7 @@ public class CmsContent  extends BaseEntity {
 	}
 	
      @WhereSQL(sql="mintitle=:CmsContent_mintitle")
+     @LuceneField
 	public java.lang.String getMintitle() {
 		return this.mintitle;
 	}
@@ -257,6 +288,7 @@ public class CmsContent  extends BaseEntity {
 	
      
  	 @WhereSQL(sql="summary=:CmsContent_summary")
+ 	@LuceneField
 	public java.lang.String getSummary() {
 		return summary;
 	}
@@ -264,7 +296,76 @@ public class CmsContent  extends BaseEntity {
 	public void setSummary(java.lang.String summary) {
 		this.summary = summary;
 	}
+	
+	 @WhereSQL(sql="commentPerm=:CmsContent_commentPerm")
+	public java.lang.Integer getCommentPerm() {
+		return commentPerm;
+	}
 
+	public void setCommentPerm(java.lang.Integer commentPerm) {
+		this.commentPerm = commentPerm;
+	}
+	@WhereSQL(sql="cover=:CmsContent_cover")
+	public String getCover() {
+		return cover;
+	}
+
+	public void setCover(String cover) {
+		this.cover = cover;
+	}
+	
+	@Transient
+	public String getChannelName() {
+		return channelName;
+	}
+
+	public void setChannelName(String channelName) {
+		this.channelName = channelName;
+	}
+	@Transient
+	public Integer getLoginuser() {
+		return loginuser;
+	}
+
+	public void setLoginuser(Integer loginuser) {
+		this.loginuser = loginuser;
+	}
+	@Transient
+	public Integer getCommentsNum() {
+		return commentsNum;
+	}
+
+	public void setCommentsNum(Integer commentsNum) {
+		this.commentsNum = commentsNum;
+	}
+	@Transient
+	public Integer getPraiseNum() {
+		return praiseNum;
+	}
+
+	public void setPraiseNum(Integer praiseNum) {
+		this.praiseNum = praiseNum;
+	}
+	
+	
+
+	@Transient
+	public List<CmsProperty> getPropertyList() {
+		return propertyList;
+	}
+
+	public void setPropertyList(List<CmsProperty> propertyList) {
+		this.propertyList = propertyList;
+	}
+	
+	@Transient
+	public Map<String, CmsProperty> getPropertyMap() {
+		return propertyMap;
+	}
+
+	public void setPropertyMap(Map<String, CmsProperty> propertyMap) {
+		this.propertyMap = propertyMap;
+	}
 	public String toString() {
 		return new StringBuffer()
 			.append("ID[").append(getId()).append("],")
@@ -298,6 +399,7 @@ public class CmsContent  extends BaseEntity {
 	}
 	
 	@Transient
+	@LuceneField
     public String getSiteId() {
 		return siteId;
 	}
@@ -306,6 +408,7 @@ public class CmsContent  extends BaseEntity {
 		this.siteId = siteId;
 	}
 	@Transient
+	@LuceneField
 	public java.lang.String getChannelId() {
 		return channelId;
 	}
@@ -316,7 +419,7 @@ public class CmsContent  extends BaseEntity {
 	public void setSortno(java.lang.Integer value) {
 		this.sortno = value;
 	}
-	@Transient
+	@WhereSQL(sql="sortno=:CmsContent_sortno")
 	public java.lang.Integer getSortno() {
 		return this.sortno;
 	}

@@ -94,6 +94,12 @@ public class CmsLink  extends BaseEntity {
 	 */
 	private java.lang.Integer active;
 	
+	/**
+	 * 是否需要登录访问  0否 1是
+	 */
+	private java.lang.Integer loginuser;
+	
+	private java.lang.Integer modelType;
 	//columns END 数据库字段结束
 	
 	//concstructor
@@ -237,7 +243,23 @@ public class CmsLink  extends BaseEntity {
 	public java.lang.Integer getActive() {
 		return this.active;
 	}
-	
+     @WhereSQL(sql="loginuser=:CmsLink_loginuser")
+	public java.lang.Integer getLoginuser() {
+		return loginuser;
+	}
+
+	public void setLoginuser(java.lang.Integer loginuser) {
+		this.loginuser = loginuser;
+	}
+	 @WhereSQL(sql="modelType=:CmsLink_modelType")
+	public java.lang.Integer getModelType() {
+		return modelType;
+	}
+
+	public void setModelType(java.lang.Integer modelType) {
+		this.modelType = modelType;
+	}
+
 	public String toString() {
 		return new StringBuffer()
 			.append("id[").append(getId()).append("],")

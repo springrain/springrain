@@ -90,13 +90,14 @@ public class CmsChannelController  extends BaseController {
 		for (CmsSite cmsSite : siteTreeList) {
 			String siteId = cmsSite.getId();
 			List<CmsChannel> channelList = cmsChannelService.findTreeByPid(null, siteId);
-			if (channelList == null)
-				continue;
-			treeList.addAll(channelList);
-			for (CmsChannel channel : channelList) {
-				if(StringUtils.isBlank(channel.getPid()))
-					channel.setPid(siteId);
+			if (channelList != null){
+				treeList.addAll(channelList);
+				for (CmsChannel channel : channelList) {
+					if(StringUtils.isBlank(channel.getPid()))
+						channel.setPid(siteId);
+				}
 			}
+			
 			//将site转为channel
 			CmsChannel tmpChannel = new CmsChannel(siteId);
 			tmpChannel.setName(cmsSite.getName());

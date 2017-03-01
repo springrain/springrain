@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springrain.cms.utils.SiteUtils;
 import org.springrain.frame.controller.BaseController;
-import org.springrain.weixin.entity.WxMpConfig;
+import org.springrain.weixin.sdk.common.api.IWxMpConfig;
 import org.springrain.weixin.sdk.common.api.IWxMpConfigService;
 import org.springrain.weixin.sdk.common.api.WxConsts;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
@@ -41,7 +41,7 @@ public class WxMpAutoLoginController extends BaseController {
 		}
 		
 		
-		WxMpConfig wxmpconfig = wxMpConfigService.findWxMpConfigById(siteId);
+		IWxMpConfig wxmpconfig = wxMpConfigService.findWxMpConfigById(siteId);
 		
 		
 		String _url=SiteUtils.getBaseURL(request)+"/mp/mpautologin/"+siteId+"/callback?url=" + url;
@@ -71,7 +71,7 @@ public class WxMpAutoLoginController extends BaseController {
 		
 		
 		
-		WxMpConfig wxmpconfig = wxMpConfigService.findWxMpConfigById(siteId);
+		IWxMpConfig wxmpconfig = wxMpConfigService.findWxMpConfigById(siteId);
 		try {
 			// 获取OpenId
 			WxMpOAuth2AccessToken accessToken = wxMpService.oauth2getAccessToken(wxmpconfig, code);

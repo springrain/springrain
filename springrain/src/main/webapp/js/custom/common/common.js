@@ -11,7 +11,6 @@ $(document).ready(function(){
 			}
 		},
 		complete:function(data){
-			var _that=this;
 			try{
 				var _obj=data.responseText;
 				_obj=eval("("+_obj+")");
@@ -23,7 +22,7 @@ $(document).ready(function(){
 					},1000);
 				}
 			}catch(e){
-				springrain.info(e, null)
+				springrain.info(e, null);
 			}
 		}
 	});
@@ -50,10 +49,11 @@ var form;
 function selectListener(filterId,callback){
 	console.log(123);
 	form.on('select('+filterId+')', function(data){
-		  callback(data);
+		callback(data);
 	});
 }
 function loadMenu(){
+	
 	//加载菜单
     if(!(!!locache.get("menuData"))){//没有数据
     	ajaxmenu();
@@ -64,30 +64,16 @@ function loadMenu(){
 }
 
 
-function exit(siteId,kill){
-	if(kill){
-		try{
-			locache.flush();
-		}catch(e){}
-		
-		var _url=ctx+"/system/logout"
-		if(""!=siteId){
-			_url=ctx+"/system/"+siteId+"/logout"
-		}
-		springrain.goTo(_url);
-	}else{
+function exit(){
+
 		springrain.confirm("确定退出？", function(){
 			try{
 				locache.flush();
 			}catch(e){}
 			
-			var _url=ctx+"/system/logout"
-			if(""!=siteId){
-				_url=ctx+"/system/"+siteId+"/logout"
-			}
-			springrain.goTo(_url);
+			var _url=ctx+"/system/logout";
+			    springrain.goTo(_url);
 		});
-	}
 }
 
 function configLayui(par){
@@ -380,5 +366,3 @@ function init_button_action(){
 		window.location.href=springrain.appendToken(jQuery(this).attr("data-action"));
 	});
 }
-
-

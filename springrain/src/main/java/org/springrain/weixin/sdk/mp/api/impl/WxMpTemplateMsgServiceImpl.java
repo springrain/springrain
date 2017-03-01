@@ -5,7 +5,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
-import org.springrain.weixin.entity.WxMpConfig;
+import org.springrain.weixin.sdk.common.api.IWxMpConfig;
 import org.springrain.weixin.sdk.common.api.WxConsts;
 import org.springrain.weixin.sdk.common.bean.result.WxError;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
@@ -42,7 +42,7 @@ public class WxMpTemplateMsgServiceImpl implements IWxMpTemplateMsgService {
   }
 
   @Override
-  public String sendTemplateMsg(WxMpConfig wxmpconfig,WxMpTemplateMessage templateMessage) throws WxErrorException {
+  public String sendTemplateMsg(IWxMpConfig wxmpconfig,WxMpTemplateMessage templateMessage) throws WxErrorException {
     String url = WxConsts.mpapiurl+"/cgi-bin/message/template/send";
     String responseContent = wxMpService.post(wxmpconfig,url, templateMessage.toJson());
     final JsonObject jsonObject = JSON_PARSER.parse(responseContent).getAsJsonObject();
@@ -53,7 +53,7 @@ public class WxMpTemplateMsgServiceImpl implements IWxMpTemplateMsgService {
   }
 
   @Override
-  public boolean setIndustry(WxMpConfig wxmpconfig,WxMpTemplateIndustry wxMpIndustry) throws WxErrorException {
+  public boolean setIndustry(IWxMpConfig wxmpconfig,WxMpTemplateIndustry wxMpIndustry) throws WxErrorException {
     if (null == wxMpIndustry.getPrimaryIndustry() || null == wxMpIndustry.getPrimaryIndustry().getId()
       || null == wxMpIndustry.getSecondIndustry() || null == wxMpIndustry.getSecondIndustry().getId()) {
       throw new IllegalArgumentException("行业Id不能为空，请核实");
@@ -65,14 +65,14 @@ public class WxMpTemplateMsgServiceImpl implements IWxMpTemplateMsgService {
   }
 
   @Override
-  public WxMpTemplateIndustry getIndustry(WxMpConfig wxmpconfig) throws WxErrorException {
+  public WxMpTemplateIndustry getIndustry(IWxMpConfig wxmpconfig) throws WxErrorException {
     String url = API_URL_PREFIX + "/get_industry";
     String responseContent = wxMpService.get(wxmpconfig,url, null);
     return WxMpTemplateIndustry.fromJson(responseContent);
   }
 
   @Override
-  public String addTemplate(WxMpConfig wxmpconfig,String shortTemplateId) throws WxErrorException {
+  public String addTemplate(IWxMpConfig wxmpconfig,String shortTemplateId) throws WxErrorException {
     String url = API_URL_PREFIX + "/api_add_template";
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("template_id_short", shortTemplateId);
@@ -86,13 +86,13 @@ public class WxMpTemplateMsgServiceImpl implements IWxMpTemplateMsgService {
   }
 
   @Override
-  public List<WxMpTemplate> getAllPrivateTemplate(WxMpConfig wxmpconfig) throws WxErrorException {
+  public List<WxMpTemplate> getAllPrivateTemplate(IWxMpConfig wxmpconfig) throws WxErrorException {
     String url = API_URL_PREFIX + "/get_all_private_template";
     return WxMpTemplate.fromJson(wxMpService.get(wxmpconfig,url, null));
   }
 
   @Override
-  public boolean delPrivateTemplate(WxMpConfig wxmpconfig,String templateId) throws WxErrorException {
+  public boolean delPrivateTemplate(IWxMpConfig wxmpconfig,String templateId) throws WxErrorException {
     String url = API_URL_PREFIX + "/del_private_template";
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("template_id", templateId);

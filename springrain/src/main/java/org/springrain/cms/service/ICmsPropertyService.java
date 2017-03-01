@@ -1,5 +1,7 @@
 package org.springrain.cms.service;
 
+import java.util.List;
+
 import org.springrain.cms.entity.CmsProperty;
 import org.springrain.system.service.IBaseSpringrainService;
 /**
@@ -19,6 +21,20 @@ public interface ICmsPropertyService extends IBaseSpringrainService {
 	 */
 	CmsProperty findCmsPropertyById(String id) throws Exception;
 	
-	
+	/**
+	 * 添加或修改
+	 * 
+	 * @param en
+	 * @throws Exception
+	 */
+	void saveupdate(CmsProperty en) throws Exception;
+	/**
+	 * 根据businessId查询  自定义字段
+	 * @param businessId
+	 * @return
+	 * @throws Exception
+	 */
+	List<CmsProperty> findByBusinessId(String businessId,String state)throws Exception;
+
 	
 }

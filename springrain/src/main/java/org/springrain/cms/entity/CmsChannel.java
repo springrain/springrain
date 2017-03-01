@@ -1,6 +1,7 @@
 package org.springrain.cms.entity;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -101,7 +102,41 @@ public class CmsChannel  extends BaseEntity {
 	private CmsChannel cmsChannel;
 	
 	private String link;
+	
+	/**
+	 * list模板路径
+	 */
+	private String ftlListPath;
+	
+	/**
+	 * look模板路径
+	 */
+	private String ftlLookPath;
+	
+	/**
+	 * 更新模板路径
+	 */
+	private String ftlUpdatePath;
+	/**
+	 * 登陆访问标识
+	 */
+	private Integer loginuser;
+	
+	/**
+	 * 封面
+	 */
+	private String cover;
 	//concstructor
+	
+	
+	private List<CmsProperty> propertyList;
+	
+	private Map<String,CmsProperty> propertyMap;
+	
+	
+	
+	
+	
 
 	public CmsChannel(){
 	}
@@ -225,7 +260,15 @@ public class CmsChannel  extends BaseEntity {
 	public java.lang.Integer getActive() {
 		return this.active;
 	}
-	
+    
+     @WhereSQL(sql="cover=:CmsChannel_cover")
+     public String getCover() {
+ 		return cover;
+ 	}
+
+ 	public void setCover(String cover) {
+ 		this.cover = cover;
+ 	}
     
     @Transient
 	public CmsSite getCmsSite() {
@@ -244,6 +287,43 @@ public class CmsChannel  extends BaseEntity {
 	public void setCmsChannel(CmsChannel cmsChannel) {
 		this.cmsChannel = cmsChannel;
 	}
+	@Transient
+	public Integer getLoginuser() {
+		return loginuser;
+	}
+
+	public void setLoginuser(Integer loginuser) {
+		this.loginuser = loginuser;
+	}
+	
+	
+	
+	@Transient
+	public String getFtlListPath() {
+		return ftlListPath;
+	}
+
+	public void setFtlListPath(String ftlListPath) {
+		this.ftlListPath = ftlListPath;
+	}
+	@Transient
+	public String getFtlLookPath() {
+		return ftlLookPath;
+	}
+
+	public void setFtlLookPath(String ftlLookPath) {
+		this.ftlLookPath = ftlLookPath;
+	}
+	@Transient
+	public String getFtlUpdatePath() {
+		return ftlUpdatePath;
+	}
+
+	public void setFtlUpdatePath(String ftlUpdatePath) {
+		this.ftlUpdatePath = ftlUpdatePath;
+	}
+
+	
 
 	public String toString() {
 		return new StringBuffer()
@@ -293,6 +373,24 @@ public class CmsChannel  extends BaseEntity {
 
 	public void setLink(String link) {
 		this.link = link;
+	}
+
+	@Transient
+	public List<CmsProperty> getPropertyList() {
+		return propertyList;
+	}
+
+	public void setPropertyList(List<CmsProperty> propertyList) {
+		this.propertyList = propertyList;
+	}
+	
+	@Transient
+	public Map<String, CmsProperty> getPropertyMap() {
+		return propertyMap;
+	}
+
+	public void setPropertyMap(Map<String, CmsProperty> propertyMap) {
+		this.propertyMap = propertyMap;
 	}
 	
 	

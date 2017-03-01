@@ -3,6 +3,7 @@ package org.springrain.cms.directive;
 import java.io.IOException;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
@@ -22,23 +23,38 @@ public class CmsSiteDirective extends AbstractCMSDirective {
 	private ICmsSiteService cmsSiteService;
 	
 	
+	private static final String TPL_NAME = "cms_site";
 	
-	public static final String TPL_NAME = "cms_site";
-	
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public void execute(Environment env, Map params, TemplateModel[] loopVars,
 			TemplateDirectiveBody body) throws TemplateException, IOException {
-		CmsSite site;
-		try {
-			site = cmsSiteService.findCmsSiteById(getSiteId());
-		} catch (Exception e) {
-			site = new CmsSite();
+		
+		String siteId=DirectiveUtils.getString("id", params);
+		
+		String cacheKey=TPL_NAME+"_cache_key_"+siteId;
+		
+		
+		CmsSite site = (CmsSite) getDirectiveData(cacheKey);
+		if(site == null){
+			try {
+				site = cmsSiteService.findCmsSiteById(siteId);
+			} catch (Exception e) {
+				site = new CmsSite();
+			}
+			setDirectiveData(cacheKey,site);
 		}
+		
 		env.setVariable("site", DirectiveUtils.wrap(site));
 		if (body != null) { 
 			body.render(env.getOut());  
 		}
+	}
+	
+	
+	@PostConstruct
+	public void  registerFreeMarkerVariable(){
+		setFreeMarkerSharedVariable(TPL_NAME, this);
 	}
 
 }

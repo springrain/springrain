@@ -38,7 +38,8 @@ public class RowNumberSingleColumnRowMapper<T> extends SingleColumnRowMapper<T>{
 		// Extract column value from JDBC ResultSet.
 		int columnIndex=1;
 		String columnName=rsmd.getColumnName(columnIndex);
-		if("frame_page_sql_row_number".equals(columnName.toLowerCase())){
+		//处理分页查询java基本类型时是,rownum 会自带一个列名,具体查看 数据库方言 实现
+		if("frame_page_sql_row_number".equalsIgnoreCase(columnName)){
 			columnIndex=2;
 		}
 		

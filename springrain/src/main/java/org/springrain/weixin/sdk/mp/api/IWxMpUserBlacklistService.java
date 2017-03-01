@@ -2,7 +2,7 @@ package org.springrain.weixin.sdk.mp.api;
 
 import java.util.List;
 
-import org.springrain.weixin.entity.WxMpConfig;
+import org.springrain.weixin.sdk.common.api.IWxMpConfig;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
 import org.springrain.weixin.sdk.mp.bean.result.WxMpUserBlacklistGetResult;
 
@@ -16,7 +16,7 @@ public interface IWxMpUserBlacklistService {
    * 详情请见http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1471422259_pJMWA&token=&lang=zh_CN
    * </pre>
    */
-  WxMpUserBlacklistGetResult getBlacklist(WxMpConfig wxmpconfig,String nextOpenid) throws WxErrorException;
+  WxMpUserBlacklistGetResult getBlacklist(IWxMpConfig wxmpconfig,String nextOpenid) throws WxErrorException;
 
   /**
    * <pre>
@@ -24,7 +24,7 @@ public interface IWxMpUserBlacklistService {
    *   详情请见http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1471422259_pJMWA&token=&lang=zh_CN
    * </pre>
    */
-  void pushToBlacklist(WxMpConfig wxmpconfig,List<String> openidList) throws WxErrorException;
+  void pushToBlacklist(IWxMpConfig wxmpconfig,List<String> openidList) throws WxErrorException;
 
   /**
    * <pre>
@@ -32,5 +32,5 @@ public interface IWxMpUserBlacklistService {
    *   详情请见http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1471422259_pJMWA&token=&lang=zh_CN
    * </pre>
    */
-  void pullFromBlacklist(WxMpConfig wxmpconfig,List<String> openidList) throws WxErrorException;
+  void pullFromBlacklist(IWxMpConfig wxmpconfig,List<String> openidList) throws WxErrorException;
 }

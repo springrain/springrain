@@ -1,6 +1,7 @@
 package org.springrain.cms.service.impl;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ import org.springrain.system.service.BaseSpringrainServiceImpl;
 @Service("cmsCommentService")
 public class CmsCommentServiceImpl extends BaseSpringrainServiceImpl implements ICmsCommentService {
 
-   
+	
     @Override
 	public String  save(Object entity ) throws Exception{
 	      CmsComment cmsComment=(CmsComment) entity;
@@ -76,4 +77,53 @@ public class CmsCommentServiceImpl extends BaseSpringrainServiceImpl implements 
 			 return super.findDataExportExcel(finder,ftlurl,page,clazz,o);
 		}
 
+	@Override
+	public Integer findCommentsNumByBusinessId(String siteId,String businessId) throws Exception {
+		
+		
+		String cacheKey="cmsCommentService_findCommentsNumByBusinessId_"+siteId+"_"+businessId;
+		
+		Integer num=super.getByCache(siteId, cacheKey, Integer.class);
+		if(num!=null){
+			return num;
+		}
+		
+		
+		
+		Finder finder = new Finder("SELECT COUNT(*) FROM ")
+					.append(Finder.getTableName(CmsComment.class))
+					.append(" WHERE businessId=:businessId");
+		finder.setParam("businessId", businessId);
+		 num = super.queryForObject(finder,Integer.class);
+		if(num==null){
+			num=0;
+		}
+		
+		super.putByCache(siteId, cacheKey, num);
+		
+	     return num;
+		
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<CmsComment> findCommentListByBusinessId(String siteId,String businessId) throws Exception {
+		String cacheKey="cmsCommentService_findCommentListByBusinessId_"+siteId+"_"+businessId;
+		List<CmsComment> commentList=super.getByCache(siteId, cacheKey, List.class);
+		if(commentList!=null){
+			return commentList;
+		}
+		
+		
+		Finder finder = Finder.getSelectFinder(CmsComment.class).append(" WHERE businessId=:businessId");
+		finder.setParam("businessId", businessId);
+		commentList = super.queryForList(finder, CmsComment.class);
+		if (commentList == null){
+			commentList = new ArrayList<>();
+		}
+		
+		super.putByCache(siteId, cacheKey, commentList);
+		
+		return commentList;
+	}
 }

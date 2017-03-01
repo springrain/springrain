@@ -7,7 +7,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
-import org.springrain.weixin.entity.WxMpConfig;
+import org.springrain.weixin.sdk.common.api.IWxMpConfig;
 import org.springrain.weixin.sdk.common.api.WxConsts;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
 import org.springrain.weixin.sdk.common.util.http.SimplePostRequestExecutor;
@@ -37,7 +37,7 @@ public class WxMpUserBlacklistServiceImpl implements IWxMpUserBlacklistService {
   }
 
   @Override
-  public WxMpUserBlacklistGetResult getBlacklist(WxMpConfig wxmpconfig,String nextOpenid) throws WxErrorException {
+  public WxMpUserBlacklistGetResult getBlacklist(IWxMpConfig wxmpconfig,String nextOpenid) throws WxErrorException {
     JsonObject jsonObject = new JsonObject();
     jsonObject.addProperty("begin_openid", nextOpenid);
     String url = API_BLACKLIST_PREFIX + "/getblacklist";
@@ -46,7 +46,7 @@ public class WxMpUserBlacklistServiceImpl implements IWxMpUserBlacklistService {
   }
 
   @Override
-  public void pushToBlacklist(WxMpConfig wxmpconfig,List<String> openidList) throws WxErrorException {
+  public void pushToBlacklist(IWxMpConfig wxmpconfig,List<String> openidList) throws WxErrorException {
     Map<String, Object> map = new HashMap<>();
     map.put("openid_list", openidList);
     String url = API_BLACKLIST_PREFIX + "/batchblacklist";
@@ -54,7 +54,7 @@ public class WxMpUserBlacklistServiceImpl implements IWxMpUserBlacklistService {
   }
 
   @Override
-  public void pullFromBlacklist(WxMpConfig wxmpconfig,List<String> openidList) throws WxErrorException {
+  public void pullFromBlacklist(IWxMpConfig wxmpconfig,List<String> openidList) throws WxErrorException {
     Map<String, Object> map = new HashMap<>();
     map.put("openid_list", openidList);
     String url = API_BLACKLIST_PREFIX + "/batchunblacklist";

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.system.service.BaseSpringrainServiceImpl;
 import org.springrain.weixin.entity.WxCpConfig;
+import org.springrain.weixin.sdk.common.api.IWxCpConfig;
 import org.springrain.weixin.sdk.common.api.IWxCpConfigService;
 
 
@@ -12,8 +13,8 @@ import org.springrain.weixin.sdk.common.api.IWxCpConfigService;
 public class WxCpConfigServiceImpl extends BaseSpringrainServiceImpl implements IWxCpConfigService  {
 
 	@Override
-	public WxCpConfig expireAccessToken(WxCpConfig wxcpconfig) {
-		wxcpconfig.setExpiresTime(0L);
+	public IWxCpConfig expireAccessToken(IWxCpConfig wxcpconfig) {
+		wxcpconfig.setAccessTokenExpiresTime(0L);
 		
 		//缓存操作
 		updateWxCpConfig(wxcpconfig);
@@ -24,7 +25,7 @@ public class WxCpConfigServiceImpl extends BaseSpringrainServiceImpl implements 
 
 
 	@Override
-	public WxCpConfig updateAccessToken(WxCpConfig wxcpconfig) {
+	public IWxCpConfig updateAccessToken(IWxCpConfig wxcpconfig) {
 		
 		
 		//缓存操作
@@ -36,7 +37,7 @@ public class WxCpConfigServiceImpl extends BaseSpringrainServiceImpl implements 
 	}
 
 	@Override
-	public WxCpConfig expireJsApiTicket(WxCpConfig wxcpconfig) {
+	public IWxCpConfig expireJsApiTicket(IWxCpConfig wxcpconfig) {
 		wxcpconfig.setJsApiTicketExpiresTime(0L);
 		
 		//缓存操作
@@ -50,7 +51,7 @@ public class WxCpConfigServiceImpl extends BaseSpringrainServiceImpl implements 
 
 
 	@Override
-	public WxCpConfig updateJsApiTicket(WxCpConfig wxcpconfig) {
+	public IWxCpConfig updateJsApiTicket(IWxCpConfig wxcpconfig) {
 		
 		//缓存操作
 		updateWxCpConfig(wxcpconfig);
@@ -60,7 +61,7 @@ public class WxCpConfigServiceImpl extends BaseSpringrainServiceImpl implements 
 
 	
 	@Override
-	public WxCpConfig expireCardapiTicket(WxCpConfig wxcpconfig) {
+	public IWxCpConfig expireCardapiTicket(IWxCpConfig wxcpconfig) {
 		
 		wxcpconfig.setCardApiTicketExpiresTime(0L);
 		//缓存操作
@@ -72,21 +73,21 @@ public class WxCpConfigServiceImpl extends BaseSpringrainServiceImpl implements 
 
 
 	@Override
-	public WxCpConfig updateCardapiTicket(WxCpConfig wxcpconfig) {
+	public IWxCpConfig updateCardapiTicket(IWxCpConfig wxcpconfig) {
 		//缓存操作
 		updateWxCpConfig(wxcpconfig);
 		return wxcpconfig;
 		
 	}
 	@Override
-	public WxCpConfig findWxCpConfigById(String id) {
+	public IWxCpConfig findWxCpConfigById(String id) {
 		if(StringUtils.isBlank(id)){
 			return null;
 		}
 		
-		WxCpConfig wxcpConfig=null;
+		IWxCpConfig wxcpConfig=null;
 		try {
-			wxcpConfig = super.getByCache(GlobalStatic.springrainweixinCacheKey, id, WxCpConfig.class);
+			wxcpConfig = super.getByCache(GlobalStatic.springrainweixinCacheKey, id, IWxCpConfig.class);
 		} catch (Exception e) {
 			wxcpConfig=null;
 			logger.error(e.getMessage(),e);
@@ -109,7 +110,7 @@ public class WxCpConfigServiceImpl extends BaseSpringrainServiceImpl implements 
 	 * 缓存处理,可以把配置进行缓存更新
 	 */
 	@Override
-	public WxCpConfig updateWxCpConfig(WxCpConfig wxcpconfig) {
+	public IWxCpConfig updateWxCpConfig(IWxCpConfig wxcpconfig) {
 		
 		String id=wxcpconfig.getId();
 		if(StringUtils.isBlank(id)){
@@ -117,7 +118,7 @@ public class WxCpConfigServiceImpl extends BaseSpringrainServiceImpl implements 
 		}
 		
 		try {
-			super.putByCache(GlobalStatic.springrainweixinCacheKey, id, WxCpConfig.class);
+			super.putByCache(GlobalStatic.springrainweixinCacheKey, id, IWxCpConfig.class);
 		} catch (Exception e) {
 			logger.error(e.getMessage(),e);
 		}

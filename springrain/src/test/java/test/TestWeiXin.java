@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.junit.Test;
 import org.springrain.weixin.entity.WxMpConfig;
+import org.springrain.weixin.sdk.common.api.IWxMpConfig;
 import org.springrain.weixin.sdk.common.api.IWxMpConfigService;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
 import org.springrain.weixin.sdk.mp.api.IWxMpService;
@@ -22,7 +23,7 @@ public class TestWeiXin {
 		//WxMpConfig  wxmpconfig=wxMpConfigService.findWxMpConfigById("");
 		
 		//测试
-		WxMpConfig  wxmpconfig=new WxMpConfig();
+		IWxMpConfig  wxmpconfig=new WxMpConfig();
 		
 		
 		wxmpconfig.setAppId("");
@@ -41,7 +42,7 @@ public class TestWeiXin {
 	@Test
 	public void testweixinIP() throws WxErrorException{
 		//测试
-		WxMpConfig  wxmpconfig=new WxMpConfig();
+		IWxMpConfig  wxmpconfig=new WxMpConfig();
 		List<String> callbackIP = wxMpService.getCallbackIP(wxmpconfig);
 		System.out.println(callbackIP);
 		

@@ -132,8 +132,9 @@ public class CmsContentController  extends BaseController {
 	ReturnDatas lookjson(Model model,HttpServletRequest request,HttpServletResponse response) throws Exception {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		java.lang.String id=request.getParameter("id");
+		String siteId=request.getParameter("siteId");
 		if(StringUtils.isNotBlank(id)){
-			CmsContent cmsContent = cmsContentService.findCmsContentById(id);
+			CmsContent cmsContent = cmsContentService.findCmsContentById(siteId,id);
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("siteList", cmsSiteService.findSiteByUserId(SessionUser.getUserId()));
 			returnObject.setMap(map);

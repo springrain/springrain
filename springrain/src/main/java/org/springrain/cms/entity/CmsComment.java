@@ -55,7 +55,7 @@ public class CmsComment  extends BaseEntity {
 	/**
 	 * 父级评论Id
 	 */
-	private java.lang.String pcommentId;
+	private java.lang.String pid;
 	/**
 	 * 站点ID
 	 */
@@ -88,6 +88,26 @@ public class CmsComment  extends BaseEntity {
 	 * 评分
 	 */
 	private java.lang.Integer score;
+	
+	/**
+	 * 类型
+	 */
+	private java.lang.Integer type;
+	
+	/**
+	 * 手机号
+	 */
+	private java.lang.String mobile;
+	
+	/**
+	 * 邮箱
+	 */
+	private java.lang.String email;
+	
+	/**
+	 * 用户姓名
+	 */
+	private java.lang.String userName;
 	//columns END 数据库字段结束
 	
 	//concstructor
@@ -136,16 +156,16 @@ public class CmsComment  extends BaseEntity {
 	public java.lang.String getBusinessId() {
 		return this.businessId;
 	}
-	public void setPcommentId(java.lang.String value) {
+	public void setPid(java.lang.String value) {
 		    if(StringUtils.isNotBlank(value)){
 			 value=value.trim();
 			}
-		this.pcommentId = value;
+		this.pid = value;
 	}
 	
-     @WhereSQL(sql="pcommentId=:CmsComment_pcommentId")
-	public java.lang.String getPcommentId() {
-		return this.pcommentId;
+     @WhereSQL(sql="pid=:CmsComment_pid")
+	public java.lang.String getPid() {
+		return this.pid;
 	}
 	public void setSiteId(java.lang.Integer value) {
 		this.siteId = value;
@@ -226,12 +246,45 @@ public class CmsComment  extends BaseEntity {
 		return this.score;
 	}
 	
+     @WhereSQL(sql="type=:CmsComment_type")
+	public java.lang.Integer getType() {
+		return type;
+	}
+
+	public void setType(java.lang.Integer type) {
+		this.type = type;
+	}
+	@WhereSQL(sql="mobile=:CmsComment_mobile")
+	public java.lang.String getMobile() {
+		return mobile;
+	}
+
+	public void setMobile(java.lang.String mobile) {
+		this.mobile = mobile;
+	}
+	@WhereSQL(sql="email=:CmsComment_email")
+	public java.lang.String getEmail() {
+		return email;
+	}
+
+	public void setEmail(java.lang.String email) {
+		this.email = email;
+	}
+	@WhereSQL(sql="userName=:CmsComment_userName")
+	public java.lang.String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(java.lang.String userName) {
+		this.userName = userName;
+	}
+
 	public String toString() {
 		return new StringBuffer()
 			.append("id[").append(getId()).append("],")
 			.append("评论用户ID[").append(getUserId()).append("],")
 			.append("业务Id[").append(getBusinessId()).append("],")
-			.append("父级评论Id[").append(getPcommentId()).append("],")
+			.append("父级评论Id[").append(getPid()).append("],")
 			.append("站点ID[").append(getSiteId()).append("],")
 			.append("评论时间[").append(getCreateDate()).append("],")
 			.append("IP地址[").append(getIp()).append("],")

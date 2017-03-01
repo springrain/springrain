@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
-import org.springrain.weixin.entity.WxCpConfig;
+import org.springrain.weixin.sdk.common.api.IWxCpConfig;
 import org.springrain.weixin.sdk.common.util.xml.XStreamCDataConverter;
 import org.springrain.weixin.sdk.cp.util.crypto.WxCpCryptUtil;
 import org.springrain.weixin.sdk.cp.util.xml.XStreamTransformer;
@@ -183,7 +183,7 @@ public class WxCpXmlMessage implements Serializable {
    */
   public static WxCpXmlMessage fromEncryptedXml(
           String encryptedXml,
-          WxCpConfig wxcpconfig,
+          IWxCpConfig wxcpconfig,
           String timestamp, String nonce, String msgSignature) {
     WxCpCryptUtil cryptUtil = new WxCpCryptUtil(wxcpconfig);
     String plainText = cryptUtil.decrypt(msgSignature, timestamp, nonce, encryptedXml);
@@ -192,7 +192,7 @@ public class WxCpXmlMessage implements Serializable {
 
   public static WxCpXmlMessage fromEncryptedXml(
           InputStream is,
-          WxCpConfig wxcpconfig,
+          IWxCpConfig wxcpconfig,
           String timestamp, String nonce, String msgSignature) {
     try {
       return fromEncryptedXml(IOUtils.toString(is, "UTF-8"), wxcpconfig, timestamp, nonce, msgSignature);

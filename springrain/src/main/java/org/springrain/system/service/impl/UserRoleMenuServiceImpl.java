@@ -111,6 +111,15 @@ public class UserRoleMenuServiceImpl extends BaseSpringrainServiceImpl implement
 		return super.queryForList(finder, Menu.class);
 	}
 	
+	@Override
+	public List<Menu> findMenuByUserIdAll(String userId) throws Exception {
+		if (StringUtils.isBlank(userId)) {
+			return null;
+		}
+		Finder finder=getMenuFinderByUserId(userId, null);
+		return super.queryForList(finder, Menu.class);
+	}
+	
 	private Finder getMenuFinderByUserId(String userId,Integer menutype) throws Exception{
 		
 		Finder finder = new Finder(

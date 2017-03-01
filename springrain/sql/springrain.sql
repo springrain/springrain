@@ -229,6 +229,10 @@ INSERT INTO `t_menu` VALUES ('t_user_list', '用户管理', 'business_manager', 
 INSERT INTO `t_menu` VALUES ('t_user_list_export', '导出用户', 't_user_list', null, '/system/user/list/export', '0', '1', null, null, null, null, null, null, null);
 INSERT INTO `t_menu` VALUES ('t_user_look', '查看用户', 't_user_list', null, '/system/user/look', '0', '1', null, null, null, null, null, null, null);
 INSERT INTO `t_menu` VALUES ('t_user_update', '修改用户', 't_user_list', null, '/system/user/update', '0', '1', null, null, null, null, null, null, null);
+INSERT INTO `t_menu` VALUES ('3501ed1e23da40219b4f0fa5b7b2749a', '菜单列表', 't_menu_list', '', '/system/menu/list', '0', '1', NULL, '', NULL, NULL, NULL, NULL, NULL);
+
+
+
 -- ----------------------------
 -- 修改密码相关
 -- ----------------------------
@@ -367,6 +371,11 @@ INSERT INTO `t_role_menu` VALUES ('ee381117ef634c27bda3eaa1b6260e38', 'r_10001',
 INSERT INTO `t_role_menu` VALUES ('f45d21402ed1412497e568d8a00e4a50', 'r_10001', 't_org_delete', null, null, null, null, null);
 INSERT INTO `t_role_menu` VALUES ('fd3368ff61904e199a921102e0e71d9a', 'r_10001', 't_menu_list', null, null, null, null, null);
 INSERT INTO `t_role_menu` VALUES ('ffdb77d726c949088953ddb35ebd1e5c', 'r_10001', 't_role_look', null, null, null, null, null);
+
+
+INSERT INTO `t_role_menu`  VALUES ('003f6efe4e9b4b2998792953596258b1', 'r_10001', '3501ed1e23da40219b4f0fa5b7b2749a', NULL, NULL, NULL, NULL, NULL);
+
+
 -- ----------------------------
 -- 修改密码
 -- ----------------------------
@@ -502,3 +511,13 @@ CREATE TABLE `t_user_role` (
 -- Records of t_user_role
 -- ----------------------------
 INSERT INTO `t_user_role` VALUES ('1', 'u_10001', 'r_10001', null, null, null, null, null);
+
+
+-- 角色管理-系统 分给管理员
+INSERT INTO `t_menu` (`id`, `name`, `pid`, `description`, `pageurl`, `menuType`, `active`, `sortno`, `menuIcon`, `bak1`, `bak2`, `bak3`, `bak4`, `bak5`) VALUES ('91779a0d304f4b91932b63dec87a8536', '角色管理-系统', 'system_manager', '', '/system/role/list/all', '1', '1', NULL, '&#xe60a;', NULL, NULL, NULL, NULL, NULL);
+insert t_role_menu(id,roleId,menuId) values(UUID(),'r_10001','91779a0d304f4b91932b63dec87a8536');
+
+INSERT INTO `t_menu` (`id`, `name`, `pid`, `description`, `pageurl`, `menuType`, `active`, `sortno`, `menuIcon`, `bak1`, `bak2`, `bak3`, `bak4`, `bak5`) VALUES ('b94392f7b8714f64819c5c0222eb134a', '角色修改-系统', 't_role_list', '', '/system/role/update/admin', '0', '1', NULL, '', NULL, NULL, NULL, NULL, NULL);
+insert t_role_menu(id,roleId,menuId) values(UUID(),'r_10001','b94392f7b8714f64819c5c0222eb134a');
+
+update t_menu set pageurl='/system/menu/list/all' where id='t_menu_list';

@@ -2,7 +2,6 @@ package org.springrain.cms.service.impl;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -12,14 +11,17 @@ import org.springframework.stereotype.Service;
 import org.springrain.cms.entity.CmsChannelContent;
 import org.springrain.cms.entity.CmsContent;
 import org.springrain.cms.entity.CmsLink;
+import org.springrain.cms.entity.CmsProperty;
 import org.springrain.cms.service.ICmsChannelService;
 import org.springrain.cms.service.ICmsContentService;
 import org.springrain.cms.service.ICmsLinkService;
+import org.springrain.cms.service.ICmsPropertyService;
 import org.springrain.cms.service.ICmsSiteService;
+import org.springrain.frame.util.Enumerations.SiteType;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
+import org.springrain.frame.util.LuceneUtils;
 import org.springrain.frame.util.Page;
-import org.springrain.frame.util.Enumerations.SiteType;
 import org.springrain.system.service.BaseSpringrainServiceImpl;
 import org.springrain.system.service.ITableindexService;
 
@@ -46,28 +48,34 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 	private ICmsLinkService cmsLinkService;
 	@Resource
 	private ICmsChannelService cmsChannelService;
+	@Resource
+	private ICmsPropertyService cmsPropertyService;
+	
 
-	@SuppressWarnings("unchecked")
+	
+
 	@Override
 	public <T> List<T> findListDataByFinder(Finder finder, Page page,
 			Class<T> clazz, Object queryBean) throws Exception {
-		List<CmsContent> contentList;
-		if(page.getPageIndex()==1){
-			contentList = getByCache(GlobalStatic.cacheKey, "cmsContentService_findListDataByFinder", List.class,page);
-			if(CollectionUtils.isEmpty(contentList)){
-				contentList = super.findListDataByFinder(finder, page, CmsContent.class, queryBean);
-				putByCache(GlobalStatic.cacheKey, "cmsContentService_findListDataByFinder", contentList,page);
-			}
-		}else{
-			contentList = super.findListDataByFinder(finder, page, CmsContent.class, queryBean);
-		}
-		for (CmsContent cmsContent : contentList) {
-			Map<String, Object> addtionInfo = super.queryForObject(new Finder("SELECT a.siteId,a.channelId,b.link FROM cms_channel_content a INNER JOIN cms_link b ON a.contentId=b.businessId WHERE a.contentId=:contentId").setParam("contentId", cmsContent.getId()));
-			cmsContent.setSiteId((String) addtionInfo.get("siteId"));
-			cmsContent.setChannelId((String) addtionInfo.get("channelId"));
-			cmsContent.setLink((String) addtionInfo.get("link"));
-		}
-		return (List<T>) contentList;
+		CmsContent q=(CmsContent) queryBean;
+		
+	   finder=new Finder("SELECT c.*, re.siteId siteId,re.channelId channelId,link.link link  FROM ");
+	   finder.append(Finder.getTableName(CmsContent.class)).append(" c,")
+	         .append(Finder.getTableName(CmsChannelContent.class)).append(" re,")
+	         .append(Finder.getTableName(CmsLink.class)).append(" link ");
+	   
+	   finder.append(" WHERE c.id=re.contentId and c.id=link.businessId and  re.siteId=link.siteId ");
+	   q.setFrameTableAlias("c");
+	   
+	   super.getFinderWhereByQueryBean(finder, q);
+	   
+	   finder.append(" order by c.createDate desc ");
+	   
+	   
+	   super.queryForList(finder, clazz, page);
+	   
+		
+		return (List<T>) super.queryForList(finder, clazz, page);
 	}
 	
     @Override
@@ -75,9 +83,6 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
     	if(cmsContent==null){
     		return null;
     	}
-    	
-    	evictByKey(GlobalStatic.cacheKey, "cmsContentService_findListDataByFinder");//清空后台列表缓存
-    	
     	String siteId=cmsContent.getSiteId();
     	if(StringUtils.isBlank(siteId)){
     		return null;
@@ -88,12 +93,38 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
          	return null;
     	}
 	   String id= tableindexService.updateNewId(CmsContent.class);
-	   if(StringUtils.isBlank(id)){
-		    	return null;
-	   }
+	 
 	   cmsContent.setId(id);
 	   cmsContent.setCreateDate(new Date());
+	   if(cmsContent.getSortno() == null)
+		   cmsContent.setSortno(Integer.parseInt(id.substring(2)));
 	   super.save(cmsContent);
+	   LuceneUtils.saveDocument(getLuceneDir(siteId), cmsContent);
+	   
+	   List<CmsProperty> propertyList = cmsContent.getPropertyList();
+	   if(CollectionUtils.isNotEmpty(propertyList)){//有扩展属性
+		   int listSize = propertyList.size();
+		   for (int i = 0; i < listSize; i++) {
+			 
+			   CmsProperty cmsProperty = propertyList.get(i);
+			   String pvalue = cmsProperty.getPvalue();
+			   CmsProperty tmpProperty = cmsPropertyService.findCmsPropertyById(cmsProperty.getId());
+			   
+			   if(tmpProperty==null){
+				   continue;
+			   }
+			   
+			   
+			   //BeanUtils.copyProperties(cmsProperty, tmpProperty);
+			   tmpProperty.setId(null);
+			   tmpProperty.setBusinessId(id);
+			   tmpProperty.setPvalue(pvalue);
+			   propertyList.set(i, tmpProperty);
+			   
+			   
+		   }
+	   }
+	   cmsPropertyService.save(propertyList);
 	   
 	   //保存中间对应
 	   CmsChannelContent ccc=new CmsChannelContent();
@@ -105,7 +136,7 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 	   super.save(ccc);
 	   
 	   
-	 //保存 相应的 link 链接
+	   //保存 相应的 link 链接
 	    CmsLink cmsLink=new CmsLink();
 	    
 	    cmsLink.setBusinessId(id);
@@ -116,37 +147,86 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 	    cmsLink.setStatichtml(0);//默认不静态化
 	    cmsLink.setActive(cmsContent.getActive());//默认可以使用
 	    cmsLink.setSortno(cmsContent.getSortno());
+	    cmsLink.setModelType(0);
 	    //首页默认
 	    String _index="/f/"+SiteType.getSiteType(siteType).name()+"/"+siteId+"/"+id;
 	    cmsLink.setDefaultLink(_index);
 	    cmsLink.setLink(_index);
 	    //设置模板路径
-	    cmsLink.setFtlfile("/u/"+siteId+"/content");
+	    cmsLink.setFtlfile("/u/"+siteId+"/f/content");
+	    cmsLink.setLoginuser(cmsContent.getLoginuser());
 	    cmsLinkService.save(cmsLink);
 	    
 	    //清除缓存
-	    evictByKey(siteId, "cmsContentService_findContentByChannelId_"+siteId+"_"+cmsContent.getChannelId());
-	    evictByKey(siteId, "cmsContentService_findListBySiteId_"+siteId);
+	    super.cleanCache(cmsContent.getSiteId());
+	   
 	    //添加新缓存
 	    return id;
 	}
 
   
+	private String getLuceneDir(String siteId) {
+		return GlobalStatic.rootdir+"/lucene/"+siteId;
+	}
+
 	@Override
     public Integer updateCmsContent(CmsContent cmsContent) throws Exception{
 		if(cmsContent==null){
     		return null;
     	}
-		//清除缓存
-		evictByKey(GlobalStatic.cacheKey, "cmsContentService_findListDataByFinder");//清空后台列表缓存
-		evictByKey(cmsContent.getSiteId(), "cmsContentService_findContentByChannelId_"+cmsContent.getSiteId()+"_"+cmsContent.getChannelId());
-	    evictByKey(cmsContent.getSiteId(), "cmsContentService_findListBySiteId_"+cmsContent.getSiteId());
+		CmsLink link = cmsLinkService.findLinkBySiteBusinessId(cmsContent.getSiteId(), cmsContent.getId());
+		if(link!=null){
+			link.setLoginuser(cmsContent.getLoginuser());
+			cmsLinkService.update(link);
+			String cacheKey="findLinkBySiteBusinessId_"+cmsContent.getSiteId()+"_"+cmsContent.getId();
+			super.evictByKey(cmsContent.getSiteId(), cacheKey);
+		}
+		Integer update = super.update(cmsContent,true);
+		LuceneUtils.updateDocument(getLuceneDir(cmsContent.getSiteId()), CmsContent.class);
 	    
-	    return super.update(cmsContent,true);
+		List<CmsProperty> propertyList = cmsContent.getPropertyList();
+		if(CollectionUtils.isNotEmpty(propertyList)){//有扩展属性
+			
+			for (CmsProperty cmsProperty : propertyList) {
+				if(StringUtils.isBlank(cmsProperty.getPvalue()))
+					cmsProperty.setPvalue("");
+			}
+			
+			cmsPropertyService.update(propertyList,true);
+		}
+		
+		
+		
+	    super.cleanCache(cmsContent.getSiteId());
+	    
+	    
+	    return update;
     }
     @Override
-	public CmsContent findCmsContentById(String id) throws Exception{
-	 return findById(id,CmsContent.class);
+	public CmsContent findCmsContentById(String siteId,String id) throws Exception{
+    	
+    	if(StringUtils.isBlank(siteId)||StringUtils.isBlank(id)){
+    		return null;
+    	}
+    	
+    	String key="cmsContentService_findCmsContentById_"+id;
+    	
+    	CmsContent content= getByCache(siteId, key, CmsContent.class);
+    	
+    	if(content!=null){
+    		return content;
+    	}
+    	
+    	
+    	
+    	 content= findById(id,CmsContent.class);
+    	
+    	
+		
+		putByCache(siteId, key, content);
+    	
+    	
+	 return content;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -172,26 +252,36 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 	@Override
 	public List<CmsContent> findContentByChannelId(String siteId,String channelId, Page page) throws Exception {
 		List<CmsContent> contentList;
+	
+		String cacheKey="cmsContentService_findContentByChannelId_"+siteId+"_"+channelId;
+		
 		if(page.getPageIndex()==1){
-			contentList = getByCache(siteId, "cmsContentService_findContentByChannelId_"+siteId+"_"+channelId, List.class);
-			if(CollectionUtils.isEmpty(contentList)){
-				Finder finder = new Finder("SELECT c.*,d.link FROM cms_channel a INNER JOIN cms_channel_content b ON a.id=b.channelId INNER JOIN cms_content c ON c.id=b.contentId INNER JOIN cms_link d ON c.id=d.businessId WHERE a.id=:channelId");
-				finder.setParam("channelId", channelId);
-				contentList = super.queryForList(finder, CmsContent.class, page);
-				putByCache(siteId, "cmsContentService_findContentByChannelId_"+siteId+"_"+channelId, contentList);
+			contentList = getByCache(siteId, cacheKey, List.class);
+			if(CollectionUtils.isNotEmpty(contentList)){
+				return contentList;
 			}
-		}else{
-			Finder finder = new Finder("SELECT c.*,d.link FROM cms_channel a INNER JOIN cms_channel_content b ON a.id=b.channelId INNER JOIN cms_content c ON c.id=b.contentId INNER JOIN cms_link d ON c.id=d.businessId WHERE a.id=:channelId");
-			finder.setParam("channelId", channelId);
-			contentList = super.queryForList(finder, CmsContent.class, page);
 		}
+		
+		Finder finder = new Finder("SELECT c.*,d.link FROM cms_channel a INNER JOIN cms_channel_content b ON a.id=b.channelId INNER JOIN cms_content c ON c.id=b.contentId INNER JOIN cms_link d ON c.id=d.businessId WHERE a.id=:channelId");
+		finder.setParam("channelId", channelId);
+		contentList = super.queryForList(finder, CmsContent.class, page);
+	
+		putByCache(siteId, cacheKey, contentList);
 		
 		return contentList;
 	}
-	
+
 	@Override
-	public <T> T findById(Object id, Class<T> clazz) throws Exception {
-		// TODO Auto-generated method stub
-		return super.findById(id, clazz);
+	public void deleteById(String id, String siteId) throws Exception {
+		//清除缓存
+	    super.cleanCache(siteId);
+		super.deleteById(id, CmsContent.class);
+		LuceneUtils.deleteDocument(getLuceneDir(siteId), id, CmsContent.class);
+	}
+	@Override
+	public void deleteByIds(List<String> ids,String siteId) throws Exception {
+		 super.cleanCache(siteId);
+		super.deleteByIds(ids, CmsContent.class);
+		LuceneUtils.deleteListDocument(getLuceneDir(siteId), ids, CmsContent.class);
 	}
 }

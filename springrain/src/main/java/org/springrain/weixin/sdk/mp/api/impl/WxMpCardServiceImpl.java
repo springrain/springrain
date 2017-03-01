@@ -2,12 +2,9 @@ package org.springrain.weixin.sdk.mp.api.impl;
 
 import java.util.Arrays;
 
-import javax.annotation.Resource;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-import org.springrain.weixin.entity.WxMpConfig;
+import org.springrain.weixin.sdk.common.api.IWxMpConfig;
 import org.springrain.weixin.sdk.common.api.IWxMpConfigService;
 import org.springrain.weixin.sdk.common.api.WxConsts;
 import org.springrain.weixin.sdk.common.bean.WxCardApiSignature;
@@ -30,15 +27,12 @@ import com.google.gson.reflect.TypeToken;
 /**
  * Created by springrain on 2017/1/8.
  */
-@Service("wxMpCardService")
 public class WxMpCardServiceImpl implements IWxMpCardService {
 
 	 private final Logger log = LoggerFactory.getLogger(getClass());
 
   //生产环境应该是spring注入
-  @Resource
   private IWxMpConfigService wxMpConfigService;
-  @Resource
   private IWxMpService wxMpService;
 
   public WxMpCardServiceImpl() {
@@ -55,7 +49,7 @@ public class WxMpCardServiceImpl implements IWxMpCardService {
    * @see #getCardApiTicket(boolean)
    */
   @Override
-  public String getCardApiTicket(WxMpConfig wxmpconfig) throws WxErrorException {
+  public String getCardApiTicket(IWxMpConfig wxmpconfig) throws WxErrorException {
     return getCardApiTicket( wxmpconfig,false);
   }
 
@@ -73,7 +67,7 @@ public class WxMpCardServiceImpl implements IWxMpCardService {
    * @return 卡券api_ticket
    */
   @Override
-  public String getCardApiTicket(WxMpConfig wxmpconfig,boolean forceRefresh) throws WxErrorException {
+  public String getCardApiTicket(IWxMpConfig wxmpconfig,boolean forceRefresh) throws WxErrorException {
    
 
       if (forceRefresh) {
@@ -113,7 +107,7 @@ public class WxMpCardServiceImpl implements IWxMpCardService {
    * @return 卡券Api签名对象
    */
   @Override
-  public WxCardApiSignature createCardApiSignature(WxMpConfig wxmpconfig,String[] optionalSignParam) throws
+  public WxCardApiSignature createCardApiSignature(IWxMpConfig wxmpconfig,String[] optionalSignParam) throws
           WxErrorException {
     long timestamp = System.currentTimeMillis() / 1000;
     String nonceStr = RandomUtils.getRandomStr();
@@ -138,7 +132,7 @@ public class WxMpCardServiceImpl implements IWxMpCardService {
    * @return 解密后的Code
    */
   @Override
-  public String decryptCardCode(WxMpConfig wxmpconfig,String encryptCode) throws WxErrorException {
+  public String decryptCardCode(IWxMpConfig wxmpconfig,String encryptCode) throws WxErrorException {
     String url = WxConsts.mpapiurl+"/card/code/decrypt";
     JsonObject param = new JsonObject();
     param.addProperty("encrypt_code", encryptCode);
@@ -158,7 +152,7 @@ public class WxMpCardServiceImpl implements IWxMpCardService {
    * @return WxMpCardResult对象
    */
   @Override
-  public WxMpCardResult queryCardCode(WxMpConfig wxmpconfig,String cardId, String code, boolean checkConsume) throws WxErrorException {
+  public WxMpCardResult queryCardCode(IWxMpConfig wxmpconfig,String cardId, String code, boolean checkConsume) throws WxErrorException {
     String url = WxConsts.mpapiurl+"/card/code/get";
     JsonObject param = new JsonObject();
     param.addProperty("card_id", cardId);
@@ -179,7 +173,7 @@ public class WxMpCardServiceImpl implements IWxMpCardService {
    * <br>可用 com.google.gson.JsonParser#parse 等方法直接取JSON串中的errcode等信息。
    */
   @Override
-  public String consumeCardCode(WxMpConfig wxmpconfig,String code) throws WxErrorException {
+  public String consumeCardCode(IWxMpConfig wxmpconfig,String code) throws WxErrorException {
     return consumeCardCode(wxmpconfig,code, null);
   }
 
@@ -192,7 +186,7 @@ public class WxMpCardServiceImpl implements IWxMpCardService {
    * <br>可用 com.google.gson.JsonParser#parse 等方法直接取JSON串中的errcode等信息。
    */
   @Override
-  public String consumeCardCode(WxMpConfig wxmpconfig,String code, String cardId) throws WxErrorException {
+  public String consumeCardCode(IWxMpConfig wxmpconfig,String code, String cardId) throws WxErrorException {
     String url = WxConsts.mpapiurl+"/card/code/consume";
     JsonObject param = new JsonObject();
     param.addProperty("code", code);
@@ -215,7 +209,7 @@ public class WxMpCardServiceImpl implements IWxMpCardService {
    * @param isMark 是否要mark（占用）这个code，填写true或者false，表示占用或解除占用
    */
   @Override
-  public void markCardCode(WxMpConfig wxmpconfig,String code, String cardId, String openId, boolean isMark) throws
+  public void markCardCode(IWxMpConfig wxmpconfig,String code, String cardId, String openId, boolean isMark) throws
           WxErrorException {
     String url = WxConsts.mpapiurl+"/card/code/mark";
     JsonObject param = new JsonObject();
@@ -233,7 +227,7 @@ public class WxMpCardServiceImpl implements IWxMpCardService {
   }
 
   @Override
-  public String getCardDetail(WxMpConfig wxmpconfig,String cardId) throws WxErrorException {
+  public String getCardDetail(IWxMpConfig wxmpconfig,String cardId) throws WxErrorException {
     String url = WxConsts.mpapiurl+"/card/get";
     JsonObject param = new JsonObject();
     param.addProperty("card_id", cardId);

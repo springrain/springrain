@@ -4,8 +4,8 @@ import java.io.File;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-import org.springrain.cms.entity.CmsAttachment;
-import org.springrain.cms.service.ICmsAttachmentService;
+import org.springrain.cms.entity.CmsBanner;
+import org.springrain.cms.service.ICmsBannerService;
 import org.springrain.frame.entity.IBaseEntity;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.Page;
@@ -16,33 +16,33 @@ import org.springrain.system.service.BaseSpringrainServiceImpl;
  * TODO 在此加入类描述
  * @copyright {@link weicms.net}
  * @author springrain<Auto generate>
- * @version  2016-11-10 11:55:17
- * @see org.springrain.cms.entity.demo.service.impl.CmsAttachment
+ * @version  2017-02-24 10:06:38
+ * @see org.springrain.cms.base.service.impl.CmsBanner
  */
-@Service("cmsAttachmentService")
-public class CmsAttachmentServiceImpl extends BaseSpringrainServiceImpl implements ICmsAttachmentService {
+@Service("cmsBannerService")
+public class CmsBannerServiceImpl extends BaseSpringrainServiceImpl implements ICmsBannerService {
 
    
     @Override
 	public String  save(Object entity ) throws Exception{
-	      CmsAttachment cmsAttachment=(CmsAttachment) entity;
-	       return super.save(cmsAttachment).toString();
+	      CmsBanner cmsBanner=(CmsBanner) entity;
+	       return super.save(cmsBanner).toString();
 	}
 
     @Override
 	public String  saveorupdate(Object entity ) throws Exception{
-	      CmsAttachment cmsAttachment=(CmsAttachment) entity;
-		 return super.saveorupdate(cmsAttachment).toString();
+	      CmsBanner cmsBanner=(CmsBanner) entity;
+		 return super.saveorupdate(cmsBanner).toString();
 	}
 	
 	@Override
     public Integer update(IBaseEntity entity ) throws Exception{
-	 CmsAttachment cmsAttachment=(CmsAttachment) entity;
-	return super.update(cmsAttachment);
+	 CmsBanner cmsBanner=(CmsBanner) entity;
+	return super.update(cmsBanner);
     }
     @Override
-	public CmsAttachment findCmsAttachmentById(String id) throws Exception{
-	 return super.findById(id,CmsAttachment.class);
+	public CmsBanner findCmsBannerById(Object id) throws Exception{
+	 return super.findById(id,CmsBanner.class);
 	}
 	
 /**
@@ -75,5 +75,14 @@ public class CmsAttachmentServiceImpl extends BaseSpringrainServiceImpl implemen
 			throws Exception {
 			 return super.findDataExportExcel(finder,ftlurl,page,clazz,o);
 		}
+
+	@Override
+	public List<CmsBanner> findBannerListByBusinessId(String siteId,
+			String businessId) throws Exception {
+		Finder finder = Finder.getSelectFinder(CmsBanner.class).append(" where siteId=:siteId and businessId=:businessId");
+		finder.setParam("siteId", siteId);
+		finder.setParam("businessId", businessId);
+		return super.queryForList(finder, CmsBanner.class);
+	}
 
 }

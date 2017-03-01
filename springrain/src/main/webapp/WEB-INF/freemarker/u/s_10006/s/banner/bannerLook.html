@@ -1,5 +1,5 @@
-<#ftl output_format="HTML" auto_esc=true> 
-<@h.commonHead title="后台管理系统" keywords="开源,永久免费" description="springrain开源系统管理后台"/>
+<#ftl output_format="HTML" auto_esc=true>
+<@h.siteCommonHead title="后台管理系统" keywords="开源,永久免费" description="springrain开源系统管理后台"/>
 
 
 </head>
@@ -13,7 +13,7 @@
 		            		<i class="layui-icon">&#xe630;</i>
 		             		<span class="layui-breadcrumb" style="visibility: visible;">
 							   <a href="${ctx}">首页<span class="layui-box">&gt;</span></a>
-							   <a><cite>微信号需要的配置信息管理</cite></a>
+							   <a><cite>CmsBanner管理</cite></a>
 							</span>
 		            </li>
 		             <li style="float:right;">
@@ -26,54 +26,54 @@
 							<div class="layui-main">
 						          <div id="LAY_preview" class="layui-my-form">
 						          				<header class="larry-personal-tit">
-													<span>添加微信号需要的配置信息</span>
+													<span>添加CmsBanner</span>
 												</header>
 												<div class="larry-personal-body clearfix changepwd">
-													<form id="validForm" class="layui-form <!--  -->"  method="post" action="${ctx}/cmssitewxconfig/update">
+													<form id="validForm" class="layui-form <!--  -->"  method="post" action="${ctx}/cmsbanner/update">
 																	<div class="layui-form-item col-lg-6">
-																		<label class="layui-form-label">站点Id*</label>
+																		<label class="layui-form-label">站点ID*</label>
 																		<div class="layui-inline col-lg-5">  
 																			${(returnDatas.data.siteId)!''}
 																		</div>
 																		<div class="layui-inline valid-info"></div>
 																	</div>
 																	<div class="layui-form-item col-lg-6">
-																		<label class="layui-form-label">开发者Id*</label>
+																		<label class="layui-form-label">业务id*</label>
 																		<div class="layui-inline col-lg-5">  
-																			${(returnDatas.data.appId)!''}
+																			${(returnDatas.data.businessId)!''}
 																		</div>
 																		<div class="layui-inline valid-info"></div>
 																	</div>
 																	<div class="layui-form-item col-lg-6">
-																		<label class="layui-form-label">应用密钥*</label>
+																		<label class="layui-form-label">图片路径*</label>
 																		<div class="layui-inline col-lg-5">  
-																			${(returnDatas.data.appSecret)!''}
+																			${(returnDatas.data.imgSrc)!''}
 																		</div>
 																		<div class="layui-inline valid-info"></div>
 																	</div>
 																	<div class="layui-form-item col-lg-6">
-																		<label class="layui-form-label">开发者Id*</label>
+																		<label class="layui-form-label">图片提示语*</label>
 																		<div class="layui-inline col-lg-5">  
-																			${(returnDatas.data.token)!''}
+																			${(returnDatas.data.imgAlt)!''}
 																		</div>
 																		<div class="layui-inline valid-info"></div>
 																	</div>
 																	<div class="layui-form-item col-lg-6">
-																		<label class="layui-form-label">消息加解密密钥*</label>
+																		<label class="layui-form-label">跳转路径*</label>
 																		<div class="layui-inline col-lg-5">  
-																			${(returnDatas.data.encodingAESKey)!''}
+																			${(returnDatas.data.redirectUrl)!''}
 																		</div>
 																		<div class="layui-inline valid-info"></div>
 																	</div>
 																	<div class="layui-form-item col-lg-6">
-																		<label class="layui-form-label">原始ID*</label>
+																		<label class="layui-form-label">排序*</label>
 																		<div class="layui-inline col-lg-5">  
-																			${(returnDatas.data.wxId)!''}
+																			${(returnDatas.data.sortno)!''}
 																		</div>
 																		<div class="layui-inline valid-info"></div>
 																	</div>
 																	<div class="layui-form-item col-lg-6">
-																		<label class="layui-form-label">状态 0不可用,1可用*</label>
+																		<label class="layui-form-label">0 禁用  1启用*</label>
 																		<div class="layui-inline col-lg-5">  
 																			${(returnDatas.data.active)!''}
 																		</div>
