@@ -16,16 +16,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springrain.cms.entity.CmsSiteWxconfig;
-import org.springrain.cms.entity.CmsWxMenu;
 import org.springrain.cms.service.ICmsSiteService;
 import org.springrain.cms.service.ICmsSiteWxconfigService;
-import org.springrain.cms.service.ICmsWxMenuService;
 import org.springrain.frame.common.SessionUser;
 import org.springrain.frame.controller.BaseController;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.Page;
 import org.springrain.frame.util.ReturnDatas;
 import org.springrain.frame.util.property.MessageUtils;
+import org.springrain.weixin.entity.WxMenu;
+import org.springrain.weixin.service.IWxMenuService;
 
 
 /**
@@ -42,7 +42,7 @@ public class CmsSiteWxconfigController  extends BaseController {
 	@Resource
 	private ICmsSiteService cmsSiteService;
 	@Resource
-	private ICmsWxMenuService cmsWxMenuService;
+	private IWxMenuService wxMenuService;
 	private String listurl="/mp/conf/confList";
 
 	/**
@@ -238,10 +238,10 @@ public class CmsSiteWxconfigController  extends BaseController {
 		ReturnDatas returnDatas=ReturnDatas.getSuccessReturnDatas();
 		
 		String siteId = cmsSiteWxconfig.getSiteId();
-		List<CmsWxMenu> datas = cmsWxMenuService.findParentMenuList(siteId);
+		List<WxMenu> datas = wxMenuService.findParentMenuList(siteId);
 		if (datas != null){
-			for (CmsWxMenu cmsWxMenu : datas) {
-				cmsWxMenu.setChildMenuList(cmsWxMenuService.findChildMenuListByPid(cmsWxMenu.getId()));
+			for (WxMenu cmsWxMenu : datas) {
+				cmsWxMenu.setChildMenuList(wxMenuService.findChildMenuListByPid(cmsWxMenu.getId()));
 			}
 		}
 		returnDatas.setData(datas);

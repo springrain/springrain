@@ -20,6 +20,7 @@ public class SystemRootServiceImpl extends BaseSpringrainServiceImpl implements
 		List<FileDto> rets = new ArrayList<FileDto>();
 		List<FileDto> fileDtos = new ArrayList<FileDto>();
 		File file = new File(path);
+
 		File[] fs = file.listFiles();
 
 		if (fs != null) {
