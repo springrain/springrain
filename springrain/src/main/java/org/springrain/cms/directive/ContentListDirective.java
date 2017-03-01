@@ -15,6 +15,7 @@ import org.springrain.cms.utils.DirectiveUtils;
 import org.springrain.frame.util.Page;
 
 import freemarker.core.Environment;
+import freemarker.ext.beans.StringModel;
 import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
@@ -36,10 +37,12 @@ public class ContentListDirective  extends AbstractCMSDirective  {
 	@Override
 	public void execute(Environment env, Map params, TemplateModel[] loopVars,
 			TemplateDirectiveBody body) throws TemplateException, IOException {
-		List<CmsContent> contentList = null;
+			List<CmsContent> contentList = null;
+			StringModel stringModel = (StringModel) params.get("page");
+			Page page = (Page) stringModel.getAdaptedObject(Page.class);
 			String type = DirectiveUtils.getString("type", params);
-			int pageIndex = DirectiveUtils.getInt("p", params);
-			Page page = new Page(pageIndex);
+			
+			
 			try {
 				if(type.equals("0")){//查询站点首页下的内容
 					contentList = cmsContentService.findListBySiteId(getSiteId(params), page);

@@ -34,7 +34,7 @@ public class CmsSiteListDirective extends AbstractCMSDirective {
 			TemplateDirectiveBody body) throws TemplateException, IOException {
 		
 		
-		List<CmsSite> siteList = null;
+			List<CmsSite> siteList = null;
 	
 			StringModel stringModel = (StringModel) params.get("page");
 			Page page = (Page) stringModel.getAdaptedObject(Page.class);

@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.system.service.BaseSpringrainServiceImpl;
 import org.springrain.weixin.entity.WxMpConfig;
-import org.springrain.weixin.entity.WxMpConfig;
 import org.springrain.weixin.sdk.common.api.IWxMpConfig;
 import org.springrain.weixin.sdk.common.api.IWxMpConfigService;
 
@@ -95,19 +94,14 @@ public class WxMpConfigServiceImpl extends BaseSpringrainServiceImpl implements 
 		IWxMpConfig wxMpConfig=null;
 		try {
 			wxMpConfig = super.getByCache(GlobalStatic.springrainweixinCacheKey, id, IWxMpConfig.class);
+			if(wxMpConfig==null){
+				wxMpConfig = super.findById(id, WxMpConfig.class);
+				super.putByCache(GlobalStatic.springrainweixinCacheKey, id, wxMpConfig);
+			}
 		} catch (Exception e) {
 			wxMpConfig=null;
 			logger.error(e.getMessage(),e);
 		}
-		if(wxMpConfig!=null){
-			return wxMpConfig;
-		}
-		
-		//从数据库查询
-		//WxMpConfig config=super.findById(id, WxMpConfig.class);
-		
-		//这里是为了测试
-		 wxMpConfig=new WxMpConfig();
 		
 		return wxMpConfig;
 	}
