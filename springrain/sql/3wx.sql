@@ -64,15 +64,23 @@ CREATE TABLE `wx_mpconfig` (
   `id` varchar(50) NOT NULL,
   `siteId` varchar(50) NOT NULL COMMENT '站点Id',
   `appId` varchar(500) DEFAULT NULL COMMENT '开发者Id',
-  `appSecret` varchar(500) DEFAULT NULL COMMENT '应用密钥',
+  `secret` varchar(500) DEFAULT NULL COMMENT '应用密钥',
   `token` varchar(500) DEFAULT NULL COMMENT '开发者Id',
-  `encodingAESKey` varchar(500) DEFAULT NULL COMMENT '消息加解密密钥',
+  `aesKey` varchar(500) DEFAULT NULL COMMENT '消息加解密密钥',
   `wxId` varchar(500) DEFAULT NULL COMMENT '原始ID',
   `active` int(11) NOT NULL DEFAULT '1' COMMENT '状态 0不可用,1可用',
+  `partnerId` varchar(500) DEFAULT NULL,
+  `partnerKey` varchar(500) DEFAULT NULL,
+  `oauth2redirectUri` varchar(500) DEFAULT NULL COMMENT '微信重定向地址',
+  `httpProxyHost` varchar(500) DEFAULT NULL COMMENT 'http代理地址',
+  `httpProxyPort` varchar(500) DEFAULT NULL COMMENT 'http代理端口',
+  `httpProxyUsername` varchar(500) DEFAULT NULL COMMENT 'http代理账号',
+  `httpProxyPassword` varchar(500) DEFAULT NULL COMMENT 'http代理密码',
+  `certificateFile` varchar(500) DEFAULT NULL COMMENT '证书地址',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='微信号需要的配置信息';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='微信号配置信息';
 
 -- ----------------------------
 -- Records of wx_mpconfig
 -- ----------------------------
-INSERT INTO `wx_mpconfig` VALUES ('s_10006', 's_10006', '1', '1', '1', '1', '1', '1');
+INSERT INTO `wx_mpconfig` VALUES ('s_10006', 's_10006', 'wx62a8', '358', 'centfor', '1', 'gh_7c', '1', null, null, 'springrain', null, null, null, null, null);
