@@ -4,28 +4,22 @@ import javax.annotation.Resource;
 
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
-import org.apache.shiro.crypto.hash.Md5Hash;
+import org.apache.shiro.authc.credential.SimpleCredentialsMatcher;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
+import org.springframework.stereotype.Component;
 import org.springrain.frame.util.GlobalStatic;
 
-/**
- * 使用 frameSimpleCredentialsMatcher 进行替换,前台MD5加密后传输,后台不再进行加密
- * @author caomei
- *
- */
-@Deprecated
-//@Component("frameHashedCredentialsMatcher")
-public class FrameHashedCredentialsMatcher extends HashedCredentialsMatcher {
+
+@Component("frameSimpleCredentialsMatcher")
+public class FrameSimpleCredentialsMatcher extends SimpleCredentialsMatcher {
 
 	@Resource
 	private CacheManager cacheManager;
 	
 	
-	public FrameHashedCredentialsMatcher(){
+	public FrameSimpleCredentialsMatcher(){
 		 super();
-	     setHashAlgorithmName(Md5Hash.ALGORITHM_NAME);
 	}
 	
 	

@@ -78,6 +78,7 @@
 		</style>
 		<script src="${ctx}/js/jquery/jquery-1.12.4.js"></script>
 		<script src="${ctx}/js/cache/locache.min.js"></script>
+		<script type="text/javascript" src="${ctx}/js/md5/md5.min.js"></script>
 		<script type="text/javascript">
 			//清除缓存
 			locache.flush();
@@ -92,7 +93,7 @@
 					<input type="text" name="account" placeholder="请输入用户名" />
 				</div>
 				<div class="login_name">
-					<input type="password" name="password" placeholder="请输入密码" />
+					<input type="password" name="password"  placeholder="请输入密码" />
 				</div>
 				<div class="login_name">
 					<div style="overflow: hidden;width: 80%;display: inline-block;">
@@ -120,6 +121,15 @@
 		<script>
 			jQuery(function($) {
 	            $("#sbtButton").click(function(){
+	            	
+	            	var pw=jQuery(":input[name='password']").val();
+	            	if(!pw||pw==""){
+	            		return false;
+	            	}
+	            	
+	            	pw=md5(pw);
+	            	jQuery(":input[name='password']").val(pw);
+	            	
 	                $("#loginForm").submit(function(){
 	                    return true;
 	                });
