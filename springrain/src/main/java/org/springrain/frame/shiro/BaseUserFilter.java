@@ -153,7 +153,14 @@ public class BaseUserFilter extends UserFilter {
 	         parMap.put("gotourl", url.toString());
 		
 	         WebUtils.issueRedirect(request, response, loginUrl,parMap);
-	        return false;
+	         
+	         return false;
 	    }
+	
+	
+	
+	
+	
+	
 
 }

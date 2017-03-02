@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
+import org.springrain.frame.util.CookieUtils;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.InputSafeUtils;
 
@@ -28,6 +29,12 @@ public class SiteUserFilter extends BaseUserFilter {
 		 HttpServletRequest req=(HttpServletRequest) request;
 		 if(!access){//登录失败了,需要设置一下需要跳转的登录URL
 			 String siteId=InputSafeUtils.substringByURI(req.getRequestURI(), "/s_");
+			 
+			 
+			 if(StringUtils.isBlank(siteId)){//URL中没有siteId,从cookie中取值
+				 siteId = CookieUtils.getCookieValue(req, GlobalStatic.springraindefaultSiteId);
+			 }
+			 
 			 if(StringUtils.isNotBlank(siteId)){
 				 request.setAttribute(GlobalStatic.customLoginURLKey, "/s/"+siteId+"/login");
 			 }
@@ -35,14 +42,11 @@ public class SiteUserFilter extends BaseUserFilter {
 			 return access;
 		 } 
 		 
-		
 		 Object obj=req.getSession().getAttribute(GlobalStatic.tokenKey);
-		 
-		 
 		 
 		 if(obj==null){
 			 request.setAttribute(GlobalStatic.errorTokentoURLKey, GlobalStatic.errorTokentoURL);
-			  return false;
+			 return false;
 		 }
 		 
 		 boolean tokenerror=true;
@@ -55,7 +59,7 @@ public class SiteUserFilter extends BaseUserFilter {
 		 
 		 if(tokenerror){
 			 request.setAttribute(GlobalStatic.errorTokentoURLKey, GlobalStatic.errorTokentoURL);
-		    return false;
+		     return false;
 		 }
 	
 		String token=obj.toString();

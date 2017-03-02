@@ -4,10 +4,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springrain.frame.util.GlobalStatic;
-import org.springrain.frame.util.InputSafeUtils;
 
 /**
  * 系统后台管理用户的过滤器
@@ -27,11 +25,6 @@ public class SystemUserFilter extends BaseUserFilter {
 		 
 		 HttpServletRequest req=(HttpServletRequest) request;
 		 if(!access){//登录失败了,需要设置一下需要跳转的登录URL
-			 String siteId=InputSafeUtils.substringByURI(req.getRequestURI(), "/s_");
-			 if(StringUtils.isNotBlank(siteId)){
-				 request.setAttribute(GlobalStatic.customLoginURLKey, "/system/"+siteId+"/login");
-			 }
-			
 			 return access;
 		 } 
 		 
@@ -39,7 +32,7 @@ public class SystemUserFilter extends BaseUserFilter {
 		 Object obj=req.getSession().getAttribute(GlobalStatic.tokenKey);
 		 if(obj==null||(!obj.toString().startsWith("system_"))){//tokenKey必须是system_开头
 			 request.setAttribute(GlobalStatic.errorTokentoURLKey, GlobalStatic.errorTokentoURL);
-		    return false;
+		     return false;
 		 }
 	
 		String token=obj.toString();

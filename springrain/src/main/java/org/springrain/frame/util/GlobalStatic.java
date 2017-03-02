@@ -39,6 +39,9 @@ public class GlobalStatic {
     //cms 缓存
     public static final String springraincmsCacheKey="springraincmscache";
     
+    //defaultSiteId 缓存
+    public static final String springraindefaultSiteId="defaultSiteId"; 
+    
     
     //前后台传递的tokenKey
     public static final String tokenKey="springraintoken";
