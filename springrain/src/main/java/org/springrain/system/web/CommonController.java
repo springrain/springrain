@@ -66,14 +66,16 @@ public class CommonController extends BaseController  {
 		@RequestMapping("/getCaptcha")
 		public void getCaptcha(HttpSession session,HttpServletResponse response) throws IOException {
 
-			HttpHeaders headers = new HttpHeaders();
-			headers.setContentType(MediaType.IMAGE_JPEG);
+			//HttpHeaders headers = new HttpHeaders();
+			//headers.setContentType(MediaType.IMAGE_JPEG);
 
 			StringBuffer code = new StringBuffer();
 			BufferedImage image = CaptchaUtils.genRandomCodeImage(code);
 			session.removeAttribute(GlobalStatic.DEFAULT_CAPTCHA_PARAM);
 			session.setAttribute(GlobalStatic.DEFAULT_CAPTCHA_PARAM, code.toString());
 
+			response.setHeader("Content-Type", "image/jpeg");
+			
 			// 将内存中的图片通过流动形式输出到客户端
 			ImageIO.write(image, "JPEG", response.getOutputStream());
 			return;

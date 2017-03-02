@@ -104,7 +104,8 @@ public abstract class AbstractCaptchaService implements CaptchaService {
 
 	@Override
 	public Captcha getCaptcha() {
-		BufferedImage bufImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		//BufferedImage bufImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		BufferedImage bufImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		backgroundFactory.fillBackground(bufImage);
 		String word = wordFactory.getNextWord();
 		textRenderer.draw(word, bufImage, fontFactory, colorFactory);
