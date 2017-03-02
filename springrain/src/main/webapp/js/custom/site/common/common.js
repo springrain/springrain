@@ -67,13 +67,13 @@ function loadMenu(){
 
 function exit(){
 		springrain.confirm("确定退出？", function(){
-			var siteId = locache.get("defaultSiteId");
+			var siteId = $.cookie('defaultSiteId');
 			try{
 				locache.flush();
 			}catch(e){}
 			
 			if(!!siteId){
-				_url=ctx+"/s/"+getDefaultSiteId()+"/logout";
+				_url=ctx+"/s/"+siteId+"/logout";
 				springrain.goTo(_url);
 			}
 			
@@ -83,7 +83,7 @@ function exit(){
 
 
 function getDefaultSiteId(){
-	return  locache.get("defaultSiteId");
+	return  $.cookie('defaultSiteId');
 }
 
 
