@@ -455,10 +455,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
 
   @Override
   public String oauth2buildAuthorizationUrl(IWxCpConfig wxcpconfig,String state) {
-    return oauth2buildAuthorizationUrl(wxcpconfig,
-      wxcpconfig.getOauth2redirectUri(),
-      state
-    );
+    return oauth2buildAuthorizationUrl(wxcpconfig,wxcpconfig.getOauth2redirectUri(),state );
   }
 
   @Override

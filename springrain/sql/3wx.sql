@@ -73,7 +73,7 @@ CREATE TABLE `wx_mpconfig` (
   `partnerKey` varchar(500) DEFAULT NULL,
   `oauth2redirectUri` varchar(500) DEFAULT NULL COMMENT '微信重定向地址',
   `httpProxyHost` varchar(500) DEFAULT NULL COMMENT 'http代理地址',
-  `httpProxyPort` varchar(500) DEFAULT NULL COMMENT 'http代理端口',
+  `httpProxyPort` int(11) DEFAULT NULL COMMENT 'http代理端口',
   `httpProxyUsername` varchar(500) DEFAULT NULL COMMENT 'http代理账号',
   `httpProxyPassword` varchar(500) DEFAULT NULL COMMENT 'http代理密码',
   `certificateFile` varchar(500) DEFAULT NULL COMMENT '证书地址',
