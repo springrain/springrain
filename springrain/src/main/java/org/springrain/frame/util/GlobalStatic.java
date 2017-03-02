@@ -7,8 +7,9 @@ package org.springrain.frame.util;
  * @see org.springrain.frame.util.GlobalStatic
  */
 public class GlobalStatic {
-	public static  String rootdir=null;
-	public static  String webinfodir=null;
+	public static  String rootDir=null;
+	public static  String webInfoDir=null;
+	public static  String staticHtmlDir=null;
 	public static  String tempRootpath = System.getProperty("user.dir") + "/temp/";
 	public static final int excelPageSize=1000;
 	public static final  String suffix=".html";
@@ -27,7 +28,7 @@ public class GlobalStatic {
 	//权限缓存
 	public static final String qxCacheKey="springrainqxcache";
 	//页面静态化缓存
-	public static final String staticHtmlCacheKey="statichtmlcache";
+	//public static final String staticHtmlCacheKey="statichtmlcache";
 	//登录次数校验缓存
 	public static final String springrainloginCacheKey="springrainlogincache";
 	//缓存用户最后有效的登陆sessionId
@@ -104,9 +105,10 @@ public class GlobalStatic {
 			path=path.substring(0, _info);
 		}
 		
-		rootdir=path;
+		rootDir=path;
 		
-		tempRootpath = rootdir + "/temp/";
+		tempRootpath = rootDir + "/temp/";
+		staticHtmlDir=rootDir + "/statichtml/";
 		
 	}
 	

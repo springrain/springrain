@@ -16,7 +16,7 @@ public interface IStaticHtmlService extends IBaseSpringrainService {
       * @return
       * @throws Exception
       */
-	String findHtmlPathByURI(String uri) throws Exception;
+	String findHtmlPathByURI(String siteId,String uri) throws Exception;
 	
 	
 	

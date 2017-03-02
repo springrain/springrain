@@ -24,7 +24,7 @@ public class LuceneTask implements Runnable {
 	String rootdir=null;
 
 	public LuceneTask() {
-		rootdir=GlobalStatic.rootdir+"/lucene/index";
+		rootdir=GlobalStatic.rootDir+"/lucene/index";
 	}
 
 	public LuceneTask(Object entity, String oper) {

@@ -153,7 +153,7 @@ public class UeditorController extends BaseController {
         
         String fileName = FileUtils.reSetFileName(suffix);
     	//保存到文件
-        upload(file, GlobalStatic.rootdir+fileuploadpath+fileName);
+        upload(file, GlobalStatic.rootDir+fileuploadpath+fileName);
         
         Map<String, Object> map = getResultMap(true);
         map.put("size", size);
@@ -182,7 +182,7 @@ public class UeditorController extends BaseController {
 	    
 	    int index=Integer.valueOf(start_str);
 	    
-	    File dir=new  File(GlobalStatic.rootdir+fileuploadpath);
+	    File dir=new  File(GlobalStatic.rootDir+fileuploadpath);
 
 		File[] list = dir.listFiles();
 		
@@ -236,7 +236,7 @@ public class UeditorController extends BaseController {
     		return getResultMap(false);
     	}
         String fileName = FileUtils.reSetFileName(UeditorConfig.SCRAWL_TYPE);
-        File file=new File(GlobalStatic.rootdir+fileuploadpath+fileName);
+        File file=new File(GlobalStatic.rootDir+fileuploadpath+fileName);
         byte[] decodeBase64 = Base64.decodeBase64(fileStr);
         int length = decodeBase64.length;
         
@@ -304,7 +304,7 @@ public class UeditorController extends BaseController {
 		     
 			 String fileImage = FileUtils.reSetFileName(suffix);
 		    	//保存到文件
-			 File saveFile=new File(GlobalStatic.rootdir+fileuploadpath+fileImage);
+			 File saveFile=new File(GlobalStatic.rootDir+fileuploadpath+fileImage);
 			 org.apache.commons.io.FileUtils.copyInputStreamToFile(entity.getContent(), saveFile);
 			   
 			 Map<String,Object> map=new HashMap<String,Object>();

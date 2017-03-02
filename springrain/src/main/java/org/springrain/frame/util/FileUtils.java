@@ -1,6 +1,12 @@
 package org.springrain.frame.util;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,5 +68,49 @@ public class FileUtils {
     public static String reSetFileName(String suffix) {
         return System.currentTimeMillis()+suffix;
     }
+    
+    
+    /**
+     * 把文件读到写入流
+     * @param writer
+     * @param file
+     * @throws Exception
+     */
+    
+    public static void readIOFromFile(Writer writer,File file) throws IOException{
+    	readIOFromFile(writer, file, true);
+    }
+    
+    /**
+     * 把文件读到写入流
+     * @param writer
+     * @param file
+     * @throws Exception
+     */
+    
+    public static void readIOFromFile(Writer writer,File file,boolean closeWriter) throws IOException{
+    	 // 读出文件到response  
+        // 这里是先需要把要把文件内容先读到缓冲区  
+        // 再把缓冲区的内容写到response的输出流供用户下载  
+        FileInputStream fileInputStream = new FileInputStream(file);  
+        BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);  
+        BufferedReader reader = new BufferedReader (new InputStreamReader(bufferedInputStream,GlobalStatic.defaultCharset));
+        
+        char[] data = new char[1024];
+        while( reader.read(data)!=-1){
+     	   writer.write(data); 
+         } 
+        
+        reader.close();
+        bufferedInputStream.close();
+        fileInputStream.close();
+        if(closeWriter){
+        	 writer.close();
+        }
+       
+        
+        
+    }
+
 
 }

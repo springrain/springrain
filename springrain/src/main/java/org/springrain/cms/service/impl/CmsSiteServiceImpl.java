@@ -146,16 +146,16 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 	    cmsLink.setFtlfile("/u/"+id+"/s/index");
 	    cmsLinkService.save(cmsLink);
 	    
-	   File t_file=new File(GlobalStatic.webinfodir+"/u/"+id+"/");
+	   File t_file=new File(GlobalStatic.webInfoDir+"/u/"+id+"/");
 	   if(!t_file.exists()){
 		   t_file.mkdirs();
 		 }
 	    
-		 String str_jsdir=GlobalStatic.rootdir+"/u/"+id+"/js/";
-		 String str_cssdir=GlobalStatic.rootdir+"/u/"+id+"/css/";
-		 String str_imgdir=GlobalStatic.rootdir+"/u/"+id+"/img/";
+		 String str_jsdir=GlobalStatic.rootDir+"/u/"+id+"/js/";
+		 String str_cssdir=GlobalStatic.rootDir+"/u/"+id+"/css/";
+		 String str_imgdir=GlobalStatic.rootDir+"/u/"+id+"/img/";
 		 
-		 String str_upload=GlobalStatic.rootdir+"/upload/u/"+id+"/";
+		 String str_upload=GlobalStatic.rootDir+"/upload/u/"+id+"/";
 		 
 		 File jsdir=new File(str_jsdir);
 		 if(!jsdir.exists()){
@@ -175,7 +175,7 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 			 uploaddir.mkdirs();
 		 }
 		 if(StringUtils.isNotBlank(cmsSite.getLogo())){//如果有logo，将logo从临时文件夹移动到正式文件夹
-			 File tmpLogo = new File(GlobalStatic.rootdir+cmsSite.getLogo());
+			 File tmpLogo = new File(GlobalStatic.rootDir+cmsSite.getLogo());
 			 File formalLogo = new File(str_upload+tmpLogo.getName());
 			 if(!formalLogo.exists())
 				 formalLogo.createNewFile();
@@ -252,7 +252,7 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 	@Override
 	public String saveTmpLogo(MultipartFile tempFile, String siteId) throws IOException {
 		String filePath = "/upload/"+siteId+"/logo/"+SecUtils.getUUID()+tempFile.getOriginalFilename();
-		File file = new File(GlobalStatic.rootdir+filePath);
+		File file = new File(GlobalStatic.rootDir+filePath);
 		File fileParentDir = file.getParentFile();
 		if(!fileParentDir.exists())
 			fileParentDir.mkdirs();

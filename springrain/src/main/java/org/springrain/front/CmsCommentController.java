@@ -136,7 +136,7 @@ public class CmsCommentController  extends BaseController {
 			if(StringUtils.isBlank(id)){
 			  cmsComment.setId(null);
 			}
-			String filePath = GlobalStatic.rootdir+"upload/sensitiveWords.txt";
+			String filePath = GlobalStatic.rootDir+"upload/sensitiveWords.txt";
 			cmsComment.setContent(SensitiveWordUtils.validateBanWords(cmsComment.getContent(), filePath));
 			cmsCommentService.saveorupdate(cmsComment);
 			

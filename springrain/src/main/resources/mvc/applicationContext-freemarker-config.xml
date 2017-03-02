@@ -48,15 +48,6 @@
 		<property name="freemarkerVariables">  
             <map>   
                 <entry key="shiro"  value-ref="shiroTags"/>   
-                
-                <!-- CMS 标签 -->
-                <!--  
-                <entry key="cms_channel_list"  value-ref="channelListDirective"/>   
-                <entry key="cms_content_list"  value-ref="contentListDirective"/>   
-                <entry key="cms_content"  value-ref="contentDirective"/>   
-                <entry key="cms_site"  value-ref="siteDirective"/>   
-                <entry key="cms_site_list"  value-ref="siteListDirective"/>   
-                -->
             </map>   
         </property>  
 	</bean>

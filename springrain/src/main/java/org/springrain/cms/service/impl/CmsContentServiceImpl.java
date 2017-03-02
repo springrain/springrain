@@ -166,7 +166,7 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 
   
 	private String getLuceneDir(String siteId) {
-		return GlobalStatic.rootdir+"/lucene/"+siteId;
+		return GlobalStatic.rootDir+"/lucene/"+siteId;
 	}
 
 	@Override

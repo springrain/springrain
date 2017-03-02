@@ -48,7 +48,7 @@ public class FileUploadController {
     		String prefix = fullFileName[1];
 			
 			String path = "/upload/"+siteId+"/"+businessId+"/"+SecUtils.getUUID()+tempFile.getOriginalFilename();
-    		File file = new File(GlobalStatic.rootdir+path);
+    		File file = new File(GlobalStatic.rootDir+path);
     		if(!file.getParentFile().exists())
     			file.getParentFile().mkdirs();
     		if(!file.exists())

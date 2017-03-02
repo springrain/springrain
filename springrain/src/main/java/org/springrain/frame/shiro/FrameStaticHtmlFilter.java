@@ -1,11 +1,7 @@
 package org.springrain.frame.shiro;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
 import javax.annotation.Resource;
@@ -20,7 +16,10 @@ import org.apache.shiro.web.servlet.OncePerRequestFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springrain.frame.util.CookieUtils;
+import org.springrain.frame.util.FileUtils;
 import org.springrain.frame.util.GlobalStatic;
+import org.springrain.frame.util.InputSafeUtils;
 import org.springrain.system.service.IStaticHtmlService;
 /**
  * 页面静态化的过滤器
@@ -50,10 +49,18 @@ public class FrameStaticHtmlFilter extends OncePerRequestFilter {
 			uri=uri.substring(i+contextPath.length());
 		}
 		
+		
+		 String siteId=InputSafeUtils.substringByURI(req.getRequestURI(), "/s_");
+		 
+		 
+		 if(StringUtils.isBlank(siteId)){//URL中没有siteId,从cookie中取值
+			 siteId = CookieUtils.getCookieValue(req, GlobalStatic.springraindefaultSiteId);
+		 }
+		
 		//cache key,可以根据URI从数据库进行查询资源Id
 		String htmlPath=null;
 		try {
-			htmlPath = staticHtmlService.findHtmlPathByURI(uri);
+			htmlPath = staticHtmlService.findHtmlPathByURI(siteId,uri);
 		} catch (Exception e) {
 			logger.error(e.getLocalizedMessage());
 		}
@@ -71,25 +78,9 @@ public class FrameStaticHtmlFilter extends OncePerRequestFilter {
 		
 		    response.setContentType("text/html;charset="+GlobalStatic.defaultCharset);
 		    response.setCharacterEncoding(GlobalStatic.defaultCharset);
-		    
-		    // 读出文件到response  
-            // 这里是先需要把要把文件内容先读到缓冲区  
-            // 再把缓冲区的内容写到response的输出流供用户下载  
-            FileInputStream fileInputStream = new FileInputStream(htmlFile);  
-            BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);  
-            BufferedReader reader = new BufferedReader (new InputStreamReader(bufferedInputStream,GlobalStatic.defaultCharset));
+
             PrintWriter writer = response.getWriter();
-            
-           char[] data = new char[1024];
-           while( reader.read(data)!=-1){
-        	   writer.write(data); 
-            } 
-           
-           
-           reader.close();
-           bufferedInputStream.close();
-           fileInputStream.close();
-           writer.close();
+            FileUtils.readIOFromFile(writer, htmlFile);
           
 		}
 

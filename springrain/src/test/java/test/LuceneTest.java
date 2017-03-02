@@ -15,7 +15,7 @@ public class LuceneTest {
 	
 	//@Test
 	public void  testSave() throws Exception{
-		String rootdir=GlobalStatic.rootdir+"/lucene/index";
+		String rootdir=GlobalStatic.rootDir+"/lucene/index";
 		File f=new File(rootdir);
 		if(!f.exists()){
 			f.mkdirs();
@@ -32,7 +32,7 @@ public class LuceneTest {
 	
 	@Test
 	public void  testSaveList() throws Exception{
-		String rootdir=GlobalStatic.rootdir+"/lucene/index";
+		String rootdir=GlobalStatic.rootDir+"/lucene/index";
 		File f=new File(rootdir);
 		if(!f.exists()){
 			f.mkdirs();
@@ -52,7 +52,7 @@ public class LuceneTest {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testSearch() throws Exception{
-		String rootdir=GlobalStatic.rootdir+"/lucene/index";
+		String rootdir=GlobalStatic.rootDir+"/lucene/index";
 		File f=new File(rootdir);
 		if(!f.exists()){
 			f.mkdirs();
