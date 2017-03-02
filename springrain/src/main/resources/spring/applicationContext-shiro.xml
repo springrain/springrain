@@ -77,7 +77,7 @@
 		<!-- 安全管理器 -->
 		<property name="securityManager" ref="securityManager" />
 		
-		 <property name="unauthorizedUrl" value="/unauth"/>
+		 <property name="unauthorizedUrl" value="/errorpage/unauth"/>
 	
 		<!-- 访问地址的过滤规则,从上至下,从左至右的优先级,如果有匹配的规则,就会返回,不会再进行匹配 -->
 		<property name="filterChainDefinitions">
@@ -102,7 +102,6 @@
 				/f/mp/** = firewall,wxmpautologin
 				
 				
-				/unauth = firewall
 				/tokenerror = firewall,user
 				
 				/getCaptcha=firewall

@@ -8,10 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springrain.frame.controller.BaseController;
@@ -23,16 +20,6 @@ public class CommonController extends BaseController  {
 	
 
 		
-		/**
-		 * 没有权限
-		 * @param model
-		 * @return
-		 * @throws Exception
-		 */
-		@RequestMapping(value = "/unauth")
-		public String unauth(Model model) throws Exception {
-				return "/unauth";
-		}
 		
 		/**
 		 * 错误页面
