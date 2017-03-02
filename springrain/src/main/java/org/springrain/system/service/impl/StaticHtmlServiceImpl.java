@@ -1,5 +1,7 @@
 package org.springrain.system.service.impl;
 
+import java.io.File;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springrain.cms.entity.CmsLink;
@@ -43,6 +45,14 @@ public class StaticHtmlServiceImpl extends BaseSpringrainServiceImpl implements 
 		String filepath=siteId+"/"+linkId+GlobalStatic.suffix;
 		
 		super.putByCache(siteId, cacheKey, filepath);
+		
+		
+		File htmlFile = new File(GlobalStatic.staticHtmlDir+filepath);  
+		if(htmlFile.exists()){
+			htmlFile.delete();
+		}
+		
+		
 		
 		return filepath;
 	}

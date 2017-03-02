@@ -127,6 +127,15 @@ public class StaticHtmlFreeMarkerView extends FreeMarkerView {
 		}
 		//生成文件 开始期间
 		cache.put(htmlCacheKey, "error");
+		if(htmlFile.exists()){
+			htmlFile.delete();
+		}else{
+			File parent=htmlFile.getParentFile();
+			if(!parent.exists()){
+				parent.mkdirs();
+			}
+		}
+		
 		htmlFile.createNewFile();
 		
 		Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(htmlFile),GlobalStatic.defaultCharset));
