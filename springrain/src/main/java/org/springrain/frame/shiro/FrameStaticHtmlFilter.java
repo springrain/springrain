@@ -70,7 +70,7 @@ public class FrameStaticHtmlFilter extends OncePerRequestFilter {
 			return;
 		}
 		
-		File htmlFile = new File(htmlPath);  
+		File htmlFile = new File(GlobalStatic.staticHtmlDir+htmlPath);  
 		if(!htmlFile.exists()){
 			chain.doFilter(request, response);
 			return;
