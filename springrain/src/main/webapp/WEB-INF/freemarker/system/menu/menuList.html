@@ -10,6 +10,14 @@ description="springrain开源系统管理后台"/>
 <link rel="stylesheet" href="${ctx}/js/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
 <link rel="stylesheet" href="${ctx}/css/custom/common/myztree.css" type="text/css">
 <link rel="stylesheet" href="${ctx}/js/validform/validform.css" media="all">
+<style>
+.layui-table tr:hover, .layui-table[lay-even] tr:nth-child(even) {
+    background: none!important;/*#f8f8f8*/
+}
+.layui-table tr td:hover{
+	background: #f8f8f8;
+}
+</style>
 </head>
 	<div class="layui-layout layui-layout-admin">
 		<@h.naviHeader /> <@h.leftMenu />
@@ -313,102 +321,102 @@ description="springrain开源系统管理后台"/>
 	  </colgroup>
 	  <tbody>
 	      <tr>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe611;">&#xe611;</i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe614;">&#xe614;</i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="x1002;">&#x1002;</i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe60f;">&#xe60f;</i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe615;">&#xe615;</i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe641;">&#xe641;</i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe620;">&#xe620;</i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe628;">&#xe628;</i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="x1006;">&#x1006;</i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="x1007;">&#x1007;</i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe629;">&#xe629;</i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe600;">&#xe600;</i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe611;">&#xe611;</i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe614;">&#xe614;</i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="x1002;">&#x1002;</i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe60f;">&#xe60f;</i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe615;">&#xe615;</i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe641;">&#xe641;</i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe620;">&#xe620;</i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe628;">&#xe628;</i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="x1006;">&#x1006;</i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="x1007;">&#x1007;</i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe629;">&#xe629;</i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe600;">&#xe600;</i>  </td>
 			</tr>
 			<tr>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe617;">&#xe617;</i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe606;">&#xe606;</i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe609;">&#xe609;</i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe60a;">&#xe60a;</i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe62c;">&#xe62c;</i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="x1005;">&#x1005;</i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe61b;">&#xe61b;</i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe610;">&#xe610;</i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe62d;">&#xe62d;</i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe63d;">&#xe63d;</i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe602;">&#xe602;</i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe603;">&#xe603;</i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe617;">&#xe617;</i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe606;">&#xe606;</i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe609;">&#xe609;</i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe60a;">&#xe60a;</i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe62c;">&#xe62c;</i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="x1005;">&#x1005;</i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe61b;">&#xe61b;</i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe610;">&#xe610;</i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe62d;">&#xe62d;</i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe63d;">&#xe63d;</i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe602;">&#xe602;</i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe603;">&#xe603;</i>  </td>
 			</tr>
 			<tr>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe62e;">&#xe62e; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe62f;">&#xe62f; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe61f;">&#xe61f; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe601;">&#xe601;</i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe630;">&#xe630; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe631;">&#xe631; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe642;">&#xe642; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe61a;">&#xe61a; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe621;">&#xe621; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe632;">&#xe632; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe618;">&#xe618;</i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe608;">&#xe608; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe62e;">&#xe62e; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe62f;">&#xe62f; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe61f;">&#xe61f; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe601;">&#xe601;</i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe630;">&#xe630; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe631;">&#xe631; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe642;">&#xe642; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe61a;">&#xe61a; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe621;">&#xe621; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe632;">&#xe632; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe618;">&#xe618;</i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe608;">&#xe608; </i>  </td>
 			</tr>
 			<tr>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe633;">&#xe633; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe61c;">&#xe61c; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe634;">&#xe634; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe607;">&#xe607; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe635;">&#xe635; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe636;">&#xe636; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe60b;">&#xe60b; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe619;">&#xe619; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe637;">&#xe637; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe61d;">&#xe61d; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe640;">&#xe640; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe604;">&#xe604; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe633;">&#xe633; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe61c;">&#xe61c; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe634;">&#xe634; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe607;">&#xe607; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe635;">&#xe635; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe636;">&#xe636; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe60b;">&#xe60b; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe619;">&#xe619; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe637;">&#xe637; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe61d;">&#xe61d; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe640;">&#xe640; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe604;">&#xe604; </i>  </td>
 			</tr>
 			<tr>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe612;">&#xe612; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe605;">&#xe605; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe638;">&#xe638; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe60c;">&#xe60c; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe616;">&#xe616; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe613;">&#xe613; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe61e;">&#xe61e; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe60d;">&#xe60d; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe64c;">&#xe64c; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe60e;">&#xe60e; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe622;">&#xe622; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe64f;">&#xe64f; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe612;">&#xe612; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe605;">&#xe605; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe638;">&#xe638; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe60c;">&#xe60c; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe616;">&#xe616; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe613;">&#xe613; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe61e;">&#xe61e; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe60d;">&#xe60d; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe64c;">&#xe64c; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe60e;">&#xe60e; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe622;">&#xe622; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe64f;">&#xe64f; </i>  </td>
 			</tr>
 			<tr>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe64d;">&#xe64d; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe639;">&#xe639; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe63e;">&#xe63e; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe623;">&#xe623; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe63f;">&#xe63f; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe643;">&#xe643; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe647;">&#xe647; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe648;">&#xe648; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe649;">&#xe649; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe626;">&#xe626; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe627;">&#xe627; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe62b;">&#xe62b; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe64d;">&#xe64d; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe639;">&#xe639; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe63e;">&#xe63e; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe623;">&#xe623; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe63f;">&#xe63f; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe643;">&#xe643; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe647;">&#xe647; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe648;">&#xe648; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe649;">&#xe649; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe626;">&#xe626; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe627;">&#xe627; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe62b;">&#xe62b; </i>  </td>
 			</tr>
 			<tr>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe63a;">&#xe63a; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe624;">&#xe624; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe63b;">&#xe63b; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe650;">&#xe650; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe64b;">&#xe64b; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe63c;">&#xe63c; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe62a;">&#xe62a; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe64e;">&#xe64e; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe646;">&#xe646; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe625;">&#xe625; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe64a;">&#xe64a; </i>  </td>
-			  <td><i name="iconName" class="layui-icon" style="font-size: 30px; color: #1E9FFF;" textContent="xe644;">&#xe644; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe63a;">&#xe63a; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe624;">&#xe624; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe63b;">&#xe63b; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe650;">&#xe650; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe64b;">&#xe64b; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe63c;">&#xe63c; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe62a;">&#xe62a; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe64e;">&#xe64e; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe646;">&#xe646; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe625;">&#xe625; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe64a;">&#xe64a; </i>  </td>
+			  <td><i name="iconName" class="layui-icon" style="font-size: 30px;cursor:pointer; color: #1E9FFF;" textContent="xe644;">&#xe644; </i>  </td>
 			</tr>
 		
 	  </tbody>
