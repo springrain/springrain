@@ -32,13 +32,13 @@
 			<fileNamePattern>D:/log/sql/slow_%d{yyyy-MM-dd}</fileNamePattern>
 		</rollingPolicy>
 	</appender>
-	<logger name="com.alibaba.druid.filter.stat.StatFilter" additivity="false" level="DEBUG">
+	<logger name="com.alibaba.druid.filter.stat.StatFilter" additivity="false">
 		<appender-ref ref="sqlFile" />
 	</logger>
 	
 	<logger name="org" level="ERROR" additivity="false"  />
 	
-	<root level="DEBUG">
+	<root level="ERROR">
 		<appender-ref ref="stdout" />
 		<appender-ref ref="errorFile" />
 	</root>
