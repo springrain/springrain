@@ -94,6 +94,9 @@ public class ${className}  extends BaseEntity {
 	}*/
 	
 		</#if>	
+		/**
+		 * ${column.columnAlias}
+		 */
 	public void set${column.columnNameFirstUpper}(${column.javaType} value) {
 	     <#if column.javaType=="java.lang.String">
 		    if(StringUtils.isNotBlank(value)){
@@ -103,6 +106,11 @@ public class ${className}  extends BaseEntity {
 		this.${column.columnNameFirstLower} = value;
 	}
 	
+	
+	
+	/**
+	 * ${column.columnAlias}
+	 */
 	<#if column.isPk()>
 	@Id
 	</#if>
