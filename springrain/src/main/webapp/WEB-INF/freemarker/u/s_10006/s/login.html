@@ -23,10 +23,11 @@
 		<script src="${ctx}/js/jquery/jquery-1.12.4.js"></script>
 		<script src="${ctx}/js/cache/locache.min.js"></script>
 		<script type="text/javascript" src="${ctx}/js/md5/md5.min.js"></script>
+		<script type="text/javascript" src="${ctx}/js/cookie/jquery.cookie.js"></script>
 		<script type="text/javascript">
 			//清除缓存
 			locache.flush();
-			locache.set("defaultSiteId","${siteId!''}");
+			$.cookie("defaultSiteId","${siteId!''}", {path:"/"});
 			<@cms_site id=siteId!''>
 				var logoData = "${(site.logo)!''}".replace(/&quot;/g, "\""); 
 				logoData = JSON.parse(logoData);
@@ -74,9 +75,7 @@
 						</div>
 					</div> 
 				</div>
-				<#if message?? && message!=''>
-					<p style="color:red;">${message}</p>
-				</#if>
+					<p style="color:red;">${message!""}</p>
 			</div>
 				<div class="ht40 tc">
 					<button id="sbtButton" type="submit" class="display-ib per80 ht40 radius4 cursor-p">
@@ -105,7 +104,7 @@
 	        });
 	        //刷新验证码
 	        function reloadValidateCode() {
-	            document.getElementById("captchaImg").src="${ctx}/getCaptcha?date =" + new Date().getTime();
+	            document.getElementById("captchaImg").src="${ctx}/getCaptcha?date=" + new Date().getTime();
 	        }
 		</script>
 	</body>
