@@ -15,12 +15,17 @@
 	default-lazy-init="false">
 
 	<bean id="stat-filter" class="com.alibaba.druid.filter.stat.StatFilter">
-		<property name="slowSqlMillis" value="3000" />
+		<property name="slowSqlMillis" value="1000" />
 		<property name="logSlowSql" value="true" />
 	</bean>
 
-	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
-		destroy-method="close">
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
+		
+		<!-- oracle 需要更换语句  -->
+		<property name="validationQuery">
+			<value>select 1 </value>
+		</property>
+		
 		<property name="driverClassName">
 			<value>${db.springrain.driver}</value>
 		</property>
@@ -34,6 +39,9 @@
 		<property name="password">
 			<value>${db.springrain.password}</value>
 		</property>
+		
+		
+		
 		<property name="proxyFilters">
 			<list>
 				<ref bean="stat-filter" />
@@ -71,10 +79,6 @@
 		</property>
 		<property name="testOnReturn">
 			<value>false</value>
-		</property>
-		<!-- oracle 需要更换语句  -->
-		<property name="validationQuery">
-			<value>select 1 </value>
 		</property>
 
 		<property name="minEvictableIdleTimeMillis">
