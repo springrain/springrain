@@ -7,13 +7,7 @@
 				-webkit-box-sizing: border-box; /*Safari3.2+*/ -o-box-sizing: border-box; 
 				/*Opera9.6*/ -ms-box-sizing: border-box; /*IE8*/ 
 			}
-			body{
-				background: url(${ctx}/img/login_bg.jpg);
-				background-size: 100% 100%;
-				background-repeat: no-repeat;
-				background-position: center;
-			}
-			input {outline:none;}
+			input {outline:none;}.phcolor{color: #999999;}
 			button, .btn { border: none; display: inline-block; font-size: 12px; text-align: center; vertical-align: middle; cursor: pointer; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; overflow: hidden;}
 			button:active, .btn:active { -webkit-box-shadow: inset 0 8px 10px rgba(0, 0, 0, 0.1); box-shadow: inset 0 8px 10px rgba(0, 0, 0, 0.1); }
 			button[disabled], html input[disabled] { cursor: not-allowed; opacity: 0.6; filter: alpha(opacity=60); }
@@ -21,7 +15,7 @@
 			.login_div{
 				width: 430px;
 				height: 320px;
-				position: absolute;
+				position: absolute;z-index:100;
 				left: 0;top: 0;bottom: 0;right: 0;margin: auto;
 				border-radius: 10px;-webkit-border-radius: 10px;-moz-border-radius: 10px;
 				overflow: hidden;background: #fafbf6;
@@ -96,6 +90,7 @@
 		</script>
 	</head>
 	<body>
+		<img alt="" src="${ctx}/img/login_bg.jpg" style="positon:absolute;width:100%;height:100%;left:0;top:0">
 		<form action="${ctx}/system/login" method="post" id="loginForm">
 		 <input type="hidden" name="gotourl" value="${gotourl!''}" />
 		 <input type="hidden" name="systemSiteId" value="${systemSiteId!''}" />
@@ -131,6 +126,7 @@
 		</form>
 		<script>
 			jQuery(function($) {
+				placeholder();
 	            $("#sbtButton").click(function(){
 	            	
 	            	var pw=jQuery(":input[name='password']").val();
@@ -149,6 +145,48 @@
 	        //刷新验证码
 	        function reloadValidateCode() {
 	            document.getElementById("captchaImg").src="${ctx}/getCaptcha?date =" + new Date().getTime();
+	        }
+	        
+	        function placeholder(){
+	        	supportPlaceholder='placeholder'in document.createElement('input'),
+		  		  placeholder=function(input){
+		  		    var text = input.attr('placeholder'),
+		  		    defaultValue = input.defaultValue;
+		  		 
+		  		    if(!defaultValue){
+		  		    	input.val(text).addClass("phcolor");
+		  		    }
+		  		 
+		  		    input.focus(function(){
+		  		    	if(input.val() == text){
+		  		       		$(this).val("");
+		  		    	}
+		  		    });
+		  		  
+		  		    input.blur(function(){
+		  		    	if(input.val() == ""){
+		  		        	$(this).val(text).addClass("phcolor");
+		  		    	}
+		  		    });
+		  		 
+		  		    //输入的字符不为灰色
+		  		    input.keydown(function(){
+		  		    	$(this).removeClass("phcolor");
+		  		    });
+		  		  };
+		  		 
+		  		  //当浏览器不支持placeholder属性时，调用placeholder函数
+		  		  if(!supportPlaceholder){
+		  		    $('input').each(function(){
+		  		    	text = $(this).attr("placeholder");
+		  		    	 if($(this).prop("type") == "text"){
+		  			       placeholder($(this));
+		  			     }
+		  		    	  if($(this).prop("type") == "password"){
+		  			       placeholder($(this));
+		  			     }
+		  		    });
+		  		  }
 	        }
 		</script>
 	</body>
