@@ -38,7 +38,7 @@
 	
 	<logger name="org" level="ERROR" additivity="false"  />
 	
-	<root level="ERROR">
+	<root level="TRACE">
 		<appender-ref ref="stdout" />
 		<appender-ref ref="errorFile" />
 	</root>
