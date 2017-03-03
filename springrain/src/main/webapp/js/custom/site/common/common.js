@@ -49,6 +49,15 @@ $(document).ready(function(){
 var form;
 /*添加form的监听回调*/
 function selectListener(filterId,callback){
+	if(form==null||form==undefined){
+		if(jQuery("form").length>0){
+			layui.use('form', function(){
+				  form = layui.form();
+			});
+		}else{
+			return;
+		}
+	}
 	form.on('select('+filterId+')', function(data){
 		callback(data);
 	});
