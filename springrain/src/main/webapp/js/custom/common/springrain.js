@@ -15,6 +15,15 @@
 				}
 			},
 			/**
+			 * 根据参数key获取当前URL包含参数对应的值
+			 * @param _name 要获取参数值的key
+			 */
+			getUrlParam:function(_name){
+				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+		        var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+		        if (r != null) return unescape(r[2]); return null; //返回参数值
+			},
+			/**
 			 * 跳转
 			 * @param _url 要跳转的URL
 			 */
