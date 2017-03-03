@@ -20,7 +20,7 @@
      */
     var URL = window.UEDITOR_HOME_URL || getUEBasePath();
     
-    var siteId = locache.get("defaultSiteId");
+    var siteId = $.cookie('defaultSiteId');
     var serverUrl;
     if(!!siteId){
     	serverUrl = URL+"ueditor/"+siteId+"/init";

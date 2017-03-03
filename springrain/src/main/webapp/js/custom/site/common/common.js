@@ -381,10 +381,9 @@ function init_button_action(){
 }
 
 function loadSiteInfo(){
-	var siteLogo=siteFooter='';
-	siteLogo = locache.get("defaultSiteLogoUrl");
-	siteFooter = locache.get("defaultSiteFooter");
+	var siteLogo = locache.get("defaultSiteLogoUrl");
+	var siteFooter = locache.get("defaultSiteFooter");
 	$("#siteLogo").attr("src",ctx+siteLogo);
 	$("#siteFooter").html(siteFooter);
-	$("a.logo").attr('href','javascript:springrain.goTo("'+ctx+'/s/'+locache.get("defaultSiteId")+'/index?springraintoken='+springraintoken+'")');
+	$("a.logo").attr('href','javascript:springrain.goTo("'+ctx+'/s/'+getDefaultSiteId()+'/index?springraintoken='+springraintoken+'")');
 }
