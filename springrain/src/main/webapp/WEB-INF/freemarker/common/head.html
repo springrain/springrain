@@ -15,10 +15,6 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="black" /> 
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="format-detection" content="telephone=no" />
-        <script type="text/javascript">
-            var ctx="${ctx}";
-            var springraintoken = springrain.getUrlParam("springraintoken");
-        </script>
 </#macro>
 
 <!-- 系统、站点后台通用宏内容  -->
@@ -42,6 +38,10 @@
 	type="text/css">
 	<script type="text/javascript" src="${ctx}/js/ztree/js/jquery.ztree.all-3.5.js"></script>
 	<script src="${ctx}/js/custom/common/springrain.js"></script>
+	<script type="text/javascript">
+            var ctx="${ctx}";
+            var springraintoken=springrain.getUrlParam("springraintoken");
+    </script>
 </#macro>
 
 <!-- 内容页面通用头部,该宏包含一些通用js、css，适合业务页面使用，不适用与登陆注册等非业务页面。  -->
