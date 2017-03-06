@@ -51,6 +51,9 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		// super.setAuthenticationCacheName(GlobalStatic.authenticationCacheName);
 		super.setAuthenticationCachingEnabled(false);
 		// 授权
+		//super.setAuthorizationCachingEnabled(false);
+		
+		// 授权
 		super.setAuthorizationCacheName(GlobalStatic.authorizationCacheName);
 		super.setName(GlobalStatic.authorizingRealmName);
 		
