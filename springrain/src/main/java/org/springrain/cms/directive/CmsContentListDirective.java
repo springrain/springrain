@@ -3,7 +3,6 @@ package org.springrain.cms.directive;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,17 +38,13 @@ public class CmsContentListDirective extends AbstractCMSDirective {
 			TemplateDirectiveBody body) throws TemplateException, IOException {
 		try {
 			List<CmsContent> contentList = getList(params, env, this.getSiteId(params));
-
-			Map<String, TemplateModel> paramWrap = new HashMap<String, TemplateModel>(params);
-			paramWrap.put(DirectiveUtils.OUT_LIST,DirectiveUtils.wrap(contentList));
-			Map<String, TemplateModel> origMap = DirectiveUtils.addParamsToVariable(env, paramWrap);
-
+			env.setVariable(DirectiveUtils.OUT_LIST, DirectiveUtils.wrap(contentList));
+			
 			if (body != null) {
 				body.render(env.getOut());
 			}
-			DirectiveUtils.removeParamsFromVariable(env, paramWrap, origMap);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 		}
 	}
 

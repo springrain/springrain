@@ -294,7 +294,7 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 	public List<CmsContent> findListByIdsForTag(List<String> idList, int orderBy) throws Exception{
 		Finder finder = Finder.getSelectFinder(CmsContent.class);
 		finder.append(" where id in (:ids)").setParam("ids", idList);
-		finder.setOrderSql(getOrderSql(orderBy));
+		finder.append(getOrderSql(orderBy));
 		return super.queryForList(finder,CmsContent.class);
 	}
 	
@@ -312,7 +312,7 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 		BeanUtils.populate(ccParams, params);
 		
 		// 排序
-		finder.setOrderSql(getOrderSql(CmsContentListDirective.getOrderBy(params)));
+		finder.append(getOrderSql(CmsContentListDirective.getOrderBy(params)));
 		
 		return super.findListDataByFinder(finder, null, CmsContent.class, ccParams);
 	}
