@@ -27,6 +27,18 @@ import freemarker.template.TemplateScalarModel;
  */
 public abstract class DirectiveUtils {
 	
+	/**
+	 * 输出参数：对象数据
+	 */
+	public static final String OUT_BEAN = "tag_bean";
+	/**
+	 * 输出参数：列表数据
+	 */
+	public static final String OUT_LIST = "tag_list";
+	/**
+	 * 输出参数：分页数据
+	 */
+	public static final String OUT_PAGINATION = "tag_pagination";
 	
 	/**
 	 * 封装对象为 TemplateModel
@@ -224,5 +236,20 @@ public abstract class DirectiveUtils {
 		return startWithPrefixKeys;
 	}
 
+	/**
+	 * 获取字符串数组
+	 * @param keyName
+	 * @param params
+	 * @param splitStr
+	 * @return
+	 * @throws TemplateException 
+	 */
+	public static String[] getStringArr(String keyName, Map params,String splitStr) throws TemplateException {
+		String str = getString(keyName, params);
+		if(str != null ){
+			return str.split(splitStr);
+		}
+		return null;
+	}
 	
 }

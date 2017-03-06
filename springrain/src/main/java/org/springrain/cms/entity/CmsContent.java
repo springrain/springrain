@@ -170,7 +170,7 @@ public class CmsContent  extends BaseEntity {
 		this.title = value;
 	}
 	
-     @WhereSQL(sql="title=:CmsContent_title")
+     @WhereSQL(sql="title like :%CmsContent_title%")
      @LuceneField
 	public java.lang.String getTitle() {
 		return this.title;
@@ -182,7 +182,7 @@ public class CmsContent  extends BaseEntity {
 		this.keywords = value;
 	}
 	
-     @WhereSQL(sql="keywords=:CmsContent_keywords")
+     @WhereSQL(sql="keywords like :%CmsContent_keywords%")
 	public java.lang.String getKeywords() {
 		return this.keywords;
 	}
@@ -193,7 +193,7 @@ public class CmsContent  extends BaseEntity {
 		this.description = value;
 	}
 	
-     @WhereSQL(sql="description=:CmsContent_description")
+     @WhereSQL(sql="description like :%CmsContent_description%")
 	public java.lang.String getDescription() {
 		return this.description;
 	}
@@ -204,7 +204,7 @@ public class CmsContent  extends BaseEntity {
 		this.mintitle = value;
 	}
 	
-     @WhereSQL(sql="mintitle=:CmsContent_mintitle")
+     @WhereSQL(sql="mintitle like :%CmsContent_mintitle%")
      @LuceneField
 	public java.lang.String getMintitle() {
 		return this.mintitle;
@@ -251,7 +251,7 @@ public class CmsContent  extends BaseEntity {
 		this.content = value;
 	}
 	
-     @WhereSQL(sql="content=:CmsContent_content")
+     @WhereSQL(sql="content like :%CmsContent_content%")
 	public java.lang.String getContent() {
 		return this.content;
 	}
@@ -262,7 +262,7 @@ public class CmsContent  extends BaseEntity {
 		this.source = value;
 	}
 	
-     @WhereSQL(sql="source=:CmsContent_source")
+     @WhereSQL(sql="source like :%CmsContent_source%")
 	public java.lang.String getSource() {
 		return this.source;
 	}
@@ -288,7 +288,7 @@ public class CmsContent  extends BaseEntity {
 	}
 	
      
- 	 @WhereSQL(sql="summary=:CmsContent_summary")
+ 	 @WhereSQL(sql="summary like :%CmsContent_summary%")
  	@LuceneField
 	public java.lang.String getSummary() {
 		return summary;

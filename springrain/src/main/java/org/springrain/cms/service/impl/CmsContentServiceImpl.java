@@ -2,12 +2,15 @@ package org.springrain.cms.service.impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springrain.cms.directive.CmsContentListDirective;
 import org.springrain.cms.entity.CmsChannelContent;
 import org.springrain.cms.entity.CmsContent;
 import org.springrain.cms.entity.CmsLink;
@@ -24,6 +27,8 @@ import org.springrain.frame.util.LuceneUtils;
 import org.springrain.frame.util.Page;
 import org.springrain.system.service.BaseSpringrainServiceImpl;
 import org.springrain.system.service.ITableindexService;
+
+import freemarker.core.Environment;
 
 
 
@@ -284,4 +289,85 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 		super.deleteByIds(ids, CmsContent.class);
 		LuceneUtils.deleteListDocument(getLuceneDir(siteId), ids, CmsContent.class);
 	}
+
+	@Override
+	public List<CmsContent> findListByIdsForTag(List<String> idList, int orderBy) throws Exception{
+		Finder finder = Finder.getSelectFinder(CmsContent.class);
+		finder.append(" where id in (:ids)").setParam("ids", idList);
+		finder.setOrderSql(getOrderSql(orderBy));
+		return super.queryForList(finder,CmsContent.class);
+	}
+	
+	@Override
+	public List<CmsContent> findListForTag(Map params, Environment env, String siteId) throws Exception {
+		Finder finder = Finder.getSelectFinder(CmsContent.class);
+		finder.append(" where 1=1 ");
+		if(StringUtils.isNotBlank(siteId)){
+			finder.append(" and id in ( select contentId from ").append(Finder.getTableName(CmsChannelContent.class))
+				.append(" where siteId = :siteId )").setParam("siteId", siteId);
+		}
+		
+		// 常用参数（表与实体类直接对应的字段）
+		CmsContent ccParams = new CmsContent();
+		BeanUtils.populate(ccParams, params);
+		
+		// 排序
+		finder.setOrderSql(getOrderSql(CmsContentListDirective.getOrderBy(params)));
+		
+		return super.findListDataByFinder(finder, null, CmsContent.class, ccParams);
+	}
+	
+	/**
+	 * 获取排序sql
+	 * @param orderBy
+	 * @return
+	 */
+	private String getOrderSql(int orderBy){
+		String orderSql = "";
+		switch (orderBy) {
+		case 0: // 默认排序
+			orderSql = " order by sortno ";
+			break;
+		case 1: // title 标题 升序
+			orderSql = " order by title asc ";
+			break;
+		case 2: // title 标题 降序
+			orderSql = " order by title desc ";
+			break;
+		case 3: // lookcount 打开次数 升序
+			orderSql = " order by lookcount asc ";
+			break;
+		case 4: // lookcount 打开次数 降序
+			orderSql = " order by lookcount desc ";
+			break;
+		case 5: // createDate 创建时间 升序
+			orderSql = " order by createDate asc ";
+			break;
+		case 6: // createDate 创建时间 降序
+			orderSql = " order by createDate desc ";
+			break;
+		case 7: // status 审核状态 升序
+			orderSql = " order by status asc ";
+			break;
+		case 8: // status 审核状态 降序
+			orderSql = " order by status desc ";
+			break;
+		case 9: // active 是否可用 升序
+			orderSql = " order by active asc ";
+			break;
+		case 10: // active 是否可用 降序
+			orderSql = " order by active desc ";
+			break;
+		case 11: // commentPerm 评论开关 升序
+			orderSql = " order by commentPerm asc ";
+			break;
+		case 12: // commentPerm 评论开关 降序
+			orderSql = " order by commentPerm desc ";
+			break;
+		default:
+			break;
+		}
+		return orderSql;
+	}
+	
 }
