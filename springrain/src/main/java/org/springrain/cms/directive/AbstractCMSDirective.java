@@ -23,10 +23,21 @@ import freemarker.template.TemplateModel;
 public abstract class AbstractCMSDirective implements
 		TemplateDirectiveModel {
 	
+	/**
+	 * 主参数，排斥其他所有筛选参数
+	 */
+	public static final String PARAM_IDS = "ids";
+	/**
+	 * 默认的参数分隔符
+	 */
+	public static final String PARAM_SPLIT = ",";
+	/**
+	 * 输入参数，排序方式。
+	 */
+	public static final String PARAM_ORDER_BY = "orderBy";
 	
 	
-	
-	public   Logger logger = LoggerFactory.getLogger(getClass());
+	public Logger logger = LoggerFactory.getLogger(getClass());
 	public String getReuestSiteId(){
 		return getRequestAttributeString("siteId");
 	}
@@ -101,7 +112,21 @@ public abstract class AbstractCMSDirective implements
 		 getRequest().setAttribute(key,obj);
 	}
 	
-	
+	/**
+	 * 获取排序规则，以数字标识
+	 * @param params
+	 * @return
+	 * @throws TemplateException
+	 */
+	public static int getOrderBy(Map<String, TemplateModel> params)
+			throws TemplateException {
+		Integer orderBy = DirectiveUtils.getInt(PARAM_ORDER_BY, params);
+		if (orderBy == null) {
+			return 0;
+		} else {
+			return orderBy;
+		}
+	}
 	
 	
 }

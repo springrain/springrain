@@ -1,10 +1,13 @@
 package org.springrain.cms.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springrain.cms.entity.CmsContent;
 import org.springrain.frame.util.Page;
 import org.springrain.system.service.IBaseSpringrainService;
+
+import freemarker.core.Environment;
 /**
  * TODO 在此加入类描述
  * @copyright {@link weicms.net}
@@ -48,4 +51,24 @@ public interface ICmsContentService extends IBaseSpringrainService {
 	void deleteById(String id, String siteId) throws Exception;
 
 	void deleteByIds(List<String> ids, String siteId) throws Exception;
+
+	/**
+	 * 获取内容列表
+	 * @param params
+	 * @param env
+	 * @param siteId 可为null
+	 * @return
+	 * @throws Exception
+	 */
+	List<CmsContent> findListForTag(Map params, Environment env, String siteId) throws Exception;
+
+	/**
+	 * 根据ID获取内容列表
+	 * @param idList
+	 * @param orderBy
+	 * @return
+	 * @throws Exception
+	 */
+	List<CmsContent> findListByIdsForTag(List<String> idList, int orderBy) throws Exception;
+
 }
