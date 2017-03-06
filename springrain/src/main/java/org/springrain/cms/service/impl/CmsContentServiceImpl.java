@@ -308,13 +308,19 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 		}
 		
 		// 常用参数（表与实体类直接对应的字段）
+		
 		CmsContent ccParams = new CmsContent();
 		BeanUtils.populate(ccParams, params);
+		
+	
+		
+		
+		super.getFinderWhereByQueryBean(finder, ccParams);
 		
 		// 排序
 		finder.append(getOrderSql(CmsContentListDirective.getOrderBy(params)));
 		
-		return super.findListDataByFinder(finder, null, CmsContent.class, ccParams);
+		return super.queryForList(finder,CmsContent.class);
 	}
 	
 	/**
