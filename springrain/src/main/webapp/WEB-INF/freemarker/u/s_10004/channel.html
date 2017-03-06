@@ -33,7 +33,7 @@
 	<hr>
 	<div id="content" class="container">
 		<ul>
-			<@cms_content_list p="1" type="1">
+			<@content_list p="1" type="1">
 			    <#list content_list as a>
 			    	<li style="min-height:50px;margin:10 0 10 0;background-color:white;padding:1 10 10 10;">
 						<a href="${ctx}${a.link!'#'}" target="blank">
@@ -47,7 +47,7 @@
 			    		</a>
 			    	</li>
 			    </#list>
-			</@cms_content_list>
+			</@content_list>
 		</ul>
 	</div>
 	<div id="footer" class="container-fluid pos-a bottom0 tc" style="height:40px;background-color:white;line-height:40px;">

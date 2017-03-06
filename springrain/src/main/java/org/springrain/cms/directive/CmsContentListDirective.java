@@ -28,7 +28,7 @@ import freemarker.template.TemplateModel;
 @Component("cmsContentListDirective")
 public class CmsContentListDirective extends AbstractCMSDirective {
 
-	private static final String TPL_NAME = "cms_content_test_list";
+	private static final String TPL_NAME = "cms_content_list";
 
 	@Resource
 	private ICmsContentService cmsContentService;
@@ -59,10 +59,10 @@ public class CmsContentListDirective extends AbstractCMSDirective {
 	public List<CmsContent> getList(Map params, Environment env, String siteId)
 			throws Exception {
 		List<CmsContent> resList = new ArrayList<CmsContent>();
-		List<String> idList = Arrays.asList(DirectiveUtils.getStringArr(PARAM_IDS, params,PARAM_SPLIT));
-		if (idList != null && idList.size()>0) {
+		String[] idArr = DirectiveUtils.getStringArr(PARAM_IDS, params,PARAM_SPLIT);
+		if(idArr != null && idArr.length > 0 ){
 			// 有ID以ID作为主参数进行查询，排斥其他筛选参数
-			resList = cmsContentService.findListByIdsForTag(idList,getOrderBy(params));
+			resList = cmsContentService.findListByIdsForTag(Arrays.asList(idArr),getOrderBy(params));
 		} else {
 			resList = cmsContentService.findListForTag(params, env, siteId);
 		}

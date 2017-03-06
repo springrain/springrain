@@ -31,7 +31,7 @@ public class ContentListDirective  extends AbstractCMSDirective  {
 	/**
 	 * 模板名称
 	 */
-	private static final String TPL_NAME = "cms_content_list";
+	private static final String TPL_NAME = "content_list";
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
