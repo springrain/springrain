@@ -29,7 +29,7 @@ import freemarker.template.TemplateModel;
 @Component("cmsContentListDirective")
 public class CmsContentListDirective extends AbstractCMSDirective {
 
-	private static final String TPL_NAME = "cms_content_list";
+	private static final String TPL_NAME = "cms_content_test_list";
 
 	@Resource
 	private ICmsContentService cmsContentService;
