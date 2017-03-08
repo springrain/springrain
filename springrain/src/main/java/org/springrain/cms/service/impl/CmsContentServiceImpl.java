@@ -160,7 +160,7 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 	    cmsLink.setDefaultLink(_index);
 	    cmsLink.setLink(_index);
 	    //设置模板路径
-	    cmsLink.setFtlfile("/u/"+siteId+"/f/content");
+	    cmsLink.setFtlfile(cmsLinkService.findLinkBySiteBusinessId(siteId, cmsContent.getChannelId()).getNodeftlfile());
 	    cmsLink.setLoginuser(cmsContent.getLoginuser());
 	    cmsLinkService.save(cmsLink);
 	    
