@@ -20,6 +20,7 @@ import org.springrain.cms.service.ICmsContentService;
 import org.springrain.cms.service.ICmsLinkService;
 import org.springrain.cms.service.ICmsPropertyService;
 import org.springrain.cms.service.ICmsSiteService;
+import org.springrain.cms.utils.ContentConstant;
 import org.springrain.frame.util.Enumerations.SiteType;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
@@ -377,6 +378,39 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 			break;
 		}
 		return orderSql;
+	}
+
+	@Override
+	public CmsContent findCmsContentSide(String id, String siteId, String channelId, boolean next) throws Exception {
+		if(StringUtils.isBlank(siteId) && StringUtils.isBlank(channelId)){
+			return null;
+		}
+		Finder finder = Finder.getSelectFinder(CmsContent.class);
+		finder.append(" where 1=1 and id in ( select contentId from ").append(Finder.getTableName(CmsChannelContent.class))
+			.append(" where 1=1 ");
+		if(siteId != null ){
+			finder.append(" and siteId = :siteId ").setParam("siteId", siteId);
+		}
+		if(channelId != null ){
+			finder.append(" and channelId = :channelId ").setParam("channelId", channelId);
+		}
+		finder.append(" )");
+		
+		if(next){
+			// 下一篇
+			finder.append(" and createDate > ( select createDate from cms_content where id = :id )")
+				.setParam("id", id)
+				.append(" and active = :active ").setParam("active", ContentConstant.CONTENT_ACTIVE_YES)
+				.append(" order by createDate asc limit 0,1 ");
+		}else{
+			// 上一篇
+			finder.append(" and createDate < ( select createDate from cms_content where id = :id )")
+				.setParam("id", id)
+				.append(" and active = :active ").setParam("active", ContentConstant.CONTENT_ACTIVE_YES)
+				.append(" order by createDate desc limit 0,1 ");
+		}
+		
+		return super.queryForObject(finder, CmsContent.class);
 	}
 	
 }

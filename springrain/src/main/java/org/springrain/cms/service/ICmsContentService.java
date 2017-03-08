@@ -71,4 +71,14 @@ public interface ICmsContentService extends IBaseSpringrainService {
 	 */
 	List<CmsContent> findListByIdsForTag(List<String> idList, int orderBy) throws Exception;
 
+	/**
+	 * 查找内容的上一个或下一个
+	 * @param id
+	 * @param siteId
+	 * @param channelId
+	 * @param next true：下一个内容；false：下一个内容
+	 * @return
+	 */
+	CmsContent findCmsContentSide(String id, String siteId, String channelId,boolean next) throws Exception ;
+
 }
