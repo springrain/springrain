@@ -29,6 +29,7 @@ import org.springrain.system.service.BaseSpringrainServiceImpl;
 import org.springrain.system.service.ITableindexService;
 
 import freemarker.core.Environment;
+import freemarker.ext.beans.StringModel;
 
 
 
@@ -308,19 +309,21 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 		}
 		
 		// 常用参数（表与实体类直接对应的字段）
-		
 		CmsContent ccParams = new CmsContent();
 		BeanUtils.populate(ccParams, params);
-		
-	
-		
-		
 		super.getFinderWhereByQueryBean(finder, ccParams);
+
+		// 分页
+		StringModel stringModel = (StringModel) params.get("page");
+		Page page = null;
+		if(stringModel!=null){
+			page = (Page) stringModel.getAdaptedObject(Page.class);
+		}
 		
 		// 排序
 		finder.append(getOrderSql(CmsContentListDirective.getOrderBy(params)));
 		
-		return super.queryForList(finder,CmsContent.class);
+		return super.queryForList(finder, CmsContent.class, page);
 	}
 	
 	/**
