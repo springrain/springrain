@@ -32,7 +32,7 @@
     
     <hr>
     <div id="content" class="container" style="background-color:white;padding:0 10 10 10;">
-        <@cms_content>
+        <@s_content>
             <h3>${content.title!}</h3>
             <div style="color:#bdbdbd;">
             	${content.createUser!'admin'} | ${content.createDate!''}&nbsp;&nbsp;&nbsp;&nbsp;评论(0) | 点赞(0)
@@ -41,7 +41,7 @@
                 <div style="padding-top:5px;">${content.content}</div>
             </#noautoesc>
             <hr>
-        </@cms_content>
+        </@s_content>
     </div>
     <div id="footer" class="container-fluid pos-a bottom0 tc" style="height:40px;background-color:white;line-height:40px;">
         2016 © www.weicms.netApache Licence 2.0

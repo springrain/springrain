@@ -53,7 +53,7 @@
 							</header>
 							<div class="larry-personal-body clearfix changepwd">
 								<form id="validForm" class="layui-form" method="post" action="${ctx}/s/${siteId!''}/${businessId!''}/content/update">
-									<input type="hidden" id="id" name="id" value="<@cms_content id="${id!}">${content.id!}</@cms_content>" />
+									<input type="hidden" id="id" name="id" value="<@s_content id="${id!}">${content.id!}</@s_content>" />
 									<input type="hidden" id="siteId" name="siteId" value="${siteId}" />
 									
 									<div class="layui-form-item col-lg-6">
@@ -61,7 +61,7 @@
 										<div class="layui-inline col-lg-5">
 											<input type="text" name="title" id="title" datatype="*"
 												nullmsg="不能为空" errormsg="不能为空！" autocomplete="off"
-												class="layui-input" value="<@cms_content id="${id!}">${content.title!}</@cms_content>">
+												class="layui-input" value="<@s_content id="${id!}">${content.title!}</@s_content>">
 										</div>
 										<div class="layui-inline valid-info"></div>
 									</div>
@@ -71,7 +71,7 @@
 										<div class="layui-inline col-lg-5">
 											<input type="text" name="mintitle" id="mintitle" autocomplete="off"
 												class="layui-input"
-												value="<@cms_content id="${id!}">${content.mintitle!}</@cms_content>">
+												value="<@s_content id="${id!}">${content.mintitle!}</@s_content>">
 										</div>
 										<div class="layui-inline valid-info"></div>
 									</div>
@@ -81,7 +81,7 @@
 										<div class="layui-inline col-lg-5">
 											<input type="text" name="keywords" id="keywords" 
 												class="layui-input"
-												value="<@cms_content id="${id!}">${content.keywords!}</@cms_content>">
+												value="<@s_content id="${id!}">${content.keywords!}</@s_content>">
 										</div>
 										<div class="layui-inline valid-info"></div>
 									</div>
@@ -90,7 +90,7 @@
 										<div class="layui-inline col-lg-5">
 											<input type="text" name="description" id="description"
 												 class="layui-input"
-												value="<@cms_content id="${id!}">${content.description!}</@cms_content>">
+												value="<@s_content id="${id!}">${content.description!}</@s_content>">
 										</div>
 										<div class="layui-inline valid-info"></div>
 									</div>
@@ -98,7 +98,7 @@
 										<label class="layui-form-label">来源</label>
 										<div class="layui-inline col-lg-5">
 											<input type="text" name="source" id="source" 
-												class="layui-input" value="<@cms_content id="${id!}">${content.source!}</@cms_content>">
+												class="layui-input" value="<@s_content id="${id!}">${content.source!}</@s_content>">
 										</div>
 										<div class="layui-inline valid-info"></div>
 									</div>
@@ -107,7 +107,7 @@
 										<div class="layui-inline col-lg-5">
 											<input type="text" name="sourceurl" id="sourceurl"
 												 class="layui-input"
-												value="<@cms_content id="${id!}">${content.sourceurl!}</@cms_content>">
+												value="<@s_content id="${id!}">${content.sourceurl!}</@s_content>">
 										</div>
 										<div class="layui-inline valid-info"></div>
 									</div>
@@ -116,7 +116,7 @@
 										<div class="layui-inline col-lg-5">
 											<input type="text" name="sortno" id="sortno"
 												 class="layui-input"
-												value="<@cms_content id="${id!}">${content.sortno!}</@cms_content>">
+												value="<@s_content id="${id!}">${content.sortno!}</@s_content>">
 										</div>
 										<div class="layui-inline valid-info"></div>
 									</div>
@@ -124,7 +124,7 @@
 										<label class="layui-form-label">是否可用</label>
 										<div class="layui-inline col-lg-5">
 											 <select name="active" id="active" lay-verify="required">
-											 	<@cms_content id="${id!}">
+											 	<@s_content id="${id!}">
 											 		<#if (content.active)?? && (content.active)==1>
 											 			<option value="1" selected="selected">可用</option>
 											 			<option value="0">不可用</option>
@@ -132,7 +132,7 @@
 											 			<option value="1">可用</option>
 											 			<option value="0" selected="selected">不可用</option>
 											 		</#if>
-											 	</@cms_content>
+											 	</@s_content>
 										      </select>
 										</div>
 										<div class="layui-inline valid-info"></div>
@@ -140,7 +140,7 @@
 									<div class="layui-form-item col-lg-6">
 										<label class="layui-form-label">评论开关</label>
 										<div class="layui-inline col-lg-5">
-											<@cms_content id="${id!}">
+											<@s_content id="${id!}">
 										 		<#if (content.commentPerm)?? && (content.commentPerm)==1>
 										 			<input type="radio" name="commentPerm" value="0" title="不允许评论">
 													<input type="radio" name="commentPerm" value="1" title="允许评论" checked>
@@ -148,14 +148,14 @@
 										 			<input type="radio" name="commentPerm" value="0" title="不允许评论" checked>
 													<input type="radio" name="commentPerm" value="1" title="允许评论" >
 										 		</#if>
-										 	</@cms_content>
+										 	</@s_content>
 										</div>
 										<div class="layui-inline valid-info"></div>
 									</div>
 									<div class="layui-form-item col-lg-6">
 										<label class="layui-form-label">登陆访问</label>
 										<div class="layui-inline col-lg-5">
-											<@cms_content id="${id!}">
+											<@s_content id="${id!}">
 										        <#if content??>
 									                <@cms_link businessId=(content.id!)>
 								                        <#if (cmsLink.loginuser)?? && (cmsLink.loginuser==0)>
@@ -170,7 +170,7 @@
 									                <input type="radio" name="loginuser" value="0" title="不允许匿名访问">
 													<input type="radio" name="loginuser" value="1" title="允许匿名访问"  checked>
 										        </#if>
-											</@cms_content>
+											</@s_content>
 										</div>
 										<div class="layui-inline valid-info"></div>
 									</div>
@@ -219,7 +219,7 @@
 										<label class="layui-form-label">内容*</label>
 										<div class="layui-inline col-lg-5">
 											<#noautoesc>
-												<script id="container" name="content" type="text/plain"><@cms_content id="${id!}">${content.content!}</@cms_content></script>
+												<script id="container" name="content" type="text/plain"><@s_content id="${id!}">${content.content!}</@s_content></script>
 											</#noautoesc>
 										</div>
 										<div class="layui-inline valid-info"></div>

@@ -31,7 +31,7 @@ public class ContentDirective  extends AbstractCMSDirective  {
 	
 
 
-	private static final String TPL_NAME = "cms_content";
+	private static final String TPL_NAME = "s_content";
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
