@@ -189,7 +189,7 @@
 						//这里明确return false的话将不会继续执行验证操作;	
 					},
 					beforeSubmit:function(curform){
-						layer.load();
+						index=layer.load(null, {shade: [0.8, '#393D49'] });
 						if(_before!=null &&typeof(_before)=="function"){
 							_before();
 						}

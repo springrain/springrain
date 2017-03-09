@@ -114,7 +114,10 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 	    cmsLink.setDefaultLink(_index);
 	    cmsLink.setLink(_index);
 	    //设置模板路径
-	    cmsLink.setFtlfile("/u/"+siteId+"/channel");
+	    String pid = cmsChannel.getPid();
+	    if(StringUtils.isBlank(pid))
+	    	pid = siteId;
+	    cmsLink.setFtlfile(cmsLinkService.findLinkBySiteBusinessId(siteId, pid).getNodeftlfile());
 	    cmsLink.setNodeftlfile("/u/"+siteId+"/content.html");
 	    cmsLinkService.save(cmsLink);
 	    
