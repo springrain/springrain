@@ -8,9 +8,9 @@
 				if(!_url)return;
 				if(_url.indexOf("springraintoken")!=-1)return _url;
 				if(_url.indexOf("?")!=-1){
-					return _url+"&springraintoken="+_that.token;
+					return _url+"&springraintoken="+springraintoken;
 				}else{
-					return _url+"?springraintoken="+_that.token;
+					return _url+"?springraintoken="+springraintoken;
 				}
 			},
 			/**
@@ -22,12 +22,12 @@
 				var reg = new RegExp("(^|&)" + _name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
 		        var r = window.location.search.substr(1).match(reg);  //匹配目标参数
 		        if (r != null){
-		        	_that.token=unescape(r[2]);
+		        	$.springrain.token=unescape(r[2]);
 		        }
 		        else{
-		        	_that.token=null;
+		        	$.springrain.token=null;
 		        }
-		        return _that.token;
+		        return $.springrain.token;
 			},
 			/**
 			 * 跳转

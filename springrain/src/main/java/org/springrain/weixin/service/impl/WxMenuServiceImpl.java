@@ -3,13 +3,17 @@ package org.springrain.weixin.service.impl;
 import java.io.File;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springrain.frame.entity.IBaseEntity;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.Page;
 import org.springrain.system.service.BaseSpringrainServiceImpl;
+import org.springrain.system.service.IUserOrgService;
 import org.springrain.weixin.entity.WxMenu;
+import org.springrain.weixin.entity.WxMpConfig;
 import org.springrain.weixin.service.IWxMenuService;
 
 
@@ -23,7 +27,8 @@ import org.springrain.weixin.service.IWxMenuService;
 @Service("wxMenuService")
 public class WxMenuServiceImpl extends BaseSpringrainServiceImpl implements IWxMenuService {
 
-   
+	@Resource
+    private IUserOrgService userOrgService;
     @Override
 	public String  save(Object entity ) throws Exception{
 	      WxMenu cmsWxMenu=(WxMenu) entity;
@@ -95,4 +100,15 @@ public class WxMenuServiceImpl extends BaseSpringrainServiceImpl implements IWxM
 		List<WxMenu> list = super.queryForList(finder,WxMenu.class);
 		return list;
 	}
+	
+	
+	@Override
+	public List<WxMpConfig> findWxconfigByUserId(String userId) throws Exception {
+		List<String> orgIds = userOrgService.findOrgIdsByManagerUserId(userId);
+		Finder finder = new Finder("SELECT a.* FROM ").append(Finder.getTableName(WxMpConfig.class)).append(" a INNER JOIN cms_site b ON a.siteId = b.id WHERE a.active=1 AND b.active=1 AND b.orgId in (:orgIds)");
+		finder.setParam("orgIds", orgIds);
+		return super.queryForList(finder, WxMpConfig.class);
+	}
+	
+	
 }

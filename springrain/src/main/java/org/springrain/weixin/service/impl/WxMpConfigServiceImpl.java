@@ -3,16 +3,15 @@ package org.springrain.weixin.service.impl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springrain.system.service.BaseSpringrainServiceImpl;
+import org.springrain.system.service.IBaseSpringrainService;
 import org.springrain.weixin.entity.WxMpConfig;
 import org.springrain.weixin.sdk.common.api.IWxMpConfig;
 import org.springrain.weixin.sdk.common.api.IWxMpConfigService;
 
 
 @Service("wxMpConfigService")
-public class WxMpConfigServiceImpl extends BaseSpringrainServiceImpl implements IWxMpConfigService  {
+public class WxMpConfigServiceImpl extends BaseSpringrainServiceImpl implements IWxMpConfigService {
 	
-	
-
 
 	@Override
 	public IWxMpConfig expireAccessToken(IWxMpConfig wxmpconfig) {

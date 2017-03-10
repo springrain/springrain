@@ -14,10 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springrain.cms.entity.CmsLink;
 import org.springrain.cms.entity.CmsSite;
-import org.springrain.cms.entity.CmsSiteWxconfig;
 import org.springrain.cms.service.ICmsLinkService;
 import org.springrain.cms.service.ICmsSiteService;
-import org.springrain.cms.service.ICmsSiteWxconfigService;
 import org.springrain.frame.common.SessionUser;
 import org.springrain.frame.util.Enumerations.SiteType;
 import org.springrain.frame.util.Enumerations.UserOrgType;
@@ -31,6 +29,9 @@ import org.springrain.system.service.BaseSpringrainServiceImpl;
 import org.springrain.system.service.IOrgService;
 import org.springrain.system.service.ITableindexService;
 import org.springrain.system.service.IUserOrgService;
+import org.springrain.weixin.entity.WxCpConfig;
+import org.springrain.weixin.sdk.common.api.IWxMpConfigService;
+import org.springrain.weixin.service.IWxMpServletService;
 
 
 
@@ -55,8 +56,12 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 	private IOrgService orgService;
 	@Resource
 	private IUserOrgService userOrgService;
+	
 	@Resource
-	private ICmsSiteWxconfigService cmsSiteWxconfigService;
+	private IWxMpConfigService wxMpConfigService;
+	
+	@Resource
+	private IWxMpServletService wxMpServletService;
 	
 	@Override
 	public Object saveorupdate(Object entity) throws Exception {
@@ -109,13 +114,28 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 	    
 	    //如果是企业号或服务号，新建配置信息
 	    Integer siteType = cmsSite.getSiteType();
-	    if(SiteType.cp.getType()==siteType.intValue() || SiteType.mp.getType() == siteType.intValue()){
+	    if(SiteType.cp.getType()==siteType.intValue()){
+	    	/*
 	    	CmsSiteWxconfig config = new CmsSiteWxconfig(SecUtils.getUUID());
 	    	config.setActive(1);
 	    	config.setSiteId(id);
 	    	cmsSiteWxconfigService.save(config);
+	    	*/
+	    	WxCpConfig config = new WxCpConfig();
+	    	config.setId(id);
+	    	config.setActive(1);
+	    	config.setSiteId(id);
+	    	wxMpServletService.save(config);
+	    }
+	    if(SiteType.mp.getType() == siteType.intValue()){
+	    	WxCpConfig config = new WxCpConfig();
+	    	config.setId(id);
+	    	config.setActive(1);
+	    	config.setSiteId(id);
+	    	wxMpServletService.save(config);
 	    }
 	    
+	    int statichtml = 0; // 默认不静态化
 	    //保存 相应的前台 link 链接
 	    CmsLink cmsLink=new CmsLink();
 	    cmsLink.setBusinessId(id);
@@ -124,7 +144,7 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 	    cmsLink.setName(cmsSite.getName());
 	    cmsLink.setJumpType(0);
 	    cmsLink.setLookcount(1);
-	    cmsLink.setStatichtml(0);//默认不静态化
+	    cmsLink.setStatichtml(statichtml);//默认不静态化
 	    cmsLink.setActive(0);//默认可以使用
 	    cmsLink.setSortno(1);
 	    //首页默认
@@ -141,9 +161,14 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 	    cmsLink.setId(null);
 	    cmsLink.setModelType(4);
 	    _index="/s/"+id+"/index";
+	    cmsLink.setStatichtml(statichtml);
 	    cmsLink.setDefaultLink(_index);
 	    cmsLink.setLink(_index);
 	    cmsLink.setFtlfile("/u/"+id+"/s/index");
+	    cmsLink.setActive(1);
+	    cmsLink.setSortno(1);
+	    cmsLink.setSiteId(id);
+	    cmsLink.setBusinessId(id);
 	    cmsLinkService.save(cmsLink);
 	    
 	   File t_file=new File(GlobalStatic.webInfoDir+"/u/"+id+"/");
@@ -268,4 +293,6 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 		finder.setParam("userId", userId).setParam("siteType", SiteType.mp.getType());
 		return super.queryForList(finder, CmsSite.class);
 	}
+	
+	
 }

@@ -1,6 +1,5 @@
-package  org.springrain.cms.web;
+package  org.springrain.weixin.web;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -15,9 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springrain.cms.entity.CmsSiteWxconfig;
 import org.springrain.cms.service.ICmsSiteService;
-import org.springrain.cms.service.ICmsSiteWxconfigService;
 import org.springrain.frame.common.SessionUser;
 import org.springrain.frame.controller.BaseController;
 import org.springrain.frame.util.GlobalStatic;
@@ -25,20 +22,28 @@ import org.springrain.frame.util.Page;
 import org.springrain.frame.util.ReturnDatas;
 import org.springrain.frame.util.property.MessageUtils;
 import org.springrain.weixin.entity.WxMenu;
+import org.springrain.weixin.entity.WxMpConfig;
+import org.springrain.weixin.sdk.common.api.IWxMpConfig;
+import org.springrain.weixin.sdk.common.api.IWxMpConfigService;
 import org.springrain.weixin.service.IWxMenuService;
+import org.springrain.weixin.service.IWxMpServletService;
 
 
 /**
  * @copyright {@link weicms.net}
  * @author springrain<Auto generate>
  * @version  2017-02-06 11:38:43
- * @see org.springrain.cms.base.web.CmsSiteWxconfig
+ * @see org.springrain.cms.base.web.WxMpConfig
  */
 @Controller
 @RequestMapping(value="/system/cms/wxconfig")
 public class CmsSiteWxconfigController  extends BaseController {
 	@Resource
-	private ICmsSiteWxconfigService cmsSiteWxconfigService;
+	private IWxMpConfigService wxMpConfigService;
+	
+	@Resource
+	private IWxMpServletService wxMpServletService;
+	
 	@Resource
 	private ICmsSiteService cmsSiteService;
 	@Resource
@@ -50,14 +55,14 @@ public class CmsSiteWxconfigController  extends BaseController {
 	 * 
 	 * @param request
 	 * @param model
-	 * @param cmsSiteWxconfig
+	 * @param WxMpConfig
 	 * @return
 	 * @throws Exception
 	 */
 	@RequestMapping("/list")
-	public String list(HttpServletRequest request, Model model,CmsSiteWxconfig cmsSiteWxconfig) 
+	public String list(HttpServletRequest request, Model model,WxMpConfig wxMpConfig) 
 			throws Exception {
-		ReturnDatas returnObject = listjson(request, model, cmsSiteWxconfig);
+		ReturnDatas returnObject = listjson(request, model, wxMpConfig);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
 		return listurl;
 	}
@@ -67,34 +72,26 @@ public class CmsSiteWxconfigController  extends BaseController {
 	 * 
 	 * @param request
 	 * @param model
-	 * @param cmsSiteWxconfig
+	 * @param WxMpConfig
 	 * @return
 	 * @throws Exception
 	 */
 	@RequestMapping("/list/json")
 	public @ResponseBody
-	ReturnDatas listjson(HttpServletRequest request, Model model,CmsSiteWxconfig cmsSiteWxconfig) throws Exception{
+	ReturnDatas listjson(HttpServletRequest request, Model model,WxMpConfig wxMpConfig) throws Exception{
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		// ==构造分页请求
 		Page page = newPage(request);
 		// ==执行分页查询
-		List<CmsSiteWxconfig> datas=cmsSiteWxconfigService.findListDataByFinder(null,page,CmsSiteWxconfig.class,cmsSiteWxconfig);
-		returnObject.setQueryBean(cmsSiteWxconfig);
+		List<WxMpConfig> datas=wxMpServletService.findListDataByFinder(null,page,WxMpConfig.class,wxMpConfig);
+		returnObject.setQueryBean(wxMpConfig);
 		returnObject.setPage(page);
 		returnObject.setData(datas);
 		return returnObject;
 	}
 	
-	@RequestMapping("/list/export")
-	public void listexport(HttpServletRequest request,HttpServletResponse response, Model model,CmsSiteWxconfig cmsSiteWxconfig) throws Exception{
-		// ==构造分页请求
-		Page page = newPage(request);
 	
-		File file = cmsSiteWxconfigService.findDataExportExcel(null,listurl, page,CmsSiteWxconfig.class,cmsSiteWxconfig);
-		String fileName="cmsSiteWxconfig"+GlobalStatic.excelext;
-		downFile(response, file, fileName,true);
-		return;
-	}
+	
 	
 		/**
 	 * 查看操作,调用APP端lookjson方法
@@ -116,8 +113,8 @@ public class CmsSiteWxconfigController  extends BaseController {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		java.lang.String id=request.getParameter("id");
 		if(StringUtils.isNotBlank(id)){
-		  CmsSiteWxconfig cmsSiteWxconfig = cmsSiteWxconfigService.findCmsSiteWxconfigById(id);
-		   returnObject.setData(cmsSiteWxconfig);
+		  IWxMpConfig WxMpConfig = wxMpConfigService.findWxMpConfigById(id);
+		   returnObject.setData(WxMpConfig);
 		}else{
 		returnObject.setStatus(ReturnDatas.ERROR);
 		}
@@ -132,17 +129,17 @@ public class CmsSiteWxconfigController  extends BaseController {
 	 */
 	@RequestMapping("/update")
 	public @ResponseBody
-	ReturnDatas saveorupdate(Model model,CmsSiteWxconfig cmsSiteWxconfig,HttpServletRequest request,HttpServletResponse response) throws Exception{
+	ReturnDatas saveorupdate(Model model,WxMpConfig wxMpConfig,HttpServletRequest request,HttpServletResponse response) throws Exception{
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		returnObject.setMessage(MessageUtils.UPDATE_SUCCESS);
 		try {
 		
-			java.lang.String id =cmsSiteWxconfig.getId();
+			java.lang.String id =wxMpConfig.getId();
 			if(StringUtils.isBlank(id)){
-			  cmsSiteWxconfig.setId(null);
+				wxMpConfig.setId(null);
 			}
 		
-			cmsSiteWxconfigService.saveorupdate(cmsSiteWxconfig);
+			wxMpServletService.saveorupdate(wxMpConfig);
 			
 		} catch (Exception e) {
 			String errorMessage = e.getLocalizedMessage();
@@ -177,7 +174,7 @@ public class CmsSiteWxconfigController  extends BaseController {
 		try {
 		java.lang.String id=request.getParameter("id");
 		if(StringUtils.isNotBlank(id)){
-				cmsSiteWxconfigService.deleteById(id,CmsSiteWxconfig.class);
+			wxMpServletService.deleteById(id,WxMpConfig.class);
 				return new ReturnDatas(ReturnDatas.SUCCESS,
 						MessageUtils.DELETE_SUCCESS);
 			} else {
@@ -209,7 +206,7 @@ public class CmsSiteWxconfigController  extends BaseController {
 		}
 		try {
 			List<String> ids = Arrays.asList(rs);
-			cmsSiteWxconfigService.deleteByIds(ids,CmsSiteWxconfig.class);
+			wxMpServletService.deleteByIds(ids,WxMpConfig.class);
 		} catch (Exception e) {
 			return new ReturnDatas(ReturnDatas.ERROR,
 					MessageUtils.DELETE_ALL_FAIL);
@@ -223,8 +220,8 @@ public class CmsSiteWxconfigController  extends BaseController {
 	 * @throws Exception 
 	 * */
 	@RequestMapping("/mpList")
-	public String mpList(HttpServletRequest request, Model model,CmsSiteWxconfig cmsSiteWxconfig) throws Exception{
-		ReturnDatas returnObject = listjson(request, model, cmsSiteWxconfig);
+	public String mpList(HttpServletRequest request, Model model,WxMpConfig WxMpConfig) throws Exception{
+		ReturnDatas returnObject = listjson(request, model, WxMpConfig);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
 		return "/mp/menu/mpList";
 	}
@@ -234,10 +231,10 @@ public class CmsSiteWxconfigController  extends BaseController {
 	 * @throws Exception
 	 * */
 	@RequestMapping("/menu/update/pre")
-	public String menuUpdate(HttpServletRequest request, Model model,CmsSiteWxconfig cmsSiteWxconfig) throws Exception{
+	public String menuUpdate(HttpServletRequest request, Model model,WxMpConfig WxMpConfig) throws Exception{
 		ReturnDatas returnDatas=ReturnDatas.getSuccessReturnDatas();
 		
-		String siteId = cmsSiteWxconfig.getSiteId();
+		String siteId = WxMpConfig.getSiteId();
 		List<WxMenu> datas = wxMenuService.findParentMenuList(siteId);
 		if (datas != null){
 			for (WxMenu cmsWxMenu : datas) {
