@@ -198,7 +198,7 @@ public class WxCpConfig   extends BaseEntity implements IWxCpConfig {
 	public Long getJsApiTicketExpiresTime() {
 		return jsApiTicketExpiresTime;
 	}
-	public void setJsApiTicketExpiresTime(Long jsapiTicketExpiresTime) {
+	public void setJsApiTicketExpiresTime(Long jsApiTicketExpiresTime) {
 		this.jsApiTicketExpiresTime =  System.currentTimeMillis() + (jsApiTicketExpiresTime - 600) * 1000L;//预留10分钟
 	}
 	
