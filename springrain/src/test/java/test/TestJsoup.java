@@ -6,8 +6,9 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
-public class TestJsonp {
+public class TestJsoup {
 	public static void main(String[] args) throws IOException {
+	
 		Document doc = Jsoup.connect("https://gd.122.gov.cn/m/login?winzoom=1").get();
 	    //System.out.println(doc.toString());
 		
