@@ -25,6 +25,13 @@ public class TestJsoup {
         data.request().cookie("test","test");
         Document doc =data.get();
         Response response = data.response();
+        
+        
+        //我多写一个......
+       String sessionId= response.cookie("JSESSIONID-L");
+       System.out.println(sessionId);
+        
+        
         Map<String, String> cookies = response.cookies();
         
         
