@@ -22,6 +22,7 @@ public class TestJsoup {
         header.put("Accept-Charset", "GB2312,utf-8;q=0.7,*;q=0.7");  
         header.put("Connection", "keep-alive");  
         Connection data = connect.data(header);
+        data.request().cookie("test","test");
         Document doc =data.get();
         Response response = data.response();
         Map<String, String> cookies = response.cookies();
