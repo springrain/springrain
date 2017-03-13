@@ -25,6 +25,17 @@ public class WxMpAutoLoginFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws ServletException, IOException {
 		HttpServletRequest req = (HttpServletRequest) request;
+		
+		String userAgent = req.getHeader("user-agent").toLowerCase();
+		
+		if(!userAgent.contains("micromessenger")){//不是微信客户端
+			chain.doFilter(request, response);
+			return;
+		}
+		
+		
+		
+		
 		String siteId=InputSafeUtils.substringByURI(req.getRequestURI(), "/s_");
 		if(StringUtils.isBlank(siteId)){
 			return;
@@ -40,6 +51,15 @@ public class WxMpAutoLoginFilter extends OncePerRequestFilter {
 				chain.doFilter(request, response);
 				return;
 			}
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			
 			
 			String url = SiteUtils.getRequestURL(req);
