@@ -1,17 +1,4 @@
-/*
-Navicat MySQL Data Transfer
 
-Source Server         : 127.0.0.1
-Source Server Version : 50716
-Source Host           : 127.0.0.1:3306
-Source Database       : springrain
-
-Target Server Type    : MYSQL
-Target Server Version : 50716
-File Encoding         : 65001
-
-Date: 2017-03-01 15:09:41
-*/
 
 SET FOREIGN_KEY_CHECKS=0;
 
@@ -78,9 +65,9 @@ CREATE TABLE `wx_mpconfig` (
   `httpProxyPassword` varchar(500) DEFAULT NULL COMMENT 'http代理密码',
   `certificateFile` varchar(500) DEFAULT NULL COMMENT '证书地址',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='微信号配置信息';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='微信号需要的配置信息';
 
 -- ----------------------------
 -- Records of wx_mpconfig
 -- ----------------------------
-INSERT INTO `wx_mpconfig` VALUES ('s_10006', 's_10006', 'wx62a8', '358', 'centfor', '1', 'gh_7c', '1', null, null, 'springrain', null, null, null, null, null);
+INSERT INTO `wx_mpconfig` VALUES ('s_10006', 's_10006', 'wx', 'abc', 'abc', '1', 'gh', '1', null, null, 'http://www.baidu.com', null, null, null, null, null);
