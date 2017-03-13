@@ -62,6 +62,12 @@ public class WxMpAutoLoginFilter extends OncePerRequestFilter {
 			}
 			
 			IWxMpConfig wxMpConfig = wxMpConfigService.findWxMpConfigById(siteId);
+			if(wxMpConfig==null){
+				chain.doFilter(request, response);
+				return;
+			}
+			
+			
 			Integer oauth2 = wxMpConfig.getOauth2();
 			if(oauth2==null||oauth2<1){//不开启 oauth2.0认证
 				chain.doFilter(request, response);
