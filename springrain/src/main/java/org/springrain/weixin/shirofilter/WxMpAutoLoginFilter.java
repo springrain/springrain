@@ -2,6 +2,7 @@ package org.springrain.weixin.shirofilter;
 
 import java.io.IOException;
 
+import javax.annotation.Resource;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -16,10 +17,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springrain.cms.utils.SiteUtils;
 import org.springrain.frame.util.InputSafeUtils;
+import org.springrain.weixin.sdk.common.api.IWxMpConfig;
+import org.springrain.weixin.sdk.common.api.IWxMpConfigService;
 
 @Component("wxmpautologin")
 public class WxMpAutoLoginFilter extends OncePerRequestFilter {
-	private   Logger logger = LoggerFactory.getLogger(getClass());
+	private final   Logger logger = LoggerFactory.getLogger(getClass());
+	
+	
+	@Resource
+	private IWxMpConfigService wxMpConfigService;
+	
+	
 
 	@Override
 	protected void doFilterInternal(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -52,19 +61,15 @@ public class WxMpAutoLoginFilter extends OncePerRequestFilter {
 				return;
 			}
 			
-			
-			
-			
-			
-			
-			
-			
-			
+			IWxMpConfig wxMpConfig = wxMpConfigService.findWxMpConfigById(siteId);
+			Integer oauth2 = wxMpConfig.getOauth2();
+			if(oauth2==null||oauth2<1){//不开启 oauth2.0认证
+				chain.doFilter(request, response);
+				return;
+			}
 			
 			
 			String url = SiteUtils.getRequestURL(req);
-			
-			
 		    req.getRequestDispatcher("/mp/mpautologin/"+siteId+"/oauth2?url=" + url).forward(request, response);
 		    
 			//rep.sendRedirect(SiteUtils.getSiteURLPath(req)+"/mp/mpautologin/"+siteId+"/oauth2?url="+ url);

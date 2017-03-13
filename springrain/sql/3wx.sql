@@ -14,6 +14,12 @@ CREATE TABLE `wx_cpconfig` (
   `token` varchar(500) DEFAULT NULL COMMENT '开发者Id',
   `encodingAESKey` varchar(500) DEFAULT NULL COMMENT '消息加解密密钥',
   `wxId` varchar(500) DEFAULT NULL COMMENT '原始ID',
+  `oauth2redirectUri` varchar(500) DEFAULT NULL COMMENT '微信重定向地址',
+  `httpProxyHost` varchar(500) DEFAULT NULL COMMENT 'http代理地址',
+  `httpProxyPort` int(11) DEFAULT NULL COMMENT 'http代理端口',
+  `httpProxyUsername` varchar(500) DEFAULT NULL COMMENT 'http代理账号',
+  `httpProxyPassword` varchar(500) DEFAULT NULL COMMENT 'http代理密码',
+  `certificateFile` varchar(500) DEFAULT NULL COMMENT '证书地址',
   `active` int(11) NOT NULL DEFAULT '1' COMMENT '状态 0不可用,1可用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='微信号需要的配置信息';
@@ -58,7 +64,7 @@ CREATE TABLE `wx_mpconfig` (
   `active` int(11) NOT NULL DEFAULT '1' COMMENT '状态 0不可用,1可用',
   `partnerId` varchar(500) DEFAULT NULL,
   `partnerKey` varchar(500) DEFAULT NULL,
-  `oauth2redirectUri` varchar(500) DEFAULT NULL COMMENT '微信重定向地址',
+  `oauth2` int(11) DEFAULT 1 COMMENT '是否支持微信oauth2.0协议,0是不支持,1是支持',
   `httpProxyHost` varchar(500) DEFAULT NULL COMMENT 'http代理地址',
   `httpProxyPort` int(11) DEFAULT NULL COMMENT 'http代理端口',
   `httpProxyUsername` varchar(500) DEFAULT NULL COMMENT 'http代理账号',
@@ -70,4 +76,4 @@ CREATE TABLE `wx_mpconfig` (
 -- ----------------------------
 -- Records of wx_mpconfig
 -- ----------------------------
-INSERT INTO `wx_mpconfig` VALUES ('s_10006', 's_10006', 'wx', 'abc', 'abc', '1', 'gh', '1', null, null, 'http://www.baidu.com', null, null, null, null, null);
+INSERT INTO `wx_mpconfig` VALUES ('s_10006', 's_10006', 'wx', 'abc', 'abc', '1', 'gh', '1', null, null, 1, null, null, null, null, null);
