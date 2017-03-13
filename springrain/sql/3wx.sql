@@ -27,7 +27,6 @@ CREATE TABLE `wx_cpconfig` (
 -- ----------------------------
 -- Records of wx_cpconfig
 -- ----------------------------
-INSERT INTO `wx_cpconfig` VALUES ('s_10006', 's_10006', '1', '1', '1', '1', '1', '1');
 
 -- ----------------------------
 -- Table structure for wx_menu
