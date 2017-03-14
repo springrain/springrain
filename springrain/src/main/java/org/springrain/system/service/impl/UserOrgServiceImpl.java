@@ -277,11 +277,11 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 		Finder f=wrapWheresSQLByManagerUserId(managerUserId);
 		
 		if(f==null){
-			return null;
+			return new Finder();
 		}
 		
 		if(StringUtils.isEmpty(f.getSql())){
-			return null;
+			return new Finder();
 		}
 		Finder hasLeafBuffer=new Finder();
 		hasLeafBuffer.append(" SELECT _system_temp_org.id  FROM ").append(Finder.getTableName(Org.class));
@@ -297,10 +297,10 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 	public Finder findUserIdsSQLByManagerUserId(String managerUserId) throws Exception {
 		Finder f=wrapWheresSQLByManagerUserId(managerUserId);
 		if(f==null){
-			return null;
+			return new Finder();
 		}
 		if(StringUtils.isBlank(f.getSql())){
-			return null;
+			return new Finder();
 		}
 		
 		
