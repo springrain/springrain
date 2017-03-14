@@ -157,6 +157,9 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 		}
 		
 		Finder finder = findOrgIdsSQLByManagerUserId(managerUserId);
+		if(finder==null){
+			return null;
+		}
 		if(StringUtils.isEmpty(finder.getSql())){
 			return null;
 		}
@@ -180,6 +183,9 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 		
 		
        Finder  f=wrapWheresSQLByManagerUserId(managerUserId);
+		if(f==null){
+			return null;
+		}
 		
 		if(StringUtils.isEmpty(f.getSql())){
 			return null;
@@ -203,6 +209,10 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 		
 		Finder f = findUserIdsSQLByManagerUserId(managerUserId);
 		
+		if(f==null){
+			return null;
+		}
+		
 		if(StringUtils.isEmpty(f.getSql())){
 			return null;
 		}
@@ -220,6 +230,9 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 	@Override
 	public List<User> findUserByManagerUserId(String managerUserId,Page page) throws Exception {
 		Finder f=wrapWheresSQLByManagerUserId(managerUserId);
+		if(f==null){
+			return null;
+		}
 		if(StringUtils.isBlank(f.getSql())){
 			return null;
 		}
@@ -263,6 +276,10 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 	public Finder findOrgIdsSQLByManagerUserId(String managerUserId) throws Exception {
 		Finder f=wrapWheresSQLByManagerUserId(managerUserId);
 		
+		if(f==null){
+			return null;
+		}
+		
 		if(StringUtils.isEmpty(f.getSql())){
 			return null;
 		}
@@ -279,6 +296,9 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 	@Override
 	public Finder findUserIdsSQLByManagerUserId(String managerUserId) throws Exception {
 		Finder f=wrapWheresSQLByManagerUserId(managerUserId);
+		if(f==null){
+			return null;
+		}
 		if(StringUtils.isBlank(f.getSql())){
 			return null;
 		}
