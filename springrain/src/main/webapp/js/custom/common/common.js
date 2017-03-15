@@ -43,6 +43,12 @@ $(document).ready(function(){
 			  var element = layui.element();   
 		});
 	},200);
+	//处理列表中列多的
+	jQuery("#LAY_preview .layui-table").each(function(_i,_o){
+		if(!jQuery(_o).parent("div").hasClass("tableWrap")){
+			jQuery(_o).wrap("<div class='tableWrap' style='width:100%;overflow-x:auto;'></div>")
+		}
+	});
 });
 var form;
 /*添加form的监听回调*/
