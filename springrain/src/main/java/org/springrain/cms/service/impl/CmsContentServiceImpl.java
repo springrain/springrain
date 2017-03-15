@@ -106,7 +106,12 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
        if(cmsContent.getSortno() == null)
            cmsContent.setSortno(Integer.parseInt(id.substring(2)));
        super.save(cmsContent);
-       LuceneUtils.saveDocument(getLuceneDir(siteId), cmsContent);
+       try {
+    	   LuceneUtils.saveDocument(getLuceneDir(siteId), cmsContent);
+       } catch (Exception e) {
+			logger.error(e.getLocalizedMessage(), e);
+       }
+      
        
        List<CmsProperty> propertyList = cmsContent.getPropertyList();
        if(CollectionUtils.isNotEmpty(propertyList)){//有扩展属性
@@ -192,7 +197,12 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
             super.evictByKey(cmsContent.getSiteId(), cacheKey);
         }
         Integer update = super.update(cmsContent,true);
-        LuceneUtils.updateDocument(getLuceneDir(cmsContent.getSiteId()), CmsContent.class);
+        try {
+        	LuceneUtils.updateDocument(getLuceneDir(cmsContent.getSiteId()), CmsContent.class);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
+        
         
         List<CmsProperty> propertyList = cmsContent.getPropertyList();
         if(CollectionUtils.isNotEmpty(propertyList)){//有扩展属性
