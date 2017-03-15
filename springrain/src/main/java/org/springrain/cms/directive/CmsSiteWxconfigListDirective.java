@@ -9,10 +9,10 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
-import org.springrain.cms.entity.CmsSiteWxconfig;
-import org.springrain.cms.service.ICmsSiteWxconfigService;
 import org.springrain.cms.utils.DirectiveUtils;
 import org.springrain.frame.common.SessionUser;
+import org.springrain.weixin.entity.WxMpConfig;
+import org.springrain.weixin.service.IWxMenuService;
 
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
@@ -23,16 +23,16 @@ import freemarker.template.TemplateModel;
 public class CmsSiteWxconfigListDirective extends AbstractCMSDirective {
 	private static final String TPL_NAME = "cms_site_wxconfig_list";
 	@Resource
-	private ICmsSiteWxconfigService cmsSiteWxconfigService;
+	private IWxMenuService wxMenuService;
 	
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void execute(Environment env, Map params, TemplateModel[] loopVars,
 			TemplateDirectiveBody body) throws TemplateException, IOException {
 		
-		List<CmsSiteWxconfig> configList;
+		List<WxMpConfig> configList;
 		try {
-			configList = cmsSiteWxconfigService.findWxconfigByUserId(SessionUser.getUserId());
+			configList = wxMenuService.findWxconfigByUserId(SessionUser.getUserId());
 		} catch (Exception e) {
 			configList = new ArrayList<>();
 		}

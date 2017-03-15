@@ -79,9 +79,9 @@ public class WxMpConfig   extends BaseEntity implements IWxMpConfig {
 		 */
 		private java.lang.String partnerKey;
 		/**
-		 * 微信重定向地址
+		 * 是否支持微信oauth2.0协议,0是不支持,1是支持
 		 */
-		private java.lang.String oauth2redirectUri;
+		private java.lang.Integer oauth2;
 		/**
 		 * http代理地址
 		 */
@@ -104,17 +104,22 @@ public class WxMpConfig   extends BaseEntity implements IWxMpConfig {
 		private java.lang.String certificateFile;
 		//columns END 数据库字段结束
 		
+		
+		
+		
+		
+		
 	  
-	  private volatile String tmpDirFile;
+	  private  String tmpDirFile;
 
-	  private volatile String accessToken;
-	  private volatile Long accessTokenExpiresTime=0L;
+	  private  String accessToken;
+	  private  Long accessTokenExpiresTime=0L;
 	  
-	  private volatile String jsApiTicket;
-	  private volatile Long jsApiTicketExpiresTime=0L;
+	  private  String jsApiTicket;
+	  private  Long jsApiTicketExpiresTime=0L;
 	  
-	  private volatile String cardApiTicket;
-	  private volatile Long cardApiTicketExpiresTime=0L;
+	  private  String cardApiTicket;
+	  private  Long cardApiTicketExpiresTime=0L;
 	  
 	  
 	  
@@ -240,16 +245,17 @@ public class WxMpConfig   extends BaseEntity implements IWxMpConfig {
 		public java.lang.String getPartnerKey() {
 			return this.partnerKey;
 		}
-		public void setOauth2redirectUri(java.lang.String value) {
-			    if(StringUtils.isNotBlank(value)){
-				 value=value.trim();
-				}
-			this.oauth2redirectUri = value;
+	     
+	     @Override
+		public void setOauth2(java.lang.Integer value) {
+			 
+			this.oauth2 = value;
 		}
 		
-	     @WhereSQL(sql="oauth2redirectUri=:WxMpconfig_oauth2redirectUri")
-		public java.lang.String getOauth2redirectUri() {
-			return this.oauth2redirectUri;
+	     @WhereSQL(sql="oauth2=:WxMpconfig_oauth2")
+	     @Override
+		public java.lang.Integer getOauth2() {
+			return this.oauth2;
 		}
 		public void setHttpProxyHost(java.lang.String value) {
 			    if(StringUtils.isNotBlank(value)){
@@ -316,7 +322,7 @@ public class WxMpConfig   extends BaseEntity implements IWxMpConfig {
 				.append("状态 0不可用,1可用[").append(getActive()).append("],")
 				.append("partnerId[").append(getPartnerId()).append("],")
 				.append("partnerKey[").append(getPartnerKey()).append("],")
-				.append("微信重定向地址[").append(getOauth2redirectUri()).append("],")
+				.append("是否支持微信oauth2.0协议,0是不支持,1是支持[").append(getOauth2()).append("],")
 				.append("http代理地址[").append(getHttpProxyHost()).append("],")
 				.append("http代理端口[").append(getHttpProxyPort()).append("],")
 				.append("http代理账号[").append(getHttpProxyUsername()).append("],")
@@ -392,7 +398,7 @@ public class WxMpConfig   extends BaseEntity implements IWxMpConfig {
 	public Long getJsApiTicketExpiresTime() {
 		return jsApiTicketExpiresTime;
 	}
-	public void setJsApiTicketExpiresTime(Long jsapiTicketExpiresTime) {
+	public void setJsApiTicketExpiresTime(Long jsApiTicketExpiresTime) {
 		this.jsApiTicketExpiresTime =  System.currentTimeMillis() + (jsApiTicketExpiresTime - 600) * 1000L;//预留10分钟
 	}
 	@Transient
@@ -411,5 +417,7 @@ public class WxMpConfig   extends BaseEntity implements IWxMpConfig {
 	public boolean autoRefreshToken() {
 	    return true;
 	  }
+
+	
 
 }

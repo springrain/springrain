@@ -19,8 +19,10 @@ public class WxCpConfig   extends BaseEntity implements IWxCpConfig {
 	  private volatile String partnerKey;
 	  private volatile String token;
 	  private volatile String aesKey;
-	 
-
+	  private volatile Integer active;
+	  private volatile String siteId;
+	  
+	  
 	  private volatile String oauth2redirectUri;
 
 	  private volatile String httpProxyHost;
@@ -62,18 +64,21 @@ public class WxCpConfig   extends BaseEntity implements IWxCpConfig {
 	public void setAppId(String appId) {
 		this.appId = appId;
 	}
+	@Transient
 	public String getSecret() {
 		return secret;
 	}
 	public void setSecret(String secret) {
 		this.secret = secret;
 	}
+	@Transient
 	public String getPartnerId() {
 		return partnerId;
 	}
 	public void setPartnerId(String partnerId) {
 		this.partnerId = partnerId;
 	}
+	@Transient
 	public String getPartnerKey() {
 		return partnerKey;
 	}
@@ -86,12 +91,14 @@ public class WxCpConfig   extends BaseEntity implements IWxCpConfig {
 	public void setToken(String token) {
 		this.token = token;
 	}
+	@Transient
 	public String getAccessToken() {
 		return accessToken;
 	}
 	public void setAccessToken(String accessToken) {
 		this.accessToken = accessToken;
 	}
+	@Transient
 	public String getAesKey() {
 		return aesKey;
 	}
@@ -101,37 +108,42 @@ public class WxCpConfig   extends BaseEntity implements IWxCpConfig {
 	
 	
 	
-	
+	@Transient
 	public String getOauth2redirectUri() {
 		return oauth2redirectUri;
 	}
 	public void setOauth2redirectUri(String oauth2redirectUri) {
 		this.oauth2redirectUri = oauth2redirectUri;
 	}
+	@Transient
 	public String getHttpProxyHost() {
 		return httpProxyHost;
 	}
 	public void setHttpProxyHost(String httpProxyHost) {
 		this.httpProxyHost = httpProxyHost;
 	}
+	@Transient
 	public Integer getHttpProxyPort() {
 		return httpProxyPort;
 	}
 	public void setHttpProxyPort(Integer httpProxyPort) {
 		this.httpProxyPort = httpProxyPort;
 	}
+	@Transient
 	public String getHttpProxyUsername() {
 		return httpProxyUsername;
 	}
 	public void setHttpProxyUsername(String httpProxyUsername) {
 		this.httpProxyUsername = httpProxyUsername;
 	}
+	@Transient
 	public String getHttpProxyPassword() {
 		return httpProxyPassword;
 	}
 	public void setHttpProxyPassword(String httpProxyPassword) {
 		this.httpProxyPassword = httpProxyPassword;
 	}
+	@Transient
 	public String getJsApiTicket() {
 		return jsApiTicket;
 	}
@@ -139,6 +151,7 @@ public class WxCpConfig   extends BaseEntity implements IWxCpConfig {
 		this.jsApiTicket = jsApiTicket;
 	}
 	
+	@Transient
 	public String getCardApiTicket() {
 		return cardApiTicket;
 	}
@@ -146,13 +159,15 @@ public class WxCpConfig   extends BaseEntity implements IWxCpConfig {
 		this.cardApiTicket = cardApiTicket;
 	}
 	
-	
+	@Transient
 	public String getCertificateFile() {
 		return certificateFile;
 	}
 	public void setCertificateFile(String certificateFile) {
 		this.certificateFile = certificateFile;
 	}
+	
+	@Transient
 	public String getTmpDirFile() {
 		return tmpDirFile;
 	}
@@ -183,7 +198,7 @@ public class WxCpConfig   extends BaseEntity implements IWxCpConfig {
 	public Long getJsApiTicketExpiresTime() {
 		return jsApiTicketExpiresTime;
 	}
-	public void setJsApiTicketExpiresTime(Long jsapiTicketExpiresTime) {
+	public void setJsApiTicketExpiresTime(Long jsApiTicketExpiresTime) {
 		this.jsApiTicketExpiresTime =  System.currentTimeMillis() + (jsApiTicketExpiresTime - 600) * 1000L;//预留10分钟
 	}
 	
@@ -205,23 +220,38 @@ public class WxCpConfig   extends BaseEntity implements IWxCpConfig {
 	public boolean autoRefreshToken() {
 	    return true;
 	  }
+	@Transient
 	public String getCorpId() {
 		return corpId;
 	}
 	public void setCorpId(String corpId) {
 		this.corpId = corpId;
 	}
+	@Transient
 	public String getCorpSecret() {
 		return corpSecret;
 	}
 	public void setCorpSecret(String corpSecret) {
 		this.corpSecret = corpSecret;
 	}
+	@Transient
 	public Integer getAgentId() {
 		return agentId;
 	}
 	public void setAgentId(Integer agentId) {
 		this.agentId = agentId;
+	}
+	public Integer getActive() {
+		return active;
+	}
+	public void setActive(Integer active) {
+		this.active = active;
+	}
+	public String getSiteId() {
+		return siteId;
+	}
+	public void setSiteId(String siteId) {
+		this.siteId = siteId;
 	}
 
 }

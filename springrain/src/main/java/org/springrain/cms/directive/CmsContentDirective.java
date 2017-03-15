@@ -62,7 +62,7 @@ public class CmsContentDirective extends AbstractCMSDirective{
 			logger.error(e.getMessage(), e);
 		}
 		
-		env.setVariable("content", DirectiveUtils.wrap(cmsContent));
+		env.setVariable(DirectiveUtils.OUT_BEAN, DirectiveUtils.wrap(cmsContent));
 		if(body!=null){
 			body.render(env.getOut());
 		}

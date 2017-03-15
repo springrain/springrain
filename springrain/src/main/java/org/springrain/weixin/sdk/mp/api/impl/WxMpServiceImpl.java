@@ -210,10 +210,10 @@ public class WxMpServiceImpl implements IWxMpService {
         JsonElement tmpJsonElement = JSON_PARSER.parse(responseContent);
         JsonObject tmpJsonObject = tmpJsonElement.getAsJsonObject();
         String jsapiTicket = tmpJsonObject.get("ticket").getAsString();
-        int expiresInSeconds = tmpJsonObject.get("expires_in").getAsInt();
+        Long expiresInSeconds = tmpJsonObject.get("expires_in").getAsLong();
         
         wxmpconfig.setJsApiTicket(jsapiTicket);
-        wxmpconfig.setJsApiTicketExpiresTime(Long.valueOf(expiresInSeconds));
+        wxmpconfig.setJsApiTicketExpiresTime(expiresInSeconds);
         wxMpConfigService.updateJsApiTicket(wxmpconfig);
         
     return wxmpconfig.getJsApiTicket();

@@ -142,10 +142,10 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
           JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
           JsonObject tmpJsonObject = tmpJsonElement.getAsJsonObject();
           String jsapiTicket = tmpJsonObject.get("ticket").getAsString();
-          int expiresInSeconds = tmpJsonObject.get("expires_in").getAsInt();
+          Long expiresInSeconds = tmpJsonObject.get("expires_in").getAsLong();
           
           wxcpconfig.setJsApiTicket(jsapiTicket);
-          wxcpconfig.setJsApiTicketExpiresTime(Long.valueOf(expiresInSeconds));
+          wxcpconfig.setJsApiTicketExpiresTime(expiresInSeconds);
           wxCpConfigService.updateJsApiTicket(wxcpconfig);
           
           return wxcpconfig.getJsApiTicket();

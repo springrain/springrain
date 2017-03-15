@@ -11,5 +11,8 @@ public interface IWxCpConfig extends IWxConfig {
 	String getCorpSecret();
 	void setCorpSecret(String secret);
 	
+	String getOauth2redirectUri();
+	void setOauth2redirectUri(String oauth2redirectUri);
+	
 
 }

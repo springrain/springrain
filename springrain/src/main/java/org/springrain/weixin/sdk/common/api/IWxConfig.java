@@ -39,11 +39,9 @@ public interface IWxConfig {
 	 
 	 String getSecret();
 	 void setSecret(String string);
+	 
+	 
 
-	 String getOauth2redirectUri();
-	 void setOauth2redirectUri(String oauth2redirectUri);
-	 
-	 
 	 String getJsApiTicket();
 	 void setJsApiTicket(String jsapiTicket);
 	 void setJsApiTicketExpiresTime(Long l);

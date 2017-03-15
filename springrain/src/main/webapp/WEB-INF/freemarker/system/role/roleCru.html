@@ -12,6 +12,7 @@
 
 <script src="${ctx}/js/validform/validform.min.js"></script>
 <link rel="stylesheet" href="${ctx}/js/validform/validform.css" media="all">
+
 <script>
 	 var _roleType;
 	 var _state;
@@ -83,6 +84,7 @@
 							if (_json.status == "success") {
 								$.fn.zTree.init($("#menuMultiSelectTree"),
 										menuMultiSelectSetting, _json.data);
+								
 								menuMultiSelectTree = $.fn.zTree
 										.getZTreeObj("menuMultiSelectTree");
 								//zTree.expandAll(true);
@@ -149,17 +151,22 @@
 				var orgjsondata4select;
 				function showOrgTree() {
 					if (!selectOrgZtree) {
-						selectOrgZtree=selectMenuZtree=springrain.tree({
-							'hasMenu':false,
-							'id':'selectOrgTree',
-							'data':orgjsondata4select.data,
-							'treeNodeClick':function(event, treeId, treeNode){
-								jQuery("#orgname").val(treeNode.name);
-								jQuery("#orgId").val(treeNode.id);
+						jQuery.post("${ctx}/system/org/list/json",function(_json) {
+							if (_json.status == "success") {
+								selectOrgZtree=springrain.tree({
+									'hasMenu':false,
+									'id':'selectOrgTree',
+									'data':_json.data,
+									'treeNodeClick':function(event, treeId, treeNode){
+										jQuery("#orgname").val(treeNode.name);
+										jQuery("#orgId").val(treeNode.id);
+									}
+								});
+								selectOrgZtree.expandAll(true);
+								selectZtreeOneNode(jQuery("#orgId").val(),"selectOrgTree");
 							}
+								 
 						});
-						selectOrgZtree.expandAll(true);
-						selectZtreeOneNode(jQuery("#orgId").val(),"selectOrgTree");
 					}
 					//页面层-自定义
 					layer.open({

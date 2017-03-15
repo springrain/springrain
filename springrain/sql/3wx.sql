@@ -1,17 +1,4 @@
-/*
-Navicat MySQL Data Transfer
 
-Source Server         : 127.0.0.1
-Source Server Version : 50716
-Source Host           : 127.0.0.1:3306
-Source Database       : springrain
-
-Target Server Type    : MYSQL
-Target Server Version : 50716
-File Encoding         : 65001
-
-Date: 2017-03-01 15:09:41
-*/
 
 SET FOREIGN_KEY_CHECKS=0;
 
@@ -27,6 +14,12 @@ CREATE TABLE `wx_cpconfig` (
   `token` varchar(500) DEFAULT NULL COMMENT '开发者Id',
   `encodingAESKey` varchar(500) DEFAULT NULL COMMENT '消息加解密密钥',
   `wxId` varchar(500) DEFAULT NULL COMMENT '原始ID',
+  `oauth2redirectUri` varchar(500) DEFAULT NULL COMMENT '微信重定向地址',
+  `httpProxyHost` varchar(500) DEFAULT NULL COMMENT 'http代理地址',
+  `httpProxyPort` int(11) DEFAULT NULL COMMENT 'http代理端口',
+  `httpProxyUsername` varchar(500) DEFAULT NULL COMMENT 'http代理账号',
+  `httpProxyPassword` varchar(500) DEFAULT NULL COMMENT 'http代理密码',
+  `certificateFile` varchar(500) DEFAULT NULL COMMENT '证书地址',
   `active` int(11) NOT NULL DEFAULT '1' COMMENT '状态 0不可用,1可用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='微信号需要的配置信息';
@@ -34,7 +27,6 @@ CREATE TABLE `wx_cpconfig` (
 -- ----------------------------
 -- Records of wx_cpconfig
 -- ----------------------------
-INSERT INTO `wx_cpconfig` VALUES ('s_10006', 's_10006', '1', '1', '1', '1', '1', '1');
 
 -- ----------------------------
 -- Table structure for wx_menu
@@ -71,16 +63,16 @@ CREATE TABLE `wx_mpconfig` (
   `active` int(11) NOT NULL DEFAULT '1' COMMENT '状态 0不可用,1可用',
   `partnerId` varchar(500) DEFAULT NULL,
   `partnerKey` varchar(500) DEFAULT NULL,
-  `oauth2redirectUri` varchar(500) DEFAULT NULL COMMENT '微信重定向地址',
+  `oauth2` int(11) DEFAULT 1 COMMENT '是否支持微信oauth2.0协议,0是不支持,1是支持',
   `httpProxyHost` varchar(500) DEFAULT NULL COMMENT 'http代理地址',
   `httpProxyPort` int(11) DEFAULT NULL COMMENT 'http代理端口',
   `httpProxyUsername` varchar(500) DEFAULT NULL COMMENT 'http代理账号',
   `httpProxyPassword` varchar(500) DEFAULT NULL COMMENT 'http代理密码',
   `certificateFile` varchar(500) DEFAULT NULL COMMENT '证书地址',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='微信号配置信息';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='微信号需要的配置信息';
 
 -- ----------------------------
 -- Records of wx_mpconfig
 -- ----------------------------
-INSERT INTO `wx_mpconfig` VALUES ('s_10006', 's_10006', 'wx62a8', '358', 'centfor', '1', 'gh_7c', '1', null, null, 'springrain', null, null, null, null, null);
+INSERT INTO `wx_mpconfig` VALUES ('s_10006', 's_10006', 'wx', 'abc', 'abc', '1', 'gh', '1', null, null, 1, null, null, null, null, null);
