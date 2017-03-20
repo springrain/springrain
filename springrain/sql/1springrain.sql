@@ -601,7 +601,7 @@ INSERT INTO `t_menu` VALUES ('30ec0f0cbdda4514b673702df23c5b86', '删除', 'cb69
 INSERT INTO `t_menu` VALUES ('30f784b92ab84706a5afcdf8e5abecb6', '新建栏目', '169815aca9cf41d390e7feb6629d361d', '', '/system/cms/channel/update', '0', '1', '1', '', null, null, null, null, null);
 INSERT INTO `t_menu` VALUES ('33b44f490c9a4cb6baf890d3a3215319', '图片上传', 'cb692dcd61a2417f9720f6979b5256de', '', '/s/s_10006/h_10013/file/logoupload', '0', '1', '3', '', null, null, null, null, null);
 INSERT INTO `t_menu` VALUES ('3501ed1e23da40219b4f0fa5b7b2749a', '菜单列表', 't_menu_list', '', '/system/menu/list', '0', '1', null, '', null, null, null, null, null);
-INSERT INTO `t_menu` VALUES ('36ab9175f7b7423eadda974ba046be05', '修改密码', 't_user_list', '', '/system/user/modifiypwd/pre', '0', '1', null, '', null, null, null, null, null);
+INSERT INTO `t_menu` VALUES ('36ab9175f7b7423eadda974ba046be05', '修改密码', 't_user_list', '', '/system/user/modifiypwd', '0', '1', null, '', null, null, null, null, null);
 INSERT INTO `t_menu` VALUES ('460a40da0911449284a456936405fec5', '导入栏目', '169815aca9cf41d390e7feb6629d361d', '', '/system/cms/channel/import', '0', '1', '3', '', null, null, null, null, null);
 INSERT INTO `t_menu` VALUES ('4831ed6b2b624970989cca14980083dd', '导入内容', 'b9c4e8ecffe949c0b346e1fd0d6b9977', '', '/system/cms/content/import', '0', '1', '3', '', null, null, null, null, null);
 INSERT INTO `t_menu` VALUES ('4a914c01f6d744faa2a493b549a189a3', '服务号配置管理', '8aa1f4a8abc94a42999692fc7569da27', '', '/s/s_10006/h_10011/mp/list', '1', '1', '4', '', null, null, null, null, null);
