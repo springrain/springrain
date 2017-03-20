@@ -86,13 +86,13 @@ public class CmsJsoupHtmlDirective extends AbstractCMSDirective{
 				_s = document.select(select);
 				
 			}else{
-				_s = document.select(select).html();
+				_s = document.select(select).first();
 			}
 			
 			
 			
 		}else{
-			_s=document.html();
+			_s=document;
 		}
 		env.setVariable(tagName, DirectiveUtils.wrap(_s));
 		if(body!=null){
