@@ -4,9 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Service;
 import org.springrain.weixin.sdk.common.api.IWxMpConfig;
 import org.springrain.weixin.sdk.common.api.WxConsts;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
@@ -22,11 +19,9 @@ import com.google.gson.JsonObject;
  * @author springrain
  */
 
-@Service("wxMpUserBlacklistService")
 public class WxMpUserBlacklistServiceImpl implements IWxMpUserBlacklistService {
   private static final String API_BLACKLIST_PREFIX = WxConsts.mpapiurl+"/cgi-bin/tags/members";
  
-  @Resource
   private IWxMpService wxMpService;
 
   public WxMpUserBlacklistServiceImpl() {
