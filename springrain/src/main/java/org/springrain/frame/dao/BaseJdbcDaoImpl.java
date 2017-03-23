@@ -555,24 +555,38 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 
 		for (int i = 0; i < fdNames.size(); i++) {
 			String fdName = fdNames.get(i);// 字段名称
-			// fd.setAccessible(true);
 
 			if (fdName.equals(pkName)) {// 如果是ID,自动生成UUID
 				Object _getId = ClassUtils.getPKValue(entity); // 主键
-				if (_getId == null) {
+				if (_getId == null) {//Id为空
 					if (returnType == String.class) {
 						ClassUtils.setPropertieValue(pkName, entity, id);
 					} else if (StringUtils.isNotBlank(entityInfo.getPksequence())) {// 如果包含主键序列注解
 						String _sequence_value = entityInfo.getPksequence();
-						if ((i + 1) == fdNames.size()) {
-							sql.append(fdName).append(")");
-							valueSql.append(_sequence_value).append(")");
+						
+					    if(i==0){//如果是第一个字段
+					    	sql.append(fdName);
+							valueSql.append(_sequence_value);
+					    }else{//如果不是第一个字段
+					    	sql.append(",").append(fdName);
+							valueSql.append(",").append(_sequence_value);
+					    }
+						
+					    if (fdNames.size()-i==1) {//最后一个字段
+							sql.append(")");
+							valueSql.append(")");
 							break;
 						}
-						sql.append(fdName).append(",");
-						valueSql.append(_sequence_value).append(",");
 						continue;
 					} else {
+						
+						 if (fdNames.size()-i==1) {//最后一个字段
+								sql.append(")");
+								valueSql.append(")");
+								break;
+						}
+						
+						
 						continue;
 					}
 				} else {
@@ -583,15 +597,20 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 			String mapKey = ":" + fdName;// 占位符
 			Object fdValue = ClassUtils.getPropertieValue(fdName, entity);
 			paramMap.put(fdName, fdValue);
-
-			if ((i + 1) == fdNames.size()) {
-				sql.append(fdName).append(")");
-				valueSql.append(mapKey).append(")");
+			
+			
+			if(i==0){//第一个字段
+				sql.append(fdName);
+				valueSql.append(mapKey);
+			}else{//不是第一个字段
+				sql.append(",").append(fdName);
+				valueSql.append(",").append(mapKey);
+			}
+			if (fdNames.size()-i==1) {//最后一个字段
+				sql.append(")");
+				valueSql.append(")");
 				break;
 			}
-
-			sql.append(fdName).append(",");
-			valueSql.append(mapKey).append(",");
 
 		}
 		sql.append(valueSql);// sql语句
