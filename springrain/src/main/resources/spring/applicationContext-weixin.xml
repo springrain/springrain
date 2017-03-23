@@ -49,6 +49,12 @@
 		<constructor-arg ref="wxMpService" />
 	</bean>	
 	
+	
+	<bean id="wxMpUserService" class="org.springrain.weixin.sdk.mp.api.impl.WxMpUserServiceImpl">
+		<constructor-arg ref="wxMpService" />
+	</bean>	
+	
+	
 	<!-- cp -->
 	<bean id="wxCpService" class="org.springrain.weixin.sdk.cp.api.WxCpServiceImpl">
 		<constructor-arg ref="wxCpConfigService" />

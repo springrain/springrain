@@ -2,9 +2,6 @@ package org.springrain.weixin.sdk.mp.api.impl;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Service;
 import org.springrain.weixin.sdk.common.api.IWxMpConfig;
 import org.springrain.weixin.sdk.common.api.WxConsts;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
@@ -19,11 +16,9 @@ import com.google.gson.JsonObject;
 /**
  * Created by springrain on 2017/1/8.
  */
-@Service("wxMpUserService")
 public class WxMpUserServiceImpl implements IWxMpUserService {
   private static final String API_URL_PREFIX = WxConsts.mpapiurl+"/cgi-bin/user";
  
-  @Resource
   private IWxMpService wxMpService;
 
   public WxMpUserServiceImpl() {
