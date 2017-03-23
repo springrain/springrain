@@ -41,20 +41,20 @@ public class ClassUtils {
 	
 	
 	//缓存 entity的字段信息
-	public static Map<String,EntityInfo> staticEntitymap=new  ConcurrentHashMap<String,EntityInfo>();
+	private static Map<String,EntityInfo> staticEntitymap=new  ConcurrentHashMap<String,EntityInfo>();
 	//缓存 所有的WhereSql注解
-	public static Map<String, List<WhereSQLInfo>> staticWhereSQLmap=new  ConcurrentHashMap<String, List<WhereSQLInfo>>();
+	private static Map<String, List<WhereSQLInfo>> staticWhereSQLmap=new  ConcurrentHashMap<String, List<WhereSQLInfo>>();
 	//缓存 所有的字段
-	public static Map<String, Set<String>> allFieldmap=new  ConcurrentHashMap<String, Set<String>>();
+	private static Map<String, Set<String>> allFieldmap=new  ConcurrentHashMap<String, Set<String>>();
 	//缓存 所有的数据库字段
-	public static Map<String, List<String>> allDBFieldmap=new  ConcurrentHashMap<String, List<String>>();
+	private static Map<String, List<String>> allDBFieldmap=new  ConcurrentHashMap<String, List<String>>();
 	
 	
 	//缓存 实体类是否进行LuceneSearch
-    public static Map<String,Boolean> luceneSearchmap=new  ConcurrentHashMap<String, Boolean>();
+	private static Map<String,Boolean> luceneSearchmap=new  ConcurrentHashMap<String, Boolean>();
 	
 	//缓存 所有的参与Lucene的字段
-	public static Map<String,List<String>> allLucenemap=new  ConcurrentHashMap<String, List<String>>();
+	private static Map<String,List<String>> allLucenemap=new  ConcurrentHashMap<String, List<String>>();
 	
 
 	
