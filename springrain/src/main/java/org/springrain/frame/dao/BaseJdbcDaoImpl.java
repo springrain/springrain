@@ -154,8 +154,8 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		}
 
 		Map params = finder.getParams();
-		Map<String, Object> m = new HashMap<String, Object>(0);
-		SimpleJdbcCall simpleJdbcCall = null;
+		Map<String, Object> m = new HashMap<String, Object>();
+		SimpleJdbcCall simpleJdbcCall;
 
 		if (StringUtils.isNotBlank(procName)) {
 			simpleJdbcCall = getJdbcCall().withProcedureName(procName);
@@ -198,8 +198,8 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 			throw new NullPointerException("存储过程和函数不能同时为空!");
 		}
 		Map params = finder.getParams();
-		Map<String, Object> m = new HashMap<String, Object>(0);
-		SimpleJdbcCall simpleJdbcCall = null;
+		Map<String, Object> m = new HashMap<String, Object>();
+		SimpleJdbcCall simpleJdbcCall;
 
 		if (StringUtils.isNotBlank(procName)) {
 			simpleJdbcCall = getJdbcCall().withProcedureName(procName);
@@ -276,8 +276,10 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 	@Override
 	public <T> List<T> queryForList(Finder finder, Class<T> clazz, Page page) throws Exception {
 		String pageSql = getPageSql(page, finder);
-		if (pageSql == null)
+		if (pageSql == null){
 			return null;
+		}
+			
 		finder.setPageSql(pageSql);
 
 		// 打印sql
@@ -315,15 +317,10 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		if (page == null) {
 			return this.queryForList(finder, clazz, page);
 		}
-		
-
 		int _index = RegexValidateUtils.getOrderByIndex(finder.getSql());
 		if (_index > 0) {
 			finder.setSql(finder.getSql().substring(0, _index));
 		}
-
-		
-
 		// 根据page的参数 添加 order by
 		getFinderOrderBy(finder, page);
 
@@ -348,9 +345,9 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 				finder.append(" order by ").append(order);
 			}
 			if (StringUtils.isNotBlank(sort)) {
-				if ("asc".equals(sort.toLowerCase()) && (finder.getSql().toLowerCase().contains(" asc ") == false)) {
+				if ("asc".equalsIgnoreCase(sort) && (finder.getSql().toLowerCase().contains(" asc ") == false)) {
 					finder.append(" asc ");
-				} else if ("desc".equals(sort.toLowerCase())
+				} else if ("desc".equalsIgnoreCase(sort)
 						&& (finder.getSql().toLowerCase().contains(" desc ") == false)) {
 					finder.append(" desc ");
 				}
@@ -381,7 +378,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 				if (StringUtils.isNotBlank(alias)) {
 					wheresql = alias + "." + wheresql;
 				}
-				String pname = wheresql.substring(wheresql.indexOf(":") + 1).trim();
+				String pname = wheresql.substring(wheresql.indexOf(':') + 1).trim();
 				if (wheresql.toLowerCase().contains(" in ") && pname.endsWith(")")) {
 					pname = pname.substring(0, pname.length() - 1).trim();
 				}
@@ -475,7 +472,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 			return getDialect().getPageSql(sql, orderSql, page); 
 		}
 
-		Integer count = null;
+		Integer count;
 
 		if (finder.getCountFinder() == null) {
 			String countSql = new String(sql);
@@ -549,9 +546,9 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		// 获取 分表的扩展
 		String tableExt = entityInfo.getTableSuffix();
 
-		StringBuffer sql = new StringBuffer("INSERT INTO ").append(tableName).append(tableExt).append("(");
+		StringBuilder sql = new StringBuilder("INSERT INTO ").append(tableName).append(tableExt).append("(");
 
-		StringBuffer valueSql = new StringBuffer(" values(");
+		StringBuilder valueSql = new StringBuilder(" values(");
 
 		for (int i = 0; i < fdNames.size(); i++) {
 			String fdName = fdNames.get(i);// 字段名称
@@ -795,9 +792,9 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 
 		// 获取 分表的扩展
 		String tableExt = entityInfo.getTableSuffix();
-		StringBuffer sql = new StringBuffer("UPDATE ").append(tableName).append(tableExt).append("  SET  ");
+		StringBuilder sql = new StringBuilder("UPDATE ").append(tableName).append(tableExt).append("  SET  ");
 
-		StringBuffer whereSQL = new StringBuffer(" WHERE ").append(pkName).append("=:").append(pkName);
+		StringBuilder whereSQL = new StringBuilder(" WHERE ").append(pkName).append("=:").append(pkName);
 		for (int i = 0; i < fdNames.size(); i++) {
 			String fdName = fdNames.get(i);// 字段名称
 			Object fdValue = ClassUtils.getPropertieValue(fdName, entity);
@@ -851,7 +848,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		String sql = warpupdatesql(entity, paramMap, onlyupdatenotnull);
 		Object id = ClassUtils.getPKValue(entity);
 		// 打印sql
-		logInfoSql(sql.toString());
+		logInfoSql(sql);
 
 		Object old_entity = null;
 		AuditLog auditLog = getAuditLog();
@@ -859,7 +856,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 			old_entity = findByID(id, clazz, tableExt);
 		}
 		// 更新entity
-		Integer hang = getWriteJdbc().update(sql.toString(), paramMap);
+		Integer hang = getWriteJdbc().update(sql, paramMap);
 		
 		
 		if(ClassUtils.isLuceneSearch(entity.getClass())){
@@ -1034,7 +1031,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 			throw new NullPointerException("存储过程和函数不能同时为空!");
 		}
 		Map<String, Object> params = finder.getParams();
-		Map<String, Object> m = new HashMap<String, Object>(0);
+		Map<String, Object> m = new HashMap<String, Object>();
 		SimpleJdbcCall simpleJdbcCall = null;
 
 		if (StringUtils.isNotBlank(procName)) {
@@ -1045,7 +1042,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 
 		try {
 			if (params == null) {
-				params = new HashMap<String, Object>(0);
+				params = new HashMap<String, Object>();
 			}
 			m = simpleJdbcCall.execute(params);
 		} catch (EmptyResultDataAccessException e) {
@@ -1069,7 +1066,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		Map<String, Object> params = finder.getParams();
 		try {
 			if (params == null) {
-				params = new HashMap<String, Object>(0);
+				params = new HashMap<String, Object>();
 			}
 			t = (T) getJdbcCall().withProcedureName(procName).executeObject(clazz, params);
 
@@ -1090,7 +1087,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		Map<String, Object> params = finder.getParams();
 		try {
 			if (params == null) {
-				params = new HashMap<String, Object>(0);
+				params = new HashMap<String, Object>();
 			}
 			t = getJdbcCall().withFunctionName(funName).executeFunction(clazz, params);
 
