@@ -9,6 +9,13 @@ import org.springrain.frame.util.property.PropertyFile;
 
 public class WxConsts {
 	private static   Logger logger = LoggerFactory.getLogger(WxConsts.class);
+	
+	
+	private WxConsts(){
+		throw new IllegalAccessError("Utility class");
+	}
+	
+	
 
 	//微信API的访问协议,为了以后方便处理特殊情况
 	public static  String mpapiurl="https://api.weixin.qq.com";

@@ -1,5 +1,12 @@
 package org.springrain.weixin.sdk.common.api;
 
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springrain.weixin.sdk.common.bean.WxAccessToken;
+import org.springrain.weixin.sdk.common.exception.WxErrorException;
+
 public interface IWxMpConfigService {
 	
 	/**
@@ -65,6 +72,25 @@ public interface IWxMpConfigService {
 	 * @return
 	 */
 	IWxMpConfig updateCardApiTicket(IWxMpConfig wxmpconfig);
+
+
+	/**
+	 * 根据siteid和request查询jsapi配置信息
+	 * @param siteId
+	 * @param request
+	 * @return
+	 * @throws WxErrorException 
+	 */
+	Map<String, String> findMpJsapiParam(String siteId, HttpServletRequest request) throws WxErrorException;
+	
+	
+	/**
+	 * 获取自定义的APIAccessToken
+	 * @param wxmpconfig
+	 * @return
+	 */
+	WxAccessToken getCustomAPIAccessToken(IWxMpConfig wxmpconfig);
+	
 	
 	
 }

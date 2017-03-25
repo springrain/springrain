@@ -1,7 +1,5 @@
 package org.springrain.weixin.sdk.common.util;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,9 +7,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springrain.weixin.sdk.common.annotation.Required;
 import org.springrain.weixin.sdk.common.bean.result.WxError;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
+
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 /**
  * <pre>
@@ -21,7 +23,7 @@ import org.springrain.weixin.sdk.common.exception.WxErrorException;
  * </pre>
  */
 public class BeanUtils {
-
+	private static final Logger logger = LoggerFactory.getLogger(BeanUtils.class);
   /**
    * 检查bean里标记为@Required的field是否为空，为空则抛异常
    * @param bean 要检查的bean对象
@@ -43,7 +45,7 @@ public class BeanUtils {
         field.setAccessible(isAccessible);
       } catch (SecurityException | IllegalArgumentException
         | IllegalAccessException e) {
-        e.printStackTrace();
+    	  logger.error(e.getMessage(), e);
       }
     }
 
@@ -78,7 +80,7 @@ public class BeanUtils {
         field.setAccessible(isAccessible);
       } catch (SecurityException | IllegalArgumentException
         | IllegalAccessException e) {
-        e.printStackTrace();
+    	  logger.error(e.getMessage(), e);
       }
 
     }

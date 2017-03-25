@@ -62,6 +62,7 @@ public class WxMpAutoLoginFilter extends OncePerRequestFilter {
 			}
 			
 			IWxMpConfig wxMpConfig = wxMpConfigService.findWxMpConfigById(siteId);
+			
 			if(wxMpConfig==null){
 				chain.doFilter(request, response);
 				return;

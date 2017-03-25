@@ -23,6 +23,7 @@ import org.springrain.weixin.sdk.common.util.http.RequestExecutor;
 import org.springrain.weixin.sdk.common.util.http.SimpleGetRequestExecutor;
 import org.springrain.weixin.sdk.common.util.http.SimplePostRequestExecutor;
 import org.springrain.weixin.sdk.common.util.http.URIUtil;
+import org.springrain.weixin.sdk.common.util.json.WxGsonBuilder;
 import org.springrain.weixin.sdk.mp.api.IWxMpService;
 import org.springrain.weixin.sdk.mp.bean.WxMpMassNews;
 import org.springrain.weixin.sdk.mp.bean.WxMpMassOpenIdsMessage;
@@ -40,7 +41,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
 
 
 public class WxMpServiceImpl implements IWxMpService {
@@ -112,6 +112,7 @@ public class WxMpServiceImpl implements IWxMpService {
       return SHA1.gen(wxmpconfig.getToken(), timestamp, nonce)
           .equals(signature);
     } catch (Exception e) {
+    	logger.error(e.getMessage(), e);
       return false;
     }
   }
@@ -151,21 +152,29 @@ public class WxMpServiceImpl implements IWxMpService {
       if (!wxmpconfig.isAccessTokenExpired()) {
     	  return wxmpconfig.getAccessToken();
       }
-        String url = WxConsts.mpapiurl+"/cgi-bin/token?grant_type=client_credential" +
-            "&appid=" + wxmpconfig.getAppId() + "&secret="
-            + wxmpconfig.getSecret();
-          HttpGet httpGet = new HttpGet(url);
-          if (wxmpconfig.getHttpProxyHost() != null) {
-            RequestConfig config = RequestConfig.custom().setProxy(new HttpHost(wxmpconfig.getHttpProxyHost() , wxmpconfig.getHttpProxyPort() )).build();
-            httpGet.setConfig(config);
-          }
-         
-            String resultContent = HttpClientUtils.sendHttpGet(httpGet);
-            WxError error = WxError.fromJson(resultContent);
-            if (error.getErrorCode() != 0) {
-              throw new WxErrorException(error);
-            }
-            WxAccessToken accessToken = WxAccessToken.fromJson(resultContent);
+      
+      WxAccessToken accessToken=wxMpConfigService.getCustomAPIAccessToken(wxmpconfig);
+      if(accessToken==null){
+	         String url = WxConsts.mpapiurl+"/cgi-bin/token?grant_type=client_credential" +"&appid=" + wxmpconfig.getAppId() + "&secret=" + wxmpconfig.getSecret();
+	          HttpGet httpGet = new HttpGet(url);
+	          if (wxmpconfig.getHttpProxyHost() != null) {
+	            RequestConfig config = RequestConfig.custom().setProxy(new HttpHost(wxmpconfig.getHttpProxyHost() , wxmpconfig.getHttpProxyPort() )).build();
+	            httpGet.setConfig(config);
+	          }
+	         
+	            String resultContent = HttpClientUtils.sendHttpGet(httpGet);
+	            WxError error = WxError.fromJson(resultContent);
+	            if (error.getErrorCode() != 0) {
+	              throw new WxErrorException(error);
+	            }
+	            //accessToken = WxAccessToken.fromJson(resultContent);
+	            accessToken= WxGsonBuilder.create().fromJson(resultContent, WxAccessToken.class);
+         }
+      
+      if(accessToken==null){
+    	  return null;
+      }
+      
             wxmpconfig.setAccessToken(accessToken.getAccessToken());
             wxmpconfig.setAccessTokenExpiresTime(Long.valueOf(accessToken.getExpiresIn()));
             wxMpConfigService.updateAccessToken(wxmpconfig);

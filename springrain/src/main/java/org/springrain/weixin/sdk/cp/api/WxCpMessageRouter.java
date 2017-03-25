@@ -141,7 +141,7 @@ public WxCpXmlOutMessage route(final WxCpXmlMessage wxMessage) {
       }
     }
 
-    if (matchRules.size() == 0) {
+    if (matchRules.isEmpty()) {
       return null;
     }
 
@@ -165,7 +165,7 @@ public WxCpXmlOutMessage route(final WxCpXmlMessage wxMessage) {
       }
     }
 
-    if (futures.size() > 0) {
+    if (!futures.isEmpty()) {
       this.executorService.submit(new Runnable() {
         @Override
         public void run() {

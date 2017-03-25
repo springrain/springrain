@@ -2,6 +2,9 @@ package org.springrain.weixin.sdk.mp.api.impl;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
 import org.springrain.weixin.sdk.common.api.IWxMpConfig;
 import org.springrain.weixin.sdk.common.bean.result.WxError;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
@@ -23,10 +26,12 @@ import com.google.gson.reflect.TypeToken;
  *
  */
 
+@Service("wxMpStoreService")
 public class WxMpStoreServiceImpl implements IWxMpStoreService {
   private static final String API_BASE_URL = "http://api.weixin.qq.com/cgi-bin/poi";
 
   
+  @Resource
   private IWxMpService wxMpService;
 
   public WxMpStoreServiceImpl() {

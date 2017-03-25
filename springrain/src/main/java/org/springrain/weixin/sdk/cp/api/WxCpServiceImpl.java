@@ -34,6 +34,7 @@ import org.springrain.weixin.sdk.common.util.http.SimpleGetRequestExecutor;
 import org.springrain.weixin.sdk.common.util.http.SimplePostRequestExecutor;
 import org.springrain.weixin.sdk.common.util.http.URIUtil;
 import org.springrain.weixin.sdk.common.util.json.GsonHelper;
+import org.springrain.weixin.sdk.common.util.json.WxGsonBuilder;
 import org.springrain.weixin.sdk.cp.bean.WxCpDepart;
 import org.springrain.weixin.sdk.cp.bean.WxCpMessage;
 import org.springrain.weixin.sdk.cp.bean.WxCpTag;
@@ -111,7 +112,8 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
             if (error.getErrorCode() != 0) {
               throw new WxErrorException(error);
             }
-            WxAccessToken accessToken = WxAccessToken.fromJson(resultContent);
+            //WxAccessToken accessToken = WxAccessToken.fromJson(resultContent);
+            WxAccessToken accessToken= WxGsonBuilder.create().fromJson(resultContent, WxAccessToken.class);
             wxcpconfig.setAccessToken(accessToken.getAccessToken());
             wxcpconfig.setAccessTokenExpiresTime(Long.valueOf(accessToken.getExpiresIn()));
             

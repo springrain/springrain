@@ -77,8 +77,8 @@ public class CmsSiteWxconfigController  extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/list/json")
-	public @ResponseBody
-	ReturnDatas listjson(HttpServletRequest request, Model model,WxMpConfig wxMpConfig) throws Exception{
+	@ResponseBody 
+	public ReturnDatas listjson(HttpServletRequest request, Model model,WxMpConfig wxMpConfig) throws Exception{
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		// ==构造分页请求
 		Page page = newPage(request);
@@ -108,8 +108,8 @@ public class CmsSiteWxconfigController  extends BaseController {
 	 * 查看的Json格式数据,为APP端提供数据
 	 */
 	@RequestMapping(value = "/look/json")
-	public @ResponseBody
-	ReturnDatas lookjson(Model model,HttpServletRequest request,HttpServletResponse response) throws Exception {
+	@ResponseBody 
+	public ReturnDatas lookjson(Model model,HttpServletRequest request,HttpServletResponse response) throws Exception {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		java.lang.String id=request.getParameter("id");
 		if(StringUtils.isNotBlank(id)){
@@ -128,8 +128,8 @@ public class CmsSiteWxconfigController  extends BaseController {
 	 * 
 	 */
 	@RequestMapping("/update")
-	public @ResponseBody
-	ReturnDatas saveorupdate(Model model,WxMpConfig wxMpConfig,HttpServletRequest request,HttpServletResponse response) throws Exception{
+	@ResponseBody 
+	public ReturnDatas saveorupdate(Model model,WxMpConfig wxMpConfig,HttpServletRequest request,HttpServletResponse response) throws Exception{
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		returnObject.setMessage(MessageUtils.UPDATE_SUCCESS);
 		try {
@@ -168,7 +168,8 @@ public class CmsSiteWxconfigController  extends BaseController {
 	 * 删除操作
 	 */
 	@RequestMapping(value="/delete")
-	public @ResponseBody ReturnDatas delete(HttpServletRequest request) throws Exception {
+	@ResponseBody 
+	public  ReturnDatas delete(HttpServletRequest request) throws Exception {
 
 			// 执行删除
 		try {
@@ -192,8 +193,8 @@ public class CmsSiteWxconfigController  extends BaseController {
 	 * 
 	 */
 	@RequestMapping("/delete/more")
-	public @ResponseBody
-	ReturnDatas deleteMore(HttpServletRequest request, Model model) {
+	@ResponseBody 
+	public ReturnDatas deleteMore(HttpServletRequest request, Model model) {
 		String records = request.getParameter("records");
 		if(StringUtils.isBlank(records)){
 			 return new ReturnDatas(ReturnDatas.ERROR,
@@ -208,6 +209,7 @@ public class CmsSiteWxconfigController  extends BaseController {
 			List<String> ids = Arrays.asList(rs);
 			wxMpServletService.deleteByIds(ids,WxMpConfig.class);
 		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
 			return new ReturnDatas(ReturnDatas.ERROR,
 					MessageUtils.DELETE_ALL_FAIL);
 		}
