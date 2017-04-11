@@ -34,6 +34,7 @@ public class CmsSiteWxconfigListDirective extends AbstractCMSDirective {
 		try {
 			configList = wxMenuService.findWxconfigByUserId(SessionUser.getUserId());
 		} catch (Exception e) {
+			logger.error(e.getMessage(),e);
 			configList = new ArrayList<>();
 		}
 		
