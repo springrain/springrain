@@ -128,8 +128,8 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 		}
 		
 		
-		key=key+"_"+page.getPageIndex();
-		T t = getByCache(cacheName,key, clazz);
+		String listKey=key+"_"+page.getPageIndex();
+		T t = getByCache(cacheName,listKey, clazz);
 		
 		if(t==null){
 			return t;
@@ -148,8 +148,8 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 			 if( page==null||page.getPageIndex()==null||StringUtils.isBlank(key)){
 					return;
 				}
-		       key=key+"_"+page.getPageIndex();
-		       putByCache(cacheName,key, value);
+		       String listKey=key+"_"+page.getPageIndex();
+		       putByCache(cacheName,listKey, value);
 		         
 		       if(page!=null){
 		    	   putByCache(cacheName,key+GlobalStatic.pageCacheExtKey, page.getTotalCount());
