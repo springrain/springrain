@@ -1,0 +1,58 @@
+<@cms_content_list page=(returnDatas.page)! orderBy=(paramsMap.orderBy)!6 pageSize=(paramsMap.pageSize)!10 >
+<#if tag_list?? >
+<#list tag_list as _data >
+	<#if _data_index % 2 == 0>
+	<li>
+		<!-- <img class="vos_img" src="${ctx}/u/${(siteId)!''}/f/images/volunstyle_01.jpg" /> -->
+		<#if _data.cover?? && _data.cover !="" >
+			<#assign json=(_data.cover)?eval/>
+			<#list json as item>
+				<img class="vos_img" src="${ctx}${(item.path)!''}" />
+			</#list>
+		</#if>
+		<!-- <img class="vos_img" src="${ctx}${_data.coverPath!''}" /> -->
+		<div class="half right0 boxSizing lin_left">
+			<div class="tl">
+				<div class="h5">${_data.title}</div>
+				<div class="h5">${_data.mintitle}</div>
+				<div class="read_btn boxSizing" 
+					onclick="toInfoPage('${_data.id}');" 
+					>阅读<img src="${ctx}/u/${(siteId)!''}/f/images/icon_17.png" /></div>
+			</div>
+		</div>
+	</li>
+	<#else>
+	<li>
+		<!-- <img class="vos_img" src="${ctx}/u/${(siteId)!''}/f/images/volunstyle_02.jpg" /> -->
+		<#if _data.cover?? && _data.cover !="">
+			<#assign json=(_data.cover)?eval/>
+			<#list json as item>
+				<img class="vos_img" src="${ctx}${(item.path)!''}" />
+			</#list>
+		</#if>
+		<!-- <img class="vos_img" src="${ctx}${_data.coverPath!''}" /> -->
+		<div class="half left0 boxSizing lin_right">
+			<div class="tr">
+				<div class="h5">${_data.title}</div>
+				<div class="h5">${_data.mintitle}</div>
+				<div class="read_btn boxSizing" 
+					onclick="toInfoPage('${_data.id}');" 
+					>阅读<img src="${ctx}/u/${(siteId)!''}/f/images/icon_17.png" /></div>
+			</div>
+		</div>
+	</li>
+	</#if>
+</#list>
+	<#if (tag_list?size < 10) >
+	<script type="text/javascript">
+		//$("#loadNextPage").hide();
+		$("#qb_wc").html("已无更多！");
+	</script>
+	</#if>
+<#else>
+<script type="text/javascript">
+	//$("#loadNextPage").hide();
+	$("#qb_wc").hide();
+</script>
+</#if>
+</@cms_content_list>

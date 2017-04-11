@@ -33,13 +33,13 @@ import org.springrain.frame.util.Page;
 // @Controller
 public class BaseController extends BaseLogger {
 
-	public String messageurl = "/common/message";
+	public static final String messageurl = "/common/message";
 
-	public String message = "message";
+	public static final String message = "message";
 
-	public String redirect = "redirect:";
+	public static final String redirect = "redirect:";
 
-	public String forward = "forward:";
+	public static final String forward = "forward:";
 
 	//@Resource
 	//private CacheManager shiroCacheManager;

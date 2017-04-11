@@ -19,7 +19,9 @@ import org.apache.commons.lang3.StringUtils;
 
 public class RegexValidateUtils {
 	
-	
+	private RegexValidateUtils(){
+		throw new IllegalAccessError("工具类不能实例化");
+	}
 	//验证文件后缀
 //	Pattern p = Pattern.compile(".+\\.js$",Pattern.CASE_INSENSITIVE);//不区分大小写的,默认只有一个参数时是区分大小写
 //	System.out.println(p.matcher("dads.jS").matches());

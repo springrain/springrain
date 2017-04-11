@@ -3,6 +3,9 @@ package org.springrain.frame.util;
 import java.security.MessageDigest;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * 加密的工具类
  * 
@@ -10,6 +13,12 @@ import java.util.UUID;
  * 
  */
 public class SecUtils {
+	
+	private static final Logger logger = LoggerFactory.getLogger(SecUtils.class);
+	
+	private SecUtils(){
+		throw new IllegalAccessError("工具类不能实例化");
+	}
 	/**
 	 * MD5加密(32位)
 	 * 
@@ -40,6 +49,7 @@ public class SecUtils {
 				return null;
 			}
 		} catch (Exception e) {
+			logger.error(e.getMessage(),e);
 			return null;
 		}
 	}

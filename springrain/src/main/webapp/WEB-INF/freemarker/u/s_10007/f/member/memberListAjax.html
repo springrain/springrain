@@ -1,0 +1,39 @@
+<@cms_activity_main_list channelId='h_10016' hasPartIn='true' page=(returnDatas.page)! pageSize=10 orderBy=6>
+<#if tag_list?? >
+<#list tag_list as _data>
+	<li>
+		${(_data.cmsContent.title)}
+		<div class="perh_img" onclick="toActivityMainInfoPage('${_data.id}');">
+			<!-- <img src="${ctx}/u/${(siteId)!''}/f/images/perheart_01.jpg" /> -->
+			<#if _data.cmsContent.cover?? && _data.cmsContent.cover !="">
+				<#assign json=(_data.cmsContent.cover)?eval/>
+				<#list json as item>
+					<img src="${ctx}${(item.path)!''}" />
+				</#list>
+			</#if>
+			<!-- <img src="${ctx}/${(_data.cmsContent.coverPath)!''}" /> -->
+		</div>
+		<div class="perh_text lin_center">
+			<span>${(_data.activityScore)!''}分</span>
+		</div>
+	</li>
+</#list>
+	<#if (tag_list?size < 10) >
+	<script type="text/javascript">
+		//$("#loadNextPage").hide();
+		$("#qb_wc").html("已无更多！");
+	</script>
+	</#if>
+<#else>
+<script type="text/javascript">
+	//$("#loadNextPage").hide();
+	$("#qb_wc").hide();
+</script>
+</#if>
+</@cms_activity_main_list>
+<script type="text/javascript">
+	// 跳转到详情页面
+	function toActivityMainInfoPage(contentId){
+		location.href = "${ctx}/f/mp/${siteId}/" + contentId;
+	}
+</script>

@@ -10,7 +10,7 @@ import org.apache.shiro.session.mgt.eis.AbstractSessionDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springrain.frame.cached.ICached;
-import org.springrain.frame.util.SerializeUtil;
+import org.springrain.frame.util.SerializeUtils;
 
 /**
  * Redis实现的 ShiroSessionDao，暂不使用
@@ -27,7 +27,7 @@ public class RedisShiroSessionDao extends AbstractSessionDAO {
 	@Override
 	public void update(Session session) throws UnknownSessionException {
 		try {
-			cached.updateCached(session.getId().toString().getBytes(),SerializeUtil.serialize(session),session.getTimeout()/1000);
+			cached.updateCached(session.getId().toString().getBytes(),SerializeUtils.serialize(session),session.getTimeout()/1000);
 		} catch (Exception e) {
 			logger.error(e.getMessage(),e);
 		}

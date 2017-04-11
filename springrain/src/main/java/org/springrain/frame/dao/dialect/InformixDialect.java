@@ -21,7 +21,7 @@ public class InformixDialect implements IDialect {
 			sql = sql.substring(6);
 		}
 	
-  StringBuffer sb=new StringBuffer();
+  StringBuilder sb=new StringBuilder();
 	sb.append("SELECT SKIP ");
 	sb.append(pageSize * (pageNo - 1)).append(" FIRST ").append(pageSize).append(" ");
     sb.append(sql);

@@ -92,7 +92,7 @@ public class Tableindex  extends BaseEntity {
 	}
 	
 	public String toString() {
-		return new StringBuffer()
+		return new StringBuilder()
 			.append("表名[").append(getId()).append("],")
 			.append("表记录最大的行,一直累加[").append(getMaxIndex()).append("],")
 			.append("前缀 单个字母加 _[").append(getPrefix()).append("],")
@@ -106,8 +106,12 @@ public class Tableindex  extends BaseEntity {
 	}
 	
 	public boolean equals(Object obj) {
-		if(obj instanceof Tableindex == false) return false;
-		if(this == obj) return true;
+		if(obj instanceof Tableindex == false){
+			return false;
+		} 
+		if(this == obj){
+			return true;
+		} 
 		Tableindex other = (Tableindex)obj;
 		return new EqualsBuilder()
 			.append(getId(),other.getId())

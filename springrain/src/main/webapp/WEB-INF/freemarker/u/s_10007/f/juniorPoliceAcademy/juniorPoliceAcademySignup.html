@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport"content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<@cms_site id=siteId!'' >
+	<@cms_channel id=businessId!'' >
+		<meta name="keywords" content="${(site.keywords)!''},${(tag_bean.name)!''}" />
+		<title>${(site.name)!''}&nbsp;-&nbsp;${(tag_bean.name)!''}</title>
+	</@cms_channel>
+	</@cms_site>
+	<link rel="stylesheet" href="${ctx}/u/${(siteId)!''}/f/css/phone.css" />
+	<link rel="stylesheet" href="${ctx}/u/${(siteId)!''}/f/css/style.css" />
+	<script type="text/javascript" src="${ctx}/u/${(siteId)!''}/f/js/jQuery.1.8.2.min.js" ></script>
+	<script type="text/javascript" src="${ctx}/u/${(siteId)!''}/f/js/height.js" ></script>
+	<style type="text/css">
+		body{background: url(${ctx}/u/${(siteId)!''}/f/images/apply_bj.jpg) center bottom no-repeat;background-size:100%;}
+	</style>
+	<script type="text/javascript">
+	
+		function baoming(){
+			var name = $("#name").val();
+			name = $.trim(name);
+			var telephone = $("#telephone").val();
+			telephone = $.trim(telephone);
+			if(name == "" || telephone == "" ){
+				alert("姓名与手机都不能为空！");
+				return;
+			}
+			$.ajax({
+				url: "${ctx}/s/${siteId}/${businessId}/activity/ajax/hasSignupForJunPolAca" ,
+				data: {
+					"name": name , 
+					"telPhone": telephone ,
+					"activityId" : '${activityMainId}' 
+				},
+				success: function(data){
+					if(data.status == "success"){
+						if(data.message == "true"){
+							alert("您已报名该次活动，请不要重复报名！");
+						}else{
+							$.ajax({
+								url: "${ctx}/s/${siteId}/${businessId}/activity/ajax/signupJuniorPoliceAcademy" ,
+								data: {
+									"name": name , 
+									"telPhone": telephone ,
+									"activityId" : '${activityMainId}' 
+								} , 
+								success: function(data2){
+									if(data2.status = "success"){
+										alert("报名成功！");
+										location.href = "${ctx}/f/mp/${siteId}/${pageBusinessId}";
+										/* layer.msg("保存成功！", {
+										  icon: 1,
+										  time: 2000 //2秒关闭（如果不配置，默认是3秒）
+										}, function(){
+											
+										});  */
+									}else{
+										alert(data2.message);
+									}
+								}
+							});
+						}
+					}else{
+						alert(data.message);
+					}
+				}
+			});
+		}
+	
+	</script>
+</head>
+<body>
+	<div class="polistapply_all">
+		<div class="detail_top">
+			<img src="${ctx}/u/${(siteId)!''}/f/images/detail_02.jpg">
+		</div>
+		<div class="poapply_main">
+			<div class="poapply_form">
+				<ul class="poapply_list">
+					<li class="lin_left">
+						<div class="h4"><i class="icon_star"></i>家长姓名</div>
+						<div class="input box-flex1 per100 boxSizing">
+							<input type="text" id="name" class="" name="name" value="" placeholder="请填写家长的姓名">
+						</div>
+					</li>
+					<li class="lin_left">
+						<div class="h4"><i class="icon_star"></i>家长电话</div>
+						<div class="input box-flex1 per100">
+							<input type="telephone" id="telephone" class="" name="telephone" 
+								value="" placeholder="请填写家长的联系电话">
+						</div>
+					</li>
+				</ul>
+				<button type="submit" class="apply_btn" onclick="baoming();" >确&nbsp;定</button>
+			</div>
+		</div>
+		
+	</div>
+</body>
+</html>

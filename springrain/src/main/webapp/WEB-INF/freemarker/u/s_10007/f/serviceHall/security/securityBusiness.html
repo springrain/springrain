@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<@cms_site id=siteId!'' >
+		<@cms_channel id=businessId!'' >
+			<meta name="keywords" content="${(site.keywords)!''},${(tag_bean.name)!''}" />
+			<title>${(tag_bean.name)!''}</title>
+		</@cms_channel>
+		</@cms_site>
+	    <link rel="stylesheet" href="${ctx}/css/wechat/phone.css" />
+	    <link rel="stylesheet" href="${ctx}/css/wechat/style.css" />
+	    <script type="text/javascript" src="${ctx}/js/wechat/jQuery.1.8.2.min.js" ></script>
+	    <script type="text/javascript" src="${ctx}/js/wechat/height.js" ></script>
+	    <style>
+	    	body{
+	    		background: url(${ctx}/img/wechat/crjyw_index_bgimg.jpg);
+	    		background-size: 100% 100%;
+	    		background-repeat: no-repeat;
+	    		background-position: center;
+	    	}
+	    	.boxShadow{-moz-box-shadow:0px 0px 10px #ABABAB; -webkit-box-shadow:0px 0px 10px #ABABAB; box-shadow:0px 0px 10px #ABABAB;}
+	    </style>
+	</head>
+	<body>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col12">
+					<ul class="display-ib" style="margin-top: 20%;">
+		        		<li class="tc mb44">
+		        			<a href="${ctx}/f/mp/s_10007/h_10047">
+		        				<img src="${ctx}/img/wechat/zayw_cxyw.png" class="w-56 ht56 radius-circle" />
+		        				<p class="font16 font-38516b mt6">查询业务</p>
+		        			</a>
+		        		</li>
+		        		<li class="tc mb44">
+		        			<a href="${ctx}/f/mp/s_10007/h_10072">
+			        			<img src="${ctx}/img/wechat/zayw_yyyw.png" class="w-56 ht56 radius-circle" />
+			        			<p class="font16 font-38516b mt6">预约业务</p>
+		        			</a>
+		        		</li>
+		        		<li class="tc mb44">
+			        		<a href="${ctx}/f/mp/s_10007/h_10037">
+			        			<img src="${ctx}/img/wechat/bszy.png" class="w-56 ht56 radius-circle" />
+			        			<p class="font16 font-38516b mt6">办事指引</p>
+			        		</a>
+		        		</li>
+		        	</ul>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

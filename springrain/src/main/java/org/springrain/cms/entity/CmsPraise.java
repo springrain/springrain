@@ -104,7 +104,7 @@ public class CmsPraise  extends BaseEntity {
 	}
 
 	public String toString() {
-		return new StringBuffer()
+		return new StringBuilder()
 			.append("id[").append(getId()).append("],")
 			.append("业务id[").append(getBusinessId()).append("],")
 			.append("点赞人[").append(getUserId()).append("],")
@@ -118,8 +118,12 @@ public class CmsPraise  extends BaseEntity {
 	}
 	
 	public boolean equals(Object obj) {
-		if(obj instanceof CmsPraise == false) return false;
-		if(this == obj) return true;
+		if(obj instanceof CmsPraise == false){
+			return false;
+		} 
+		if(this == obj){
+			return true;
+		} 
 		CmsPraise other = (CmsPraise)obj;
 		return new EqualsBuilder()
 			.append(getId(),other.getId())

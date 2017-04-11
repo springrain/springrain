@@ -36,8 +36,8 @@ public class AdaptiveRandomWordFactory extends RandomWordFactory {
 	@Override
 	public String getNextWord() {
 		Random rnd = new Random();
-		StringBuffer sb = new StringBuffer();
-		StringBuffer chars = new StringBuffer(characters);
+		StringBuilder sb = new StringBuilder();
+		StringBuilder chars = new StringBuilder(characters);
 		int l = minLength + (maxLength > minLength ? rnd.nextInt(maxLength - minLength) : 0);
 		for (int i = 0; i < l; i++) {
 			int j = rnd.nextInt(chars.length());

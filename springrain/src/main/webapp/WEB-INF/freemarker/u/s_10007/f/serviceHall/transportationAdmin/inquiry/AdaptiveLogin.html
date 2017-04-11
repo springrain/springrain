@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport"content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<@cms_site id=siteId!'' >
+	<@cms_channel id=businessId!'' >
+		<meta name="keywords" content="${(site.keywords)!''},${(tag_bean.name)!''}" />
+		<title>${(site.name)!''}&nbsp;-&nbsp;${(tag_bean.name)!''}</title>
+	</@cms_channel>
+	</@cms_site>
+	<link rel="stylesheet" href="${ctx}/u/s_10007/f/css/phone.css" />
+	<link rel="stylesheet" href="${ctx}/u/s_10007/f/css/style.css" />
+	<link href="${ctx}/u/s_10007/f/css/flipping_gallery.css" rel="stylesheet" type="text/css">
+	<script type="text/javascript" src="${ctx}/u/s_10007/f/js/jQuery.1.8.2.min.js" ></script>
+	<script type="text/javascript" src="${ctx}/u/s_10007/f/js/height.js" ></script>
+	<script type="text/javascript" src="${ctx}/u/s_10007/f/js/jquery.flipping_gallery.js"></script>
+	<script type="text/javascript" src="${ctx}/js/adaptive122/adaptive_login.js" ></script>
+	<script type="text/javascript" src="${ctx}/layui/lay/modules/layer.js" ></script>
+<link href='${ctx}/layui/css/modules/layer/default/layer.css' rel='stylesheet' type='text/css'>
+</head>
+<style>
+        .yzma{    
+    width: 5rem;
+        background-image:url("${ctx}/f/mp/122/${host!''}/s_10007/getCaptcha122?loginCaptcha=true&date=1490165627045");
+        height: 1.8rem;
+        background-repeat: no-repeat;
+        background-position: -0.1rem -0.2rem;
+        background-size: 118%;
+        }
+    .ml6{    margin-right: -0.5rem;}
+</style>
+<script type="text/javascript">
+var _ctx="${ctx}";
+var host="${host}";
+var siteId="${siteId}";
+var yewuId="${(yewuId)!''}";
+</script>
+<body>
+	<div class="illeglogin_all">
+		<div class="illeglogin_top">
+			<img src="${ctx}/u/s_10007/f/images/illegal_01.jpg" />
+		</div>
+		<div class="illeglogin_form boxSizing">
+			<input name="usertype" value="1" type="hidden"/>
+	        <input name="systemid" value="main" type="hidden"/>
+			<ul>
+			    <li class="lin_left boxSizing">
+			    	<i class="icon-user icon-username"></i>
+			    	<input type="text" name="username" class="it-illeg" value="" placeholder="用户名">
+			    </li>
+			    <li class="lin_left boxSizing">
+			    	<i class="icon-user icon-password"></i>
+			    	<input type="password" name="password" class="it-illeg" value="" placeholder="登录密码">
+			    </li>
+			    <li class="lin_left boxSizing">
+			    	<i class="icon-user icon-verification"></i>
+			    	<input type="text" name="captcha" class="it-illeg" value="" maxlength="4" placeholder="验证码">
+			    	<div class="yzma"  id="captchaImg"  onclick="reloadValidateCode122();"></div>
+				    <a class="display-b break ml6" href="javascript:reloadValidateCode122();"><img src="${ctx}/u/s_10007/f/images/icon_19.png"/></a>
+			    </li>
+			</ul>
+			<div class="error_po lin_left">
+				<span id="error" class="display-n">用户名不存在</span>
+			</div>
+<!-- 			<div class="dyhma lin_left"> -->
+<!-- 				<span class="display-ib"><input type="checkbox" name="username" class="user-radio vertical-a-m mr6">记住用户名</span> -->
+<!-- 			</div> -->
+			<button type="button" id="submitbtn" class="btn btn_block font-b mt0 mb0" onclick="submit()">确定</button>
+			<div class="tc font-b fs_20 fc_36 l-ht20">没有帐号？去注册</div>
+		</div>
+	</div>
+</body>
+</html>

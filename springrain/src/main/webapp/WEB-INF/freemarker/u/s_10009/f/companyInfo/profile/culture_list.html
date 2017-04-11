@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	    <title>企业文化</title>
+	    <link rel="stylesheet" href="${ctx}/u/${siteId}/f/css/phone.css" />
+	    <link rel="stylesheet" href="${ctx}/u/${siteId}/f/css/style.css" />
+	    <script type="text/javascript" src="${ctx}/u/${siteId}/f/js/jQuery.1.8.2.min.js" ></script>
+	    <script type="text/javascript" src="${ctx}/u/${siteId}/f/js/height.js" ></script>
+	    <style>
+	    	body{background: white;}
+	    </style>
+	</head>
+	<body>
+		<div class="container-fluid">
+			<div class="row pos-f left0 top0 ht34">
+				<div class="col6 tc l-ht34 font12 ht34 bg-white">
+					<a class="display-ib" href="${ctx}/f/mp/${siteId}/h_10107">公司简介</a>
+				</div>
+				<div class="col6 tc l-ht34 font12 ht34 bg-036eb7">
+					<a class="display-ib font-white" href="${ctx}/f/mp/${siteId}/h_10108">企业文化</a>
+				</div>
+			</div>
+			<div class="row">
+				<div class="ht34"></div>
+				<div class="col12 l-ht0">
+					<@cms_content_list page=(returnDatas.page)! pageSort="asc" pageOrder="sortno">
+						<#if tag_list?? && (tag_list?size>0)> 
+	    					<#list tag_list as _data>
+	    						<#if (_data_index==0)>
+	    							<#if (_data.cover)?? && (_data.cover)!="">
+					                    <#assign json=(_data.cover)?eval/>
+					                    <#list json as item>
+					                        <img src="${ctx}${(item.path)!'/images/qywh_banner.jpg'}" class="per100"/>
+					                    </#list>
+					                <#else>
+					                	<img src="${ctx}/u/${siteId}/f/images/qywh_banner.jpg" class="per100" />
+					                </#if>
+								</#if>
+							</#list> 
+	   					</#if>
+					</@cms_content_list>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col12">
+					<ul>
+						<@cms_content_list page=(returnDatas.page)! pageSort="asc" pageOrder="sortno">
+							<#if tag_list?? && (tag_list?size>0)> 
+    							<#list tag_list as _data>
+    								<#if (_data_index==0)><#else>
+    									<#if (_data_index%2==0)>
+    										<li class="overflow-h">
+												<div class="ht136 fl per50 tc pt16">
+													<p class="font14 mt0 mb0">${(_data.title)!''}</p>
+													<p class="font12 font-6 mt0 mb0">${(_data.summary)!''}</p>
+													<p class="mt0 mb0 font-9">———</p>
+													<div class="ht22 tc mt6">
+														<div class="w-70 ht22 radius22 display-ib border-da251c l-ht20 tc font-da251c"  onclick="toDetail('${(_data.id)!''}');"/>
+															查看详情>
+														</div>
+													</div>
+													<div class="overflow-h tc l-ht0 mt10">
+														<img src="${ctx}/u/${siteId}/f/images/dian_red.jpg" class="w-14 ht14" />
+													</div>
+												</div>
+												<div class="fl per50 ht136">
+													<#if (_data.cover)?? && (_data.cover)!="">
+									                    <#assign json=(_data.cover)?eval/>
+									                    <#list json as item>
+									                        <img src="${ctx}${(item.path)!'/images/xcfl.jpg'}" class="per100 ht100p"/>
+									                    </#list>
+									                <#else>
+														<img src="${ctx}/u/${siteId}/f/images/xcfl.jpg" class="per100 ht100p" />
+													</#if>
+												</div>
+											</li>
+										<#else>
+											<li class="overflow-h">
+												<div class="fl per50 ht136">
+													<#if (_data.cover)?? && (_data.cover)!="">
+									                    <#assign json=(_data.cover)?eval/>
+									                    <#list json as item>
+									                        <img src="${ctx}${(item.path)!'/images/qywh.jpg'}" class="per100 ht100p"/>
+									                    </#list>
+									                <#else>
+									                	<img src="${ctx}/u/${siteId}/f/images/qywh.jpg" class="per100 ht100p" />
+									                </#if>
+												</div>
+												<div class="ht136 fl per50 tc pt16">
+													<p class="font14 mt0 mb0">${(_data.title)!''}</p>
+													<p class="font12 font-6 mt0 mb0">${(_data.summary)!''}</p>
+													<p class="mt0 mb0 font-9">———</p>
+													<div class="ht22 tc mt6">
+														<div class="w-70 ht22 radius22 display-ib border-036eb7 l-ht20 tc font-036eb7"  onclick="toDetail('${(_data.id)!''}');"/>
+															查看详情>
+														</div>
+													</div>
+													<div class="overflow-h tc l-ht0 mt10">
+														<img src="${ctx}/u/${siteId}/f/images/qywh_dian.jpg" class="w-14 ht14" />
+													</div>
+												</div>
+											</li>
+	    								</#if>
+    								</#if>
+								</#list> 
+   							</#if>
+						</@cms_content_list>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</body>
+	
+	<script>
+		function toDetail(contentId){
+		    window.location = "${ctx}/f/mp/${siteId!''}/"+contentId;
+		}
+	</script>
+	
+</html>

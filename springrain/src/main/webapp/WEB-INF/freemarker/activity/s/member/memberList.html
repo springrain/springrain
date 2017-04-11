@@ -1,0 +1,211 @@
+<#ftl output_format="HTML" auto_esc=true>
+<@h.commonHead title="后台管理系统" keywords="开源,永久免费" description="springrain开源系统管理后台"/>
+<script src="${ctx}/js/custom/common/form.js"></script>
+
+<script>
+	var _state;
+	jQuery(function(){ 
+		_state="${(returnDatas.queryBean.active)!''}";
+		jQuery("#active").val(_state);
+		/*
+		全选、反选
+		*/
+		jQuery("#checkAll").bind('click',function(){
+			var _is_check=jQuery(this).get(0).checked;
+			jQuery("input[name='check_li']").each(function(_i,_o){
+				jQuery(_o).get(0).checked=_is_check;
+			});
+		});
+	});
+	function del(_id){
+		springrain.mydelete(_id,"${ctx}/member/delete");
+	}
+	
+	/** 修改积分 **/
+	function editPoint(id){
+		layer.prompt({
+			title: "修改积分" ,
+		},function(value, index, elem){
+			$.ajax({
+				url: "${ctx}/s/${siteId}/${businessId}/member/updatePoint" ,
+				data: { "id":id,"point":value } ,
+				success: function(data){
+					if(data.status == "success"){
+						layer.msg(data.message, {
+						  icon: 1,
+						  time: 2000 //2秒关闭（如果不配置，默认是3秒）
+						}, function(){
+							window.location.reload();
+						}); 
+					}else{
+						layer.msg(res.message, {icon: 1,time: 1000}); 
+					}
+					layer.close(index);
+				}
+			});
+		});
+	}
+</script>
+
+</head>
+<body>
+	<div class="layui-layout layui-layout-admin">
+		<@h.naviHeader /><@h.leftMenu />
+			<!-- 主体内容开始 -->
+			<div class="layui-tab layui-tab-brief">
+				<ul class="layui-tab-title site-demo-title">
+					 <li style="float:right;">
+					 	<!-- <button type="button" class="layui-btn layui-btn-small" 
+					 		data-action="${ctx}/s/${siteId}/${businessId}/member/updateRanking">刷新积分排行</button> -->
+		             	<@shiro.hasPermission name="/system/cms/member/update" >
+		             	<!-- 	<button type="button"   class="layui-btn layui-btn-small" data-action="${ctx}/system/cms/member/update/pre"><i class="layui-icon layui-icon-specil">&#xe61f;</i>新增</button>
+		             	 --></@shiro.hasPermission>
+		             	<@shiro.hasPermission name="/system/cms/member/list/export" >
+				        <!-- 	<button type="button"   class="layui-btn layui-btn-small"><i class="layui-icon layui-icon-specil">&#xe609;</i>导出</button>
+				         --></@shiro.hasPermission>
+		                <!-- <button type="button"  class="layui-btn layui-btn-warm layui-btn-small"><i class="layui-icon layui-icon-specil">&#xe601;</i>导入</button>
+		                 --><@shiro.hasPermission name="/system/cms/member/delete" >
+		               	<!-- 	 <button type="button"  class="layui-btn layui-btn-danger layui-btn-small"><i class="layui-icon">&#xe640;</i>批量删除</button>
+		                 --></@shiro.hasPermission>
+		             </li>
+	       		</ul>
+				<div class="layui-body layui-tab-content site-demo-body">
+					<div class="layui-tab-item layui-show">
+							<div class="layui-main">
+						          <div id="LAY_preview">
+						          <!-- 查询  开始 -->
+							          <form class="layui-form layui-form-pane" id="searchForm" action="${ctx}/s/${siteId}/${businessId}/member/list" method="post">
+							          <input type="hidden" name="pageIndex" id="pageIndex" value="${(returnDatas.page.pageIndex)!'1'}" /> 
+							          <input type="hidden" name="sort" id="page_sort" value="${(returnDatas.page.sort)!'desc'}" />
+							          <input type="hidden" name="order" id="page_order" value="${(returnDatas.page.order)!'id'}" />
+									  <table class="layui-table search-wrap">
+							          	<tbody>
+							          		<tr>
+							          			<th colspan="2">会员表搜索</th>
+							          		</tr>
+							          		<tr>
+							          			<td>
+							          				<div class="layui-inline">
+									                    <label class="layui-form-label">名称</label>
+									                    <div class="layui-input-inline">
+									                           <input type="text" name="name" value="${(returnDatas.queryBean.name)!''}" placeholder="请输入名称 " class="layui-input">
+									                    </div>
+							                		</div>
+									                 <div class="layui-inline">
+									                    <label class="layui-form-label">是否可用</label>
+									                    <div class="layui-input-inline">
+									                        <select name="active" id="active" class="layui-input">
+									                          <option value="">==请选择==</option>
+															  <option value="1">是</option>
+															  <option value="0">否</option>
+															</select>   
+									                    </div>
+									                </div>
+							          			</td>
+							          			<td>
+							          			   <div class="layui-inline">
+									                    <button class="layui-btn" type="button" onclick="springrain.commonSubmit('searchForm');"><i class="layui-icon" style="top:4px;right:5px;">&#xe615;</i>搜索</button>
+									                </div>
+							          			</td>
+							          		</tr>
+							          	</tbody>
+							          </table>
+									  <!-- 查询  结束 -->
+									</form>
+									<!--start_export-->
+									<table class="layui-table" lay-even>
+										  <colgroup>
+										    <col width="40">
+										    <col width="120">
+										    <col>
+										  </colgroup>
+										  <!--end_no_export-->
+										  <!--first_start_export-->
+											<thead>
+												<tr>
+													<th colspan="11">会员表列表<font id='recordsView' class='recorsView'>共<span></span>页,共 <span></span>条记录</font></th>
+												</tr>
+												<tr>
+												  <!--first_start_no_export-->
+												  <th class="center">
+														<input id="checkAll"  type="checkbox">
+												  </th>
+												  <!-- <th>操作</th> -->
+												  <!--first_end_no_export-->
+													<th id="th_openId" >微信ID</th>
+													<!-- <th id="th_portrait" >头像</th> -->
+													<th id="th_nickname" >昵称</th>
+													<th id="th_name" >姓名</th>
+													<th id="th_telephone" >手机号</th>
+													<th id="th_point" >积分</th>
+													<th id="th_star" >星级</th>
+													<th id="th_createTime" >创建时间</th>
+												</tr> 
+											</thead>
+										  <!--first_end_export-->
+										  <!--start_export-->
+										   <tbody>
+										    <#if (returnDatas.data??)&&(returnDatas.data?size>0)> 
+										    	<#list	returnDatas.data as _data>
+										    		<!--start_no_export-->
+													<tr class="">
+														<td class="center">
+															<input name="check_li" value="${_data.id}"  type="checkbox">
+														</td>
+														<!-- <td>
+															<@shiro.hasPermission name="/system/cms/member/update" >
+								                           		 <a href="#" data-action="${ctx}/system/role/update/pre?id=" class="layui-btn layui-btn-normal layui-btn-mini">编辑</a>
+								                            </@shiro.hasPermission>
+								                            <@shiro.hasPermission name="/system/cms/member/delete" >
+								                            	<a href="javascript:del('${(_data.id)!''}')" class="layui-btn layui-btn-danger layui-btn-mini ajax-delete">删除</a>
+								                            </@shiro.hasPermission>
+														</td> -->
+														<!--end_no_export-->
+														<td >
+															${(_data.openId)!''}
+														</td>
+														<!-- <td >
+															${(_data.portrait)!''}
+														</td> -->
+														<td >
+															${(_data.nickname)!''}
+														</td>
+														<td >
+															${(_data.name)!''}
+														</td>
+														<td >
+															${(_data.telephone)!''}
+														</td>
+														<td onclick="editPoint('${(_data.id)!''}');">
+															${(_data.point)!0}
+														</td>
+														<td >
+															${(_data.star)!''}
+														</td>
+														<td >
+															<!--日期型-->
+														${((_data.createTime)?string('yyyy-MM-dd'))!''}
+														</td>
+														<!-- <td >
+															${(_data.createPersonID)!''}
+														</td> -->
+													</tr>
+												</#list>
+											 </#if>
+											</tbody>
+										</table>
+									<#if returnDatas.page??> 
+										<div id='laypageDiv'></div>
+										<@h.layPage page=returnDatas.page /> 
+									</#if>
+								</div>
+							</div>
+						</div>
+				</div>
+			</div>
+		<!-- 主体内容结束 -->
+		<@h.footer />
+	</div>
+</body>
+</html>
+

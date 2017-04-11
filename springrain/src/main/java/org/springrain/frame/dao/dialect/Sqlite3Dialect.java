@@ -13,7 +13,7 @@ public class Sqlite3Dialect implements IDialect {
 		// 设置分页参数
 		int pageSize = page.getPageSize();
 		int pageNo = page.getPageIndex();
-		StringBuffer sb = new StringBuffer(sql);
+		StringBuilder sb = new StringBuilder(sql);
 		if (StringUtils.isNotBlank(orderby)) {
 			sb.append(" ").append(orderby);
 		}

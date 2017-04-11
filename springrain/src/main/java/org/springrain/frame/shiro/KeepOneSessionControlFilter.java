@@ -14,6 +14,8 @@ import org.apache.shiro.session.mgt.DefaultSessionKey;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Component;
@@ -28,6 +30,7 @@ import org.springrain.frame.util.GlobalStatic;
 
 @Component("keepone")
 public class KeepOneSessionControlFilter extends AccessControlFilter {
+	private Logger logger = LoggerFactory.getLogger(getClass());
     @Resource
 	private SessionManager sessionManager;
     @Resource
@@ -69,9 +72,9 @@ public class KeepOneSessionControlFilter extends AccessControlFilter {
 			try {
 			    deletetSession = sessionManager.getSession(new DefaultSessionKey(deleteSessionId));
 			} catch (UnknownSessionException e) {//no session with  id [deleteSessionId]
-
+				logger.error(e.getMessage(),e);
 			} catch(ExpiredSessionException e){//Session with id [deleteSessionId] has expired
-
+				logger.error(e.getMessage(),e);
 			}
 			
 			if (deletetSession == null) {

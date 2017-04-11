@@ -11,6 +11,7 @@ import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,6 +21,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Resource;
+
+import jxl.Cell;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -44,7 +47,6 @@ import org.springrain.frame.util.SecUtils;
 import org.springrain.frame.util.SpringUtils;
 
 import freemarker.template.Template;
-import jxl.Cell;
 /**
  * 基础的Service父类,所有的Service都必须继承此类,每个数据库都需要一个实现.</br> 
  * 例如 demo数据的实现类是org.springrain.springrain.service.BasedemoServiceImpl,demo2数据的实现类是org.springrain.demo2.service.Basedemo2ServiceImpl</br>
@@ -121,27 +123,36 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 	@Override
 	public <T> T getByCache(String cacheName, String key, Class<T> clazz,Page page) throws Exception {
 		
+		if( page==null||page.getPageIndex()==null||StringUtils.isBlank(key)){
+			return null;
+		}
+		
+		
+		key=key+"_"+page.getPageIndex();
 		T t = getByCache(cacheName,key, clazz);
 		
-		//if(t==null){
-		//	return t;
-		//}
+		if(t==null){
+			return t;
+		}
 		
 		String pageKey=key+GlobalStatic.pageCacheExtKey;
-		Page p= getByCache(cacheName,pageKey, Page.class);
-		//if(p!=null){
-			page=p;
-		//}
+		Integer totalCount= getByCache(cacheName,pageKey, Integer.class);
+		if(totalCount!=null){
+			page.setTotalCount(totalCount);
+		}
 		return t;
 	}
 	
 	@Override
 	public void putByCache(String cacheName, String key, Object value,Page page) throws Exception {
-		
+			 if( page==null||page.getPageIndex()==null||StringUtils.isBlank(key)){
+					return;
+				}
+		       key=key+"_"+page.getPageIndex();
 		       putByCache(cacheName,key, value);
 		         
 		       if(page!=null){
-		    	   putByCache(cacheName,key+GlobalStatic.pageCacheExtKey, page);
+		    	   putByCache(cacheName,key+GlobalStatic.pageCacheExtKey, page.getTotalCount());
 		       }
 	}
 	
@@ -591,27 +602,28 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 	
 	@SuppressWarnings("rawtypes")
 	@Override
-	public <T> String saveImportExcelFile(File excelFile, Class<T> clazz,
+	public <T> String saveImportExcelFile(File excelFile, Class<T> clazz,String siteId,String businessId,
 			boolean istest) throws Exception {
-		StringBuffer message = new StringBuffer();
+		StringBuilder message = new StringBuilder();
 		List<Cell[]> excel = ExcelUtils.getExcle(excelFile);
 		if (CollectionUtils.isEmpty(excel)) {
 			return "Excel文件没有sheet!";
 		}
 		Map<Integer, String> map = new HashMap<Integer, String>();
 		Cell[] title = excel.get(0);
+		title = excel.get(0);
 		if (title == null || title.length < 1) {
 			return "表头没有数据!";
 		}
-		List<String> listTitle=new ArrayList<String>();
+		List<String> listTitle=new ArrayList<>();
 		// 封装字段
 		for (int i = 0; i < title.length; i++) {
 			map.put(i, title[i].getContents());
 			listTitle.add(title[i].getContents());
 		}
 
-		for (int j = 2; j < excel.size(); j++) {
-			Cell[] cells = excel.get(j);
+		for (int j = 1; j < excel.size(); j++) {
+			Cell[] cells = excel. get(j);
 			T r = clazz.newInstance();
 			for (int m = 0; m < cells.length; m++) {
 				Object o = r;
@@ -628,6 +640,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 						}
 					}
 				} catch (Exception e) {
+					logger.error(e.getMessage(),e);
 					String s = "第" + (m + 1) + "列列名有错误," + name + " 类型错误!";
 					if (istest) {
 						message.append(s).append("</br>");
@@ -642,6 +655,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 					try {
 						ClassUtils.setPropertieValue(name, o, value);
 					} catch (Exception e) {
+						logger.error(e.getMessage(),e);
 						String s = "第" + (j + 1) + "行,第" + (m + 1) + "列:"+ name + " 类型错误!";
 						if (istest) {
 							message.append(s).append("</br>");
@@ -656,6 +670,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 
 						ClassUtils.setPropertieValue(name, o, d);
 					} catch (Exception e) {
+						logger.error(e.getMessage(),e);
 						String s = "第" + (j + 1) + "行,第" + (m + 1) + "列:"+ name + " 类型错误!";
 						if (istest) {
 							message.append(s).append("</br>");
@@ -672,6 +687,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 						}
 						ClassUtils.setPropertieValue(name, o, db);
 					} catch (Exception e) {
+						logger.error(e.getMessage(),e);
 						String s = "第" + (j + 1) + "行,第" + (m + 1) + "列:"+ name + " 类型错误!";
 						if (istest) {
 							message.append(s).append("</br>");
@@ -687,6 +703,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 						}
 						ClassUtils.setPropertieValue(name, o, f);
 					} catch (Exception e) {
+						logger.error(e.getMessage(),e);
 						String s = "第" + (j + 1) + "行,第" + (m + 1) + "列:"+ name + " 类型错误!";
 						if (istest) {
 							message.append(s).append("</br>");
@@ -705,6 +722,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 
 						ClassUtils.setPropertieValue(name, o, _i);
 					} catch (Exception e) {
+						logger.error(e.getMessage(),e);
 						String s = "第" + (j + 1) + "行,第" + (m + 1) + "列:"+ name + " 类型错误!";
 						if (istest) {
 							message.append(s).append("</br>");
@@ -722,6 +740,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 						}
 						ClassUtils.setPropertieValue(name, o, bd);
 					} catch (Exception e) {
+						logger.error(e.getMessage(),e);
 						String s = "第" + (j + 1) + "行,第" + (m + 1) + "列:"+ name + " 类型错误!";
 						if (istest) {
 							message.append(s).append("</br>");
@@ -733,11 +752,25 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 
 			}
 			try {
+				//插入siteId、businessId
+				if (StringUtils.isNotBlank(siteId)) {
+					Field field= r.getClass().getDeclaredField("siteId");  
+					field.setAccessible(true);
+					field.set(r, siteId);
+					if (StringUtils.isNotBlank(businessId)) {
+						field= r.getClass().getDeclaredField("businessId");  
+						field.setAccessible(true);
+						field.set(r, businessId);
+					}
+				}
+				
 				String s=saveFromExcel(r, (j + 1), istest, listTitle);
 				if(istest&&StringUtils.isNotBlank(s)){
 					message.append(s).append("</br>");
 				}
 			} catch (Exception e) {
+				e.printStackTrace();
+				logger.error(e.getMessage(),e);
 				throw new Exception("第" + (j + 1) + "行,保存失败");
 			}
 		}
@@ -757,13 +790,13 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 	}
 
 	@Override
-	public <T> String saveImportExcelFile(File excelFile, Class<T> clazz)
+	public <T> String saveImportExcelFile(File excelFile, Class<T> clazz,String siteId,String businessId)
 			throws Exception {
-		String message = saveImportExcelFile(excelFile, clazz, true);
+		String message = saveImportExcelFile(excelFile, clazz,siteId,businessId, true);
 		if (StringUtils.isNotBlank(message)) {
 			return message;
 		}
-		return saveImportExcelFile(excelFile, clazz, false);
+		return saveImportExcelFile(excelFile, clazz,siteId,businessId, false);
 
 	}
 

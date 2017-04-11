@@ -10,7 +10,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Component;
 import org.springrain.cms.entity.CmsSite;
 import org.springrain.cms.service.ICmsSiteService;
-import org.springrain.cms.utils.DirectiveUtils;
+import org.springrain.cms.util.DirectiveUtils;
 import org.springrain.frame.util.Page;
 
 import freemarker.core.Environment;

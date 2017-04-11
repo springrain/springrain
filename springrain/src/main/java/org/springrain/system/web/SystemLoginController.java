@@ -32,7 +32,7 @@ public class SystemLoginController extends BaseController   {
 	 */
 		@RequestMapping(value = "/")
 		public String index() throws Exception {
-			return super.redirect+"/system/index";
+			return redirect+"/system/index";
 		}
 		
 	
@@ -108,12 +108,12 @@ public class SystemLoginController extends BaseController   {
 				}
 			  
 			  if(StringUtils.isNotBlank(code)){
-				  code=code.toLowerCase().toString();
+				  code=code.toLowerCase();
 			  }
 			  //用户产生的验证码
 			 String submitCode = WebUtils.getCleanParam(request, GlobalStatic.DEFAULT_CAPTCHA_PARAM);
 			  if(StringUtils.isNotBlank(submitCode)){
-				  submitCode=submitCode.toLowerCase().toString();
+				  submitCode=submitCode.toLowerCase();
 			  }
 			  String gotourl=request.getParameter("gotourl");
 			  //如果验证码不匹配,跳转到登录
@@ -134,25 +134,29 @@ public class SystemLoginController extends BaseController   {
 			try {
 				//会调用 shiroDbRealm 的认证方法 org.springrain.frame.shiro.ShiroDbRealm.doGetAuthenticationInfo(AuthenticationToken)
 				user.login(token);
-			} catch (UnknownAccountException uae) {
+			} catch (UnknownAccountException e) {
+				logger.error(e.getMessage(), e);
 				model.addAttribute("message", "账号不存在!");
 				 if(StringUtils.isNotBlank(gotourl)){
 				     model.addAttribute("gotourl", gotourl);
 				  }
 				return "/system/login";
-			} catch (IncorrectCredentialsException ice) {
+			} catch (IncorrectCredentialsException e) {
+				logger.error(e.getMessage(), e);
 				model.addAttribute("message", "密码错误!");
 				 if(StringUtils.isNotBlank(gotourl)){
 				     model.addAttribute("gotourl", gotourl);
 				  }
 				return "/system/login";
-			} catch (LockedAccountException lae) {
+			} catch (LockedAccountException e) {
+				logger.error(e.getMessage(), e);
 				model.addAttribute("message", "账号被锁定!");
 				 if(StringUtils.isNotBlank(gotourl)){
 				     model.addAttribute("gotourl", gotourl);
 				  }
 				return "/system/login";
 			} catch (Exception e) {
+				logger.error(e.getMessage(), e);
 				model.addAttribute("message", "未知错误,请联系管理员.");
 				 if(StringUtils.isNotBlank(gotourl)){
 				     model.addAttribute("gotourl", gotourl);
@@ -181,6 +185,6 @@ public class SystemLoginController extends BaseController   {
 	        if (subject != null) {           
 	            subject.logout();
 	        }
-	        return super.redirect+"/system/login";
+	        return redirect+"/system/login";
 	    }
 }

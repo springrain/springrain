@@ -47,7 +47,7 @@ public class RandomWordFactory implements WordFactory {
 	@Override
 	public String getNextWord() {
 		Random rnd = new Random();
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		int l = minLength + (maxLength > minLength ? rnd.nextInt(maxLength - minLength) : 0);
 		for (int i = 0; i < l; i++) {
 			int j = rnd.nextInt(characters.length());

@@ -36,6 +36,11 @@ import org.slf4j.LoggerFactory;
 
 public class HttpClientUtils {
 	
+	private HttpClientUtils(){
+		throw new IllegalAccessError("工具类不能实例化");
+	}
+	
+	
 	private static  PoolingHttpClientConnectionManager connectionManager = null;
 	//private static  HttpClientBuilder httpClientBuilder=null;
 	
@@ -145,7 +150,7 @@ public class HttpClientUtils {
 			stringEntity.setContentType("application/x-www-form-urlencoded");
 			httpPost.setEntity(stringEntity);
 		} catch (Exception e) {
-			logger.error(e.getLocalizedMessage(),e);
+			logger.error(e.getMessage(),e);
 		}
 		return sendHttpPost(httpPost,sslContext);
 	}
@@ -176,9 +181,9 @@ public class HttpClientUtils {
 	public static String sendHttpPost(String httpUrl, Map<String, String> maps,SSLContext sslContext) {
 		HttpPost httpPost = new HttpPost(httpUrl);// 创建httpPost
 		// 创建参数队列
-		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-		for (String key : maps.keySet()) {
-			nameValuePairs.add(new BasicNameValuePair(key, maps.get(key)));
+		List<NameValuePair> nameValuePairs = new ArrayList<>();
+		for (Map.Entry<String, String> m : maps.entrySet()) {
+			nameValuePairs.add(new BasicNameValuePair(m.getKey(), m.getValue()));
 		}
 		try {
 			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
@@ -217,8 +222,8 @@ public class HttpClientUtils {
 	public static String sendHttpPost(String httpUrl, List<File> fileLists,Map<String, String> maps,SSLContext sslContext) {
 		HttpPost httpPost = new HttpPost(httpUrl);// 创建httpPost
 		MultipartEntityBuilder meBuilder = MultipartEntityBuilder.create();
-		for (String key : maps.keySet()) {
-			meBuilder.addPart(key, new StringBody(maps.get(key), ContentType.TEXT_PLAIN));
+		for (Map.Entry<String, String> m : maps.entrySet()) {
+			meBuilder.addPart(m.getKey(), new StringBody(m.getValue(), ContentType.TEXT_PLAIN));
 		}
 		for (File file : fileLists) {
 			FileBody fileBody = new FileBody(file);

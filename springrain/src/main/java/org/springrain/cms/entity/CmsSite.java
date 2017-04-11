@@ -129,6 +129,7 @@ public class CmsSite  extends BaseEntity {
 	private java.lang.String orgId;
 	//columns END 数据库字段结束
 	private java.lang.String link;
+	private String themeName;//主题名称
 	//concstructor
 
 	
@@ -353,8 +354,18 @@ public class CmsSite  extends BaseEntity {
 		this.link = link;
 	}
 
+	
+	@Transient
+	public String getThemeName() {
+		return themeName;
+	}
+
+	public void setThemeName(String themeName) {
+		this.themeName = themeName;
+	}
+
 	public String toString() {
-		return new StringBuffer()
+		return new StringBuilder()
 			.append("id[").append(getId()).append("],")
 			.append("创建时间[").append(getCreateTime()).append("],")
 			.append("修改时间[").append(getModifyTime()).append("],")
@@ -383,8 +394,12 @@ public class CmsSite  extends BaseEntity {
 	}
 	
 	public boolean equals(Object obj) {
-		if(obj instanceof CmsSite == false) return false;
-		if(this == obj) return true;
+		if(obj instanceof CmsSite == false){
+			return false;
+		} 
+		if(this == obj){
+			return true;
+		} 
 		CmsSite other = (CmsSite)obj;
 		return new EqualsBuilder()
 			.append(getId(),other.getId())

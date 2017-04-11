@@ -56,11 +56,12 @@ public interface ICmsContentService extends IBaseSpringrainService {
 	 * 获取内容列表
 	 * @param params
 	 * @param env
-	 * @param siteId 可为null
+	 * @param siteId
+	 * @param channelId
 	 * @return
 	 * @throws Exception
 	 */
-	List<CmsContent> findListForTag(Map params, Environment env, String siteId) throws Exception;
+	List<CmsContent> findListForTag(Map params, Environment env, String siteId,String channelId ) throws Exception;
 
 	/**
 	 * 根据ID获取内容列表
@@ -80,5 +81,29 @@ public interface ICmsContentService extends IBaseSpringrainService {
 	 * @return
 	 */
 	CmsContent findCmsContentSide(String id, String siteId, String channelId,boolean next) throws Exception ;
+
+	/**
+	 * 根据siteId和businessId获取内容列表
+	 * @param siteId
+	 * @param businessId
+	 * @param page
+	 * @param params
+	 * @return
+	 * @throws Exception
+	 */
+	List<CmsContent> findListBySiteIdAndBusinessId(String siteId,String businessId, 
+			Page page, Map<String,String> params) throws Exception ;
+	
+	/**
+	 * 获取内容列表
+	 * @param cmsContent
+	 * @param siteId
+	 * @param businessId
+	 * @param page
+	 * @return
+	 * @throws Exception
+	 */
+	List<CmsContent> findCmsContentList(CmsContent cmsContent, String siteId,
+			String businessId, Page page) throws Exception;
 
 }

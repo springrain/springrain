@@ -93,8 +93,8 @@ public class RoleController  extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/list/json")
-	public @ResponseBody
-	ReturnDatas listjson(HttpServletRequest request, Model model, Role role) throws Exception {
+	@ResponseBody 
+	public ReturnDatas listjson(HttpServletRequest request, Model model, Role role) throws Exception {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 	
 		Page page = newPage(request);
@@ -102,7 +102,7 @@ public class RoleController  extends BaseController {
 		List<Role> datas =roleService.findListDataByFinder(null, page, Role.class, role);
 		if(!CollectionUtils.isEmpty(datas)){
 			for(Role r:datas){
-				StringBuffer menunames=new StringBuffer();
+				StringBuilder menunames=new StringBuilder();
 				//查询部门名称
 				if(StringUtils.isNotBlank(r.getOrgId())){
 					Org org=orgService.findById(r.getOrgId(), Org.class);
@@ -145,8 +145,8 @@ public class RoleController  extends BaseController {
 	 * 查看的Json格式数据,为APP端提供数据
 	 */
 	@RequestMapping(value = "/look/json")
-	public @ResponseBody
-	ReturnDatas lookjson(Model model, HttpServletRequest request, HttpServletResponse response)
+	@ResponseBody 
+	public ReturnDatas lookjson(Model model, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		String id = request.getParameter("id");
@@ -170,7 +170,8 @@ public class RoleController  extends BaseController {
 	 * 
 	 */
 	@RequestMapping("/update")
-	public @ResponseBody ReturnDatas saveorupdate(Role role, HttpServletRequest request, HttpServletResponse response)
+	@ResponseBody 
+	public  ReturnDatas saveorupdate(Role role, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		returnObject.setMessage(MessageUtils.UPDATE_SUCCESS);
@@ -186,7 +187,7 @@ public class RoleController  extends BaseController {
 			}else{
 				String[] menuIds=str_menuIds.split(",");
 				if(menuIds!=null&&menuIds.length>0){
-					List<Menu> menus=new ArrayList<Menu>();
+					List<Menu> menus=new ArrayList<>();
 					for(String s:menuIds){
 						if(StringUtils.isBlank(s)){
 							continue;
@@ -205,8 +206,7 @@ public class RoleController  extends BaseController {
 			
 			roleService.saveorupdateRole(role);
 		} catch (Exception e) {
-			String errorMessage = e.getLocalizedMessage();
-			logger.error(errorMessage,e);
+			logger.error(e.getMessage(),e);
 			returnObject.setStatus(ReturnDatas.ERROR);
 			returnObject.setMessage(MessageUtils.UPDATE_ERROR);
 		}
@@ -238,8 +238,8 @@ public class RoleController  extends BaseController {
 	 * 删除操作
 	 */
 	@RequestMapping(value = "/delete")
-	public @ResponseBody
-	ReturnDatas destroy(HttpServletRequest request) throws Exception {
+	@ResponseBody 
+	public ReturnDatas destroy(HttpServletRequest request) throws Exception {
 		// 执行删除
 		try {
 			java.lang.String id = request.getParameter("id");
@@ -255,7 +255,8 @@ public class RoleController  extends BaseController {
 		return new ReturnDatas(ReturnDatas.WARNING, MessageUtils.DELETE_WARNING);
 	}
 	@RequestMapping(value = "/ajax/select2")
-	public @ResponseBody List<Role> ajaxUser(HttpServletRequest request) throws Exception {
+	@ResponseBody 
+	public  List<Role> ajaxUser(HttpServletRequest request) throws Exception {
 		String key=request.getParameter("q");
 		Page page=new Page();
 		page.setPageIndex(1);

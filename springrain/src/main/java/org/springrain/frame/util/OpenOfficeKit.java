@@ -17,7 +17,12 @@ import com.artofsolving.jodconverter.openoffice.converter.OpenOfficeDocumentConv
  *
  */
 public class OpenOfficeKit {
-	public static Logger logger = LoggerFactory.getLogger(OpenOfficeKit.class);
+	private OpenOfficeKit(){
+		throw new IllegalAccessError("工具类不能实例化");
+	}
+	
+	
+	private static Logger logger = LoggerFactory.getLogger(OpenOfficeKit.class);
 	private static final String OpenOffice_HOME = DbPropertyUtil
 			.getValue("openoffice.home");
 	private static final String HOST = DbPropertyUtil
@@ -52,7 +57,7 @@ public class OpenOfficeKit {
 				}
 			}
 		} catch (Exception e) {
-			logger.error(e.getLocalizedMessage(),e);
+			logger.error(e.getMessage(),e);
 		}
 	}
 
@@ -70,7 +75,7 @@ public class OpenOfficeKit {
 				pro.destroy();
 			}
 		} catch (Exception e) {
-			logger.error(e.getLocalizedMessage(),e);
+			logger.error(e.getMessage(),e);
 		}
 	}
 

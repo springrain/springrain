@@ -20,13 +20,13 @@ public class UeditorConfig implements java.io.Serializable {
     public static final String FIELD_NAME = "file";
     public static final String SCRAWL_TYPE = ".jpg";
 
-    private static  List<String> CATCHER_DOMAIN = new ArrayList<String>(Arrays.asList( "127.0.0.1", "localhost"));
+    private static  List<String> CATCHER_DOMAIN = new ArrayList<>(Arrays.asList( "127.0.0.1", "localhost"));
     
-    private static  List<String> IMAGE_ALLOW_FILES =new ArrayList<String>( Arrays.asList( ".png", ".jpg", ".jpeg", ".gif", ".bmp" ));
+    private static  List<String> IMAGE_ALLOW_FILES =new ArrayList<>( Arrays.asList( ".png", ".jpg", ".jpeg", ".gif", ".bmp" ));
 
-    private static  List<String> VIDEO_ALLOW_FILES = new ArrayList<String>(Arrays.asList(".flv", ".swf", ".mkv", ".avi", ".rm", ".rmvb", ".mpeg",
+    private static  List<String> VIDEO_ALLOW_FILES = new ArrayList<>(Arrays.asList(".flv", ".swf", ".mkv", ".avi", ".rm", ".rmvb", ".mpeg",
             ".mpg", ".ogg", ".ogv", ".mov", ".wmv", ".mp4", ".webm", ".mp3", ".wav", ".mid" ));
-    public static  List<String> ALLOW_FILES = new ArrayList<String>(Arrays.asList( ".rar", ".zip", ".tar", ".gz", ".7z", ".bz2", ".cab", ".iso", ".doc", ".docx", ".xls", ".xlsx", ".ppt",
+    private static  List<String> ALLOW_FILES = new ArrayList<>(Arrays.asList( ".rar", ".zip", ".tar", ".gz", ".7z", ".bz2", ".cab", ".iso", ".doc", ".docx", ".xls", ".xlsx", ".ppt",
                     ".pptx", ".pdf", ".txt", ".md", ".xml" ));
   
     

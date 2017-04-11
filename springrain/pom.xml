@@ -13,7 +13,7 @@
 
 	<properties>
 		<finalName>springrain</finalName>
-		<jdk.version>1.7</jdk.version>
+		<jdk.version>1.8</jdk.version>
 		<jetty.version>9.2.3.v20140905</jetty.version>
 		<jetty.jsp.version>7.5.4.v20111024</jetty.jsp.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -53,9 +53,9 @@
 		<jodconverter.version>2.2.1</jodconverter.version>
 		
 		<gson.version>2.8.0</gson.version>
-		<jackson.version>2.8.7</jackson.version>
+		<jackson.version>2.8.8</jackson.version>
 		
-		<druid.version>1.0.28</druid.version>
+		<druid.version>1.0.29</druid.version>
 		<httpcore.version>4.4.6</httpcore.version>
 		<httpclient.version>4.5.3</httpclient.version>
 		
@@ -64,7 +64,7 @@
 		<xstream.version>1.4.9</xstream.version>
 		
 		
-		<lucene.version>5.5.4</lucene.version>
+		<lucene.version>6.5.0</lucene.version>
 		<!-- 
 		<quartz.version>2.2.3</quartz.version>
 		 -->

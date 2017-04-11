@@ -31,7 +31,7 @@
 				<ul class="layui-tab-title site-demo-title">
 					 <li style="float:right;">
 						 <@shiro.hasPermission name="/system/role/update" >
-			             		<button type="button" class="layui-btn layui-btn-small" data-action="${ctx}/system/role/update/pre"><i class="layui-icon layui-icon-specil">&#xe61f;</i>新增</button>
+			             		<button type="button" class="layui-btn layui-btn-small" data-action="${ctx}/system/role/update/admin/pre"><i class="layui-icon layui-icon-specil">&#xe61f;</i>新增</button>
 			             	</@shiro.hasPermission>
 			             	<@shiro.hasPermission name="/system/role/list/export" >
 					        	<button type="button" class="layui-btn layui-btn-small"><i class="layui-icon layui-icon-specil">&#xe609;</i>导出</button>
@@ -47,7 +47,7 @@
 							<div class="layui-main">
 						          <div id="LAY_preview">
 						          <!-- 查询  开始 -->
-							          <form class="layui-form layui-form-pane" id="searchForm" action="${ctx}/system/role/list" method="post">
+							          <form class="layui-form layui-form-pane" id="searchForm" action="${ctx}/system/role/list/all" method="post">
 							          <input type="hidden" name="pageIndex" id="pageIndex" value="${(returnDatas.page.pageIndex)!'1'}" /> 
 							          <input type="hidden" name="sort" id="page_sort" value="${(returnDatas.page.sort)!'desc'}" />
 							          <input type="hidden" name="order" id="page_order" value="${(returnDatas.page.order)!'id'}" />

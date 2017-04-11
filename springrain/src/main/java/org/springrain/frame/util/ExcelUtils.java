@@ -12,6 +12,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ExcelUtils {
+	
+	private ExcelUtils(){
+		throw new IllegalAccessError("工具类不能实例化");
+	}
+	
+	
 	private static  Logger logger = LoggerFactory.getLogger(ExcelUtils.class);
 	public static Cell[] getExcleRow(File excelFile, int rowIndex) throws Exception {
 		Workbook workbook = null;
@@ -21,7 +27,7 @@ public class ExcelUtils {
 			workbook = Workbook.getWorkbook(excelFile);
 			row = workbook.getSheet(0).getRow(rowIndex);
 		} catch (Exception e) {
-			logger.error(e.getLocalizedMessage(),e);
+			logger.error(e.getMessage(),e);
 		} finally {
 			if (workbook != null) {
 				workbook.close();
@@ -35,7 +41,7 @@ public class ExcelUtils {
 	public static List<Cell[]> getExcle(File excelFile) throws Exception {
 		Workbook workbook = null;
 		int count=0;
-		List<Cell[]> list=new ArrayList<Cell[]>();
+		List<Cell[]> list=new ArrayList<>();
 		try {
 			workbook = Workbook.getWorkbook(excelFile);
 			Sheet sheet = workbook.getSheet(0);
@@ -46,7 +52,7 @@ public class ExcelUtils {
 			}
 			
 		} catch (Exception e) {
-			logger.error(e.getLocalizedMessage(),e);
+			logger.error(e.getMessage(),e);
 		} finally {
 			if (workbook != null) {
 				workbook.close();

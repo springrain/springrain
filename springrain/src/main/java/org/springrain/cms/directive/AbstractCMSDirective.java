@@ -10,7 +10,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfig;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
-import org.springrain.cms.utils.DirectiveUtils;
+import org.springrain.cms.util.DirectiveUtils;
 import org.springrain.frame.util.SpringUtils;
 
 import freemarker.template.TemplateDirectiveModel;
@@ -24,13 +24,25 @@ public abstract class AbstractCMSDirective implements
 		TemplateDirectiveModel {
 	
 	/**
+	 * 输入参数，内容ID
+	 */
+	public static final String PARAM_ID = "id";
+	
+	/**
+	 * 输入参数，下一个
+	 */
+	public static final String PARAM_NEXT = "next";
+	
+	/**
 	 * 主参数，排斥其他所有筛选参数
 	 */
 	public static final String PARAM_IDS = "ids";
+	
 	/**
 	 * 默认的参数分隔符
 	 */
 	public static final String PARAM_SPLIT = ",";
+	
 	/**
 	 * 输入参数，排序方式。
 	 */

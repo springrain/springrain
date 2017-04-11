@@ -5,11 +5,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springrain.frame.util.SerializeUtil;
+import org.springrain.frame.util.SerializeUtils;
 
 public class RedisCachedImpl implements ICached {
 	public RedisCachedImpl() {
@@ -22,6 +23,7 @@ public class RedisCachedImpl implements ICached {
 	@Override
 	public String deleteCached(final byte[] sessionId) throws Exception {
 		redisTemplate.execute(new RedisCallback<Object>() {
+			@Override
 			public Long doInRedis(RedisConnection connection)
 					throws DataAccessException {
 				connection.del(sessionId);
@@ -35,6 +37,7 @@ public class RedisCachedImpl implements ICached {
 	public String updateCached(final byte[] key, final byte[] session,final Long expireSec)
 			throws Exception {
 		return (String) redisTemplate.execute(new RedisCallback<Object>() {
+			@Override
 			public String doInRedis(final RedisConnection connection)
 					throws DataAccessException {
 				connection.set(key, session);
@@ -52,10 +55,11 @@ public class RedisCachedImpl implements ICached {
 	@Override
 	public Object getCached(final byte[] sessionId) throws Exception {
 		return redisTemplate.execute(new RedisCallback<Object>() {
+			@Override
 			public Object doInRedis(RedisConnection connection)
 					throws DataAccessException {
 				byte[] bs = connection.get(sessionId);
-				return SerializeUtil.unserialize(bs);
+				return SerializeUtils.unserialize(bs);
 			}
 		});
 
@@ -67,16 +71,17 @@ public class RedisCachedImpl implements ICached {
 	public Set getKeys(final byte[] keys) throws Exception {
 		return redisTemplate.execute(new RedisCallback<Set>() {
 			@SuppressWarnings("unchecked")
+			@Override
 			public Set doInRedis(RedisConnection connection)
 					throws DataAccessException {
 				Set<byte[]> setByte = connection.keys(keys);
-				if (setByte == null || setByte.size() < 1) {
+				if (CollectionUtils.isEmpty(setByte)) {
 					return null;
 				}
 				Set set = new HashSet();
 				for (byte[] key : setByte) {
 					byte[] bs = connection.get(key);
-					set.add(SerializeUtil.unserialize(bs));
+					set.add(SerializeUtils.unserialize(bs));
 				}
 
 				return set;
@@ -91,15 +96,16 @@ public class RedisCachedImpl implements ICached {
 	public Set getHashKeys(final byte[] key) throws Exception {
 		return (Set) redisTemplate.execute(new RedisCallback<Set>() {
 			@SuppressWarnings("unchecked")
+			@Override
 			public Set doInRedis(RedisConnection connection)
 					throws DataAccessException {
 				Set<byte[]> hKeys = connection.hKeys(key);
-				if(hKeys==null||hKeys.size()>1){
+				if(CollectionUtils.isEmpty(hKeys)){
 					return null;
 				}
 				Set set=new HashSet();
 				for(byte[] bs:hKeys){
-					set.add(SerializeUtil.unserialize(bs));
+					set.add(SerializeUtils.unserialize(bs));
 				}
 			return set;
 			}
@@ -112,6 +118,7 @@ public class RedisCachedImpl implements ICached {
 			throws Exception {
 	
 		return redisTemplate.execute(new RedisCallback<Boolean>() {
+			@Override
 			public Boolean doInRedis(RedisConnection connection)
 					throws DataAccessException {
 				Boolean hSet = connection.hSet(key, mapkey, value);
@@ -123,10 +130,11 @@ public class RedisCachedImpl implements ICached {
 	@Override
 	public Object getHashCached(final byte[] key, final byte[] mapkey) throws Exception {
 		return redisTemplate.execute(new RedisCallback<Object>() {
+			@Override
 			public Object doInRedis(RedisConnection connection)
 					throws DataAccessException {
 				byte[] hGet = connection.hGet(key, mapkey);
-				return SerializeUtil.unserialize(hGet);
+				return SerializeUtils.unserialize(hGet);
 
 			}
 		});
@@ -136,6 +144,7 @@ public class RedisCachedImpl implements ICached {
 	@Override
 	public Long deleteHashCached(final byte[] key, final byte[] mapkey) throws Exception {
 		return redisTemplate.execute(new RedisCallback<Long>() {
+			@Override
 			public Long doInRedis(RedisConnection connection)
 					throws DataAccessException {
 				Long hDel = connection.hDel(key, mapkey);
@@ -149,6 +158,7 @@ public class RedisCachedImpl implements ICached {
 	@Override
 	public Long getHashSize(final byte[] key) throws Exception {
 		return redisTemplate.execute(new RedisCallback<Long>() {
+			@Override
 			public Long doInRedis(RedisConnection connection)
 					throws DataAccessException {
 				Long len = connection.hLen(key);
@@ -163,6 +173,7 @@ public class RedisCachedImpl implements ICached {
 	@Override
 	public Long getDBSize() throws Exception {
 		return redisTemplate.execute(new RedisCallback<Long>() {
+			@Override
 			public Long doInRedis(RedisConnection connection)
 					throws DataAccessException {
 				Long len = connection.dbSize();
@@ -176,6 +187,7 @@ public class RedisCachedImpl implements ICached {
 	@Override
 	public void clearDB() throws Exception {
 		 redisTemplate.execute(new RedisCallback<Long>() {
+			 @Override
 			public Long doInRedis(RedisConnection connection)
 					throws DataAccessException {
 				  connection.flushDb();
@@ -206,17 +218,18 @@ public class RedisCachedImpl implements ICached {
 	public List getHashValues(final byte[] key) throws Exception {
 		return redisTemplate.execute(new RedisCallback<List>() {
 			@SuppressWarnings("unchecked")
+			@Override
 			public List doInRedis(RedisConnection connection)
 					throws DataAccessException {
 				 List<byte[]> hVals = connection.hVals(key);
 				
-				 if(hVals==null||hVals.size()<1){
+				 if(CollectionUtils.isEmpty(hVals)){
 					 return null;
 				 }
 				 List list=new ArrayList();
 				 
 				 for(byte[] bs:hVals){
-					 list.add(SerializeUtil.unserialize(bs));
+					 list.add(SerializeUtils.unserialize(bs));
 				 }
 				return list;
 

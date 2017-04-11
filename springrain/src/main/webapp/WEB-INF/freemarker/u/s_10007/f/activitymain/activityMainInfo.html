@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport"content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<@cms_site id=siteId!'' >
+		<@cms_activity_main id=businessId!'' >
+	<meta name="keywords" content="${(site.keywords)!''},${(tag_bean.cmsContent.title)!''}" />
+	<title>
+		${(site.name)!''}&nbsp;-&nbsp;${(tag_bean.cmsContent.title)!''}
+	</title>
+		</@cms_activity_main>
+	</@cms_site>
+	<link rel="stylesheet" href="${ctx}/u/${(siteId)!''}/f/css/phone.css" />
+	<link rel="stylesheet" href="${ctx}/u/${(siteId)!''}/f/css/style.css" />
+	<script type="text/javascript" src="${ctx}/u/${(siteId)!''}/f/js/jQuery.1.8.2.min.js" ></script>
+	<script type="text/javascript" src="${ctx}/u/${(siteId)!''}/f/js/height.js" ></script>
+	<script type="text/javascript">
+
+		/** 跳转到其他页面 **/
+		function toOtherPage(contentId){
+			location.href = "${ctx}/f/mp/${siteId}/" + contentId ;
+		}
+	</script>
+</head>
+<body class="bg_eb">
+	<div class="volundetail_all">
+		<@cms_activity_main id=businessId >
+		<div class="detail_top">
+			<#if tag_bean.cmsContent.cover?? && tag_bean.cmsContent.cover !="">
+				<#assign json=(tag_bean.cmsContent.cover)?eval/>
+				<#list json as item>
+					<img src="${ctx}${(item.path)!''}" />
+				</#list>
+			</#if>
+			<!-- <img src="${ctx}${tag_bean.coverPath!''}" /> -->
+		</div>
+		<div class="detail_cont">
+			<div class="detail_main">
+				<div class="title lin_left">
+					<span class="fc_2d font-b">${tag_bean.cmsContent.title}<!-- 12万志愿者参与服务新年春运暖冬行动 --></span>
+					<#if ((tag_bean.signupStartTime)?datetime lte .now) && ((tag_bean.signupEndTime)?datetime gte .now) >
+						<div class="entname lin_center" onclick="baoming('${(tag_bean.id)!''}');">报名</div>
+					</#if>
+				</div>
+				<ul class="detail_list boxSizing">
+				    <li><i class="icon_dtiem"></i>${((tag_bean.activityStartTime)?string('yyyy-MM-dd'))!''}<!-- 2017/03/01 --></li>
+				    <li><i class="icon_dasd"></i>${tag_bean.activityAddress}<!-- 梧州市长洲区新兴珠宝路14号 --></li>
+				    <li><i class="icon_mark"></i>${tag_bean.activityScore}<!-- 10 -->分</li>
+				    <li><i class="icon_tel"></i>${tag_bean.telPhone}<!-- 15188341615 --></li>
+				</ul>
+				<div class="imgtext">
+					<div class="it_title lin_left">
+						<p class="on_click"><i class="icon_info"></i>活动介绍</p>
+					</div>
+					<div class="imgtext_main boxSizing">
+						${tag_bean.cmsContent.content}
+						<!-- <p class="fc_2d font12">春运志愿服务“暖冬行动”是共青团凝聚青年、服务大局的重点项目，是共青团深化改革、提升志愿服务专业化水平的重要探索。</p>
+						<p class="fc_2d font12">据团中央青年志愿者工作部部长张朝晖介绍，中国青年志愿者服务春运“暖冬行动”于2015年由共青团中央发起实施，今年被纳入全国春运工作联合部署单位。对于组织领导、工作布局、各项要求都是一个全新的机遇和提升。今年的“暖冬行动”重在强化协调机制，做深志愿服务，完善激励保障。</p>
+						<p class="fc_2d font12">启动仪式结束后，与会领导分赴铁路虹桥火车站的爱心服务区、虹桥长途客运站、地铁二号线、虹桥2号航站楼、虹桥公交枢纽等多个服务站点，向旅客发放福字、窗花、中国结等，看望慰问在岗志愿者。</p>
+						<p class="fc_2d font12">目前，全国已有12万多名青年志愿者在3400多个服务单位的1万余个服务站点开展春运志愿服务。</p> -->
+					</div>
+				</div>
+			</div>
+			</@cms_activity_main >
+			<div class="detail_other boxSizing">
+				<div class="other_title lin_left">
+					<span class="fc_2d">其他活动</span>
+				</div>
+				<ul class="mui-flex">
+					<@cms_activity_main_list page=(returnDatas.page)! pageSize=3 noids=businessId!'' channelId='h_10016' >
+						<#if tag_list??>
+							<li class="cell">
+							<#if tag_list[0]??>
+								<a class="card-item card-style-mkt-2" href="javascript:toOtherPage('${tag_list[0].id}');">
+									<#if tag_list[0].cmsContent.cover?? && tag_list[0].cmsContent.cover !="">
+										<#assign json=(tag_list[0].cmsContent.cover)?eval/>
+										<#list json as item>
+											<img src="${ctx}${(item.path)!''}" />
+										</#list>
+									</#if>
+									<!-- <img src="${ctx}${(tag_list[0].cmsContent.coverPath)!}" /> -->
+								</a>
+							</#if>
+							<#if tag_list[1]??>
+								<a class="card-item card-style-mkt-2" href="javascript:toOtherPage('${tag_list[1].id}');">
+									<#if tag_list[1].cmsContent.cover?? && tag_list[1].cmsContent.cover !="">
+										<#assign json=(tag_list[1].cmsContent.cover)?eval/>
+										<#list json as item>
+											<img src="${ctx}${(item.path)!''}" />
+										</#list>
+									</#if>
+									<!-- <img src="${ctx}${(tag_list[1].cmsContent.coverPath)!}" /> -->
+								</a>
+							</#if>
+							</li>
+							<li class="cell">
+								<#if tag_list[2]??>
+								<a class="card-item card-style-mkt-1" href="javascript:toOtherPage('${tag_list[2].id}')">
+									<#if tag_list[2].cmsContent.cover?? && tag_list[2].cmsContent.cover !="">
+										<#assign json=(tag_list[2].cmsContent.cover)?eval/>
+										<#list json as item>
+											<img src="${ctx}${(item.path)!''}" />
+										</#list>
+									</#if>
+									<!-- <img src="${ctx}${(tag_list[2].cmsContent.coverPath)!}" /> -->
+								</a>
+								</#if>
+							</li>
+						</#if>
+					</@cms_activity_main_list>
+					<!-- <li class="cell">
+						<a class="card-item card-style-mkt-2" href="#">
+							<img src="images/detail_other_02.jpg" />
+						</a>
+						<a class="card-item card-style-mkt-2" href="#">
+							<img src="images/detail_other_03.jpg" />
+						</a>
+					</li>
+					<li class="cell">
+						<a class="card-item card-style-mkt-1" href="#">
+							<img src="images/detail_other_01.jpg" />
+						</a>
+					</li> -->
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="theme_mask"></div>
+	<div class="theme_win">
+		<div class="title boxSizing lin_left">
+			<span>报名提醒</span>
+		</div>
+		<div class="close"><img src="${ctx}/u/${(siteId)!''}/f/images/icon_04.png" /></div>
+		<div class="win_main boxSizing">
+			<span>您还没有完善信息。</span>
+			<span>完善信息后即可报名，快试试吧</span>
+		</div>
+		<div class="login_btn" onclick="toSignupPage();" >完善信息</div>
+	</div>
+<script type="text/javascript">
+	
+	/** 跳转到完善信息页面 **/
+	function toSignupPage(){
+		location.href = "${ctx}/f/mp/${siteId}/h_10099?pageBusinessId=${businessId}";
+	}
+	
+	/** 报名参加活动 **/
+	function baoming(activityId){
+		// 判断是否完善了信息，没有完善则跳转到完善信息的页面
+		$.ajax({
+			url: "${ctx}/s/${siteId}/${businessId}/activity/ajax/hasSignup" ,
+			success: function(data){
+				if(data.status == "success"){
+					if(data.message == "false"){
+						// 跳转到完善信息的页面
+						showFloatbox();
+					}else{
+						$.ajax({
+							url: "${ctx}/s/${siteId}/${businessId}/activity/ajax/signup" ,
+							data: {
+								"activityMainId" : activityId,
+							} , 
+							success: function(data2){
+								if(data2.status == "success"){
+									alert("报名成功！");
+									location.reload();
+								}else{
+									// 异常信息
+									alert(data2.message);
+								}
+							}
+						});
+					}
+				}else{
+					// 异常信息
+					alert(data.message);
+				}
+			}
+		});
+	}
+	
+	function showFloatbox(){
+		var xbtn = '.item_btn';
+		var sbtn = '.close';
+		var puw = '.theme_win';
+		// '.item_btn','.close','.theme_win'
+		$(".theme_mask").show();
+		$(".theme_mask").height($(document).height());
+		$(puw).show();
+		event.stopPropagation();
+		stop();
+	}
+	
+	$(document).ready(function() {
+		$(".it_title").click(function(){
+			if($(this).children().hasClass("active")){
+				$(".imgtext_main").css('height', 3.9+'rem');
+				$(this).children().removeClass("active");
+			}else{
+				$(".imgtext_main").css('height', 'auto');
+				$(this).children().addClass("active");
+			};
+		});
+		floatbox('.entname','.close','.theme_win');
+	});
+	
+	function floatbox(xbtn, sbtn, puw){
+		/* $(xbtn).bind("click",function(event){
+			$(".theme_mask").show();
+			$(".theme_mask").height($(document).height());
+			$(puw).show();
+			event.stopPropagation();
+			stop();
+		}) */
+		$(sbtn).bind("click",function(){
+			$(".theme_mask").hide();
+			$(puw).hide();
+			move();
+		})
+	}
+	
+	//实现滚动条无法滚动
+	var mo=function(e){e.preventDefault();};
+
+	/***禁止滑动***/
+	function stop(){
+	        document.body.style.overflow='hidden';        
+	        document.addEventListener("touchmove",mo,false);//禁止页面滑动
+	}
+
+	/***取消滑动限制***/
+	function move(){
+	        document.body.style.overflow='';//出现滚动条
+	        document.removeEventListener("touchmove",mo,false);        
+	}
+</script>	
+</body>
+</html>

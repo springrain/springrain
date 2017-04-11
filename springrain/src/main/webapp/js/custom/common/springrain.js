@@ -3,6 +3,20 @@
  */
 (function($){
 	$.springrain={
+			/**
+			 * AJAX  同意设置白名单
+			 * @param _url
+			 */
+			ajaxFireWallHosts:function(_url){
+				//白名单
+				var _array=new Array();
+				_array.push("apis.map.qq.com");
+				
+				var _temps=_array.join(",");
+				if(_url.indexOf(_temps)!=-1){
+					return true;
+				}
+			},
 			appendToken:function(_url){
 				var _that=this;
 				if(!_url)return;
@@ -95,7 +109,6 @@
 					});
 					return false;
 				}
-				
 				_tips=_tips?_tips:'是否删除?';
 				layer.confirm(_tips, {icon: 3, title:'提示'}, function(index){
 					  jQuery.ajax({
@@ -191,7 +204,11 @@
 					beforeSubmit:function(curform){
 						index=layer.load(null, {shade: [0.8, '#393D49'] });
 						if(_before!=null &&typeof(_before)=="function"){
-							_before();
+							var result = _before();
+							if(result == false){
+								layer.close(index);
+								return false;
+							}
 						}
 						//在验证成功后，表单提交前执行的函数，curform参数是当前表单对象。
 						//这里明确return false的话表单将不会提交;	
@@ -570,6 +587,9 @@
 					//单击事件，显示数据并可修改
 					},
 					data : {
+						key:{
+							children:"leaf"
+						},
 						simpleData : {
 							enable : true,
 							idKey : "id",//指定id  key

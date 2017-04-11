@@ -30,7 +30,7 @@ import org.springrain.system.service.IStaticHtmlService;
 
 @Component("statichtml")
 public class FrameStaticHtmlFilter extends OncePerRequestFilter {
-	public Logger logger = LoggerFactory.getLogger(getClass());
+	private Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@Resource
 	private IStaticHtmlService staticHtmlService;
@@ -62,7 +62,7 @@ public class FrameStaticHtmlFilter extends OncePerRequestFilter {
 		try {
 			htmlPath = staticHtmlService.findHtmlPathByURI(siteId,uri);
 		} catch (Exception e) {
-			logger.error(e.getLocalizedMessage());
+			logger.error(e.getMessage(),e);
 		}
 		
 		if(StringUtils.isBlank(htmlPath)||"error".equals(htmlPath)){//缓存中不存在

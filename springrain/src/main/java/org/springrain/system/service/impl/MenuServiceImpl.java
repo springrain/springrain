@@ -52,7 +52,7 @@ public class MenuServiceImpl extends BaseSpringrainServiceImpl implements
 	
 	
 	public List<Menu> findListById(Object id) throws Exception {
-		List<Menu> menuList=new ArrayList<Menu>();
+		List<Menu> menuList=new ArrayList<>();
 		Finder finder = Finder.getSelectFinder(Menu.class);
 	
 		if(id==null || StringUtils.isBlank(id.toString())){

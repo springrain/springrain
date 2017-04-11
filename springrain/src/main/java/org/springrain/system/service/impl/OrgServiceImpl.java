@@ -250,7 +250,7 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements
 			}
 
 			if ((parentId == m.getPid()) || (m.getPid().equals(parentId))) {
-				List<Org> leaf = new ArrayList<Org>();
+				List<Org> leaf = new ArrayList<>();
 				m.setLeafOrg(leaf);
 				tolist.add(m);
 				// from.remove(i);
@@ -299,7 +299,7 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements
 		if (CollectionUtils.isEmpty(list)) {
 			return null;
 		}
-		List<Org> wrapList = new ArrayList<Org>();
+		List<Org> wrapList = new ArrayList<>();
 		diguiwrapList(list, wrapList, null);
 
 		return wrapList;

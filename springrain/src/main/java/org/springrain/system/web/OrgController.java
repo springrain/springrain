@@ -73,8 +73,8 @@ public class OrgController  extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/list/json")
-	public @ResponseBody
-	ReturnDatas listjson(HttpServletRequest request, Model model,Org org) throws Exception{
+	@ResponseBody 
+	public ReturnDatas listjson(HttpServletRequest request, Model model,Org org) throws Exception{
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		// ==构造分页请求
 		//Page page = newPage(request);
@@ -104,8 +104,8 @@ public class OrgController  extends BaseController {
 	 * 查看的Json格式数据,为APP端提供数据
 	 */
 	@RequestMapping(value = "/look/json")
-	public @ResponseBody
-	ReturnDatas lookjson(Model model,HttpServletRequest request,HttpServletResponse response) throws Exception {
+	@ResponseBody 
+	public ReturnDatas lookjson(Model model,HttpServletRequest request,HttpServletResponse response) throws Exception {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		java.lang.String id=request.getParameter("id");
 		if(StringUtils.isNotBlank(id)){
@@ -124,8 +124,8 @@ public class OrgController  extends BaseController {
 	 * 
 	 */
 	@RequestMapping("/update")
-	public @ResponseBody
-	ReturnDatas saveorupdate(Model model,Org org,HttpServletRequest request,HttpServletResponse response) throws Exception{
+	@ResponseBody 
+	public ReturnDatas saveorupdate(Model model,Org org,HttpServletRequest request,HttpServletResponse response) throws Exception{
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		returnObject.setMessage(MessageUtils.UPDATE_SUCCESS);
 		
@@ -146,8 +146,7 @@ public class OrgController  extends BaseController {
 			
 			
 		} catch (Exception e) {
-			String errorMessage = e.getLocalizedMessage();
-			logger.error(errorMessage,e);
+			logger.error(e.getMessage(),e);
 			returnObject.setStatus(ReturnDatas.ERROR);
 			returnObject.setMessage(MessageUtils.UPDATE_ERROR);
 		}
@@ -172,7 +171,8 @@ public class OrgController  extends BaseController {
 	 * 删除操作
 	 */
 	@RequestMapping(value="/delete")
-	public @ResponseBody ReturnDatas destroy(HttpServletRequest request) throws Exception {
+	@ResponseBody 
+	public  ReturnDatas destroy(HttpServletRequest request) throws Exception {
 		ReturnDatas errorReturnDatas=ReturnDatas.getErrorReturnDatas();
 			// 执行删除
 		try {

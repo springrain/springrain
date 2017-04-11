@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	    <@cms_site id=siteId!'' >
+		<@cms_channel id=businessId!'' >
+			<meta name="keywords" content="${(site.keywords)!''},${(tag_bean.name)!''}" />
+			<title>${(tag_bean.name)!''}</title>
+		</@cms_channel>
+		</@cms_site>
+	    <link rel="stylesheet" href="${ctx}/u/s_10007/f/css/phone.css" />
+	    <link rel="stylesheet" href="${ctx}/u/s_10007/f/css/style.css" />
+	    <script type="text/javascript" src="${ctx}/u/s_10007/f/js/jQuery.1.8.2.min.js" ></script>
+	    <script type="text/javascript" src="${ctx}/u/s_10007/f/js/height.js" ></script>
+	    <style>
+	    	body{
+	    		background: url(${ctx}/u/s_10007/f/images/tmcx_jg_bgimg.jpg);
+	    		background-size: 100% 100%;
+	    		background-repeat: no-repeat;
+	    		background-position: center;
+	    	}
+	    	body,html{overflow: hidden;}
+	    	.boxShadow{-moz-box-shadow:0px -5px 9px #e6e9ec; -webkit-box-shadow:0px -5px 9px #e6e9ec; box-shadow:0px -5px 9px #e6e9ec;}
+	    	.boxShadow02{-moz-box-shadow:0px 7px 9px #e6e9ec; -webkit-box-shadow:0px 7px 9px #e6e9ec; box-shadow:0px 7px 9px #e6e9ec;}
+	    	.boxShadow{
+	    		background: url(${ctx}/u/s_10007/f/images/tmcx_jg_bgimg02.jpg);
+	    		background-size: 100% 100%;
+	    		background-repeat: no-repeat;
+	    		background-position: center;
+	    	}
+	    </style>
+	</head>
+	<body>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col12 l-ht0 ht1">
+					<img src="${ctx}/u/s_10007/f/images/tmcx_xq_banner.png" class="per100" />
+				</div>
+			</div>
+			<div class="row">
+				<div class="col12 ht80">
+					<div class="ht80 fl per40 pos-r">
+						<div class="ht38 tr pr44">
+							<div class="ht30 w-2 display-ib bg-ed425b"></div>
+						</div>
+						<div class="w-56 ht56 bg-f5f9fa radius-circle tc l-ht56 pos-a right18 -bottom10 boxShadow02">
+							<div class="w-46 ht46 bg-ed425b radius-circle tc l-ht46 display-ib font-white">
+								<span class="font22">${size!''}</span>人
+							</div>
+						</div>
+					</div>
+					<div class="ht80 fl per60 pl10 pt4">
+						<p class="font16 font-yahei font-b mb4">全市重名数</p>
+						<p class="font-6 font12 mt0 mb0">本数据由梧州市公安局提供</p>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col12">
+					<div class="pl4 pr4">
+						<div class="boxShadow border-t-radius6 overflow-h">
+							<ul class="mt56">
+							<#if (results??)&&(results?size>0)>
+							<#list results as _data>
+								<li class="ht48">
+									<div class="ht48 tr l-ht48 font14 font-yahei fl per30">
+										${(_data.district)!''}
+									</div>
+									<div class="ht48 l-ht48 font-yahei fl per70 tl pl26">
+										<span class="font22">${(_data.size)!''}</span>人
+									</div>
+								</li>
+							</#list>
+							</#if>
+								
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	
+	<script>
+		var ht1=$('div.ht1').height();
+		var ht80=$('div.ht80').height();
+		var bodyHt=$('body').height();
+		
+		$('div.boxShadow').height((bodyHt-ht1-ht80)+'px');
+	</script>
+	
+</html>

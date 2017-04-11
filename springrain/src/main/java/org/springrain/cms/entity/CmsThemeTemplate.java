@@ -92,7 +92,7 @@ public class CmsThemeTemplate  extends BaseEntity {
 	}
 	
 	public String toString() {
-		return new StringBuffer()
+		return new StringBuilder()
 			.append("ID[").append(getId()).append("],")
 			.append("主题Id[").append(getThemeId()).append("],")
 			.append("模板Id[").append(getTemplateId()).append("],")
@@ -106,8 +106,12 @@ public class CmsThemeTemplate  extends BaseEntity {
 	}
 	
 	public boolean equals(Object obj) {
-		if(obj instanceof CmsThemeTemplate == false) return false;
-		if(this == obj) return true;
+		if(obj instanceof CmsThemeTemplate == false){
+			return false;
+		} 
+		if(this == obj){
+			return true;
+		} 
 		CmsThemeTemplate other = (CmsThemeTemplate)obj;
 		return new EqualsBuilder()
 			.append(getId(),other.getId())

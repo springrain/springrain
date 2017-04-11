@@ -65,8 +65,8 @@ public class DicDataController  extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/list/json")
-	public @ResponseBody
-	ReturnDatas listjson(@PathVariable String pathtypekey,HttpServletRequest request, Model model,DicData dicData) throws Exception{
+	@ResponseBody 
+	public ReturnDatas listjson(@PathVariable String pathtypekey,HttpServletRequest request, Model model,DicData dicData) throws Exception{
 		dicData.setTypekey(pathtypekey);
 		String nopage = request.getParameter("page");//树结构不能分页
 		Page page=null;
@@ -129,8 +129,8 @@ public class DicDataController  extends BaseController {
 	 * 查看的Json格式数据,为APP端提供数据
 	 */
 	@RequestMapping(value = "/look/json")
-	public @ResponseBody
-	ReturnDatas lookjson(@PathVariable String pathtypekey,Model model,HttpServletRequest request,HttpServletResponse response) throws Exception {
+	@ResponseBody 
+	public ReturnDatas lookjson(@PathVariable String pathtypekey,Model model,HttpServletRequest request,HttpServletResponse response) throws Exception {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		java.lang.String id=request.getParameter("id");
 		if(StringUtils.isNotBlank(id)){
@@ -149,8 +149,8 @@ public class DicDataController  extends BaseController {
 	 * 
 	 */
 	@RequestMapping("/update")
-	public @ResponseBody
-	ReturnDatas saveorupdate(@PathVariable String pathtypekey,Model model,DicData dicData,HttpServletRequest request,HttpServletResponse response) throws Exception{
+	@ResponseBody 
+	public ReturnDatas saveorupdate(@PathVariable String pathtypekey,Model model,DicData dicData,HttpServletRequest request,HttpServletResponse response) throws Exception{
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		returnObject.setMessage(MessageUtils.UPDATE_SUCCESS);
 		
@@ -167,8 +167,7 @@ public class DicDataController  extends BaseController {
 			dicDataService.saveorupdateDicData(dicData,pathtypekey);
 			
 		} catch (Exception e) {
-			String errorMessage = e.getLocalizedMessage();
-			logger.error(errorMessage,e);
+			logger.error(e.getMessage(),e);
 			returnObject.setStatus(ReturnDatas.ERROR);
 			returnObject.setMessage(MessageUtils.UPDATE_ERROR);
 		}
@@ -196,7 +195,8 @@ public class DicDataController  extends BaseController {
 	 * 删除操作
 	 */
 	@RequestMapping(value="/delete")
-	public @ResponseBody ReturnDatas destroy(@PathVariable String pathtypekey,HttpServletRequest request) throws Exception {
+	@ResponseBody 
+	public  ReturnDatas destroy(@PathVariable String pathtypekey,HttpServletRequest request) throws Exception {
 
 			// 执行删除
 		try {
@@ -220,8 +220,8 @@ public class DicDataController  extends BaseController {
 	 * 
 	 */
 	@RequestMapping("/delete/more")
-	public @ResponseBody
-	ReturnDatas delMultiRecords(@PathVariable String pathtypekey,HttpServletRequest request, Model model) {
+	@ResponseBody 
+	public ReturnDatas delMultiRecords(@PathVariable String pathtypekey,HttpServletRequest request, Model model) {
 		String records = request.getParameter("records");
 		if(StringUtils.isBlank(records)){
 			 return new ReturnDatas(ReturnDatas.ERROR,
@@ -236,6 +236,7 @@ public class DicDataController  extends BaseController {
 			List<String> ids = Arrays.asList(rs);
 			dicDataService.deleteDicDataByIds(ids,pathtypekey);
 		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
 			return new ReturnDatas(ReturnDatas.ERROR,
 					MessageUtils.DELETE_ALL_FAIL);
 		}

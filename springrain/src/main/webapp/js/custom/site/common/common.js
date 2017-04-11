@@ -3,27 +3,34 @@ $(document).ready(function(){
 		beforeSend:function(e){
 			var _that=this;
 			var _url=_that.url;
-			if(_url.indexOf("springraintoken")!=-1)return;
-			if(_url.indexOf("?")!=-1){
-				_that.url= _url+"&springraintoken="+springraintoken;
-			}else{
-				_that.url= _url+"?springraintoken="+springraintoken;
+			if(!springrain.ajaxFireWallHosts(_url)){
+				if(_url.indexOf("springraintoken")!=-1)return;
+				if(_url.indexOf("?")!=-1){
+					_that.url= _url+"&springraintoken="+springraintoken;
+				}else{
+					_that.url= _url+"?springraintoken="+springraintoken;
+				}
 			}
 		},
 		complete:function(data){
-			try{
-				var _obj=data.responseText;
-				_obj=eval("("+_obj+")");
-				if(_obj.statusCode=='relogin'){
-					this.success=null;
-					springrain.info("登录超时，请重新登录.", null);
-					setTimeout(function(){
-						window.location.href=ctx+"/s/"+getDefaultSiteId()+"/login";
-					},1000);
+			var _that=this;
+			var _url=_that.url;
+			if(!springrain.ajaxFireWallHosts(_url)){
+				try{
+					var _obj=data.responseText;
+					_obj=eval("("+_obj+")");
+					if(_obj.statusCode=='relogin'){
+						this.success=null;
+						springrain.info("登录超时，请重新登录.", null);
+						setTimeout(function(){
+							window.location.href=ctx+"/s/"+getDefaultSiteId()+"/login";
+						},1000);
+					}
+				}catch(e){
+					springrain.info(e, null);
 				}
-			}catch(e){
-				springrain.info(e, null);
 			}
+			
 		}
 	});
 	//初始化插件
@@ -45,6 +52,9 @@ $(document).ready(function(){
 			  var element = layui.element();   
 		});
 	},200);
+	//修改 修改密码的链接
+	var siteId = $.cookie('defaultSiteId');
+	jQuery("#modifypwd").attr("href","javascript:springrain.goTo('"+ctx+"/s/password/"+siteId+"/modifiypwd/pre')");
 });
 var form;
 /*添加form的监听回调*/

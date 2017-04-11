@@ -13,6 +13,8 @@ import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.weixin.sdk.common.api.IWxConfig;
 import org.springrain.weixin.sdk.common.bean.result.WxError;
@@ -22,7 +24,7 @@ import org.springrain.weixin.sdk.common.util.http.RequestExecutor;
 import org.springrain.weixin.sdk.common.util.json.WxGsonBuilder;
 
 public class MaterialVoiceAndImageDownloadRequestExecutor implements RequestExecutor<InputStream, String> {
-
+  private final Logger logger = LoggerFactory.getLogger(getClass());
   @SuppressWarnings("unused")
   private File tmpDirFile;
 
@@ -59,6 +61,7 @@ public class MaterialVoiceAndImageDownloadRequestExecutor implements RequestExec
             throw new WxErrorException(wxError);
           }
         } catch (com.google.gson.JsonSyntaxException ex) {
+          logger.error(ex.getMessage(),ex);
           return new ByteArrayInputStream(responseContent);
         }
       }

@@ -25,14 +25,13 @@ public interface ICmsLinkService extends IBaseSpringrainService {
 	    
 
     Integer updateCmsLink(CmsLink cmsLink ) throws Exception;
-
-	/**
-	 * 查询资源链接
+    /**
+	 * 查询资源链接   org.springrain.frame.util.Enumerations ，所有的链接 site bussId  modelType下只会有一条记录。
 	 * @param bussinessId
 	 * @return
 	 * @throws Exception 
 	 */
-    CmsLink findLinkBySiteBusinessId(String siteId,String bussinessId) throws Exception;
+    CmsLink findLinkBySiteBusinessIdModelType(String siteId,String bussinessId,Integer modelType) throws Exception;
     
     /**
 	 * 查询资源链接
@@ -40,5 +39,16 @@ public interface ICmsLinkService extends IBaseSpringrainService {
 	 * @return
 	 * @throws Exception 
 	 */
-    CmsLink findLinkBySiteBusinessId(String siteId,String bussinessId,String defaultLink) throws Exception;
+    CmsLink findLinkByLink(String siteId,String link) throws Exception;
+    
+    
+    /**
+  	 * 查询资源链接
+  	 * @param bussinessId
+  	 * @return
+  	 * @throws Exception 
+  	 */
+      CmsLink findLinkByDefaultLink(String siteId,String defaultLink) throws Exception;
+    
+    
 }

@@ -61,8 +61,8 @@ public class AuditlogController  extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/list/json")
-	public @ResponseBody
-	ReturnDatas listjson(HttpServletRequest request, Model model, AuditLog auditlog) throws Exception {
+	@ResponseBody 
+	public ReturnDatas listjson(HttpServletRequest request, Model model, AuditLog auditlog) throws Exception {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 	
 		Page page = newPage(request);
@@ -111,8 +111,8 @@ public class AuditlogController  extends BaseController {
 	 * 查看的Json格式数据,为APP端提供数据
 	 */
 	@RequestMapping(value = "/look/json")
-	public @ResponseBody
-	ReturnDatas lookjson(Model model, HttpServletRequest request, HttpServletResponse response)
+	@ResponseBody 
+	public ReturnDatas lookjson(Model model, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		String id = request.getParameter("id");

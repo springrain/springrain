@@ -271,7 +271,7 @@ public class WxCryptUtil {
   private static String genRandomStr() {
     String base = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     Random random = new Random();
-    StringBuffer sb = new StringBuffer();
+    StringBuilder sb = new StringBuilder();
     for (int i = 0; i < 16; i++) {
       int number = random.nextInt(base.length());
       sb.append(base.charAt(number));

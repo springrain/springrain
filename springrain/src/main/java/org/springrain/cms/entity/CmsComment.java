@@ -59,7 +59,7 @@ public class CmsComment  extends BaseEntity {
 	/**
 	 * 站点ID
 	 */
-	private java.lang.Integer siteId;
+	private java.lang.String siteId;
 	/**
 	 * 评论时间
 	 */
@@ -108,6 +108,12 @@ public class CmsComment  extends BaseEntity {
 	 * 用户姓名
 	 */
 	private java.lang.String userName;
+	
+	private java.lang.String bak1;
+	private java.lang.String bak2;
+	private java.lang.String bak3;
+	private java.lang.String bak4;
+	private java.lang.String bak5;
 	//columns END 数据库字段结束
 	
 	//concstructor
@@ -167,12 +173,12 @@ public class CmsComment  extends BaseEntity {
 	public java.lang.String getPid() {
 		return this.pid;
 	}
-	public void setSiteId(java.lang.Integer value) {
+	public void setSiteId(java.lang.String value) {
 		this.siteId = value;
 	}
 	
      @WhereSQL(sql="siteId=:CmsComment_siteId")
-	public java.lang.Integer getSiteId() {
+	public java.lang.String getSiteId() {
 		return this.siteId;
 	}
 		/*
@@ -278,9 +284,49 @@ public class CmsComment  extends BaseEntity {
 	public void setUserName(java.lang.String userName) {
 		this.userName = userName;
 	}
+	@WhereSQL(sql="bak1=:CmsComment_bak1")
+	public java.lang.String getBak1() {
+		return bak1;
+	}
+
+	public void setBak1(java.lang.String bak1) {
+		this.bak1 = bak1;
+	}
+	@WhereSQL(sql="bak2=:CmsComment_bak2")
+	public java.lang.String getBak2() {
+		return bak2;
+	}
+
+	public void setBak2(java.lang.String bak2) {
+		this.bak2 = bak2;
+	}
+	@WhereSQL(sql="bak3=:CmsComment_bak3")
+	public java.lang.String getBak3() {
+		return bak3;
+	}
+
+	public void setBak3(java.lang.String bak3) {
+		this.bak3 = bak3;
+	}
+	@WhereSQL(sql="bak4=:CmsComment_bak4")
+	public java.lang.String getBak4() {
+		return bak4;
+	}
+
+	public void setBak4(java.lang.String bak4) {
+		this.bak4 = bak4;
+	}
+	@WhereSQL(sql="bak5=:CmsComment_bak5")
+	public java.lang.String getBak5() {
+		return bak5;
+	}
+
+	public void setBak5(java.lang.String bak5) {
+		this.bak5 = bak5;
+	}
 
 	public String toString() {
-		return new StringBuffer()
+		return new StringBuilder()
 			.append("id[").append(getId()).append("],")
 			.append("评论用户ID[").append(getUserId()).append("],")
 			.append("业务Id[").append(getBusinessId()).append("],")
@@ -303,8 +349,12 @@ public class CmsComment  extends BaseEntity {
 	}
 	
 	public boolean equals(Object obj) {
-		if(obj instanceof CmsComment == false) return false;
-		if(this == obj) return true;
+		if(obj instanceof CmsComment == false){
+			return false;
+		} 
+		if(this == obj){
+			return true;
+		} 
 		CmsComment other = (CmsComment)obj;
 		return new EqualsBuilder()
 			.append(getId(),other.getId())

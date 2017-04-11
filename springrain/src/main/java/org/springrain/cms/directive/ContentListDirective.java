@@ -11,7 +11,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Component;
 import org.springrain.cms.entity.CmsContent;
 import org.springrain.cms.service.ICmsContentService;
-import org.springrain.cms.utils.DirectiveUtils;
+import org.springrain.cms.util.DirectiveUtils;
 import org.springrain.frame.util.Page;
 
 import freemarker.core.Environment;
@@ -44,15 +44,16 @@ public class ContentListDirective  extends AbstractCMSDirective  {
 			
 			
 			try {
-				if(type.equals("0")){//查询站点首页下的内容
+				if("0".equals(type)){//查询站点首页下的内容
 					contentList = cmsContentService.findListBySiteId(getSiteId(params), page);
-				}else if (type.equals("1")){//查询栏目下的内容
+				}else if ("1".equals(type)){//查询栏目下的内容
 					contentList = cmsContentService.findContentByChannelId(getSiteId(params),getBusinessId(params), page);
 				}else{
 					//目前暂时没有其它类型，先占位
 					contentList = new ArrayList<>();
 				}
 			} catch (Exception e) {
+				logger.error(e.getMessage(),e);
 				contentList = new ArrayList<>();
 			}
 		

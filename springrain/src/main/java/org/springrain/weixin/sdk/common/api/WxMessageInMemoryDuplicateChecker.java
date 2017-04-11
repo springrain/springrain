@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
  * </pre>
  */
 public class WxMessageInMemoryDuplicateChecker implements WxMessageDuplicateChecker {
-	public   Logger logger = LoggerFactory.getLogger(getClass());
+	private final  Logger logger = LoggerFactory.getLogger(getClass());
   /**
    * 一个消息ID在内存的过期时间：15秒
    */

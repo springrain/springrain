@@ -12,7 +12,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Component;
 import org.springrain.cms.service.ICmsContentService;
-import org.springrain.cms.utils.DirectiveUtils;
+import org.springrain.cms.util.DirectiveUtils;
 
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;

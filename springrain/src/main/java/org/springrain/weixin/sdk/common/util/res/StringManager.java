@@ -18,7 +18,16 @@
 package org.springrain.weixin.sdk.common.util.res;
 
 import java.text.MessageFormat;
-import java.util.*;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * An internationalization / localization helper class which reduces
@@ -45,9 +54,9 @@ import java.util.*;
  * @see java.util.ResourceBundle
  */
 public class StringManager {
-
-  private static final Map<String, Map<Locale, StringManager>> managers =
-          new Hashtable<>();
+	
+  private static final Logger logger = LoggerFactory.getLogger(StringManager.class);
+  private static final Map<String, Map<Locale, StringManager>> managers =new HashMap<>();
   private static int LOCALE_CACHE_SIZE = 10;
   /**
    * The ResourceBundle for this StringManager.
@@ -69,6 +78,7 @@ public class StringManager {
     try {
       bnd = ResourceBundle.getBundle(bundleName, locale);
     } catch (MissingResourceException ex) {
+    	logger.error(ex.getMessage(),ex);
       // Try from the current loader (that's the case for trusted apps)
       // Should only be required if using a TC5 style classloader structure
       // where common != shared != server
@@ -77,6 +87,7 @@ public class StringManager {
         try {
           bnd = ResourceBundle.getBundle(bundleName, locale, cl);
         } catch (MissingResourceException ex2) {
+        	logger.error(ex2.getMessage(),ex2);
           // Ignore
         }
       }
@@ -196,6 +207,9 @@ public class StringManager {
         str = this.bundle.getString(key);
       }
     } catch (MissingResourceException mre) {
+    	logger.error(mre.getMessage(),mre);
+    	
+    	
       //bad: shouldn't mask an exception the following way:
       //   str = "[cannot find message associated with key '" + key +
       //         "' due to " + mre + "]";

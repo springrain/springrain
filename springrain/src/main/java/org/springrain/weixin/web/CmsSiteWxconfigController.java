@@ -48,7 +48,7 @@ public class CmsSiteWxconfigController  extends BaseController {
 	private ICmsSiteService cmsSiteService;
 	@Resource
 	private IWxMenuService wxMenuService;
-	private String listurl="/mp/conf/confList";
+	private String listurl="/weixin/mp/conf/confList";
 
 	/**
 	 * 列表数据,调用listjson方法,保证和app端数据统一
@@ -100,7 +100,7 @@ public class CmsSiteWxconfigController  extends BaseController {
 	public String look(Model model,HttpServletRequest request,HttpServletResponse response)  throws Exception {
 		ReturnDatas returnObject = lookjson(model, request, response);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
-		return "/mp/conf/confLook";
+		return "/weixin/mp/conf/confLook";
 	}
 
 	
@@ -142,8 +142,7 @@ public class CmsSiteWxconfigController  extends BaseController {
 			wxMpServletService.saveorupdate(wxMpConfig);
 			
 		} catch (Exception e) {
-			String errorMessage = e.getLocalizedMessage();
-			logger.error(errorMessage,e);
+			logger.error(e.getMessage(),e);
 			returnObject.setStatus(ReturnDatas.ERROR);
 			returnObject.setMessage(MessageUtils.UPDATE_ERROR);
 		}
@@ -161,7 +160,7 @@ public class CmsSiteWxconfigController  extends BaseController {
 		map.put("siteList", cmsSiteService.findMpSiteByUserId(SessionUser.getUserId()));
 		returnObject.setMap(map);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
-		return "/mp/conf/confCru";
+		return "/weixin/mp/conf/confCru";
 	}
 	
 	/**

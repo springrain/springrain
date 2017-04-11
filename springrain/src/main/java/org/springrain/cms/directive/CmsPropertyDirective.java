@@ -12,7 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springrain.cms.entity.CmsProperty;
 import org.springrain.cms.service.ICmsPropertyService;
-import org.springrain.cms.utils.DirectiveUtils;
+import org.springrain.cms.util.DirectiveUtils;
 
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;

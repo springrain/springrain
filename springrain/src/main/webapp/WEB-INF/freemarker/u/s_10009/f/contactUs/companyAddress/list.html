@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	    <title>公司地址</title>
+	   	<link rel="stylesheet" href="${ctx}/u/${siteId}/f/css/phone.css" />
+	    <link rel="stylesheet" href="${ctx}/u/${siteId}/f/css/style.css" />
+	    <script type="text/javascript" src="${ctx}/u/${siteId}/f/js/jQuery.1.8.2.min.js" ></script>
+	    <script type="text/javascript" src="${ctx}/u/${siteId}/f/js/height.js" ></script>
+	    <style>
+	    	.boxShadow{-moz-box-shadow:0px 3px 7px #dddddd; -webkit-box-shadow:0px 3px 7px #dddddd; box-shadow:0px 3px 7px #dddddd;}
+	    	p{margin-top:0 !important;margin-bottom:0 !important;}p span{font-size:1rem !important;}
+	    </style>
+	</head>
+	<body>
+		<div class="container-fluid overflow-h">
+			<div class="row">
+				<div class="col12">
+					<div class="pl12 pr12 mt64 pos-r">
+						<div class="ht78 per100 pos-a left12 -top54 pl12">
+							<div class="fl per30 ht78 w-78 padding4 bg-ededed radius-circle">
+								<img src="${ctx}/u/${siteId}/f/images/logo.png" class="per100 ht100p" />
+							</div>
+							<div class="fl per70 ht78 l-ht74 font14">
+								向心力通信技术股份有限公司
+							</div>
+						</div>
+						<ul class="pl12 pr12 bg-white boxShadow">
+							<div class="ht44 bg-white pt8">
+								<div class="ht20 tr font18 font-036eb7 font-b">
+									公司地址
+								</div>
+								<div class="ht10 tr font-036eb7 tr">——</div>
+							</div>
+							<@cms_content_list page=(returnDatas.page)! pageSort="asc" pageOrder="sortno">
+		   						<#if tag_list?? && (tag_list?size>0)> 
+		       						<#list tag_list as _data>
+			       						<#if (_data_index)%2==0>
+			       							<li class="border-b-1 mb12">
+												<div class="ht16 mb4">
+													<div class="fl ht18">
+														<div class="w-2 ht14 bg-red"></div>
+													</div>
+													<div class="fl per90 ht18 l-ht18 pl4 font14 font-b">
+														${(_data.title)!''}
+													</div>
+												</div>
+												${(_data.content)!''}
+											</li>
+											<#else>
+											<li class="border-b-1 mb12">
+												<div class="ht16 mb4">
+													<div class="fl ht18">
+														<div class="w-2 ht14 bg-036eb7"></div>
+													</div>
+													<div class="fl per90 ht18 l-ht18 pl4 font14 font-b">
+														${(_data.title)!''}
+													</div>
+												</div>
+												${(_data.content)!''}
+											</li>
+			       						</#if>
+									</#list> 
+   								</#if>
+							</@cms_content_list>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

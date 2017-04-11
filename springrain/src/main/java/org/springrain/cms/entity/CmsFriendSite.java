@@ -166,7 +166,7 @@ public class CmsFriendSite  extends BaseEntity {
 	}
 	
 	public String toString() {
-		return new StringBuffer()
+		return new StringBuilder()
 			.append("id[").append(getId()).append("],")
 			.append("siteId[").append(getSiteId()).append("],")
 			.append("name[").append(getName()).append("],")
@@ -185,8 +185,12 @@ public class CmsFriendSite  extends BaseEntity {
 	}
 	
 	public boolean equals(Object obj) {
-		if(obj instanceof CmsFriendSite == false) return false;
-		if(this == obj) return true;
+		if(obj instanceof CmsFriendSite == false){
+			return false;
+		} 
+		if(this == obj){
+			return true;
+		} 
 		CmsFriendSite other = (CmsFriendSite)obj;
 		return new EqualsBuilder()
 			.append(getId(),other.getId())

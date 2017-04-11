@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport"content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<@cms_site id=siteId!'' >
+		<@cms_channel id=businessId!'' >
+	<meta name="keywords" content="${(site.keywords)!''},${(tag_bean.name)!''}" />
+	<title>
+		${(site.name)!''}&nbsp;-&nbsp;${(tag_bean.name)!''}
+	</title>
+		</@cms_channel>
+	</@cms_site>
+	<link rel="stylesheet" href="${ctx}/u/${(siteId)!''}/f/css/weui.min.css" />
+	<link rel="stylesheet" href="${ctx}/u/${(siteId)!''}/f/css/jquery-weui.min.css" />
+	<link rel="stylesheet" href="${ctx}/u/${(siteId)!''}/f/css/phone.css" />
+	<link rel="stylesheet" href="${ctx}/u/${(siteId)!''}/f/css/style.css" />
+	<script type="text/javascript" src="${ctx}/u/${(siteId)!''}/f/js/jQuery.1.8.2.min.js" ></script>
+	<script type="text/javascript" src="${ctx}/u/${(siteId)!''}/f/js/height.js" ></script>
+	<script type="text/javascript">
+	
+		$(function(){
+			init();
+		});
+		
+		// 初始化相关配置
+		function init(){
+			// 手机端分页大小改为10
+			$("#pageSize").val(10);
+		}
+		
+		/** 加载下一页内容 **/
+		function loadNextPage(){
+			// 要查询的页码 = 当前页码 + 1
+			var pageIndex = parseInt($("#pageIndex").val()) + 1;
+			// 每页大小
+			var pageSize = $("#pageSize").val();
+			// 排序规则
+			var orderBy = $("#orderBy").val();
+			
+			$.ajax({
+				/* url: "${ctx}/f/mp/${siteId}/${businessId}/activityMain/ajax/list" , */
+				url: "${ctx}/f/mp/${siteId}/${businessId}/dom" ,
+				data: { 
+					"pageIndex" : pageIndex , 
+					"pageSize" : pageSize ,
+					"orderBy" : orderBy ,
+					"next" : "true"  
+				} , 
+				dataType: "html" ,
+				success: function(response){
+					$("#content_list").append(response);
+					// 变更当前页码 
+					$("#pageIndex").val(pageIndex);
+				}
+			});
+		}
+	
+		/** 跳转到详情页面 **/
+		function toInfoPage(contentId){
+			location.href = "${ctx}/f/mp/${siteId}/" + contentId ;//this.appendToken(_url);
+			//springrain.goTo('${ctx}/f/mp/${siteId}/' + contentId);	
+		}
+		
+	</script>
+</head>
+<body class="bg_eb">
+	<div class="volunteer_all">
+		<div class="vounteer_top">
+			<img class="mabg" src="${ctx}/u/${(siteId)!''}/f/images/volunteer_01.jpg" />
+			<img class="mark" src="${ctx}/u/${(siteId)!''}/f/images/volunteer_01.png" />
+		</div>
+		<div class="vounteer_main boxSizing">
+			<ul id="content_list" class="vounteer_list">
+				<#include "activityMainListAjax.html">
+			</ul>
+		</div>
+		<div id="qb_wc" class="weui-loadmore">
+	      <i class="weui-loading"></i>
+	      <span class="weui-loadmore__tips">正在加载...</span>
+	    </div>
+	</div>
+	
+	<!-- 加载下一页 -->
+	<input type="hidden" id="orderBy" value="6" >
+	<input type="hidden" id="pageIndex" value="${(returnDatas.page.pageIndex)!0}" >
+	<input type="hidden" id="pageSize" value="${(returnDatas.page.pageSize)!10}" >
+	<!-- <button id="loadNextPage" onclick="loadNextPage();" >加载下一页</button> -->
+	
+	<div class="theme_mask"></div>
+	<div class="theme_win">
+		<div class="title boxSizing lin_left">
+			<span>报名提醒</span>
+		</div>
+		<div class="close"><img src="${ctx}/u/${(siteId)!''}/f/images/icon_04.png" /></div>
+		<div class="win_main boxSizing">
+			<span>您还没有完善信息。</span>
+			<span>完善信息后即可报名，快试试吧</span>
+		</div>
+		<div class="login_btn" onclick="toSignupPage();">完善信息</div>
+	</div>
+	
+<script type="text/javascript">
+
+	/** 跳转到完善信息页面 **/
+	function toSignupPage(){
+		location.href = "${ctx}/f/mp/${siteId}/h_10099?pageBusinessId=${businessId}";
+	}
+
+	/** 报名参加活动 **/
+	function baoming(activityId){
+		// 判断是否完善了信息，没有完善则跳转到完善信息的页面
+		$.ajax({
+			url: "${ctx}/s/${siteId}/${businessId}/activity/ajax/hasSignup" ,
+			success: function(data){
+				if(data.status == "success"){
+					if(data.message == "false"){
+						// 跳转到完善信息的页面
+						showFloatbox();
+					}else{
+						$.ajax({
+							url: "${ctx}/s/${siteId}/${businessId}/activity/ajax/signup" ,
+							data: {
+								"activityMainId" : activityId,
+							} , 
+							success: function(data2){
+								if(data2.status == "success"){
+									alert("报名成功！");
+									location.reload();
+								}else{
+									// 异常信息
+									alert(data2.message);
+								}
+							}
+						});
+					}
+				}else{
+					// 异常信息
+					alert(data.message);
+				}
+			}
+		});
+	}
+	
+	$(document).ready(function() {
+		floatbox('.item_btn','.close','.theme_win');
+	});
+	function floatbox(xbtn, sbtn, puw){
+		/* $(xbtn).bind("click",function(event){
+			$(".theme_mask").show();
+			$(".theme_mask").height($(document).height());
+			$(puw).show();
+			event.stopPropagation();
+			stop();
+		}) */
+		$(sbtn).bind("click",function(){
+			$(".theme_mask").hide();
+			$(puw).hide();
+			move();
+		})
+	}
+	
+	function showFloatbox(){
+		var xbtn = '.item_btn';
+		var sbtn = '.close';
+		var puw = '.theme_win';
+		// '.item_btn','.close','.theme_win'
+		$(".theme_mask").show();
+		$(".theme_mask").height($(document).height());
+		$(puw).show();
+		event.stopPropagation();
+		stop();
+	}
+	
+	//实现滚动条无法滚动
+	var mo=function(e){e.preventDefault();};
+
+	/***禁止滑动***/
+	function stop(){
+	        document.body.style.overflow='hidden';        
+	        document.addEventListener("touchmove",mo,false);//禁止页面滑动
+	}
+
+	/***取消滑动限制***/
+	function move(){
+	        document.body.style.overflow='';//出现滚动条
+	        document.removeEventListener("touchmove",mo,false);        
+	}
+</script>	
+</script>
+<script type="text/javascript" src="${ctx}/u/${(siteId)!''}/f/js/jquery-weui.min.js" ></script>
+<script type="text/javascript">
+		var loading = false;  //状态标记
+		$(document.body).infinite().on("infinite", function() {
+		  if(loading) return;
+		  loading = true;
+		  setTimeout(function() {
+			  loadNextPage();
+		      loading = false;
+		  }, 1500);   //模拟延迟
+		});
+</script>
+</body>
+</html>

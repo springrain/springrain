@@ -165,7 +165,7 @@ public class Org  extends BaseEntity {
 	}
 
 	public String toString() {
-		return new StringBuffer()
+		return new StringBuilder()
 			.append("编号[").append(getId()).append("],")
 			.append("名称[").append(getName()).append("],")
 			.append("代码[").append(getComcode()).append("],")
@@ -185,8 +185,12 @@ public class Org  extends BaseEntity {
 	}
 	
 	public boolean equals(Object obj) {
-		if(obj instanceof Org == false) return false;
-		if(this == obj) return true;
+		if(obj instanceof Org == false){
+			return false;
+		} 
+		if(this == obj){
+			return true;
+		} 
 		Org other = (Org)obj;
 		return new EqualsBuilder()
 			.append(getId(),other.getId())

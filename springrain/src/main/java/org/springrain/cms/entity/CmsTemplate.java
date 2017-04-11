@@ -162,7 +162,7 @@ public class CmsTemplate  extends BaseEntity {
 	}
 	
 	public String toString() {
-		return new StringBuffer()
+		return new StringBuilder()
 			.append("ID[").append(getId()).append("],")
 			.append("名称[").append(getName()).append("],")
 			.append("备注[").append(getDescription()).append("],")
@@ -181,8 +181,12 @@ public class CmsTemplate  extends BaseEntity {
 	}
 	
 	public boolean equals(Object obj) {
-		if(obj instanceof CmsTemplate == false) return false;
-		if(this == obj) return true;
+		if(obj instanceof CmsTemplate == false){
+			return false;
+		} 
+		if(this == obj){
+			return true;
+		} 
 		CmsTemplate other = (CmsTemplate)obj;
 		return new EqualsBuilder()
 			.append(getId(),other.getId())

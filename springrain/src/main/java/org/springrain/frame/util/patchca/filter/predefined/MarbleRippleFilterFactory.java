@@ -31,7 +31,7 @@ public class MarbleRippleFilterFactory extends RippleFilterFactory {
 
 	@Override
 	protected List<BufferedImageOp> getPreRippleFilters() {
-		List<BufferedImageOp> list = new ArrayList<BufferedImageOp>();
+		List<BufferedImageOp> list = new ArrayList<>();
 		list.add(marble);
 		return list;
 	}

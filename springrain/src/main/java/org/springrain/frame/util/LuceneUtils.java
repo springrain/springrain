@@ -43,6 +43,10 @@ import org.apache.lucene.store.FSDirectory;
  */
 public class LuceneUtils {
 
+	private LuceneUtils(){
+		throw new IllegalAccessError("工具类不能实例化");
+	}
+	
 	// 分词器
 	private static Analyzer analyzer = new SmartChineseAnalyzer();
 
@@ -128,7 +132,7 @@ public class LuceneUtils {
 		} else {
 			// 查询出的结果文档
 			int _size = 20;
-			if (page != null && page.getPageSize() > 0) {
+			if (page.getPageSize() > 0) {
 				_size = page.getPageSize();
 			}
 
@@ -152,7 +156,7 @@ public class LuceneUtils {
 			return null;
 		}
 
-		List<T> list = new ArrayList<T>(hits.length);
+		List<T> list = new ArrayList<>(hits.length);
 		for (int i = 0; i < hits.length; i++) {
 			Document hitDoc = indexSearcher.doc(hits[i].doc);
 			T t = clazz.newInstance();
@@ -232,7 +236,7 @@ public class LuceneUtils {
 			return null;
 		}
 
-		List<T> list = new ArrayList<T>(hits.length);
+		List<T> list = new ArrayList<>(hits.length);
 		for (int i = 0; i < hits.length; i++) {
 			Document hitDoc = indexSearcher.doc(hits[i].doc);
 			T t = clazz.newInstance();
@@ -444,7 +448,7 @@ public class LuceneUtils {
 		if (CollectionUtils.isEmpty(list)) {
 			return null;
 		}
-		List<String> ids = new ArrayList<String>();
+		List<String> ids = new ArrayList<>();
 		Class clazz = list.get(0).getClass();
 		for (T t : list) {
 			String id = ClassUtils.getPKValue(t).toString();

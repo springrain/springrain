@@ -7,11 +7,10 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
-import org.springrain.cms.utils.DirectiveUtils;
+import org.springrain.cms.util.DirectiveUtils;
 import org.springrain.weixin.entity.WxMpConfig;
 import org.springrain.weixin.sdk.common.api.IWxMpConfig;
 import org.springrain.weixin.sdk.common.api.IWxMpConfigService;
-import org.springrain.weixin.service.impl.WxMpConfigServiceImpl;
 
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
@@ -35,6 +34,7 @@ public class CmsSiteWxconfigDirective extends AbstractCMSDirective  {
 		try {
 			config = wxMpConfigService.findWxMpConfigById(id);
 		} catch (Exception e) {
+			logger.error(e.getMessage(),e);
 			config = new WxMpConfig();
 		}
 				

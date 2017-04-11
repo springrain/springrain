@@ -27,6 +27,7 @@ import java.util.List;
 
 public class WobbleRippleFilterFactory extends RippleFilterFactory {
 
+	
 	protected WobbleImageOp wobble;
 	
 	public WobbleRippleFilterFactory() {
@@ -34,7 +35,7 @@ public class WobbleRippleFilterFactory extends RippleFilterFactory {
 	}
 	@Override
 	protected List<BufferedImageOp> getPreRippleFilters() {
-		List<BufferedImageOp> list = new ArrayList<BufferedImageOp>();
+		List<BufferedImageOp> list = new ArrayList<>();
 		list.add(wobble);
 		return list;
 	}

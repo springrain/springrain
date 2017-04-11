@@ -102,7 +102,7 @@ public class CmsTheme  extends BaseEntity {
 	}
 	
 	public String toString() {
-		return new StringBuffer()
+		return new StringBuilder()
 			.append("ID[").append(getId()).append("],")
 			.append("名称[").append(getName()).append("],")
 			.append("使用次数[").append(getUsecount()).append("],")
@@ -117,8 +117,12 @@ public class CmsTheme  extends BaseEntity {
 	}
 	
 	public boolean equals(Object obj) {
-		if(obj instanceof CmsTheme == false) return false;
-		if(this == obj) return true;
+		if(obj instanceof CmsTheme == false){
+			return false;
+		} 
+		if(this == obj){
+			return true;
+		} 
 		CmsTheme other = (CmsTheme)obj;
 		return new EqualsBuilder()
 			.append(getId(),other.getId())

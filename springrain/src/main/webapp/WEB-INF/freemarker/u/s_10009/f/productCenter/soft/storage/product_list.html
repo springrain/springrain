@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>软件存储优化</title>
+    <link rel="stylesheet" href="${ctx}/u/${siteId}/f/css/phone.css" />
+    <link rel="stylesheet" href="${ctx}/u/${siteId}/f/css/style.css" />
+    <script type="text/javascript" src="${ctx}/u/${siteId}/f/js/jQuery.1.8.2.min.js" ></script>
+    <script type="text/javascript" src="${ctx}/u/${siteId}/f/js/height.js" ></script>
+    <style>
+    	.line-gradient{
+    		background-image: -webkit-gradient(linear,0% 0%, 0% 100%, from(#FAFBFC), to(#F3F6F8), color-stop(0.4,#F6F8FA));
+    	}
+    	.boxShadow{
+    		-moz-box-shadow:0px 1px 5px #999999; -webkit-box-shadow:0px 1px 5px #999999; box-shadow:0px 1px 5px #999999;
+    	}
+    	.bgimg{
+    		background: url(${ctx}/u/${siteId}/f/images/ydyy_cpbg.png);
+    		background-size: 100% 100%;
+    		background-repeat: no-repeat;
+    		background-position: center;
+    	}
+    	.bgimg2{
+    		background: url(${ctx}/u/${siteId}/f/images/ydyy_jjfa.png);
+    		background-size: 100% 100%;
+    		background-repeat: no-repeat;
+    		background-position: center;
+    	}
+    </style>
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row line-gradient pos-f top0 left0 border-b-1 z-index999">
+			<div class="col4 tc l-ht34 font12 ht34">
+				<a class="display-ib" href="${ctx}/f/mp/${siteId}/h_10130">移动应用</a>
+			</div>
+			<div class="col4 tc l-ht34 font12 ht34">
+				<a class="display-ib" href="${ctx}/f/mp/${siteId}/h_10133">信息安全</a>
+			</div>
+			<div class="col4 tc l-ht34 font12 ht34 bg-036eb7">
+				<a class="display-ib font-white" href="${ctx}/f/mp/${siteId}/h_10136">存储优化</a>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col12 l-ht0 mt34">
+				<@cms_content_list page=(returnDatas.page)! pageSort="asc" pageOrder="sortno">
+					<#if tag_list?? && (tag_list?size>0)> 
+   						<#list tag_list as _data>
+   							<#if (_data_index==0)>
+   								<#if (_data.cover)?? && (_data.cover)!="">
+				                    <#assign json=(_data.cover)?eval/>
+				                    <#list json as item>
+				                        <img src="${ctx}${(item.path)!'/images/ydyy_banner.jpg'}" class="per100"/>
+				                    </#list>
+				                <#else>
+				                	<img src="${ctx}/u/${siteId}/f/images/ydyy_banner.jpg" class="per100" />
+				                </#if>
+   							</#if>
+						</#list> 
+   					</#if>
+				</@cms_content_list>
+			</div>
+		</div>
+		<div class="row bg-white">
+			<div class="col12">
+				<div style="height: 2px;background: #036eb7;margin-bottom: -2px;"></div>
+				<div class="tc">
+					<div class="w-80 ht22 display-ib bgimg font-white font-heiti font-b font14 l-ht22 tc">
+						产品
+					</div>
+				</div>
+				<ul class="">
+					<@cms_content_list page=(returnDatas.page)! pageSort="asc" pageOrder="sortno">
+   						<#if tag_list?? && (tag_list?size>0)> 
+       						<#list tag_list as _data>
+       							<#if (_data_index==1)>
+       								<li class="pl10 pr10 mb10">
+										<!-- <div class="ht44 l-ht44 overflow-h">
+											<span class="font14 font-b font-yahei">${(_data.title)!''}</span>
+											<span class="font-6 font12">${(_data.summary)!''}</span>
+										</div> -->
+										<div class="overflow-h l-ht0">
+											${(_data.content)!''}
+										</div>
+									</li>
+       							</#if>
+							</#list> 
+   						</#if>
+					</@cms_content_list>
+				</ul>
+			</div>
+		</div>
+		<div class="row bg-white">
+			<div class="col12">
+				<div style="height: 2px;background: #da251c;margin-bottom: -2px;"></div>
+				<div class="tc">
+					<div class="w-80 ht22 display-ib bgimg2 font-white font-heiti font-b font14 l-ht22 tc">
+						解决方案
+					</div>
+				</div>
+				<ul class="mt24 pl10 pr10" id="caseList">
+					
+				</ul>
+			</div>
+		</div>
+		<div class="row bg-white">
+			<div class="col12">
+				<div style="height: 2px;background: #036eb7;margin-bottom: -2px;"></div>
+				<div class="tc">
+					<div class="w-80 ht22 display-ib bgimg font-white font-heiti font-b font14 l-ht22 tc">
+						成功案例
+					</div>
+				</div>
+				<ul class="mt24 pl10 pr10" id="successCase">
+					
+				</ul>
+			</div>
+		</div>
+	</div>
+</body>
+
+	<script>
+		$(function() { 
+			var bodyHt=$('body').height();
+			var ht34=$('div.ht34').height();
+			var imgHt=$('div.mt34').height();
+			
+			$('div.contentHt').height((bodyHt-ht34-imgHt-16)+'px');
+			$('div.contentHt').css({'top':(ht34+imgHt-14)+'px'});
+			
+			jQuery.ajax({
+		        url : "${ctx}/f/mp/s_10009/h_10137",
+		        data : "",
+		        type : 'post',
+		        datatype : 'html',
+		        success : function(data) {
+		            $("#caseList").html("");
+		            $("#caseList").html(data);
+		        }
+		    });
+			
+			jQuery.ajax({
+		        url : "${ctx}/f/mp/s_10009/h_10138",
+		        data : "",
+		        type : 'post',
+		        datatype : 'html',
+		        success : function(data) {
+		            $("#successCase").html("");
+		            $("#successCase").html(data);
+		        }
+		    });
+		})
+	
+		function toDetail(contentId){
+		    window.location = "${ctx}/f/mp/${siteId!''}/"+contentId;
+		}
+	</script>
+
+</html>

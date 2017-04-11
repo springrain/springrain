@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <title>在线职位申请</title>
+        <link rel="stylesheet" href="${ctx}/u/${siteId}/f/css/phone.css" />
+        <link rel="stylesheet" href="${ctx}/u/${siteId}/f/css/style.css" />
+        <link rel="stylesheet" href="${ctx}/js/weui/css/jquery-weui.min.css" />
+	    <link rel="stylesheet" href="${ctx}/js/weui/css/weui.min.css" />
+        <script type="text/javascript" src="${ctx}/u/${siteId}/f/js/jQuery.1.8.2.min.js" ></script>
+        <script type="text/javascript" src="${ctx}/u/${siteId}/f/js/height.js" ></script>
+        <script type="text/javascript" src="${ctx}/js/webuploader/webuploader.min.js"></script>
+        <script type="text/javascript" src="${ctx}/js/weui/js/jquery-weui.min.js" ></script>
+	    <script type="text/javascript" src="${ctx}/js/weui/js/city-picker.min.js" ></script>
+        <style>
+            body{background: white;}
+            .boxShadow{-moz-box-shadow:0px 0px 4px #FA164C; -webkit-box-shadow:0px 0px 4px #FA164C; box-shadow:0px 0px 4px #FA164C;}
+        </style>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col12 l-ht0">
+                    <img src="${ctx}/u/${siteId}/f/images/zxzwsq_banner.png" class="per100" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col12">
+                    <form id="submitForm" action="${ctx}/f/mp/${(siteId)!''}/${(businessId)!''}/comment/update" method="post">
+                        <input type="hidden" name="content" id="content" value="公司名称"/>
+                        <input type="hidden" name="bak4" id="bak4" value="">
+	                    <ul class="pl36 pr36 pt16 bg-white">
+	                        <li class="mb10 ht32 border radius6 overflow-h">
+	                            <div class="ht32 fl pl8 l-ht32 font14" style="width: 22%;">
+	                                姓名：
+	                            </div>
+	                            <div class="fl ht32 pt2" style="width: 78%;">
+	                                <input type="text" onkeyup="this.value=this.value.replace(/^ +| +$/g,'')" class="ht28 per100 border-none bg-white" name="userName" id="informName" placeholder="请输入您的姓名" maxlength="20"/>
+	                            </div>
+	                        </li>
+	                        <li class="mb10 ht32 border radius6 overflow-h">
+	                            <div class="ht32 fl pl8 l-ht32 font14 per15" style="width: 22%;">
+	                                电话：
+	                            </div>
+	                            <div class="fl ht32 pt2" style="width: 78%;">
+	                                <input type="text" class="ht28 per100 border-none bg-white" name="mobile" id="informNum" placeholder="请输入您的电话" maxlength="11"/>
+	                            </div>
+	                        </li>
+	                        <li class="mb10 ht32 border radius6 overflow-h job">
+	                            <div class="ht32 fl pl8 l-ht32 font14" style="width: 33%;">
+	                                应聘岗位：
+	                            </div>
+	                            <div class="fl ht32 pos-r" style="width: 67%;">
+	                                <select class="ht30 per100 border-none bg-white" name="bak1">
+	                                    <@cms_content_list page=(returnDatas.page)! siteId='${siteId}' businessId='${companyId}' pageSort="asc" pageOrder="sortno" >
+										    <#if tag_list?? && (tag_list?size>0)> 
+										         <#list tag_list as _data>
+										              <#if (_data_index) != 0>
+										                   <option value="${(_data.title)!''}">${(_data.title)!''}</option>
+										              </#if>
+										        </#list> 
+										    </#if>
+										</@cms_content_list>
+	                                </select>
+	                                <div class="pos-a per100 top0 left0 ht30 l-ht30 font-red display-n jobMsg font12">
+										没有岗位，暂不能申请
+									</div>
+	                            </div>
+	                        </li>
+	                        <li class="mb10 ht32 border radius6 overflow-h">
+	                            <div class="ht32 fl pl8 l-ht32 font14" style="width: 33%;">
+	                                工作经验：
+	                            </div>
+	                            <div class="fl ht32" style="width: 67%;">
+	                                <select class="ht30 per100 border-none bg-white" name="bak2">
+	                                    <option value="1年">1年</option>
+	                                    <option value="2年">2年</option>
+	                                    <option value="3年以上">3年以上</option>
+	                                </select>
+	                            </div>
+	                        </li>
+	                        <li class="mt20 overflow-h">
+	                            <div class="w-70 bg-f5f6f8 btn ht22 border-ddddddd radius6 l-ht22 tc fl font12 font-6" onclick="uploadFile();">上传简历</div>
+	                            <div id="filePicker" style="display: none;">上传简历</div>
+	                            <div class="ht22 l-ht22 font-red font12 fl per70 tr display-n showMsg">请上传简历！</div>
+	                        </li>
+	                        <li class="font-6 font10 mt14" id="fileName">
+	                            	温馨提示：1、该上传不支持IOS，请拍照后上传简历图片。2、安卓用户请上传word文档，大小为0-10M。
+	                        </li>
+	                    </ul>
+                    </form>
+                </div>
+            </div>
+            <div class="row mt44 nb58">
+                <div class="col12 pl36 pr36">
+                    <div class="ht34 tc l-ht34 font-white radius6 btn bg-036eb7" onclick="subFrom();">提交</div>
+                </div>
+            </div>
+        </div>
+    </body>
+<script type="text/javascript">  
+
+$(function(){  
+    
+	<@cms_channel id='${companyId}' siteId='${siteId}'>
+	    $("#content").val("${(tag_bean.name)!''}");
+	</@cms_channel>
+    
+   var uploader = WebUploader.create({  
+       auto: true,  // 选完文件后，是否自动上传。 
+       server: '${ctx}/f/mp/${siteId!''}/${businessId!''}/file/upload',  // 文件接收服务端。
+       pick: '#filePicker', // 选择文件的按钮。可选。内部根据当前运行是创建，可能是input元素，也可能是flash. 
+       fileSingleSizeLimit:10*1024*1024,
+       accept: {  
+           title: 'Files',  
+           extensions: 'doc,docx,gif,jpg,jpeg,bmp,png',  
+           mimeTypes: 'application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/*'  
+       },  
+       method:'POST',
+   });  
+   
+   // 当有文件添加进来的时候  
+   uploader.on( 'fileQueued', function( file ) {
+       $("#fileName").html(file.name+" 已上传");
+       $("#fileName").addClass("font-green font-b");
+   });  
+   // 文件上传成功，给item添加成功class, 用样式标记上传成功。  
+   uploader.on( 'uploadSuccess', function( file,response ) {
+        $("#bak4").val(JSON.stringify(response.data));
+        $('.showMsg').addClass('display-n');
+    });
+});  
+
+//上传
+function uploadFile() {
+	$("#filePicker").find("input").click();
+}
+
+//清空为空提示
+$('input').focus(function(){
+	if($(this).hasClass('font-red')){
+		$('input').removeClass('font-red');
+		$(this).parent().parent().removeClass('boxShadow');
+		$(this).val('');
+	}
+});
+
+//提交表单
+
+function subFrom() {
+	var bak4=$('#bak4').val();
+	var informName=$('#informName').val();
+    var informNum=$('#informNum').val();
+    var reg=/^1[34578]\d{9}$/;
+    var job= $(".job option").map(function(){return $(this).val();}).get().join(", ");
+    
+    if(informName==''){
+        $('#informName').val('姓名不能为空').addClass('font-red');
+        $('#informName').parent().parent().addClass('boxShadow');
+        return false;
+    }else if(informNum==''){
+        $('#informNum').val('手机号码不能为空').addClass('font-red');
+        $('#informNum').parent().parent().addClass('boxShadow');
+        return false;
+    }else if(!reg.test(informNum)){
+        $('#informNum').val('手机号码格式不正确').addClass('font-red');
+        $('#informNum').parent().parent().addClass('boxShadow');
+        return false;
+    }else if(job==''){
+    	$('.job').addClass('boxShadow');
+    	$('.jobMsg').removeClass('display-n');
+    	return false;
+    }else if(bak4==''){
+    	$('.showMsg').removeClass('display-n');
+    	return false;
+    }
+	
+    jQuery.post($('#submitForm').attr('action'), $('#submitForm').serialize(),function(_json) {
+        if (_json.status == "success") {
+        	$.alert("提交成功", function() {
+				//点击确认后的回调函数
+        		location.reload(true); 
+			});
+        } else {
+        	$.alert("提交失败", function() {
+				  //点击确认后的回调函数
+			});
+        }
+    });
+}
+
+</script>
+</html>

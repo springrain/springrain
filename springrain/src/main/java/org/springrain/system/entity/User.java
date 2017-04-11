@@ -198,7 +198,7 @@ public class User  extends BaseEntity {
 		}
 
 		public String toString() {
-			return new StringBuffer()
+			return new StringBuilder()
 			.append("编号[").append(getId()).append("],")
 			.append("姓名[").append(getName()).append("],")
 			.append("账号[").append(getAccount()).append("],")
@@ -217,8 +217,12 @@ public class User  extends BaseEntity {
 		}
 		
 		public boolean equals(Object obj) {
-			if(obj instanceof User == false) return false;
-			if(this == obj) return true;
+			if(obj instanceof User == false){
+				return false;
+			} 
+			if(this == obj){
+				return true;
+			} 
 			User other = (User)obj;
 			return new EqualsBuilder()
 				.append(getId(),other.getId())

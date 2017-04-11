@@ -15,7 +15,7 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class Finder {
 	private Map<String,Object> params=null;
-    private StringBuffer sql=new StringBuffer();
+    private StringBuilder sql=new StringBuilder();
    // private String countSql=null;
     private String orderSql=null;
     //存储过程
@@ -193,7 +193,7 @@ public class Finder {
 	}
 
 	public void setSql(String sql) {
-		this.sql = new StringBuffer(sql);
+		this.sql = new StringBuilder(sql);
 	}
 
 	

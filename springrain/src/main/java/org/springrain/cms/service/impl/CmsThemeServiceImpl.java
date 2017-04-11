@@ -81,4 +81,9 @@ public class CmsThemeServiceImpl extends BaseSpringrainServiceImpl implements IC
 		return super.queryForList(Finder.getSelectFinder(CmsTheme.class), CmsTheme.class);
 	}
 
+	@Override
+	public List<CmsTheme> getTrueCmsThemes() throws Exception {
+		return super.queryForList(Finder.getSelectFinder(CmsTheme.class).append(" where active=1"), CmsTheme.class);
+	}
+
 }

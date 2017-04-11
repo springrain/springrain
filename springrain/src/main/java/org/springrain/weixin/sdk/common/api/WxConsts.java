@@ -12,7 +12,7 @@ public class WxConsts {
 	
 	
 	private WxConsts(){
-		throw new IllegalAccessError("Utility class");
+		throw new IllegalAccessError("工具类不能实例化");
 	}
 	
 	

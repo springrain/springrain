@@ -166,7 +166,7 @@ public class DicData  extends BaseEntity {
 	}
 
 	public String toString() {
-		return new StringBuffer()
+		return new StringBuilder()
 			.append("id[").append(getId()).append("],")
 			.append("名称[").append(getName()).append("],")
 			.append("编码[").append(getCode()).append("],")
@@ -184,8 +184,12 @@ public class DicData  extends BaseEntity {
 	}
 	
 	public boolean equals(Object obj) {
-		if(obj instanceof DicData == false) return false;
-		if(this == obj) return true;
+		if(obj instanceof DicData == false){
+			return false;
+		} 
+		if(this == obj){
+			return true;
+		} 
 		DicData other = (DicData)obj;
 		return new EqualsBuilder()
 			.append(getId(),other.getId())

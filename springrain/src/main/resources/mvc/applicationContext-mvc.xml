@@ -59,6 +59,7 @@
 	<mvc:resources mapping="/css/**" location="/css/" />
 	<mvc:resources mapping="/layui/**" location="/layui/" />
 	<mvc:resources mapping="/upload/**" location="/upload/"/>
+	<mvc:resources mapping="/u/**" location="/u/"/>
 	
 	<!-- 全局异常配置 start -->
 	<!-- 使用 web.xml的 errorpage 处理,不再使用 spring mvc 控制 -->

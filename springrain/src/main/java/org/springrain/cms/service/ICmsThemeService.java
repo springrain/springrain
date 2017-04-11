@@ -28,4 +28,10 @@ public interface ICmsThemeService extends IBaseSpringrainService {
 	 */
 	List<CmsTheme> getAllCmsThemes() throws Exception;
 	
+	/**
+	 * 获取可用的主题
+	 * @return CmsTheme的对象list
+	 * @throws Exception 
+	 */
+	List<CmsTheme> getTrueCmsThemes() throws Exception;
 }

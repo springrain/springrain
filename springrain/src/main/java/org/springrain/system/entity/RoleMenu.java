@@ -83,7 +83,7 @@ public class RoleMenu  extends BaseEntity {
 	}
 	
 	public String toString() {
-		return new StringBuffer()
+		return new StringBuilder()
 			.append("编号[").append(getId()).append("],")
 			.append("角色编号[").append(getRoleId()).append("],")
 			.append("菜单编号[").append(getMenuId()).append("],")
@@ -97,8 +97,12 @@ public class RoleMenu  extends BaseEntity {
 	}
 	
 	public boolean equals(Object obj) {
-		if(obj instanceof RoleMenu == false) return false;
-		if(this == obj) return true;
+		if(obj instanceof RoleMenu == false){
+			return false;
+		} 
+		if(this == obj){
+			return true;
+		} 
 		RoleMenu other = (RoleMenu)obj;
 		return new EqualsBuilder()
 			.append(getId(),other.getId())

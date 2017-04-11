@@ -80,7 +80,7 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
 		//hyy   20160123  end
 		//老代码不动
 		List<Role> listRole = user.getUserRoles();
-		List<UserRole> listur=new ArrayList<UserRole>();
+		List<UserRole> listur=new ArrayList<>();
 		for(Role role:listRole){
 			UserRole ur=new UserRole();
 			ur.setUserId(userId);
@@ -137,10 +137,6 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
 		// finder=Finder.getSelectFinder(User.class,"tu.*,tg.name as gradeName ").append(" tu,").append(Finder.getTableName(DicData.class)).append(" tg WHERE tu.gradeId=tg.id and tg.typekey='grade' ");
       
 		Finder qxfinder=userOrgService.findUserIdsSQLByManagerUserId(SessionUser.getUserId());
-//        if(StringUtils.isBlank(qxfinder.getSql())){
-//        	//没有权限返回null
-//        	return null;
-//        }
         
         user.setFrameTableAlias("u");
         
@@ -152,14 +148,13 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
 //		.append(" and re.orgId in (").append(qxsql).append(")").append("  group by userId ")
 //		.append(") as m where m.userId=u.id ");
 		
-//		finder.append(" and id in ").append("(").appendFinder(qxfinder).append(")");
-		
         if(StringUtils.isBlank(qxfinder.getSql())){
         	//非管理员查看自己的
         	finder.append(" and id=:currid ").setParam("currid", SessionUser.getUserId());
         }else{
         	finder.append(" and id in ").append("(").appendFinder(qxfinder).append(")");
         }
+		
 		
 		super.getFinderWhereByQueryBean(finder, user);
 		super.getFinderOrderBy(finder, page);
@@ -212,7 +207,7 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
 		// Finder("insert into t_user_role(id,userId,roleId) values(:id,:userId,:roleId)");
 		// finder.setParam("userId", userId);
 
-		List<UserRole> list = new ArrayList<UserRole>();
+		List<UserRole> list = new ArrayList<>();
 
 		for (String str : roleIds) {
 			if (StringUtils.isBlank(str)) {

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport"content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<@cms_site id=siteId!'' >
+	<@cms_channel id=businessId!'' >
+		<meta name="keywords" content="${(site.keywords)!''},${(tag_bean.name)!''}" />
+		<title>${(site.name)!''}&nbsp;-&nbsp;${(tag_bean.name)!''}</title>
+	</@cms_channel>
+	</@cms_site>
+	<link rel="stylesheet" href="${ctx}/u/${(siteId)!''}/f/css/weui.min.css" />
+	<link rel="stylesheet" href="${ctx}/u/${(siteId)!''}/f/css/jquery-weui.min.css" />
+	<link rel="stylesheet" href="${ctx}/u/${(siteId)!''}/f/css/phone.css" />
+	<link rel="stylesheet" href="${ctx}/u/${(siteId)!''}/f/css/style.css" />
+	<script type="text/javascript" src="${ctx}/u/${(siteId)!''}/f/js/jQuery.1.8.2.min.js" ></script>
+	<script type="text/javascript" src="${ctx}/u/${(siteId)!''}/f/js/height.js" ></script>
+	<script src="${ctx}/js/custom/common/springrain.js"></script>
+	
+	<script type="text/javascript">
+	
+		$(function(){
+			init();
+		});
+		
+		// 初始化相关配置
+		function init(){
+			// 手机端分页大小改为10
+			$("#pageSize").val(10);
+		}
+		
+		/** 加载下一页内容 **/
+		function loadNextPage(){
+			// 要查询的页码 = 当前页码 + 1
+			var pageIndex = parseInt($("#pageIndex").val()) + 1;
+			// 每页大小
+			var pageSize = $("#pageSize").val();
+			// 排序规则
+			var orderBy = $("#orderBy").val();
+			
+			$.ajax({
+				//url: "${ctx}/s/${siteId}/${businessId}/content/ajax/list" ,
+				url: "${ctx}/f/mp/${siteId}/${businessId}/dom" ,
+				data: { 
+					"pageIndex" : pageIndex , 
+					"pageSize" : pageSize ,
+					"orderBy" : orderBy ,
+					"next" : "true"  
+				} , 
+				dataType: "html" ,
+				success: function(response){
+					$("#content_list").append(response);
+					// 变更当前页码 
+					$("#pageIndex").val(pageIndex);
+				}
+			});
+		}
+	
+		/** 跳转到详情页面 **/
+		function toInfoPage(contentId){
+			location.href = "${ctx}/f/mp/${siteId}/" + contentId ;//this.appendToken(_url);
+			//springrain.goTo('${ctx}/f/mp/${siteId}/' + contentId);	
+		}
+		
+	</script>
+	
+</head>
+<body>
+	<div class="volunstyle_all">
+		<div class="volunstyle_list">
+			<ul id="content_list" >
+				<#include "activitySummaryListAjax.html" >
+			</ul>
+		</div>
+		<div id="qb_wc" class="weui-loadmore">
+	      <i class="weui-loading"></i>
+	      <span class="weui-loadmore__tips">正在加载...</span>
+	    </div>
+		<!-- 加载下一页 -->
+		<input type="hidden" id="orderBy" value="6" >
+		<input type="hidden" id="pageIndex" value="${(returnDatas.page.pageIndex)!0}" >
+		<input type="hidden" id="pageSize" value="${(returnDatas.page.pageSize)!10}" >
+		<!-- <button onclick="loadNextPage();" >加载下一页</button> -->
+	</div>
+<script type="text/javascript" src="${ctx}/u/${(siteId)!''}/f/js/jquery-weui.min.js" ></script>
+<script type="text/javascript">
+		var loading = false;  //状态标记
+		$(document.body).infinite().on("infinite", function() {
+		  if(loading) return;
+		  loading = true;
+		  setTimeout(function() {
+			  loadNextPage();
+		      loading = false;
+		  }, 1500);   //模拟延迟
+		});
+</script>
+</body>
+</html>

@@ -21,6 +21,12 @@ import javax.servlet.http.HttpServletRequest;
 
 
 public class IPUtils {
+	
+	private IPUtils(){
+		throw new IllegalAccessError("工具类不能实例化");
+	}
+	
+	
 	  /**
      * ip校验
      * @param s

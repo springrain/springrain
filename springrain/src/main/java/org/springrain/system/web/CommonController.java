@@ -56,7 +56,7 @@ public class CommonController extends BaseController  {
 			//HttpHeaders headers = new HttpHeaders();
 			//headers.setContentType(MediaType.IMAGE_JPEG);
 
-			StringBuffer code = new StringBuffer();
+			StringBuilder code = new StringBuilder();
 			BufferedImage image = CaptchaUtils.genRandomCodeImage(code);
 			session.removeAttribute(GlobalStatic.DEFAULT_CAPTCHA_PARAM);
 			session.setAttribute(GlobalStatic.DEFAULT_CAPTCHA_PARAM, code.toString());

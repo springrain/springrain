@@ -1,0 +1,516 @@
+<#ftl output_format="HTML" auto_esc=true> 
+<@h.siteCommonHead title="后台管理系统" keywords="开源,永久免费" description="springrain开源系统管理后台"/>
+
+
+<script src="${ctx}/js/validform/validform.min.js"></script>
+<script src="${ctx}/js/ueditor/ueditor.config.js"></script>
+<script src="${ctx}/js/ueditor/ueditor.all.js"></script>
+<script src="${ctx}/js/ueditor/lang/zh-cn/zh-cn.js"></script>
+<script src="${ctx}/js/webuploader/webuploader.min.js"></script>
+<link rel="stylesheet" href="${ctx}/js/validform/validform.css" media="all">
+<link rel="stylesheet" type="text/css" href="${ctx}/js/webuploader/webuploader.css">
+<script>
+	 jQuery(function(){
+	 	var ue = UE.getEditor('container',{
+			autoHeight: false
+		});
+		 
+		 /*
+		 init_valid(_before,_after)
+		 @_before:提交表单前，调用 的函数   可以为空，一般有validform处理不了，独自进行处理时使用
+		 @_after:保存成功后，调用的函数  可以为空，一般为对应的列表页面
+		 */
+		 springrain.initValid(null,function(){window.location.href="${ctx}/s/${siteId}/${businessId}/content/list?springraintoken="+springraintoken});
+	 
+		 var uploader = WebUploader.create({
+			 	auto:true,
+			    // swf文件路径
+			    swf: '${ctx}/js/webuploader/Uploader.swf',
+			    // 文件接收服务端。
+			    server: '${ctx}/s/${siteId!''}/${businessId!''}/file/logoupload?springraintoken='+springraintoken,
+			    // 选择文件的按钮。可选。
+			    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+			    pick: '#filePicker',
+			    // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+			     accept: {
+			        title: 'Images',
+			        extensions: 'gif,jpg,jpeg,bmp,png',
+			        mimeTypes: 'image/*'
+			    }
+			});
+			
+		 	var nowUploadImgId = "";
+			 uploader.on( 'fileQueued', function( file ) {
+				var timestamp = Date.parse(new Date());
+				//var fileId = file.id;
+				var domId = file.id + timestamp;
+				nowUploadImgId = domId;
+				$("#tmpLogo").remove();
+			    var $li = $('<div id="' + file.id + '" name="showbanner" class="file-item thumbnail layui-inline">' +
+			                '<img>' +
+			                '<div class="info">' + 
+			                	'<button type="button" style="width:50px;" class="layui-btn layui-btn-mini" ' + 
+			                		'onclick="editImg(\'' + domId + '\',this);" >编辑</button>' + 
+			                	'<button type="button" style="width:50px;margin-left:0;float:right;" class="layui-btn layui-btn-danger layui-btn-mini" ' + 
+			                	'onclick="deleteImgTips(\'' + domId + '\',this);" >删除</button>' + 
+			                '</div>' 
+			                // '<div class="info">' + file.name + '</div>' 
+			                +'</div>');
+		        $img = $li.find('img');
+
+
+			    // $list为容器jQuery实例
+			    $list = $("#fileList");
+			    $list.append( $li );
+
+			    // 创建缩略图
+			    // 如果为非图片文件，可以不用调用此方法。
+			    // thumbnailWidth x thumbnailHeight 为 100 x 100
+			    var thumbnailWidth = thumbnailHeight = 100;
+			    uploader.makeThumb( file, function( error, src ) {
+			        if ( error ) {
+			            $img.replaceWith('<span>不能预览</span>');
+			            return;
+			        }
+
+			        $img.attr( 'src', src );
+			    }, thumbnailWidth, thumbnailHeight );
+			});
+			 
+			// 文件上传过程中创建进度条实时显示。
+			 uploader.on( 'uploadProgress', function( file, percentage ) {
+			     var $li = $( '#'+file.id ),
+			         $percent = $li.find('.progress span');
+
+			     // 避免重复创建
+			     if ( !$percent.length ) {
+			         $percent = $('<p class="progress"><span></span></p>')
+			                 .appendTo( $li )
+			                 .find('span');
+			     }
+
+			     $percent.css( 'width', percentage * 100 + '%' );
+			 });
+			 
+			 // 文件上传成功，给item添加成功class, 用样式标记上传成功。
+			 uploader.on( 'uploadSuccess', function( file,response ) {
+				 var _images=jQuery("[name=banner]").val();
+				 if(_images!=null&&_images!=""&&_images.length>0){
+					var _images=eval("("+_images+")");
+					var addObj = response.data[0];
+					addObj.id = nowUploadImgId;
+					addObj.orderby = _images.length + 1;
+					_images.push(addObj);
+					jQuery("[name=banner]").val(JSON.stringify(_images));
+				 }else{
+					 var addObj = response.data[0];
+					 addObj.id = nowUploadImgId;
+					 addObj.orderby = 1;
+					 jQuery("[name=banner]").val(JSON.stringify(response.data));
+				 }
+			     $( '#'+file.id ).addClass('upload-state-done');
+			 });
+
+			 // 文件上传失败，显示上传出错。
+			 uploader.on( 'uploadError', function( file ) {
+			     var $li = $( '#'+file.id ),
+		         $error = $li.find('div.error');
+
+			     // 避免重复创建
+			     if ( !$error.length ) {
+			         $error = $('<div class="error"></div>').appendTo( $li );
+			     }
+
+			     $error.text('上传失败');
+			 });
+		
+			 // 完成上传完了，成功或者失败，先删除进度条。
+			 uploader.on( 'uploadComplete', function( file ) {
+			     $( '#'+file.id ).find('.progress').remove();
+			 });
+	 });
+	 
+	 /** 编辑图片 **/
+	 function editImg(domId,_this){
+		 var imgObj = getImgObj(domId);
+		 $("#editBannerId").val(imgObj.id);
+		 $("#editBannerTitle").val(imgObj.title);
+		 $("#editBannerUrl").val(imgObj.url);
+		 $("#editBannerOrderby").val(imgObj.orderby);
+		 layer.open({
+		 	type: 1,
+		 	area: ['500px','300px'],
+		 	content: $('#bannerEditDiv') //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+		 });
+	 }
+	 
+	 /** 保存编辑的图片信息 **/
+	 function saveEditImg(){
+		var bannerId = $("#editBannerId").val();
+		var bannerTitle = $("#editBannerTitle").val();
+		var bannerUrl = $("#editBannerUrl").val();
+		var bannerOrderby = parseInt($("#editBannerOrderby").val());
+
+		var bannerJson = $("[name=banner]").val();
+		var jsonObjArr = $.parseJSON(bannerJson);
+		var oldOrderby = 0;
+		if(jsonObjArr != null && jsonObjArr.length > 0){
+			var jsonObj = null;
+			for(var i=0;i<jsonObjArr.length;i++){
+				jsonObj = jsonObjArr[i];
+				if(jsonObj.id == bannerId){
+					oldOrderby = jsonObj.orderby;
+					jsonObj.title = bannerTitle;
+					jsonObj.url = bannerUrl;
+					jsonObj.orderby = bannerOrderby;
+				}
+				jsonObjArr[i] = jsonObj;
+			}
+		}
+		
+		// 变更的序号后面的序号依次+1
+		for(var i=0;i<jsonObjArr.length;i++){
+			var jsonObj = jsonObjArr[i];
+			if(jsonObj.id != bannerId && jsonObj.orderby > bannerOrderby){
+				jsonObj.orderby = parseInt(jsonObj.orderby) + 1;
+			}else if(jsonObj.id != bannerId && jsonObj.orderby < bannerOrderby){
+				jsonObj.orderby = parseInt(jsonObj.orderby) - 1;
+			}else if(jsonObj.id != bannerId && jsonObj.orderby == bannerOrderby){
+				if(oldOrderby > bannerOrderby){
+					jsonObj.orderby = parseInt(jsonObj.orderby) + 1;
+				}else{
+					jsonObj.orderby = parseInt(jsonObj.orderby) - 1;
+				}
+			}
+			jsonObjArr[i] = jsonObj;
+		}
+		
+		// 排序
+		jsonObjArr.sort(function(a,b){
+			var c = a.orderby - b.orderby;
+			return c;
+		});
+		
+		// 再重新赋值排序
+		for(var i=0;i<jsonObjArr.length;i++){
+			jsonObjArr[i].orderby = i + 1;
+		}
+		
+		// 重新生成html
+		var html = "";
+		for(var i=0;i<jsonObjArr.length;i++){
+			var obj = jsonObjArr[i];
+			html += '<div id="' + obj.id + '" name="showbanner" class="file-item thumbnail layui-inline" >' + 
+							'<img src="${ctx}' + obj.path + '" alt="" height="100" width="100" >' + 
+							'<div class="info">' + 
+								'<button type="button" style="width:50px;" class="layui-btn layui-btn-mini" ' + 
+									' onclick="editImg(\'' + obj.id + '\',this);">编辑</button>' + 
+								'<button type="button" style="width:50px;margin-left: 0px;float: right;" ' + 
+									'class="layui-btn layui-btn-danger layui-btn-mini " ' + 
+									'onclick="deleteImgTips(\'' + obj.id + '\',this);" ' + 
+									'style="width:50px;margin-left:0;float:right;" >删除</button>' + 
+							'</div>' + 
+					'</div>';
+		}
+		
+		clearPic();
+		$("#bannerList").prepend(html);
+		$("[name=banner]").val(JSON.stringify(jsonObjArr));
+		closeEditImg();
+	 }
+	 
+	 /** 关闭编辑图片信息的框 **/
+	 function closeEditImg(){
+		$("#editBannerId").val("");
+		$("#editBannerTitle").val("");
+		$("#editBannerUrl").val("");
+		$("#editBannerOrderby").val("");
+		layer.closeAll();
+	 }
+	 
+	 /** 询问是否删除图片 **/
+	 function deleteImgTips(domId,_this){
+		 layer.confirm('确定要删除该图片？', {
+			  btn: ['确认', '关闭'] //可以无限个按钮
+			}, function(index, layero){
+				deleteImg(domId,_this);
+				layer.closeAll();
+			}, function(index){
+			  
+			});
+	 }
+	 
+	 /** 删除图片 **/
+	 function deleteImg(domId,_this){
+		$($(_this).parent().parent()).remove()
+		
+		var bannerJson = $("[name=banner]").val();
+		var jsonObjArr = $.parseJSON(bannerJson);
+
+		var index = 0;
+		var deleteNum = 1;
+		if(jsonObjArr != null && jsonObjArr.length > 0){
+			var jsonObj = null;
+			for(var i=0;i<jsonObjArr.length;i++){
+				jsonObj = jsonObjArr[i];
+				if(jsonObj.id == domId){
+					index = i;
+					break;
+				}
+			}
+			jsonObjArr.splice(index,1);
+		}
+		
+		// 再重新赋值排序
+		for(var i=0;i<jsonObjArr.length;i++){
+			jsonObjArr[i].orderby = i + 1;
+		}
+		$("[name=banner]").val(JSON.stringify(jsonObjArr));
+	 }
+	 
+	 /** 从bannber中根据id获取某个img对象 **/
+	 function getImgObj(id){
+		var bannerJson = $("[name=banner]").val();
+		var jsonObjArr = $.parseJSON(bannerJson);
+		if(jsonObjArr != null && jsonObjArr.length > 0){
+			var jsonObj = null;
+			for(var i=0;i<jsonObjArr.length;i++){
+				jsonObj = jsonObjArr[i];
+				if(jsonObj.id == id){
+					return jsonObj;
+				}
+			}
+		}
+	 }
+	 
+	 /** 询问是否清除所有图片 **/
+	 function clearPicTips(){
+		 layer.confirm('确定要删除所有图片？', {
+			  btn: ['确认', '关闭'] //可以无限个按钮
+			}, function(index, layero){
+				clearPic();
+				layer.closeAll();
+			}, function(index){
+			  
+			});
+	 }
+	 
+	 /** 清除图片 **/
+	 function clearPic(){
+		 jQuery("[name=banner]").val("");
+		 $("#bannerList [name=showbanner]").remove();
+	 }
+	 
+</script>
+</head>
+<!-- 轮播图编辑框 -->
+<div id="bannerEditDiv" class="larry-personal-body clearfix changepwd" style="display: none;">
+	<input type="hidden" id="editBannerId" value="">
+	<div class="layui-form-item col-lg-12" style="margin-top: 10px;">
+		<label class="layui-form-label">提示信息</label>
+		<div class="layui-inline col-lg-6">
+			<input id="editBannerTitle" type="text" class="layui-input" value="">
+		</div>
+		<div class="layui-inline valid-info"></div>
+	</div>
+	<div class="layui-form-item col-lg-12">
+		<label class="layui-form-label">跳转链接</label>
+		<div class="layui-inline col-lg-6">
+			<input id="editBannerUrl" type="text" class="layui-input" value="">
+		</div>
+		<div class="layui-inline valid-info"></div>
+	</div>
+	<div class="layui-form-item col-lg-12">
+		<label class="layui-form-label">排序</label>
+		<div class="layui-inline col-lg-6">
+			<input id="editBannerOrderby" type="number" class="layui-input" value="">
+		</div>
+		<div class="layui-inline valid-info"></div>
+	</div>
+	<div class="layui-form-item change-submit col-lg-12" style="text-align: center;">
+		<div class="layui-inline">
+			<button type="button" class="layui-btn" onclick="saveEditImg();" >保存</button>
+			<button type="button" class="layui-btn layui-btn-primary" onclick="closeEditImg();" >关闭</button>
+		</div>
+	</div>
+</div>
+
+
+<body>
+	<div class="layui-layout layui-layout-admin">
+		<@h.naviHeader /><@h.leftMenu />
+		<!-- 主体内容开始 -->
+		<div class="layui-tab layui-tab-brief">
+			<ul class="layui-tab-title site-demo-title">
+				<li style="float: right;">
+					<button type="button" onclick="history.go(-1)"
+						class="layui-btn layui-btn-small" style="margin-top: 8px;">
+						<i class="layui-icon layui-icon-specil">&#xe603;</i>返回
+					</button>
+				</li>
+			</ul>
+			
+			<@s_content id="${id!}">
+			<div class="layui-body layui-tab-content site-demo-body">
+				<div class="layui-tab-item layui-show">
+					<div class="layui-main">
+						<div id="LAY_preview" class="layui-my-form">
+							<header class="larry-personal-tit">
+								<span>添加内容表</span>
+							</header>
+							<div class="larry-personal-body clearfix changepwd">
+								<form id="validForm" class="layui-form" method="post" action="${ctx}/s/${siteId!''}/${businessId!''}/content/update">
+									<input type="hidden" id="id" name="id" value="${content.id!}" />
+									<input type="hidden" id="siteId" name="siteId" value="${siteId}" />
+									
+									<div class="layui-form-item col-lg-6">
+										<label class="layui-form-label">标题*</label>
+										<div class="layui-inline col-lg-5">
+											<input type="text" name="title" id="title" datatype="*"
+												nullmsg="不能为空" errormsg="不能为空！" autocomplete="off"
+												class="layui-input" value="${content.title!}">
+										</div>
+										<div class="layui-inline valid-info"></div>
+									</div>
+									
+									<!-- <div class="layui-form-item col-lg-6">
+										<label class="layui-form-label">摘要</label>
+										<div class="layui-inline col-lg-5">
+											<input type="text" name="summary" id="summary"
+												 class="layui-input"
+												value="${content.sortno!}">
+										</div>
+										<div class="layui-inline valid-info"></div>
+									</div>-->
+									
+									<div class="layui-form-item col-lg-6">
+										<label class="layui-form-label">轮播图</label>
+										<div class="layui-inline col-lg-6" id="bannerList">
+									  		<#if content?? && (content.banner != "") >
+												<#assign json=(content.banner)?eval />
+												<#list json as item>
+													<div id="${item.id}" name="showbanner" 
+														class="file-item thumbnail layui-inline" >
+														<a href="${item.url}" >
+														<img title="${item.title}" src="${ctx}${item.path}" 
+															alt="" height="100" width="100" >
+														</a>
+															<div class="info">
+																<button type="button" style="width:50px;" 
+																	class="layui-btn layui-btn-mini" 
+																	onclick="editImg('${item.id}',this);">编辑</button>
+																<button type="button" 
+																	style="width:50px;margin-left: 0px;float: right;" 
+																	class="layui-btn layui-btn-danger layui-btn-mini" 
+																	onclick="deleteImgTips('${item.id}',this);" 
+																	>删除</button>
+															</div>
+													</div>
+												</#list>
+											</#if>
+									    	<div id="fileList" class="uploader-list"></div>
+										    <div id="filePicker" class="">选择图片</div>
+										    <input type="hidden" name="banner" value="${content.banner!''}" >
+										</div>
+										<button type="button" class="layui-btn" onclick="clearPicTips();" >清除图片</button>
+										<div class="layui-inline valid-info"></div>
+									</div> 
+									
+									<div class="layui-form-item col-lg-6">
+										<label class="layui-form-label">排序</label>
+										<div class="layui-inline col-lg-5">
+											<input type="text" name="sortno" id="sortno"
+												 class="layui-input"
+												value="${content.sortno!}">
+										</div>
+										<div class="layui-inline valid-info"></div>
+									</div>
+									<div class="layui-form-item col-lg-6">
+										<label class="layui-form-label">是否可用</label>
+										<div class="layui-inline col-lg-5">
+											 <select name="active" id="active" lay-verify="required">
+										 		<#if (content.active)?? && (content.active)==1>
+										 			<option value="1" selected="selected">可用</option>
+										 			<option value="0">不可用</option>
+										 		<#else>
+										 			<option value="1">可用</option>
+										 			<option value="0" selected="selected">不可用</option>
+										 		</#if>
+										      </select>
+										</div>
+										<div class="layui-inline valid-info"></div>
+									</div>
+									
+									<@cms_property_list businessId=id>
+										<#if propertyList?? && (propertyList?size>0)>
+											<#list propertyList as property>
+												<div class="layui-form-item col-lg-6">
+													<label class="layui-form-label">${(property.name)!}</label>
+													<div class="layui-inline col-lg-5">
+														<#if property.inputType==0>
+															<textarea name="propertyList[${property_index}].pvalue" placeholder="请输入内容" class="layui-textarea">${(property.pvalue)!''}</textarea>
+															<input type="hidden" value="${(property.id)!}" name="propertyList[${property_index}].id">
+														<#elseif property.inputType==1>
+															<input type="text" name="propertyList[${property_index}].pvalue" class="layui-input" value="${(property.pvalue)!''}">
+															<input type="hidden" value="${(property.id)!}" name="propertyList[${property_index}].id">
+														<#elseif property.inputType==2>
+															<input type="text" name="propertyList[${property_index}].pvalue" class="layui-input" value="${(property.pvalue)!''}">
+															<input type="hidden" value="${(property.id)!}" name="propertyList[${property_index}].id">
+														<#elseif property.inputType==3>
+															<input type="text" name="propertyList[${property_index}].pvalue" class="layui-input" value="${(property.pvalue)!''}">
+															<input type="hidden" value="${(property.id)!}" name="propertyList[${property_index}].id">
+														<#elseif property.inputType==4>
+															<input type="text" name="propertyList[${property_index}].pvalue" class="layui-input" value="${(property.pvalue)!''}">
+															<input type="hidden" value="${(property.id)!}" name="propertyList[${property_index}].id">
+														<#elseif property.inputType==5>
+															<select name="propertyList[${property_index}].pvalue" lay-verify="required">
+												 				<option value=""></option>
+													      	</select>
+															<input type="hidden" value="${(property.id)!}" name="propertyList[${property_index}].id">
+														<#elseif property.inputType==6>
+															<input type="file" name="propertyList[${property_index}].pvalue" class="layui-upload-file">
+															<input type="hidden" value="${(property.id)!}" name="propertyList[${property_index}].id">
+														<#elseif property.inputType==7>
+															<input type="file" name="propertyList[${property_index}].pvalue" class="layui-upload-file">
+															<input type="hidden" value="${(property.id)!}" name="propertyList[${property_index}].id">
+														</#if>
+													</div>
+													<div class="layui-inline valid-info"></div>
+												</div>
+											</#list>
+										</#if>
+									</@cms_property_list>
+									
+									<div class="layui-form-item col-lg-6">
+										<label class="layui-form-label">内容*</label>
+										<div class="layui-inline col-lg-5">
+											<#noautoesc>
+												<script id="container" name="content" type="text/plain">${content.content!}</script>
+											</#noautoesc>
+										</div>
+										<div class="layui-inline valid-info"></div>
+									</div>
+									
+									
+									
+									<div class="layui-form-item change-submit">
+										<div class="layui-inline">
+											<button type="button" class="layui-btn" id="smtbtn">保存</button>
+											<button type="button" class="layui-btn layui-btn-primary"
+												id="rstbtn">重置</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			</@s_content>
+		</div>
+		<!-- 主体内容结束 -->
+		<@h.footer />
+	</div>
+</body>
+</html>
+

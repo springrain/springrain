@@ -33,50 +33,69 @@ public class CmsLinkServiceImpl extends BaseSpringrainServiceImpl implements ICm
 	public CmsLink findCmsLinkById(String id) throws Exception{
 	 return super.findById(id,CmsLink.class);
 	}
-
-
 	@Override
-	public CmsLink findLinkBySiteBusinessId(String siteId,String bussinessId) throws Exception {
-		
+	public CmsLink findLinkBySiteBusinessIdModelType(String siteId, String bussinessId, Integer modelType)
+			throws Exception {
 		if(StringUtils.isBlank(siteId)||StringUtils.isBlank(bussinessId)){
 			return null;
 		}
-		String cacheKey="findLinkBySiteBusinessId_"+siteId+"_"+bussinessId;
+		String cacheKey="findLinkBySiteBusinessId_"+siteId+"_"+bussinessId+"_"+modelType;
+		
+		CmsLink link = super.getByCache(siteId, cacheKey, CmsLink.class);
+		if(link!=null){
+			return link;
+		}
+		
+		Finder finder = Finder.getSelectFinder(CmsLink.class).append(" WHERE siteId=:siteId and  businessId=:bussinessId and modelType=:modelType and active=1 ");
+		finder.setParam("siteId", siteId).setParam("bussinessId", bussinessId).setParam("modelType", modelType);
+		link = super.queryForObject(finder, CmsLink.class);
+		if(link!=null){
+			super.putByCache(siteId, cacheKey, link);
+		}
+		return link;
+	}
+	@Override
+	public CmsLink findLinkByLink(String siteId,String link) throws Exception {
+		
+		return  findLinkByLink(siteId, link, "link");
+		
+	}
+
+	@Override
+	public CmsLink findLinkByDefaultLink(String siteId, String defaultLink) throws Exception {
+		
+		return  findLinkByLink(siteId, defaultLink, "defaultLink");
+		
+		
+	}
+
+	
+	private CmsLink findLinkByLink(String siteId, String defaultLink, String linkField) throws Exception {
+
+		if(StringUtils.isBlank(siteId)||StringUtils.isBlank(defaultLink)){
+			return null;
+		}
+		String cacheKey="findLinkBySiteBusinessId_"+siteId+"_"+defaultLink;
 		
 		CmsLink link =super.getByCache(siteId, cacheKey, CmsLink.class);
 		if(link!=null){
 			return link;
 		}
 		
-		Finder finder = Finder.getSelectFinder(CmsLink.class).append(" WHERE siteId=:siteId and  businessId=:bussinessId and modelType=:modelType");
-		finder.setParam("siteId", siteId).setParam("bussinessId", bussinessId).setParam("modelType", 0);
-		link = super.queryForObject(finder, CmsLink.class); 
-		super.putByCache(siteId, cacheKey, link);
-		return link;
-	}
-
-
-
-	@Override
-	public CmsLink findLinkBySiteBusinessId(String siteId, String bussinessId,
-			String defaultLink) throws Exception {
-		if(StringUtils.isBlank(siteId)||StringUtils.isBlank(bussinessId)){
-			return null;
-		}
-		String cacheKey="findLinkBySiteBusinessId_"+siteId+"_"+bussinessId+"_"+defaultLink;
 		
-		CmsLink link =super.getByCache(siteId, cacheKey, CmsLink.class);
-		if(link!=null){
-			return link;
-		}
-		
-		
-		Finder finder = Finder.getSelectFinder(CmsLink.class).append(" WHERE siteId=:siteId and  businessId=:bussinessId and defaultLink=:defaultLink");
-		finder.setParam("siteId", siteId).setParam("bussinessId", bussinessId).setParam("defaultLink", defaultLink);
+		Finder finder = Finder.getSelectFinder(CmsLink.class).append(" WHERE siteId=:siteId and ").append(linkField).append("=:").append(linkField).append(" and active=1 ");
+		finder.setParam("siteId", siteId).setParam(linkField, defaultLink);
 		link = super.queryForObject(finder, CmsLink.class); 
 		
 		super.putByCache(siteId, cacheKey, link);
 		
 		return link;
+	
 	}
+	
+	
+	
+	
+	
+	
 }

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<@cms_site id=siteId!'' >
+		<@cms_channel id=businessId!'' >
+			<meta name="keywords" content="${(site.keywords)!''},${(tag_bean.name)!''}" />
+			<title>${(tag_bean.name)!''}</title>
+		</@cms_channel>
+		</@cms_site>
+	    <link rel="stylesheet" href="${ctx}/css/wechat/phone.css" />
+	    <link rel="stylesheet" href="${ctx}/css/wechat/style.css" />
+	    <link rel="stylesheet" href="${ctx}/css/wechat/swiper.3.1.7.min.css" />
+	    <script type="text/javascript" src="${ctx}/js/wechat/jQuery.1.8.2.min.js" ></script>
+	    <script type="text/javascript" src="${ctx}/js/wechat/height.js" ></script>
+	    <script type="text/javascript" src="${ctx}/js/wechat/swiper.3.1.7.min.js" ></script>
+	    <style>
+	    	body{
+	    		background: url(${ctx}/img/wechat/bszy_bgimg.jpg);
+	    		background-size: 100% 100%;
+	    		background-repeat: no-repeat;
+	    		background-position: center;
+	    	}
+	    	.boxShadow{
+	    		background-image: -webkit-gradient(linear,0% 0%, 0% 100%, from(#16AAFF), to(#42C3FF), color-stop(0.5,#37BCFF));
+	    	}
+	    	
+	    	.swiper-pagination,.swiper-pagination-clickable{
+				bottom: 5%;left:14px;
+			}
+			.swiper-pagination-bullet {
+				width: 40px;height: 3px;margin-left: 20px;
+				display: inline-block;border-radius: 0;
+				background: #e0dada;opacity: .8;
+			}
+			.swiper-pagination-bullet-active {opacity: 1;background: #ed425b;}.swiper-pagination{padding-right: 8px;}
+	    </style>
+	</head>
+	<body>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col12 l-ht0">
+					<img src="${ctx}/img/wechat/bszy_banner.jpg" class="per100" />
+				</div>
+			</div>
+			<div class="row">
+				<div class="col12 mt32">
+					<div class="swiper-container">
+					    <div class="swiper-wrapper">
+						    <@cms_content_list page=(returnDatas.page)! channelId=businessId>
+							    <#if tag_list?? && (tag_list?size>0)>
+							    	<#list tag_list as _dataCount>
+							    		<#if (_dataCount_index%5==0) || (_dataCount_index==0)>
+									        <div class="swiper-slide">
+									        	<ul class="display-b">
+									        		<li class="ht60 pl30" onclick="toDetail('${(_dataCount.id)!''}');">
+									        			<div class="ht60 fl per10 pt26">
+									        				<div class="ht10 w-10 bg-c2c9d0"></div>
+									        			</div>
+									        			<div class="ht60 fl per90 border-b-1 pr30">
+									        				<div class="ht60 l-ht60 fl font16 font-b font-yahei font-2d465c text-ellipsis1" style="max-width: 95%;">
+										        				${(_dataCount.title)!''}
+										        			</div>
+										        			<div class="ht60 fl per5 l-ht60 tr">
+										        				<img src="${ctx}/img/wechat/bszy_right.png" class="w-8 ht8 vertical-a-m" style="margin-bottom: 3px;" />
+										        			</div>
+									        			</div>
+									        		</li>
+									    <#else>
+											    	<li class="ht60 pl30" onclick="toDetail('${(_dataCount.id)!''}');">
+									        			<div class="ht60 fl per10 pt26">
+									        				<div class="ht10 w-10 bg-c2c9d0"></div>
+									        			</div>
+									        			<div class="ht60 fl per90 border-b-1 pr30">
+									        				<div class="ht60 l-ht60 fl font16 font-b font-yahei font-2d465c text-ellipsis1" style="max-width: 95%;">
+										        				${(_dataCount.title)!''}
+										        			</div>
+										        			<div class="ht60 fl per5 l-ht60 tr">
+										        				<img src="${ctx}/img/wechat/bszy_right.png" class="w-8 ht8 vertical-a-m" style="margin-bottom: 3px;" />
+										        			</div>
+									        			</div>
+									        		</li>
+							        				<#if !_dataCount_has_next || ((_dataCount_index>0 && (_dataCount_index+1)%5==0))>
+							        			</ul>
+						        			</div>
+							        				</#if>
+								  		</#if>
+							        </#list>
+								</#if>
+							</@cms_content_list>
+					    </div>
+					</div>
+				</div>
+				<!-- 如果需要对应的锚点 -->
+				<div class="swiper-pagination"></div>
+			</div>
+		</div>
+		
+		<!--搜索框S-->
+		<div class="ht42 pos-f w-40 right10p radius42 overflow-h bottom5p boxShadow z-index100">
+			<div class="per80 ht42 inputDiv">
+				<input type="text" class="border-none ht38 font-white pl20 per90" placeholder="请输入要搜索的内容" style="background: transparent;" />
+			</div>
+		</div>
+		<div class="ht42 w-42 l-ht36 tc radius-circle pos-f right10p bottom5p z-index999 boxShadow changeW">
+			<img src="${ctx}/img/wechat/bszy_search.png" class="w-20 ht20 vertical-a-m" />
+		</div>
+		<div class="w-42 ht42 l-ht36 radius-circle tc pos-f right10p bottom5p z-index100 boxShadow btnSearch">
+			<img src="${ctx}/img/wechat/bszy_search.png" class="w-20 ht20 vertical-a-m" />
+		</div>
+		<!--搜索框N-->
+	</body>
+	
+	<script>
+		//点击搜索按钮动效显示
+		var w=20.33+'rem';
+		$('.changeW').bind('click',function(){
+			$('div.pos-f.w-40').animate({width:w});
+			$(this).hide();
+		});
+		$('.btnSearch').bind('click',function(){
+			//写点击搜索按钮后的代码
+		});
+		
+		/*链接跳转*/
+		function toDetail(contentId){
+			window.location = "${ctx}/f/mp/${siteId!''}/"+contentId;
+		}	
+	
+		/*轮播效果*/
+		var mySwiper = new Swiper ('.swiper-container', {
+			pagination: '.swiper-pagination',
+        	paginationClickable: true,
+		    /* autoplay : 10000000, */
+		});
+	</script>
+	
+</html>

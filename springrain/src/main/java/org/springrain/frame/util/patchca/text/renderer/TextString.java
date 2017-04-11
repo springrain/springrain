@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 public class TextString {
 
-	private ArrayList<TextCharacter> characters = new ArrayList<TextCharacter>();
+	private ArrayList<TextCharacter> characters = new ArrayList<>();
 	
 	public void clear() {
 		characters.clear();

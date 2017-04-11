@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+	    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<@cms_site id=siteId!'' >
+		<@cms_channel id=businessId!'' >
+			<meta name="keywords" content="${(site.keywords)!''},${(tag_bean.name)!''}" />
+			<title>${(tag_bean.name)!''}</title>
+		</@cms_channel>
+		</@cms_site>
+	    <link rel="stylesheet" href="${ctx}/css/wechat/phone.css" />
+	    <link rel="stylesheet" href="${ctx}/css/wechat/style.css" />
+	    <script type="text/javascript" src="${ctx}/js/wechat/jQuery.1.8.2.min.js" ></script>
+	    <script type="text/javascript" src="${ctx}/js/wechat/height.js" ></script>
+	    <style>
+	    	.w-h-10{height: 10px;width: 10px;right:-6px;}
+	    	.w-h-l-10{height: 10px;width: 10px;left:-4px;}
+	    </style>
+	</head>
+	<body>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col12">
+					<div class="ht32 bg-454447 per100 pos-f left0 top0 z-index100">
+						<div class="ht32 fl per45 tc font-white font-yahei font-b">
+							<div class="per50 ht32 display-ib pos-r">
+								<div class="pos-a left0 top0 ht32 l-ht32 per100 z-index100">微信矩阵</div>
+								<img src="${ctx}/img/wechat/jwzx_checkimg.png" class="per100 ht28 left0 top4 pos-a" />
+							</div>
+						</div>
+						<div class="ht32 fl per10 l-ht32 tc">|</div>
+						<div class="ht32 fl per45 tc font-white font-yahei font-b">
+							<div class="per50 ht32 display-ib pos-r">
+								<div class="pos-a left0 top0 ht32 l-ht32 per100 z-index100">微博矩阵</div>
+								<img src="${ctx}/img/wechat/jwzx_checkimg.png" class="per100 ht28 left0 top4 pos-a display-n" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="ht32"></div>
+			<div class="row">
+				<div class="col12 l-ht0">
+					<img src="${ctx}/img/wechat/wxjz_banner.jpg" class="per100" />
+				</div>
+			</div>
+			<div class="row">
+				<div class="col12">
+					<div class="ht38">
+						<div class="ht38 fl per50 border-r-2"></div>
+					</div>
+					<ul class="wechat">
+						<!--左侧-->
+						<@cms_content_list page=(returnDatas.page)! channelId=businessId status=1>
+							<#if tag_list?? && (tag_list?size>0)>
+							    <#list tag_list as _dataCount>
+							    	<#if (_dataCount_index%2==0)>
+										<li class="ht40 overflow-h">
+											<a href="${(_dataCount.sourceurl)!''}">
+												<div class="ht40 per50 border-r-2 pos-r">
+													<div class="radius-circle bg-2cb6ff pos-a top16 w-h-10"></div>
+													<div class="ht40 l-ht40 fr pr6">
+														<img src="${ctx}/img/wechat/right.png" class="vertical-a-m w-10 ht10" />
+													</div>
+													<div class="ht40 fr l-ht40 w-40 mr6">
+														<#if (_dataCount.cover)??>
+							               		 			<#assign json=(_dataCount.cover)?eval/>
+															<#list json as item>
+																<img src="${ctx}${(item.path)!'/img/wechat/jwzx_listimg.jpg'}" class="ht38 w-38 radius-circle mr8 vertical-a-m" />
+															</#list>
+														<#else>
+															<img src="${ctx}/img/wechat/jwzx_listimg.jpg" class="ht38 w-38 radius-circle mr8 vertical-a-m" />
+							               		 		</#if>
+													</div>
+													<div class="ht40 l-ht40 overflow-h fr padding2 w-90 font-b font-yahei font-2d465c">
+														${(_dataCount.title)!''}
+													</div>
+												</div>
+											</a>
+										</li>
+									<#else>
+										<li class="ht40 overflow-h">
+											<a href="${(_dataCount.sourceurl)!''}">
+												<div class="ht40 per50 fl border-r-2 pos-r">
+													<div class="pos-a top0 per100 ht40" style="right: -100%;">
+														<div class="radius-circle bg-2cb6ff pos-a top16 w-h-l-10"></div>
+														<div class="ht40 l-ht40 fl pl8">
+															<img src="${ctx}/img/wechat/left.png" class="vertical-a-m w-10 ht10" />
+														</div>
+														<div class="ht40 fl l-ht40 w-40 ml6">
+															<#if (_dataCount.cover)??>
+								               		 			<#assign json=(_dataCount.cover)?eval/>
+																<#list json as item>
+																	<img src="${ctx}${(item.path)!'/img/wechat/jwzx_listimg.jpg'}" class="ht38 w-38 radius-circle mr8 vertical-a-m" />
+																</#list>
+															<#else>
+																<img src="${ctx}/img/wechat/jwzx_listimg.jpg" class="ht38 w-38 radius-circle mr8 vertical-a-m" />
+								               		 		</#if>
+														</div>
+														<div class="ht40 l-ht40 overflow-h fl padding2 w-90 font-b font-yahei font-2d465c">
+															${(_dataCount.title)!''}
+														</div>
+													</div>
+												</div>
+											</a>
+										</li>
+									</#if>
+								</#list>
+							</#if>
+						</@cms_content_list>
+					</ul>
+					<ul class="weibo display-n">
+						<!--左侧-->
+						<@cms_content_list page=(returnDatas.page)! channelId=businessId status=2>
+							<#if tag_list?? && (tag_list?size>0)>
+							    <#list tag_list as _dataCount>
+							    	<#if (_dataCount_index%2==0)>
+										<li class="ht40 overflow-h">
+											<a href="${(_dataCount.sourceurl)!''}">
+												<div class="ht40 per50 border-r-2 pos-r">
+													<div class="radius-circle bg-2cb6ff pos-a top16 w-h-10"></div>
+													<div class="ht40 l-ht40 fr pr6">
+														<img src="${ctx}/img/wechat/right.png" class="vertical-a-m w-10 ht10" />
+													</div>
+													<div class="ht40 fr l-ht40 w-40 mr6">
+														<#if (_dataCount.cover)??>
+							               		 			<#assign json=(_dataCount.cover)?eval/>
+															<#list json as item>
+																<img src="${ctx}${(item.path)!'/img/wechat/jwzx_listimg.jpg'}" class="ht38 w-38 radius-circle mr8 vertical-a-m" />
+															</#list>
+														<#else>
+															<img src="${ctx}/img/wechat/jwzx_listimg.jpg" class="ht38 w-38 radius-circle mr8 vertical-a-m" />
+							               		 		</#if>
+													</div>
+													<div class="ht40 l-ht40 overflow-h fr tr padding2 w-90 font-b font-yahei font-2d465c">
+														${(_dataCount.title)!''}
+													</div>
+												</div>
+											</a>
+										</li>
+									<#else>
+										<li class="ht40 overflow-h">
+											<a href="${(_dataCount.sourceurl)!''}">
+												<div class="ht40 per50 fl border-r-2 pos-r">
+													<div class="pos-a top0 per100 ht40" style="right: -100%;">
+														<div class="radius-circle bg-2cb6ff pos-a top16 w-h-l-10"></div>
+														<div class="ht40 l-ht40 fl pl8">
+															<img src="${ctx}/img/wechat/left.png" class="vertical-a-m w-10 ht10" />
+														</div>
+														<div class="ht40 fl l-ht40 w-40 ml6">
+															<#if (_dataCount.cover)??>
+								               		 			<#assign json=(_dataCount.cover)?eval/>
+																<#list json as item>
+																	<img src="${ctx}${(item.path)!'/img/wechat/jwzx_listimg.jpg'}" class="ht38 w-38 radius-circle mr8 vertical-a-m" />
+																</#list>
+															<#else>
+																<img src="${ctx}/img/wechat/jwzx_listimg.jpg" class="ht38 w-38 radius-circle mr8 vertical-a-m" />
+								               		 		</#if>
+														</div>
+														<div class="ht40 l-ht40 overflow-h fl padding2 w-90 font-b font-yahei font-2d465c">
+															${(_dataCount.title)!''}
+														</div>
+													</div>
+												</div>
+											</a>
+										</li>
+									</#if>
+								</#list>
+							</#if>
+						</@cms_content_list>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</body>
+	
+	<script>
+		$('.pos-f div.per45:eq(0)').bind('click',function(){
+			$(this).find('img').removeClass('display-n');
+			$('.pos-f div.per45:eq(1)').find('img').addClass('display-n');
+			$('ul.wechat').removeClass('display-n');
+			$('ul.weibo').addClass('display-n');
+		});
+		$('.pos-f div.per45:eq(1)').bind('click',function(){
+			$(this).find('img').removeClass('display-n');
+			$('.pos-f div.per45:eq(0)').find('img').addClass('display-n');
+			$('ul.wechat').addClass('display-n');
+			$('ul.weibo').removeClass('display-n');
+		});
+	</script>
+	
+</html>

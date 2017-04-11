@@ -134,7 +134,7 @@ public class CmsChannelContent  extends BaseEntity {
 	}
 	
 	public String toString() {
-		return new StringBuffer()
+		return new StringBuilder()
 			.append("id[").append(getId()).append("],")
 			.append("siteId[").append(getSiteId()).append("],")
 			.append("channelId[").append(getChannelId()).append("],")
@@ -151,8 +151,12 @@ public class CmsChannelContent  extends BaseEntity {
 	}
 	
 	public boolean equals(Object obj) {
-		if(obj instanceof CmsChannelContent == false) return false;
-		if(this == obj) return true;
+		if(obj instanceof CmsChannelContent == false){
+			return false;
+		} 
+		if(this == obj){
+			return true;
+		} 
 		CmsChannelContent other = (CmsChannelContent)obj;
 		return new EqualsBuilder()
 			.append(getId(),other.getId())

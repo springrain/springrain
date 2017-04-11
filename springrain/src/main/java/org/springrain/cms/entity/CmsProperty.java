@@ -276,7 +276,7 @@ public class CmsProperty  extends BaseEntity {
 	}
 	
 	public String toString() {
-		return new StringBuffer()
+		return new StringBuilder()
 			.append("siteId_code,保证一个站点下code唯一[").append(getId()).append("],")
 			.append("siteId[").append(getSiteId()).append("],")
 			.append("name[").append(getName()).append("],")
@@ -300,8 +300,12 @@ public class CmsProperty  extends BaseEntity {
 	}
 	
 	public boolean equals(Object obj) {
-		if(obj instanceof CmsProperty == false) return false;
-		if(this == obj) return true;
+		if(obj instanceof CmsProperty == false){
+			return false;
+		} 
+		if(this == obj){
+			return true;
+		} 
 		CmsProperty other = (CmsProperty)obj;
 		return new EqualsBuilder()
 			.append(getId(),other.getId())

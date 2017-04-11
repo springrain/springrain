@@ -37,7 +37,7 @@ public class SpringUtils  implements ApplicationContextAware {
 		try {
 				initEntityInfo();
 		} catch (Exception e) {
-			logger.error(e.getLocalizedMessage(),e);
+			logger.error(e.getMessage(),e);
 		}
 		
 		System.out.println("----------------------started----------------------");

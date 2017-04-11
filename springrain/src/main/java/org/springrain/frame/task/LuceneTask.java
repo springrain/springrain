@@ -15,9 +15,9 @@ public class LuceneTask implements Runnable {
 	public final static String updateDocument = "update";
 	public final static String saveDocument = "save";
 
-	public Object entity;
+	private Object entity;
 
-	public String oper;
+	private String oper;
 	
 	@SuppressWarnings("rawtypes")
 	public Class clazz;
@@ -69,7 +69,7 @@ public class LuceneTask implements Runnable {
 				
 			}
 		} catch (Exception e) {
-			logger.error(e.getLocalizedMessage(),e);
+			logger.error(e.getMessage(),e);
 		}
 
 	}

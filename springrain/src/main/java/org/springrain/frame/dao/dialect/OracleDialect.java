@@ -14,7 +14,7 @@ public class OracleDialect implements IDialect {
 		int satrt = (page.getPageIndex() - 1) * page.getPageSize() + 1;
 		int end = page.getPageIndex() * page.getPageSize();
 
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		sb.append("select * from ( select  rownum frame_page_sql_row_number ,frame_sql_temp_table1.* from (");
 		sb.append(sql);
 		if (StringUtils.isNotBlank(orderby)) {

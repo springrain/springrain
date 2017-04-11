@@ -7,7 +7,7 @@ import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;
 import org.springrain.frame.cached.ICached;
 import org.springrain.frame.common.BaseLogger;
-import org.springrain.frame.util.SerializeUtil;
+import org.springrain.frame.util.SerializeUtils;
 
 /**
  * Shiro 实现的缓存
@@ -37,7 +37,7 @@ public class ShiroRedisCache<K, V> extends BaseLogger implements Cache<K, V> {
 			String preKey = key.toString();
 			return preKey.getBytes();
 		} else {
-			return SerializeUtil.serialize(key);
+			return SerializeUtils.serialize(key);
 		}
 	}
 
@@ -49,7 +49,8 @@ public class ShiroRedisCache<K, V> extends BaseLogger implements Cache<K, V> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public V get(K key) throws CacheException {
-		logger.debug("根据key从Redis中获取对象 key [" + key + "]");
+		if (logger.isDebugEnabled())
+		logger.debug("根据key从Redis中获取对象 key [{}]",key);
 		try {
 			if (key == null) {
 				return null;
@@ -57,42 +58,49 @@ public class ShiroRedisCache<K, V> extends BaseLogger implements Cache<K, V> {
 				V value = (V) cached.getHashCached(getByteName(), getByteKey(key));
 				return value;
 			}
-		} catch (Throwable t) {
-			throw new CacheException(t);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw new CacheException(e);
 		}
 
 	}
 
 	@Override
 	public V put(K key, V value) throws CacheException {
-		logger.debug("根据key从存储 key [" + key + "]");
+		if (logger.isDebugEnabled())
+		logger.debug("根据key从存储 key [{}]",key);
 		try {
-			cached.updateHashCached(getByteName(), getByteKey(key), SerializeUtil.serialize(value), null);
+			cached.updateHashCached(getByteName(), getByteKey(key), SerializeUtils.serialize(value), null);
 			return value;
-		} catch (Throwable t) {
-			throw new CacheException(t);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw new CacheException(e);
 		}
 	}
 
 	@Override
 	public V remove(K key) throws CacheException {
-		logger.debug("从redis中删除 key [" + key + "]");
+		if (logger.isDebugEnabled())
+		logger.debug("从redis中删除 key [{}]",key);
 		try {
 			V previous = get(key);
 			cached.deleteHashCached(getByteName(), getByteKey(key));
 			return previous;
-		} catch (Throwable t) {
-			throw new CacheException(t);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw new CacheException(e);
 		}
 	}
 
 	@Override
 	public void clear() throws CacheException {
+		if (logger.isDebugEnabled())
 		logger.debug("从redis中删除所有元素");
 		try {
 			cached.deleteCached(getByteName());
-		} catch (Throwable t) {
-			throw new CacheException(t);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw new CacheException(e);
 		}
 	}
 
@@ -101,8 +109,9 @@ public class ShiroRedisCache<K, V> extends BaseLogger implements Cache<K, V> {
 		try {
 			Long longSize = new Long(cached.getHashSize(getByteName()));
 			return longSize.intValue();
-		} catch (Throwable t) {
-			throw new CacheException(t);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw new CacheException(e);
 		}
 	}
 
@@ -112,8 +121,9 @@ public class ShiroRedisCache<K, V> extends BaseLogger implements Cache<K, V> {
 		try {
 			Set<K> keys = cached.getHashKeys(getByteName());
 			return keys;
-		} catch (Throwable t) {
-			throw new CacheException(t);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			return null;
 		}
 	}
 
@@ -123,8 +133,10 @@ public class ShiroRedisCache<K, V> extends BaseLogger implements Cache<K, V> {
 		try {
 			Collection<V> values = cached.getHashValues(getByteName());
 			return values;
-		} catch (Throwable t) {
-			throw new CacheException(t);
+		} catch (Exception e) {
+			//throw new CacheException(e);
+			logger.error(e.getMessage(), e);
+			return null;
 		}
 	}
 

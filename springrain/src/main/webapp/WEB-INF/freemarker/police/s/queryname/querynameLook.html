@@ -1,0 +1,115 @@
+<#ftl output_format="HTML" auto_esc=true>
+<@h.commonHead title="后台管理系统" keywords="开源,永久免费" description="springrain开源系统管理后台"/>
+
+<script src="${ctx}/js/validform/validform.min.js"></script>
+<link rel="stylesheet" href="${ctx}/js/validform/validform.css" media="all">
+<script>
+	 jQuery(function(){
+		 /*
+		 init_valid(_before,_after)
+		 @_before:提交表单前，调用 的函数   可以为空，一般有validform处理不了，独自进行处理时使用
+		 @_after:保存成功后，调用的函数  可以为空，一般为对应的列表页面
+		 */
+		 springrain.initValid(null,function(){window.location.href="${ctx}/s/queryname/${siteId!''}/${bussinissId!''}/list?springraintoken="+springraintoken});
+	 });
+</script>
+</head>
+<body>
+	<div class="layui-layout layui-layout-admin">
+		<@h.naviHeader /><@h.leftMenu />
+		<!-- 主体内容开始 -->
+			<div class="layui-tab layui-tab-brief">
+				<ul class="layui-tab-title site-demo-title">
+		            <li class="layui-this">
+		            		<i class="layui-icon">&#xe630;</i>
+		             		<span class="layui-breadcrumb" style="visibility: visible;">
+							   <a href="${ctx}">首页<span class="layui-box">&gt;</span></a>
+							   <a><cite>同名查询管理</cite></a>
+							</span>
+		            </li>
+		             <li style="float:right;">
+				        <button type="button" onclick="history.go(-1)" class="layui-btn layui-btn-small" style="margin-top:8px;"><i class="layui-icon layui-icon-specil">&#xe603;</i>返回</button>
+		             </li>
+	       		</ul>
+				
+				<div class="layui-body layui-tab-content site-demo-body">
+					<div class="layui-tab-item layui-show">
+							<div class="layui-main">
+						          <div id="LAY_preview" class="layui-my-form">
+						          				<header class="larry-personal-tit">
+													<span>修改姓名</span>
+												</header>
+												<@query_name id=(id)!>
+												<div class="larry-personal-body clearfix changepwd">
+													<form id="validForm" class="layui-form <!--  -->"  method="post" action="${ctx}/s/queryname/${siteId!''}/${bussinissId!''}/update">
+																<input type="hidden" id="id" name="id" value="${queryname.id!''}"/>
+																<input type="hidden" name="siteId" id="siteId" value="${queryname.siteId!''}">
+																<input type="hidden" name="bussinissId" id="bussinissId" value="${queryname.bussinissId!''}">
+																<input type="hidden" name="leadTime" id="leadTime" value="${queryname.leadTime!''}">	
+																	<div class="layui-form-item col-lg-6">
+																		<label class="layui-form-label">名字*</label>
+																		<div class="layui-inline col-lg-5">  
+																			<input type="text" name="name" id="name" datatype="*" nullmsg="不能为空" errormsg="不能为空！" autocomplete="off" class="layui-input" value="${queryname.name!''}">
+																		</div>
+																		<div class="layui-inline valid-info"></div>
+																	</div>
+																	<div class="layui-form-item col-lg-6">
+																		<label class="layui-form-label">性别*</label>
+																		<div class="layui-inline col-lg-5">
+																			<select id="sex" name="sex" >
+																			<#if queryname.sex=="女">
+																			<option value="女">女</option>
+																			<option value="男">男</option>
+																			<#elseif queryname.sex=="男">
+																			<option value="男">男</option>
+																			<option value="女">女</option>
+																			<#else>
+																			<option value="女">女</option>
+																			<option value="男">男</option>
+																			</#if>
+																			</select>
+																			<!-- <input type="text" name="sex" id="sex" datatype="*" nullmsg="不能为空" errormsg="不能为空！" autocomplete="off" class="layui-input" value="${(returnDatas.data.sex)!''}"> -->
+																		</div>
+																		<div class="layui-inline valid-info"></div>
+																	</div>
+																	<div class="layui-form-item col-lg-6">
+																		<label class="layui-form-label">所属城市*</label>
+																		<div class="layui-inline col-lg-5">  
+																			<input type="text" name="city" id="city" datatype="*" nullmsg="不能为空" errormsg="不能为空！" autocomplete="off" class="layui-input" value="${queryname.city!''}">
+																		</div>
+																		<div class="layui-inline valid-info"></div>
+																	</div>
+																	<div class="layui-form-item col-lg-6">
+																		<label class="layui-form-label">所属区*</label>
+																		<div class="layui-inline col-lg-5">  
+																			<input type="text" name="district" id="district" datatype="*" nullmsg="不能为空" errormsg="不能为空！" autocomplete="off" class="layui-input" value="${queryname.district}">
+																		</div>
+																		<div class="layui-inline valid-info"></div>
+																	</div>
+																	<div class="layui-form-item col-lg-6">
+																		<label class="layui-form-label">出生年月日*</label>
+																		<div class="layui-inline col-lg-5">  
+																			<input type="text" name="birthday" id="birthday" datatype="*" nullmsg="不能为空" errormsg="不能为空！" autocomplete="off" class="layui-input" value="${queryname.birthday!''}">
+																		</div>
+																		<div class="layui-inline valid-info"></div>
+																	</div>
+																	
+													<div class="layui-form-item change-submit">
+													<label class="layui-form-label"></label>
+															<div class="layui-inline">
+																<button type="button" class="layui-btn" id="smtbtn">保存</button>
+															</div>
+														</div>
+													</form>
+												</div>
+												</@query_name>
+								  </div>
+							</div>
+					</div>
+			</div>
+		</div>
+		<!-- 主体内容结束 -->
+		<@h.footer />
+	</div>
+</body>
+</html>

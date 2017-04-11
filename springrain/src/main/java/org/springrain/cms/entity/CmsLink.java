@@ -6,7 +6,6 @@ import javax.persistence.Table;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-
 import org.springrain.frame.annotation.WhereSQL;
 import org.springrain.frame.entity.BaseEntity;
 /**
@@ -100,6 +99,9 @@ public class CmsLink  extends BaseEntity {
 	private java.lang.Integer loginuser;
 	
 	private java.lang.Integer modelType;
+	
+	private Integer siteType;
+	
 	//columns END 数据库字段结束
 	
 	//concstructor
@@ -259,9 +261,17 @@ public class CmsLink  extends BaseEntity {
 	public void setModelType(java.lang.Integer modelType) {
 		this.modelType = modelType;
 	}
+	@WhereSQL(sql="siteType=:CmsLink_siteType")
+	public Integer getSiteType() {
+		return siteType;
+	}
+
+	public void setSiteType(Integer siteType) {
+		this.siteType = siteType;
+	}
 
 	public String toString() {
-		return new StringBuffer()
+		return new StringBuilder()
 			.append("id[").append(getId()).append("],")
 			.append("name[").append(getName()).append("],")
 			.append("默认URL地址[").append(getDefaultLink()).append("],")
@@ -275,6 +285,8 @@ public class CmsLink  extends BaseEntity {
 			.append("是否静态化 0否,1是[").append(getStatichtml()).append("],")
 			.append("排序[").append(getSortno()).append("],")
 			.append("状态 0不可用,1可用[").append(getActive()).append("],")
+			.append("modelType[").append(getModelType()).append("],")
+			.append("siteType[").append(getSiteType()).append("],")
 			.toString();
 	}
 	
@@ -285,8 +297,12 @@ public class CmsLink  extends BaseEntity {
 	}
 	
 	public boolean equals(Object obj) {
-		if(obj instanceof CmsLink == false) return false;
-		if(this == obj) return true;
+		if(obj instanceof CmsLink == false){
+			return false;
+		} 
+		if(this == obj){
+			return true;
+		} 
 		CmsLink other = (CmsLink)obj;
 		return new EqualsBuilder()
 			.append(getId(),other.getId())

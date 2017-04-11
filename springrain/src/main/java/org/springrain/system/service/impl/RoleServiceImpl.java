@@ -70,7 +70,7 @@ public class RoleServiceImpl extends BaseSpringrainServiceImpl implements IRoleS
     		   return id;
     	   }
     	   
-    	   List<RoleMenu> rms=new ArrayList<RoleMenu>();
+    	   List<RoleMenu> rms=new ArrayList<>();
     	   for(Menu m:menus){
     		   RoleMenu rm=new RoleMenu();
     		   rm.setRoleId(_id);

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>通信</title>
+    <link rel="stylesheet" href="${ctx}/u/${siteId}/f/css/phone.css" />
+    <link rel="stylesheet" href="${ctx}/u/${siteId}/f/css/style.css" />
+    <script type="text/javascript" src="${ctx}/u/${siteId}/f/js/jQuery.1.8.2.min.js" ></script>
+    <script type="text/javascript" src="${ctx}/u/${siteId}/f/js/height.js" ></script>
+    <style>
+    	.line-gradient{
+    		background-image: -webkit-gradient(linear,0% 0%, 0% 100%, from(#FAFBFC), to(#F3F6F8), color-stop(0.4,#F6F8FA));
+    	}
+    	.boxShadow{
+    		-moz-box-shadow:0px 1px 5px #999999; -webkit-box-shadow:0px 1px 5px #999999; box-shadow:0px 1px 5px #999999;
+    	}
+    	p,p *{word-break: break-all;}p{margin-bottom:0;margin-top:0;}.ht104{height:8.7rem;}
+    </style>
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row line-gradient pos-f top0 left0 ht34">
+			<div class="col3 tc l-ht34 font12 ht34">
+				<a class="display-ib" href="${ctx}/f/mp/${siteId}/h_10122">网络设计</a>
+			</div>
+			<div class="col3 tc l-ht34 font12 ht34">
+				<a class="display-ib" href="${ctx}/f/mp/${siteId}/h_10124">网络建设</a>
+			</div>
+			<div class="col3 tc l-ht34 font12 ht34">
+				<a class="display-ib" href="${ctx}/f/mp/${siteId}/h_10126">网络优化</a>
+			</div>
+			<div class="col3 tc l-ht34 font12 ht34">
+				<a class="display-ib" href="${ctx}/f/mp/${siteId}/h_10128">网络培训</a>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col12 l-ht0 mt34">
+			    <@cms_content_list page=(returnDatas.page)! pageSort="asc" pageOrder="sortno">
+                    <#if tag_list?? && (tag_list?size>0)> 
+                        <#list tag_list as _data>
+                        	<#if (_data_index==0)>
+                        		<#if (_data.cover)?? && (_data.cover)!="">
+	                                <#assign json=(_data.cover)?eval/>
+	                                <#list json as item>
+	                                    <img src="${ctx}${(item.path)!'/images/tx_banner.png'}" class="per100 ht104"/>
+	                                </#list>
+	                            <#else>
+	                                <img src="${ctx}/u/${siteId}/f/images/tx_banner.jpg" class="per100 ht104" />
+	                            </#if>
+                        	</#if>
+                        </#list> 
+                    </#if>
+                </@cms_content_list>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col12">
+				<div class="bg-white pos-a per90 left5p pt14 contentHt boxShadow" style="overflow-y: auto;">
+					<div class="pl12 pr12 overflow-h">
+						<p class="font-6 l-ht20">
+							<@cms_content_list page=(returnDatas.page)! pageSort="asc" pageOrder="sortno">
+	     						<#if tag_list?? && (tag_list?size>0)> 
+	         						<#list tag_list as _data>
+	         							<#if (_data_index==0)>
+	         								${(_data.content)!''}
+	         							</#if>
+	         						</#list> 
+    							</#if>
+							</@cms_content_list>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+	<script>
+		$(function(){
+			setTimeout(function(){
+				var bodyHt=$('body').height();
+				var ht34=$('div.ht34').height();
+				var imgHt=$('div.mt34 img').height();
+				
+				$('div.contentHt').height((bodyHt-ht34-imgHt-16)+'px');
+				$('div.contentHt').css({'top':(ht34+imgHt-14)+'px'});
+			},500);
+		})
+	</script>
+
+</html>

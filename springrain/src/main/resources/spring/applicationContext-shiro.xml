@@ -77,13 +77,17 @@
 		<!-- 安全管理器 -->
 		<property name="securityManager" ref="securityManager" />
 		
-		 <property name="unauthorizedUrl" value="/errorpage/unauth"/>
+		<!-- 默认的登陆访问url -->
+		<property name="loginUrl" value="/system/login" />
+		<!-- 没有权限的界面 -->
+		<property name="unauthorizedUrl" value="/errorpage/unauth"/>
 	
 		<!-- 访问地址的过滤规则,从上至下,从左至右的优先级,如果有匹配的规则,就会返回,不会再进行匹配 -->
 		<property name="filterChainDefinitions">
 			<value>
 			    /layui/** = noSessionCreation
 				/js/** =  noSessionCreation
+				/u/** =  noSessionCreation
 				/css/** = noSessionCreation
 				/images/** = noSessionCreation
 				/img/** = noSessionCreation
@@ -110,12 +114,12 @@
 				/index = firewall,user,keepone
 				/logout = firewall,frontuser
 				
+				/s/**/ajax/** = firewall <!-- ajax权限放开 -->
 				/s/*/login = firewall
 				/s/*/index = firewall,siteuser,keepone
 				/s/*/logout = firewall,siteuser
 				/s/*/menu/leftMenu=firewall,siteuser,keepone
 				/s/**=firewall,siteuser,keepone,frameperms
-				
 				
 				/system/login = firewall
 				/system/index =firewall,systemuser,framefwlog,keepone

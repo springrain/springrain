@@ -15,7 +15,7 @@ import org.apache.shiro.web.servlet.OncePerRequestFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springrain.cms.utils.SiteUtils;
+import org.springrain.cms.util.SiteUtils;
 import org.springrain.frame.util.InputSafeUtils;
 import org.springrain.weixin.sdk.common.api.IWxMpConfig;
 import org.springrain.weixin.sdk.common.api.IWxMpConfigService;

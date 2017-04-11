@@ -52,15 +52,15 @@ public class ${className}  extends BaseEntity {
 
 	//get and set
 	<@generateJavaColumns/>
-	
+	@Override
 	public String toString() {
-		return new StringBuffer()
+		return new StringBuilder()
 		<#list table.columns as column>
 			.append("${column.columnAlias}[").append(get${column.columnNameFirstUpper}()).append("],")
 		</#list>
 			.toString();
 	}
-	
+	@Override
 	public int hashCode() {
 		return new HashCodeBuilder()
 		<#list table.pkColumns as column>
@@ -68,10 +68,16 @@ public class ${className}  extends BaseEntity {
 		</#list>
 			.toHashCode();
 	}
-	
+	@Override
 	public boolean equals(Object obj) {
-		if(obj instanceof ${className} == false) return false;
-		if(this == obj) return true;
+		if(obj instanceof ${className} == false){
+			return false;
+		}
+			
+		if(this == obj){
+			return true;
+		}
+		
 		${className} other = (${className})obj;
 		return new EqualsBuilder()
 			<#list table.pkColumns as column>

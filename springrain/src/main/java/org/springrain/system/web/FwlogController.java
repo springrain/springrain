@@ -59,8 +59,8 @@ public class FwlogController  extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/list/json")
-	public @ResponseBody
-	ReturnDatas listjson(HttpServletRequest request, Model model, Fwlog fwlog) throws Exception {
+	@ResponseBody 
+	public ReturnDatas listjson(HttpServletRequest request, Model model, Fwlog fwlog) throws Exception {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 	
 		Page page = newPage(request);
@@ -108,8 +108,8 @@ public class FwlogController  extends BaseController {
 	 * 查看的Json格式数据,为APP端提供数据
 	 */
 	@RequestMapping(value = "/look/json")
-	public @ResponseBody
-	ReturnDatas lookjson(Model model, HttpServletRequest request, HttpServletResponse response)
+	@ResponseBody 
+	public ReturnDatas lookjson(Model model, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		String id = request.getParameter("id");

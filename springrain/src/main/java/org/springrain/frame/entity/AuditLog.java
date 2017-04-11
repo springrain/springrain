@@ -161,7 +161,7 @@ public class AuditLog  extends BaseEntity  {
 	}
 	
 	public String toString() {
-		return new StringBuffer()
+		return new StringBuilder()
 			.append("ID[").append(getId()).append("],")
 			.append("操作类型[").append(getOperationType()).append("],")
 			.append("操作人姓名[").append(getOperatorName()).append("],")
@@ -180,8 +180,12 @@ public class AuditLog  extends BaseEntity  {
 	}
 	
 	public boolean equals(Object obj) {
-		if(obj instanceof AuditLog == false) return false;
-		if(this == obj) return true;
+		if(obj instanceof AuditLog == false){
+			return false;
+		} 
+		if(this == obj){
+			return true;
+		} 
 		AuditLog other = (AuditLog)obj;
 		return new EqualsBuilder()
 			.append(getId(),other.getId())

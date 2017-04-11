@@ -4,7 +4,13 @@ import java.text.MessageFormat;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class PropertyFile {
+	
+	private static final Logger logger = LoggerFactory.getLogger(PropertyFile.class);
+	
 	private PropertyResourceBundle propertyResourceBundle;
 
 	public PropertyFile(String fileName) {
@@ -23,6 +29,7 @@ public class PropertyFile {
 		try {
 			return propertyResourceBundle.getString(strPropertyName);
 		} catch (Exception e) {
+			logger.error(e.getMessage(),e);
 			return null;
 		}
 	}

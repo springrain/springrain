@@ -24,6 +24,11 @@ public class DateUtils {
 	public static final String DATE_FORMAT = "yyyy-MM-dd";
 	public static final String DATE_TIMEZONE="GMT+8";
 
+	private DateUtils(){
+		throw new IllegalAccessError("工具类不能实例化");
+	}
+	
+	
 	/**
 	 * Get the previous time, from how many days to now.
 	 * 
@@ -56,7 +61,7 @@ public class DateUtils {
 		try {
 			return new SimpleDateFormat(DATE_FORMAT).parse(d);
 		} catch (Exception e) {
-			logger.error(e.getLocalizedMessage(),e);
+			logger.error(e.getMessage(),e);
 		}
 		return null;
 	}
@@ -68,7 +73,7 @@ public class DateUtils {
 		try {
 			return new SimpleDateFormat(DATETIME_FORMAT).parse(dt);
 		} catch (Exception e) {
-			logger.error(e.getLocalizedMessage(),e);
+			logger.error(e.getMessage(),e);
 		}
 		return null;
 	}
@@ -82,7 +87,7 @@ public class DateUtils {
 	/**
 	 * 每天的毫秒数
 	 */
-	public final static long MILLIS_IN_DAY = 1000 * 60 * 60 * 24;
+	//private final static long MILLIS_IN_DAY = 1000 * 60 * 60 * 24;
 
 	/**
 	 * 转换日期字符串得到指定格式的日期类型
@@ -98,9 +103,8 @@ public class DateUtils {
 			String targetDate) throws ParseException {
 		if (StringUtils.isBlank(targetDate))
 			return null;
-		SimpleDateFormat format = null;
+		SimpleDateFormat format =  new SimpleDateFormat(formatString);
 		Date result = null;
-		format = new SimpleDateFormat(formatString);
 		try {
 			result = format.parse(targetDate);
 		} catch (ParseException pe) {
@@ -209,7 +213,7 @@ public class DateUtils {
 				return 0;
 			}
 		} catch (Exception e) {
-			logger.error(e.getLocalizedMessage(),e);
+			logger.error(e.getMessage(),e);
 		}
 		return 0;
 	}
@@ -269,12 +273,12 @@ public class DateUtils {
 		try {
 			String date1 = convertDate2String(DEFAILT_DATE_TIME_PATTERN,
 					new Date());
-			date1.equals(date2);
+			//date1.equals(date2);
 			Date d1 = convertString2Date(DEFAILT_DATE_PATTERN, date1);
 			Date d2 = convertString2Date(DEFAILT_DATE_PATTERN, date2);
 			return d1.equals(d2);
 		} catch (ParseException e) {
-			logger.error(e.getLocalizedMessage(),e);
+			logger.error(e.getMessage(),e);
 			return false;
 		}
 	}
@@ -472,9 +476,8 @@ public class DateUtils {
 	 */
 	public static Calendar getNextMonday(Calendar date) {
 		Calendar result = null;
-		result = date;
 		do {
-			result = (Calendar) result.clone();
+			result = (Calendar) date.clone();
 			result.add(Calendar.DATE, 1);
 		} while (result.get(Calendar.DAY_OF_WEEK) != 2);
 		return result;

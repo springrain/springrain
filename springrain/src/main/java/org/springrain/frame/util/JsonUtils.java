@@ -12,8 +12,12 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JsonUtils  {
-	   static 	ObjectMapper mapper = new FrameObjectMapper();
-	   public static Logger logger = LoggerFactory.getLogger(JsonUtils.class);
+	private JsonUtils(){
+		throw new IllegalAccessError("工具类不能实例化");
+	}
+	
+	 private final static 	ObjectMapper mapper = new FrameObjectMapper();
+	 public static Logger logger = LoggerFactory.getLogger(JsonUtils.class);
 	  
 	 public static <T> T readValue(String content,Class<T> clazz) {
 		 T t=null;
@@ -44,11 +48,11 @@ public class JsonUtils  {
 	 }
 	 
 	 @SuppressWarnings("rawtypes")
-	public static Object readValues(String content,Class CollectionType,Class clazz){
+	public static Object readValues(String content,Class collectionClass,Class clazz){
 		 Object o=null;
 		 
 		try {
-			o=  mapper.readValue(content, getCollectionType(CollectionType, clazz));
+			o=  mapper.readValue(content, getCollectionType(collectionClass, clazz));
 		} catch (JsonParseException e) {
 			logger.error(e.getMessage(),e);
 		} catch (JsonMappingException e) {

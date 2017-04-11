@@ -3,6 +3,8 @@ package org.springrain.frame.common;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springrain.frame.shiro.ShiroUser;
 
 /**
@@ -14,8 +16,9 @@ import org.springrain.frame.shiro.ShiroUser;
  * @see org.springrain.frame.common.SessionUser
  */
 public class SessionUser {
-
-	public SessionUser() {
+	private static  Logger logger = LoggerFactory.getLogger(SessionUser.class);
+	private SessionUser() {
+		throw new IllegalAccessError("工具类不能实例化");
 	}
 
 	public static ShiroUser getShiroUser() {
@@ -32,6 +35,7 @@ public class SessionUser {
 			}
 			return shiroUser;
 		} catch (Exception e) {
+			logger.error(e.getMessage(),e);
 			return null;
 		}
 	}
@@ -45,6 +49,7 @@ public class SessionUser {
 			Session session = user.getSession();
 			return session;
 		} catch (Exception e) {
+			logger.error(e.getMessage(),e);
 			return null;
 		}
 	}
@@ -57,6 +62,7 @@ public class SessionUser {
 			}
 			return shiroUser.getId();
 		} catch (Exception e) {
+			logger.error(e.getMessage(),e);
 			return null;
 		}
 	}

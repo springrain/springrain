@@ -60,7 +60,8 @@ public class UeditorController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/{siteId}/init")
-    public @ResponseBody Object config(HttpServletRequest requestfile,HttpServletRequest request, Model model,@PathVariable String siteId) throws Exception {
+    @ResponseBody 
+    public  Object config(HttpServletRequest requestfile,HttpServletRequest request, Model model,@PathVariable String siteId) throws Exception {
  
     	String action=request.getParameter("action");
     	if(StringUtils.isBlank(action)){
@@ -203,7 +204,7 @@ public class UeditorController extends BaseController {
 			return resultMap;
 		}
 		
-		List<Map<String,String>> listUrl=new ArrayList<Map<String,String>>(fileList.length);
+		List<Map<String,String>> listUrl=new ArrayList<>(fileList.length);
 		
 		for(Object o:fileList){
 			if(o==null){
@@ -267,10 +268,11 @@ public class UeditorController extends BaseController {
 	 }
 	 
 	 
-	 List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
+	 List<Map<String,Object>> list=new ArrayList<>();
+	 
+	 
 	 
 	 for(String fileName:fileNames){
-		 
 		 CloseableHttpClient httpClient = HttpClientUtils.getHttpClient();
 		 HttpGet httpGet=new HttpGet(fileName);
 		 CloseableHttpResponse response = httpClient.execute(httpGet);
@@ -323,6 +325,10 @@ public class UeditorController extends BaseController {
 			  if(response!=null){
 				 response.close();
 			  }
+			  if(httpClient!=null){
+				  httpClient.close();
+			  }
+			  
 		 }
 		 
          

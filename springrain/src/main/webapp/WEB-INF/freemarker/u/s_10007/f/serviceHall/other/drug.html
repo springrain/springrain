@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<@cms_site id=siteId!'' >
+		<@cms_channel id=businessId!'' >
+			<meta name="keywords" content="${(site.keywords)!''},${(tag_bean.name)!''}" />
+			<title>${(tag_bean.name)!''}</title>
+		</@cms_channel>
+		</@cms_site>
+	    <link rel="stylesheet" href="${ctx}/css/wechat/phone.css" />
+	    <link rel="stylesheet" href="${ctx}/css/wechat/style.css" />
+	    <link rel="stylesheet" href="${ctx}/js/weui/css/jquery-weui.min.css" />
+	    <link rel="stylesheet" href="${ctx}/js/weui/css/weui.min.css" />
+	    <script type="text/javascript" src="${ctx}/js/wechat/jQuery.1.8.2.min.js" ></script>
+	    <script type="text/javascript" src="${ctx}/js/wechat/height.js" ></script>
+	    <script type="text/javascript" src="${ctx}/js/weui/js/jquery-weui.min.js" ></script>
+	    <script type="text/javascript" src="${ctx}/js/weui/js/city-picker.min.js" ></script>
+	    <style>
+	    	body{
+	    		background: #eceff6;
+	    	}
+	    </style>
+	</head>
+	<body>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col12">
+					<div class="pl10 pr10 pt12">
+					<input type="hidden"  value="2" id="pageIndex"/>
+						<ul class="display-b" id="list">
+							<@cms_content_list page=(returnDatas.page)! channelId=businessId>
+								<#if tag_list?? && (tag_list?size>0)>
+									<#list tag_list as _data>
+										<li class="ht130 radius6 overflow-h bg-white" onclick="toDetail('${(_data.id)!''}');">
+											<div class="pl16 pr16 pt20">
+												<div class="ht14">
+													<div class="ht14 l-ht14 font14 font-yahei font-b text-ellipsis1 fl per90">
+														${(_data.title)!''}
+													</div>
+													<div class="ht14 fl per10 tr">
+														<img src="${ctx}/img/wechat/qtyw_right.png" class="w-12 ht12" />
+													</div>
+												</div>
+												<div class="ht14 mt10 text-ellipsis1 per95 l-ht14 font-9">
+													${(_data.summary)!''}
+												</div>
+											</div>
+											<div class="ht48 mt24">
+												<#if (_data.cover)??>
+					               		 			<#assign json=(_data.cover)?eval/>
+													<#list json as item>
+														<img src="${ctx}${(item.path)!'/img/wechat/jwzx_listimg.jpg'}" class="per100 ht100p" />
+													</#list>
+												<#else>
+													<img src="${ctx}/img/wechat/jwzx_listimg.jpg" class="per100 ht100p" />
+					               		 		</#if>
+											</div>
+										</li>
+									</#list>
+								</#if>
+							</@cms_content_list>
+						</ul>
+						<div class="weui-loadmore tc">
+						  <i class="weui-loading"></i>
+						  <span class="weui-loadmore__tips">正在加载</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	
+	<script>
+		function toDetail(contentId){
+			window.location = "${ctx}/f/mp/${siteId!''}/"+contentId;
+		}
+		
+		/*控制上拉加载样式显示和隐藏*/
+		jQuery(function(){
+			var bodyHt=$('body').height();
+			var containerHt=$('div.container-fluid').height();
+			if(containerHt<bodyHt){
+				$('div.weui-loadmore').hide();
+			}else{
+				$('div.weui-loadmore').show();
+			}
+		});
+		
+		/*上拉加载*/
+		var loading = false;  //状态标记
+		$(document.body).infinite().on("infinite", function() {
+			if(loading) return;
+			loading = true;
+			setTimeout(function(){
+				var pageIndex = $("#pageIndex").val();
+				$.ajax({
+					type:"post",
+					url:"${ctx}/f/mp/${siteId!''}/${businessId!''}/dom",
+					dataType:"html",
+					data:{pageIndex:pageIndex},
+					success:function(ret){
+						$("#list").append(ret);
+						if(!!ret){
+							$("#pageIndex").val(parseInt($("#pageIndex").val())+1);
+						}else{
+							$('i.weui-loading').hide();
+							$('span.weui-loadmore__tips').html();
+							$('span.weui-loadmore__tips').html("没有数据了");
+						}
+					}
+				});
+				loading = false;
+			}, 1500);   //模拟延迟
+		});
+	</script>
+	
+</html>

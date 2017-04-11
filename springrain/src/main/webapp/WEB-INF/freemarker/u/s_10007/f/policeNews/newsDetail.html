@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<@cms_site id=siteId!'' >
+			<@cms_content id=businessId!'' >
+		<meta name="keywords" content="${(site.keywords)!''},${(tag_bean.title)!''}" />
+		<title>
+			${(tag_bean.title)!''}
+		</title>
+			</@cms_content>
+		</@cms_site>
+	    <link rel="stylesheet" href="${ctx}/css/wechat/phone.css" />
+	    <link rel="stylesheet" href="${ctx}/css/wechat/style.css" />
+	    <link rel="stylesheet" href="${ctx}/css/wechat/swiper.3.1.7.min.css" />
+	    <script type="text/javascript" src="${ctx}/js/wechat/jQuery.1.8.2.min.js" ></script>
+	    <script type="text/javascript" src="${ctx}/js/wechat/height.js" ></script>
+	    <script type="text/javascript" src="${ctx}/js/wechat/swiper.3.1.7.min.js" ></script>
+	    <style>
+			.ht30{height: 30px !important;} .w-30{width: 30px !important;}
+	    </style>
+	</head>
+	<body>
+		<div class="container-fluid">
+			<@cms_content id=businessId>
+			<div class="row">
+				<div class="col12">
+					<div class="pl12 bg-white overflow-h pt24">
+						<div class="font-9 font12">${(tag_bean.createDate)!''}</div>
+						<div class="l-ht20 font14 font-yahei font-2d465c font-b pr10 pb8">
+							${(tag_bean.title)!''}
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col12">
+					<div class="pl16 pr16 overflow-h">
+						<!-- <div class="l-ht20 font14 font-yahei font-2d465c font-b pb8">
+							${(tag_bean.title)!''}
+						</div> -->
+						<div class="l-ht20 font-9 font12 overflow-h">
+							${(tag_bean.content)!''}
+						</div>
+					</div>
+				</div>
+			</div>
+			</@cms_content>
+		</div>
+	</body>
+</html>

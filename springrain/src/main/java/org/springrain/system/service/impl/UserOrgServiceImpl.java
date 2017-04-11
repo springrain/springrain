@@ -191,7 +191,7 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 			return null;
 		}
 		
-		StringBuffer hasLeafBuffer=new StringBuffer();
+		StringBuilder hasLeafBuffer=new StringBuilder();
 		Finder finder=new Finder(hasLeafBuffer.toString());
 		finder.append(" SELECT _system_temp_org.*  FROM ").append(Finder.getTableName(Org.class));
 		finder.append(" _system_temp_org WHERE 1=1 ");
@@ -333,7 +333,7 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 			return null;
 		}
 		
-		List<String> noLeafList=new ArrayList<String>();
+		List<String> noLeafList=new ArrayList<>();
 		
 		Finder hasLeafBuffer=new Finder();
 		

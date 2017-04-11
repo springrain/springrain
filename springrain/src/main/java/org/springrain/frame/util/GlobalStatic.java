@@ -7,6 +7,12 @@ package org.springrain.frame.util;
  * @see org.springrain.frame.util.GlobalStatic
  */
 public class GlobalStatic {
+	
+	private GlobalStatic(){
+		throw new IllegalAccessError("工具类不能实例化");
+	}
+	
+	
 	public static  String rootDir=null;
 	public static  String webInfoDir=null;
 	public static  String staticHtmlDir=null;
@@ -99,16 +105,18 @@ public class GlobalStatic {
 			path=path.substring(6, path.length());
 		}
 		
-		
 		int _info=path.indexOf("/WEB-INF/classes");
 		if(_info>0){
 			path=path.substring(0, _info);
 		}
 		
-		rootDir=path;
 		
+		rootDir=path;
+		webInfoDir=rootDir+"/WEB-INF";
 		tempRootpath = rootDir + "/temp/";
 		staticHtmlDir=rootDir + "/statichtml/";
+		
+		
 		
 	}
 	

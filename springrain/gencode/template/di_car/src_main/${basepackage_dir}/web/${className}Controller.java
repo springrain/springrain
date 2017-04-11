@@ -70,8 +70,8 @@ public class ${className}Controller  extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/list/json")
-	public @ResponseBody
-	ReturnDatas listjson(HttpServletRequest request, Model model,${className} ${classNameLower}) throws Exception{
+	@ResponseBody   
+	public  ReturnDatas listjson(HttpServletRequest request, Model model,${className} ${classNameLower}) throws Exception{
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		// ==构造分页请求
 		Page page = newPage(request);
@@ -109,8 +109,8 @@ public class ${className}Controller  extends BaseController {
 	 * 查看的Json格式数据,为APP端提供数据
 	 */
 	@RequestMapping(value = "/look/json")
-	public @ResponseBody
-	ReturnDatas lookjson(Model model,HttpServletRequest request,HttpServletResponse response) throws Exception {
+	@ResponseBody      
+	public ReturnDatas lookjson(Model model,HttpServletRequest request,HttpServletResponse response) throws Exception {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 	     <#if pkJavaType=="java.lang.String">
 		${pkJavaType} id=request.getParameter("${table.pkColumn.columnNameFirstLower}");
@@ -136,8 +136,8 @@ public class ${className}Controller  extends BaseController {
 	 * 
 	 */
 	@RequestMapping("/update")
-	public @ResponseBody
-	ReturnDatas saveorupdate(Model model,${className} ${classNameLower},HttpServletRequest request,HttpServletResponse response) throws Exception{
+	@ResponseBody      
+	public ReturnDatas saveorupdate(Model model,${className} ${classNameLower},HttpServletRequest request,HttpServletResponse response) throws Exception{
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		returnObject.setMessage(MessageUtils.UPDATE_SUCCESS);
 		try {
@@ -152,8 +152,7 @@ public class ${className}Controller  extends BaseController {
 			${classNameLower}Service.saveorupdate(${classNameLower});
 			
 		} catch (Exception e) {
-			String errorMessage = e.getLocalizedMessage();
-			logger.error(errorMessage,e);
+			logger.error(e.getMessage(),e);
 			returnObject.setStatus(ReturnDatas.ERROR);
 			returnObject.setMessage(MessageUtils.UPDATE_ERROR);
 		}
@@ -175,7 +174,8 @@ public class ${className}Controller  extends BaseController {
 	 * 删除操作
 	 */
 	@RequestMapping(value="/delete")
-	public @ResponseBody ReturnDatas delete(HttpServletRequest request) throws Exception {
+	@ResponseBody      
+	public  ReturnDatas delete(HttpServletRequest request) throws Exception {
 
 			// 执行删除
 		try {
@@ -189,11 +189,9 @@ public class ${className}Controller  extends BaseController {
 			 id= ${pkJavaType}.valueOf(strId.trim());
 		</#if>
 				${classNameLower}Service.deleteById(id,${className}.class);
-				return new ReturnDatas(ReturnDatas.SUCCESS,
-						MessageUtils.DELETE_SUCCESS);
+				return new ReturnDatas(ReturnDatas.SUCCESS,MessageUtils.DELETE_SUCCESS);
 			} else {
-				return new ReturnDatas(ReturnDatas.WARNING,
-						MessageUtils.DELETE_WARNING);
+				return new ReturnDatas(ReturnDatas.WARNING,MessageUtils.DELETE_WARNING);
 			}
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
@@ -206,27 +204,24 @@ public class ${className}Controller  extends BaseController {
 	 * 
 	 */
 	@RequestMapping("/delete/more")
-	public @ResponseBody
-	ReturnDatas deleteMore(HttpServletRequest request, Model model) {
+	@ResponseBody      
+	public ReturnDatas deleteMore(HttpServletRequest request, Model model) {
 		String records = request.getParameter("records");
 		if(StringUtils.isBlank(records)){
-			 return new ReturnDatas(ReturnDatas.ERROR,
-					MessageUtils.DELETE_ALL_FAIL);
+			 return new ReturnDatas(ReturnDatas.ERROR,MessageUtils.DELETE_ALL_FAIL);
 		}
 		String[] rs = records.split(",");
 		if (rs == null || rs.length < 1) {
-			return new ReturnDatas(ReturnDatas.ERROR,
-					MessageUtils.DELETE_NULL_FAIL);
+			return new ReturnDatas(ReturnDatas.ERROR,MessageUtils.DELETE_NULL_FAIL);
 		}
 		try {
 			List<String> ids = Arrays.asList(rs);
 			${classNameLower}Service.deleteByIds(ids,${className}.class);
 		} catch (Exception e) {
-			return new ReturnDatas(ReturnDatas.ERROR,
-					MessageUtils.DELETE_ALL_FAIL);
+			logger.error(e.getMessage(), e);
+			return new ReturnDatas(ReturnDatas.ERROR,MessageUtils.DELETE_ALL_FAIL);
 		}
-		return new ReturnDatas(ReturnDatas.SUCCESS,
-				MessageUtils.DELETE_ALL_SUCCESS);
+		return new ReturnDatas(ReturnDatas.SUCCESS,MessageUtils.DELETE_ALL_SUCCESS);
 		
 		
 	}

@@ -311,7 +311,7 @@ public class WxMpConfig   extends BaseEntity implements IWxMpConfig {
 		}
 		
 		public String toString() {
-			return new StringBuffer()
+			return new StringBuilder()
 				.append("id[").append(getId()).append("],")
 				.append("站点Id[").append(getSiteId()).append("],")
 				.append("开发者Id[").append(getAppId()).append("],")
@@ -338,8 +338,12 @@ public class WxMpConfig   extends BaseEntity implements IWxMpConfig {
 		}
 		
 		public boolean equals(Object obj) {
-			if(obj instanceof WxMpConfig == false) return false;
-			if(this == obj) return true;
+			if(obj instanceof WxMpConfig == false){
+				return false;
+			} 
+			if(this == obj){
+				return true;
+			} 
 			WxMpConfig other = (WxMpConfig)obj;
 			return new EqualsBuilder()
 				.append(getId(),other.getId())

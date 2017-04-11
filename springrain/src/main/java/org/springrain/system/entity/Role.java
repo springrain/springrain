@@ -166,7 +166,7 @@ public class Role  extends BaseEntity {
 	}
 	
 	public String toString() {
-		return new StringBuffer()
+		return new StringBuilder()
 			.append("角色ID[").append(getId()).append("],")
 			.append("角色名称[").append(getName()).append("],")
 			.append("权限编码[").append(getCode()).append("],")
@@ -184,8 +184,12 @@ public class Role  extends BaseEntity {
 	}
 	
 	public boolean equals(Object obj) {
-		if(obj instanceof Role == false) return false;
-		if(this == obj) return true;
+		if(obj instanceof Role == false){
+			return false;
+		} 
+		if(this == obj){
+			return true;
+		} 
 		Role other = (Role)obj;
 		return new EqualsBuilder()
 			.append(getId(),other.getId())

@@ -95,7 +95,7 @@ public class WxMpPayServiceImpl implements IWxMpPayService {
     request.setAppid(wxmpconfig.getAppId());
     String partnerId = wxmpconfig.getPartnerId();
     request.setMchId(partnerId);
-    request.setNonceStr(System.currentTimeMillis() + "");
+    request.setNonceStr(String.valueOf(System.currentTimeMillis()));
     request.setOpUserId(partnerId);
     String sign = createSign(wxmpconfig,BeanUtils.xmlBean2Map(request), wxmpconfig.getPartnerKey());
     request.setSign(sign);
@@ -126,7 +126,7 @@ public class WxMpPayServiceImpl implements IWxMpPayService {
 
     request.setAppid(wxmpconfig.getAppId());
     request.setMchId(wxmpconfig.getPartnerId());
-    request.setNonceStr(System.currentTimeMillis() + "");
+    request.setNonceStr(String.valueOf(System.currentTimeMillis()));
 
     String sign = createSign(wxmpconfig,BeanUtils.xmlBean2Map(request),
       wxmpconfig.getPartnerKey());
@@ -194,7 +194,7 @@ public class WxMpPayServiceImpl implements IWxMpPayService {
     request.setWxAppid(wxmpconfig.getAppId());
     String mchId = wxmpconfig.getPartnerId();
     request.setMchId(mchId);
-    request.setNonceStr(System.currentTimeMillis() + "");
+    request.setNonceStr(String.valueOf(System.currentTimeMillis()));
 
     String sign = createSign(wxmpconfig,BeanUtils.xmlBean2Map(request),
       wxmpconfig.getPartnerKey());
@@ -226,7 +226,7 @@ public class WxMpPayServiceImpl implements IWxMpPayService {
     request.setAppid(wxmpconfig.getAppId());
     String mchId = wxmpconfig.getPartnerId();
     request.setMchId(mchId);
-    request.setNonceStr(System.currentTimeMillis() + "");
+    request.setNonceStr(String.valueOf(System.currentTimeMillis()));
 
     String sign = createSign(wxmpconfig,BeanUtils.xmlBean2Map(request),
       wxmpconfig.getPartnerKey());
@@ -279,7 +279,7 @@ public class WxMpPayServiceImpl implements IWxMpPayService {
     request.setTransactionId(StringUtils.trimToNull(transactionId));
     request.setAppid(wxmpconfig.getAppId());
     request.setMchId(wxmpconfig.getPartnerId());
-    request.setNonceStr(System.currentTimeMillis() + "");
+    request.setNonceStr(String.valueOf(System.currentTimeMillis()));
 
     String sign = createSign(wxmpconfig,BeanUtils.xmlBean2Map(request),
       wxmpconfig.getPartnerKey());
@@ -308,7 +308,7 @@ public class WxMpPayServiceImpl implements IWxMpPayService {
     request.setOutTradeNo(StringUtils.trimToNull(outTradeNo));
     request.setAppid(wxmpconfig.getAppId());
     request.setMchId(wxmpconfig.getPartnerId());
-    request.setNonceStr(System.currentTimeMillis() + "");
+    request.setNonceStr(String.valueOf(System.currentTimeMillis()));
 
     String sign = createSign(wxmpconfig,BeanUtils.xmlBean2Map(request),
       wxmpconfig.getPartnerKey());
@@ -334,7 +334,7 @@ public class WxMpPayServiceImpl implements IWxMpPayService {
 
     request.setAppid(wxmpconfig.getAppId());
     request.setMchId(wxmpconfig.getPartnerId());
-    request.setNonceStr(System.currentTimeMillis() + "");
+    request.setNonceStr(String.valueOf(System.currentTimeMillis()));
 
     String sign = createSign(wxmpconfig,BeanUtils.xmlBean2Map(request),
       wxmpconfig.getPartnerKey());
@@ -378,7 +378,7 @@ public class WxMpPayServiceImpl implements IWxMpPayService {
     payInfo.put("appId", wxmpconfig.getAppId());
     // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
     payInfo.put("timeStamp", String.valueOf(System.currentTimeMillis() / 1000));
-    payInfo.put("nonceStr", System.currentTimeMillis() + "");
+    payInfo.put("nonceStr", String.valueOf(System.currentTimeMillis()));
     payInfo.put("package", "prepay_id=" + prepayId);
     payInfo.put("signType", "MD5");
     if ("NATIVE".equals(request.getTradeType())) {
@@ -400,7 +400,7 @@ public class WxMpPayServiceImpl implements IWxMpPayService {
 
     request.setMchAppid(wxmpconfig.getAppId());
     request.setMchId(wxmpconfig.getPartnerId());
-    request.setNonceStr(System.currentTimeMillis() + "");
+    request.setNonceStr(String.valueOf(System.currentTimeMillis()));
 
     String sign = createSign(wxmpconfig,BeanUtils.xmlBean2Map(request), wxmpconfig.getPartnerKey());
     request.setSign(sign);
@@ -422,7 +422,7 @@ public class WxMpPayServiceImpl implements IWxMpPayService {
     WxEntPayQueryRequest request = new WxEntPayQueryRequest();
     request.setAppid(wxmpconfig.getAppId());
     request.setMchId(wxmpconfig.getPartnerId());
-    request.setNonceStr(System.currentTimeMillis() + "");
+    request.setNonceStr(String.valueOf(System.currentTimeMillis()));
 
     String sign = createSign(wxmpconfig,BeanUtils.xmlBean2Map(request), wxmpconfig.getPartnerKey());
     request.setSign(sign);

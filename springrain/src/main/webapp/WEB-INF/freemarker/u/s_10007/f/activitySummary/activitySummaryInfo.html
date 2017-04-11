@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport"content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<@cms_site id=siteId!'' >
+		<@cms_content id=businessId!'' >
+	<meta name="keywords" content="${(site.keywords)!''},${(tag_bean.title)!''}" />
+	<title>
+		${(site.name)!''}&nbsp;-&nbsp;${(tag_bean.title)!''}
+	</title>
+		</@cms_content>
+	</@cms_site>
+	<link rel="stylesheet" href="${ctx}/u/${(siteId)!''}/f/css/phone.css" />
+	<link rel="stylesheet" href="${ctx}/u/${(siteId)!''}/f/css/style.css" />
+	<script type="text/javascript" src="${ctx}/u/${(siteId)!''}/f/js/jQuery.1.8.2.min.js" ></script>
+	<script type="text/javascript" src="${ctx}/u/${(siteId)!''}/f/js/height.js" ></script>
+</head>
+<body class="bg_eb">
+	<div class="volundetail_all">
+		<@cms_content id=businessId >
+		<!-- tag_bean -->
+		<div class="detail_top">
+			<!-- <img src="${ctx}/u/${(siteId)!''}/f/images/detail_01.jpg" /> -->
+			<#if tag_bean.cover?? && tag_bean.cover !="">
+				<#assign json=(tag_bean.cover)?eval/>
+				<#list json as item>
+					<img src="${ctx}${(item.path)!''}" />
+				</#list>
+			</#if>
+			<!-- <img src="${ctx}${tag_bean.coverPath!''}" /> -->
+		</div>
+		<div class="detail_cont">
+			<div class="detail_main">
+				<div class="title lin_left">
+					<span class="fc_2d font-b">${tag_bean.title}<!-- 12万志愿者参与服务新年春运暖冬行动 --></span>
+					<!-- <div class="entname lin_center">报名</div> -->
+				</div>
+				<ul class="detail_list boxSizing">
+				    <li><i class="icon_dtiem"></i>${tag_bean.createDate}<!-- 2017/03/01 --></li>
+				    <li><i class="icon_dasd"></i>${tag_bean.sourceurl}<!-- 梧州市长洲区新兴珠宝路14号 --></li>
+				</ul>
+				<div >
+					${tag_bean.content}
+				</div>
+			</div>
+		</div>
+		</@cms_content>
+	</div>
+</body>
+</html>

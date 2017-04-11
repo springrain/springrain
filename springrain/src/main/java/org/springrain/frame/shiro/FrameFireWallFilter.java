@@ -42,10 +42,10 @@ public class FrameFireWallFilter extends OncePerRequestFilter {
 	
 	
 	//白名单
-	private List<String> whiteList=new ArrayList<String>();
+	private List<String> whiteList=new ArrayList<>();
 	
 	//黑名单
-	private List<String> blackList=new ArrayList<String>();
+	private List<String> blackList=new ArrayList<>();
 	
 
 	@Override

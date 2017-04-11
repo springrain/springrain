@@ -9,6 +9,7 @@ import java.io.Writer;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -32,10 +33,17 @@ public class StaticHtmlFreeMarkerView extends FreeMarkerView {
 	
 	private CacheManager cacheManager=null;
 	
+	/*
 	public StaticHtmlFreeMarkerView(){
 		if(cacheManager==null){
 			 cacheManager=(CacheManager) SpringUtils.getBean("cacheManager");
 		}
+	}
+	*/
+	
+	@PostConstruct
+	public void initCacheManager(){
+		cacheManager=(CacheManager) SpringUtils.getBean("cacheManager");
 	}
 	
 	
@@ -136,7 +144,10 @@ public class StaticHtmlFreeMarkerView extends FreeMarkerView {
 			}
 		}
 		
-		htmlFile.createNewFile();
+		boolean createNewFile = htmlFile.createNewFile();
+		if(!createNewFile){
+			return;
+		}
 		
 		Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(htmlFile),GlobalStatic.defaultCharset));
 		template.process(model, out);

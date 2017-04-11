@@ -11,7 +11,7 @@ import org.springrain.cms.entity.CmsContent;
 import org.springrain.cms.service.ICmsCommentService;
 import org.springrain.cms.service.ICmsContentService;
 import org.springrain.cms.service.ICmsPraiseService;
-import org.springrain.cms.utils.DirectiveUtils;
+import org.springrain.cms.util.DirectiveUtils;
 
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;

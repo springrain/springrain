@@ -147,7 +147,7 @@ public class CmsPropertyvalue  extends BaseEntity {
 	}
 	
 	public String toString() {
-		return new StringBuffer()
+		return new StringBuilder()
 			.append("id[").append(getId()).append("],")
 			.append("propertyId[").append(getPropertyId()).append("],")
 			.append("pvalue[").append(getPvalue()).append("],")
@@ -165,8 +165,12 @@ public class CmsPropertyvalue  extends BaseEntity {
 	}
 	
 	public boolean equals(Object obj) {
-		if(obj instanceof CmsPropertyvalue == false) return false;
-		if(this == obj) return true;
+		if(obj instanceof CmsPropertyvalue == false){
+			return false;
+		} 
+		if(this == obj){
+			return true;
+		} 
 		CmsPropertyvalue other = (CmsPropertyvalue)obj;
 		return new EqualsBuilder()
 			.append(getId(),other.getId())

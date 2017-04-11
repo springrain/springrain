@@ -10,7 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springrain.cms.entity.CmsLink;
 import org.springrain.cms.service.ICmsLinkService;
-import org.springrain.cms.utils.DirectiveUtils;
+import org.springrain.cms.util.DirectiveUtils;
 
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
@@ -32,10 +32,12 @@ public class CmsLinkDirective extends AbstractCMSDirective {
 		
 		String businessId = getBusinessId(params);
 		String siteId=getSiteId(params);
-		
+		Integer modelType=DirectiveUtils.getInt("modelType", params);
+		if(modelType==null){
+			body.render(env.getOut());
+			return;
+		}
 		String cacheKey=TPL_NAME+"_cache_key_"+siteId+"_"+businessId;
-		
-		
 		CmsLink cmsLink = (CmsLink) getDirectiveData(cacheKey);
 		if(cmsLink == null){
 			try {
@@ -43,8 +45,10 @@ public class CmsLinkDirective extends AbstractCMSDirective {
 				if(StringUtils.isBlank(businessId)){
 					businessId = getBusinessId(params);
 				}
-				cmsLink = cmsLinkService.findLinkBySiteBusinessId(siteId, businessId);
+				//此处默认查前台的LINK
+				cmsLink = cmsLinkService.findLinkBySiteBusinessIdModelType(siteId, businessId,modelType);
 			} catch (Exception e) {
+				logger.error(e.getMessage(), e);
 				cmsLink = new CmsLink();
 			}
 			setDirectiveData(cacheKey,cmsLink);

@@ -20,6 +20,8 @@ import javax.persistence.Transient;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springrain.frame.annotation.LuceneField;
 import org.springrain.frame.annotation.LuceneSearch;
 import org.springrain.frame.annotation.NotLog;
@@ -39,7 +41,7 @@ import org.springrain.frame.annotation.WhereSQL;
 
 public class ClassUtils {
 	
-	
+	private static   Logger logger = LoggerFactory.getLogger(ClassUtils.class);
 	//缓存 entity的字段信息
 	private static Map<String,EntityInfo> staticEntitymap=new  ConcurrentHashMap<String,EntityInfo>();
 	//缓存 所有的WhereSql注解
@@ -56,6 +58,10 @@ public class ClassUtils {
 	//缓存 所有的参与Lucene的字段
 	private static Map<String,List<String>> allLucenemap=new  ConcurrentHashMap<String, List<String>>();
 	
+	
+	private ClassUtils(){
+		throw new IllegalAccessError("工具类不能实例化");
+	}
 
 	
 	/**
@@ -175,7 +181,7 @@ public class ClassUtils {
 		if(CollectionUtils.isEmpty(names))
 			return null;
 		
-		 List<WhereSQLInfo>  wheresql=new ArrayList<WhereSQLInfo> ();
+		 List<WhereSQLInfo>  wheresql=new ArrayList<> ();
 		for(String name:names){
 			boolean isWhereSQL= isAnnotation(clazz,name,WhereSQL.class);
 			if(isWhereSQL==false){
@@ -247,7 +253,7 @@ public class ClassUtils {
      if(CollectionUtils.isEmpty(allNames))
     	 return null;
     
-     List<String>   dbList=new ArrayList<String>();
+     List<String>   dbList=new ArrayList<>();
 	 for(String fdName:allNames){
 		boolean isDB= isAnnotation(clazz,fdName,Transient.class);
 		if(isDB==false){
@@ -288,7 +294,7 @@ public class ClassUtils {
      if(CollectionUtils.isEmpty(allNames))
     	 return null;
     
-     List<String>   luceneList=new ArrayList<String>();
+     List<String>   luceneList=new ArrayList<>();
 	 for(String fdName:allNames){
 		boolean isLuceneField= isAnnotation(clazz,fdName,LuceneField.class);
 		if(isLuceneField){
@@ -298,14 +304,6 @@ public class ClassUtils {
 	     allLucenemap.put(className, luceneList);
 		return luceneList;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	/**
@@ -319,8 +317,10 @@ public class ClassUtils {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static boolean isAnnotation(Class clazz,String fdName,Class annotationClass) throws Exception{
 		
-		if(clazz==null||fdName==null||annotationClass==null)
+		if(clazz==null||fdName==null||annotationClass==null){
 			return false;
+		}
+		
 		PropertyDescriptor pd = new PropertyDescriptor(fdName, clazz);
 		Method getMethod = pd.getReadMethod();// 获得get方法
 		return getMethod.isAnnotationPresent(annotationClass);
@@ -336,16 +336,23 @@ public class ClassUtils {
 	@SuppressWarnings("rawtypes")
 	public static String  getTableName(Object object) throws Exception{
 		
-		if(object==null)
+		if(object==null){
 			return null;
+		}
+			
 	   String tableName=null;
 	   
 		if(object instanceof Class){
 		EntityInfo entityInfo = getEntityInfoByClass((Class)object);
 		tableName=entityInfo.getTableName();
 		}else{
-			EntityInfo entityInfoByEntity = ClassUtils
-					.getEntityInfoByEntity(object);
+			EntityInfo entityInfoByEntity = ClassUtils.getEntityInfoByEntity(object);
+			
+			if(entityInfoByEntity==null){
+				return object.getClass().getSimpleName();
+			}
+			
+			
 			 tableName = entityInfoByEntity.getTableName();
 			String tableExt = entityInfoByEntity.getTableSuffix();
 			if (StringUtils.isNotBlank(tableExt)) {
@@ -371,17 +378,22 @@ public class ClassUtils {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static String  getTableNameByClass(Class clazz){
 		
-		if(clazz==null)
+		if(clazz==null){
 			return null;
+		}
 		
-		 if((clazz.isAnnotationPresent(Table.class)==false))
+		 if((clazz.isAnnotationPresent(Table.class)==false)){
 			 return clazz.getSimpleName();
+		 }
+			 
 		 
 		Table table= (Table) clazz.getAnnotation(Table.class);
 		
 		String tableName=table.name();
-		if(tableName==null)
+		if(tableName==null){
 			return clazz.getSimpleName();
+		}
+			
 			return tableName;
 		
 	}
@@ -440,7 +452,7 @@ public class ClassUtils {
 	@SuppressWarnings("rawtypes")
 	public static Object getPKValue(Object o) throws Exception{
 		Class clazz=o.getClass();
-	     String id=getEntityInfoByClass(clazz).getPkName();
+	    String id=getEntityInfoByClass(clazz).getPkName();
 		return getPropertieValue(id,o) ;
 			
 	}
@@ -463,6 +475,7 @@ public class ClassUtils {
 					break;
 				}
 			}catch(Exception e){
+				logger.error(e.getMessage(),e);
 				return null;
 			}
 			

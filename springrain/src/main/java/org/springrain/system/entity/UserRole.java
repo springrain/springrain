@@ -83,7 +83,7 @@ public class UserRole  extends BaseEntity {
 	}
 	
 	public String toString() {
-		return new StringBuffer()
+		return new StringBuilder()
 			.append("编号[").append(getId()).append("],")
 			.append("用户编号[").append(getUserId()).append("],")
 			.append("角色编号[").append(getRoleId()).append("],")
@@ -97,8 +97,12 @@ public class UserRole  extends BaseEntity {
 	}
 	
 	public boolean equals(Object obj) {
-		if(obj instanceof UserRole == false) return false;
-		if(this == obj) return true;
+		if(obj instanceof UserRole == false){
+			return false;
+		} 
+		if(this == obj){
+			return true;
+		} 
 		UserRole other = (UserRole)obj;
 		return new EqualsBuilder()
 			.append(getId(),other.getId())

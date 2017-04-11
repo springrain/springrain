@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	    <meta charset="utf-8">
+	    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	    <@cms_site id=siteId!'' >
+		<@cms_channel id=businessId!'' >
+			<meta name="keywords" content="${(site.keywords)!''},${(tag_bean.name)!''}" />
+			<title>${(tag_bean.name)!''}</title>
+		</@cms_channel>
+		</@cms_site>
+	    <link rel="stylesheet" href="${ctx}/u/s_10007/f/css/phone.css" />
+	    <link rel="stylesheet" href="${ctx}/u/s_10007/f/css/style.css" />
+	    <script type="text/javascript" src="${ctx}/u/s_10007/f/js/jQuery.1.8.2.min.js" ></script>
+	    <script type="text/javascript" src="${ctx}/js/jquery/jquery.min.js" ></script>
+	    <script type="text/javascript" src="${ctx}/u/s_10007/f/js/height.js" ></script>
+	    <script type="text/javascript">
+	    	function chaxun(){
+	    		var name=$("#name").val();
+	    		if(name!=""&&name!=null&&name!=undefined){
+	    			window.location.href = "${ctx}/f/mp/queryname/${siteId!''}/h_10100/list?name="+name;
+	    		}
+	    	}
+	    </script>
+	    <style>
+	    	body{
+	    		background: url(${ctx}/u/s_10007/f/images/jyxc_bgimg.jpg);
+	    		background-size: 100% 100%;
+	    		background-repeat: no-repeat;
+	    		background-position: center;
+	    	}
+	    	.linear-gradients{
+	    		background-image: -webkit-gradient(linear,100% 100%, 100% 0%, from(#42C2FF), to(#15A9FE), color-stop(0.5,#2CB6FE));
+	    	}
+	    	.boxShadow{-moz-box-shadow:0px 0px 10px #ABABAB; -webkit-box-shadow:0px 0px 10px #ABABAB; box-shadow:0px 0px 10px #ABABAB;}
+	    </style>
+	</head>
+	<body>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col12 l-ht0">
+					<img src="${ctx}/u/s_10007/f/images/tmcx_banner.png" class="per100" />
+				</div>
+			</div>
+			<div class="row base">
+				<div class="col12">
+					<div class="ht38 mt56">
+						<div class="ht38 fl per40 tr pr16 font16 font-yahei font-b">
+							<span class="font-red">*</span>新生儿姓名
+						</div>
+						<div class="ht38 fl per60 border-b-f4f4f5">
+							<input id="name" type="text" class="border-none font-6 ht18 font14" placeholder="请输入新生儿姓名" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col12 ht26 pl44 pr44 mt36">
+					<div class="ht26 l-ht26 tc font-white per100 radius4 font-yahei btn linear-gradients next" onclick="chaxun()">查询</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

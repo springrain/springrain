@@ -1,0 +1,279 @@
+<#ftl output_format="HTML" auto_esc=true>
+<@h.commonHead title="后台管理系统" keywords="开源,永久免费" description="springrain开源系统管理后台"/>
+<script src="${ctx}/js/validform/validform.min.js"></script>
+<link rel="stylesheet" href="${ctx}/js/validform/validform.css" media="all">
+<script src="${ctx}/js/ajaxfileupload/ajaxfileupload.js"></script>
+<script>
+	var _state;
+	jQuery(function(){ 
+		_state="${(returnDatas.queryBean.active)!''}";
+		jQuery("#active").val(_state);
+		/*
+		全选、反选
+		*/
+		jQuery("#checkAll").bind('click',function(){
+			var _is_check=jQuery(this).get(0).checked;
+			jQuery("input[name='check_li']").each(function(_i,_o){
+				jQuery(_o).get(0).checked=_is_check;
+			});
+		});
+		jQuery("#uploadExcelfile").change(input);
+		
+	});
+	
+	function input(){
+		/* var ctx="${(ctx)!''}" */
+		/* $("#daoru").css("display","none");
+		$("#daoruM").css("display",""); */
+		if(validateFile(jQuery('#uploadExcelfile').get(0))){
+			jQuery.ajaxFileUpload({
+		        url: "${ctx}/s/queryname/${siteId!''}/${bussinissId!''}/import?springraintoken="+springraintoken,//用于文件上传的服务器端请求地址
+		        secureuri: false, //是否需要安全协议，一般设置为false
+		        fileElementId: 'uploadExcelfile', //文件上传域的ID
+		        dataType: 'json', //返回值类型 一般设置为json
+		        success: function (data, status)//服务器成功响应处理函数
+		        {
+		        	layer.msg(data.msg,{
+                        end:function(){
+                            window.location.href = "${ctx}/s/${siteId}/${businessId}/illegalcode/list?springraintoken="
+                                + springraintoken
+                        }
+                    });
+		        },
+		        error: function (data, status, e)//服务器响应失败处理函数
+		        {
+		        	layer.msg("出错了！",{
+                        end:function(){
+                            window.location.href = "${ctx}/s/${siteId}/${businessId}/illegalcode/list?springraintoken="
+                                + springraintoken
+                        }
+                    });
+		        }
+		    });
+		}
+	} 
+	function validateFile(obj) {
+	    var file = obj;
+	    var tmpFileValue = file.value;
+	    if (/^.*?\.(xls|xlsx)$/.test(tmpFileValue.toLowerCase())) {
+	    /* 	var url="${ctx}/system/baobiaokaoqin/" */
+	        return true;
+	    } else {
+	        alert("只能上传xls或xlsx的表格文件！");
+	        return false;
+	    }
+	    if (file.value != "") {
+	    	alert(file.value);
+	    } else {
+	        alert("请选择上传的文件!");
+	        return false;
+	    }
+	}
+
+	function del(_id){
+		springrain.mydelete(_id,"${ctx}/s/queryname/${siteId!''}/${bussinissId!''}/delete");
+	}
+	function delMore(){
+		 springrain.mydeletemore("","${ctx}/s/queryname/${siteId!''}/${bussinissId!''}/delete/more");
+	}
+	
+	 
+	 
+	 
+</script>
+
+</head>
+<body>
+	<div class="layui-layout layui-layout-admin">
+		<@h.naviHeader /><@h.leftMenu />
+			<!-- 主体内容开始 -->
+			<div class="layui-tab layui-tab-brief">
+				<ul class="layui-tab-title site-demo-title">
+		             <li class="layui-this">
+		             		<i class="layui-icon">&#xe630;</i>
+							<!--网站地图导航-->
+		             		<span class="layui-breadcrumb" style="visibility: visible;">
+							  <a href="${ctx}">首页<span class="layui-box">&gt;</span></a>
+							  <a><cite>同名查询管理</cite></a>
+							</span>
+		             </li>
+					 <li style="float:right;">
+		             	<@shiro.hasPermission name="/s/queryname/${siteId!''}/${bussinissId!''}/update" >
+		             		<button type="button"   class="layui-btn layui-btn-small" data-action="${ctx}/s/queryname/${siteId!''}/${bussinissId!''}/update/pre"><i class="layui-icon layui-icon-specil">&#xe61f;</i>新增</button>
+		             	</@shiro.hasPermission>
+		             	<@shiro.hasPermission name="/s/queryname/${siteId!''}/${bussinissId!''}/list/export" >
+				        	<!-- <button type="button"   class="layui-btn layui-btn-small"><i class="layui-icon layui-icon-specil">&#xe609;</i>导出</button> -->
+				        </@shiro.hasPermission>
+<!-- 		                	<input onclick="input()" type="file" id="uploadExcelfile" name="uploadExcelfile" value="导入" class="layui-btn layui-btn-warm layui-btn-small"></input> -->
+								<!-- <input  id="filePicker" name="uploadExcelfile"  type="file"> -->
+								<button type="button" onclick="$('#uploadExcelfile').click();"
+                        class="layui-btn layui-btn-warm layui-btn-small">                       
+                        <i class="layui-icon layui-icon-specil">&#xe601;</i>导入
+                    </button>  
+                    <input style="display: none;" onchange="input()" type="file" id="uploadExcelfile" name="uploadExcelfile" value="导入" ></input>
+		                <@shiro.hasPermission name="/s/queryname/${siteId!''}/${bussinissId!''}/delete" >
+		               		 <button type="button" onclick="delMore()"  class="layui-btn layui-btn-danger layui-btn-small"><i class="layui-icon">&#xe640;</i>批量删除</button>
+		                </@shiro.hasPermission>
+		             </li>
+	       		</ul>
+				<div class="layui-body layui-tab-content site-demo-body">
+					<div class="layui-tab-item layui-show">
+							<div class="layui-main">
+						          <div id="LAY_preview">
+						          <!-- 查询  开始 -->
+						          
+							          <form class="layui-form layui-form-pane" id="searchForm" action="${ctx}/s/queryname/${siteId!''}/${bussinissId!''}/list" method="post">
+							          <input type="hidden" name="pageIndex" id="pageIndex" value="${(returnDatas.page.pageIndex)!'1'}" /> 
+							          <input type="hidden" name="sort" id="page_sort" value="${(returnDatas.page.sort)!'desc'}" />
+							          <input type="hidden" name="order" id="page_order" value="${(returnDatas.page.order)!'id'}" />
+									  <table class="layui-table search-wrap">
+									  	<colgroup>
+										    <col width="">
+										    <col width="150">
+										</colgroup>
+							          	<tbody>
+							          		<tr>
+							          			<th colspan="2">姓名搜索</th>
+							          		</tr>
+							          		<tr>
+							          			<td>
+							          				<div class="layui-inline">
+									                    <label class="layui-form-label" style="width: 100px;">名称</label>
+									                    <div class="layui-input-inline" style="float: left">
+									                           <input style="padding-left: 5px;" type="text" name="name" value="${(returnDatas.queryBean.name)!''}" placeholder="请输入名称 " class="layui-input">
+									                    </div>
+									                    <label class="layui-form-label" style="width: 100px;">所在市</label>
+									                    <div class="layui-input-inline" style="float: left">
+									                           <input style="padding-left: 5px;" type="text" name="city" value="${(returnDatas.queryBean.city)!''}" placeholder="请输入名称 " class="layui-input">
+									                    </div>
+									                     <label class="layui-form-label" style="width: 100px;">所在区</label>
+									                    <div class="layui-input-inline" style="float: left">
+									                           <input style="padding-left: 5px;" type="text" name="district" value="${(returnDatas.queryBean.district)!''}" placeholder="请输入名称 " class="layui-input">
+									                    </div>
+							                		</div>
+									                 <!-- <div class="layui-inline">
+									                    <label class="layui-form-label">是否可用</label>
+									                    <div class="layui-input-inline">
+									                        <select name="active" id="active" class="layui-input">
+									                          <option value="">==请选择==</option>
+															  <option value="1">是</option>
+															  <option value="0">否</option>
+															</select>   
+									                    </div>
+									                </div> -->
+							          			</td>
+							          			<td>
+							          			   <div class="layui-inline">
+									                    <button class="layui-btn" type="button" onclick="springrain.commonSubmit('searchForm');"><i class="layui-icon" style="top:4px;right:5px;">&#xe615;</i>搜索</button>
+									                </div>
+							          			</td>
+							          		</tr>
+							          	</tbody>
+							          </table>
+									  <!-- 查询  结束 -->
+									</form>
+									<!--start_export-->
+									<table class="layui-table" lay-even>
+										  <colgroup>
+										    <col width="40">
+										    <col width="120">
+										    <col>
+										  </colgroup>
+										  <!--end_no_export-->
+										  <!--first_start_export-->
+											<thead>
+												<tr>
+													<th colspan="9">姓名列表<font id='recordsView' class='recorsView'>共<span></span>页,共 <span></span>条记录</font></th>
+												</tr>
+												<tr>
+												  <!--first_start_no_export-->
+												  <th class="center">
+															<input id="checkAll"  type="checkbox">
+												  </th>
+												  <th>操作</th>
+												  <!--first_end_no_export-->
+														<!-- <th id="th_siteId" >站点id</th>
+														<th id="th_bussinissId" >栏目id</th> -->
+														<th id="th_name" >名字</th>
+														<th id="th_sex" >性别</th>
+														<th id="th_city" >所属城市</th>
+														<th id="th_district" >所属区</th>
+														<th id="th_year" >出生年月日</th>
+														<th id="th_leadTime" >导入时间</th>
+														<!-- <th id="th_reserveA" >预留字段A</th>
+														<th id="th_reserveB" >预留字段B</th> -->
+												</tr> 
+											</thead>
+										  <!--first_end_export-->
+										  <!--start_export-->
+										   <tbody>
+										   <@query_name_list page=(returnDatas.page)! queryname=(returnDatas.data)>
+										    <#if (datas??)&&(datas?size>0)> 
+										    	<#list	datas as _data>
+										    		<!--start_no_export-->
+													<tr class="">
+														<td class="center">
+																<input name="check_li" value="${_data.id}"  type="checkbox">
+														</td>
+														<td>
+															<@shiro.hasPermission name="/s/queryname/${siteId!''}/${bussinissId!''}/update" >
+								                           		 <a href="#" data-action="${ctx}/s/queryname/${siteId!''}/${bussinissId!''}/update/pre?id=${(_data.id)!''}" class="layui-btn layui-btn-normal layui-btn-mini">编辑</a>
+								                            </@shiro.hasPermission>
+								                            <@shiro.hasPermission name="/s/queryname/${siteId!''}/${bussinissId!''}/delete" >
+								                            	<a href="javascript:del('${(_data.id)!''}')" class="layui-btn layui-btn-danger layui-btn-mini ajax-delete">删除</a>
+								                            </@shiro.hasPermission>
+														</td>
+														<!--end_no_export-->
+														<!-- <td >
+															${(_data.siteId)!''}
+														</td>
+														<td >
+															${(_data.bussinissId)!''}
+														</td> -->
+														<td >
+															${(_data.name)!''}
+														</td>
+														<td >
+															${(_data.sex)!''}
+														</td>
+														<td >
+															${(_data.city)!''}
+														</td>
+														<td >
+															${(_data.district)!''}
+														</td>
+														<td >
+															${(_data.birthday)!''}
+														</td>
+														
+														<td >
+															<!--日期型-->
+														${((_data.leadTime)?string('yyyy-MM-dd'))!''}
+														</td>
+														<!-- <td >
+															${(_data.reserveA)!''}
+														</td>
+														<td >
+															${(_data.reserveB)!''}
+														</td> -->
+													</tr>
+												</#list>
+											 </#if>
+											 </@query_name_list>
+											</tbody>
+										</table>
+									<#if returnDatas.page??> 
+										<div id='laypageDiv'></div>
+										<@h.layPage page=returnDatas.page /> 
+									</#if>
+								</div>
+							</div>
+						</div>
+				</div>
+			</div>
+		<!-- 主体内容结束 -->
+		<@h.footer />
+	</div>
+</body>
+</html>
+

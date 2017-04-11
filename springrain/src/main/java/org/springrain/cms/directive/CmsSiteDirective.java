@@ -9,7 +9,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Component;
 import org.springrain.cms.entity.CmsSite;
 import org.springrain.cms.service.ICmsSiteService;
-import org.springrain.cms.utils.DirectiveUtils;
+import org.springrain.cms.util.DirectiveUtils;
 
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
@@ -40,6 +40,7 @@ public class CmsSiteDirective extends AbstractCMSDirective {
 			try {
 				site = cmsSiteService.findCmsSiteById(siteId);
 			} catch (Exception e) {
+				logger.error(e.getMessage(),e);
 				site = new CmsSite();
 			}
 			setDirectiveData(cacheKey,site);

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport"content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<@cms_site id=siteId!'' >
+	<@cms_channel id=businessId!'' >
+		<meta name="keywords" content="${(site.keywords)!''},${(tag_bean.name)!''}" />
+		<title>${(site.name)!''}&nbsp;-&nbsp;${(tag_bean.name)!''}</title>
+	</@cms_channel>
+	</@cms_site>
+	<link rel="stylesheet" href="${ctx}/u/${(siteId)!''}/f/css/phone.css" />
+	<link rel="stylesheet" href="${ctx}/u/${(siteId)!''}/f/css/style.css" />
+	<script type="text/javascript" src="${ctx}/u/${(siteId)!''}/f/js/jQuery.1.8.2.min.js" ></script>
+	<script type="text/javascript" src="${ctx}/u/${(siteId)!''}/f/js/height.js" ></script>
+</head>
+<body>
+	<div class="ranking_all">
+		<@cms_member_list page=(returnDatas.page)! pageSize=10 orderBy=0 >
+			<#if tag_list?? && tag_list?size gt 0>
+				<div class="ranking_one lin_left boxSizing">
+					<div class="rank_left">
+						<span class="display-b r_name"><span class="span font-b">${(tag_list[0].nickname)!''}</span> NO.1</span>
+						<span class="display-b r_num"><span class="span das">${(tag_list[0].star)!''}</span>星
+						<span class="span ml10">${(tag_list[0].point)!''}</span>分</span>
+					</div>
+					<div class="avatar boxSizing"><img src="${(tag_list[0].portrait)!''}" /></div>
+				</div>
+				<div class="ranking_list">
+					<ul>
+					<#list tag_list as _data >
+						<#if _data_index != 0 >
+							<li class="lin_left boxSizing">
+						    	<div class="sort">${_data_index + 1}</div>
+						    	<div class="cont">
+						    		<div class="savatar fl"><img src="${(_data.portrait)!''}" /></div>
+						    		<div class="fl text">
+						    			<div class="h4">${(_data.nickname)!''}</div>
+						    			<div class="sp">${(_data.point)!''}分</div>
+						    		</div>
+						    	</div>
+						    	<div class="blast">
+						    		<span class="stars">
+						    			<#if _data.star?? && _data.star!="" 
+						    				&& (_data.star?number gt 0) && (_data.star?number lte 5) >
+						    				<#list 1.._data.star?number as i>
+						    					<s class="text-icon icon-star"></s>
+						    				</#list>
+						    				<#if (5 - _data.star?number) gt 1>
+						    					<#list 1..(5-_data.star?number) as i>
+								    				<s class="text-icon icon-star-gray"></s>
+								    			</#list>
+								    		<#elseif (5 - _data.star?number) == 1>
+								    			<s class="text-icon icon-star-gray"></s>
+						    				</#if>
+						    			</#if>
+									</span>
+						    	</div>
+						    </li>
+						</#if>
+					</#list>
+					</ul>
+				</div>
+			</#if>
+		</@cms_member_list>
+	</div>
+</body>
+</html>

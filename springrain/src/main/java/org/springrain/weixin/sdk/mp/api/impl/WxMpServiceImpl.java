@@ -44,10 +44,9 @@ import com.google.gson.JsonParser;
 
 
 public class WxMpServiceImpl implements IWxMpService {
-
   private static final JsonParser JSON_PARSER = new JsonParser();
 
-  protected final Logger logger = LoggerFactory.getLogger(getClass());
+  private final Logger logger = LoggerFactory.getLogger(getClass());
   
   //生产环境应该是spring注入
   private IWxMpConfigService wxMpConfigService;
@@ -511,6 +510,7 @@ public class WxMpServiceImpl implements IWxMpService {
     } catch (IOException e) {
       throw new RuntimeException(e);
     } catch (WxErrorException e) {
+      logger.error(e.getMessage(),e);
       return false;
     }
     return true;
@@ -528,7 +528,7 @@ public class WxMpServiceImpl implements IWxMpService {
     String responseContent = get(wxmpconfig,url, null);
     JsonElement tmpJsonElement = JSON_PARSER.parse(responseContent);
     JsonArray ipList = tmpJsonElement.getAsJsonObject().get("ip_list").getAsJsonArray();
-    List<String> ipArray = new ArrayList<String>();
+    List<String> ipArray = new ArrayList<>();
     for (int i = 0; i < ipList.size(); i++) {
     	ipArray.add(ipList.get(i).getAsString());
     }
@@ -575,6 +575,7 @@ public class WxMpServiceImpl implements IWxMpService {
         logger.debug("\n[URL]:  {}\n[PARAMS]: {}\n[RESPONSE]: {}",uri, data, result);
         return result;
       } catch (WxErrorException e) {
+    	logger.error(e.getMessage(),e);
         WxError error = e.getError();
         // -1 系统繁忙, 1000ms后重试
         if (error.getErrorCode() == -1) {
@@ -606,6 +607,7 @@ public class WxMpServiceImpl implements IWxMpService {
     try {
       return executor.execute(wxmpconfig, uriWithAccessToken, data);
     } catch (WxErrorException e) {
+      logger.error(e.getMessage(),e);
       WxError error = e.getError();
       /*
        * 发生以下情况时尝试刷新access_token

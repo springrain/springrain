@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <@cms_site id=siteId!'' >
+	<@cms_channel id=businessId!'' >
+		<meta name="keywords" content="${(site.keywords)!''},${(tag_bean.name)!''}" />
+		<title>${(site.name)!''}&nbsp;-&nbsp;${(tag_bean.name)!''}</title>
+	</@cms_channel>
+	</@cms_site>
+    <link rel="stylesheet" href="${ctx}/u/s_10007/f/css/phone.css" />
+    <link rel="stylesheet" href="${ctx}/u/s_10007/f/css/style.css" />
+    <link href='${ctx}/u/s_10007/f/css/flipping_gallery.css' rel='stylesheet' type='text/css'>
+    <script type="text/javascript" src="${ctx}/u/s_10007/f/js/jQuery.1.8.2.min.js" ></script>
+    <script type="text/javascript" src="${ctx}/u/s_10007/f/js/height.js" ></script>
+    <script type="text/javascript" src="${ctx}/u/s_10007/f/js/jquery.flipping_gallery.js"></script>
+    <script type="text/javascript" src="${ctx}/js/adaptive122/adaptive_vehssuris.js" ></script>
+    <script type="text/javascript" src="${ctx}/layui/lay/modules/layer.js" ></script>
+<link href='${ctx}/layui/css/modules/layer/default/layer.css' rel='stylesheet' type='text/css'>
+</head>
+<style>
+.ckgd{
+    text-align: center;padding:0.2rem 1.35rem 0.8rem;
+}
+.re_conter dl dd{
+padding: 0.5rem 0 0.5rem 0;
+    height: inherit;
+}
+</style>
+<script type="text/javascript">
+var _ctx="${ctx}";
+var host="${host}";
+var siteId="${siteId}";
+var query="${(query)!''}";
+
+
+
+
+var dzjkstr='<li class="boxSizing">'+
+'<div class="re_line"></div>'+
+'<div class="re_time lin_left"><div class="re_times"></div><span>{wfsj}</span></div>'+
+'<div class="re_detail" onclick="zhedie(this)">'+
+    '<div class="re_title lin_left boxSizing">'+
+       '<div class="h5">'+
+            '<i class="icon_coin"></i>{fkje}元'+
+            '<span class="fr pr16">{hphm}</span>'+
+       ' </div>'+
+    '</div>'+
+    '<div class="re_conter boxSizing">'+
+        '<dl>'+
+            '<dd class="lin_left"><i class="re_icon re_point"></i>记分：<span>{wfjfs}分</span></dd>'+
+            '<dd class="lin_left"><i class="re_icon re_reason"></i>原因：<span>{wfms}</span></dd>'+
+            '<dd class="lin_left"><i class="re_icon re_add"></i>地点：<span>{wfdz}</span></dd>'+
+            '<dd class="lin_left"><i class="re_icon re_num"></i>处理标记 ：<span class="fc_lan">{clbjStr}</span></dd>'+
+            '<dd class="lin_left"><i class="re_icon re_organ"></i>采集机关：<span>{cjjgmc}</span></dd>'+
+            '<dd class="lin_left"><i class="re_icon re_mode"></i>交款标记：<span>{jkbj}</span></dd>'+
+        '</dl>'+
+    '</div>'+
+'</div>'+
+'</li>';
+var wfclstr='<li class="boxSizing">'+
+'<div class="re_line"></div>'+
+'<div class="re_time lin_left"><div class="re_times"></div><span>{wfsj}</span></div>'+
+'<div class="re_detail"  onclick="zhedie(this)">'+
+    '<div class="re_title lin_left boxSizing">'+
+       '<div class="h5">'+
+            '<i class="icon_coin"></i>{fkje}元'+
+            '<span class="fr pr16">{hphm}</span>'+
+       ' </div>'+
+    '</div>'+
+    '<div class="re_conter boxSizing">'+
+        '<dl>'+
+            '<dd class="lin_left"><i class="re_icon re_point"></i>记分：<span>{wfjfs}分</span></dd>'+
+            '<dd class="lin_left"><i class="re_icon re_reason"></i>原因：<span>{wfms}</span></dd>'+
+            '<dd class="lin_left"><i class="re_icon re_add"></i>地点：<span>{wfdz}</span></dd>'+
+            '<dd class="lin_left"><i class="re_icon re_num"></i>决定书编号：<span class="fc_lan">{jdsbh}</span></dd>'+
+            '<dd class="lin_left"><i class="re_icon re_organ"></i>处理机关：<span>{cljgmc}</span></dd>'+
+            '<dd class="lin_left"><i class="re_icon re_mode"></i>交款标记：<span>{jkbj}</span></dd>'+
+        '</dl>'+
+    '</div>'+
+'</div>'+
+'</li>';
+</script>
+<body>
+    <div class="proces_all">
+        <div class="proces_tab">
+            <ul>
+                <li class="selected"><span>电子监控记录</span><i class="parrow"></i></li>
+                <li><span>违法处理记录</span><i class="parrow"></i></li>
+            </ul>
+        </div>
+        <div class="recruit_box">
+            <ul id="dzjkUl" class="recruit_list">
+<!--                电子监控列表内容 -->
+                <li id="dzjkgd" class="boxSizing ckgd">查看更多</li>
+            </ul>
+            <ul id="wfclUl" class="recruit_list">
+<!--                违法处理列表内容 -->
+                <li id="wfclgd" class="boxSizing ckgd">查看更多</li>
+            </ul>
+        </div>
+    </div>
+<script type="text/javascript">
+//格式化
+function geshihua(){
+	var btnclick = $('div.proces_tab ul li');
+    btnclick.click(function(){
+        if($(this).text()=="电子监控记录"){
+            $("#wfclUl").hide();
+            $("#dzjkUl").show();
+        }else{
+            $("#wfclUl").show();
+            $("#dzjkUl").hide();
+        }
+        $(this).addClass('selected').siblings().removeClass('selected');
+        var index = btnclick.index(this);
+        $('div.recruit_box > div').eq(index).show().siblings().hide();
+    });
+    $(".re_conter").hide();
+    $(".re_detail").css("overflow","hidden");
+
+}
+function zhedie(_this){
+	 var conter= $(_this).find(".re_conter");
+     var title= $(_this).find(".re_title");
+     conter.slideToggle("show");
+     title.children().toggleClass("active");
+     $(_this).find(".re_detail").children(".re_title").children().removeClass("active");
+}
+</script>
+</body>
+</html>

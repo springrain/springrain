@@ -12,10 +12,12 @@ import java.util.List;
 
 public class FileUtils {
 	
-	
+	private FileUtils(){
+		throw new IllegalAccessError("工具类不能实例化");
+	}
 	
 	public static List<File> getPathAllFileExt(String path,String ext){
-		List<File> list =new ArrayList<File>();
+		List<File> list =new ArrayList<>();
 		
 		getPathAllFileExt(list,path,ext);
 		

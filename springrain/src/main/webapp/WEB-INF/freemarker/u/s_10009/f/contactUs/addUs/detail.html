@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	    <title>招聘详情</title>
+	    <link rel="stylesheet" href="${ctx}/u/${siteId}/f/css/phone.css" />
+	    <link rel="stylesheet" href="${ctx}/u/${siteId}/f/css/style.css" />
+	    <script type="text/javascript" src="${ctx}/u/${siteId}/f/js/jQuery.1.8.2.min.js" ></script>
+	    <script type="text/javascript" src="${ctx}/u/${siteId}/f/js/height.js" ></script>
+	    <style>
+	    	ul li p{color:white;margin-bottom:0;padding:0 1rem 10px 1rem;}
+	    	p{margin-top:0;margin-bottom:3px;}
+	    </style>
+	</head>
+	<body>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col12 l-ht0 pos-r">
+					<@cms_content_list page=(returnDatas.page)! siteId='${siteId}' channelId='${businessId}' pageSort="asc" pageOrder="sortno" >
+						<#if tag_list?? && (tag_list?size>0)> 
+					        <#list tag_list as _data>
+					        	<#if (_data_index)==0>
+					        		<#if (_data.cover)?? && (_data.cover)!="">
+					                    <#assign json=(_data.cover)?eval/>
+					                    <#list json as item>
+					                        <img src="${ctx}${(item.path)!'/img/wechat/ypxq_img01.png'}" class="per100"/>
+					                    </#list>
+					                    <#else>
+							            	<img src="${ctx}/u/${siteId}/f/images/ypxq_img01.png" class="per100" />
+					                </#if>
+					        	</#if>
+								<div class="ht14 tc per100 pos-a l-ht14 font-heiti font-b font14 font-efdd43 left0 top35p">
+									<@cms_channel id='${businessId}' siteId='${siteId}'>
+			                            ${(tag_bean.name)!''}
+			                        </@cms_channel>
+								</div>
+								<div class="ht24 pos-a per100 left0 -bottom12">
+									<img src="${ctx}/u/${siteId}/f/images/ypxq_title.png" class="per100" />
+								</div>
+							</#list> 
+    					</#if>
+					</@cms_content_list> 
+				</div>
+			</div>
+			<div class="ht20 bg-ff6a5c" style="margin-top: -20px;"></div>
+			<div class="row">
+				<div class="col12">
+					<ul>
+						<@cms_content_list page=(returnDatas.page)! siteId='${siteId}' channelId='${businessId}' pageSort="asc" pageOrder="sortno" >
+						     <#if tag_list?? && (tag_list?size>0)> 
+						         <#list tag_list as _data>
+									<#if _data_index==0><#else>
+										<#if _data_index%3==1>
+											<li class="bg-ff6a5c pt20 tc">
+												<#if (_data.cover)?? && (_data.cover)!="">
+								                    <#assign json=(_data.cover)?eval/>
+								                    <#list json as item>
+								                        <img src="${ctx}${(item.path)!'/img/wechat/ypxq_tx01.png'}" class="w-54 ht54 radius-circle"/>
+								                    </#list>
+								                    <#else>
+							            				<img src="${ctx}/u/${siteId}/f/images/ypxq_tx01.png" class="w-54 ht54 radius-circle" />
+								                </#if>
+												<p class="font-white mt10 mb14">
+													<span class="font16 font-b font-yahei mr4">${(_data.title)!''}</span>
+													<span>${(_data.summary)!''}</span>
+												</p>
+												${(_data.content)!''}
+											</li>
+										<#elseif _data_index%3==2>
+											<li class="bg-fd9465 pt20 tc">
+												<#if (_data.cover)?? && (_data.cover)!="">
+								                    <#assign json=(_data.cover)?eval/>
+								                    <#list json as item>
+								                        <img src="${ctx}${(item.path)!'/img/wechat/ypxq_tx02.png'}" class="w-54 ht54 radius-circle"/>
+								                    </#list>
+								                    <#else>
+							            				<img src="${ctx}/u/${siteId}/f/images/ypxq_tx02.png" class="w-54 ht54 radius-circle" />
+								                </#if>
+												<p class="font-white mt10 mb14">
+													<span class="font16 font-b font-yahei mr4">${(_data.title)!''}</span>
+													<span>${(_data.summary)!''}</span>
+												</p>
+												${(_data.content)!''}
+											</li>
+										<#elseif _data_index%3==0>
+											<li class="bg-42b25c pt20 tc">
+												<#if (_data.cover)?? && (_data.cover)!="">
+								                    <#assign json=(_data.cover)?eval/>
+								                    <#list json as item>
+								                        <img src="${ctx}${(item.path)!'/img/wechat/ypxq_tx03.png'}" class="w-54 ht54 radius-circle"/>
+								                    </#list>
+								                    <#else>
+							            				<img src="${ctx}/u/${siteId}/f/images/ypxq_tx03.png" class="w-54 ht54 radius-circle" />
+								                </#if>
+												<p class="font-white mt10 mb14">
+													<span class="font16 font-b font-yahei mr4">${(_data.title)!''}</span>
+													<span>${(_data.summary)!''}</span>
+												</p>
+												${(_data.content)!''}
+											</li>
+										</#if>
+									</#if>
+						        </#list> 
+    						</#if>
+						</@cms_content_list>
+					</ul>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col12 l-ht0 tc bg-white pt16 pb20">
+					<img src="${ctx}/u/${siteId}/f/images/ypxq_logo.png" class="per35" />
+				</div>
+			</div>
+			<div class="row">
+				<div class="col12 bg-white">
+					<div class="overflow-h pl28 pr28 pb16 border-b-1" id="address">
+					<@cms_channel id='${businessId}' siteId='${siteId}'>
+	                    <@cms_content_list page=(returnDatas.page)! siteId='${siteId}' businessId='h_10141' pageSort="asc" pageOrder="sortno" >
+	                        <#if tag_list?? && (tag_list?size>0)> 
+	                            <#list tag_list as _data>
+	                                <#if tag_bean.name==_data.title>
+	                                   ${(_data.content)!""}
+	                                </#if>
+	                            </#list> 
+	                        </#if>
+	                    </@cms_content_list>                       
+                    </@cms_channel>
+					</div>
+					<div class="overflow-h mb20">
+						<div class="fl per50 tc" onclick="toDetail();">
+							<img src="${ctx}/u/${siteId}/f/images/ypxq_qsq.png" class="w-40 ht40 mt16" />
+							<p class="font-036eb7 font14">去申请职位</p>
+						</div>
+						<div class="fl per50 tc dianzan">
+							<img src="${ctx}/u/${siteId}/f/images/ypxq_dz.png" class="w-40 ht40 mt16" />
+							<img src="${ctx}/u/${siteId}/f/images/ydz.png" class="w-40 ht40 mt16 display-n" />
+							<p class="font-036eb7 font14">还不错，点个赞</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	
+	<script>
+	    
+	   //跳转到申请页面
+		function toDetail(){
+		    window.location = "${ctx}/f/mp/${siteId!''}/h_10146?companyId=${businessId}";
+		}
+	    
+	    /*点赞效果*/
+	    $(".dianzan").bind('click',function(){
+			if($(this).find('img:eq(1)').hasClass('display-n')){
+				$(this).find('img:eq(1)').removeClass('display-n');
+				$(this).find('img:eq(0)').addClass('display-n');
+			}else{
+				$(this).find('img:eq(1)').addClass('display-n');
+				$(this).find('img:eq(0)').removeClass('display-n');
+			}
+		});
+	    
+	</script>
+</html>

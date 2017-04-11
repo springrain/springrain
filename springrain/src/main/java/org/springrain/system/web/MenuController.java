@@ -69,8 +69,8 @@ public class MenuController  extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/list/json")
-	public @ResponseBody
-	ReturnDatas listjson(HttpServletRequest request, Model model, Menu menu) throws Exception {
+	@ResponseBody 
+	public ReturnDatas listjson(HttpServletRequest request, Model model, Menu menu) throws Exception {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 	
 		List<Menu> datas =userRoleMenuService.findMenuByUserIdAll(SessionUser.getUserId());
@@ -104,8 +104,8 @@ public class MenuController  extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/list/all/json")
-	public @ResponseBody
-	ReturnDatas listalljson(HttpServletRequest request, Model model, Menu menu) throws Exception {
+	@ResponseBody 
+	public ReturnDatas listalljson(HttpServletRequest request, Model model, Menu menu) throws Exception {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		List<Menu> datas = menuService.findListDataByFinder(null, null, Menu.class, menu); 
 		returnObject.setQueryBean(menu);
@@ -135,8 +135,8 @@ public class MenuController  extends BaseController {
 	 * 查看的Json格式数据,为APP端提供数据
 	 */
 	@RequestMapping(value = "/look/json")
-	public @ResponseBody
-	ReturnDatas lookjson(Model model, HttpServletRequest request, HttpServletResponse response)
+	@ResponseBody 
+	public ReturnDatas lookjson(Model model, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		String id = request.getParameter("id");
@@ -156,7 +156,8 @@ public class MenuController  extends BaseController {
 	 * 
 	 */
 	@RequestMapping("/update")
-	public @ResponseBody ReturnDatas saveorupdate(Menu menu, HttpServletRequest request, HttpServletResponse response)
+	@ResponseBody 
+	public  ReturnDatas saveorupdate(Menu menu, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		returnObject.setMessage(MessageUtils.UPDATE_SUCCESS);
@@ -175,8 +176,7 @@ public class MenuController  extends BaseController {
 			}
 			menuService.saveorupdateMenu(menu);
 		} catch (Exception e) {
-			String errorMessage = e.getLocalizedMessage();
-			logger.error(errorMessage,e);
+			logger.error(e.getMessage(),e);
 			returnObject.setStatus(ReturnDatas.ERROR);
 			returnObject.setMessage(MessageUtils.UPDATE_ERROR);
 		}
@@ -198,8 +198,8 @@ public class MenuController  extends BaseController {
 	 * 删除操作
 	 */
 	@RequestMapping(value = "/delete")
-	public @ResponseBody
-	ReturnDatas destroy(HttpServletRequest request) throws Exception {
+	@ResponseBody 
+	public ReturnDatas destroy(HttpServletRequest request) throws Exception {
 		// 执行删除
 		try {
 			java.lang.String id = request.getParameter("id");
@@ -226,7 +226,8 @@ public class MenuController  extends BaseController {
 	 * @throws
 	 */
 	@RequestMapping("/leftMenu")
-	public @ResponseBody ReturnDatas leftMenu(){
+	@ResponseBody 
+	public  ReturnDatas leftMenu(){
 		//获取当前登录人
 		String userId=SessionUser.getUserId();
 		if(StringUtils.isBlank(userId)){

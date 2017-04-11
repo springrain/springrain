@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	    <title>公司简介</title>
+	    <link rel="stylesheet" href="${ctx}/u/${siteId}/f/css/phone.css" />
+	    <link rel="stylesheet" href="${ctx}/u/${siteId}/f/css/style.css" />
+	    <script type="text/javascript" src="${ctx}/u/${siteId}/f/js/jQuery.1.8.2.min.js" ></script>
+	    <script type="text/javascript" src="${ctx}/u/${siteId}/f/js/height.js" ></script>
+	    <style>
+	    	body{background: #036eb7;}p{margin-top:0;margin-bottom:3px;}
+	    </style>
+	</head>
+	<body>
+		<div class="container-fluid">
+			<div class="row pos-f left0 top0 border-b-1">
+				<div class="col6 tc l-ht34 font12 ht34 bg-036eb7">
+					<a class="display-ib font-white" href="${ctx}/f/mp/${siteId}/h_10107">公司简介</a>
+				</div>
+				<div class="col6 tc l-ht34 font12 ht34 bg-white">
+					<a class="display-ib" href="${ctx}/f/mp/${siteId}/h_10108">企业文化</a>
+				</div>
+			</div>
+			<div class="row">
+				<div class="ht34"></div>
+				<div class="col12">
+					<div class="pr18">
+						<div class="ht150 border-r-b-radius overflow-h">
+							<@cms_content_list page=(returnDatas.page)! pageSort="asc" pageOrder="sortno">
+   								<#if tag_list?? && (tag_list?size>0)> 
+       								<#list tag_list as _data>
+       									<#if (_data.cover)?? && (_data.cover)!="">
+						                    <#assign json=(_data.cover)?eval/>
+						                    <#list json as item>
+						                        <img src="${ctx}${(item.path)!'/images/ydyy_banner.jpg'}" class="per100 ht100p"/>
+						                    </#list>
+						                <#else>
+						                	<img src="${ctx}/u/${siteId}/f/images/ydyy_banner.jpg" class="per100 ht100p" />
+						                </#if>
+									</#list> 
+   								</#if>
+							</@cms_content_list>
+						</div>
+					</div>
+					<div class="mt20 pl16">
+						<div class="pl14 pt14 pr14 bg-white font-6 border-l-t-radius overflow-h">
+							<@cms_content_list page=(returnDatas.page)! pageSort="asc" pageOrder="sortno">
+    								<#if tag_list?? && (tag_list?size>0)> 
+        								<#list tag_list as _data>
+										${(_data.content)!''}
+									</#list> 
+   								</#if>
+							</@cms_content_list>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

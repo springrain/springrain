@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	    <@cms_site id=siteId!'' >
+		<@cms_channel id=businessId!'' >
+			<meta name="keywords" content="${(site.keywords)!''},${(tag_bean.name)!''}" />
+			<title>${(tag_bean.name)!''}</title>
+		</@cms_channel>
+		</@cms_site>
+	    <link rel="stylesheet" href="${ctx}/css/wechat/phone.css" />
+	    <link rel="stylesheet" href="${ctx}/css/wechat/style.css" />
+	    <script type="text/javascript" src="${ctx}/js/wechat/jQuery.1.8.2.min.js" ></script>
+	    <script type="text/javascript" src="${ctx}/js/wechat/height.js" ></script>
+	</head>
+	<body>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col12 l-ht0">
+					<img src="${ctx}/img/wechat/jbpt_banner.jpg" class="per100" />
+				</div>
+			</div>
+			<div class="row">
+				<div class="col6 ht190 tc bg-white pt50">
+					<a class="display-ib" href="javascript:window.location='${ctx}/f/mp/s_10007/h_10077';">
+						<img src="${ctx}/img/wechat/jbpt_xstg.png" class="w-56 ht56 radius-circle" />
+						<p class="font-2d465c font-b font-yahei mb0 font14">线索提供</p>
+					</a>
+				</div>
+				<div class="col6 ht190 tc bg-white pt50 bg-f2f5f7">
+					<a class="display-ib" href="http://222.217.194.52:1480/wzwx/wx/bl_addbl.php?KJID=8">
+						<img src="${ctx}/img/wechat/jbpt_hddpt.png" class="w-56 ht56 radius-circle" />
+						<p class="font-ee8795 font-b font-yahei mb0 font14">黄赌毒平台</p>
+					</a>
+				</div>
+				<div class="col6 ht190 tc bg-white pt50 bg-f2f5f7">
+					<a class="display-ib" href="javascript:window.location='${ctx}/f/mp/s_10007/h_10078';">
+						<img src="${ctx}/img/wechat/jbpt_jbxx.png" class="w-56 ht56 radius-circle" />
+						<p class="font-2d465c font-b font-yahei mb0 font14">局长信箱</p>
+					</a>
+				</div>
+				<div class="col6 ht190 tc bg-white pt50">
+					<a class="display-ib" href="javascript:window.location='${ctx}/f/mp/s_10007/h_10079';">
+						<img src="${ctx}/img/wechat/jbpt_jyxc.png" class="w-56 ht56 radius-circle" />
+						<p class="font-2d465c font-b font-yahei mb0 font14">建言献策</p>
+					</a>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

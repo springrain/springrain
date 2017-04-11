@@ -49,30 +49,9 @@
 		<constructor-arg ref="wxMpService" />
 	</bean>	
 	
-	
 	<bean id="wxMpUserService" class="org.springrain.weixin.sdk.mp.api.impl.WxMpUserServiceImpl">
-		<constructor-arg ref="wxMpService" />
-	</bean>	
-	
-	
-	<bean id="wxMpStoreService" class="org.springrain.weixin.sdk.mp.api.impl.WxMpStoreServiceImpl">
-		<constructor-arg ref="wxMpService" />
-	</bean>	
-	
-	<bean id="wxMpTemplateMsgService" class="org.springrain.weixin.sdk.mp.api.impl.WxMpTemplateMsgServiceImpl">
-		<constructor-arg ref="wxMpService" />
-	</bean>	
-	
-	
-	<bean id="wxMpUserBlacklistService" class="org.springrain.weixin.sdk.mp.api.impl.WxMpUserBlacklistServiceImpl">
-		<constructor-arg ref="wxMpService" />
-	</bean>	
-	
-	<bean id="wxMpUserTagService" class="org.springrain.weixin.sdk.mp.api.impl.WxMpUserTagServiceImpl">
-		<constructor-arg ref="wxMpService" />
-	</bean>	
-		
-	
+        <constructor-arg ref="wxMpService" />
+    </bean> 
 	
 	<!-- cp -->
 	<bean id="wxCpService" class="org.springrain.weixin.sdk.cp.api.WxCpServiceImpl">

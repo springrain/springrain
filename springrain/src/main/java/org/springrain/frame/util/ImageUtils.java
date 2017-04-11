@@ -20,6 +20,13 @@ import org.slf4j.LoggerFactory;
  *
  */
 public final class ImageUtils {
+	
+	
+	private ImageUtils(){
+		throw new IllegalAccessError("工具类不能实例化");
+	}
+	
+	
 	private static  Logger logger = LoggerFactory.getLogger(ImageUtils.class);
 	/**
 	 * 图片水印
@@ -48,7 +55,7 @@ public final class ImageUtils {
 			g.dispose();
 			ImageIO.write((BufferedImage) image, "jpg", img);
 		} catch (Exception e) {
-			logger.error(e.getLocalizedMessage(),e);
+			logger.error(e.getMessage(),e);
 		}
 	}
 
@@ -80,7 +87,7 @@ public final class ImageUtils {
 			g.dispose();
 			ImageIO.write((BufferedImage) image, "jpg", img);
 		} catch (Exception e) {
-			logger.error(e.getLocalizedMessage(),e);
+			logger.error(e.getMessage(),e);
 		}
 	}
 
@@ -122,7 +129,7 @@ public final class ImageUtils {
 			}
 			ImageIO.write((BufferedImage) itemp, "jpg", f);
 		} catch (IOException e) {
-			logger.error(e.getLocalizedMessage(),e);
+			logger.error(e.getMessage(),e);
 		}
 	}
 
@@ -135,7 +142,7 @@ public final class ImageUtils {
 	public static int getLength(String text) {
 		int length = 0;
 		for (int i = 0; i < text.length(); i++) {
-			if (new String(text.charAt(i) + "").getBytes().length > 1) {
+			if (String.valueOf(text.charAt(i)).getBytes().length > 1) {
 				length += 2;
 			} else {
 				length += 1;

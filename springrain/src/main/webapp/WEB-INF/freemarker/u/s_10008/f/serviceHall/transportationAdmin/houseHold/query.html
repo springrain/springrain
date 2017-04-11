@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+    <@f_expressQuery>
+        <#if datas??&&(datas?size>0)>
+            <#list datas as data>
+                ${data.time!''}——${data.context!''}
+            </#list>      
+            <#else>
+            单号不存在或者已经过期  
+        </#if>
+    </@f_expressQuery>
+</body>
+</html>

@@ -7,8 +7,15 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class InputSafeUtils {
+	private static   Logger logger = LoggerFactory.getLogger(InputSafeUtils.class);
+	private InputSafeUtils(){
+		throw new IllegalAccessError("工具类不能实例化");
+	}
+	
 	private final static Whitelist user_content_filter = Whitelist.relaxed();
 	
 	static {
@@ -77,6 +84,7 @@ public class InputSafeUtils {
 			   try {
 				substring=URLEncoder.encode(substring,GlobalStatic.defaultCharset);
 			} catch (UnsupportedEncodingException e) {
+				logger.error(e.getMessage(), e);
 				return null;
 			}
 		   }

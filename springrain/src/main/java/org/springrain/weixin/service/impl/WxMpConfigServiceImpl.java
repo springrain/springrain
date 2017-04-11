@@ -151,7 +151,7 @@ public class WxMpConfigServiceImpl extends BaseSpringrainServiceImpl implements 
 		String jsapiTicket=wxMpService.getJsApiTicket(wxMpConfig);
 		String nonceStr=RandomStringUtils.random(32, "123456789"); // 8位随机数
 		String url = request.getRequestURL().toString()+(request.getQueryString()==null?"":"?"+request.getQueryString());
-		String timestamp=System.currentTimeMillis() / 1000 + "";
+		String timestamp=String.valueOf(System.currentTimeMillis() / 1000);
 		String jsApiSignature=this.getSignature(nonceStr, jsapiTicket, timestamp, url);
 		
 		params.put("timestamp", timestamp);
@@ -169,7 +169,7 @@ public class WxMpConfigServiceImpl extends BaseSpringrainServiceImpl implements 
 		packageParams.put("jsapi_ticket", jsapiTicket);
 		packageParams.put("timestamp", timestamp);
 		packageParams.put("url", url);
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		Set es = packageParams.entrySet();
 		Iterator it = es.iterator();
 		while (it.hasNext()) {

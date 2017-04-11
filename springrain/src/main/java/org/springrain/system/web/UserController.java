@@ -72,8 +72,8 @@ public class UserController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/list/json")
-	public @ResponseBody
-	ReturnDatas listjson(HttpServletRequest request, Model model, User user)
+	@ResponseBody 
+	public ReturnDatas listjson(HttpServletRequest request, Model model, User user)
 			throws Exception {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		Page page = newPage(request);
@@ -108,8 +108,8 @@ public class UserController extends BaseController {
 	 * 查看的Json格式数据,为APP端提供数据
 	 */
 	@RequestMapping(value = "/look/json")
-	public @ResponseBody
-	ReturnDatas lookjson(Model model, HttpServletRequest request,
+	@ResponseBody 
+	public ReturnDatas lookjson(Model model, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		String id = request.getParameter("id");
@@ -127,8 +127,8 @@ public class UserController extends BaseController {
 	 * 
 	 */
 	@RequestMapping("/update")
-	public @ResponseBody
-	ReturnDatas saveorupdate(User user, HttpServletRequest request,HttpServletResponse response) throws Exception {
+	@ResponseBody 
+	public ReturnDatas saveorupdate(User user, HttpServletRequest request,HttpServletResponse response) throws Exception {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		returnObject.setMessage(MessageUtils.UPDATE_SUCCESS);
 		try {
@@ -150,7 +150,7 @@ public class UserController extends BaseController {
 					}
 					set.add(s);
 				}
-				listRole=new ArrayList<Role>();
+				listRole=new ArrayList<>();
 				for(String s2:set){
 					Role role=new Role();
 					role.setId(s2);
@@ -166,7 +166,7 @@ public class UserController extends BaseController {
 			String[] managerTypes = request.getParameterValues("managerType");
 			List<UserOrg> managerOrgs=null;
 			if(managerOrgNames!=null&&managerOrgIds!=null&&managerOrgIds.length==managerOrgNames.length){
-				managerOrgs=new ArrayList<UserOrg>();
+				managerOrgs=new ArrayList<>();
 				UserOrg managerOrg=null;
 				for(int i=0;i<managerOrgIds.length;i++){
 					managerOrg=new UserOrg();
@@ -192,8 +192,7 @@ public class UserController extends BaseController {
 				userService.updateUser(user);
 			}
 		} catch (Exception e) {
-			String errorMessage = e.getLocalizedMessage();
-			logger.error(errorMessage,e);
+			logger.error(e.getMessage(),e);
 			returnObject.setStatus(ReturnDatas.ERROR);
 			returnObject.setMessage(MessageUtils.UPDATE_ERROR);
 		}
@@ -215,8 +214,8 @@ public class UserController extends BaseController {
 	 * 删除操作
 	 */
 	@RequestMapping(value = "/delete")
-	public @ResponseBody
-	ReturnDatas destroy(HttpServletRequest request) throws Exception {
+	@ResponseBody 
+	public ReturnDatas destroy(HttpServletRequest request) throws Exception {
 		// 执行删除
 		try {
 			java.lang.String id = request.getParameter("id");
@@ -237,7 +236,8 @@ public class UserController extends BaseController {
 	
 	
 	@RequestMapping(value = "/ajax/select2")
-	public @ResponseBody List<User> ajaxUser(HttpServletRequest request) throws Exception {
+	@ResponseBody 
+	public  List<User> ajaxUser(HttpServletRequest request) throws Exception {
 		String key=request.getParameter("q");
 		Page page=new Page();
 		page.setPageIndex(1);
@@ -266,7 +266,8 @@ public class UserController extends BaseController {
 		return "/system/user/modifiypwd";
 	}
 	@RequestMapping(value="/modifiypwd/ispwd")
-	public @ResponseBody Map<String, Object> checkPwd(HttpServletRequest request,HttpServletResponse response,Model model)throws Exception{
+	@ResponseBody 
+	public  Map<String, Object> checkPwd(HttpServletRequest request,HttpServletResponse response,Model model)throws Exception{
 		String userId = SessionUser.getUserId();
 		String pwd=request.getParameter("pwd");
 		Map<String, Object> maps=new HashMap<String, Object>();
@@ -288,7 +289,8 @@ public class UserController extends BaseController {
 		
 	}
 	@RequestMapping(value="/modifiypwd/save")
-	public @ResponseBody ReturnDatas modifiySave(HttpServletRequest request,HttpServletResponse response,Model model)throws Exception{
+	@ResponseBody 
+	public  ReturnDatas modifiySave(HttpServletRequest request,HttpServletResponse response,Model model)throws Exception{
 		ReturnDatas datas=ReturnDatas.getSuccessReturnDatas();
 		String userId=request.getParameter("id");
 		String pwd=request.getParameter("newpwd");
@@ -317,6 +319,7 @@ public class UserController extends BaseController {
 			datas.setMessage("修改成功，请用新密码登录，即将退出。");
 			return datas;
 		}catch(Exception e){
+			logger.error(e.getMessage(),e);
 			datas.setStatus(ReturnDatas.ERROR);
 			datas.setMessage("系统故障，请稍后再试。");
 			return datas;

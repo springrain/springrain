@@ -96,7 +96,7 @@ public class CmsContent  extends BaseEntity {
 	 * 摘要
 	 */
 	private java.lang.String summary;
-	
+	private java.lang.Integer status;
 	//columns END 数据库字段结束
 	
 	//站点ID
@@ -131,7 +131,7 @@ public class CmsContent  extends BaseEntity {
 	 * 封面
 	 */
 	private String cover;
-	
+	private String banner;
 	//concstructor
 	
 	private Integer commentsNum;
@@ -140,6 +140,17 @@ public class CmsContent  extends BaseEntity {
 	private List<CmsProperty> propertyList;
 	private Map<String,CmsProperty> propertyMap;
 	
+	private String createPersonName;
+	
+	@Transient
+	public String getCreatePersonName() {
+		return createPersonName;
+	}
+
+	public void setCreatePersonName(String createPersonName) {
+		this.createPersonName = createPersonName;
+	}
+
 	public CmsContent(){
 	}
 
@@ -367,8 +378,17 @@ public class CmsContent  extends BaseEntity {
 	public void setPropertyMap(Map<String, CmsProperty> propertyMap) {
 		this.propertyMap = propertyMap;
 	}
+	@WhereSQL(sql="status=:CmsContent_status")
+	public java.lang.Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(java.lang.Integer status) {
+		this.status = status;
+	}
+
 	public String toString() {
-		return new StringBuffer()
+		return new StringBuilder()
 			.append("ID[").append(getId()).append("],")
 			.append("title[").append(getTitle()).append("],")
 			.append("关键字[").append(getKeywords()).append("],")
@@ -391,8 +411,12 @@ public class CmsContent  extends BaseEntity {
 	}
 	
 	public boolean equals(Object obj) {
-		if(obj instanceof CmsContent == false) return false;
-		if(this == obj) return true;
+		if(obj instanceof CmsContent == false){
+			return false;
+		} 
+		if(this == obj){
+			return true;
+		} 
 		CmsContent other = (CmsContent)obj;
 		return new EqualsBuilder()
 			.append(getId(),other.getId())
@@ -433,7 +457,15 @@ public class CmsContent  extends BaseEntity {
 	public void setLink(java.lang.String link) {
 		this.link = link;
 	}
-	
+	@WhereSQL(sql="banner=:CmsContent_banner")
+	public String getBanner() {
+		return banner;
+	}
+
+	public void setBanner(String banner) {
+		this.banner = banner;
+	}
+
 	public static void main(String[] args) {
 		for (int i = 0; i < 437; i++) {
 			System.out.println(SecUtils.getUUID());

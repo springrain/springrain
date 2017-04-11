@@ -88,7 +88,7 @@ public class BaseSpringrainDaoImpl extends BaseJdbcDaoImpl implements IBaseJdbcD
 	 */
 	@Override
 	public boolean showsql() {
-		return false;
+		return true;
 	}
 
 

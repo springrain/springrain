@@ -18,7 +18,7 @@
  */
 package org.springrain.frame.util.patchca.filter.library;
 
-import java.awt.*;
+import java.awt.RenderingHints;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -26,8 +26,11 @@ import java.awt.image.BufferedImageOp;
 import java.awt.image.ColorModel;
 import java.awt.image.IndexColorModel;
 
-public abstract class AbstractImageOp implements BufferedImageOp {
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+public abstract class AbstractImageOp implements BufferedImageOp {
+	private static final Logger logger = LoggerFactory.getLogger(AbstractImageOp.class);
 	public static final int EDGE_ZERO = 0;
 	public static final int EDGE_MIRROR = 1;
 	public static final int EDGE_CLAMP = 2;
@@ -74,6 +77,7 @@ public abstract class AbstractImageOp implements BufferedImageOp {
 			try {
 				return pixels[x + y * width];
 			} catch (Exception e) {
+				logger.error(e.getMessage(),e);
 				return 0;
 			}
 		}

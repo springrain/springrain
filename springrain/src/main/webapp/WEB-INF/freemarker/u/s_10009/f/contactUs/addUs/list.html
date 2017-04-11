@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	    <title>加入我们</title>
+	    <link rel="stylesheet" href="${ctx}/u/${siteId}/f/css/phone.css" />
+	    <link rel="stylesheet" href="${ctx}/u/${siteId}/f/css/style.css" />
+	    <script type="text/javascript" src="${ctx}/u/${siteId}/f/js/jQuery.1.8.2.min.js" ></script>
+	    <script type="text/javascript" src="${ctx}/u/${siteId}/f/js/height.js" ></script>
+	</head>
+	<body>
+		<div class="container-fluid">
+			<div class="row line-gradient pos-f top0 left0 border-b-1 bg-f5f6f8">
+				<div class="col6 tc l-ht34 font12 ht34 bg-036eb7">
+					<a class="display-ib font-white" href="${ctx}/f/mp/${siteId}/h_10140">加入我们</a>
+				</div>
+				<div class="col6 tc l-ht34 font12 ht34">
+					<a class="display-ib" href="${ctx}/f/mp/${siteId}/h_10142">应聘流程</a>
+				</div>
+			</div>
+			<div class="ht34"></div>
+			<div class="row mb4">
+				<div class="col12 l-ht0">
+					<@cms_content_list page=(returnDatas.page)! pageSort="asc" pageOrder="sortno">
+					     <#if tag_list?? && (tag_list?size>0)> 
+					         <#list tag_list as _data>
+					            <#if (_data_index==0)>
+					            	<#if (_data.cover)?? && (_data.cover)!="">
+					                    <#assign json=(_data.cover)?eval/>
+					                    <#list json as item>
+					                        <img src="${ctx}${(item.path)!'/img/wechat/join_us_banner.jpg'}" class="per100"/>
+					                    </#list>
+					                    <#else>
+					                    	<img src="${ctx}/u/${siteId}/f/images/join_us_banner.jpg'}" class="per100"/>
+					                </#if>
+					            </#if>
+					        </#list> 
+					    </#if>
+					</@cms_content_list>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col12">
+					<ul class="bg-white">
+						<@cms_channel_list page=(returnDatas.page)! pids='${businessId}' siteId='${siteId}' pageSort="asc" pageOrder="sortno">
+	   						<#if tag_list?? && (tag_list?size>0)> 
+	       						<#list tag_list as _data>
+	       							<#if (_data_index)%2==0>
+	       								<li class="ht42 pl12" onclick="toDetail('${(_data.id)!''}');">
+											<div class="ht42 border-b-1 pr12">
+												<div class="ht42 fl per80 pt12">
+													<div class="fl ht16">
+														<div class="w-2 ht14 bg-red"></div>
+													</div>
+													<div class="fl per90 ht16 l-ht14 pl4 font14">
+														${(_data.name)!''}
+													</div>
+												</div>
+												<div class="ht42 fl per20 tr pt14">
+													<img src="${ctx}/u/${siteId}/f/images/join_us_right.png" class="w-12 ht12" />
+												</div>
+											</div>
+										</li>
+										<#else>
+										<li class="ht42 pl12" onclick="toDetail('${(_data.id)!''}','${(_data.name)!''}');">
+											<div class="ht42 border-b-1 pr12">
+												<div class="ht42 fl per80 pt12">
+													<div class="fl ht16">
+														<div class="w-2 ht14 bg-036eb7"></div>
+													</div>
+													<div class="fl per90 ht16 l-ht14 pl4 font14">
+														${(_data.name)!''}
+													</div>
+												</div>
+												<div class="ht42 fl per20 tr pt14">
+													<img src="${ctx}/u/${siteId}/f/images/join_us_right.png" class="w-12 ht12" />
+												</div>
+											</div>
+										</li>
+	       							</#if>
+								</#list> 
+   							</#if>
+						</@cms_channel_list>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script>
+		function toDetail(contentId){
+		    window.location = "${ctx}/f/mp/${siteId!''}/"+contentId;
+		}
+	</script>
+</html>

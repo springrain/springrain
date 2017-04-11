@@ -32,7 +32,7 @@ public class RandomFontFactory implements FontFactory {
 	protected boolean randomStyle;
 
 	public RandomFontFactory() {
-		families = new ArrayList<String>();
+		families = new ArrayList<>();
 		families.add("Verdana");
 		families.add("Tahoma");
 		minSize = 38;

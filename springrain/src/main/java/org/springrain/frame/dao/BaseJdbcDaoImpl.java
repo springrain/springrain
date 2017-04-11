@@ -115,6 +115,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 	 * 
 	 * @return
 	 */
+	
 	public boolean showsql() {
 		return false;
 	}
@@ -154,7 +155,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		}
 
 		Map params = finder.getParams();
-		Map<String, Object> m = new HashMap<String, Object>();
+		Map<String, Object> m;
 		SimpleJdbcCall simpleJdbcCall;
 
 		if (StringUtils.isNotBlank(procName)) {
@@ -191,6 +192,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 	 * @throws Exception
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
 	public List<Map<String, Object>> queryForListByProc(Finder finder) throws Exception {
 		String procName = finder.getProcName();
 		String functionName = finder.getFunName();
@@ -198,7 +200,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 			throw new NullPointerException("存储过程和函数不能同时为空!");
 		}
 		Map params = finder.getParams();
-		Map<String, Object> m = new HashMap<String, Object>();
+		Map<String, Object> m ;
 		SimpleJdbcCall simpleJdbcCall;
 
 		if (StringUtils.isNotBlank(procName)) {
@@ -223,6 +225,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 	 * @return
 	 * @throws Exception
 	 */
+	@Override
 	public List<Map<String, Object>> queryForListByFunction(Finder finder) throws Exception {
 		return queryForListByProc(finder);
 	}
@@ -242,6 +245,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 			logInfoSql(finder.getSql());
 			map = getReadJdbc().queryForMap(finder.getSql(), finder.getParams());
 		} catch (EmptyResultDataAccessException e) {
+			logger.error(e.getMessage(),e);
 			map = null;
 		}
 
@@ -527,6 +531,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 						BeanPropertyRowMapper.newInstance(clazz));
 			}
 		} catch (EmptyResultDataAccessException e) {
+			logger.error(e.getMessage(),e);
 			t = null;
 		}
 
@@ -628,7 +633,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		Class<?> returnType = entityInfo.getPkReturnType();
 
 		Map paramMap = new HashMap();
-		Boolean isSequence = false;
+		Boolean isSequence = StringUtils.isNotBlank(entityInfo.getPksequence());
 		String sql = warpsavesql(entity, paramMap, isSequence);
 		// 打印sql
 		logInfoSql(sql);
@@ -718,7 +723,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		if (CollectionUtils.isEmpty(list)) {
 			return null;
 		}
-		List<Integer> updateList = new ArrayList<Integer>();
+		List<Integer> updateList = new ArrayList<>();
 		Map[] maps = new HashMap[list.size()];
 		String sql = null;
 		for (int i = 0; i < list.size(); i++) {
@@ -754,7 +759,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 			return null;
 		}
 
-		List<Integer> updateList = new ArrayList<Integer>();
+		List<Integer> updateList = new ArrayList<>();
 		Map[] maps = new HashMap[list.size()];
 		String sql = null;
 		for (int i = 0; i < list.size(); i++) {
@@ -1031,7 +1036,8 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 			throw new NullPointerException("存储过程和函数不能同时为空!");
 		}
 		Map<String, Object> params = finder.getParams();
-		Map<String, Object> m = new HashMap<String, Object>();
+		//Map<String, Object> m = new HashMap<String, Object>();
+		Map<String, Object> m = null;
 		SimpleJdbcCall simpleJdbcCall = null;
 
 		if (StringUtils.isNotBlank(procName)) {
@@ -1046,6 +1052,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 			}
 			m = simpleJdbcCall.execute(params);
 		} catch (EmptyResultDataAccessException e) {
+			logger.error(e.getMessage(),e);
 			m = null;
 		}
 		return m;
@@ -1071,6 +1078,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 			t = (T) getJdbcCall().withProcedureName(procName).executeObject(clazz, params);
 
 		} catch (EmptyResultDataAccessException e) {
+			logger.error(e.getMessage(),e);
 			t = null;
 		}
 
@@ -1092,6 +1100,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 			t = getJdbcCall().withFunctionName(funName).executeFunction(clazz, params);
 
 		} catch (EmptyResultDataAccessException e) {
+			logger.error(e.getMessage(),e);
 			t = null;
 		}
 		return t;
@@ -1167,6 +1176,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 			try{
 	            TransactionInterceptor.currentTransactionStatus();
 			}catch(NoTransactionException e){
+				logger.error(e.getMessage(),e);
 				throw new NoTransactionException("save和update方法,请按照事务拦截方法名书写规范!具体参见:applicationContext-tx.xml");
 			}
 			

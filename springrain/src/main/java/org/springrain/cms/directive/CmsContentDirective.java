@@ -9,7 +9,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Component;
 import org.springrain.cms.entity.CmsContent;
 import org.springrain.cms.service.ICmsContentService;
-import org.springrain.cms.utils.DirectiveUtils;
+import org.springrain.cms.util.DirectiveUtils;
 
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
@@ -46,25 +46,25 @@ public class CmsContentDirective extends AbstractCMSDirective{
 	@Override
 	public void execute(Environment env, Map params, TemplateModel[] loopVars,
 			TemplateDirectiveBody body) throws TemplateException, IOException {
-		CmsContent cmsContent = null;
-		
-		Boolean next = DirectiveUtils.getBool(PARAM_NEXT, params);
-		String id = DirectiveUtils.getString(PARAM_ID, params);
-		String siteId = this.getSiteId(params);
-		String channelId = DirectiveUtils.getString(PARAM_CHANNEL_ID, params);
 		try {
+			CmsContent cmsContent;
+			
+			Boolean next = DirectiveUtils.getBool(PARAM_NEXT, params);
+			String id = DirectiveUtils.getString(PARAM_ID, params);
+			String siteId = this.getSiteId(params);
+			String channelId = DirectiveUtils.getString(PARAM_CHANNEL_ID, params);
 			if(next != null ){
 				cmsContent = cmsContentService.findCmsContentSide(id,siteId,channelId,next);
 			}else{
 				cmsContent = cmsContentService.findCmsContentById(siteId, id);
 			}
+			
+			env.setVariable(DirectiveUtils.OUT_BEAN, DirectiveUtils.wrap(cmsContent));
+			if(body!=null){
+				body.render(env.getOut());
+			}
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
-		}
-		
-		env.setVariable(DirectiveUtils.OUT_BEAN, DirectiveUtils.wrap(cmsContent));
-		if(body!=null){
-			body.render(env.getOut());
 		}
 	}
 	

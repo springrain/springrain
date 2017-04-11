@@ -17,8 +17,8 @@ public class SystemRootServiceImpl extends BaseSpringrainServiceImpl implements
 	@Override
 	public List<FileDto> findFileDtosByPath(String path, String rootPath)
 			throws Exception {
-		List<FileDto> rets = new ArrayList<FileDto>();
-		List<FileDto> fileDtos = new ArrayList<FileDto>();
+		List<FileDto> rets = new ArrayList<>();
+		List<FileDto> fileDtos = new ArrayList<>();
 		File file = new File(path);
 
 		File[] fs = file.listFiles();

@@ -35,9 +35,9 @@ public class BaseSpringrainServiceImpl extends BaseServiceImpl implements
 	 * @throws Exception
 	 */
 	@Override
-	public <T> String saveImportExcelFile(File excel, Class<T> clazz)
+	public <T> String saveImportExcelFile(File excel, Class<T> clazz,String siteId,String businessId)
 			throws Exception {
-		return super.saveImportExcelFile(excel, clazz);
+		return super.saveImportExcelFile(excel, clazz,siteId,businessId);
 	}
 
 	/**

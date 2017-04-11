@@ -49,7 +49,7 @@ import org.springrain.weixin.sdk.cp.bean.WxCpXmlOutMessage;
 public class WxCpMessageRouter {
 
   private static final int DEFAULT_THREAD_POOL_SIZE = 100;
-  private final Logger log = LoggerFactory.getLogger(getClass());
+  private final Logger logger = LoggerFactory.getLogger(getClass());
   private final List<WxCpMessageRouterRule> rules = new ArrayList<>();
 
   private final IWxCpService wxCpService;
@@ -161,7 +161,7 @@ public WxCpXmlOutMessage route(final WxCpXmlMessage wxMessage) {
       } else {
         res = rule.service(wxMessage, this.wxCpService, this.exceptionHandler);
         // 在同步操作结束，session访问结束
-        this.log.debug("End session access: async=false, sessionId={}", wxMessage.getFromUserName());
+        logger.debug("End session access: async=false, sessionId={}", wxMessage.getFromUserName());
       }
     }
 
@@ -172,12 +172,12 @@ public WxCpXmlOutMessage route(final WxCpXmlMessage wxMessage) {
           for (Future future : futures) {
             try {
               future.get();
-              WxCpMessageRouter.this.log.debug("End session access: async=true, sessionId={}", wxMessage.getFromUserName());
+             logger.debug("End session access: async=true, sessionId={}", wxMessage.getFromUserName());
               // 异步操作结束，session访问结束
             } catch (InterruptedException e) {
-              WxCpMessageRouter.this.log.error("Error happened when wait task finish", e);
+             logger.error("Error happened when wait task finish", e);
             } catch (ExecutionException e) {
-              WxCpMessageRouter.this.log.error("Error happened when wait task finish", e);
+             logger.error("Error happened when wait task finish", e);
             }
           }
         }

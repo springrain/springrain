@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+    <div>投诉类型：</div>
+    <div>受理对象：</div>
+    <div>投诉主题：</div>
+    <div>投诉内容：</div>
+    <div>验证码：<img style="width:100%;height:100%;" id="captchaImg" onclick="reloadValidateCode();" src="${ctx}/getCaptcha"  align="absmiddle"/>
+                <input type="text" class="border radius4" name="captcha" placeholder="验证码" />
+    </div>
+</body>
+</html>

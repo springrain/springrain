@@ -108,7 +108,7 @@ public class UserOrg  extends BaseEntity {
 	
 	
 	public String toString() {
-		return new StringBuffer()
+		return new StringBuilder()
 			.append("编号[").append(getId()).append("],")
 			.append("用户编号[").append(getUserId()).append("],")
 			.append("机构编号[").append(getOrgId()).append("],")
@@ -122,8 +122,12 @@ public class UserOrg  extends BaseEntity {
 	}
 	
 	public boolean equals(Object obj) {
-		if(obj instanceof UserOrg == false) return false;
-		if(this == obj) return true;
+		if(obj instanceof UserOrg == false){
+			return false;
+		} 
+		if(this == obj){
+			return true;
+		} 
 		UserOrg other = (UserOrg)obj;
 		return new EqualsBuilder()
 			.append(getId(),other.getId())

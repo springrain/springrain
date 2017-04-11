@@ -45,9 +45,12 @@ $(document).ready(function(){
 	},200);
 	//处理列表中列多的
 	jQuery("#LAY_preview .layui-table").each(function(_i,_o){
-		if(!jQuery(_o).parent("div").hasClass("tableWrap")){
-			jQuery(_o).wrap("<div class='tableWrap' style='width:100%;overflow-x:auto;'></div>")
+		if(jQuery(_o).parent("form").length<=0){
+			if(!jQuery(_o).parent("div").hasClass("tableWrap")){
+				jQuery(_o).wrap("<div class='tableWrap' style='width:100%;overflow-x:auto;'></div>")
+			}
 		}
+		
 	});
 });
 var form;
@@ -137,6 +140,7 @@ function buildModule(data) {
                 url = tmpData.pageurl;
                 tmpData = tmpData['leaf'][0];
             }
+            //debugger;
             var tmpPid = locache.get("currentPagePid");
             var menuIcon_df="&#xe63c;";
             if(data[i].menuIcon!=null){

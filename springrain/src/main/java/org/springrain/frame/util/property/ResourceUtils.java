@@ -5,15 +5,21 @@ import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * message/messageResources内容读取类
  * 
  * @author zhengyongsheng
  */
 public class ResourceUtils {
+	private static   Logger logger = LoggerFactory.getLogger(ResourceUtils.class);
+	
 	private static PropertyResourceBundle propertyResourceBundle;
 
-	public ResourceUtils() {
+	private ResourceUtils() {
+		throw new IllegalAccessError("工具类不能实例化");
 	}
 
 	static {
@@ -32,6 +38,7 @@ public class ResourceUtils {
 		try {
 			return propertyResourceBundle.getString(strPropertyName);
 		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
 			return strPropertyName;
 		}
 	}

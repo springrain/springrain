@@ -237,7 +237,7 @@ public class Fwlog  extends BaseEntity {
 	}
 	
 	public String toString() {
-		return new StringBuffer()
+		return new StringBuilder()
 			.append("ID[").append(getId()).append("],")
 			.append("访问时间[").append(getStartDate()).append("],")
 			.append("访问时间(毫秒)[").append(getStrDate()).append("],")
@@ -259,8 +259,12 @@ public class Fwlog  extends BaseEntity {
 	}
 	
 	public boolean equals(Object obj) {
-		if(obj instanceof Fwlog == false) return false;
-		if(this == obj) return true;
+		if(obj instanceof Fwlog == false){
+			return false;
+		} 
+		if(this == obj){
+			return true;
+		} 
 		Fwlog other = (Fwlog)obj;
 		return new EqualsBuilder()
 			.append(getId(),other.getId())

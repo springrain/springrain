@@ -20,7 +20,7 @@ public class Db2Dialect implements IDialect {
 			sql = sql.substring(6);
 		}
 	
-  StringBuffer sb=new StringBuffer();
+  StringBuilder sb=new StringBuilder();
 	sb.append("SELECT * from (SELECT ROWNUMBER() OVER (");
 	sb.append(orderby);
 	sb.append(")  frame_page_sql_row_number,");

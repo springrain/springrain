@@ -3,7 +3,7 @@ package org.springrain.frame.util;
 public class Enumerations {
 	
 	public enum OrgType{
-		部门(1),虚拟权限组(2),站长部门(10),微信订阅服务号(11),企业号(12),PC站(13),wap站(14),投票(15);
+		部门(1),虚拟权限组(2),站长部门(10),mp(11),cp(12),pc(13),wap(14),minsoft(14);
 		int type;
 		private OrgType(Integer type){
 			this.type = type;
@@ -22,31 +22,30 @@ public class Enumerations {
 				case 10:
 					return 站长部门;
 				case 11:
-					return 微信订阅服务号;
+					return mp;
 				case 12:
-					return 企业号;
+					return cp;
 				case 13:
-					return PC站;
+					return pc;
 				case 14:
-					return wap站;
-				case 15:
-					return 投票;
+					return wap;
+				
 				default:
 					return null;
 			}
 		}
 		
 		public static OrgType getOrgTypeByName(String name){
-			if("微信订阅服务号".equals(name))
-				return 微信订阅服务号;
-			else if("wap站".equals(name))
-				return wap站;
-			else if("PC站".equals(name))
-				return PC站;
-			else if("企业号".equals(name))
-				return 企业号;
-			else if("投票".equals(name))
-				return 投票;
+			if(mp.name().equals(name))
+				return mp;
+			else if(wap.name().equals(name))
+				return wap;
+			else if(pc.name().equals(name))
+				return pc;
+			else if(cp.name().equals(name))
+				return cp;
+			else if(minsoft.name().equals(name))
+				return minsoft;
 			else 
 				return null;
 		}
@@ -95,30 +94,48 @@ public class Enumerations {
 		}
 	}
 	
+	
 	/**
 	 * @author Administrator
-	 * 站点类型
+	 * 链接类型
 	 */
-	public enum SiteType{
-		mp(11),cp(12),pc(13),wap(14),poll(15);
+	public enum CmsLinkModeType{
+		/*
+		 * 0站点
+		 * 1开头微信相关
+		 * 3投票相关
+		 * 4开头站工后相关
+		 * 
+		 * */
+		站点(0),前台(1),前台栏目(10),前台栏目DOM(11),前台内容(12),投票(30),站长后台(4),站长后台列表(40),站长后台更新(41),站长后台查看(42);
 		int type;
 		
-		private SiteType(Integer type) {
+		private CmsLinkModeType(Integer type) {
 			this.type = type;
 		}
 		
-		public static SiteType getSiteType(int type){
+		public static CmsLinkModeType getCmsLinkModeType(int type){
 			switch (type) {
+				case 0:
+					return 站点;
+				case 1:
+					return 前台;
+				case 10:
+					return 前台栏目;
 				case 11:
-					return mp;
+					return 前台栏目DOM;
 				case 12:
-					return cp;
-				case 13:
-					return pc;
-				case 14:
-					return wap;
-				case 15:
-					return poll;
+					return 前台内容;
+				case 30:
+					return 投票;
+				case 4:
+					return 站长后台;
+				case 40:
+					return 站长后台列表;
+				case 41:
+					return 站长后台更新;
+				case 42:
+					return 站长后台查看;
 				default:
 					return null;
 			}
@@ -128,4 +145,9 @@ public class Enumerations {
 			return type;
 		}
 	}
+	
+	//public static void main(String[] args) {
+	//	System.out.println(CmsLinkModeType.投票.getType());
+	//}
+	
 }

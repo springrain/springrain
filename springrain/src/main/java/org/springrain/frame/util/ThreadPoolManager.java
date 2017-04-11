@@ -16,8 +16,6 @@ import java.util.concurrent.TimeUnit;
  * @date 2011-2-12
  */
 public class ThreadPoolManager {
- 
- private static ThreadPoolManager tpm = new ThreadPoolManager();
 
  // 线程池维护线程的最少数量
  private final static int CORE_POOL_SIZE = 3;
@@ -35,12 +33,12 @@ public class ThreadPoolManager {
  private final static int TASK_QOS_PERIOD = 10;
 
  // 任务缓冲队列
- private Queue<Runnable> taskQueue = new LinkedList<Runnable>();
+ private static Queue<Runnable> taskQueue = new LinkedList<>();
 
  /*
   * 线程池超出界线时将任务加入缓冲队列
   */
- final RejectedExecutionHandler handler = new RejectedExecutionHandler() {
+ final static RejectedExecutionHandler handler = new RejectedExecutionHandler() {
   public void rejectedExecution(Runnable task, ThreadPoolExecutor executor) {
    taskQueue.offer(task);
   }
@@ -74,26 +72,25 @@ public class ThreadPoolManager {
  /*
   * 线程池
   */
- final ThreadPoolExecutor threadPool = new ThreadPoolExecutor(
+ final static ThreadPoolExecutor threadPool = new ThreadPoolExecutor(
    CORE_POOL_SIZE, MAX_POOL_SIZE, KEEP_ALIVE_TIME, TimeUnit.SECONDS,
-   new ArrayBlockingQueue<Runnable>(WORK_QUEUE_SIZE), this.handler);
+   new ArrayBlockingQueue<Runnable>(WORK_QUEUE_SIZE), handler);
 
  /*
   * 将构造方法访问修饰符设为私有，禁止任意实例化。
   */
  private ThreadPoolManager() {
-
+	 throw new IllegalAccessError("工具类不能实例化");
  }
 
- /*
-  * 线程池单例创建方法
-  */
- public static ThreadPoolManager newInstance() {
-  return tpm;
- }
  
+ /*
+  * 向线程池中添加任务方法
+  */
  public static void addThread(Runnable task){
-	 tpm.addExecuteTask(task);
+	  if (task != null) {
+		   threadPool.execute(task);
+	  }
  }
  
 
@@ -103,13 +100,5 @@ public class ThreadPoolManager {
  private boolean hasMoreAcquire() {
   return !taskQueue.isEmpty();
  }
-
- /*
-  * 向线程池中添加任务方法
-  */
- public void addExecuteTask(Runnable task) {
-  if (task != null) {
-   threadPool.execute(task);
-  }
- }
+ 
 }

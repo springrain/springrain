@@ -13,6 +13,10 @@ description="springrain开源系统管理后台"/>
 	var selectOrgZtree;
 	var orgjsondata4select;
 	jQuery(function() {
+		var themeId="${(returnDatas.data.themeId)!''}";
+		if(themeId!=""){
+			$("#themeId").val(themeId);
+		}
 		/*
 		init_valid(_before,_after)
 		@_before:提交表单前，调用 的函数   可以为空，一般有validform处理不了，独自进行处理时使用
@@ -178,6 +182,11 @@ description="springrain开源系统管理后台"/>
 		jQuery("#orgName").val(treeNode.name);
 		jQuery("#orgId").val(treeNode.id);
 	};
+	
+	function tijiao(){
+		var themeName=$("#themeId").siblings(".layui-unselect").find(".layui-this").text();
+		$("#themeName").val(themeName);
+	}
 </script>
 </head>
 <body>
@@ -204,7 +213,8 @@ description="springrain开源系统管理后台"/>
 							<div class="larry-personal-body clearfix changepwd">
 								<form id="validForm" class="layui-form " method="post" action="${ctx}/system/cms/site/update">
 									<input type="hidden" id="id" name="id" value="${(returnDatas.data.id)!''}" />
-									
+									 <!-- 主题名称 -->
+                                    <input name="themeName" id="themeName" type="hidden"/>
 									<div class="layui-form-item col-lg-6">
 							    		<label class="layui-form-label">上级部门</label>
 									    <div class="layui-inline col-lg-5">
@@ -305,7 +315,12 @@ description="springrain开源系统管理后台"/>
 										<label class="layui-form-label">主题*</label>
 										<div class="layui-inline col-lg-5">
 											<select name="themeId" id="themeId" lay-verify="required">
-										        <option value=""></option>
+											 <option value="-1">请选择</option>
+										        <#if (returnDatas.map["themesList"]??)&&(returnDatas.map["themesList"]?size>0)> 
+                                                    <#list  returnDatas.map["themesList"] as _data>
+                                                        <option value="${(_data.id)!''}" themeName="${(_data.name)!''}">${(_data.name)!''}</option>
+                                                    </#list>
+                                                </#if>
 									      	</select>
 										</div>
 										<div class="layui-inline valid-info"></div>
@@ -344,7 +359,7 @@ description="springrain开源系统管理后台"/>
 									</div>
 									<div class="layui-form-item change-submit">
 										<div class="layui-inline">
-											<button type="button" class="layui-btn" id="smtbtn">保存</button>
+											<button type="button" class="layui-btn" id="smtbtn" onclick="tijiao()">保存</button>
 											<button type="button" class="layui-btn layui-btn-primary" id="rstbtn">重置</button>
 										</div>
 									</div>

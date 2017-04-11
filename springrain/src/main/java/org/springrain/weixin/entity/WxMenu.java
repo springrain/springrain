@@ -185,7 +185,7 @@ public class WxMenu  extends BaseEntity {
 	}
 
 	public String toString() {
-		return new StringBuffer()
+		return new StringBuilder()
 			.append("id[").append(getId()).append("],")
 			.append("菜单名称[").append(getName()).append("],")
 			.append("菜单类型[").append(getType()).append("],")
@@ -204,8 +204,12 @@ public class WxMenu  extends BaseEntity {
 	}
 	
 	public boolean equals(Object obj) {
-		if(obj instanceof WxMenu == false) return false;
-		if(this == obj) return true;
+		if(obj instanceof WxMenu == false){
+			return false;
+		} 
+		if(this == obj){
+			return true;
+		} 
 		WxMenu other = (WxMenu)obj;
 		return new EqualsBuilder()
 			.append(getId(),other.getId())

@@ -247,7 +247,7 @@ public class UserRoleMenuServiceImpl extends BaseSpringrainServiceImpl implement
 					return ;
 				}
 
-				List<RoleMenu> list=new ArrayList<RoleMenu>();
+				List<RoleMenu> list=new ArrayList<>();
 				for(String menuId:menus){
 					RoleMenu rm=new RoleMenu();
 					rm.setRoleId(roleId);
@@ -268,7 +268,7 @@ public class UserRoleMenuServiceImpl extends BaseSpringrainServiceImpl implement
 		if(CollectionUtils.isEmpty(list)){
 			return null;
 		}
-		List<Menu> wrapList=new ArrayList<Menu>();
+		List<Menu> wrapList=new ArrayList<>();
 		diguiwrapList(list, wrapList, null,"");
 		
 		return wrapList;
@@ -293,7 +293,7 @@ public class UserRoleMenuServiceImpl extends BaseSpringrainServiceImpl implement
 			}
 		
 			if((parentId==m.getPid())||(m.getPid().equals(parentId))){
-				List<Menu> leaf=new ArrayList<Menu>();
+				List<Menu> leaf=new ArrayList<>();
 				String _comcode=comcode+m.getId();
 				m.setComcode(_comcode);
 				m.setLeaf(leaf);

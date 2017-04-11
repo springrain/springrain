@@ -103,7 +103,8 @@ public class SystemRootController extends BaseController {
 	}
 
 	@RequestMapping("/uploadDic")
-	public @ResponseBody ReturnDatas uploadDic(HttpServletRequest request,
+	@ResponseBody 
+	public  ReturnDatas uploadDic(HttpServletRequest request,
 			HttpServletResponse response, String t, String p, String name)
 			throws Exception {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
@@ -128,7 +129,8 @@ public class SystemRootController extends BaseController {
 	}
 
 	@RequestMapping("/uploadFile")
-	public @ResponseBody ReturnDatas uploadImage(HttpServletRequest request,
+	@ResponseBody 
+	public  ReturnDatas uploadImage(HttpServletRequest request,
 			HttpServletResponse response, MultipartFile _fileUpload, String t,
 			String p) throws Exception {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();

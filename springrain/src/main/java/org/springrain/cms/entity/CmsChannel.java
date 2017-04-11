@@ -87,6 +87,11 @@ public class CmsChannel  extends BaseEntity {
 	 * 状态 0不可用,1可用
 	 */
 	private java.lang.Integer active;
+	
+	/**
+	 * 是否有内容，是否有内容，0 有内容（微信端显示），1 没有内容（微信端不显示）
+	 */
+	private java.lang.Integer hasContent;
 	//columns END 数据库字段结束
 	
 	private List<CmsChannel> leaf;
@@ -102,7 +107,7 @@ public class CmsChannel  extends BaseEntity {
 	private CmsChannel cmsChannel;
 	
 	private String link;
-	
+	private Integer jumpType;
 	/**
 	 * list模板路径
 	 */
@@ -117,6 +122,9 @@ public class CmsChannel  extends BaseEntity {
 	 * 更新模板路径
 	 */
 	private String ftlUpdatePath;
+	
+	private String nodeftlPath;
+	private String frontFtl;
 	/**
 	 * 登陆访问标识
 	 */
@@ -127,7 +135,7 @@ public class CmsChannel  extends BaseEntity {
 	 */
 	private String cover;
 	//concstructor
-	
+	private String banner;
 	
 	private List<CmsProperty> propertyList;
 	
@@ -167,7 +175,7 @@ public class CmsChannel  extends BaseEntity {
 		this.name = value;
 	}
 	
-     @WhereSQL(sql="name=:CmsChannel_name")
+     @WhereSQL(sql="name like :%CmsChannel_name% ")
 	public java.lang.String getName() {
 		return this.name;
 	}
@@ -269,7 +277,16 @@ public class CmsChannel  extends BaseEntity {
  	public void setCover(String cover) {
  		this.cover = cover;
  	}
-    
+ 	
+    @WhereSQL(sql="hasContent=:CmsChannel_hasContent")
+ 	public java.lang.Integer getHasContent() {
+		return hasContent;
+	}
+
+	public void setHasContent(java.lang.Integer hasContent) {
+		this.hasContent = hasContent;
+	}
+ 	
     @Transient
 	public CmsSite getCmsSite() {
 		return cmsSite;
@@ -323,10 +340,17 @@ public class CmsChannel  extends BaseEntity {
 		this.ftlUpdatePath = ftlUpdatePath;
 	}
 
-	
+	@Transient
+	public String getNodeftlPath() {
+		return nodeftlPath;
+	}
+
+	public void setNodeftlPath(String nodeftlPath) {
+		this.nodeftlPath = nodeftlPath;
+	}
 
 	public String toString() {
-		return new StringBuffer()
+		return new StringBuilder()
 			.append("id[").append(getId()).append("],")
 			.append("名称[").append(getName()).append("],")
 			.append("pid[").append(getPid()).append("],")
@@ -348,8 +372,12 @@ public class CmsChannel  extends BaseEntity {
 	}
 	
 	public boolean equals(Object obj) {
-		if(obj instanceof CmsChannel == false) return false;
-		if(this == obj) return true;
+		if(obj instanceof CmsChannel == false){
+			return false;
+		} 
+		if(this == obj){
+			return true;
+		} 
 		CmsChannel other = (CmsChannel)obj;
 		return new EqualsBuilder()
 			.append(getId(),other.getId())
@@ -391,6 +419,30 @@ public class CmsChannel  extends BaseEntity {
 
 	public void setPropertyMap(Map<String, CmsProperty> propertyMap) {
 		this.propertyMap = propertyMap;
+	}
+	@Transient
+	public Integer getJumpType() {
+		return jumpType;
+	}
+
+	public void setJumpType(Integer jumpType) {
+		this.jumpType = jumpType;
+	}
+	@Transient
+	public String getFrontFtl() {
+		return frontFtl;
+	}
+
+	public void setFrontFtl(String frontFtl) {
+		this.frontFtl = frontFtl;
+	}
+	@WhereSQL(sql="banner=:CmsChannel_banner")
+	public String getBanner() {
+		return banner;
+	}
+
+	public void setBanner(String banner) {
+		this.banner = banner;
 	}
 	
 	
