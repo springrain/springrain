@@ -8,7 +8,7 @@ import org.springrain.weixin.sdk.common.exception.WxErrorException;
 
 public class LogExceptionHandler implements WxErrorExceptionHandler {
 
-  private Logger logger = LoggerFactory.getLogger(WxErrorExceptionHandler.class);
+  private final Logger logger = LoggerFactory.getLogger(getClass());
 
   @Override
   public void handle(WxErrorException e) {

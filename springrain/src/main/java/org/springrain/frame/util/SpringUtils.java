@@ -23,7 +23,7 @@ import org.springrain.frame.entity.BaseEntity;
 @Component("springUtils")
 public class SpringUtils  implements ApplicationContextAware {
 	
-	public   Logger logger = LoggerFactory.getLogger(getClass());
+	private Logger logger = LoggerFactory.getLogger(getClass());
 	private static ApplicationContext applicationContext;
 
 	public SpringUtils() {

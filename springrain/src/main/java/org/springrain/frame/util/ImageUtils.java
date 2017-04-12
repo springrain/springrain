@@ -27,7 +27,7 @@ public final class ImageUtils {
 	}
 	
 	
-	private static  Logger logger = LoggerFactory.getLogger(ImageUtils.class);
+	private static final  Logger logger = LoggerFactory.getLogger(ImageUtils.class);
 	/**
 	 * 图片水印
 	 * @param pressImg 水印图片

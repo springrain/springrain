@@ -71,5 +71,14 @@ public interface IQuestionnaireDetailsService extends IBaseSpringrainService {
 	 */
 	QuestionnaireDetails findQuestionnaireDetailsSide(String siteId,
 			String businessId, String id, Boolean next) throws Exception;
+
+	/**
+	 * 根据站点ID和问卷ID获取问卷详情
+	 * @param siteId
+	 * @param businessId
+	 * @return
+	 * @throws Exception
+	 */
+	List<QuestionnaireDetails> findListByQuestionnaireId(String siteId, String businessId) throws Exception;
 	
 }

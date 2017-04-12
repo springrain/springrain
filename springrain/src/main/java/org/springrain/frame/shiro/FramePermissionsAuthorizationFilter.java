@@ -9,8 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authz.PermissionsAuthorizationFilter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
@@ -23,7 +21,7 @@ import org.springframework.stereotype.Component;
 @Component("frameperms")
 public class FramePermissionsAuthorizationFilter extends
 		PermissionsAuthorizationFilter {
-	public Logger logger = LoggerFactory.getLogger(getClass());
+	//private final  Logger logger = LoggerFactory.getLogger(getClass());
 	//@Resource
 	//private IMenuService menuService;
 	//@Resource

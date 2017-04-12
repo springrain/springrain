@@ -8,12 +8,12 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springrain.cms.directive.AbstractCMSDirective;
 import org.springrain.cms.util.DirectiveUtils;
 import org.springrain.frame.util.Page;
 import org.springrain.police.entity.Illegalcode;
-import org.springrain.police.entity.Queryname;
 import org.springrain.police.service.IIllegalcodeService;
 
 import freemarker.core.Environment;
@@ -41,9 +41,16 @@ public class IllegalcodeListDirective extends AbstractCMSDirective {
 			TemplateDirectiveBody body) throws TemplateException, IOException {
 			List<Illegalcode> illegalcodeList;
 			StringModel stringModel = (StringModel) params.get("page");
-			Page page = (Page) stringModel.getAdaptedObject(Page.class);
+			Page page=null;
+			if (stringModel!=null) {
+				page = (Page) stringModel.getAdaptedObject(Page.class);
+			}
 			stringModel=(StringModel)params.get("returnDatas");
 			Illegalcode illegalcode =new Illegalcode();
+			String wfxw=this.getRequest().getParameter("wfxw");
+			if (StringUtils.isNotBlank(wfxw)) {
+				illegalcode.setWfxw(wfxw);
+			}
 			if (stringModel!=null) {
 				illegalcode =(Illegalcode) stringModel.getAdaptedObject(Illegalcode.class);
 			}

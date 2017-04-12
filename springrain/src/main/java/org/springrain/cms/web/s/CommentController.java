@@ -35,11 +35,6 @@ public class CommentController extends SiteBaseController {
 	@Resource
 	private ICmsCommentService cmsCommentService;
 	
-	@Resource
-	IWxMpUserService wxMpUserService;
-	
-	@Resource
-	IWxMpConfigService wxMpConfigService;
 	
 	@RequestMapping(value="/list")
 	public String list(HttpServletRequest request, Model model,@PathVariable String siteId,@PathVariable String businessId,CmsComment cmsComment) throws Exception{
@@ -160,53 +155,5 @@ public class CommentController extends SiteBaseController {
 				MessageUtils.DELETE_ALL_SUCCESS);
 	}
 	
-	/**
-	 * 微信用户评论（对内容的评论）
-	 * @param req
-	 * @param res
-	 * @param model
-	 * @param siteId
-	 * @param businessId
-	 * @return
-	 */
-	@RequestMapping("/ajax/commentFromWeiXin")
-	@ResponseBody
-	public ReturnDatas commentFromWeiXin(HttpServletRequest req,HttpServletResponse res,Model model,@PathVariable String siteId,
-			@PathVariable String businessId,CmsComment cmsComment){
-		ReturnDatas rd = ReturnDatas.getSuccessReturnDatas();
-		try {
-			String openId = String.valueOf(req.getSession().getAttribute("openId"));
-			
-			if(StringUtils.isEmpty(openId)){
-				return new ReturnDatas(ReturnDatas.ERROR, "无法获取微信用户ID！");
-			}
-			
-			// 获取用户信息
-			IWxMpConfig wxmpconfig = wxMpConfigService.findWxMpConfigById(siteId);
-			WxMpUser wxMpUser = wxMpUserService.userInfo(wxmpconfig, openId);
-			if(wxMpUser == null){
-				return new ReturnDatas(ReturnDatas.ERROR, "无法获取微信用户信息！");
-			}
-			if(StringUtils.isEmpty(siteId)){
-				return new ReturnDatas(ReturnDatas.ERROR, "无法获取站点信息！");
-			}
-			if(StringUtils.isEmpty(businessId)){
-				return new ReturnDatas(ReturnDatas.ERROR, "无法获取业务信息！");
-			}
-			cmsComment.setUserId(wxMpUser.getOpenId());
-			cmsComment.setUserName(wxMpUser.getNickname());
-			cmsComment.setSiteId(siteId);
-			cmsComment.setBusinessId(businessId);
-			cmsComment.setCreateDate(new Date());
-			cmsComment.setType(1); // 对内容的直接评价（满意、不满意、基本满意、非常满意等，类似点赞）
-			
-			cmsCommentService.saveorupdate(cmsComment);
-			
-			rd.setMessage(MessageUtils.ADD_SUCCESS);
-		} catch (Exception e) {
-			logger.error(e.getMessage(),e);
-			rd = new ReturnDatas(ReturnDatas.ERROR, MessageUtils.ADD_FAIL);
-		}
-		return rd;
-	}
+	
 }

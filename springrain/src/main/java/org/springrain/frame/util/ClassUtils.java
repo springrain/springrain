@@ -41,7 +41,7 @@ import org.springrain.frame.annotation.WhereSQL;
 
 public class ClassUtils {
 	
-	private static   Logger logger = LoggerFactory.getLogger(ClassUtils.class);
+	private static final  Logger logger = LoggerFactory.getLogger(ClassUtils.class);
 	//缓存 entity的字段信息
 	private static Map<String,EntityInfo> staticEntitymap=new  ConcurrentHashMap<String,EntityInfo>();
 	//缓存 所有的WhereSql注解

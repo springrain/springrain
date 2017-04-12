@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springrain.frame.util.property.PropertyFile;
 
 public class WxConsts {
-	private static   Logger logger = LoggerFactory.getLogger(WxConsts.class);
+	private static final  Logger logger = LoggerFactory.getLogger(WxConsts.class);
 	
 	
 	private WxConsts(){

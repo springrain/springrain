@@ -1,5 +1,7 @@
 package org.springrain.cms.web.f;
 
+import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -35,10 +37,11 @@ public class FrontWeiXinController extends FrontBaseController {
 	 * @throws Exception 
 	 * */
 	@RequestMapping("/{businessId}")
-	public String channel(@PathVariable String siteId,@PathVariable String businessId,HttpServletRequest request,Model model) throws Exception{
+	public String channel(@PathVariable String siteId,@PathVariable String businessId,HttpServletRequest request,Model model,Map<String, Object> params) throws Exception{
 		ReturnDatas returnDatas = ReturnDatas.getSuccessReturnDatas();
 		Page page = newPage(request);
 		returnDatas.setPage(page);
+		returnDatas.setQueryBean(params);
 		model.addAttribute(GlobalStatic.returnDatas, returnDatas);
 		Integer modelType=Enumerations.CmsLinkModeType.前台栏目.getType();
 		if(businessId.startsWith("c_")){

@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
  * 日期,时间工具类
  */
 public class DateUtils {
-	private static  Logger logger = LoggerFactory.getLogger(DateUtils.class);
+	private static final Logger logger = LoggerFactory.getLogger(DateUtils.class);
 	public static final String DATETIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 	public static final String DATE_FORMAT = "yyyy-MM-dd";
 	public static final String DATE_TIMEZONE="GMT+8";

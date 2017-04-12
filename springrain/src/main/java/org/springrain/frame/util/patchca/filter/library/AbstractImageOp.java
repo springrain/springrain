@@ -30,7 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public abstract class AbstractImageOp implements BufferedImageOp {
-	private static final Logger logger = LoggerFactory.getLogger(AbstractImageOp.class);
+	private final  Logger logger = LoggerFactory.getLogger(getClass());
 	public static final int EDGE_ZERO = 0;
 	public static final int EDGE_MIRROR = 1;
 	public static final int EDGE_CLAMP = 2;

@@ -93,6 +93,11 @@ public class QuestionnaireAnswer  extends BaseEntity {
 	
 	private String createPersonName;
 	
+	/**
+	 * 选择此答案的统计数
+	 */
+	private Integer selCount;
+	
 	//concstructor
 	
 	public QuestionnaireAnswer(){
@@ -126,6 +131,15 @@ public class QuestionnaireAnswer  extends BaseEntity {
 		return this.id;
 	}
 	
+	@Transient
+	public Integer getSelCount() {
+		return selCount;
+	}
+
+	public void setSelCount(Integer selCount) {
+		this.selCount = selCount;
+	}
+
 	@Transient
 	public String getCreatePersonName() {
 		return createPersonName;

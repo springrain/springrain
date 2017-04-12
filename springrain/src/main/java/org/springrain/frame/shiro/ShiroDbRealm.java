@@ -31,7 +31,7 @@ import org.springrain.system.service.IUserRoleMenuService;
  */
 @Component("shiroDbRealm")
 public class ShiroDbRealm extends AuthorizingRealm {
-	private Logger logger = LoggerFactory.getLogger(getClass());
+	private final  Logger logger = LoggerFactory.getLogger(getClass());
 	@Resource
 	IUserRoleMenuService userRoleMenuService;
 

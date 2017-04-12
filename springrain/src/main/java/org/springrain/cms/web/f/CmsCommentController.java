@@ -22,6 +22,10 @@ import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.Page;
 import org.springrain.frame.util.ReturnDatas;
 import org.springrain.frame.util.property.MessageUtils;
+import org.springrain.weixin.sdk.common.api.IWxMpConfig;
+import org.springrain.weixin.sdk.common.api.IWxMpConfigService;
+import org.springrain.weixin.sdk.mp.api.IWxMpUserService;
+import org.springrain.weixin.sdk.mp.bean.result.WxMpUser;
 
 
 /**
@@ -36,7 +40,10 @@ import org.springrain.frame.util.property.MessageUtils;
 public class CmsCommentController  extends BaseController {
 	@Resource
 	private ICmsCommentService cmsCommentService;
-	
+	@Resource
+	IWxMpUserService wxMpUserService;
+	@Resource
+	IWxMpConfigService wxMpConfigService;
 	private String listurl="/base/cmscomment/cmscommentList";
 	
 	
@@ -259,5 +266,55 @@ public class CmsCommentController  extends BaseController {
 		}
 		return returnObject;
 	
+	}
+	
+	/**
+	 * 微信用户评论（对内容的评论）
+	 * @param req
+	 * @param res
+	 * @param model
+	 * @param siteId
+	 * @param businessId
+	 * @return
+	 */
+	@RequestMapping("/ajax/commentFromWeiXin")
+	@ResponseBody
+	public ReturnDatas commentFromWeiXin(HttpServletRequest req,HttpServletResponse res,Model model,@PathVariable String siteId,
+			@PathVariable String businessId,CmsComment cmsComment){
+		ReturnDatas rd = ReturnDatas.getSuccessReturnDatas();
+		try {
+			String openId = String.valueOf(req.getSession().getAttribute("openId"));
+			
+			if(StringUtils.isEmpty(openId)){
+				return new ReturnDatas(ReturnDatas.ERROR, "无法获取微信用户ID！");
+			}
+			
+			// 获取用户信息
+			IWxMpConfig wxmpconfig = wxMpConfigService.findWxMpConfigById(siteId);
+			WxMpUser wxMpUser = wxMpUserService.userInfo(wxmpconfig, openId);
+			if(wxMpUser == null){
+				return new ReturnDatas(ReturnDatas.ERROR, "无法获取微信用户信息！");
+			}
+			if(StringUtils.isEmpty(siteId)){
+				return new ReturnDatas(ReturnDatas.ERROR, "无法获取站点信息！");
+			}
+			if(StringUtils.isEmpty(businessId)){
+				return new ReturnDatas(ReturnDatas.ERROR, "无法获取业务信息！");
+			}
+			cmsComment.setUserId(wxMpUser.getOpenId());
+			cmsComment.setUserName(wxMpUser.getNickname());
+			cmsComment.setSiteId(siteId);
+			cmsComment.setBusinessId(businessId);
+			cmsComment.setCreateDate(new Date());
+			cmsComment.setType(1); // 对内容的直接评价（满意、不满意、基本                        
+			
+			cmsCommentService.saveorupdate(cmsComment);
+			
+			rd.setMessage(MessageUtils.ADD_SUCCESS);
+		} catch (Exception e) {
+			logger.error(e.getMessage(),e);
+			rd = new ReturnDatas(ReturnDatas.ERROR, MessageUtils.ADD_FAIL);
+		}
+		return rd;
 	}
 }

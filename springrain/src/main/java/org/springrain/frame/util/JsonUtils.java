@@ -17,7 +17,7 @@ public class JsonUtils  {
 	}
 	
 	 private final static 	ObjectMapper mapper = new FrameObjectMapper();
-	 public static Logger logger = LoggerFactory.getLogger(JsonUtils.class);
+	 private static final Logger logger = LoggerFactory.getLogger(JsonUtils.class);
 	  
 	 public static <T> T readValue(String content,Class<T> clazz) {
 		 T t=null;

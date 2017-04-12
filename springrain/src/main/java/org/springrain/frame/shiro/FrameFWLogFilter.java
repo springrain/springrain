@@ -31,7 +31,7 @@ import org.springrain.system.service.IMenuService;
 
 @Component("framefwlog")
 public class FrameFWLogFilter extends OncePerRequestFilter {
-	public Logger logger = LoggerFactory.getLogger(getClass());
+	private final  Logger logger = LoggerFactory.getLogger(getClass());
 	@Resource
 	private IMenuService menuService;
 	@Override

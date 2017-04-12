@@ -123,7 +123,7 @@ import org.springframework.beans.factory.config.BeanPostProcessor;
 @Deprecated
 public class FrameShiroFilterFactoryBean implements FactoryBean, BeanPostProcessor {
 
-    private static transient final Logger log = LoggerFactory.getLogger(FrameShiroFilterFactoryBean.class);
+    private  final Logger log = LoggerFactory.getLogger(getClass());
 
     private SecurityManager securityManager;
 

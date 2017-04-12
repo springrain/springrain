@@ -13,7 +13,7 @@ import org.springrain.frame.util.property.PropertyFile;
  */
 public class HostURL122Utils {
 	// public static Map<String, String> hosts=null;
-	private static  Logger logger = LoggerFactory.getLogger(HostURL122Utils.class);
+	private static final Logger logger = LoggerFactory.getLogger(HostURL122Utils.class);
 	private HostURL122Utils(){
 		throw new IllegalAccessError("工具类不能实例化");
 	}

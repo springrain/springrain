@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springrain.cms.util.ContentConstant;
 import org.springrain.cms.util.DirectiveUtils;
 import org.springrain.frame.entity.IBaseEntity;
 import org.springrain.frame.util.Finder;
@@ -98,7 +99,7 @@ public class QuestionnaireAnswerServiceImpl extends BaseSpringrainServiceImpl
 	public List<QuestionnaireAnswer> findListByQuestionIds(List<String> qdIdList)
 			throws Exception {
 		Finder finder = Finder.getSelectFinder(QuestionnaireAnswer.class);
-		finder.append(" where questionId in (:questionIds) ").setParam("questionIds", qdIdList);
+		finder.append(" where questionId in (:questionIds) order by sortno asc ").setParam("questionIds", qdIdList);
 		return super.queryForList(finder, QuestionnaireAnswer.class);
 	}
 
@@ -233,7 +234,8 @@ public class QuestionnaireAnswerServiceImpl extends BaseSpringrainServiceImpl
 			return false;
 		}
 		Finder finder = Finder.getUpdateFinder(QuestionnaireAnswer.class);
-		finder.append(" active = 0 where id = :id ").setParam("id", id);
+		finder.append(" active = :active where id = :id ")
+			.setParam("active", ContentConstant.CONTENT_ACTIVE_NO).setParam("id", id);
 		super.update(finder);
 		return true;
 	}

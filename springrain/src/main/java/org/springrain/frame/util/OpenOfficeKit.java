@@ -22,7 +22,7 @@ public class OpenOfficeKit {
 	}
 	
 	
-	private static Logger logger = LoggerFactory.getLogger(OpenOfficeKit.class);
+	private static final Logger logger = LoggerFactory.getLogger(OpenOfficeKit.class);
 	private static final String OpenOffice_HOME = DbPropertyUtil
 			.getValue("openoffice.home");
 	private static final String HOST = DbPropertyUtil

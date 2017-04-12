@@ -30,7 +30,7 @@ import org.springrain.frame.util.GlobalStatic;
 
 @Component("keepone")
 public class KeepOneSessionControlFilter extends AccessControlFilter {
-	private Logger logger = LoggerFactory.getLogger(getClass());
+	private final  Logger logger = LoggerFactory.getLogger(getClass());
     @Resource
 	private SessionManager sessionManager;
     @Resource

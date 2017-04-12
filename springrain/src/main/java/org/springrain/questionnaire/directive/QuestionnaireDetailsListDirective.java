@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
 import org.springrain.cms.directive.AbstractCMSDirective;
+import org.springrain.cms.util.ContentConstant;
 import org.springrain.cms.util.DirectiveUtils;
 import org.springrain.questionnaire.entity.QuestionnaireDetails;
 import org.springrain.questionnaire.service.IQuestionnaireDetailsService;
@@ -71,7 +72,7 @@ public class QuestionnaireDetailsListDirective extends AbstractCMSDirective {
 				// 默认查询可用的内容
 				Integer active = DirectiveUtils.getInt("active", params);
 				if(active == null){
-					params.put("active", DirectiveUtils.wrap(1));
+					params.put("active", DirectiveUtils.wrap(ContentConstant.CONTENT_ACTIVE_YES));
 				}
 			}else{
 				Integer active = DirectiveUtils.getInt("active", params);

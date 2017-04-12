@@ -62,7 +62,8 @@ public class QuestionnaireAnswerController extends SiteBaseController {
 		returnObject.setQueryBean(questionnaireAnswer);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
 		model.addAttribute("questionId", request.getParameter("questionId"));
-		return QUESTIONNAIRE_PAGE_PATH + "questionnaireanswerList";
+		model.addAttribute("questionnaireId", request.getParameter("questionnaireId"));
+		return QUESTIONNAIRE_PAGE_PATH + "questionnaireAnswerList";
 	}
 	
 
@@ -82,6 +83,10 @@ public class QuestionnaireAnswerController extends SiteBaseController {
 			@PathVariable String siteId,@PathVariable String businessId,QuestionnaireAnswer questionnaireAnswer){
 		ReturnDatas rd = ReturnDatas.getSuccessReturnDatas();
 		try {
+			String busId = String.valueOf(request.getParameter("businessId"));
+			if(StringUtils.isNotEmpty(busId)){
+				businessId = busId;
+			}
 			String questionId = request.getParameter("questionId");
 			// 问卷ID为空的不能保存
 			if(questionnaireAnswer == null || 
@@ -90,7 +95,7 @@ public class QuestionnaireAnswerController extends SiteBaseController {
 				return new ReturnDatas(ReturnDatas.ERROR, MessageUtils.UPDATE_ERROR);
 			}
 			questionnaireAnswer.setSiteId(siteId); // 站点ID
-			questionnaireAnswer.setBusinessId(businessId);
+			questionnaireAnswer.setBusinessId(businessId); // 问卷ID
 			if(StringUtils.isEmpty(questionnaireAnswer.getQuestionId())){
 				questionnaireAnswer.setQuestionId(questionId);
 			}
@@ -128,9 +133,11 @@ public class QuestionnaireAnswerController extends SiteBaseController {
 			throws Exception {
 		String id = request.getParameter("id");
 		String questionId = request.getParameter("questionId");
+		String questionnaireId = request.getParameter("questionnaireId");
 		model.addAttribute("id", id);
 		model.addAttribute("questionId", questionId);
-		return QUESTIONNAIRE_PAGE_PATH + "questionnaireanswerCru";
+		model.addAttribute("questionnaireId", questionnaireId);
+		return QUESTIONNAIRE_PAGE_PATH + "questionnaireAnswerCru";
 	}
 	
 	/**

@@ -12,8 +12,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.web.servlet.OncePerRequestFilter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springrain.frame.util.GlobalStatic;
@@ -26,7 +24,7 @@ import org.springrain.frame.util.IPUtils;
 
 
 public class FrameFireWallFilter extends OncePerRequestFilter {
-	public Logger logger = LoggerFactory.getLogger(getClass());
+	//private final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@Resource
 	private CacheManager cacheManager;

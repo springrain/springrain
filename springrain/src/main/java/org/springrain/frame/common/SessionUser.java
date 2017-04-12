@@ -16,7 +16,7 @@ import org.springrain.frame.shiro.ShiroUser;
  * @see org.springrain.frame.common.SessionUser
  */
 public class SessionUser {
-	private static  Logger logger = LoggerFactory.getLogger(SessionUser.class);
+	private static final Logger logger = LoggerFactory.getLogger(SessionUser.class);
 	private SessionUser() {
 		throw new IllegalAccessError("工具类不能实例化");
 	}

@@ -43,7 +43,7 @@ import org.springrain.weixin.sdk.mp.util.json.WxMpGsonBuilder;
 
 
 public class WxMpMaterialServiceImpl implements IWxMpMaterialService {
-	private   Logger logger = LoggerFactory.getLogger(getClass());
+	private final   Logger logger = LoggerFactory.getLogger(getClass());
 	
 	
   private static final String MEDIA_API_URL_PREFIX = WxConsts.mpapiurl+"/cgi-bin/media";

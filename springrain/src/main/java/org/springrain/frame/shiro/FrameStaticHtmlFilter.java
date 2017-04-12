@@ -30,7 +30,7 @@ import org.springrain.system.service.IStaticHtmlService;
 
 @Component("statichtml")
 public class FrameStaticHtmlFilter extends OncePerRequestFilter {
-	private Logger logger = LoggerFactory.getLogger(getClass());
+	private final  Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@Resource
 	private IStaticHtmlService staticHtmlService;

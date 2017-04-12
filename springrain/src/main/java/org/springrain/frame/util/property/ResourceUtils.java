@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
  * @author zhengyongsheng
  */
 public class ResourceUtils {
-	private static   Logger logger = LoggerFactory.getLogger(ResourceUtils.class);
+	private static final  Logger logger = LoggerFactory.getLogger(ResourceUtils.class);
 	
 	private static PropertyResourceBundle propertyResourceBundle;
 

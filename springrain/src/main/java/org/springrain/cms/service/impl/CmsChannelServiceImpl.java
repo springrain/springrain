@@ -211,8 +211,8 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 		//看前台的是否有改变    此除特殊，前台的ftl取的是后台列表的node可能会有PC以后
 		if(link!=null&&!link.getNodeftlfile().equals(cmsChannel.getNodeftlPath())){
 			//修改之前的文章   相当于对 之前的文章 换前台模板
-			Finder finder=Finder.getUpdateFinder(CmsLink.class," ftlfile=:ftlfile where siteId=:siteId and ftlfile=:oldftlfile");
-			finder.setParam("ftlfile", cmsChannel.getNodeftlPath()).setParam("siteId", siteId).setParam("oldftlfile", link.getNodeftlfile());
+			Finder finder=Finder.getUpdateFinder(CmsLink.class," ftlfile=:ftlfile where siteId=:siteId and ftlfile=:oldftlfile and businessId like :bid");
+			finder.setParam("ftlfile", cmsChannel.getNodeftlPath()).setParam("siteId", siteId).setParam("oldftlfile", link.getNodeftlfile()).setParam("bid", "c_%");
 			super.update(finder);
 			//临时开关处理  开始     只保留 40的nodefltlfile  此处方法为处理老数据，部署完后可注释掉
 			finder=Finder.getUpdateFinder(CmsLink.class," nodeftlfile=null where siteId=:siteId and businessId=:businessId and modelType <> 40 ");

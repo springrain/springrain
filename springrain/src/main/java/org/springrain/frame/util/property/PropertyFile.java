@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 
 public class PropertyFile {
 	
-	private static final Logger logger = LoggerFactory.getLogger(PropertyFile.class);
+	private final  Logger logger = LoggerFactory.getLogger(getClass());
 	
 	private PropertyResourceBundle propertyResourceBundle;
 

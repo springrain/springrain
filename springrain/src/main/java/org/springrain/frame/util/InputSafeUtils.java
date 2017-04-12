@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class InputSafeUtils {
-	private static   Logger logger = LoggerFactory.getLogger(InputSafeUtils.class);
+	private static final  Logger logger = LoggerFactory.getLogger(InputSafeUtils.class);
 	private InputSafeUtils(){
 		throw new IllegalAccessError("工具类不能实例化");
 	}

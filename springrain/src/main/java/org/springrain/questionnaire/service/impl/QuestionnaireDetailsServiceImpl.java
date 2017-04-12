@@ -2,7 +2,6 @@ package org.springrain.questionnaire.service.impl;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -10,11 +9,9 @@ import javax.annotation.Resource;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Service;
 import org.springrain.cms.util.ContentConstant;
 import org.springrain.cms.util.DirectiveUtils;
-import org.springrain.frame.common.SessionUser;
 import org.springrain.frame.entity.IBaseEntity;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.Page;
@@ -195,7 +192,7 @@ public class QuestionnaireDetailsServiceImpl extends BaseSpringrainServiceImpl
 	 * @return
 	 */
 	private void setQuestionnaireAnswerList(QuestionnaireDetails qd) throws Exception{
-		Finder finder_qa = Finder.getSelectFinder(QuestionnaireDetails.class);
+		Finder finder_qa = Finder.getSelectFinder(QuestionnaireAnswer.class);
 		finder_qa.append(" where questionId = :questionId ")
 			.setParam("questionId", qd.getId());
 		List<QuestionnaireAnswer> qaList = 
@@ -284,7 +281,8 @@ public class QuestionnaireDetailsServiceImpl extends BaseSpringrainServiceImpl
 		
 		// 逻辑删除
 		Finder finder = Finder.getUpdateFinder(QuestionnaireDetails.class);
-		finder.append(" active=0 where id=:id").setParam("id", id);
+		finder.append(" active=:active where id=:id")
+			.setParam("active", ContentConstant.CONTENT_ACTIVE_NO).setParam("id", id);
 		super.update(finder);
 		return true;
 	}
@@ -328,5 +326,18 @@ public class QuestionnaireDetailsServiceImpl extends BaseSpringrainServiceImpl
 		}
 		return null;
 	}
+
+	@Override
+	public List<QuestionnaireDetails> findListByQuestionnaireId(String siteId,
+			String businessId) throws Exception{
+		Finder finder = Finder.getSelectFinder(QuestionnaireDetails.class);
+		finder.append(" where siteId = :siteId and businessId = :businessId order by sortno asc")
+			.setParam("siteId", siteId).setParam("businessId", businessId);
+		List<QuestionnaireDetails> qdList = super.queryForList(finder, QuestionnaireDetails.class);
+		this.setQuestionnaireAnswerList(qdList);
+		return qdList;
+	}
+	
+	
 	
 }
