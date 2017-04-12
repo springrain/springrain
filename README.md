@@ -1,5 +1,3 @@
-主干正在重构中,请下载使用2.2版本
-
 项目名为springrain[春雨]我的个人博客是 http://www.weicms.net QQ群是:238904840
 #demo
 http://springrain.weicms.net
