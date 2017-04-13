@@ -24,6 +24,11 @@ public class InputSafeUtils {
 	    user_content_filter.addAttributes("object", "width", "height","classid","codebase");    
 	    user_content_filter.addAttributes("param", "name", "value");
 	    user_content_filter.addAttributes("embed", "src","quality","width","height","allowFullScreen","allowScriptAccess","flashvars","name","type","pluginspage");
+	    user_content_filter.addProtocols("img", "src", "http","https");
+	    user_content_filter.addProtocols("a", "href", "http","https","ftp","#");
+	    
+	    //保留相对连接,默认是false
+	    user_content_filter.preserveRelativeLinks(true);
 	}
 	
 	/**
@@ -57,6 +62,7 @@ public class InputSafeUtils {
 	 * @return
 	 */
 	public static String filterRichTextContent(String html,String baseUrl) {
+		
 	    if(StringUtils.isBlank(html)) {
 	    	return html;
 	    }
@@ -65,6 +71,8 @@ public class InputSafeUtils {
 	    }
 	    
 	    return Jsoup.clean(html,baseUrl, user_content_filter);
+	    
+	    
 	}
 	
 	public static String substringByURI(String uri,String key,boolean isencode,int maxLength) {
