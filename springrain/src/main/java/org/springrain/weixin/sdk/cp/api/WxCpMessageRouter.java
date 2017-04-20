@@ -11,8 +11,8 @@ import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springrain.weixin.sdk.common.api.WxErrorExceptionHandler;
-import org.springrain.weixin.sdk.common.api.WxMessageDuplicateChecker;
+import org.springrain.weixin.sdk.common.api.IWxErrorExceptionHandler;
+import org.springrain.weixin.sdk.common.api.IWxMessageDuplicateChecker;
 import org.springrain.weixin.sdk.common.api.WxMessageInMemoryDuplicateChecker;
 import org.springrain.weixin.sdk.common.util.LogExceptionHandler;
 import org.springrain.weixin.sdk.cp.bean.WxCpXmlMessage;
@@ -56,10 +56,10 @@ public class WxCpMessageRouter {
 
   private ExecutorService executorService;
 
-  private WxMessageDuplicateChecker messageDuplicateChecker;
+  private IWxMessageDuplicateChecker messageDuplicateChecker;
 
 
-  private WxErrorExceptionHandler exceptionHandler;
+  private IWxErrorExceptionHandler exceptionHandler;
 
   public WxCpMessageRouter(IWxCpService wxCpService) {
     this.wxCpService = wxCpService;
@@ -85,25 +85,25 @@ public class WxCpMessageRouter {
 
   /**
    * <pre>
-   * 设置自定义的 {@link org.springrain.weixin.sdk.common.api.WxMessageDuplicateChecker}
+   * 设置自定义的 {@link org.springrain.weixin.sdk.common.api.IWxMessageDuplicateChecker}
    * 如果不调用该方法，默认使用 {@link org.springrain.weixin.sdk.common.api.WxMessageInMemoryDuplicateChecker}
    * </pre>
    *
    * @param messageDuplicateChecker
    */
-  public void setMessageDuplicateChecker(WxMessageDuplicateChecker messageDuplicateChecker) {
+  public void setMessageDuplicateChecker(IWxMessageDuplicateChecker messageDuplicateChecker) {
     this.messageDuplicateChecker = messageDuplicateChecker;
   }
 
   /**
    * <pre>
-   * 设置自定义的{@link org.springrain.weixin.sdk.common.api.WxErrorExceptionHandler}
+   * 设置自定义的{@link org.springrain.weixin.sdk.common.api.IWxErrorExceptionHandler}
    * 如果不调用该方法，默认使用 {@link org.springrain.weixin.sdk.common.util.LogExceptionHandler}
    * </pre>
    *
    * @param exceptionHandler
    */
-  public void setExceptionHandler(WxErrorExceptionHandler exceptionHandler) {
+  public void setExceptionHandler(IWxErrorExceptionHandler exceptionHandler) {
     this.exceptionHandler = exceptionHandler;
   }
 

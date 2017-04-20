@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
  * 将每个消息id保存在内存里，每隔5秒清理已经过期的消息id，每个消息id的过期时间是15秒
  * </pre>
  */
-public class WxMessageInMemoryDuplicateChecker implements WxMessageDuplicateChecker {
+public class WxMessageInMemoryDuplicateChecker implements IWxMessageDuplicateChecker {
 	private final  Logger logger = LoggerFactory.getLogger(getClass());
   /**
    * 一个消息ID在内存的过期时间：15秒

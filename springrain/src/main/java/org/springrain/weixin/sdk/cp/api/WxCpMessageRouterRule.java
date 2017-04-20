@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import org.springrain.weixin.sdk.common.api.WxErrorExceptionHandler;
+import org.springrain.weixin.sdk.common.api.IWxErrorExceptionHandler;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
 import org.springrain.weixin.sdk.cp.bean.WxCpXmlMessage;
 import org.springrain.weixin.sdk.cp.bean.WxCpXmlOutMessage;
@@ -229,7 +229,7 @@ public class WxCpMessageRouterRule {
    */
   protected WxCpXmlOutMessage service(WxCpXmlMessage wxMessage,
                                       IWxCpService iWxCpService,
-                                      WxErrorExceptionHandler exceptionHandler) {
+                                      IWxErrorExceptionHandler exceptionHandler) {
 
     try {
 
