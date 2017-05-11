@@ -68,10 +68,18 @@ public class HttpClientUtils {
 		
 	}
 
+	/**
+	 * 不要调用 CloseableHttpClient.close();会关闭pool
+	 * @return
+	 */
 	public static CloseableHttpClient getHttpClient() {     
         return getHttpClientBuilder().build();  
     }
-	
+	/**
+	 * 不要调用 CloseableHttpClient.close();会关闭pool
+	 * @param sslContext
+	 * @return
+	 */
 	public static CloseableHttpClient getHttpClient(SSLContext sslContext) {   
         return getHttpClientBuilder(sslContext).build();  
     }
