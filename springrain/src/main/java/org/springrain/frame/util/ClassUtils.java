@@ -44,20 +44,28 @@ public class ClassUtils {
 	
 	private static final  Logger logger = LoggerFactory.getLogger(ClassUtils.class);
 	//缓存 entity的字段信息
-	private static Map<String,EntityInfo> staticEntitymap=new  ConcurrentHashMap<String,EntityInfo>();
+	private static Map<String,EntityInfo> staticEntitymap=new  ConcurrentHashMap<>();
 	//缓存 所有的WhereSql注解
-	private static Map<String, List<WhereSQLInfo>> staticWhereSQLmap=new  ConcurrentHashMap<String, List<WhereSQLInfo>>();
+	private static Map<String, List<WhereSQLInfo>> staticWhereSQLmap=new  ConcurrentHashMap<>();
 	//缓存 所有的字段
-	private static Map<String, Set<String>> allFieldmap=new  ConcurrentHashMap<String, Set<String>>();
-	//缓存 所有的数据库字段
-	private static Map<String, List<String>> allDBFieldmap=new  ConcurrentHashMap<String, List<String>>();
+	private static Map<String, Set<String>> allFieldmap=new  ConcurrentHashMap<>();
 	
+
+	
+	//缓存 所有的数据库字段
+	private static Map<String, List<String>> allDBFieldmap=new  ConcurrentHashMap<>();
+	
+
 	
 	//缓存 实体类是否进行LuceneSearch
-	private static Map<String,Boolean> luceneSearchmap=new  ConcurrentHashMap<String, Boolean>();
+	private static Map<String,Boolean> luceneSearchmap=new  ConcurrentHashMap<>();
 	
 	//缓存 所有的参与Lucene的字段
-	private static Map<String,List<String>> allLucenemap=new  ConcurrentHashMap<String, List<String>>();
+	private static Map<String,List<String>> allLucenemap=new  ConcurrentHashMap<>();
+	
+	
+    //缓存 所有的字段的类型,key是 className+"_"+fieldName
+  private static Map<String, Class> luceneFieldTypemap=new  ConcurrentHashMap<>();
 	
 	
 	private ClassUtils(){
@@ -193,7 +201,21 @@ public class ClassUtils {
 	}
 	
 	
-	
+	/**
+	 * 根据fieldName查看返回类型
+	 * @param clazz
+	 * @param fieldName
+	 * @return
+	 * @throws Exception
+	 */
+	public static Class getLuceneFieldType(Class clazz,String fieldName) throws Exception{
+	    if(clazz==null||StringUtils.isBlank(fieldName)){
+	        return null;
+	    }
+	    getLuceneFields(clazz);
+	    String key=clazz.getName()+"_"+fieldName;
+	    return luceneFieldTypemap.get(key);
+	}
 	
 
 	/**
@@ -213,7 +235,7 @@ public class ClassUtils {
 		 return  allFieldmap.get(className);
 		}
 		Set<String>	allSet=new HashSet<String>();
-		allSet=	recursionFiled(clazz,allSet);
+		allSet=	recursionFiled(clazz.getName(),clazz,allSet);
 		allFieldmap.put(className, allSet);
 		return allSet;
 	}
@@ -287,9 +309,16 @@ public class ClassUtils {
      List<String>   luceneList=new ArrayList<>();
 	 for(String fdName:allNames){
 		boolean isLuceneField= isAnnotation(clazz,fdName,LuceneField.class);
-		if(isLuceneField){
-			luceneList.add(fdName);
+		if(!isLuceneField){
+		    continue;
 		}
+		
+		luceneList.add(fdName);
+		
+		Class type=getReturnType(fdName, clazz);
+		String key=className+"_"+fdName;
+		luceneFieldTypemap.put(key, type);
+		
 	 }
 	     allLucenemap.put(className, luceneList);
 		return luceneList;
@@ -419,15 +448,16 @@ public class ClassUtils {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("rawtypes")
-	private static  Set<String> recursionFiled(Class clazz,Set<String> fdNameSet) throws Exception {
+	private static  Set<String> recursionFiled(String clazzName,Class clazz,Set<String> fdNameSet) throws Exception {
 		Field[] fds = clazz.getDeclaredFields();
 		for (int i = 0; i < fds.length; i++) {
 			Field fd = fds[i];
-			fdNameSet.add(fd.getName());
+			String fieldName=fd.getName();
+			fdNameSet.add(fieldName);
 		}
 		Class superClass = clazz.getSuperclass();
 		if (superClass != Object.class) {
-			recursionFiled(superClass,fdNameSet);
+			recursionFiled(clazzName,superClass,fdNameSet);
 		}
 		return fdNameSet;
 	}

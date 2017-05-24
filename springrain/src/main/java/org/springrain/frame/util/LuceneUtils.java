@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
@@ -14,7 +15,7 @@ import org.apache.lucene.analysis.cn.smart.SmartChineseAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.Field.Store;
-import org.apache.lucene.document.StringField;
+import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
@@ -242,7 +243,26 @@ public class LuceneUtils {
 			T t = clazz.newInstance();
 			for (String fieldName : ClassUtils.getLuceneFields(clazz)) {
 				String fieldValue = hitDoc.get(fieldName);
-				ClassUtils.setPropertieValue(fieldName, t, fieldValue);
+				
+				Class luceneFieldTypeClass = ClassUtils.getLuceneFieldType(clazz, fieldName);
+		        if(luceneFieldTypeClass==null){
+		            continue;
+		        }
+		        String typeName=luceneFieldTypeClass.getSimpleName().toLowerCase();
+		        
+				if(typeName.equals("integer")||typeName.equals("int")){//数字只作为存储类型,不进行索引
+				    ClassUtils.setPropertieValue(fieldName, t, Integer.valueOf(fieldValue));
+	            }else if(typeName.equals("long")){//数字只作为存储类型,不进行索引
+                    ClassUtils.setPropertieValue(fieldName, t, Long.valueOf(fieldValue));
+                }else if(typeName.equals("float")){//数字只作为存储类型,不进行索引
+	                ClassUtils.setPropertieValue(fieldName, t, Float.valueOf(fieldValue));
+	            }else if(typeName.equals("double")){//数字只作为存储类型,不进行索引
+	                ClassUtils.setPropertieValue(fieldName, t, Double.valueOf(fieldValue));
+	            }else if(typeName.equals("date")){//日期只作为存储类型,不进行索引
+	                ClassUtils.setPropertieValue(fieldName, t, DateUtils.convertString2Date(DateUtils.DEFAILT_DATE_TIME_PATTERN, fieldValue.toString()));
+	            }else{
+	                ClassUtils.setPropertieValue(fieldName, t, fieldValue);
+	            }
 			}
 			list.add(t);
 		}
@@ -279,20 +299,50 @@ public class LuceneUtils {
 		Document doc = new Document();
 		for (String fieldName : luceneFields) {
 			Object _obj = ClassUtils.getPropertieValue(fieldName, entity);
-			if (_obj == null) {
-				_obj = "";
+			if (_obj == null||StringUtils.isBlank(_obj.toString())) {
+				continue;
 			}
 			String _value = _obj.toString();
+			
 			Field _field = null;
 			
+			
+			/*
 			if (ClassUtils.getEntityInfoByEntity(entity).getPkName()
 					.equals(fieldName)) {
 				_field = new StringField(ClassUtils.getEntityInfoByEntity(
 						entity).getPkName(), _value, Store.YES);
-			} else {
-				_field = new Field(fieldName, _value, TextField.TYPE_STORED);
-			}
-
+				
+				doc.add(_field);
+				continue;
+				
+				
+			} 
+			
+			*/
+			    
+		   Class luceneFieldTypeClass = ClassUtils.getLuceneFieldType(entity.getClass(), fieldName);
+		   if(luceneFieldTypeClass==null){
+		       continue;
+		   }
+		   
+		   
+		   String typeName=luceneFieldTypeClass.getSimpleName().toLowerCase();
+			if(typeName.equals("int")||typeName.equals("integer")){//数字只作为存储类型,不进行索引
+			    _field=new StoredField(fieldName, Integer.valueOf(_value));
+			}else if(typeName.equals("long")){//数字只作为存储类型,不进行索引
+                _field=new StoredField(fieldName, Long.valueOf(_value));
+            }else if(typeName.equals("float")){//数字只作为存储类型,不进行索引
+	            _field=new StoredField(fieldName, Float.valueOf(_value));
+			}else if(typeName.equals("double")){//数字只作为存储类型,不进行索引
+             _field=new StoredField(fieldName, Double.valueOf(_value));
+            }else if(typeName.equals("date")){//日期只作为存储类型,不进行索引
+             _field=new TextField(fieldName, DateUtils.convertDate2String(DateUtils.DEFAILT_DATE_TIME_PATTERN,(Date)_obj), Store.YES);
+            }else{
+             _field = new TextField(fieldName, _value, Store.YES);
+         }
+				//_field = new Field(fieldName, _value, TextField.TYPE_STORED);
+			
 			doc.add(_field);
 		}
 		indexWriter.addDocument(doc);
