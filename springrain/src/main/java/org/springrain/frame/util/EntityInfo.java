@@ -12,7 +12,6 @@ public class EntityInfo {
 	
 	private String tableName=null;
 	private String className=null;
-	private String filedsName=null;
 	private String tableSuffix="";
 
 	private Class<?> pkReturnType;
@@ -52,16 +51,7 @@ public class EntityInfo {
 	public void setClassName(String className) {
 		this.className = className;
 	}
-	/**
-	 * 获取表所有的字段名,用 , 隔开
-	 * @return String
-	 */
-	public String getFiledsName() {
-		return filedsName;
-	}
-	public void setFiledsName(String filedName) {
-		this.filedsName = filedName;
-	}
+	
 	
 	/**
 	 * 数据库分表的后缀名 例如 _history_2012
