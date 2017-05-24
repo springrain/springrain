@@ -64,18 +64,7 @@ public class ClassUtils {
 	}
 
 	
-	/**
-	 * 添加一个EntityInfo 信息,用于缓存.
-	 * @param info
-	 * @return
-	 */
-	public static  Map<String,EntityInfo> addEntityInfo(EntityInfo info){
-		if(info==null||info.getClassName()==null){
-			 return null;
-		}
-		staticEntitymap.put(info.getClassName(), info);
-		return staticEntitymap;
-	}
+	
 /**
  * 根据ClassName获取 EntityInfo
  * @param className

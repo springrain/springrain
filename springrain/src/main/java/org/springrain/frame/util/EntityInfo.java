@@ -1,6 +1,5 @@
 package org.springrain.frame.util;
 
-import java.util.Map;
 /**
 * 记录缓存数据库一个表对应的Entity的信息
 *
@@ -15,7 +14,6 @@ public class EntityInfo {
 	private String className=null;
 	private String filedsName=null;
 	private String tableSuffix="";
-	private Map<String,String> sqlmap=null;
 
 	private Class<?> pkReturnType;
 	
@@ -84,12 +82,6 @@ public class EntityInfo {
 	}
 	public void setPkName(String pkName) {
 		this.pkName = pkName;
-	}
-	public Map<String, String> getSqlmap() {
-		return sqlmap;
-	}
-	public void setSqlmap(Map<String, String> sqlmap) {
-		this.sqlmap = sqlmap;
 	}
 	public boolean isSharding() {
 		return sharding;
