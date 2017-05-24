@@ -24,9 +24,6 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.queryparser.classic.QueryParser;
-import org.apache.lucene.search.BooleanClause.Occur;
-import org.apache.lucene.search.BooleanQuery;
-import org.apache.lucene.search.BooleanQuery.Builder;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
@@ -93,86 +90,7 @@ public class LuceneUtils {
 		return searchDocument( rootdir,clazz, page, fields, searchkeyword);
 	}
 
-	public static <T> List<T> searchDocument(String rootdir,Class<T> clazz, Page page,
-			String[] fields, List<String> searchkeyword) throws Exception {
-		if (fields == null || fields.length < 1) {
-			return null;
-		}
-		// 解析分词
-		// 获取第一个组合数量
-
-		// 获取索引目录文件
-		Directory directory = getDirectory(rootdir,clazz);
-		if (directory == null) {
-			return null;
-		}
-		// 获取读取的索引
-		IndexReader indexReader = DirectoryReader.open(directory);
-		// 获取索引的查询器
-		IndexSearcher indexSearcher = new IndexSearcher(indexReader);
-
-		// 查询指定字段的转换器
-		QueryParser parser = new MultiFieldQueryParser(fields, analyzer);
-		Builder addBuilder = new BooleanQuery.Builder();
-		// 构建多条and查询
-		for (String _sk : searchkeyword) {
-			Query query = parser.parse(_sk);
-			addBuilder.add(query, Occur.MUST);
-		}
-
-		// 需要查询的关键字
-
-		TopDocs topDocs = null;
-		BooleanQuery andQuery=addBuilder.build();
-		int totalCount = indexSearcher.count(andQuery);
-		if (totalCount == 0) {
-			return null;
-		}
-		if (page == null) {
-			topDocs = indexSearcher.search(andQuery, totalCount);
-		} else {
-			// 查询出的结果文档
-			int _size = 20;
-			if (page.getPageSize() > 0) {
-				_size = page.getPageSize();
-			}
-
-			// 总条数
-			page.setTotalCount(totalCount);
-
-			int _max = page.getPageIndex() * (page.getPageIndex() - 1);
-			if (_max - totalCount >= 0) {
-				return null;
-			}
-			// 先获取上一页的最后一个元素
-			ScoreDoc lastscoreDoc = getLastScoreDoc(page.getPageIndex(), _size,
-					andQuery, indexSearcher);
-			topDocs = indexSearcher.searchAfter(lastscoreDoc, andQuery, _size);
-		}
-
-		// 查询出的结果文档
-		ScoreDoc[] hits = topDocs.scoreDocs;
-
-		if (hits == null || hits.length < 1) {
-			return null;
-		}
-
-		List<T> list = new ArrayList<>(hits.length);
-		for (int i = 0; i < hits.length; i++) {
-			Document hitDoc = indexSearcher.doc(hits[i].doc);
-			T t = clazz.newInstance();
-			for (String fieldName : ClassUtils.getLuceneFields(clazz)) {
-				String fieldValue = hitDoc.get(fieldName);
-				ClassUtils.setPropertieValue(fieldName, t, fieldValue);
-			}
-			list.add(t);
-		}
-		indexReader.close();
-		directory.close();
-
-		return list;
-	}
-
+	
 	/**
 	 * 
 	 * @param clazz
