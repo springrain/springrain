@@ -65,7 +65,7 @@ public class ClassUtils {
 	
 	
     //缓存 所有的字段的类型,key是 className+"_"+fieldName
-  private static Map<String, Class> luceneFieldTypemap=new  ConcurrentHashMap<>();
+  private static Map<String, String> luceneFieldTypemap=new  ConcurrentHashMap<>();
 	
 	
 	private ClassUtils(){
@@ -208,7 +208,7 @@ public class ClassUtils {
 	 * @return
 	 * @throws Exception
 	 */
-	public static Class getLuceneFieldType(Class clazz,String fieldName) throws Exception{
+	public static String getLuceneFieldType(Class clazz,String fieldName) throws Exception{
 	    if(clazz==null||StringUtils.isBlank(fieldName)){
 	        return null;
 	    }
@@ -315,8 +315,13 @@ public class ClassUtils {
 		
 		luceneList.add(fdName);
 		
-		Class type=getReturnType(fdName, clazz);
+		Class typeClass=getReturnType(fdName, clazz);
 		String key=className+"_"+fdName;
+		String type=typeClass.getSimpleName().toLowerCase();
+		if(isAnnotation(clazz,fdName,Id.class)){//如果是Id的话
+		    type="id";
+		}
+		
 		luceneFieldTypemap.put(key, type);
 		
 	 }
