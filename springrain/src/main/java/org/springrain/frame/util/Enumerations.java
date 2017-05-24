@@ -101,13 +101,13 @@ public class Enumerations {
 	 */
 	public enum CmsLinkModeType{
 		/*
-		 * 0站点
-		 * 1开头微信相关
+		 * 0站点（先不用）
+		 * 1开头前台相关（包括微信和PC和其它）
 		 * 3投票相关
 		 * 4开头站工后相关
 		 * 
 		 * */
-		站点(0),前台(1),前台栏目(10),前台栏目DOM(11),前台内容(12),投票(30),站长后台(4),站长后台列表(40),站长后台更新(41),站长后台查看(42);
+		站点(0),前台(1),前台栏目(10),前台栏目DOM(11),前台内容(12),前台栏目继承页(13),投票(30),站长后台(4),站长后台列表(40),站长后台更新(41),站长后台查看(42);
 		int type;
 		
 		private CmsLinkModeType(Integer type) {
@@ -126,6 +126,8 @@ public class Enumerations {
 					return 前台栏目DOM;
 				case 12:
 					return 前台内容;
+				case 13:
+					return 前台栏目继承页;
 				case 30:
 					return 投票;
 				case 4:
@@ -145,9 +147,44 @@ public class Enumerations {
 			return type;
 		}
 	}
-	
-	//public static void main(String[] args) {
-	//	System.out.println(CmsLinkModeType.投票.getType());
-	//}
+	/**
+	 * @author Administrator
+	 *  主题类型
+	 *  此为主题类型，和站点类型要区分开
+	 *  目前允许PC站点选手机主题，这个不限止死，
+	 *  如果要完全匹配，后台限止就OK了
+	 */
+	public enum ThemeSiteType{
+		/*
+		 *  
+		 * 
+		 * */
+		pc(1),mp(2),pc_mp(3);
+		int type;
+		
+		private ThemeSiteType(Integer type) {
+			this.type = type;
+		}
+		
+		public static ThemeSiteType getThemeSiteType(int type){
+			switch (type) {
+				case 1:
+					return pc;
+				case 2:
+					return mp;
+				case 3:
+					return pc_mp;
+				default:
+					return null;
+			}
+		}
+
+		public int getType() {
+			return type;
+		}
+	}
+	public static void main(String[] args) {
+		System.out.println(ThemeSiteType.getThemeSiteType(1));
+	}
 	
 }

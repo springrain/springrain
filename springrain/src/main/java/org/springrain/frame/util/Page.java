@@ -277,6 +277,17 @@ public class Page implements Serializable{
 	public void setLastPage(boolean lastPage) {
 		this.lastPage = lastPage;
 	}
+	
+	
+	
+	@Override
+	public String toString() {
+		return new StringBuilder()
+				.append("pageIndex[").append(getPageIndex()).append("],")
+				.append("sort[").append(getSort()).append("],")
+				.append("order[").append(getOrder()).append("]")
+				.toString();
+	}
 
 
 	

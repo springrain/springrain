@@ -41,7 +41,11 @@ public class HttpClientUtils {
 	}
 	
 	
+	//private static  BasicHttpClientConnectionManager connectionManager = null;
 	private static  PoolingHttpClientConnectionManager connectionManager = null;
+	
+	
+	
 	//private static  HttpClientBuilder httpClientBuilder=null;
 	
 	private static final   Logger logger = LoggerFactory.getLogger(HttpClientUtils.class);
@@ -58,35 +62,36 @@ public class HttpClientUtils {
             .register("http", PlainConnectionSocketFactory.INSTANCE)
             .register("https", new SSLConnectionSocketFactory(sslcontext))
             .build();
-
+        
+        
+                //使用基本的Httpclient链接器
+                //connectionManager=new BasicHttpClientConnectionManager(socketFactoryRegistry);
+                
+                
+                
 	    	    connectionManager = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
 	    	    connectionManager.setMaxTotal(1000);
 	    	    connectionManager.setDefaultMaxPerRoute(200);//每个路由最大的请求数量
+                
+                
+                
 	    	    //httpClientBuilder = HttpClients.custom().setConnectionManager(connectionManager).setDefaultRequestConfig(requestConfig);
 		       // HttpHost localhost = new HttpHost("http://www.baidu.com",80);
 		       //connectionManager.setMaxPerRoute(new HttpRoute(localhost), 200);
 		
 	}
 
-	/**
-	 * 不要调用 CloseableHttpClient.close();会关闭pool
-	 * @return
-	 */
 	public static CloseableHttpClient getHttpClient() {     
         return getHttpClientBuilder().build();  
     }
-	/**
-	 * 不要调用 CloseableHttpClient.close();会关闭pool
-	 * @param sslContext
-	 * @return
-	 */
+	
 	public static CloseableHttpClient getHttpClient(SSLContext sslContext) {   
         return getHttpClientBuilder(sslContext).build();  
     }
 	
 	
 	public static HttpClientBuilder getHttpClientBuilder(){
-		return HttpClients.custom().setConnectionManager(connectionManager).setDefaultRequestConfig(requestConfig);
+		return HttpClients.custom().setConnectionManager(connectionManager).setDefaultRequestConfig(requestConfig).setConnectionManagerShared(true);
 	}
 	
     public static HttpClientBuilder getHttpClientBuilder(SSLContext sslContext){

@@ -28,7 +28,7 @@ public class Finder {
     private Finder countFinder=null;
     
     //默认进行sql编码,处理字符串的拼接注入
-    private boolean escapeSql=true;
+    private Boolean escapeSql=true;
     
     
     public Finder(){}
@@ -241,11 +241,11 @@ public class Finder {
 		this.countFinder = countFinder;
 	}
 
-	public boolean isEscapeSql() {
+	public Boolean isEscapeSql() {
 		return escapeSql;
 	}
 
-	public void setEscapeSql(boolean escapeSql) {
+	public void setEscapeSql(Boolean escapeSql) {
 		this.escapeSql = escapeSql;
 	}
 

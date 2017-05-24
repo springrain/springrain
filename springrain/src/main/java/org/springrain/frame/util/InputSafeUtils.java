@@ -19,13 +19,17 @@ public class InputSafeUtils {
 	private final static Whitelist user_content_filter = Whitelist.relaxed();
 	
 	static {
-	    user_content_filter.addTags("embed","object","param","span","div");
+	    user_content_filter.addTags("article","aside","audio","bdi","canvas","embed","footer","header","label","object","param","section","video","source");
 	    user_content_filter.addAttributes(":all", "style", "class", "id", "name");
 	    user_content_filter.addAttributes("object", "width", "height","classid","codebase");    
-	    user_content_filter.addAttributes("param", "name", "value");
+	    user_content_filter.addAttributes("param", "name", "value","type");
+	    user_content_filter.addAttributes("video","autoplay", "controls", "loop","muted","poster","preload","dir","src","data-setup","class", "width", "height");
+	    user_content_filter.addAttributes("source","autoplay", "controls", "loop","muted","poster","preload","src","type");
 	    user_content_filter.addAttributes("embed", "src","quality","width","height","allowFullScreen","allowScriptAccess","flashvars","name","type","pluginspage");
 	    user_content_filter.addProtocols("img", "src", "http","https");
-	    user_content_filter.addProtocols("a", "href", "http","https","ftp","#");
+	    user_content_filter.addProtocols("video", "src", "http","https");
+	    user_content_filter.addProtocols("source", "src", "http","https");
+	    user_content_filter.addProtocols("a", "href", "http","https","#");
 	    
 	    //保留相对连接,默认是false
 	    user_content_filter.preserveRelativeLinks(true);

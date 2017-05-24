@@ -6,6 +6,7 @@ package org.springrain.frame.util;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -456,17 +457,14 @@ public class ClassUtils {
 	public static Object getPropertieValue(String p,Object o) throws Exception{
 		Object _obj=null;
 		for(Class<?> clazz = o.getClass(); clazz != Object.class;  clazz = clazz.getSuperclass()) {
-			try{
+		
 			 PropertyDescriptor pd = new PropertyDescriptor(p, clazz);
 				Method getMethod = pd.getReadMethod();// 获得get方法
 				if(getMethod!=null){
 					_obj= getMethod.invoke(o);
 					break;
 				}
-			}catch(Exception e){
-				logger.error(e.getMessage(),e);
-				return null;
-			}
+			
 			
 		}
 		
@@ -559,6 +557,70 @@ public class ClassUtils {
 		return isLuceneSearch;
 		
 	}
+	
+	
+	/**
+	 * 复制
+	 * @param bean
+	 * @param properties
+	 * @throws IllegalAccessException
+	 * @throws InvocationTargetException
+	 */
+	  public static void populate(final Object bean, final Map<String, ? extends Object> properties)
+		        throws Exception {
+		  
+	        // Do nothing unless both arguments have been specified
+	        if ((bean == null) || (properties == null)) {
+	            return;
+	        }
+	        if (logger.isDebugEnabled()) {
+	        	logger.debug("ClassUtils.populate(" + bean + ", " +
+	                    properties + ")");
+	        }
+	        
+	        Set<String> allFieldNames = getAllFieldNames(bean.getClass());
+
+	        // Loop through the property name/value pairs to be set
+	        for(final Map.Entry<String, ? extends Object> entry : properties.entrySet()) {
+	            // Identify the property name and value(s) to be assigned
+	            final String name = entry.getKey();
+	            if (name == null) {
+	                continue;
+	            }
+	            String _name=name;
+	            if(!allFieldNames.contains(name)){
+	            	
+	            	if(!_name.contains(GlobalStatic.SQLCutSeparator)){
+	            		continue;
+	            	}
+	            	
+	            }
+	            
+	            
+	            
+	            
+	         
+	        	if (_name.contains(GlobalStatic.SQLCutSeparator)) {
+	        		
+	        		String[] strs = _name.split(GlobalStatic.SQLCutSeparator);
+					// 获取最后的属性名称
+					_name = strs[strs.length - 1];
+					// 循环获取实体对象
+					Object o=bean;
+					for (int i = 0; i < strs.length - 1; i++) {
+						o=getPropertieValue(strs[i], o);
+					}
+					 setPropertieValue(_name, o, entry.getValue());
+	        		
+	        	}else{
+	        		 // Perform the assignment for this property
+		            setPropertieValue(name, bean, entry.getValue());
+	        	}
+
+	        }
+
+
+		    }
 	
 	
 	

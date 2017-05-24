@@ -1,4 +1,5 @@
 package org.springrain.frame.util;
+
 /**
  * 全局的静态变量,用于全局变量的存放
  * @copyright {@link weicms.net}
@@ -24,6 +25,16 @@ public class GlobalStatic {
 	public static final String dataUpdate="更新";
 	public static final String dataSave="保存";
 	public static final String dataDelete="删除";
+	
+	public static final String SQLCutSeparator="___";//SQL复合对象查询的分隔符,三个 下划线 
+	
+	
+	
+	public static final String mpConfigCacheKey="mpConfigCacheKey";//订阅号配置缓存Key
+	
+	public static final String cpConfigCacheKey="cpConfigCacheKey";//企业号配置缓存Key
+	
+	
 	
 	
 	//page对象的缓存后缀key
@@ -109,7 +120,6 @@ public class GlobalStatic {
 		if(_info>0){
 			path=path.substring(0, _info);
 		}
-		
 		
 		rootDir=path;
 		webInfoDir=rootDir+"/WEB-INF";

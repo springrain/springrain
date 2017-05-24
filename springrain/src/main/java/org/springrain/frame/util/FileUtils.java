@@ -51,7 +51,7 @@ public class FileUtils {
 	}
 	
 	 /**
-     * 获取文件后缀
+     * 获取文件后缀 例如 .png
      * 
      * @param originalFilename
      * @return
@@ -60,7 +60,15 @@ public class FileUtils {
         return originalFilename.substring(originalFilename.lastIndexOf("."), originalFilename.length());
     }
 
-    
+    /**
+     * 获取文件格式 例如 png
+     * 
+     * @param originalFilename
+     * @return
+     */
+    public static String getFileFormat(String originalFilename) {
+        return originalFilename.substring(originalFilename.lastIndexOf(".")+1, originalFilename.length());
+    }
     /**
      * 获取文件名
      * 
@@ -94,23 +102,20 @@ public class FileUtils {
     	 // 读出文件到response  
         // 这里是先需要把要把文件内容先读到缓冲区  
         // 再把缓冲区的内容写到response的输出流供用户下载  
-        FileInputStream fileInputStream = new FileInputStream(file);  
-        BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);  
-        BufferedReader reader = new BufferedReader (new InputStreamReader(bufferedInputStream,GlobalStatic.defaultCharset));
+    	try( 
+    			FileInputStream fileInputStream = new FileInputStream(file);  
+    	        BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);  
+    	        BufferedReader reader = new BufferedReader (new InputStreamReader(bufferedInputStream,GlobalStatic.defaultCharset));
+    		){
         
-        char[] data = new char[1024];
-        while( reader.read(data)!=-1){
-     	   writer.write(data); 
-         } 
-        
-        reader.close();
-        bufferedInputStream.close();
-        fileInputStream.close();
-        if(closeWriter){
-        	 writer.close();
-        }
+		        char[] data = new char[1024];
+		        while( reader.read(data)!=-1){
+		     	   writer.write(data); 
+		         } 
+		        
        
-        
+       
+    	    }
         
     }
 

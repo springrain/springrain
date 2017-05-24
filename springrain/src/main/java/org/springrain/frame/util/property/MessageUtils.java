@@ -40,8 +40,6 @@ public class MessageUtils {
 
 	public static final String PASSWORD_EDIT_SUCCESS=ResourceUtils.getString("password_edit_success");//密码修改成功
 
-	public static final String NOTICE_RELEASE_SUCCESS=ResourceUtils.getString("notice_release_success");//通知公告发布成功
-	
-	public static final String NOTICE_RELEASE_ERROR=ResourceUtils.getString("notice_release_error");//通知公告发布失败
+
 	
 }
