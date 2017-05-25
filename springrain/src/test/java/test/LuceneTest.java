@@ -31,7 +31,7 @@ public class LuceneTest {
 		for (int i = 0; i < 50; i++) {
 		    LuceneDto u=new LuceneDto();
 			u.setId(SecUtils.getUUID());
-			u.setName(i+"我是中国人，我会说中文"+i);
+			u.setName("我是中国人，我会说中文"+i);
 			LuceneUtils.saveDocument(rootdir,u);
 		}
 	
@@ -58,7 +58,7 @@ public class LuceneTest {
 	
 	
 	@SuppressWarnings("unchecked")
-	@Test
+	//@Test
 	public void testSearch() throws Exception{
 		String rootdir=GlobalStatic.rootDir+"/lucene/index";
 		File f=new File(rootdir);
@@ -67,7 +67,9 @@ public class LuceneTest {
 		}
 		Page page=new Page(1);
 		page.setPageSize(50);
-		List<LuceneDto> list = LuceneUtils.searchDocument(rootdir,LuceneDto.class, page, "5be77b50c51840898199adee5e3a4f7b");
+		List<LuceneDto> list = LuceneUtils.searchDocument(rootdir,LuceneDto.class, page,"中国");
+		//List<LuceneDto> list = LuceneUtils.searchDocumentByTerm(rootdir,LuceneDto.class, page,"name", "我是中国人，我会说中文49");
+		
 		if(CollectionUtils.isEmpty(list)){
 			return;
 		}
@@ -76,6 +78,24 @@ public class LuceneTest {
 			
 		}
 	}
+	
+	
+	   @SuppressWarnings("unchecked")
+	    @Test
+	    public void testSearchObject() throws Exception{
+	        String rootdir=GlobalStatic.rootDir+"/lucene/index";
+	        File f=new File(rootdir);
+	        if(!f.exists()){
+	            f.mkdirs();
+	        }
+	       
+	        //List<LuceneDto> list = LuceneUtils.searchDocument(rootdir,LuceneDto.class, page,"name","我是中国人，我会说中文");
+	        LuceneDto u = LuceneUtils.searchDocumentByTerm(rootdir,LuceneDto.class,"id", "a54b98a7a2a244468fcf4f2856660093");
+	    
+	            System.out.println(u.getId()+","+u.getName()+","+u.getD1()+","+u.getF1()+","+u.getInt1()+","+u.getD2()+","+u.getF2()+","+u.getInt2()+","+u.getDate());
+	            
+	        
+	    }
 	
 	
 	

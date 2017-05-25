@@ -108,84 +108,154 @@ public class LuceneUtils {
 			return null;
 		}
 
-		// 获取索引目录文件
-		Directory directory = getDirectory( rootdir,clazz);
-		if (directory == null) {
-			return null;
-		}
-
-		// 获取读取的索引
-		IndexReader indexReader = DirectoryReader.open(directory);
-		// 获取索引的查询器
-		IndexSearcher indexSearcher = new IndexSearcher(indexReader);
-
 		// 查询指定字段的转换器
 		QueryParser parser = new MultiFieldQueryParser(fields, analyzer);
 		// 需要查询的关键字
 		Query query = parser.parse(searchkeyword);
-		TopDocs topDocs = null;
-		int totalCount = indexSearcher.count(query);
-		if (totalCount == 0) {
-			return null;
-		}
-		if (page == null) {
-			topDocs = indexSearcher.search(query, totalCount);
-		} else {
-			// 查询出的结果文档
-			int _size = 20;
-			if (page != null && page.getPageSize() > 0) {
-				_size = page.getPageSize();
-			}
-			// 总条数
-			page.setTotalCount(totalCount);
-			int _max = page.getPageIndex() * (page.getPageIndex() - 1);
-			if (_max - totalCount >= 0) {
-				return null;
-			}
-
-			// 先获取上一页的最后一个元素
-			ScoreDoc lastscoreDoc = getLastScoreDoc(page.getPageIndex(), _size,query, indexSearcher);
-			topDocs = indexSearcher.searchAfter(lastscoreDoc, query, _size);
-		}
-		// 通过最后一个元素搜索下页的pageSize个元素
-
-		// 查询出的结果文档
-		ScoreDoc[] hits = topDocs.scoreDocs;
-
-		if (hits == null || hits.length < 1) {
-			return null;
-		}
-
-		List<T> list = new ArrayList<>(hits.length);
-		for (int i = 0; i < hits.length; i++) {
-			Document hitDoc = indexSearcher.doc(hits[i].doc);
-			T t = clazz.newInstance();
-			for (String fieldName : ClassUtils.getLuceneFields(clazz)) {
-				String fieldValue = hitDoc.get(fieldName);
-				
-				  String typeName = ClassUtils.getLuceneFieldType(clazz, fieldName);
-		        
-				if(typeName.equals("integer")||typeName.equals("int")){//数字只作为存储类型,不进行索引
-				    ClassUtils.setPropertieValue(fieldName, t, Integer.valueOf(fieldValue));
-	            }else if(typeName.equals("long")){//数字只作为存储类型,不进行索引
-                    ClassUtils.setPropertieValue(fieldName, t, Long.valueOf(fieldValue));
-                }else if(typeName.equals("float")){//数字只作为存储类型,不进行索引
-	                ClassUtils.setPropertieValue(fieldName, t, Float.valueOf(fieldValue));
-	            }else if(typeName.equals("double")){//数字只作为存储类型,不进行索引
-	                ClassUtils.setPropertieValue(fieldName, t, Double.valueOf(fieldValue));
-	            }else if(typeName.equals("date")){//日期只作为存储类型,不进行索引
-	                ClassUtils.setPropertieValue(fieldName, t, DateUtils.convertString2Date(DateUtils.DEFAILT_DATE_TIME_PATTERN, fieldValue.toString()));
-	            }else{
-	                ClassUtils.setPropertieValue(fieldName, t, fieldValue);
-	            }
-			}
-			list.add(t);
-		}
-		indexReader.close();
-		directory.close();
-
-		return list;
+		
+		return searchDocument(rootdir, clazz, page, query);
+	
 	}
+	
+	/**
+     * 
+     * @param clazz
+     * @param page
+     * @param fields
+     * @param searchkeyword
+     * @return
+     * @throws Exception
+     */
+    public static <T> List<T> searchDocumentByTerm(String rootdir,Class<T> clazz, Page page,
+            String key,String value) throws Exception {
+
+        if (StringUtils.isBlank(key)||StringUtils.isBlank(value)) {
+            return null;
+        }
+        
+        Term term = new Term(key, value);
+        TermQuery termQuery = new TermQuery(term);
+        return searchDocument(rootdir, clazz, page, termQuery);
+    }
+    
+    
+    public static <T> T searchDocumentByTerm(String rootdir,Class<T> clazz,
+            String key,String value) throws Exception {
+
+        if (StringUtils.isBlank(key)||StringUtils.isBlank(value)) {
+            return null;
+        }
+        
+        Page page=new Page(1);
+        page.setPageSize(1);
+        
+      List<T> list=  searchDocumentByTerm(rootdir, clazz, page,   key, value);
+      if(CollectionUtils.isEmpty(list)){
+          return null;
+      }
+        
+        return list.get(0);
+    }
+    
+ 	
+	
+	public static <T> List<T> searchDocument(String rootdir,Class<T> clazz, Page page,
+           Query query) throws Exception {
+        // 获取索引目录文件
+        Directory directory = getDirectory( rootdir,clazz);
+        if (directory == null) {
+            return null;
+        }
+
+        // 获取读取的索引
+        IndexReader indexReader = DirectoryReader.open(directory);
+        // 获取索引的查询器
+        IndexSearcher indexSearcher = new IndexSearcher(indexReader);
+
+      
+        TopDocs topDocs = null;
+        int totalCount = indexSearcher.count(query);
+        if (totalCount == 0) {
+            return null;
+        }
+        if (page == null) {
+            topDocs = indexSearcher.search(query, totalCount);
+        } else {
+            // 查询出的结果文档
+            int _size = 20;
+            if (page != null && page.getPageSize() > 0) {
+                _size = page.getPageSize();
+            }
+            // 总条数
+            page.setTotalCount(totalCount);
+            int _max = page.getPageIndex() * (page.getPageIndex() - 1);
+            if (_max - totalCount >= 0) {
+                return null;
+            }
+
+            // 先获取上一页的最后一个元素
+            ScoreDoc lastscoreDoc = getLastScoreDoc(page.getPageIndex(), _size,query, indexSearcher);
+            topDocs = indexSearcher.searchAfter(lastscoreDoc, query, _size);
+        }
+        // 通过最后一个元素搜索下页的pageSize个元素
+
+        // 查询出的结果文档
+        ScoreDoc[] hits = topDocs.scoreDocs;
+
+        if (hits == null || hits.length < 1) {
+            return null;
+        }
+
+        List<T> list = new ArrayList<>(hits.length);
+        for (int i = 0; i < hits.length; i++) {
+            Document hitDoc = indexSearcher.doc(hits[i].doc);
+            T t = clazz.newInstance();
+            document2Bean(hitDoc, t);
+            list.add(t);
+        }
+        indexReader.close();
+        directory.close();
+
+        return list;
+    }
+	
+	
+	
+	
+	private static Object  document2Bean(Document document, Object t) throws Exception{
+	    
+	    if(document==null||t==null){
+	        return null;
+	    }
+	    
+	    Class clazz=t.getClass();
+	    List<String> luceneFields = ClassUtils.getLuceneFields(clazz);
+	    for (String fieldName : luceneFields) {
+            String fieldValue = document.get(fieldName);
+            
+              String typeName = ClassUtils.getLuceneFieldType(clazz, fieldName);
+            
+            if(typeName.equals("integer")||typeName.equals("int")){//数字只作为存储类型,不进行索引
+                ClassUtils.setPropertieValue(fieldName, t, Integer.valueOf(fieldValue));
+            }else if(typeName.equals("long")){//数字只作为存储类型,不进行索引
+                ClassUtils.setPropertieValue(fieldName, t, Long.valueOf(fieldValue));
+            }else if(typeName.equals("float")){//数字只作为存储类型,不进行索引
+                ClassUtils.setPropertieValue(fieldName, t, Float.valueOf(fieldValue));
+            }else if(typeName.equals("double")){//数字只作为存储类型,不进行索引
+                ClassUtils.setPropertieValue(fieldName, t, Double.valueOf(fieldValue));
+            }else if(typeName.equals("date")){//日期只作为存储类型,不进行索引
+                ClassUtils.setPropertieValue(fieldName, t, DateUtils.convertString2Date(DateUtils.DEFAILT_DATE_TIME_PATTERN, fieldValue.toString()));
+            }else{
+                ClassUtils.setPropertieValue(fieldName, t, fieldValue);
+            }
+        }
+	    
+	    return t;
+	    
+	}
+	
+	
+	
 
 	/**
 	 * 根据实体类保存到索引,使用 LuceneSearch和LuceneField
@@ -246,7 +316,7 @@ public class LuceneUtils {
 			}else if(typeName.equals("double")){//数字只作为存储类型,不进行索引
              _field=new StoredField(fieldName, Double.valueOf(_value));
             }else if(typeName.equals("id")){//如果是主键,只作为存储类型,不进行索引
-                _field=new StringField(fieldName, _value,Store.YES);
+                _field=new StringField(fieldName, _value, Store.YES);
             }else if(typeName.equals("date")){//日期只作为存储类型,不进行索引
              _field=new StoredField(fieldName, DateUtils.convertDate2String(DateUtils.DEFAILT_DATE_TIME_PATTERN,(Date)_obj));
             }else{
