@@ -287,6 +287,53 @@ public class LuceneUtils {
 	
 	
 	
+	
+	private static Document bean2Document(Object entity) throws Exception{
+	 // 获取索引的字段,为null则不进行保存
+        List<String> luceneFields = ClassUtils.getLuceneFields(entity
+                .getClass());
+        if (CollectionUtils.isEmpty(luceneFields)) {
+            return null;
+        }
+
+	    Document doc = new Document();
+        for (String fieldName : luceneFields) {
+            Object _obj = ClassUtils.getPropertieValue(fieldName, entity);
+            if (_obj == null||StringUtils.isBlank(_obj.toString())) {
+                continue;
+            }
+            String _value = _obj.toString();
+            
+            Field _field = null;
+            
+            String typeName = ClassUtils.getLuceneFieldType(entity.getClass(), fieldName);
+            if(typeName.equals("int")||typeName.equals("integer")){//数字只作为存储类型,不进行索引
+                _field=new StoredField(fieldName, Integer.valueOf(_value));
+            }else if(typeName.equals("long")){//数字只作为存储类型,不进行索引
+                _field=new StoredField(fieldName, Long.valueOf(_value));
+            }else if(typeName.equals("float")){//数字只作为存储类型,不进行索引
+                _field=new StoredField(fieldName, Float.valueOf(_value));
+            }else if(typeName.equals("double")){//数字只作为存储类型,不进行索引
+             _field=new StoredField(fieldName, Double.valueOf(_value));
+            }else if(typeName.equals("id")){//如果是主键,只作为存储类型,不进行索引
+                _field=new StringField(fieldName, _value, Store.YES);
+            }else if(typeName.equals("date")){//日期只作为存储类型,不进行索引
+             _field=new StoredField(fieldName, DateUtils.convertDate2String(DateUtils.DEFAILT_DATE_TIME_PATTERN,(Date)_obj));
+            }else{
+             _field = new TextField(fieldName, _value, Store.YES);
+         }
+                //_field = new Field(fieldName, _value, TextField.TYPE_STORED);
+            
+            doc.add(_field);
+        }
+        
+        return doc;
+	    
+	    
+	}
+	
+	
+	
 
 	/**
 	 * 根据实体类保存到索引,使用 LuceneSearch和LuceneField
@@ -297,13 +344,7 @@ public class LuceneUtils {
 	 */
 	public  static String saveDocument(String rootdir,Object entity)
 			throws Exception {
-		// 获取索引的字段,为null则不进行保存
-		List<String> luceneFields = ClassUtils.getLuceneFields(entity
-				.getClass());
-		if (CollectionUtils.isEmpty(luceneFields)) {
-			return "error";
-		}
-
+		
 		// 索引写入配置
 		IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
 		// 获取索引目录文件
@@ -311,52 +352,12 @@ public class LuceneUtils {
 		if (directory == null) {
 			return null;
 		}
+		
+		
 		IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);
-		Document doc = new Document();
-		for (String fieldName : luceneFields) {
-			Object _obj = ClassUtils.getPropertieValue(fieldName, entity);
-			if (_obj == null||StringUtils.isBlank(_obj.toString())) {
-				continue;
-			}
-			String _value = _obj.toString();
-			
-			Field _field = null;
-			
-			
-			/*
-			if (ClassUtils.getEntityInfoByEntity(entity).getPkName()
-					.equals(fieldName)) {
-				_field = new StringField(ClassUtils.getEntityInfoByEntity(
-						entity).getPkName(), _value, Store.YES);
-				
-				doc.add(_field);
-				continue;
-				
-				
-			} 
-			
-			*/
-			    
-			String typeName = ClassUtils.getLuceneFieldType(entity.getClass(), fieldName);
-			if(typeName.equals("int")||typeName.equals("integer")){//数字只作为存储类型,不进行索引
-			    _field=new StoredField(fieldName, Integer.valueOf(_value));
-			}else if(typeName.equals("long")){//数字只作为存储类型,不进行索引
-                _field=new StoredField(fieldName, Long.valueOf(_value));
-            }else if(typeName.equals("float")){//数字只作为存储类型,不进行索引
-	            _field=new StoredField(fieldName, Float.valueOf(_value));
-			}else if(typeName.equals("double")){//数字只作为存储类型,不进行索引
-             _field=new StoredField(fieldName, Double.valueOf(_value));
-            }else if(typeName.equals("id")){//如果是主键,只作为存储类型,不进行索引
-                _field=new StringField(fieldName, _value, Store.YES);
-            }else if(typeName.equals("date")){//日期只作为存储类型,不进行索引
-             _field=new StoredField(fieldName, DateUtils.convertDate2String(DateUtils.DEFAILT_DATE_TIME_PATTERN,(Date)_obj));
-            }else{
-             _field = new TextField(fieldName, _value, Store.YES);
-         }
-				//_field = new Field(fieldName, _value, TextField.TYPE_STORED);
-			
-			doc.add(_field);
-		}
+		
+	    Document doc=bean2Document(entity);
+		
 		indexWriter.addDocument(doc);
 		indexWriter.commit();
 		indexWriter.close();
@@ -491,9 +492,28 @@ public class LuceneUtils {
 	 */
 	public static String updateDocument(String rootdir,Object entity) throws Exception {
 		
+	    String pkName = ClassUtils.getEntityInfoByClass(entity.getClass()).getPkName();
 		String pkValue = ClassUtils.getPKValue(entity).toString();
-		deleteDocument( rootdir,pkValue, entity.getClass());
-		saveDocument( rootdir,entity);
+		
+		// 索引写入配置
+        IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
+        // 获取索引目录文件
+        Directory directory = getDirectory( rootdir,entity.getClass());
+        if (directory == null) {
+            return null;
+        }
+        
+        Term term = new Term(pkName,pkValue);
+     
+        Document doc=bean2Document(entity);
+                
+        
+        IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);
+        indexWriter.updateDocument(term, doc);
+        indexWriter.commit();
+        indexWriter.close(); // 记得关闭,否则删除不会被同步到索引文件中
+        directory.close(); // 关闭目录
+        
 		return null;
 	}
 
