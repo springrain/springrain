@@ -263,8 +263,7 @@ public class LuceneUtils {
 	        return null;
 	    }
 	    
-	    Class clazz=t.getClass();
-	    List<FieldInfo> luceneFields = ClassUtils.getLuceneFields(clazz);
+	    List<FieldInfo> luceneFields = ClassUtils.getLuceneFields(t.getClass());
 	    
 	    if(CollectionUtils.isEmpty(luceneFields)){
 	        return null;
@@ -326,10 +325,10 @@ public class LuceneUtils {
                 _field=new StoredField(fieldName, Float.valueOf(_value));
             }else if(typeName.equals("double")){//数字只作为存储类型,不进行索引
              _field=new StoredField(fieldName, Double.valueOf(_value));
-            }else if(typeName.equals("id")){//如果是主键,只作为存储类型,不进行索引
-                _field=new StringField(fieldName, _value, Store.YES);
             }else if(typeName.equals("date")){//日期只作为存储类型,不进行索引
              _field=new StoredField(fieldName, DateUtils.convertDate2String(DateUtils.DEFAILT_DATE_TIME_PATTERN,(Date)_obj));
+            }else if(finfo.getPk()){//如果是主键,只作为存储类型,不进行索引
+                _field=new StringField(fieldName, _value, Store.YES);
             }else{
              _field = new TextField(fieldName, _value, Store.YES);
          }
