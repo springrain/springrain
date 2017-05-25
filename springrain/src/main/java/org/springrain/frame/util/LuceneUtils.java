@@ -16,7 +16,6 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.Field.Store;
 import org.apache.lucene.document.StoredField;
-import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
@@ -246,9 +245,9 @@ public class LuceneUtils {
 			}else if(typeName.equals("double")){//数字只作为存储类型,不进行索引
              _field=new StoredField(fieldName, Double.valueOf(_value));
             }else if(typeName.equals("id")){//如果是主键,只作为存储类型,不进行索引
-                _field=new StringField(fieldName, _value, Store.YES);
+                _field=new Field(fieldName, _value,StoredField.TYPE);
             }else if(typeName.equals("date")){//日期只作为存储类型,不进行索引
-             _field=new StringField(fieldName, DateUtils.convertDate2String(DateUtils.DEFAILT_DATE_TIME_PATTERN,(Date)_obj), Store.YES);
+             _field=new StoredField(fieldName, DateUtils.convertDate2String(DateUtils.DEFAILT_DATE_TIME_PATTERN,(Date)_obj));
             }else{
              _field = new TextField(fieldName, _value, Store.YES);
          }
