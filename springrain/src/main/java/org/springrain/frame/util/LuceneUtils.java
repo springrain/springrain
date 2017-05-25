@@ -84,7 +84,7 @@ public class LuceneUtils {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static List searchDocument(String rootdir,Class clazz, Page page, String field,
 			String searchkeyword) throws Exception {
-		if (StringUtils.isBlank(field)) {
+		if (clazz==null||StringUtils.isBlank(field)) {
 			return null;
 		}
 		String[] fields = new String[] { field };
@@ -104,7 +104,7 @@ public class LuceneUtils {
 	public static <T> List<T> searchDocument(String rootdir,Class<T> clazz, Page page,
 			String[] fields, String searchkeyword) throws Exception {
 
-		if (fields == null || fields.length < 1) {
+		if (clazz==null||fields == null || fields.length < 1) {
 			return null;
 		}
 
@@ -129,7 +129,7 @@ public class LuceneUtils {
     public static <T> List<T> searchDocumentByTerm(String rootdir,Class<T> clazz, Page page,
             String key,String value) throws Exception {
 
-        if (StringUtils.isBlank(key)||StringUtils.isBlank(value)) {
+        if (clazz==null||StringUtils.isBlank(key)||StringUtils.isBlank(value)) {
             return null;
         }
         
@@ -139,6 +139,15 @@ public class LuceneUtils {
     }
     
     
+  /**
+   * 根据精确值查询一个对象
+   * @param rootdir
+   * @param clazz
+   * @param key
+   * @param value
+   * @return
+   * @throws Exception
+   */
     public static <T> T searchDocumentByTerm(String rootdir,Class<T> clazz,
             String key,String value) throws Exception {
 
@@ -155,6 +164,28 @@ public class LuceneUtils {
       }
         
         return list.get(0);
+    }
+    
+    
+    /**
+     * 根据entityId 查询一个对象
+     * @param rootdir
+     * @param clazz
+     * @param value
+     * @return
+     * @throws Exception
+     */
+    public static <T> T searchDocumentByEntityId(String rootdir,Class<T> clazz,String value) throws Exception {
+
+        if (clazz==null||StringUtils.isBlank(value)) {
+            return null;
+        }
+        
+        EntityInfo info=ClassUtils.getEntityInfoByClass(clazz);
+        if(info==null){
+            return null;
+        }
+      return searchDocumentByTerm(rootdir, clazz,  info.getPkName(), value);
     }
     
  	
