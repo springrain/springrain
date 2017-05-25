@@ -2,6 +2,7 @@ package org.springrain.weixin.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springrain.frame.util.GlobalStatic;
 import org.springrain.system.service.BaseSpringrainServiceImpl;
 import org.springrain.weixin.entity.WxCpConfig;
 import org.springrain.weixin.sdk.common.api.IWxCpConfig;
@@ -86,7 +87,7 @@ public class WxCpConfigServiceImpl extends BaseSpringrainServiceImpl implements 
 		
 		IWxCpConfig wxcpConfig=null;
 		try {
-			wxcpConfig = super.getByCache(id, id, IWxCpConfig.class);
+			wxcpConfig = super.getByCache(id, GlobalStatic.cpConfigCacheKey, WxCpConfig.class);
 		} catch (Exception e) {
 			wxcpConfig=null;
 			logger.error(e.getMessage(),e);
@@ -97,8 +98,8 @@ public class WxCpConfigServiceImpl extends BaseSpringrainServiceImpl implements 
 		
 		//从数据库查询
 		 wxcpConfig=super.findById(id, WxCpConfig.class);
-		
-		
+		 
+		 super.putByCache(id,GlobalStatic.cpConfigCacheKey, wxcpConfig);
 		
 		return wxcpConfig;
 	}
@@ -116,7 +117,7 @@ public class WxCpConfigServiceImpl extends BaseSpringrainServiceImpl implements 
 		}
 		
 		try {
-			super.putByCache(id, id, IWxCpConfig.class);
+			super.putByCache(id, GlobalStatic.cpConfigCacheKey, wxcpconfig);
 		} catch (Exception e) {
 			logger.error(e.getMessage(),e);
 		}

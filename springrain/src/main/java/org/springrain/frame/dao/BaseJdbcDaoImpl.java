@@ -10,7 +10,7 @@ import java.util.Map;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
+//import org.springframework.jdbc.core.FrameBeanPropertyRowMapper;
 import org.springframework.jdbc.core.CallableStatementCreator;
 import org.springframework.jdbc.core.ColumnMapRowMapper;
 import org.springframework.jdbc.core.SqlParameter;
@@ -169,7 +169,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 				m = simpleJdbcCall.returningResultSet(frame_jdbc_call_key, new RowNumberSingleColumnRowMapper(clazz))
 						.execute(params);
 			} else {
-				m = simpleJdbcCall.returningResultSet(frame_jdbc_call_key, BeanPropertyRowMapper.newInstance(clazz))
+				m = simpleJdbcCall.returningResultSet(frame_jdbc_call_key, FrameBeanPropertyRowMapper.newInstance(clazz))
 						.execute(params);
 			}
 		} else {
@@ -177,7 +177,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 				m = simpleJdbcCall.returningResultSet(frame_jdbc_call_key, new RowNumberSingleColumnRowMapper(clazz))
 						.execute();
 			} else {
-				m = simpleJdbcCall.returningResultSet(frame_jdbc_call_key, BeanPropertyRowMapper.newInstance(clazz))
+				m = simpleJdbcCall.returningResultSet(frame_jdbc_call_key, FrameBeanPropertyRowMapper.newInstance(clazz))
 						.execute();
 			}
 		}
@@ -296,7 +296,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 				return getReadJdbc().queryForList(pageSql, finder.getParams(), clazz);
 			}
 		} else {
-			return getReadJdbc().query(pageSql, finder.getParams(), BeanPropertyRowMapper.newInstance(clazz));
+			return getReadJdbc().query(pageSql, finder.getParams(), FrameBeanPropertyRowMapper.newInstance(clazz));
 		}
 	}
 
@@ -528,7 +528,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 
 			} else {
 				t = (T) getReadJdbc().queryForObject(finder.getSql(), finder.getParams(),
-						BeanPropertyRowMapper.newInstance(clazz));
+						FrameBeanPropertyRowMapper.newInstance(clazz));
 			}
 		} catch (EmptyResultDataAccessException e) {
 			logger.error(e.getMessage(),e);

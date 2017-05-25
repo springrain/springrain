@@ -12,8 +12,6 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springrain.weixin.sdk.common.api.IWxErrorExceptionHandler;
-import org.springrain.weixin.sdk.common.api.IWxMessageDuplicateChecker;
-import org.springrain.weixin.sdk.common.api.WxMessageInMemoryDuplicateChecker;
 import org.springrain.weixin.sdk.common.util.LogExceptionHandler;
 import org.springrain.weixin.sdk.cp.bean.WxCpXmlMessage;
 import org.springrain.weixin.sdk.cp.bean.WxCpXmlOutMessage;
@@ -56,7 +54,7 @@ public class WxCpMessageRouter {
 
   private ExecutorService executorService;
 
-  private IWxMessageDuplicateChecker messageDuplicateChecker;
+ // private IWxMessageDuplicateChecker messageDuplicateChecker;
 
 
   private IWxErrorExceptionHandler exceptionHandler;
@@ -67,7 +65,7 @@ public class WxCpMessageRouter {
     
     this.executorService = new ThreadPoolExecutor(10, DEFAULT_THREAD_POOL_SIZE, 10L,TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(1000));
     
-    this.messageDuplicateChecker = new WxMessageInMemoryDuplicateChecker();
+    //this.messageDuplicateChecker = new WxMessageInMemoryDuplicateChecker();
     this.exceptionHandler = new LogExceptionHandler();
   }
 
@@ -91,10 +89,11 @@ public class WxCpMessageRouter {
    *
    * @param messageDuplicateChecker
    */
+  /*
   public void setMessageDuplicateChecker(IWxMessageDuplicateChecker messageDuplicateChecker) {
     this.messageDuplicateChecker = messageDuplicateChecker;
   }
-
+*/
   /**
    * <pre>
    * 设置自定义的{@link org.springrain.weixin.sdk.common.api.IWxErrorExceptionHandler}
@@ -125,10 +124,14 @@ public class WxCpMessageRouter {
    */
   @SuppressWarnings("rawtypes")
 public WxCpXmlOutMessage route(final WxCpXmlMessage wxMessage) {
+	  
+	/**  
     if (isDuplicateMessage(wxMessage)) {
       // 如果是重复消息，那么就不做处理
       return null;
     }
+    **/
+    
 
     final List<WxCpMessageRouterRule> matchRules = new ArrayList<>();
     // 收集匹配的规则
@@ -186,6 +189,7 @@ public WxCpXmlOutMessage route(final WxCpXmlMessage wxMessage) {
     return res;
   }
 
+  /**
   protected boolean isDuplicateMessage(WxCpXmlMessage wxMessage) {
 
     String messageId = "";
@@ -203,6 +207,6 @@ public WxCpXmlOutMessage route(final WxCpXmlMessage wxMessage) {
     return this.messageDuplicateChecker.isDuplicate(messageId);
 
   }
-
+*/
 
 }

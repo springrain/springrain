@@ -19,7 +19,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD) 
 public @interface LuceneField  {
-    String name() default "";  
-    //字段名称,String,Integer,Long,Double,Float,Date
-    String fieldType() default "String";  
+
 }

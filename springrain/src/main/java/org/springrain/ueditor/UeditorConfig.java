@@ -20,9 +20,9 @@ public class UeditorConfig implements java.io.Serializable {
     public static final String FIELD_NAME = "file";
     public static final String SCRAWL_TYPE = ".jpg";
 
-    private static  List<String> CATCHER_DOMAIN = new ArrayList<>(Arrays.asList( "127.0.0.1", "localhost"));
+    private static  List<String> CATCHER_DOMAIN = new ArrayList<>(Arrays.asList( "127.0.0.1", "localhost","mp.weixin.qq.com"));
     
-    private static  List<String> IMAGE_ALLOW_FILES =new ArrayList<>( Arrays.asList( ".png", ".jpg", ".jpeg", ".gif", ".bmp" ));
+    private static  List<String> IMAGE_ALLOW_FILES =new ArrayList<>( Arrays.asList( ".png", ".jpg", ".jpeg", ".gif", ".bmp",".webp" ));
 
     private static  List<String> VIDEO_ALLOW_FILES = new ArrayList<>(Arrays.asList(".flv", ".swf", ".mkv", ".avi", ".rm", ".rmvb", ".mpeg",
             ".mpg", ".ogg", ".ogv", ".mov", ".wmv", ".mp4", ".webm", ".mp3", ".wav", ".mid" ));
@@ -81,7 +81,7 @@ public class UeditorConfig implements java.io.Serializable {
     private String videoActionName=ACTION_UPLOAD_VIDEO;
     private String videoFieldName=FIELD_NAME;
     private String videoUrlPrefix;
-    private Integer videoMaxSize=102400000;
+    private Integer videoMaxSize=1024000000;
     private List<String> videoAllowFiles=VIDEO_ALLOW_FILES;
     
     

@@ -6,6 +6,7 @@ package org.springrain.weixin.sdk.common.api;
  * 微信服务器在五秒内收不到响应会断掉连接，并且重新发起请求，总共重试三次
  * </pre>
  */
+@Deprecated
 public interface IWxMessageDuplicateChecker {
 
   /**

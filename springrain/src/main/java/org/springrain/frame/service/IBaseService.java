@@ -33,13 +33,21 @@ public interface IBaseService {
 	 * @throws Exception
 	 */
 	public SpringUtils getSpringUtils() throws Exception;
+	
 	/**
-	 * 获取 获取 spring 中的Bean
+	 * 根据beanName 获取 spring bean
 	 * @param beanName
 	 * @return
 	 * @throws Exception
 	 */
 	public  Object getBean(String beanName) throws Exception;
+	
+	/**
+	 * 根据bean type 获取springBean
+	 * @param clazz
+	 * @return
+	 */
+	public  Object getBeanByType(Class clazz) throws Exception;
 	
 	
 	/**
@@ -123,6 +131,9 @@ public interface IBaseService {
 	 */
 	
 	public<T> File findDataExportExcel(Finder finder,String ftlurl,Page page,Class<T> clazz,  Object queryBean) throws Exception;
+	
+	@SuppressWarnings("rawtypes")
+	public<T> File findDataExportExcel(Finder finder,String ftlurl,Page page,Class<T> clazz,  Object queryBean,Map map) throws Exception;
 	
 	
 	/**

@@ -22,8 +22,6 @@ import java.util.UUID;
 
 import javax.annotation.Resource;
 
-import jxl.Cell;
-
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cache.Cache;
@@ -47,6 +45,7 @@ import org.springrain.frame.util.SecUtils;
 import org.springrain.frame.util.SpringUtils;
 
 import freemarker.template.Template;
+import jxl.Cell;
 /**
  * 基础的Service父类,所有的Service都必须继承此类,每个数据库都需要一个实现.</br> 
  * 例如 demo数据的实现类是org.springrain.springrain.service.BasedemoServiceImpl,demo2数据的实现类是org.springrain.demo2.service.Basedemo2ServiceImpl</br>
@@ -69,17 +68,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 
 	public abstract IBaseJdbcDao getBaseDao();
 
-	/**
-	 * 获取spring Bean
-	 */
-	@SuppressWarnings("static-access")
-	@Override
-	public Object getBean(String beanName) throws Exception {
-		if (beanName == null)
-			return null;
-		return getSpringUtils().getBean(beanName);
-	}
-
+	
 	/**
 	 * @return the springUtils
 	 */
@@ -87,6 +76,25 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 		return springUtils;
 	}
 	
+	
+	/**
+	 *根据beanName 获取 spring bean
+	 */
+	@Override
+	public Object getBean(String beanName) throws Exception {
+		if (beanName == null)
+			return null;
+		return getSpringUtils().getBean(beanName);
+	}
+	/**
+	 * 根据bean type 获取springBean
+	 * @param clazz
+	 * @return
+	 */
+	public  Object getBeanByType(Class clazz) throws Exception {
+		return getSpringUtils().getBeanByType(clazz);
+	}
+
 	
 	@Override
 	public Cache getCache(String cacheName) throws Exception {
@@ -122,13 +130,14 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 
 	@Override
 	public <T> T getByCache(String cacheName, String key, Class<T> clazz,Page page) throws Exception {
-		
+		 
+		 
 		if( page==null||page.getPageIndex()==null||StringUtils.isBlank(key)){
 			return null;
 		}
 		
 		
-		String listKey=key+"_"+page.getPageIndex();
+		String listKey=key+"_"+page.toString();
 		T t = getByCache(cacheName,listKey, clazz);
 		
 		if(t==null){
@@ -148,7 +157,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 			 if( page==null||page.getPageIndex()==null||StringUtils.isBlank(key)){
 					return;
 				}
-		       String listKey=key+"_"+page.getPageIndex();
+		       String listKey=key+"_"+page.toString();
 		       putByCache(cacheName,listKey, value);
 		         
 		       if(page!=null){
@@ -369,6 +378,83 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 			page.setPageIndex(i);
 			datas = findListDataByFinder(finder, page, clazz, queryBean);
 			returnDatas.setData(datas);
+			map.put(GlobalStatic.returnDatas, returnDatas);
+			createExceFile(template, ffile, excelFile, first, end, map);
+		}
+		if (ffile.exists()) {
+			ffile.delete();
+		}
+		
+		if(excelFile.exists()){
+			excelFile.setReadOnly();
+		}
+		// excel转化
+		try {
+			File excelnew = new File(GlobalStatic.tempRootpath + "/" + fileName
+					+ "/" + SecUtils.getUUID() + GlobalStatic.excelext);
+			OpenOfficeKit.cvtXls(excelFile, excelnew);
+			return excelnew;
+		} catch (Exception e) {
+			logger.error(e.getMessage(),e);
+		}
+		return excelFile;
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public <T> File findDataExportExcel(Finder finder, String ftlurl,
+			Page page, Class<T> clazz, Object queryBean,Map map) throws Exception {
+		
+		if(freeMarkerConfigurer==null){
+			freeMarkerConfigurer=(FreeMarkerConfigurer) SpringUtils.getBean("freeMarkerConfigurer");
+		}
+		
+		if(freeMarkerConfigurer==null){
+			return null;
+		}
+		
+		
+		//Map map = new HashMap();
+		ReturnDatas returnDatas=new ReturnDatas();
+		map.put(GlobalStatic.exportexcel, true);// 设置导出excel变量
+		Template template = freeMarkerConfigurer.getConfiguration()
+				.getTemplate(ftlurl + GlobalStatic.suffix);
+		//page.setPageSize(GlobalStatic.excelPageSize);
+		page.setPageIndex(1);
+		List datas = findListDataByFinder(finder, page, clazz, queryBean);
+		//returnDatas.setData(datas);
+		returnDatas.setPage(page);
+		returnDatas.setQueryBean(queryBean);
+		map.put(GlobalStatic.returnDatas, returnDatas);
+		String fileName = UUID.randomUUID().toString();
+		String tempFFilepath = GlobalStatic.tempRootpath + "/" + fileName
+				+ "/freemarker.html";
+		String tempExcelpath = GlobalStatic.tempRootpath + "/" + fileName + "/"
+				+ fileName + GlobalStatic.excelext;
+		File tempfdir = new File(GlobalStatic.tempRootpath + "/" + fileName);
+		if (tempfdir.exists() == false) {
+			tempfdir.mkdirs();
+		}
+
+		File ffile = new File(tempFFilepath);
+
+		File excelFile = new File(tempExcelpath);
+		boolean first = true;
+		boolean end = false;
+		int pageCount = page.getPageCount();
+		if (pageCount < 2) {
+			pageCount = 1;
+			end = true;
+		}
+		createExceFile(template, ffile, excelFile, first, end, map);
+		first = false;
+		for (int i = 2; i <= pageCount; i++) {
+			if (i == pageCount) {
+				end = true;
+			}
+			page.setPageIndex(i);
+			//datas = findListDataByFinder(finder, page, clazz, queryBean);
+			//returnDatas.setData(datas);
 			map.put(GlobalStatic.returnDatas, returnDatas);
 			createExceFile(template, ffile, excelFile, first, end, map);
 		}
@@ -769,7 +855,6 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 					message.append(s).append("</br>");
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
 				logger.error(e.getMessage(),e);
 				throw new Exception("第" + (j + 1) + "行,保存失败");
 			}

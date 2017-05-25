@@ -1,18 +1,14 @@
 package org.springrain.weixin.service.impl;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springrain.frame.util.GlobalStatic;
 import org.springrain.system.service.BaseSpringrainServiceImpl;
 import org.springrain.weixin.entity.WxMpConfig;
 import org.springrain.weixin.sdk.common.api.IWxMpConfig;
@@ -106,10 +102,10 @@ public class WxMpConfigServiceImpl extends BaseSpringrainServiceImpl implements 
 		
 		IWxMpConfig wxMpConfig=null;
 		try {
-			wxMpConfig = super.getByCache(id, id, IWxMpConfig.class);
+			wxMpConfig = super.getByCache(id,  GlobalStatic.mpConfigCacheKey, IWxMpConfig.class);
 			if(wxMpConfig==null){
 				wxMpConfig = super.findById(id, WxMpConfig.class);
-				super.putByCache(id, id, wxMpConfig);
+				super.putByCache(id,GlobalStatic.mpConfigCacheKey, wxMpConfig);
 			}
 		} catch (Exception e) {
 			wxMpConfig=null;
@@ -132,7 +128,7 @@ public class WxMpConfigServiceImpl extends BaseSpringrainServiceImpl implements 
 		}
 		
 		try {
-			super.putByCache(id, id, wxmpconfig);
+			super.putByCache(id, GlobalStatic.mpConfigCacheKey, wxmpconfig);
 		} catch (Exception e) {
 			logger.error(e.getMessage(),e);
 		}
@@ -143,14 +139,15 @@ public class WxMpConfigServiceImpl extends BaseSpringrainServiceImpl implements 
 
 
 	@Override
-	public Map<String, String> findMpJsapiParam(String siteId,
-			HttpServletRequest request) throws WxErrorException {
-		Map<String, String> params = new HashMap<String, String>();
-		IWxMpConfig wxMpConfig = this.findWxMpConfigById(siteId);
+	public Map<String, String> findMpJsApiParam(IWxMpConfig wxMpConfig,String url) throws WxErrorException {
+
+		if(wxMpConfig==null||StringUtils.isBlank(url)){
+			return null;
+		}
 		
+		Map<String, String> params = new HashMap<String, String>();
 		String jsapiTicket=wxMpService.getJsApiTicket(wxMpConfig);
 		String nonceStr=RandomStringUtils.random(32, "123456789"); // 8位随机数
-		String url = request.getRequestURL().toString()+(request.getQueryString()==null?"":"?"+request.getQueryString());
 		String timestamp=String.valueOf(System.currentTimeMillis() / 1000);
 		String jsApiSignature=this.getSignature(nonceStr, jsapiTicket, timestamp, url);
 		
@@ -164,28 +161,27 @@ public class WxMpConfigServiceImpl extends BaseSpringrainServiceImpl implements 
 
 	private String getSignature(String nonceStr, String jsapiTicket,
 			String timestamp, String url) {
-		SortedMap<String, String> packageParams = new TreeMap<String, String>();
-		packageParams.put("noncestr", nonceStr);
-		packageParams.put("jsapi_ticket", jsapiTicket);
-		packageParams.put("timestamp", timestamp);
-		packageParams.put("url", url);
-		StringBuilder sb = new StringBuilder();
-		Set es = packageParams.entrySet();
-		Iterator it = es.iterator();
-		while (it.hasNext()) {
-			Map.Entry entry = (Map.Entry) it.next();
-			String k = (String) entry.getKey();
-			String v = (String) entry.getValue();
-				sb.append(k + "=" + v + "&");
-		}
-		return SHA1.gen(sb.toString().substring(0,sb.length()-1));
+		
+		StringBuilder sb=new StringBuilder();
+		sb.append("jsapi_ticket=").append(jsapiTicket).append("&noncestr=").append(nonceStr).append("&timestamp=").append(timestamp).append("&url=").append(url);
+		
+		return SHA1.gen(sb.toString());
+		
+		
 	}
-
 
 	@Override
 	public WxAccessToken getCustomAPIAccessToken(IWxMpConfig wxmpconfig) {
-		
-		
+		try {
+			
+			//默认命名方式,建议继承这个wxMpConfigService重写这个方法,新Service请遵循默认的命名规则
+			IWxMpConfigService wxMpConfigBean = (IWxMpConfigService) getBean("wxMpConfigService_"+wxmpconfig.getId());
+			if(wxMpConfigBean!=null){
+				return wxMpConfigBean.getCustomAPIAccessToken(wxmpconfig);
+			}
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
 		return null;
 	}
 	

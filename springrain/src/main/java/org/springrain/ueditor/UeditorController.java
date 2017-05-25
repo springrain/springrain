@@ -48,6 +48,7 @@ public class UeditorController extends BaseController {
 	            put("image/jpg", ".jpg");
 	            put("image/png", ".png");
 	            put("image/bmp", ".bmp");
+	            put("image/webp", ".webp");
 	        }
 	    };
 	
@@ -142,6 +143,9 @@ public class UeditorController extends BaseController {
     	MultipartFile file = requestfile.getFile(fieldName);
         String originalName = file.getOriginalFilename();
         String suffix = FileUtils.getSuffix(originalName);
+        if(StringUtils.isNotBlank(suffix)){
+        	suffix=suffix.toLowerCase();
+        }
         
         if(!allows.contains(suffix)){
         	return getResultMap(false);
@@ -273,14 +277,14 @@ public class UeditorController extends BaseController {
 	 
 	 
 	 for(String fileName:fileNames){
+		
+		
 		 CloseableHttpClient httpClient = HttpClientUtils.getHttpClient();
 		 HttpGet httpGet=new HttpGet(fileName);
 		 CloseableHttpResponse response = httpClient.execute(httpGet);
 		 HttpEntity entity = response.getEntity();
 		 
-		 
 		 try{
-			 
 			 if(entity==null){
 				 continue;
 			 }
@@ -295,10 +299,19 @@ public class UeditorController extends BaseController {
 			 if(headers==null||headers.length<1){
 				 continue;
 			 }
-			 String  suffix = CONTENT_TYPE_MAP.get(entity.getContentType().getElements()[0].getName());
-			 if(StringUtils.isEmpty(suffix)){
-				suffix=UeditorConfig.SCRAWL_TYPE;
+			 
+			 String suffixKey=entity.getContentType().getElements()[0].getName();
+			 String  suffix=null;
+			 
+			 if(StringUtils.isNotBlank(suffixKey)){
+				   suffix = CONTENT_TYPE_MAP.get(suffixKey.toLowerCase());
 			 }
+			 
+			 if(StringUtils.isNotBlank(suffix)){
+		        	suffix=suffix.toLowerCase();
+		     }else{
+		    	 suffix=UeditorConfig.SCRAWL_TYPE;	
+		     }
 			 
 		     if(!config.getCatcherAllowFiles().contains(suffix)){
 		        return getResultMap(false);
@@ -325,9 +338,9 @@ public class UeditorController extends BaseController {
 			  if(response!=null){
 				 response.close();
 			  }
-			  if(httpClient!=null){
-				  httpClient.close();
-			  }
+			  //if(httpClient!=null){
+			//	  httpClient.close();
+			 // }
 			  
 		 }
 		 

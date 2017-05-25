@@ -144,6 +144,18 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		}
 
 		if (user != null) {
+			
+			Integer active=user.getActive();
+			if(active==null){
+				active=0;
+			}
+			
+			if(1-user.getActive()!=0){
+				throw new LockedAccountException("您的账号正在审核中,暂无法登陆."); 
+			}
+			
+			
+			
 			// 要放在作用域中的东西，请在这里进行操作
 			// SecurityUtils.getSubject().getSession().setAttribute("c_user",
 			// user);

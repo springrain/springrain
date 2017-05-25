@@ -136,10 +136,13 @@ public class CmsSiteWxconfigController  extends BaseController {
 		
 			java.lang.String id =wxMpConfig.getId();
 			if(StringUtils.isBlank(id)){
-				wxMpConfig.setId(null);
+				wxMpConfig.setId(wxMpConfig.getSiteId());
+				wxMpServletService.saveWxMpConfig(wxMpConfig);
+			} else {
+				wxMpServletService.updateWxMpConfig(wxMpConfig);
 			}
 		
-			wxMpServletService.saveorupdate(wxMpConfig);
+			//wxMpServletService.saveorupdate(wxMpConfig);
 			
 		} catch (Exception e) {
 			logger.error(e.getMessage(),e);
@@ -224,7 +227,7 @@ public class CmsSiteWxconfigController  extends BaseController {
 	public String mpList(HttpServletRequest request, Model model,WxMpConfig WxMpConfig) throws Exception{
 		ReturnDatas returnObject = listjson(request, model, WxMpConfig);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
-		return "/mp/menu/mpList";
+		return "/weixin/mp/menu/mpList";
 	}
 	
 	/**
@@ -244,6 +247,6 @@ public class CmsSiteWxconfigController  extends BaseController {
 		}
 		returnDatas.setData(datas);
 		model.addAttribute(GlobalStatic.returnDatas, returnDatas);
-		return "/mp/menu/menuCru";
+		return "/weixin/mp/menu/menuCru";
 	}
 }

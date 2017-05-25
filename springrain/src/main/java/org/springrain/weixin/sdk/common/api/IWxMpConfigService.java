@@ -2,8 +2,6 @@ package org.springrain.weixin.sdk.common.api;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springrain.weixin.sdk.common.bean.WxAccessToken;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
 
@@ -81,7 +79,7 @@ public interface IWxMpConfigService {
 	 * @return
 	 * @throws WxErrorException 
 	 */
-	Map<String, String> findMpJsapiParam(String siteId, HttpServletRequest request) throws WxErrorException;
+	Map<String, String> findMpJsApiParam(IWxMpConfig wxMpConfig,String url) throws WxErrorException;
 	
 	
 	/**

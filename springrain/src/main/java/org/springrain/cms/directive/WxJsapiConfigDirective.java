@@ -8,8 +8,8 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
 import org.springrain.cms.util.DirectiveUtils;
+import org.springrain.cms.util.SiteUtils;
 import org.springrain.weixin.sdk.common.api.IWxMpConfigService;
-import org.springrain.weixin.sdk.common.exception.WxErrorException;
 
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
@@ -31,8 +31,10 @@ public class WxJsapiConfigDirective extends AbstractCMSDirective{
 			TemplateDirectiveBody body) throws TemplateException, IOException {
 		Map<String, String> wxJsapiConf = null;
 		try {
-			wxJsapiConf = wxMpConfigService.findMpJsapiParam(getSiteId(params),getRequest());
-		} catch (WxErrorException e) {
+			//String url = request.getRequestURL().toString()+(request.getQueryString()==null?"":"?"+request.getQueryString());
+			String url = SiteUtils.getRequestURL(getRequest());
+			wxJsapiConf = wxMpConfigService.findMpJsApiParam(wxMpConfigService.findWxMpConfigById(getSiteId(params)),url);
+		} catch (Exception e) {
 			logger.error(e.getMessage(),e);
 		}
 		env.setVariable("wxJsapiConf", DirectiveUtils.wrap(wxJsapiConf));

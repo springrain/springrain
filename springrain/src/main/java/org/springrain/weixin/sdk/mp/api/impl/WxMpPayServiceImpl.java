@@ -443,7 +443,8 @@ public class WxMpPayServiceImpl implements IWxMpPayService {
 	      }
 
 
-    try (CloseableHttpClient httpclient = HttpClientUtils.getHttpClient()) {
+    try  {
+      CloseableHttpClient httpclient = HttpClientUtils.getHttpClient();
       httpPost.setEntity(new StringEntity(new String(requestStr.getBytes("UTF-8"), "ISO-8859-1")));
 
       try (CloseableHttpResponse response = httpclient.execute(httpPost)) {
@@ -473,8 +474,8 @@ public class WxMpPayServiceImpl implements IWxMpPayService {
 	        RequestConfig config = RequestConfig.custom().setProxy(new HttpHost(wxmpconfig.getHttpProxyHost(), wxmpconfig.getHttpProxyPort())).build();
 	        httpPost.setConfig(config);
 	      }
-
-      try (CloseableHttpClient httpclient = HttpClientUtils.getHttpClientBuilder().setSSLSocketFactory(sslsf).build()) {
+	    CloseableHttpClient httpclient = HttpClientUtils.getHttpClientBuilder().setSSLSocketFactory(sslsf).build();
+      try  {
         httpPost.setEntity(new StringEntity(new String(requestStr.getBytes("UTF-8"), "ISO-8859-1")));
         try (CloseableHttpResponse response = httpclient.execute(httpPost)) {
           String result = EntityUtils.toString(response.getEntity(), Consts.UTF_8);
