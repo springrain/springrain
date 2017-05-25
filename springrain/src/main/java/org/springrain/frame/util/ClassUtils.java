@@ -168,7 +168,7 @@ public class ClassUtils {
 			EntityInfo entityInfoByEntity = ClassUtils.getEntityInfoByEntity(object);
 			
 			if(entityInfoByEntity==null){
-				return object.getClass().getSimpleName();
+				return null;
 			}
 			
 			
@@ -181,7 +181,7 @@ public class ClassUtils {
 		
 
 		if(tableName==null){
-			return object.getClass().getSimpleName();
+			return null;
 		}
 		
 			return tableName;
