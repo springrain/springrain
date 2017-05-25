@@ -3,9 +3,11 @@ package test.dto;
 import java.util.Date;
 
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import org.springrain.frame.annotation.LuceneField;
 
+@Table(name="test1")
 public class LuceneDto {
     
     private String id;

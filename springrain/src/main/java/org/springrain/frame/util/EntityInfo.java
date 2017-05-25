@@ -1,5 +1,7 @@
 package org.springrain.frame.util;
 
+import java.util.List;
+
 /**
 * 记录缓存数据库一个表对应的Entity的信息
 *
@@ -20,15 +22,20 @@ public class EntityInfo {
 	private String pkName=null;
 
 	//是否分表
-	private boolean sharding=false;
-	/**
-	 * 主键序列
-	 */
+	private Boolean sharding=false;
+	
+	//主键序列
 	private String pksequence=null;
-	/**
-	 * 是否不记录日志,默认false 为记录
-	 */
-	private boolean notLog=false;
+	// 是否不记录日志,默认false 为记录
+	private Boolean notLog=false;
+	
+	//是否包含LuceneSearch注解
+	private Boolean luceneSearchAnnotation=false;
+	//是否包含Table注解
+	private Boolean tableAnnotation=false;
+	
+	//包含的字段信息
+	private List<FieldInfo> fields;
 	
 	
 	/**
@@ -73,10 +80,10 @@ public class EntityInfo {
 	public void setPkName(String pkName) {
 		this.pkName = pkName;
 	}
-	public boolean isSharding() {
+	public Boolean isSharding() {
 		return sharding;
 	}
-	public void setSharding(boolean sharding) {
+	public void setSharding(Boolean sharding) {
 		this.sharding = sharding;
 	}
 	public String getPksequence() {
@@ -85,10 +92,10 @@ public class EntityInfo {
 	public void setPksequence(String pksequence) {
 		this.pksequence = pksequence;
 	}
-	public boolean isNotLog() {
+	public Boolean isNotLog() {
 		return notLog;
 	}
-	public void setNotLog(boolean notLog) {
+	public void setNotLog(Boolean notLog) {
 		this.notLog = notLog;
 	}
 	@SuppressWarnings("rawtypes")
@@ -99,6 +106,24 @@ public class EntityInfo {
 	public void setPkReturnType(Class pkReturnType) {
 		this.pkReturnType = pkReturnType;
 	}
+    public Boolean getLuceneSearchAnnotation() {
+        return luceneSearchAnnotation;
+    }
+    public void setLuceneSearchAnnotation(Boolean luceneSearchAnnotation) {
+        this.luceneSearchAnnotation = luceneSearchAnnotation;
+    }
+    public Boolean getTableAnnotation() {
+        return tableAnnotation;
+    }
+    public void setTableAnnotation(Boolean tableAnnotation) {
+        this.tableAnnotation = tableAnnotation;
+    }
+    public List<FieldInfo> getFields() {
+        return fields;
+    }
+    public void setFields(List<FieldInfo> fields) {
+        this.fields = fields;
+    }
 
 
 }

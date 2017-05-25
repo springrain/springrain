@@ -62,12 +62,16 @@ public class LuceneUtils {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static List searchDocument(String rootdir,Class clazz, Page page,
 			String searchkeyword) throws Exception {
-		List<String> luceneFields = ClassUtils.getLuceneFields(clazz);
+		List<FieldInfo> luceneFields = ClassUtils.getLuceneFields(clazz);
 		if (CollectionUtils.isEmpty(luceneFields)) {
 			return null;
 		}
-		String[] fields = (String[]) luceneFields
-				.toArray(new String[luceneFields.size()]);
+		
+		String[] fields=new String[luceneFields.size()];
+		
+		for(int i=0;i<luceneFields.size();i++){
+		    fields[i]=luceneFields.get(i).getFieldName();
+		}
 		return searchDocument( rootdir,clazz, page, fields, searchkeyword);
 	}
 
@@ -260,11 +264,17 @@ public class LuceneUtils {
 	    }
 	    
 	    Class clazz=t.getClass();
-	    List<String> luceneFields = ClassUtils.getLuceneFields(clazz);
-	    for (String fieldName : luceneFields) {
+	    List<FieldInfo> luceneFields = ClassUtils.getLuceneFields(clazz);
+	    
+	    if(CollectionUtils.isEmpty(luceneFields)){
+	        return null;
+	    }
+	    for (FieldInfo finfo : luceneFields) {
+	        String fieldName=finfo.getFieldName();
+	        
             String fieldValue = document.get(fieldName);
             
-              String typeName = ClassUtils.getLuceneFieldType(clazz, fieldName);
+             String typeName =finfo.getFieldType().getSimpleName().toLowerCase();
             
             if(typeName.equals("integer")||typeName.equals("int")){//数字只作为存储类型,不进行索引
                 ClassUtils.setPropertieValue(fieldName, t, Integer.valueOf(fieldValue));
@@ -290,14 +300,15 @@ public class LuceneUtils {
 	
 	private static Document bean2Document(Object entity) throws Exception{
 	 // 获取索引的字段,为null则不进行保存
-        List<String> luceneFields = ClassUtils.getLuceneFields(entity
-                .getClass());
+        List<FieldInfo> luceneFields = ClassUtils.getLuceneFields(entity.getClass());
         if (CollectionUtils.isEmpty(luceneFields)) {
             return null;
         }
 
 	    Document doc = new Document();
-        for (String fieldName : luceneFields) {
+        for (FieldInfo finfo : luceneFields) {
+            
+            String fieldName=finfo.getFieldName();
             Object _obj = ClassUtils.getPropertieValue(fieldName, entity);
             if (_obj == null||StringUtils.isBlank(_obj.toString())) {
                 continue;
@@ -306,7 +317,7 @@ public class LuceneUtils {
             
             Field _field = null;
             
-            String typeName = ClassUtils.getLuceneFieldType(entity.getClass(), fieldName);
+            String typeName =finfo.getFieldType().getSimpleName().toLowerCase();
             if(typeName.equals("int")||typeName.equals("integer")){//数字只作为存储类型,不进行索引
                 _field=new StoredField(fieldName, Integer.valueOf(_value));
             }else if(typeName.equals("long")){//数字只作为存储类型,不进行索引
@@ -393,7 +404,7 @@ public class LuceneUtils {
 	@SuppressWarnings("rawtypes")
 	public  static String deleteDocument(String rootdir,Object id, Class clazz)
 			throws Exception {
-		List<String> luceneFields = ClassUtils.getLuceneFields(clazz);
+		List<FieldInfo> luceneFields = ClassUtils.getLuceneFields(clazz);
 		if (CollectionUtils.isEmpty(luceneFields)) {
 			return "error";
 		}
@@ -429,7 +440,7 @@ public class LuceneUtils {
 	@SuppressWarnings("rawtypes")
 	public static String deleteListDocument(String rootdir,List<String> ids, Class clazz)
 			throws Exception {
-		List<String> luceneFields = ClassUtils.getLuceneFields(clazz);
+		List<FieldInfo> luceneFields = ClassUtils.getLuceneFields(clazz);
 		if (CollectionUtils.isEmpty(luceneFields)) {
 			return "error";
 		}

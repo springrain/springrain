@@ -45,27 +45,9 @@ public class ClassUtils {
 	private static final  Logger logger = LoggerFactory.getLogger(ClassUtils.class);
 	//缓存 entity的字段信息
 	private static Map<String,EntityInfo> staticEntitymap=new  ConcurrentHashMap<>();
-	//缓存 所有的WhereSql注解
-	private static Map<String, List<WhereSQLInfo>> staticWhereSQLmap=new  ConcurrentHashMap<>();
-	//缓存 所有的字段
-	private static Map<String, Set<String>> allFieldmap=new  ConcurrentHashMap<>();
-	
-
-	
-	//缓存 所有的数据库字段
-	private static Map<String, List<String>> allDBFieldmap=new  ConcurrentHashMap<>();
-	
-
-	
-	//缓存 实体类是否进行LuceneSearch
-	private static Map<String,Boolean> luceneSearchmap=new  ConcurrentHashMap<>();
-	
-	//缓存 所有的参与Lucene的字段
-	private static Map<String,List<String>> allLucenemap=new  ConcurrentHashMap<>();
 	
 	
-    //缓存 所有的字段的类型,key是 className+"_"+fieldName
-  private static Map<String, String> luceneFieldTypemap=new  ConcurrentHashMap<>();
+	
 	
 	
 	private ClassUtils(){
@@ -82,56 +64,44 @@ public class ClassUtils {
  */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static EntityInfo getEntityInfoByClass(Class clazz) throws Exception{
-		if(clazz==null)
-			return null;
+		if(clazz==null){
+		    return null;
+		}
 		String className=clazz.getName();
-		if(className==null)
-			return null;
+		
 		boolean iskey=staticEntitymap.containsKey(className);
 		if(iskey){
 			return staticEntitymap.get(className);
 		}
 
-		
-		 if((clazz.isAnnotationPresent(Table.class)==false)){
-			 return null;
+		 EntityInfo info=new EntityInfo();
+		 
+		 if((clazz.isAnnotationPresent(Table.class))){
+		    info.setTableAnnotation(true);
 		 }
-		
+	      
+	     if(clazz.isAnnotationPresent(TableSuffix.class)){
+	        info.setSharding(true);
+	     }
+	     if(clazz.isAnnotationPresent(NotLog.class)){
+	            info.setNotLog(true);
+	     }
+	     
+	     if(clazz.isAnnotationPresent(LuceneSearch.class)){
+	         info.setLuceneSearchAnnotation(true);
+	     }
+	     
 		String tableName = ClassUtils.getTableNameByClass(clazz);
-		if(tableName==null)
-			return null;
-		EntityInfo info=new EntityInfo();
 		info.setTableName(tableName);
 		info.setClassName(clazz.getName());
-		List<String> fields = ClassUtils.getAllDBFields(clazz);
-    	if(fields==null)
-		return null;
-    	 for(String fdName:fields){
- 			boolean ispk= isAnnotation(clazz,fdName,Id.class);
- 			if(ispk==true){
- 				info.setPkName(fdName);
- 			  boolean isSequence=	 isAnnotation(clazz,fdName,PKSequence.class);
- 			 Class returnType = getReturnType(fdName, clazz);
- 			info.setPkReturnType(returnType);
- 			  if(isSequence){
- 					PropertyDescriptor pd = new PropertyDescriptor(fdName, clazz);
- 					Method getMethod = pd.getReadMethod();// 获得get方法
- 					PKSequence sequenceAnnotation = getMethod.getAnnotation(PKSequence.class);
- 					info.setPksequence(sequenceAnnotation.name());
- 			  }
- 				break;
- 			}
- 		 }
-    	
-    	
-   	 if(clazz.isAnnotationPresent(TableSuffix.class)){
-   		info.setSharding(true);
-	 }
- 	 if(clazz.isAnnotationPresent(NotLog.class)){
-    		info.setNotLog(true);
- 	 }
-   	     	staticEntitymap.put(className,info);
-		return staticEntitymap.get(className);
+		
+		List<FieldInfo> fields=new ArrayList<>();
+		info.setFields(fields);
+		recursionFiled(clazz,info,fields);
+ 	 
+     	staticEntitymap.put(className,info);
+     	
+        return info;
 	}
 	/**
 	 * 根据对象获取Entity信息,主要是为了获取分表的信息
@@ -153,181 +123,6 @@ public class ClassUtils {
 		return info;
 	}
 
-	
-	
-	/**
-	 * 根据ClassName获取wheresql 注解的类信息
-	 * @param className
-	 * @return
-	 * @throws Exception 
-	 * @throws ClassNotFoundException 
-	 */
-	@SuppressWarnings("rawtypes")
-	public static List<WhereSQLInfo> getWhereSQLInfo(Class clazz) throws  Exception{
-		if(clazz==null)
-			return null;
-		String className=clazz.getName();
-		if(StringUtils.isBlank(className)){
-			return null;
-		}
-		
-		boolean iskey=staticWhereSQLmap.containsKey(className);
-		if(iskey){
-			return staticWhereSQLmap.get(className);
-		}
-		Set<String> names = getAllFieldNames(clazz);
-		if(CollectionUtils.isEmpty(names))
-			return null;
-		
-		 List<WhereSQLInfo>  wheresql=new ArrayList<> ();
-		for(String name:names){
-			boolean isWhereSQL= isAnnotation(clazz,name,WhereSQL.class);
-			if(isWhereSQL==false){
-				continue;
-			}
-			
-			PropertyDescriptor pd = new PropertyDescriptor(name, clazz);
-			Method getMethod = pd.getReadMethod();// 获得get方法
-			
-			WhereSQL ws= (WhereSQL) getMethod.getAnnotation(WhereSQL.class);
-			WhereSQLInfo info=new WhereSQLInfo();
-			info.setName(name);
-			info.setWheresql(ws.sql());
-			wheresql.add(info);
-		}
-		
-		return wheresql;
-		
-	}
-	
-	
-	/**
-	 * 根据fieldName查看返回类型
-	 * @param clazz
-	 * @param fieldName
-	 * @return
-	 * @throws Exception
-	 */
-	public static String getLuceneFieldType(Class clazz,String fieldName) throws Exception{
-	    if(clazz==null||StringUtils.isBlank(fieldName)){
-	        return null;
-	    }
-	    getLuceneFields(clazz);
-	    String key=clazz.getName()+"_"+fieldName;
-	    return luceneFieldTypemap.get(key);
-	}
-	
-
-	/**
-	 * 获取一个类的所有属性名称,包括继承的父类
-	 * @param clazz
-	 * @return
-	 * @throws Exception
-	 */
-	@SuppressWarnings("rawtypes")
-	public static Set<String> getAllFieldNames(Class clazz) throws Exception{
-		if(clazz==null){
-			return null;
-		}
-		String className=clazz.getName();
-		boolean iskey=allFieldmap.containsKey(className);
-		if(iskey){
-		 return  allFieldmap.get(className);
-		}
-		Set<String>	allSet=new HashSet<String>();
-		allSet=	recursionFiled(clazz.getName(),clazz,allSet);
-		allFieldmap.put(className, allSet);
-		return allSet;
-	}
-	
-	
-	
-	
-	/**
-	 * 获取所有数据库的类字段对应的属性
-	 * @param clazz
-	 * @return
-	 * @throws Exception
-	 */
-	@SuppressWarnings("rawtypes")
-	public static List<String> getAllDBFields(Class clazz) throws Exception{
-		
-		if(clazz==null){
-			return null;
-		}
-		String className=clazz.getName();
-		boolean iskey=allDBFieldmap.containsKey(className);
-		if(iskey){
-			return allDBFieldmap.get(className);
-		}
-		
-		Set<String> allNames = getAllFieldNames(clazz);
-     if(CollectionUtils.isEmpty(allNames))
-    	 return null;
-    
-     List<String>   dbList=new ArrayList<>();
-	 for(String fdName:allNames){
-		boolean isDB= isAnnotation(clazz,fdName,Transient.class);
-		if(isDB==false){
-			dbList.add(fdName);
-		}
-	 }
-	 allDBFieldmap.put(className, dbList);
-		return dbList;
-	}
-	
-	
-	/**
-	 * 获取所有标注的lucene标注的字段,LuceneSearch标注为实体类使用了Lucene,LuceneField为字段进行了索引
-	 * @param clazz
-	 * @return
-	 * @throws Exception
-	 */
-	@SuppressWarnings("rawtypes")
-	public static List<String> getLuceneFields(Class clazz) throws Exception{
-		
-		if(clazz==null){
-			return null;
-		}
-		//检测
-		
-		//取消检测,增加手动模式
-		
-		// if(!clazz.isAnnotationPresent(LuceneSearch.class)){
-		//   		return null;
-		//}
-		String className=clazz.getName();
-		boolean iskey=allLucenemap.containsKey(className);
-		if(iskey){
-			return allLucenemap.get(className);
-		}
-		
-		Set<String> allNames = getAllFieldNames(clazz);
-     if(CollectionUtils.isEmpty(allNames))
-    	 return null;
-    
-     List<String>   luceneList=new ArrayList<>();
-	 for(String fdName:allNames){
-		boolean isLuceneField= isAnnotation(clazz,fdName,LuceneField.class);
-		if(!isLuceneField){
-		    continue;
-		}
-		
-		luceneList.add(fdName);
-		
-		Class typeClass=getReturnType(fdName, clazz);
-		String key=className+"_"+fdName;
-		String type=typeClass.getSimpleName().toLowerCase();
-		if(isAnnotation(clazz,fdName,Id.class)){//如果是Id的话
-		    type="id";
-		}
-		
-		luceneFieldTypemap.put(key, type);
-		
-	 }
-	     allLucenemap.put(className, luceneList);
-		return luceneList;
-	}
 	
 	
 	/**
@@ -407,7 +202,7 @@ public class ClassUtils {
 		}
 		
 		 if((clazz.isAnnotationPresent(Table.class)==false)){
-			 return clazz.getSimpleName();
+			 return null;
 		 }
 			 
 		 
@@ -415,7 +210,7 @@ public class ClassUtils {
 		
 		String tableName=table.name();
 		if(tableName==null){
-			return clazz.getSimpleName();
+			return null;
 		}
 			
 			return tableName;
@@ -436,8 +231,8 @@ public class ClassUtils {
 		if(clazz.isAnnotationPresent(TableSuffix.class)==false)
 			return "";
 		
-		TableSuffix group =	(TableSuffix)clazz.getAnnotation(TableSuffix.class);
-		String p=group.name();
+		TableSuffix suffix = (TableSuffix)clazz.getAnnotation(TableSuffix.class);
+		String p=suffix.name();
 		String  tableExt= (String) getPropertieValue(p, o);
 		return tableExt;
 		
@@ -453,18 +248,47 @@ public class ClassUtils {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("rawtypes")
-	private static  Set<String> recursionFiled(String clazzName,Class clazz,Set<String> fdNameSet) throws Exception {
+	private static  List<FieldInfo> recursionFiled(Class clazz,EntityInfo info,List<FieldInfo> fields) throws Exception {
 		Field[] fds = clazz.getDeclaredFields();
+		
 		for (int i = 0; i < fds.length; i++) {
+		    FieldInfo finfo=new FieldInfo();
 			Field fd = fds[i];
 			String fieldName=fd.getName();
-			fdNameSet.add(fieldName);
+			finfo.setFieldName(fieldName);//字段名称
+			finfo.setFieldType(fd.getType());//字段类型
+			PropertyDescriptor pd = new PropertyDescriptor(fieldName, clazz);
+	        Method getMethod = pd.getReadMethod();// 获得get方法
+			
+	        if(getMethod.isAnnotationPresent(Id.class)){//如果是主键
+                finfo.setPk(true);
+                info.setPkName(fieldName);
+                info.setPkReturnType(getMethod.getReturnType());
+            }
+	        
+	        if(getMethod.isAnnotationPresent(LuceneField.class)){//如果有LuceneField注解
+	            finfo.setLucene(true);
+	        }
+	        if(getMethod.isAnnotationPresent(Transient.class)){//如果不是数据库字段
+                finfo.setDb(false);
+            }
+	        if(getMethod.isAnnotationPresent(WhereSQL.class)){//如果有WhereSQL注解
+	            WhereSQL ws= (WhereSQL) getMethod.getAnnotation(WhereSQL.class);
+	            finfo.setWhereSQL(ws.sql());
+            }
+	        if(getMethod.isAnnotationPresent(PKSequence.class)){//如果有PKSequence注解
+	            PKSequence pkSequence= (PKSequence) getMethod.getAnnotation(PKSequence.class);
+                finfo.setPkSequence(pkSequence.name());
+                info.setPksequence(pkSequence.name());
+            }
+			
+			fields.add(finfo);
 		}
 		Class superClass = clazz.getSuperclass();
 		if (superClass != Object.class) {
-			recursionFiled(clazzName,superClass,fdNameSet);
+			recursionFiled(superClass,info,fields);
 		}
-		return fdNameSet;
+		return fields;
 	}
 	
 	
@@ -571,27 +395,94 @@ public class ClassUtils {
 		}
 	}
 	
-	
-	//实体类是否进行Lucene检索
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static boolean isLuceneSearch(Class clazz) throws Exception{
-		if(clazz==null)
-			return false;
-		String className=clazz.getName();
-		if(className==null){
-			return false;
-		}
-			
-		boolean iskey=luceneSearchmap.containsKey(className);
-		if(iskey){
-			return luceneSearchmap.get(className);
-		}
 
-		boolean isLuceneSearch=clazz.isAnnotationPresent(LuceneSearch.class);
-		luceneSearchmap.put(className,isLuceneSearch );
-		return isLuceneSearch;
-		
+	
+	private static Set<String> getAllFieldNames(Class clazz) throws Exception{
+	    EntityInfo entityInfoByClass = getEntityInfoByClass(clazz);
+	    if(entityInfoByClass==null){
+	        return null;
+	    }
+	    
+	    List<FieldInfo> fields = entityInfoByClass.getFields();
+	    if(CollectionUtils.isEmpty(fields)){
+	        return null;
+	    }
+	    
+	    Set<String> set=new HashSet<>();
+	    
+	    for(FieldInfo finfo:fields){
+	        set.add(finfo.getFieldName());
+	    }
+	    
+	    
+	    
+        return set;
 	}
+	
+	/**
+	 * 获取所有的数据库字段
+	 * @param clazz
+	 * @return
+	 * @throws Exception
+	 */
+	   public static List<String> getAllDBFields(Class clazz) throws Exception{
+	       EntityInfo entityInfoByClass = getEntityInfoByClass(clazz);
+	        if(entityInfoByClass==null){
+	            return null;
+	        }
+	        
+	        List<FieldInfo> fields = entityInfoByClass.getFields();
+	        if(CollectionUtils.isEmpty(fields)){
+	            return null;
+	        }
+	        
+	        List<String> list=new ArrayList<>();
+	        
+	        for(FieldInfo finfo:fields){
+	            if(finfo.getDb()){
+	                list.add(finfo.getFieldName());
+	            }
+	           
+	        }
+	        
+	        
+	        
+	        return list;
+	       
+	   }
+	
+	   
+	    /**
+	     * 获取所有的数据库字段
+	     * @param clazz
+	     * @return
+	     * @throws Exception
+	     */
+	       public static List<FieldInfo> getLuceneFields(Class clazz) throws Exception{
+	           EntityInfo entityInfoByClass = getEntityInfoByClass(clazz);
+	            if(entityInfoByClass==null){
+	                return null;
+	            }
+	            
+	            List<FieldInfo> fields = entityInfoByClass.getFields();
+	            if(CollectionUtils.isEmpty(fields)){
+	                return null;
+	            }
+	            
+	            List<FieldInfo> list=new ArrayList<>();
+	            
+	            for(FieldInfo finfo:fields){
+	                if(finfo.getLucene()){
+	                    list.add(finfo);
+	                }
+	               
+	            }
+	            
+	            
+	            
+	            return list;
+	           
+	       }
 	
 	
 	/**
@@ -612,6 +503,8 @@ public class ClassUtils {
 	        	logger.debug("ClassUtils.populate(" + bean + ", " +
 	                    properties + ")");
 	        }
+	        
+	       
 	        
 	        Set<String> allFieldNames = getAllFieldNames(bean.getClass());
 

@@ -30,13 +30,13 @@ import org.springrain.frame.entity.AuditLog;
 import org.springrain.frame.task.LuceneTask;
 import org.springrain.frame.util.ClassUtils;
 import org.springrain.frame.util.EntityInfo;
+import org.springrain.frame.util.FieldInfo;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.Page;
 import org.springrain.frame.util.RegexValidateUtils;
 import org.springrain.frame.util.SecUtils;
 import org.springrain.frame.util.ThreadPoolManager;
-import org.springrain.frame.util.WhereSQLInfo;
 
 /**
  * 基础的Dao父类,所有的Dao都必须继承此类,每个数据库都需要一个实现.</br>
@@ -363,7 +363,17 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 
 	@Override
 	public Finder getFinderWhereByQueryBean(Finder finder, Object o) throws Exception {
-		List<WhereSQLInfo> whereSQLInfo = ClassUtils.getWhereSQLInfo(o.getClass());
+		//List<WhereSQLInfo> whereSQLInfo = ClassUtils.getWhereSQLInfo(o.getClass());
+		
+		EntityInfo entityInfoByClass = ClassUtils.getEntityInfoByClass(o.getClass());
+		if(entityInfoByClass==null){
+		    return finder;
+		}
+		
+		List<FieldInfo> fields = entityInfoByClass.getFields();
+		if(CollectionUtils.isEmpty(fields)){
+		    return finder;
+		}
 
 		Object alias_o = ClassUtils.getPropertieValue(GlobalStatic.frameTableAlias, o);
 		String alias = null;
@@ -371,14 +381,18 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 			alias = alias_o.toString();
 		}
 
-		if (CollectionUtils.isNotEmpty(whereSQLInfo)) {
-			for (WhereSQLInfo whereinfo : whereSQLInfo) {
-				String name = whereinfo.getName();
+	     for (FieldInfo finfo : fields) {
+			    String wheresql=finfo.getWhereSQL();
+			    if(StringUtils.isBlank(wheresql)){
+			        continue;
+			    }
+			    
+			    
+				String name = finfo.getFieldName();
 				Object value = ClassUtils.getPropertieValue(name, o);
 				if (value == null || StringUtils.isBlank(value.toString())) {
 					continue;
 				}
-				String wheresql = whereinfo.getWheresql();
 				if (StringUtils.isNotBlank(alias)) {
 					wheresql = alias + "." + wheresql;
 				}
@@ -404,7 +418,6 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 					finder.append(" and ").append(wheresql).setParam(pname, value);
 				}
 			}
-		}
 
 		return finder;
 
@@ -670,8 +683,8 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		
 		// 保存到数据库
 		Object id = saveNoLog(entity);
-			 
-	     if(ClassUtils.isLuceneSearch(entity.getClass())){	 
+		EntityInfo entityInfo = ClassUtils.getEntityInfoByEntity(entity); 
+	     if(entityInfo.getLuceneSearchAnnotation()){	 
 			// 保存到索引文件
 			LuceneTask luceneTask = new LuceneTask(entity, LuceneTask.saveDocument);
 			ThreadPoolManager.addThread(luceneTask);
@@ -683,7 +696,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 			return id;
 		}
 
-		EntityInfo entityInfo = ClassUtils.getEntityInfoByEntity(entity);
+		
 		if (entityInfo.isNotLog()) {
 			return id;
 		}
@@ -740,7 +753,9 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 			updateList.add(i);
 		}
 		
-		if(ClassUtils.isLuceneSearch(list.get(0).getClass())){	 
+		EntityInfo entityInfo = ClassUtils.getEntityInfoByClass(list.get(0).getClass());
+		
+		if(entityInfo.getLuceneSearchAnnotation()){	 
 				// 更新到索引文件
 				LuceneTask luceneTask = new LuceneTask(list, LuceneTask.updateDocument);
 				ThreadPoolManager.addThread(luceneTask);
@@ -776,7 +791,8 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 			updateList.add(i);
 		}
 		
-		if(ClassUtils.isLuceneSearch(list.get(0).getClass())){
+       EntityInfo entityInfo = ClassUtils.getEntityInfoByClass(list.get(0).getClass());
+        if(entityInfo.getLuceneSearchAnnotation()){  
 			// 更新到索引文件
 			LuceneTask luceneTask = new LuceneTask(list, LuceneTask.saveDocument);
 			ThreadPoolManager.addThread(luceneTask);
@@ -863,8 +879,8 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		// 更新entity
 		Integer hang = getWriteJdbc().update(sql, paramMap);
 		
-		
-		if(ClassUtils.isLuceneSearch(entity.getClass())){
+        
+        if(entityInfo.getLuceneSearchAnnotation()){  
 			// 更新到索引文件
 			LuceneTask luceneTask = new LuceneTask(entity, LuceneTask.updateDocument);
 			ThreadPoolManager.addThread(luceneTask);
@@ -991,7 +1007,8 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 
 		
 		//if(CollectionUtils.isNotEmpty(ClassUtils.getLuceneFields(clazz))){
-	    if(ClassUtils.isLuceneSearch(clazz)){
+        
+        if(entityInfo.getLuceneSearchAnnotation()){  
 			// 更新到索引文件
 			LuceneTask luceneTask = new LuceneTask(id, clazz);
 			ThreadPoolManager.addThread(luceneTask);
@@ -1016,7 +1033,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		update(finder);
 		
 		//if(CollectionUtils.isNotEmpty(ClassUtils.getLuceneFields(clazz))){
-		 if(ClassUtils.isLuceneSearch(clazz)){
+        if(entityInfo.getLuceneSearchAnnotation()){  
 			// 更新到索引文件
 			LuceneTask luceneTask = new LuceneTask(ids, clazz);
 			ThreadPoolManager.addThread(luceneTask);

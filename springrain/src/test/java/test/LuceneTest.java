@@ -16,7 +16,7 @@ import test.dto.LuceneDto;
 
 public class LuceneTest {
 	
-	//@Test
+	@Test
 	public void  testSave() throws Exception{
 		String rootdir=GlobalStatic.rootDir+"/lucene/index";
 		
@@ -58,7 +58,7 @@ public class LuceneTest {
 	
 	
 	@SuppressWarnings("unchecked")
-	//@Test
+	@Test
 	public void testSearch() throws Exception{
 		String rootdir=GlobalStatic.rootDir+"/lucene/index";
 		File f=new File(rootdir);
@@ -81,7 +81,7 @@ public class LuceneTest {
 	
 	
 	   @SuppressWarnings("unchecked")
-	    @Test
+	    //@Test
 	    public void testSearchObject() throws Exception{
 	        String rootdir=GlobalStatic.rootDir+"/lucene/index";
 	        File f=new File(rootdir);
@@ -90,9 +90,19 @@ public class LuceneTest {
 	        }
 	       
 	        //List<LuceneDto> list = LuceneUtils.searchDocument(rootdir,LuceneDto.class, page,"name","我是中国人，我会说中文");
-	        LuceneDto u = LuceneUtils.searchDocumentByTerm(rootdir,LuceneDto.class,"id", "a54b98a7a2a244468fcf4f2856660093");
+	        LuceneDto u = LuceneUtils.searchDocumentByTerm(rootdir,LuceneDto.class,"id", "c2767ca7d2144d2a9ffffe934912ee0f");
 	    
 	            System.out.println(u.getId()+","+u.getName()+","+u.getD1()+","+u.getF1()+","+u.getInt1()+","+u.getD2()+","+u.getF2()+","+u.getInt2()+","+u.getDate());
+	           
+	            
+	            u.setName("我是测试修改");
+	            
+	            LuceneUtils.updateDocument(rootdir, u);
+	            
+	            u = LuceneUtils.searchDocumentByTerm(rootdir,LuceneDto.class,"id", "c2767ca7d2144d2a9ffffe934912ee0f");
+	            
+                System.out.println(u.getId()+","+u.getName()+","+u.getD1()+","+u.getF1()+","+u.getInt1()+","+u.getD2()+","+u.getF2()+","+u.getInt2()+","+u.getDate());
+               
 	            
 	        
 	    }

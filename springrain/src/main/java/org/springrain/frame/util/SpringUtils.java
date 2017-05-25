@@ -3,6 +3,8 @@ package org.springrain.frame.util;
 
 import java.net.URI;
 
+import javax.persistence.Table;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -11,6 +13,8 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Component;
+import org.springrain.frame.annotation.LuceneSearch;
+import org.springrain.frame.annotation.NotLog;
 import org.springrain.frame.entity.BaseEntity;
 
 /**
@@ -99,18 +103,11 @@ public class SpringUtils  implements ApplicationContextAware {
 			
 			Class<?> clazz=Class.forName(entityClassName);
 			
-			
-			EntityInfo entityInfo = ClassUtils.getEntityInfoByClass(clazz);
-			
-			if(entityInfo==null){
-				continue;
+			if(clazz.isAnnotationPresent(Table.class)||clazz.isAnnotationPresent(LuceneSearch.class)||clazz.isAnnotationPresent(NotLog.class)){//如果有Table注解或者LuceneSearch注解,缓存实体类
+			    ClassUtils.getEntityInfoByClass(clazz);
 			}
 			
-			ClassUtils.getAllFieldNames(clazz);
-			ClassUtils.getAllDBFields(clazz);
-			ClassUtils.getWhereSQLInfo(clazz);
-			ClassUtils.isLuceneSearch(clazz);
-			ClassUtils.getLuceneFields(clazz);
+		
 			
 		}
 		
