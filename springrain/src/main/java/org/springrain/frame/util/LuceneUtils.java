@@ -175,7 +175,7 @@ public class LuceneUtils {
      * @return
      * @throws Exception
      */
-    public static <T> T searchDocumentByEntityId(String rootdir,Class<T> clazz,String value) throws Exception {
+    public static <T> T searchDocumentById(String rootdir,Class<T> clazz,String value) throws Exception {
 
         if (clazz==null||StringUtils.isBlank(value)) {
             return null;
