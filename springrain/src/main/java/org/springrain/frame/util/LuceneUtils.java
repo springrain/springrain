@@ -503,7 +503,13 @@ public class LuceneUtils {
 	public static String updateDocument(String rootdir,Object entity) throws Exception {
 		
 	    String pkName = ClassUtils.getEntityInfoByClass(entity.getClass()).getPkName();
-		String pkValue = ClassUtils.getPKValue(entity).toString();
+        Object pkValue_o = ClassUtils.getPKValue(entity);
+        
+        if(pkValue_o==null){
+            return null;
+        }
+        
+        String pkValue=pkValue_o.toString();
 		
 		// 索引写入配置
         IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
