@@ -31,7 +31,9 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.BooleanQuery.Builder;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
@@ -125,6 +127,53 @@ public class LuceneUtils {
 		return searchDocument(rootdir, clazz, page, query);
 	
 	}
+	
+	 /**
+	  * 根据查询条件查询关键字
+	  * @param rootdir
+	  * @param clazz
+	  * @param page
+	  * @param luceneSearchClause
+	  * @return
+	  * @throws Exception
+	  */
+    public static <T> List<T> searchDocument(String rootdir,Class<T> clazz, Page page,
+            LuceneSearchClause luceneSearchClause) throws Exception {
+
+        if (clazz==null||luceneSearchClause == null ) {
+            return null;
+        }
+        List<FieldInfo> luceneTokenizedFields = ClassUtils.getLuceneTokenizedFields(clazz);
+        String[] fields=new String[luceneTokenizedFields.size()];
+        for(int i=0;i<luceneTokenizedFields.size();i++){
+            fields[i]=luceneTokenizedFields.get(i).getFieldName();
+        }
+
+        // 查询指定字段的转换器
+        
+        QueryParser parser = new MultiFieldQueryParser(fields, analyzer);
+        
+        
+        // 需要查询的关键字
+        BooleanQuery query = (BooleanQuery) parser.parse(luceneSearchClause.getKeyword());
+        
+        luceneSearchClause.getListClause().addAll(query.clauses());
+        
+        
+        Builder builder = new BooleanQuery.Builder();
+        
+        for (BooleanClause bc:luceneSearchClause.getListClause()) {
+            builder.add(bc);
+        }
+        
+        
+        return searchDocument(rootdir, clazz, page, builder.build());
+    }
+    
+	
+	
+	
+	
 	
 	/**
      * 

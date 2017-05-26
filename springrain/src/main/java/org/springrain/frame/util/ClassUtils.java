@@ -364,20 +364,32 @@ public class ClassUtils {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("rawtypes")
-	public static Class getReturnType(String p,Class _clazz) throws Exception{
+	public static Class getReturnType(String p,Class clazz) throws Exception{
+	    
+	    if(StringUtils.isBlank(p)||clazz==null){
+	        return null;
+	    }
+	    
+	
+	    EntityInfo entityInfo = getEntityInfoByClass(clazz);
+	    
+	    if(entityInfo==null){
+	        return null;
+	    }
+	    
+	    List<FieldInfo> fields = entityInfo.getFields();
+	    
+	    if(CollectionUtils.isEmpty(fields)){
+	        return null;
+	    }
+	    
+	    for(FieldInfo finfo:fields){
+	        if(p.equals(finfo.getFieldName())){//属性名和字段名相同
+	            return finfo.getFieldType();
+	        }
+	    }
 		
-		Class  returnType=null;
-		for(Class<?> clazz = _clazz; clazz != Object.class;  clazz = clazz.getSuperclass()) {
-			 PropertyDescriptor pd = new PropertyDescriptor(p, clazz);
-				Method getMethod = pd.getReadMethod();// 获得get方法
-				if(getMethod!=null){
-					returnType= getMethod.getReturnType();
-					break;
-				}
-			
-		}
-		
-		return returnType;
+		return null;
 	}
 	
 	/**
