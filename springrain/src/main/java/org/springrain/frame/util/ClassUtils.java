@@ -268,6 +268,9 @@ public class ClassUtils {
 	        
 	        if(getMethod.isAnnotationPresent(LuceneField.class)){//如果有LuceneField注解
 	            finfo.setLucene(true);
+	            if(fd.getType()==String.class){//如果是String
+	                finfo.setTokenized(true);
+	            }
 	        }
 	        if(getMethod.isAnnotationPresent(Transient.class)){//如果不是数据库字段
                 finfo.setDb(false);
@@ -453,12 +456,12 @@ public class ClassUtils {
 	
 	   
 	    /**
-	     * 获取所有的数据库字段
+	     * 获取所有分词的字段,一般提供查询内容
 	     * @param clazz
 	     * @return
 	     * @throws Exception
 	     */
-	       public static List<FieldInfo> getLuceneFields(Class clazz) throws Exception{
+	       public static List<FieldInfo> getLuceneTokenizedFields(Class clazz) throws Exception{
 	           EntityInfo entityInfoByClass = getEntityInfoByClass(clazz);
 	            if(entityInfoByClass==null){
 	                return null;
@@ -472,7 +475,7 @@ public class ClassUtils {
 	            List<FieldInfo> list=new ArrayList<>();
 	            
 	            for(FieldInfo finfo:fields){
-	                if(finfo.getLucene()){
+	                if(finfo.getTokenized()){
 	                    list.add(finfo);
 	                }
 	               
@@ -483,6 +486,39 @@ public class ClassUtils {
 	            return list;
 	           
 	       }
+	       
+	        /**
+	         * 获取所有参与全文检索的字段
+	         * @param clazz
+	         * @return
+	         * @throws Exception
+	         */
+	           public static List<FieldInfo> getLuceneFields(Class clazz) throws Exception{
+	               EntityInfo entityInfoByClass = getEntityInfoByClass(clazz);
+	                if(entityInfoByClass==null){
+	                    return null;
+	                }
+	                
+	                List<FieldInfo> fields = entityInfoByClass.getFields();
+	                if(CollectionUtils.isEmpty(fields)){
+	                    return null;
+	                }
+	                
+	                List<FieldInfo> list=new ArrayList<>();
+	                
+	                for(FieldInfo finfo:fields){
+	                    if(finfo.getLucene()){
+	                        list.add(finfo);
+	                    }
+	                   
+	                }
+	                
+	                
+	                
+	                return list;
+	               
+	           }
+	       
 	
 	
 	/**

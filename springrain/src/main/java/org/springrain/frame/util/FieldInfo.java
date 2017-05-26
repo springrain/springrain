@@ -21,6 +21,8 @@ public class FieldInfo {
 	
 	//是否是lucene全文检索
 	private Boolean lucene=false;
+	//是否tokenized分词字段,只有String作为默认的分词字段
+	private Boolean tokenized=false;
 	
 	//wheresql的注解字符串
 	private String whereSQL=null;
@@ -67,6 +69,14 @@ public class FieldInfo {
 
     public void setLucene(Boolean lucene) {
         this.lucene = lucene;
+    }
+
+    public Boolean getTokenized() {
+        return tokenized;
+    }
+
+    public void setTokenized(Boolean tokenized) {
+        this.tokenized = tokenized;
     }
 
     public String getWhereSQL() {

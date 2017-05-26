@@ -31,6 +31,7 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
@@ -68,7 +69,7 @@ public class LuceneUtils {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static List searchDocument(String rootdir,Class clazz, Page page,
 			String searchkeyword) throws Exception {
-		List<FieldInfo> luceneFields = ClassUtils.getLuceneFields(clazz);
+		List<FieldInfo> luceneFields = ClassUtils.getLuceneTokenizedFields(clazz);
 		if (CollectionUtils.isEmpty(luceneFields)) {
 			return null;
 		}
@@ -121,7 +122,8 @@ public class LuceneUtils {
 		// 查询指定字段的转换器
 		QueryParser parser = new MultiFieldQueryParser(fields, analyzer);
 		// 需要查询的关键字
-		Query query = parser.parse(searchkeyword);
+		BooleanQuery query = (BooleanQuery) parser.parse(searchkeyword);
+		
 		
 		return searchDocument(rootdir, clazz, page, query);
 	
