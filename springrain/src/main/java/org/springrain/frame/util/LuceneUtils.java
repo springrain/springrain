@@ -2,6 +2,8 @@ package org.springrain.frame.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -277,18 +279,22 @@ public class LuceneUtils {
 	        
             String fieldValue = document.get(fieldName);
             
-             String typeName =finfo.getFieldType().getSimpleName().toLowerCase();
-            
-            if(typeName.equals("integer")||typeName.equals("int")){//数字只作为存储类型,不进行索引
+            String typeName =finfo.getFieldType().getSimpleName().toLowerCase();
+            if(typeName.equals("integer")||typeName.equals("int")){//数字
                 ClassUtils.setPropertieValue(fieldName, t, Integer.valueOf(fieldValue));
-            }else if(typeName.equals("long")){//数字只作为存储类型,不进行索引
+            }else if(typeName.equals("biginteger")){//数字
+                ClassUtils.setPropertieValue(fieldName, t, new BigInteger(fieldValue));
+            }else if(typeName.equals("long")){//数字
                 ClassUtils.setPropertieValue(fieldName, t, Long.valueOf(fieldValue));
-            }else if(typeName.equals("float")){//数字只作为存储类型,不进行索引
+            }else if(typeName.equals("float")){//数字
                 ClassUtils.setPropertieValue(fieldName, t, Float.valueOf(fieldValue));
-            }else if(typeName.equals("double")){//数字只作为存储类型,不进行索引
+            }else if(typeName.equals("double")){//数字
                 ClassUtils.setPropertieValue(fieldName, t, Double.valueOf(fieldValue));
-            }else if(typeName.equals("date")){//日期只作为存储类型,不进行索引
-                ClassUtils.setPropertieValue(fieldName, t, DateUtils.convertString2Date(DateUtils.DEFAILT_DATE_TIME_PATTERN, fieldValue.toString()));
+            }else if(typeName.equals("bigdecimal")){//数字
+                ClassUtils.setPropertieValue(fieldName, t, new BigDecimal(fieldValue));
+            }else if(typeName.equals("date")){//日期
+              //  ClassUtils.setPropertieValue(fieldName, t, DateUtils.convertString2Date(DateUtils.DEFAILT_DATE_TIME_PATTERN, fieldValue.toString()));
+                ClassUtils.setPropertieValue(fieldName, t, new Date(Long.valueOf(fieldValue)));
             }else{
                 ClassUtils.setPropertieValue(fieldName, t, fieldValue);
             }
@@ -321,21 +327,27 @@ public class LuceneUtils {
             Field _field = null;
             
             String typeName =finfo.getFieldType().getSimpleName().toLowerCase();
-            if(typeName.equals("int")||typeName.equals("integer")){//数字只作为存储类型,不进行索引
+            if(typeName.equals("int")||typeName.equals("integer")){//数字进行存储和索引,不进行分词
                 _field=new StoredField(fieldName, Integer.valueOf(_value));
                 doc.add(new IntPoint(fieldName,  Integer.valueOf(_value)));
-            }else if(typeName.equals("long")){//数字只作为存储类型,不进行索引
+            }else if(typeName.equals("long")){//数字进行存储和索引,不进行分词
                 _field=new StoredField(fieldName, Long.valueOf(_value));
                 doc.add(new LongPoint(fieldName,  Long.valueOf(_value)));
-            }else if(typeName.equals("float")){//数字只作为存储类型,不进行索引
+            }else if(typeName.equals("float")){//数字进行存储和索引,不进行分词
                 _field=new StoredField(fieldName, Float.valueOf(_value));
                 doc.add(new FloatPoint(fieldName,  Float.valueOf(_value)));
-            }else if(typeName.equals("double")){//数字只作为存储类型,不进行索引
+            }else if(typeName.equals("double")){//数字进行存储和索引,不进行分词
              _field=new StoredField(fieldName, Double.valueOf(_value));
              doc.add(new DoublePoint(fieldName,  Double.valueOf(_value)));
-            }else if(typeName.equals("date")){//日期只作为存储类型,不进行索引
-             _field=new StringField(fieldName, DateUtils.convertDate2String(DateUtils.DEFAILT_DATE_TIME_PATTERN,(Date)_obj), Store.YES);
-            }else if(finfo.getPk()){//如果是主键,只作为存储类型,不进行索引
+            }else if(typeName.equals("date")){//数字进行存储和索引,不进行分词
+            // _field=new StringField(fieldName, DateUtils.convertDate2String(DateUtils.DEFAILT_DATE_TIME_PATTERN,(Date)_obj), Store.YES);
+             _field=new StoredField(fieldName, ((Date)_obj).getTime());
+             doc.add(new LongPoint(fieldName,  ((Date)_obj).getTime()));
+            }else if(typeName.equals("biginteger")){//数字
+                _field=new StringField(fieldName, _value, Store.YES);
+            }else if(typeName.equals("bigdecimal")){//进行存储和索引,不进行分词引
+                _field=new StringField(fieldName, _value, Store.YES);
+            }else if(finfo.getPk()){//如果是主键,进行存储和索引,不进行分词引
                 _field=new StringField(fieldName, _value, Store.YES);
             }else{
              _field = new TextField(fieldName, _value, Store.YES);
@@ -611,8 +623,7 @@ public class LuceneUtils {
 	/**
 	 * 根据页码和分页大小获取上一次的最后一个ScoreDoc
 	 */
-	private static ScoreDoc getLastScoreDoc(int pageIndex, int pageSize,
-			Query query, IndexSearcher searcher) throws IOException {
+	private static ScoreDoc getLastScoreDoc(int pageIndex, int pageSize,Query query, IndexSearcher searcher) throws IOException {
 		if (pageIndex <= 1)
 			return null;// 如果是第一页就返回空
 		int num = pageSize * (pageIndex - 1);// 获取上一页的数量
