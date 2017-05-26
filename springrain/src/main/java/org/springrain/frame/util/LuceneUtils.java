@@ -475,12 +475,16 @@ public class LuceneUtils {
 			return null;
 		}
 		IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);
-		for (String t : ids) {
+		
+		TermQuery[] listTermQuery=new TermQuery[ids.size()];
+		
+		for (int i=0;i<ids.size();i++) {
 			// 需要查询的关键字
-			Term term = new Term(pkName,t);
+			Term term = new Term(pkName,ids.get(i));
 			TermQuery luceneQuery = new TermQuery(term);
-			indexWriter.deleteDocuments(luceneQuery);
+			listTermQuery[i]=luceneQuery;
 		}
+		indexWriter.deleteDocuments(listTermQuery);
 		indexWriter.commit();
 		indexWriter.close(); // 记得关闭,否则删除不会被同步到索引文件中
 		directory.close(); // 关闭目录
