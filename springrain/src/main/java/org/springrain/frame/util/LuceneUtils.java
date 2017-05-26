@@ -69,15 +69,13 @@ public class LuceneUtils {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static List searchDocument(String rootdir,Class clazz, Page page,
 			String searchkeyword) throws Exception {
-		List<FieldInfo> luceneFields = ClassUtils.getLuceneTokenizedFields(clazz);
-		if (CollectionUtils.isEmpty(luceneFields)) {
+		List<FieldInfo> luceneTokenizedFields = ClassUtils.getLuceneTokenizedFields(clazz);
+		if (CollectionUtils.isEmpty(luceneTokenizedFields)) {
 			return null;
 		}
-		
-		String[] fields=new String[luceneFields.size()];
-		
-		for(int i=0;i<luceneFields.size();i++){
-		    fields[i]=luceneFields.get(i).getFieldName();
+		String[] fields=new String[luceneTokenizedFields.size()];
+		for(int i=0;i<luceneTokenizedFields.size();i++){
+		    fields[i]=luceneTokenizedFields.get(i).getFieldName();
 		}
 		return searchDocument( rootdir,clazz, page, fields, searchkeyword);
 	}
