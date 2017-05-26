@@ -4,9 +4,13 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.lucene.document.IntPoint;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.TermRangeQuery;
 import org.apache.shiro.util.CollectionUtils;
 import org.junit.Test;
 import org.springrain.frame.util.GlobalStatic;
+import org.springrain.frame.util.LuceneSearchClause;
 import org.springrain.frame.util.LuceneUtils;
 import org.springrain.frame.util.Page;
 import org.springrain.frame.util.SecUtils;
@@ -16,7 +20,7 @@ import test.dto.LuceneDto;
 
 public class LuceneTest {
 	
-	@Test
+	//@Test
 	public void  testSave() throws Exception{
 		String rootdir=GlobalStatic.rootDir+"/lucene/index";
 		
@@ -58,7 +62,7 @@ public class LuceneTest {
 	
 	
 	@SuppressWarnings("unchecked")
-	@Test
+	//@Test
 	public void testSearch() throws Exception{
 		String rootdir=GlobalStatic.rootDir+"/lucene/index";
 		File f=new File(rootdir);
@@ -67,7 +71,7 @@ public class LuceneTest {
 		}
 		Page page=new Page(1);
 		page.setPageSize(50);
-		List<LuceneDto> list = LuceneUtils.searchDocument(rootdir,LuceneDto.class, page,"中国");
+		List<LuceneDto> list = LuceneUtils.searchDocument(rootdir,LuceneDto.class, page,"abd人");
 		//List<LuceneDto> list = LuceneUtils.searchDocumentByTerm(rootdir,LuceneDto.class, page,"name", "我是中国人，我会说中文49");
 		
 		if(CollectionUtils.isEmpty(list)){
@@ -106,6 +110,63 @@ public class LuceneTest {
 	            
 	        
 	    }
+	   
+	   
+	  // @Test
+	   public void testIntPoint() throws Exception{
+	       String rootdir=GlobalStatic.rootDir+"/lucene/index";
+	       //IntPoint ip=IntPoint.c
+	       
+	       Query newRangeQuery = IntPoint.newRangeQuery("int2", 0, 20);
+	       List<LuceneDto> list = LuceneUtils.searchDocument(rootdir,LuceneDto.class,null,newRangeQuery);
+	       for (LuceneDto u:list) {
+	            System.out.println(u.getId()+","+u.getName()+","+u.getD1()+","+u.getF1()+","+u.getInt1()+","+u.getD2()+","+u.getF2()+","+u.getInt2()+","+u.getDate());
+	            
+	        }
+	       
+	       
+	   }
+	   
+	  // @Test
+       public void testStringTerm() throws Exception{
+           String rootdir=GlobalStatic.rootDir+"/lucene/index";
+           //IntPoint ip=IntPoint.c
+           
+           Query newRangeQuery = TermRangeQuery.newStringRange("date", "2017-01-01 00:00:00", "2017-02-01 00:00:00", true, true);
+           List<LuceneDto> list = LuceneUtils.searchDocument(rootdir,LuceneDto.class,null,newRangeQuery);
+           for (LuceneDto u:list) {
+                System.out.println(u.getId()+","+u.getName()+","+u.getD1()+","+u.getF1()+","+u.getInt1()+","+u.getD2()+","+u.getF2()+","+u.getInt2()+","+u.getDate());
+                
+            }
+           
+           
+       }
+	   
+	   
+	   
+       @Test
+       public void testStringClause() throws Exception{
+           String rootdir=GlobalStatic.rootDir+"/lucene/index";
+           //IntPoint ip=IntPoint.c
+           
+           LuceneSearchClause lsc=new LuceneSearchClause("中国 人");
+           lsc.addSearchClause("int2", Integer.class, 20);
+           lsc.addSearchClause("int2", Integer.class, 20);
+        
+           List<LuceneDto> list = LuceneUtils.searchDocument(rootdir,LuceneDto.class,null,lsc);
+           for (LuceneDto u:list) {
+                System.out.println(u.getId()+","+u.getName()+","+u.getD1()+","+u.getF1()+","+u.getInt1()+","+u.getD2()+","+u.getF2()+","+u.getInt2()+","+u.getDate());
+                
+            }
+           
+           
+       }
+       
+       
+	   
+    
+	   
+	   
 	
 	
 	
