@@ -83,7 +83,7 @@ public class LuceneSearchClause {
      */
    public List<BooleanClause> addSearchClause(String fieldName,Class fieldType,Object minValue,Object maxValue) throws Exception {
        
-       if(fieldType==null||StringUtils.isEmpty(fieldName)||minValue==null){
+       if(fieldType==null||StringUtils.isEmpty(fieldName)||minValue==null||maxValue==null){
            return listClause;
        }
        
