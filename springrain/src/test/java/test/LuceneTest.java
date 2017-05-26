@@ -36,6 +36,8 @@ public class LuceneTest {
 		    LuceneDto u=new LuceneDto();
 			u.setId(SecUtils.getUUID());
 			u.setName("我是中国人，我会说中文"+i);
+			u.setInt1(u.getInt1()+i);
+			u.setInt2(u.getInt2()+i);
 			LuceneUtils.saveDocument(rootdir,u);
 		}
 	
@@ -150,8 +152,8 @@ public class LuceneTest {
            //IntPoint ip=IntPoint.c
            
            LuceneSearchClause lsc=new LuceneSearchClause("中国 人");
-           lsc.addSearchClause("int2", Integer.class, 20);
-           lsc.addSearchClause("int2", Integer.class, 20);
+           lsc.addSearchClause("int2", Integer.class, 20,22);
+           lsc.addSearchClause("int1", Integer.class, 10,15);
         
            List<LuceneDto> list = LuceneUtils.searchDocument(rootdir,LuceneDto.class,null,lsc);
            for (LuceneDto u:list) {
