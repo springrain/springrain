@@ -124,7 +124,6 @@ public class LuceneUtils {
 		// 需要查询的关键字
 		BooleanQuery query = (BooleanQuery) parser.parse(searchkeyword);
 		
-		
 		return searchDocument(rootdir, clazz, page, query);
 	
 	}
