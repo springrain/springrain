@@ -13,8 +13,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.cn.smart.SmartChineseAnalyzer;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.document.DoublePoint;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.Field.Store;
+import org.apache.lucene.document.FloatPoint;
+import org.apache.lucene.document.IntPoint;
+import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
@@ -319,14 +323,18 @@ public class LuceneUtils {
             String typeName =finfo.getFieldType().getSimpleName().toLowerCase();
             if(typeName.equals("int")||typeName.equals("integer")){//数字只作为存储类型,不进行索引
                 _field=new StoredField(fieldName, Integer.valueOf(_value));
+                doc.add(new IntPoint(fieldName,  Integer.valueOf(_value)));
             }else if(typeName.equals("long")){//数字只作为存储类型,不进行索引
                 _field=new StoredField(fieldName, Long.valueOf(_value));
+                doc.add(new LongPoint(fieldName,  Long.valueOf(_value)));
             }else if(typeName.equals("float")){//数字只作为存储类型,不进行索引
                 _field=new StoredField(fieldName, Float.valueOf(_value));
+                doc.add(new FloatPoint(fieldName,  Float.valueOf(_value)));
             }else if(typeName.equals("double")){//数字只作为存储类型,不进行索引
              _field=new StoredField(fieldName, Double.valueOf(_value));
+             doc.add(new DoublePoint(fieldName,  Double.valueOf(_value)));
             }else if(typeName.equals("date")){//日期只作为存储类型,不进行索引
-             _field=new StoredField(fieldName, DateUtils.convertDate2String(DateUtils.DEFAILT_DATE_TIME_PATTERN,(Date)_obj));
+             _field=new StringField(fieldName, DateUtils.convertDate2String(DateUtils.DEFAILT_DATE_TIME_PATTERN,(Date)_obj), Store.YES);
             }else if(finfo.getPk()){//如果是主键,只作为存储类型,不进行索引
                 _field=new StringField(fieldName, _value, Store.YES);
             }else{
