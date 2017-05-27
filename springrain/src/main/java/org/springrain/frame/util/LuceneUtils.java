@@ -118,10 +118,10 @@ public class LuceneUtils {
             QueryParser parser = new MultiFieldQueryParser(fields, analyzer);
             // 需要查询的关键字
             BooleanQuery booleanQuery = (BooleanQuery) parser.parse(luceneFinder.getKeyword());
-            luceneFinder.getListClause().addAll(booleanQuery.clauses());
+            luceneFinder.getListCondition().addAll(booleanQuery.clauses());
         }
         
-        List<BooleanClause> listClause = luceneFinder.getListClause();
+        List<BooleanClause> listClause = luceneFinder.getListCondition();
         
         if(CollectionUtils.isNotEmpty(listClause)){
             for (BooleanClause bc:listClause) {
@@ -149,7 +149,7 @@ public class LuceneUtils {
             return null;
         }
         LuceneFinder lsc=new LuceneFinder(null);
-        lsc.addSearchClause(key, ClassUtils.getReturnType(key, clazz), value);
+        lsc.addWhereCondition(key, ClassUtils.getReturnType(key, clazz), value);
         return searchDocument(rootdir, clazz, page, lsc);
     }
     

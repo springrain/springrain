@@ -124,7 +124,7 @@ public class LuceneTest {
            //lsc.addSearchClause("int2", Integer.class, 20,22);
            //lsc.addSearchClause("int1", Integer.class, 10,15);
            
-           lsc.addSortField("id", String.class, true);
+           lsc.addSortField("int1", Integer.class, true);
         
            List<LuceneDto> list = LuceneUtils.searchDocument(rootdir,LuceneDto.class,null,lsc);
            for (LuceneDto u:list) {

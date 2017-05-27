@@ -26,7 +26,7 @@ public class LuceneFinder {
     
     //搜索的关键字
     private String keyword=null;
-    private List<BooleanClause> listClause=new ArrayList<>();
+    private List<BooleanClause> listCondition=new ArrayList<>();
     private List<String> fieldList=new ArrayList<>();
     private List<SortField> sortFieldList=new ArrayList<>();
     private Sort sort=null;
@@ -44,8 +44,8 @@ public class LuceneFinder {
      * @return
      * @throws Exception 
      */
-    public List<BooleanClause> addSearchClause(String fieldName,Class fieldType,Object value) throws Exception{
-      return   addSearchClause(fieldName, fieldType, value,Occur.MUST);
+    public List<BooleanClause> addWhereCondition(String fieldName,Class fieldType,Object value) throws Exception{
+      return   addWhereCondition(fieldName, fieldType, value,Occur.MUST);
     }
     /**
      * 字段值在某个值中间
@@ -55,8 +55,8 @@ public class LuceneFinder {
      * @return
      * @throws Exception 
      */
-    public List<BooleanClause> addSearchClause(String fieldName,Class fieldType,Object minValue,Object maxValue) throws Exception{
-       return addSearchClause(fieldName, fieldType, minValue, maxValue, true, true, Occur.MUST);
+    public List<BooleanClause> addWhereCondition(String fieldName,Class fieldType,Object minValue,Object maxValue) throws Exception{
+       return addWhereCondition(fieldName, fieldType, minValue, maxValue, true, true, Occur.MUST);
     }
     
     
@@ -118,10 +118,10 @@ public class LuceneFinder {
     * @return
     * @throws Exception
     */
-    public List<BooleanClause> addSearchClause(String fieldName,Class fieldType,Object value,Occur occur) throws Exception{
+    public List<BooleanClause> addWhereCondition(String fieldName,Class fieldType,Object value,Occur occur) throws Exception{
         
         if(fieldType==null||StringUtils.isEmpty(fieldName)||value==null){
-            return listClause;
+            return listCondition;
         }
         
       
@@ -148,10 +148,10 @@ public class LuceneFinder {
         
         BooleanClause bc=new BooleanClause(query,occur);
         
-        listClause.add(bc);
+        listCondition.add(bc);
         
         
-        return listClause;
+        return listCondition;
     }
     
 
@@ -168,10 +168,10 @@ public class LuceneFinder {
     * @return
     * @throws Exception
     */
-   public List<BooleanClause> addSearchClause(String fieldName,Class fieldType,Object minValue,Object maxValue,boolean includeLower,boolean includeUpper,Occur occur) throws Exception {
+   public List<BooleanClause> addWhereCondition(String fieldName,Class fieldType,Object minValue,Object maxValue,boolean includeLower,boolean includeUpper,Occur occur) throws Exception {
        
        if(fieldType==null||StringUtils.isEmpty(fieldName)||minValue==null||maxValue==null){
-           return listClause;
+           return listCondition;
        }
        
         Query query=null;
@@ -194,10 +194,10 @@ public class LuceneFinder {
        
        BooleanClause bc=new BooleanClause(query,occur);
        
-       listClause.add(bc);
+       listCondition.add(bc);
        
        
-       return listClause;
+       return listCondition;
    }
     
     
@@ -205,14 +205,14 @@ public class LuceneFinder {
     public String getKeyword() {
         return keyword;
     }
-    public List<BooleanClause> getListClause() {
-        return listClause;
+    public List<BooleanClause> getListCondition() {
+        return listCondition;
     }
     public void setKeyword(String keyword) {
         this.keyword = keyword;
     }
-    public void setListClause(List<BooleanClause> listClause) {
-        this.listClause = listClause;
+    public void setListCondition(List<BooleanClause> listCondition) {
+        this.listCondition = listCondition;
     }
     public List<String> getFieldList() {
         return fieldList;
