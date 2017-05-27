@@ -637,9 +637,6 @@ public class LuceneUtils {
             } else if (BigInteger.class == fieldType) {// 进行存储和索引,不进行分词引
                 ClassUtils.setPropertieValue(fieldName, t, new BigInteger(fieldValue));
             } else if (Date.class == fieldType) {// 日期
-                // ClassUtils.setPropertieValue(fieldName, t,
-                // DateUtils.convertString2Date(DateUtils.DEFAILT_DATE_TIME_PATTERN,
-                // fieldValue.toString()));
                 ClassUtils.setPropertieValue(fieldName, t, new Date(Long.valueOf(fieldValue)));
             } else {
                 ClassUtils.setPropertieValue(fieldName, t, fieldValue);
