@@ -17,7 +17,7 @@ import test.dto.LuceneDto;
 
 public class LuceneTest {
 	
-	//@Test
+	@Test
 	public void  testSave() throws Exception{
 		String rootdir=GlobalStatic.rootDir+"/lucene/index";
 		
@@ -29,7 +29,7 @@ public class LuceneTest {
 		if(!f.exists()){
 			f.mkdirs();
 		}
-		for (int i = 0; i < 1; i++) {
+		for (int i = 0; i < 50; i++) {
 		    LuceneDto u=new LuceneDto();
 			u.setId(SecUtils.getUUID());
 			u.setName("我是中国人，我会说中文"+i);
@@ -61,7 +61,7 @@ public class LuceneTest {
 	
 	
 	@SuppressWarnings("unchecked")
-	//@Test
+	@Test
 	public void testSearch() throws Exception{
 		String rootdir=GlobalStatic.rootDir+"/lucene/index";
 		File f=new File(rootdir);

@@ -74,7 +74,6 @@ public class LuceneUtils {
      * @return
      * @throws Exception
      */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
     public static List searchDocument(String rootdir, Class clazz, Page page, String searchkeyword) throws Exception {
         LuceneFinder luceneFinder = new LuceneFinder(searchkeyword);
         return searchDocument(rootdir, clazz, page, luceneFinder);
@@ -98,8 +97,6 @@ public class LuceneUtils {
         }
 
         String[] fields = luceneFinder.getFields();
-     
-
         Builder builder = new BooleanQuery.Builder();
 
         if (StringUtils.isNotBlank(luceneFinder.getKeyword())) {
@@ -253,7 +250,6 @@ public class LuceneUtils {
      * @return
      * @throws Exception
      */
-    @SuppressWarnings("rawtypes")
     public static String deleteDocument(String rootdir, String id, Class clazz) throws Exception {
         List<FieldInfo> luceneFields = ClassUtils.getLuceneFields(clazz);
         if (CollectionUtils.isEmpty(luceneFields)) {
@@ -319,7 +315,6 @@ public class LuceneUtils {
      * @return
      * @throws Exception
      */
-    @SuppressWarnings("rawtypes")
     public static String deleteListDocument(String rootdir, List<String> ids, Class clazz) throws Exception {
         List<FieldInfo> luceneFields = ClassUtils.getLuceneFields(clazz);
         if (CollectionUtils.isEmpty(luceneFields)) {
@@ -367,7 +362,6 @@ public class LuceneUtils {
      * @return
      * @throws Exception
      */
-    @SuppressWarnings("rawtypes")
     public static String deleteAllDocument(String rootdir, Class clazz) throws Exception {
         // 索引写入配置
         IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
@@ -440,7 +434,6 @@ public class LuceneUtils {
      * @return
      * @throws Exception
      */
-    @SuppressWarnings("rawtypes")
     public static <T> String updateListDocument(String rootdir, List<T> list) throws Exception {
 
         if (CollectionUtils.isEmpty(list)) {
@@ -555,7 +548,6 @@ public class LuceneUtils {
      * @param clazz
      * @return
      */
-    @SuppressWarnings("rawtypes")
     public static File getIndexDirFile(String rootdir, Class clazz) {
         if (clazz == null) {
             return null;
@@ -575,7 +567,6 @@ public class LuceneUtils {
      * @return
      * @throws IOException
      */
-    @SuppressWarnings("rawtypes")
     public static Directory getDirectory(String rootdir, Class clazz) throws IOException {
         File indexDirFile = getIndexDirFile(rootdir, clazz);
         if (indexDirFile == null) {
