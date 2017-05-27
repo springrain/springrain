@@ -110,7 +110,7 @@ public class LuceneUtils {
                 for (FieldInfo finfo : luceneTokenizedFields) {
                     fieldList.add(finfo.getFieldName());
                 }
-                luceneFinder.setFieldList(fieldList);
+                //luceneFinder.setFieldList(fieldList);
                 fields = luceneFinder.getFields();
             }
             
@@ -165,10 +165,6 @@ public class LuceneUtils {
         
         LuceneFinder LuceneFinder=new LuceneFinder(null);
         LuceneFinder.addWhereCondition(info.getPkName(), info.getPkReturnType(), value);
-        
-//        List<String> fieldList=new ArrayList<>();
-//        fieldList.add(info.getPkName());
-//        LuceneFinder.setFieldList(fieldList);
         
         List<T> list = searchDocument(rootdir, clazz, page, LuceneFinder);
         
