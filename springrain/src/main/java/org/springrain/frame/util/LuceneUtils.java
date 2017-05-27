@@ -67,7 +67,7 @@ public class LuceneUtils {
 
 	
 	/**
-	 * 根据实体类查询结果
+	 * 根据关键词查询某个实体类的索引
 	 * 
 	 * @param clazz
 	 * @param page
@@ -83,7 +83,7 @@ public class LuceneUtils {
 	}
 	
 	 /**
-	  * 根据查询条件查询关键字
+	  * 根据LuceneSearchClause查询关键字,可以添加where条件和数值类型排序,最常用的接口
 	  * @param rootdir
 	  * @param clazz
 	  * @param page
@@ -134,7 +134,7 @@ public class LuceneUtils {
     
 	
 	/**
-     * 
+     * 根据一个属性值查询数据列表
      * @param clazz
      * @param page
      * @param fields
@@ -185,10 +185,303 @@ public class LuceneUtils {
           return list.get(0);
         
     }
+
+
+	/**
+	 * 根据实体类保存到索引,结合 LuceneSearch和LuceneField注解
+	 * 
+	 * @param entity
+	 * @return
+	 * @throws Exception
+	 */
+	public  static String saveDocument(String rootdir,Object entity)
+			throws Exception {
+		
+		// 索引写入配置
+		IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
+		// 获取索引目录文件
+		Directory directory = getDirectory( rootdir,entity.getClass());
+		if (directory == null) {
+			return null;
+		}
+		IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);
+		try{
+		    Document doc=bean2Document(entity);
+	        indexWriter.addDocument(doc);
+	        indexWriter.commit();
+		}catch(Exception e){
+		    logger.error(e.getMessage(),e);
+		}finally{
+		    indexWriter.close();
+		    directory.close();
+		}
+	    
+		
+		return null;
+	}
+
+	/**
+	 * 根据实体类批量保存到索引,结合 LuceneSearch和LuceneField注解
+	 * 
+	 * @param entity
+	 * @return
+	 * @throws Exception
+	 */
+	public static <T> String saveListDocument(String rootdir,List<T> list) throws Exception {
+		if (CollectionUtils.isEmpty(list)) {
+			return "error";
+		}
+		
+		 // 索引写入配置
+        IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
+        Class clazz = list.get(0).getClass();
+        // 获取索引目录文件
+        Directory directory = getDirectory( rootdir,clazz);
+        if (directory == null) {
+            return null;
+        }
+        IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);
+        try{
+            List<Document> listDocument=new ArrayList<>();
+	         for (T t : list) {
+                Document doc=bean2Document(t);
+                listDocument.add(doc);
+		     }
+	         indexWriter.addDocuments(listDocument);
+	         indexWriter.commit();
+        }catch(Exception e){
+            logger.error(e.getMessage(),e);
+        }finally{
+            indexWriter.close();
+            directory.close();
+        }
     
- 	
+
+		return null;
+	}
+
+	/**
+	 * 根据Id删除索引
+	 * 
+	 * @param entity
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings("rawtypes")
+	public  static String deleteDocument(String rootdir,String id, Class clazz)
+			throws Exception {
+		List<FieldInfo> luceneFields = ClassUtils.getLuceneFields(clazz);
+		if (CollectionUtils.isEmpty(luceneFields)) {
+			return "error";
+		}
+
+		String pkName = ClassUtils.getEntityInfoByClass(clazz).getPkName();
+		// 索引写入配置
+		IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
+		// 获取索引目录文件
+		Directory directory = getDirectory( rootdir,clazz);
+		if (directory == null) {
+			return null;
+		}
+		IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);
+		
+		// 需要查询的关键字
+        Term term = new Term(pkName,id.toString());
+        TermQuery luceneQuery = new TermQuery(term);
+		try{
+    		indexWriter.deleteDocuments(luceneQuery);
+    		indexWriter.commit();
+		}catch(Exception e){
+		    logger.error(e.getMessage(),e);
+		}finally{
+		    indexWriter.close(); // 记得关闭,否则删除不会被同步到索引文件中
+		    directory.close(); // 关闭目录
+		}
+		
+		return null;
+	}
 	
-	public static <T> List<T> searchDocument(String rootdir,Class<T> clazz, Page page,
+	/**
+	 * 批量删除对象的索引
+	 * @param rootdir
+	 * @param list
+	 * @return
+	 * @throws Exception
+	 */
+	public static <T> String deleteListDocument(String rootdir,List<T> list) throws Exception{
+        if (CollectionUtils.isEmpty(list)) {
+            return null;
+        }
+        Class clazz = list.get(0).getClass();
+        List<String> ids=new ArrayList<>();
+        
+        for(T t:list){
+            Object pkValue_o = ClassUtils.getPKValue(t);
+            if(pkValue_o==null){
+                continue;
+            }
+            String pkValue=pkValue_o.toString();
+            ids.add(pkValue);
+        }
+         return deleteListDocument(rootdir, ids, clazz);
+	}
+	
+	
+
+	/**
+	 * 根据Id列表,批量删除索引
+	 * 
+	 * @param entity
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings("rawtypes")
+	public static String deleteListDocument(String rootdir,List<String> ids, Class clazz)
+			throws Exception {
+		List<FieldInfo> luceneFields = ClassUtils.getLuceneFields(clazz);
+		if (CollectionUtils.isEmpty(luceneFields)) {
+			return "error";
+		}
+		if (CollectionUtils.isEmpty(ids)) {
+			return "error";
+		}
+		String pkName = ClassUtils.getEntityInfoByClass(clazz).getPkName();
+		// 索引写入配置
+		IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
+		// 获取索引目录文件
+		Directory directory = getDirectory( rootdir,clazz);
+		if (directory == null) {
+			return null;
+		}
+		IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);
+		
+		TermQuery[] listTermQuery=new TermQuery[ids.size()];
+		
+		for (int i=0;i<ids.size();i++) {
+			// 需要查询的关键字
+			Term term = new Term(pkName,ids.get(i));
+			TermQuery luceneQuery = new TermQuery(term);
+			listTermQuery[i]=luceneQuery;
+		}
+		try{
+    		indexWriter.deleteDocuments(listTermQuery);
+    		indexWriter.commit();
+		}catch(Exception e){
+            logger.error(e.getMessage(),e);
+        }finally{
+            indexWriter.close(); // 记得关闭,否则删除不会被同步到索引文件中
+            directory.close(); // 关闭目录
+        }
+
+		return null;
+	}
+	
+	/**
+	 * 删除一个实体类的所有索引
+	 * @param ids
+	 * @param clazz
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings("rawtypes")
+	public static String deleteDocumentAll(String rootdir,Class clazz)
+			throws Exception {
+		// 索引写入配置
+		IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
+		// 获取索引目录文件
+		Directory directory = getDirectory( rootdir,clazz);
+		if (directory == null) {
+			return null;
+		}
+		IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);
+		
+		try{
+    		indexWriter.deleteAll();
+    		indexWriter.commit();
+		}catch(Exception e){
+            logger.error(e.getMessage(),e);
+        }finally{
+            indexWriter.close(); // 记得关闭,否则删除不会被同步到索引文件中
+            directory.close(); // 关闭目录
+        }
+		return null;
+	}
+
+
+	/**
+	 * 修改一个对象的索引
+	 * 
+	 * @param entity
+	 * @return
+	 * @throws Exception
+	 */
+	public static String updateDocument(String rootdir,Object entity) throws Exception {
+		
+	    String pkName = ClassUtils.getEntityInfoByClass(entity.getClass()).getPkName();
+        Object pkValue_o = ClassUtils.getPKValue(entity);
+        
+        if(pkValue_o==null){
+            return null;
+        }
+        
+        String pkValue=pkValue_o.toString();
+		
+		// 索引写入配置
+        IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
+        // 获取索引目录文件
+        Directory directory = getDirectory( rootdir,entity.getClass());
+        if (directory == null) {
+            return null;
+        }
+        IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);
+        Term term = new Term(pkName,pkValue);
+     
+        try{
+            Document doc=bean2Document(entity);
+            indexWriter.updateDocument(term, doc);
+            indexWriter.commit();
+        
+        }catch(Exception e){
+            logger.error(e.getMessage(),e);
+        }finally{
+            indexWriter.close(); // 记得关闭,否则删除不会被同步到索引文件中
+            directory.close(); // 关闭目录
+        }
+        
+		return null;
+	}
+
+	/**
+	 * 批量修改索引
+	 * 
+	 * @param entity
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings("rawtypes")
+	public static <T> String updateListDocument(String rootdir,List<T> list) throws Exception {
+
+		if (CollectionUtils.isEmpty(list)) {
+			return null;
+		}
+    	deleteListDocument(rootdir, list);
+		saveListDocument(rootdir, list);
+		return null;
+	}
+
+	
+	   
+    /**
+     * 根据 Query 和 Sort查询数据列表,暂不对外开放.
+     * @param rootdir
+     * @param clazz
+     * @param page
+     * @param query
+     * @param sort
+     * @return
+     * @throws Exception
+     */
+    private static <T> List<T> searchDocument(String rootdir,Class<T> clazz, Page page,
            Query query,Sort sort) throws Exception {
         // 获取索引目录文件
         Directory directory = getDirectory( rootdir,clazz);
@@ -274,284 +567,9 @@ public class LuceneUtils {
           }
         return list;
     }
-	
-
-
-	/**
-	 * 根据实体类保存到索引,使用 LuceneSearch和LuceneField
-	 * 
-	 * @param entity
-	 * @return
-	 * @throws Exception
-	 */
-	public  static String saveDocument(String rootdir,Object entity)
-			throws Exception {
-		
-		// 索引写入配置
-		IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
-		// 获取索引目录文件
-		Directory directory = getDirectory( rootdir,entity.getClass());
-		if (directory == null) {
-			return null;
-		}
-		IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);
-		try{
-		    Document doc=bean2Document(entity);
-	        indexWriter.addDocument(doc);
-	        indexWriter.commit();
-		}catch(Exception e){
-		    logger.error(e.getMessage(),e);
-		}finally{
-		    indexWriter.close();
-		    directory.close();
-		}
-	    
-		
-		return null;
-	}
-
-	/**
-	 * 根据实体类批量保存到索引,使用 LuceneSearch和LuceneField
-	 * 
-	 * @param entity
-	 * @return
-	 * @throws Exception
-	 */
-	public static <T> String saveListDocument(String rootdir,List<T> list) throws Exception {
-		if (CollectionUtils.isEmpty(list)) {
-			return "error";
-		}
-		
-		 // 索引写入配置
-        IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
-        Class clazz = list.get(0).getClass();
-        // 获取索引目录文件
-        Directory directory = getDirectory( rootdir,clazz);
-        if (directory == null) {
-            return null;
-        }
-        IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);
-        try{
-            List<Document> listDocument=new ArrayList<>();
-	         for (T t : list) {
-                Document doc=bean2Document(t);
-                listDocument.add(doc);
-		     }
-	         indexWriter.addDocuments(listDocument);
-	         indexWriter.commit();
-        }catch(Exception e){
-            logger.error(e.getMessage(),e);
-        }finally{
-            indexWriter.close();
-            directory.close();
-        }
     
-
-		return null;
-	}
-
-	/**
-	 * 删除文档
-	 * 
-	 * @param entity
-	 * @return
-	 * @throws Exception
-	 */
-	@SuppressWarnings("rawtypes")
-	public  static String deleteDocument(String rootdir,Object id, Class clazz)
-			throws Exception {
-		List<FieldInfo> luceneFields = ClassUtils.getLuceneFields(clazz);
-		if (CollectionUtils.isEmpty(luceneFields)) {
-			return "error";
-		}
-
-		String pkName = ClassUtils.getEntityInfoByClass(clazz).getPkName();
-		// 索引写入配置
-		IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
-		// 获取索引目录文件
-		Directory directory = getDirectory( rootdir,clazz);
-		if (directory == null) {
-			return null;
-		}
-		IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);
-		
-		// 需要查询的关键字
-        Term term = new Term(pkName,id.toString());
-        TermQuery luceneQuery = new TermQuery(term);
-		try{
-    		indexWriter.deleteDocuments(luceneQuery);
-    		indexWriter.commit();
-		}catch(Exception e){
-		    logger.error(e.getMessage(),e);
-		}finally{
-		    indexWriter.close(); // 记得关闭,否则删除不会被同步到索引文件中
-		    directory.close(); // 关闭目录
-		}
-		
-		return null;
-	}
-	
-	public static <T> String deleteListDocument(String rootdir,List<T> list) throws Exception{
-        if (CollectionUtils.isEmpty(list)) {
-            return null;
-        }
-        Class clazz = list.get(0).getClass();
-        List<String> ids=new ArrayList<>();
-        
-        for(T t:list){
-            Object pkValue_o = ClassUtils.getPKValue(t);
-            if(pkValue_o==null){
-                continue;
-            }
-            String pkValue=pkValue_o.toString();
-            ids.add(pkValue);
-        }
-         return deleteListDocument(rootdir, ids, clazz);
-	}
 	
 	
-
-	/**
-	 * 批量删除文档
-	 * 
-	 * @param entity
-	 * @return
-	 * @throws Exception
-	 */
-	@SuppressWarnings("rawtypes")
-	public static String deleteListDocument(String rootdir,List<String> ids, Class clazz)
-			throws Exception {
-		List<FieldInfo> luceneFields = ClassUtils.getLuceneFields(clazz);
-		if (CollectionUtils.isEmpty(luceneFields)) {
-			return "error";
-		}
-		if (CollectionUtils.isEmpty(ids)) {
-			return "error";
-		}
-		String pkName = ClassUtils.getEntityInfoByClass(clazz).getPkName();
-		// 索引写入配置
-		IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
-		// 获取索引目录文件
-		Directory directory = getDirectory( rootdir,clazz);
-		if (directory == null) {
-			return null;
-		}
-		IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);
-		
-		TermQuery[] listTermQuery=new TermQuery[ids.size()];
-		
-		for (int i=0;i<ids.size();i++) {
-			// 需要查询的关键字
-			Term term = new Term(pkName,ids.get(i));
-			TermQuery luceneQuery = new TermQuery(term);
-			listTermQuery[i]=luceneQuery;
-		}
-		try{
-    		indexWriter.deleteDocuments(listTermQuery);
-    		indexWriter.commit();
-		}catch(Exception e){
-            logger.error(e.getMessage(),e);
-        }finally{
-            indexWriter.close(); // 记得关闭,否则删除不会被同步到索引文件中
-            directory.close(); // 关闭目录
-        }
-
-		return null;
-	}
-	
-	/**
-	 * 删除所有索引
-	 * @param ids
-	 * @param clazz
-	 * @return
-	 * @throws Exception
-	 */
-	@SuppressWarnings("rawtypes")
-	public static String deleteDocumentAll(String rootdir,Class clazz)
-			throws Exception {
-		// 索引写入配置
-		IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
-		// 获取索引目录文件
-		Directory directory = getDirectory( rootdir,clazz);
-		if (directory == null) {
-			return null;
-		}
-		IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);
-		
-		try{
-    		indexWriter.deleteAll();
-    		indexWriter.commit();
-		}catch(Exception e){
-            logger.error(e.getMessage(),e);
-        }finally{
-            indexWriter.close(); // 记得关闭,否则删除不会被同步到索引文件中
-            directory.close(); // 关闭目录
-        }
-		return null;
-	}
-
-
-	/**
-	 * 修改文档
-	 * 
-	 * @param entity
-	 * @return
-	 * @throws Exception
-	 */
-	public static String updateDocument(String rootdir,Object entity) throws Exception {
-		
-	    String pkName = ClassUtils.getEntityInfoByClass(entity.getClass()).getPkName();
-        Object pkValue_o = ClassUtils.getPKValue(entity);
-        
-        if(pkValue_o==null){
-            return null;
-        }
-        
-        String pkValue=pkValue_o.toString();
-		
-		// 索引写入配置
-        IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
-        // 获取索引目录文件
-        Directory directory = getDirectory( rootdir,entity.getClass());
-        if (directory == null) {
-            return null;
-        }
-        IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);
-        Term term = new Term(pkName,pkValue);
-     
-        try{
-            Document doc=bean2Document(entity);
-            indexWriter.updateDocument(term, doc);
-            indexWriter.commit();
-        
-        }catch(Exception e){
-            logger.error(e.getMessage(),e);
-        }finally{
-            indexWriter.close(); // 记得关闭,否则删除不会被同步到索引文件中
-            directory.close(); // 关闭目录
-        }
-        
-		return null;
-	}
-
-	/**
-	 * 批量修改文档
-	 * 
-	 * @param entity
-	 * @return
-	 * @throws Exception
-	 */
-	@SuppressWarnings("rawtypes")
-	public static <T> String updateListDocument(String rootdir,List<T> list) throws Exception {
-
-		if (CollectionUtils.isEmpty(list)) {
-			return null;
-		}
-    	deleteListDocument(rootdir, list);
-		saveListDocument(rootdir, list);
-		return null;
-	}
-
 	/**
 	 * 获取索引的目录
 	 * 
@@ -597,7 +615,13 @@ public class LuceneUtils {
 	
    
     
-    
+    /**
+     * 索引文档转化为bean
+     * @param document
+     * @param t
+     * @return
+     * @throws Exception
+     */
     private static Object  document2Bean(Document document, Object t) throws Exception{
         
         if(document==null||t==null){
@@ -643,7 +667,12 @@ public class LuceneUtils {
     
     
     
-    
+    /**
+     * bean转化为索引文档
+     * @param entity
+     * @return
+     * @throws Exception
+     */
     private static Document bean2Document(Object entity) throws Exception{
      // 获取索引的字段,为null则不进行保存
         List<FieldInfo> luceneFields = ClassUtils.getLuceneFields(entity.getClass());
