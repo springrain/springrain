@@ -4,9 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.lucene.document.IntPoint;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.TermRangeQuery;
 import org.apache.shiro.util.CollectionUtils;
 import org.junit.Test;
 import org.springrain.frame.util.GlobalStatic;
@@ -71,8 +68,8 @@ public class LuceneTest {
 		if(!f.exists()){
 			f.mkdirs();
 		}
-		Page page=new Page(1);
-		page.setPageSize(50);
+		Page page=new Page(2);
+		page.setPageSize(10);
 		List<LuceneDto> list = LuceneUtils.searchDocument(rootdir,LuceneDto.class, page,"abd人");
 		//List<LuceneDto> list = LuceneUtils.searchDocumentByTerm(rootdir,LuceneDto.class, page,"name", "我是中国人，我会说中文49");
 		
@@ -87,7 +84,7 @@ public class LuceneTest {
 	
 	
 	   @SuppressWarnings("unchecked")
-	    //@Test
+	    @Test
 	    public void testSearchObject() throws Exception{
 	        String rootdir=GlobalStatic.rootDir+"/lucene/index";
 	        File f=new File(rootdir);
@@ -96,7 +93,7 @@ public class LuceneTest {
 	        }
 	       
 	        //List<LuceneDto> list = LuceneUtils.searchDocument(rootdir,LuceneDto.class, page,"name","我是中国人，我会说中文");
-	        LuceneDto u = LuceneUtils.searchDocumentByTerm(rootdir,LuceneDto.class,"id", "c2767ca7d2144d2a9ffffe934912ee0f");
+	        LuceneDto u = LuceneUtils.searchDocumentById(rootdir,LuceneDto.class, "c069190562334a17b5fa256937788356");
 	    
 	            System.out.println(u.getId()+","+u.getName()+","+u.getD1()+","+u.getF1()+","+u.getInt1()+","+u.getD2()+","+u.getF2()+","+u.getInt2()+","+u.getDate());
 	           
@@ -105,7 +102,7 @@ public class LuceneTest {
 	            
 	            LuceneUtils.updateDocument(rootdir, u);
 	            
-	            u = LuceneUtils.searchDocumentByTerm(rootdir,LuceneDto.class,"id", "c2767ca7d2144d2a9ffffe934912ee0f");
+	            u = LuceneUtils.searchDocumentById(rootdir,LuceneDto.class, "c069190562334a17b5fa256937788356");
 	            
                 System.out.println(u.getId()+","+u.getName()+","+u.getD1()+","+u.getF1()+","+u.getInt1()+","+u.getD2()+","+u.getF2()+","+u.getInt2()+","+u.getDate());
                
@@ -114,46 +111,20 @@ public class LuceneTest {
 	    }
 	   
 	   
-	  // @Test
-	   public void testIntPoint() throws Exception{
-	       String rootdir=GlobalStatic.rootDir+"/lucene/index";
-	       //IntPoint ip=IntPoint.c
-	       
-	       Query newRangeQuery = IntPoint.newRangeQuery("int2", 0, 20);
-	       List<LuceneDto> list = LuceneUtils.searchDocument(rootdir,LuceneDto.class,null,newRangeQuery);
-	       for (LuceneDto u:list) {
-	            System.out.println(u.getId()+","+u.getName()+","+u.getD1()+","+u.getF1()+","+u.getInt1()+","+u.getD2()+","+u.getF2()+","+u.getInt2()+","+u.getDate());
-	            
-	        }
-	       
-	       
-	   }
-	   
-	  // @Test
-       public void testStringTerm() throws Exception{
-           String rootdir=GlobalStatic.rootDir+"/lucene/index";
-           //IntPoint ip=IntPoint.c
-           
-           Query newRangeQuery = TermRangeQuery.newStringRange("date", "2017-01-01 00:00:00", "2017-02-01 00:00:00", true, true);
-           List<LuceneDto> list = LuceneUtils.searchDocument(rootdir,LuceneDto.class,null,newRangeQuery);
-           for (LuceneDto u:list) {
-                System.out.println(u.getId()+","+u.getName()+","+u.getD1()+","+u.getF1()+","+u.getInt1()+","+u.getD2()+","+u.getF2()+","+u.getInt2()+","+u.getDate());
-                
-            }
-           
-           
-       }
+	 
 	   
 	   
 	   
-       @Test
+       //@Test
        public void testStringClause() throws Exception{
            String rootdir=GlobalStatic.rootDir+"/lucene/index";
            //IntPoint ip=IntPoint.c
            
            LuceneSearchClause lsc=new LuceneSearchClause("中国 人");
-           lsc.addSearchClause("int2", Integer.class, 20,22);
+           //lsc.addSearchClause("int2", Integer.class, 20,22);
            lsc.addSearchClause("int1", Integer.class, 10,15);
+           
+           lsc.addSortField("int1", Integer.class, true);
         
            List<LuceneDto> list = LuceneUtils.searchDocument(rootdir,LuceneDto.class,null,lsc);
            for (LuceneDto u:list) {

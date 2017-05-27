@@ -15,12 +15,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.cn.smart.SmartChineseAnalyzer;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.document.DoubleDocValuesField;
 import org.apache.lucene.document.DoublePoint;
-import org.apache.lucene.document.Field;
 import org.apache.lucene.document.Field.Store;
+import org.apache.lucene.document.FloatDocValuesField;
 import org.apache.lucene.document.FloatPoint;
 import org.apache.lucene.document.IntPoint;
 import org.apache.lucene.document.LongPoint;
+import org.apache.lucene.document.NumericDocValuesField;
 import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
@@ -37,6 +39,7 @@ import org.apache.lucene.search.BooleanQuery.Builder;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
@@ -71,61 +74,8 @@ public class LuceneUtils {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static List searchDocument(String rootdir,Class clazz, Page page,
 			String searchkeyword) throws Exception {
-		List<FieldInfo> luceneTokenizedFields = ClassUtils.getLuceneTokenizedFields(clazz);
-		if (CollectionUtils.isEmpty(luceneTokenizedFields)) {
-			return null;
-		}
-		String[] fields=new String[luceneTokenizedFields.size()];
-		for(int i=0;i<luceneTokenizedFields.size();i++){
-		    fields[i]=luceneTokenizedFields.get(i).getFieldName();
-		}
-		return searchDocument( rootdir,clazz, page, fields, searchkeyword);
-	}
-
-	
-	/**
-	 * 根据某个字段类查询结果
-	 * 
-	 * @param clazz
-	 * @param page
-	 * @param searchkeyword
-	 * @return
-	 * @throws Exception
-	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static List searchDocument(String rootdir,Class clazz, Page page, String field,
-			String searchkeyword) throws Exception {
-		if (clazz==null||StringUtils.isBlank(field)) {
-			return null;
-		}
-		String[] fields = new String[] { field };
-		return searchDocument( rootdir,clazz, page, fields, searchkeyword);
-	}
-
-	
-	/**
-	 * 
-	 * @param clazz
-	 * @param page
-	 * @param fields
-	 * @param searchkeyword
-	 * @return
-	 * @throws Exception
-	 */
-	public static <T> List<T> searchDocument(String rootdir,Class<T> clazz, Page page,
-			String[] fields, String searchkeyword) throws Exception {
-
-		if (clazz==null||fields == null || fields.length < 1) {
-			return null;
-		}
-
-		// 查询指定字段的转换器
-		QueryParser parser = new MultiFieldQueryParser(fields, analyzer);
-		// 需要查询的关键字
-		BooleanQuery query = (BooleanQuery) parser.parse(searchkeyword);
-		
-		return searchDocument(rootdir, clazz, page, query);
-	
+		LuceneSearchClause lsc=new LuceneSearchClause(searchkeyword);
+		return searchDocument( rootdir,clazz, page, lsc);
 	}
 	
 	 /**
@@ -143,37 +93,41 @@ public class LuceneUtils {
         if (clazz==null||luceneSearchClause == null ) {
             return null;
         }
-        List<FieldInfo> luceneTokenizedFields = ClassUtils.getLuceneTokenizedFields(clazz);
-        String[] fields=new String[luceneTokenizedFields.size()];
-        for(int i=0;i<luceneTokenizedFields.size();i++){
-            fields[i]=luceneTokenizedFields.get(i).getFieldName();
+        
+        String[] fields= luceneSearchClause.getFields();
+        if(luceneSearchClause.getFields()==null){
+            List<FieldInfo> luceneTokenizedFields = ClassUtils.getLuceneTokenizedFields(clazz);
+            List<String> fieldList= luceneSearchClause.getFieldList();
+            for(FieldInfo finfo:luceneTokenizedFields){
+                fieldList.add(finfo.getFieldName());
+            }
+            luceneSearchClause.setFieldList(fieldList);
+            fields= luceneSearchClause.getFields();
         }
 
-        // 查询指定字段的转换器
-        
-        QueryParser parser = new MultiFieldQueryParser(fields, analyzer);
-        
-        
-        // 需要查询的关键字
-        BooleanQuery query = (BooleanQuery) parser.parse(luceneSearchClause.getKeyword());
-        
-        luceneSearchClause.getListClause().addAll(query.clauses());
-        
+       
         
         Builder builder = new BooleanQuery.Builder();
         
-        for (BooleanClause bc:luceneSearchClause.getListClause()) {
-            builder.add(bc);
+        if(StringUtils.isNotBlank(luceneSearchClause.getKeyword())){
+            // 查询指定字段的转换器
+            QueryParser parser = new MultiFieldQueryParser(fields, analyzer);
+            // 需要查询的关键字
+            BooleanQuery booleanQuery = (BooleanQuery) parser.parse(luceneSearchClause.getKeyword());
+            luceneSearchClause.getListClause().addAll(booleanQuery.clauses());
         }
         
+        List<BooleanClause> listClause = luceneSearchClause.getListClause();
         
-        return searchDocument(rootdir, clazz, page, builder.build());
+        if(CollectionUtils.isNotEmpty(listClause)){
+            for (BooleanClause bc:listClause) {
+                builder.add(bc);
+            }
+        }
+        
+        return searchDocument(rootdir, clazz, page, builder.build(),luceneSearchClause.getSort());
     }
     
-	
-	
-	
-	
 	
 	/**
      * 
@@ -185,43 +139,14 @@ public class LuceneUtils {
      * @throws Exception
      */
     public static <T> List<T> searchDocumentByTerm(String rootdir,Class<T> clazz, Page page,
-            String key,String value) throws Exception {
+            String key,Object value) throws Exception {
 
-        if (clazz==null||StringUtils.isBlank(key)||StringUtils.isBlank(value)) {
+        if (clazz==null||StringUtils.isBlank(key)||value==null) {
             return null;
         }
-        
-        Term term = new Term(key, value);
-        TermQuery termQuery = new TermQuery(term);
-        return searchDocument(rootdir, clazz, page, termQuery);
-    }
-    
-    
-  /**
-   * 根据精确值查询一个对象
-   * @param rootdir
-   * @param clazz
-   * @param key
-   * @param value
-   * @return
-   * @throws Exception
-   */
-    public static <T> T searchDocumentByTerm(String rootdir,Class<T> clazz,
-            String key,String value) throws Exception {
-
-        if (StringUtils.isBlank(key)||StringUtils.isBlank(value)) {
-            return null;
-        }
-        
-        Page page=new Page(1);
-        page.setPageSize(1);
-        
-      List<T> list=  searchDocumentByTerm(rootdir, clazz, page,   key, value);
-      if(CollectionUtils.isEmpty(list)){
-          return null;
-      }
-        
-        return list.get(0);
+        LuceneSearchClause lsc=new LuceneSearchClause(null);
+        lsc.addSearchClause(key, ClassUtils.getReturnType(key, clazz), value);
+        return searchDocument(rootdir, clazz, page, lsc);
     }
     
     
@@ -243,13 +168,24 @@ public class LuceneUtils {
         if(info==null){
             return null;
         }
-      return searchDocumentByTerm(rootdir, clazz,  info.getPkName(), value);
+        
+        
+        Page page=new Page(1);
+        page.setPageSize(1);
+        
+        List<T> list=  searchDocumentByTerm(rootdir, clazz, page,info.getPkName(), value);
+        if(CollectionUtils.isEmpty(list)){
+            return null;
+        }
+          
+          return list.get(0);
+        
     }
     
  	
 	
 	public static <T> List<T> searchDocument(String rootdir,Class<T> clazz, Page page,
-           Query query) throws Exception {
+           Query query,Sort sort) throws Exception {
         // 获取索引目录文件
         Directory directory = getDirectory( rootdir,clazz);
         if (directory == null) {
@@ -267,30 +203,49 @@ public class LuceneUtils {
         if (totalCount == 0) {
             return null;
         }
+        
+        ScoreDoc[] hits=null;
+        
         if (page == null) {
-            topDocs = indexSearcher.search(query, totalCount);
-        } else {
-            // 查询出的结果文档
-            int _size = 20;
-            if (page != null && page.getPageSize() > 0) {
-                _size = page.getPageSize();
+            if(sort==null){
+                topDocs = indexSearcher.search(query, totalCount);
+            }else{
+                topDocs = indexSearcher.search(query, totalCount,sort);
             }
+            
+            hits=topDocs.scoreDocs;
+           
+        } else {
             // 总条数
             page.setTotalCount(totalCount);
-            int _max = page.getPageIndex() * (page.getPageIndex() - 1);
-            if (_max - totalCount >= 0) {
+            int start = page.getPageSize() * (page.getPageIndex() - 1);
+            if (start >= totalCount) {
                 return null;
             }
+            
+            int end= page.getPageSize()*page.getPageIndex();
+            
+            if(end>totalCount){
+                end= totalCount;
+            }
+            
+            if (start >= end) {
+                return null;
+            }
+            if(sort==null){
+                topDocs = indexSearcher.search(query, end);
+            }else{
+                topDocs = indexSearcher.search(query, end,sort);
+            }
+            hits=new ScoreDoc[end-start];
+            int y=0;
+            for(int i=start;i<end;i++){
+                hits[y]=topDocs.scoreDocs[i];
+                y++;
+            }
+            
 
-            // 先获取上一页的最后一个元素
-            ScoreDoc lastscoreDoc = getLastScoreDoc(page.getPageIndex(), _size,query, indexSearcher);
-            topDocs = indexSearcher.searchAfter(lastscoreDoc, query, _size);
         }
-        // 通过最后一个元素搜索下页的pageSize个元素
-
-        // 查询出的结果文档
-        ScoreDoc[] hits = topDocs.scoreDocs;
-
         if (hits == null || hits.length < 1) {
             return null;
         }
@@ -327,20 +282,22 @@ public class LuceneUtils {
 	        
             String fieldValue = document.get(fieldName);
             
-            String typeName =finfo.getFieldType().getSimpleName().toLowerCase();
-            if(typeName.equals("integer")||typeName.equals("int")){//数字
+            Class fieldType =finfo.getFieldType();
+            if(Integer.class==fieldType||int.class==fieldType){//数字
                 ClassUtils.setPropertieValue(fieldName, t, Integer.valueOf(fieldValue));
-            }else if(typeName.equals("biginteger")){//数字
+            }else if(BigInteger.class==fieldType){//数字
                 ClassUtils.setPropertieValue(fieldName, t, new BigInteger(fieldValue));
-            }else if(typeName.equals("long")){//数字
+            }else if(Long.class==fieldType||long.class==fieldType){//数字
                 ClassUtils.setPropertieValue(fieldName, t, Long.valueOf(fieldValue));
-            }else if(typeName.equals("float")){//数字
+            }else if(Float.class==fieldType||float.class==fieldType){//数字
                 ClassUtils.setPropertieValue(fieldName, t, Float.valueOf(fieldValue));
-            }else if(typeName.equals("double")){//数字
+            }else if(Double.class==fieldType||double.class==fieldType){//数字
                 ClassUtils.setPropertieValue(fieldName, t, Double.valueOf(fieldValue));
-            }else if(typeName.equals("bigdecimal")){//数字
+            }else if(BigDecimal.class==fieldType){//进行存储和索引,不进行分词引
                 ClassUtils.setPropertieValue(fieldName, t, new BigDecimal(fieldValue));
-            }else if(typeName.equals("date")){//日期
+            }else if(BigInteger.class==fieldType){//进行存储和索引,不进行分词引
+                ClassUtils.setPropertieValue(fieldName, t, new BigInteger(fieldValue));
+            }else if(Date.class==fieldType){//日期
               //  ClassUtils.setPropertieValue(fieldName, t, DateUtils.convertString2Date(DateUtils.DEFAILT_DATE_TIME_PATTERN, fieldValue.toString()));
                 ClassUtils.setPropertieValue(fieldName, t, new Date(Long.valueOf(fieldValue)));
             }else{
@@ -366,43 +323,58 @@ public class LuceneUtils {
         for (FieldInfo finfo : luceneFields) {
             
             String fieldName=finfo.getFieldName();
+            Class fieldType=finfo.getFieldType();
             Object _obj = ClassUtils.getPropertieValue(fieldName, entity);
             if (_obj == null||StringUtils.isBlank(_obj.toString())) {
                 continue;
             }
             String _value = _obj.toString();
             
-            Field _field = null;
-            
-            String typeName =finfo.getFieldType().getSimpleName().toLowerCase();
-            if(typeName.equals("int")||typeName.equals("integer")){//数字进行存储和索引,不进行分词
-                _field=new StoredField(fieldName, Integer.valueOf(_value));
-                doc.add(new IntPoint(fieldName,  Integer.valueOf(_value)));
-            }else if(typeName.equals("long")){//数字进行存储和索引,不进行分词
-                _field=new StoredField(fieldName, Long.valueOf(_value));
-                doc.add(new LongPoint(fieldName,  Long.valueOf(_value)));
-            }else if(typeName.equals("float")){//数字进行存储和索引,不进行分词
-                _field=new StoredField(fieldName, Float.valueOf(_value));
-                doc.add(new FloatPoint(fieldName,  Float.valueOf(_value)));
-            }else if(typeName.equals("double")){//数字进行存储和索引,不进行分词
-             _field=new StoredField(fieldName, Double.valueOf(_value));
-             doc.add(new DoublePoint(fieldName,  Double.valueOf(_value)));
-            }else if(typeName.equals("date")){//数字进行存储和索引,不进行分词
+           
+            if(Integer.class==fieldType||int.class==fieldType){//数字进行存储和索引,不进行分词
+                Integer value=Integer.valueOf(_value);
+                
+                doc.add(new StoredField(fieldName, value));
+                doc.add(new IntPoint(fieldName,value));
+                doc.add(new NumericDocValuesField(fieldName, value));
+                
+            }else if(Long.class==fieldType||long.class==fieldType){//数字进行存储和索引,不进行分词
+                Long value=Long.valueOf(_value);
+                
+                doc.add(new StoredField(fieldName, value));
+                doc.add(new LongPoint(fieldName,  value));
+                doc.add(new NumericDocValuesField(fieldName, value));
+            }else if(Float.class==fieldType||float.class==fieldType){//数字进行存储和索引,不进行分词
+                Float value=Float.valueOf(_value);
+                
+                doc.add(new StoredField(fieldName, value));
+                doc.add(new FloatPoint(fieldName,  value));
+                doc.add(new FloatDocValuesField(fieldName, value));
+            }else if(Double.class==fieldType||double.class==fieldType){//数字进行存储和索引,不进行分词
+                Double value=Double.valueOf(_value);
+                
+                doc.add(new StoredField(fieldName, value));
+                doc.add(new DoublePoint(fieldName, value));
+                doc.add(new DoubleDocValuesField(fieldName, value));
+                
+            }else if(Date.class==fieldType){//数字进行存储和索引,不进行分词
             // _field=new StringField(fieldName, DateUtils.convertDate2String(DateUtils.DEFAILT_DATE_TIME_PATTERN,(Date)_obj), Store.YES);
-             _field=new StoredField(fieldName, ((Date)_obj).getTime());
-             doc.add(new LongPoint(fieldName,  ((Date)_obj).getTime()));
-            }else if(typeName.equals("biginteger")){//数字
-                _field=new StringField(fieldName, _value, Store.YES);
-            }else if(typeName.equals("bigdecimal")){//进行存储和索引,不进行分词引
-                _field=new StringField(fieldName, _value, Store.YES);
+              Long value=((Date)_obj).getTime();
+              doc.add(new StoredField(fieldName, value));
+              doc.add(new LongPoint(fieldName,  value));
+              doc.add(new NumericDocValuesField(fieldName, value));
+            }else if(BigInteger.class==fieldType){//数字
+                doc.add(new StringField(fieldName, _value, Store.YES));
+                doc.add(new NumericDocValuesField(fieldName,Long.valueOf(_value)));
+            }else if(BigDecimal.class==fieldType){//进行存储和索引,不进行分词引
+                doc.add(new StringField(fieldName, _value, Store.YES));
             }else if(finfo.getPk()){//如果是主键,进行存储和索引,不进行分词引
-                _field=new StringField(fieldName, _value, Store.YES);
+                doc.add(new StringField(fieldName, _value, Store.YES));
             }else{
-             _field = new TextField(fieldName, _value, Store.YES);
+                doc.add(new TextField(fieldName, _value, Store.YES));
          }
                 //_field = new Field(fieldName, _value, TextField.TYPE_STORED);
             
-            doc.add(_field);
         }
         
         return doc;
@@ -532,6 +504,7 @@ public class LuceneUtils {
 			TermQuery luceneQuery = new TermQuery(term);
 			listTermQuery[i]=luceneQuery;
 		}
+		
 		indexWriter.deleteDocuments(listTermQuery);
 		indexWriter.commit();
 		indexWriter.close(); // 记得关闭,否则删除不会被同步到索引文件中
@@ -597,6 +570,7 @@ public class LuceneUtils {
                 
         
         IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);
+        
         indexWriter.updateDocument(term, doc);
         indexWriter.commit();
         indexWriter.close(); // 记得关闭,否则删除不会被同步到索引文件中
@@ -618,14 +592,33 @@ public class LuceneUtils {
 		if (CollectionUtils.isEmpty(list)) {
 			return null;
 		}
-		List<String> ids = new ArrayList<>();
 		Class clazz = list.get(0).getClass();
-		for (T t : list) {
-			String id = ClassUtils.getPKValue(t).toString();
-			ids.add(id);
-		}
-		deleteListDocument( rootdir,ids, clazz);
-		saveListDocument( rootdir,list);
+		
+        // 索引写入配置
+        IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
+        // 获取索引目录文件
+        Directory directory = getDirectory( rootdir,clazz);
+        if (directory == null) {
+            return null;
+        }
+        IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);
+        String pkName = ClassUtils.getEntityInfoByClass(clazz).getPkName();
+        
+        
+    	for(T t:list){
+            Object pkValue_o = ClassUtils.getPKValue(t);
+            if(pkValue_o==null){
+                continue;
+            }
+            String pkValue=pkValue_o.toString();
+            Term term = new Term(pkName,pkValue);
+            Document doc=bean2Document(t);
+            indexWriter.updateDocument(term, doc);
+    	}
+		
+	    indexWriter.commit();
+	    indexWriter.close(); // 记得关闭,否则删除不会被同步到索引文件中
+	    directory.close(); // 关闭目录
 		return null;
 	}
 
@@ -672,15 +665,5 @@ public class LuceneUtils {
 
 	}
 
-	/**
-	 * 根据页码和分页大小获取上一次的最后一个ScoreDoc
-	 */
-	private static ScoreDoc getLastScoreDoc(int pageIndex, int pageSize,Query query, IndexSearcher searcher) throws IOException {
-		if (pageIndex <= 1)
-			return null;// 如果是第一页就返回空
-		int num = pageSize * (pageIndex - 1);// 获取上一页的数量
-		TopDocs tds = searcher.search(query, num);
-		return tds.scoreDocs[num - 1];
-	}
 
 }
