@@ -618,9 +618,9 @@ public class LuceneUtils {
                 ClassUtils.setPropertieValue(fieldName, t, Float.valueOf(fieldValue));
             } else if (Double.class == fieldType || double.class == fieldType) {// 数字
                 ClassUtils.setPropertieValue(fieldName, t, Double.valueOf(fieldValue));
-            } else if (BigDecimal.class == fieldType) {// 进行存储和索引,不进行分词引
+            } else if (BigDecimal.class == fieldType) {// BigDecimal
                 ClassUtils.setPropertieValue(fieldName, t, new BigDecimal(fieldValue));
-            } else if (BigInteger.class == fieldType) {// 进行存储和索引,不进行分词引
+            } else if (BigInteger.class == fieldType) {// BigInteger
                 ClassUtils.setPropertieValue(fieldName, t, new BigInteger(fieldValue));
             } else if (Date.class == fieldType) {// 日期
                 ClassUtils.setPropertieValue(fieldName, t, new Date(Long.valueOf(fieldValue)));
