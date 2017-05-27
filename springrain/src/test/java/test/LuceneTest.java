@@ -7,7 +7,7 @@ import java.util.List;
 import org.apache.shiro.util.CollectionUtils;
 import org.junit.Test;
 import org.springrain.frame.util.GlobalStatic;
-import org.springrain.frame.util.LuceneSearchClause;
+import org.springrain.frame.util.LuceneFinder;
 import org.springrain.frame.util.LuceneUtils;
 import org.springrain.frame.util.Page;
 import org.springrain.frame.util.SecUtils;
@@ -61,15 +61,15 @@ public class LuceneTest {
 	
 	
 	@SuppressWarnings("unchecked")
-	//@Test
+	@Test
 	public void testSearch() throws Exception{
 		String rootdir=GlobalStatic.rootDir+"/lucene/index";
 		File f=new File(rootdir);
 		if(!f.exists()){
 			f.mkdirs();
 		}
-		Page page=new Page(2);
-		page.setPageSize(10);
+		Page page=new Page(3);
+		page.setPageSize(5);
 		List<LuceneDto> list = LuceneUtils.searchDocument(rootdir,LuceneDto.class, page,"abd人");
 		//List<LuceneDto> list = LuceneUtils.searchDocumentByTerm(rootdir,LuceneDto.class, page,"name", "我是中国人，我会说中文49");
 		
@@ -84,7 +84,7 @@ public class LuceneTest {
 	
 	
 	   @SuppressWarnings("unchecked")
-	    @Test
+	   // @Test
 	    public void testSearchObject() throws Exception{
 	        String rootdir=GlobalStatic.rootDir+"/lucene/index";
 	        File f=new File(rootdir);
@@ -120,7 +120,7 @@ public class LuceneTest {
            String rootdir=GlobalStatic.rootDir+"/lucene/index";
            //IntPoint ip=IntPoint.c
            
-           LuceneSearchClause lsc=new LuceneSearchClause("中国 人");
+           LuceneFinder lsc=new LuceneFinder("中国 人");
            //lsc.addSearchClause("int2", Integer.class, 20,22);
            lsc.addSearchClause("int1", Integer.class, 10,15);
            

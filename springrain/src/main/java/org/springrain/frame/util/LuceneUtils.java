@@ -78,7 +78,7 @@ public class LuceneUtils {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static List searchDocument(String rootdir,Class clazz, Page page,
 			String searchkeyword) throws Exception {
-		LuceneSearchClause lsc=new LuceneSearchClause(searchkeyword);
+		LuceneFinder lsc=new LuceneFinder(searchkeyword);
 		return searchDocument( rootdir,clazz, page, lsc);
 	}
 	
@@ -87,41 +87,41 @@ public class LuceneUtils {
 	  * @param rootdir
 	  * @param clazz
 	  * @param page
-	  * @param luceneSearchClause
+	  * @param luceneFinder
 	  * @return
 	  * @throws Exception
 	  */
     public static <T> List<T> searchDocument(String rootdir,Class<T> clazz, Page page,
-            LuceneSearchClause luceneSearchClause) throws Exception {
+            LuceneFinder luceneFinder) throws Exception {
 
-        if (clazz==null||luceneSearchClause == null ) {
+        if (clazz==null||luceneFinder == null ) {
             return null;
         }
         
-        String[] fields= luceneSearchClause.getFields();
-        if(luceneSearchClause.getFields()==null){
+        String[] fields= luceneFinder.getFields();
+        if(luceneFinder.getFields()==null){
             List<FieldInfo> luceneTokenizedFields = ClassUtils.getLuceneTokenizedFields(clazz);
-            List<String> fieldList= luceneSearchClause.getFieldList();
+            List<String> fieldList= luceneFinder.getFieldList();
             for(FieldInfo finfo:luceneTokenizedFields){
                 fieldList.add(finfo.getFieldName());
             }
-            luceneSearchClause.setFieldList(fieldList);
-            fields= luceneSearchClause.getFields();
+            luceneFinder.setFieldList(fieldList);
+            fields= luceneFinder.getFields();
         }
 
        
         
         Builder builder = new BooleanQuery.Builder();
         
-        if(StringUtils.isNotBlank(luceneSearchClause.getKeyword())){
+        if(StringUtils.isNotBlank(luceneFinder.getKeyword())){
             // 查询指定字段的转换器
             QueryParser parser = new MultiFieldQueryParser(fields, analyzer);
             // 需要查询的关键字
-            BooleanQuery booleanQuery = (BooleanQuery) parser.parse(luceneSearchClause.getKeyword());
-            luceneSearchClause.getListClause().addAll(booleanQuery.clauses());
+            BooleanQuery booleanQuery = (BooleanQuery) parser.parse(luceneFinder.getKeyword());
+            luceneFinder.getListClause().addAll(booleanQuery.clauses());
         }
         
-        List<BooleanClause> listClause = luceneSearchClause.getListClause();
+        List<BooleanClause> listClause = luceneFinder.getListClause();
         
         if(CollectionUtils.isNotEmpty(listClause)){
             for (BooleanClause bc:listClause) {
@@ -129,7 +129,7 @@ public class LuceneUtils {
             }
         }
         
-        return searchDocument(rootdir, clazz, page, builder.build(),luceneSearchClause.getSort());
+        return searchDocument(rootdir, clazz, page, builder.build(),luceneFinder.getSort());
     }
     
 	
@@ -148,7 +148,7 @@ public class LuceneUtils {
         if (clazz==null||StringUtils.isBlank(key)||value==null) {
             return null;
         }
-        LuceneSearchClause lsc=new LuceneSearchClause(null);
+        LuceneFinder lsc=new LuceneFinder(null);
         lsc.addSearchClause(key, ClassUtils.getReturnType(key, clazz), value);
         return searchDocument(rootdir, clazz, page, lsc);
     }

@@ -22,7 +22,7 @@ import org.apache.lucene.search.SortField.Type;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TermRangeQuery;
 
-public class LuceneSearchClause {
+public class LuceneFinder {
     
     //搜索的关键字
     private String keyword=null;
@@ -33,7 +33,7 @@ public class LuceneSearchClause {
     private String[] fields=null;
     
     
-    public LuceneSearchClause(String keyword){
+    public LuceneFinder(String keyword){
         this.keyword=keyword;
     }
     
