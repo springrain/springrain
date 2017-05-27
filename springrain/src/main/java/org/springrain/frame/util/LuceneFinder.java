@@ -96,7 +96,7 @@ public class LuceneFinder {
         }
         
         if(type==null){
-            throw new Exception("不支持的排序类型!");
+            throw new Exception("不支持的排序类型,目前仅支持数值类型的排序");
         }
         
         
