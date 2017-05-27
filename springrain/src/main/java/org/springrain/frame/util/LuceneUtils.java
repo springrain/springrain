@@ -674,12 +674,16 @@ public class LuceneUtils {
                 continue;
             }
             String _value = _obj.toString();
-
             if (Integer.class == fieldType || int.class == fieldType) {// 数字进行存储和索引,不进行分词
                 Integer value = Integer.valueOf(_value);
 
-                doc.add(new StoredField(fieldName, value));
-                doc.add(new IntPoint(fieldName, value));
+                if (finfo.getLuceneStored()) {
+                    doc.add(new StoredField(fieldName, value));
+                }
+
+                if (finfo.getLuceneIndex()) {
+                    doc.add(new IntPoint(fieldName, value));
+                }
 
                 if (finfo.getNumericSort()) {
                     doc.add(new NumericDocValuesField(fieldName, value));
@@ -688,49 +692,81 @@ public class LuceneUtils {
             } else if (Long.class == fieldType || long.class == fieldType) {// 数字进行存储和索引,不进行分词
                 Long value = Long.valueOf(_value);
 
-                doc.add(new StoredField(fieldName, value));
-                doc.add(new LongPoint(fieldName, value));
+                if (finfo.getLuceneStored()) {
+                    doc.add(new StoredField(fieldName, value));
+                }
+
+                if (finfo.getLuceneIndex()) {
+                    doc.add(new LongPoint(fieldName, value));
+                }
                 if (finfo.getNumericSort()) {
                     doc.add(new NumericDocValuesField(fieldName, value));
                 }
             } else if (Float.class == fieldType || float.class == fieldType) {// 数字进行存储和索引,不进行分词
                 Float value = Float.valueOf(_value);
 
-                doc.add(new StoredField(fieldName, value));
-                doc.add(new FloatPoint(fieldName, value));
+                if (finfo.getLuceneStored()) {
+                    doc.add(new StoredField(fieldName, value));
+                }
+
+                if (finfo.getLuceneIndex()) {
+                    doc.add(new FloatPoint(fieldName, value));
+                }
                 if (finfo.getNumericSort()) {
                     doc.add(new FloatDocValuesField(fieldName, value));
                 }
             } else if (Double.class == fieldType || double.class == fieldType) {// 数字进行存储和索引,不进行分词
                 Double value = Double.valueOf(_value);
 
-                doc.add(new StoredField(fieldName, value));
-                doc.add(new DoublePoint(fieldName, value));
+                if (finfo.getLuceneStored()) {
+                    doc.add(new StoredField(fieldName, value));
+                }
+
+                if (finfo.getLuceneIndex()) {
+                    doc.add(new DoublePoint(fieldName, value));
+                }
                 if (finfo.getNumericSort()) {
                     doc.add(new DoubleDocValuesField(fieldName, value));
                 }
 
             } else if (Date.class == fieldType) {// 数字进行存储和索引,不进行分词
-                // _field=new StringField(fieldName,
-                // DateUtils.convertDate2String(DateUtils.DEFAILT_DATE_TIME_PATTERN,(Date)_obj),
-                // Store.YES);
                 Long value = ((Date) _obj).getTime();
-                doc.add(new StoredField(fieldName, value));
-                doc.add(new LongPoint(fieldName, value));
+                if (finfo.getLuceneStored()) {
+                    doc.add(new StoredField(fieldName, value));
+                }
+
+                if (finfo.getLuceneIndex()) {
+                    doc.add(new LongPoint(fieldName, value));
+                }
                 if (finfo.getNumericSort()) {
                     doc.add(new NumericDocValuesField(fieldName, value));
                 }
             } else if (BigInteger.class == fieldType) {// 数字
-                doc.add(new StringField(fieldName, _value, Store.YES));
+                if (finfo.getLuceneStored()) {
+                    doc.add(new StringField(fieldName, _value, Store.YES));
+                }
                 if (finfo.getNumericSort()) {
                     doc.add(new NumericDocValuesField(fieldName, Long.valueOf(_value)));
                 }
             } else if (BigDecimal.class == fieldType) {// 进行存储和索引,不进行分词引
-                doc.add(new StringField(fieldName, _value, Store.YES));
-            } else if (finfo.getPk()) {// 如果是主键,进行存储和索引,不进行分词引
-                doc.add(new StringField(fieldName, _value, Store.YES));
-            } else {
+                if (finfo.getLuceneStored()) {
+                    doc.add(new StringField(fieldName, _value, Store.YES));
+                }
+            } else if (finfo.getPk()) {// 如果是主键,强制只保存和索引,不分词
                 doc.add(new TextField(fieldName, _value, Store.YES));
+            } else if (String.class == fieldType) {// 数字进行存储和索引,不进行分词
+                Store store = Store.YES;
+                if (!finfo.getLuceneStored()) {
+                    store = Store.NO;
+                }
+
+                if (finfo.getStringTokenized()) {
+                    doc.add(new TextField(fieldName, _value, store));
+                } else if (finfo.getLuceneIndex()) {
+                    doc.add(new StringField(fieldName, _value, store));
+                }
+            } else {
+                doc.add(new StoredField(fieldName, _value));
             }
             // _field = new Field(fieldName, _value, TextField.TYPE_STORED);
 

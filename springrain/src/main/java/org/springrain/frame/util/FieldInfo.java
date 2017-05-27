@@ -2,37 +2,43 @@ package org.springrain.frame.util;
 
 /**
  * 实体类的字段说明
+ * 
  * @author caomei
  *
  */
 public class FieldInfo {
-	
-    //字段名称
-	private String fieldName=null;
 
-	//字段类型
-	private Class<?> fieldType;
+    // 字段名称
+    private String fieldName = null;
 
-	//是否是主键
-	private Boolean pk=false;
-	
-	//是否是数据库字段
-	private Boolean db=true;
-	
-	//是否是lucene全文检索
-	private Boolean lucene=false;
-	//是否tokenized分词字段,只有String作为默认的分词字段
-	private Boolean stringTokenized=false;
-	
-	 //是否进行lucene排序字段,仅支持数值和日期类型
-	private Boolean numericSort=false;
-	
-	//wheresql的注解字符串
-	private String whereSQL=null;
-	
-	//主键序列
-	private String pkSequence=null;
-	
+    // 字段类型
+    private Class<?> fieldType;
+
+    // 是否是主键
+    private Boolean pk = false;
+
+    // 是否是数据库字段
+    private Boolean db = true;
+
+    // 是否是lucene全文检索
+    private Boolean luceneField = false;
+    // 是否tokenized分词字段,只有String作为默认的分词字段,主键强制不分词
+    private Boolean stringTokenized = false;
+
+    // 是否进行lucene排序字段,仅支持数值和日期类型
+    private Boolean numericSort = false;
+
+    // 字段是否保存,请谨慎修改
+    private Boolean luceneStored = true;
+
+    // 字段是否索引,只有索引才能作为查询条件,请谨慎修改
+    private Boolean luceneIndex = true;
+
+    // wheresql的注解字符串
+    private String whereSQL = null;
+
+    // 主键序列
+    private String pkSequence = null;
 
     public String getFieldName() {
         return fieldName;
@@ -66,12 +72,12 @@ public class FieldInfo {
         this.db = db;
     }
 
-    public Boolean getLucene() {
-        return lucene;
+    public Boolean getLuceneField() {
+        return luceneField;
     }
 
-    public void setLucene(Boolean lucene) {
-        this.lucene = lucene;
+    public void setLuceneField(Boolean luceneField) {
+        this.luceneField = luceneField;
     }
 
     public Boolean getStringTokenized() {
@@ -105,6 +111,21 @@ public class FieldInfo {
     public void setNumericSort(Boolean numericSort) {
         this.numericSort = numericSort;
     }
-	
+
+    public Boolean getLuceneStored() {
+        return luceneStored;
+    }
+
+    public Boolean getLuceneIndex() {
+        return luceneIndex;
+    }
+
+    public void setLuceneStored(Boolean luceneStored) {
+        this.luceneStored = luceneStored;
+    }
+
+    public void setLuceneIndex(Boolean luceneIndex) {
+        this.luceneIndex = luceneIndex;
+    }
 
 }

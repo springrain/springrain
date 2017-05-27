@@ -261,8 +261,11 @@ public class ClassUtils {
             }
 
             if (getMethod.isAnnotationPresent(LuceneField.class)) {// 如果有LuceneField注解
-                finfo.setLucene(true);
+                finfo.setLuceneField(true);
                 LuceneField luceneField = (LuceneField) getMethod.getAnnotation(LuceneField.class);
+
+                finfo.setLuceneStored(luceneField.luceneStored());
+                finfo.setLuceneIndex(luceneField.luceneIndex());
 
                 if (fd.getType() == String.class) {// 如果是String
                     finfo.setStringTokenized(luceneField.stringTokenized());
@@ -492,6 +495,11 @@ public class ClassUtils {
         List<FieldInfo> list = new ArrayList<>();
 
         for (FieldInfo finfo : fields) {
+
+            if (finfo.getPk()) {// 如果是主键,强制不分词
+                continue;
+            }
+
             if (finfo.getStringTokenized()) {
                 list.add(finfo);
             }
@@ -523,7 +531,7 @@ public class ClassUtils {
         List<FieldInfo> list = new ArrayList<>();
 
         for (FieldInfo finfo : fields) {
-            if (finfo.getLucene()) {
+            if (finfo.getLuceneField()) {
                 list.add(finfo);
             }
 
