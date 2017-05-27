@@ -21,7 +21,7 @@ public class LuceneDto {
     private Double d2=70d;
     
     
-    @LuceneField
+    @LuceneField(stringTokenized=false)
     @Id
     public String getId() {
         return id;

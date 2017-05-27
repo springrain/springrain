@@ -19,5 +19,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD) 
 public @interface LuceneField  {
-
+     //是否分词,仅支持字符串
+     boolean stringTokenized() default true;
+     
+     //是否进行lucene排序字段,仅支持数值和日期类型
+     boolean numericSort() default true;
 }

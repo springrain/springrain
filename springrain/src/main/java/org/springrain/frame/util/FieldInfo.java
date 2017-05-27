@@ -22,7 +22,10 @@ public class FieldInfo {
 	//是否是lucene全文检索
 	private Boolean lucene=false;
 	//是否tokenized分词字段,只有String作为默认的分词字段
-	private Boolean tokenized=false;
+	private Boolean stringTokenized=false;
+	
+	 //是否进行lucene排序字段,仅支持数值和日期类型
+	private Boolean numericSort=false;
 	
 	//wheresql的注解字符串
 	private String whereSQL=null;
@@ -71,12 +74,12 @@ public class FieldInfo {
         this.lucene = lucene;
     }
 
-    public Boolean getTokenized() {
-        return tokenized;
+    public Boolean getStringTokenized() {
+        return stringTokenized;
     }
 
-    public void setTokenized(Boolean tokenized) {
-        this.tokenized = tokenized;
+    public void setStringTokenized(Boolean stringTokenized) {
+        this.stringTokenized = stringTokenized;
     }
 
     public String getWhereSQL() {
@@ -93,6 +96,14 @@ public class FieldInfo {
 
     public void setPkSequence(String pkSequence) {
         this.pkSequence = pkSequence;
+    }
+
+    public Boolean getNumericSort() {
+        return numericSort;
+    }
+
+    public void setNumericSort(Boolean numericSort) {
+        this.numericSort = numericSort;
     }
 	
 
