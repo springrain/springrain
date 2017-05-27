@@ -749,7 +749,9 @@ public class LuceneUtils {
                     doc.add(new StringField(fieldName, _value, Store.YES));
                 }
             } else if (finfo.getPk()) {// 如果是主键,强制只保存和索引,不分词
-                doc.add(new TextField(fieldName, _value, Store.YES));
+                
+                doc.add(new StringField(fieldName, _value, Store.YES));
+                
             } else if (String.class == fieldType) {// 如果是字符串,一般是要进行分词的
                 Store store = Store.YES;
                 if (!finfo.getLuceneStored()) {

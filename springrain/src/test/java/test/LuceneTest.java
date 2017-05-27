@@ -29,7 +29,7 @@ public class LuceneTest {
 		if(!f.exists()){
 			f.mkdirs();
 		}
-		for (int i = 0; i < 50; i++) {
+		for (int i = 0; i < 1; i++) {
 		    LuceneDto u=new LuceneDto();
 			u.setId(SecUtils.getUUID());
 			u.setName("我是中国人，我会说中文"+i);
@@ -84,7 +84,7 @@ public class LuceneTest {
 	
 	
 	   @SuppressWarnings("unchecked")
-	   // @Test
+	   @Test
 	    public void testSearchObject() throws Exception{
 	        String rootdir=GlobalStatic.rootDir+"/lucene/index";
 	        File f=new File(rootdir);
@@ -93,7 +93,7 @@ public class LuceneTest {
 	        }
 	       
 	        //List<LuceneDto> list = LuceneUtils.searchDocument(rootdir,LuceneDto.class, page,"name","我是中国人，我会说中文");
-	        LuceneDto u = LuceneUtils.searchDocumentById(rootdir,LuceneDto.class, "c069190562334a17b5fa256937788356");
+	        LuceneDto u = LuceneUtils.searchDocumentById(rootdir,LuceneDto.class, "ec28022ecc724a1b811f0176f1d57471");
 	    
 	            System.out.println(u.getId()+","+u.getName()+","+u.getD1()+","+u.getF1()+","+u.getInt1()+","+u.getD2()+","+u.getF2()+","+u.getInt2()+","+u.getDate());
 	           
@@ -102,7 +102,7 @@ public class LuceneTest {
 	            
 	            LuceneUtils.updateDocument(rootdir, u);
 	            
-	            u = LuceneUtils.searchDocumentById(rootdir,LuceneDto.class, "c069190562334a17b5fa256937788356");
+	            u = LuceneUtils.searchDocumentById(rootdir,LuceneDto.class, "ec28022ecc724a1b811f0176f1d57471");
 	            
                 System.out.println(u.getId()+","+u.getName()+","+u.getD1()+","+u.getF1()+","+u.getInt1()+","+u.getD2()+","+u.getF2()+","+u.getInt2()+","+u.getDate());
                
@@ -115,17 +115,23 @@ public class LuceneTest {
 	   
 	   
 	   
-       @Test
+       //@Test
        public void testStringClause() throws Exception{
            String rootdir=GlobalStatic.rootDir+"/lucene/index";
            
-           LuceneFinder lsc=new LuceneFinder("中国 人");
-           //lsc.addWhereCondition("int2", Integer.class, 20,22);
-           //lsc.addWhereCondition("int1", Integer.class, 10,15);
+           LuceneFinder lsc=new LuceneFinder(null);
            
-           lsc.addSortField("int1", Integer.class, true);
+           //lsc.addWhereCondition("id", String.class, "6fd428265bb840b7b886b926cb45659a");
+           
+           lsc.addWhereCondition("int2", Integer.class, 20);
+           //lsc.addWhereCondition("int1", Integer.class, 10,15);
+           //lsc.addWhereCondition("id", String.class, "121b77b104dd4369887a748368cafda7");
+           
+           //lsc.addSortField("int1", Integer.class, true);
         
            List<LuceneDto> list = LuceneUtils.searchDocument(rootdir,LuceneDto.class,null,lsc);
+           
+           
            for (LuceneDto u:list) {
                 System.out.println(u.getId()+","+u.getName()+","+u.getD1()+","+u.getF1()+","+u.getInt1()+","+u.getD2()+","+u.getF2()+","+u.getInt2()+","+u.getDate());
                 
