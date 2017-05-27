@@ -34,6 +34,7 @@ import org.apache.lucene.index.Term;
 import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.BooleanQuery.Builder;
 import org.apache.lucene.search.IndexSearcher;
@@ -97,25 +98,35 @@ public class LuceneUtils {
         }
 
         String[] fields = luceneFinder.getFields();
-        if (luceneFinder.getFields() == null) {
-            List<FieldInfo> luceneTokenizedFields = ClassUtils.getLuceneTokenizedFields(clazz);
-            List<String> fieldList = luceneFinder.getFieldList();
-            for (FieldInfo finfo : luceneTokenizedFields) {
-                fieldList.add(finfo.getFieldName());
-            }
-            luceneFinder.setFieldList(fieldList);
-            fields = luceneFinder.getFields();
-        }
+     
 
         Builder builder = new BooleanQuery.Builder();
 
         if (StringUtils.isNotBlank(luceneFinder.getKeyword())) {
+            
+            if (luceneFinder.getFields() == null) {
+                List<FieldInfo> luceneTokenizedFields = ClassUtils.getLuceneTokenizedFields(clazz);
+                List<String> fieldList = luceneFinder.getFieldList();
+                for (FieldInfo finfo : luceneTokenizedFields) {
+                    fieldList.add(finfo.getFieldName());
+                }
+                luceneFinder.setFieldList(fieldList);
+                fields = luceneFinder.getFields();
+            }
+            
+            
+            
             // 查询指定字段的转换器
             QueryParser parser = new MultiFieldQueryParser(fields, analyzer);
             // 需要查询的关键字
-            BooleanQuery booleanQuery = (BooleanQuery) parser.parse(luceneFinder.getKeyword());
-            luceneFinder.getListCondition().addAll(booleanQuery.clauses());
+            Query query = parser.parse(luceneFinder.getKeyword());
+            
+            builder.add(query, Occur.MUST);
         }
+        
+      
+        
+        
 
         List<BooleanClause> listClause = luceneFinder.getListCondition();
 
@@ -128,27 +139,7 @@ public class LuceneUtils {
         return searchDocument(rootdir, clazz, page, builder.build(), luceneFinder.getSort());
     }
 
-    /**
-     * 根据一个属性值查询数据列表
-     * 
-     * @param clazz
-     * @param page
-     * @param fields
-     * @param searchkeyword
-     * @return
-     * @throws Exception
-     */
-    public static <T> List<T> searchDocumentByTerm(String rootdir, Class<T> clazz, Page page, String key, Object value)
-            throws Exception {
-
-        if (clazz == null || StringUtils.isBlank(key) || value == null) {
-            return null;
-        }
-        LuceneFinder luceneFinder = new LuceneFinder(null);
-        luceneFinder.addWhereCondition(key, ClassUtils.getReturnType(key, clazz), value);
-        return searchDocument(rootdir, clazz, page, luceneFinder);
-    }
-
+  
     /**
      * 根据entityId 查询一个对象
      * 
@@ -171,8 +162,16 @@ public class LuceneUtils {
 
         Page page = new Page(1);
         page.setPageSize(1);
-
-        List<T> list = searchDocumentByTerm(rootdir, clazz, page, info.getPkName(), value);
+        
+        LuceneFinder LuceneFinder=new LuceneFinder(null);
+        LuceneFinder.addWhereCondition(info.getPkName(), info.getPkReturnType(), value);
+        
+//        List<String> fieldList=new ArrayList<>();
+//        fieldList.add(info.getPkName());
+//        LuceneFinder.setFieldList(fieldList);
+        
+        List<T> list = searchDocument(rootdir, clazz, page, LuceneFinder);
+        
         if (CollectionUtils.isEmpty(list)) {
             return null;
         }
