@@ -243,13 +243,11 @@ public class LuceneUtils {
                     topDocs = indexSearcher.search(query, end,sort);
                 }
                 hits=new ScoreDoc[end-start];
-                int y=0;
+                
                 for(int i=start;i<end;i++){
-                    hits[y]=topDocs.scoreDocs[i];
-                    y++;
+                    hits[i-start]=topDocs.scoreDocs[i];
                 }
                 
-    
             }
             if (hits == null || hits.length < 1) {
                 return null;
@@ -693,10 +691,10 @@ public class LuceneUtils {
                 
             }else if(Date.class==fieldType){//数字进行存储和索引,不进行分词
             // _field=new StringField(fieldName, DateUtils.convertDate2String(DateUtils.DEFAILT_DATE_TIME_PATTERN,(Date)_obj), Store.YES);
-              Long value=((Date)_obj).getTime();
-              doc.add(new StoredField(fieldName, value));
-              doc.add(new LongPoint(fieldName,  value));
-              doc.add(new NumericDocValuesField(fieldName, value));
+                Long value=((Date)_obj).getTime();
+                doc.add(new StoredField(fieldName, value));
+                doc.add(new LongPoint(fieldName,  value));
+                doc.add(new NumericDocValuesField(fieldName, value));
             }else if(BigInteger.class==fieldType){//数字
                 doc.add(new StringField(fieldName, _value, Store.YES));
                 doc.add(new NumericDocValuesField(fieldName,Long.valueOf(_value)));
