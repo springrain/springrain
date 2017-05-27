@@ -21,7 +21,7 @@ public class LuceneTest {
 	public void  testSave() throws Exception{
 		String rootdir=GlobalStatic.rootDir+"/lucene/index";
 		
-		LuceneUtils.deleteDocumentAll(rootdir, LuceneDto.class);
+		LuceneUtils.deleteAllDocument(rootdir, LuceneDto.class);
 		
 		System.out.println(rootdir);
 		
@@ -61,7 +61,7 @@ public class LuceneTest {
 	
 	
 	@SuppressWarnings("unchecked")
-	@Test
+	//@Test
 	public void testSearch() throws Exception{
 		String rootdir=GlobalStatic.rootDir+"/lucene/index";
 		File f=new File(rootdir);
@@ -115,16 +115,16 @@ public class LuceneTest {
 	   
 	   
 	   
-       //@Test
+       @Test
        public void testStringClause() throws Exception{
            String rootdir=GlobalStatic.rootDir+"/lucene/index";
            //IntPoint ip=IntPoint.c
            
            LuceneFinder lsc=new LuceneFinder("中国 人");
            //lsc.addSearchClause("int2", Integer.class, 20,22);
-           lsc.addSearchClause("int1", Integer.class, 10,15);
+           //lsc.addSearchClause("int1", Integer.class, 10,15);
            
-           lsc.addSortField("int1", Integer.class, true);
+           lsc.addSortField("id", String.class, true);
         
            List<LuceneDto> list = LuceneUtils.searchDocument(rootdir,LuceneDto.class,null,lsc);
            for (LuceneDto u:list) {

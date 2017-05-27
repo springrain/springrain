@@ -384,7 +384,7 @@ public class LuceneUtils {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("rawtypes")
-	public static String deleteDocumentAll(String rootdir,Class clazz)
+	public static String deleteAllDocument(String rootdir,Class clazz)
 			throws Exception {
 		// 索引写入配置
 		IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);

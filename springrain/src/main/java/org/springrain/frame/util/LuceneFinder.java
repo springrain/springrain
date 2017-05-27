@@ -79,7 +79,9 @@ public class LuceneFinder {
             return null;
         }
         
-        Type type=Type.STRING;
+       
+        //Type type=Type.STRING;//使用SortedDocValuesField也有限制,暂时不支持String排序
+        Type type=null;
         
         if(Integer.class==fieldType||int.class==fieldType){//数字
             type=Type.INT;
@@ -92,6 +94,12 @@ public class LuceneFinder {
         }else if(Date.class==fieldType){//日期
             type=Type.LONG;
         }
+        
+        if(type==null){
+            throw new Exception("不支持的排序类型!");
+        }
+        
+        
         
         SortField sf=new SortField(fieldName,type,relevance);
         sortFieldList.add(sf);
