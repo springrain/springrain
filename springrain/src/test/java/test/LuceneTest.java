@@ -118,11 +118,10 @@ public class LuceneTest {
        @Test
        public void testStringClause() throws Exception{
            String rootdir=GlobalStatic.rootDir+"/lucene/index";
-           //IntPoint ip=IntPoint.c
            
            LuceneFinder lsc=new LuceneFinder("中国 人");
-           //lsc.addSearchClause("int2", Integer.class, 20,22);
-           //lsc.addSearchClause("int1", Integer.class, 10,15);
+           //lsc.addWhereCondition("int2", Integer.class, 20,22);
+           //lsc.addWhereCondition("int1", Integer.class, 10,15);
            
            lsc.addSortField("int1", Integer.class, true);
         
