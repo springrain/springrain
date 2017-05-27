@@ -75,8 +75,8 @@ public class LuceneUtils {
      */
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public static List searchDocument(String rootdir, Class clazz, Page page, String searchkeyword) throws Exception {
-        LuceneFinder lsc = new LuceneFinder(searchkeyword);
-        return searchDocument(rootdir, clazz, page, lsc);
+        LuceneFinder luceneFinder = new LuceneFinder(searchkeyword);
+        return searchDocument(rootdir, clazz, page, luceneFinder);
     }
 
     /**
@@ -144,9 +144,9 @@ public class LuceneUtils {
         if (clazz == null || StringUtils.isBlank(key) || value == null) {
             return null;
         }
-        LuceneFinder lsc = new LuceneFinder(null);
-        lsc.addWhereCondition(key, ClassUtils.getReturnType(key, clazz), value);
-        return searchDocument(rootdir, clazz, page, lsc);
+        LuceneFinder luceneFinder = new LuceneFinder(null);
+        luceneFinder.addWhereCondition(key, ClassUtils.getReturnType(key, clazz), value);
+        return searchDocument(rootdir, clazz, page, luceneFinder);
     }
 
     /**
@@ -754,7 +754,7 @@ public class LuceneUtils {
                 }
             } else if (finfo.getPk()) {// 如果是主键,强制只保存和索引,不分词
                 doc.add(new TextField(fieldName, _value, Store.YES));
-            } else if (String.class == fieldType) {// 数字进行存储和索引,不进行分词
+            } else if (String.class == fieldType) {// 如果是字符串,一般是要进行分词的
                 Store store = Store.YES;
                 if (!finfo.getLuceneStored()) {
                     store = Store.NO;
@@ -764,6 +764,8 @@ public class LuceneUtils {
                     doc.add(new TextField(fieldName, _value, store));
                 } else if (finfo.getLuceneIndex()) {
                     doc.add(new StringField(fieldName, _value, store));
+                } else {
+                    doc.add(new StoredField(fieldName, _value));
                 }
             } else {
                 doc.add(new StoredField(fieldName, _value));
