@@ -60,7 +60,13 @@ public class LuceneFinder {
     }
     
     
-    
+    /**
+     * 添加排序的字段,默认正序
+     * @param fieldName
+     * @param fieldType
+     * @return
+     * @throws Exception
+     */
     public List<SortField> addSortField(String fieldName,Class fieldType) throws Exception{
         return addSortField(fieldName, fieldType, false);
     }
