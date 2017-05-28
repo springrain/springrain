@@ -297,9 +297,7 @@ public class ClassUtils {
                     finfo.setNumericSort(luceneField.numericSort());
                 } else if (fd.getType() == Float.class || fd.getType() == float.class) {
                     finfo.setNumericSort(luceneField.numericSort());
-                } else if (fd.getType() == Date.class) {
-                    finfo.setNumericSort(luceneField.numericSort());
-                } else if (fd.getType() == BigInteger.class) {
+                } else if (fd.getType() == Date.class || fd.getType() == BigInteger.class) {
                     finfo.setNumericSort(luceneField.numericSort());
                 }
 
