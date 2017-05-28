@@ -89,7 +89,7 @@ public class ClassUtils {
 
         String tableName = ClassUtils.getTableNameByClass(clazz);
         info.setTableName(tableName);
-        info.setClassName(clazz.getName());
+        info.setClassName(className);
 
         List<FieldInfo> fields = new ArrayList<>();
         info.setFields(fields);
@@ -150,7 +150,6 @@ public class ClassUtils {
      * @return
      * @throws Exception
      */
-    @SuppressWarnings("rawtypes")
     public static String getTableName(Object object) throws Exception {
 
         if (object == null) {
@@ -243,12 +242,35 @@ public class ClassUtils {
     @SuppressWarnings("rawtypes")
     private static List<FieldInfo> recursionFiled(Class clazz, EntityInfo info, List<FieldInfo> fields)
             throws Exception {
+        
+        if(fields==null){
+            return null;
+        }
+        
         Field[] fds = clazz.getDeclaredFields();
+        
+        if(fds==null||fds.length<1){
+            return fields;
+        }
 
         for (int i = 0; i < fds.length; i++) {
             FieldInfo finfo = new FieldInfo();
             Field fd = fds[i];
             String fieldName = fd.getName();
+            
+            boolean exist=false;
+            for(FieldInfo fi:fields){
+                if(fieldName.equals(fi.getFieldName())){//如果字段已经存在
+                    exist=true;
+                    break;
+                }
+            }
+            
+            if(exist){
+                continue;
+            }
+            
+            
             finfo.setFieldName(fieldName);// 字段名称
             finfo.setFieldType(fd.getType());// 字段类型
             PropertyDescriptor pd = new PropertyDescriptor(fieldName, clazz);
@@ -311,7 +333,6 @@ public class ClassUtils {
      * @return
      * @throws Exception
      */
-    @SuppressWarnings("rawtypes")
     public static Object getPKValue(Object o) throws Exception {
         Class clazz = o.getClass();
         String id = getEntityInfoByClass(clazz).getPkName();
@@ -328,19 +349,17 @@ public class ClassUtils {
      * @throws Exception
      */
     public static Object getPropertieValue(String p, Object o) throws Exception {
-        Object _obj = null;
         for (Class<?> clazz = o.getClass(); clazz != Object.class; clazz = clazz.getSuperclass()) {
 
             PropertyDescriptor pd = new PropertyDescriptor(p, clazz);
             Method getMethod = pd.getReadMethod();// 获得get方法
             if (getMethod != null) {
-                _obj = getMethod.invoke(o);
-                break;
+                return getMethod.invoke(o);
             }
 
         }
 
-        return _obj;
+        return null;
 
     }
 
@@ -353,18 +372,17 @@ public class ClassUtils {
      * @throws Exception
      */
     public static Object setPropertieValue(String p, Object o, Object value) throws Exception {
-        Object _obj = null;
         for (Class<?> clazz = o.getClass(); clazz != Object.class; clazz = clazz.getSuperclass()) {
             PropertyDescriptor pd = new PropertyDescriptor(p, clazz);
             Method setMethod = pd.getWriteMethod();// 获得set方法
             if (setMethod != null) {
                 setMethod.invoke(o, value);
-                break;
+                return o;
             }
 
         }
 
-        return _obj;
+        return o;
 
     }
 
@@ -376,7 +394,6 @@ public class ClassUtils {
      * @return
      * @throws Exception
      */
-    @SuppressWarnings("rawtypes")
     public static Class getReturnType(String p, Class clazz) throws Exception {
 
         if (StringUtils.isBlank(p) || clazz == null) {
@@ -410,19 +427,24 @@ public class ClassUtils {
      * @param clazz
      * @return
      */
-    @SuppressWarnings("rawtypes")
     public static boolean isBaseType(Class clazz) {
         if (clazz == null) {
             return false;
         }
         String className = clazz.getName().toLowerCase();
-        if (className.startsWith("java.")) {
+        if (className.startsWith("java.")||className.startsWith("javax.")) {
             return true;
         } else {
             return false;
         }
     }
 
+    /**
+     * 获取所有字段的名称
+     * @param clazz
+     * @return
+     * @throws Exception
+     */
     private static Set<String> getAllFieldNames(Class clazz) throws Exception {
         EntityInfo entityInfoByClass = getEntityInfoByClass(clazz);
         if (entityInfoByClass == null) {
@@ -475,7 +497,7 @@ public class ClassUtils {
     }
 
     /**
-     * 获取所有分词的字段,一般提供查询内容
+     * 获取所有分词的字段,一般用于分词查询内容
      * 
      * @param clazz
      * @return
@@ -511,7 +533,7 @@ public class ClassUtils {
     }
 
     /**
-     * 获取所有参与全文检索的字段
+     * 获取所有LuceneField 注解的字段,参与Lucene索引的字段
      * 
      * @param clazz
      * @return
