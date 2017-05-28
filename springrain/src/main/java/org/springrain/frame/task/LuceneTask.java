@@ -49,9 +49,9 @@ public class LuceneTask implements Runnable {
 			
 			if (deleteDocument.equals(oper)) {
 				if(entity instanceof List){
-					LuceneUtils.deleteListDocument(rootdir,(List)entity,clazz);
+					LuceneUtils.deleteListDocument(rootdir,clazz,(List)entity);
 				}else{
-					LuceneUtils.deleteDocumentById(rootdir,entity.toString(),clazz);
+					LuceneUtils.deleteDocumentById(rootdir,clazz,entity.toString());
 				}
 				
 			}else if (updateDocument.equals(oper))  {

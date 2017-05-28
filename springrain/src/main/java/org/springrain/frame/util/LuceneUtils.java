@@ -95,14 +95,10 @@ public class LuceneUtils {
         if (clazz == null || luceneFinder == null) {
             return null;
         }
-        Query query= getBuilderByLuceneFinder(clazz,luceneFinder).build();
+        Query query = getBuilderByLuceneFinder(clazz, luceneFinder).build();
         return searchDocument(rootdir, clazz, page, query, luceneFinder.getSort());
     }
-    
-  
-    
 
-  
     /**
      * 根据entityId 查询一个对象
      * 
@@ -125,12 +121,12 @@ public class LuceneUtils {
 
         Page page = new Page(1);
         page.setPageSize(1);
-        
-        LuceneFinder LuceneFinder=new LuceneFinder(null);
+
+        LuceneFinder LuceneFinder = new LuceneFinder(null);
         LuceneFinder.addWhereCondition(info.getPkName(), info.getPkReturnType(), value);
-        
+
         List<T> list = searchDocument(rootdir, clazz, page, LuceneFinder);
-        
+
         if (CollectionUtils.isEmpty(list)) {
             return null;
         }
@@ -216,7 +212,7 @@ public class LuceneUtils {
      * @return
      * @throws Exception
      */
-    public static String deleteDocumentById(String rootdir, String id, Class clazz) throws Exception {
+    public static String deleteDocumentById(String rootdir, Class clazz, String id) throws Exception {
         List<FieldInfo> luceneFields = ClassUtils.getLuceneFields(clazz);
         if (CollectionUtils.isEmpty(luceneFields)) {
             return null;
@@ -271,10 +267,9 @@ public class LuceneUtils {
             String pkValue = pkValue_o.toString();
             ids.add(pkValue);
         }
-        return deleteListDocument(rootdir, ids, clazz);
+        return deleteListDocument(rootdir, clazz, ids);
     }
-    
-    
+
     /**
      * 根据LuceneFinder,批量删除索引
      * 
@@ -282,12 +277,12 @@ public class LuceneUtils {
      * @return
      * @throws Exception
      */
-    public static String deleteListDocument(String rootdir, Class clazz,LuceneFinder luceneFinder) throws Exception {
+    public static String deleteListDocument(String rootdir, Class clazz, LuceneFinder luceneFinder) throws Exception {
         List<FieldInfo> luceneFields = ClassUtils.getLuceneFields(clazz);
         if (CollectionUtils.isEmpty(luceneFields)) {
             return null;
         }
-        if (luceneFinder==null) {
+        if (luceneFinder == null) {
             return null;
         }
         // 索引写入配置
@@ -299,9 +294,8 @@ public class LuceneUtils {
         }
         IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);
 
-       
         try {
-            Query query=getBuilderByLuceneFinder(clazz, luceneFinder).build();
+            Query query = getBuilderByLuceneFinder(clazz, luceneFinder).build();
             indexWriter.deleteDocuments(query);
             indexWriter.commit();
         } catch (Exception e) {
@@ -321,7 +315,7 @@ public class LuceneUtils {
      * @return
      * @throws Exception
      */
-    public static String deleteListDocument(String rootdir, List<String> ids, Class clazz) throws Exception {
+    public static String deleteListDocument(String rootdir, Class clazz, List<String> ids) throws Exception {
         List<FieldInfo> luceneFields = ClassUtils.getLuceneFields(clazz);
         if (CollectionUtils.isEmpty(luceneFields)) {
             return null;
@@ -449,42 +443,38 @@ public class LuceneUtils {
         saveListDocument(rootdir, list);
         return null;
     }
-    
-    
+
     /**
      * 封装获取查询的BooleanQuery.Builder
+     * 
      * @param clazz
      * @param luceneFinder
      * @return
      * @throws Exception
      */
-    private static Builder getBuilderByLuceneFinder(Class clazz,LuceneFinder luceneFinder) throws Exception{
-        
+    private static Builder getBuilderByLuceneFinder(Class clazz, LuceneFinder luceneFinder) throws Exception {
+
         String[] fields = luceneFinder.getFields();
         Builder builder = new BooleanQuery.Builder();
 
         if (StringUtils.isNotBlank(luceneFinder.getKeyword())) {
-            
+
             if (luceneFinder.getFields() == null) {
                 List<FieldInfo> luceneTokenizedFields = ClassUtils.getLuceneTokenizedFields(clazz);
                 List<String> fieldList = luceneFinder.getFieldList();
                 for (FieldInfo finfo : luceneTokenizedFields) {
                     fieldList.add(finfo.getFieldName());
                 }
-                //luceneFinder.setFieldList(fieldList);
+                // luceneFinder.setFieldList(fieldList);
                 fields = luceneFinder.getFields();
             }
             // 查询指定字段的转换器
             QueryParser parser = new MultiFieldQueryParser(fields, analyzer);
             // 需要查询的关键字
             Query query = parser.parse(luceneFinder.getKeyword());
-            
+
             builder.add(query, Occur.MUST);
         }
-        
-      
-        
-        
 
         List<BooleanClause> listClause = luceneFinder.getListCondition();
 
@@ -493,11 +483,10 @@ public class LuceneUtils {
                 builder.add(bc);
             }
         }
-        
+
         return builder;
-        
+
     }
-    
 
     /**
      * 根据 Query 和 Sort查询数据列表,暂不对外开放.
@@ -791,9 +780,9 @@ public class LuceneUtils {
                     doc.add(new StringField(fieldName, _value, Store.YES));
                 }
             } else if (finfo.getPk()) {// 如果是主键,强制只保存和索引,不分词
-                
+
                 doc.add(new StringField(fieldName, _value, Store.YES));
-                
+
             } else if (String.class == fieldType) {// 如果是字符串,一般是要进行分词的
                 Store store = Store.YES;
                 if (!finfo.getLuceneStored()) {
