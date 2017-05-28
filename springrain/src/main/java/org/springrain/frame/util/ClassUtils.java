@@ -287,7 +287,7 @@ public class ClassUtils {
 
                 if (fd.getType() == String.class) {// 如果是String
                     finfo.setStringTokenized(luceneField.stringTokenized());
-                    finfo.setLuceneFacet(luceneField.luceneFacet());
+                    //finfo.setLuceneFacet(luceneField.luceneFacet());
                 } else if (fd.getType() == Integer.class || fd.getType() == int.class) {
                     finfo.setNumericSort(luceneField.numericSort());
                 } else if (fd.getType() == Double.class || fd.getType() == double.class) {

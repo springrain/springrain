@@ -34,8 +34,8 @@ public class FieldInfo {
     // 字段是否索引,只有索引才能作为查询条件,请谨慎修改
     private Boolean luceneIndex = true;
     
-    //FacetField,暂未实现 facet
-    private Boolean luceneFacet=false;
+    //FacetField,暂未实现 facet,这样的场景建议换solr了
+    //private Boolean luceneFacet=false;
 
     // wheresql的注解字符串
     private String whereSQL = null;
@@ -131,12 +131,5 @@ public class FieldInfo {
         this.luceneIndex = luceneIndex;
     }
 
-    public Boolean getLuceneFacet() {
-        return luceneFacet;
-    }
-
-    public void setLuceneFacet(Boolean luceneFacet) {
-        this.luceneFacet = luceneFacet;
-    }
 
 }
