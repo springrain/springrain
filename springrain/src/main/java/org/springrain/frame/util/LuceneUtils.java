@@ -179,7 +179,7 @@ public class LuceneUtils {
      */
     public static <T> String saveListDocument(String rootdir, List<T> list) throws Exception {
         if (CollectionUtils.isEmpty(list)) {
-            return "error";
+            return null;
         }
 
         // 索引写入配置
@@ -219,7 +219,7 @@ public class LuceneUtils {
     public static String deleteDocumentById(String rootdir, String id, Class clazz) throws Exception {
         List<FieldInfo> luceneFields = ClassUtils.getLuceneFields(clazz);
         if (CollectionUtils.isEmpty(luceneFields)) {
-            return "error";
+            return null;
         }
 
         String pkName = ClassUtils.getEntityInfoByClass(clazz).getPkName();
@@ -273,6 +273,46 @@ public class LuceneUtils {
         }
         return deleteListDocument(rootdir, ids, clazz);
     }
+    
+    
+    /**
+     * 根据LuceneFinder,批量删除索引
+     * 
+     * @param entity
+     * @return
+     * @throws Exception
+     */
+    public static String deleteListDocument(String rootdir, Class clazz,LuceneFinder luceneFinder) throws Exception {
+        List<FieldInfo> luceneFields = ClassUtils.getLuceneFields(clazz);
+        if (CollectionUtils.isEmpty(luceneFields)) {
+            return null;
+        }
+        if (luceneFinder==null) {
+            return null;
+        }
+        // 索引写入配置
+        IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
+        // 获取索引目录文件
+        Directory directory = getDirectory(rootdir, clazz);
+        if (directory == null) {
+            return null;
+        }
+        IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);
+
+       
+        try {
+            Query query=getBuilderByLuceneFinder(clazz, luceneFinder).build();
+            indexWriter.deleteDocuments(query);
+            indexWriter.commit();
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        } finally {
+            indexWriter.close(); // 记得关闭,否则删除不会被同步到索引文件中
+            directory.close(); // 关闭目录
+        }
+
+        return null;
+    }
 
     /**
      * 根据Id列表,批量删除索引
@@ -284,10 +324,10 @@ public class LuceneUtils {
     public static String deleteListDocument(String rootdir, List<String> ids, Class clazz) throws Exception {
         List<FieldInfo> luceneFields = ClassUtils.getLuceneFields(clazz);
         if (CollectionUtils.isEmpty(luceneFields)) {
-            return "error";
+            return null;
         }
         if (CollectionUtils.isEmpty(ids)) {
-            return "error";
+            return null;
         }
         String pkName = ClassUtils.getEntityInfoByClass(clazz).getPkName();
         // 索引写入配置
