@@ -26,7 +26,6 @@ import org.apache.lucene.document.NumericDocValuesField;
 import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
-import org.apache.lucene.facet.FacetField;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
@@ -790,9 +789,10 @@ public class LuceneUtils {
                     store = Store.NO;
                 }
                 
-                if(finfo.getLuceneFacet()){
-                    doc.add(new FacetField(fieldName, _value));
-                }
+               //暂未实现 facet
+               // if(finfo.getLuceneFacet()){
+               //     doc.add(new FacetField(fieldName, _value));
+               // }
 
                 if (finfo.getStringTokenized()) {
                     doc.add(new TextField(fieldName, _value, store));

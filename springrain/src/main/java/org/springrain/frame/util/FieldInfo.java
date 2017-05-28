@@ -34,7 +34,7 @@ public class FieldInfo {
     // 字段是否索引,只有索引才能作为查询条件,请谨慎修改
     private Boolean luceneIndex = true;
     
-    //FacetField,仅用于字符串
+    //FacetField,仅用于字符串,暂未实现 facet
     private Boolean luceneFacet=false;
 
     // wheresql的注解字符串
