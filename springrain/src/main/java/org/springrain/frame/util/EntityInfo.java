@@ -14,15 +14,20 @@ public class EntityInfo {
 	
 	private String tableName=null;
 	private String className=null;
+	//实体类表后缀的名称
 	private String tableSuffix="";
-
+	//注解标识的后缀字段
+	private String tableSuffixFieldName=null;
+	//是否分表
+    private Boolean tableSuffixAnnotation=false;
+	
+    
 	private Class<?> pkReturnType;
 	
 	
 	private String pkName=null;
 
-	//是否分表
-	private Boolean sharding=false;
+	
 	
 	//主键序列
 	private String pksequence=null;
@@ -80,11 +85,11 @@ public class EntityInfo {
 	public void setPkName(String pkName) {
 		this.pkName = pkName;
 	}
-	public Boolean isSharding() {
-		return sharding;
+	public Boolean getTableSuffixAnnotation() {
+		return tableSuffixAnnotation;
 	}
-	public void setSharding(Boolean sharding) {
-		this.sharding = sharding;
+	public void setTableSuffixAnnotation(Boolean tableSuffixAnnotation) {
+		this.tableSuffixAnnotation = tableSuffixAnnotation;
 	}
 	public String getPksequence() {
 		return pksequence;
@@ -123,6 +128,12 @@ public class EntityInfo {
     }
     public void setFields(List<FieldInfo> fields) {
         this.fields = fields;
+    }
+    public String getTableSuffixFieldName() {
+        return tableSuffixFieldName;
+    }
+    public void setTableSuffixField(String tableSuffixFieldName) {
+        this.tableSuffixFieldName = tableSuffixFieldName;
     }
 
 

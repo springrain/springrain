@@ -77,7 +77,9 @@ public class ClassUtils {
         }
 
         if (clazz.isAnnotationPresent(TableSuffix.class)) {
-            info.setSharding(true);
+            info.setTableSuffixAnnotation(true);
+            TableSuffix tableSuffix = (TableSuffix) clazz.getAnnotation(TableSuffix.class);
+            info.setTableSuffixField(tableSuffix.name());
         }
         if (clazz.isAnnotationPresent(NotLog.class)) {
             info.setNotLog(true);
@@ -221,11 +223,13 @@ public class ClassUtils {
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public static String getTableExt(Object o) throws Exception {
         Class clazz = o.getClass();
-        if (clazz.isAnnotationPresent(TableSuffix.class) == false)
+        
+        EntityInfo entityInfo = getEntityInfoByClass(clazz);
+        
+        if (!entityInfo.getTableSuffixAnnotation()){//不分表
             return "";
-
-        TableSuffix suffix = (TableSuffix) clazz.getAnnotation(TableSuffix.class);
-        String p = suffix.name();
+        }
+        String p = entityInfo.getTableSuffixFieldName();
         String tableExt = (String) getPropertieValue(p, o);
         return tableExt;
 
