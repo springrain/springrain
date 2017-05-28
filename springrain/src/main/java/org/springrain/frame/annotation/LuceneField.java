@@ -25,6 +25,9 @@ public @interface LuceneField {
 
     // 是否进行lucene排序字段,仅支持数值和日期类型
     boolean numericSort() default true;
+    
+    //FacetField,仅用于字符串
+    boolean luceneFacet() default false;
 
     // 字段是否保存,请谨慎修改
     boolean luceneStored() default true;
