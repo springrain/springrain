@@ -95,46 +95,12 @@ public class LuceneUtils {
         if (clazz == null || luceneFinder == null) {
             return null;
         }
-
-        String[] fields = luceneFinder.getFields();
-        Builder builder = new BooleanQuery.Builder();
-
-        if (StringUtils.isNotBlank(luceneFinder.getKeyword())) {
-            
-            if (luceneFinder.getFields() == null) {
-                List<FieldInfo> luceneTokenizedFields = ClassUtils.getLuceneTokenizedFields(clazz);
-                List<String> fieldList = luceneFinder.getFieldList();
-                for (FieldInfo finfo : luceneTokenizedFields) {
-                    fieldList.add(finfo.getFieldName());
-                }
-                //luceneFinder.setFieldList(fieldList);
-                fields = luceneFinder.getFields();
-            }
-            
-            
-            
-            // 查询指定字段的转换器
-            QueryParser parser = new MultiFieldQueryParser(fields, analyzer);
-            // 需要查询的关键字
-            Query query = parser.parse(luceneFinder.getKeyword());
-            
-            builder.add(query, Occur.MUST);
-        }
-        
-      
-        
-        
-
-        List<BooleanClause> listClause = luceneFinder.getListCondition();
-
-        if (CollectionUtils.isNotEmpty(listClause)) {
-            for (BooleanClause bc : listClause) {
-                builder.add(bc);
-            }
-        }
-
-        return searchDocument(rootdir, clazz, page, builder.build(), luceneFinder.getSort());
+        Query query= getBuilderByLuceneFinder(clazz,luceneFinder).build();
+        return searchDocument(rootdir, clazz, page, query, luceneFinder.getSort());
     }
+    
+  
+    
 
   
     /**
@@ -250,7 +216,7 @@ public class LuceneUtils {
      * @return
      * @throws Exception
      */
-    public static String deleteDocument(String rootdir, String id, Class clazz) throws Exception {
+    public static String deleteDocumentById(String rootdir, String id, Class clazz) throws Exception {
         List<FieldInfo> luceneFields = ClassUtils.getLuceneFields(clazz);
         if (CollectionUtils.isEmpty(luceneFields)) {
             return "error";
@@ -443,6 +409,55 @@ public class LuceneUtils {
         saveListDocument(rootdir, list);
         return null;
     }
+    
+    
+    /**
+     * 封装获取查询的BooleanQuery.Builder
+     * @param clazz
+     * @param luceneFinder
+     * @return
+     * @throws Exception
+     */
+    private static Builder getBuilderByLuceneFinder(Class clazz,LuceneFinder luceneFinder) throws Exception{
+        
+        String[] fields = luceneFinder.getFields();
+        Builder builder = new BooleanQuery.Builder();
+
+        if (StringUtils.isNotBlank(luceneFinder.getKeyword())) {
+            
+            if (luceneFinder.getFields() == null) {
+                List<FieldInfo> luceneTokenizedFields = ClassUtils.getLuceneTokenizedFields(clazz);
+                List<String> fieldList = luceneFinder.getFieldList();
+                for (FieldInfo finfo : luceneTokenizedFields) {
+                    fieldList.add(finfo.getFieldName());
+                }
+                //luceneFinder.setFieldList(fieldList);
+                fields = luceneFinder.getFields();
+            }
+            // 查询指定字段的转换器
+            QueryParser parser = new MultiFieldQueryParser(fields, analyzer);
+            // 需要查询的关键字
+            Query query = parser.parse(luceneFinder.getKeyword());
+            
+            builder.add(query, Occur.MUST);
+        }
+        
+      
+        
+        
+
+        List<BooleanClause> listClause = luceneFinder.getListCondition();
+
+        if (CollectionUtils.isNotEmpty(listClause)) {
+            for (BooleanClause bc : listClause) {
+                builder.add(bc);
+            }
+        }
+        
+        return builder;
+        
+    }
+    
 
     /**
      * 根据 Query 和 Sort查询数据列表,暂不对外开放.
