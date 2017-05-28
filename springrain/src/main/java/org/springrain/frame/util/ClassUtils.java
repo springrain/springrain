@@ -58,7 +58,6 @@ public class ClassUtils {
      * @return
      * @throws Exception
      */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
     public static EntityInfo getEntityInfoByClass(Class clazz) throws Exception {
         if (clazz == null) {
             return null;
@@ -109,7 +108,6 @@ public class ClassUtils {
      * @return
      * @throws Exception
      */
-    @SuppressWarnings("rawtypes")
     public static EntityInfo getEntityInfoByEntity(Object o) throws Exception {
         if (o == null)
             return null;
@@ -132,13 +130,11 @@ public class ClassUtils {
      * @return
      * @throws Exception
      */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
     public static boolean isAnnotation(Class clazz, String fdName, Class annotationClass) throws Exception {
 
         if (clazz == null || fdName == null || annotationClass == null) {
             return false;
         }
-
         PropertyDescriptor pd = new PropertyDescriptor(fdName, clazz);
         Method getMethod = pd.getReadMethod();// 获得get方法
         return getMethod.isAnnotationPresent(annotationClass);
@@ -191,7 +187,6 @@ public class ClassUtils {
      * @param clazz
      * @return
      */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
     public static String getTableNameByClass(Class clazz) {
 
         if (clazz == null) {
@@ -220,13 +215,12 @@ public class ClassUtils {
      * @return
      * @throws Exception
      */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
     public static String getTableExt(Object o) throws Exception {
         Class clazz = o.getClass();
-        
+
         EntityInfo entityInfo = getEntityInfoByClass(clazz);
-        
-        if (!entityInfo.getTableSuffixAnnotation()){//不分表
+
+        if (!entityInfo.getTableSuffixAnnotation()) {// 不分表
             return "";
         }
         String p = entityInfo.getTableSuffixFieldName();
@@ -243,17 +237,16 @@ public class ClassUtils {
      * @return
      * @throws Exception
      */
-    @SuppressWarnings("rawtypes")
     private static List<FieldInfo> recursionFiled(Class clazz, EntityInfo info, List<FieldInfo> fields)
             throws Exception {
-        
-        if(fields==null){
+
+        if (fields == null) {
             return null;
         }
-        
+
         Field[] fds = clazz.getDeclaredFields();
-        
-        if(fds==null||fds.length<1){
+
+        if (fds == null || fds.length < 1) {
             return fields;
         }
 
@@ -261,20 +254,19 @@ public class ClassUtils {
             FieldInfo finfo = new FieldInfo();
             Field fd = fds[i];
             String fieldName = fd.getName();
-            
-            boolean exist=false;
-            for(FieldInfo fi:fields){
-                if(fieldName.equals(fi.getFieldName())){//如果字段已经存在
-                    exist=true;
+
+            boolean exist = false;
+            for (FieldInfo fi : fields) {
+                if (fieldName.equals(fi.getFieldName())) {// 如果字段已经存在
+                    exist = true;
                     break;
                 }
             }
-            
-            if(exist){
+
+            if (exist) {
                 continue;
             }
-            
-            
+
             finfo.setFieldName(fieldName);// 字段名称
             finfo.setFieldType(fd.getType());// 字段类型
             PropertyDescriptor pd = new PropertyDescriptor(fieldName, clazz);
@@ -434,7 +426,7 @@ public class ClassUtils {
             return false;
         }
         String className = clazz.getName().toLowerCase();
-        if (className.startsWith("java.")||className.startsWith("javax.")) {
+        if (className.startsWith("java.") || className.startsWith("javax.")) {
             return true;
         } else {
             return false;
@@ -443,6 +435,7 @@ public class ClassUtils {
 
     /**
      * 获取所有字段的名称
+     * 
      * @param clazz
      * @return
      * @throws Exception
