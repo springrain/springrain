@@ -7,13 +7,13 @@ import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.cn.smart.SmartChineseAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.DoubleDocValuesField;
 import org.apache.lucene.document.DoublePoint;
@@ -47,6 +47,8 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springrain.frame.util.IK.dic.Dictionary;
+import org.springrain.frame.util.IK.lucene.IKAnalyzer;
 
 /**
  * lucene 工具类
@@ -62,8 +64,9 @@ public class LuceneUtils {
         throw new IllegalAccessError("工具类不能实例化");
     }
 
-    // 分词器
-    private static Analyzer analyzer = new SmartChineseAnalyzer();
+    // 分词器,使用IK的精确匹配
+    private static Analyzer analyzer = new IKAnalyzer();
+    // private static Analyzer analyzer = new SmartChineseAnalyzer();
 
     /**
      * 根据关键词查询某个实体类的索引
@@ -628,6 +631,81 @@ public class LuceneUtils {
     }
 
     /**
+     * 加载停止符
+     * 
+     * @param word
+     */
+    public static void addStopWord(String word) {
+        Dictionary.addStopWord(word);
+    }
+
+    /**
+     * 批量加载停止符
+     * 
+     * @param words
+     *            Collection<String>词条列表
+     */
+    public static void addStopWord(Collection<String> words) {
+        Dictionary.addStopWord(words);
+    }
+
+    /**
+     * 加载一个量词
+     * 
+     * @param word
+     */
+    public static void addQuantifier(String word) {
+        Dictionary.addQuantifier(word);
+    }
+
+    /**
+     * 批量加载量词
+     * 
+     * @param words
+     */
+    public static void addQuantifier(Collection<String> words) {
+        Dictionary.addQuantifier(words);
+    }
+
+    /**
+     * 禁用词语
+     * 
+     * @param word
+     */
+    public static void disableWord(String word) {
+        Dictionary.disableWord(word);
+    }
+
+    /**
+     * 批量禁用词语
+     * 
+     * @param words
+     */
+    public static void disableWord(Collection<String> words) {
+        Dictionary.disableWord(words);
+    }
+
+    /**
+     * 加载新词语
+     * 
+     * @param word
+     */
+
+    public static void addWord(String word) {
+        Dictionary.addWord(word);
+    }
+
+    /**
+     * 批量加载新词条
+     * 
+     * @param words
+     *            Collection<String>词条列表
+     */
+    public static void addWord(Collection<String> words) {
+        Dictionary.addWord(words);
+    }
+
+    /**
      * 索引文档转化为bean
      * 
      * @param document
@@ -788,11 +866,11 @@ public class LuceneUtils {
                 if (!finfo.getLuceneStored()) {
                     store = Store.NO;
                 }
-                
-               //暂未实现 facet
-               // if(finfo.getLuceneFacet()){
-               //     doc.add(new FacetField(fieldName, _value));
-               // }
+
+                // 暂未实现 facet
+                // if(finfo.getLuceneFacet()){
+                // doc.add(new FacetField(fieldName, _value));
+                // }
 
                 if (finfo.getStringTokenized()) {
                     doc.add(new TextField(fieldName, _value, store));

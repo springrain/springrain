@@ -21,6 +21,10 @@ public class LuceneTest {
 	public void  testSave() throws Exception{
 		String rootdir=GlobalStatic.rootDir+"/lucene/index";
 		
+        
+        LuceneUtils.addWord("暴龙");
+        
+		
 		LuceneUtils.deleteAllDocument(rootdir, LuceneDto.class);
 		
 		System.out.println(rootdir);
@@ -29,14 +33,37 @@ public class LuceneTest {
 		if(!f.exists()){
 			f.mkdirs();
 		}
-		for (int i = 0; i < 50; i++) {
+		
+		List<LuceneDto> list=new ArrayList<>();
+		
+		for (int i = 0; i < 10; i++) {
 		    LuceneDto u=new LuceneDto();
 			u.setId(SecUtils.getUUID());
 			u.setName("我是中国人，我会说中文"+i);
 			u.setInt1(u.getInt1()+i);
 			u.setInt2(u.getInt2()+i);
-			LuceneUtils.saveDocument(rootdir,u);
+			list.add(u);
+		    //LuceneUtils.saveDocument(rootdir, u);
 		}
+		
+		
+		 LuceneDto u=new LuceneDto();
+         u.setId(SecUtils.getUUID());
+         u.setName("暴龙眼镜"+60);
+         u.setInt1(u.getInt1()+60);
+         u.setInt2(u.getInt2()+60);
+         list.add(u);
+         
+         LuceneDto u2=new LuceneDto();
+         u2.setId(SecUtils.getUUID());
+         u2.setName("卫龙辣条"+61);
+         u2.setInt1(u2.getInt1()+61);
+         u2.setInt2(u2.getInt2()+61);
+         list.add(u2);
+         
+         LuceneUtils.saveListDocument(rootdir, list);
+		
+		
 	
 	}
 	
@@ -61,7 +88,7 @@ public class LuceneTest {
 	
 	
 	@SuppressWarnings("unchecked")
-	@Test
+	//@Test
 	public void testSearch() throws Exception{
 		String rootdir=GlobalStatic.rootDir+"/lucene/index";
 		File f=new File(rootdir);
@@ -70,7 +97,7 @@ public class LuceneTest {
 		}
 		Page page=new Page(3);
 		page.setPageSize(5);
-		List<LuceneDto> list = LuceneUtils.searchDocument(rootdir,LuceneDto.class, page,"abd人");
+		List<LuceneDto> list = LuceneUtils.searchDocument(rootdir,LuceneDto.class, page,"龙");
 		//List<LuceneDto> list = LuceneUtils.searchDocumentByTerm(rootdir,LuceneDto.class, page,"name", "我是中国人，我会说中文49");
 		
 		if(CollectionUtils.isEmpty(list)){
@@ -84,7 +111,7 @@ public class LuceneTest {
 	
 	
 	   @SuppressWarnings("unchecked")
-	   @Test
+	  // @Test
 	    public void testSearchObject() throws Exception{
 	        String rootdir=GlobalStatic.rootDir+"/lucene/index";
 	        File f=new File(rootdir);
@@ -115,22 +142,25 @@ public class LuceneTest {
 	   
 	   
 	   
-       //@Test
+       @Test
        public void testStringClause() throws Exception{
            String rootdir=GlobalStatic.rootDir+"/lucene/index";
            
-           LuceneFinder lsc=new LuceneFinder(null);
+        
+           
+
+           LuceneFinder lsc=new LuceneFinder("暴龙");
            
            //lsc.addWhereCondition("id", String.class, "6fd428265bb840b7b886b926cb45659a");
            
-           lsc.addWhereCondition("int2", Integer.class, 20);
+           //lsc.addWhereCondition("int2", Integer.class, 20,100);
            //lsc.addWhereCondition("int1", Integer.class, 10,15);
            //lsc.addWhereCondition("id", String.class, "121b77b104dd4369887a748368cafda7");
            
            //lsc.addSortField("int1", Integer.class, true);
         
            List<LuceneDto> list = LuceneUtils.searchDocument(rootdir,LuceneDto.class,null,lsc);
-           
+          
            
            for (LuceneDto u:list) {
                 System.out.println(u.getId()+","+u.getName()+","+u.getD1()+","+u.getF1()+","+u.getInt1()+","+u.getD2()+","+u.getF2()+","+u.getInt2()+","+u.getDate());
