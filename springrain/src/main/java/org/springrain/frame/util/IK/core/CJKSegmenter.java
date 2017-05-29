@@ -46,9 +46,6 @@ class CJKSegmenter implements ISegmenter {
 		this.tmpHits = new LinkedList<Hit>();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.wltea.analyzer.core.ISegmenter#analyze(org.wltea.analyzer.core.AnalyzeContext)
-	 */
 	public void analyze(AnalyzeContext context) {
 		if(CharacterUtil.CHAR_USELESS != context.getCurrentCharType()){
 			
@@ -114,9 +111,6 @@ class CJKSegmenter implements ISegmenter {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.wltea.analyzer.core.ISegmenter#reset()
-	 */
 	public void reset() {
 		//清空队列
 		this.tmpHits.clear();
