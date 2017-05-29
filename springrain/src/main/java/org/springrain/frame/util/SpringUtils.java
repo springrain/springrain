@@ -40,6 +40,10 @@ public class SpringUtils  implements ApplicationContextAware {
 		
 		try {
 				initEntityInfo();
+			    
+		        //初始化添加自定义的Lucene词语
+		        //LuceneUtils.addDictWord(words);
+				
 		} catch (Exception e) {
 			logger.error(e.getMessage(),e);
 		}
@@ -110,8 +114,6 @@ public class SpringUtils  implements ApplicationContextAware {
 		
 			
 		}
-		
-		
 		
 	}
 	
