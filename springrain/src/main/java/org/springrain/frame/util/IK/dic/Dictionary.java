@@ -63,7 +63,7 @@ public class Dictionary {
         
         loadFile(quantifierDict, "ikdic/quantifier.dic");
      
-        loadFile(mainDict, "ikdic/main2012.dic");
+        loadFile(mainDict, "ikdic/main.dic");
     }
 
     /**
