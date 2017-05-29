@@ -18,9 +18,6 @@
  * limitations under the License.
  *
  * 源代码由林良益(linliangyi2005@gmail.com)提供
-
- * 
- * 
  * 
  */
 package org.springrain.frame.util.IK.dic;

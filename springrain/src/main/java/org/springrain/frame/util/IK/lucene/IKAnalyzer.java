@@ -31,7 +31,7 @@ import org.apache.lucene.util.IOUtils;
 
 /**
  * IK分词器，Lucene Analyzer接口实现
- * 兼容Lucene 6.5.0版本 暴走抹茶 2017.3.28
+ * 兼容Lucene 6.5.0版本
  */
 public final class IKAnalyzer extends Analyzer{
 	

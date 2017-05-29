@@ -17,10 +17,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * 
- * 
-
- * 
  */
 package org.springrain.frame.util.IK.lucene;
 
@@ -68,11 +64,6 @@ public final class IKTokenizer extends Tokenizer {
 		_IKImplement = new IKSegmenter(input);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.apache.lucene.analysis.TokenStream#incrementToken()
-	 */
 	@Override
 	public boolean incrementToken() throws IOException {
 		// 清除所有的词元属性
@@ -97,11 +88,6 @@ public final class IKTokenizer extends Tokenizer {
 		return false;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.apache.lucene.analysis.Tokenizer#reset(java.io.Reader)
-	 */
 	@Override
 	public void reset() throws IOException {
 		super.reset();

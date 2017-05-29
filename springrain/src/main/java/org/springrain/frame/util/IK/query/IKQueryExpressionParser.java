@@ -17,8 +17,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * 
- * 
  */
 package org.springrain.frame.util.IK.query;
 
@@ -29,12 +27,12 @@ import java.util.Stack;
 
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.BooleanQuery.Builder;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TermRangeQuery;
-import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.util.BytesRef;
 
 /**
@@ -704,6 +702,8 @@ public class IKQueryExpressionParser {
 		}
 	}	
 
+	
+	/**
 	public static void main(String[] args){
 		IKQueryExpressionParser parser = new IKQueryExpressionParser();
 		//String ikQueryExp = "newsTitle:'的两款《魔兽世界》插件Bigfoot和月光宝盒'";
@@ -711,6 +711,8 @@ public class IKQueryExpressionParser {
 		Query result = parser.parseExp(ikQueryExp , true);
 		System.out.println(result);
 
-	}	
+	}
+	
+		*/
 	
 }

@@ -18,8 +18,6 @@
  * limitations under the License.
  *
  * 源代码由林良益(linliangyi2005@gmail.com)提供
-
- * 
  * 
  */
 package org.springrain.frame.util.IK.query;
@@ -38,7 +36,7 @@ import org.springrain.frame.util.IK.core.Lexeme;
 
 /**
  * Single Word Multi Char Query Builder
- * IK分词算法专用  暴走抹茶 2017.3.28
+ * IK分词算法专用  
  * @author linliangyi
  *
  */
