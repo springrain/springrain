@@ -17,7 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * provided by Linliangyi and copyright 2012 by Oolong studio
+ * 
  * 
 
  * 

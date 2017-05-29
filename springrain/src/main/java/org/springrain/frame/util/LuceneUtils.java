@@ -672,8 +672,8 @@ public class LuceneUtils {
      * 
      * @param word
      */
-    public static void disableWord(String word) {
-        Dictionary.disableWord(word);
+    public static void disableDictWord(String word) {
+        Dictionary.disableDictWord(word);
     }
 
     /**
@@ -681,8 +681,8 @@ public class LuceneUtils {
      * 
      * @param words
      */
-    public static void disableWord(Collection<String> words) {
-        Dictionary.disableWord(words);
+    public static void disableDictWord(Collection<String> words) {
+        Dictionary.disableDictWord(words);
     }
 
     /**
@@ -691,8 +691,8 @@ public class LuceneUtils {
      * @param word
      */
 
-    public static void addWord(String word) {
-        Dictionary.addWord(word);
+    public static void addDictWord(String word) {
+        Dictionary.addDictWord(word);
     }
 
     /**
@@ -701,8 +701,8 @@ public class LuceneUtils {
      * @param words
      *            Collection<String>词条列表
      */
-    public static void addWord(Collection<String> words) {
-        Dictionary.addWord(words);
+    public static void addDictWord(Collection<String> words) {
+        Dictionary.addDictWord(words);
     }
 
     /**

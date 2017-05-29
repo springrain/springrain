@@ -18,8 +18,8 @@
  * limitations under the License.
  *
  * 源代码由林良益(linliangyi2005@gmail.com)提供
- * 版权声明 2012，乌龙茶工作室
- * provided by Linliangyi and copyright 2012 by Oolong studio
+
+ * 
  * 
  * 
  */
@@ -128,7 +128,7 @@ public class Dictionary {
      * 
      * @param word
      */
-    public static void disableWord(String word) {
+    public static void disableDictWord(String word) {
         if (StringUtils.isNotBlank(word)) {
             mainDict.disableSegment(word.trim().toLowerCase().toCharArray());
         }
@@ -139,12 +139,12 @@ public class Dictionary {
      * 
      * @param words
      */
-    public static void disableWord(Collection<String> words) {
+    public static void disableDictWord(Collection<String> words) {
         if (CollectionUtils.isEmpty(words)) {
             return;
         }
         for (String word : words) {
-            disableWord(word);
+            disableDictWord(word);
         }
     }
 
@@ -153,7 +153,7 @@ public class Dictionary {
      * 
      * @param word
      */
-    public static void addWord(String word) {
+    public static void addDictWord(String word) {
         if (StringUtils.isNotBlank(word)) {
             // 批量加载词条到主内存词典中
             mainDict.fillSegment(word.trim().toLowerCase().toCharArray());
@@ -166,14 +166,14 @@ public class Dictionary {
      * @param words
      *            Collection<String>词条列表
      */
-    public static void addWord(Collection<String> words) {
+    public static void addDictWord(Collection<String> words) {
 
         if (CollectionUtils.isEmpty(words)) {
             return;
         }
 
         for (String word : words) {
-            addWord(word);
+            addDictWord(word);
         }
     }
 

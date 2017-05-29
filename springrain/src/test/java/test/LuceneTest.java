@@ -22,7 +22,7 @@ public class LuceneTest {
 		String rootdir=GlobalStatic.rootDir+"/lucene/index";
 		
         
-        LuceneUtils.addWord("暴龙");
+        LuceneUtils.addDictWord("暴龙");
         
 		
 		LuceneUtils.deleteAllDocument(rootdir, LuceneDto.class);

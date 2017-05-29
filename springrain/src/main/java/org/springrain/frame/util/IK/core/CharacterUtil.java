@@ -18,8 +18,6 @@
  * limitations under the License.
  *
  * 源代码由林良益(linliangyi2005@gmail.com)提供
- * 版权声明 2012，乌龙茶工作室
- * provided by Linliangyi and copyright 2012 by Oolong studio
  * 
  * 字符集识别工具类
  */
