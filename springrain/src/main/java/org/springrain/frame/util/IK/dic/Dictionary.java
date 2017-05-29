@@ -59,11 +59,11 @@ public class Dictionary {
      * 配置对象
      */
     static {
-        loadFile(stopWordDict, "stopword.dic");
+        loadFile(stopWordDict, "ikdic/stopword.dic");
         
-        loadFile(quantifierDict, "quantifier.dic");
+        loadFile(quantifierDict, "ikdic/quantifier.dic");
      
-        loadFile(mainDict, "main2012.dic");
+        loadFile(mainDict, "ikdic/main2012.dic");
     }
 
     /**
@@ -243,12 +243,12 @@ public class Dictionary {
         BufferedReader br =null;
             //如果找不到扩展的字典，则忽略
             try {
-                is = Dictionary.class.getResourceAsStream(file);
+                is = Dictionary.class.getClassLoader().getResourceAsStream(file);
                  br = new BufferedReader(new InputStreamReader(is , "UTF-8"), 512);
                 String theWord = null;
                 do {
                     theWord = br.readLine();
-                    if (theWord != null && !"".equals(theWord.trim())) {
+                    if (StringUtils.isNotBlank(theWord)) {
                         dictSegment.fillSegment(theWord.trim().toLowerCase().toCharArray());
                     }
                 } while (theWord != null);
