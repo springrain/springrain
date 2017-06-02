@@ -31,7 +31,7 @@ import org.springrain.frame.util.IK.core.IKSegmenter;
 import org.springrain.frame.util.IK.core.Lexeme;
 
 /**
- * IK分词器 Lucene Tokenizer适配器类 兼容Lucene 6.5.0版本 暴走抹茶 2017.3.28
+ * IK分词器 Lucene Tokenizer适配器类 兼容Lucene 6.5.0版本 2017.3.28
  */
 public final class IKTokenizer extends Tokenizer {
 

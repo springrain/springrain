@@ -37,7 +37,7 @@ import org.apache.lucene.util.BytesRef;
 
 /**
  * IK简易查询表达式解析 
- * 结合SWMCQuery算法  暴走抹茶 2017.3.28
+ * 结合SWMCQuery算法  2017.3.28
  * 
  * 表达式例子 ：
  * (id='1231231' && title:'monkey') || (content:'你好吗'  || ulr='www.ik.com') - name:'helloword'
