@@ -64,7 +64,7 @@
 		<xstream.version>1.4.9</xstream.version>
 		
 		
-		<lucene.version>6.5.1</lucene.version>
+		<lucene.version>6.6.0</lucene.version>
 		<!-- 
 		<quartz.version>2.2.3</quartz.version>
 		 -->
