@@ -22,12 +22,13 @@ public class LuceneTest {
 		String rootdir=GlobalStatic.rootDir+"/lucene/index";
 		
         
-        LuceneUtils.addDictWord("暴龙");
+        //LuceneUtils.addDictWord("暴龙");
         
-		
+		Long d1=System.currentTimeMillis();
 		LuceneUtils.deleteAllDocument(rootdir, LuceneDto.class);
 		
-		System.out.println(rootdir);
+		
+		System.out.println("删除耗时毫秒:"+(System.currentTimeMillis()-d1));
 		
 		File f=new File(rootdir);
 		if(!f.exists()){
@@ -36,7 +37,7 @@ public class LuceneTest {
 		
 		List<LuceneDto> list=new ArrayList<>();
 		
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 500000; i++) {
 		    LuceneDto u=new LuceneDto();
 			u.setId(SecUtils.getUUID());
 			u.setName("我是中国人，我会说中文"+i);
@@ -61,8 +62,9 @@ public class LuceneTest {
          u2.setInt2(u2.getInt2()+61);
          list.add(u2);
          
+         Long d2=System.currentTimeMillis();
          LuceneUtils.saveListDocument(rootdir, list);
-		
+         System.out.println("保存"+list.size()+"耗时毫秒:"+(System.currentTimeMillis()-d2));
 		
 	
 	}
@@ -142,7 +144,7 @@ public class LuceneTest {
 	   
 	   
 	   
-       @Test
+      // @Test
        public void testStringClause() throws Exception{
            String rootdir=GlobalStatic.rootDir+"/lucene/index";
            
@@ -171,7 +173,22 @@ public class LuceneTest {
        }
        
        
-	   
+       @Test
+       public void testSelectAll() throws Exception{
+           String rootdir=GlobalStatic.rootDir+"/lucene/index";
+           
+        
+           
+
+           LuceneFinder lsc=new LuceneFinder("中国");
+           
+           Long d3=System.currentTimeMillis();
+           List<LuceneDto> list = LuceneUtils.searchDocument(rootdir,LuceneDto.class,null,lsc);
+           System.out.println("查询"+list.size()+"耗时:"+(System.currentTimeMillis()-d3));
+           
+           
+       }
+       
     
 	   
 	   
