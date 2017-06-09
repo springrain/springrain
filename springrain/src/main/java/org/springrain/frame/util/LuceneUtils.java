@@ -736,7 +736,7 @@ public class LuceneUtils {
             String fieldName = finfo.getFieldName();
             String fieldValue = document.get(fieldName);
             
-            if(fieldValue==null){
+            if(StringUtils.isBlank(fieldValue)){
                 continue;
             }
             
