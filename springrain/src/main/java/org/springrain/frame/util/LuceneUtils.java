@@ -10,8 +10,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
@@ -570,8 +572,8 @@ public class LuceneUtils {
             list = new ArrayList<>(hits.length);
             for (int i = 0; i < hits.length; i++) {
                 Document hitDoc = indexSearcher.doc(hits[i].doc);
-                T t = clazz.newInstance();
-                document2Bean(hitDoc, t);
+               // T t = clazz.newInstance();
+               T t= document2Bean(hitDoc, clazz);
                 list.add(t);
             }
 
@@ -713,47 +715,70 @@ public class LuceneUtils {
      * @return
      * @throws Exception
      */
-    private static Object document2Bean(Document document, Object t) throws Exception {
+    private  static <T> T document2Bean(Document document, Class<T> clazz) throws Exception {
 
-        if (document == null || t == null) {
+        if (document == null || clazz == null) {
             return null;
         }
 
-        List<FieldInfo> luceneFields = ClassUtils.getLuceneFields(t.getClass());
+        List<FieldInfo> luceneFields = ClassUtils.getLuceneFields(clazz);
 
         if (CollectionUtils.isEmpty(luceneFields)) {
             return null;
         }
+        
+        
+
+        
+        Map<String,Object> map=new HashedMap<>();
+        
         for (FieldInfo finfo : luceneFields) {
             String fieldName = finfo.getFieldName();
 
             String fieldValue = document.get(fieldName);
-
             Class fieldType = finfo.getFieldType();
             if (Integer.class == fieldType || int.class == fieldType) {// 数字
-                ClassUtils.setPropertieValue(fieldName, t, Integer.valueOf(fieldValue));
+                
+               // ClassUtils.setPropertieValue(fieldName, t, Integer.valueOf(fieldValue));
+                map.put(fieldName, Integer.valueOf(fieldValue));
+                
             } else if (BigInteger.class == fieldType) {// 数字
-                ClassUtils.setPropertieValue(fieldName, t, new BigInteger(fieldValue));
+                //ClassUtils.setPropertieValue(fieldName, t, new BigInteger(fieldValue));
+                map.put(fieldName, new BigInteger(fieldValue));
+                
             } else if (Long.class == fieldType || long.class == fieldType) {// 数字
-                ClassUtils.setPropertieValue(fieldName, t, Long.valueOf(fieldValue));
+               // ClassUtils.setPropertieValue(fieldName, t, Long.valueOf(fieldValue));
+                map.put(fieldName, Long.valueOf(fieldValue));
+                
             } else if (Float.class == fieldType || float.class == fieldType) {// 数字
-                ClassUtils.setPropertieValue(fieldName, t, Float.valueOf(fieldValue));
+               // ClassUtils.setPropertieValue(fieldName, t, Float.valueOf(fieldValue));
+                map.put(fieldName, Float.valueOf(fieldValue));
+                
             } else if (Double.class == fieldType || double.class == fieldType) {// 数字
-                ClassUtils.setPropertieValue(fieldName, t, Double.valueOf(fieldValue));
+               // ClassUtils.setPropertieValue(fieldName, t, Double.valueOf(fieldValue));
+                map.put(fieldName, Double.valueOf(fieldValue));
             } else if (BigDecimal.class == fieldType) {// BigDecimal
-                ClassUtils.setPropertieValue(fieldName, t, new BigDecimal(fieldValue));
-            } else if (BigInteger.class == fieldType) {// BigInteger
-                ClassUtils.setPropertieValue(fieldName, t, new BigInteger(fieldValue));
+                //ClassUtils.setPropertieValue(fieldName, t, new BigDecimal(fieldValue));
+                map.put(fieldName, new BigDecimal(fieldValue));
             } else if (Date.class == fieldType) {// 日期
-                ClassUtils.setPropertieValue(fieldName, t, new Date(Long.valueOf(fieldValue)));
+                //ClassUtils.setPropertieValue(fieldName, t, new Date(Long.valueOf(fieldValue)));
+                map.put(fieldName,  Long.valueOf(fieldValue));
             } else {
-                ClassUtils.setPropertieValue(fieldName, t, fieldValue);
+               // ClassUtils.setPropertieValue(fieldName, t, fieldValue);
+                map.put(fieldName,  fieldValue);
             }
         }
+        
+        T t=JsonUtils.readValue(JsonUtils.writeValueAsString(map), clazz);
+        
+        
 
         return t;
 
     }
+    
+    
+    
 
     /**
      * bean转化为索引文档
