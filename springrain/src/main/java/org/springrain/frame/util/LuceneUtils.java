@@ -734,8 +734,12 @@ public class LuceneUtils {
         
         for (FieldInfo finfo : luceneFields) {
             String fieldName = finfo.getFieldName();
-
             String fieldValue = document.get(fieldName);
+            
+            if(fieldValue==null){
+                continue;
+            }
+            
             Class fieldType = finfo.getFieldType();
             if (Integer.class == fieldType || int.class == fieldType) {// 数字
                 
