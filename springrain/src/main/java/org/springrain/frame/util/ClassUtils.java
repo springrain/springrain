@@ -367,6 +367,13 @@ public class ClassUtils {
      * @throws Exception
      */
     public static Object setPropertieValue(String p, Object o, Object value) throws Exception {
+        PropertyDescriptor pd = new PropertyDescriptor(p, o.getClass());
+        //获得set方法
+        Method setMethod = pd.getWriteMethod();
+        setMethod.invoke(o, value);
+        return o;
+        
+        /*
         for (Class<?> clazz = o.getClass(); clazz != Object.class; clazz = clazz.getSuperclass()) {
             PropertyDescriptor pd = new PropertyDescriptor(p, clazz);
             Method setMethod = pd.getWriteMethod();// 获得set方法
@@ -378,6 +385,8 @@ public class ClassUtils {
         }
 
         return o;
+        
+        */
 
     }
 
