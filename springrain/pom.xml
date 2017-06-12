@@ -53,13 +53,13 @@
 		<jodconverter.version>2.2.1</jodconverter.version>
 		
 		<gson.version>2.8.0</gson.version>
-		<jackson.version>2.8.8</jackson.version>
+		<jackson.version>2.8.9</jackson.version>
 		
 		<druid.version>1.0.28</druid.version>
 		<httpcore.version>4.4.6</httpcore.version>
 		<httpclient.version>4.5.3</httpclient.version>
 		
-		<jsoup.version>1.10.2</jsoup.version>
+		<jsoup.version>1.10.3</jsoup.version>
 		
 		<xstream.version>1.4.9</xstream.version>
 		
