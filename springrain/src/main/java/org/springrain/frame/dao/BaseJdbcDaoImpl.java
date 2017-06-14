@@ -578,6 +578,9 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
                 if (fdNames.size()>1) {
                     sql.append(",");
                     valueSql.append(",");
+                }else{
+                    sql.append(")");
+                    valueSql.append(")");
                 }
                 paramMap.put(pkName, id);
                 ClassUtils.setPropertieValue(pkName, entity, id);
@@ -588,6 +591,9 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
                     if (fdNames.size()>1) {
                         sql.append(",");
                         valueSql.append(",");
+                    }else{
+                        sql.append(")");
+                        valueSql.append(")");
                     }
             }
                
@@ -595,13 +601,6 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
             id = _getId.toString();
         }
     
-        if (fdNames.size()-1==0) {//最后一个字段
-            sql.append(")");
-            valueSql.append(")");
-            sql.append(valueSql);// sql语句
-            return sql.toString();
-        }
-        
         //排除主键的其他字段
         List<String> otherFd=new ArrayList<>();
         for (int i = 0; i < fdNames.size(); i++) {
@@ -619,12 +618,15 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 			String mapKey = ":" + fdName;// 占位符
 			Object fdValue = ClassUtils.getPropertieValue(fdName, entity);
 			paramMap.put(fdName, fdValue);
+			
+			 sql.append(fdName);
+			 valueSql.append(mapKey);
 			if (otherFd.size()-i-1==0) {//最后一个字段
-			    sql.append(fdName).append(")");
-			    valueSql.append(mapKey).append(")");
+			    sql.append(")");
+			    valueSql.append(")");
 			}else{
-			    sql.append(fdName).append(",");
-	            valueSql.append(mapKey).append(",");
+			    sql.append(",");
+	            valueSql.append(",");
 			}
 
 		}
