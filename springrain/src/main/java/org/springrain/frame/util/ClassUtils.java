@@ -142,7 +142,7 @@ public class ClassUtils {
     }
 
     /**
-     * 获取 Class 的@Table注解 name 属性,没有属性则返回 类名
+     * 获取 Class 的@Table注解 name 属性,没有属性则返回 null
      * 
      * @param clazz
      * @return
@@ -182,7 +182,7 @@ public class ClassUtils {
     }
 
     /**
-     * 获取 Class 的@Table注解 name 属性,没有属性则返回 类名
+     * 获取 Class 的@Table注解 name 属性,没有属性则返回 null
      * 
      * @param clazz
      * @return
