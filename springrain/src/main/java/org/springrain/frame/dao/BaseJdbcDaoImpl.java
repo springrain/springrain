@@ -144,7 +144,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	
 	@Override
 	public <T> List<T> queryForListByProc(Finder finder, Class<T> clazz) throws Exception {
 		String procName = finder.getProcName();
@@ -191,7 +191,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 	 * @return
 	 * @throws Exception
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	
 	@Override
 	public List<Map<String, Object>> queryForListByProc(Finder finder) throws Exception {
 		String procName = finder.getProcName();
@@ -276,7 +276,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		return getWriteJdbc().update(finder.getSql(), finder.getParams());
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	
 	@Override
 	public <T> List<T> queryForList(Finder finder, Class<T> clazz, Page page) throws Exception {
 		String pageSql = getPageSql(page, finder);
@@ -503,14 +503,14 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 			 */
 			if (countSql.toLowerCase().indexOf(" distinct ") > -1 || countSql.toLowerCase().indexOf(" union ") > -1
 					|| RegexValidateUtils.getGroupByIndex(countSql) > -1) {
-				countSql = "SELECT count(*)  frame_row_count FROM (" + countSql
+				countSql = "SELECT COUNT(*)  frame_row_count FROM (" + countSql
 						+ ") temp_frame_noob_table_name WHERE 1=1 ";
 			} else {
 				int fromIndex = RegexValidateUtils.getFromIndex(countSql);
 				if (fromIndex > -1) {
 					countSql = "SELECT COUNT(*) " + countSql.substring(fromIndex);
 				} else {
-					countSql = "SELECT count(*)  frame_row_count FROM (" + countSql
+					countSql = "SELECT COUNT(*)  frame_row_count FROM (" + countSql
 							+ ") temp_frame_noob_table_name WHERE 1=1 ";
 				}
 
@@ -551,7 +551,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		return t;
 
 	}
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	
 	private String wrapsavesql(Object entity, Map paramMap, Boolean isSequence) throws Exception {
 		Class clazz = entity.getClass();
 		// entity信息
@@ -601,7 +601,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
             id = _getId.toString();
         }
         
-        //排除主键
+        //排除主键,上面已经处理过了
         fdNames.remove(pkName);
         
 		
@@ -611,9 +611,8 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 			String mapKey = ":" + fdName;// 占位符
 			Object fdValue = ClassUtils.getPropertieValue(fdName, entity);
 			paramMap.put(fdName, fdValue);
-			
-			 sql.append(fdName);
-			 valueSql.append(mapKey);
+			sql.append(fdName);
+			valueSql.append(mapKey);
 			if (fdNames.size()-i-1==0) {//最后一个字段
 			    sql.append(")");
 			    valueSql.append(")");
@@ -645,9 +644,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		// 打印sql
 		logInfoSql(sql);
 
-		/**
-		 * 增加如果表没有主键的判断
-		 */
+		//增加如果表没有主键的判断
 		if (returnType == null) {
 			getWriteJdbc().update(sql, paramMap);
 			return null;
@@ -716,13 +713,13 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		return id;
 	}
 
-	@SuppressWarnings("rawtypes")
+	
 	@Override
 	public List<Integer> update(List list) throws Exception {
 		return update(list, false);
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	
 	@Override
 	public List<Integer> update(List list, boolean onlyupdatenotnull) throws Exception {
 		checkMethodName();
@@ -735,7 +732,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		String sql = null;
 		for (int i = 0; i < list.size(); i++) {
 			Map paramMap = new HashMap();
-			sql = warpupdatesql(list.get(i), paramMap, onlyupdatenotnull);
+			sql = wrapupdatesql(list.get(i), paramMap, onlyupdatenotnull);
 			maps[i] = paramMap;
 		}
 		int[] batchUpdate = getWriteJdbc().batchUpdate(sql, SqlParameterSourceUtils.createBatch(maps));
@@ -759,7 +756,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		return updateList;
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	
 	@Override
 	public List<Integer> save(List list) throws Exception {
 		checkMethodName();
@@ -795,8 +792,8 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		return updateList;
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private String warpupdatesql(Object entity, Map paramMap, boolean onlyupdatenotnull) throws Exception {
+	
+	private String wrapupdatesql(Object entity, Map paramMap, boolean onlyupdatenotnull) throws Exception {
 		Class clazz = entity.getClass();
 		// entity的信息
 		EntityInfo entityInfo = ClassUtils.getEntityInfoByEntity(entity);
@@ -850,7 +847,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	
 	@Override
 	public Integer update(Object entity, boolean onlyupdatenotnull) throws Exception {
 		checkMethodName();
@@ -860,7 +857,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		// 获取 分表的扩展
 		String tableExt = entityInfo.getTableSuffix();
 		Map paramMap = new HashMap();
-		String sql = warpupdatesql(entity, paramMap, onlyupdatenotnull);
+		String sql = wrapupdatesql(entity, paramMap, onlyupdatenotnull);
 		Object id = ClassUtils.getPKValue(entity);
 		// 打印sql
 		logInfoSql(sql);
@@ -944,7 +941,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	
 	@Override
 	public void deleteById(Object id, Class clazz) throws Exception {
 		checkMethodName();
