@@ -552,7 +552,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 
 	}
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private String warpsavesql(Object entity, Map paramMap, Boolean isSequence) throws Exception {
+	private String wrapsavesql(Object entity, Map paramMap, Boolean isSequence) throws Exception {
 		Class clazz = entity.getClass();
 		// entity信息
 		EntityInfo entityInfo = ClassUtils.getEntityInfoByEntity(entity);
@@ -567,64 +567,54 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		StringBuilder sql = new StringBuilder("INSERT INTO ").append(tableName).append(tableExt).append("(");
 
 		StringBuilder valueSql = new StringBuilder(" values(");
-
+		
+		
+		// 如果是ID,自动生成UUID,处理主键
+        Object _getId = ClassUtils.getPKValue(entity); // 主键
+        if (_getId == null) {//Id为空
+            if (returnType == String.class) {
+                sql.append(pkName);
+                valueSql.append(":"+pkName);
+                if (fdNames.size()>1) {
+                    sql.append(",");
+                    valueSql.append(",");
+                }
+                paramMap.put(pkName, id);
+                ClassUtils.setPropertieValue(pkName, entity, id);
+            } else if (StringUtils.isNotBlank(entityInfo.getPksequence())) {// 如果包含主键序列注解
+                String _sequence_value = entityInfo.getPksequence();
+                    sql.append(pkName);
+                    valueSql.append(_sequence_value);
+                    if (fdNames.size()>1) {
+                        sql.append(",");
+                        valueSql.append(",");
+                    }
+            }
+               
+        } else {
+            id = _getId.toString();
+        }
+    
+        if (fdNames.size()-1==0) {//最后一个字段
+            sql.append(")");
+            valueSql.append(")");
+        }
+		
+      //处理非主键字段
 		for (int i = 0; i < fdNames.size(); i++) {
 			String fdName = fdNames.get(i);// 字段名称
-
-			if (fdName.equals(pkName)) {// 如果是ID,自动生成UUID
-				Object _getId = ClassUtils.getPKValue(entity); // 主键
-				if (_getId == null) {//Id为空
-					if (returnType == String.class) {
-						ClassUtils.setPropertieValue(pkName, entity, id);
-					} else if (StringUtils.isNotBlank(entityInfo.getPksequence())) {// 如果包含主键序列注解
-						String _sequence_value = entityInfo.getPksequence();
-						
-					    if(i==0){//如果是第一个字段
-					    	sql.append(fdName);
-							valueSql.append(_sequence_value);
-					    }else{//如果不是第一个字段
-					    	sql.append(",").append(fdName);
-							valueSql.append(",").append(_sequence_value);
-					    }
-						
-					    if (fdNames.size()-i==1) {//最后一个字段
-							sql.append(")");
-							valueSql.append(")");
-							break;
-						}
-						continue;
-					} else {
-						
-						 if (fdNames.size()-i==1) {//最后一个字段
-								sql.append(")");
-								valueSql.append(")");
-								break;
-						}
-						
-						
-						continue;
-					}
-				} else {
-					id = _getId.toString();
-				}
-			}
-
+		    if (fdName.equals(pkName)) {// 如果是ID,不处理,前面已经处理过了
+	               continue;
+	        }
 			String mapKey = ":" + fdName;// 占位符
 			Object fdValue = ClassUtils.getPropertieValue(fdName, entity);
 			paramMap.put(fdName, fdValue);
-			
-			
-			if(i==0){//第一个字段
-				sql.append(fdName);
-				valueSql.append(mapKey);
-			}else{//不是第一个字段
-				sql.append(",").append(fdName);
-				valueSql.append(",").append(mapKey);
-			}
-			if (fdNames.size()-i==1) {//最后一个字段
-				sql.append(")");
-				valueSql.append(")");
-				break;
+			if (fdNames.size()-i-1==0) {//最后一个字段
+			    sql.append(fdName).append(")");
+			    valueSql.append(mapKey).append(")");
+			}else{
+			    sql.append(fdName).append(",");
+	            valueSql.append(mapKey).append(",");
 			}
 
 		}
@@ -639,7 +629,6 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 	 * @return
 	 * @throws Exception
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private Object saveNoLog(Object entity) throws Exception {
 		// entity信息
 		EntityInfo entityInfo = ClassUtils.getEntityInfoByEntity(entity);
@@ -647,7 +636,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 
 		Map paramMap = new HashMap();
 		Boolean isSequence = StringUtils.isNotBlank(entityInfo.getPksequence());
-		String sql = warpsavesql(entity, paramMap, isSequence);
+		String sql = wrapsavesql(entity, paramMap, isSequence);
 		// 打印sql
 		logInfoSql(sql);
 
@@ -779,7 +768,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		String sql = null;
 		for (int i = 0; i < list.size(); i++) {
 			Map paramMap = new HashMap();
-			sql = warpsavesql(list.get(i), paramMap, false);
+			sql = wrapsavesql(list.get(i), paramMap, false);
 			maps[i] = paramMap;
 		}
 		int[] batchUpdate = getWriteJdbc().batchUpdate(sql, SqlParameterSourceUtils.createBatch(maps));
