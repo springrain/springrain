@@ -344,6 +344,19 @@ public class ClassUtils {
      * @throws Exception
      */
     public static Object getPropertieValue(String p, Object o) throws Exception {
+        
+        
+        PropertyDescriptor pd = new PropertyDescriptor(p, o.getClass());
+        Method getMethod = pd.getReadMethod();// 获得get方法
+        if (getMethod != null) {
+            return getMethod.invoke(o);
+        }
+        
+        return null;
+
+        
+        
+        /*
         for (Class<?> clazz = o.getClass(); clazz != Object.class; clazz = clazz.getSuperclass()) {
 
             PropertyDescriptor pd = new PropertyDescriptor(p, clazz);
@@ -355,6 +368,7 @@ public class ClassUtils {
         }
 
         return null;
+        */
 
     }
 
