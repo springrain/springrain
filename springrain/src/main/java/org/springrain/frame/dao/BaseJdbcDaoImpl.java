@@ -566,7 +566,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 
 		StringBuilder sql = new StringBuilder("INSERT INTO ").append(tableName).append(tableExt).append("(");
 
-		StringBuilder valueSql = new StringBuilder(" values(");
+		StringBuilder valueSql = new StringBuilder(" VALUES(");
 		
 		
 		// 如果是ID,自动生成UUID,处理主键
