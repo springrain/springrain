@@ -600,28 +600,21 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
         } else {
             id = _getId.toString();
         }
-    
-        //排除主键的其他字段
-        List<String> otherFd=new ArrayList<>();
-        for (int i = 0; i < fdNames.size(); i++) {
-            String fdName = fdNames.get(i);// 字段名称
-            if (fdName.equals(pkName)) {// 如果是ID,不处理,前面已经处理过了
-                   continue;
-            }
-            otherFd.add(fdName);
-        }
+        
+        //排除主键
+        fdNames.remove(pkName);
         
 		
       //处理非主键字段
-		for (int i = 0; i < otherFd.size(); i++) {
-			String fdName = otherFd.get(i);// 字段名称
+		for (int i = 0; i < fdNames.size(); i++) {
+			String fdName = fdNames.get(i);// 字段名称
 			String mapKey = ":" + fdName;// 占位符
 			Object fdValue = ClassUtils.getPropertieValue(fdName, entity);
 			paramMap.put(fdName, fdValue);
 			
 			 sql.append(fdName);
 			 valueSql.append(mapKey);
-			if (otherFd.size()-i-1==0) {//最后一个字段
+			if (fdNames.size()-i-1==0) {//最后一个字段
 			    sql.append(")");
 			    valueSql.append(")");
 			}else{
