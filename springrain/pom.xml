@@ -542,6 +542,7 @@
 				<directory>${basedir}/src/main/resources</directory>
 				<includes>
 					<include>**/*.xml</include>
+					<include>**/*.dic</include>
 					<include>**/*.properties</include>
 				</includes>
 			</resource>
