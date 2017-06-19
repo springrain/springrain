@@ -23,7 +23,6 @@
 package org.springrain.frame.util.IK.dic;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Collection;
@@ -250,7 +249,7 @@ public class Dictionary {
                     }
                 } while (theWord != null);
                 
-            } catch (IOException e) {
+            } catch (Exception e) {//找不到字典文件忽略,不影响正常启动
                 logger.error("Extension Stop word Dictionary loading exception.",e);
                 
             }finally{
@@ -263,7 +262,7 @@ public class Dictionary {
                         is.close();
                         is = null;
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     logger.error(e.getMessage(),e);
                 }
             }
