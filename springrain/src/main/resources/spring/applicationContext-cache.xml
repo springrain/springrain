@@ -26,13 +26,12 @@
 	<cache:annotation-driven cache-manager="cacheManager" />
 
 	<!-- spring自带的缓存管理器,value会自动创建,不需要指定 -->
-
 	<bean id="cacheManager" class="org.springframework.cache.concurrent.ConcurrentMapCacheManager" />
-
+ 
 
 <!-- 用于集中缓存 缓存, redisCached 为redis的工具类,用于业务的缓存. 基于redis分布的session共享也是基于这个redisCached -->
-<!--  
-<bean id="cacheManager" class="org.springframework.data.redis.cache.RedisCacheManager">
+ 
+<!-- <bean id="cacheManager" class="org.springframework.data.redis.cache.RedisCacheManager">
       <constructor-arg ref="redisTemplate" />
        <property name="defaultExpiration" value="${cache.timeout}" />
 </bean>
@@ -57,32 +56,38 @@
 	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
 		<property name="maxTotal" value="${redis.pool.maxTotal}" />
 		<property name="maxIdle" value="${redis.pool.maxIdle}" />
-	</bean>
---> 
+	</bean> -->
 
 
 <!-- 消息队列   生产者和消费者模式 -->
 
-<!-- 
-	<bean id="sendMessage" class="org.springrain.frame.queue.SendMessage">
+<!-- 	<bean id="sendMessage" class="org.springrain.frame.queue.SendMessage">
         <property name="redisTemplate" ref="redisTemplate"/>
     </bean> 
     
-	<bean id="jdkSerializationRedisSerializer"
-        class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />
-        
-    <bean id="redisMessageDelegateListener" class="org.springrain.frame.queue.RedisMessageDelegateListener"/>
+    <bean id="redisListenContainner" class="org.springframework.data.redis.listener.RedisMessageListenerContainer">
+        <property name="connectionFactory" ref="redisConnectionFactory" />
+    </bean>
+
+     <bean id="jdkSerializationRedisSerializer"
+           class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />
+ -->
 	
+	
+	
+	
+<!-- 下面的这些配置已修改为注解  删除掉不再使用 -->   
+<!-- 	
+    <bean id="redisMessageDelegateListener" class="org.springrain.frame.queue.RedisMessageDelegateListener"/>
 	<bean id="redisMessageListener"
         class="org.springframework.data.redis.listener.adapter.MessageListenerAdapter">
         <property name="delegate" ref="redisMessageDelegateListener" />
         <property name="serializer" ref="jdkSerializationRedisSerializer" />
-    </bean>
+    </bean> 
     
     
     <redis:listener-container>
-        <redis:listener ref="redisMessageListener" method="handleMessage" serializer="jdkSerializationRedisSerializer" topic="springrainqueue" />
-    </redis:listener-container>
- -->
-	
+        <redis:listener ref="redisMessageListener" method="handleMessage" serializer="jdkSerializationRedisSerializer" topic="springrainqueue_*" />
+    </redis:listener-container>  -->
+    
 </beans>

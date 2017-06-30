@@ -1,20 +1,42 @@
 package org.springrain.frame.queue;
 
-import java.io.Serializable;
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 
-public class RedisMessageDelegateListener {
-	public Integer i=1;
+import org.springframework.data.redis.connection.Message;
+import org.springframework.data.redis.connection.MessageListener;
+import org.springframework.data.redis.listener.PatternTopic;
+import org.springframework.data.redis.listener.RedisMessageListenerContainer;
+import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
+import org.springframework.stereotype.Component;
+
+//@Component
+public class RedisMessageDelegateListener implements MessageListener {
+	@Resource
+	private RedisMessageListenerContainer redisListenContainner;
+	@Resource
+	JdkSerializationRedisSerializer jdkSerializationRedisSerializer;
 	
-	
-	//也可以串行处理
-	//public synchronized void handleMessage(Serializable message){
-	
-	public  void handleMessage(Serializable message){
-		
-        System.out.println(i+":"+message);
-        i++;
-        System.out.println("000000000000000000");
-        
-    }
+	private  final String channel="springrainqueue_1";
+
+	@PostConstruct
+	public void addToListenner() {
+		redisListenContainner.addMessageListener(this, new PatternTopic(
+				channel));
+	}
+
+	@Override
+	public void onMessage(Message message, byte[] pattern) {
+		System.out.println(extractMessage(message));
+
+	}
+
+	protected Object extractMessage(Message message) {
+		if (jdkSerializationRedisSerializer != null) {
+			return jdkSerializationRedisSerializer.deserialize(message
+					.getBody());
+		}
+		return message.getBody();
+	}
 
 }
