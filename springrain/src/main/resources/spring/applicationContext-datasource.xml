@@ -95,17 +95,18 @@
 	
 	
 	
-	<!-- 根据事务隔离级别 做读写分离,就不需要使用dao层的读写分离了  -->
-	<!--
-	<bean id="dataSource" class="org.springframework.jdbc.datasource.lookup.IsolationLevelDataSourceRouter">
+	<!-- 根据事务隔离级别做读写分离,有事务就写,无事务就是读 -->
+	<!-- 
+	<bean id="dataSource" class="org.springrain.frame.dao.TransactionDataSourceRouter">
 	   <property name="targetDataSources">
 		 <map>
-		   <entry key="ISOLATION_READ_UNCOMMITTED" value-ref="dataSourceWrite"/>
+		   <entry key="dataSourceWrite" value-ref="dataSourceWrite"/>
+		   <entry key="dataSourceRead"  value-ref="dataSourceRead"/>
 		 </map>
 	   </property>
 	   <property name="defaultTargetDataSource" ref="dataSourceRead"/>
 	</bean>
-	-->
+    -->
 	
 	
 	
