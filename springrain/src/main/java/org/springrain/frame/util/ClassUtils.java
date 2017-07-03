@@ -8,6 +8,7 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,6 +22,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.beanutils.converters.BigDecimalConverter;
+import org.apache.commons.beanutils.converters.DoubleConverter;
+import org.apache.commons.beanutils.converters.IntegerConverter;
+import org.apache.commons.beanutils.converters.LongConverter;
+import org.apache.commons.beanutils.converters.ShortConverter;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -51,6 +59,20 @@ public class ClassUtils {
         throw new IllegalAccessError("工具类不能实例化");
     }
 
+    
+    /**
+	 * 默认值为NULL
+	 */
+	static {
+		ConvertUtils.register(new LongConverter(null), Long.class);
+		ConvertUtils.register(new ShortConverter(null), Short.class);
+		ConvertUtils.register(new IntegerConverter(null), Integer.class);
+		ConvertUtils.register(new DoubleConverter(null), Double.class);
+		ConvertUtils.register(new BigDecimalConverter(null), BigDecimal.class);
+	}
+
+	
+    
     /**
      * 根据ClassName获取 EntityInfo
      * 
@@ -381,10 +403,16 @@ public class ClassUtils {
      * @throws Exception
      */
     public static Object setPropertieValue(String p, Object o, Object value) throws Exception {
-        PropertyDescriptor pd = new PropertyDescriptor(p, o.getClass());
+        
+    	/*
+    	PropertyDescriptor pd = new PropertyDescriptor(p, o.getClass());
         //获得set方法
         Method setMethod = pd.getWriteMethod();
         setMethod.invoke(o, value);
+        */
+        
+    	BeanUtils.setProperty(o, p, value);
+        
         return o;
         
         /*
