@@ -49,7 +49,7 @@ public abstract class DirectiveUtils {
 	 * @throws TemplateModelException
 	 */
 	public static TemplateModel wrap(Object obj) throws TemplateModelException{
-		return new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_22).build().wrap(obj);
+		return new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_26).build().wrap(obj);
 	}
 
 
