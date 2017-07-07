@@ -2,6 +2,8 @@ package org.springrain.weixin.sdk.common.util.http;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.Map;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
@@ -11,6 +13,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.weixin.sdk.common.api.IWxConfig;
 import org.springrain.weixin.sdk.common.bean.result.WxError;
@@ -31,15 +34,40 @@ public class MediaUploadRequestExecutor implements RequestExecutor<WxMediaUpload
         RequestConfig config = RequestConfig.custom().setProxy(new HttpHost(wxconfig.getHttpProxyHost(), wxconfig.getHttpProxyPort())).build();
         httpPost.setConfig(config);
       }
-    if (file != null) {
-      HttpEntity entity = MultipartEntityBuilder
-              .create()
-              .addBinaryBody("media", file)
-              .setMode(HttpMultipartMode.RFC6532)
-              .build();
-      httpPost.setEntity(entity);
-      httpPost.setHeader("Content-Type", ContentType.MULTIPART_FORM_DATA.toString());
-    }
+    
+    
+    
+    
+    MultipartEntityBuilder builder = MultipartEntityBuilder.create(); 
+    builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);  
+   
+    
+  //@2017-06-28 在文件上传中，有些系统不支持指定字符集(企业微信)  
+  //builder.setCharset(Charset.forName("UTF-8") );  
+    
+  //先添加文件部分(无需指定编码)  
+  if (file != null && file.exists()) {  
+      builder.addBinaryBody("media", file, ContentType.DEFAULT_BINARY, file.getName() );  
+  }  
+ 
+  
+  /*
+  //再添加表单部分(需指定编码，@2017-06-28 key和value都需要指定编码)  
+  if (params != null && !params.isEmpty()) {  
+        
+      //@2017-06-28 在文件上传中，有些系统不支持指定字符集(企业微信)  
+      builder.setCharset(Charset.forName(FsSpec.Charset_Default) );  
+      ContentType contentType = ContentType.create("text/plain", "UTF-8");  
+        
+      for (Map.Entry<String, String> entry : params.entrySet()) {  
+            
+          builder.addTextBody(entry.getKey(), entry.getValue(), contentType);  
+      }  
+  }  
+    */
+    
+    
+    httpPost.setEntity(builder.build() );  
     try (CloseableHttpResponse response = HttpClientUtils.getHttpClient().execute(httpPost)) {
       String responseContent = Utf8ResponseHandler.INSTANCE.handleResponse(response);
       WxError error = WxError.fromJson(responseContent);
