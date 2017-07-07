@@ -500,7 +500,7 @@ public interface IWxCpService {
    * <pre>
    * Service没有实现某个API的时候，可以用这个，
    * 比{@link #get}和{@link #post}方法更灵活，可以自己构造RequestExecutor用来处理不同的参数和不同的返回类型。
-   * 可以参考，{@link org.springrain.weixin.sdk.common.util.http.MediaUploadRequestExecutor}的实现方法
+   * 可以参考，{@link org.springrain.weixin.sdk.cp.util.http.CpMediaUploadRequestExecutor}的实现方法
    * </pre>
    *
    * @param executor

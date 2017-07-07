@@ -28,7 +28,6 @@ import org.springrain.weixin.sdk.common.util.RandomUtils;
 import org.springrain.weixin.sdk.common.util.crypto.SHA1;
 import org.springrain.weixin.sdk.common.util.fs.FileUtils;
 import org.springrain.weixin.sdk.common.util.http.MediaDownloadRequestExecutor;
-import org.springrain.weixin.sdk.common.util.http.MediaUploadRequestExecutor;
 import org.springrain.weixin.sdk.common.util.http.RequestExecutor;
 import org.springrain.weixin.sdk.common.util.http.SimpleGetRequestExecutor;
 import org.springrain.weixin.sdk.common.util.http.SimplePostRequestExecutor;
@@ -39,6 +38,7 @@ import org.springrain.weixin.sdk.cp.bean.WxCpDepart;
 import org.springrain.weixin.sdk.cp.bean.WxCpMessage;
 import org.springrain.weixin.sdk.cp.bean.WxCpTag;
 import org.springrain.weixin.sdk.cp.bean.WxCpUser;
+import org.springrain.weixin.sdk.cp.util.http.CpMediaUploadRequestExecutor;
 import org.springrain.weixin.sdk.cp.util.json.WxCpGsonBuilder;
 
 import com.google.gson.JsonArray;
@@ -234,7 +234,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
   @Override
   public WxMediaUploadResult mediaUpload(IWxCpConfig wxcpconfig,String mediaType, File file) throws WxErrorException {
     String url = WxConsts.qyapiurl+"/cgi-bin/media/upload?type=" + mediaType;
-    return execute(wxcpconfig,new MediaUploadRequestExecutor(), url, file);
+    return execute(wxcpconfig,new CpMediaUploadRequestExecutor(), url, file);
   }
 
   @Override
