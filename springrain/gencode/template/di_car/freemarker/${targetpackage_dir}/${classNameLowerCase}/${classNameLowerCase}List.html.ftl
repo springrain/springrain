@@ -7,6 +7,7 @@ ${r"<@h.commonHead"} title="后台管理系统" keywords="开源,永久免费" d
 <#assign classNameLowerCase = className?lower_case>
 <#assign from = basepackage?last_index_of(".")>
 <#assign rootPagefloder = basepackage?substring(basepackage?last_index_of(".")+1)>
+<#assign targetpackage = targetpackage>
 
 <script>
 	var _state;
@@ -24,7 +25,7 @@ ${r"<@h.commonHead"} title="后台管理系统" keywords="开源,永久免费" d
 		});
 	});
 	function del(_id){
-		springrain.mydelete(_id,"${r"${ctx}"}/${classNameLowerCase}/delete");
+		springrain.mydelete(_id,"${r"${ctx}"}/${targetpackage}/${classNameLowerCase}/delete");
 	}
 </script>
 
@@ -44,14 +45,14 @@ ${r"<@h.commonHead"} title="后台管理系统" keywords="开源,永久免费" d
 							</span>
 		             </li>
 					 <li style="float:right;">
-		             	${r"<@shiro.hasPermission"} name="/${classNameLowerCase}/update" >
-		             		<button type="button"   class="layui-btn layui-btn-small" data-action="${r"${ctx}"}/${classNameLowerCase}/update/pre"><i class="layui-icon layui-icon-specil">&#xe61f;</i>新增</button>
+		             	${r"<@shiro.hasPermission"} name="/${targetpackage}/${classNameLowerCase}/update" >
+		             		<button type="button"   class="layui-btn layui-btn-small" data-action="${r"${ctx}"}/${targetpackage}/${classNameLowerCase}/update/pre"><i class="layui-icon layui-icon-specil">&#xe61f;</i>新增</button>
 		             	${r"</@shiro.hasPermission>"}
-		             	${r"<@shiro.hasPermission"} name="/${classNameLowerCase}/list/export" >
+		             	${r"<@shiro.hasPermission"} name="/${targetpackage}/${classNameLowerCase}/list/export" >
 				        	<button type="button"   class="layui-btn layui-btn-small"><i class="layui-icon layui-icon-specil">&#xe609;</i>导出</button>
 				        ${r"</@shiro.hasPermission>"}
 		                <button type="button"  class="layui-btn layui-btn-warm layui-btn-small"><i class="layui-icon layui-icon-specil">&#xe601;</i>导入</button>
-		                ${r"<@shiro.hasPermission"} name="/${classNameLowerCase}/delete" >
+		                ${r"<@shiro.hasPermission"} name="/${targetpackage}/${classNameLowerCase}/delete" >
 		               		 <button type="button"  class="layui-btn layui-btn-danger layui-btn-small"><i class="layui-icon">&#xe640;</i>批量删除</button>
 		                ${r"</@shiro.hasPermission>"}
 		             </li>
@@ -62,7 +63,7 @@ ${r"<@h.commonHead"} title="后台管理系统" keywords="开源,永久免费" d
 							<div class="layui-main">
 						          <div id="LAY_preview">
 						          <!-- 查询  开始 -->
-							          <form class="layui-form layui-form-pane" id="searchForm" action="${r"${ctx}"}/${classNameLowerCase}/list" method="post">
+							          <form class="layui-form layui-form-pane" id="searchForm" action="${r"${ctx}"}/${targetpackage}/${classNameLowerCase}/list" method="post">
 							          <input type="hidden" name="pageIndex" id="pageIndex" value="${r"${(returnDatas.page.pageIndex)!'1'}"}" /> 
 							          <input type="hidden" name="sort" id="page_sort" value="${r"${(returnDatas.page.sort)!'desc'}"}" />
 							          <input type="hidden" name="order" id="page_order" value="${r"${(returnDatas.page.order)!'id'}"}" />
@@ -142,10 +143,10 @@ ${r"<@h.commonHead"} title="后台管理系统" keywords="开源,永久免费" d
 																<input name="check_li" value="${r"${_data.id}"}"  type="checkbox">
 														</td>
 														<td>
-															${r"<@shiro.hasPermission"} name="/${classNameLowerCase}/update" >
+															${r"<@shiro.hasPermission"} name="/${targetpackage}/${classNameLowerCase}/update" >
 								                           		 <a href="#" data-action="${r"${ctx}"}/system/role/update/pre?id=${(_data.id)!''}" class="layui-btn layui-btn-normal layui-btn-mini">编辑</a>
 								                            ${r"</@shiro.hasPermission>"}
-								                            ${r"<@shiro.hasPermission"} name="/${classNameLowerCase}/delete" >
+								                            ${r"<@shiro.hasPermission"} name="/${targetpackage}/${classNameLowerCase}/delete" >
 								                            	<a href="javascript:del('${r"${(_data.id)!''}"}')" class="layui-btn layui-btn-danger layui-btn-mini ajax-delete">删除</a>
 								                            ${r"</@shiro.hasPermission>"}
 														</td>

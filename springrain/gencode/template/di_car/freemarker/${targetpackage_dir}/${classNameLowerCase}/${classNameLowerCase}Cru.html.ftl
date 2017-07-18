@@ -16,7 +16,7 @@ ${r"<@h.commonHead"} title="后台管理系统" keywords="开源,永久免费" d
 		 @_before:提交表单前，调用 的函数   可以为空，一般有validform处理不了，独自进行处理时使用
 		 @_after:保存成功后，调用的函数  可以为空，一般为对应的列表页面
 		 */
-		 springrain.initValid(null,function(){window.location.href="${r"${ctx}"}/${classNameLowerCase}/list?springraintoken="+springraintoken});
+		 springrain.initValid(null,function(){window.location.href="${r"${ctx}"}/${targetpackage}/${classNameLowerCase}/list?springraintoken="+springraintoken});
 	 });
 </script>
 </head>
@@ -46,7 +46,7 @@ ${r"<@h.commonHead"} title="后台管理系统" keywords="开源,永久免费" d
 													<span>添加${tableName}</span>
 												</header>
 												<div class="larry-personal-body clearfix changepwd">
-													<form id="validForm" class="layui-form <!--  -->"  method="post" action="${r"${ctx}"}/${classNameLowerCase}/update">
+													<form id="validForm" class="layui-form <!--  -->"  method="post" action="${r"${ctx}"}/${targetpackage}/${classNameLowerCase}/update">
 													<#list table.columns as column>
 															<#if column.pk>
 																<#assign columnValue = "("+classNameLower+"."+column.columnNameFirstLower+")!''">

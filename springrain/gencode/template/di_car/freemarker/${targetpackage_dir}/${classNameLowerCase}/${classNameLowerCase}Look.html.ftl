@@ -7,6 +7,7 @@ ${r"<@h.commonHead"} title="后台管理系统" keywords="开源,永久免费" d
 <#assign classNameLowerCase = className?lower_case>
 <#assign from = basepackage?last_index_of(".")>
 <#assign rootPagefloder = basepackage?substring(basepackage?last_index_of(".")+1)>
+<#assign targetpackage = targetpackage>
 
 </head>
 <body>
@@ -35,7 +36,7 @@ ${r"<@h.commonHead"} title="后台管理系统" keywords="开源,永久免费" d
 													<span>添加${tableName}</span>
 												</header>
 												<div class="larry-personal-body clearfix changepwd">
-													<form id="validForm" class="layui-form <!--  -->"  method="post" action="${r"${ctx}"}/${classNameLowerCase}/update">
+													<form id="validForm" class="layui-form <!--  -->"  method="post" action="${r"${ctx}"}/${targetpackage}/${classNameLowerCase}/update">
 													<#list table.columns as column>
 														    <#if !column.pk>
 																<#assign columnValue = "("+classNameLower+"."+column.columnNameFirstLower+")!''">

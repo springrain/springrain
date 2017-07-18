@@ -4,6 +4,7 @@
 <#assign from = basepackage?last_index_of(".")>
 <#assign rootPagefloder = basepackage?substring(basepackage?last_index_of(".")+1)>
 <#assign pkJavaType = table.idColumn.javaType>  
+<#assign targetpackage = targetpackage>
 package  ${basepackage}.web;
 
 import java.io.File;
@@ -26,7 +27,7 @@ import ${basepackage}.entity.${className};
 import ${basepackage}.service.I${className}Service;
 import org.springrain.frame.controller.BaseController;
 import org.springrain.frame.util.GlobalStatic;
-import org.springrain.frame.util.MessageUtils;
+import org.springrain.frame.util.property.MessageUtils;
 import org.springrain.frame.util.Page;
 import org.springrain.frame.util.ReturnDatas;
 <#assign myParentDir="web">
@@ -34,7 +35,7 @@ import org.springrain.frame.util.ReturnDatas;
 
 <#include "/copyright_class.include" >
 @Controller
-@RequestMapping(value="/${classNameLowerCase}")
+@RequestMapping(value="/${targetpackage}/${classNameLowerCase}")
 public class ${className}Controller  extends BaseController {
 	@Resource
 	private I${className}Service ${classNameLower}Service;
