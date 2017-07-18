@@ -9,10 +9,9 @@ ${r"<@h.commonHead"} title="后台管理系统" keywords="开源,永久免费" d
 <#assign rootPagefloder = basepackage?substring(basepackage?last_index_of(".")+1)>
 <#assign targetpackage = targetpackage>
 
-<script>
-	var _state;
+<script type="text/javascript">
 	jQuery(function(){ 
-		_state="${r"${(returnDatas.queryBean.active)!''}"}";
+		var _state="${r"${(returnDatas.queryBean.active)!''}"}";
 		jQuery("#active").val(_state);
 		/*
 		全选、反选
