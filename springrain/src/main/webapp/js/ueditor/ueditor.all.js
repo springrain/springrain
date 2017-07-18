@@ -6920,7 +6920,7 @@ var fillCharReg = new RegExp(domUtils.fillChar, 'g');
                     '.view{padding:0;word-wrap:break-word;cursor:text;height:90%;}\n' +
                     //设置默认字体和字号
                     //font-family不能呢随便改，在safari下fillchar会有解析问题
-                    'body{margin:8px;font-family:sans-serif;font-size:16px;}' +
+                    'body{margin:8px;font-family:微软雅黑,Microsoft YaHei;font-size:16px;}' +
                     //设置段落间距
                     'p{margin:5px 0;}</style>' +
                     ( options.iframeCssUrl ? '<link rel=\'stylesheet\' type=\'text/css\' href=\'' + utils.unhtml(options.iframeCssUrl) + '\'/>' : '' ) +
@@ -17641,7 +17641,7 @@ UE.plugins['video'] = function (){
      * @param toEmbed 是否以flash代替显示
      * @param addParagraph  是否需要添加P 标签
      */
-    function creatInsertStr(url,width,height,id,align,classname,type){
+    function creatInsertStr(url,width,height,id,align,classname,type,poster){
 
         url = utils.unhtmlForUrl(url);
         align = utils.unhtml(align);
@@ -17649,11 +17649,11 @@ UE.plugins['video'] = function (){
 
         width = parseInt(width, 10) || 0;
         height = parseInt(height, 10) || 0;
-
+        //debugger-after;
         var str;
         switch (type){
             case 'image':
-                str = '<img ' + (id ? 'id="' + id+'"' : '') + ' width="'+ width +'" height="' + height + '" _url="'+url+'" class="' + classname.replace(/\bvideo-js\b/, '') + '"'  +
+                str = '<img ' + (id ? 'id="' + id+'"' : '') + ' poster= "'+poster+'" width="'+ width +'" height="' + height + '" _url="'+url+'" class="' + classname.replace(/\bvideo-js\b/, '') + '"'  +
                     ' src="' + me.options.UEDITOR_HOME_URL+'themes/default/images/spacer.gif" style="background:url('+me.options.UEDITOR_HOME_URL+'themes/default/images/videologo.gif) no-repeat center center; border:1px solid gray;'+(align ? 'float:' + align + ';': '')+'" />'
                 break;
             case 'embed':
@@ -17665,7 +17665,7 @@ UE.plugins['video'] = function (){
                 var ext = url.substr(url.lastIndexOf('.') + 1);
                 if(ext == 'ogv') ext = 'ogg';
                 str = '<video' + (id ? ' id="' + id + '"' : '') + ' class="' + classname + ' video-js" ' + (align ? ' style="float:' + align + '"': '') +
-                    ' controls preload="none" width="' + width + '" height="' + height + '" src="' + url + '" data-setup="{}">' +
+                    ' controls preload="none" poster="'+poster+'" width="' + width + '" height="' + height + '" src="' + url + '" data-setup="{}">' +
                     '<source src="' + url + '" type="video/' + ext + '" /></video>';
                 break;
         }
@@ -17675,12 +17675,13 @@ UE.plugins['video'] = function (){
     function switchImgAndVideo(root,img2video){
         utils.each(root.getNodesByTagName(img2video ? 'img' : 'embed video'),function(node){
             var className = node.getAttr('class');
+            //debugger-after
             if(className && className.indexOf('edui-faked-video') != -1){
                 var html = creatInsertStr( img2video ? node.getAttr('_url') : node.getAttr('src'),node.getAttr('width'),node.getAttr('height'),null,node.getStyle('float') || '',className,img2video ? 'embed':'image');
                 node.parentNode.replaceChild(UE.uNode.createElement(html),node);
             }
             if(className && className.indexOf('edui-upload-video') != -1){
-                var html = creatInsertStr( img2video ? node.getAttr('_url') : node.getAttr('src'),node.getAttr('width'),node.getAttr('height'),null,node.getStyle('float') || '',className,img2video ? 'video':'image');
+                var html = creatInsertStr( img2video ? node.getAttr('_url') : node.getAttr('src'),node.getAttr('width'),node.getAttr('height'),null,node.getStyle('float') || '',className,img2video ? 'video':'image',node.getAttr('poster'));
                 node.parentNode.replaceChild(UE.uNode.createElement(html),node);
             }
         })
@@ -17763,10 +17764,11 @@ UE.plugins['video'] = function (){
         execCommand: function (cmd, videoObjs, type){
             videoObjs = utils.isArray(videoObjs)?videoObjs:[videoObjs];
             var html = [],id = 'tmpVedio', cl;
+            //debugger-after;
             for(var i=0,vi,len = videoObjs.length;i<len;i++){
                 vi = videoObjs[i];
                 cl = (type == 'upload' ? 'edui-upload-video video-js vjs-default-skin':'edui-faked-video');
-                html.push(creatInsertStr( vi.url, vi.width || 420,  vi.height || 280, id + i, null, cl, 'image'));
+                html.push(creatInsertStr( vi.url, vi.width || 420,  vi.height || 280, id + i, null, cl, 'image',vi.poster));
             }
             me.execCommand("inserthtml",html.join(""),true);
             var rng = this.selection.getRange();
@@ -23223,7 +23225,10 @@ UE.plugins['catchremoteimage'] = function () {
             if (ci.getAttribute("word_img")) {
                 continue;
             }
-            var src = ci.getAttribute("_src") || ci.src || "";
+            var src = ci.getAttribute("_src")||ci.src || "";
+            if(src.indexOf("&tp=webp&")!=-1&&ci.getAttribute("data-src")!=null){
+            	src=ci.getAttribute("data-src");
+            }
             if (/^(https?|ftp):/i.test(src) && !test(src, catcherLocalDomain)) {
                 remoteImages.push(src);
             }
@@ -23244,6 +23249,9 @@ UE.plugins['catchremoteimage'] = function () {
 
                     for (i = 0; ci = imgs[i++];) {
                         oldSrc = ci.getAttribute("_src") || ci.src || "";
+                        if(oldSrc.indexOf("&tp=webp&")!=-1&&ci.getAttribute("data-src")!=null){
+                        	oldSrc=ci.getAttribute("data-src");
+                        }
                         for (j = 0; cj = list[j++];) {
                             if (oldSrc == cj.source && cj.state == "SUCCESS") {  //抓取失败时不做替换处理
                                 newSrc = catcherUrlPrefix + cj.url;
@@ -23651,6 +23659,7 @@ UE.plugins['template'] = function () {
  */
 UE.plugin.register('music', function (){
     var me = this;
+    //debugger-after;
     function creatInsertStr(url,width,height,align,cssfloat,toEmbed){
         return  !toEmbed ?
                 '<img ' +
@@ -23668,6 +23677,7 @@ UE.plugin.register('music', function (){
         outputRule: function(root){
             utils.each(root.getNodesByTagName('img'),function(node){
                 var html;
+                //debugger-after;
                 if(node.getAttr('class') == 'edui-faked-music'){
                     var cssfloat = node.getStyle('float');
                     var align = node.getAttr('align');
@@ -23679,6 +23689,7 @@ UE.plugin.register('music', function (){
         },
         inputRule:function(root){
             utils.each(root.getNodesByTagName('embed'),function(node){
+            	//debugger-after;
                 if(node.getAttr('class') == 'edui-faked-music'){
                     var cssfloat = node.getStyle('float');
                     var align = node.getAttr('align');
@@ -23758,6 +23769,7 @@ UE.plugin.register('autoupload', function (){
                 'timeout': 4000
             });
         };
+        
 
         if (filetype == 'image') {
             loadingHtml = '<img class="loadingclass" id="' + loadingId + '" src="' +
@@ -24483,7 +24495,7 @@ UE.plugin.register('simpleupload', function (){
 
             wrapper.innerHTML = '<form id="edui_form_' + timestrap + '" target="edui_iframe_' + timestrap + '" method="POST" enctype="multipart/form-data" action="' + me.getOpt('serverUrl') + '" ' +
             'style="' + btnStyle + '">' +
-            '<input id="edui_input_' + timestrap + '" type="file" accept="image/*" name="' + me.options.imageFieldName + '" ' +
+            '<input id="edui_input_' + timestrap + '" type="file" accept="image/gif,image/jpeg,image/png,image/jpg,image/bmp" name="' + me.options.imageFieldName + '" ' +
             'style="' + btnStyle + '">' +
             '</form>' +
             '<iframe id="edui_iframe_' + timestrap + '" name="edui_iframe_' + timestrap + '" style="display:none;width:0;height:0;border:0;margin:0;padding:0;position:absolute;"></iframe>';

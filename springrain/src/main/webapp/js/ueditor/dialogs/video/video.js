@@ -55,6 +55,7 @@
                     $G("videoUrl").value = url = img.getAttribute("_url");
                     $G("videoWidth").value = img.width;
                     $G("videoHeight").value = img.height;
+                    $G("poster").value = img.getAttribute("poster");
                     var align = domUtils.getComputedStyle(img,"float"),
                         parentAlign = domUtils.getComputedStyle(img.parentNode,"text-align");
                     updateAlignButton(parentAlign==="center"?"center":align);
@@ -117,14 +118,16 @@
         var width = $G("videoWidth"),
             height = $G("videoHeight"),
             url=$G('videoUrl').value,
-            align = findFocus("videoFloat","name");
+            align = findFocus("videoFloat","name"),
+            poster=$G("poster").value;
         if(!url) return false;
         if ( !checkNum( [width, height] ) ) return false;
         editor.execCommand('insertvideo', {
             url: convert_url(url),
             width: width.value,
             height: height.value,
-            align: align
+            align: align,
+            poster:poster,
         }, isModifyUploadVideo ? 'upload':null);
     }
 
@@ -284,18 +287,21 @@
 
     /* 插入上传视频 */
     function insertUpload(){
+    	//debugger-after;
         var videoObjs=[],
             uploadDir = editor.getOpt('videoUrlPrefix'),
             width = parseInt($G('upload_width').value, 10) || 420,
             height = parseInt($G('upload_height').value, 10) || 280,
-            align = findFocus("upload_alignment","name") || 'none';
+            align = findFocus("upload_alignment","name") || 'none',
+            poster=$G('poster').value;
         for(var key in uploadVideoList) {
             var file = uploadVideoList[key];
             videoObjs.push({
                 url: uploadDir + file.url,
                 width:width,
                 height:height,
-                align:align
+                align:align,
+                poster:poster
             });
         }
 

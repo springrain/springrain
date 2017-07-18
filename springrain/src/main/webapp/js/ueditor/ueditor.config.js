@@ -54,14 +54,13 @@
              'searchreplace', 'drafts'
         ]]*/
   
-	,toolbars : [ [ "fullscreen",'|', "undo", ,'|',"redo", 'fontfamily', //字体
-	               'fontsize', "justifyleft", "justifycenter",
-					"justifyright",'|','bold',  'italic', //斜体
-        			'underline',   'removeformat',    'formatmatch', 'autotypeset','|','forecolor','backcolor', 
-					'selectall', '|','cleardoc','simpleupload', 'insertimage','inserttable', '|','horizontal', 'time', //时间
+	,toolbars : [ [ "undo","redo", '|','fontfamily', 'fontsize', '|',//字体
+	               "justifyleft","justifycenter","justifyright",'|','bold',  'italic', 'underline','|', //斜体
+        			'removeformat',    'formatmatch', 'autotypeset','|','forecolor','backcolor', 
+        			'|',"fullscreen",'source','simpleupload', 'insertimage','inserttable', '|','horizontal', 'time', //时间
 			        'date', 'spechars','link','|','rowspacingtop', //段前距
 			        'rowspacingbottom', 'lineheight','insertorderedlist', //有序列表
-			        'insertunorderedlist' ] ]
+			        'insertunorderedlist', 'insertvideo','insertframe' ] ]
         //当鼠标放在工具栏上时显示的tooltip提示,留空支持自动多语言配置，否则以配置值为准
         //,labelMap:{
         //    'anchor':'', 'undo':''
