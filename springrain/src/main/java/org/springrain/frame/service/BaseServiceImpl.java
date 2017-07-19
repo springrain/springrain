@@ -241,28 +241,12 @@ public abstract class BaseServiceImpl extends BaseLogger implements IBaseService
 		return getBaseDao().queryForList(finder, page);
 	}
 
-	/**
-	 * Entity作为查询的query bean,并返回Entity
-	 * 
-	 * @param entity
-	 * @return
-	 * @throws Exception
-	 */
 	@Override
 	public <T> T queryForObject(T entity) throws Exception {
 		return getBaseDao().queryForObject(entity);
 
 	}
 
-	/**
-	 * Entity作为查询的query bean,并返回Entity
-	 * 
-	 * @param entity
-	 * @param page
-	 *            分页对象
-	 * @return
-	 * @throws Exception
-	 */
 	@Override
 	public <T> List<T> queryForListByEntity(T entity, Page page) throws Exception {
 		return getBaseDao().queryForListByEntity(entity, page);
@@ -275,7 +259,6 @@ public abstract class BaseServiceImpl extends BaseLogger implements IBaseService
 		return getBaseDao().findListDataByFinder(finder, page, clazz, queryBean);
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public <T> File findDataExportExcel(Finder finder, String ftlurl, Page page, Class<T> clazz, Object queryBean)
 			throws Exception {
@@ -283,7 +266,6 @@ public abstract class BaseServiceImpl extends BaseLogger implements IBaseService
 		return findDataExportExcel(finder, ftlurl, page, clazz, queryBean, map);
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public <T> File findDataExportExcel(Finder finder, String ftlurl, Page page, Class<T> clazz, Object queryBean,
 			Map map) throws Exception {
@@ -534,14 +516,6 @@ public abstract class BaseServiceImpl extends BaseLogger implements IBaseService
 		return getBaseDao().queryForListByFunction(finder, clazz);
 	}
 
-	/**
-	 * 根据查询的queryBean,拼接Finder 的 Where条件,只包含 and 条件,用于普通查询
-	 * 
-	 * @param finder
-	 * @param o
-	 * @return
-	 * @throws Exception
-	 */
 	@Override
 	public Finder getFinderWhereByQueryBean(Finder finder, Object o) throws Exception {
 		return getBaseDao().getFinderWhereByQueryBean(finder, o);
