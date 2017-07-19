@@ -13,6 +13,7 @@ import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.Page;
 import org.springrain.system.entity.User;
 import org.springrain.system.service.IMenuService;
+import org.springrain.system.service.IUserService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:applicationContext.xml")
@@ -21,7 +22,8 @@ public class SpringTest  {
 	@Resource
 	private IMenuService menuService;
 	
-	
+	@Resource
+	private IUserService userService;
 	//@Test
 	public void updateUser() throws Exception{
 		
@@ -35,14 +37,26 @@ public class SpringTest  {
 	
 	@Test
 	public void testSelectUser() throws Exception{
-		//Finder finder=new Finder("SELECT * FROM t_user WHERE  id=:userId order by id desc ");
-		Finder finder=Finder.getSelectFinder(User.class).append("WHERE  id=:userId ");
 		
-		finder.setParam("userId", "admin");
+		//框架默认Entity做为QueryBean,也可以自己定义QueryBean
+		User queryBean=new User();
+		queryBean.setId("admin");
+		
+		//初始化Finder,并为User取别名 u
+		//Finder finder=Finder.getSelectFinder(User.class," u.*").append("WHERE  1=1 ");
+		Finder finder=new Finder("SELECT u.* FROM ").append(Finder.getTableName(User.class)).append(" u WHERE 1=1 ");
+		//finder.append(" and u.id=:userId ").setParam("userId", "admin");
+		
+		//设置别名为u
+		queryBean.setFrameTableAlias("u");
+		
+		//拼接queryBean作为查询条件
+		userService.getFinderWhereByQueryBean(finder, queryBean);
+		//查询第一页
 		Page page=new Page(1);
-		page.setOrder("name dsf");
-		page.setSort("sdfsd");
-		 List<User> list = menuService.queryForList(finder,User.class,page);
+		//分页查询List<User>集合对象
+		List<User> list = userService.queryForList(finder,User.class,page);
+		
 		System.out.println(list);
 	}
 	

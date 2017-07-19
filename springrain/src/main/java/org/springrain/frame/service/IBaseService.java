@@ -466,7 +466,7 @@ public interface IBaseService {
 	public Object saveorupdate(Object entity) throws Exception;
 
 	/**
-	 * 根据查询的queryBean,拼接Finder的 Where条件,只拼接非NULL的值,只包含 and 条件,用于普通查询<br/>
+	 * 根据查询的queryBean,拼接Finder的 Where条件,只拼接非NULL的值,拼接前Finder中必须包含WHERE,只拼接 and 条件,用于普通查询<br/>
 	 * 例如:User对象的name属性值为 张三 ,根据name属性的@WhereSQL注解,拼接出来的语句类似:<br/>
 	 * finder.append(" and name=:User_name").setParam("User_name","张三");
 	 * 
