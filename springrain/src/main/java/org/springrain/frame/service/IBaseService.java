@@ -466,7 +466,9 @@ public interface IBaseService {
 	public Object saveorupdate(Object entity) throws Exception;
 
 	/**
-	 * 根据查询的queryBean,拼接Finder的 Where条件,只拼接非NULL的值,只包含 and 条件,用于普通查询
+	 * 根据查询的queryBean,拼接Finder的 Where条件,只拼接非NULL的值,只包含 and 条件,用于普通查询<br/>
+	 * 例如:User对象的name属性值为 张三 ,根据name属性的@WhereSQL注解,拼接出来的语句类似:<br/>
+	 * finder.append(" and name=:User_name").setParam("User_name","张三");
 	 * 
 	 * @param finder
 	 * @param o
@@ -476,7 +478,9 @@ public interface IBaseService {
 	public Finder getFinderWhereByQueryBean(Finder finder, Object o) throws Exception;
 
 	/**
-	 * 根据page对象中sort和order 添加order by 排序,一般用于前台传递的自定义排序
+	 * finder清除自身的排序,根据page对象中sort和order 添加order by 排序,一般用于前台传递的自定义排序<br/>
+	 * 代码类似:<br/>
+	 * finder.append(" order by ").append(page.getOrder()).append(" ").append(page.getSort());
 	 * 
 	 * @param finder
 	 * @param page
