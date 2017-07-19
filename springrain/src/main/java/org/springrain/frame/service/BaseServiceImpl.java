@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.springrain.frame.service;
 
 import java.io.BufferedReader;
