@@ -466,7 +466,7 @@ public interface IBaseService {
 	public Object saveorupdate(Object entity) throws Exception;
 
 	/**
-	 * 根据查询的queryBean,拼接Finder 的 Where条件,只包含 and 条件,用于普通查询
+	 * 根据查询的queryBean,拼接Finder的 Where条件,只拼接非NULL的值,只包含 and 条件,用于普通查询
 	 * 
 	 * @param finder
 	 * @param o
