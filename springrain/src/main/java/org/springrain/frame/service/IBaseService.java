@@ -50,7 +50,7 @@ public interface IBaseService {
 	 * @param clazz
 	 * @return
 	 */
-	public Object getBeanByType(Class clazz) throws Exception;
+	public Object getBean(Class clazz) throws Exception;
 
 	/**
 	 * 获取Cache

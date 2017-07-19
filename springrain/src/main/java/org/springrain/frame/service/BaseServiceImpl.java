@@ -81,7 +81,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements IBaseService
 	}
 
 	@Override
-	public Object getBeanByType(Class clazz) throws Exception {
+	public Object getBean(Class clazz) throws Exception {
 		return getSpringUtils().getBeanByType(clazz);
 	}
 
