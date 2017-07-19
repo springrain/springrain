@@ -46,191 +46,148 @@ import org.springrain.frame.util.SpringUtils;
 
 import freemarker.template.Template;
 import jxl.Cell;
+
 /**
- * 基础的Service父类,所有的Service都必须继承此类,每个数据库都需要一个实现.</br> 
- * 例如 demo数据的实现类是org.springrain.springrain.service.BasedemoServiceImpl,demo2数据的实现类是org.springrain.demo2.service.Basedemo2ServiceImpl</br>
+ * 基础的Service父类,所有的Service都必须继承此类,每个数据库都需要一个实现.</br>
+ * 例如
+ * demo数据的实现类是org.springrain.springrain.service.BasedemoServiceImpl,demo2数据的实现类是org.springrain.demo2.service.Basedemo2ServiceImpl</br>
  * 
  * @copyright {@link weicms.net}
  * @author springrain<Auto generate>
- * @version  2013-03-19 11:08:15
+ * @version 2013-03-19 11:08:15
  * @see org.springrain.frame.service.BaseServiceImpl
  */
-public abstract class BaseServiceImpl extends BaseLogger implements
-		IBaseService {
+public abstract class BaseServiceImpl extends BaseLogger implements IBaseService {
 
 	@Resource
 	public SpringUtils springUtils;
-	//@Resource
-	public FreeMarkerConfigurer freeMarkerConfigurer=null;
-	
+	// @Resource
+	public FreeMarkerConfigurer freeMarkerConfigurer = null;
+
 	@Resource
 	private CacheManager cacheManager;
 
 	public abstract IBaseJdbcDao getBaseDao();
 
-	
-	/**
-	 * @return the springUtils
-	 */
 	public SpringUtils getSpringUtils() {
 		return springUtils;
 	}
-	
-	
-	/**
-	 *根据beanName 获取 spring bean
-	 */
+
 	@Override
 	public Object getBean(String beanName) throws Exception {
 		if (beanName == null)
 			return null;
 		return getSpringUtils().getBean(beanName);
 	}
-	/**
-	 * 根据bean type 获取springBean
-	 * @param clazz
-	 * @return
-	 */
-	public  Object getBeanByType(Class clazz) throws Exception {
+
+	@Override
+	public Object getBeanByType(Class clazz) throws Exception {
 		return getSpringUtils().getBeanByType(clazz);
 	}
 
-	
 	@Override
 	public Cache getCache(String cacheName) throws Exception {
-		if(StringUtils.isBlank(cacheName)){
+		if (StringUtils.isBlank(cacheName)) {
 			return null;
 		}
 		return cacheManager.getCache(cacheName);
 	}
-	
+
 	@Override
 	public <T> T getByCache(String cacheName, String key, Class<T> clazz) throws Exception {
 		return getCache(cacheName).get(key, clazz);
 	}
-	
-	@Override
-	public void putByCache(String cacheName, String key, Object value) throws Exception {
-		       getCache(cacheName).put(key, value);
-	}
-	@Override
-	public void cleanCache(String cacheName)throws Exception{
-		      getCache(cacheName).clear();
-	}
-	
-	/**
-	 * 清理缓存下的一个key
-	 * @param cacheName
-	 * @throws Exception
-	 */
-	public void evictByKey(String cacheName,String key)throws Exception{
-		 getCache(cacheName).evict(key);
-	}
-	
 
 	@Override
-	public <T> T getByCache(String cacheName, String key, Class<T> clazz,Page page) throws Exception {
-		 
-		 
-		if( page==null||page.getPageIndex()==null||StringUtils.isBlank(key)){
+	public void putByCache(String cacheName, String key, Object value) throws Exception {
+		getCache(cacheName).put(key, value);
+	}
+
+	@Override
+	public void cleanCache(String cacheName) throws Exception {
+		getCache(cacheName).clear();
+	}
+
+	@Override
+	public void evictByKey(String cacheName, String key) throws Exception {
+		getCache(cacheName).evict(key);
+	}
+
+	@Override
+	public <T> T getByCache(String cacheName, String key, Class<T> clazz, Page page) throws Exception {
+
+		if (page == null || page.getPageIndex() == null || StringUtils.isBlank(key)) {
 			return null;
 		}
-		
-		
-		String listKey=key+"_"+page.toString();
-		T t = getByCache(cacheName,listKey, clazz);
-		
-		if(t==null){
+
+		String listKey = key + "_" + page.toString();
+		T t = getByCache(cacheName, listKey, clazz);
+
+		if (t == null) {
 			return t;
 		}
-		
-		String pageKey=key+GlobalStatic.pageCacheExtKey;
-		Integer totalCount= getByCache(cacheName,pageKey, Integer.class);
-		if(totalCount!=null){
+
+		String pageKey = key + GlobalStatic.pageCacheExtKey;
+		Integer totalCount = getByCache(cacheName, pageKey, Integer.class);
+		if (totalCount != null) {
 			page.setTotalCount(totalCount);
 		}
 		return t;
 	}
-	
+
 	@Override
-	public void putByCache(String cacheName, String key, Object value,Page page) throws Exception {
-			 if( page==null||page.getPageIndex()==null||StringUtils.isBlank(key)){
-					return;
-				}
-		       String listKey=key+"_"+page.toString();
-		       putByCache(cacheName,listKey, value);
-		         
-		       if(page!=null){
-		    	   putByCache(cacheName,key+GlobalStatic.pageCacheExtKey, page.getTotalCount());
-		       }
-	}
-	
-	public void evictByKey(String cacheName,String key,Page page)throws Exception{
-		 evictByKey(cacheName,key);
-		 evictByKey(cacheName,key+GlobalStatic.pageCacheExtKey);
+	public void putByCache(String cacheName, String key, Object value, Page page) throws Exception {
+		if (page == null || page.getPageIndex() == null || StringUtils.isBlank(key)) {
+			return;
+		}
+		String listKey = key + "_" + page.toString();
+		putByCache(cacheName, listKey, value);
+
+		if (page != null) {
+			putByCache(cacheName, key + GlobalStatic.pageCacheExtKey, page.getTotalCount());
+		}
 	}
 
 	@Override
-	public <T> List<T> queryForList(Finder finder, Class<T> clazz)
-			throws Exception {
+	public void evictByKey(String cacheName, String key, Page page) throws Exception {
+		evictByKey(cacheName, key);
+		evictByKey(cacheName, key + GlobalStatic.pageCacheExtKey);
+	}
+
+	@Override
+	public <T> List<T> queryForList(Finder finder, Class<T> clazz) throws Exception {
 		return getBaseDao().queryForList(finder, clazz);
 	}
 
 	@Override
-	public List<Map<String, Object>> queryForList(Finder finder)
-			throws Exception {
+	public List<Map<String, Object>> queryForList(Finder finder) throws Exception {
 		return getBaseDao().queryForList(finder);
 	}
 
-	/**
-	 * 执行函数 返回执行结果为Map
-	 * 
-	 * @param finder
-	 * @return
-	 */
 	@Override
-	public  Map<String, Object> queryObjectByFunction(Finder finder)  throws Exception{
+	public Map<String, Object> queryObjectByFunction(Finder finder) throws Exception {
 		return getBaseDao().queryObjectByFunction(finder);
 	}
 
 	@Override
-	public <T> T findById(Object id, Class<T> clazz, String tableExt)
-			throws Exception {
+	public <T> T findById(Object id, Class<T> clazz, String tableExt) throws Exception {
 		return getBaseDao().findByID(id, clazz, tableExt);
 	}
 
-	/**
-	 * 执行存储过程 返回执行结果为
-	 * 
-	 * @param finder
-	 * @return
-	 */
 	@Override
-	public Map<String, Object> queryObjectByProc(Finder finder)  throws Exception{
+	public Map<String, Object> queryObjectByProc(Finder finder) throws Exception {
 		return getBaseDao().queryObjectByProc(finder);
 	}
-	
-	/**
-	 * 调用数据库存储过程  查询结果是 List
-	 * @param finder
-	 * @return
-	 * @throws Exception
-	 */
-	public  List<Map<String,Object>> queryForListByProc(Finder finder) throws Exception{
+
+	@Override
+	public List<Map<String, Object>> queryForListByProc(Finder finder) throws Exception {
 		return getBaseDao().queryForListByProc(finder);
 	}
-	
-	/**
-	 * 调用数据库函数  查询结果是 List
-	 * @param finder
-	 * @return
-	 * @throws Exception
-	 */
-	public  List<Map<String,Object>> queryForListByFunction(Finder finder) throws Exception{
+
+	@Override
+	public List<Map<String, Object>> queryForListByFunction(Finder finder) throws Exception {
 		return getBaseDao().queryForListByFunction(finder);
 	}
-	
-	
 
 	@Override
 	public <T> T queryForObject(Finder finder, Class<T> clazz) throws Exception {
@@ -249,13 +206,11 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 		return getBaseDao().update(finder);
 	}
 
-	@SuppressWarnings("rawtypes")
 	@Override
 	public void deleteById(Object id, Class clazz) throws Exception {
 		getBaseDao().deleteById(id, clazz);
 	}
 
-	@SuppressWarnings("rawtypes")
 	@Override
 	public void deleteByIds(List ids, Class clazz) throws Exception {
 		getBaseDao().deleteByIds(ids, clazz);
@@ -263,8 +218,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 
 	@Override
 	public void deleteByEntity(IBaseEntity entity) throws Exception {
-		EntityInfo entityInfoByEntity = ClassUtils
-				.getEntityInfoByEntity(entity);
+		EntityInfo entityInfoByEntity = ClassUtils.getEntityInfoByEntity(entity);
 		String tableName = entityInfoByEntity.getTableName();
 		String tableExt = entityInfoByEntity.getTableSuffix();
 		if (StringUtils.isNotBlank(tableExt)) {
@@ -278,14 +232,12 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 	}
 
 	@Override
-	public <T> List<T> queryForList(Finder finder, Class<T> clazz, Page page)
-			throws Exception {
+	public <T> List<T> queryForList(Finder finder, Class<T> clazz, Page page) throws Exception {
 		return getBaseDao().queryForList(finder, clazz, page);
 	}
 
 	@Override
-	public List<Map<String, Object>> queryForList(Finder finder, Page page)
-			throws Exception {
+	public List<Map<String, Object>> queryForList(Finder finder, Page page) throws Exception {
 		return getBaseDao().queryForList(finder, page);
 	}
 
@@ -312,46 +264,42 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 	 * @throws Exception
 	 */
 	@Override
-	public <T> List<T> queryForListByEntity(T entity, Page page)
-			throws Exception {
+	public <T> List<T> queryForListByEntity(T entity, Page page) throws Exception {
 		return getBaseDao().queryForListByEntity(entity, page);
 
 	}
 
 	@Override
-	public <T> List<T> findListDataByFinder(Finder finder, Page page,
-			Class<T> clazz, Object queryBean) throws Exception {
-		return getBaseDao()
-				.findListDataByFinder(finder, page, clazz, queryBean);
+	public <T> List<T> findListDataByFinder(Finder finder, Page page, Class<T> clazz, Object queryBean)
+			throws Exception {
+		return getBaseDao().findListDataByFinder(finder, page, clazz, queryBean);
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public <T> File findDataExportExcel(Finder finder, String ftlurl,
-			Page page, Class<T> clazz, Object queryBean) throws Exception {
+	public <T> File findDataExportExcel(Finder finder, String ftlurl, Page page, Class<T> clazz, Object queryBean)
+			throws Exception {
 		Map map = new HashMap();
-		return findDataExportExcel(finder, ftlurl, page, clazz, queryBean,map);
+		return findDataExportExcel(finder, ftlurl, page, clazz, queryBean, map);
 	}
-	
+
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public <T> File findDataExportExcel(Finder finder, String ftlurl,
-			Page page, Class<T> clazz, Object queryBean,Map map) throws Exception {
-		
-		if(freeMarkerConfigurer==null){
-			freeMarkerConfigurer=(FreeMarkerConfigurer) SpringUtils.getBean("freeMarkerConfigurer");
+	public <T> File findDataExportExcel(Finder finder, String ftlurl, Page page, Class<T> clazz, Object queryBean,
+			Map map) throws Exception {
+
+		if (freeMarkerConfigurer == null) {
+			freeMarkerConfigurer = (FreeMarkerConfigurer) SpringUtils.getBean("freeMarkerConfigurer");
 		}
-		
-		if(freeMarkerConfigurer==null){
+
+		if (freeMarkerConfigurer == null) {
 			return null;
 		}
-		
-		
-		//Map map = new HashMap();
-		ReturnDatas returnDatas=new ReturnDatas();
+
+		// Map map = new HashMap();
+		ReturnDatas returnDatas = new ReturnDatas();
 		map.put(GlobalStatic.exportexcel, true);// 设置导出excel变量
-		Template template = freeMarkerConfigurer.getConfiguration()
-				.getTemplate(ftlurl + GlobalStatic.suffix);
+		Template template = freeMarkerConfigurer.getConfiguration().getTemplate(ftlurl + GlobalStatic.suffix);
 		page.setPageSize(GlobalStatic.excelPageSize);
 		page.setPageIndex(1);
 		List datas = findListDataByFinder(finder, page, clazz, queryBean);
@@ -361,10 +309,8 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 		returnDatas.setMessage("export");
 		map.put(GlobalStatic.returnDatas, returnDatas);
 		String fileName = UUID.randomUUID().toString();
-		String tempFFilepath = GlobalStatic.tempRootpath + "/" + fileName
-				+ "/freemarker.html";
-		String tempExcelpath = GlobalStatic.tempRootpath + "/" + fileName + "/"
-				+ fileName + GlobalStatic.excelext;
+		String tempFFilepath = GlobalStatic.tempRootpath + "/" + fileName + "/freemarker.html";
+		String tempExcelpath = GlobalStatic.tempRootpath + "/" + fileName + "/" + fileName + GlobalStatic.excelext;
 		File tempfdir = new File(GlobalStatic.tempRootpath + "/" + fileName);
 		if (tempfdir.exists() == false) {
 			tempfdir.mkdirs();
@@ -395,18 +341,18 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 		if (ffile.exists()) {
 			ffile.delete();
 		}
-		
-		if(excelFile.exists()){
+
+		if (excelFile.exists()) {
 			excelFile.setReadOnly();
 		}
 		// excel转化
 		try {
-			File excelnew = new File(GlobalStatic.tempRootpath + "/" + fileName
-					+ "/" + SecUtils.getUUID() + GlobalStatic.excelext);
+			File excelnew = new File(
+					GlobalStatic.tempRootpath + "/" + fileName + "/" + SecUtils.getUUID() + GlobalStatic.excelext);
 			OpenOfficeKit.cvtXls(excelFile, excelnew);
 			return excelnew;
 		} catch (Exception e) {
-			logger.error(e.getMessage(),e);
+			logger.error(e.getMessage(), e);
 		}
 		return excelFile;
 	}
@@ -423,16 +369,15 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 	 * @return
 	 * @throws Exception
 	 */
-	@SuppressWarnings("rawtypes")
-	private File createExceFile(Template template, File ffile, File excelFile,
-			boolean first, boolean end, Map map) throws Exception {
+
+	private File createExceFile(Template template, File ffile, File excelFile, boolean first, boolean end, Map map)
+			throws Exception {
 		Writer out = null;
 		try {
-			out = new BufferedWriter(new OutputStreamWriter(
-					new FileOutputStream(ffile), "UTF-8"));
+			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(ffile), "UTF-8"));
 			template.process(map, out);
 		} catch (Exception e) {
-			logger.error(e.getMessage(),e);
+			logger.error(e.getMessage(), e);
 			throw new Exception("生成freemarker页面错误");
 		} finally {
 			if (out != null) {
@@ -515,7 +460,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 
 			}
 		} catch (Exception e) {
-			logger.error(e.getMessage(),e);
+			logger.error(e.getMessage(), e);
 			throw new Exception("追加xlsx内容错误");
 		} finally {
 			if (bw != null)
@@ -537,38 +482,31 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 	public Object save(Object entity) throws Exception {
 		return getBaseDao().save(entity);
 	}
-	@SuppressWarnings("rawtypes")
+
 	@Override
 	public List<Integer> save(List list) throws Exception {
 		return getBaseDao().save(list);
 	}
+
 	@Override
 	public Integer update(IBaseEntity entity) throws Exception {
 		return getBaseDao().update(entity);
 	}
-	
+
 	@Override
-	public Integer update(IBaseEntity entity,boolean onlyupdatenotnull) throws Exception{
-		return getBaseDao().update(entity,onlyupdatenotnull);
+	public Integer update(IBaseEntity entity, boolean onlyupdatenotnull) throws Exception {
+		return getBaseDao().update(entity, onlyupdatenotnull);
 	}
-	
-	
-	
-	
-	@SuppressWarnings("rawtypes")
+
 	@Override
 	public List<Integer> update(List list) throws Exception {
 		return getBaseDao().update(list);
 	}
-	
-	@SuppressWarnings("rawtypes")
+
 	@Override
-	public List<Integer> update(List list,boolean onlyupdatenotnull) throws Exception{
-		return getBaseDao().update(list,onlyupdatenotnull);
+	public List<Integer> update(List list, boolean onlyupdatenotnull) throws Exception {
+		return getBaseDao().update(list, onlyupdatenotnull);
 	}
-	
-	
-	
 
 	@Override
 	public <T> T findById(Object id, Class<T> clazz) throws Exception {
@@ -580,23 +518,19 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 		return getBaseDao().saveorupdate(entity);
 	}
 
-	public <T> T queryForObjectByProc(Finder finder, Class<T> clazz)
-			throws Exception {
+	public <T> T queryForObjectByProc(Finder finder, Class<T> clazz) throws Exception {
 		return getBaseDao().queryForObjectByProc(finder, clazz);
 	}
-	
-	public <T> List<T> queryForListByProc(Finder finder, Class<T> clazz)
-			throws Exception {
+
+	public <T> List<T> queryForListByProc(Finder finder, Class<T> clazz) throws Exception {
 		return getBaseDao().queryForListByProc(finder, clazz);
 	}
 
-	public <T> T queryForObjectByByFunction(Finder finder, Class<T> clazz)
-			throws Exception {
+	public <T> T queryForObjectByByFunction(Finder finder, Class<T> clazz) throws Exception {
 		return getBaseDao().queryForObjectByByFunction(finder, clazz);
 	}
 
-	public <T> List<T> queryForListByFunction(Finder finder, Class<T> clazz)
-			throws Exception {
+	public <T> List<T> queryForListByFunction(Finder finder, Class<T> clazz) throws Exception {
 		return getBaseDao().queryForListByFunction(finder, clazz);
 	}
 
@@ -609,20 +543,17 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 	 * @throws Exception
 	 */
 	@Override
-	public Finder getFinderWhereByQueryBean(Finder finder, Object o)
-			throws Exception {
+	public Finder getFinderWhereByQueryBean(Finder finder, Object o) throws Exception {
 		return getBaseDao().getFinderWhereByQueryBean(finder, o);
 	}
+
 	@Override
-	public Finder getFinderOrderBy(Finder finder,Page page)	throws Exception{
+	public Finder getFinderOrderBy(Finder finder, Page page) throws Exception {
 		return getBaseDao().getFinderOrderBy(finder, page);
 	}
-	
-	
-	
-	@SuppressWarnings("rawtypes")
+
 	@Override
-	public <T> String saveImportExcelFile(File excelFile, Class<T> clazz,String siteId,String businessId,
+	public <T> String saveImportExcelFile(File excelFile, Class<T> clazz, String siteId, String businessId,
 			boolean istest) throws Exception {
 		StringBuilder message = new StringBuilder();
 		List<Cell[]> excel = ExcelUtils.getExcle(excelFile);
@@ -635,7 +566,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 		if (title == null || title.length < 1) {
 			return "表头没有数据!";
 		}
-		List<String> listTitle=new ArrayList<>();
+		List<String> listTitle = new ArrayList<>();
 		// 封装字段
 		for (int i = 0; i < title.length; i++) {
 			map.put(i, title[i].getContents());
@@ -643,7 +574,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 		}
 
 		for (int j = 1; j < excel.size(); j++) {
-			Cell[] cells = excel. get(j);
+			Cell[] cells = excel.get(j);
 			T r = clazz.newInstance();
 			for (int m = 0; m < cells.length; m++) {
 				Object o = r;
@@ -660,7 +591,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 						}
 					}
 				} catch (Exception e) {
-					logger.error(e.getMessage(),e);
+					logger.error(e.getMessage(), e);
 					String s = "第" + (m + 1) + "列列名有错误," + name + " 类型错误!";
 					if (istest) {
 						message.append(s).append("</br>");
@@ -670,28 +601,28 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 				}
 				String value = cell.getContents().trim();
 				Class className = ClassUtils.getReturnType(name, o.getClass());
-					
-				if (className==String.class) {
+
+				if (className == String.class) {
 					try {
 						ClassUtils.setPropertieValue(name, o, value);
 					} catch (Exception e) {
-						logger.error(e.getMessage(),e);
-						String s = "第" + (j + 1) + "行,第" + (m + 1) + "列:"+ name + " 类型错误!";
+						logger.error(e.getMessage(), e);
+						String s = "第" + (j + 1) + "行,第" + (m + 1) + "列:" + name + " 类型错误!";
 						if (istest) {
 							message.append(s).append("</br>");
 						} else {
 							throw new Exception(s);
 						}
 					}
-				} else if (className==Date.class) {
+				} else if (className == Date.class) {
 					try {
 						value = value.replace("/", "-");
 						Date d = DateUtils.convertString2Date(value);
 
 						ClassUtils.setPropertieValue(name, o, d);
 					} catch (Exception e) {
-						logger.error(e.getMessage(),e);
-						String s = "第" + (j + 1) + "行,第" + (m + 1) + "列:"+ name + " 类型错误!";
+						logger.error(e.getMessage(), e);
+						String s = "第" + (j + 1) + "行,第" + (m + 1) + "列:" + name + " 类型错误!";
 						if (istest) {
 							message.append(s).append("</br>");
 						} else {
@@ -699,7 +630,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 						}
 					}
 
-				} else if (className==Double.class) {
+				} else if (className == Double.class) {
 					try {
 						Double db = null;
 						if (StringUtils.isNotBlank(value)) {
@@ -707,15 +638,15 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 						}
 						ClassUtils.setPropertieValue(name, o, db);
 					} catch (Exception e) {
-						logger.error(e.getMessage(),e);
-						String s = "第" + (j + 1) + "行,第" + (m + 1) + "列:"+ name + " 类型错误!";
+						logger.error(e.getMessage(), e);
+						String s = "第" + (j + 1) + "行,第" + (m + 1) + "列:" + name + " 类型错误!";
 						if (istest) {
 							message.append(s).append("</br>");
 						} else {
 							throw new Exception(s);
 						}
 					}
-				} else if (className==Float.class) {
+				} else if (className == Float.class) {
 					try {
 						Float f = null;
 						if (StringUtils.isNotBlank(value)) {
@@ -723,8 +654,8 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 						}
 						ClassUtils.setPropertieValue(name, o, f);
 					} catch (Exception e) {
-						logger.error(e.getMessage(),e);
-						String s = "第" + (j + 1) + "行,第" + (m + 1) + "列:"+ name + " 类型错误!";
+						logger.error(e.getMessage(), e);
+						String s = "第" + (j + 1) + "行,第" + (m + 1) + "列:" + name + " 类型错误!";
 						if (istest) {
 							message.append(s).append("</br>");
 						} else {
@@ -732,7 +663,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 						}
 					}
 
-				} else if (className==Integer.class) {
+				} else if (className == Integer.class) {
 					try {
 						Integer _i = null;
 
@@ -742,8 +673,8 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 
 						ClassUtils.setPropertieValue(name, o, _i);
 					} catch (Exception e) {
-						logger.error(e.getMessage(),e);
-						String s = "第" + (j + 1) + "行,第" + (m + 1) + "列:"+ name + " 类型错误!";
+						logger.error(e.getMessage(), e);
+						String s = "第" + (j + 1) + "行,第" + (m + 1) + "列:" + name + " 类型错误!";
 						if (istest) {
 							message.append(s).append("</br>");
 						} else {
@@ -752,7 +683,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 					}
 				}
 
-				else if (className==BigDecimal.class) {
+				else if (className == BigDecimal.class) {
 					try {
 						BigDecimal bd = null;
 						if (StringUtils.isNotBlank(value)) {
@@ -760,8 +691,8 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 						}
 						ClassUtils.setPropertieValue(name, o, bd);
 					} catch (Exception e) {
-						logger.error(e.getMessage(),e);
-						String s = "第" + (j + 1) + "行,第" + (m + 1) + "列:"+ name + " 类型错误!";
+						logger.error(e.getMessage(), e);
+						String s = "第" + (j + 1) + "行,第" + (m + 1) + "列:" + name + " 类型错误!";
 						if (istest) {
 							message.append(s).append("</br>");
 						} else {
@@ -772,71 +703,64 @@ public abstract class BaseServiceImpl extends BaseLogger implements
 
 			}
 			try {
-				//插入siteId、businessId
+				// 插入siteId、businessId
 				if (StringUtils.isNotBlank(siteId)) {
-					Field field= r.getClass().getDeclaredField("siteId");  
+					Field field = r.getClass().getDeclaredField("siteId");
 					field.setAccessible(true);
 					field.set(r, siteId);
 					if (StringUtils.isNotBlank(businessId)) {
-						field= r.getClass().getDeclaredField("businessId");  
+						field = r.getClass().getDeclaredField("businessId");
 						field.setAccessible(true);
 						field.set(r, businessId);
 					}
 				}
-				
-				String s=saveFromExcel(r, (j + 1), istest, listTitle);
-				if(istest&&StringUtils.isNotBlank(s)){
+
+				String s = saveFromExcel(r, (j + 1), istest, listTitle);
+				if (istest && StringUtils.isNotBlank(s)) {
 					message.append(s).append("</br>");
 				}
 			} catch (Exception e) {
-				logger.error(e.getMessage(),e);
+				logger.error(e.getMessage(), e);
 				throw new Exception("第" + (j + 1) + "行,保存失败");
 			}
 		}
-		if (excelFile.exists()&&(istest==false)) {
+		if (excelFile.exists() && (istest == false)) {
 			excelFile.delete();
 		}
-		if(StringUtils.isBlank(message.toString())){
+		if (StringUtils.isBlank(message.toString())) {
 			return null;
 		}
-		if (excelFile.exists()&&istest&&StringUtils.isNotBlank(message.toString())) {
+		if (excelFile.exists() && istest && StringUtils.isNotBlank(message.toString())) {
 			excelFile.delete();
 		}
-		
-		
+
 		return message.toString();
 
 	}
 
 	@Override
-	public <T> String saveImportExcelFile(File excelFile, Class<T> clazz,String siteId,String businessId)
+	public <T> String saveImportExcelFile(File excelFile, Class<T> clazz, String siteId, String businessId)
 			throws Exception {
-		String message = saveImportExcelFile(excelFile, clazz,siteId,businessId, true);
+		String message = saveImportExcelFile(excelFile, clazz, siteId, businessId, true);
 		if (StringUtils.isNotBlank(message)) {
 			return message;
 		}
-		return saveImportExcelFile(excelFile, clazz,siteId,businessId, false);
+		return saveImportExcelFile(excelFile, clazz, siteId, businessId, false);
 
 	}
 
 	@Override
-	public String saveFromExcel(Object entity, int index, boolean istest,
-			List<String> listTitle) throws Exception {
-		if(istest){
+	public String saveFromExcel(Object entity, int index, boolean istest, List<String> listTitle) throws Exception {
+		if (istest) {
 			return null;
 		}
 		return save(entity).toString();
 	}
-	
-	   /**
-		   * 执行 call 操作,执行存储过程,和数据库函数
-		   * @param callableStatementCreator
-		   * @param parameter
-		   * @return
-		   * @throws Exception
-		   */
-		 public Object executeCallBack(CallableStatementCreator callableStatementCreator,List<SqlParameter> parameter)throws Exception{
-		   return getBaseDao().executeCallBack(callableStatementCreator, parameter);
-	   }
+
+	@Override
+	public Object executeCallBack(CallableStatementCreator callableStatementCreator, List<SqlParameter> parameter)
+			throws Exception {
+		return getBaseDao().executeCallBack(callableStatementCreator, parameter);
+	}
 
 }
