@@ -16,5 +16,5 @@
 	default-lazy-init="false">
 
 	<import resource="classpath*:spring/**.xml" />
-	
+    <import resource="classpath*:mvc/applicationContext-freemarker-config.xml" />
 </beans>
