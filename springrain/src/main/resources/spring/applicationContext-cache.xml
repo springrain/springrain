@@ -29,9 +29,10 @@
 	<bean id="cacheManager" class="org.springframework.cache.concurrent.ConcurrentMapCacheManager" />
  
 
-<!-- 用于集中缓存 缓存, redisCached 为redis的工具类,用于业务的缓存. 基于redis分布的session共享也是基于这个redisCached -->
+<!-- 单机redis,用于集中缓存 缓存, redisCached 为redis的工具类,用于业务的缓存. 基于redis分布的session共享也是基于这个redisCached -->
  
-<!-- <bean id="cacheManager" class="org.springframework.data.redis.cache.RedisCacheManager">
+<!-- 
+<bean id="cacheManager" class="org.springframework.data.redis.cache.RedisCacheManager">
       <constructor-arg ref="redisTemplate" />
        <property name="defaultExpiration" value="${cache.timeout}" />
 </bean>
@@ -56,7 +57,45 @@
 	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
 		<property name="maxTotal" value="${redis.pool.maxTotal}" />
 		<property name="maxIdle" value="${redis.pool.maxIdle}" />
-	</bean> -->
+	</bean>
+	
+ -->
+ 
+ 
+ <!-- 集群redis-->
+<!-- 
+	<bean id="redisClusterConfiguration" class="org.springframework.data.redis.connection.RedisClusterConfiguration">
+	<property name="maxRedirects" value="3"></property>
+		<property name="clusterNodes">
+			<set>
+			
+				<bean class="org.springframework.data.redis.connection.RedisClusterNode">
+					<constructor-arg name="host" value="127.0.0.1"></constructor-arg>
+					<constructor-arg name="port" value="7001"></constructor-arg>
+				</bean>
+				<bean class="org.springframework.data.redis.connection.RedisClusterNode">
+					<constructor-arg name="host" value="127.0.0.1"></constructor-arg>
+					<constructor-arg name="port" value="7002"></constructor-arg>
+				</bean>
+				<bean class="org.springframework.data.redis.connection.RedisClusterNode">
+					<constructor-arg name="host" value="127.0.0.1"></constructor-arg>
+					<constructor-arg name="port" value="7003"></constructor-arg>
+				</bean>
+				
+			</set>
+		</property>
+	</bean>
+	
+	<bean id="redisConnectionFactory"
+		class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+		<constructor-arg ref="redisClusterConfiguration" />
+		<constructor-arg ref="jedisPoolConfig" />
+	</bean>
+ -->
+<!-- 集群结束--> 
+ 
+ 
+ 
 
 
 <!-- 消息队列   生产者和消费者模式 -->
@@ -88,6 +127,7 @@
     
     <redis:listener-container>
         <redis:listener ref="redisMessageListener" method="handleMessage" serializer="jdkSerializationRedisSerializer" topic="springrainqueue_*" />
-    </redis:listener-container>  -->
+    </redis:listener-container>  
+-->
     
 </beans>
