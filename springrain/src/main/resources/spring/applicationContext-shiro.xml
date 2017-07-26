@@ -63,14 +63,13 @@
 	<!-- 单机session -->
 	
 	<bean id="shiroCacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager" />
-    
+	
 	<!-- session 集群 -->
-	<!-- 
+	<!--  
 	<bean id="shiroCacheManager" class="org.springrain.frame.shiro.ShiroRedisCacheManager"> 
-		<property name="cached" ref="redisCached" /> 
+		<property name="cache" ref="redisCache" /> 
 	</bean>
 	-->
-
 	<!-- shiro的主过滤器,beanId 和web.xml中配置的filter name需要保持一致 -->
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean"
 		depends-on="frameperms">

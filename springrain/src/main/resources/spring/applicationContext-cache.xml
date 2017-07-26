@@ -25,11 +25,11 @@
 	<!-- 启用缓存注解功能，这个是必须的，否则注解不会生效  -->
 	<cache:annotation-driven cache-manager="cacheManager" />
 
+
 	<!-- spring自带的缓存管理器,value会自动创建,不需要指定 -->
 	<bean id="cacheManager" class="org.springframework.cache.concurrent.ConcurrentMapCacheManager" />
- 
 
-<!-- 单机redis,用于集中缓存 缓存, redisCached 为redis的工具类,用于业务的缓存. 基于redis分布的session共享也是基于这个redisCached -->
+<!-- 单机redis,用于集中缓存 缓存, redisCache 为redis的工具类,用于业务的缓存. 基于redis分布的session共享也是基于这个redisCache -->
  
 <!-- 
 <bean id="cacheManager" class="org.springframework.data.redis.cache.RedisCacheManager">
@@ -42,7 +42,7 @@
 		<property name="connectionFactory" ref="redisConnectionFactory" />
 	</bean>
 
-	<bean id="redisCached" class="org.springrain.frame.cached.RedisCachedImpl">
+	<bean id="redisCache" class="org.springrain.frame.cache.RedisCacheImpl">
 		<property name="redisTemplate" ref="redisTemplate" />
 		<property name="expire" value="${cache.timeout}" />
 	</bean>
@@ -63,7 +63,24 @@
  
  
  <!-- 集群redis-->
-<!-- 
+ 
+ 
+ <!-- 
+ <bean id="cacheManager" class="org.springframework.data.redis.cache.RedisCacheManager">
+      <constructor-arg ref="redisTemplate" />
+       <property name="defaultExpiration" value="${cache.timeout}" />
+</bean>
+	
+
+	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+		<property name="connectionFactory" ref="redisConnectionFactory" />
+	</bean>
+
+	<bean id="redisCache" class="org.springrain.frame.cache.RedisCacheImpl">
+		<property name="redisTemplate" ref="redisTemplate" />
+		<property name="expire" value="${cache.timeout}" />
+	</bean>
+
 	<bean id="redisClusterConfiguration" class="org.springframework.data.redis.connection.RedisClusterConfiguration">
 	<property name="maxRedirects" value="3"></property>
 		<property name="clusterNodes">
@@ -81,6 +98,18 @@
 					<constructor-arg name="host" value="127.0.0.1"></constructor-arg>
 					<constructor-arg name="port" value="7003"></constructor-arg>
 				</bean>
+				<bean class="org.springframework.data.redis.connection.RedisClusterNode">
+					<constructor-arg name="host" value="127.0.0.1"></constructor-arg>
+					<constructor-arg name="port" value="7004"></constructor-arg>
+				</bean>
+				<bean class="org.springframework.data.redis.connection.RedisClusterNode">
+					<constructor-arg name="host" value="127.0.0.1"></constructor-arg>
+					<constructor-arg name="port" value="7005"></constructor-arg>
+				</bean>
+				<bean class="org.springframework.data.redis.connection.RedisClusterNode">
+					<constructor-arg name="host" value="127.0.0.1"></constructor-arg>
+					<constructor-arg name="port" value="7006"></constructor-arg>
+				</bean>
 				
 			</set>
 		</property>
@@ -90,6 +119,11 @@
 		class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
 		<constructor-arg ref="redisClusterConfiguration" />
 		<constructor-arg ref="jedisPoolConfig" />
+	</bean>
+	
+	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+		<property name="maxTotal" value="${redis.pool.maxTotal}" />
+		<property name="maxIdle" value="${redis.pool.maxIdle}" />
 	</bean>
  -->
 <!-- 集群结束--> 

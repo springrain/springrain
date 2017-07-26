@@ -9,7 +9,7 @@ import org.apache.shiro.session.UnknownSessionException;
 import org.apache.shiro.session.mgt.eis.AbstractSessionDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springrain.frame.cached.ICached;
+import org.springrain.frame.cache.ICache;
 import org.springrain.frame.util.SerializeUtils;
 
 /**
@@ -23,11 +23,11 @@ public class RedisShiroSessionDao extends AbstractSessionDAO {
 	private String sessionprefix="ss-";
 	public RedisShiroSessionDao (){
 	}
-	private ICached cached;
+	private ICache cache;
 	@Override
 	public void update(Session session) throws UnknownSessionException {
 		try {
-			cached.updateCached(session.getId().toString().getBytes(),SerializeUtils.serialize(session),session.getTimeout()/1000);
+			cache.set(session.getId().toString().getBytes(),SerializeUtils.serialize(session),session.getTimeout()/1000);
 		} catch (Exception e) {
 			logger.error(e.getMessage(),e);
 		}
@@ -37,7 +37,7 @@ public class RedisShiroSessionDao extends AbstractSessionDAO {
 	@Override
 	public void delete(Session session) {
 		try {
-			cached.deleteCached(session.getId().toString().getBytes());
+			cache.del(session.getId().toString().getBytes());
 		} catch (Exception e) {
 			logger.error(e.getMessage(),e);
 		}
@@ -50,7 +50,7 @@ public class RedisShiroSessionDao extends AbstractSessionDAO {
 		String keys=sessionprefix+"*";
 		List<Session> list=null;
 		try {
-		 list=	(List<Session>) cached.getKeys(keys.getBytes());
+		 list=	(List<Session>) cache.keys(keys.getBytes());
 		} catch (Exception e) {
 			logger.error(e.getMessage(),e);
 		}
@@ -75,7 +75,7 @@ public class RedisShiroSessionDao extends AbstractSessionDAO {
 	protected Session doReadSession(Serializable sessionId) {
 		Session session=null;
 		try {
-			session=	(Session) cached.getCached(sessionId.toString().getBytes());
+			session=	(Session) cache.get(sessionId.toString().getBytes());
 		} catch (Exception e) {
 			logger.error(e.getMessage(),e);
 		}
@@ -84,12 +84,12 @@ public class RedisShiroSessionDao extends AbstractSessionDAO {
 	
 	}
 
-	public ICached getCached() {
-		return cached;
+	public ICache getCached() {
+		return cache;
 	}
 
-	public void setCached(ICached cached) {
-		this.cached = cached;
+	public void setCached(ICache cached) {
+		this.cache = cached;
 	}
 
 	public String getSessionprefix() {

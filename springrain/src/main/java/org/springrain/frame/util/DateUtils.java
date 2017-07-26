@@ -676,6 +676,20 @@ public class DateUtils {
 		return calendar.getTime(); // 这个时间就是日期往后推一天的结果
 	}
 
+	/**
+	 * 加减小时
+	 * @param num 正数：时间往后推num小时；负数：往前推num小时。
+	 * @param date
+	 * @return
+	 */
+	public static Date addHour(int num,Date date){
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		
+		calendar.add(Calendar.HOUR, num);
+		return calendar.getTime();
+	}
+	
 	/*
 	 * public static void main(String[] args) {
 	 * System.out.println(getMaxDateTimeForToDay());

@@ -43,7 +43,7 @@ public class SpringTest  {
 		queryBean.setId("admin");
 		
 		//初始化Finder,并为User取别名 u
-		//Finder finder=Finder.getSelectFinder(User.class," u.*").append("WHERE  1=1 ");
+		//Finder finder=Finder.getSelectFinder(User.class," u.*").append(" u       WHERE  1=1 ");
 		Finder finder=new Finder("SELECT u.* FROM ").append(Finder.getTableName(User.class)).append(" u WHERE 1=1 ");
 		//finder.append(" and u.id=:userId ").setParam("userId", "admin");
 		

@@ -3,24 +3,23 @@ package org.springrain.frame.shiro;
 import org.apache.shiro.cache.AbstractCacheManager;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;
-import org.springrain.frame.cached.ICached;
+import org.springrain.frame.cache.ICache;
 /**
  * redis的缓存管理器
  * @author caomei
  *
  */
 public class ShiroRedisCacheManager extends AbstractCacheManager {
-	private ICached cached;
-	@SuppressWarnings("rawtypes")
+	private ICache cache;
 	@Override
 	protected Cache createCache(String cacheName) throws CacheException {
-		return new ShiroRedisCache<String, Object>(cacheName,cached);
+		return new ShiroRedisCache<String, Object>(cacheName,cache);
 	}
-	public ICached getCached() {
-		return cached;
+	public ICache getCache() {
+		return cache;
 	}
-	public void setCached(ICached cached) {
-		this.cached = cached;
+	public void setCache(ICache cached) {
+		this.cache = cached;
 	}
 
 }

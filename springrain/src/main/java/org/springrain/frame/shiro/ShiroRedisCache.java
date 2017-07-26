@@ -5,7 +5,7 @@ import java.util.Set;
 
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;
-import org.springrain.frame.cached.ICached;
+import org.springrain.frame.cache.ICache;
 import org.springrain.frame.common.BaseLogger;
 import org.springrain.frame.util.SerializeUtils;
 
@@ -19,11 +19,11 @@ import org.springrain.frame.util.SerializeUtils;
  */
 public class ShiroRedisCache<K, V> extends BaseLogger implements Cache<K, V> {
 	private String name;
-	private ICached cached;
+	private ICache cache;
 
-	public ShiroRedisCache(String name, ICached cached) {
+	public ShiroRedisCache(String name, ICache cached) {
 		this.name = name;
-		this.cached = cached;
+		this.cache = cached;
 	}
 
 	/**
@@ -46,7 +46,7 @@ public class ShiroRedisCache<K, V> extends BaseLogger implements Cache<K, V> {
 
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public V get(K key) throws CacheException {
 		if (logger.isDebugEnabled())
@@ -55,7 +55,7 @@ public class ShiroRedisCache<K, V> extends BaseLogger implements Cache<K, V> {
 			if (key == null) {
 				return null;
 			} else {
-				V value = (V) cached.getHashCached(getByteName(), getByteKey(key));
+				V value = (V) cache.hGet(getByteName(), getByteKey(key));
 				return value;
 			}
 		} catch (Exception e) {
@@ -70,7 +70,7 @@ public class ShiroRedisCache<K, V> extends BaseLogger implements Cache<K, V> {
 		if (logger.isDebugEnabled())
 		logger.debug("根据key从存储 key [{}]",key);
 		try {
-			cached.updateHashCached(getByteName(), getByteKey(key), SerializeUtils.serialize(value), null);
+			cache.hSet(getByteName(), getByteKey(key), SerializeUtils.serialize(value), null);
 			return value;
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
@@ -84,7 +84,7 @@ public class ShiroRedisCache<K, V> extends BaseLogger implements Cache<K, V> {
 		logger.debug("从redis中删除 key [{}]",key);
 		try {
 			V previous = get(key);
-			cached.deleteHashCached(getByteName(), getByteKey(key));
+			cache.hDel(getByteName(), getByteKey(key));
 			return previous;
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
@@ -97,7 +97,7 @@ public class ShiroRedisCache<K, V> extends BaseLogger implements Cache<K, V> {
 		if (logger.isDebugEnabled())
 		logger.debug("从redis中删除所有元素");
 		try {
-			cached.deleteCached(getByteName());
+			cache.del(getByteName());
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw new CacheException(e);
@@ -107,7 +107,7 @@ public class ShiroRedisCache<K, V> extends BaseLogger implements Cache<K, V> {
 	@Override
 	public int size() {
 		try {
-			Long longSize = new Long(cached.getHashSize(getByteName()));
+			Long longSize = new Long(cache.hLen(getByteName()));
 			return longSize.intValue();
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
@@ -115,11 +115,11 @@ public class ShiroRedisCache<K, V> extends BaseLogger implements Cache<K, V> {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public Set<K> keys() {
 		try {
-			Set<K> keys = cached.getHashKeys(getByteName());
+			Set<K> keys = cache.hKeys(getByteName());
 			return keys;
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
@@ -127,11 +127,11 @@ public class ShiroRedisCache<K, V> extends BaseLogger implements Cache<K, V> {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public Collection<V> values() {
 		try {
-			Collection<V> values = cached.getHashValues(getByteName());
+			Collection<V> values = cache.hVals(getByteName());
 			return values;
 		} catch (Exception e) {
 			//throw new CacheException(e);
@@ -148,12 +148,12 @@ public class ShiroRedisCache<K, V> extends BaseLogger implements Cache<K, V> {
 		this.name = name;
 	}
 
-	public ICached getCached() {
-		return cached;
+	public ICache getCached() {
+		return cache;
 	}
 
-	public void setCached(ICached cached) {
-		this.cached = cached;
+	public void setCached(ICache cached) {
+		this.cache = cached;
 	}
 
 }

@@ -244,13 +244,13 @@ public final class ImageUtils {
 			BufferedImage bi = reader.read(0, param);
 			ImageIO.write(bi, fileSuffix, new File(GlobalStatic.rootDir +descpath));
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			logger.error(ex.getMessage(), ex);
 		} finally {
 			if (is != null) {
 				try {
 					is.close();
 				} catch (IOException e) {
-					e.printStackTrace();
+					logger.error(e.getMessage(), e);
 				}
 				is = null;
 			}
@@ -258,7 +258,7 @@ public final class ImageUtils {
 				try {
 					iis.close();
 				} catch (IOException e) {
-					e.printStackTrace();
+					logger.error(e.getMessage(), e);
 				}
 				iis = null;
 			}

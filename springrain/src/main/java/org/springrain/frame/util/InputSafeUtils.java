@@ -19,7 +19,8 @@ public class InputSafeUtils {
 	private final static Whitelist user_content_filter = Whitelist.relaxed();
 	
 	static {
-	    user_content_filter.addTags("article","aside","audio","bdi","canvas","embed","footer","header","label","object","param","section","video","source");
+	    user_content_filter.addTags("iframe","article","aside","audio","bdi","canvas","embed","footer","header","label","object","param","section","video","source");
+	    user_content_filter.addAttributes("iframe", "src","scrolling","frameborder","align","width","height");
 	    user_content_filter.addAttributes(":all", "style", "class", "id", "name");
 	    user_content_filter.addAttributes("object", "width", "height","classid","codebase");    
 	    user_content_filter.addAttributes("param", "name", "value","type");
