@@ -29,7 +29,7 @@
 		<!-- URL重写中去掉jsessionId -->
         <property name="sessionIdUrlRewritingEnabled"  value="false"  />		
 		<!-- 超时时间 -->
-		<property name="globalSessionTimeout" value="${cache.timeout}000" />
+		<property name="globalSessionTimeout" value="${cache.timeout}" />
 		
 		<!-- 定时检查失效的session,默认true -->
 		<property name="sessionValidationSchedulerEnabled" value="true" />
@@ -37,7 +37,7 @@
 		<property name="deleteInvalidSessions" value="true" />
 		<!-- 相隔多久检查一次session的有效性,使用默认的60分钟  -->
 		<!--  
-		<property name="sessionValidationInterval" value="${cache.timeout}000" />
+		<property name="sessionValidationInterval" value="${cache.timeout}" />
 		-->
 		<!-- session存储的实现 -->
 		<property name="sessionDAO" ref="shiroSessionDao" />
