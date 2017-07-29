@@ -71,13 +71,17 @@
 		<constructor-arg ref="wxXcxConfigService" />
 	</bean>
 	
-		<bean id="wxXcxPayService" class="org.springrain.weixin.sdk.xcx.api.impl.WxXcxPayServiceImpl">
+    <bean id="wxXcxPayService" class="org.springrain.weixin.sdk.xcx.api.impl.WxXcxPayServiceImpl">
 		<constructor-arg ref="wxXcxService" />
 	</bean>	
 	
 	<bean id="wxXcxTemplateMsgService" class="org.springrain.weixin.sdk.xcx.api.impl.WxXcxTemplateMsgServiceImpl">
         <constructor-arg ref="wxXcxService" />
     </bean> 
+    
+    <bean id="wxXcxMaterialService" class="org.springrain.weixin.sdk.xcx.api.impl.WxXcxMaterialServiceImpl">
+        <constructor-arg ref="wxXcxService" />
+    </bean>
 	
 	
 
