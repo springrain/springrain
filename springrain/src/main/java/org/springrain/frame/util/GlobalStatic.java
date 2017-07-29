@@ -34,6 +34,7 @@ public class GlobalStatic {
 	
 	public static final String cpConfigCacheKey="cpConfigCacheKey";//企业号配置缓存Key
 	
+	public static final String xcxConfigCacheKey="xcxConfigCacheKey";//小程序配置缓存Key
 	
 	
 	

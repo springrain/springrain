@@ -52,10 +52,33 @@
 	<bean id="wxMpUserService" class="org.springrain.weixin.sdk.mp.api.impl.WxMpUserServiceImpl">
         <constructor-arg ref="wxMpService" />
     </bean> 
+    
+    
+    <bean id="wxMpTemplateMsgService" class="org.springrain.weixin.sdk.mp.api.impl.WxMpTemplateMsgServiceImpl">
+        <constructor-arg ref="wxMpService" />
+    </bean> 
+    
+    
 	
 	<!-- cp -->
 	<bean id="wxCpService" class="org.springrain.weixin.sdk.cp.api.WxCpServiceImpl">
 		<constructor-arg ref="wxCpConfigService" />
 	</bean>	
+	
+	
+	<!-- xcx -->
+	<bean id="wxXcxService" class="org.springrain.weixin.sdk.xcx.api.impl.WxXcxServiceImpl">
+		<constructor-arg ref="wxXcxConfigService" />
+	</bean>
+	
+		<bean id="wxXcxPayService" class="org.springrain.weixin.sdk.xcx.api.impl.WxXcxPayServiceImpl">
+		<constructor-arg ref="wxXcxService" />
+	</bean>	
+	
+	<bean id="wxXcxTemplateMsgService" class="org.springrain.weixin.sdk.xcx.api.impl.WxXcxTemplateMsgServiceImpl">
+        <constructor-arg ref="wxXcxService" />
+    </bean> 
+	
+	
 
 </beans>

@@ -31,7 +31,6 @@ public class Enumerations {
 					return wap;
 				case 15:
 					return xcx;
-				
 				default:
 					return null;
 			}
