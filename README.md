@@ -2,7 +2,7 @@
 #demo
 http://springrain.weicms.net
 #文档
-http://git.oschina.net/chunanyong/springrain/raw/master/springrain/doc/springrain.pdf
+https://git.oschina.net/chunanyong/springrain/tree/master/springrain/doc
 #代码生成器
 http://git.oschina.net/chunanyong/springrain/tree/master/springrain/gencode
 #sql脚本
@@ -35,7 +35,7 @@ struts 和 spring mvc 相比,个人感觉还是有点差距的.
 public void testObject() throws Exception{
        // Finder finder=new Finder("select id from t_user where 1=1 ");
         Finder finder=Finder.getSelectFinder(User.class,"id").append(" WHERE 1=1 "); 
-         finder.append("and id=:userId").setParam("userId", "admin");
+         finder.append("and id=:userId ").setParam("userId", "admin");
         String id = baseDemoService.queryForObject(finder, String.class);
         System.out.println(id);
 
@@ -44,7 +44,7 @@ public void testObject() throws Exception{
 //@Test 查询一个对象
 public void testObjectUser() throws Exception{
         //Finder finder=new Finder("select * from t_user where id=:userId order by id"); 
-Finder finder=Finder.getSelectFinder(User.class).append(" WHERE &nbsp;id=:userId order by id desc "); 
+Finder finder=Finder.getSelectFinder(User.class).append(" WHERE id=:userId order by id desc "); 
         finder.setParam("userId", "admin");
         User u = baseDemoService.queryForObject(finder, User.class);
         System.out.println(u.getName());
