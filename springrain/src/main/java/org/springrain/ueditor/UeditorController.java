@@ -325,8 +325,7 @@ public class UeditorController extends BaseController {
 				File saveFile = new File(GlobalStatic.rootDir + fileuploadpath + fileImage);
 				org.apache.commons.io.FileUtils.copyInputStreamToFile(entity.getContent(), saveFile);
 
-				Map<String, Object> map = new HashMap<String, Object>();
-				map.put("state", "SUCCESS");
+				Map<String, Object> map = getResultMap(true);
 				map.put("size", contentLength);
 				map.put("title", fileImage);
 				map.put("url", fileImage);
