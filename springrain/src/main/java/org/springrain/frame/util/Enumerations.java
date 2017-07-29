@@ -3,7 +3,7 @@ package org.springrain.frame.util;
 public class Enumerations {
 	
 	public enum OrgType{
-		部门(1),虚拟权限组(2),站长部门(10),mp(11),cp(12),pc(13),wap(14),minsoft(14);
+		部门(1),虚拟权限组(2),站长部门(10),mp(11),cp(12),pc(13),wap(14),xcx(15);
 		int type;
 		private OrgType(Integer type){
 			this.type = type;
@@ -29,6 +29,8 @@ public class Enumerations {
 					return pc;
 				case 14:
 					return wap;
+				case 15:
+					return xcx;
 				
 				default:
 					return null;
@@ -44,8 +46,8 @@ public class Enumerations {
 				return pc;
 			else if(cp.name().equals(name))
 				return cp;
-			else if(minsoft.name().equals(name))
-				return minsoft;
+			else if(xcx.name().equals(name))
+				return xcx;
 			else 
 				return null;
 		}
