@@ -8,15 +8,25 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.subject.SimplePrincipalCollection;
+import org.apache.shiro.util.ThreadContext;
 import org.apache.shiro.web.servlet.OncePerRequestFilter;
+import org.apache.shiro.web.subject.WebSubject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springrain.activity.entity.Member;
+import org.springrain.activity.service.IMemberService;
 import org.springrain.cms.util.SiteUtils;
+import org.springrain.frame.shiro.ShiroUser;
+import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.InputSafeUtils;
+import org.springrain.system.entity.User;
+import org.springrain.system.service.IUserService;
 import org.springrain.weixin.sdk.common.api.IWxMpConfig;
 import org.springrain.weixin.sdk.common.api.IWxMpConfigService;
 
@@ -27,6 +37,12 @@ public class WxMpAutoLoginFilter extends OncePerRequestFilter {
 	
 	@Resource
 	private IWxMpConfigService wxMpConfigService;
+
+	@Resource
+	private IMemberService memberService;
+
+	@Resource
+	private IUserService userService;
 	
 	
 
@@ -34,7 +50,7 @@ public class WxMpAutoLoginFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws ServletException, IOException {
 		HttpServletRequest req = (HttpServletRequest) request;
-		
+		HttpServletResponse rep = (HttpServletResponse) response;
 		String userAgent = req.getHeader("user-agent");
 		
 		if(StringUtils.isBlank(userAgent)||!userAgent.toLowerCase().contains("micromessenger")){//不是微信客户端
@@ -57,6 +73,7 @@ public class WxMpAutoLoginFilter extends OncePerRequestFilter {
 			HttpSession session = req.getSession();
 			openId = (String) session.getAttribute("openId");
 			if (StringUtils.isNotBlank(openId)) {
+				
 				chain.doFilter(request, response);
 				return;
 			}
@@ -75,8 +92,14 @@ public class WxMpAutoLoginFilter extends OncePerRequestFilter {
 				return;
 			}
 			
+			//String url = SiteUtils.getRequestURL(req);
+			StringBuffer url=req.getRequestURL();
+			String param=req.getQueryString();
+			if(StringUtils.isNotBlank(param)){
+				param = StringUtils.replace(param, "&", "---");
+				url=url.append("?").append(param);
+			}
 			
-			String url = SiteUtils.getRequestURL(req);
 		    req.getRequestDispatcher("/mp/mpautologin/"+siteId+"/oauth2?url=" + url).forward(request, response);
 			//rep.sendRedirect(SiteUtils.getSiteURLPath(req)+"/mp/mpautologin/"+siteId+"/oauth2?url="+ url);
 		} catch (Exception e) {
@@ -84,9 +107,4 @@ public class WxMpAutoLoginFilter extends OncePerRequestFilter {
 		}
 		
 	}
-	
-	
-	
-	
-
 }

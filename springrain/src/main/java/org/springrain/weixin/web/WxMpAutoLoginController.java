@@ -5,11 +5,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.subject.SimplePrincipalCollection;
+import org.apache.shiro.util.ThreadContext;
+import org.apache.shiro.web.subject.WebSubject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springrain.activity.entity.Member;
+import org.springrain.activity.service.IMemberService;
 import org.springrain.cms.util.SiteUtils;
 import org.springrain.frame.controller.BaseController;
+import org.springrain.frame.shiro.ShiroUser;
+import org.springrain.frame.util.GlobalStatic;
+import org.springrain.system.entity.User;
+import org.springrain.system.service.IUserService;
 import org.springrain.weixin.sdk.common.api.IWxMpConfig;
 import org.springrain.weixin.sdk.common.api.IWxMpConfigService;
 import org.springrain.weixin.sdk.common.api.WxConsts;
@@ -28,6 +37,10 @@ public class WxMpAutoLoginController extends BaseController {
 	
 	@Resource
 	IWxMpUserService wxMpUserService;
+	@Resource
+	private IUserService userService;
+	@Resource
+	private IMemberService memberService;
 
 	/**
 	 * 跳转到微信认证页面
@@ -51,6 +64,7 @@ public class WxMpAutoLoginController extends BaseController {
 		String _url=SiteUtils.getBaseURL(request)+"/mp/mpautologin/"+siteId+"/callback?url=" + url;
 		
 		String oauthUrl = wxMpService.oauth2buildAuthorizationUrl(wxmpconfig,_url, WxConsts.OAUTH2_SCOPE_BASE, null);
+		
 		return redirect + oauthUrl;
 	}
 
@@ -82,10 +96,31 @@ public class WxMpAutoLoginController extends BaseController {
 //			 wxMpUser=wxMpService.oauth2getUserInfo(wxmpconfig,accessToken,"zh_CN");
 //			WxMpUser wxMpUser = wxMpUserService.userInfo(wxmpconfig, accessToken.getOpenId());
 			request.getSession().setAttribute("openId", accessToken.getOpenId());
+			
+			Member member = memberService.findMemberByOpenId(accessToken.getOpenId(), siteId);
+			if(member!=null){
+				String userId = member.getUserId();
+				User user = userService.findUserById(userId);
+				autoLogin(request, response, user);
+			}
+			
 		} catch (WxErrorException e) {
 			logger.error(e.getMessage(),e);
 		}
+		url = StringUtils.replace(url, "---", "&");
 		return redirect + url;
+	}
+	
+	private void autoLogin(HttpServletRequest req, HttpServletResponse rep,
+			User user) {
+		ShiroUser shiroUser = new ShiroUser(user);
+		SimplePrincipalCollection principals = new SimplePrincipalCollection(
+				shiroUser, GlobalStatic.authorizingRealmName);
+		WebSubject.Builder builder = new WebSubject.Builder(req, rep);
+		builder.principals(principals);
+		builder.authenticated(true);
+		WebSubject subject = builder.buildWebSubject();
+		ThreadContext.bind(subject);
 	}
 
 }

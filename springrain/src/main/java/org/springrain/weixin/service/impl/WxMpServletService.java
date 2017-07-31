@@ -7,7 +7,7 @@ import org.springrain.weixin.entity.WxMpConfig;
 import org.springrain.weixin.service.IWxMpServletService;
 
 @Service("wxMpServletService")
-public class WxMpServletService extends BaseSpringrainServiceImpl implements IWxMpServletService{
+public class WxMpServletService extends BaseSpringrainServiceImpl implements IWxMpServletService {
 	@Override
 	public void saveWxMpConfig(WxMpConfig wxMpConfig) throws Exception {
 		super.save(wxMpConfig);

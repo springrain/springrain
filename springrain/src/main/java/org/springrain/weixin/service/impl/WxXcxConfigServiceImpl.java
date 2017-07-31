@@ -86,7 +86,8 @@ public class WxXcxConfigServiceImpl extends BaseSpringrainServiceImpl implements
 		try {
 
 			// 默认命名方式,建议继承这个wxXcxConfigService重写这个方法,新Service请遵循默认的命名规则
-			IWxXcxConfigService wxXcxConfigBean = (IWxXcxConfigService) getBean("wxXcxConfigService_" + wxxcxconfig.getId());
+			IWxXcxConfigService wxXcxConfigBean = (IWxXcxConfigService) getBean(
+					"wxXcxConfigService_" + wxxcxconfig.getId());
 			if (wxXcxConfigBean != null) {
 				return wxXcxConfigBean.getCustomAPIAccessToken(wxxcxconfig);
 			}

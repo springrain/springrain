@@ -30,11 +30,6 @@ public class WxConsts {
 	public static  String qyapiurl="https://qyapi.weixin.qq.com";
 	
 	
-	//微信小程序API的访问协议,为了以后方便处理特殊情况
-	public static  String xcxapiurl="https://api.weixin.qq.com";
-	
-	
-	
 	
 
   ///////////////////////
@@ -287,12 +282,6 @@ public class WxConsts {
 	    if(_qyapiurl!=null){
 	    	qyapiurl=_qyapiurl;
 	    }
-	    
-	    String _xcxapiurl=wechat.getString("xcxapiurl");
-	    if(_xcxapiurl!=null){
-	    	xcxapiurl=_xcxapiurl;
-	    }
-	    
 	    
 	    
 	    

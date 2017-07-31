@@ -66,6 +66,11 @@ public class WxXcxMaterialServiceImpl implements IWxXcxMaterialService {
       throw new WxErrorException(WxError.newBuilder().setErrorMsg(e.getMessage()).build());
     }
   }
+  
+  @Override
+  public WxMediaUploadResult mediaUpload(IWxXcxConfig wxxcxconfig, File file) throws WxErrorException {
+  	return mediaUpload(wxxcxconfig, "image", file);
+  }
 
   @Override
   public WxMediaUploadResult mediaUpload(IWxXcxConfig wxxcxconfig,String mediaType, File file) throws WxErrorException {
@@ -183,5 +188,6 @@ public class WxXcxMaterialServiceImpl implements IWxXcxMaterialService {
       throw new WxErrorException(wxError);
     }
   }
+
 
 }

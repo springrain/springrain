@@ -45,7 +45,7 @@ public class WxXcxServiceImpl implements IWxXcxService {
 	public WxMpOAuth2SessionKey oauth2getSessionKey(IWxXcxConfig wxxcxconfig, String code) throws WxErrorException {
 
 		StringBuilder url = new StringBuilder();
-		url.append(WxConsts.xcxapiurl + "/sns/jscode2session?");
+		url.append(WxConsts.mpapiurl + "/sns/jscode2session?");
 		url.append("appid=").append(wxxcxconfig.getAppId());
 		url.append("&secret=").append(wxxcxconfig.getSecret());
 		url.append("&js_code=").append(code);
@@ -84,7 +84,7 @@ public class WxXcxServiceImpl implements IWxXcxService {
 
 		WxAccessToken accessToken = wxXcxConfigService.getCustomAPIAccessToken(wxxcxconfig);
 		if (accessToken == null) {
-			String url = WxConsts.xcxapiurl + "/cgi-bin/token?grant_type=client_credential" + "&appid="
+			String url = WxConsts.mpapiurl + "/cgi-bin/token?grant_type=client_credential" + "&appid="
 					+ wxxcxconfig.getAppId() + "&secret=" + wxxcxconfig.getSecret();
 			HttpGet httpGet = new HttpGet(url);
 			if (wxxcxconfig.getHttpProxyHost() != null) {

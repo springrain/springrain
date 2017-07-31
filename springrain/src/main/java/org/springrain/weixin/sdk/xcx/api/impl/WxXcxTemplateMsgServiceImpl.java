@@ -41,7 +41,7 @@ public class WxXcxTemplateMsgServiceImpl implements IWxXcxTemplateMsgService {
 
   @Override
   public String sendTemplateMsg(IWxXcxConfig wxxcxconfig,WxMpTemplateMessage templateMessage) throws WxErrorException {
-    String url = WxConsts.mpapiurl+"/cgi-bin/message/template/send";
+    String url = WxConsts.mpapiurl+"/cgi-bin/message/wxopen/template/send";
     String responseContent = wxXcxService.post(wxxcxconfig,url, templateMessage.toJson());
     final JsonObject jsonObject = JSON_PARSER.parse(responseContent).getAsJsonObject();
     if (jsonObject.get("errcode").getAsInt() == 0) {
