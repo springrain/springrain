@@ -1,7 +1,40 @@
 package org.springrain.frame.util;
 
+
+
 public class Enumerations {
-	
+	public enum UserPlateformDeviceType{
+		公众号(1),小程序(2),企业号(3),APP(4),UDESK(5),QQ(6),微博(7);
+		int type;
+		private UserPlateformDeviceType(Integer type){
+			this.type = type;
+		}
+		
+		public int getType() {
+			return type;
+		}
+		
+		public static UserPlateformDeviceType getUserPlateformDeviceType(Integer type){
+			switch (type) {
+				case 1:
+					return 公众号;
+				case 2:
+					return 小程序;
+				case 3:
+					return 企业号;
+				case 4:
+					return APP;
+				case 5:
+					return UDESK;
+				case 6:
+					return QQ;
+				case 7:
+					return 微博;
+				default:
+					return null;
+			}
+		}
+	}
 	public enum OrgType{
 		部门(1),虚拟权限组(2),站长部门(10),mp(11),cp(12),pc(13),wap(14),xcx(15);
 		int type;
@@ -184,8 +217,74 @@ public class Enumerations {
 			return type;
 		}
 	}
+	
+	// 是/否 状态 （是1，否0）
+	public enum IsState {
+		否(0), 是(1);
+		private Integer state;
+
+		private IsState(Integer state) {
+			this.state = state;
+		}
+
+		public Integer getState() {
+			return state;
+		}
+
+		public static IsState getIsState(Integer state) {
+			switch (state) {
+			case 0:
+				return 否;
+			case 1:
+				return 是;
+			default:
+				return 否;
+			}
+		}
+	}
+	
+	/**
+	 * 短信发送平台
+	 * 
+	 * */
+	public enum EMSAlias {
+		阿里大于("alidayu"),短信通("duanxintong");
+		
+		private String type;
+		
+		private EMSAlias(String type) {
+			this.type = type;
+		}
+		
+		public String getType() {
+			return this.type;
+		}
+		
+		public static String getParame(EMSAlias alias){
+			if(alias==阿里大于){
+				return "alidayu";
+			}else if(alias==短信通){
+				return "duanxintong";
+			}else{
+				
+			}
+			return null;
+		}
+		
+		public static EMSAlias getEMSAlias(String type) {
+			if ("alidayu".equals(type)) {
+				return 阿里大于;
+			}else if("duanxintong".equals(type)){
+				return 短信通;
+			}else{
+				
+			}
+			return null;
+		}
+	}
+	
 	public static void main(String[] args) {
-		System.out.println(ThemeSiteType.getThemeSiteType(1));
+		System.out.println(UserPlateformDeviceType.公众号.getType());
 	}
 	
 }

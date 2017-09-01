@@ -50,11 +50,14 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		// 认证
 		// super.setAuthenticationCacheName(GlobalStatic.authenticationCacheName);
 		super.setAuthenticationCachingEnabled(false);
-		// 授权
-		//super.setAuthorizationCachingEnabled(false);
+		
 		
 		// 授权
-		super.setAuthorizationCacheName(GlobalStatic.authorizationCacheName);
+		super.setAuthorizationCachingEnabled(false);
+		// 授权不在缓存,统一有spring cache提供授权结果
+		//super.setAuthorizationCacheName(GlobalStatic.authorizationCacheName);
+		
+		
 		super.setName(GlobalStatic.authorizingRealmName);
 		
 		//设置密码匹配方式

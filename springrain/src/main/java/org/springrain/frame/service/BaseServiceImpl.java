@@ -266,6 +266,13 @@ public abstract class BaseServiceImpl extends BaseLogger implements IBaseService
 	@Override
 	public <T> File findDataExportExcel(Finder finder, String ftlurl, Page page, Class<T> clazz, Object queryBean,
 			Map map) throws Exception {
+		
+		return findDataExportFile(finder, ftlurl, page, clazz, queryBean, map,GlobalStatic.excelext);
+	}
+	
+	public <T> File findDataExportFile(Finder finder, String ftlurl, Page page, Class<T> clazz, Object queryBean,
+			Map map,String fileType) throws Exception{
+
 
 		if (freeMarkerConfigurer == null) {
 			freeMarkerConfigurer = (FreeMarkerConfigurer) SpringUtils.getBean("freeMarkerConfigurer");
@@ -289,7 +296,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements IBaseService
 		map.put(GlobalStatic.returnDatas, returnDatas);
 		String fileName = UUID.randomUUID().toString();
 		String tempFFilepath = GlobalStatic.tempRootpath + "/" + fileName + "/freemarker.html";
-		String tempExcelpath = GlobalStatic.tempRootpath + "/" + fileName + "/" + fileName + GlobalStatic.excelext;
+		String tempExcelpath = GlobalStatic.tempRootpath + "/" + fileName + "/" + fileName + fileType;
 		File tempfdir = new File(GlobalStatic.tempRootpath + "/" + fileName);
 		if (tempfdir.exists() == false) {
 			tempfdir.mkdirs();
@@ -299,6 +306,8 @@ public abstract class BaseServiceImpl extends BaseLogger implements IBaseService
 
 		File excelFile = new File(tempExcelpath);
 		boolean first = true;
+		if(ftlurl.contains("Xml"))
+			first = false;
 		boolean end = false;
 		int pageCount = page.getPageCount();
 		if (pageCount < 2) {
@@ -334,6 +343,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements IBaseService
 			logger.error(e.getMessage(), e);
 		}
 		return excelFile;
+	
 	}
 
 	/**

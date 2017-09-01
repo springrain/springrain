@@ -134,7 +134,6 @@ public class ShiroRedisCache<K, V> extends BaseLogger implements Cache<K, V> {
 			Collection<V> values = cache.hVals(getByteName());
 			return values;
 		} catch (Exception e) {
-			//throw new CacheException(e);
 			logger.error(e.getMessage(), e);
 			return null;
 		}

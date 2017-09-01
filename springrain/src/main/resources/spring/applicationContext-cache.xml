@@ -64,8 +64,7 @@
  
  <!-- 集群redis-->
  
- 
- <!-- 
+ <!--  
  <bean id="cacheManager" class="org.springframework.data.redis.cache.RedisCacheManager">
       <constructor-arg ref="redisTemplate" />
        <property name="defaultExpiration" value="${cache.timeout}" />
@@ -125,7 +124,7 @@
 		<property name="maxTotal" value="${redis.pool.maxTotal}" />
 		<property name="maxIdle" value="${redis.pool.maxIdle}" />
 	</bean>
- -->
+-->
 <!-- 集群结束--> 
  
  

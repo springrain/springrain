@@ -54,6 +54,10 @@ public class DateUtils {
 		return new SimpleDateFormat(DATETIME_FORMAT).format(d);
 	}
 
+	public static String formatDate(long d) {
+		return new SimpleDateFormat(DATE_FORMAT).format(d);
+	}
+
 	/**
 	 * Parse date like "yyyy-MM-dd".
 	 */
@@ -669,6 +673,21 @@ public class DateUtils {
 	 * @param Date
 	 * @return
 	 */
+	public static String addDay(int num, String dateStr) {
+		Date date = parseDate(dateStr);
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.add(Calendar.DATE, num);// 把日期往后增加 num 天.整数往后推,负数往前移动
+		return formatDate(calendar.getTime().getTime()); // 这个时间就是日期往后推一天的结果
+	}
+	
+	/**
+	 * 加减天数
+	 * 
+	 * @param num
+	 * @param Date
+	 * @return
+	 */
 	public static Date addDay(int num, Date Date) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(Date);
@@ -690,11 +709,14 @@ public class DateUtils {
 		return calendar.getTime();
 	}
 	
-	/*
-	 * public static void main(String[] args) {
-	 * System.out.println(getMaxDateTimeForToDay());
-	 * System.out.println(getMinDateTimeForToDay()); }
-	 */
+	
+	  public static void main(String[] args) {
+		  
+//	  System.out.println(getMaxDateTimeForToDay());
+//	  System.out.println(getMinDateTimeForToDay());
+	  
+	  }
+	 
 
 	/**
 	 * 计算两端时间的小时差
@@ -889,6 +911,73 @@ public class DateUtils {
 		cal.add(Calendar.MONTH, 1);
 		cal.set(Calendar.DATE, 1);
 		return formatDate(cal.getTime());
+	}
+	
+	
+	public static String getDatePoor(Date endDate, Date startDate) {	 
+	    long nd = 1000 * 24 * 60 * 60;
+	    long nh = 1000 * 60 * 60;
+	    long nm = 1000 * 60;
+	    long ns = 1000;
+	    // long ns = 1000;
+	    // 获得两个时间的毫秒时间差异
+	    long diff = endDate.getTime() - startDate.getTime();
+	    // 计算差多少天
+	    long day = diff / nd;
+	    // 计算差多少小时
+	    long hour = diff % nd / nh;
+	    // 计算差多少分钟
+	    long min = diff % nd % nh / nm;
+	    // 计算差多少秒
+	    long sec = diff % nd % nh % nm / ns;  
+	    
+	    StringBuffer bf = new StringBuffer();
+	    
+	    if(day!=0){
+	    	bf.append(day).append("天");
+	    }
+	    if(hour!=0){
+	    	bf.append(hour).append("小时");
+	    }
+	    if(min!=0){
+	    	bf.append(min).append("分钟");
+	    }
+	    if(sec!=0){
+	    	bf.append(sec).append("秒");
+	    }
+	    return bf.toString();
+	}
+
+	
+	public static String getDateSec(Date endDate, Date startDate) {	 
+	    long nd = 1000 * 24 * 60 * 60;
+	    long nh = 1000 * 60 * 60;
+	    long nm = 1000 * 60;
+	    long ns = 1000;
+	    // 获得两个时间的毫秒时间差异
+	    long diff = endDate.getTime() - startDate.getTime();
+	    // 计算差多少秒
+	    long sec = diff % nd % nh % nm / ns;  
+	    
+	    StringBuffer bf = new StringBuffer();
+	    if(sec!=0){
+	    	bf.append(sec);
+	    }
+	    return bf.toString();
+	}
+
+
+	/**
+	 * 月份加减
+	 * @param month
+	 * @param date
+	 * @return
+	 */
+	public static Date addMonth(int num, Date date) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.add(Calendar.MONTH, num);// 把日期往后增加 num 月.整数往后推,负数往前移动
+		return calendar.getTime();
 	}
 
 }
