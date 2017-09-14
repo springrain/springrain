@@ -37,7 +37,6 @@ public class GlobalStatic {
 	public static final String xcxConfigCacheKey="xcxConfigCacheKey";//小程序配置缓存Key
 	
 	
-	
 	//page对象的缓存后缀key
 	public static final String pageCacheExtKey="_springrain_page_key";
 	
@@ -76,6 +75,7 @@ public class GlobalStatic {
 	public static final String defaultCharset="UTF-8";
 	
 	public static final String tableSuffix="_history_";
+	public static final String tableSuffixSymbol="_";
 	public static final String frameTableAlias="frameTableAlias";
 	public static final String returnDatas="returnDatas";
 	

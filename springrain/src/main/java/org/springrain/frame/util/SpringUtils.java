@@ -5,6 +5,7 @@ import java.net.URI;
 
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -57,7 +58,9 @@ public class SpringUtils  implements ApplicationContextAware {
 	 * @return Object
 	 */
 	public static  Object getBean(String beanName){
-		if(beanName==null)return null;
+		if(StringUtils.isEmpty(beanName)){
+			return null;
+		}
 	    return 	applicationContext.getBean(beanName);
 	}
 	/**

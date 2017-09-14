@@ -28,6 +28,13 @@ public class WxMpTemplateMessageGsonAdapter implements JsonSerializer<WxMpTempla
     if (message.getUrl() != null) {
       messageJson.addProperty("url", message.getUrl());
     }
+    
+    if(message.getFormId()!=null){
+       messageJson.addProperty("form_id", message.getFormId());
+    }
+    if(message.getPage()!=null){
+        messageJson.addProperty("page", message.getPage());
+     }
 
     JsonObject data = new JsonObject();
     messageJson.add("data", data);

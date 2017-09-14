@@ -39,9 +39,9 @@ class DictSegment implements Comparable<DictSegment>{
 
 	
 	//Map存储结构
-	private Map<Character , DictSegment> childrenMap;
+	private Map<Character , DictSegment> childrenMap=new HashMap<Character , DictSegment>(ARRAY_LENGTH_LIMIT * 2,0.8f);
 	//数组方式存储结构
-	private DictSegment[] childrenArray;
+	private DictSegment[] childrenArray=new DictSegment[ARRAY_LENGTH_LIMIT];
 	
 	
 	//当前节点上存储的字符
@@ -278,13 +278,6 @@ class DictSegment implements Comparable<DictSegment>{
 	 * 线程同步方法
 	 */
 	private DictSegment[] getChildrenArray(){
-		if(this.childrenArray == null){
-			synchronized(this){
-				if(this.childrenArray == null){
-					this.childrenArray = new DictSegment[ARRAY_LENGTH_LIMIT];
-				}
-			}
-		}
 		return this.childrenArray;
 	}
 	
@@ -293,13 +286,6 @@ class DictSegment implements Comparable<DictSegment>{
 	 * 线程同步方法
 	 */	
 	private Map<Character , DictSegment> getChildrenMap(){
-		if(this.childrenMap == null){
-			synchronized(this){
-				if(this.childrenMap == null){
-					this.childrenMap = new HashMap<Character , DictSegment>(ARRAY_LENGTH_LIMIT * 2,0.8f);
-				}
-			}
-		}
 		return this.childrenMap;
 	}
 	

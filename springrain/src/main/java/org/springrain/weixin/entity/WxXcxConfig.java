@@ -102,6 +102,14 @@ public class WxXcxConfig   extends BaseEntity implements IWxXcxConfig {
 		 * 证书地址
 		 */
 		private java.lang.String certificateFile;
+		/**
+		 * 签约模板Id
+		 */
+		private java.lang.String planId;
+		/**
+		 * 签约请求序列号
+		 */
+		private java.lang.Integer requestSerial;
 		//columns END 数据库字段结束
 		
 		
@@ -299,7 +307,27 @@ public class WxXcxConfig   extends BaseEntity implements IWxXcxConfig {
 		public java.lang.String getCertificateFile() {
 			return this.certificateFile;
 		}
-		
+	     
+	     
+	     @WhereSQL(sql="planId=:WxMpconfig_planId")
+		public java.lang.String getPlanId() {
+			return planId;
+		}
+
+		public void setPlanId(java.lang.String planId) {
+			this.planId = planId;
+		}
+
+		 
+		@WhereSQL(sql="requestSerial=:WxMpconfig_requestSerial")
+		public java.lang.Integer getRequestSerial() {
+			return requestSerial;
+		}
+
+		public void setRequestSerial(java.lang.Integer requestSerial) {
+			this.requestSerial = requestSerial;
+		}
+
 		public String toString() {
 			return new StringBuilder()
 				.append("id[").append(getId()).append("],")
@@ -320,6 +348,8 @@ public class WxXcxConfig   extends BaseEntity implements IWxXcxConfig {
 				.toString();
 		}
 		
+
+
 		public int hashCode() {
 			return new HashCodeBuilder()
 				.append(getId())

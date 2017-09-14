@@ -584,7 +584,9 @@ public class WxMpServiceImpl implements IWxMpService {
             logger.debug("微信系统繁忙，{}ms 后重试(第{}次)", sleepMillis, retryTimes + 1);
             Thread.sleep(sleepMillis);
           } catch (InterruptedException e1) {
-            throw new RuntimeException(e1);
+        	logger.error(e.getMessage(), e);
+        	Thread.currentThread().interrupt();
+            //throw new RuntimeException(e1);
           }
         } else {
           throw e;

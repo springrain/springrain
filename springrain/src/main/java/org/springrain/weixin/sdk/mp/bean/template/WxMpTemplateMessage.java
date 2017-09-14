@@ -11,10 +11,12 @@ import org.springrain.weixin.sdk.mp.util.json.WxMpGsonBuilder;
  */
 public class WxMpTemplateMessage implements Serializable {
   private static final long serialVersionUID = 5063374783759519418L;
-
+  
+  private String formId;
   private String toUser;
   private String templateId;
   private String url;
+  private String page;
   private List<WxMpTemplateData> data = new ArrayList<>();
 
   public String getToUser() {
@@ -52,8 +54,25 @@ public class WxMpTemplateMessage implements Serializable {
   public void addWxMpTemplateData(WxMpTemplateData datum) {
     this.data.add(datum);
   }
+  
+  public String getFormId() {
+		return formId;
+  }
+	
+  public void setFormId(String formId) {
+		this.formId = formId;
+  }
+  
 
-  public String toJson() {
+	public String getPage() {
+		return page;
+	}
+	
+	public void setPage(String page) {
+		this.page = page;
+	}
+
+public String toJson() {
     return WxMpGsonBuilder.INSTANCE.create().toJson(this);
   }
 
@@ -65,6 +84,9 @@ public class WxMpTemplateMessage implements Serializable {
     private String toUser;
     private String templateId;
     private String url;
+    private String formId;
+    private String page;
+    
     private List<WxMpTemplateData> data = new ArrayList<>();
 
     public WxMpTemplateMessageBuilder toUser(String toUser) {
@@ -86,12 +108,24 @@ public class WxMpTemplateMessage implements Serializable {
       this.data = data;
       return this;
     }
+    
+    public WxMpTemplateMessageBuilder formId(String formId) {
+        this.formId = formId;
+        return this;
+      }
+    
+    public WxMpTemplateMessageBuilder page(String page) {
+        this.page = page;
+        return this;
+    }
 
     public WxMpTemplateMessageBuilder from(WxMpTemplateMessage origin) {
       this.toUser(origin.toUser);
       this.templateId(origin.templateId);
       this.url(origin.url);
       this.data(origin.data);
+      this.formId(origin.formId);
+      this.page(page);
       return this;
     }
 
@@ -101,6 +135,8 @@ public class WxMpTemplateMessage implements Serializable {
       m.templateId = this.templateId;
       m.url = this.url;
       m.data = this.data;
+      m.formId = this.formId;
+      m.page = this.page;
       return m;
     }
   }

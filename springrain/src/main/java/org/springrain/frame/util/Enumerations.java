@@ -1,8 +1,35 @@
 package org.springrain.frame.util;
 
-
-
 public class Enumerations {
+	public enum UserType{
+		系统后台管理员(0),平台管理员(1),分店管理员(2),第三方店铺管理员(3),前端普通用户(4);
+		int type;
+		private UserType(Integer type){
+			this.type = type;
+		}
+		
+		public int getType() {
+			return type;
+		}
+		
+		public static UserType getUserPlateformDeviceType(Integer type){
+			switch (type) {
+				case 1:
+					return 系统后台管理员;
+				case 2:
+					return 平台管理员;
+				case 3:
+					return 分店管理员;
+				case 4:
+					return 第三方店铺管理员;
+				case 5:
+					return 前端普通用户;
+				default:
+					return null;
+			}
+		}
+	}
+	
 	public enum UserPlateformDeviceType{
 		公众号(1),小程序(2),企业号(3),APP(4),UDESK(5),QQ(6),微博(7);
 		int type;
@@ -36,7 +63,7 @@ public class Enumerations {
 		}
 	}
 	public enum OrgType{
-		部门(1),虚拟权限组(2),站长部门(10),mp(11),cp(12),pc(13),wap(14),xcx(15);
+		部门(1),虚拟权限组(2),站长部门(10),mp(11),cp(12),pc(13),wap(14),xcx(15),app(16);
 		int type;
 		private OrgType(Integer type){
 			this.type = type;
@@ -64,6 +91,8 @@ public class Enumerations {
 					return wap;
 				case 15:
 					return xcx;
+				case 16: 
+					return app;
 				default:
 					return null;
 			}
@@ -218,6 +247,83 @@ public class Enumerations {
 		}
 	}
 	
+	/**
+	 * 自定义参数枚举 cms_property 表 inputType 的枚举
+	 * @author dmin93
+	 * @date 2017年9月13日
+	 */
+	public enum CMSPropertyInputType{
+		TEXT(0),DATE(1),DATETIME(2),INT(3),FLOAT(4),SELECT(5),FILE(6),IMG(7),IMGS(8);
+		Integer type;
+		
+		private CMSPropertyInputType(Integer type) {
+			this.type = type;
+		}
+		
+		public static CMSPropertyInputType getCMSPropertyInputType(Integer type) {
+			switch(type) {
+				case 0:
+					return TEXT;
+				case 1:
+					return DATE;
+				case 2:
+					return DATETIME;
+				case 3:
+					return INT;
+				case 4:
+					return FLOAT;
+				case 5:
+					return SELECT;
+				case 6:
+					return FILE;
+				case 7:
+					return IMG;
+				case 8:
+					return IMGS;
+				default: 
+					return null;
+			}
+		}
+
+		public Integer getType() {
+			return type;
+		}
+		
+	}
+	
+	/**
+	 * 自定义参数枚举 cms_property 表 modelType 的枚举
+	 * @author dmin93
+	 * @date 2017年9月13日
+	 */
+	public enum CMSPropertyModelType{
+		SITE(0),CHANNEL(1),CONTENT(2),投票(3);
+		Integer type;
+		
+		private CMSPropertyModelType(Integer type) {
+			this.type = type;
+		}
+		
+		public static CMSPropertyModelType getCMSPropertyInputType(Integer type) {
+			switch(type) {
+				case 0:
+					return SITE;
+				case 1:
+					return CHANNEL;
+				case 2:
+					return CONTENT;
+				case 3:
+					return 投票;
+				default: 
+					return null;
+			}
+		}
+
+		public Integer getType() {
+			return type;
+		}
+		
+	}
 	// 是/否 状态 （是1，否0）
 	public enum IsState {
 		否(0), 是(1);
@@ -284,7 +390,7 @@ public class Enumerations {
 	}
 	
 	public static void main(String[] args) {
-		System.out.println(UserPlateformDeviceType.公众号.getType());
+		System.out.println(UserType.系统后台管理员.getType());
 	}
 	
 }

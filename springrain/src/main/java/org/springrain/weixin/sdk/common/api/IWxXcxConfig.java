@@ -18,5 +18,15 @@ public interface IWxXcxConfig extends IWxConfig {
 	Integer getOauth2();
 
 	void setOauth2(Integer oauth2);
+	
+	//用户模板id
+	String getPlanId();
+
+	void setPlanId(String planId);
+	
+	// 用户请求序列号
+	Integer getRequestSerial();
+
+	void setRequestSerial(Integer requestSerial);
 
 }

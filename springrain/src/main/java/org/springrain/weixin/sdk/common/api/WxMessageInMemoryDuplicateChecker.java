@@ -78,6 +78,7 @@ public class WxMessageInMemoryDuplicateChecker implements IWxMessageDuplicateChe
           }
         } catch (InterruptedException e) {
         	logger.error(e.getMessage(),e);
+        	Thread.currentThread().interrupt();
         }
       }
     });

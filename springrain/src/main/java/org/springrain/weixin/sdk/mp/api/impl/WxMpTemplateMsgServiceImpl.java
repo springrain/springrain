@@ -2,6 +2,9 @@ package org.springrain.weixin.sdk.mp.api.impl;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
 import org.springrain.weixin.sdk.common.api.IWxMpConfig;
 import org.springrain.weixin.sdk.common.api.WxConsts;
 import org.springrain.weixin.sdk.common.bean.result.WxError;
@@ -22,11 +25,11 @@ import com.google.gson.JsonParser;
  * </pre>
  */
 
-
+@Service("wxMpTemplateMsgService")
 public class WxMpTemplateMsgServiceImpl implements IWxMpTemplateMsgService {
   public static final String API_URL_PREFIX = WxConsts.mpapiurl+"/cgi-bin/template";
   private static final JsonParser JSON_PARSER = new JsonParser();
-
+  @Resource
   private IWxMpService wxMpService;
 
   public WxMpTemplateMsgServiceImpl() {

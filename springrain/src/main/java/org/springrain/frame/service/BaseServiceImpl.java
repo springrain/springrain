@@ -428,9 +428,6 @@ public abstract class BaseServiceImpl extends BaseLogger implements IBaseService
 				} else if ("<!--start_export-->".equals(line)) {
 					iswrite = true;
 					continue;
-				} else if ("<!--last_start_export-->".equals(line)) {
-					iswrite = true;
-					continue;
 				} else if ("<!--last_end_export-->".equals(line)) {
 					iswrite = false;
 					continue;

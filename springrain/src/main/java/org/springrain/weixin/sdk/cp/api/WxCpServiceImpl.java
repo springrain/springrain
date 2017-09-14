@@ -551,6 +551,7 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
               retryTimes + 1);
             Thread.sleep(sleepMillis);
           } catch (InterruptedException e1) {
+        	Thread.currentThread().interrupt();
             throw new RuntimeException(e1);
           }
         } else {

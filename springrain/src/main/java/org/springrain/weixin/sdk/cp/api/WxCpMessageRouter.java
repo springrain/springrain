@@ -179,6 +179,7 @@ public WxCpXmlOutMessage route(final WxCpXmlMessage wxMessage) {
               // 异步操作结束，session访问结束
             } catch (InterruptedException e) {
              logger.error("Error happened when wait task finish", e);
+             Thread.currentThread().interrupt();
             } catch (ExecutionException e) {
              logger.error("Error happened when wait task finish", e);
             }

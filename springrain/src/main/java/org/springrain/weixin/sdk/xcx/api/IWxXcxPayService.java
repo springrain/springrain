@@ -19,6 +19,8 @@ import org.springrain.weixin.sdk.mp.bean.pay.result.WxPayRefundQueryResult;
 import org.springrain.weixin.sdk.mp.bean.pay.result.WxPayRefundResult;
 import org.springrain.weixin.sdk.mp.bean.pay.result.WxPaySendRedpackResult;
 import org.springrain.weixin.sdk.mp.bean.pay.result.WxPayUnifiedOrderResult;
+import org.springrain.weixin.sdk.xcx.bean.result.sign.request.WxAutoDebitRequest;
+import org.springrain.weixin.sdk.xcx.bean.result.sign.result.WxAutoDebitResult;
 
 public interface IWxXcxPayService {
 
@@ -175,5 +177,15 @@ public interface IWxXcxPayService {
 	   * @param keyFile        证书文件对象
 	   */
 	  WxEntPayQueryResult queryEntPay(IWxXcxConfig wxxcxconfig,String partnerTradeNo, File keyFile) throws WxErrorException;
+	  
+	  
+	  /**
+	   * 微信委托自动扣款接口
+	   * @param wxxcxconfig
+	   * @param request
+	   * @return
+	   * @throws WxErrorException
+	   */
+	  WxAutoDebitResult getAutoDebitInfo(IWxXcxConfig wxxcxconfig,WxAutoDebitRequest request) throws WxErrorException;
 
 }

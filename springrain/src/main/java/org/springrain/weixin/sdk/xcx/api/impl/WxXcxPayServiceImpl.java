@@ -57,13 +57,15 @@ import org.springrain.weixin.sdk.mp.bean.pay.result.WxPaySendRedpackResult;
 import org.springrain.weixin.sdk.mp.bean.pay.result.WxPayUnifiedOrderResult;
 import org.springrain.weixin.sdk.xcx.api.IWxXcxPayService;
 import org.springrain.weixin.sdk.xcx.api.IWxXcxService;
+import org.springrain.weixin.sdk.xcx.bean.result.sign.request.WxAutoDebitRequest;
+import org.springrain.weixin.sdk.xcx.bean.result.sign.result.WxAutoDebitResult;
 
 import com.thoughtworks.xstream.XStream;
 
 public class WxXcxPayServiceImpl implements IWxXcxPayService{
 
 	  private static final String PAY_BASE_URL = WxConsts.mppaybaseurl;
-	  private static final String[] TRADE_TYPES = new String[]{"JSAPI", "NATIVE", "APP"};
+	  private static final String[] TRADE_TYPES = new String[]{"JSAPI", "NATIVE", "APP", "PAP"};
 	  private static final String[] REFUND_ACCOUNT = new String[]{"REFUND_SOURCE_RECHARGE_FUNDS",
 	    "REFUND_SOURCE_UNSETTLED_FUNDS"};
 	  private final Logger log = LoggerFactory.getLogger(getClass());
@@ -380,6 +382,7 @@ public class WxXcxPayServiceImpl implements IWxXcxPayService{
 	    }
 
 	    String finalSign = createSign(wxxcxconfig,payInfo, wxxcxconfig.getPartnerKey());
+	    payInfo.put("prepayId", prepayId);
 	    payInfo.put("paySign", finalSign);
 	    return payInfo;
 	  }
@@ -484,5 +487,75 @@ public class WxXcxPayServiceImpl implements IWxXcxPayService{
 	      throw new WxErrorException(WxError.newBuilder().setErrorCode(-1).setErrorMsg(e.getMessage()).build(), e);
 	    }
 	  }
+	  
+	  
+	  
+	  
+
+	@Override
+	public WxAutoDebitResult getAutoDebitInfo(IWxXcxConfig wxxcxconfig,
+			WxAutoDebitRequest request) throws WxErrorException {
+
+		checkAutoDebitParameters(wxxcxconfig, request);
+
+		XStream xstream = XStreamInitializer.getInstance();
+		xstream.processAnnotations(WxAutoDebitRequest.class);
+		xstream.processAnnotations(WxAutoDebitResult.class);
+
+		request.setAppid(wxxcxconfig.getAppId());
+		request.setMchId(wxxcxconfig.getPartnerId());
+		request.setNonceStr(String.valueOf(System.currentTimeMillis()));
+
+		String sign = createSign(wxxcxconfig, BeanUtils.xmlBean2Map(request),
+				wxxcxconfig.getPartnerKey());
+		request.setSign(sign);
+
+		String url = PAY_BASE_URL + "/pay/pappayapply";
+
+		String responseContent = executeRequest(wxxcxconfig, url,
+				xstream.toXML(request));
+		WxAutoDebitResult result = (WxAutoDebitResult) xstream
+				.fromXML(responseContent);
+
+		checkAutoDebitResult(wxxcxconfig, result);
+		return result;
+	}
+
+	private void checkAutoDebitParameters(IWxXcxConfig wxxcxconfig,
+			WxAutoDebitRequest request) throws WxErrorException {
+		BeanUtils.checkRequiredFields(request);
+
+		if (!ArrayUtils.contains(TRADE_TYPES, request.getTradeType())) {
+			throw new IllegalArgumentException("trade_type目前必须为"
+					+ Arrays.toString(TRADE_TYPES) + "其中之一");
+		}
+
+		if ("JSAPI".equals(request.getTradeType())
+				&& request.getOpenid() == null) {
+			throw new IllegalArgumentException("当 trade_type是'JSAPI'时未指定openid");
+		}
+		
+		if ("PAP".equals(request.getTradeType())
+				&& request.getContractId() == null) {
+			throw new IllegalArgumentException(
+					"当 trade_type是'PAP'时未指定contract_id");
+		}
+	}
+
+	private void checkAutoDebitResult(IWxXcxConfig wxxcxconfig,
+			WxPayBaseResult result) throws WxErrorException {
+		if (!"SUCCESS".equalsIgnoreCase(result.getReturnCode())
+				|| !"SUCCESS".equalsIgnoreCase(result.getResultCode())) {
+			throw new WxErrorException(WxError
+					.newBuilder()
+					.setErrorCode(-1)
+					.setErrorMsg(
+							"返回代码: " + result.getReturnCode() + ", 返回信息: "
+									+ result.getReturnMsg() + ", 结果代码: "
+									+ result.getResultCode() + ", 错误代码: "
+									+ result.getErrCode() + ", 错误详情: "
+									+ result.getErrCodeDes()).build());
+		}
+	}
 
 }

@@ -172,6 +172,7 @@ public class WxMpMessageRouter {
               future.get();
               WxMpMessageRouter.this.log.debug("End session access: async=true, sessionId={}", wxMessage.getFromUser());
             } catch (InterruptedException e) {
+              Thread.currentThread().interrupt();
               WxMpMessageRouter.this.log.error("Error happened when wait task finish", e);
             } catch (ExecutionException e) {
               WxMpMessageRouter.this.log.error("Error happened when wait task finish", e);

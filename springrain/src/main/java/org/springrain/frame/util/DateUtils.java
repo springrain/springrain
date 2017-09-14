@@ -20,9 +20,23 @@ import org.slf4j.LoggerFactory;
  */
 public class DateUtils {
 	private static final Logger logger = LoggerFactory.getLogger(DateUtils.class);
-	public static final String DATETIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
-	public static final String DATE_FORMAT = "yyyy-MM-dd";
+	//public static final String DATETIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+	//public static final String DATE_FORMAT = "yyyy-MM-dd";
 	public static final String DATE_TIMEZONE="GMT+8";
+	
+	
+
+	/** 日期 */
+	public final static String DATE_FORMAT = "yyyy-MM-dd";
+	/** 日期时间 */
+	public final static String DATETIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+	/** 时间 */
+	public final static String TIME_FORMAT = "HH:mm:ss";
+	/**
+	 * 每天的毫秒数
+	 */
+	//private final static long MILLIS_IN_DAY = 1000 * 60 * 60 * 24;
+	
 
 	private DateUtils(){
 		throw new IllegalAccessError("工具类不能实例化");
@@ -82,16 +96,6 @@ public class DateUtils {
 		return null;
 	}
 
-	/** 日期 */
-	public final static String DEFAILT_DATE_PATTERN = "yyyy-MM-dd";
-	/** 日期时间 */
-	public final static String DEFAILT_DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
-	/** 时间 */
-	public final static String DEFAULT_TIME_PATTERN = "HH:mm:ss";
-	/**
-	 * 每天的毫秒数
-	 */
-	//private final static long MILLIS_IN_DAY = 1000 * 60 * 60 * 24;
 
 	/**
 	 * 转换日期字符串得到指定格式的日期类型
@@ -117,34 +121,7 @@ public class DateUtils {
 		return result;
 	}
 
-	public static final Date convertString2Date(String[] formatString,
-			String targetDate) throws ParseException {
-		if (StringUtils.isBlank(targetDate)) {
-			return null;
-		}
-		SimpleDateFormat format = null;
-		Date result = null;
-		String errorMessage = null;
-		Integer errorOffset = null;
-		for (String dateFormat : formatString) {
-			try {
-				format = new SimpleDateFormat(dateFormat);
-				result = format.parse(targetDate);
-			} catch (ParseException pe) {
-				result = null;
-				errorMessage = pe.getMessage();
-				errorOffset = pe.getErrorOffset();
-			} finally {
-				if (result != null && result.getTime() > 1) {
-					break;
-				}
-			}
-		}
-		if (result == null) {
-			throw new ParseException(errorMessage, errorOffset);
-		}
-		return result;
-	}
+	
 
 	/**
 	 * 转换字符串得到默认格式的日期类型
@@ -156,7 +133,7 @@ public class DateUtils {
 	public static Date convertString2Date(String strDate) throws ParseException {
 		Date result = null;
 		try {
-			result = convertString2Date(DEFAILT_DATE_PATTERN, strDate);
+			result = convertString2Date(DATE_FORMAT, strDate);
 		} catch (ParseException pe) {
 			throw new ParseException(pe.getMessage(), pe.getErrorOffset());
 		}
@@ -191,7 +168,7 @@ public class DateUtils {
 	 * @return
 	 */
 	public static String convertDate2String(Date targetDate) {
-		return convertDate2String(DEFAILT_DATE_PATTERN, targetDate);
+		return convertDate2String(DATE_FORMAT, targetDate);
 	}
 
 	/**
@@ -203,9 +180,9 @@ public class DateUtils {
 	 */
 	public static int compare_date(Date src, Date src1) {
 
-		String date1 = convertDate2String(DEFAILT_DATE_TIME_PATTERN, src);
-		String date2 = convertDate2String(DEFAILT_DATE_TIME_PATTERN, src1);
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String date1 = convertDate2String(DATETIME_FORMAT, src);
+		String date2 = convertDate2String(DATETIME_FORMAT, src1);
+		DateFormat df = new SimpleDateFormat(DATETIME_FORMAT);
 		try {
 			Date dt1 = df.parse(date1);
 			Date dt2 = df.parse(date2);
@@ -275,11 +252,11 @@ public class DateUtils {
 	 */
 	public static boolean equalDate(String date2) {
 		try {
-			String date1 = convertDate2String(DEFAILT_DATE_TIME_PATTERN,
+			String date1 = convertDate2String(DATETIME_FORMAT,
 					new Date());
 			//date1.equals(date2);
-			Date d1 = convertString2Date(DEFAILT_DATE_PATTERN, date1);
-			Date d2 = convertString2Date(DEFAILT_DATE_PATTERN, date2);
+			Date d1 = convertString2Date(DATE_FORMAT, date1);
+			Date d2 = convertString2Date(DATE_FORMAT, date2);
 			return d1.equals(d2);
 		} catch (ParseException e) {
 			logger.error(e.getMessage(),e);
@@ -296,10 +273,13 @@ public class DateUtils {
 	 * @author zhangjl
 	 */
 	public static boolean equalDate(String date1, String date2) {
+		if(StringUtils.isEmpty(date1)||StringUtils.isEmpty(date2)){
+			return false;
+		}
 		try {
 
-			Date d1 = convertString2Date(DEFAILT_DATE_PATTERN, date1);
-			Date d2 = convertString2Date(DEFAILT_DATE_PATTERN, date2);
+			Date d1 = convertString2Date(DATE_FORMAT, date1);
+			Date d2 = convertString2Date(DATE_FORMAT, date2);
 
 			return d1.equals(d2);
 		} catch (ParseException e) {
@@ -316,9 +296,12 @@ public class DateUtils {
 	 * @author 胡建国
 	 */
 	public static boolean beforeDate(String date1, String date2) {
+		if(StringUtils.isEmpty(date1)||StringUtils.isEmpty(date2)){
+			return false;
+		}
 		try {
-			Date d1 = convertString2Date(DEFAILT_DATE_PATTERN, date1);
-			Date d2 = convertString2Date(DEFAILT_DATE_PATTERN, date2);
+			Date d1 = convertString2Date(DATE_FORMAT, date1);
+			Date d2 = convertString2Date(DATE_FORMAT, date2);
 			return d1.before(d2);
 		} catch (ParseException e) {
 			return false;
@@ -607,7 +590,7 @@ public class DateUtils {
 				.getMaximum(Calendar.HOUR_OF_DAY));
 		calendar.set(Calendar.MINUTE, calendar.getMaximum(Calendar.MINUTE));
 		calendar.set(Calendar.SECOND, calendar.getMaximum(Calendar.SECOND));
-		return convertDate2String(DEFAILT_DATE_TIME_PATTERN, calendar.getTime());
+		return convertDate2String(DATETIME_FORMAT, calendar.getTime());
 	}
 
 	/**
@@ -636,7 +619,7 @@ public class DateUtils {
 				.getMinimum(Calendar.HOUR_OF_DAY));
 		calendar.set(Calendar.MINUTE, calendar.getMinimum(Calendar.MINUTE));
 		calendar.set(Calendar.SECOND, calendar.getMinimum(Calendar.SECOND));
-		return convertDate2String(DEFAILT_DATE_TIME_PATTERN, calendar.getTime());
+		return convertDate2String(DATETIME_FORMAT, calendar.getTime());
 	}
 
 	/**
@@ -750,28 +733,7 @@ public class DateUtils {
 		return DateFormat.getDateInstance().format(date);
 	}
 
-	/**
-	 * @see 取得指定时间的给定格式()
-	 * @return String
-	 * @throws ParseException
-	 */
-	public static String setDateFormat(Date myDate, String strFormat)
-			throws ParseException {
-		if (myDate == null) {
-			return null;
-		}
-		SimpleDateFormat sdf = new SimpleDateFormat(strFormat);
-		String sDate = sdf.format(myDate);
-		return sDate;
-	}
-
-	public static String setDateFormat(String myDate, String strFormat)
-			throws ParseException {
-		SimpleDateFormat sdf = new SimpleDateFormat(strFormat);
-		String sDate = sdf.format(myDate);
-
-		return sDate;
-	}
+	
 
 	/*****************************************
 	 * @功能 计算某年某月的结束日期
@@ -838,7 +800,7 @@ public class DateUtils {
 			date = new Date();
 		}
 		if (StringUtils.isBlank(formatString))
-			formatString = DateUtils.DEFAILT_DATE_PATTERN;
+			formatString = DateUtils.DATE_FORMAT;
 
 		date = DateUtils.convertString2Date(formatString, DateUtils
 				.convertDate2String(formatString, date));
@@ -853,7 +815,7 @@ public class DateUtils {
 	 *             例： DateUtils.formatDate(new Date()) "yyyy-MM-dd 00:00:00"
 	 */
 	public static Date formatDate(Date date) throws ParseException {
-		date = formatDate(DateUtils.DEFAILT_DATE_PATTERN, date);
+		date = formatDate(DateUtils.DATE_FORMAT, date);
 		return date;
 	}
 
