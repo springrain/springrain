@@ -12,20 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.subject.SimplePrincipalCollection;
-import org.apache.shiro.util.ThreadContext;
 import org.apache.shiro.web.servlet.OncePerRequestFilter;
-import org.apache.shiro.web.subject.WebSubject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springrain.activity.entity.Member;
-import org.springrain.activity.service.IMemberService;
-import org.springrain.cms.util.SiteUtils;
-import org.springrain.frame.shiro.ShiroUser;
-import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.InputSafeUtils;
-import org.springrain.system.entity.User;
 import org.springrain.system.service.IUserService;
 import org.springrain.weixin.sdk.common.api.IWxMpConfig;
 import org.springrain.weixin.sdk.common.api.IWxMpConfigService;
@@ -37,9 +28,6 @@ public class WxMpAutoLoginFilter extends OncePerRequestFilter {
 	
 	@Resource
 	private IWxMpConfigService wxMpConfigService;
-
-	@Resource
-	private IMemberService memberService;
 
 	@Resource
 	private IUserService userService;

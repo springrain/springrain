@@ -38,7 +38,7 @@ public class WxXcxConfigServiceImpl extends BaseSpringrainServiceImpl implements
 
 		IWxXcxConfig wxXcxConfig = null;
 		try {
-			wxXcxConfig = super.getByCache(id, GlobalStatic.xcxConfigCacheKey, IWxXcxConfig.class);
+			wxXcxConfig = super.getByCache(id, GlobalStatic.xcxConfigCacheKey, WxXcxConfig.class);
 			if (wxXcxConfig == null) {
 				wxXcxConfig = super.findById(id, WxXcxConfig.class);
 				super.putByCache(id, GlobalStatic.xcxConfigCacheKey, wxXcxConfig);

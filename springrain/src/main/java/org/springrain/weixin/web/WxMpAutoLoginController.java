@@ -11,8 +11,6 @@ import org.apache.shiro.web.subject.WebSubject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springrain.activity.entity.Member;
-import org.springrain.activity.service.IMemberService;
 import org.springrain.cms.util.SiteUtils;
 import org.springrain.frame.controller.BaseController;
 import org.springrain.frame.shiro.ShiroUser;
@@ -39,8 +37,6 @@ public class WxMpAutoLoginController extends BaseController {
 	IWxMpUserService wxMpUserService;
 	@Resource
 	private IUserService userService;
-	@Resource
-	private IMemberService memberService;
 
 	/**
 	 * 跳转到微信认证页面
@@ -96,13 +92,7 @@ public class WxMpAutoLoginController extends BaseController {
 //			 wxMpUser=wxMpService.oauth2getUserInfo(wxmpconfig,accessToken,"zh_CN");
 //			WxMpUser wxMpUser = wxMpUserService.userInfo(wxmpconfig, accessToken.getOpenId());
 			request.getSession().setAttribute("openId", accessToken.getOpenId());
-			
-			Member member = memberService.findMemberByOpenId(accessToken.getOpenId(), siteId);
-			if(member!=null){
-				String userId = member.getUserId();
-				User user = userService.findUserById(userId);
-				autoLogin(request, response, user);
-			}
+			request.getSession().setAttribute("unionId", accessToken.getUnionId());
 			
 		} catch (WxErrorException e) {
 			logger.error(e.getMessage(),e);

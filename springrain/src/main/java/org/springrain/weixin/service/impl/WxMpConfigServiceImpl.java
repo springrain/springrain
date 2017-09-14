@@ -88,7 +88,7 @@ public class WxMpConfigServiceImpl extends BaseSpringrainServiceImpl implements 
 
 		IWxMpConfig wxMpConfig = null;
 		try {
-			wxMpConfig = super.getByCache(id, GlobalStatic.mpConfigCacheKey, IWxMpConfig.class);
+			wxMpConfig = super.getByCache(id, GlobalStatic.mpConfigCacheKey, WxMpConfig.class);
 			if (wxMpConfig == null) {
 				wxMpConfig = super.findById(id, WxMpConfig.class);
 				super.putByCache(id, GlobalStatic.mpConfigCacheKey, wxMpConfig);
