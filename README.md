@@ -1,12 +1,12 @@
-项目名为springrain[春雨]我的个人博客是 http://www.weicms.net QQ群是:238904840
-#demo
-http://springrain.weicms.net
-#文档
-https://git.oschina.net/chunanyong/springrain/tree/master/springrain/doc
-#代码生成器
-http://git.oschina.net/chunanyong/springrain/tree/master/springrain/gencode
-#sql脚本
-http://git.oschina.net/chunanyong/springrain/tree/master/springrain/sql
+项目名为springrain[春雨]我的个人博客是 http://www.weicms.net QQ群是:238904840 </br>
+# demo
+http://springrain.weicms.net </br>
+# 文档
+https://git.oschina.net/chunanyong/springrain/tree/master/springrain/doc </br>
+# 代码生成器
+http://git.oschina.net/chunanyong/springrain/tree/master/springrain/gencode </br>
+# sql脚本
+http://git.oschina.net/chunanyong/springrain/tree/master/springrain/sql </br>
 
 
 springrain是spring的极简封装,spring一站式开发的范例.
