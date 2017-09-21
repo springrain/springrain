@@ -29,13 +29,21 @@ public class FrameDataSourceTransactionManager extends DataSourceTransactionMana
 		super.doBegin(transaction, definition);
 	}
 	
+
+	@Override
+	protected void doCleanupAfterCompletion(Object transaction) {
+		super.doCleanupAfterCompletion(transaction);
+		currentTransactionIsExist.set(false);
+	}
+	
+	
 	/**
 	 * 判断是否存在数据库事务
 	 * @return
 	 */
 	public static Boolean isExistTransaction() {
 		Boolean existTransaction = currentTransactionIsExist.get();
-		if(existTransaction==null) {
+		if(existTransaction==null||existTransaction==false) {
 			return false;
 		}
 		return existTransaction;
