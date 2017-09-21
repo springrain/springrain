@@ -21,6 +21,7 @@ import org.springrain.frame.common.SessionUser;
 import org.springrain.frame.util.DateUtils;
 import org.springrain.frame.util.IPUtils;
 import org.springrain.system.entity.Fwlog;
+import org.springrain.system.service.IFwlogService;
 import org.springrain.system.service.IMenuService;
 /**
  * 记录访问日志的过滤器
@@ -34,6 +35,11 @@ public class FrameFWLogFilter extends OncePerRequestFilter {
 	private final  Logger logger = LoggerFactory.getLogger(getClass());
 	@Resource
 	private IMenuService menuService;
+	
+	
+	@Resource
+	private IFwlogService fwlogService;
+	
 	@Override
 	protected void doFilterInternal(ServletRequest request,
 			ServletResponse response, FilterChain chain)
@@ -94,7 +100,8 @@ public class FrameFWLogFilter extends OncePerRequestFilter {
 			String menuName = menuService.getNameByPageurl(uri);
 			//req.setAttribute(GlobalStatic.pageurlName, menuName);
 			fwlog.setMenuName(menuName);
-			menuService.save(fwlog);
+			fwlogService.save(fwlog);
+			
 		} catch (Exception e) {
 			logger.error(e.getMessage(),e);
 		}
