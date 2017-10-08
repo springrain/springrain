@@ -11,12 +11,12 @@
 	<!-- 错误日志 -->
 	<appender name="errorFile"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<File>D:/log/error/error</File>
+		<File>${CATALINA_HOME}/logs/error/${AppName}</File>
 		<encoder>
 			<pattern>%d [%thread] %c:%L-%m%n</pattern>
 		</encoder>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>D:/log/error/error_%d{yyyy-MM-dd}</fileNamePattern>
+			<fileNamePattern>${CATALINA_HOME}/logs/error/${AppName}_%d{yyyy-MM-dd}</fileNamePattern>
 		</rollingPolicy>
 		<!-- 日志过滤器 -->
 		<!-- <filter class="ch.qos.logback.classic.filter.LevelFilter"> <level>DEBUG</level> 
@@ -25,12 +25,12 @@
 	<!-- 数据库访问较慢的语句 -->
 	<appender name="sqlFile"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<File>D:/log/sql/slow</File>
+		<File>${CATALINA_HOME}/logs/sql/${AppName}</File>
 		<encoder>
 			<pattern>%d [%thread] %c:%L-%m%n</pattern>
 		</encoder>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>D:/log/sql/slow_%d{yyyy-MM-dd}</fileNamePattern>
+			<fileNamePattern>${CATALINA_HOME}/logs/sql/${AppName}_%d{yyyy-MM-dd}</fileNamePattern>
 		</rollingPolicy>
 	</appender>
 	<logger name="com.alibaba.druid.filter.stat.StatFilter" additivity="false">
