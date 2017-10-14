@@ -14,11 +14,6 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.config.Registry;
-import org.apache.http.config.RegistryBuilder;
-import org.apache.http.conn.socket.ConnectionSocketFactory;
-import org.apache.http.conn.socket.PlainConnectionSocketFactory;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
@@ -29,7 +24,6 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.ssl.SSLContexts;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,16 +47,21 @@ public class HttpClientUtils {
 			.setConnectionRequestTimeout(3000).build();
 	
 	static{
-		
+	    
+	    
+	    
+	      /*
 		SSLContext sslcontext = SSLContexts.createSystemDefault();
 
         // Create a registry of custom connection socket factories for supported
         // protocol schemes.
+		
+
         Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create()
             .register("http", PlainConnectionSocketFactory.INSTANCE)
             .register("https", new SSLConnectionSocketFactory(sslcontext))
             .build();
-        
+        */
         
                 //使用基本的Httpclient链接器
                 //connectionManager=new BasicHttpClientConnectionManager(socketFactoryRegistry);
@@ -92,7 +91,8 @@ public class HttpClientUtils {
 	
 	
 	public static HttpClientBuilder getHttpClientBuilder(){
-		return HttpClients.custom().setConnectionManager(connectionManager).setDefaultRequestConfig(requestConfig).setConnectionManagerShared(true);
+		return HttpClients.custom().setConnectionManager(connectionManager).setDefaultRequestConfig(requestConfig);
+		        //.setConnectionManagerShared(true);
 	}
 	
     public static HttpClientBuilder getHttpClientBuilder(SSLContext sslContext){
