@@ -32,6 +32,7 @@ public class HasAnyRolesTag extends RoleTag {
     // Delimeter that separates role names in tag attribute
     private static final String ROLE_NAMES_DELIMETER = ",";
 
+    @Override
     protected boolean showTagBody(String roleNames) {
         boolean hasAnyRole = false;
         Subject subject = getSubject();

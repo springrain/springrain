@@ -51,24 +51,30 @@ public class WxCpConfig   extends BaseEntity implements IWxCpConfig {
 	  private volatile Long cardApiTicketExpiresTime=0L;
 	  
 	  
-	  @Id
+	  @Override
+    @Id
 	public String getId() {
 		return id;
 	}
-	public void setId(String id) {
+	@Override
+    public void setId(String id) {
 		this.id = id;
 	}
-	public String getAppId() {
+	@Override
+    public String getAppId() {
 		return appId;
 	}
-	public void setAppId(String appId) {
+	@Override
+    public void setAppId(String appId) {
 		this.appId = appId;
 	}
-	@Transient
+	@Override
+    @Transient
 	public String getSecret() {
 		return secret;
 	}
-	public void setSecret(String secret) {
+	@Override
+    public void setSecret(String secret) {
 		this.secret = secret;
 	}
 	@Transient
@@ -85,93 +91,117 @@ public class WxCpConfig   extends BaseEntity implements IWxCpConfig {
 	public void setPartnerKey(String partnerKey) {
 		this.partnerKey = partnerKey;
 	}
-	public String getToken() {
+	@Override
+    public String getToken() {
 		return token;
 	}
-	public void setToken(String token) {
+	@Override
+    public void setToken(String token) {
 		this.token = token;
 	}
-	@Transient
+	@Override
+    @Transient
 	public String getAccessToken() {
 		return accessToken;
 	}
-	public void setAccessToken(String accessToken) {
+	@Override
+    public void setAccessToken(String accessToken) {
 		this.accessToken = accessToken;
 	}
-	@Transient
+	@Override
+    @Transient
 	public String getAesKey() {
 		return aesKey;
 	}
-	public void setAesKey(String aesKey) {
+	@Override
+    public void setAesKey(String aesKey) {
 		this.aesKey = aesKey;
 	}
 	
 	
 	
-	@Transient
+	@Override
+    @Transient
 	public String getOauth2redirectUri() {
 		return oauth2redirectUri;
 	}
-	public void setOauth2redirectUri(String oauth2redirectUri) {
+	@Override
+    public void setOauth2redirectUri(String oauth2redirectUri) {
 		this.oauth2redirectUri = oauth2redirectUri;
 	}
-	@Transient
+	@Override
+    @Transient
 	public String getHttpProxyHost() {
 		return httpProxyHost;
 	}
-	public void setHttpProxyHost(String httpProxyHost) {
+	@Override
+    public void setHttpProxyHost(String httpProxyHost) {
 		this.httpProxyHost = httpProxyHost;
 	}
-	@Transient
+	@Override
+    @Transient
 	public Integer getHttpProxyPort() {
 		return httpProxyPort;
 	}
-	public void setHttpProxyPort(Integer httpProxyPort) {
+	@Override
+    public void setHttpProxyPort(Integer httpProxyPort) {
 		this.httpProxyPort = httpProxyPort;
 	}
-	@Transient
+	@Override
+    @Transient
 	public String getHttpProxyUsername() {
 		return httpProxyUsername;
 	}
-	public void setHttpProxyUsername(String httpProxyUsername) {
+	@Override
+    public void setHttpProxyUsername(String httpProxyUsername) {
 		this.httpProxyUsername = httpProxyUsername;
 	}
-	@Transient
+	@Override
+    @Transient
 	public String getHttpProxyPassword() {
 		return httpProxyPassword;
 	}
-	public void setHttpProxyPassword(String httpProxyPassword) {
+	@Override
+    public void setHttpProxyPassword(String httpProxyPassword) {
 		this.httpProxyPassword = httpProxyPassword;
 	}
-	@Transient
+	@Override
+    @Transient
 	public String getJsApiTicket() {
 		return jsApiTicket;
 	}
-	public void setJsApiTicket(String jsApiTicket) {
+	@Override
+    public void setJsApiTicket(String jsApiTicket) {
 		this.jsApiTicket = jsApiTicket;
 	}
 	
-	@Transient
+	@Override
+    @Transient
 	public String getCardApiTicket() {
 		return cardApiTicket;
 	}
-	public void setCardApiTicket(String cardApiTicket) {
+	@Override
+    public void setCardApiTicket(String cardApiTicket) {
 		this.cardApiTicket = cardApiTicket;
 	}
 	
-	@Transient
+	@Override
+    @Transient
 	public String getCertificateFile() {
 		return certificateFile;
 	}
-	public void setCertificateFile(String certificateFile) {
+	@Override
+    public void setCertificateFile(String certificateFile) {
 		this.certificateFile = certificateFile;
 	}
 	
-	@Transient
+	@Override
+    @Transient
 	public String getTmpDirFile() {
 		return tmpDirFile;
 	}
-	public void setTmpDirFile(String tmpDirFile) {
+	@Override
+    public void setTmpDirFile(String tmpDirFile) {
 		this.tmpDirFile = tmpDirFile;
 	}
 	
@@ -180,7 +210,8 @@ public class WxCpConfig   extends BaseEntity implements IWxCpConfig {
 	public Long getAccessTokenExpiresTime() {
 		return accessTokenExpiresTime;
 	}
-	public void setAccessTokenExpiresTime(Long accessTokenExpiresTime) {
+	@Override
+    public void setAccessTokenExpiresTime(Long accessTokenExpiresTime) {
 		this.accessTokenExpiresTime =  System.currentTimeMillis() + (accessTokenExpiresTime - 600) * 1000L;//预留10分钟
 	}
 	
@@ -189,7 +220,8 @@ public class WxCpConfig   extends BaseEntity implements IWxCpConfig {
 	public Long getCardApiTicketExpiresTime() {
 		return cardApiTicketExpiresTime;
 	}
-	public void setCardApiTicketExpiresTime(Long cardApiTicketExpiresTime) {
+	@Override
+    public void setCardApiTicketExpiresTime(Long cardApiTicketExpiresTime) {
 		//预留10分钟
 		this.cardApiTicketExpiresTime = System.currentTimeMillis() + (cardApiTicketExpiresTime - 600) * 1000L;//预留10分钟
 	}
@@ -198,47 +230,58 @@ public class WxCpConfig   extends BaseEntity implements IWxCpConfig {
 	public Long getJsApiTicketExpiresTime() {
 		return jsApiTicketExpiresTime;
 	}
-	public void setJsApiTicketExpiresTime(Long jsApiTicketExpiresTime) {
+	@Override
+    public void setJsApiTicketExpiresTime(Long jsApiTicketExpiresTime) {
 		this.jsApiTicketExpiresTime =  System.currentTimeMillis() + (jsApiTicketExpiresTime - 600) * 1000L;//预留10分钟
 	}
 	
 	
 	
-	@Transient
+	@Override
+    @Transient
 	public boolean isAccessTokenExpired() {
 		 return System.currentTimeMillis() > this.accessTokenExpiresTime;
 	}
-	@Transient
+	@Override
+    @Transient
 	public boolean isJsApiTicketExpired() {
 	    return System.currentTimeMillis() > this.jsApiTicketExpiresTime;
 	  }
-	@Transient
+	@Override
+    @Transient
 	public boolean isCardApiTicketExpired() {
 	    return System.currentTimeMillis() > this.cardApiTicketExpiresTime;
 	  }
-	@Transient
+	@Override
+    @Transient
 	public boolean autoRefreshToken() {
 	    return true;
 	  }
-	@Transient
+	@Override
+    @Transient
 	public String getCorpId() {
 		return corpId;
 	}
-	public void setCorpId(String corpId) {
+	@Override
+    public void setCorpId(String corpId) {
 		this.corpId = corpId;
 	}
-	@Transient
+	@Override
+    @Transient
 	public String getCorpSecret() {
 		return corpSecret;
 	}
-	public void setCorpSecret(String corpSecret) {
+	@Override
+    public void setCorpSecret(String corpSecret) {
 		this.corpSecret = corpSecret;
 	}
-	@Transient
+	@Override
+    @Transient
 	public Integer getAgentId() {
 		return agentId;
 	}
-	public void setAgentId(Integer agentId) {
+	@Override
+    public void setAgentId(Integer agentId) {
 		this.agentId = agentId;
 	}
 	public Integer getActive() {

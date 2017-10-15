@@ -52,8 +52,9 @@ public class FileUploadController {
 			//String path = "/upload/"+siteId+"/"+businessId+"/"+SecUtils.getUUID()+tempFile.getOriginalFilename();
 			String path = "/upload/"+siteId+"/"+businessId+"/"+SecUtils.getUUID()+"."+prefix;
     		File file = new File(GlobalStatic.rootDir+path);
-    		if(!file.getParentFile().exists())
-    			file.getParentFile().mkdirs();
+    		if(!file.getParentFile().exists()) {
+                file.getParentFile().mkdirs();
+            }
     		if(!file.exists()){
     			boolean createNewFile = file.createNewFile();
     			if(!createNewFile){

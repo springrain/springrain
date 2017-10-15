@@ -37,7 +37,8 @@ public class FrameStaticHtmlFilter extends OncePerRequestFilter {
 	
 	
 
-	protected void doFilterInternal(ServletRequest request,
+	@Override
+    protected void doFilterInternal(ServletRequest request,
 			ServletResponse response, FilterChain chain)
 			throws ServletException, IOException {
 		

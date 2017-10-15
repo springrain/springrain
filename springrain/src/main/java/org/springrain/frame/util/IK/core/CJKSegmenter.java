@@ -46,7 +46,8 @@ class CJKSegmenter implements ISegmenter {
 		this.tmpHits = new LinkedList<Hit>();
 	}
 
-	public void analyze(AnalyzeContext context) {
+	@Override
+    public void analyze(AnalyzeContext context) {
 		if(CharacterUtil.CHAR_USELESS != context.getCurrentCharType()){
 			
 			//优先处理tmpHits中的hit
@@ -111,7 +112,8 @@ class CJKSegmenter implements ISegmenter {
 		}
 	}
 
-	public void reset() {
+	@Override
+    public void reset() {
 		//清空队列
 		this.tmpHits.clear();
 	}

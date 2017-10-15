@@ -387,7 +387,8 @@ public class CmsContent  extends BaseEntity {
 		this.status = status;
 	}
 
-	public String toString() {
+	@Override
+    public String toString() {
 		return new StringBuilder()
 			.append("ID[").append(getId()).append("],")
 			.append("title[").append(getTitle()).append("],")
@@ -404,13 +405,15 @@ public class CmsContent  extends BaseEntity {
 			.toString();
 	}
 	
-	public int hashCode() {
+	@Override
+    public int hashCode() {
 		return new HashCodeBuilder()
 			.append(getId())
 			.toHashCode();
 	}
 	
-	public boolean equals(Object obj) {
+	@Override
+    public boolean equals(Object obj) {
 		if(obj instanceof CmsContent == false){
 			return false;
 		} 

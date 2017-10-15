@@ -306,7 +306,8 @@ class DictSegment implements Comparable<DictSegment>{
 	 * @param o
 	 * @return int
 	 */
-	public int compareTo(DictSegment o) {
+	@Override
+    public int compareTo(DictSegment o) {
 		//对当前节点存储的char进行比较
 		return this.nodeChar.compareTo(o.nodeChar);
 	}

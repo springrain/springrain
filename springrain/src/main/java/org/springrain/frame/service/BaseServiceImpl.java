@@ -66,14 +66,16 @@ public abstract class BaseServiceImpl extends BaseLogger implements IBaseService
 
 	public abstract IBaseJdbcDao getBaseDao();
 
-	public SpringUtils getSpringUtils() {
+	@Override
+    public SpringUtils getSpringUtils() {
 		return springUtils;
 	}
 
 	@Override
 	public Object getBean(String beanName) throws Exception {
-		if (beanName == null)
-			return null;
+		if (beanName == null) {
+            return null;
+        }
 		return getSpringUtils().getBean(beanName);
 	}
 
@@ -306,8 +308,9 @@ public abstract class BaseServiceImpl extends BaseLogger implements IBaseService
 
 		File excelFile = new File(tempExcelpath);
 		boolean first = true;
-		if(ftlurl.contains("Xml"))
-			first = false;
+		if(ftlurl.contains("Xml")) {
+            first = false;
+        }
 		boolean end = false;
 		int pageCount = page.getPageCount();
 		if (pageCount < 2) {
@@ -393,8 +396,9 @@ public abstract class BaseServiceImpl extends BaseLogger implements IBaseService
 
 			boolean iswrite = false;
 			while ((line = br.readLine()) != null) {
-				if (StringUtils.isBlank(line))
-					continue;
+				if (StringUtils.isBlank(line)) {
+                    continue;
+                }
 
 				line = line.trim();
 				if (line.startsWith("<!--first_") && first == false) {
@@ -449,16 +453,21 @@ public abstract class BaseServiceImpl extends BaseLogger implements IBaseService
 			logger.error(e.getMessage(), e);
 			throw new Exception("追加xlsx内容错误");
 		} finally {
-			if (bw != null)
-				bw.close();
-			if (osw != null)
-				osw.close();
-			if (fos != null)
-				fos.close();
-			if (br != null)
-				br.close();
-			if (in != null)
-				in.close();
+			if (bw != null) {
+                bw.close();
+            }
+			if (osw != null) {
+                osw.close();
+            }
+			if (fos != null) {
+                fos.close();
+            }
+			if (br != null) {
+                br.close();
+            }
+			if (in != null) {
+                in.close();
+            }
 		}
 
 		return excelFile;
@@ -504,19 +513,23 @@ public abstract class BaseServiceImpl extends BaseLogger implements IBaseService
 		return getBaseDao().saveorupdate(entity);
 	}
 
-	public <T> T queryForObjectByProc(Finder finder, Class<T> clazz) throws Exception {
+	@Override
+    public <T> T queryForObjectByProc(Finder finder, Class<T> clazz) throws Exception {
 		return getBaseDao().queryForObjectByProc(finder, clazz);
 	}
 
-	public <T> List<T> queryForListByProc(Finder finder, Class<T> clazz) throws Exception {
+	@Override
+    public <T> List<T> queryForListByProc(Finder finder, Class<T> clazz) throws Exception {
 		return getBaseDao().queryForListByProc(finder, clazz);
 	}
 
-	public <T> T queryForObjectByByFunction(Finder finder, Class<T> clazz) throws Exception {
+	@Override
+    public <T> T queryForObjectByByFunction(Finder finder, Class<T> clazz) throws Exception {
 		return getBaseDao().queryForObjectByByFunction(finder, clazz);
 	}
 
-	public <T> List<T> queryForListByFunction(Finder finder, Class<T> clazz) throws Exception {
+	@Override
+    public <T> List<T> queryForListByFunction(Finder finder, Class<T> clazz) throws Exception {
 		return getBaseDao().queryForListByFunction(finder, clazz);
 	}
 

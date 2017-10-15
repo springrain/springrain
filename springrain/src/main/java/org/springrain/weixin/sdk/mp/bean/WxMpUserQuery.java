@@ -158,25 +158,33 @@ public class WxMpUserQuery {
 
     @Override
     public boolean equals(Object obj) {
-      if (this == obj)
+      if (this == obj) {
         return true;
-      if (obj == null)
+    }
+      if (obj == null) {
         return false;
-      if (getClass() != obj.getClass())
+    }
+      if (getClass() != obj.getClass()) {
         return false;
+    }
       WxMpUserQueryParam other = (WxMpUserQueryParam) obj;
-      if (!getOuterType().equals(other.getOuterType()))
+      if (!getOuterType().equals(other.getOuterType())) {
         return false;
+    }
       if (this.lang == null) {
-        if (other.lang != null)
-          return false;
-      } else if (!this.lang.equals(other.lang))
+        if (other.lang != null) {
+            return false;
+        }
+      } else if (!this.lang.equals(other.lang)) {
         return false;
+    }
       if (this.openid == null) {
-        if (other.openid != null)
-          return false;
-      } else if (!this.openid.equals(other.openid))
+        if (other.openid != null) {
+            return false;
+        }
+      } else if (!this.openid.equals(other.openid)) {
         return false;
+    }
       return true;
     }
 

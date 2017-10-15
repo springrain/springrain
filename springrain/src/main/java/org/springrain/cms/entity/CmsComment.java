@@ -325,7 +325,8 @@ public class CmsComment  extends BaseEntity {
 		this.bak5 = bak5;
 	}
 
-	public String toString() {
+	@Override
+    public String toString() {
 		return new StringBuilder()
 			.append("id[").append(getId()).append("],")
 			.append("评论用户ID[").append(getUserId()).append("],")
@@ -342,13 +343,15 @@ public class CmsComment  extends BaseEntity {
 			.toString();
 	}
 	
-	public int hashCode() {
+	@Override
+    public int hashCode() {
 		return new HashCodeBuilder()
 			.append(getId())
 			.toHashCode();
 	}
 	
-	public boolean equals(Object obj) {
+	@Override
+    public boolean equals(Object obj) {
 		if(obj instanceof CmsComment == false){
 			return false;
 		} 

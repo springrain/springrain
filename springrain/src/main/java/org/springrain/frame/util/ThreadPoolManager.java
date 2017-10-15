@@ -39,7 +39,8 @@ public class ThreadPoolManager {
   * 线程池超出界线时将任务加入缓冲队列
   */
  final static RejectedExecutionHandler handler = new RejectedExecutionHandler() {
-  public void rejectedExecution(Runnable task, ThreadPoolExecutor executor) {
+  @Override
+public void rejectedExecution(Runnable task, ThreadPoolExecutor executor) {
    taskQueue.offer(task);
   }
  };
@@ -48,7 +49,8 @@ public class ThreadPoolManager {
   * 将缓冲队列中的任务重新加载到线程池
   */
  final Runnable accessBufferThread = new Runnable() {
-  public void run() {
+  @Override
+public void run() {
    if (hasMoreAcquire()) {
     threadPool.execute(taskQueue.poll());
    }

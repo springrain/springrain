@@ -99,18 +99,19 @@ public class Enumerations {
 		}
 		
 		public static OrgType getOrgTypeByName(String name){
-			if(mp.name().equals(name))
-				return mp;
-			else if(wap.name().equals(name))
-				return wap;
-			else if(pc.name().equals(name))
-				return pc;
-			else if(cp.name().equals(name))
-				return cp;
-			else if(xcx.name().equals(name))
-				return xcx;
-			else 
-				return null;
+			if(mp.name().equals(name)) {
+                return mp;
+            } else if(wap.name().equals(name)) {
+                return wap;
+            } else if(pc.name().equals(name)) {
+                return pc;
+            } else if(cp.name().equals(name)) {
+                return cp;
+            } else if(xcx.name().equals(name)) {
+                return xcx;
+            } else {
+                return null;
+            }
 		}
 	}
 	public enum UserOrgType{
@@ -142,18 +143,19 @@ public class Enumerations {
 		}
 		
 		public static UserOrgType getUserOrgTypeByName(String name){
-			if("会员".equals(name))
-				return 会员;
-			else if("员工".equals(name))
-				return 员工;
-			else if("主管".equals(name))
-				return 主管;
-			else if("代理主管".equals(name))
-				return 代理主管;
-			else if("虚拟主管".equals(name))
-				return 虚拟主管;
-			else 
-				return null;
+			if("会员".equals(name)) {
+                return 会员;
+            } else if("员工".equals(name)) {
+                return 员工;
+            } else if("主管".equals(name)) {
+                return 主管;
+            } else if("代理主管".equals(name)) {
+                return 代理主管;
+            } else if("虚拟主管".equals(name)) {
+                return 虚拟主管;
+            } else {
+                return null;
+            }
 		}
 	}
 	

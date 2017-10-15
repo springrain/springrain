@@ -91,7 +91,8 @@ public class CmsThemeTemplate  extends BaseEntity {
 		return this.templateId;
 	}
 	
-	public String toString() {
+	@Override
+    public String toString() {
 		return new StringBuilder()
 			.append("ID[").append(getId()).append("],")
 			.append("主题Id[").append(getThemeId()).append("],")
@@ -99,13 +100,15 @@ public class CmsThemeTemplate  extends BaseEntity {
 			.toString();
 	}
 	
-	public int hashCode() {
+	@Override
+    public int hashCode() {
 		return new HashCodeBuilder()
 			.append(getId())
 			.toHashCode();
 	}
 	
-	public boolean equals(Object obj) {
+	@Override
+    public boolean equals(Object obj) {
 		if(obj instanceof CmsThemeTemplate == false){
 			return false;
 		} 

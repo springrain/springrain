@@ -66,8 +66,9 @@ public class FrontFileUploadController {
 			
 			
     		File file = new File(GlobalStatic.rootDir+path);
-    		if(!file.getParentFile().exists())
-    			file.getParentFile().mkdirs();
+    		if(!file.getParentFile().exists()) {
+                file.getParentFile().mkdirs();
+            }
     		if(!file.exists()){
     			boolean createNewFile = file.createNewFile();
     			if(!createNewFile){

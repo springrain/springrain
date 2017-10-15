@@ -67,22 +67,28 @@ public class ShiroUser implements Serializable {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		if (this == obj) {
+            return true;
+        }
+		if (obj == null) {
+            return false;
+        }
+		if (getClass() != obj.getClass()) {
+            return false;
+        }
 		ShiroUser other = (ShiroUser) obj;
 		if (account == null) {
-			if (other.account != null)
-				return false;
-		} else if (!account.equals(other.account))
-			return false;
+			if (other.account != null) {
+                return false;
+            }
+		} else if (!account.equals(other.account)) {
+            return false;
+        }
 		return true;
 	}
 	
-	public int hashCode() {
+	@Override
+    public int hashCode() {
 		return new HashCodeBuilder()
 			.append(getAccount())
 			.toHashCode();

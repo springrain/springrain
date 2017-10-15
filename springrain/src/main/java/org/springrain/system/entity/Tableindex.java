@@ -91,7 +91,8 @@ public class Tableindex  extends BaseEntity {
 		return this.prefix;
 	}
 	
-	public String toString() {
+	@Override
+    public String toString() {
 		return new StringBuilder()
 			.append("表名[").append(getId()).append("],")
 			.append("表记录最大的行,一直累加[").append(getMaxIndex()).append("],")
@@ -99,13 +100,15 @@ public class Tableindex  extends BaseEntity {
 			.toString();
 	}
 	
-	public int hashCode() {
+	@Override
+    public int hashCode() {
 		return new HashCodeBuilder()
 			.append(getId())
 			.toHashCode();
 	}
 	
-	public boolean equals(Object obj) {
+	@Override
+    public boolean equals(Object obj) {
 		if(obj instanceof Tableindex == false){
 			return false;
 		} 

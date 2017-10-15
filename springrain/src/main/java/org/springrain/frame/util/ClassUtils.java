@@ -140,8 +140,9 @@ public class ClassUtils {
 	 * @throws Exception
 	 */
 	public static EntityInfo getEntityInfoByEntity(Object o) throws Exception {
-		if (o == null)
-			return null;
+		if (o == null) {
+            return null;
+        }
 		Class clazz = o.getClass();
 		EntityInfo info = getEntityInfoByClass(clazz);
 		if (info == null) {

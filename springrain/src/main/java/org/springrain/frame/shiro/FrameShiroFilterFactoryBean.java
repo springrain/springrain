@@ -346,6 +346,7 @@ public class FrameShiroFilterFactoryBean implements FactoryBean, BeanPostProcess
      * @return the application's Shiro Filter instance used to filter incoming web requests.
      * @throws Exception if there is a problem creating the {@code Filter} instance.
      */
+    @Override
     public Object getObject() throws Exception {
         if (instance == null) {
             instance = createInstance();
@@ -358,6 +359,7 @@ public class FrameShiroFilterFactoryBean implements FactoryBean, BeanPostProcess
      *
      * @return <code>{@link org.apache.shiro.web.servlet.AbstractShiroFilter}.class</code>
      */
+    @Override
     public Class getObjectType() {
         return SpringShiroFilter.class;
     }
@@ -367,6 +369,7 @@ public class FrameShiroFilterFactoryBean implements FactoryBean, BeanPostProcess
      *
      * @return {@code true} always.  There is almost always only ever 1 Shiro {@code Filter} per web application.
      */
+    @Override
     public boolean isSingleton() {
         return true;
     }
@@ -504,6 +507,7 @@ public class FrameShiroFilterFactoryBean implements FactoryBean, BeanPostProcess
      * instance to the internal {@link #setFilters(java.util.Map) filters map} that will be referenced
      * later during filter chain construction.
      */
+    @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         if (bean instanceof Filter) {
             log.debug("Found filter chain candidate filter '{}'", beanName);
@@ -520,6 +524,7 @@ public class FrameShiroFilterFactoryBean implements FactoryBean, BeanPostProcess
      * Does nothing - only exists to satisfy the BeanPostProcessor interface and immediately returns the
      * {@code bean} argument.
      */
+    @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
         return bean;
     }

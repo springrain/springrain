@@ -92,8 +92,9 @@ public class CmsChannelController  extends BaseController {
 			if (channelList != null){
 				treeList.addAll(channelList);
 				for (CmsChannel channel : channelList) {
-					if(StringUtils.isBlank(channel.getPid()))
-						channel.setPid(siteId);
+					if(StringUtils.isBlank(channel.getPid())) {
+                        channel.setPid(siteId);
+                    }
 				}
 			}
 			

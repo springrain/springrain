@@ -35,8 +35,9 @@ public class CmsPropertyDirective extends AbstractCMSDirective {
 	public void execute(Environment env, Map params, TemplateModel[] loopVars,
 			TemplateDirectiveBody body) throws TemplateException, IOException {
 		String businessId = DirectiveUtils.getString("businessId", params);
-		if(StringUtils.isBlank(businessId))
-			businessId = getBusinessId(params);
+		if(StringUtils.isBlank(businessId)) {
+            businessId = getBusinessId(params);
+        }
 		String cacheKey=TPL_NAME+"_cache_key_"+businessId;
 		
 		List<CmsProperty> list = (List<CmsProperty>) getDirectiveData(cacheKey);

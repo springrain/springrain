@@ -51,7 +51,8 @@ public class MenuServiceImpl extends BaseSpringrainServiceImpl implements
 	}
 	
 	
-	public List<Menu> findListById(Object id) throws Exception {
+	@Override
+    public List<Menu> findListById(Object id) throws Exception {
 		List<Menu> menuList=new ArrayList<>();
 		Finder finder = Finder.getSelectFinder(Menu.class);
 	

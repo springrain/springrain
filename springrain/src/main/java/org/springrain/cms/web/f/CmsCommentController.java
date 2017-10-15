@@ -147,10 +147,12 @@ public class CmsCommentController  extends BaseController {
 			}
 			/*String filePath = GlobalStatic.rootDir+"upload/sensitiveWords.txt";
 			cmsComment.setContent(SensitiveWordUtils.validateBanWords(cmsComment.getContent(), filePath));*/
-			if(cmsComment.getCreateDate() == null)
-				cmsComment.setCreateDate(new Date());
-			if(cmsComment.getType() == null)
-				cmsComment.setType(1);
+			if(cmsComment.getCreateDate() == null) {
+                cmsComment.setCreateDate(new Date());
+            }
+			if(cmsComment.getType() == null) {
+                cmsComment.setType(1);
+            }
 			cmsCommentService.saveorupdate(cmsComment);
 			
 		} catch (Exception e) {
@@ -253,10 +255,12 @@ public class CmsCommentController  extends BaseController {
 			}
 			
 			
-			if(cmsComment.getCreateDate() == null)
-				cmsComment.setCreateDate(new Date());
-			if(cmsComment.getType() == null)
-				cmsComment.setType(1);
+			if(cmsComment.getCreateDate() == null) {
+                cmsComment.setCreateDate(new Date());
+            }
+			if(cmsComment.getType() == null) {
+                cmsComment.setType(1);
+            }
 			cmsCommentService.saveorupdate(cmsComment);
 			
 		} catch (Exception e) {

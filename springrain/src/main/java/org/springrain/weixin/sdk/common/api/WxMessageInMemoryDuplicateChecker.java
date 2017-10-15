@@ -44,8 +44,8 @@ public class WxMessageInMemoryDuplicateChecker implements IWxMessageDuplicateChe
    * </pre>
    */
   public WxMessageInMemoryDuplicateChecker() {
-    this.timeToLive = 15 * 1000l;
-    this.clearPeriod = 5 * 1000l;
+    this.timeToLive = 15 * 1000L;
+    this.clearPeriod = 5 * 1000L;
   }
 
   /**

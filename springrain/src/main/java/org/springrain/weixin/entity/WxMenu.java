@@ -184,7 +184,8 @@ public class WxMenu  extends BaseEntity {
 		this.childMenuList = childMenuList;
 	}
 
-	public String toString() {
+	@Override
+    public String toString() {
 		return new StringBuilder()
 			.append("id[").append(getId()).append("],")
 			.append("菜单名称[").append(getName()).append("],")
@@ -197,13 +198,15 @@ public class WxMenu  extends BaseEntity {
 			.toString();
 	}
 	
-	public int hashCode() {
+	@Override
+    public int hashCode() {
 		return new HashCodeBuilder()
 			.append(getId())
 			.toHashCode();
 	}
 	
-	public boolean equals(Object obj) {
+	@Override
+    public boolean equals(Object obj) {
 		if(obj instanceof WxMenu == false){
 			return false;
 		} 

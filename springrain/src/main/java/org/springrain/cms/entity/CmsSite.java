@@ -364,7 +364,8 @@ public class CmsSite  extends BaseEntity {
 		this.themeName = themeName;
 	}
 
-	public String toString() {
+	@Override
+    public String toString() {
 		return new StringBuilder()
 			.append("id[").append(getId()).append("],")
 			.append("创建时间[").append(getCreateTime()).append("],")
@@ -387,13 +388,15 @@ public class CmsSite  extends BaseEntity {
 			.toString();
 	}
 	
-	public int hashCode() {
+	@Override
+    public int hashCode() {
 		return new HashCodeBuilder()
 			.append(getId())
 			.toHashCode();
 	}
 	
-	public boolean equals(Object obj) {
+	@Override
+    public boolean equals(Object obj) {
 		if(obj instanceof CmsSite == false){
 			return false;
 		} 

@@ -160,7 +160,8 @@ public class AuditLog  extends BaseEntity  {
 		return this.operationClassId;
 	}
 	
-	public String toString() {
+	@Override
+    public String toString() {
 		return new StringBuilder()
 			.append("ID[").append(getId()).append("],")
 			.append("操作类型[").append(getOperationType()).append("],")
@@ -173,13 +174,15 @@ public class AuditLog  extends BaseEntity  {
 			.toString();
 	}
 	
-	public int hashCode() {
+	@Override
+    public int hashCode() {
 		return new HashCodeBuilder()
 			.append(getId())
 			.toHashCode();
 	}
 	
-	public boolean equals(Object obj) {
+	@Override
+    public boolean equals(Object obj) {
 		if(obj instanceof AuditLog == false){
 			return false;
 		} 

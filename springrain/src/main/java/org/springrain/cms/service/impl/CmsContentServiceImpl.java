@@ -113,8 +113,9 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 	   
 	   cmsContent.setId(id);
 	   cmsContent.setCreateDate(new Date());
-	   if(cmsContent.getSortno() == null)
-		   cmsContent.setSortno(Integer.parseInt(id.substring(2)));
+	   if(cmsContent.getSortno() == null) {
+        cmsContent.setSortno(Integer.parseInt(id.substring(2)));
+    }
 	   super.save(cmsContent);
 	   try {
 		   LuceneUtils.saveDocument(getLuceneDir(siteId), cmsContent);
@@ -218,8 +219,9 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 		if(CollectionUtils.isNotEmpty(propertyList)){//有扩展属性
 			
 			for (CmsProperty cmsProperty : propertyList) {
-				if(StringUtils.isBlank(cmsProperty.getPvalue()))
-					cmsProperty.setPvalue("");
+				if(StringUtils.isBlank(cmsProperty.getPvalue())) {
+                    cmsProperty.setPvalue("");
+                }
 			}
 			
 			cmsPropertyService.update(propertyList,true);
@@ -422,12 +424,14 @@ public class CmsContentServiceImpl extends BaseSpringrainServiceImpl implements 
 			}
 			
 			String pageSort = DirectiveUtils.getString("pageSort", params);
-			if(pageSort != null)
-				page.setSort(pageSort);
+			if(pageSort != null) {
+                page.setSort(pageSort);
+            }
 			
 			String pageOrder = DirectiveUtils.getString("pageOrder", params);
-			if(pageOrder != null)
-				page.setOrder(pageOrder);
+			if(pageOrder != null) {
+                page.setOrder(pageOrder);
+            }
 			
 		}
 		

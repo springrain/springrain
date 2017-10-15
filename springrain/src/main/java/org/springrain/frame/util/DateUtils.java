@@ -109,8 +109,9 @@ public class DateUtils {
 	 */
 	public static final Date convertString2Date(String formatString,
 			String targetDate) throws ParseException {
-		if (StringUtils.isBlank(targetDate))
-			return null;
+		if (StringUtils.isBlank(targetDate)) {
+            return null;
+        }
 		SimpleDateFormat format =  new SimpleDateFormat(formatString);
 		Date result = null;
 		try {
@@ -799,8 +800,9 @@ public class DateUtils {
 		if (date == null) {
 			date = new Date();
 		}
-		if (StringUtils.isBlank(formatString))
-			formatString = DateUtils.DATE_FORMAT;
+		if (StringUtils.isBlank(formatString)) {
+            formatString = DateUtils.DATE_FORMAT;
+        }
 
 		date = DateUtils.convertString2Date(formatString, DateUtils
 				.convertDate2String(formatString, date));
@@ -827,11 +829,13 @@ public class DateUtils {
 	public static Date getMonDay(Date date) throws ParseException {
 
 		Calendar cal = Calendar.getInstance();
-		if (date == null)
-			date = new Date();
+		if (date == null) {
+            date = new Date();
+        }
 		cal.setTime(date);
-		if (cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY)
-			cal.add(Calendar.WEEK_OF_YEAR, -1);
+		if (cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+            cal.add(Calendar.WEEK_OF_YEAR, -1);
+        }
 
 		cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
 
@@ -848,11 +852,13 @@ public class DateUtils {
 	public static Date getSunDay(Date date) throws ParseException {
 
 		Calendar cal = Calendar.getInstance();
-		if (date == null)
-			date = new Date();
+		if (date == null) {
+            date = new Date();
+        }
 		cal.setTime(date);
-		if (cal.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY)
-			cal.add(Calendar.WEEK_OF_YEAR, 1);
+		if (cal.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
+            cal.add(Calendar.WEEK_OF_YEAR, 1);
+        }
 
 		cal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
 

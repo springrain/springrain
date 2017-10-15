@@ -40,12 +40,14 @@ public class CmsCommentListDirective extends AbstractCMSDirective {
 		}
 		
 		String pageSort = DirectiveUtils.getString("pageSort", params);
-		if(pageSort != null)
-			page.setSort(pageSort);
+		if(pageSort != null) {
+            page.setSort(pageSort);
+        }
 		
 		String pageOrder = DirectiveUtils.getString("pageOrder", params);
-		if(pageOrder != null)
-			page.setOrder(pageOrder);
+		if(pageOrder != null) {
+            page.setOrder(pageOrder);
+        }
 		
 		List<CmsComment> commentList;
 		try {

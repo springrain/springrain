@@ -697,7 +697,8 @@ public class IKQueryExpressionParser {
 			this.eleTextBuff.append(c);
 		}
 	
-		public String toString(){
+		@Override
+        public String toString(){
 			return this.eleTextBuff.toString();
 		}
 	}	

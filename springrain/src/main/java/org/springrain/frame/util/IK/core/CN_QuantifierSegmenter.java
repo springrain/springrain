@@ -74,7 +74,8 @@ class CN_QuantifierSegmenter implements ISegmenter{
 	/**
 	 * 分词
 	 */
-	public void analyze(AnalyzeContext context) {
+	@Override
+    public void analyze(AnalyzeContext context) {
 		//处理中文数词
 		this.processCNumber(context);
 		//处理中文量词
@@ -93,7 +94,8 @@ class CN_QuantifierSegmenter implements ISegmenter{
 	/**
 	 * 重置子分词器状态
 	 */
-	public void reset() {
+	@Override
+    public void reset() {
 		nStart = -1;
 		nEnd = -1;
 		countHits.clear();

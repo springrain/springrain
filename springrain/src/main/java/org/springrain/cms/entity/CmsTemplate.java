@@ -161,7 +161,8 @@ public class CmsTemplate  extends BaseEntity {
 		return this.active;
 	}
 	
-	public String toString() {
+	@Override
+    public String toString() {
 		return new StringBuilder()
 			.append("ID[").append(getId()).append("],")
 			.append("名称[").append(getName()).append("],")
@@ -174,13 +175,15 @@ public class CmsTemplate  extends BaseEntity {
 			.toString();
 	}
 	
-	public int hashCode() {
+	@Override
+    public int hashCode() {
 		return new HashCodeBuilder()
 			.append(getId())
 			.toHashCode();
 	}
 	
-	public boolean equals(Object obj) {
+	@Override
+    public boolean equals(Object obj) {
 		if(obj instanceof CmsTemplate == false){
 			return false;
 		} 

@@ -172,8 +172,9 @@ public class CmsCommentServiceImpl extends BaseSpringrainServiceImpl implements 
 		String[] serverIdArr = StringUtils.split(serverIds, ",");
 		
 		File tmpDir = new File(GlobalStatic.tempRootpath);
-		if(!tmpDir.exists())
-			tmpDir.mkdirs();
+		if(!tmpDir.exists()) {
+            tmpDir.mkdirs();
+        }
 		for (String serverId : serverIdArr) {
 			File downLoadFile = wxMpMaterialService.mediaDownload(wxMpConfig, serverId);
 			String formalPath = GlobalStatic.rootDir+"/upload/"+siteType+"/"+siteId+"/"+businessId+"/"+downLoadFile.getName();

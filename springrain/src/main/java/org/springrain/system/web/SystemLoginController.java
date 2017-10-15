@@ -46,8 +46,9 @@ public class SystemLoginController extends BaseController   {
 		@RequestMapping(value = "/index")
 		public String index(Model model,HttpSession session,HttpServletRequest request) throws Exception {
 			String siteId = request.getParameter("systemSiteId");
-			if(StringUtils.isNotBlank(siteId))
-				model.addAttribute("systemSiteId", siteId);
+			if(StringUtils.isNotBlank(siteId)) {
+                model.addAttribute("systemSiteId", siteId);
+            }
 			return "/system/index";
 		}
 		

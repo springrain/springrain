@@ -82,7 +82,8 @@ class LetterSegmenter implements ISegmenter {
 	}
 
 
-	public void analyze(AnalyzeContext context) {
+	@Override
+    public void analyze(AnalyzeContext context) {
 		boolean bufferLockFlag = false;
 		//处理英文字母
 		bufferLockFlag = this.processEnglishLetter(context) || bufferLockFlag;
@@ -100,7 +101,8 @@ class LetterSegmenter implements ISegmenter {
 		}
 	}
 	
-	public void reset() {
+	@Override
+    public void reset() {
 		this.start = -1;
 		this.end = -1;
 		this.englishStart = -1;

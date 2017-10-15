@@ -257,8 +257,9 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 	@Override
 	public List<Map<String, Object>> queryForList(Finder finder, Page page) throws Exception {
 		String pageSql = getPageSql(page, finder);
-		if (pageSql == null)
-			return null;
+		if (pageSql == null) {
+            return null;
+        }
 		finder.setPageSql(pageSql);
 
 		// 打印sql
@@ -473,10 +474,11 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		}
 
 		if (page == null) {
-			if (StringUtils.isNotBlank(orderSql))
-				return sql + " " + orderSql;
-			else
-				return sql;
+			if (StringUtils.isNotBlank(orderSql)) {
+                return sql + " " + orderSql;
+            } else {
+                return sql;
+            }
 		}
 
 		// 如果不需要查询总条数
@@ -924,8 +926,9 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 	public void deleteById(Object id, Class clazz) throws Exception {
 		checkMethodName();
 
-		if (id == null)
-			return;
+		if (id == null) {
+            return;
+        }
 
 		EntityInfo entityInfo = ClassUtils.getEntityInfoByClass(clazz);
 		String tableName = entityInfo.getTableName();
@@ -987,8 +990,9 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 	public void deleteByIds(List ids, Class clazz) throws Exception {
 		checkMethodName();
 
-		if (CollectionUtils.isEmpty(ids))
-			return;
+		if (CollectionUtils.isEmpty(ids)) {
+            return;
+        }
 
 		EntityInfo entityInfo = ClassUtils.getEntityInfoByClass(clazz);
 		String tableName = entityInfo.getTableName();

@@ -167,11 +167,13 @@ public class WxSignRequest extends WxSignBaseRequest{
 		this.version = version;
 	}
 
-	public String getSign() {
+	@Override
+    public String getSign() {
 		return sign;
 	}
 
-	public void setSign(String sign) {
+	@Override
+    public void setSign(String sign) {
 		this.sign = sign;
 	}
 

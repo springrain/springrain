@@ -218,7 +218,8 @@ class QuickSortSet {
 			this.lexeme = lexeme;
 		}
 
-		public int compareTo(Cell o) {
+		@Override
+        public int compareTo(Cell o) {
 			return this.lexeme.compareTo(o.lexeme);
 		}
 

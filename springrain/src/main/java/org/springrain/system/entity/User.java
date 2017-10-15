@@ -197,7 +197,8 @@ public class User  extends BaseEntity {
 			this.userType = userType;
 		}
 
-		public String toString() {
+		@Override
+        public String toString() {
 			return new StringBuilder()
 			.append("编号[").append(getId()).append("],")
 			.append("姓名[").append(getName()).append("],")
@@ -210,13 +211,15 @@ public class User  extends BaseEntity {
 			.toString();
 		}
 		
-		public int hashCode() {
+		@Override
+        public int hashCode() {
 			return new HashCodeBuilder()
 				.append(getId())
 				.toHashCode();
 		}
 		
-		public boolean equals(Object obj) {
+		@Override
+        public boolean equals(Object obj) {
 			if(obj instanceof User == false){
 				return false;
 			} 

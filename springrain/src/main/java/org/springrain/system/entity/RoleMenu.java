@@ -82,7 +82,8 @@ public class RoleMenu  extends BaseEntity {
 		return this.menuId;
 	}
 	
-	public String toString() {
+	@Override
+    public String toString() {
 		return new StringBuilder()
 			.append("编号[").append(getId()).append("],")
 			.append("角色编号[").append(getRoleId()).append("],")
@@ -90,13 +91,15 @@ public class RoleMenu  extends BaseEntity {
 			.toString();
 	}
 	
-	public int hashCode() {
+	@Override
+    public int hashCode() {
 		return new HashCodeBuilder()
 			.append(getId())
 			.toHashCode();
 	}
 	
-	public boolean equals(Object obj) {
+	@Override
+    public boolean equals(Object obj) {
 		if(obj instanceof RoleMenu == false){
 			return false;
 		} 

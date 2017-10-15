@@ -350,8 +350,9 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements
 				+ tempFile.getOriginalFilename();
 		File file = new File(GlobalStatic.rootDir + filePath);
 		File fileParentDir = file.getParentFile();
-		if (!fileParentDir.exists())
-			fileParentDir.mkdirs();
+		if (!fileParentDir.exists()) {
+            fileParentDir.mkdirs();
+        }
 		if (!file.exists()) {
 			boolean createNewFile = file.createNewFile();
 			if (!createNewFile) {

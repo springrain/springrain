@@ -270,7 +270,8 @@ public class CmsLink  extends BaseEntity {
 		this.siteType = siteType;
 	}
 
-	public String toString() {
+	@Override
+    public String toString() {
 		return new StringBuilder()
 			.append("id[").append(getId()).append("],")
 			.append("name[").append(getName()).append("],")
@@ -290,13 +291,15 @@ public class CmsLink  extends BaseEntity {
 			.toString();
 	}
 	
-	public int hashCode() {
+	@Override
+    public int hashCode() {
 		return new HashCodeBuilder()
 			.append(getId())
 			.toHashCode();
 	}
 	
-	public boolean equals(Object obj) {
+	@Override
+    public boolean equals(Object obj) {
 		if(obj instanceof CmsLink == false){
 			return false;
 		} 

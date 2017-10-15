@@ -137,14 +137,16 @@ public class WxMpConfig   extends BaseEntity implements IWxMpConfig {
 		}
 
 		//get and set
-		public void setId(java.lang.String value) {
+		@Override
+        public void setId(java.lang.String value) {
 			    if(StringUtils.isNotBlank(value)){
 				 value=value.trim();
 				}
 			this.id = value;
 		}
 		
-		@Id
+		@Override
+        @Id
 	     @WhereSQL(sql="id=:WxMpconfig_id")
 		public java.lang.String getId() {
 			return this.id;
@@ -160,47 +162,55 @@ public class WxMpConfig   extends BaseEntity implements IWxMpConfig {
 		public java.lang.String getSiteId() {
 			return this.siteId;
 		}
-		public void setAppId(java.lang.String value) {
+		@Override
+        public void setAppId(java.lang.String value) {
 			    if(StringUtils.isNotBlank(value)){
 				 value=value.trim();
 				}
 			this.appId = value;
 		}
 		
-	     @WhereSQL(sql="appId=:WxMpconfig_appId")
+	     @Override
+        @WhereSQL(sql="appId=:WxMpconfig_appId")
 		public java.lang.String getAppId() {
 			return this.appId;
 		}
-		public void setSecret(java.lang.String value) {
+		@Override
+        public void setSecret(java.lang.String value) {
 			    if(StringUtils.isNotBlank(value)){
 				 value=value.trim();
 				}
 			this.secret = value;
 		}
 		
-	     @WhereSQL(sql="secret=:WxMpconfig_secret")
+	     @Override
+        @WhereSQL(sql="secret=:WxMpconfig_secret")
 		public java.lang.String getSecret() {
 			return this.secret;
 		}
-		public void setToken(java.lang.String value) {
+		@Override
+        public void setToken(java.lang.String value) {
 			    if(StringUtils.isNotBlank(value)){
 				 value=value.trim();
 				}
 			this.token = value;
 		}
 		
-	     @WhereSQL(sql="token=:WxMpconfig_token")
+	     @Override
+        @WhereSQL(sql="token=:WxMpconfig_token")
 		public java.lang.String getToken() {
 			return this.token;
 		}
-		public void setAesKey(java.lang.String value) {
+		@Override
+        public void setAesKey(java.lang.String value) {
 			    if(StringUtils.isNotBlank(value)){
 				 value=value.trim();
 				}
 			this.aesKey = value;
 		}
 		
-	     @WhereSQL(sql="aesKey=:WxMpconfig_aesKey")
+	     @Override
+        @WhereSQL(sql="aesKey=:WxMpconfig_aesKey")
 		public java.lang.String getAesKey() {
 			return this.aesKey;
 		}
@@ -223,25 +233,29 @@ public class WxMpConfig   extends BaseEntity implements IWxMpConfig {
 		public java.lang.Integer getActive() {
 			return this.active;
 		}
-		public void setPartnerId(java.lang.String value) {
+		@Override
+        public void setPartnerId(java.lang.String value) {
 			    if(StringUtils.isNotBlank(value)){
 				 value=value.trim();
 				}
 			this.partnerId = value;
 		}
 		
-	     @WhereSQL(sql="partnerId=:WxMpconfig_partnerId")
+	     @Override
+        @WhereSQL(sql="partnerId=:WxMpconfig_partnerId")
 		public java.lang.String getPartnerId() {
 			return this.partnerId;
 		}
-		public void setPartnerKey(java.lang.String value) {
+		@Override
+        public void setPartnerKey(java.lang.String value) {
 			    if(StringUtils.isNotBlank(value)){
 				 value=value.trim();
 				}
 			this.partnerKey = value;
 		}
 		
-	     @WhereSQL(sql="partnerKey=:WxMpconfig_partnerKey")
+	     @Override
+        @WhereSQL(sql="partnerKey=:WxMpconfig_partnerKey")
 		public java.lang.String getPartnerKey() {
 			return this.partnerKey;
 		}
@@ -257,60 +271,71 @@ public class WxMpConfig   extends BaseEntity implements IWxMpConfig {
 		public java.lang.Integer getOauth2() {
 			return this.oauth2;
 		}
-		public void setHttpProxyHost(java.lang.String value) {
+		@Override
+        public void setHttpProxyHost(java.lang.String value) {
 			    if(StringUtils.isNotBlank(value)){
 				 value=value.trim();
 				}
 			this.httpProxyHost = value;
 		}
 		
-	     @WhereSQL(sql="httpProxyHost=:WxMpconfig_httpProxyHost")
+	     @Override
+        @WhereSQL(sql="httpProxyHost=:WxMpconfig_httpProxyHost")
 		public java.lang.String getHttpProxyHost() {
 			return this.httpProxyHost;
 		}
-		public void setHttpProxyPort(java.lang.Integer value) {
+		@Override
+        public void setHttpProxyPort(java.lang.Integer value) {
 			this.httpProxyPort = value;
 		}
 		
-	     @WhereSQL(sql="httpProxyPort=:WxMpconfig_httpProxyPort")
+	     @Override
+        @WhereSQL(sql="httpProxyPort=:WxMpconfig_httpProxyPort")
 		public java.lang.Integer getHttpProxyPort() {
 			return this.httpProxyPort;
 		}
-		public void setHttpProxyUsername(java.lang.String value) {
+		@Override
+        public void setHttpProxyUsername(java.lang.String value) {
 			    if(StringUtils.isNotBlank(value)){
 				 value=value.trim();
 				}
 			this.httpProxyUsername = value;
 		}
 		
-	     @WhereSQL(sql="httpProxyUsername=:WxMpconfig_httpProxyUsername")
+	     @Override
+        @WhereSQL(sql="httpProxyUsername=:WxMpconfig_httpProxyUsername")
 		public java.lang.String getHttpProxyUsername() {
 			return this.httpProxyUsername;
 		}
-		public void setHttpProxyPassword(java.lang.String value) {
+		@Override
+        public void setHttpProxyPassword(java.lang.String value) {
 			    if(StringUtils.isNotBlank(value)){
 				 value=value.trim();
 				}
 			this.httpProxyPassword = value;
 		}
 		
-	     @WhereSQL(sql="httpProxyPassword=:WxMpconfig_httpProxyPassword")
+	     @Override
+        @WhereSQL(sql="httpProxyPassword=:WxMpconfig_httpProxyPassword")
 		public java.lang.String getHttpProxyPassword() {
 			return this.httpProxyPassword;
 		}
-		public void setCertificateFile(java.lang.String value) {
+		@Override
+        public void setCertificateFile(java.lang.String value) {
 			    if(StringUtils.isNotBlank(value)){
 				 value=value.trim();
 				}
 			this.certificateFile = value;
 		}
 		
-	     @WhereSQL(sql="certificateFile=:WxMpconfig_certificateFile")
+	     @Override
+        @WhereSQL(sql="certificateFile=:WxMpconfig_certificateFile")
 		public java.lang.String getCertificateFile() {
 			return this.certificateFile;
 		}
 		
-		public String toString() {
+		@Override
+        public String toString() {
 			return new StringBuilder()
 				.append("id[").append(getId()).append("],")
 				.append("站点Id[").append(getSiteId()).append("],")
@@ -331,13 +356,15 @@ public class WxMpConfig   extends BaseEntity implements IWxMpConfig {
 				.toString();
 		}
 		
-		public int hashCode() {
+		@Override
+        public int hashCode() {
 			return new HashCodeBuilder()
 				.append(getId())
 				.toHashCode();
 		}
 		
-		public boolean equals(Object obj) {
+		@Override
+        public boolean equals(Object obj) {
 			if(obj instanceof WxMpConfig == false){
 				return false;
 			} 
@@ -350,32 +377,40 @@ public class WxMpConfig   extends BaseEntity implements IWxMpConfig {
 				.isEquals();
 		}
 	  
-	@Transient
+	@Override
+    @Transient
 	public String getAccessToken() {
 		return accessToken;
 	}
-	public void setAccessToken(String accessToken) {
+	@Override
+    public void setAccessToken(String accessToken) {
 		this.accessToken = accessToken;
 	}
-	@Transient
+	@Override
+    @Transient
 	public String getJsApiTicket() {
 		return jsApiTicket;
 	}
-	public void setJsApiTicket(String jsApiTicket) {
+	@Override
+    public void setJsApiTicket(String jsApiTicket) {
 		this.jsApiTicket = jsApiTicket;
 	}
-	@Transient
+	@Override
+    @Transient
 	public String getCardApiTicket() {
 		return cardApiTicket;
 	}
-	public void setCardApiTicket(String cardApiTicket) {
+	@Override
+    public void setCardApiTicket(String cardApiTicket) {
 		this.cardApiTicket = cardApiTicket;
 	}
-	@Transient
+	@Override
+    @Transient
 	public String getTmpDirFile() {
 		return tmpDirFile;
 	}
-	public void setTmpDirFile(String tmpDirFile) {
+	@Override
+    public void setTmpDirFile(String tmpDirFile) {
 		this.tmpDirFile = tmpDirFile;
 	}
 	
@@ -384,7 +419,8 @@ public class WxMpConfig   extends BaseEntity implements IWxMpConfig {
 	public Long getAccessTokenExpiresTime() {
 		return accessTokenExpiresTime;
 	}
-	public void setAccessTokenExpiresTime(Long accessTokenExpiresTime) {
+	@Override
+    public void setAccessTokenExpiresTime(Long accessTokenExpiresTime) {
 		this.accessTokenExpiresTime =  System.currentTimeMillis() + (accessTokenExpiresTime - 600) * 1000L;//预留10分钟
 	}
 	
@@ -393,7 +429,8 @@ public class WxMpConfig   extends BaseEntity implements IWxMpConfig {
 	public Long getCardApiTicketExpiresTime() {
 		return cardApiTicketExpiresTime;
 	}
-	public void setCardApiTicketExpiresTime(Long cardApiTicketExpiresTime) {
+	@Override
+    public void setCardApiTicketExpiresTime(Long cardApiTicketExpiresTime) {
 		//预留10分钟
 		this.cardApiTicketExpiresTime = System.currentTimeMillis() + (cardApiTicketExpiresTime - 600) * 1000L;//预留10分钟
 	}
@@ -402,22 +439,27 @@ public class WxMpConfig   extends BaseEntity implements IWxMpConfig {
 	public Long getJsApiTicketExpiresTime() {
 		return jsApiTicketExpiresTime;
 	}
-	public void setJsApiTicketExpiresTime(Long jsApiTicketExpiresTime) {
+	@Override
+    public void setJsApiTicketExpiresTime(Long jsApiTicketExpiresTime) {
 		this.jsApiTicketExpiresTime =  System.currentTimeMillis() + (jsApiTicketExpiresTime - 600) * 1000L;//预留10分钟
 	}
-	@Transient
+	@Override
+    @Transient
 	public boolean isAccessTokenExpired() {
 		 return System.currentTimeMillis() > this.accessTokenExpiresTime;
 	}
-	@Transient
+	@Override
+    @Transient
 	public boolean isJsApiTicketExpired() {
 	    return System.currentTimeMillis() > this.jsApiTicketExpiresTime;
 	  }
-	@Transient
+	@Override
+    @Transient
 	public boolean isCardApiTicketExpired() {
 	    return System.currentTimeMillis() > this.cardApiTicketExpiresTime;
 	  }
-	@Transient
+	@Override
+    @Transient
 	public boolean autoRefreshToken() {
 	    return true;
 	  }

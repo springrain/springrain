@@ -107,7 +107,8 @@ public class UserOrg  extends BaseEntity {
 	}
 	
 	
-	public String toString() {
+	@Override
+    public String toString() {
 		return new StringBuilder()
 			.append("编号[").append(getId()).append("],")
 			.append("用户编号[").append(getUserId()).append("],")
@@ -115,13 +116,15 @@ public class UserOrg  extends BaseEntity {
 			.toString();
 	}
 	
-	public int hashCode() {
+	@Override
+    public int hashCode() {
 		return new HashCodeBuilder()
 			.append(getId())
 			.toHashCode();
 	}
 	
-	public boolean equals(Object obj) {
+	@Override
+    public boolean equals(Object obj) {
 		if(obj instanceof UserOrg == false){
 			return false;
 		} 
