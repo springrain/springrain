@@ -125,11 +125,11 @@ public class SaveLoginFunctionTest {
         accountv3.setFieldId(account.getId());
         accountv3.setResultType(1);
         
-        accountv3.setFindType(3);
-        accountv3.setElementKey("msg");
-        accountv3.setCompare("eq");
-        accountv3.setElementValue("账号不能为空!");
-        accountv3.setXpath("//*[@class='msg']");
+        accountv3.setValidateFindType(3);
+        accountv3.setValidateElementKey("msg");
+        accountv3.setValidateCompare("eq");
+        accountv3.setValidateElementValue("账号不能为空!");
+        accountv3.setValidateXpath("//*[@class='msg']");
         
         accountv3.setSortno(1);
         validateruleService.save(accountv3);
@@ -141,7 +141,7 @@ public class SaveLoginFunctionTest {
         hcaccount1.setRuleId(accountv3.getId());
         
         hcaccount1.setHtmlFieldValue("");
-        hcaccount1.setSuccessResult(accountv3.getElementValue());
+        hcaccount1.setSuccessResult(accountv3.getValidateElementValue());
         hcaccount1.setPass(0);
         hcaccount1.setSortno(1);
         htmlcaseService.save(hcaccount1);
@@ -154,11 +154,11 @@ public class SaveLoginFunctionTest {
         accountv6.setResultType(4);
         
         
-        accountv6.setFindType(3);
-        accountv6.setElementKey("msg");
-        accountv6.setCompare("eq");
-        accountv6.setElementValue("账号错误!");
-        accountv6.setXpath("//*[@class='msg']");
+        accountv6.setValidateFindType(3);
+        accountv6.setValidateElementKey("msg");
+        accountv6.setValidateCompare("eq");
+        accountv6.setValidateElementValue("账号错误!");
+        accountv6.setValidateXpath("//*[@class='msg']");
         
         accountv6.setSortno(2);
         validateruleService.save(accountv6);
@@ -169,7 +169,7 @@ public class SaveLoginFunctionTest {
         hcaccount2.setFuctionId(funcitonId);
         
         hcaccount2.setRuleId(accountv6.getId());
-        hcaccount2.setSuccessResult(accountv6.getElementValue());
+        hcaccount2.setSuccessResult(accountv6.getValidateElementValue());
         hcaccount2.setHtmlFieldValue("1");
         
         
@@ -184,11 +184,11 @@ public class SaveLoginFunctionTest {
         accountv7.setFieldId(account.getId());
         accountv7.setResultType(5);
         
-        accountv7.setFindType(3);
-        accountv7.setElementKey("msg");
-        accountv7.setCompare("eq");
-        accountv7.setElementValue("密码不能为空!");
-        accountv7.setXpath("//*[@class='msg']");
+        accountv7.setValidateFindType(3);
+        accountv7.setValidateElementKey("msg");
+        accountv7.setValidateCompare("eq");
+        accountv7.setValidateElementValue("密码不能为空!");
+        accountv7.setValidateXpath("//*[@class='msg']");
         
         accountv7.setSortno(3);
         validateruleService.save(accountv7);
@@ -200,7 +200,7 @@ public class SaveLoginFunctionTest {
         hcaccount3.setRuleId(accountv7.getId());
         
         hcaccount3.setHtmlFieldValue("admin");
-        hcaccount3.setSuccessResult(accountv7.getElementValue());
+        hcaccount3.setSuccessResult(accountv7.getValidateElementValue());
         hcaccount3.setPass(0);
         hcaccount3.setSortno(3);
         htmlcaseService.save(hcaccount3);
@@ -217,11 +217,11 @@ public class SaveLoginFunctionTest {
         passwordv3.setFieldId(password.getId());
         passwordv3.setResultType(1);
         
-        passwordv3.setFindType(3);
-        passwordv3.setElementKey("msg");
-        passwordv3.setCompare("eq");
-        passwordv3.setElementValue("密码不能为空!");
-        passwordv3.setXpath("//*[@class='msg']");
+        passwordv3.setValidateFindType(3);
+        passwordv3.setValidateElementKey("msg");
+        passwordv3.setValidateCompare("eq");
+        passwordv3.setValidateElementValue("密码不能为空!");
+        passwordv3.setValidateXpath("//*[@class='msg']");
         passwordv3.setSortno(4);
         validateruleService.save(passwordv3);
         
@@ -231,7 +231,7 @@ public class SaveLoginFunctionTest {
         hcpassword1.setFuctionId(funcitonId);
         hcpassword1.setRuleId(passwordv3.getId());
         hcpassword1.setHtmlFieldValue("");
-        hcpassword1.setSuccessResult(passwordv3.getElementValue());
+        hcpassword1.setSuccessResult(passwordv3.getValidateElementValue());
         hcpassword1.setPass(0);
         hcpassword1.setSortno(4);
         htmlcaseService.save(hcpassword1);
@@ -242,11 +242,11 @@ public class SaveLoginFunctionTest {
         passwordv6.setId("passwordv6");
         passwordv6.setFieldId(password.getId());
         passwordv6.setResultType(4);
-        passwordv6.setFindType(3);
-        passwordv6.setElementKey("msg");
-        passwordv6.setCompare("eq");
-        passwordv6.setElementValue("密码错误!");
-        passwordv6.setXpath("//*[@class='msg']");
+        passwordv6.setValidateFindType(3);
+        passwordv6.setValidateElementKey("msg");
+        passwordv6.setValidateCompare("eq");
+        passwordv6.setValidateElementValue("密码错误!");
+        passwordv6.setValidateXpath("//*[@class='msg']");
         
         passwordv6.setSortno(5);
         validateruleService.save(passwordv6);
@@ -257,7 +257,7 @@ public class SaveLoginFunctionTest {
         hcpassword2.setFuctionId(funcitonId);
         hcpassword2.setRuleId(passwordv6.getId());
         hcpassword2.setHtmlFieldValue("1");
-        hcpassword2.setSuccessResult(passwordv6.getElementValue());
+        hcpassword2.setSuccessResult(passwordv6.getValidateElementValue());
         hcpassword2.setPass(0);
         hcpassword2.setSortno(5);
         
@@ -269,11 +269,11 @@ public class SaveLoginFunctionTest {
         passwordv7.setId("passwordv7");
         passwordv7.setFieldId(password.getId());
         passwordv7.setResultType(1);
-        passwordv7.setFindType(0);
-        passwordv7.setElementKey("title");
-        passwordv7.setCompare("eq");
-        passwordv7.setElementValue("后台管理系统");
-        passwordv7.setXpath("/html/head/title");
+        passwordv7.setValidateFindType(0);
+        passwordv7.setValidateElementKey("title");
+        passwordv7.setValidateCompare("eq");
+        passwordv7.setValidateElementValue("后台管理系统");
+        passwordv7.setValidateXpath("/html/head/title");
         passwordv7.setSortno(6);
         validateruleService.save(passwordv7);
         
@@ -283,7 +283,7 @@ public class SaveLoginFunctionTest {
         hcpassword3.setFuctionId(funcitonId);
         hcpassword3.setRuleId(passwordv7.getId());
         hcpassword3.setHtmlFieldValue("admin");
-        hcpassword3.setSuccessResult(passwordv7.getElementValue());
+        hcpassword3.setSuccessResult(passwordv7.getValidateElementValue());
         hcpassword3.setPass(0);
         hcpassword3.setSortno(6);
         htmlcaseService.save(hcpassword3);

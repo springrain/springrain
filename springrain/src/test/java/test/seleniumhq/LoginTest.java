@@ -124,22 +124,22 @@ public class LoginTest {
             Thread.sleep(1000);
 
             Integer resultType = validaterule.getResultType();
-            String resultValue = validaterule.getElementValue();
+            String resultValue = validaterule.getValidateElementValue();
 
             // 验证真实的值
             String realValue = "";
 
             // xpath 无法使用再根目录,具体原因还要查找
-            if (0 - validaterule.getFindType() == 0) {
+            if (0 - validaterule.getValidateFindType() == 0) {
                 realValue = driver.getTitle();
             }else {
-                realValue = driver.findElement(By.xpath(validaterule.getXpath())).getText();
+                realValue = driver.findElement(By.xpath(validaterule.getValidateXpath())).getText();
             }
 
             if (realValue.equals(resultValue)) {
-                System.out.println(htmlfield.getName() + "的规则:" + validaterule.getElementValue() + "验证通过");
+                System.out.println(htmlfield.getName() + "的规则:" + validaterule.getValidateElementValue() + "验证通过");
             } else {
-                System.out.println(htmlfield.getName() + "的规则:" + validaterule.getElementValue() + "验证失败");
+                System.out.println(htmlfield.getName() + "的规则:" + validaterule.getValidateElementValue() + "验证失败");
             }
 
             Thread.sleep(1000);

@@ -13,7 +13,7 @@ import org.springrain.frame.entity.BaseEntity;
  * TODO 在此加入类描述
  * @copyright {@link weicms.net}
  * @author springrain<Auto generate>
- * @version  2017-11-01 23:24:08
+ * @version  2017-11-02 00:28:56
  * @see org.springrain.selenium.entity.Validaterule
  */
 @Table(name="tc_validaterule")
@@ -28,11 +28,11 @@ public class Validaterule  extends BaseEntity {
 	public static final String ALIAS_FIELDID = "业务Id";
 	public static final String ALIAS_RESULTTYPE = "1字段为空,2字段格式不对,3字段范围不对,4内容错误,5字段正常";
 	public static final String ALIAS_VALIDATEVALUE = "期望结果,例如判断网页的标题";
-	public static final String ALIAS_FINDTYPE = "0dcoucment,1id,2name,3className,4cssSelector,5linkText,6.tagName,7xpath,8alert";
-	public static final String ALIAS_ELEMENTKEY = "元素的Key,例如 userName 或者xpath的表达式";
-	public static final String ALIAS_COMPARE = "eq,lt,";
-	public static final String ALIAS_ELEMENTVALUE = "期望结果,例如判断网页的标题";
-	public static final String ALIAS_XPATH = "实际的xpath表达式";
+	public static final String ALIAS_VALIDATEFINDTYPE = "0dcoucment,1id,2name,3className,4cssSelector,5linkText,6.tagName,7xpath,8alert";
+	public static final String ALIAS_VALIDATEELEMENTKEY = "元素的Key,例如 userName 或者xpath的表达式";
+	public static final String ALIAS_VALIDATECOMPARE = "eq,lt,";
+	public static final String ALIAS_VALIDATEELEMENTVALUE = "期望结果,例如判断网页的标题";
+	public static final String ALIAS_VALIDATEXPATH = "实际的xpath表达式";
 	public static final String ALIAS_SORTNO = "sortno";
     */
 	//date formats
@@ -57,23 +57,23 @@ public class Validaterule  extends BaseEntity {
 	/**
 	 * 0dcoucment,1id,2name,3className,4cssSelector,5linkText,6.tagName,7xpath,8alert
 	 */
-	private java.lang.Integer findType;
+	private java.lang.Integer validateFindType;
 	/**
 	 * 元素的Key,例如 userName 或者xpath的表达式
 	 */
-	private java.lang.String elementKey;
+	private java.lang.String validateElementKey;
 	/**
 	 * eq,lt,
 	 */
-	private java.lang.String compare;
+	private java.lang.String validateCompare;
 	/**
 	 * 期望结果,例如判断网页的标题
 	 */
-	private java.lang.String elementValue;
+	private java.lang.String validateElementValue;
 	/**
 	 * 实际的xpath表达式
 	 */
-	private java.lang.String xpath;
+	private java.lang.String validateXpath;
 	/**
 	 * sortno
 	 */
@@ -169,8 +169,8 @@ public class Validaterule  extends BaseEntity {
 		/**
 		 * 0dcoucment,1id,2name,3className,4cssSelector,5linkText,6.tagName,7xpath,8alert
 		 */
-	public void setFindType(java.lang.Integer value) {
-		this.findType = value;
+	public void setValidateFindType(java.lang.Integer value) {
+		this.validateFindType = value;
 	}
 	
 	
@@ -178,18 +178,18 @@ public class Validaterule  extends BaseEntity {
 	/**
 	 * 0dcoucment,1id,2name,3className,4cssSelector,5linkText,6.tagName,7xpath,8alert
 	 */
-     @WhereSQL(sql="findType=:Validaterule_findType")
-	public java.lang.Integer getFindType() {
-		return this.findType;
+     @WhereSQL(sql="validateFindType=:Validaterule_validateFindType")
+	public java.lang.Integer getValidateFindType() {
+		return this.validateFindType;
 	}
 		/**
 		 * 元素的Key,例如 userName 或者xpath的表达式
 		 */
-	public void setElementKey(java.lang.String value) {
+	public void setValidateElementKey(java.lang.String value) {
 		    if(StringUtils.isNotBlank(value)){
 			 value=value.trim();
 			}
-		this.elementKey = value;
+		this.validateElementKey = value;
 	}
 	
 	
@@ -197,18 +197,18 @@ public class Validaterule  extends BaseEntity {
 	/**
 	 * 元素的Key,例如 userName 或者xpath的表达式
 	 */
-     @WhereSQL(sql="elementKey=:Validaterule_elementKey")
-	public java.lang.String getElementKey() {
-		return this.elementKey;
+     @WhereSQL(sql="validateElementKey=:Validaterule_validateElementKey")
+	public java.lang.String getValidateElementKey() {
+		return this.validateElementKey;
 	}
 		/**
 		 * eq,lt,
 		 */
-	public void setCompare(java.lang.String value) {
+	public void setValidateCompare(java.lang.String value) {
 		    if(StringUtils.isNotBlank(value)){
 			 value=value.trim();
 			}
-		this.compare = value;
+		this.validateCompare = value;
 	}
 	
 	
@@ -216,18 +216,18 @@ public class Validaterule  extends BaseEntity {
 	/**
 	 * eq,lt,
 	 */
-     @WhereSQL(sql="compare=:Validaterule_compare")
-	public java.lang.String getCompare() {
-		return this.compare;
+     @WhereSQL(sql="validateCompare=:Validaterule_validateCompare")
+	public java.lang.String getValidateCompare() {
+		return this.validateCompare;
 	}
 		/**
 		 * 期望结果,例如判断网页的标题
 		 */
-	public void setElementValue(java.lang.String value) {
+	public void setValidateElementValue(java.lang.String value) {
 		    if(StringUtils.isNotBlank(value)){
 			 value=value.trim();
 			}
-		this.elementValue = value;
+		this.validateElementValue = value;
 	}
 	
 	
@@ -235,18 +235,18 @@ public class Validaterule  extends BaseEntity {
 	/**
 	 * 期望结果,例如判断网页的标题
 	 */
-     @WhereSQL(sql="elementValue=:Validaterule_elementValue")
-	public java.lang.String getElementValue() {
-		return this.elementValue;
+     @WhereSQL(sql="validateElementValue=:Validaterule_validateElementValue")
+	public java.lang.String getValidateElementValue() {
+		return this.validateElementValue;
 	}
 		/**
 		 * 实际的xpath表达式
 		 */
-	public void setXpath(java.lang.String value) {
+	public void setValidateXpath(java.lang.String value) {
 		    if(StringUtils.isNotBlank(value)){
 			 value=value.trim();
 			}
-		this.xpath = value;
+		this.validateXpath = value;
 	}
 	
 	
@@ -254,9 +254,9 @@ public class Validaterule  extends BaseEntity {
 	/**
 	 * 实际的xpath表达式
 	 */
-     @WhereSQL(sql="xpath=:Validaterule_xpath")
-	public java.lang.String getXpath() {
-		return this.xpath;
+     @WhereSQL(sql="validateXpath=:Validaterule_validateXpath")
+	public java.lang.String getValidateXpath() {
+		return this.validateXpath;
 	}
 		/**
 		 * sortno
@@ -281,11 +281,11 @@ public class Validaterule  extends BaseEntity {
 			.append("业务Id[").append(getFieldId()).append("],")
 			.append("1字段为空,2字段格式不对,3字段范围不对,4内容错误,5字段正常[").append(getResultType()).append("],")
 			.append("期望结果,例如判断网页的标题[").append(getValidateValue()).append("],")
-			.append("0dcoucment,1id,2name,3className,4cssSelector,5linkText,6.tagName,7xpath,8alert[").append(getFindType()).append("],")
-			.append("元素的Key,例如 userName 或者xpath的表达式[").append(getElementKey()).append("],")
-			.append("eq,lt,[").append(getCompare()).append("],")
-			.append("期望结果,例如判断网页的标题[").append(getElementValue()).append("],")
-			.append("实际的xpath表达式[").append(getXpath()).append("],")
+			.append("0dcoucment,1id,2name,3className,4cssSelector,5linkText,6.tagName,7xpath,8alert[").append(getValidateFindType()).append("],")
+			.append("元素的Key,例如 userName 或者xpath的表达式[").append(getValidateElementKey()).append("],")
+			.append("eq,lt,[").append(getValidateCompare()).append("],")
+			.append("期望结果,例如判断网页的标题[").append(getValidateElementValue()).append("],")
+			.append("实际的xpath表达式[").append(getValidateXpath()).append("],")
 			.append("sortno[").append(getSortno()).append("],")
 			.toString();
 	}
