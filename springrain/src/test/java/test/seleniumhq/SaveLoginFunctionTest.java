@@ -273,7 +273,7 @@ public class SaveLoginFunctionTest {
         passwordv7.setElementKey("title");
         passwordv7.setCompare("eq");
         passwordv7.setElementValue("后台管理系统");
-        passwordv7.setXpath("/html/title");
+        passwordv7.setXpath("/html/head/title");
         passwordv7.setSortno(6);
         validateruleService.save(passwordv7);
         

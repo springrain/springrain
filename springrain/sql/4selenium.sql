@@ -117,4 +117,4 @@ INSERT INTO `tc_validaterule` VALUES ('accountv6', '2261984a460c412f89eee50ed71b
 INSERT INTO `tc_validaterule` VALUES ('accountv7', '2261984a460c412f89eee50ed71b14ef', '5', null, '3', 'msg', 'eq', '密码不能为空!', '//*[@class=\'msg\']', '3');
 INSERT INTO `tc_validaterule` VALUES ('passwordv3', 'd6d2e7b68c274dc8b03da3c30d9ba8d2', '1', null, '3', 'msg', 'eq', '密码不能为空!', '//*[@class=\'msg\']', '4');
 INSERT INTO `tc_validaterule` VALUES ('passwordv6', 'd6d2e7b68c274dc8b03da3c30d9ba8d2', '4', null, '3', 'msg', 'eq', '密码错误!', '//*[@class=\'msg\']', '5');
-INSERT INTO `tc_validaterule` VALUES ('passwordv7', 'd6d2e7b68c274dc8b03da3c30d9ba8d2', '1', null, '0', 'title', 'eq', '后台管理系统', '/html/title', '6');
+INSERT INTO `tc_validaterule` VALUES ('passwordv7', 'd6d2e7b68c274dc8b03da3c30d9ba8d2', '1', null, '0', 'title', 'eq', '后台管理系统', '/html/head/title', '6');
