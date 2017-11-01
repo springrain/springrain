@@ -125,13 +125,12 @@ public class LoginTest {
               Validaterule validaterule = validateruleService.findValidateruleById(ruleId);
               
               //字段Name
-              String htmlFieldName = htmlcase.getHtmlFieldName();
               Htmlfield htmlfield = htmlfieldService.findHtmlfieldById(validaterule.getFieldId());
               
               setHtmlFieldValue(htmlcase);
               
               //点击功能按钮
-              driver.findElement(By.id(htmlfunction.getBtnId())).click();
+              driver.findElement(By.xpath(htmlfunction.getXpath())).click();
               
               Thread.sleep(1000);
               
@@ -139,32 +138,28 @@ public class LoginTest {
               Integer resultType = validaterule.getResultType();
               String elementKey = validaterule.getElementKey(); 
               String compare = validaterule.getCompare();
-              String resultValue = validaterule.getResultValue(); 
+              String resultValue = validaterule.getElementValue(); 
               
               
               String realValue="";
               if(0-findType==0) {//document
-                  
                    realValue=driver.getTitle();
-                  
-                  
-                  
-              } else if(3-findType==0) {//class
-                   realValue=driver.findElement(By.className(elementKey)).getText();
+              } else {
+                   realValue=driver.findElement(By.xpath(validaterule.getXpath())).getText();
               }
               
               
               
               if(realValue.equals(resultValue)) {
-                  System.out.println(htmlfield.getName()+"的规则:"+validaterule.getResultValue()+"验证通过");
+                  System.out.println(htmlfield.getName()+"的规则:"+validaterule.getElementValue()+"验证通过");
               }else {
-                  System.out.println(htmlfield.getName()+"的规则:"+validaterule.getResultValue()+"验证失败");
+                  System.out.println(htmlfield.getName()+"的规则:"+validaterule.getElementValue()+"验证失败");
               }
               
               
               Thread.sleep(1000);
               
-              if(7-resultType==0) {
+              if(5-resultType==0) {
                   successList.add(htmlcase);
               }
               
@@ -188,13 +183,12 @@ public class LoginTest {
         Validaterule validaterule = validateruleService.findValidateruleById(ruleId);
         
         //字段Name
-        String htmlFieldName = htmlcase.getHtmlFieldName();
         Htmlfield htmlfield = htmlfieldService.findHtmlfieldById(validaterule.getFieldId());
         
         //字段的值
         String htmlFieldValue = htmlcase.getHtmlFieldValue();
 
-        WebElement webElement = driver.findElement(By.name(htmlFieldName));
+        WebElement webElement = driver.findElement(By.xpath(htmlfield.getXpath()));
         webElement.clear();
         //设置字段值
         webElement.sendKeys(htmlFieldValue);

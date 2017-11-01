@@ -13,7 +13,7 @@ import org.springrain.frame.entity.BaseEntity;
  * TODO 在此加入类描述
  * @copyright {@link weicms.net}
  * @author springrain<Auto generate>
- * @version  2017-10-30 15:56:28
+ * @version  2017-11-01 23:24:27
  * @see org.springrain.selenium.entity.Htmlfunction
  */
 @Table(name="tc_htmlfunction")
@@ -28,8 +28,11 @@ public class Htmlfunction  extends BaseEntity {
 	public static final String ALIAS_NAME = "功能名称";
 	public static final String ALIAS_URL = "功能URL";
 	public static final String ALIAS_PID = "pid";
-	public static final String ALIAS_BTNID = "btnId";
-	public static final String ALIAS_BTNTEXT = "btnText";
+	public static final String ALIAS_FINDTYPE = "0dcoucment,1id,2name,3className,4cssSelector,5linkText,6.tagName,7xpath,8alert";
+	public static final String ALIAS_ELEMENTKEY = "元素的Key,例如 userName 或者xpath的表达式";
+	public static final String ALIAS_COMPARE = "eq,lt,";
+	public static final String ALIAS_ELEMENTVALUE = "期望结果,例如判断网页的标题";
+	public static final String ALIAS_XPATH = "实际的xpath表达式";
 	public static final String ALIAS_SORTNO = "sortno";
     */
 	//date formats
@@ -52,13 +55,25 @@ public class Htmlfunction  extends BaseEntity {
 	 */
 	private java.lang.String pid;
 	/**
-	 * btnId
+	 * 0dcoucment,1id,2name,3className,4cssSelector,5linkText,6.tagName,7xpath,8alert
 	 */
-	private java.lang.String btnId;
+	private java.lang.Integer findType;
 	/**
-	 * btnText
+	 * 元素的Key,例如 userName 或者xpath的表达式
 	 */
-	private java.lang.String btnText;
+	private java.lang.String elementKey;
+	/**
+	 * eq,lt,
+	 */
+	private java.lang.String compare;
+	/**
+	 * 期望结果,例如判断网页的标题
+	 */
+	private java.lang.String elementValue;
+	/**
+	 * 实际的xpath表达式
+	 */
+	private java.lang.String xpath;
 	/**
 	 * sortno
 	 */
@@ -155,42 +170,96 @@ public class Htmlfunction  extends BaseEntity {
 		return this.pid;
 	}
 		/**
-		 * btnId
+		 * 0dcoucment,1id,2name,3className,4cssSelector,5linkText,6.tagName,7xpath,8alert
 		 */
-	public void setBtnId(java.lang.String value) {
-		    if(StringUtils.isNotBlank(value)){
-			 value=value.trim();
-			}
-		this.btnId = value;
+	public void setFindType(java.lang.Integer value) {
+		this.findType = value;
 	}
 	
 	
 	
 	/**
-	 * btnId
+	 * 0dcoucment,1id,2name,3className,4cssSelector,5linkText,6.tagName,7xpath,8alert
 	 */
-     @WhereSQL(sql="btnId=:Htmlfunction_btnId")
-	public java.lang.String getBtnId() {
-		return this.btnId;
+     @WhereSQL(sql="findType=:Htmlfunction_findType")
+	public java.lang.Integer getFindType() {
+		return this.findType;
 	}
 		/**
-		 * btnText
+		 * 元素的Key,例如 userName 或者xpath的表达式
 		 */
-	public void setBtnText(java.lang.String value) {
+	public void setElementKey(java.lang.String value) {
 		    if(StringUtils.isNotBlank(value)){
 			 value=value.trim();
 			}
-		this.btnText = value;
+		this.elementKey = value;
 	}
 	
 	
 	
 	/**
-	 * btnText
+	 * 元素的Key,例如 userName 或者xpath的表达式
 	 */
-     @WhereSQL(sql="btnText=:Htmlfunction_btnText")
-	public java.lang.String getBtnText() {
-		return this.btnText;
+     @WhereSQL(sql="elementKey=:Htmlfunction_elementKey")
+	public java.lang.String getElementKey() {
+		return this.elementKey;
+	}
+		/**
+		 * eq,lt,
+		 */
+	public void setCompare(java.lang.String value) {
+		    if(StringUtils.isNotBlank(value)){
+			 value=value.trim();
+			}
+		this.compare = value;
+	}
+	
+	
+	
+	/**
+	 * eq,lt,
+	 */
+     @WhereSQL(sql="compare=:Htmlfunction_compare")
+	public java.lang.String getCompare() {
+		return this.compare;
+	}
+		/**
+		 * 期望结果,例如判断网页的标题
+		 */
+	public void setElementValue(java.lang.String value) {
+		    if(StringUtils.isNotBlank(value)){
+			 value=value.trim();
+			}
+		this.elementValue = value;
+	}
+	
+	
+	
+	/**
+	 * 期望结果,例如判断网页的标题
+	 */
+     @WhereSQL(sql="elementValue=:Htmlfunction_elementValue")
+	public java.lang.String getElementValue() {
+		return this.elementValue;
+	}
+		/**
+		 * 实际的xpath表达式
+		 */
+	public void setXpath(java.lang.String value) {
+		    if(StringUtils.isNotBlank(value)){
+			 value=value.trim();
+			}
+		this.xpath = value;
+	}
+	
+	
+	
+	/**
+	 * 实际的xpath表达式
+	 */
+     @WhereSQL(sql="xpath=:Htmlfunction_xpath")
+	public java.lang.String getXpath() {
+		return this.xpath;
 	}
 		/**
 		 * sortno
@@ -215,8 +284,11 @@ public class Htmlfunction  extends BaseEntity {
 			.append("功能名称[").append(getName()).append("],")
 			.append("功能URL[").append(getUrl()).append("],")
 			.append("pid[").append(getPid()).append("],")
-			.append("btnId[").append(getBtnId()).append("],")
-			.append("btnText[").append(getBtnText()).append("],")
+			.append("0dcoucment,1id,2name,3className,4cssSelector,5linkText,6.tagName,7xpath,8alert[").append(getFindType()).append("],")
+			.append("元素的Key,例如 userName 或者xpath的表达式[").append(getElementKey()).append("],")
+			.append("eq,lt,[").append(getCompare()).append("],")
+			.append("期望结果,例如判断网页的标题[").append(getElementValue()).append("],")
+			.append("实际的xpath表达式[").append(getXpath()).append("],")
 			.append("sortno[").append(getSortno()).append("],")
 			.toString();
 	}

@@ -13,7 +13,7 @@ import org.springrain.frame.entity.BaseEntity;
  * TODO 在此加入类描述
  * @copyright {@link weicms.net}
  * @author springrain<Auto generate>
- * @version  2017-10-30 15:56:37
+ * @version  2017-11-01 23:24:08
  * @see org.springrain.selenium.entity.Validaterule
  */
 @Table(name="tc_validaterule")
@@ -26,11 +26,14 @@ public class Validaterule  extends BaseEntity {
 	public static final String TABLE_ALIAS = "Validaterule";
 	public static final String ALIAS_ID = "id";
 	public static final String ALIAS_FIELDID = "业务Id";
-	public static final String ALIAS_RESULTTYPE = "1功能成功,2功能失败,3字段为空,4字段格式不对,5字段范围不对,6内容错误,7字段正常";
+	public static final String ALIAS_RESULTTYPE = "1字段为空,2字段格式不对,3字段范围不对,4内容错误,5字段正常";
+	public static final String ALIAS_VALIDATEVALUE = "期望结果,例如判断网页的标题";
 	public static final String ALIAS_FINDTYPE = "0dcoucment,1id,2name,3className,4cssSelector,5linkText,6.tagName,7xpath,8alert";
 	public static final String ALIAS_ELEMENTKEY = "元素的Key,例如 userName 或者xpath的表达式";
 	public static final String ALIAS_COMPARE = "eq,lt,";
-	public static final String ALIAS_RESULTVALUE = "期望结果,例如判断网页的标题";
+	public static final String ALIAS_ELEMENTVALUE = "期望结果,例如判断网页的标题";
+	public static final String ALIAS_XPATH = "实际的xpath表达式";
+	public static final String ALIAS_SORTNO = "sortno";
     */
 	//date formats
 	
@@ -44,9 +47,13 @@ public class Validaterule  extends BaseEntity {
 	 */
 	private java.lang.String fieldId;
 	/**
-	 * 1功能成功,2功能失败,3字段为空,4字段格式不对,5字段范围不对,6内容错误,7字段正常
+	 * 1字段为空,2字段格式不对,3字段范围不对,4内容错误,5字段正常
 	 */
 	private java.lang.Integer resultType;
+	/**
+	 * 期望结果,例如判断网页的标题
+	 */
+	private java.lang.String validateValue;
 	/**
 	 * 0dcoucment,1id,2name,3className,4cssSelector,5linkText,6.tagName,7xpath,8alert
 	 */
@@ -62,7 +69,15 @@ public class Validaterule  extends BaseEntity {
 	/**
 	 * 期望结果,例如判断网页的标题
 	 */
-	private java.lang.String resultValue;
+	private java.lang.String elementValue;
+	/**
+	 * 实际的xpath表达式
+	 */
+	private java.lang.String xpath;
+	/**
+	 * sortno
+	 */
+	private java.lang.Integer sortno;
 	//columns END 数据库字段结束
 	
 	//concstructor
@@ -117,7 +132,7 @@ public class Validaterule  extends BaseEntity {
 		return this.fieldId;
 	}
 		/**
-		 * 1功能成功,2功能失败,3字段为空,4字段格式不对,5字段范围不对,6内容错误,7字段正常
+		 * 1字段为空,2字段格式不对,3字段范围不对,4内容错误,5字段正常
 		 */
 	public void setResultType(java.lang.Integer value) {
 		this.resultType = value;
@@ -126,11 +141,30 @@ public class Validaterule  extends BaseEntity {
 	
 	
 	/**
-	 * 1功能成功,2功能失败,3字段为空,4字段格式不对,5字段范围不对,6内容错误,7字段正常
+	 * 1字段为空,2字段格式不对,3字段范围不对,4内容错误,5字段正常
 	 */
      @WhereSQL(sql="resultType=:Validaterule_resultType")
 	public java.lang.Integer getResultType() {
 		return this.resultType;
+	}
+		/**
+		 * 期望结果,例如判断网页的标题
+		 */
+	public void setValidateValue(java.lang.String value) {
+		    if(StringUtils.isNotBlank(value)){
+			 value=value.trim();
+			}
+		this.validateValue = value;
+	}
+	
+	
+	
+	/**
+	 * 期望结果,例如判断网页的标题
+	 */
+     @WhereSQL(sql="validateValue=:Validaterule_validateValue")
+	public java.lang.String getValidateValue() {
+		return this.validateValue;
 	}
 		/**
 		 * 0dcoucment,1id,2name,3className,4cssSelector,5linkText,6.tagName,7xpath,8alert
@@ -189,11 +223,11 @@ public class Validaterule  extends BaseEntity {
 		/**
 		 * 期望结果,例如判断网页的标题
 		 */
-	public void setResultValue(java.lang.String value) {
+	public void setElementValue(java.lang.String value) {
 		    if(StringUtils.isNotBlank(value)){
 			 value=value.trim();
 			}
-		this.resultValue = value;
+		this.elementValue = value;
 	}
 	
 	
@@ -201,20 +235,58 @@ public class Validaterule  extends BaseEntity {
 	/**
 	 * 期望结果,例如判断网页的标题
 	 */
-     @WhereSQL(sql="resultValue=:Validaterule_resultValue")
-	public java.lang.String getResultValue() {
-		return this.resultValue;
+     @WhereSQL(sql="elementValue=:Validaterule_elementValue")
+	public java.lang.String getElementValue() {
+		return this.elementValue;
+	}
+		/**
+		 * 实际的xpath表达式
+		 */
+	public void setXpath(java.lang.String value) {
+		    if(StringUtils.isNotBlank(value)){
+			 value=value.trim();
+			}
+		this.xpath = value;
+	}
+	
+	
+	
+	/**
+	 * 实际的xpath表达式
+	 */
+     @WhereSQL(sql="xpath=:Validaterule_xpath")
+	public java.lang.String getXpath() {
+		return this.xpath;
+	}
+		/**
+		 * sortno
+		 */
+	public void setSortno(java.lang.Integer value) {
+		this.sortno = value;
+	}
+	
+	
+	
+	/**
+	 * sortno
+	 */
+     @WhereSQL(sql="sortno=:Validaterule_sortno")
+	public java.lang.Integer getSortno() {
+		return this.sortno;
 	}
 	@Override
 	public String toString() {
 		return new StringBuilder()
 			.append("id[").append(getId()).append("],")
 			.append("业务Id[").append(getFieldId()).append("],")
-			.append("1功能成功,2功能失败,3字段为空,4字段格式不对,5字段范围不对,6内容错误,7字段正常[").append(getResultType()).append("],")
+			.append("1字段为空,2字段格式不对,3字段范围不对,4内容错误,5字段正常[").append(getResultType()).append("],")
+			.append("期望结果,例如判断网页的标题[").append(getValidateValue()).append("],")
 			.append("0dcoucment,1id,2name,3className,4cssSelector,5linkText,6.tagName,7xpath,8alert[").append(getFindType()).append("],")
 			.append("元素的Key,例如 userName 或者xpath的表达式[").append(getElementKey()).append("],")
 			.append("eq,lt,[").append(getCompare()).append("],")
-			.append("期望结果,例如判断网页的标题[").append(getResultValue()).append("],")
+			.append("期望结果,例如判断网页的标题[").append(getElementValue()).append("],")
+			.append("实际的xpath表达式[").append(getXpath()).append("],")
+			.append("sortno[").append(getSortno()).append("],")
 			.toString();
 	}
 	@Override

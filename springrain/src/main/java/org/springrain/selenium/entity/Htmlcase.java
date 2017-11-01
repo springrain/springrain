@@ -13,7 +13,7 @@ import org.springrain.frame.entity.BaseEntity;
  * TODO 在此加入类描述
  * @copyright {@link weicms.net}
  * @author springrain<Auto generate>
- * @version  2017-10-30 15:56:08
+ * @version  2017-11-01 23:23:27
  * @see org.springrain.selenium.entity.Htmlcase
  */
 @Table(name="tc_htmlcase")
@@ -28,8 +28,6 @@ public class Htmlcase  extends BaseEntity {
 	public static final String ALIAS_FUCTIONID = "功能ID";
 	public static final String ALIAS_RULEID = "ruleId";
 	public static final String ALIAS_CASECODE = "测试用例编码,例如 001";
-	public static final String ALIAS_HTMLFIELDNAME = "htmlFieldName";
-	public static final String ALIAS_HTMLFIELDID = "htmlFieldId";
 	public static final String ALIAS_HTMLFIELDVALUE = "htmlFieldValue";
 	public static final String ALIAS_REALRESULT = "realResult";
 	public static final String ALIAS_SUCCESSRESULT = "successResult";
@@ -55,14 +53,6 @@ public class Htmlcase  extends BaseEntity {
 	 * 测试用例编码,例如 001
 	 */
 	private java.lang.String caseCode;
-	/**
-	 * htmlFieldName
-	 */
-	private java.lang.String htmlFieldName;
-	/**
-	 * htmlFieldId
-	 */
-	private java.lang.String htmlFieldId;
 	/**
 	 * htmlFieldValue
 	 */
@@ -175,44 +165,6 @@ public class Htmlcase  extends BaseEntity {
 		return this.caseCode;
 	}
 		/**
-		 * htmlFieldName
-		 */
-	public void setHtmlFieldName(java.lang.String value) {
-		    if(StringUtils.isNotBlank(value)){
-			 value=value.trim();
-			}
-		this.htmlFieldName = value;
-	}
-	
-	
-	
-	/**
-	 * htmlFieldName
-	 */
-     @WhereSQL(sql="htmlFieldName=:Htmlcase_htmlFieldName")
-	public java.lang.String getHtmlFieldName() {
-		return this.htmlFieldName;
-	}
-		/**
-		 * htmlFieldId
-		 */
-	public void setHtmlFieldId(java.lang.String value) {
-		    if(StringUtils.isNotBlank(value)){
-			 value=value.trim();
-			}
-		this.htmlFieldId = value;
-	}
-	
-	
-	
-	/**
-	 * htmlFieldId
-	 */
-     @WhereSQL(sql="htmlFieldId=:Htmlcase_htmlFieldId")
-	public java.lang.String getHtmlFieldId() {
-		return this.htmlFieldId;
-	}
-		/**
 		 * htmlFieldValue
 		 */
 	public void setHtmlFieldValue(java.lang.String value) {
@@ -308,8 +260,6 @@ public class Htmlcase  extends BaseEntity {
 			.append("功能ID[").append(getFuctionId()).append("],")
 			.append("ruleId[").append(getRuleId()).append("],")
 			.append("测试用例编码,例如 001[").append(getCaseCode()).append("],")
-			.append("htmlFieldName[").append(getHtmlFieldName()).append("],")
-			.append("htmlFieldId[").append(getHtmlFieldId()).append("],")
 			.append("htmlFieldValue[").append(getHtmlFieldValue()).append("],")
 			.append("realResult[").append(getRealResult()).append("],")
 			.append("successResult[").append(getSuccessResult()).append("],")
