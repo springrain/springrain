@@ -118,10 +118,10 @@ public class SystemLoginController extends BaseController   {
 			  }
 			  String gotourl=request.getParameter("gotourl");
 			  //如果验证码不匹配,跳转到登录
-			//if (StringUtils.isBlank(submitCode) ||StringUtils.isBlank(code)||!code.equals(submitCode)) {
-			//	model.addAttribute("message", "验证码错误!");
-			//	return "/system/login";
-	      //  }
+			if (StringUtils.isBlank(submitCode) ||StringUtils.isBlank(code)||!code.equals(submitCode)) {
+				model.addAttribute("message", "验证码错误!");
+				return "/system/login";
+	        }
 			//通过账号和密码获取 UsernamePasswordToken token
 			FrameAuthenticationToken token = new FrameAuthenticationToken(currUser.getAccount(),currUser.getPassword());
 			
