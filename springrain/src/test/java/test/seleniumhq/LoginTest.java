@@ -127,11 +127,13 @@ public class LoginTest {
             String resultValue = validaterule.getElementValue();
 
             // 验证真实的值
-            String realValue = driver.findElement(By.xpath(validaterule.getXpath())).getText();
+            String realValue = "";
 
             // xpath 无法使用再根目录,具体原因还要查找
             if (0 - validaterule.getFindType() == 0) {
                 realValue = driver.getTitle();
+            }else {
+                realValue = driver.findElement(By.xpath(validaterule.getXpath())).getText();
             }
 
             if (realValue.equals(resultValue)) {
