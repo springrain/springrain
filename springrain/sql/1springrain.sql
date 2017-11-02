@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : 127.0.0.1
-Source Server Version : 50716
+Source Server Version : 50719
 Source Host           : 127.0.0.1:3306
 Source Database       : springrain
 
 Target Server Type    : MYSQL
-Target Server Version : 50716
+Target Server Version : 50719
 File Encoding         : 65001
 
-Date: 2017-03-01 15:08:44
+Date: 2017-11-02 17:43:20
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -124,6 +124,35 @@ CREATE TABLE `t_fwlog_history_2017` (
 -- ----------------------------
 -- Records of t_fwlog_history_2017
 -- ----------------------------
+INSERT INTO `t_fwlog_history_2017` VALUES ('12cd4ecfa2a34df5bb4d3fcaf7af534f', '2017-10-30 15:09:44', '2017-10-30 15:09:43.0740', null, 'admin', '超级管理员', '722a55f0-1378-4519-9cf1-37a0c5846546', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/index', null, '否', null, null, null, null, null);
+INSERT INTO `t_fwlog_history_2017` VALUES ('14c9fa53dceb4a77aa949782af47bb59', '2017-11-02 11:06:28', '2017-11-02 11:06:27.0653', null, 'admin', '超级管理员', 'd9a847d8-6777-42fd-8d7e-5bb11d2d6766', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/index', null, '否', null, null, null, null, null);
+INSERT INTO `t_fwlog_history_2017` VALUES ('1d1b5b9e991b4393ba5acf4008e5cc6e', '2017-11-02 11:21:10', '2017-11-02 11:21:09.0621', null, 'admin', '超级管理员', 'ddddc89b-d6a2-4214-88e1-4490b9d4a631', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/index', null, '否', null, null, null, null, null);
+INSERT INTO `t_fwlog_history_2017` VALUES ('2a4235155cce4a58b13a1947d9bfafe3', '2017-11-02 14:53:56', '2017-11-02 14:53:56.0347', null, 'admin', '超级管理员', 'aab4a7b8-7b81-43f1-a0f8-300e2cac71c9', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/index', null, '否', null, null, null, null, null);
+INSERT INTO `t_fwlog_history_2017` VALUES ('307a4afbabb34a9494a74dd8618cdd71', '2017-11-02 12:02:59', '2017-11-02 12:02:58.0501', null, 'admin', '超级管理员', 'c89b29b7-31e8-4b08-aa6b-52c4491c080a', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/index', null, '否', null, null, null, null, null);
+INSERT INTO `t_fwlog_history_2017` VALUES ('36d57b7d42cf443398fa36cf4341e1b8', '2017-11-02 14:17:51', '2017-11-02 14:17:50.0501', null, 'admin', '超级管理员', '3b0b4d1a-42d8-4027-8214-36cef2397d5c', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/index', null, '否', null, null, null, null, null);
+INSERT INTO `t_fwlog_history_2017` VALUES ('39a8f8f6e07c4b38b0a3d0ab718e052f', '2017-10-30 16:54:31', '2017-10-30 16:54:30.0782', null, 'admin', '超级管理员', 'eca1821e-0b1e-4578-977a-bb39fbf88612', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/index', null, '否', null, null, null, null, null);
+INSERT INTO `t_fwlog_history_2017` VALUES ('39e6b76262434264af2c41ed8db6b5cb', '2017-11-02 12:02:56', '2017-11-02 12:02:55.0612', null, 'admin', '超级管理员', 'c89b29b7-31e8-4b08-aa6b-52c4491c080a', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/index', null, '否', null, null, null, null, null);
+INSERT INTO `t_fwlog_history_2017` VALUES ('3b21cccad95c402fae036e69fda416ff', '2017-11-01 23:41:35', '2017-11-01 23:41:35.0351', null, 'admin', '超级管理员', '69d2fca1-e7d7-4b85-bb8d-bbe6a3891114', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/index', null, '否', null, null, null, null, null);
+INSERT INTO `t_fwlog_history_2017` VALUES ('52a0ba649aa84ccc9a1d1ce9a5f9f22d', '2017-11-02 00:13:32', '2017-11-02 00:13:31.0718', null, 'admin', '超级管理员', 'fc668252-1412-4bc3-a1b6-da00bf874580', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/index', null, '否', null, null, null, null, null);
+INSERT INTO `t_fwlog_history_2017` VALUES ('5c83cc44e7b741039c144796d24ee8f1', '2017-10-30 16:45:24', '2017-10-30 16:45:23.0853', null, 'admin', '超级管理员', '2528450f-ebcc-4795-a73c-87fbc0a39b4d', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/index', null, '否', null, null, null, null, null);
+INSERT INTO `t_fwlog_history_2017` VALUES ('614e246800a64754aa98f8828730f1c7', '2017-10-30 16:44:29', '2017-10-30 16:44:29.0145', null, 'admin', '超级管理员', 'c4d186a2-c7c7-4dfd-a07c-fbd08fcb43a3', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/index', null, '否', null, null, null, null, null);
+INSERT INTO `t_fwlog_history_2017` VALUES ('74f24086f3dc4482b2fb185fb6c52c0a', '2017-10-24 15:51:29', '2017-10-24 15:51:29.0201', null, 'admin', '超级管理员', '97058259-fcb4-4c2a-8355-2d08fbe34dfc', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/index', null, '否', null, null, null, null, null);
+INSERT INTO `t_fwlog_history_2017` VALUES ('7632a57bd1ed4687a85f7016d0d27ae1', '2017-11-01 23:30:55', '2017-11-01 23:30:54.0824', null, 'admin', '超级管理员', 'e1886967-9403-4505-95d9-d3eeb7abe5ba', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/index', null, '否', null, null, null, null, null);
+INSERT INTO `t_fwlog_history_2017` VALUES ('787510ef92e44642ab2e10ff7070b45f', '2017-11-01 23:44:30', '2017-11-01 23:44:29.0924', null, 'admin', '超级管理员', 'f26f79a9-739c-437c-9776-7677f5d73f77', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/index', null, '否', null, null, null, null, null);
+INSERT INTO `t_fwlog_history_2017` VALUES ('7e4a4abca224420bbd3dd29a9eed747c', '2017-11-02 11:19:45', '2017-11-02 11:19:44.0520', null, 'admin', '超级管理员', '0a363cbc-fcae-4585-8a7d-1645bc055c0a', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/index', null, '否', null, null, null, null, null);
+INSERT INTO `t_fwlog_history_2017` VALUES ('82cf239d784c4cb4a00c4f0115284802', '2017-11-01 23:54:11', '2017-11-01 23:54:11.0482', null, 'admin', '超级管理员', '2e7e128c-b2be-4632-b154-e34b80c93653', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/index', null, '否', null, null, null, null, null);
+INSERT INTO `t_fwlog_history_2017` VALUES ('82eaff6eb19c4bf5bfcff1bbc365ca88', '2017-11-02 00:01:45', '2017-11-02 00:01:44.0875', null, 'admin', '超级管理员', 'c1d0b882-305e-4bcd-8d1f-feb549f89098', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/index', null, '否', null, null, null, null, null);
+INSERT INTO `t_fwlog_history_2017` VALUES ('833d2c66d46049e4a33cb0df5264fc2e', '2017-11-01 23:44:51', '2017-11-01 23:44:50.0791', null, 'admin', '超级管理员', 'b408d619-8837-4ea4-aefe-3b1a20e19f15', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/index', null, '否', null, null, null, null, null);
+INSERT INTO `t_fwlog_history_2017` VALUES ('89208704491b4ee6b81553496d240437', '2017-11-01 23:40:37', '2017-11-01 23:40:36.0524', null, 'admin', '超级管理员', '7908168b-d23a-4520-8b45-5c35cb94b968', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/index', null, '否', null, null, null, null, null);
+INSERT INTO `t_fwlog_history_2017` VALUES ('c2768be601db43c9b0c53f10d454f941', '2017-11-01 23:48:24', '2017-11-01 23:48:23.0659', null, 'admin', '超级管理员', '6e8a6fad-f82c-42a2-9d49-179af85b0592', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/index', null, '否', null, null, null, null, null);
+INSERT INTO `t_fwlog_history_2017` VALUES ('c3576eeff5034d04a0148caa7e4c0355', '2017-11-02 17:15:18', '2017-11-02 17:15:18.0292', null, 'admin', '超级管理员', '58ade597-d8ab-4910-bb82-82f91762439f', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/index', null, '否', null, null, null, null, null);
+INSERT INTO `t_fwlog_history_2017` VALUES ('c7173043c0504107b9617a460563f62d', '2017-11-02 17:40:25', '2017-11-02 17:40:24.0848', null, 'admin', '超级管理员', '0fbad026-9ead-4602-9ee8-9a4f57866995', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/index', null, '否', null, null, null, null, null);
+INSERT INTO `t_fwlog_history_2017` VALUES ('cfa4bcc348b74f8c9541414b9a1b823e', '2017-11-02 00:00:12', '2017-11-02 00:00:12.0312', null, 'admin', '超级管理员', '6c463a69-42cf-4191-a97f-196f879ddae9', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/index', null, '否', null, null, null, null, null);
+INSERT INTO `t_fwlog_history_2017` VALUES ('d442fa2f60a24a4aa3959604b9c4919d', '2017-11-02 17:13:36', '2017-11-02 17:13:36.0431', null, 'admin', '超级管理员', 'cc60746c-977b-4c77-9974-3881cbb16a03', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/index', null, '否', null, null, null, null, null);
+INSERT INTO `t_fwlog_history_2017` VALUES ('ebf321170b9f48f48f6a30db231499c1', '2017-11-02 00:10:58', '2017-11-02 00:10:57.0901', null, 'admin', '超级管理员', '4477b8f9-fc61-4e39-82a0-d46b5c846625', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/index', null, '否', null, null, null, null, null);
+INSERT INTO `t_fwlog_history_2017` VALUES ('f192e9c52ee9439a900e60aca420801a', '2017-11-01 23:56:02', '2017-11-01 23:56:02.0372', null, 'admin', '超级管理员', '3ab221f1-2812-4b58-819b-4e3560a39849', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/index', null, '否', null, null, null, null, null);
+INSERT INTO `t_fwlog_history_2017` VALUES ('f75a8a27e0af4a32bf7e144aa6853032', '2017-11-02 11:20:29', '2017-11-02 11:20:28.0511', null, 'admin', '超级管理员', '3dbce40a-0fb1-40b2-b6bb-4b3e1a765f8b', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/index', null, '否', null, null, null, null, null);
+INSERT INTO `t_fwlog_history_2017` VALUES ('fb9879a32f724e49a163214a391e4a97', '2017-11-02 16:20:43', '2017-11-02 16:20:42.0550', null, 'admin', '超级管理员', '87399434-30c3-49a7-94eb-fac91a82987f', '127.0.0.1', 'http://127.0.0.1:8080/springrain/system/index', null, '否', null, null, null, null, null);
 
 -- ----------------------------
 -- Table structure for t_fwlog_history_2018
@@ -182,6 +211,7 @@ INSERT INTO `t_menu` VALUES ('169815aca9cf41d390e7feb6629d361d', '栏目管理',
 INSERT INTO `t_menu` VALUES ('3501ed1e23da40219b4f0fa5b7b2749a', '菜单列表', 't_menu_list', '', '/system/menu/list', '0', '1', null, '', null, null, null, null, null);
 INSERT INTO `t_menu` VALUES ('36ab9175f7b7423eadda974ba046be05', '修改密码', 't_user_list', '', '/system/user/modifiypwd/pre', '0', '1', null, '', null, null, null, null, null);
 INSERT INTO `t_menu` VALUES ('4adc1e3e3e244c0991d9dab66c63badf', '目录创建', 'f5203235547342f094a2c126ad4603bb', '', '/system/file/uploadDic', '0', '1', '2', '', null, null, null, null, null);
+INSERT INTO `t_menu` VALUES ('5442d67bcdf8401da675bb5e09650f36', '测试用例', 'business_manager', '', null, '1', '1', null, '', null, null, null, null, null);
 INSERT INTO `t_menu` VALUES ('7cd0678633d5407dba2bd6a1553cadce', '文件下载', 'f5203235547342f094a2c126ad4603bb', '', '/system/file/downfile', '0', '1', '3', '', null, null, null, null, null);
 INSERT INTO `t_menu` VALUES ('91779a0d304f4b91932b63dec87a8536', '角色管理-系统', 'system_manager', '', '/system/role/list/all', '1', '1', null, '&#xe60a;', null, null, null, null, null);
 INSERT INTO `t_menu` VALUES ('b94392f7b8714f64819c5c0222eb134a', '角色修改-系统', 't_role_list', '', '/system/role/update/admin', '0', '1', null, '', null, null, null, null, null);
@@ -195,6 +225,34 @@ INSERT INTO `t_menu` VALUES ('e51808e351c24a7e9fb4d47392930a2d', '保存新密�
 INSERT INTO `t_menu` VALUES ('f41b9f3b4a0d45f5a3b5842ee40e0e96', '站点管理', 'business_manager', '', '/system/cms/site/list', '1', '1', '3', '&#xe641;', null, null, null, null, null);
 INSERT INTO `t_menu` VALUES ('f5203235547342f094a2c126ad4603bb', '文件管理', 'system_manager', '', '/system/file/list', '1', '1', '6', '&#xe61d;', null, null, null, null, null);
 INSERT INTO `t_menu` VALUES ('system_manager', '系统管理', null, null, null, '1', '1', null, null, null, null, null, null, null);
+INSERT INTO `t_menu` VALUES ('tc_htmlcase_delete', '删除Htmlcase', 'tc_htmlcase_list', null, '/selenium/htmlcase/delete', '0', '1', null, null, null, null, null, null, null);
+INSERT INTO `t_menu` VALUES ('tc_htmlcase_deletemore', '批量删除Htmlcase', 'tc_htmlcase_list', null, '/selenium/htmlcase/delete/more', '0', '1', null, null, null, null, null, null, null);
+INSERT INTO `t_menu` VALUES ('tc_htmlcase_export', '导出Htmlcase', 'tc_htmlcase_list', null, '/selenium/htmlcase/list/export', '0', '1', null, null, null, null, null, null, null);
+INSERT INTO `t_menu` VALUES ('tc_htmlcase_list', '测试用例管理', '5442d67bcdf8401da675bb5e09650f36', '', '/selenium/htmlcase/list', '1', '1', '4', '', null, null, null, null, null);
+INSERT INTO `t_menu` VALUES ('tc_htmlcase_look', '查看Htmlcase', 'tc_htmlcase_list', null, '/selenium/htmlcase/look', '0', '1', null, null, null, null, null, null, null);
+INSERT INTO `t_menu` VALUES ('tc_htmlcase_update', '修改Htmlcase', 'tc_htmlcase_list', null, '/selenium/htmlcase/update', '0', '1', null, null, null, null, null, null, null);
+INSERT INTO `t_menu` VALUES ('tc_htmlcase_upload', '导入Htmlcase', 'tc_htmlcase_list', null, '/selenium/htmlcase/upload', '0', '1', null, null, null, null, null, null, null);
+INSERT INTO `t_menu` VALUES ('tc_htmlfield_delete', '删除Htmlfield', 'tc_htmlfield_list', null, '/selenium/htmlfield/delete', '0', '1', null, null, null, null, null, null, null);
+INSERT INTO `t_menu` VALUES ('tc_htmlfield_deletemore', '批量删除Htmlfield', 'tc_htmlfield_list', null, '/selenium/htmlfield/delete/more', '0', '1', null, null, null, null, null, null, null);
+INSERT INTO `t_menu` VALUES ('tc_htmlfield_export', '导出Htmlfield', 'tc_htmlfield_list', null, '/selenium/htmlfield/list/export', '0', '1', null, null, null, null, null, null, null);
+INSERT INTO `t_menu` VALUES ('tc_htmlfield_list', '页面字段管理', '5442d67bcdf8401da675bb5e09650f36', '', '/selenium/htmlfield/list', '1', '1', '2', '', null, null, null, null, null);
+INSERT INTO `t_menu` VALUES ('tc_htmlfield_look', '查看Htmlfield', 'tc_htmlfield_list', null, '/selenium/htmlfield/look', '0', '1', null, null, null, null, null, null, null);
+INSERT INTO `t_menu` VALUES ('tc_htmlfield_update', '修改Htmlfield', 'tc_htmlfield_list', null, '/selenium/htmlfield/update', '0', '1', null, null, null, null, null, null, null);
+INSERT INTO `t_menu` VALUES ('tc_htmlfield_upload', '导入Htmlfield', 'tc_htmlfield_list', null, '/selenium/htmlfield/upload', '0', '1', null, null, null, null, null, null, null);
+INSERT INTO `t_menu` VALUES ('tc_htmlfunction_delete', '删除Htmlfunction', 'tc_htmlfunction_list', null, '/selenium/htmlfunction/delete', '0', '1', null, null, null, null, null, null, null);
+INSERT INTO `t_menu` VALUES ('tc_htmlfunction_deletemore', '批量删除Htmlfunction', 'tc_htmlfunction_list', null, '/selenium/htmlfunction/delete/more', '0', '1', null, null, null, null, null, null, null);
+INSERT INTO `t_menu` VALUES ('tc_htmlfunction_export', '导出Htmlfunction', 'tc_htmlfunction_list', null, '/selenium/htmlfunction/list/export', '0', '1', null, null, null, null, null, null, null);
+INSERT INTO `t_menu` VALUES ('tc_htmlfunction_list', '页面功能管理', '5442d67bcdf8401da675bb5e09650f36', '', '/selenium/htmlfunction/list', '1', '1', '1', '', null, null, null, null, null);
+INSERT INTO `t_menu` VALUES ('tc_htmlfunction_look', '查看Htmlfunction', 'tc_htmlfunction_list', null, '/selenium/htmlfunction/look', '0', '1', null, null, null, null, null, null, null);
+INSERT INTO `t_menu` VALUES ('tc_htmlfunction_update', '修改Htmlfunction', 'tc_htmlfunction_list', null, '/selenium/htmlfunction/update', '0', '1', null, null, null, null, null, null, null);
+INSERT INTO `t_menu` VALUES ('tc_htmlfunction_upload', '导入Htmlfunction', 'tc_htmlfunction_list', null, '/selenium/htmlfunction/upload', '0', '1', null, null, null, null, null, null, null);
+INSERT INTO `t_menu` VALUES ('tc_validaterule_delete', '删除Validaterule', 'tc_validaterule_list', null, '/selenium/validaterule/delete', '0', '1', null, null, null, null, null, null, null);
+INSERT INTO `t_menu` VALUES ('tc_validaterule_deletemore', '批量删除Validaterule', 'tc_validaterule_list', null, '/selenium/validaterule/delete/more', '0', '1', null, null, null, null, null, null, null);
+INSERT INTO `t_menu` VALUES ('tc_validaterule_export', '导出Validaterule', 'tc_validaterule_list', null, '/selenium/validaterule/list/export', '0', '1', null, null, null, null, null, null, null);
+INSERT INTO `t_menu` VALUES ('tc_validaterule_list', '验证规则管理', '5442d67bcdf8401da675bb5e09650f36', '', '/selenium/validaterule/list', '1', '1', '3', '', null, null, null, null, null);
+INSERT INTO `t_menu` VALUES ('tc_validaterule_look', '查看Validaterule', 'tc_validaterule_list', null, '/selenium/validaterule/look', '0', '1', null, null, null, null, null, null, null);
+INSERT INTO `t_menu` VALUES ('tc_validaterule_update', '修改Validaterule', 'tc_validaterule_list', null, '/selenium/validaterule/update', '0', '1', null, null, null, null, null, null, null);
+INSERT INTO `t_menu` VALUES ('tc_validaterule_upload', '导入Validaterule', 'tc_validaterule_list', null, '/selenium/validaterule/upload', '0', '1', null, null, null, null, null, null, null);
 INSERT INTO `t_menu` VALUES ('t_auditlog_list', '修改日志', 'system_manager', '', '/system/auditlog/list', '1', '1', '1', '&#xe632;', null, null, null, null, null);
 INSERT INTO `t_menu` VALUES ('t_auditlog_look', '查看修改日志', 't_auditlog_list', null, '/system/auditlog/look', '0', '1', null, null, null, null, null, null, null);
 INSERT INTO `t_menu` VALUES ('t_dic_data_grade_delete', '删除级别', 't_dic_data_grade_list', null, '/system/dicdata/grade/delete', '0', '1', null, null, null, null, null, null, null);
@@ -319,68 +377,97 @@ CREATE TABLE `t_role_menu` (
 -- ----------------------------
 -- Records of t_role_menu
 -- ----------------------------
-INSERT INTO `t_role_menu` VALUES ('003f6efe4e9b4b2998792953596258a2', 'r_10001', 't_org_list', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('003f6efe4e9b4b2998792953596258b1', 'r_10001', '3501ed1e23da40219b4f0fa5b7b2749a', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('005c20d1fba549bfabea4cd1aa23e3b6', 'r_10001', 't_fwlog_list', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('02e22012d3084dbe86981b23ef6e9b53', 'r_10001', 'ca152df1a7b44d4f81162f34b808934a', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('0365b249ec8c480cba9e77124a4fb4d7', 'r_10001', 't_dic_data_minzu_deletemore', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('06bd3f0154314c60aaab50ef3d62bf46', 'r_10001', 't_dic_data_minzu_look', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('0b1d8f9d4d7d4efb9724ec8d66864be5', 'r_10001', 't_role_list', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('0b26312eb0f641d1af7b06caad5a3c2f', 'r_10001', 't_dic_data_xueli_list', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('14646b5594ad4980872e55a197755960', 'r_10001', 't_role_update', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('168ba9288da24624bbb8e997539454b0', 'r_10001', 't_menu_tree', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('175860c599784439990ba4cbfffbb4c9', 'r_10001', 't_org_deletemore', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('1a97031270ee4116883b1754716eba5f', 'r_10001', 't_dic_data_grade_delete', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('1b73c387d13b4eb9a178e3a42b226ab6', 'r_10001', 't_org_look', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('23242847985c4bac9b0d7eb230cc5a9b', 'r_10001', 't_dic_data_xueli_update', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('2475300de6c64cf980becf7ebc37a668', 'r_10001', 'business_manager', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('2ddab4f6efd241b6a62b71401076aa89', 'r_10001', 'dic_manager', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('2e91d0783e404eb79051a92152c28b60', 'r_10001', '169815aca9cf41d390e7feb6629d361d', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('30b397a9791c4756bd828fbd25ae19dd', 'r_10001', 'b9c4e8ecffe949c0b346e1fd0d6b9977', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('3f12fb2443b74c7eab7a81f30a6cacc2', 'r_10001', 't_dic_data_grade_look', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('54385aa1b6234add88e341ce5cda95cc', 'r_10001', 't_menu_look', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('555c8bd2df5143a2ad3a70f7ec96bdc9', 'r_10001', 't_auditlog_look', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('559538ebb2bb4bbe912aa3f18f73ab49', 'r_10001', 't_role_deletemore', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('562b8419a9954d3aa2998ed99dd2e534', 'r_10001', 't_dic_data_xueli_look', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('593c9b0b78864686869df09299b5186f', 'r_10001', 'f41b9f3b4a0d45f5a3b5842ee40e0e96', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('5c7dc109475b49df887ee16983703664', 'r_10001', 't_dic_data_xueli_tree', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('626433cf94fa49ce86d3bbfbddb1c2e9', 'r_10001', 't_dic_data_minzu_list', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('649535986d5b4514a0d4c863b8db1a83', 'r_10001', 't_user_delete', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('69a2190c890a48cfb2a790b865f8ae82', 'r_10001', 't_dic_data_grade_list', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('6d56f8bdc0cb47dd80a06a7d82f1da39', 'r_10001', 't_dic_data_grade_deletemore', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('6ea4295a9a994a2f8e3bdf3b1fb427c4', 'r_10001', 't_user_list_export', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('71c806f8e2424b058102f8b8203ed53a', 'r_10001', 't_dic_data_xueli_delete', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('72b283c5abe34f4e9714e5f9e96122a3', 'r_10001', 't_dic_data_grade_tree', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('73288e75ae7e45feab6ca674274baef8', 'r_10001', 't_dic_data_minzu_delete', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('76805a185e4941bb8d1281f056274172', 'r_10001', 't_dic_data_grade_update', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('84718a1752a64691a062d19c90862583', 'r_10001', 't_dic_data_xueli_deletemore', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('8b737892a2f54d14966f235e0c362cf7', 'r_10001', 'e51808e351c24a7e9fb4d47392930a2d', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('8cdc76c5528447ca959b65d79cdcc77d', 'r_10001', 't_auditlog_list', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('9206eb1c8bf349d8bf23b19c5b137094', 'r_10001', 't_menu_update', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('9995e3e16b584fa78c92fffcd9e4027c', 'r_10001', 't_dic_data_minzu_tree', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('9aec524c4d304f8bba498834d11db56c', 'r_10001', 't_menu_delete', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('9c5a400d-fe4d-11e6-9319-bab4589d0955', 'r_10001', '91779a0d304f4b91932b63dec87a8536', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('9c5a4578-fe4d-11e6-9319-bab4589d0955', 'r_10001', 'b94392f7b8714f64819c5c0222eb134a', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('a28d0fd8e8214f0688497a67447294d5', 'r_10001', 't_menu_deletemore', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('a3b411a659c247b79f0d05115c153164', 'r_10001', 't_role_delete', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('a4532af8f0bd4f20b26c4d87f5a9fb58', 'r_10001', 't_org_update', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('a5516c8c746c4caabcd18c6613789838', 'r_10001', 't_user_look', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('aaf19f9f5fa74ab69c36952a185b26bc', 'r_10001', 't_org_tree', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('b09b753c388343678571f977093cd59b', 'r_10001', 'system_manager', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('b1a49ce6d46541298b801dde806d12e6', 'r_10001', '36ab9175f7b7423eadda974ba046be05', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('b231af6db31a4fb7b55241f1f7a0c689', 'r_10001', 't_dic_data_minzu_update', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('b458712095464c0fabb4c037034fd532', 'r_10001', 't_fwlog_look', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('c630d47141194cf7bcdb7779e5a8d45b', 'r_10001', 't_user_list', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('e74f1ca58d934c7395735ac642509002', 'r_10001', 't_user_deletemore', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('ee381117ef634c27bda3eaa1b6260e38', 'r_10001', 't_user_update', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('f45d21402ed1412497e568d8a00e4a50', 'r_10001', 't_org_delete', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('fd3368ff61904e199a921102e0e71d9a', 'r_10001', 't_menu_list', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('ffdb77d726c949088953ddb35ebd1e5c', 'r_10001', 't_role_look', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('file001', 'r_10001', '4adc1e3e3e244c0991d9dab66c63badf', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('file002', 'r_10001', 'ca28235dbd234b7585e133e70cc7999a', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('file003', 'r_10001', 'd6abe682007849869c3a168215ae40d4', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('file004', 'r_10001', 'f5203235547342f094a2c126ad4603bb', null, null, null, null, null);
-INSERT INTO `t_role_menu` VALUES ('file005', 'r_10001', '7cd0678633d5407dba2bd6a1553cadce', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('04c6374657fa467fa4e1e39b65cdc540', 'r_10001', 't_user_look', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('08bd52cc681f473e8437933b49cc2e4c', 'r_10001', 't_dic_data_grade_update', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('0e980ba47ec44ef0bdd3665454e75667', 'r_10001', 't_role_deletemore', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('12bb0769ecb44c99b3b4881988b136f3', 'r_10001', '5442d67bcdf8401da675bb5e09650f36', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('12dde4a4100e42b2a629d44828d02bfa', 'r_10001', 'tc_htmlcase_upload', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('12fd5eda7eb54b66ad4248a76253f5ff', 'r_10001', 'e51808e351c24a7e9fb4d47392930a2d', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('159f0bd070434d14a09490d7951dc0f9', 'r_10001', 'tc_htmlcase_delete', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('1772178cf8344c25aeda69ba48a97478', 'r_10001', 'tc_validaterule_look', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('1c5da69235944cb38d3579c46715a99a', 'r_10001', 'b9c4e8ecffe949c0b346e1fd0d6b9977', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('1d460043d20a44f6b796fd3d40406b43', 'r_10001', 't_user_list', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('1d78194ebe474b1c8105121c1469874c', 'r_10001', 't_dic_data_minzu_look', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('1dc212db5f1f49b5b8aecf2cd8f48221', 'r_10001', 'tc_htmlfield_look', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('1e56660f7f3f4670967d04d83df4fc9d', 'r_10001', '169815aca9cf41d390e7feb6629d361d', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('1f5afc645b60483383506dec73bede9d', 'r_10001', 't_dic_data_xueli_tree', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('25c5acbf4a674f0ba36bf01e8c35249d', 'r_10001', 'tc_htmlfunction_delete', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('26e549a6b7d440dd8849da53bf97dbde', 'r_10001', 'tc_htmlfield_list', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('2b3530db44c84dab900dc604b456e137', 'r_10001', 'business_manager', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('2d7d8e405fdc4662ad7136d19e985b67', 'r_10001', 'b94392f7b8714f64819c5c0222eb134a', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('32300fc190c044fb8c49a2597d7fbbf6', 'r_10001', 't_auditlog_look', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('3694d135dbb64c6d821d5c33f55f987e', 'r_10001', 't_user_delete', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('397be28833704941af2310cb6e78e3bd', 'r_10001', 't_role_update', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('39e75a18829e4f80a62db6fad5a79866', 'r_10001', 't_user_list_export', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('3b8c1ddd70fa45978564b2f9a1444fb9', 'r_10001', 'tc_validaterule_update', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('42db93fb9247408caf46b15577a65486', 'r_10001', 'tc_validaterule_export', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('45b7af94173440a3a3536455bdaa161b', 'r_10001', 'tc_validaterule_delete', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('4b9f293fbb654ba7a9f239dda93e05af', 'r_10001', 'ca152df1a7b44d4f81162f34b808934a', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('4be79c6abbe344d8ba99960fa30cf9fb', 'r_10001', 't_dic_data_minzu_list', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('4d8c009ef95344d69f531e4259aad675', 'r_10001', 't_dic_data_minzu_tree', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('50325331393944b88be56b90578dda24', 'r_10001', 'tc_htmlcase_list', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('52430546b39646ae9381cc502ff19a03', 'r_10001', 'tc_htmlfield_upload', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('52dbb9def6084ea3bc0416661f276647', 'r_10001', 'tc_validaterule_deletemore', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('56222a2160684861a4ee3ce8cdb8914e', 'r_10001', 'tc_htmlfunction_export', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('591ddf2e13424a47ac79c261ad3b6d5b', 'r_10001', 't_fwlog_list', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('5bf5f6b332fd48dfaf910ee9ffde85d4', 'r_10001', 't_dic_data_grade_delete', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('6182d6c47ffd45d3b37852ad0033b4f2', 'r_10001', 't_fwlog_look', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('61c72775b7914aa3981c304d75e8556c', 'r_10001', 't_role_list', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('645f97afc37344aea304080b73132c20', 'r_10001', 't_user_update', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('65a66207f892480f9cc7ba1475ce98f1', 'r_10001', 't_dic_data_minzu_deletemore', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('6bd4be9ec47e4703a23154b106b0807f', 'r_10001', 't_dic_data_grade_deletemore', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('70a4a16a27ad499d830eaf398fd08d30', 'r_10001', '91779a0d304f4b91932b63dec87a8536', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('7746e5c50c7b45df90298cbb5dffb8da', 'r_10001', 't_menu_look', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('780161272f86411fa3ddb379683e17da', 'r_10001', 'tc_htmlfield_deletemore', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('78daa30b20e147dd8b592c74d859aa63', 'r_10001', 't_dic_data_grade_look', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('7cb46e3b87d34be8bed035f1233c5c7f', 'r_10001', 'tc_htmlfunction_upload', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('7dcaa1c17eee4465bd3060145c77a0a8', 'r_10001', 't_dic_data_xueli_delete', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('80b26df2274c4c38bbbe3ae8e1a1f93b', 'r_10001', 'tc_validaterule_upload', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('821a7d1cd140487095355753cf0827e5', 'r_10001', 'tc_htmlcase_look', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('85d26913bcac48738978c7deba5761aa', 'r_10001', 't_menu_list', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('8703ae3e2a874afc918b0662a017ff71', 'r_10001', '7cd0678633d5407dba2bd6a1553cadce', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('87cb2959f13b4dcaaffc99119addbc8d', 'r_10001', 'tc_htmlfunction_deletemore', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('88938418d1234b11b38d8641e2fe7137', 'r_10001', 'tc_htmlfunction_list', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('89622a9c08d84463bea38511559dc2c9', 'r_10001', 'tc_htmlcase_export', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('8aeb52b96ab04ff2acf81dc42311006e', 'r_10001', 't_dic_data_xueli_list', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('8f86acc728af4cfeac428c10c176422a', 'r_10001', 't_org_deletemore', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('8fb6b66d23344a1e892816cf18d80c6f', 'r_10001', 't_dic_data_xueli_deletemore', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('906badac56c64a2b8e1bf9aea20a9514', 'r_10001', 't_dic_data_grade_tree', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('9179abad4c6a40b3a4e74778239ece58', 'r_10001', 'f5203235547342f094a2c126ad4603bb', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('91f69a2590754acbb57f8239eb293bac', 'r_10001', 'f41b9f3b4a0d45f5a3b5842ee40e0e96', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('95345e999bd64ac1a7f3c82ac805732b', 'r_10001', 't_org_update', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('956bb2deb2d64e27b0ad95d048f93197', 'r_10001', 'tc_htmlcase_update', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('96b8ca884f81425eba930909e8e5c87f', 'r_10001', '36ab9175f7b7423eadda974ba046be05', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('9c953653e70a4b24932414f77fa390d8', 'r_10001', 't_menu_update', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('9e31793c4fea47d6bb40612a3f5f4227', 'r_10001', 'system_manager', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('a83ea3817d2e4ca8910cd9639ac4c17e', 'r_10001', 'dic_manager', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('ab7c8070f9a941d6818058b4ddaf4036', 'r_10001', 'tc_htmlfield_delete', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('ad3deb1ea8a649acb60c90f3ccfe40aa', 'r_10001', 't_dic_data_xueli_update', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('ade99a302fa64de287c25b05ca874104', 'r_10001', 't_user_deletemore', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('b4859f6fbd9c43399c98cdad23c18870', 'r_10001', 't_menu_tree', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('bedb68bd74b4460d9d29c8de86152ac2', 'r_10001', 't_org_tree', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('c34f6bb8e852455386852502aa9a9e87', 'r_10001', 't_menu_delete', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('c80e23716d72431ca849b6075591b6fb', 'r_10001', 't_org_look', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('d1aff81098d1454897ee42ad7836bcec', 'r_10001', 't_dic_data_grade_list', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('d1ec5efdfe3745c3bac08df02ed2f600', 'r_10001', 'tc_htmlfunction_update', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('d556e2419c5d421dad47e7a6aac31ae9', 'r_10001', 'd6abe682007849869c3a168215ae40d4', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('d87b1ac73f164985aed4ad6b0e9e8d0d', 'r_10001', 'tc_htmlcase_deletemore', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('db6a6f2c62554dc2a5ceb4b7af303dfb', 'r_10001', 't_org_delete', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('dca0449bf1064a5b8feed9dd44aea8fa', 'r_10001', 't_dic_data_xueli_look', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('dd95534a6e20460fa046041cc6ef7927', 'r_10001', 't_menu_deletemore', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('def8973a3ca14ffab4c9bb378ad18846', 'r_10001', 'tc_htmlfield_export', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('e22788e9784842e5a47a82ef8868428a', 'r_10001', 't_dic_data_minzu_update', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('e27c4e0ec28e4e6584dedf7ebaa3e01e', 'r_10001', '4adc1e3e3e244c0991d9dab66c63badf', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('e42e2caef87646c7a34fb1b6ec557f91', 'r_10001', 't_role_delete', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('e7d6f1b508d54db5b2bffa0e865e4fd5', 'r_10001', 't_dic_data_minzu_delete', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('e9a0974171564f71b622cd98f611c364', 'r_10001', 'tc_htmlfield_update', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('eb9ee7a6a6d14168aac09746fd6bf5c5', 'r_10001', 't_role_look', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('ef995c6688b8407bb967fadc43b2c089', 'r_10001', 'tc_validaterule_list', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('f1142e1f33b74f61801f8df317dc367f', 'r_10001', 't_org_list', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('f227e6266f804f8d894007e1f9c76a02', 'r_10001', 't_auditlog_list', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('f23147539e274b2b8dd496940746fab3', 'r_10001', 'ca28235dbd234b7585e133e70cc7999a', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('f38161ed87784e3785f0a37d637d2a77', 'r_10001', 'tc_htmlfunction_look', null, null, null, null, null);
+INSERT INTO `t_role_menu` VALUES ('fd8c307dd7044796b05c60f459127159', 'r_10001', '3501ed1e23da40219b4f0fa5b7b2749a', null, null, null, null, null);
 
 -- ----------------------------
 -- Table structure for t_role_org
