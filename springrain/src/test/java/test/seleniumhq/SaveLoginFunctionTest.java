@@ -97,6 +97,7 @@ public class SaveLoginFunctionTest {
         account.setHtmlFieldType(1);
         account.setHtmlFieldLength(20);
         account.setSortno(1);
+        account.setRequired(1);
         
         htmlfieldService.save(account);
 
@@ -113,6 +114,7 @@ public class SaveLoginFunctionTest {
         password.setHtmlFieldType(2);
         password.setHtmlFieldLength(20);
         password.setSortno(2);
+        password.setRequired(1);
         htmlfieldService.save(password);
         
         

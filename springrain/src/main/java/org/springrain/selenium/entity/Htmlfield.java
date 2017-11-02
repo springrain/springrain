@@ -13,7 +13,7 @@ import org.springrain.frame.entity.BaseEntity;
  * TODO 在此加入类描述
  * @copyright {@link weicms.net}
  * @author springrain<Auto generate>
- * @version  2017-11-01 23:23:41
+ * @version  2017-11-02 10:35:08
  * @see org.springrain.selenium.entity.Htmlfield
  */
 @Table(name="tc_htmlfield")
@@ -31,6 +31,7 @@ public class Htmlfield  extends BaseEntity {
 	public static final String ALIAS_ELEMENTKEY = "元素的Key,例如 userName 或者xpath的表达式";
 	public static final String ALIAS_ELEMENTVALUE = "期望结果,例如判断网页的标题";
 	public static final String ALIAS_XPATH = "实际的xpath表达式";
+	public static final String ALIAS_REQUIRED = "是否必填";
 	public static final String ALIAS_HTMLFIELDTYPE = "1text,2password";
 	public static final String ALIAS_HTMLFIELDLENGTH = "字段长度";
 	public static final String ALIAS_HTMLMINVALUE = "htmlMinValue";
@@ -68,6 +69,10 @@ public class Htmlfield  extends BaseEntity {
 	 * 实际的xpath表达式
 	 */
 	private java.lang.String xpath;
+	/**
+	 * 是否必填
+	 */
+	private java.lang.Integer required;
 	/**
 	 * 1text,2password
 	 */
@@ -234,6 +239,22 @@ public class Htmlfield  extends BaseEntity {
 		return this.xpath;
 	}
 		/**
+		 * 是否必填
+		 */
+	public void setRequired(java.lang.Integer value) {
+		this.required = value;
+	}
+	
+	
+	
+	/**
+	 * 是否必填
+	 */
+     @WhereSQL(sql="required=:Htmlfield_required")
+	public java.lang.Integer getRequired() {
+		return this.required;
+	}
+		/**
 		 * 1text,2password
 		 */
 	public void setHtmlFieldType(java.lang.Integer value) {
@@ -323,6 +344,7 @@ public class Htmlfield  extends BaseEntity {
 			.append("元素的Key,例如 userName 或者xpath的表达式[").append(getElementKey()).append("],")
 			.append("期望结果,例如判断网页的标题[").append(getElementValue()).append("],")
 			.append("实际的xpath表达式[").append(getXpath()).append("],")
+			.append("是否必填[").append(getRequired()).append("],")
 			.append("1text,2password[").append(getHtmlFieldType()).append("],")
 			.append("字段长度[").append(getHtmlFieldLength()).append("],")
 			.append("htmlMinValue[").append(getHtmlMinValue()).append("],")

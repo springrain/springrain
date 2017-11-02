@@ -13,7 +13,7 @@ import org.springrain.frame.entity.BaseEntity;
  * TODO 在此加入类描述
  * @copyright {@link weicms.net}
  * @author springrain<Auto generate>
- * @version  2017-11-02 00:28:56
+ * @version  2017-11-02 10:35:29
  * @see org.springrain.selenium.entity.Validaterule
  */
 @Table(name="tc_validaterule")

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50719
 File Encoding         : 65001
 
-Date: 2017-11-02 00:27:04
+Date: 2017-11-02 10:05:25
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -54,6 +54,7 @@ CREATE TABLE `tc_htmlfield` (
   `elementKey` varchar(2000) DEFAULT NULL COMMENT '元素的Key,例如 userName 或者xpath的表达式',
   `elementValue` varchar(2000) DEFAULT NULL COMMENT '期望结果,例如判断网页的标题',
   `xpath` varchar(2000) NOT NULL COMMENT '实际的xpath表达式',
+  `required` int(11) NOT NULL DEFAULT '1' COMMENT '是否必填',
   `htmlFieldType` int(11) DEFAULT NULL COMMENT '1text,2password',
   `htmlFieldLength` int(11) DEFAULT NULL COMMENT '字段长度',
   `htmlMinValue` decimal(15,2) DEFAULT NULL,
@@ -65,8 +66,8 @@ CREATE TABLE `tc_htmlfield` (
 -- ----------------------------
 -- Records of tc_htmlfield
 -- ----------------------------
-INSERT INTO `tc_htmlfield` VALUES ('032101b521d74af3a597144b2382bd6e', 'testlogin', '密码', '2', 'name', 'password', '//*[@name=\'password\']', '2', '20', null, null, '2');
-INSERT INTO `tc_htmlfield` VALUES ('e46246aaa2874e2694f6805e9fa1eb02', 'testlogin', '账号', '2', 'name', 'account', '//*[@name=\'account\']', '1', '20', null, null, '1');
+INSERT INTO `tc_htmlfield` VALUES ('032101b521d74af3a597144b2382bd6e', 'testlogin', '密码', '2', 'name', 'password', '//*[@name=\'password\']', '1', '2', '20', null, null, '2');
+INSERT INTO `tc_htmlfield` VALUES ('e46246aaa2874e2694f6805e9fa1eb02', 'testlogin', '账号', '2', 'name', 'account', '//*[@name=\'account\']', '1', '1', '20', null, null, '1');
 
 -- ----------------------------
 -- Table structure for tc_htmlfunction

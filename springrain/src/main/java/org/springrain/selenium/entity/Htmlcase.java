@@ -13,7 +13,7 @@ import org.springrain.frame.entity.BaseEntity;
  * TODO 在此加入类描述
  * @copyright {@link weicms.net}
  * @author springrain<Auto generate>
- * @version  2017-11-01 23:23:27
+ * @version  2017-11-02 10:34:44
  * @see org.springrain.selenium.entity.Htmlcase
  */
 @Table(name="tc_htmlcase")
