@@ -21,5 +21,5 @@ INSERT INTO `t_role_menu` (`id`, `roleId`, `menuId`) VALUES ('${table.sqlName}_u
 INSERT INTO `t_role_menu` (`id`, `roleId`, `menuId`) VALUES ('${table.sqlName}_look_admin', 'r_10001', '${table.sqlName}_look');
 INSERT INTO `t_role_menu` (`id`, `roleId`, `menuId`) VALUES ('${table.sqlName}_export_admin', 'r_10001', '${table.sqlName}_export');
 INSERT INTO `t_role_menu` (`id`, `roleId`, `menuId`) VALUES ('${table.sqlName}_deletemore_admin', 'r_10001', '${table.sqlName}_deletemore');
-INSERT INTO` t_role_menu` (`id`, `roleId`, `menuId`)  `t_role_menu` VALUES ('${table.sqlName}_delete_admin', 'r_10001', '${table.sqlName}_delete');
-INSERT INTO` t_role_menu` (`id`, `roleId`, `menuId`)  `t_role_menu` VALUES ('${table.sqlName}_upload_admin', 'r_10001', '${table.sqlName}_upload');
+INSERT INTO` t_role_menu` (`id`, `roleId`, `menuId`) VALUES ('${table.sqlName}_delete_admin', 'r_10001', '${table.sqlName}_delete');
+INSERT INTO` t_role_menu` (`id`, `roleId`, `menuId`) VALUES ('${table.sqlName}_upload_admin', 'r_10001', '${table.sqlName}_upload');
