@@ -143,7 +143,7 @@ ${r"<@h.commonHead"} title="后台管理系统" keywords="开源,永久免费" d
 														</td>
 														<td>
 															${r"<@shiro.hasPermission"} name="/${targetpackage}/${classNameLowerCase}/update" >
-								                           		 <a href="#" data-action="${r"${ctx}"}/system/role/update/pre?id=${(_data.id)!''}" class="layui-btn layui-btn-normal layui-btn-mini">编辑</a>
+								                           		 <a href="#" data-action="${r"${ctx}"}/${targetpackage}/${classNameLowerCase}/update/pre?id=${(_data.id)!''}" class="layui-btn layui-btn-normal layui-btn-mini">编辑</a>
 								                            ${r"</@shiro.hasPermission>"}
 								                            ${r"<@shiro.hasPermission"} name="/${targetpackage}/${classNameLowerCase}/delete" >
 								                            	<a href="javascript:del('${r"${(_data.id)!''}"}')" class="layui-btn layui-btn-danger layui-btn-mini ajax-delete">删除</a>
