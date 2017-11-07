@@ -3,16 +3,14 @@ package org.springrain.frame.util;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-
-
-
 
 /**
  * 
@@ -25,11 +23,13 @@ public class DateUtils {
 	public static final String DATE_TIMEZONE="GMT+8";
 	
 	
-
+    /** 年月 */
+	public final static String MONTH_FORMAT = "yyyy-MM";
 	/** 日期 */
 	public final static String DATE_FORMAT = "yyyy-MM-dd";
 	/** 日期时间 */
 	public final static String DATETIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+	
 	/** 时间 */
 	public final static String TIME_FORMAT = "HH:mm:ss";
 	/**
@@ -60,7 +60,9 @@ public class DateUtils {
 	public static String formatDateTime(Date d) {
 		return new SimpleDateFormat(DATETIME_FORMAT).format(d);
 	}
-
+	public static String formatDateTime(Date d,String fmt) {
+		return new SimpleDateFormat(fmt).format(d);
+	}
 	/**
 	 * Convert date and time to string like "yyyy-MM-dd HH:mm".
 	 */
@@ -109,9 +111,8 @@ public class DateUtils {
 	 */
 	public static final Date convertString2Date(String formatString,
 			String targetDate) throws ParseException {
-		if (StringUtils.isBlank(targetDate)) {
-            return null;
-        }
+		if (StringUtils.isBlank(targetDate))
+			return null;
 		SimpleDateFormat format =  new SimpleDateFormat(formatString);
 		Date result = null;
 		try {
@@ -698,7 +699,26 @@ public class DateUtils {
 		  
 //	  System.out.println(getMaxDateTimeForToDay());
 //	  System.out.println(getMinDateTimeForToDay());
-	  
+		try {
+		  SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+		  
+		  Calendar c = Calendar.getInstance();
+	      c.set(Calendar.MONTH, 0);
+	      Date resultDate = c.getTime();
+	      String stDate = sdf.format(resultDate);
+		  Date startDate = sdf.parse(stDate);
+		  
+		  Date nowDate = new Date();
+		  String eDate = sdf.format(nowDate);
+		  Date endDate = sdf.parse(eDate);
+		
+		  getDateBetweenTwo(startDate,endDate);
+		} catch (ParseException e) {
+		
+			e.printStackTrace();
+		}
+		  
+		 
 	  }
 	 
 
@@ -800,9 +820,8 @@ public class DateUtils {
 		if (date == null) {
 			date = new Date();
 		}
-		if (StringUtils.isBlank(formatString)) {
-            formatString = DateUtils.DATE_FORMAT;
-        }
+		if (StringUtils.isBlank(formatString))
+			formatString = DateUtils.DATE_FORMAT;
 
 		date = DateUtils.convertString2Date(formatString, DateUtils
 				.convertDate2String(formatString, date));
@@ -829,13 +848,11 @@ public class DateUtils {
 	public static Date getMonDay(Date date) throws ParseException {
 
 		Calendar cal = Calendar.getInstance();
-		if (date == null) {
-            date = new Date();
-        }
+		if (date == null)
+			date = new Date();
 		cal.setTime(date);
-		if (cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
-            cal.add(Calendar.WEEK_OF_YEAR, -1);
-        }
+		if (cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY)
+			cal.add(Calendar.WEEK_OF_YEAR, -1);
 
 		cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
 
@@ -852,13 +869,11 @@ public class DateUtils {
 	public static Date getSunDay(Date date) throws ParseException {
 
 		Calendar cal = Calendar.getInstance();
-		if (date == null) {
-            date = new Date();
-        }
+		if (date == null)
+			date = new Date();
 		cal.setTime(date);
-		if (cal.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
-            cal.add(Calendar.WEEK_OF_YEAR, 1);
-        }
+		if (cal.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY)
+			cal.add(Calendar.WEEK_OF_YEAR, 1);
 
 		cal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
 
@@ -947,5 +962,142 @@ public class DateUtils {
 		calendar.add(Calendar.MONTH, num);// 把日期往后增加 num 月.整数往后推,负数往前移动
 		return calendar.getTime();
 	}
+	
+	/**
+	 * 获得一个范围日期里面的每一个月份
+	 * 
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 * @throws ParseException
+	 */
+	public static List<String> getDateBetweenTwo(Date startDate, Date endDate)
+			throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+		List<String> dateList = new ArrayList<String>();
+		
+		Calendar dd = Calendar.getInstance();// 定义日期实例
+		dd.setTime(startDate);// 设置日期起始时间
+
+		while (dd.getTime().before(endDate)) {// 判断是否到结束日期
+			String str = sdf.format(dd.getTime());
+			dateList.add(str);
+			dd.add(Calendar.MONTH, 1);// 进行当前日期月份加1
+		}
+		return dateList;
+	}
+	/**
+     * 根据传入的时间 和当前的时间进行比较.
+     * 
+     * @param microsecond
+     *            1分钟=60*1000 60分钟=1小时=60*60*1000 10小时=24*60*60*1000
+     *            5天=5*24*60*60*1000
+     * @return
+     */
+    public static String getTimeConversion(long microsecond) {
+        long mDurtionTime = System.currentTimeMillis() - microsecond;
+        if (mDurtionTime < 60 * 1000) {
+            return String.valueOf(Math.abs(mDurtionTime / 1000)) + "秒前";
+        } else if (mDurtionTime < 60 * 60 * 1000) {
+            return String.valueOf(mDurtionTime / (60 * 1000)) + "分钟前";
+        } else if (mDurtionTime < 24 * 60 * 60 * 1000) {
+            return String.valueOf(mDurtionTime / (60 * 60 * 1000)) + "小时前";
+        } else if (mDurtionTime < 10 * 24 * 60 * 60 * 1000) {
+            return String.valueOf(mDurtionTime / (24 * 60 * 60 * 1000)) + "天前";
+        } else {
+            return getDateTime(microsecond);
+        }
+
+    }
+    
+    public static String getDateTime(long microsecond) {
+        return detailFormat(new Date(microsecond));
+    }
+    
+    /**
+     * 返回日期的详细格式：yyyy-MM-dd HH:mm:ss
+     * 
+     * @param date
+     *            传入一个日期
+     * @return
+     */
+    public static String detailFormat(Date date) {
+        if (date == null) {
+            return "";
+        } else {
+            return new SimpleDateFormat(DATETIME_FORMAT).format(date);
+        }
+    }
+    
+    /**
+     * 1分钟=60*1000 1小时=60分钟=60*60*1000 1天=24*60*60*1000
+     * *如果时间戳相差十分钟就显示刚刚，一小时之内的显示分钟数，一天内显示小时数，5天之内的显示天数，否则显示简短日期
+     * 
+     * @param microsecond
+     * @return
+     */
+    public static String getTimeSocial(long microsecond) {
+        long mDurtionTime = System.currentTimeMillis() - microsecond;
+        if (mDurtionTime < 10 * 60 * 1000) {
+            return "刚刚";
+        } else if (mDurtionTime < 60 * 60 * 1000) {
+            return String.valueOf(mDurtionTime / (60 * 1000)) + "分钟前";
+        } else if (mDurtionTime < 24 * 60 * 60 * 1000) {
+            return String.valueOf(mDurtionTime / (60 * 60 * 1000)) + "小时前";
+        } else if (mDurtionTime < 5 * 24 * 60 * 60 * 1000) {
+            return String.valueOf(mDurtionTime / (24 * 60 * 60 * 1000)) + "天前";
+        } else {
+            return getshortDateTime(microsecond);
+        }
+
+    }
+    
+    /**
+     * 当时间相差过长时设置简短的年份显示
+     * 
+     * @param microsecond
+     * @return
+     */
+    public static String getshortDateTime(long microsecond) {
+        return new SimpleDateFormat("yy-MM-d HH:mm").format(new Date(microsecond));
+    }
+    
+    /**
+     * 根据传入的月份返回开始日期与结束日期
+     * @param selectTime 格式　2017-01　，有特殊值sevenDay 代表近７天
+     * @return 第一个值为startTime　第二个值为endTime
+     * @throws Exception
+     */
+    public static List<Date> getStartAndEndTimeByMonth(String selectTime) throws Exception{
+    	List<Date> dateList = new ArrayList<Date>();
+    	
+    	Date createStartTime = null;
+    	Date createEndTime = null;
+    	if("sevenDay".equals(selectTime)) {
+    		Calendar c = Calendar.getInstance();
+    		c.set(Calendar.HOUR_OF_DAY, 24);
+    		c.set(Calendar.MINUTE, 0);
+    		c.set(Calendar.SECOND, 0);
+    		c.set(Calendar.MILLISECOND, 0);
+    		
+    		// 近七天
+    		createEndTime = c.getTime();
+    		c.add(Calendar.DATE, - 7);  
+    		createStartTime = c.getTime();
+    	}else {
+    		// 单独某个月份
+    		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+    		createStartTime = sdf.parse(selectTime);
+    		Calendar c = Calendar.getInstance();
+    		c.setTime(createStartTime);
+    		c.add(Calendar.MONTH, 1);
+    		createEndTime = c.getTime();
+    	}
+    	
+    	dateList.add(0, createStartTime);
+		dateList.add(1, createEndTime);
+    	return dateList;
+    }
+    
 
 }

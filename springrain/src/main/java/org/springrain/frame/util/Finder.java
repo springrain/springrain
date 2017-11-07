@@ -181,9 +181,8 @@ public class Finder {
 	*/
 
 	public String getSql() throws Exception {
-		if(sql==null) {
-            return null;
-        }
+		if(sql==null)
+			return null;
 		
 		
 		String _sql=sql.toString();

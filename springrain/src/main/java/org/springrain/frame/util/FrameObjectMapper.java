@@ -8,6 +8,11 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
+/**
+ * 扩展实现jackson的ObjectMapper
+ * @author caomei
+ *
+ */
 public class FrameObjectMapper extends ObjectMapper {
 
 	/**
@@ -41,8 +46,5 @@ public class FrameObjectMapper extends ObjectMapper {
 		   
 		   //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
 		   //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern=DateUtils.DATETIME_FORMAT,timezone = DateUtils.DATE_TIMEZONE)
-		   
-		   
-		
 	}
 }

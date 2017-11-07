@@ -22,6 +22,12 @@ import org.apache.lucene.search.SortField.Type;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TermRangeQuery;
 
+/**
+ * Lucene查找工具类
+ * 
+ * @author caomei
+ *
+ */
 public class LuceneFinder {
 
     // 搜索的关键字

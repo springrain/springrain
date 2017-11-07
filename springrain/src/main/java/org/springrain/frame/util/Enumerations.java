@@ -1,6 +1,19 @@
 package org.springrain.frame.util;
 
+
+/**
+ * 平台枚举类型
+ * @author caomei
+ *
+ */
 public class Enumerations {
+    
+    
+    /**
+     * 用户类型枚举
+     * @author caomei
+     *
+     */
 	public enum UserType{
 		系统后台管理员(0),平台管理员(1),分店管理员(2),第三方店铺管理员(3),前端普通用户(4);
 		int type;
@@ -12,17 +25,22 @@ public class Enumerations {
 			return type;
 		}
 		
-		public static UserType getUserPlateformDeviceType(Integer type){
+		/**
+		 * 获取用户类型
+		 * @param type
+		 * @return
+		 */
+		public static UserType getUserType(Integer type){
 			switch (type) {
-				case 1:
+				case 0:
 					return 系统后台管理员;
-				case 2:
+				case 1:
 					return 平台管理员;
-				case 3:
+				case 2:
 					return 分店管理员;
-				case 4:
+				case 3:
 					return 第三方店铺管理员;
-				case 5:
+				case 4:
 					return 前端普通用户;
 				default:
 					return null;
@@ -30,6 +48,12 @@ public class Enumerations {
 		}
 	}
 	
+	
+	/**
+	 * 用户接入设备类型
+	 * @author caomei
+	 *
+	 */
 	public enum UserPlateformDeviceType{
 		公众号(1),小程序(2),企业号(3),APP(4),UDESK(5),QQ(6),微博(7);
 		int type;
@@ -62,6 +86,14 @@ public class Enumerations {
 			}
 		}
 	}
+	
+	
+	
+	/**
+	 * 部门类型
+	 * @author caomei
+	 *
+	 */
 	public enum OrgType{
 		部门(1),虚拟权限组(2),站长部门(10),mp(11),cp(12),pc(13),wap(14),xcx(15),app(16);
 		int type;
@@ -99,21 +131,29 @@ public class Enumerations {
 		}
 		
 		public static OrgType getOrgTypeByName(String name){
-			if(mp.name().equals(name)) {
-                return mp;
-            } else if(wap.name().equals(name)) {
-                return wap;
-            } else if(pc.name().equals(name)) {
-                return pc;
-            } else if(cp.name().equals(name)) {
-                return cp;
-            } else if(xcx.name().equals(name)) {
-                return xcx;
-            } else {
-                return null;
-            }
+			if(mp.name().equals(name))
+				return mp;
+			else if(wap.name().equals(name))
+				return wap;
+			else if(pc.name().equals(name))
+				return pc;
+			else if(cp.name().equals(name))
+				return cp;
+			else if(xcx.name().equals(name))
+				return xcx;
+			else 
+				return null;
 		}
 	}
+	
+	
+	
+	
+	/**
+	 * 用户部门角色的枚举
+	 * @author caomei
+	 *
+	 */
 	public enum UserOrgType{
 		会员(0),员工(10),主管(11),代理主管(12),虚拟主管(13);
 		int type;
@@ -143,19 +183,18 @@ public class Enumerations {
 		}
 		
 		public static UserOrgType getUserOrgTypeByName(String name){
-			if("会员".equals(name)) {
-                return 会员;
-            } else if("员工".equals(name)) {
-                return 员工;
-            } else if("主管".equals(name)) {
-                return 主管;
-            } else if("代理主管".equals(name)) {
-                return 代理主管;
-            } else if("虚拟主管".equals(name)) {
-                return 虚拟主管;
-            } else {
-                return null;
-            }
+			if("会员".equals(name))
+				return 会员;
+			else if("员工".equals(name))
+				return 员工;
+			else if("主管".equals(name))
+				return 主管;
+			else if("代理主管".equals(name))
+				return 代理主管;
+			else if("虚拟主管".equals(name))
+				return 虚拟主管;
+			else 
+				return null;
 		}
 	}
 	
@@ -299,7 +338,7 @@ public class Enumerations {
 	 * @date 2017年9月13日
 	 */
 	public enum CMSPropertyModelType{
-		SITE(0),CHANNEL(1),CONTENT(2),投票(3);
+		SITE(0),CHANNEL(1),CONTENT(2),投票(3),收款设置(4);
 		Integer type;
 		
 		private CMSPropertyModelType(Integer type) {
@@ -316,6 +355,8 @@ public class Enumerations {
 					return CONTENT;
 				case 3:
 					return 投票;
+				case 4:
+					return 收款设置;
 				default: 
 					return null;
 			}
@@ -326,73 +367,7 @@ public class Enumerations {
 		}
 		
 	}
-	// 是/否 状态 （是1，否0）
-	public enum IsState {
-		否(0), 是(1);
-		private Integer state;
-
-		private IsState(Integer state) {
-			this.state = state;
-		}
-
-		public Integer getState() {
-			return state;
-		}
-
-		public static IsState getIsState(Integer state) {
-			switch (state) {
-			case 0:
-				return 否;
-			case 1:
-				return 是;
-			default:
-				return 否;
-			}
-		}
-	}
 	
-	/**
-	 * 短信发送平台
-	 * 
-	 * */
-	public enum EMSAlias {
-		阿里大于("alidayu"),短信通("duanxintong");
-		
-		private String type;
-		
-		private EMSAlias(String type) {
-			this.type = type;
-		}
-		
-		public String getType() {
-			return this.type;
-		}
-		
-		public static String getParame(EMSAlias alias){
-			if(alias==阿里大于){
-				return "alidayu";
-			}else if(alias==短信通){
-				return "duanxintong";
-			}else{
-				
-			}
-			return null;
-		}
-		
-		public static EMSAlias getEMSAlias(String type) {
-			if ("alidayu".equals(type)) {
-				return 阿里大于;
-			}else if("duanxintong".equals(type)){
-				return 短信通;
-			}else{
-				
-			}
-			return null;
-		}
-	}
-	
-	public static void main(String[] args) {
-		System.out.println(UserType.系统后台管理员.getType());
-	}
+
 	
 }

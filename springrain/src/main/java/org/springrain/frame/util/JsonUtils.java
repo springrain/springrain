@@ -20,95 +20,98 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  *
  */
 public class JsonUtils {
-	private JsonUtils() {
-		throw new IllegalAccessError("工具类不能实例化");
-	}
+    private JsonUtils() {
+        throw new IllegalAccessError("工具类不能实例化");
+    }
 
-	private final static ObjectMapper mapper = new FrameObjectMapper();
-	private static final Logger logger = LoggerFactory.getLogger(JsonUtils.class);
+    private final static ObjectMapper mapper = new FrameObjectMapper();
+    private static final Logger logger = LoggerFactory.getLogger(JsonUtils.class);
 
-	/**
-	 * 将对象转转化成Json字符串
-	 * 
-	 * @param o
-	 * @return
-	 */
-	public static String writeValueAsString(Object o) {
-		String str = null;
-		try {
-			str = mapper.writeValueAsString(o);
-		} catch (JsonGenerationException e) {
-			logger.error(e.getMessage(), e);
-		} catch (JsonMappingException e) {
-			logger.error(e.getMessage(), e);
-		} catch (IOException e) {
-			logger.error(e.getMessage(), e);
-		}
-		return str;
-	}
+    /**
+     * 将对象转转化成Json字符串
+     * 
+     * @param o
+     * @return
+     */
+    public static String writeValueAsString(Object o) {
+        String str = null;
+        try {
+            str = mapper.writeValueAsString(o);
+        } catch (JsonGenerationException e) {
+            logger.error(e.getMessage(), e);
+        } catch (JsonMappingException e) {
+            logger.error(e.getMessage(), e);
+        } catch (IOException e) {
+            logger.error(e.getMessage(), e);
+        }
+        return str;
+    }
 
-	/**
-	 * 将对象字符串(不是List格式),转化成对象.
-	 * 
-	 * @param content
-	 * @param clazz
-	 * @return
-	 */
+    /**
+     * 将对象字符串(不是List格式),转化成对象.
+     * 
+     * @param content
+     * @param clazz
+     * @return
+     */
 
-	public static <T> T readValue(String content, Class<T> clazz) {
-		T t = null;
-		try {
-			t = mapper.readValue(content, clazz);
-		} catch (JsonParseException e) {
-			logger.error(e.getMessage(), e);
-		} catch (JsonMappingException e) {
-			logger.error(e.getMessage(), e);
-		} catch (IOException e) {
-			logger.error(e.getMessage(), e);
-		}
-		return t;
-	}
+    public static <T> T readValue(String content, Class<T> clazz) {
+        T t = null;
+        try {
+            t = mapper.readValue(content, clazz);
+        } catch (JsonParseException e) {
+            logger.error(e.getMessage(), e);
+        } catch (JsonMappingException e) {
+            logger.error(e.getMessage(), e);
+        } catch (IOException e) {
+            logger.error(e.getMessage(), e);
+        }
+        return t;
+    }
 
-	/**
-	 * 将List对象字符串,转化成List对象.
-	 * @param content
-	 * 		  字符串内容
-	 * @param clazz
-	 * 		 对象类型 例如 User.class
-	 * @return
-	 */
-	public static <T> List<T> readValues(String content, Class<T> clazz) {
-		return (List<T>) readValues(content, ArrayList.class, clazz);
-	}
+    /**
+     * 将List对象字符串,转化成List对象.
+     * 
+     * @param content
+     *            字符串内容
+     * @param clazz
+     *            对象类型 例如 User.class
+     * @return
+     */
+    public static <T> List<T> readValues(String content, Class<T> clazz) {
+        return (List<T>) readValues(content, ArrayList.class, clazz);
+    }
 
-	/**
-	 * 将List对象字符串,转化成List对象.
-	 * @param content
-	 * 		  字符串内容
-	 * @param collectionClass
-	 * 		 集合类型,例如 ArrayList.class
-	 * @param clazz
-	 * 		 对象类型 例如 User.class
-	 * @return
-	 */
-	public static Object readValues(String content, Class collectionClass, Class clazz) {
-		Object o = null;
+    /**
+     * 将List对象字符串,转化成List对象.
+     * 
+     * @param content
+     *            字符串内容
+     * @param collectionClass
+     *            集合类型,例如 ArrayList.class
+     * @param clazz
+     *            对象类型 例如 User.class
+     * @return
+     */
+    public static Object readValues(String content, Class collectionClass, Class clazz) {
+        Object o = null;
 
-		try {
-			o = mapper.readValue(content, getCollectionType(collectionClass, clazz));
-		} catch (JsonParseException e) {
-			logger.error(e.getMessage(), e);
-		} catch (JsonMappingException e) {
-			logger.error(e.getMessage(), e);
-		} catch (IOException e) {
-			logger.error(e.getMessage(), e);
-		}
+        try {
+            o = mapper.readValue(content, getCollectionType(collectionClass, clazz));
+        } catch (JsonParseException e) {
+            logger.error(e.getMessage(), e);
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
+            logger.error(e.getMessage(), e);
+        } catch (IOException e) {
+            logger.error(e.getMessage(), e);
+        }
 
-		return o;
-	}
+        return o;
+    }
 
-	private static JavaType getCollectionType(Class<?> collectionClass, Class<?>... elementClasses) {
-		return mapper.getTypeFactory().constructParametricType(collectionClass, elementClasses);
-	}
+    private static JavaType getCollectionType(Class<?> collectionClass, Class<?>... elementClasses) {
+        return mapper.getTypeFactory().constructParametricType(collectionClass, elementClasses);
+    }
 
 }
