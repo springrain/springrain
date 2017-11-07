@@ -36,12 +36,7 @@ ${r"<@h.commonHead"} title="后台管理系统" keywords="开源,永久免费" d
 			<div class="layui-tab layui-tab-brief">
 				<ul class="layui-tab-title site-demo-title">
 		             <li class="layui-this">
-		             		<i class="layui-icon">&#xe630;</i>
-							<!--网站地图导航-->
-		             		<span class="layui-breadcrumb" style="visibility: visible;">
-							  <a href="${r"${ctx}"}">首页<span class="layui-box">&gt;</span></a>
-							  <a><cite>${tableName}管理</cite></a>
-							</span>
+		             		
 		             </li>
 					 <li style="float:right;">
 		             	${r"<@shiro.hasPermission"} name="/${targetpackage}/${classNameLowerCase}/update" >
