@@ -338,26 +338,26 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		}
 		String sort = page.getSort();
 		String order = page.getOrder();
-		if (StringUtils.isNotBlank(order)) {
-			order = order.trim();
-			if (order.contains(" ") || order.contains(";") || order.contains(",") || order.contains("'")
-					|| order.contains("(") || order.contains(")")) {// 认为是异常的,主要是防止注入
-				return null;
-			}
-
-			if (RegexValidateUtils.getOrderByIndex(finder.getSql()) < 0) {
-				finder.append(" order by ").append(order);
-			}
-			if (StringUtils.isNotBlank(sort)) {
-				if ("asc".equalsIgnoreCase(sort) && (finder.getSql().toLowerCase().contains(" asc ") == false)) {
-					finder.append(" asc ");
-				} else if ("desc".equalsIgnoreCase(sort)
-						&& (finder.getSql().toLowerCase().contains(" desc ") == false)) {
-					finder.append(" desc ");
-				}
-			}
-
+		if (StringUtils.isBlank(order)) {
+		    return finder;
 		}
+		order = order.trim();
+		if (order.contains(" ") || order.contains(";") || order.contains(",") || order.contains("'") || order.contains("(") || order.contains(")")) {// 认为是异常的,主要是防止注入
+				return null;
+		}
+
+		if (RegexValidateUtils.getOrderByIndex(finder.getSql()) < 0) {
+				finder.append(" order by ").append(order);
+		}
+		if (StringUtils.isBlank(sort)) {
+			    return finder;
+		}
+		if ("asc".equalsIgnoreCase(sort) && (finder.getSql().toLowerCase().contains(" asc ") == false)) {
+					finder.append(" asc ");
+		} else if ("desc".equalsIgnoreCase(sort)&& (finder.getSql().toLowerCase().contains(" desc ") == false)) {
+					finder.append(" desc ");
+		}
+			
 		return finder;
 	}
 
