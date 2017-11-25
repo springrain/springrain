@@ -40,7 +40,7 @@ public class SpringTest  {
 		
 		//框架默认Entity做为QueryBean,也可以自己定义QueryBean
 		User queryBean=new User();
-		queryBean.setId("admin");
+		//queryBean.setId("admin");
 		
 		//初始化Finder,并为User取别名 u
 		//Finder finder=Finder.getSelectFinder(User.class," u.*").append(" u       WHERE  1=1 ");
@@ -57,7 +57,13 @@ public class SpringTest  {
 		//分页查询List<User>集合对象
 		List<User> list = userService.queryForList(finder,User.class,page);
 		
-		System.out.println(list);
+		System.out.println(list.size());
+		
+		
+		userService.update(list);
+		
+		
+		
 	}
 	
 	
