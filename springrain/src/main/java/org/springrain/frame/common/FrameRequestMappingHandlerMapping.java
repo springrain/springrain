@@ -12,7 +12,7 @@ import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 /**
- * 扩展实现 restful 路由查找,提高spring mvc 性能,适用于通配符且数量可控的情况,不建议id放入url,不然数量会非常庞大,还不如临时匹配
+ * 扩展实现 restful 路由查找,提高spring mvc 性能,适用于通配符且数量可控的情况,不建议id放入url,不然数量会非常庞大,需要在请求head或者参数里放入服务名,根据服务名查找
  * @author caomei
  *
  */
@@ -43,6 +43,7 @@ public class FrameRequestMappingHandlerMapping extends RequestMappingHandlerMapp
     @Nullable
     protected HandlerMethod lookupHandlerMethod(String lookupPath, HttpServletRequest request) throws Exception {
         
+        //查找的key,默认使用请求方法+uri实现,如果id在uri里,需要前端请求时放入服务名,通过服务名做key,不然uri会非常多,缓存会比较吃力.
         String mapKey=request.getMethod()+"_"+lookupPath;
         
         HandlerMethod handlerMethod = lookupHandlerMethodMap.get(mapKey);
