@@ -48,6 +48,7 @@ public class FrameRequestMappingHandlerMapping extends RequestMappingHandlerMapp
         HandlerMethod handlerMethod = lookupHandlerMethodMap.get(mapKey);
         
         if (handlerMethod != null) {
+            //处理PathVariable的参数,registerHandlerMethodMap就是为了这个功能记录了HandlerMethod 和 RequestMappingInfo的关系
             handleMatch(registerHandlerMethodMap.get(handlerMethod), lookupPath, request);
             return handlerMethod;
         } else {

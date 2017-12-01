@@ -63,8 +63,12 @@
         </bean>
 	
 	
-	
+	<!-- 继承 RequestMappingHandlerMapping 用于解决spring mvc restful性能问题 -->
 	<bean class="org.springrain.frame.common.FrameRequestMappingHandlerMapping" />
+	
+	<!-- 
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" />
+	 -->
 	
 	
 	
