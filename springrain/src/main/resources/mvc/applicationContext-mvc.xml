@@ -16,35 +16,63 @@
 		http://www.springframework.org/schema/aop/spring-aop.xsd"
 	default-lazy-init="false">
 	
+	
+	<!--  
     <mvc:annotation-driven>
 		<mvc:message-converters register-defaults="true">
-		<bean
-				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-				<property name="supportedMediaTypes">
-					<list>
-						<value>application/json;charset=UTF-8</value>
-						<value>text/html;charset=UTF-8</value>
-					</list>
-				</property>
-				<!-- jackson 值为null的属性不转换,默认是com.fasterxml.jackson.databind.ObjectMapper,扩展实现了字符编码,防止xss -->
-				<property name="objectMapper">
-                    <bean class="org.springrain.frame.util.FrameObjectMapper">
-                    <!-- 
-                        <property name="serializationInclusion">
-                            <value type="com.fasterxml.jackson.annotation.JsonInclude.Include">NON_NULL</value>
-                        </property>
-                      -->
-                    </bean>
-                </property>
-				
-			</bean>
-		
-			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
-				<constructor-arg value="UTF-8" />
-			</bean>
+
 			
 		</mvc:message-converters>
 	</mvc:annotation-driven>
+	-->
+	
+	
+	
+	    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter ">
+        <property name="messageConverters">  
+	         <list>  
+			       <bean
+		                class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+		                <property name="supportedMediaTypes">
+		                    <list>
+		                        <value>application/json;charset=UTF-8</value>
+		                        <value>text/html;charset=UTF-8</value>
+		                    </list>
+		                </property>
+		                <!-- jackson 值为null的属性不转换,默认是com.fasterxml.jackson.databind.ObjectMapper,扩展实现了字符编码,防止xss -->
+		                <property name="objectMapper">
+		                    <bean class="org.springrain.frame.util.FrameObjectMapper">
+		                    <!-- 
+		                        <property name="serializationInclusion">
+		                            <value type="com.fasterxml.jackson.annotation.JsonInclude.Include">NON_NULL</value>
+		                        </property>
+		                      -->
+		                    </bean>
+		                </property>
+		                
+		            </bean>
+		        
+		            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+		                <constructor-arg value="UTF-8" />
+		            </bean>
+		            
+		            <bean class="org.springframework.http.converter.ResourceHttpMessageConverter" /> 
+			         
+	         </list>
+        </property>
+        </bean>
+	
+	
+	
+	<bean class="org.springrain.frame.common.FrameRequestMappingHandlerMapping" />
+	
+	
+	
+	
+	
+	
+	
+	
 	 
 	<!-- 只扫描Controller 注解 -->
 		<context:component-scan base-package="org.springrain"
