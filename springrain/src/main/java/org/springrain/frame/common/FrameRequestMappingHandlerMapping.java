@@ -13,7 +13,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 
 /**
  * 扩展实现 restful 路由查找,提高spring mvc 性能,适用于通配符且数量可控的情况. <br />
- * 不建议id放入url,不然数量会非常庞大,需要在请求head或者参数里放入服务名,根据服务名查找<br />
+ * 不建议id放入url,不然数量会非常庞大,需要在请求header或者参数里放入服务名,根据服务名查找<br />
  * 参考资料:https://tech.imdada.cn/2015/12/23/springmvc-restful-optimize/
  * @author caomei
  *
