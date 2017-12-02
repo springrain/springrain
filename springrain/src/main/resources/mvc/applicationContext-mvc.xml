@@ -57,6 +57,8 @@
 		            </bean>
 		            
 		            <bean class="org.springframework.http.converter.ResourceHttpMessageConverter" /> 
+		            
+		            <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter" />
 			         
 	         </list>
         </property>
