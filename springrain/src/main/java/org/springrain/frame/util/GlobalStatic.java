@@ -1,5 +1,7 @@
 package org.springrain.frame.util;
 
+import java.io.File;
+
 /**
  * 全局的静态变量,用于全局变量的存放
  * @copyright {@link weicms.net}
@@ -121,7 +123,11 @@ public class GlobalStatic {
 		if(_info>0){
 			path=path.substring(0, _info);
 		}
-		
+	    if(!path.startsWith("/")&&path.indexOf(":")==-1){
+              path=File.separatorChar+path;
+        }
+      
+      
 		rootDir=path;
 		webInfoDir=rootDir+"/WEB-INF";
 		tempRootpath = rootDir + "/temp/";
