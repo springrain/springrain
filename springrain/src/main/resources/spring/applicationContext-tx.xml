@@ -34,7 +34,7 @@
 	<!-- 基本事务定义,使用transactionManager作事务管理,默认find*方法 没有事务,和动态数据源配合 -->
 	<tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
-			<!-- 指定哪些方法需要加入事务，可以使用通配符来只加入需要的方法 -->
+			<!-- 指定哪些方法需要加入事务，可以使用通配符来只加入需要的方法,oracle需要更换isolation -->
 			<tx:method name="save*" propagation="REQUIRED"   isolation="READ_UNCOMMITTED"  timeout="3600"
 				rollback-for="Exception" />
 			<tx:method name="update*" propagation="REQUIRED"  isolation="READ_UNCOMMITTED"  timeout="3600"

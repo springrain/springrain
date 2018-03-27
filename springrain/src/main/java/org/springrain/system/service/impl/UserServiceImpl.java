@@ -134,19 +134,19 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
 		User user = (User) o;
 		// ==执行分页查询
 		// user.setFrameTableAlias("tu");
-		// finder=Finder.getSelectFinder(User.class,"tu.*,tg.name as gradeName ").append(" tu,").append(Finder.getTableName(DicData.class)).append(" tg WHERE tu.gradeId=tg.id and tg.typekey='grade' ");
+		// finder=Finder.getSelectFinder(User.class,"tu.*,tg.name gradeName ").append(" tu,").append(Finder.getTableName(DicData.class)).append(" tg WHERE tu.gradeId=tg.id and tg.typekey='grade' ");
       
 		Finder qxfinder=userOrgService.findUserIdsSQLByManagerUserId(SessionUser.getUserId());
         
         user.setFrameTableAlias("u");
         
-		finder = Finder.getSelectFinder(User.class).append(" as u ").append(" WHERE 1=1 ");
+		finder = Finder.getSelectFinder(User.class).append(" u ").append(" WHERE 1=1 ");
 //		finder.setEscapeSql(false); 
 		
 //		finder = new Finder("select u.* from "+Finder.getTableName(User.class));
-//		finder.append("(select userId from "+Finder.getTableName(User.class)+" as u ,"+Finder.getTableName(UserOrg.class)+" as re where u.id=re.userId ")
+//		finder.append("(select userId from "+Finder.getTableName(User.class)+" u ,"+Finder.getTableName(UserOrg.class)+" re where u.id=re.userId ")
 //		.append(" and re.orgId in (").append(qxsql).append(")").append("  group by userId ")
-//		.append(") as m where m.userId=u.id ");
+//		.append(") m where m.userId=u.id ");
 		
         if(StringUtils.isBlank(qxfinder.getSql())){
         	//非管理员查看自己的

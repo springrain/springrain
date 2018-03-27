@@ -89,6 +89,18 @@ public class WxMpAutoLoginFilter extends OncePerRequestFilter {
 			}
 			
 		    req.getRequestDispatcher("/mp/mpautologin/"+siteId+"/oauth2?url=" + url).forward(request, response);
+		      /**-----------------------------------------------------------
+             * |                    | tomcat1           |               |
+             * |                    | tomcat2   ------->                |
+             * |Nginx---------------> tomcat3 业务域       | 数据域           |
+             * |(DMZ)               | tomcat4   <-------                |
+             * |<---tomcat(访问api)   | ......            |               |
+             * |                    |                   |               |
+             * |--------------------|-------------------------------------
+             * 背景：DMZ可访问api接口且DMZ到业务是单向的，不允许双向访问，且只有DMZ可访问外网，业务域不允许
+             * 主明：只能用下面这种 方式，让客户端重定向到DMZ的tomcat而不能用上面的在tomcat业务域服务器端转发了。
+             *      DMZ的tomcat访问api接口（当然，NG要配置下，要访问API的走DMZ的tomcat，其它走业务域集群）
+             */
 			//rep.sendRedirect(SiteUtils.getSiteURLPath(req)+"/mp/mpautologin/"+siteId+"/oauth2?url="+ url);
 		} catch (Exception e) {
 			logger.error(e.getMessage(),e);
