@@ -6,7 +6,8 @@
 	<artifactId>springrain</artifactId>
 	<version>3.0.0-SNAPSHOT</version>
     <packaging>war</packaging>
-
+    
+    
 	<name>springrain</name>
 	<url>http://git.oschina.net/chunanyong/springrain</url>
 
@@ -721,6 +722,38 @@
 					<skipTests>true</skipTests>
 				</configuration>
 			</plugin>
+			
+			
+			
+           <!-- 代码混淆 ,项目类型必须是jar,如果是war会报错-->
+           <!--  
+            <plugin>
+                <groupId>com.github.wvengen</groupId>
+                <artifactId>proguard-maven-plugin</artifactId>
+                <version>${proguard-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>proguard</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                <proguardInclude>${basedir}/src/main/resources/proguard.conf</proguardInclude>
+                    <attach>true</attach>
+                    <obfuscate>true</obfuscate>
+                    <attachArtifactClassifier>pg</attachArtifactClassifier>
+                    <outjar>${finalName}-pg</outjar>
+                    <libs>
+                        <lib>${java.home}/lib/rt.jar</lib>
+                    </libs>
+
+                </configuration>
+            </plugin>
+			
+			-->
+			
 			
 			
 		</plugins>
