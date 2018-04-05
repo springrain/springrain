@@ -1,14 +1,14 @@
 package org.springrain.frame.common;
 
 import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.context.annotation.AnnotationBeanNameGenerator;
 /**
  * 重新设置springbean的命名规则,暂时不用
- * @author zhengyongshegn
+ * @author springrain
  *
  */
 @Deprecated
-public class SpringAnnotationBeanNameGenerator extends  AnnotationBeanNameGenerator  {
+//public class SpringAnnotationBeanNameGenerator extends  AnnotationBeanNameGenerator  {
+public class SpringAnnotationBeanNameGenerator  {
 /*
 	@Override
 	public String generateBeanName(BeanDefinition definition,
@@ -30,7 +30,7 @@ public class SpringAnnotationBeanNameGenerator extends  AnnotationBeanNameGenera
 		return className;
 	}
 	*/
-	@Override
+	//@Override
 	protected String buildDefaultBeanName(BeanDefinition definition) {
 		String className =definition.getBeanClassName();  
 	
@@ -39,7 +39,7 @@ public class SpringAnnotationBeanNameGenerator extends  AnnotationBeanNameGenera
 			className=className.substring(0, className.length()-4);
 		}
 		if((className.toLowerCase().endsWith("service")||className.toLowerCase().endsWith("dao"))==false){
-			return super.buildDefaultBeanName(definition);
+			//return super.buildDefaultBeanName(definition);
 		}
 		
 	
