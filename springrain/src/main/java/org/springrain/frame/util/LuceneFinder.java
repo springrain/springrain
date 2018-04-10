@@ -63,9 +63,9 @@ public class LuceneFinder {
      * @return
      * @throws Exception
      */
-    public List<BooleanClause> addWhereCondition(String fieldName, Class fieldType, Object minValue, Object maxValue)
+    public List<BooleanClause> addWhereConditionRange(String fieldName, Class fieldType, Object minValue, Object maxValue)
             throws Exception {
-        return addWhereCondition(fieldName, fieldType, minValue, maxValue, true, true, Occur.MUST);
+        return addWhereConditionRange(fieldName, fieldType, minValue, maxValue, true, true, Occur.MUST);
     }
 
     /**
@@ -176,7 +176,7 @@ public class LuceneFinder {
      * @return
      * @throws Exception
      */
-    public List<BooleanClause> addWhereCondition(String fieldName, Class fieldType, Object minValue, Object maxValue,
+    public List<BooleanClause> addWhereConditionRange(String fieldName, Class fieldType, Object minValue, Object maxValue,
             boolean includeLower, boolean includeUpper, Occur occur) throws Exception {
 
         if (fieldType == null || StringUtils.isEmpty(fieldName) || minValue == null || maxValue == null) {
