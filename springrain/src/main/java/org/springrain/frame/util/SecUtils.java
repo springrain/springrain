@@ -1,6 +1,7 @@
 package org.springrain.frame.util;
 
 import java.security.MessageDigest;
+import java.util.Base64;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -62,5 +63,41 @@ public class SecUtils {
     public static String getUUID() {
         return UUID.randomUUID().toString().replace("-", "");
     }
+    
+    /**
+     * Base64加密
+     * @param str 要加密的字符串
+     * @return 返回加密后的字符串
+     */
+    public final static String encoderByBase64(String str) {
+        try {
+            Base64.Encoder encoder = Base64.getEncoder();
+            String encode = encoder.encodeToString(str.getBytes());  
+            return encode;
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            return null;
+        }
+    }
+    
+    /**
+     * Base64解密
+     * @param str 要解密的字符串
+     * @return 返回解密后的字符串
+     */
+    public final static String decoderByBase64(String str) {
+        try {
+            Base64.Decoder decoder = Base64.getDecoder();
+            String encode = new String(decoder.decode(str));  
+            return encode;
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            return null;
+        }
+    }
+    
+    
+    
+    
 
 }
