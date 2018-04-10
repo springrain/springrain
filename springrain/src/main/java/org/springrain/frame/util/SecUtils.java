@@ -70,14 +70,7 @@ public class SecUtils {
      * @return 返回加密后的字符串
      */
     public final static String encoderByBase64(String str) {
-        try {
-            Base64.Encoder encoder = Base64.getEncoder();
-            String encode = encoder.encodeToString(str.getBytes());  
-            return encode;
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-            return null;
-        }
+        return encoderByBase64(str.getBytes());
     }
     
     /**
@@ -96,6 +89,22 @@ public class SecUtils {
         }
     }
     
+    /**
+     * Base64加密
+     * @param str 要加密的字符串
+     * @return 返回加密后的字符串
+     */
+    public final static String encoderByBase64(byte[] data) {
+        try {
+            Base64.Encoder encoder = Base64.getEncoder();
+            String encode = encoder.encodeToString(data);  
+            return encode;
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            return null;
+        }
+    }
+  
     
     
     
