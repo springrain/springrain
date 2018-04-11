@@ -171,7 +171,7 @@ public final class ImageUtils {
         }
     }
 
-    public static void main(String[] args) throws IOException {
+   // public static void main(String[] args) throws IOException {
         // pressImage("G:\\imgtest\\sy.jpg", "G:\\imgtest\\test1.jpg", 0, 0, 0.5f);
         // pressText("我是文字水印", "D:/error.jpg", "黑体", 36, Color.white, 80, -10, 0,
         // 0.3f);
@@ -181,7 +181,7 @@ public final class ImageUtils {
          * int top=102; int left=175; int width=100; int height=50; cut(left, top,
          * width, height, "g:/1.jpg", "g:/100.jpg");
          */
-    }
+   // }
 
     public static int getLength(String text) {
         int length = 0;
