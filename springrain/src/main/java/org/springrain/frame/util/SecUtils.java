@@ -74,22 +74,6 @@ public class SecUtils {
     }
     
     /**
-     * Base64解密
-     * @param str 要解密的字符串
-     * @return 返回解密后的字符串
-     */
-    public final static String decoderByBase64(String str) {
-        try {
-            Base64.Decoder decoder = Base64.getDecoder();
-            String encode = new String(decoder.decode(str));  
-            return encode;
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-            return null;
-        }
-    }
-    
-    /**
      * Base64加密
      * @param str 要加密的字符串
      * @return 返回加密后的字符串
@@ -104,6 +88,44 @@ public class SecUtils {
             return null;
         }
     }
+    
+    /**
+     * Base64解密
+     * @param str 要解密的字符串
+     * @return 返回解密后的字符串
+     */
+    public final static byte[] decoderByteByBase64(String str) {
+        try {
+            Base64.Decoder decoder = Base64.getDecoder();
+           byte[] decode = decoder.decode(str);  
+            return decode;
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            return null;
+        }
+    }
+    
+    
+    /**
+     * Base64解密
+     * @param str 要解密的字符串
+     * @return 返回解密后的字符串
+     */
+    public final static String decoderByBase64(String str) {
+        try {
+            byte[] decoderByBase64 = decoderByteByBase64(str);
+            if(decoderByBase64==null) {
+                return null;
+            }
+            String decode = new String(decoderByBase64);  
+            return decode;
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            return null;
+        }
+    }
+    
+  
   
     
     
