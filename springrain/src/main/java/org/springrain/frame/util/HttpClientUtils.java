@@ -2,11 +2,13 @@ package org.springrain.frame.util;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.net.ssl.SSLContext;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.config.RequestConfig;
@@ -201,7 +203,7 @@ public class HttpClientUtils {
     }
 
     /**
-     * 发送 post请求（带文件）
+     * 发送 post请求（带文件）,默认 files 名称数组.
      * 
      * @param httpUrl
      *            地址
@@ -213,9 +215,23 @@ public class HttpClientUtils {
     public static String sendHttpPost(String httpUrl, List<File> fileLists, Map<String, String> maps) {
         return sendHttpPost(httpUrl, fileLists, maps, null);
     }
-
+    
     /**
      * 发送 post请求（带文件）
+     * 
+     * @param httpUrl
+     *            地址
+     * @param fileMap
+     *           附件,名称和File对应
+     * @param maps
+     *            参数
+     */
+    public static String sendHttpPost(String httpUrl, Map<String,File> fileMap, Map<String, String> maps) {
+        return sendHttpPost(httpUrl, fileMap, maps, null);
+    }
+
+    /**
+     * 发送 post请求（带文件）,默认 files 名称数组.
      * 
      * @param httpUrl
      *            地址
@@ -228,19 +244,47 @@ public class HttpClientUtils {
      */
     public static String sendHttpPost(String httpUrl, List<File> fileLists, Map<String, String> maps,
             SSLContext sslContext) {
+
+        Map<String,File> fileMap=new HashMap<>();
+               
+        if(CollectionUtils.isNotEmpty(fileLists)) {
+            for (File file : fileLists) {
+                fileMap.put("files", file);
+            }
+        }
+       
+        return sendHttpPost(httpUrl,fileMap,maps, sslContext);
+    }
+    
+    /**
+     * 发送 post请求（带文件）
+     * 
+     * @param httpUrl
+     *            地址
+     * @param fileMap
+     *            附件,名称和File对应
+     * @param maps
+     *            参数
+     * @param sslContext
+     *            ssl证书信息
+     */
+    public static String sendHttpPost(String httpUrl, Map<String,File> fileMap, Map<String, String> maps,
+            SSLContext sslContext) {
         HttpPost httpPost = new HttpPost(httpUrl);// 创建httpPost
         MultipartEntityBuilder meBuilder = MultipartEntityBuilder.create();
         for (Map.Entry<String, String> m : maps.entrySet()) {
             meBuilder.addPart(m.getKey(), new StringBody(m.getValue(), ContentType.TEXT_PLAIN));
         }
-        for (File file : fileLists) {
-            FileBody fileBody = new FileBody(file);
-            meBuilder.addPart("files", fileBody);
+        for (Map.Entry<String, File> m : fileMap.entrySet()) {
+            FileBody fileBody = new FileBody(m.getValue());
+            meBuilder.addPart(m.getKey(), fileBody);
         }
         HttpEntity reqEntity = meBuilder.build();
         httpPost.setEntity(reqEntity);
         return sendHttpPost(httpPost, sslContext);
     }
+    
+    
 
     /**
      * 发送Post请求

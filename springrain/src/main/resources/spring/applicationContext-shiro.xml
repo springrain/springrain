@@ -115,7 +115,6 @@
 				/index = firewall,user,keepone
 				/logout = firewall,frontuser
 				
-				/s/**/ajax/** = firewall <!-- ajax权限放开 -->
 				/s/*/login = firewall
 				/s/*/index = firewall,siteuser,keepone
 				/s/*/logout = firewall,siteuser
