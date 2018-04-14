@@ -180,9 +180,9 @@
 		 -->
 		 
 		 <!-- 如果值小于0 例如 -1,认为不限制,黑名单依然有效 -->
-		<property name="firewallLockCount" value="-1" />
-		<property name="firewallLockSecond" value="60" />
-		<property name="firewallLockedMinute" value="10" />
+		<property name="firewallLockCheckCount" value="-1" />
+		<property name="firewallLockCheckSecond" value="60" />
+		<property name="firewallLockedSecond" value="600" />
 		
 		<property name="blackList" >
 		 <list>

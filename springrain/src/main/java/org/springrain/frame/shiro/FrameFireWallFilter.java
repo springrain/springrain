@@ -31,12 +31,12 @@ public class FrameFireWallFilter extends OncePerRequestFilter {
 	
 	
 	//同一IP防火墙阀值
-	private Integer firewallLockCount=GlobalStatic.FRIEWALL_LOCK_COUNT;
+	private Integer firewallLockCheckCount=GlobalStatic.FRIEWALL_LOCK_CHECK_COUNT;
 	//同一IP阀值时间,单位是 秒
-	private Integer firewallLockSecond=GlobalStatic.FRIEWALL_LOCK_SECOND;
+	private Integer firewallLockCheckSecond=GlobalStatic.FRIEWALL_LOCK_CHECK_SECOND;
 	
-	//锁定分钟数
-	private Integer firewallLockedMinute=GlobalStatic.FRIEWALL_LOCKED_MINUTE;
+	//锁定秒数
+	private Integer firewallLockedSecond=GlobalStatic.FRIEWALL_LOCKED_SECOND;
 	
 	
 	//白名单
@@ -67,7 +67,7 @@ public class FrameFireWallFilter extends OncePerRequestFilter {
 	    
 	    
 	    //次数小于0,认为不限制
-	    if(firewallLockCount<0){
+	    if(firewallLockCheckCount<0){
 	        chain.doFilter(req, res);
 	    	return ;
 	    	
@@ -86,7 +86,7 @@ public class FrameFireWallFilter extends OncePerRequestFilter {
 	    
 	    //当前时间
 	    Long now=System.currentTimeMillis()/1000;
-	    Long _end=now+firewallLockSecond;
+	    Long _end=now+firewallLockCheckSecond;
 	    if(fw==null){//第一次访问
 	    	cache.put(ip, 1+"_"+_end+"_0");
 	    	chain.doFilter(req, res);
@@ -105,7 +105,7 @@ public class FrameFireWallFilter extends OncePerRequestFilter {
 	    //是否在锁定期
 	    Integer active=Integer.valueOf(strs[2]);
 	    _count=_count+1;
-	    if(_count<=firewallLockCount){//不到阀值
+	    if(_count<=firewallLockCheckCount){//不到阀值
 	    	cache.put(ip, _count+"_"+endDateLong+"_"+active);
 	    	chain.doFilter(req, res);
 	    	return;
@@ -115,7 +115,7 @@ public class FrameFireWallFilter extends OncePerRequestFilter {
 	  //访问超过阀值
 	    
 	    if(active==0){//未进入锁定
-	    	endDateLong=endDateLong+firewallLockedMinute*60;
+	    	endDateLong=endDateLong+firewallLockedSecond*60;
 	    	active=1;
 	    }
 	    
@@ -132,32 +132,6 @@ public class FrameFireWallFilter extends OncePerRequestFilter {
 	
 
 	}
-   
-  
-
-
-	public Integer getFirewallLockCount() {
-		return firewallLockCount;
-	}
-
-
-
-	public void setFirewallLockCount(Integer firewallLockCount) {
-		this.firewallLockCount = firewallLockCount;
-	}
-
-
-
-	public Integer getFirewallLockSecond() {
-		return firewallLockSecond;
-	}
-
-
-
-	public void setFirewallLockSecond(Integer firewallLockSecond) {
-		this.firewallLockSecond = firewallLockSecond;
-	}
-
 
 
 	public List<String> getWhiteList() {
@@ -183,16 +157,38 @@ public class FrameFireWallFilter extends OncePerRequestFilter {
 	}
 
 
-
-	public Integer getFirewallLockedMinute() {
-		return firewallLockedMinute;
-	}
-
+    public Integer getFirewallLockCheckCount() {
+        return firewallLockCheckCount;
+    }
 
 
-	public void setFirewallLockedMinute(Integer firewallLockedMinute) {
-		this.firewallLockedMinute = firewallLockedMinute;
-	}
+    public void setFirewallLockCheckCount(Integer firewallLockCheckCount) {
+        this.firewallLockCheckCount = firewallLockCheckCount;
+    }
+
+
+    public Integer getFirewallLockCheckSecond() {
+        return firewallLockCheckSecond;
+    }
+
+
+    public void setFirewallLockCheckSecond(Integer firewallLockCheckSecond) {
+        this.firewallLockCheckSecond = firewallLockCheckSecond;
+    }
+
+
+    public Integer getFirewallLockedSecond() {
+        return firewallLockedSecond;
+    }
+
+
+    public void setFirewallLockedSecond(Integer firewallLockedSecond) {
+        this.firewallLockedSecond = firewallLockedSecond;
+    }
+
+
+
+	
 
 
 

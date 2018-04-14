@@ -104,11 +104,11 @@ public class GlobalStatic {
 	
 	
 	//同一IP防火墙阀值
-	public static final Integer FRIEWALL_LOCK_COUNT = 10000;
+	public static final Integer FRIEWALL_LOCK_CHECK_COUNT = 10000;
 	//同一IP阀值时间,单位是 秒
-	public static final Integer FRIEWALL_LOCK_SECOND = 60;
-	//锁定分钟数
-	public static final Integer FRIEWALL_LOCKED_MINUTE = 10;
+	public static final Integer FRIEWALL_LOCK_CHECK_SECOND = 60;
+	//锁定秒数
+	public static final Integer FRIEWALL_LOCKED_SECOND = 10*60;
 	
 	static{
 		String path=Thread.currentThread().getContextClassLoader().getResource("").toString();
