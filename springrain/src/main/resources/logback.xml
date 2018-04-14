@@ -37,9 +37,9 @@
 		<appender-ref ref="sqlFile" />
 	</logger>
 	
-	<logger name="org" level="ERROR" additivity="false"  />
+	<logger name="org" level="INFO" additivity="false"  />
 	
-	<root level="TRACE">
+	<root level="INFO">
 		<appender-ref ref="stdout" />
 		<appender-ref ref="errorFile" />
 	</root>
