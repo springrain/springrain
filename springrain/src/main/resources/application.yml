@@ -31,8 +31,8 @@ spring:
     mvc: 
         ignore-default-model-on-redirect: false ###在重定向时是否忽略默认model的内容，默认为true###
         
-#    aop: 
-#        proxy-target-class: true
+    aop: 
+        proxy-target-class: false
         
         
         
