@@ -5,7 +5,7 @@ import java.io.File;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springrain.frame.util.property.DbPropertyUtil;
+import org.springframework.beans.factory.annotation.Value;
 
 import com.artofsolving.jodconverter.DocumentConverter;
 import com.artofsolving.jodconverter.openoffice.connection.OpenOfficeConnection;
@@ -23,12 +23,13 @@ public class OpenOfficeKit {
 	
 	
 	private static final Logger logger = LoggerFactory.getLogger(OpenOfficeKit.class);
-	private static final String OpenOffice_HOME = DbPropertyUtil
-			.getValue("openoffice.home");
-	private static final String HOST = DbPropertyUtil
-			.getValue("openoffice.host");;
-	private static final String PORT = DbPropertyUtil
-			.getValue("openoffice.port");;
+	
+	@Value("${springrain.openoffice.home}")
+	private  static String OpenOffice_HOME ;
+	@Value("${springrain.openoffice.host}")
+	private static  String HOST;
+	@Value("${springrain.openoffice.port}")
+	private static  String PORT ;
 	private static Process pro = null;
 	private static OpenOfficeConnection connection = null;
 	static {

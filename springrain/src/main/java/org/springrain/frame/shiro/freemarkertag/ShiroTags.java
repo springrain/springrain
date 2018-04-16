@@ -1,6 +1,10 @@
 package org.springrain.frame.shiro.freemarkertag;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
 import freemarker.template.SimpleHash;
 
@@ -11,6 +15,11 @@ import freemarker.template.SimpleHash;
  */
 @Component("shiroTags")
 public class ShiroTags extends SimpleHash {
+    
+    @Resource
+    private FreeMarkerConfigurer freeMarkerConfigurer;
+    
+    
     /**
 	 * 
 	 */
@@ -29,4 +38,11 @@ public class ShiroTags extends SimpleHash {
         put("principal", new PrincipalTag());
         put("user", new UserTag());
     }
+	
+	@PostConstruct
+    public void registerFreeMarkerVariable() {
+	    freeMarkerConfigurer.getConfiguration().setSharedVariable("shiro", this);
+    }
+	
+	
 }

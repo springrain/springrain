@@ -104,7 +104,7 @@ public class GlobalStatic {
 	
 	
 	//同一IP防火墙阀值
-	public static final Integer FRIEWALL_LOCK_CHECK_COUNT = 10000;
+	public static final Integer FRIEWALL_LOCK_CHECK_COUNT = -1;
 	//同一IP阀值时间,单位是 秒
 	public static final Integer FRIEWALL_LOCK_CHECK_SECOND = 60;
 	//锁定秒数

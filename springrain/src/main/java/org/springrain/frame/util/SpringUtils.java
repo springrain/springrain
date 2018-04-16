@@ -35,16 +35,32 @@ public class SpringUtils implements ApplicationContextAware {
 
     }
 
-    @SuppressWarnings("static-access")
     @Override
     public void setApplicationContext(ApplicationContext context) throws BeansException {
         this.applicationContext = context;
 
         try {
-            initEntityInfo();
+            
+            new Thread() {
+               
+                public void run() {
+                    
+                    try {
+                        initEntityInfo();
+                        // 初始化添加自定义的Lucene词语
+                        // LuceneUtils.addDictWord(words);
+                    } catch (Exception e) {
+                        logger.error(e.getMessage(), e);
+                    }
+                    
+                   
+                }
 
-            // 初始化添加自定义的Lucene词语
-            // LuceneUtils.addDictWord(words);
+               
+            }.start();
+            
+            
+         
 
         } catch (Exception e) {
             logger.error(e.getMessage(), e);

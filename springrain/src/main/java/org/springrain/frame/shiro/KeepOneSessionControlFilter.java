@@ -16,8 +16,10 @@ import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springrain.frame.common.SessionUser;
 import org.springrain.frame.util.GlobalStatic;
@@ -93,4 +95,21 @@ public class KeepOneSessionControlFilter extends AccessControlFilter {
 	}
 
 
+    /**
+     *  springboot会把所有的filter列为平级,造成shiro的子拦截器和shiroFilter同级,造成访问异常,所以shiro的子Filter需要手动disable
+     * @param filter
+     * @return
+     */
+
+    @Bean
+    public FilterRegistrationBean<KeepOneSessionControlFilter> disableKeepOneSessionControlFilter(KeepOneSessionControlFilter filter) {
+        FilterRegistrationBean<KeepOneSessionControlFilter> registration = new FilterRegistrationBean<KeepOneSessionControlFilter>(filter);
+        registration.setEnabled(false);
+        return registration;
+    }
+    
+   
+
+
+    
 }

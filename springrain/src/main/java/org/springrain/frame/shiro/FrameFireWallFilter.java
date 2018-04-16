@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -12,17 +13,20 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.web.servlet.OncePerRequestFilter;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.IPUtils;
 /**
- * 记录访问日志的过滤器
+ * 简单的防火墙策略,一般是专业防火墙实现的功能
  * @author caomei
  *
  */
 
-
+@Component("firewall")
 public class FrameFireWallFilter extends OncePerRequestFilter {
 	//private final Logger logger = LoggerFactory.getLogger(getClass());
 	
@@ -30,7 +34,7 @@ public class FrameFireWallFilter extends OncePerRequestFilter {
 	private CacheManager cacheManager;
 	
 	
-	//同一IP防火墙阀值
+	//同一IP防火墙阀值,如果值小于0 例如 -1,认为不限制,黑名单依然有效
 	private Integer firewallLockCheckCount=GlobalStatic.FRIEWALL_LOCK_CHECK_COUNT;
 	//同一IP阀值时间,单位是 秒
 	private Integer firewallLockCheckSecond=GlobalStatic.FRIEWALL_LOCK_CHECK_SECOND;
@@ -40,10 +44,19 @@ public class FrameFireWallFilter extends OncePerRequestFilter {
 	
 	
 	//白名单
-	private List<String> whiteList=new ArrayList<>();
+	private List<String> whiteList=new ArrayList<>() ;
 	
 	//黑名单
 	private List<String> blackList=new ArrayList<>();
+	
+	
+	
+	
+	@PostConstruct
+	private void init() {
+	    whiteList.add("127.0.0.1");
+	    blackList.add("127.0.0.2");
+	}
 	
 
 	@Override
@@ -134,64 +147,18 @@ public class FrameFireWallFilter extends OncePerRequestFilter {
 	}
 
 
-	public List<String> getWhiteList() {
-		return whiteList;
-	}
+	/**
+	 *  springboot会把所有的filter列为平级,造成shiro的子拦截器和shiroFilter同级,造成访问异常,所以shiro的子Filter需要手动disable
+	 * @param filter
+	 * @return
+	 */
 
-
-
-	public void setWhiteList(List<String> whiteList) {
-		this.whiteList = whiteList;
-	}
-
-
-
-	public List<String> getBlackList() {
-		return blackList;
-	}
-
-
-
-	public void setBlackList(List<String> blackList) {
-		this.blackList = blackList;
-	}
-
-
-    public Integer getFirewallLockCheckCount() {
-        return firewallLockCheckCount;
+    @Bean
+    public FilterRegistrationBean<FrameFireWallFilter> disableFrameFireWallFilter(FrameFireWallFilter filter) {
+        FilterRegistrationBean<FrameFireWallFilter> registration = new FilterRegistrationBean<FrameFireWallFilter>(filter);
+        registration.setEnabled(false);
+        return registration;
     }
-
-
-    public void setFirewallLockCheckCount(Integer firewallLockCheckCount) {
-        this.firewallLockCheckCount = firewallLockCheckCount;
-    }
-
-
-    public Integer getFirewallLockCheckSecond() {
-        return firewallLockCheckSecond;
-    }
-
-
-    public void setFirewallLockCheckSecond(Integer firewallLockCheckSecond) {
-        this.firewallLockCheckSecond = firewallLockCheckSecond;
-    }
-
-
-    public Integer getFirewallLockedSecond() {
-        return firewallLockedSecond;
-    }
-
-
-    public void setFirewallLockedSecond(Integer firewallLockedSecond) {
-        this.firewallLockedSecond = firewallLockedSecond;
-    }
-
-
-
-	
-
-
-
 
 
 	
