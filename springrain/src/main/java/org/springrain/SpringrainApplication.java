@@ -14,10 +14,10 @@ import org.springframework.stereotype.Controller;
  */
 @SpringBootApplication
 @ComponentScan(excludeFilters= {@Filter(type=FilterType.ANNOTATION,value=Controller.class)})
-public class SpringbootrainApplication  {
+public class SpringrainApplication  {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SpringbootrainApplication.class, args);
+		SpringApplication.run(SpringrainApplication.class, args);
 	}
 
    
