@@ -1,3 +1,5 @@
+#4.0.0之后基于SpringBoot最新版本,启动类修改为SpringBoot的org.springrain.SpringbootrainApplication类进行启动.
+
 项目名为springrain[春雨]我的个人博客是 http://www.weicms.net QQ群是:238904840 </br>
 # demo
 http://springrain.weicms.net </br>
@@ -9,9 +11,9 @@ http://git.oschina.net/chunanyong/springrain/tree/master/springrain/gencode </br
 http://git.oschina.net/chunanyong/springrain/tree/master/springrain/sql </br>
 
 
-springrain是spring的极简封装,spring一站式开发的范例.
+springrain是spring/springboot的极简封装,spring/springboot一站式开发的范例.
 
-springrain本身就是一个完整的eclipse项目,spring一站式开发的范例,包含spring core,spring jdbc,spring mvc.可以认为就是一个spring的demo.
+springrain本身就是一个完整的eclipse项目,spring/springboot一站式开发的范例,包含spring core,spring jdbc,spring mvc.可以认为就是一个spring/springboot的demo.
 
 springrain 自带一个代码生成器,能够生成对表的增删改查的逻辑代码,以及前台页面样式和js文件
 
