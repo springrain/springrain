@@ -94,6 +94,7 @@
             <scope>provided</scope>
         </dependency>
         
+   <!-- 生产环境暂时不包含actuator -->     
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
