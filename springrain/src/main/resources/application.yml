@@ -9,6 +9,11 @@ springrain:
     session:    ###session和cache可以公用这个参数.
         timeout: 1800000
         
+    openoffice: 
+        home: D:/Program Files (x86)/OpenOffice 4/program/soffice.exe
+        host: 127.0.0.1
+        port: 8100
+        
         
 #logging: 
 #     level: 
@@ -52,12 +57,6 @@ spring:
             charset: UTF-8
             enabled: true
             force: true
-            
-    openoffice: 
-        home: D:/Program Files (x86)/OpenOffice 4/program/soffice.exe
-        host: 127.0.0.1
-        port: 8100
-        
         
 ###actuator的默认路径/actuator/ 开头,已经在shiro配置,只有system有权限###        
 management: 
