@@ -21,11 +21,11 @@ import com.alibaba.druid.pool.DruidDataSource;
  */
 @Configuration
 public class DataSourceConfig extends BaseLogger {
-    @Value("${spring.datasource.url}")
+    @Value("${springrain.datasource.url}")
     private String url;
-    @Value("${spring.datasource.username}")
+    @Value("${springrain.datasource.username}")
     private String username;
-    @Value("${spring.datasource.password}")
+    @Value("${springrain.datasource.password}")
     private String password;
     
     private Integer initialSize=5;
