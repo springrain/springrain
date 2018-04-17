@@ -2,9 +2,12 @@ package org.springrain.config;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
+import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 
 import org.apache.shiro.cache.CacheManager;
@@ -13,11 +16,14 @@ import org.apache.shiro.realm.Realm;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.apache.shiro.session.mgt.eis.SessionDAO;
+import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.servlet.AbstractShiroFilter;
 import org.apache.shiro.web.servlet.SimpleCookie;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
@@ -62,6 +68,7 @@ public class ShiroConfig {
 
     
     
+    private static final String shiroFilterName="shiroFilter";
     
 
     /**
@@ -69,7 +76,7 @@ public class ShiroConfig {
      * @return
      */
     
-    @Bean("shirFilter")
+    @Bean(shiroFilterName)
     public ShiroFilterFactoryBean shirFilter() {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
 
@@ -255,11 +262,12 @@ public class ShiroConfig {
     
 
     
-    /*
+   
     @Bean("lifecycleBeanPostProcessor")
     public static LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
         return new LifecycleBeanPostProcessor();
     }
+    /*
     @Bean
     @DependsOn({"lifecycleBeanPostProcessor"})
     public DefaultAdvisorAutoProxyCreator advisorAutoProxyCreator() {
@@ -275,23 +283,29 @@ public class ShiroConfig {
         return authorizationAttributeSourceAdvisor;
     }
     
+        
+     */
+    
+    
+
+    
+    /**
+     * 更新 shiroFilter的根拦截器,具体实现是 org.apache.shiro.spring.web.ShiroFilterFactoryBean.SpringShiroFilter,使用AbstractShiroFilter类型
+     * @param filter
+     * @return
+     */
+    
     @Bean
-    @DependsOn({"shiroFilter"})
-    public FilterRegistrationBean<DelegatingFilterProxy> disableFramePermissionsAuthorizationFilter() {
-        FilterRegistrationBean<DelegatingFilterProxy> registration = new FilterRegistrationBean<DelegatingFilterProxy>();
-        registration.setFilter(new DelegatingFilterProxy("shiroFilter"));
-        
-        registration.addInitParameter("targetFilterLifecycle", "true");
-        
-         Set<String> urlPatterns = new LinkedHashSet<>();
-         urlPatterns.add("/*");
-         //urlPatterns.add("/errorpage/*");
-         
-        registration.setUrlPatterns(urlPatterns);
-        
-        
+    //@DependsOn({shiroFilterName})
+    public FilterRegistrationBean<AbstractShiroFilter> updateSpringShiroFilter(AbstractShiroFilter filter) {
+        FilterRegistrationBean<AbstractShiroFilter> registration = new FilterRegistrationBean<AbstractShiroFilter>(filter);
+        Set<String> urlPatterns = new LinkedHashSet<>();
+        urlPatterns.add("/*");
+        //urlPatterns.add("/errorpage/*");
+       registration.setUrlPatterns(urlPatterns);
+      // registration.addInitParameter("targetFilterLifecycle", "true");
+       registration.setDispatcherTypes(DispatcherType.REQUEST,DispatcherType.FORWARD,DispatcherType.INCLUDE,DispatcherType.ERROR);
         return registration;
     }
-    */
 
 }
