@@ -14,14 +14,6 @@ springrain:
         host: 127.0.0.1
         port: 8100
         
-    datasource: 
-        url: jdbc:mysql://127.0.0.1:3306/springrain?characterEncoding=utf8&useUnicode=true&useSSL=false
-        username: root
-        password: root
-        type: com.alibaba.druid.pool.DruidDataSource
-#        driver-class-name: com.mysql.jdbc.Driver
-#        default-transaction-isolation: ISOLATION_READ_UNCOMMITTED
-
 
 
 #    redis: 
@@ -42,8 +34,6 @@ springrain:
  
 spring: 
 
-
-
 ###代码实现:org.springrain.config.SpringMVCConfig.addResourceHandlers(ResourceHandlerRegistry)###
 #    resources: 
 #          static-locations: /images/,/img/,/js/,/css/,/layui/,/upload/,/u/
@@ -60,6 +50,18 @@ spring:
             charset: UTF-8
             enabled: true
             force: true
+            
+    datasource: 
+        url: jdbc:mysql://127.0.0.1:3306/springrain?characterEncoding=utf8&useUnicode=true&useSSL=false
+        username: root
+        password: root
+        type: com.alibaba.druid.pool.DruidDataSource
+#        driver-class-name: com.mysql.jdbc.Driver
+#        default-transaction-isolation: ISOLATION_READ_UNCOMMITTED
+
+            
+            
+
         
 ###actuator的默认路径/actuator/ 开头,已经在shiro配置,只有system有权限###        
 management: 
