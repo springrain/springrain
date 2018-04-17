@@ -86,6 +86,8 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        
+   <!-- 导出war模式,tomcat的scope设置成provided,测试可用,打包时排除-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
@@ -98,7 +100,7 @@
             <scope>provided</scope>
         </dependency>
         
-	
+	<!-- 导出war模式,排除tomcat的包 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
