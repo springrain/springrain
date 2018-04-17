@@ -1165,7 +1165,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 				TransactionInterceptor.currentTransactionStatus();
 			} catch (NoTransactionException e) {
 				logger.error(e.getMessage(), e);
-				throw new NoTransactionException("save和update方法,请按照事务拦截方法名书写规范!具体参见:applicationContext-tx.xml");
+				throw new NoTransactionException("save,update,delete方法,请按照事务拦截方法名书写规范!具体参见:applicationContext-tx.xml");
 			}
 
 		}

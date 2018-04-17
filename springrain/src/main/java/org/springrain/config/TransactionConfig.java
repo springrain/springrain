@@ -49,8 +49,8 @@ public class TransactionConfig {
 
  
     
-    
-    @Bean
+    //废弃方法,无法实现切面拦截
+    //@Bean
     public BeanNameAutoProxyCreator customizeTransactionBeanNameAutoProxyCreator() {
         BeanNameAutoProxyCreator beanNameAutoProxyCreator = new BeanNameAutoProxyCreator();
         // 设置定制的事务拦截器
@@ -59,6 +59,16 @@ public class TransactionConfig {
         //beanNameAutoProxyCreator.setProxyTargetClass(true);
         return beanNameAutoProxyCreator;
     }
+    
+    
+     // 基于CGLIB的实现,最好基于接口实现,这样混淆对接RPC都没有问题,标准就是标准啊!!!!!
+    @Bean
+    public Advisor txAdviceAdvisor() {
+        JdkRegexpMethodPointcut pointcut =  new  JdkRegexpMethodPointcut();
+        pointcut.setPattern(".*Service.*");
+        return new DefaultPointcutAdvisor(pointcut, customizeTransactionInterceptor());
+    }
+
     
     
     
