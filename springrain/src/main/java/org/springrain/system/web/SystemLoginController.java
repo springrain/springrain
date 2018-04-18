@@ -72,6 +72,8 @@ public class SystemLoginController extends BaseController   {
 			
 			//判断用户是否登录
 			if(SecurityUtils.getSubject().isAuthenticated()){
+			    Object obj=request.getSession().getAttribute(GlobalStatic.tokenKey);
+			    model.addAttribute(GlobalStatic.tokenKey, obj);
 				return redirect+"/system/index";
 			}
 			//默认赋值message,避免freemarker尝试从session取值,造成异常

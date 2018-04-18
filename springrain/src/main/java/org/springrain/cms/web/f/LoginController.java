@@ -79,6 +79,8 @@ public class LoginController extends BaseController  {
 		private String getLoginUrl(Model model,HttpServletRequest request,String siteId){
 			//判断用户是否登录
 			if(SecurityUtils.getSubject().isAuthenticated()){
+			    Object obj=request.getSession().getAttribute(GlobalStatic.tokenKey);
+                model.addAttribute(GlobalStatic.tokenKey, obj);
 				return redirect+"/"+siteId+"/index";
 			}
 			
