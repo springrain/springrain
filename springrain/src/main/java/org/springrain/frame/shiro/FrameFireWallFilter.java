@@ -72,10 +72,10 @@ public class FrameFireWallFilter extends OncePerRequestFilter {
 	    	return;
 	    }
 	    
-	    //设置编码
-	   if( request.getCharacterEncoding() == null){
-		   request.setCharacterEncoding(GlobalStatic.defaultCharset);
-	   }
+	    //SpringBoot 已经默认使用了 OrderedCharacterEncodingFilter ,而且默认的Filter最好不要取消,由OrderedCharacterEncodingFilter处理编码
+	   //if( request.getCharacterEncoding() == null){
+	   //	   request.setCharacterEncoding(GlobalStatic.defaultCharset);
+	   //}
 	    
 	    
 	    
@@ -159,6 +159,9 @@ public class FrameFireWallFilter extends OncePerRequestFilter {
         registration.setEnabled(false);
         return registration;
     }
+    
+    
+    
 
 
 	
