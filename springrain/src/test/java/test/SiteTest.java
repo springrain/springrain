@@ -6,8 +6,9 @@ import javax.annotation.Resource;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springrain.SpringrainApplication;
 import org.springrain.cms.entity.CmsChannel;
 import org.springrain.cms.entity.CmsContent;
 import org.springrain.cms.entity.CmsSite;
@@ -15,8 +16,8 @@ import org.springrain.cms.service.ICmsChannelService;
 import org.springrain.cms.service.ICmsContentService;
 import org.springrain.cms.service.ICmsSiteService;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:applicationContext.xml")
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes=SpringrainApplication.class)
 public class SiteTest {
 	@Resource
 	private ICmsSiteService cmsSiteService;

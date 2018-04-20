@@ -25,8 +25,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springrain.SpringrainApplication;
 import org.springrain.frame.util.Finder;
 import org.springrain.selenium.entity.Htmlcase;
 import org.springrain.selenium.entity.Htmlfield;
@@ -37,8 +38,8 @@ import org.springrain.selenium.service.IHtmlfieldService;
 import org.springrain.selenium.service.IHtmlfunctionService;
 import org.springrain.selenium.service.IValidateruleService;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:applicationContext.xml")
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes=SpringrainApplication.class)
 public class LoginTest {
 
    // String funcitonId = "testlogin";

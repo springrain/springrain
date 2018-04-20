@@ -5,8 +5,9 @@ import javax.annotation.Resource;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springrain.SpringrainApplication;
 import org.springrain.frame.util.Finder;
 import org.springrain.selenium.entity.Htmlcase;
 import org.springrain.selenium.entity.Htmlfield;
@@ -17,8 +18,8 @@ import org.springrain.selenium.service.IHtmlfieldService;
 import org.springrain.selenium.service.IHtmlfunctionService;
 import org.springrain.selenium.service.IValidateruleService;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:applicationContext.xml")
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes=SpringrainApplication.class)
 public class SaveLoginFunctionTest {
 
     String funcitonId = "testlogin";

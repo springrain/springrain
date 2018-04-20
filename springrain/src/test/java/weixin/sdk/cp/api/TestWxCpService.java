@@ -11,8 +11,9 @@ import javax.annotation.Resource;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springrain.SpringrainApplication;
 import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.frame.util.JsonUtils;
 import org.springrain.weixin.entity.WxCpConfig;
@@ -26,8 +27,8 @@ import org.springrain.weixin.sdk.cp.bean.WxCpMessage;
 import org.springrain.weixin.sdk.cp.bean.WxCpTag;
 import org.springrain.weixin.sdk.cp.bean.WxCpUser;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:applicationContext.xml")
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes=SpringrainApplication.class)
 public class TestWxCpService {
 	@Resource
 	IWxCpService wxCpService;
