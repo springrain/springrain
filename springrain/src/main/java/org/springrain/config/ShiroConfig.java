@@ -43,9 +43,7 @@ public class ShiroConfig {
     @Value("${springrain.session.timeout}")
     private Long sessionTimeout=1800000L;
     
-    //集群模式下,需要redis作为cache,注入redissonClient,单机模式需要注释掉
-   // @Resource
-  //  private RedissonClient redissonClient;
+
     
     
     
@@ -184,13 +182,21 @@ public class ShiroConfig {
      * session 集群
      * @return
      */
+    
+    
     /*
+     
+      //集群模式下,需要redis作为cache,注入redissonClient,单机模式需要注释掉
+    @Resource
+    private RedissonClient redissonClient;
+     
     @Bean("shiroCacheManager")
     public CacheManager shiroCacheManager() {
         ShiroRedisCacheManager cacheManager=new ShiroRedisCacheManager();
         cacheManager.setRedissonClient(redissonClient);
         return cacheManager;
     }
+    
     */
     
     
