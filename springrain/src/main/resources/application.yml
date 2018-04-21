@@ -6,7 +6,7 @@
 
 
 springrain: 
-    session:    ###session和cache可以公用这个参数.
+    session:    ###session的超时时间
         timeout: 1800000
         
     openoffice: 
@@ -17,9 +17,8 @@ springrain:
 
 
 #    redis: 
-#        host: 127.0.0.1
-#        port: 6379
-#        timeout: 1800000
+#        hostport: 127.0.0.1:6379    ###如果是redis集群,使用逗号隔开,例如 127.0.0.1:6379,127.0.0.1:6378 ###
+#        timeout: 1800000   ###暂时无效,原因待查
 #        pool: 
 #            max-active: 1024
 #            min-idle: 200

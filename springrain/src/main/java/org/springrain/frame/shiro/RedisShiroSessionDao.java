@@ -1,24 +1,14 @@
 package org.springrain.frame.shiro;
 
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.List;
-
-import org.apache.shiro.session.Session;
-import org.apache.shiro.session.UnknownSessionException;
-import org.apache.shiro.session.mgt.eis.AbstractSessionDAO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springrain.frame.cache.ICache;
-import org.springrain.frame.util.SerializeUtils;
-
 /**
  * Redis实现的 ShiroSessionDao，暂不使用
  * @author caomei
  *
  */
 @Deprecated
-public class RedisShiroSessionDao extends AbstractSessionDAO {
+//public class RedisShiroSessionDao extends AbstractSessionDAO {
+public class RedisShiroSessionDao  {
+    /**
 	private final  Logger logger = LoggerFactory.getLogger(getClass());
 	private String sessionprefix="ss-";
 	public RedisShiroSessionDao (){
@@ -99,5 +89,5 @@ public class RedisShiroSessionDao extends AbstractSessionDAO {
 	public void setSessionprefix(String sessionprefix) {
 		this.sessionprefix = sessionprefix;
 	}
-	
+	**/
 }
