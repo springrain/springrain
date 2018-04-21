@@ -111,7 +111,7 @@ public class RedisOperation extends BaseLogger {
     public  <T> void registerRemoteService(Class<T> clazz,T t){
         
         RRemoteService remoteService = getRedissonClient().getRemoteService();
-     // 注册了12个服务端工作者实例，可以同时执行12个并发调用
+     // 注册了100个服务端工作者实例，可以同时执行100个并发调用
         remoteService.register(clazz, t, remoteServiceWorkersAmount);
         
     }
