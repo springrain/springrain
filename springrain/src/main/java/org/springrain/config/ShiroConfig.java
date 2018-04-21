@@ -178,11 +178,13 @@ public class ShiroConfig {
         return cacheManager;
     }
     
+    
+    
+    
     /**
-     * session 集群
+     * 集群session 
      * @return
      */
-    
     
     /*
      
