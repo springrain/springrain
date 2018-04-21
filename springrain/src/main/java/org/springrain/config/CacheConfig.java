@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class CacheConfig {
 
-    @Value("${springrain.redis.hostport:127.0.0.1:6379}")
+    @Value("${springrain.redis.hostport:redis://127.0.0.1:6379}")
     private String redisHostPort;
 
     @Value("${springrain.redis.pool.max-active:1024}")
