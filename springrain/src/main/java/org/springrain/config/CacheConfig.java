@@ -95,8 +95,11 @@ public class CacheConfig {
                     .setSlaveConnectionPoolSize(maxActive).setMasterConnectionMinimumIdleSize(minIdle)
                     .setSlaveConnectionMinimumIdleSize(minIdle).setReadMode(ReadMode.SLAVE).setScanInterval(3000);
         }
-        // 只能使用JDK的序列化,其他的shiro不兼容
-        config.setCodec(new SerializationCodec());
+        // JDK的序列化
+        // config.setCodec(new SerializationCodec());
+        
+        //fst序列化
+        config.setCodec(new FstCodec());
 
         return Redisson.create(config);
     }
