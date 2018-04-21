@@ -17,6 +17,8 @@ import org.springrain.frame.common.BaseLogger;
  *
  */
 
+//是在 CacheConfig 中进行了声明,方便启用和禁用
+
 public class RedisOperation extends BaseLogger {
     
     private RedissonClient redissonClient;
