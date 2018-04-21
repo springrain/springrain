@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.redisson.api.RAtomicLong;
 import org.redisson.api.RBlockingQueue;
 import org.redisson.api.RLock;
+import org.redisson.api.RRemoteService;
 import org.redisson.api.RedissonClient;
 import org.springrain.frame.common.BaseLogger;
 
@@ -19,6 +20,9 @@ import org.springrain.frame.common.BaseLogger;
 public class RedisOperation extends BaseLogger {
     
     private RedissonClient redissonClient;
+    
+    //远程Service默认的工作并发
+    private int remoteServiceWorkersAmount=100;
     
     private int queueCapacity=1000;
     
@@ -91,6 +95,42 @@ public class RedisOperation extends BaseLogger {
         return atomicLong;
         
     }
+    
+    
+    
+    
+    /**
+     * 注册到远程Service服务(基于redisson实现的RPC)
+     * @param clazz
+     * @param t
+     * @return
+     * @throws Exception
+     */
+    public  <T> void registerRemoteService(Class<T> clazz,T t){
+        
+        RRemoteService remoteService = getRedissonClient().getRemoteService();
+     // 注册了12个服务端工作者实例，可以同时执行12个并发调用
+        remoteService.register(clazz, t, remoteServiceWorkersAmount);
+        
+    }
+    
+    
+    
+      /**
+       * 获取远程的Service(基于redisson实现的RPC)
+       * @param clazz
+       * @return
+       * @throws Exception
+       */
+    public  <T> T getRemoteService(Class<T> clazz){
+        RRemoteService remoteService = getRedissonClient().getRemoteService();
+        T t = remoteService.get(clazz);
+        return t;
+        
+    }
+    
+    
+    
 
     public boolean getReceiveQueue() {
         return receiveQueue;
