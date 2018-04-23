@@ -20,6 +20,9 @@ public class CacheConfig {
     //reids的IP和端口,如果是集群,使用逗号隔开,例如 redis://127.0.0.1:6379,redis://127.0.0.1:6378 
     @Value("${springrain.redis.hostport:redis://127.0.0.1:6379}")
     private String redisHostPort;
+    
+    @Value("${springrain.redis.timeout:0}")
+    private Long cacheTimeOut=0L;
 
     //最大连接数
     @Value("${springrain.redis.pool.max-active:1024}")
@@ -73,7 +76,11 @@ public class CacheConfig {
     /*
     @Bean("cacheManager")
     public CacheManager cacheManager() {
-        return new RedissonSpringCacheManager(redissonClient());
+        
+        FrameRedissonSpringCacheManager cacheManager= new FrameRedissonSpringCacheManager(redissonClient());
+        cacheManager.setCacheTimeOut(cacheTimeOut);
+        
+        return cacheManager;
     }
 
     @Bean("redissonClient")
@@ -137,7 +144,6 @@ public class CacheConfig {
         redisOperation.setRedissonClient(redissonClient());
         return redisOperation;
     }
-    
     */
     // --------基于redis的cacheManager 结束--------//
     

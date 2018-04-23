@@ -10,40 +10,33 @@ import org.redisson.spring.cache.RedissonSpringCacheManager;
  * @author caomei
  *
  */
-@Deprecated
+//@Deprecated
 public class FrameRedissonSpringCacheManager extends RedissonSpringCacheManager {
 
-    private CacheConfig defaultConfig;
+
+    private long cacheTimeOut=0L;
     
     
     public FrameRedissonSpringCacheManager(RedissonClient redisson) {
         super(redisson);
-    }
-
-
-    public CacheConfig getDefaultConfig() {
-        return defaultConfig;
-    }
-
-
-    public void setDefaultConfig(CacheConfig defaultConfig) {
-        this.defaultConfig = defaultConfig;
     }
     
     @Override
     protected CacheConfig createDefaultConfig() {
         
         CacheConfig _config= new CacheConfig();
-        
-        
-        if(defaultConfig!=null) {
-            _config.setTTL(defaultConfig.getTTL());
-            _config.setMaxIdleTime(defaultConfig.getMaxIdleTime());
-            _config.setMaxSize(defaultConfig.getMaxSize());
-        }
+         _config.setMaxIdleTime(cacheTimeOut);
         
         return _config;
       
+    }
+
+    public long getCacheTimeOut() {
+        return cacheTimeOut;
+    }
+
+    public void setCacheTimeOut(long cacheTimeOut) {
+        this.cacheTimeOut = cacheTimeOut;
     }
     
 
