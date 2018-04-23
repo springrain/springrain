@@ -42,7 +42,7 @@ spring:
         ignore-default-model-on-redirect: false ###在重定向时是否忽略默认model的内容，默认为true###
         
     aop: 
-        proxy-target-class: false
+        proxy-target-class: false  ###强制使用接口代理,不使用cglib,RPC一般是基于接口代理的###
 
 
     http: 
