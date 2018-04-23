@@ -17,14 +17,22 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class CacheConfig {
 
+    //reids的IP和端口,如果是集群,使用逗号隔开,例如 redis://127.0.0.1:6379,redis://127.0.0.1:6378 
     @Value("${springrain.redis.hostport:redis://127.0.0.1:6379}")
     private String redisHostPort;
 
+    //最大连接数
     @Value("${springrain.redis.pool.max-active:1024}")
     private Integer maxActive = 1024;
 
+    //最小空闲数
     @Value("${springrain.redis.pool.min-idle:200}")
     private Integer minIdle = 200;
+    
+    //密码 默认 "" 
+    @Value("${springrain.redis.password:}")
+    private String password=null;
+    
 
     /**
      * 基于内存的cacheManager
@@ -54,7 +62,6 @@ public class CacheConfig {
     
     
     
-    
     // --------基于redis的cacheManager 开始--------//
 
     /**
@@ -63,7 +70,7 @@ public class CacheConfig {
      * @return
      * @throws IOException
      */
-/*
+    /*
     @Bean("cacheManager")
     public CacheManager cacheManager() {
         return new RedissonSpringCacheManager(redissonClient());
@@ -86,14 +93,32 @@ public class CacheConfig {
         String[] ipports = redisHostPort.split(",");
 
         if (ipports.length <= 1) {// 单机redis模式
-            config.useSingleServer().setAddress(redisHostPort).setConnectTimeout(connectTimeOut)
+            
+            SingleServerConfig useSingleServer = config.useSingleServer();
+            
+            useSingleServer.setAddress(redisHostPort).setConnectTimeout(connectTimeOut)
                     .setRetryAttempts(retryAttempts).setConnectionPoolSize(maxActive)
                     .setConnectionMinimumIdleSize(minIdle);
+            
+            if(StringUtils.isNotBlank(password)) {
+                useSingleServer.setPassword(password);
+            }
+          
+            
+            
         } else {// redis 集群.默认读slave
-            config.useClusterServers().addNodeAddress(ipports).setConnectTimeout(connectTimeOut)
+            ClusterServersConfig useClusterServers = config.useClusterServers();
+            
+            useClusterServers.addNodeAddress(ipports).setConnectTimeout(connectTimeOut)
                     .setRetryAttempts(retryAttempts).setMasterConnectionPoolSize(maxActive)
                     .setSlaveConnectionPoolSize(maxActive).setMasterConnectionMinimumIdleSize(minIdle)
                     .setSlaveConnectionMinimumIdleSize(minIdle).setReadMode(ReadMode.SLAVE).setScanInterval(3000);
+            
+            if(StringUtils.isNotBlank(password)) {
+                useClusterServers.setPassword(password);
+            }
+            
+            
         }
         // JDK的序列化
         // config.setCodec(new SerializationCodec());
@@ -112,8 +137,8 @@ public class CacheConfig {
         redisOperation.setRedissonClient(redissonClient());
         return redisOperation;
     }
-*/
     
+    */
     // --------基于redis的cacheManager 结束--------//
     
     

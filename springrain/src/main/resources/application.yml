@@ -18,10 +18,11 @@ springrain:
 
 #    redis: 
 #        hostport: redis://127.0.0.1:6379    ###如果是redis集群,使用逗号隔开,例如 redis://127.0.0.1:6379,redis://127.0.0.1:6378 ###
+#          password:   ###密码,可以不设置####
 #        timeout: 1800000   ###暂时无效,原因待查###
 #        pool: 
-#            max-active: 1024
-#            min-idle: 200
+#              max-active: 1024
+#              min-idle: 200
 
 
 
