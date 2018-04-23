@@ -6,7 +6,7 @@
 
 
 springrain: 
-    session:    ###session的超时时间
+    session:    ###session的超时时间###
         timeout: 3600000
         
     openoffice: 
@@ -18,7 +18,7 @@ springrain:
 
 #    redis: 
 #        hostport: redis://127.0.0.1:6379    ###如果是redis集群,使用逗号隔开,例如 redis://127.0.0.1:6379,redis://127.0.0.1:6378 ###
-#          password:   ###密码,可以不设置####
+#        password:   ###密码,可以不设置####
 #        timeout: 7200000   
 #        pool: 
 #              max-active: 1024
