@@ -376,7 +376,6 @@ public class HttpClientUtils {
      */
     public static String sendHttpGet(HttpGet httpGet, SSLContext sslConext) {
         CloseableHttpClient httpClient = getHttpClient(sslConext);
-        // System.out.println(httpClient);
         CloseableHttpResponse response = null;
         HttpEntity entity = null;
         String responseContent = null;
@@ -405,5 +404,28 @@ public class HttpClientUtils {
         }
         return responseContent;
     }
+    
+    
+    /**
+     * 发送 get请求
+     * @param httpUrl 请求路径
+     * @param headers 请求头参数
+     * @return
+     */
+    public static String sendHttpHeaderGet(String httpUrl, Map<String, String> headers) {
+        HttpGet httpGet = new HttpGet(httpUrl);// 创建get请求
+        for(Map.Entry<String, String> entry : headers.entrySet()){
+            String key = entry.getKey().toString();  
+            String value = entry.getValue().toString();  
+            httpGet.setHeader(key, value);
+        }
+        return sendHttpGet(httpGet, null);
+    }
+
+    
+    
+    
+    
+    
 
 }
