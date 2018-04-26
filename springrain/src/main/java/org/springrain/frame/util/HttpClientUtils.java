@@ -1,6 +1,8 @@
 package org.springrain.frame.util;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -188,6 +190,18 @@ public class HttpClientUtils {
      *            ssl证书信息
      */
     public static String sendHttpPost(String httpUrl, Map<String, String> maps, SSLContext sslContext) {
+        HttpPost httpPost = wrapHttpPost(httpUrl, maps);
+        return sendHttpPost(httpPost, null);
+    }
+
+    /**
+     * 封装获取HttpPost方法
+     * 
+     * @param httpUrl
+     * @param maps
+     * @return
+     */
+    public static HttpPost wrapHttpPost(String httpUrl, Map<String, String> maps) {
         HttpPost httpPost = new HttpPost(httpUrl);// 创建httpPost
         // 创建参数队列
         List<NameValuePair> nameValuePairs = new ArrayList<>();
@@ -199,7 +213,8 @@ public class HttpClientUtils {
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
-        return sendHttpPost(httpPost, null);
+
+        return httpPost;
     }
 
     /**
@@ -215,18 +230,18 @@ public class HttpClientUtils {
     public static String sendHttpPost(String httpUrl, List<File> fileLists, Map<String, String> maps) {
         return sendHttpPost(httpUrl, fileLists, maps, null);
     }
-    
+
     /**
      * 发送 post请求（带文件）
      * 
      * @param httpUrl
      *            地址
      * @param fileMap
-     *           附件,名称和File对应
+     *            附件,名称和File对应
      * @param maps
      *            参数
      */
-    public static String sendHttpPost(String httpUrl, Map<String,File> fileMap, Map<String, String> maps) {
+    public static String sendHttpPost(String httpUrl, Map<String, File> fileMap, Map<String, String> maps) {
         return sendHttpPost(httpUrl, fileMap, maps, null);
     }
 
@@ -245,17 +260,17 @@ public class HttpClientUtils {
     public static String sendHttpPost(String httpUrl, List<File> fileLists, Map<String, String> maps,
             SSLContext sslContext) {
 
-        Map<String,File> fileMap=new HashMap<>();
-               
-        if(CollectionUtils.isNotEmpty(fileLists)) {
+        Map<String, File> fileMap = new HashMap<>();
+
+        if (CollectionUtils.isNotEmpty(fileLists)) {
             for (File file : fileLists) {
                 fileMap.put("files", file);
             }
         }
-       
-        return sendHttpPost(httpUrl,fileMap,maps, sslContext);
+
+        return sendHttpPost(httpUrl, fileMap, maps, sslContext);
     }
-    
+
     /**
      * 发送 post请求（带文件）
      * 
@@ -268,7 +283,7 @@ public class HttpClientUtils {
      * @param sslContext
      *            ssl证书信息
      */
-    public static String sendHttpPost(String httpUrl, Map<String,File> fileMap, Map<String, String> maps,
+    public static String sendHttpPost(String httpUrl, Map<String, File> fileMap, Map<String, String> maps,
             SSLContext sslContext) {
         HttpPost httpPost = new HttpPost(httpUrl);// 创建httpPost
         MultipartEntityBuilder meBuilder = MultipartEntityBuilder.create();
@@ -283,8 +298,6 @@ public class HttpClientUtils {
         httpPost.setEntity(reqEntity);
         return sendHttpPost(httpPost, sslContext);
     }
-    
-    
 
     /**
      * 发送Post请求
@@ -404,25 +417,152 @@ public class HttpClientUtils {
         }
         return responseContent;
     }
-    
-    
+
     /**
      * 发送 get请求
-     * @param httpUrl 请求路径
-     * @param headers 请求头参数
+     * 
+     * @param httpUrl
+     *            请求路径
+     * @param headers
+     *            请求头参数
      * @return
      */
     public static String sendHttpHeaderGet(String httpUrl, Map<String, String> headers) {
         HttpGet httpGet = new HttpGet(httpUrl);// 创建get请求
-        for(Map.Entry<String, String> entry : headers.entrySet()){
-            String key = entry.getKey().toString();  
-            String value = entry.getValue().toString();  
+        for (Map.Entry<String, String> entry : headers.entrySet()) {
+            String key = entry.getKey().toString();
+            String value = entry.getValue().toString();
             httpGet.setHeader(key, value);
         }
         return sendHttpGet(httpGet, null);
     }
 
+    /**
+     * Get 下载文件
+     * 
+     * @param httpUrl
+     * @param file
+     * @return
+     */
+    public static File sendHttpGetFile(String httpUrl, File file) {
+
+        if (file == null) {
+            return null;
+        }
+
+        HttpGet httpGet = new HttpGet(httpUrl);
+
+        CloseableHttpClient httpClient = getHttpClient();
+        CloseableHttpResponse response = null;
+        HttpEntity entity = null;
+        InputStream inputStream = null;
+        FileOutputStream fileOutputStream = null;
+        try {
+            // 执行请求
+            response = httpClient.execute(httpGet);
+
+            entity = response.getEntity();
+            inputStream = entity.getContent();
+            fileOutputStream = new FileOutputStream(file);
+            int len = 0;
+            byte[] buf = new byte[1024];
+            while ((len = inputStream.read(buf, 0, 1024)) != -1) {
+                fileOutputStream.write(buf, 0, len);
+            }
+
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        } finally {
+
+            try {
+
+                if (fileOutputStream != null) {
+                    fileOutputStream.close();
+                }
+
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+
+                // 关闭连接,释放资源
+                if (entity != null) {
+                    EntityUtils.consumeQuietly(entity); // 会自动释放连接
+                }
+                if (response != null) {
+                    response.close();
+                }
+
+            } catch (Exception e) {
+                logger.error(e.getMessage(), e);
+            }
+
+        }
+        return file;
+    }
     
+    
+   /**
+    * Post 下载文件
+    * @param httpUrl
+    * @param maps
+    * @param file
+    * @return
+    */
+    public static File sendHttpPostFile(String httpUrl,Map<String, String> maps, File file) {
+
+        if (file == null) {
+            return null;
+        }
+
+        HttpPost httpPost=wrapHttpPost(httpUrl, maps);
+
+        CloseableHttpClient httpClient = getHttpClient();
+        CloseableHttpResponse response = null;
+        HttpEntity entity = null;
+        InputStream inputStream = null;
+        FileOutputStream fileOutputStream = null;
+        try {
+            // 执行请求
+            response = httpClient.execute(httpPost);
+
+            entity = response.getEntity();
+            inputStream = entity.getContent();
+            fileOutputStream = new FileOutputStream(file);
+            int len = 0;
+            byte[] buf = new byte[1024];
+            while ((len = inputStream.read(buf, 0, 1024)) != -1) {
+                fileOutputStream.write(buf, 0, len);
+            }
+
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        } finally {
+
+            try {
+
+                if (fileOutputStream != null) {
+                    fileOutputStream.close();
+                }
+
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+
+                // 关闭连接,释放资源
+                if (entity != null) {
+                    EntityUtils.consumeQuietly(entity); // 会自动释放连接
+                }
+                if (response != null) {
+                    response.close();
+                }
+
+            } catch (Exception e) {
+                logger.error(e.getMessage(), e);
+            }
+
+        }
+        return file;
+    }
     
     
     
