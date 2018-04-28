@@ -99,9 +99,10 @@ public class SpringMVCConfig  implements WebMvcConfigurer     {
     */
 
     /**
-     * 配置freemarker作为视图
+     * 配置freemarker作为视图,org.springframework.boot.autoconfigure.freemarker.FreeMarkerReactiveWebConfiguration默认注册了bean="freeMarkerViewResolver"的配置,替换默认的bean
      * @return
      */
+ //   @Bean("freeMarkerViewResolver")
     @Bean("viewResolver")
     public ViewResolver freeMarkerViewResolver() {
         FreeMarkerViewResolver freeMarkerViewResolver=new FreeMarkerViewResolver();
