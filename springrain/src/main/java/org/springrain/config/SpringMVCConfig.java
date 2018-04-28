@@ -15,7 +15,6 @@ import org.springframework.http.converter.ResourceHttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -123,6 +122,8 @@ public class SpringMVCConfig  implements WebMvcConfigurer     {
      * @return
      */
     
+    
+    /*
     @Bean
     public CommonsMultipartResolver commonsMultipartResolver() {
         CommonsMultipartResolver commonsMultipartResolver=new CommonsMultipartResolver();
@@ -136,6 +137,8 @@ public class SpringMVCConfig  implements WebMvcConfigurer     {
         return commonsMultipartResolver;
         
     }
+    */
+    
     
     
     /**
