@@ -35,6 +35,43 @@ public final class ImageUtils {
     }
 
     private static final Logger logger = LoggerFactory.getLogger(ImageUtils.class);
+    
+    
+    
+    /**
+     * 
+     * 图片水印,从中心进行水印
+     * 
+     * @param pressImg
+     *            水印图片
+     * @param targetImg
+     *            目标图片
+     * @param alpha
+     *            透明度
+     */
+    public final static void pressImage(String pressImg, String targetImg, float alpha) {
+        try {
+            File img = new File(targetImg);
+            Image src = ImageIO.read(img);
+            int width = src.getWidth(null);
+            int height = src.getHeight(null);
+            BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+            Graphics2D g = image.createGraphics();
+            g.drawImage(src, 0, 0, width, height, null);
+            // 水印文件
+            Image src_biao = ImageIO.read(new File(pressImg));
+            int wideth_biao = src_biao.getWidth(null);
+            int height_biao = src_biao.getHeight(null);
+            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, alpha));
+            g.drawImage(src_biao, (width - wideth_biao) / 2, (height - height_biao) / 2, wideth_biao, height_biao, null);
+            // 水印文件结束
+            g.dispose();
+            ImageIO.write((BufferedImage) image, "jpg", img);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
+    }
+    
 
     /**
      * 图片水印
@@ -54,18 +91,17 @@ public final class ImageUtils {
         try {
             File img = new File(targetImg);
             Image src = ImageIO.read(img);
-            int wideth = src.getWidth(null);
+            int width = src.getWidth(null);
             int height = src.getHeight(null);
-            BufferedImage image = new BufferedImage(wideth, height, BufferedImage.TYPE_INT_RGB);
+            BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
             Graphics2D g = image.createGraphics();
-            g.drawImage(src, 0, 0, wideth, height, null);
+            g.drawImage(src, 0, 0, width, height, null);
             // 水印文件
             Image src_biao = ImageIO.read(new File(pressImg));
             int wideth_biao = src_biao.getWidth(null);
             int height_biao = src_biao.getHeight(null);
             g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, alpha));
-            g.drawImage(src_biao, (wideth - wideth_biao) / 2, (height - height_biao) / 2, wideth_biao, height_biao,
-                    null);
+            g.drawImage(src_biao,x,y, wideth_biao, height_biao, null);
             // 水印文件结束
             g.dispose();
             ImageIO.write((BufferedImage) image, "jpg", img);
