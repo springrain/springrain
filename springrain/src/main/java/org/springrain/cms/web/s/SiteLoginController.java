@@ -55,7 +55,7 @@ public class SiteLoginController extends BaseController  {
 			//判断用户是否登录
 			if(SecurityUtils.getSubject().isAuthenticated()){
 			    model.addAttribute(GlobalStatic.tokenKey,request.getSession().getAttribute(GlobalStatic.tokenKey));
-				return redirect+"/u/"+siteId+"/s/index";
+				return redirect+"/s/"+siteId+"/index";
 			}
 			
 			
