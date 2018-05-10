@@ -101,6 +101,7 @@ ${r"<@h.commonHead"} title="后台管理系统" keywords="开源,永久免费" d
 									</form>
 									<!--start_export-->
 									<table class="layui-table" lay-even>
+									<!--start_no_export-->
 										  <colgroup>
 										    <col width="40">
 										    <col width="120">
@@ -110,10 +111,11 @@ ${r"<@h.commonHead"} title="后台管理系统" keywords="开源,永久免费" d
 										  <!--first_start_export-->
 											<thead>
 												<tr>
+												   <!--first_start_no_export-->
 													<th colspan="${(table.columns?size+1)!9}">${tableName}列表<font id='recordsView' class='recorsView'>共<span></span>页,共 <span></span>条记录</font></th>
 												</tr>
 												<tr>
-												  <!--first_start_no_export-->
+												
 												  <th class="center">
 															<input id="checkAll"  type="checkbox">
 												  </th>
@@ -173,6 +175,7 @@ ${r"<@h.commonHead"} title="后台管理系统" keywords="开源,永久免费" d
 											 ${r"</#if>"}
 											</tbody>
 										</table>
+										<!--last_end_export-->
 									${r"<#if"} returnDatas.page??> 
 										<div id='laypageDiv'></div>
 										${r"<@h.layPage"} page=returnDatas.page /> 
