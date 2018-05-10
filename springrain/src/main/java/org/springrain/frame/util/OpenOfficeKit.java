@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import com.artofsolving.jodconverter.DocumentConverter;
 import com.artofsolving.jodconverter.openoffice.connection.OpenOfficeConnection;
@@ -16,25 +17,16 @@ import com.artofsolving.jodconverter.openoffice.converter.OpenOfficeDocumentConv
  * openoffice工具类 wupeilei
  *
  */
+@Component
 public class OpenOfficeKit {
-	private OpenOfficeKit(){
-		throw new IllegalAccessError("工具类不能实例化");
-	}
-	
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(OpenOfficeKit.class);
-	
-	@Value("${springrain.openoffice.home}")
-	private  static String OpenOffice_HOME ;
-	@Value("${springrain.openoffice.host}")
-	private static  String HOST;
-	@Value("${springrain.openoffice.port}")
-	private static  String PORT ;
+
+	private static String openOfficeHome;
+	private static String host;
+	private static String port;
 	private static Process pro = null;
 	private static OpenOfficeConnection connection = null;
-	static {
-		createOpenOfficeConnection();
-	}
 
 	/**
 	 * 启动openoffice连接
@@ -42,23 +34,20 @@ public class OpenOfficeKit {
 	 * @return
 	 * @throws Exception
 	 */
-	static void createOpenOfficeConnection() {
+	private static void createOpenOfficeConnection() {
 		try {
 			if (connection == null || (!connection.isConnected())) {
-				if (StringUtils.isNotBlank(OpenOffice_HOME)
-						&& StringUtils.isNotBlank(HOST)
-						&& StringUtils.isNotBlank(PORT)) {
-					String command = OpenOffice_HOME
-							+ " -headless -accept=\"socket,host=" + HOST
-							+ ",port=" + PORT + ";urp;\"";
+				if (StringUtils.isNotBlank(openOfficeHome) && StringUtils.isNotBlank(host)
+						&& StringUtils.isNotBlank(port)) {
+					String command = openOfficeHome + " -headless -accept=\"socket,host=" + host + ",port=" + port
+							+ ";urp;\"";
 					pro = Runtime.getRuntime().exec(command);
-					connection = new SocketOpenOfficeConnection(HOST,
-							Integer.parseInt(PORT));
+					connection = new SocketOpenOfficeConnection(host, Integer.parseInt(port));
 					connection.connect();
 				}
 			}
 		} catch (Exception e) {
-			logger.error(e.getMessage(),e);
+			logger.error(e.getMessage(), e);
 		}
 	}
 
@@ -67,7 +56,7 @@ public class OpenOfficeKit {
 	 * 
 	 * @throws Exception
 	 */
-	static void closeOpenOfficeConnection() {
+	public static void closeOpenOfficeConnection() {
 		try {
 			if (connection != null && connection.isConnected()) {
 				connection.disconnect();
@@ -76,19 +65,34 @@ public class OpenOfficeKit {
 				pro.destroy();
 			}
 		} catch (Exception e) {
-			logger.error(e.getMessage(),e);
+			logger.error(e.getMessage(), e);
 		}
 	}
 
 	public static void cvtXls(File inputFile, File outputFile) throws Exception {
 		createOpenOfficeConnection();
 		if (connection != null && connection.isConnected()) {
-			DocumentConverter converter = new OpenOfficeDocumentConverter(
-					connection);
+			DocumentConverter converter = new OpenOfficeDocumentConverter(connection);
 			converter.convert(inputFile, outputFile);
 		} else {
 			throw new Exception();
 		}
+	}
+
+	@Value("${springrain.openoffice.home}")
+	public  void setOpenOfficeHome(String value) {
+		openOfficeHome = value;
+		createOpenOfficeConnection();
+	}
+
+	@Value("${springrain.openoffice.host}")
+	public  void setHost(String value) {
+		host = value;
+	}
+
+	@Value("${springrain.openoffice.port}")
+	public  void setPort(String value) {
+		port = value;
 	}
 
 }
