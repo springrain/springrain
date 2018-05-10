@@ -401,38 +401,38 @@ public abstract class BaseServiceImpl extends BaseLogger implements IBaseService
                 }
 
 				line = line.trim();
-				if (line.startsWith("<!--first_") && first == false) {
+				if (line.startsWith("<!--first_") && first == false) {//第一次输出,用于表头列的声明
 					iswrite = false;
 					continue;
 				}
-				if (line.startsWith("<!--last_") && end == false) {
+				if (line.startsWith("<!--last_") && end == false) {//最后的输出,用于结束
 					iswrite = false;
 					continue;
 				}
 
-				if ("<!--first_start_export-->".equals(line)) {
+				if ("<!--first_start_export-->".equals(line)) {//表头输出里包含的不输出内容开始.
 					iswrite = first;
 					continue;
 
-				} else if ("<!--last_start_export-->".equals(line)) {
+				} else if ("<!--last_start_export-->".equals(line)) {//最后输出的内容开始.
 					iswrite = end;
 					continue;
 
-				} else if ("<!--first_start_no_export-->".equals(line)) {
+				} else if ("<!--first_start_no_export-->".equals(line)) {//第一次输出内好办的不输出内容开始
 					iswrite = false;
 					continue;
 
-				} else if ("<!--first_end_no_export-->".equals(line)) {
+				} else if ("<!--first_end_no_export-->".equals(line)) {//第一次输出内好办的不输出内容结束
 					iswrite = true;
 					continue;
 
-				} else if ("<!--start_no_export-->".equals(line)) {
+				} else if ("<!--start_no_export-->".equals(line)) {//开始不输出
 					iswrite = false;
 					continue;
-				} else if ("<!--start_export-->".equals(line)) {
+				} else if ("<!--start_export-->".equals(line)) {//开始输出
 					iswrite = true;
 					continue;
-				} else if ("<!--last_end_export-->".equals(line)) {
+				} else if ("<!--last_end_export-->".equals(line)) {//最后的不输出内容
 					iswrite = false;
 					continue;
 				} else if (line.startsWith("<!--end_")) {// 不包含需要输出的内容
