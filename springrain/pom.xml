@@ -79,6 +79,16 @@
             <scope>test</scope>
         </dependency>
         
+        <!-- 开发工具包,自动编译发布,不需要重启了 -->
+	    <dependency>
+	        <groupId>org.springframework.boot</groupId>
+	        <artifactId>spring-boot-devtools</artifactId>
+	        <optional>true</optional>
+	    </dependency>
+        
+        
+        
+        
    <!-- 导出war模式,tomcat的scope设置成provided,测试可用,打包时排除-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
