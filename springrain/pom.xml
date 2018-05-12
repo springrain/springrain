@@ -11,7 +11,8 @@
 	<description>springrain for Spring Boot</description>
 	
 	<packaging>war</packaging>
-
+	
+	
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -25,6 +26,7 @@
 		<java.version>1.8</java.version>
 		
 		<proguard-maven-plugin.version>2.0.14</proguard-maven-plugin.version>
+		<proguard.version>6.0.3</proguard.version>
         
 		
         <commons-lang3.version>3.7</commons-lang3.version>
@@ -102,6 +104,8 @@
 		           </exclusion>
 		      </exclusions> 
 		</dependency>
+		
+		
 
 		<dependency>
             <groupId>org.springframework.boot</groupId>
@@ -318,10 +322,6 @@
 	
 		<plugins>
 		
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
 			
 			<!-- 忽略测试类 -->
             <plugin>
@@ -333,8 +333,9 @@
             </plugin>
             
                 
-           <!-- 代码混淆 ,项目类型必须是jar,如果是war有时会报错.和log4j的一个版本是jdk9的,无法编译-->
-           <!--  
+           <!-- 使用maven package命令进行,代码混淆 ,项目类型必须是jar,如果是war有时会报错.-->
+           
+           <!-- 
             <plugin>
                 <groupId>com.github.wvengen</groupId>
                 <artifactId>proguard-maven-plugin</artifactId>
@@ -348,6 +349,9 @@
                     </execution>
                 </executions>
                 <configuration>
+                
+                <proguardVersion>${proguard.version}</proguardVersion>
+                
                 <proguardInclude>${basedir}/src/main/resources/proguard.conf</proguardInclude>
                     <attach>true</attach>
                     <obfuscate>true</obfuscate>
@@ -358,9 +362,35 @@
                     </libs>
 
                 </configuration>
+                
+                 <dependencies>
+                    <dependency>
+                        <groupId>net.sf.proguard</groupId>
+                        <artifactId>proguard-base</artifactId>
+                        <version>${proguard.version}</version>
+                    </dependency>
+                </dependencies>
+                
             </plugin>
+            
             -->
-			
+             
+             
+             
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            
+            
 			
 		</plugins>
 	</build>

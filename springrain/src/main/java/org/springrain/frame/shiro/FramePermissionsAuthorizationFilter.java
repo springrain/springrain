@@ -83,7 +83,7 @@ public class FramePermissionsAuthorizationFilter extends
      * @return
      */
 
-    @Bean
+    @Bean("disableFramePermissionsAuthorizationFilter")
     public FilterRegistrationBean<FramePermissionsAuthorizationFilter> disableFramePermissionsAuthorizationFilter(FramePermissionsAuthorizationFilter filter) {
         FilterRegistrationBean<FramePermissionsAuthorizationFilter> registration = new FilterRegistrationBean<FramePermissionsAuthorizationFilter>(filter);
         registration.setEnabled(false);

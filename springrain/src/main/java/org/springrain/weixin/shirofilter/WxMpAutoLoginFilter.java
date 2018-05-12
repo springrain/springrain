@@ -117,7 +117,7 @@ public class WxMpAutoLoginFilter extends OncePerRequestFilter {
      * @return
      */
 
-    @Bean
+    @Bean("disableWxMpAutoLoginFilter")
     public FilterRegistrationBean<WxMpAutoLoginFilter> disableWxMpAutoLoginFilter(WxMpAutoLoginFilter filter) {
         FilterRegistrationBean<WxMpAutoLoginFilter> registration = new FilterRegistrationBean<WxMpAutoLoginFilter>(filter);
         registration.setEnabled(false);

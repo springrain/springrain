@@ -38,7 +38,7 @@ import org.springrain.weixin.sdk.xcx.api.impl.WxXcxPayServiceImpl;
 import org.springrain.weixin.sdk.xcx.api.impl.WxXcxServiceImpl;
 import org.springrain.weixin.sdk.xcx.api.impl.WxXcxTemplateMsgServiceImpl;
 
-@Configuration
+@Configuration("configuration-WeiXinConfig")
 public class WeiXinConfig {
 
     @Resource

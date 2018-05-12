@@ -19,7 +19,7 @@ import com.alibaba.druid.pool.DruidDataSource;
  * @author caomei
  *
  */
-@Configuration
+@Configuration("configuration-DataSourceConfig")
 public class DataSourceConfig extends BaseLogger {
     @Value("${spring.datasource.url}")
     private String url;

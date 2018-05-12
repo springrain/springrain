@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
  * @author caomei
  *
  */
-@Configuration
+@Configuration("configuration-CacheConfig")
 public class CacheConfig {
 
     //reids的IP和端口,如果是集群,使用逗号隔开,例如 redis://127.0.0.1:6379,redis://127.0.0.1:6378 

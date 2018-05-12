@@ -94,7 +94,7 @@ public class FrameStaticHtmlFilter extends OncePerRequestFilter {
      * @return
      */
 
-    @Bean
+    @Bean("disableFrameStaticHtmlFilter")
     public FilterRegistrationBean<FrameStaticHtmlFilter> disableFrameStaticHtmlFilter(FrameStaticHtmlFilter filter) {
         FilterRegistrationBean<FrameStaticHtmlFilter> registration = new FilterRegistrationBean<FrameStaticHtmlFilter>(filter);
         registration.setEnabled(false);

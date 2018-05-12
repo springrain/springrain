@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
  * @author caomei
  *
  */
-@Configuration
+@Configuration("configuration-ErrorPageConfig")
 public class ErrorPageConfig implements  ErrorPageRegistrar {
     
     @Override

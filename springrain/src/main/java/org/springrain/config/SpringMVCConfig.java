@@ -31,7 +31,7 @@ import org.springrain.frame.util.FrameObjectMapper;
  *
  */
 
-@Configuration
+@Configuration("configuration-SpringMVCConfig")
 @ComponentScan(basePackageClasses=SpringrainApplication.class,nameGenerator=SpringMVCAnnotationBeanNameGenerator.class,useDefaultFilters=false,includeFilters= {@Filter(type=FilterType.ANNOTATION,value=Controller.class)})
 public class SpringMVCConfig  implements WebMvcConfigurer     {
     
@@ -60,7 +60,7 @@ public class SpringMVCConfig  implements WebMvcConfigurer     {
     }
    
     /*
-   @Bean
+   @Bean("customConverters")
     public HttpMessageConverters customConverters() {
         return new HttpMessageConverters(false, getHttpMessageConverters());
     }
@@ -75,7 +75,7 @@ public class SpringMVCConfig  implements WebMvcConfigurer     {
        return converters;
    }
     
-    @Bean
+    @Bean("requestMappingHandlerAdapter")
     public  RequestMappingHandlerAdapter requestMappingHandlerAdapter() {
           RequestMappingHandlerAdapter requestMappingHandlerAdapter=new RequestMappingHandlerAdapter();
           requestMappingHandlerAdapter.setMessageConverters(getHttpMessageConverters());
@@ -83,7 +83,7 @@ public class SpringMVCConfig  implements WebMvcConfigurer     {
           
       }
     
-    @Bean
+    @Bean("exceptionHandlerExceptionResolver")
     public  ExceptionHandlerExceptionResolver exceptionHandlerExceptionResolver() {
         ExceptionHandlerExceptionResolver exceptionHandlerExceptionResolver=new ExceptionHandlerExceptionResolver();
         exceptionHandlerExceptionResolver.setMessageConverters(getHttpMessageConverters());
@@ -188,8 +188,7 @@ public class SpringMVCConfig  implements WebMvcConfigurer     {
     }
     
     
-    @Bean
-    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
+    private MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
         MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter=new MappingJackson2HttpMessageConverter();
         
         mappingJackson2HttpMessageConverter.setDefaultCharset(charset);
@@ -199,21 +198,18 @@ public class SpringMVCConfig  implements WebMvcConfigurer     {
     }
     
     
-    @Bean
-    public StringHttpMessageConverter stringHttpMessageConverter() {
+    private StringHttpMessageConverter stringHttpMessageConverter() {
         StringHttpMessageConverter stringHttpMessageConverter=new StringHttpMessageConverter(charset);
         return stringHttpMessageConverter;
     }
     
     
-    @Bean
-    public ResourceHttpMessageConverter resourceHttpMessageConverter() {
+    private ResourceHttpMessageConverter resourceHttpMessageConverter() {
         ResourceHttpMessageConverter resourceHttpMessageConverter=new ResourceHttpMessageConverter();
         return resourceHttpMessageConverter;
     }
      
-    @Bean
-    public ByteArrayHttpMessageConverter byteArrayHttpMessageConverter() {
+    private ByteArrayHttpMessageConverter byteArrayHttpMessageConverter() {
         ByteArrayHttpMessageConverter byteArrayHttpMessageConverter=new ByteArrayHttpMessageConverter();
         return byteArrayHttpMessageConverter;
     }

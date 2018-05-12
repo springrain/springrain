@@ -101,7 +101,7 @@ public class KeepOneSessionControlFilter extends AccessControlFilter {
      * @return
      */
 
-    @Bean
+    @Bean("disableKeepOneSessionControlFilter")
     public FilterRegistrationBean<KeepOneSessionControlFilter> disableKeepOneSessionControlFilter(KeepOneSessionControlFilter filter) {
         FilterRegistrationBean<KeepOneSessionControlFilter> registration = new FilterRegistrationBean<KeepOneSessionControlFilter>(filter);
         registration.setEnabled(false);

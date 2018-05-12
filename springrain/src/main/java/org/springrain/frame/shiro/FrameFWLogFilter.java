@@ -117,7 +117,7 @@ public class FrameFWLogFilter extends OncePerRequestFilter {
      * @return
      */
 
-    @Bean
+    @Bean("disableFrameFWLogFilter")
     public FilterRegistrationBean<FrameFWLogFilter> disableFrameFWLogFilter(FrameFWLogFilter filter) {
         FilterRegistrationBean<FrameFWLogFilter> registration = new FilterRegistrationBean<FrameFWLogFilter>(filter);
         registration.setEnabled(false);

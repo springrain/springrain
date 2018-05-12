@@ -36,7 +36,7 @@ import org.springframework.context.annotation.Lazy;
  * @author caomei
  *
  */
-@Configuration
+@Configuration("configuration-ShiroConfig")
 @Lazy(true)//变量 cacheTimeout会引起依赖注入,所以需要懒加载
 public class ShiroConfig {
     
@@ -106,7 +106,7 @@ public class ShiroConfig {
      * 权限管理器
      * @return
      */
-    @Bean
+    @Bean("securityManager")
     public org.apache.shiro.mgt.SecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         //数据库认证的实现
@@ -311,7 +311,7 @@ public class ShiroConfig {
      * @return
      */
     
-    @Bean
+    @Bean("updateSpringShiroFilter")
     //@DependsOn({shiroFilterName})
     public FilterRegistrationBean<AbstractShiroFilter> updateSpringShiroFilter(AbstractShiroFilter filter) {
         FilterRegistrationBean<AbstractShiroFilter> registration = new FilterRegistrationBean<AbstractShiroFilter>(filter);

@@ -10,7 +10,7 @@ import org.springframework.context.annotation.ImportResource;
  *
  */
 
-@Configuration
+@Configuration("configuration-TransactionConfig")
 @ImportResource("classpath:applicationContext-tx.xml")
 public class TransactionConfig {
     

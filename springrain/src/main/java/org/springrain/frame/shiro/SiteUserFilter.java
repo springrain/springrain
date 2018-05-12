@@ -83,7 +83,7 @@ public class SiteUserFilter extends BaseUserFilter {
      * @return
      */
 
-    @Bean
+    @Bean("disableSiteUserFilter")
     public FilterRegistrationBean<SiteUserFilter> disableSiteUserFilter(SiteUserFilter filter) {
         FilterRegistrationBean<SiteUserFilter> registration = new FilterRegistrationBean<SiteUserFilter>(filter);
         registration.setEnabled(false);

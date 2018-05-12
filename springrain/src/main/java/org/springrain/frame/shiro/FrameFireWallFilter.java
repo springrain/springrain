@@ -153,7 +153,7 @@ public class FrameFireWallFilter extends OncePerRequestFilter {
 	 * @return
 	 */
 
-    @Bean
+    @Bean("disableFrameFireWallFilter")
     public FilterRegistrationBean<FrameFireWallFilter> disableFrameFireWallFilter(FrameFireWallFilter filter) {
         FilterRegistrationBean<FrameFireWallFilter> registration = new FilterRegistrationBean<FrameFireWallFilter>(filter);
         registration.setEnabled(false);

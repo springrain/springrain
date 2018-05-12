@@ -56,7 +56,7 @@ public class SystemUserFilter extends BaseUserFilter {
      * @return
      */
 
-    @Bean
+    @Bean("disableSystemUserFilter")
     public FilterRegistrationBean<SystemUserFilter> disableSystemUserFilter(SystemUserFilter filter) {
         FilterRegistrationBean<SystemUserFilter> registration = new FilterRegistrationBean<SystemUserFilter>(filter);
         registration.setEnabled(false);

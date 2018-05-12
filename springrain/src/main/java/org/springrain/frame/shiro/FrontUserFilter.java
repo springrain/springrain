@@ -66,7 +66,7 @@ public class FrontUserFilter extends BaseUserFilter {
      * @return
      */
 
-    @Bean
+    @Bean("disableFrontUserFilter")
     public FilterRegistrationBean<FrontUserFilter> disableFrontUserFilter(FrontUserFilter filter) {
         FilterRegistrationBean<FrontUserFilter> registration = new FilterRegistrationBean<FrontUserFilter>(filter);
         registration.setEnabled(false);
