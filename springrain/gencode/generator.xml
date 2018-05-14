@@ -7,9 +7,9 @@
 		2.可以引用环境变量: ${env.JAVA_HOME} or System.properties: ${user.home},property之间也可以相互引用
 	</comment>
 	<!-- 代码基本的包路径 -->
-	<entry key="basepackage">org.springrain.selenium</entry>
+	<entry key="basepackage">org.springrain.system</entry>
 	<!-- js 和 freemarker 包名称  -->
-	<entry key="targetpackage">selenium</entry>
+	<entry key="targetpackage">system</entry>
 	<!-- jsp namespace: web/${namespace}/${className}/list.jsp -->
 	<entry key="namespace">ftl</entry>
 	<!-- 输出的代码路径 -->
