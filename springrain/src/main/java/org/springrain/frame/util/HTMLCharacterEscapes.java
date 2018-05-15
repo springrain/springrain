@@ -38,7 +38,7 @@ public class HTMLCharacterEscapes extends CharacterEscapes {
         // and force escaping of a few others:
         esc['<'] = CharacterEscapes.ESCAPE_CUSTOM;
         esc['>'] = CharacterEscapes.ESCAPE_CUSTOM;
-        // esc['&'] = CharacterEscapes.ESCAPE_CUSTOM;
+        esc['&'] = CharacterEscapes.ESCAPE_CUSTOM;
         // esc['\''] = CharacterEscapes.ESCAPE_CUSTOM;
         asciiEscapes = esc;
     }
