@@ -188,28 +188,36 @@ public class SpringMVCConfig  implements WebMvcConfigurer     {
     }
     
     
-    private MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
+    
+    /**
+     * 使用Bean的方式,用于替换默认的实现
+     * @return
+     */
+    
+    @Bean("mappingJackson2HttpMessageConverter")
+    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
         MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter=new MappingJackson2HttpMessageConverter();
-        
         mappingJackson2HttpMessageConverter.setDefaultCharset(charset);
         mappingJackson2HttpMessageConverter.setObjectMapper(new FrameObjectMapper());
-        
         return mappingJackson2HttpMessageConverter;
     }
     
-    
-    private StringHttpMessageConverter stringHttpMessageConverter() {
+    @Bean("stringHttpMessageConverter")
+    public StringHttpMessageConverter stringHttpMessageConverter() {
         StringHttpMessageConverter stringHttpMessageConverter=new StringHttpMessageConverter(charset);
         return stringHttpMessageConverter;
     }
     
     
-    private ResourceHttpMessageConverter resourceHttpMessageConverter() {
+    @Bean("resourceHttpMessageConverter")
+    public ResourceHttpMessageConverter resourceHttpMessageConverter() {
         ResourceHttpMessageConverter resourceHttpMessageConverter=new ResourceHttpMessageConverter();
         return resourceHttpMessageConverter;
     }
-     
-    private ByteArrayHttpMessageConverter byteArrayHttpMessageConverter() {
+    
+    
+    @Bean("byteArrayHttpMessageConverter")
+    public ByteArrayHttpMessageConverter byteArrayHttpMessageConverter() {
         ByteArrayHttpMessageConverter byteArrayHttpMessageConverter=new ByteArrayHttpMessageConverter();
         return byteArrayHttpMessageConverter;
     }
