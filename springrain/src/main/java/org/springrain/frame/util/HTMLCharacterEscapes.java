@@ -23,13 +23,14 @@ public class HTMLCharacterEscapes extends CharacterEscapes {
 
     // > \u003E
     private static final SerializedString escapeFor003E = new SerializedString("&gt;");
+    
+    // & \u0026
+    private static final SerializedString escapeFor0026 = new SerializedString("&amp;");
 
     // / \u005C
     // private static final SerializedString escapeFor005C = new
     // SerializedString("\\");
-    // & \u0026
-    // private static final SerializedString escapeFor0026 = new
-    // SerializedString("&amp;");
+
 
     public HTMLCharacterEscapes() {
         // start with set of characters known to require escaping (double-quote,
@@ -58,10 +59,11 @@ public class HTMLCharacterEscapes extends CharacterEscapes {
             return escapeFor003C;
         case 0x003E:
             return escapeFor003E;
+        case 0x0026:
+            return escapeFor0026;
         // case 0x005C:
         // return escapeFor005C;
-        // case 0x0026:
-        // return escapeFor0026;
+       
         default:
             return null;
         }
