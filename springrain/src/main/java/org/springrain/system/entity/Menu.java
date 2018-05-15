@@ -6,6 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.springrain.frame.annotation.WhereSQL;
@@ -96,6 +97,27 @@ public class Menu  extends BaseEntity {
 	//
 	private List<Menu> leaf;
 	
+	/**
+	 * bak1
+	 */
+	private java.lang.String bak1;
+	/**
+	 * bak2
+	 */
+	private java.lang.String bak2;
+	/**
+	 * bak3
+	 */
+	private java.lang.String bak3;
+	/**
+	 * bak4
+	 */
+	private java.lang.String bak4;
+	/**
+	 * bak5
+	 */
+	private java.lang.String bak5;
+	
 	//concstructor
 
 	public Menu(){
@@ -185,40 +207,141 @@ public class Menu  extends BaseEntity {
 		this.menuIcon = menuIcon;
 	}
 
-	@Override
-    public String toString() {
-		return new StringBuilder()
-			.append("id[").append(getId()).append("],")
-			.append("name[").append(getName()).append("],")
-			.append("pid[").append(getPid()).append("],")
-			.append("description[").append(getDescription()).append("],")
-			.append("pageurl[").append(getPageurl()).append("],")
-			.append("0.普通资源1.菜单资源[").append(getMenuType()).append("],")
-			.append("active[").append(getActive()).append("],")
-			.append("sortno[").append(getSortno()).append("],")
-			.toString();
+	/**
+	 * bak1
+	 */
+public void setBak1(java.lang.String value) {
+	    if(StringUtils.isNotBlank(value)){
+		 value=value.trim();
+		}
+	this.bak1 = value;
+}
+
+
+
+/**
+ * bak1
+ */
+ @WhereSQL(sql="bak1=:Menu_bak1")
+public java.lang.String getBak1() {
+	return this.bak1;
+}
+	/**
+	 * bak2
+	 */
+public void setBak2(java.lang.String value) {
+	    if(StringUtils.isNotBlank(value)){
+		 value=value.trim();
+		}
+	this.bak2 = value;
+}
+
+
+
+/**
+ * bak2
+ */
+ @WhereSQL(sql="bak2=:Menu_bak2")
+public java.lang.String getBak2() {
+	return this.bak2;
+}
+	/**
+	 * bak3
+	 */
+public void setBak3(java.lang.String value) {
+	    if(StringUtils.isNotBlank(value)){
+		 value=value.trim();
+		}
+	this.bak3 = value;
+}
+
+
+
+/**
+ * bak3
+ */
+ @WhereSQL(sql="bak3=:Menu_bak3")
+public java.lang.String getBak3() {
+	return this.bak3;
+}
+	/**
+	 * bak4
+	 */
+public void setBak4(java.lang.String value) {
+	    if(StringUtils.isNotBlank(value)){
+		 value=value.trim();
+		}
+	this.bak4 = value;
+}
+
+
+
+/**
+ * bak4
+ */
+ @WhereSQL(sql="bak4=:Menu_bak4")
+public java.lang.String getBak4() {
+	return this.bak4;
+}
+	/**
+	 * bak5
+	 */
+public void setBak5(java.lang.String value) {
+	    if(StringUtils.isNotBlank(value)){
+		 value=value.trim();
+		}
+	this.bak5 = value;
+}
+
+
+
+/**
+ * bak5
+ */
+ @WhereSQL(sql="bak5=:Menu_bak5")
+public java.lang.String getBak5() {
+	return this.bak5;
+}
+@Override
+public String toString() {
+	return new StringBuilder()
+		.append("主键id[").append(getId()).append("],")
+		.append("菜单名称[").append(getName()).append("],")
+		.append("父类id[").append(getPid()).append("],")
+		.append("描述[").append(getDescription()).append("],")
+		.append("跳转URL[").append(getPageurl()).append("],")
+		.append("0.功能按钮,1.导航菜单[").append(getMenuType()).append("],")
+		.append("是否有效(0否,1是)[").append(getActive()).append("],")
+		.append("排序[").append(getSortno()).append("],")
+		.append("菜单图标[").append(getMenuIcon()).append("],")
+		.append("bak1[").append(getBak1()).append("],")
+		.append("bak2[").append(getBak2()).append("],")
+		.append("bak3[").append(getBak3()).append("],")
+		.append("bak4[").append(getBak4()).append("],")
+		.append("bak5[").append(getBak5()).append("],")
+		.toString();
+}
+@Override
+public int hashCode() {
+	return new HashCodeBuilder()
+		.append(getId())
+		.toHashCode();
+}
+@Override
+public boolean equals(Object obj) {
+	if(obj instanceof Menu == false){
+		return false;
+	}
+		
+	if(this == obj){
+		return true;
 	}
 	
-	@Override
-    public int hashCode() {
-		return new HashCodeBuilder()
-			.append(getId())
-			.toHashCode();
-	}
-	
-	@Override
-    public boolean equals(Object obj) {
-		if(obj instanceof Menu == false){
-			return false;
-		} 
-		if(this == obj){
-			return true;
-		} 
-		Menu other = (Menu)obj;
-		return new EqualsBuilder()
-			.append(getId(),other.getId())
-			.isEquals();
-	}
+	Menu other = (Menu)obj;
+	return new EqualsBuilder()
+		.append(getId(),other.getId())
+		.isEquals();
+}
 
 	@Transient
 	public List<Menu> getLeaf() {

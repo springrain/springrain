@@ -55,7 +55,7 @@ public class Enumerations {
 	 *
 	 */
 	public enum UserPlateformDeviceType{
-		公众号(1),小程序(2),企业号(3),APP(4),UDESK(5),QQ(6),微博(7);
+		公众号(1),小程序(2),企业号(3),APP(4),UDESK(5),QQ(6),微博(7),PC(8);
 		int type;
 		private UserPlateformDeviceType(Integer type){
 			this.type = type;
@@ -81,6 +81,8 @@ public class Enumerations {
 					return QQ;
 				case 7:
 					return 微博;
+				case 8:
+	                 return PC;
 				default:
 					return null;
 			}
@@ -367,6 +369,102 @@ public class Enumerations {
 		}
 		
 	}
+	
+	
+	
+	/**
+     * 权限日志-动作类型
+     * @date 2017年12月15日
+     */
+    public enum PermissionsLogActionType{
+        创建(1),编辑(2),删除(3),启用(4),禁用(5);
+        int val;
+        
+        private PermissionsLogActionType(int val) {
+            this.val = val;
+        }
+        
+        public static PermissionsLogActionType getActionType(int val) {
+            switch(val) {
+                case 1:
+                    return 创建;
+                case 2:
+                    return 编辑;
+                case 3:
+                    return 删除;
+                case 4:
+                    return 启用;
+                case 5:
+                    return 禁用;
+                default: 
+                    return null;
+            }
+        }
+
+        public int getVal() {
+            return val;
+        }
+    }
+    
+    /**
+     * 权限日志-获取操作对象类型
+     * @date 2017年12月15日
+     */
+    public enum PermissionsLogOperatorObjectType{
+        用户(1),角色(2);
+        int val;
+        
+        private PermissionsLogOperatorObjectType(int val) {
+            this.val = val;
+        }
+        
+        public static PermissionsLogOperatorObjectType getObjectType(int val) {
+            switch(val) {
+                case 1:
+                    return 用户;
+                case 2:
+                    return 角色;
+                default: 
+                    return null;
+            }
+        }
+
+        public int getVal() {
+            return val;
+        }
+    }
+    
+    
+    
+    
+    /**
+     * 可用状态
+     * */
+    public enum ActiveState{
+        不可用(0),可用(1),删除(2);
+        Integer state;
+        private ActiveState(Integer state){
+            this.state = state;
+        }
+        
+        public Integer getState() {
+            return state;
+        }
+        
+        public static ActiveState getActiveState(Integer state){
+            switch (state) {
+            case 0:
+                return 不可用;
+            case 1:
+                return 可用;
+            case 2:
+                return 删除;
+            default:
+                return null;
+            }
+        }
+    }
+    
 	
 
 	

@@ -41,8 +41,7 @@ public class OrgController  extends BaseController {
 	private String listurl="/system/org/orgList";
 	
 	/** binder用于bean属性的设置 */
-	@Override
-    @InitBinder  
+	@InitBinder  
 	public void initBinder(WebDataBinder binder) {
 	          super.initBinder(binder);
 	}

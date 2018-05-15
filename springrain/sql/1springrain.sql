@@ -613,7 +613,48 @@ CREATE TABLE `t_h5drag`  (
   PRIMARY KEY (`id`)
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COMMENT='H5拖拽后台表';
 
+-- ----------------------------
+-- Table structure for t_user_platform_infos
+-- ----------------------------
+DROP TABLE IF EXISTS `t_user_platform_infos`;
+CREATE TABLE `t_user_platform_infos`  (
+  `id` varchar(50)  NOT NULL COMMENT '主键id',
+  `openId` varchar(100)  NULL DEFAULT NULL COMMENT '公众号openId,企业号userId,小程序openId,APP推送deviceToken',
+  `deviceType` int(11) NULL DEFAULT NULL COMMENT '设备/应用类型：1公众号2小程序3企业号4APP IOS消息推送5APP安卓消息推送6web',
+  `siteId` varchar(50)  NULL DEFAULT NULL COMMENT '所属站点ID',
+  `userId` varchar(50)  NULL DEFAULT NULL COMMENT 't_user表中ID',
+  `bak1` varchar(255)  NULL DEFAULT NULL,
+  `bak2` varchar(255)  NULL DEFAULT NULL,
+  `bak3` varchar(255)  NULL DEFAULT NULL,
+  `bak4` varchar(255)  NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COMMENT = '用户平台信息表';
 
+
+-- ----------------------------
+-- Table structure for t_permissions_log
+-- ----------------------------
+DROP TABLE IF EXISTS `t_permissions_log`;
+CREATE TABLE `t_permissions_log`  (
+  `id` varchar(50)  NOT NULL COMMENT '主键',
+  `siteId` varchar(50)  NULL DEFAULT NULL COMMENT '站点ID',
+  `actionType` int(2) NULL DEFAULT NULL COMMENT '操作类型 创建、编辑、删除、启用、禁用',
+  `operatorUserId` varchar(50)  NULL DEFAULT NULL COMMENT '操作人ID',
+  `operatorUserName` varchar(200)  NULL DEFAULT NULL COMMENT '操作人当时名称',
+  `operatorUserRoles` text  NULL COMMENT '操作人当时所属角色名称，逗号分割',
+  `operatorObjectType` int(2) NULL DEFAULT NULL COMMENT '操作对象类型',
+  `operatorObjectId` varchar(50)  NULL DEFAULT NULL COMMENT '操作对象ID',
+  `operatorObjectName` varchar(200)  NULL DEFAULT NULL COMMENT '操作对象当时的名称',
+  `actionContent` longtext  NULL COMMENT '操作内容详情',
+  `createUserId` varchar(50)  NULL DEFAULT NULL COMMENT '记录创建人',
+  `createTime` datetime(0) NULL DEFAULT NULL COMMENT '记录创建时间',
+  `bak1` varchar(200)  NULL DEFAULT NULL COMMENT '备用字段',
+  `bak2` varchar(200)  NULL DEFAULT NULL COMMENT '备用字段',
+  `bak3` varchar(200)  NULL DEFAULT NULL COMMENT '备用字段',
+  `bak4` varchar(200)  NULL DEFAULT NULL COMMENT '备用字段',
+  `bak5` varchar(200)  NULL DEFAULT NULL COMMENT '备用字段',
+  PRIMARY KEY (`id`) 
+) ENGINE = InnoDB CHARACTER SET = utf8mb4  COMMENT = '权限变更日志' ;
 
 
 

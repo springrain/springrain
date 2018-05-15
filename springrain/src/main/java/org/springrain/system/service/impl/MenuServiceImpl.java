@@ -6,8 +6,6 @@ import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
@@ -34,9 +32,21 @@ public class MenuServiceImpl extends BaseSpringrainServiceImpl implements
 		return super.save(entity).toString();
 	}
 
-	@Override
-	@CacheEvict(value=GlobalStatic.qxCacheKey,allEntries=true)  
+	@Override 
 	public String saveorupdateMenu(Menu entity) throws Exception {
+		super.cleanCache(GlobalStatic.qxCacheKey);
+		// 禁用，启用所有子菜单
+		if(entity!=null && entity.getActive()!=null && entity.getId()!=null) {
+			List<Menu> childList = findAllChildByPid(entity.getId());
+			if(childList!=null && !childList.isEmpty()) {
+				List<String> childIds = new ArrayList<String>();
+				for(Menu child : childList) {
+					childIds.add(child.getId());
+				}
+				updateMenuActiveByIds(childIds, entity.getActive());
+			}
+		}
+		
 		return super.saveorupdate(entity).toString();
 	}
 
@@ -51,8 +61,7 @@ public class MenuServiceImpl extends BaseSpringrainServiceImpl implements
 	}
 	
 	
-	@Override
-    public List<Menu> findListById(Object id) throws Exception {
+	public List<Menu> findListById(Object id) throws Exception {
 		List<Menu> menuList=new ArrayList<>();
 		Finder finder = Finder.getSelectFinder(Menu.class);
 	
@@ -131,24 +140,37 @@ public class MenuServiceImpl extends BaseSpringrainServiceImpl implements
 	}
 
 	@Override
-	@Cacheable(value = GlobalStatic.cacheKey, key = "'getNameByPageurl_'+#pageurl")
+	//@Cacheable(value = GlobalStatic.cacheKey, key = "'getNameByPageurl_'+#pageurl")
 	public String getNameByPageurl(String pageurl) throws Exception {
+		
 		if(StringUtils.isBlank(pageurl)){
 			return null;
 		}
+		
+		List<String> list = null;
+		String key = "getNameByPageurl_" + pageurl;
+		list = super.getByCache(GlobalStatic.cacheKey, key, List.class);
+		if (list != null) {
+			return list.toString();
+		}
+		
 		Finder finder = Finder.getSelectFinder(Menu.class,"name").append(" WHERE pageurl=:pageurl ");
 		finder.setParam("pageurl", pageurl);
-		List<String> list = queryForList(finder,String.class);
+		list = queryForList(finder,String.class);
 		if(CollectionUtils.isEmpty(list)){
 			return null;
 		}
+		
+		//加上缓存
+		super.putByCache(GlobalStatic.cacheKey, key, list);
 		
 		return list.toString();
 	}
 
 	@Override
-	@CacheEvict(value=GlobalStatic.qxCacheKey,allEntries=true)  
 	public String deleteMenuById(String menuId) throws Exception {
+		super.cleanCache(GlobalStatic.qxCacheKey);
+		
 		if(StringUtils.isBlank(menuId)){
 			return null;
 		}
@@ -158,4 +180,108 @@ public class MenuServiceImpl extends BaseSpringrainServiceImpl implements
 		return null;
 	}
 
+	@Override
+	public List<Menu> findListByPid(String id) throws Exception {
+		Finder finder = Finder.getSelectFinder(Menu.class)
+			.append(" where pid = :id ").setParam("id", id);
+		return super.queryForList(finder,Menu.class);
+	}
+
+	@Override
+	public List<Menu> findAllChildByPid(String pid) throws Exception {
+		Finder finder = Finder.getSelectFinder(Menu.class);
+		List<Menu> allMenuList = super.queryForList(finder, Menu.class);
+		List<Menu> resList = findChildByPidFromAll(pid, allMenuList);
+		return resList;
+	}
+	
+	/**
+	 * 从菜单集合中获取子菜单（递归）
+	 * @param pid
+	 * @param allMenuList
+	 * @return
+	 * @throws Exception
+	 */
+	private List<Menu> findChildByPidFromAll(String pid,List<Menu> allMenuList) throws Exception{
+		if(allMenuList == null || allMenuList.isEmpty()) {
+			return null;
+		}
+		
+		List<Menu> subMenuList = new ArrayList<Menu>();
+		
+		for(Menu menu : allMenuList) {
+			if(pid.equals(menu.getPid())) {
+				subMenuList.add(menu);
+			}
+		}
+		
+		if(subMenuList.isEmpty()) {
+			return subMenuList;
+		}
+		
+		List<Menu> resMenuList = new ArrayList<Menu>();
+		resMenuList.addAll(subMenuList);
+		for(Menu menu : subMenuList) {
+			List<Menu> childMenuList = findChildByPidFromAll(menu.getId(),allMenuList);
+			if(childMenuList == null || childMenuList.isEmpty()) {
+				continue;
+			}
+			resMenuList.addAll(childMenuList);
+		}
+		return resMenuList;
+	}
+
+	@Override
+	public Integer updateMenuActiveByIds(List<String> ids, Integer active) throws Exception {
+		if(ids == null || ids.isEmpty()) {
+			return null;
+		}
+		
+		Finder finder = Finder.getUpdateFinder(Menu.class)
+			.append(" active = :active where id in (:ids) ")
+			.setParam("active", active).setParam("ids", ids);
+		;
+		
+		return super.update(finder);
+	}
+
+	@Override
+	public List<Menu> findAllParentByChildId(String pid) throws Exception {
+		Finder finder = Finder.getSelectFinder(Menu.class);
+		List<Menu> allMenuList = super.queryForList(finder, Menu.class);
+		List<Menu> resList = findAllParentByChildIdFromAll(pid, allMenuList);
+		return resList;
+	}
+	
+	/**
+	 * 从菜单集合中获取父菜单（递归）
+	 * @param pid
+	 * @param allMenuList
+	 * @return
+	 * @throws Exception
+	 */
+	@Override
+	public List<Menu> findAllParentByChildIdFromAll(String pid,List<Menu> allMenuList) throws Exception{
+		if(pid == null) {
+			return null;
+		}
+		if(allMenuList == null || allMenuList.isEmpty()) {
+			return null;
+		}
+
+		List<Menu> pMenus = new ArrayList<Menu>();
+		for(Menu menu : allMenuList) {
+			if(menu.getId().equals(pid)) {
+				pMenus.add(menu);
+				
+				List<Menu> pMenus2 = findAllParentByChildIdFromAll(menu.getPid(), allMenuList);
+				if(pMenus2!=null) {
+					pMenus.addAll(pMenus2);
+				}
+			}
+		}
+		
+		return pMenus;
+	}
+	
 }

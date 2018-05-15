@@ -69,6 +69,25 @@ public interface IDicDataService extends IBaseSpringrainService {
 	 * @throws Exception
 	 */
 	String findCacheNameById(String id,String pathtypekey)throws Exception;
+
+	
+	/**
+	 * 根据pathtypekey查询字典列表
+	 * @param pathtypekey
+	 * @param sort 排序
+	 * @return
+	 * @throws Exception
+	 */
+	List<DicData> findDisDataByPathtypeKey(String pathtypekey,String sort,Integer active) throws Exception;
+	
+	/**
+	 * 根据Code,typeKey获取字典
+	 * @param code
+	 * @param typeKey
+	 * @return
+	 * @throws Exception
+	 */
+	DicData findByCodeAndTypeKey(String code,String typeKey) throws Exception;
 	
 	
 }

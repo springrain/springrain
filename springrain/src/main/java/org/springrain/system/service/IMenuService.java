@@ -71,6 +71,46 @@ public interface IMenuService extends IBaseSpringrainService {
 	 * @throws Exception
 	 */
 	String getNameByPageurl(String pageurl) throws Exception;
+
+	/**
+	 * 根据父节点ID查找子节点
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	List<Menu> findListByPid(String id) throws Exception;
 	
+	/**
+	 * 根据父菜单id查询出所有子菜单
+	 * @param pid
+	 * @return
+	 * @throws Exception
+	 */
+	List<Menu> findAllChildByPid(String pid) throws Exception;
 	
+	/**
+	 * 更新菜单状态
+	 * @param ids
+	 * @param active
+	 * @return
+	 * @throws Exception
+	 */
+	Integer updateMenuActiveByIds(List<String> ids,Integer active) throws Exception;
+	
+	/**
+	 * 根据子菜单ID查找该子菜单的所有父菜单
+	 * @param pid
+	 * @return
+	 * @throws Exception
+	 */
+	List<Menu> findAllParentByChildId(String pid) throws Exception;
+	
+	/**
+	 * 从菜单集合中获取父菜单（递归）
+	 * @param pid
+	 * @param allMenuList
+	 * @return
+	 * @throws Exception
+	 */
+	List<Menu> findAllParentByChildIdFromAll(String pid,List<Menu> allMenuList) throws Exception;
 }

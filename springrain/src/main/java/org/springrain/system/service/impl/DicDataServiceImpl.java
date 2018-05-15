@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.util.CollectionUtils;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
+import org.springrain.cms.entity.CmsProperty;
 import org.springrain.frame.entity.IBaseEntity;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
@@ -32,8 +32,12 @@ public class DicDataServiceImpl extends BaseSpringrainServiceImpl implements IDi
 	       return (String) super.save(dicData);
 	}
     @Override
-    @CacheEvict(value = GlobalStatic.cacheKey, key = "'findListDicData_'+#pathtypekey")
+    //@CacheEvict(value = GlobalStatic.cacheKey, key = "'findListDicData_'+#pathtypekey")
 	public String  saveorupdateDicData(DicData dicData,String pathtypekey) throws Exception{
+		String key = "findListDicData_" + pathtypekey;
+    	super.evictByKey(GlobalStatic.cacheKey, key);
+    	
+    	
     	if(StringUtils.isBlank(pathtypekey)||dicData==null){
     		return null;
     	}
@@ -42,8 +46,7 @@ public class DicDataServiceImpl extends BaseSpringrainServiceImpl implements IDi
     		return null;
     	}
     	
-    	
-		 return super.saveorupdate(dicData).toString();
+		return super.saveorupdate(dicData).toString();
 	}
 	
 	@Override
@@ -88,6 +91,13 @@ public class DicDataServiceImpl extends BaseSpringrainServiceImpl implements IDi
 		Finder finder=Finder.getSelectFinder(DicData.class).append("  where id=:id and  typekey=:typekey   order by name ");
 		finder.setParam("typekey",pathtypekey).setParam("id", id);
 		DicData dicData=super.queryForObject(finder, DicData.class);
+		
+		// 获取自定义参数
+		Finder finder_q_pro = Finder.getSelectFinder(CmsProperty.class);
+		finder_q_pro.append(" where businessId = :businessId order by sortno asc ").setParam("businessId", dicData.getId());
+		List<CmsProperty> propertyList = super.queryForList(finder_q_pro, CmsProperty.class);
+		dicData.setPropertyList(propertyList);
+		
 		return dicData;
 	}
 
@@ -103,9 +113,11 @@ public class DicDataServiceImpl extends BaseSpringrainServiceImpl implements IDi
 	}
 
 	@Override
-	@CacheEvict(value = GlobalStatic.cacheKey, key = "'findListDicData_'+#pathtypekey")
+	//@CacheEvict(value = GlobalStatic.cacheKey, key = "'findListDicData_'+#pathtypekey")
 	public void deleteDicDataById(String id, String pathtypekey)
 			throws Exception {
+		String key = "findListDicData_" + pathtypekey;
+		super.evictByKey(GlobalStatic.cacheKey, key);
 		
 		if(StringUtils.isBlank(id)||StringUtils.isBlank(pathtypekey)){
 			return;
@@ -120,9 +132,13 @@ public class DicDataServiceImpl extends BaseSpringrainServiceImpl implements IDi
 	}
 
 	@Override
-	@CacheEvict(value = GlobalStatic.cacheKey, key = "'findListDicData_'+#pathtypekey")
+	//@CacheEvict(value = GlobalStatic.cacheKey, key = "'findListDicData_'+#pathtypekey")
 	public void deleteDicDataByIds(List<String> ids, String pathtypekey)
 			throws Exception {
+		
+		String key = "findListDicData_" + pathtypekey;
+		super.evictByKey(GlobalStatic.cacheKey, key);
+		
 		if(CollectionUtils.isEmpty(ids)||StringUtils.isBlank(pathtypekey)){
 			return;
 		}
@@ -151,7 +167,29 @@ public class DicDataServiceImpl extends BaseSpringrainServiceImpl implements IDi
 	
 	
 	
-
+	@Override
+	public List<DicData> findDisDataByPathtypeKey(String pathtypekey, String sort, Integer active) throws Exception {
+		if(StringUtils.isBlank(pathtypekey)){
+			return null;
+		}
+		Finder finder=Finder.getSelectFinder(DicData.class).append(" WHERE typekey=:typekey and active = :active ");
+		finder.setParam("typekey", pathtypekey).setParam("active", active);
+		if(StringUtils.isNotBlank(sort)){
+			finder.append(" order by sortno asc");
+		}
+		return super.queryForList(finder, DicData.class);
+	}
 	
-
+	@Override
+	public DicData findByCodeAndTypeKey(String code, String typeKey)
+			throws Exception {
+		Finder finder = Finder.getSelectFinder(DicData.class).append(
+				" where code=:code and typekey = :typeKey and active=1 ");
+		finder.setParam("code", code).setParam("typeKey", typeKey);
+		List<DicData> datas = super.queryForList(finder, DicData.class);
+		if (!CollectionUtils.isEmpty(datas)) {
+			return datas.get(0);
+		}
+		return null;
+	}
 }

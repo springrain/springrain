@@ -6,9 +6,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-
 import org.springrain.frame.annotation.WhereSQL;
 import org.springrain.frame.entity.BaseEntity;
 /**
@@ -77,8 +77,61 @@ public class Role  extends BaseEntity {
 	//对应目录名称 逗号分隔
 	private String menunames;
 	
+	/**
+	 * 创建时间
+	 */
+	private java.util.Date createTime ; 
+	/**
+	 * 创建人
+	 */
+	private java.lang.String createUserId ;
+	/**
+	 * 修改时间
+	 */
+	private java.util.Date updateTime ; 
+	/**
+	 * 修改人
+	 */
+	private java.lang.String updateUserId ;
+	
+	/**
+	 * bak1
+	 */
+	private java.lang.String bak1;
+	/**
+	 * bak2
+	 */
+	private java.lang.String bak2;
+	/**
+	 * bak3
+	 */
+	private java.lang.String bak3;
+	/**
+	 * bak4
+	 */
+	private java.lang.String bak4;
+	/**
+	 * bak5
+	 */
+	private java.lang.String bak5;
+	
 	//concstructor
 
+	/**
+	 * 该角色下的用户数
+	 */
+	private java.lang.Integer userCount;
+	
+	/**
+	 * 有用权限的菜单的数据，格式为：自营管理(50/50),第三方店铺(0),平台(50/70),数据监控(20/30),财务管理(10/30)
+	 */
+	private java.lang.String menusInfo;
+	
+	/**
+	 * 角色-菜单关联
+	 */
+	private List<RoleMenu> roleMenus;
+	
 	public Role(){
 	}
 
@@ -165,34 +218,154 @@ public class Role  extends BaseEntity {
 		return this.active;
 	}
 	
+     /**
+		 * bak1
+		 */
+	public void setBak1(java.lang.String value) {
+		    if(StringUtils.isNotBlank(value)){
+			 value=value.trim();
+			}
+		this.bak1 = value;
+	}
+	
+	
+	
+	/**
+	 * bak1
+	 */
+  @WhereSQL(sql="bak1=:Role_bak1")
+	public java.lang.String getBak1() {
+		return this.bak1;
+	}
+		/**
+		 * bak2
+		 */
+	public void setBak2(java.lang.String value) {
+		    if(StringUtils.isNotBlank(value)){
+			 value=value.trim();
+			}
+		this.bak2 = value;
+	}
+	
+	
+	
+	/**
+	 * bak2
+	 */
+  @WhereSQL(sql="bak2=:Role_bak2")
+	public java.lang.String getBak2() {
+		return this.bak2;
+	}
+		/**
+		 * bak3
+		 */
+	public void setBak3(java.lang.String value) {
+		    if(StringUtils.isNotBlank(value)){
+			 value=value.trim();
+			}
+		this.bak3 = value;
+	}
+	
+	
+	
+	/**
+	 * bak3
+	 */
+  @WhereSQL(sql="bak3=:Role_bak3")
+	public java.lang.String getBak3() {
+		return this.bak3;
+	}
+		/**
+		 * bak4
+		 */
+	public void setBak4(java.lang.String value) {
+		    if(StringUtils.isNotBlank(value)){
+			 value=value.trim();
+			}
+		this.bak4 = value;
+	}
+	
+	
+	
+	/**
+	 * bak4
+	 */
+  @WhereSQL(sql="bak4=:Role_bak4")
+	public java.lang.String getBak4() {
+		return this.bak4;
+	}
+		/**
+		 * bak5
+		 */
+	public void setBak5(java.lang.String value) {
+		    if(StringUtils.isNotBlank(value)){
+			 value=value.trim();
+			}
+		this.bak5 = value;
+	}
+	
+	
+	
+	/**
+	 * bak5
+	 */
+  @WhereSQL(sql="bak5=:Role_bak5")
+	public java.lang.String getBak5() {
+		return this.bak5;
+	}
+  
+  	@Transient
+	public java.lang.Integer getUserCount() {
+		return userCount;
+	}
+
+	public void setUserCount(java.lang.Integer userCount) {
+		this.userCount = userCount;
+	}
+
+	@Transient
+	public java.lang.String getMenusInfo() {
+		return menusInfo;
+	}
+
+	public void setMenusInfo(java.lang.String menusInfo) {
+		this.menusInfo = menusInfo;
+	}
+
 	@Override
-    public String toString() {
+	public String toString() {
 		return new StringBuilder()
 			.append("角色ID[").append(getId()).append("],")
 			.append("角色名称[").append(getName()).append("],")
 			.append("权限编码[").append(getCode()).append("],")
-			.append("所属部门[").append(getPid()).append("],")
-			.append("角色类型(0系统角色,1业务岗位)[").append(getRoleType()).append("],")
+			.append("上级角色ID,暂时不实现[").append(getPid()).append("],")
+			.append("0系统角色,1部门主管,2业务岗位[").append(getRoleType()).append("],")
 			.append("备注[").append(getRemark()).append("],")
-			.append("状态(0:禁用1:启用)[").append(getActive()).append("],")
+			.append("是否有效(0否,1是)[").append(getActive()).append("],")
+			.append("归属的部门Id[").append(getOrgId()).append("],")
+			.append("bak1[").append(getBak1()).append("],")
+			.append("bak2[").append(getBak2()).append("],")
+			.append("bak3[").append(getBak3()).append("],")
+			.append("bak4[").append(getBak4()).append("],")
+			.append("bak5[").append(getBak5()).append("],")
 			.toString();
 	}
-	
 	@Override
-    public int hashCode() {
+	public int hashCode() {
 		return new HashCodeBuilder()
 			.append(getId())
 			.toHashCode();
 	}
-	
 	@Override
-    public boolean equals(Object obj) {
+	public boolean equals(Object obj) {
 		if(obj instanceof Role == false){
 			return false;
-		} 
+		}
+			
 		if(this == obj){
 			return true;
-		} 
+		}
+		
 		Role other = (Role)obj;
 		return new EqualsBuilder()
 			.append(getId(),other.getId())
@@ -215,6 +388,54 @@ public class Role  extends BaseEntity {
 	public void setCode(java.lang.String code) {
 		this.code = code;
 	}
+
+	@WhereSQL(sql="createTime=:Role_createTime")
+	public java.util.Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(java.util.Date createTime) {
+		this.createTime = createTime;
+	}
+
+	@WhereSQL(sql="createUserId=:Role_createUserId")
+	public java.lang.String getCreateUserId() {
+		return createUserId;
+	}
+
+	public void setCreateUserId(java.lang.String createUserId) {
+		this.createUserId = createUserId;
+	}
+
+	@WhereSQL(sql="updateTime=:Role_updateTime")
+	public java.util.Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(java.util.Date updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	@WhereSQL(sql="updateUserId=:Role_updateUserId")
+	public java.lang.String getUpdateUserId() {
+		return updateUserId;
+	}
+
+	public void setUpdateUserId(java.lang.String updateUserId) {
+		this.updateUserId = updateUserId;
+	}
+
+	@Transient
+	public List<RoleMenu> getRoleMenus() {
+		return roleMenus;
+	}
+
+	public void setRoleMenus(List<RoleMenu> roleMenus) {
+		this.roleMenus = roleMenus;
+	}
+	
+	
+	
 }
 
 	

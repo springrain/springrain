@@ -6,6 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.springrain.frame.annotation.WhereSQL;
@@ -77,7 +78,26 @@ public class Org  extends BaseEntity {
 	private java.lang.Integer active;
 	
 	private List<Org> leafOrg;
-	
+	/**
+	 * bak1
+	 */
+	private java.lang.String bak1;
+	/**
+	 * bak2
+	 */
+	private java.lang.String bak2;
+	/**
+	 * bak3
+	 */
+	private java.lang.String bak3;
+	/**
+	 * bak4
+	 */
+	private java.lang.String bak4;
+	/**
+	 * bak5
+	 */
+	private java.lang.String bak5;
 	//concstructor
 
 	public Org(){
@@ -164,36 +184,136 @@ public class Org  extends BaseEntity {
 		return this.active;
 	}
 
+     /**
+		 * bak1
+		 */
+	public void setBak1(java.lang.String value) {
+		    if(StringUtils.isNotBlank(value)){
+			 value=value.trim();
+			}
+		this.bak1 = value;
+	}
+	
+	
+	
+	/**
+	 * bak1
+	 */
+  @WhereSQL(sql="bak1=:Org_bak1")
+	public java.lang.String getBak1() {
+		return this.bak1;
+	}
+		/**
+		 * bak2
+		 */
+	public void setBak2(java.lang.String value) {
+		    if(StringUtils.isNotBlank(value)){
+			 value=value.trim();
+			}
+		this.bak2 = value;
+	}
+	
+	
+	
+	/**
+	 * bak2
+	 */
+  @WhereSQL(sql="bak2=:Org_bak2")
+	public java.lang.String getBak2() {
+		return this.bak2;
+	}
+		/**
+		 * bak3
+		 */
+	public void setBak3(java.lang.String value) {
+		    if(StringUtils.isNotBlank(value)){
+			 value=value.trim();
+			}
+		this.bak3 = value;
+	}
+	
+	
+	
+	/**
+	 * bak3
+	 */
+  @WhereSQL(sql="bak3=:Org_bak3")
+	public java.lang.String getBak3() {
+		return this.bak3;
+	}
+		/**
+		 * bak4
+		 */
+	public void setBak4(java.lang.String value) {
+		    if(StringUtils.isNotBlank(value)){
+			 value=value.trim();
+			}
+		this.bak4 = value;
+	}
+	
+	
+	
+	/**
+	 * bak4
+	 */
+  @WhereSQL(sql="bak4=:Org_bak4")
+	public java.lang.String getBak4() {
+		return this.bak4;
+	}
+		/**
+		 * bak5
+		 */
+	public void setBak5(java.lang.String value) {
+		    if(StringUtils.isNotBlank(value)){
+			 value=value.trim();
+			}
+		this.bak5 = value;
+	}
+	
+	
+	
+	/**
+	 * bak5
+	 */
+  @WhereSQL(sql="bak5=:Org_bak5")
+	public java.lang.String getBak5() {
+		return this.bak5;
+	}
 	@Override
-    public String toString() {
+	public String toString() {
 		return new StringBuilder()
 			.append("编号[").append(getId()).append("],")
 			.append("名称[").append(getName()).append("],")
 			.append("代码[").append(getComcode()).append("],")
 			.append("上级部门ID[").append(getPid()).append("],")
-			.append("0,组织机构 1.部门,2虚拟部门[").append(getOrgType()).append("],")
+			.append("1.部门,2.虚拟权限组,10站长部门,11微信,12企业号,13pc,14wap,15投票[").append(getOrgType()).append("],")
 			.append("叶子节点(0:树枝节点;1:叶子节点)[").append(getLeaf()).append("],")
 			.append("排序号[").append(getSortno()).append("],")
 			.append("描述[").append(getDescription()).append("],")
-			.append("0.失效 1.有效[").append(getActive()).append("],")
+			.append("是否有效(0否,1是)[").append(getActive()).append("],")
+			.append("bak1[").append(getBak1()).append("],")
+			.append("bak2[").append(getBak2()).append("],")
+			.append("bak3[").append(getBak3()).append("],")
+			.append("bak4[").append(getBak4()).append("],")
+			.append("bak5[").append(getBak5()).append("],")
 			.toString();
 	}
-	
 	@Override
-    public int hashCode() {
+	public int hashCode() {
 		return new HashCodeBuilder()
 			.append(getId())
 			.toHashCode();
 	}
-	
 	@Override
-    public boolean equals(Object obj) {
+	public boolean equals(Object obj) {
 		if(obj instanceof Org == false){
 			return false;
-		} 
+		}
+			
 		if(this == obj){
 			return true;
-		} 
+		}
+		
 		Org other = (Org)obj;
 		return new EqualsBuilder()
 			.append(getId(),other.getId())

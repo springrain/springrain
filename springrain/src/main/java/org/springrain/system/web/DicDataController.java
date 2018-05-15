@@ -121,7 +121,7 @@ public class DicDataController  extends BaseController {
 		
 		ReturnDatas returnObject = lookjson(pathtypekey,model, request, response);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
-		return "/system/dicData/dicDataLook";
+		return "/system/dicdata/dicdataLook";
 	}
 
 	
@@ -188,7 +188,7 @@ public class DicDataController  extends BaseController {
 		map.put("typekey", pathtypekey);
 		returnObject.setMap(map);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
-		return "/system/dicData/dicDataCru";
+		return "/system/dicdata/dicdataCru";
 	}
 	
 	/**

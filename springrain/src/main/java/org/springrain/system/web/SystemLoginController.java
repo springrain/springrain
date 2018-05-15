@@ -46,9 +46,8 @@ public class SystemLoginController extends BaseController   {
 		@RequestMapping(value = "/index")
 		public String index(Model model,HttpSession session,HttpServletRequest request) throws Exception {
 			String siteId = request.getParameter("systemSiteId");
-			if(StringUtils.isNotBlank(siteId)) {
-                model.addAttribute("systemSiteId", siteId);
-            }
+			if(StringUtils.isNotBlank(siteId))
+				model.addAttribute("systemSiteId", siteId);
 			return "/system/index";
 		}
 		
@@ -72,7 +71,7 @@ public class SystemLoginController extends BaseController   {
 			
 			//判断用户是否登录
 			if(SecurityUtils.getSubject().isAuthenticated()){
-			    model.addAttribute(GlobalStatic.tokenKey,request.getSession().getAttribute(GlobalStatic.tokenKey));
+				model.addAttribute(GlobalStatic.tokenKey,request.getSession().getAttribute(GlobalStatic.tokenKey));
 				return redirect+"/system/index";
 			}
 			//默认赋值message,避免freemarker尝试从session取值,造成异常
@@ -152,7 +151,7 @@ public class SystemLoginController extends BaseController   {
 				return "/system/login";
 			} catch (LockedAccountException e) {
 				logger.error(e.getMessage(), e);
-				model.addAttribute("message", "账号被锁定!");
+				model.addAttribute("message", e.getMessage());
 				 if(StringUtils.isNotBlank(gotourl)){
 				     model.addAttribute("gotourl", gotourl);
 				  }

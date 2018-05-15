@@ -236,8 +236,7 @@ public class Fwlog  extends BaseEntity {
 		return this.isqx;
 	}
 	
-	@Override
-    public String toString() {
+	public String toString() {
 		return new StringBuilder()
 			.append("ID[").append(getId()).append("],")
 			.append("访问时间[").append(getStartDate()).append("],")
@@ -253,15 +252,13 @@ public class Fwlog  extends BaseEntity {
 			.toString();
 	}
 	
-	@Override
-    public int hashCode() {
+	public int hashCode() {
 		return new HashCodeBuilder()
 			.append(getId())
 			.toHashCode();
 	}
 	
-	@Override
-    public boolean equals(Object obj) {
+	public boolean equals(Object obj) {
 		if(obj instanceof Fwlog == false){
 			return false;
 		} 

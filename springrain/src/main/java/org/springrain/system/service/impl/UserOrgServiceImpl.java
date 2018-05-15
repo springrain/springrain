@@ -193,10 +193,10 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 		
 		StringBuilder hasLeafBuffer=new StringBuilder();
 		Finder finder=new Finder(hasLeafBuffer.toString());
-		finder.append(" SELECT frame_system_temp_org.*  FROM ").append(Finder.getTableName(Org.class));
-		finder.append(" frame_system_temp_org WHERE 1=1 ");
+		finder.append(" SELECT _system_temp_org.*  FROM ").append(Finder.getTableName(Org.class));
+		finder.append(" _system_temp_org WHERE 1=1 ");
 		finder.appendFinder(f);
-		finder.append(" order by frame_system_temp_org.id  asc ");
+		finder.append(" order by _system_temp_org.id  asc ");
 		
 		
 		return super.queryForList(finder,Org.class,page);
@@ -217,11 +217,11 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 			return null;
 		}
 		
-//		userIdsSQLByManagerUserId=userIdsSQLByManagerUserId+" order by  frame_system_temp_user_org.userId asc ";
+//		userIdsSQLByManagerUserId=userIdsSQLByManagerUserId+" order by  _system_temp_user_org.userId asc ";
 		
 		Finder finder=new Finder();
 		finder.appendFinder(f);
-		finder.append(" order by  frame_system_temp_user_org.userId asc ");
+		finder.append(" order by  _system_temp_user_org.userId asc ");
 		
 		return super.queryForList(finder, String.class,page);
 	}
@@ -237,8 +237,8 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 			return null;
 		}
 		Finder finder=new Finder("SELECT u.* FROM ");
-		finder.append(Finder.getTableName(User.class)).append(" u,").append(Finder.getTableName(UserOrg.class)).append(" re,").append(Finder.getTableName(Org.class)).append(" frame_system_temp_org ");
-		finder.append(" WHERE u.id=re.userId and re.orgId=frame_system_temp_org.id ");
+		finder.append(Finder.getTableName(User.class)).append(" u,").append(Finder.getTableName(UserOrg.class)).append(" re,").append(Finder.getTableName(Org.class)).append(" _system_temp_org ");
+		finder.append(" WHERE u.id=re.userId and re.orgId=_system_temp_org.id ");
 //		finder.append(wheresql);
 		finder.appendFinder(f);
 		finder.append(" order by  u.id asc ");
@@ -284,9 +284,9 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 			return new Finder();
 		}
 		Finder hasLeafBuffer=new Finder();
-		hasLeafBuffer.append(" SELECT frame_system_temp_org.id  FROM ").append(Finder.getTableName(Org.class));
-		hasLeafBuffer.append(" frame_system_temp_org WHERE 1=1 ").appendFinder(f); 
-//		hasLeafBuffer.append(" order by frame_system_temp_org.id  asc "); 
+		hasLeafBuffer.append(" SELECT _system_temp_org.id  FROM ").append(Finder.getTableName(Org.class));
+		hasLeafBuffer.append(" _system_temp_org WHERE 1=1 ").appendFinder(f); 
+//		hasLeafBuffer.append(" order by _system_temp_org.id  asc "); 
 		
 		 return hasLeafBuffer;
 		
@@ -304,9 +304,9 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 		}
 		
 		
-		Finder sb=new Finder("SELECT  frame_system_temp_user_org.userId FROM ");
-		sb.append(Finder.getTableName(UserOrg.class)).append(" frame_system_temp_user_org,").append(Finder.getTableName(Org.class)).append(" frame_system_temp_org ");
-		sb.append(" WHERE frame_system_temp_user_org.orgId=frame_system_temp_org.id  ");
+		Finder sb=new Finder("SELECT  _system_temp_user_org.userId FROM ");
+		sb.append(Finder.getTableName(UserOrg.class)).append(" _system_temp_user_org,").append(Finder.getTableName(Org.class)).append(" _system_temp_org ");
+		sb.append(" WHERE _system_temp_user_org.orgId=_system_temp_org.id  ");
 		sb.appendFinder(f);
 		
 		 return sb;
@@ -345,8 +345,8 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 			if(hasLeaf==0){//不包含子部门
 				noLeafList.add(orgId);
 			}else if(hasLeaf==1){//包含子部门
-				String indexsign="frame_system_temp_comcode_"+String.valueOf(list.indexOf(re));
-				hasLeafBuffer.append(" or frame_system_temp_org.comcode like :").append(indexsign).append(" ");
+				String indexsign="_system_temp_comcode_"+String.valueOf(list.indexOf(re));
+				hasLeafBuffer.append(" or _system_temp_org.comcode like :").append(indexsign).append(" ");
 				hasLeafBuffer.setParam(indexsign, "%,"+orgId+",%"); 
 			}
 		}
@@ -357,8 +357,8 @@ public class UserOrgServiceImpl extends BaseSpringrainServiceImpl implements IUs
 				hasLeafBuffer.append(" or ");
 			}
 			
-			hasLeafBuffer.append(" frame_system_temp_org.id in (:frame_system_temp_orglist) ");
-			hasLeafBuffer.setParam("frame_system_temp_orglist", noLeafList); 
+			hasLeafBuffer.append(" _system_temp_org.id in (:_system_temp_orglist) ");
+			hasLeafBuffer.setParam("_system_temp_orglist", noLeafList); 
 		}
 		
 		hasLeafBuffer.append(") "); 

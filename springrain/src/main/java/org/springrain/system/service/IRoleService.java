@@ -57,4 +57,12 @@ public interface IRoleService extends IBaseSpringrainService {
 	 */
 	String findNameById(String roleId)throws Exception;
 	
+	/**
+	 * 查询角色下有效的用户数
+	 * @param roleId
+	 * @return
+	 * @throws Exception
+	 */
+	Integer findCountUserNumById(String roleId) throws Exception;
+	
 }
