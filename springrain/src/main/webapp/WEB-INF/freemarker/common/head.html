@@ -1,3 +1,4 @@
+<#include "pchead.html">
 <#-- 全局变量 --> 
 <#global ctx="${(ctp.contextPath)!''}"> 
 
@@ -21,26 +22,35 @@
 <#macro commonHeadContent>
 	<link rel="stylesheet" href="${ctx}/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="${ctx}/layui/css/global.css" media="all">
-    
     <link rel="stylesheet" href="${ctx}/css/custom/common/common.css" media="all">
     <link rel="stylesheet" href="${ctx}/css/custom/common/personal.css" media="all">
     <script src="${ctx}/js/jquery/jquery.min.js"></script>
     <script src="${ctx}/js/cache/locache.min.js"></script>
     <script type="text/javascript" src="${ctx}/js/cookie/jquery.cookie.js"></script>
+    <script type="text/javascript" src="${ctx}/js/layer/layer.js" ></script>
     
     <!-- layui -->
     <script src="${ctx}/layui/layui.js"></script>
     <!-- 自定义公共js -->
    
     <!-- ztree -->
-    <link rel="stylesheet"
-	href="${ctx}/js/ztree/css/zTreeStyle/zTreeStyle.css"
-	type="text/css">
+    <link rel="stylesheet"	href="${ctx}/js/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
 	<script type="text/javascript" src="${ctx}/js/ztree/js/jquery.ztree.all-3.5.js"></script>
 	<script src="${ctx}/js/custom/common/springrain.js"></script>
+	<style>
+		.ncrglc_txt.text_hidden_two:hover{text-decoration:underline;color: #009688;}
+	</style>
 	<script type="text/javascript">
             var ctx="${ctx}";
             var springraintoken=springrain.getUrlParam("springraintoken");
+          //判断是否为空
+    		function isNull(t) {
+    			t=$.trim(t);
+    		 	if (t == null || t == "null" || t == "" || typeof(t) == "undefined") {
+    		 		return true;
+    		 	}
+    		 	return false;
+    		};
     </script>
 </#macro>
 
@@ -56,6 +66,9 @@
     <@h.head title="${title}" keywords="${keywords}" description="${description}"/>
     <@h.commonHeadContent/>
  	<script src="${ctx}/js/custom/site/common/common.js"></script>
+ 	<script>
+ 	var siteId = $.cookie('defaultSiteId');
+ 	</script>
 </#macro>
 
 
@@ -64,10 +77,25 @@
 <#macro naviHeader>
         <div class="layui-header header header-demo">
           <div class="layui-main">
-     		<a class="logo" href='javascript:springrain.goTo("${ctx}/system/index")'; style="left:0px;">
-              	<img id="siteLogo" src="${ctx}/img/logo.png" alt="springrain"  style="width:35%;height:auto;">
-            </a>
-            <ul class="layui-nav" style="left:185px;height:50px;" id="naviHeaderMenu">
+     		
+              	<#if siteId?? && siteId!=''>
+              		<@cms_site id=siteId>
+              			<a class="logo" href='javascript:springrain.goTo("${ctx}/s/${siteId!''}/index")'; style="left:0px;top:6px !important">
+              				<img id="siteLogo" src="${ctx}/img/logo_new.png" alt="springrain"  style="width:35%;height:auto;"> 
+              			</a>
+              		</@cms_site>
+              	<#else>
+              		<a class="logo" href='javascript:springrain.goTo("${ctx}/system/index")'; style="left:0px;">
+              			<img id="siteLogo" src="${ctx}/img/logo.png" alt="springrain"  style="width:35%;height:auto;">
+              		</a>
+              		<script type="text/javascript">
+              		
+              			var src = locache.get("defaultSiteLogoUrl");
+              			if(!!src)
+              			$("#siteLogo").attr("src",src);
+              		</script>
+              	</#if>
+            <ul class="layui-nav" style="left:185px;" id="naviHeaderMenu">
             </ul>
 				<ul class="layui-nav beg-layout-nav" lay-filter="user">
 					<li class="layui-nav-item">
@@ -93,13 +121,12 @@
 				</ul>            
           </div>
 	</div>
-       
 </#macro>
 
 
 <!-- 左侧菜单  -->
 <#macro leftMenu>
-        <div class="layui-side layui-bg-black">
+        <div class="layui-side layui-bg-black" style="margin-top:5px;">
             <div class="layui-side-scroll">
                 <ul class="layui-nav layui-nav-tree site-demo-nav" lay-filter="leftMenu" id="menu">
                 
@@ -162,7 +189,46 @@
                     jump:function(obj, first){
                         if("${page.pageIndex}"!=obj.curr){
                             $("[name='pageIndex']",$("#${formId}")).val(obj.curr);
-                            springrain.commonSubmit("${formId}");
+                            springrain.commonSubmitForPage("${formId}");
+                            //springrain.commonSubmit("${formId}");
+                        }
+                    }
+            }
+            layui.laypage(settings);
+        });
+    </script>
+</#macro>
+
+
+<!-- ******************  -->
+<!-- ********模块宏******  -->
+<!-- 适用于添加活动时，选择商品的分页，例如使用分页等模块功能调用  -->
+<!-- ******************  -->
+
+<!-- 分页模块，需要传入参数  -->
+<#macro layPage2 page formId target groups="10"  skin="#009688" cont="laypageDiv">
+    <script>
+    	jQuery("#recordsView span").eq(0).html('${page.pageCount}');
+    	jQuery("#recordsView span").eq(1).html('${page.totalCount}');
+        layui.use(['laypage'], function(){
+            var prev = !${page.hasPrev?c}?false:"上一页";
+            var next = !${page.hasNext?c}?false:"下一页";
+            var settings = {
+                    cont:'${cont}',
+                    pages:${page.pageCount},
+                    curr:${page.pageIndex},
+                    groups:${groups},
+                    skin:'${skin}',
+                    first:1,
+                    last:${page.pageCount},
+                    prev:prev,
+                    next:next,
+                    skip:true,
+                    jump:function(obj, first){
+                        if("${page.pageIndex}"!=obj.curr){
+                            $("[name='pageIndex']",$("#${formId}")).val(obj.curr);
+                            //debugger
+                            springrain.mySubmitForm2("${formId}","${target}");
                         }
                     }
             }

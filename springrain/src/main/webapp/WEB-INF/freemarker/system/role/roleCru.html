@@ -38,11 +38,13 @@
 		 @_before:提交表单前，调用 的函数   可以为空，一般有validform处理不了，独自进行处理时使用
 		 @_after:保存成功后，调用的函数  可以为空，一般为对应的列表页面
 		 */
-		 springrain.initValid(null,function(){window.location.href="${ctx}/system/role/list?springraintoken="+springraintoken});
+		 //springrain.initValid(null,function(){window.location.href="${ctx}/system/role/list?springraintoken="+springraintoken});
+		 springrain.initValid(null,function(){window.location.href="${ctx}/s/role/list?springraintoken="+springraintoken});
 	 });
 </script>
 <script type="text/javascript">
-				var listurl = '${ctx}/system/role/list';
+				//var listurl = '${ctx}/system/role/list';
+				var listurl = '${ctx}/s/role/list';
 				var _valid_form;
 				var menuMultiSelectSetting = {
 					expandAll : true,
@@ -70,7 +72,8 @@
 						springrain.alert("请选择你要删除的记录");
 						return;
 					} else {
-						var _url = "${ctx}/system/role/delete?id=" + id;
+						//var _url = "${ctx}/system/role/delete?id=" + id;
+						var _url = "${ctx}/s/role/delete?id=" + id;
 						springrain.mydelete(null,_url,'确认要删除该角色,与之绑定的帐号将失去此角色绑定关系 ',null);
 					}
 				}
@@ -79,7 +82,8 @@
 				function showZtreeMenu() {
 
 					if (!menuMultiSelectTree) {
-						jQuery.post("${ctx}/system/menu/list/json", function(
+						//jQuery.post("${ctx}/system/menu/list/json", function(
+						jQuery.post("${ctx}/s/menu/list/json", function(
 								_json) {
 							if (_json.status == "success") {
 								$.fn.zTree.init($("#menuMultiSelectTree"),
@@ -151,7 +155,8 @@
 				var orgjsondata4select;
 				function showOrgTree() {
 					if (!selectOrgZtree) {
-						jQuery.post("${ctx}/system/org/list/json",function(_json) {
+						//jQuery.post("${ctx}/system/org/list/json",function(_json) {
+						jQuery.post("${ctx}/s/org/list/json",function(_json) {
 							if (_json.status == "success") {
 								selectOrgZtree=springrain.tree({
 									'hasMenu':false,
@@ -203,7 +208,7 @@
 													<span>添加角色</span>
 												</header>
 												<div class="larry-personal-body clearfix changepwd">
-													<form id="validForm" class="layui-form <!--  -->"  method="post" action="${ctx}/system/role/update">
+													<form id="validForm" class="layui-form <!--  -->"  method="post" action="${ctx}/s/role/update">
 																<input type="hidden" id="id" name="id" value="${(returnDatas.data.id)!''}"/>	
 																	<div class="layui-form-item col-lg-6">
 																		<label class="layui-form-label">角色名称*</label>

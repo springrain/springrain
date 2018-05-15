@@ -254,7 +254,7 @@ body .site-demo-nav .layui-nav-item{line-height: 40px}
 
 
 /* 适配多设备 */
-@media screen and (max-width: 750px) {
+@media screen and (max-width: 1280px) {
   .layui-main{width: auto; margin: 0 10px;}
   .logo,
   .header-demo .logo{left: 10px;}

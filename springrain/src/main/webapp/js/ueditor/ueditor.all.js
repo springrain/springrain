@@ -11122,6 +11122,8 @@ UE.commands['insertimage'] = {
         }
 
         function unhtmlData(imgCi) {
+        	
+        	
 
             utils.each('width,height,border,hspace,vspace'.split(','), function (item) {
 
@@ -23238,6 +23240,7 @@ UE.plugins['catchremoteimage'] = function () {
             catchremoteimage(remoteImages, {
                 //成功抓取
                 success: function (r) {
+                	
                     try {
                         var info = r.state !== undefined ? r:eval("(" + r.responseText + ")");
                     } catch (e) {
@@ -23254,7 +23257,11 @@ UE.plugins['catchremoteimage'] = function () {
                         }
                         for (j = 0; cj = list[j++];) {
                             if (oldSrc == cj.source && cj.state == "SUCCESS") {  //抓取失败时不做替换处理
-                                newSrc = catcherUrlPrefix + cj.url;
+                            	if(cj.url.indexOf("http")==0){
+                            		newSrc =cj.url;
+                            	}else{
+                            		newSrc = catcherUrlPrefix + cj.url;
+                            	}
                                 domUtils.setAttributes(ci, {
                                     "src": newSrc,
                                     "_src": newSrc
@@ -23772,6 +23779,7 @@ UE.plugin.register('autoupload', function (){
         
 
         if (filetype == 'image') {
+        	
             loadingHtml = '<img class="loadingclass" id="' + loadingId + '" src="' +
                 me.options.themePath + me.options.theme +
                 '/images/spacer.gif" title="' + (me.getLang('autoupload.loading') || '') + '" >';
@@ -24533,7 +24541,11 @@ UE.plugin.register('simpleupload', function (){
                             body = (iframe.contentDocument || iframe.contentWindow.document).body,
                             result = body.innerText || body.textContent || '';
                         json = (new Function("return " + result))();
-                        link = me.options.imageUrlPrefix + json.url;
+                        if(json.url.indexOf("http")==0){
+                        	 link = json.url;
+                        }else{
+                        	 link = me.options.imageUrlPrefix + json.url;
+                        }
                         if(json.state == 'SUCCESS' && json.url) {
                             loader = me.document.getElementById(loadingId);
                             loader.setAttribute('src', link);

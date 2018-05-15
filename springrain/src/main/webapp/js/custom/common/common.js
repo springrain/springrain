@@ -12,17 +12,23 @@ $(document).ready(function(){
 		},
 		complete:function(data){
 			try{
-				var _obj=data.responseText;
-				_obj=eval("("+_obj+")");
-				if(_obj.statusCode=='relogin'){
-					this.success=null;
-					springrain.info("登录超时，请重新登录.", null);
-					setTimeout(function(){
-						window.location.href=ctx+"/system/login";
-					},1000);
+				if((this.dataType==undefined&&this.dataTypes.indexOf("json")!=-1)||'json'==this.dataType.toLowerCase()){
+					var _obj=data.responseText;
+					if(_obj==null||_obj==""){
+						return;
+					}
+					_obj=eval("("+_obj+")");
+					if(_obj.statusCode=='relogin'){
+						this.success=null;
+						springrain.info("登录超时，请重新登录.", null);
+						setTimeout(function(){
+							window.location.href=ctx+"/system/login";
+						},1000);
+					}
 				}
 			}catch(e){
-				springrain.info(e, null);
+				console.log(e);
+				//springrain.info(e, null);
 			}
 		}
 	});
@@ -46,11 +52,12 @@ $(document).ready(function(){
 	//处理列表中列多的
 	jQuery("#LAY_preview .layui-table").each(function(_i,_o){
 		if(jQuery(_o).parent("form").length<=0){
-			if(!jQuery(_o).parent("div").hasClass("tableWrap")){
-				jQuery(_o).wrap("<div class='tableWrap' style='width:100%;overflow-x:auto;'></div>")
+			if(!jQuery(this).hasClass("nospec")){
+				if(!jQuery(_o).parent("div").hasClass("tableWrap")){
+					jQuery(_o).wrap("<div class='tableWrap' style='width:100%;overflow-x:auto;'></div>")
+				}
 			}
 		}
-		
 	});
 });
 var form;
@@ -60,14 +67,18 @@ function selectListener(filterId,callback){
 		if(jQuery("form").length>0){
 			layui.use('form', function(){
 				  form = layui.form();
+				  form.on('select('+filterId+')', function(data){
+						callback(data);
+				});
 			});
 		}else{
 			return;
 		}
+	}else{ 
+		form.on('select('+filterId+')', function(data){
+			callback(data);
+		});
 	}
-	form.on('select('+filterId+')', function(data){
-		callback(data);
-	});
 }
 function loadMenu(){
 	
@@ -142,23 +153,26 @@ function buildModule(data) {
             }
             //debugger;
             var tmpPid = locache.get("currentPagePid");
-            var menuIcon_df="&#xe63c;";
-            if(data[i].menuIcon!=null){
+            //var menuIcon_df="&#xe63c;";
+            var menuIcon_df = "/img/iconImg/default.png";
+            if(data[i].menuIcon!=null&&data[i].menuIcon!=""){
             	menuIcon_df=data[i].menuIcon;
             }
             if((tmpPid == data[i].id) || (!(!!tmpPid) && i==0)){//url中有第一个菜单的键值
             	url = ctx + url;
-            	htmlStr += '<li id="pmenu'+data[i].id+'" class="layui-nav-item layui-this"><a href="javascript:void(0);" data-pid="'+data[i].id+'" data-action="'+url+'"><i class="layui-icon">'+menuIcon_df+'</i><cite>'+data[i].name+'</cite></a></li>';
-                childrenMenuList = data[i]['leaf'];
+            	//htmlStr += '<li id="pmenu'+data[i].id+'" class="layui-nav-item layui-this"><a href="javascript:void(0);" data-pid="'+data[i].id+'" data-action="'+url+'"><i class="layui-icon">'+menuIcon_df+'</i><cite>'+data[i].name+'</cite></a></li>';
+            	htmlStr += '<li id="pmenu'+data[i].id+'" class="layui-nav-item layui-this"><a href="javascript:void(0);" data-pid="'+data[i].id+'" data-action="'+url+'"><img class="icon_img" src=' + ctx + menuIcon_df + '><cite>'+data[i].name+'</cite></a></li>';
+            	childrenMenuList = data[i]['leaf'];
+            	//<i class="layui-icon">&#xe630;</i>\
                 $("ul.site-demo-title").prepend('<li class="layui-this">\
-	             		<i class="layui-icon">&#xe630;</i>\
+                		<img class="icon_img" src=' + ctx + menuIcon_df + '>\
 	             		<span class="layui-breadcrumb" style="visibility: visible;" id="neckNavi">\
 						  <a><cite>'+data[i].name+'</cite></a><span class="layui-box">&gt;</span>\
 						</span>\
              		</li>');
             }else{
             	url = ctx + url;
-                htmlStr += '<li id="pmenu'+data[i].id+'" class="layui-nav-item"><a href="javascript:void(0);" data-pid="'+data[i].id+'" data-action="'+url+'"><i class="layui-icon">'+menuIcon_df+'</i><cite>'+data[i].name+'</cite></a></li>';
+            	htmlStr += '<li id="pmenu'+data[i].id+'" class="layui-nav-item"><a href="javascript:void(0);" data-pid="'+data[i].id+'" data-action="'+url+'"><img class="icon_img" src=' + ctx + menuIcon_df + '><cite>'+data[i].name+'</cite></a></li>';
             }
         }
         $("#naviHeaderMenu").html(htmlStr);
@@ -184,13 +198,14 @@ function getParentModule(childrenMenuList) {
         }
         
         var _leaf=childrenMenuList[i]["leaf"];
-        var menuIcon_df="&#xe63c;";
-        if(childrenMenuList[i].menuIcon!=null){
+        //var menuIcon_df="&#xe63c;";
+        var menuIcon_df = "/img/iconImg/default.png";
+        if(childrenMenuList[i].menuIcon!=null&&childrenMenuList[i].menuIcon!=""){
         	menuIcon_df=childrenMenuList[i].menuIcon;
         }
         if(_leaf&&_leaf.length>0){
         	 htmlStr += '<li class="layui-nav-item layui-nav-itemed'+showItem+'" id="'+childrenMenuList[i].id+'"><a href="';
-            htmlStr = htmlStr+ ' javascript:;"> <i class="layui-icon">'+menuIcon_df+'</i><cute>'+childrenMenuList[i].name+'</cute></a>';
+            htmlStr = htmlStr+ ' javascript:;"> <img class="icon_img" src=' + ctx + menuIcon_df + '><cite>'+childrenMenuList[i].name+'</cite></a>';
             htmlStr = htmlStr+getChindModule(_leaf,childrenMenuList[i]);
         }else{
         	htmlStr += '<li class="layui-nav-item layui-nav-itemed'+showItem+'" id="'+childrenMenuList[i].id+'"><a href="javascript:void(0);" data-pid="'+childrenMenuList[i].pid+'" data-action="';
@@ -201,7 +216,7 @@ function getParentModule(childrenMenuList) {
                  tmpData = tmpData['leaf'][0];
              }
              url = ctx+url;
-            htmlStr = htmlStr+url+'" ><i class="layui-icon">'+menuIcon_df+'</i><cite>'+childrenMenuList[i].name+'</cite></a>';
+             htmlStr = htmlStr+url+'"><img class="icon_img" src='+ ctx + menuIcon_df+'><cite>'+childrenMenuList[i].name+'</cite></a>';
         }
         htmlStr = htmlStr+'</li>';
     }
@@ -211,12 +226,18 @@ function getParentModule(childrenMenuList) {
 function getChindModule(_leaf,parentMenu) {
     var t = '<dl class="layui-nav-child">';
     for ( var menuObj in _leaf) {
+    	
+       var menuIcon_df = "/img/iconImg/default.png";
+       if(_leaf[menuObj].menuIcon!=null&&_leaf[menuObj].menuIcon!=""){
+           	menuIcon_df=_leaf[menuObj].menuIcon;
+        }
+    	
         if((ctx+_leaf[menuObj].pageurl)==window.location.pathname){
-        	 t = t+'<dd class="layui-this" pageUrl="'+_leaf[menuObj].pageurl+'" id="'+_leaf[menuObj].id+'"><a href="javascript:void(0);" data-action="'+ctx+_leaf[menuObj].pageurl+'"><i class="layui-icon">'+_leaf[menuObj].menuIcon+'</i><cite>'+_leaf[menuObj].name+'</cite></a></dd>';
+        	 t = t+'<dd class="layui-this" pageUrl="'+_leaf[menuObj].pageurl+'" id="'+_leaf[menuObj].id+'"><a href="javascript:void(0);" data-action="'+ctx+_leaf[menuObj].pageurl+'"><img class="icon_img" src='+ ctx + menuIcon_df+'><cite>'+_leaf[menuObj].name+'</cite></a></dd>';
         	 $("#neckNavi").append('<a><cite>'+parentMenu.name+'</cite></a><span class="layui-box">&gt;</span>');
         	 $("#neckNavi").append('<a><cite>'+_leaf[menuObj].name+'</cite></a>');
         }else{
-        	t = t+'<dd pageUrl="'+_leaf[menuObj].pageurl+'" id="'+_leaf[menuObj].id+'"><a href="javascript:void(0);" data-action="'+ctx+_leaf[menuObj].pageurl+'"><i class="layui-icon">'+_leaf[menuObj].menuIcon+'</i><cite>'+_leaf[menuObj].name+'</cite></a></dd>';
+        	t = t+'<dd pageUrl="'+_leaf[menuObj].pageurl+'" id="'+_leaf[menuObj].id+'"><a href="javascript:void(0);" data-action="'+ ctx +_leaf[menuObj].pageurl+'"><img class="icon_img" src='+ ctx + menuIcon_df+'><cite>'+ _leaf[menuObj].name+'</cite></a></dd>';
         }
     }
     t = t+'</dl>';

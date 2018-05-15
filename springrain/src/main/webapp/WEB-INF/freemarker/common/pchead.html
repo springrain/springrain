@@ -1,0 +1,1152 @@
+<!-- 页头  -->
+<#macro pcHead title keywords description>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+		<meta name="renderer" content="webkit"/>
+		<!-- saved from url=(0014)about:internet -->
+		<title>${title}</title>
+		<link rel="Shortcut Icon" href="${ctx}/img/pc/favicon.ico">
+</#macro>
+
+<!-- 前台通用宏内容  -->
+<#macro pcCommonHeadContent>
+	<link rel="stylesheet" href="${ctx}/css/pc/reset.css" />
+	<link rel="stylesheet" href="${ctx}/css/pc/web_new.css" />
+	<link rel="stylesheet" href="${ctx}/css/pc/styleOne.css" />
+	<link rel="stylesheet" href="${ctx}/css/pc/style.css" />
+	<link rel="prefetch" href="${ctx}/img/pc/animate.gif" />  
+	<script type="text/javascript" src="${ctx}/js/jquery/jquery-1.12.4.js" ></script>
+	<script type="text/javascript" src="${ctx}/js/pc/placeholder.js" ></script>
+	<script type="text/javascript" src="${ctx}/js/pc/usual.js" ></script>
+	<script type="text/javascript" src="${ctx}/js/layer/layer.js" ></script>
+	<script type="text/javascript" src="${ctx}/js/custom/common/springrain.js" ></script>
+	<script type="text/javascript" src="${ctx}/js/pc/page/my.page.js" ></script>
+	<script  type="text/javascript" src="${ctx}/js/artTemplate/es5-shim.min.js"></script>
+	<script  type="text/javascript" src="${ctx}/js/artTemplate/es5-sham.min.js"></script>
+	<script  type="text/javascript" src="${ctx}/js/artTemplate/json3.min.js"></script>
+	<script type="text/javascript" src="${ctx}/js/artTemplate/artTemplate.js" ></script>
+	<script type="text/javascript" src="${ctx}/js/pc/laydate/laydate.js" ></script>
+	<script type="text/javascript">
+        var ctx="${ctx}";
+      //广告链接
+		var topAdvUrl = "${ctx}/f/pc/${siteId!''}/advertising/list";
+        //var springraintoken=springrain.getUrlParam("springraintoken");
+        var springraintoken="${springraintoken!''}";
+            
+        //初始数据
+        $(function(){
+        	var uuid = localStorage.getItem("uuid");
+        	if(isNull(uuid)){
+        		uuid = guid();
+        		localStorage.setItem("uuid",uuid);
+        	}
+        });
+        //返回uuid
+   		function guid() {
+   			return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+   			    var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+   			    return v.toString(16);
+   			});
+   		};
+		//判断是否为空
+		function isNull(t) {
+			t=$.trim(t);
+		 	if (t == null || t == "null" || t == "" || typeof(t) == "undefined") {
+		 		return true;
+		 	}
+		 	return false;
+		};
+	
+       
+       //分页对象
+       function createPage(_obj, _page, callback) {
+         	$(_obj).pagination(_page.totalCount,{
+         		callback : callback,// PageCallback() 为翻页调用次函数。
+         		prev_text : "上一页",
+         		next_text : "下一页",
+         		first_text : "首页",
+         		last_text : "尾页",
+         		items_per_page : _page.pageSize, // 每页的数据个数
+         		num_display_entries : 4, // 两侧首尾分页条目数
+         		current_page : _page.pageIndex - 1, // 当前页码
+         		num_edge_entries : 2
+         		// 连续分页主体部分分页条目数
+         	});
+        }
+       
+    	//获取登录状态
+		function getLoginState(){
+			var flag = false;
+			$.ajax({
+				url : "${ctx}/f/pc/get/loginState",
+				type : "post",
+				dataType : "json",
+				async : false,
+				success : function(_json) {
+					if (_json.status == "success") {
+						if(!isNull(_json.data)){
+							flag = true;
+						}
+					}else{
+						flag = false;
+					}
+				}
+			});
+			return flag;
+		}
+       
+    </script>
+</#macro>
+
+<!-- 内容页面通用头部,该宏包含一些通用js、css，适合业务页面使用，不适用与登陆注册等非业务页面。  -->
+<#macro pcCommonHead title keywords description>
+    <@h.pcHead title="${title}" keywords="${keywords}" description="${description}"/>
+    <@h.pcCommonHeadContent/>
+</#macro>
+
+<!-- 站长通用头部  -->
+<#macro pcSiteCommonHead title keywords description>
+    <@h.pChead title="${title}" keywords="${keywords}" description="${description}"/>
+    <@h.pcCommonHeadContent/>
+ 	<script src="${ctx}/js/custom/site/common/common.js"></script>
+ 	<script>
+ 	var siteId = $.cookie('defaultSiteId');
+ 	</script>
+</#macro>
+
+
+
+<!-- 头部横向导航  -->
+<#macro pcNaviHeader>
+    <div class="ht30 bg-e3e4e5 border-b-1">
+		<div class="container">
+			<div class="row">
+				<div class="col24">
+					<div class="ht30 l-ht30 pl20 pr20">
+						<a href="${ctx}/f/pc/${siteId!''}/h_10711-s_10020"><span class="font12 font-9">首页</span></a>
+						<span id="loginSpan"><a href="${ctx}/f/pc/${siteId!''}/h_10712-s_10020" class="font12 font-9 ml16">请登录</a></span>
+						<span class="font12 font-9 ml10 mr10">|</span>
+						<span id="registSpan"><a href="${ctx}/f/pc/${siteId!''}/h_10713-s_10020" class="font-ff5d5d">还没账号？请注册</a></span>
+						<span class="fr">
+							<a href="javascript:toUserCenter();"><span class="mr20 font-9 font12">买家中心</span></a>
+							<!-- <span class="mr20 font-9 font12">卖家中心</span> -->
+							<a href="javascript:toMyCollect();"><span class="mr20 font-9 font12">我的收藏</span></a>
+							<a href="${ctx}/f/pc/${siteId!''}/h_10814-s_10020"><span class="mr20 font-9 font12">帮助中心</span></a>
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+    <script type="text/javascript">
+   		var userMobile="";
+   		var consumeScore=0;
+        $(function(){
+   		   getuserInfo();
+        });
+        //跳转买家中心
+       function toUserCenter(){
+        	if(getLoginState()){
+        		//买家中心
+        		window.location.href="${ctx}/f/pc/${siteId!''}/h_10719-s_10020";
+        	}else{
+        		//登录
+        		$(".coverDiv").removeClass("display-n");
+				$(".loginDiv").removeClass("display-n");
+        		//window.location.href="${ctx}/f/pc/${siteId!''}/h_10712-s_10020";
+        	}
+        }
+       //跳转我的收藏
+       function toMyCollect(){
+        	if(getLoginState()){
+        		//我的收藏
+        		window.location.href="${ctx}/f/pc/${siteId!''}/h_10823-s_10020";
+        	}else{
+        		//登录
+        		$(".coverDiv").removeClass("display-n");
+				$(".loginDiv").removeClass("display-n");
+        		//window.location.href="${ctx}/f/pc/${siteId!''}/h_10712-s_10020";
+        	}
+        }
+     	//退出
+		function logout(){
+			layer.confirm('是否退出?', {icon: 3, title:'温馨提示'}, function(index){
+				$.ajax({
+					url:"${ctx}/f/${siteType!''}/${siteId!''}/logout/json",
+					type:"post",
+					data:{springraintoken:springraintoken},
+					dataType:"json",
+					async:true,
+					success:function(_json){
+						if(_json.status=="success"){
+							window.location.href="${ctx}/f/pc/${siteId!''}/h_10711-s_10020";
+						}
+					},
+					error:function(){
+						//layer.msg("修改失败",{icon:2});
+					}
+				});
+				layer.close(index);
+			});
+		}
+        //获取用户信息
+		function getuserInfo(){
+			$.ajax({
+				url:"${ctx}/uc/${siteType!''}/${siteId!''}/userinfoPC",
+				type:"post",
+				data:{springraintoken:springraintoken},
+				dataType:"json",
+				async:true,
+				success:function(_json){
+					if(_json.status=="success"){
+						var acc=_json.data.account;
+						var account = _json.data.account;
+						if(!isNull(_json.data.nickname)){
+							account = _json.data.nickname;
+						}else{
+							var strAccount = account.split("-");
+							if(strAccount.length>1){
+								account = strAccount[1];
+								acc= strAccount[1];
+							}
+						}
+						var strAccount = account.split("-");
+						if(strAccount.length>1){
+							acc= strAccount[1];
+						}
+						
+						$("#userHeadImg").attr("src",_json.data.headImg);
+						$("#userName").html(account);
+						$("#userAccount").html("账号："+ acc);
+						if(isNull(_json.data.mobile)){
+							$("#userMobile").html("手机号：请完善信息！");
+						}else{
+							$("#userMobile").html("手机号："+_json.data.mobile);
+						}
+						
+						userMobile=_json.data.mobile;
+						$("#userMoney").html(fmoney(_json.data.spUserassets.money/100, 2));
+						$("#consumeScore").html(_json.data.spUserassets.consumeScore);
+						consumeScore=_json.data.spUserassets.consumeScore;
+						$("#couponNum").html(_json.data.spUserassets.couponNum);
+						if(isNull(_json.data.payNum)){
+							$("#payNum").html("(0)");
+						}else{
+							$("#payNum").html("("+_json.data.payNum+")");
+						}
+						if(isNull(_json.data.collectNum)){
+							$("#collectNum").html("(0)");
+						}else{
+							$("#collectNum").html("("+_json.data.collectNum+")");
+						}
+						if(isNull(_json.data.sendNum)){
+							$("#sendNum").html("(0)");
+						}else{
+							$("#sendNum").html("("+_json.data.sendNum+")");
+						}
+						if(isNull(_json.data.evaluateNum)){
+							$("#evaluateNum").html("(0)");
+						}else{
+							$("#evaluateNum").html("("+_json.data.evaluateNum+")");
+						}
+						if(isNull(_json.data.returnNum)){
+							$("#returnNum").html("(0)");
+						}else{
+							$("#returnNum").html("("+_json.data.returnNum+")");
+						}
+						if(!isNull(_json.data.openId)){
+							openId=_json.data.openId;
+							$("#openIdA").html(_json.data.openId);
+						}
+						$("#loginSpan").html("<a href='${ctx}/f/pc/${siteId!''}/h_10719-s_10020' class='font12 font-9 ml16'>"+account+"</a>")
+						$("#registSpan").html("<a href='javascript:void(0)' onclick='logout()' class='font-ff5d5d'>退出</a>")
+						$("#headImg").attr("src",_json.data.headImg);
+						$("#nameOrAccount").html("Hi! "+ account);
+					}
+				},
+				error:function(){
+					//layer.msg("修改失败",{icon:2});
+				}
+			});
+		}
+		//格式化余额
+		function fmoney(s, n) { 
+			n = n > 0 && n <= 20 ? n : 2; 
+			s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + "";
+			var l = s.split(".")[0].split("").reverse(), r = s.split(".")[1]; 
+			t = ""; 
+			for (i = 0; i < l.length; i++) { 
+			t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : ""); 
+			} 
+			return t.split("").reverse().join("") + "." + r; 
+		}
+		//获取用户是否绑定手机号
+		function getUserMoible(){
+			var flag = false;
+			$.ajax({
+				url : "${ctx}/uc/pc/${siteId!''}/checkMobile",
+				type : "post",
+				dataType : "json",
+				data:{springraintoken:springraintoken},
+				async : false,
+				success : function(_json) {
+					if (_json.status == "success") {
+						if(!isNull(_json.data)){
+							flag = true;
+						}
+					}else{
+						flag = false;
+					}
+				}
+			});
+			return flag;
+		}
+  </script>
+</#macro>
+
+
+<!-- 搜索  -->
+<#macro pcSerchDIv>
+	<div class="bg-white overflow-h">
+			<div class="container">
+			<div class="row">
+				<div class="col24">
+					<div class="fl col-280 ht126 l-ht0 overflow-h pt30">
+						<a class="logoLink" href="${ctx}/f/pc/${siteId!''}/h_10711-s_10020">
+							<img src="${ctx}/img/advert/web/logo.png" onerror="this.src='${ctx}/img/advert/web/logo.png'" class="w-216 cursor-p ht74" />
+						</a>
+					</div>
+					<div class="fl col-632 ht126 overflow-h pt50">
+						<div class="ht40 bgimg pos-r">
+							<ul class="ht26 pos-a -top22 left20 classTips">
+								<li class="fl w-38 lt-radius6 font-3498e1 font12 tc l-ht24 tipsActive cursor-p">商品</li>
+								<!-- <li class="fl w-38 lt-radius6 font-3498e1 font12 tc l-ht24 cursor-p">店铺</li> -->
+							</ul>
+							<div class="ht20 fl per5 tr mt10 l-ht0">
+								<img src="${ctx}/img/pc/search_btn.png" class="w-20 ht20" />
+							</div>
+							<div class="fl ht30 mt5 per85">
+								<input type="text" id="keyword" class="ht30 l-ht30 pl10 border-none per95 font14" placeholder="" />
+							</div>
+							<div class="ht40 fl per10 cursor-p" onclick="searchGoods();"></div>
+						</div>
+						<ul class="font12 pl15 mt6 display-ib ht18 overflow-h" id="hotWords_html"></ul>
+					</div>
+					<div class="ht126 fl col-288 pl15">
+						<div class="w-142 ht40 fl mt50 pos-r cursor-p">
+							<a href="${ctx}/f/pc/${siteId!''}/h_10819-s_10020">
+								<img src="${ctx}/img/pc/gwc_btn.png" class="ht40" />
+							</a>
+							<span id="spCartNum" class="pl5 pr5 radius10 font12 bg-ff5d5d font-white pos-a right8" style="top:-2px;">0</span>
+						</div>
+						<div class="ht126 fr">
+							<div class="fr tc mt14">
+								<div class="ht82">
+									<img src="${ctx}/img/advert/web/xcode.png" onerror="this.src='${ctx}/img/advert/web/xcode.png'" class="fr w-82 ht82 border xcodeImg display-b" />
+								</div>
+								<p class="font-6 display-b">手机优德</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+		<script>
+		$(function(){
+			getSpCartNum();
+			//处理二维码
+			getAdvList(topAdvUrl,9,solveXcode);
+			//处理热搜
+			getAdvList(topAdvUrl,8,solveHotWords);
+			//处理logo
+			getAdvList(topAdvUrl,7,solveLogo);
+		});
+		//处理Logo
+		function solveLogo(data){
+			var logo = JSON.parse(data.data[0].banner);
+			var src = logo[0].path;
+			$('.logoLink').find('img').attr('src',src);
+		};
+		//处理热词
+		function solveHotWords(data){
+			var result = template("hotWords_tep",data);
+			$("#hotWords_html").html(result);
+		};
+		//处理二维码
+		function solveXcode(data){
+			var xcode = JSON.parse(data.data[0].banner);
+			var src = xcode[0].path;
+			$('.xcodeImg').attr('src',src);
+		};
+		
+		//回车键搜索
+		$("#keyword").focus(function(){
+			document.onkeydown=function(event){ 
+				e = event ? event :(window.event ? window.event : null); 
+				if(e.keyCode==13){ 
+					//执行搜索方法 
+					searchGoods();
+				} 
+			};
+		});
+		
+		//获取购物车内数量
+		function getSpCartNum(){
+			var uuids = localStorage.getItem("uuid");
+			if(getLoginState()){
+				uuids = "";
+			}
+			$.ajax({
+				url:"${ctx}/f/${siteType!''}/${siteId!''}/spCart/getSpCartNum",
+				type:"post",
+				data:{"springraintoken":springraintoken,"uuid":uuids},
+				dataType:"json",
+				async:true,
+				success:function(_json){
+					$("#spCartNum").html(_json.data);
+					$("#cartNum").html(_json.data);
+				},
+				error:function(){
+					//layer.msg("修改失败",{icon:2});
+				}
+			});
+		};
+		//搜索
+		function searchGoods(){
+			var keywords = $("#keyword").val();
+			window.location.href = "${ctx}/f/pc/${siteId!''}/h_10831-s_10020?keywords="+keywords;
+		};
+		</script>
+		
+<script type="text/html" id="hotWords_tep">
+	{{if data}}
+		{{each data as _data}}
+			<li class="fl mr15 font-9"><a class="downInput_hotWords" href="${ctx}/f/pc/${siteId!''}/h_10831-s_10020?keywords={{_data.content}}">{{_data.content}}</a></li>
+		{{/each}}
+	{{/if}}
+</script>
+
+</#macro>
+
+
+
+<!-- 头部导航  -->
+<#macro pcTopMenu>
+<div class="bg-3498e1 ht45 topColor_ele">
+	<div class="container">
+		<div class="row">
+			<div class="col24 pos-r">
+				<div class="fl ht45 w-190 font16 tc font-yahei font-daeeff bg-006bc4 cursor-p all_goods pos-r">
+					<div class="ht45 l-ht45 display-ib font-b">全部商品类目</div>
+					<img src="${ctx}/img/pc/dh_all_down.png" class="vertical-a-m ml10" />
+					<!--左侧导航列表-->
+					<div class="pos-a topColor_ele w-190 ht400 z-index100 display-n second_left_nav">
+						<ul class="pos-r left_navigation" id="cateDataHtml">
+							<!-- 加载平台类目 -->
+						</ul>
+					</div>
+				</div>
+			    <ul class="display-ib fl ht45 overflow-h" style="width:1010px;" id="quickWords_html">
+					<li><a href="${ctx}/f/pc/${siteId!''}/h_10711-s_10020" class="fl w-90 tc ht45 l-ht45 tc font-b font14 font-yahei font-white">首页</a></li>
+					<li class="fl w-90 tc ht45 l-ht45 tc font-b font14 font-yahei font-white"><a href="${ctx}/f/pc/${siteId!''}/h_10809-s_10020" class="font-b font14 font-yahei font-white">团购</a></li>
+					<li class="fl w-90 tc ht45 l-ht45 tc font-b font14 font-yahei font-white"><a href="${ctx}/f/pc/${siteId!''}/h_10810-s_10020" class="font-b font14 font-yahei font-white">秒杀</a></li>
+					<li class="fl w-90 tc ht45 l-ht45 tc font-b font14 font-yahei font-white"><a href="${ctx}/f/pc/${siteId!''}/h_10817-s_10020" class="font-b font14 font-yahei font-white">优惠券</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+		
+<!-- 加载商品类目数据 -->
+<script type="text/javascript">
+$(function(){
+	//加载头部快捷导航
+	getAdvList(topAdvUrl,10,solveTopQuick);
+	//获取顶部颜色
+	getAdvList(topAdvUrl,18,solveTopColor);
+	//加载平台类目
+	loadGoodsCategory();
+	//左侧导航鼠标经过显示效果
+	$('.all_goods').mouseenter(function(){
+		if(!$('.second_left_nav').is(":animated")){
+			$('.second_left_nav').slideDown();
+		}
+	});
+	
+	$('ul.left_navigation li.ht50').mouseenter(function(){
+		$(this).addClass('left_dh_active');
+		$(this).find('.w-60 img:eq(0)').addClass('display-n');
+		$(this).find('.w-60 img:eq(1)').removeClass('display-n');
+		$(this).find('.w-72').removeClass('font-daeeff').addClass('font-3498e1');
+		$(this).find('div.second_nav').show();
+	});
+	$('ul.left_navigation li.ht50').mouseleave(function(){
+		$(this).removeClass('left_dh_active');
+		$(this).find('.w-60 img:eq(0)').removeClass('display-n');
+		$(this).find('.w-60 img:eq(1)').addClass('display-n');
+		$(this).find('.w-72').addClass('font-daeeff').removeClass('font-3498e1');
+		$(this).find('div.second_nav').hide();
+	});
+	
+	$('.all_goods').mouseleave(function(){
+		$('.second_left_nav').slideUp();
+	});
+	
+	$('div.second_nav ul li span').mouseover(function(){
+		$(this).addClass('font-005ca9');
+	});
+	$('div.second_nav ul li span').mouseout(function(){
+		$(this).removeClass('font-005ca9');
+	});
+	
+});
+//获取头部快捷导航数据
+function solveTopQuick(data){
+	var result = template("quickWords_template",data);
+	$('#quickWords_html').append(result);
+};
+
+//处理头部颜色
+function solveTopColor(data){
+	var backColor = data.data[0].bak2;
+	if(!isNull(backColor)){
+		$(".topColor_ele,.all_goods ").css('backgroundColor',backColor);
+	}else{
+		$(".topColor_ele,.all_goods").css('backgroundColor',"#3498e1");
+	}
+}
+
+//获取数据
+function loadGoodsCategory(){
+	$.ajax({
+		url:"${ctx}/f/pc/${siteId!''}/loadCategory",
+		type:"post",
+		dataType:"json",
+		async:true,
+		success:function(_json){
+			if(_json.status=="success"){
+				//渲染商品类目数据
+				var cateDataHtml = template("cateData",_json);
+				$("#cateDataHtml").html(cateDataHtml);
+				leftGategoryHover();
+			}
+		}
+	});
+}
+
+//左侧类目移入效果
+function leftGategoryHover(){
+	//左侧导航鼠标经过显示效果
+	$('ul.left_navigation li.ht50').mouseover(function(){
+		$(this).addClass('left_dh_active');
+		$(this).find('.w-60 img:eq(0)').addClass('display-n');
+		$(this).find('.w-60 img:eq(1)').removeClass('display-n');
+	});
+	$('ul.left_navigation li.ht50').mouseout(function(){
+		$(this).removeClass('left_dh_active');
+		$(this).find('.w-60 img:eq(0)').removeClass('display-n');
+		$(this).find('.w-60 img:eq(1)').addClass('display-n');
+	});
+};
+</script>
+	
+<script type="text/html" id="quickWords_template">
+	{{if data}}
+		{{each data as _data}}
+			{{if _data.status == 1}}	
+				<li class="fl w-90 tc ht45 l-ht45 tc font-b font14 font-yahei font-white">
+					{{if _data.jumpType == 1}}<!-- 自定义链接  专题页 -->
+						<a class="font-b font14 font-yahei font-white" href="{{_data.jumpVal}}">
+					{{else if _data.jumpType == 6}}<!-- 栏目链接  专题页 -->
+						<a class="font-b font14 font-yahei font-white" href="{{_data.jumpVal}}">
+					{{else if _data.jumpType == 2}}<!-- 搜索列表页 -->
+						<a class="font-b font14 font-yahei font-white" href="${ctx}/f/pc/${siteId!''}/h_10831-s_10020?keywords={{_data.jumpVal}}">
+					{{else if _data.jumpType == 3}}<!-- 固定页面 -->
+						{{if _data.jumpVal == 1}}<!-- 领劵广场 -->
+							<a class="font-b font14 font-yahei font-white" href="${ctx}/f/pc/${siteId!''}/h_10817-s_10020">
+						{{else if _data.jumpVal == 2}}<!-- 个人收藏 -->
+							<a class="font-b font14 font-yahei font-white" href="${ctx}/f/pc/${siteId!''}/h_10823-s_10020">
+						{{else if _data.jumpVal == 3}}<!--团购  -->
+							<a class="font-b font14 font-yahei font-white" href="${ctx}/f/pc/${siteId!''}/h_10809-s_10020">
+						{{else if _data.jumpVal == 4}}<!-- 秒杀 -->
+							<a class="font-b font14 font-yahei font-white" href="${ctx}/f/pc/${siteId!''}/h_10810-s_10020">
+						{{/if}}
+					{{else if _data.jumpType == 4}}<!-- 商品 -->
+						<a class="font-b font14 font-yahei font-white" href="${ctx}/f/pc/${siteId!''}/h_10825-s_10020?goodsId={{_data.jumpVal}}">
+					{{else if _data.jumpType == 5}}
+						<a class="font-b font14 font-yahei font-white" href="${ctx}/f/pc/${siteId!''}/{{_data.jumpVal}}?id={{_data.jumpVal}}">
+					{{else}}
+						<a class="font-b font14 font-yahei font-white" href="javascript:void(0)">
+					{{/if}}
+					{{_data.name}}</a>
+				</li>
+			{{/if}}	
+		{{/each}}
+	{{/if}}
+</script>
+		
+<!-- 加载商品类目数据 -->
+<script id="cateData" type="text/html">
+		{{if data}}
+			{{each data as _data i}}
+			<li class="ht50 cursor-p">
+				<a class="display-b" href="${ctx}/f/pc/${siteId!''}/h_10831-s_10020?pCateId={{_data.id}}">
+				{{if i == 0}}
+					<div class="w-60 fl tc pt19">
+						<img src="${ctx}/img/pc/yp.png" class="" />
+						<img src="${ctx}/img/pc/yp_checked.png" class=" display-n" />
+					</div>
+				{{else if i == 1}}
+					<div class="w-60 fl tc pt19">
+						<img src="${ctx}/img/pc/yybj.png" class="" />
+						<img src="${ctx}/img/pc/yybj_checked.png" class=" display-n" />
+					</div>
+				{{else if i == 2}}
+					<div class="w-60 fl tc pt19">
+						<img src="${ctx}/img/pc/zyzb.png" class="" />
+						<img src="${ctx}/img/pc/zyzb_checked.png" class=" display-n" />
+					</div>
+				{{else if i == 3}}
+					<div class="w-60 fl tc pt19">
+						<img src="${ctx}/img/pc/ylqx.png" class="" />
+						<img src="${ctx}/img/pc/ylqx_checked.png" class=" display-n" />
+					</div>
+				{{else if i == 4}}
+					<div class="w-60 fl tc pt19">
+						<img src="${ctx}/img/pc/grhl.png" class="" />
+						<img src="${ctx}/img/pc/grhl_checked.png" class=" display-n" />
+					</div>
+				{{else if i == 5}}
+					<div class="w-60 fl tc pt19">
+						<img src="${ctx}/img/pc/jsqq.png" class="" />
+						<img src="${ctx}/img/pc/jsqq_checked.png" class=" display-n" />
+					</div>
+				{{else if i == 6}}
+					<div class="w-60 fl tc pt19">
+						<img src="${ctx}/img/pc/jjbl.png" class="" />
+						<img src="${ctx}/img/pc/jjbl_checked.png" class=" display-n" />
+					</div>
+				{{else if i == 7}}
+					<div class="w-60 fl tc pt19">
+						<img src="${ctx}/img/pc/sp.png" class="" />
+						<img src="${ctx}/img/pc/sp_checked.png" class=" display-n" />
+					</div>
+				{{/if}}
+				<div class="w-72 tc fl l-ht50 font16 font-daeeff home_leftItem" id={{_data.id}}>{{_data.name}}</div>
+				<!--二级导航菜单-->
+				{{if _data.leaf}}
+					<div class="w-810 pos-a left190 -top1 border-1-005ca9 boxShadow pl16 pr16 second_nav z-index999 bg-white display-n secondList" style="overflow-y: auto;height:402px;">
+						<ul class="tl">
+							{{each _data.leaf as _secondList}}
+								<li class="overflow-h border-b-eeeeee pb14">
+									<p class="font14 font-b font-3 mt16 mb8" id={{_secondList.id}}>
+										<a class="font-3" href="${ctx}/f/pc/${siteId!''}/h_10831-s_10020?secondCategoryId={{_secondList.id}}">{{_secondList.name}}</a>
+									</p>
+									{{if _secondList.leaf}}
+										{{each _secondList.leaf as _list}}
+												<span class="font-6 font12 mr12 homeLeft_itemName">
+													<a href="${ctx}/f/pc/${siteId!''}/h_10831-s_10020?thridCategoryId={{_list.id}}">{{_list.name}}</a>
+												</span>
+										{{/each}}
+									{{/if}}
+								</li>
+							{{/each}}
+						</ul>
+					</div>					
+				{{/if}}
+				</a>
+			</li>
+		{{/each}}
+		{{/if}}
+</script>
+</#macro>
+
+
+<!-- 左侧菜单  -->
+<#macro pcLeftMenu>
+    <div class="w-190 fl">
+		<ul class="bg-white border-r-1 border-b-1 leftMenuList">
+			<li class="ht45 tc l-ht45 border-l-1 border-t-1 border-b-1 bg-e7f1f5 font-6 font18 font-b">
+				<a href="javascript:toUserCenter();">用户中心</a>
+			</li>
+			<li class="ht45 tc l-ht45 border-b-1 bg-f8f6f4 font16 font-6 pos-r">
+				交易管理
+				<img src="${ctx}/img/pc/mjzx_jygl.png" class="ht50 w-40 pos-a -top1 -left8" />
+			</li>
+			<li class="pl10 pr10 overflow-h">
+				<div class="ht45 l-ht45 tc border-b-dashed font14 font-6"><a id="myOrder" href="javascript:toUrl('${ctx}/f/pc/${siteId!''}/h_10728-s_10020');">我的订单</a></div>
+			</li>
+			<li class="pl10 pr10 overflow-h">
+				<div class="ht45 l-ht45 tc border-b-dashed font14 font-6"><a id="mycollect" href="javascript:toUrl('${ctx}/f/pc/${siteId!''}/h_10823-s_10020');">我的收藏</a></div>
+			</li>
+			<li class="pl10 pr10 overflow-h">
+				<div class="ht45 l-ht45 tc border-b-dashed font14 font-6"><a id="mySaleAfter" href="javascript:toUrl('${ctx}/f/${siteType!''}/${siteId!''}/h_10833-s_10020');">我的售后</a></div>
+			</li>
+			<!-- <li class="pl10 pr10 overflow-h">
+				<div class="ht45 l-ht45 tc font14 font-6">我的分销</div>
+			</li> -->
+			<li class="ht45 tc l-ht45 border-b-1 bg-f8f6f4 font16 font-6 pos-r">
+				资产管理
+				<img src="${ctx}/img/pc/mjzx_zcgl.png" class="ht50 w-40 pos-a -top1 -left8" />
+			</li>
+			<li class="pl10 pr10 overflow-h">
+				<div class="ht45 l-ht45 tc border-b-dashed font14 font-6"><a id="myMoney" href="javascript:toUrl('${ctx}/f/pc/${siteId!''}/h_10834-s_10020');">我的余额</a></div>
+			</li>
+			<li class="pl10 pr10 overflow-h">
+				<div class="ht45 l-ht45 tc border-b-dashed font14 font-6"><a id="mypoints" href="javascript:toUrl('${ctx}/f/pc/${siteId!''}/h_10827-s_10020');">我的积分</a></div>
+			</li>
+			<li class="pl10 pr10 overflow-h">
+				<div class="ht45 l-ht45 tc font14 font-6"><a id="myCoupons" href="javascript:toUrl('${ctx}/f/pc/${siteId!''}/h_10829-s_10020');">我的优惠券</a></div>
+			</li>
+			<li class="ht45 tc l-ht45 border-b-1 bg-f8f6f4 font16 font-6 pos-r">
+				信息管理
+				<img src="${ctx}/img/pc/mjzx_xxgl.png" class="ht50 w-40 pos-a -top1 -left8" />
+			</li>
+			<li class="pl10 pr10 overflow-h">
+				<div class="ht45 l-ht45 tc border-b-dashed font14 font-6"><a id="myComment" href="javascript:toUrl('${ctx}/f/pc/${siteId!''}/h_10815-s_10020');">我的评论</a></div>
+			</li>
+			<li class="pl10 pr10 overflow-h">
+				<div class="ht45 l-ht45 tc border-b-dashed font14 font-6"><a id="myQuestion" href="javascript:toUrl('${ctx}/f/pc/${siteId!''}/h_10828-s_10020');">我的提问</a></div>
+			</li>
+			<!-- <li class="pl10 pr10 overflow-h">
+				<div class="ht45 l-ht45 tc font14 font-6"><a href="${ctx}/f/pc/${siteId!''}/h_10818-s_10020">我的商品需求</a></div>
+			</li> -->
+			<li class="ht45 tc l-ht45 border-b-1 bg-f8f6f4 font16 font-6 pos-r">
+				个人信息
+				<img src="${ctx}/img/pc/mjzx_grxx.png" class="ht50 w-40 pos-a -top1 -left8" />
+			</li>
+			<li class="pl10 pr10 overflow-h">
+				<div class="ht45 l-ht45 tc border-b-dashed font14 font-6"><a id="editProfile" href="javascript:toUrl('${ctx}/f/pc/${siteId!''}/h_10835-s_10020');">编辑个人资料</a></div>
+			</li>
+			<li class="pl10 pr10 overflow-h">
+				<div class="ht45 l-ht45 tc border-b-dashed font14 font-6"><a id="updatePwd" href="javascript:void(0);" onclick="updatePwd();">修改密码</a></div>
+			</li>
+			<li class="pl10 pr10 overflow-h">
+				<div class="ht45 l-ht45 tc font14 font-6"><a id="manageAddress" href="javascript:toUrl('${ctx}/f/pc/${siteId!''}/h_10832-s_10020');">管理收货地址</a></div>
+			</li>
+		</ul>
+	</div><@h.pcLogin />
+	<script type="text/javascript">
+		/*鼠标经过效果*/
+		$('ul.leftMenuList li div a').mouseover(function(){
+			$(this).removeClass('font-6').addClass('font-3498e1');
+		});
+		$('ul.leftMenuList li div a').mouseout(function (){
+			$(this).addClass('font-6').removeClass('font-3498e1');
+		}); 
+		$(function(){
+			if(!getLoginState()){
+				/* $(".coverDiv").removeClass("display-n");
+				$(".loginDiv").removeClass("display-n"); */
+				window.location.href="${ctx}/f/pc/${siteId!''}/h_10712-s_10020";
+			}
+		})
+		//跳转
+       function toUrl(url){
+        	if(getLoginState()){
+        		//跳转到指定页面
+        		window.location.href=url;
+        	}else{
+        		//登录
+        		$(".coverDiv").removeClass("display-n");
+				$(".loginDiv").removeClass("display-n");
+        		//window.location.href="${ctx}/f/pc/${siteId!''}/h_10712-s_10020";
+        	}
+        }
+		//修改密码
+		function updatePwd(){
+			if(getLoginState()){
+				if(isNull(userMobile)){
+					//微信登录绑定手机号
+					window.location.href="${ctx}/f/pc/${siteId!''}/h_10839-s_10020"
+				}else{
+					//去修改密码
+					window.location.href="${ctx}/f/pc/${siteId!''}/h_10830-s_10020";
+				}
+        	}else{
+        		//登录
+        		$(".coverDiv").removeClass("display-n");
+				$(".loginDiv").removeClass("display-n");
+        		//window.location.href="${ctx}/f/pc/${siteId!''}/h_10712-s_10020";
+        	}
+		}
+	</script>
+</#macro>
+
+
+<!-- 页脚  -->
+<#macro pcFooter>
+      <div class="oveflow-h">
+			<div class="container">
+				<div class="row mt40">
+					<div class="col6 tc">
+						<div class="display-ib">
+							<div class="ht70 fl l-ht0">
+								<img src="${ctx}/img/pc/ypqq.png" class="w-70 ht70" />
+							</div>
+							<div class="ht70 fl pl15 tl">
+								<p class="font-6 font22 font-b font-yahei mt8">药品齐全</p>
+								<p class="font-9 font14 font-yahei">30个药品大类，10000多种药品</p>
+							</div>
+						</div>
+					</div>
+					<div class="col6 tc">
+						<div class="display-ib">
+							<div class="ht70 fl l-ht0">
+								<img src="${ctx}/img/pc/zpbz.png" class="w-70 ht70" />
+							</div>
+							<div class="ht70 fl pl15 tl">
+								<p class="font-6 font22 font-b font-yahei mt8">正品保障</p>
+								<p class="font-9 font14 font-yahei">各大知名品牌药品，购货无忧</p>
+							</div>
+						</div>
+					</div>
+					<div class="col6 tc">
+						<div class="display-ib">
+							<div class="ht70 fl l-ht0">
+								<img src="${ctx}/img/pc/thwy.png" class="w-70 ht70" />
+							</div>
+							<div class="ht70 fl pl15 tl">
+								<p class="font-6 font22 font-b font-yahei mt8">退换无忧</p>
+								<p class="font-9 font14 font-yahei">10000多种药品，退换无忧</p>
+							</div>
+						</div>
+					</div>
+					<div class="col6 tc">
+						<div class="display-ib">
+							<div class="ht70 fl l-ht0">
+								<img src="${ctx}/img/pc/rqfh.png" class="w-70 ht70" />
+							</div>
+							<div class="ht70 fl pl15 tl">
+								<p class="font-6 font22 font-b font-yahei mt8">如期发货</p>
+								<p class="font-9 font14 font-yahei">海量库存保障发货时间</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="ht220 bg-eaeaea mt40">
+				<div class="container">
+					<div class="row">
+						<div class="col5 pt70">
+							<a href="${ctx}/f/pc/${siteId!''}/h_10711-s_10020">
+								<img src="${ctx}/img/pc/logo_gray01.png" class="w-220" />
+							</a>
+						</div>
+						<div id="helpMenuList_html">
+							<!-- 帮助菜单列表 -->
+						</div>
+						<div class="col3 pt38">
+							<p class="font18 font-3 mb30">手机优德</p>
+							<img src="${ctx}/img/pc/footer_ewm.png" class="w-100" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="ht160 bg-white">
+				<div class="container">
+					<div class="row">
+						<div class="col24 pt36">
+							<p class="font12">
+								<a href="${ctx}/f/pc/${siteId!''}/h_10814-s_10020?id=c_103444-s_10020"><span class="mr20 font-9">互联网药品交易服务资格证</span></a>
+								<a href="${ctx}/f/pc/${siteId!''}/h_10814-s_10020?id=c_103444-s_10020"><span class="mr20 font-9">互联网药品信息服务资格证</span></a>
+								<a href="${ctx}/f/pc/${siteId!''}/h_10814-s_10020?id=c_103444-s_10020"><span class="mr20 font-9">食品流通许可证</span></a>
+								<a href="${ctx}/f/pc/${siteId!''}/h_10814-s_10020?id=c_103444-s_10020"><span class="mr20 font-9">药品经营许可证</span></a>
+								<a href="${ctx}/f/pc/${siteId!''}/h_10814-s_10020?id=c_103444-s_10020"><span class="mr20 font-9">医疗器械经营企业许可证</span></a>
+								<a href="${ctx}/f/pc/${siteId!''}/h_10814-s_10020?id=c_103444-s_10020"><span class="mr20 font-9">增值电信业务经营许可证</span></a>
+							</p>
+							<p class="font12 mt4">
+								<span class="font-9">友情链接：</span>
+								<a href="http://jm.58xw.net/"><span class="font-9 mr15">荆门新闻</span></a>
+								<a href="http://jn.jiajiao123.net/"><span class="mr15 font-9">济南家教网</span></a>
+								<a href="https://zx.youde.com/"><span class="mr15 font-9">优德健康资讯</span></a>
+								<a href="http://xianw.com.cn/"><span class="mr15 font-9">西安新闻</span></a>
+								<a href="http://health.shangdu.com/"><span class="mr15 font-9">商都健康网</span></a>
+								<a href="http://www.4k0.cn/"><span class="mr15 font-9">河南新闻网</span></a>
+								<a href="http://www.9ask.cn/luoyang/"><span class="mr15 font-9">洛阳律师</span></a>
+								<a href="http://www.beirocare.com/"><span class="mr15 font-9">儿童健康</span></a>
+								<a href="http://www.tv120.com/"><span class="mr15 font-9">彤爱健康</span></a>
+								<a href="http://www.aikang.com/zz/"><span class="mr15 font-9">症状查询</span></a>
+								<a href="https://jbk.jiankang.com/"><span class="mr15 font-9">疾病库 </span></a>
+								<a href="http://www.yuemei.com/melasma/"><span class="mr15 font-9">去黄褐斑</span></a>
+								<a href="http://baike.120ask.com/"><span class="mr15 font-9">健康百科</span></a>
+								<a href="http://www.99.com.cn/neike/"><span class="font-9 mr15">内科疾病</span></a>
+								<a href="http://www.cnkang.com/sex/"><span class="font-9 mr15">两性</span></a>
+								<a href="https://bbs.snsnb.com/"><span class="font-9 mr15">试管婴儿论坛</span></a>
+							</p>
+							<p class="font12 font-9 mt4" id="aboutUs_html"></p>
+							<p class="font12 font-9 mt10">
+								<span class="mr15">Copyright©All 2014-2017 Youde.com 版权所有</span>
+								<span class="mr20">河南优德大药房连锁有限公司</span>
+								<span>豫ICP备14026278号-2</span>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<script type="text/javascript">
+		$(function(){
+			loadHelpList();
+		});
+		
+		//加载帮助列表
+		function loadHelpList(){
+			$.ajax({
+				type:"post",
+				url:"${ctx}/f/pc/${siteId!''}/h_10378-s_10020/content/listAllContent",
+				data:{channelType:12,integralChannel:0},
+				async:true,
+				success:function(_json){
+					if(!isNull(_json.data)){
+						//加载帮助列表
+						var result = template('helpMenuList_template',_json);
+						$('#helpMenuList_html').html(result);
+						//加载关于我们
+						var resultTwo = template("aboutUs_template",_json);
+						$('#aboutUs_html').html(resultTwo);
+					}
+				}
+			});
+		};
+		//获取帮助详情
+		function getHelpDetails(obj){
+			var id = $(obj).attr('id');
+			window.location.href = "${ctx}/f/pc/${siteId!''}/h_10814-s_10020?id="+id;
+		};
+		</script>
+		
+		<!-- 加载帮助菜单列表 -->
+		<script type="text/html" id="helpMenuList_template">
+			{{if data}}
+				{{each data as _data i}}
+					{{if i< 4}}
+					<div class="col4 pt38 pl30">
+						<p class="font18 font-3 mb30">{{_data.name}}</p>
+						{{if _data.cmsContentList}}
+							{{each _data.cmsContentList as cmsContentList}}
+								<p class="font12 mb10 font-3 cursor-p" id={{cmsContentList.id}} onclick="getHelpDetails(this)">{{cmsContentList.title}}</p>
+							{{/each}}
+						{{/if}}
+					</div>
+					{{/if}}
+				{{/each}}
+			{{/if}}
+		</script>
+		<script type="text/html" id="aboutUs_template">
+			{{if data}}
+				{{each data as _data i}}
+					{{if i == 5}}
+						{{each _data.cmsContentList as _item}}
+							<span class="mr15 cursor" id={{_item.id}} onclick="getHelpDetails(this)">{{_item.title}}</span>
+						{{/each}}
+					{{/if}}
+				{{/each}}
+			{{/if}}
+		</script>
+</#macro>
+
+<!--弹窗-->
+<#macro pcPopover>
+	<!--遮罩层-->
+	<div class="pos-f per100 ht100p left0 top0 z-index99 bg-black coverDiv display-n" style="opacity:0.4; filter:alpha(opacity=40);"></div>
+	<!--失败弹窗-->
+	<div class="w-220 ht188 bg-white pos-f left0 right0 top35p z-index100 failDiv display-n" style="margin:auto;">
+		<div class="ht44 border-b-1 tc font16 bg-f8f6f4 l-ht44 failTxt">失败</div>
+		<div class="tc mt42">
+			<img src="${ctx}/img/pc/dhsb_btn.png" class="w-58 ht58" />
+		</div>
+	</div>
+	<!--成功弹窗-->
+	<div class="w-220 ht188 bg-white pos-f left0 right0 top35p z-index100 successDiv display-n" style="margin:auto;">
+		<div class="ht44 border-b-1 tc font16 bg-f8f6f4 l-ht44 successTxt">成功</div>
+		<div class="tc mt42">
+			<img src="${ctx}/img/pc/dhcg_btn.png" class="w-58 ht58" />
+		</div>
+	</div>
+</#macro>
+
+<!--登录弹窗-->
+<#macro pcLogin>
+	<!--遮罩层-->
+	<div class="pos-f per100 ht100p left0 top0 z-index99 bg-black coverDiv display-n" style="opacity:0.4; filter:alpha(opacity=40);"></div>
+	<!--登录弹窗-->
+	<div class="pos-f left0 right0 top0 bottom0 w-350 ht410 bg-white txboxShadow z-index100 display-n loginDiv" style="margin:auto;">
+		<img src="${ctx}/img/pc/cancleLayer.png" class="pos-a cursor closeShadowBtn" style="top:5px;right:5px;width:25px;height:25px;">
+		<div class="ht50 border-b-1 tc l-ht50 font20 font-6 bg-f8f6f4">
+			会员登录
+		</div>
+		<div class="pl25 pr25 mt48">
+			<div class="ht40 border overflow-h mb20 teleDiv">
+				<div class="ht40 tl fl per20 l-ht0">
+					<img src="${ctx}/img/pc/dl_yhm.jpg" class="w-40 ht40" />
+				</div>
+				<div class="ht40 fl per80 pos-r">
+					<input type="text" class="ht38 l-ht40 per100 bg-white border-none font14 telephone" placeholder="请输入账号/手机号" />
+					<div class="l-ht40 pos-a left0 top0 ht40 font-ff6565 tl font14 bg-white per100 display-n teleMsg"></div>
+				</div>
+			</div>
+			<div class="ht40 border overflow-h mb20 pwdDiv">
+				<div class="ht40 tl fl per20 l-ht0">
+					<img src="${ctx}/img/pc/dl_mm.jpg" class="w-40 ht40" />
+				</div>
+				<div class="ht40 fl per80 pos-r">
+					<input type="password" class="ht38 l-ht40 per100 bg-white border-none font14 password" placeholder="请输入登录密码" />
+					<div class="l-ht40 pos-a left0 top0 ht40 font-ff6565 font14 per100 bg-white tl display-n pwdMsg"></div>
+				</div>
+			</div>
+			<div class="ht42 l-ht42 tc font16 font-white bg-3498e1 loginBtn cursor-p">
+				登录
+			</div>
+			<div class="overflow-h mt24 tc">
+				<img src="${ctx}/img/pc/dl_dsfdl_title.png" class="per100" />
+				<p class="mt10">
+					<a href="https://open.weixin.qq.com/connect/qrconnect?appid=wx42137b7a0bcaf1d1&redirect_uri=http://youde.it371.cn/youde/f/pc/${siteId!''}/h_10712-s_10020&response_type=code&scope=snsapi_login&state=pcweixin#wechat_redirect" ><img src="${ctx}/img/pc/dl_wx_btn.png" class="ht34 w-34 vertical-a-m" /></a> 
+				</p>
+			</div>
+			<div class="tr overflow-h mt24">
+				<a href="${ctx}/f/pc/${siteId!''}/h_10714-s_10020"><span class="font12 font-6 mr15">忘记密码</span></a>
+				<a href="${ctx}/f/pc/${siteId!''}/h_10713-s_10020"><span class="font12 font-6">立即注册</span></a>
+			</div>
+		</div>
+	</div>
+	
+	<script type="text/javascript">
+		/*点击遮罩登录窗消失*/
+		$('.coverDiv,.closeShadowBtn').bind('click',function(){
+			$('.coverDiv').addClass('display-n');
+			$('.loginDiv').addClass('display-n');
+		});
+		/* function wxLogin(){
+			var lochref=window.location.href;
+			var _href="https://open.weixin.qq.com/connect/qrconnect?appid=wx42137b7a0bcaf1d1&redirect_uri=" +lochref+ "&response_type=code&scope=snsapi_login&state=pcweixin#wechat_redirect";
+			window.location.href=_href;
+		}*/
+		var code="${code!''}";
+		if(!isNull(code) && !getLoginState()){
+			var uuids = localStorage.getItem("uuid");
+			//登录
+			$.ajax({
+				url:"${ctx}/f/web/autologin/${siteId!''}/login",
+				type:"post",
+				dataType:"json",
+				data:{"code":code,deviceType:'web',"uuid":uuids},
+				success:function(_json){
+					if(!isNull(_json.data)){
+						if(!isNull(_json.data.openId)){
+							if(!getUserMoible()){
+								layer.msg("请先绑定手机号！");
+								setTimeout(function(){
+									window.location.href="${ctx}/f/pc/${siteId!''}/h_10839-s_10020";
+								},1500)
+								return;
+							}
+							$(".coverDiv").addClass("display-n");
+							$(".loginDiv").addClass("display-n");
+							window.location.reload();
+						}else{
+							layer.open({
+								title: '登录提示',
+	 							content: "登录失败1！",
+								content:_json.message,
+								btn:false,
+								icon:2,
+								time:1000,
+								closeBtn:0,
+								area: ['220px', '120px']
+							});
+						}
+					}else{
+						layer.open({
+							title: '登录提示',
+								content: "登录失败2！",
+							content:_json.message,
+							btn:false,
+							icon:2,
+							time:1000,
+							closeBtn:0,
+							area: ['220px', '120px']
+						});
+					}
+				},
+				error:function(){
+					layer.msg("登陆失败3",{icon:2});
+				}
+			});
+		} 
+		
+		/*登录表单验证效果*/
+		function subForm(){
+			var tele=$('input.telephone').val();
+			var pwd=$('input.password').val();
+			var reg=/^1[34578]\d{9}$/;
+			
+			if(tele==''){
+				$('.teleDiv').addClass('border-ff6565').removeClass('border');
+				$('.teleMsg').show().html('账号/手机号不能为空！');
+				return false;
+			}else if(!reg.test(tele)){
+				$('.teleDiv').addClass('border-ff6565').removeClass('border');
+				$('.teleMsg').show().html('账号/手机号格式不正确！');
+				return false;
+			}else if(pwd==''){
+				$('.pwdDiv').addClass('border-ff6565').removeClass('border');
+				$('.pwdMsg').show().html('密码不能为空！');
+				return false;
+			}
+			var uuids = localStorage.getItem("uuid");
+			//登录
+			$.ajax({
+				url:"${ctx}/f/pc/${siteId!''}/login/json",
+				type:"post",
+				dataType:"json",
+				data:{"mobile":tele,"password":pwd,"uuid":uuids},
+				async:true,
+				success:function(_json){
+					if(_json.status=="success"){
+						$(".coverDiv").addClass("display-n");
+						$(".loginDiv").addClass("display-n");
+						window.location.reload();
+					}else{
+						layer.msg(_json.message,{icon:2});
+					}
+				},
+				error:function(){
+					layer.msg("登陆失败",{icon:2});
+				}
+			});
+		}
+		
+		$('.teleMsg').click(function(){
+			$(this).hide();
+			$('input.telephone').val('');
+			$('.teleDiv').removeClass('border-ff6565').addClass('border');
+			$('input.telephone').focus();
+		});
+		$('.pwdMsg').click(function(){
+			$(this).hide();
+			$('.pwdDiv').removeClass('border-ff6565').addClass('border');
+			$('input.password').focus();
+		});
+
+		$('.loginBtn').bind('click',function(){
+			subForm();
+		});
+
+		//回车键登录
+		document.onkeydown=function(event){ 
+			e = event ? event :(window.event ? window.event : null); 
+			if(e.keyCode==13){ 
+				//执行的方法 
+				subForm();
+			} 
+		};
+	
+	</script>
+</#macro>

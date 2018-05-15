@@ -18,7 +18,8 @@
 		});
 	});
 	function del(_id){
-		springrain.mydelete(_id,"${ctx}/system/role/delete");
+		//springrain.mydelete(_id,"${ctx}/system/role/delete");
+		springrain.mydelete(_id,"${ctx}/s/role/delete");
 	}
 </script>
 
@@ -30,13 +31,13 @@
 			<div class="layui-tab layui-tab-brief">
 				<ul class="layui-tab-title site-demo-title">
 					 <li style="float:right;">
-						 <@shiro.hasPermission name="/system/role/update" >
-			             		<button type="button" class="layui-btn layui-btn-small" data-action="${ctx}/system/role/update/pre"><i class="layui-icon layui-icon-specil">&#xe61f;</i>新增</button>
+						 <@shiro.hasPermission name="/s/role/update" >
+			             		<button type="button" class="layui-btn layui-btn-small" data-action="${ctx}/s/role/update/pre"><i class="layui-icon layui-icon-specil">&#xe61f;</i>新增</button>
 			             	</@shiro.hasPermission>
-			             	<@shiro.hasPermission name="/system/role/list/export" >
+			             	<@shiro.hasPermission name="/s/role/list/export" >
 					        	<button type="button" class="layui-btn layui-btn-small"><i class="layui-icon layui-icon-specil">&#xe609;</i>导出</button>
 					        </@shiro.hasPermission>
-		                <@shiro.hasPermission name="/system/role/delete" >
+		                <@shiro.hasPermission name="/s/role/delete" >
 		               		 <button type="button"  class="layui-btn layui-btn-danger layui-btn-small"><i class="layui-icon">&#xe640;</i>批量删除</button>
 		                </@shiro.hasPermission>
 		             </li>
@@ -47,7 +48,7 @@
 							<div class="layui-main">
 						          <div id="LAY_preview">
 						          <!-- 查询  开始 -->
-							          <form class="layui-form layui-form-pane" id="searchForm" action="${ctx}/system/role/list" method="post">
+							          <form class="layui-form layui-form-pane" id="searchForm" action="${ctx}/s/role/list" method="post">
 							          <input type="hidden" name="pageIndex" id="pageIndex" value="${(returnDatas.page.pageIndex)!'1'}" /> 
 							          <input type="hidden" name="sort" id="page_sort" value="${(returnDatas.page.sort)!'desc'}" />
 							          <input type="hidden" name="order" id="page_order" value="${(returnDatas.page.order)!'id'}" />
@@ -127,10 +128,10 @@
 																<input name="check_li" value="${_data.id}" type="checkbox"  title=""> 
 															</td>
 															<td>
-																<@shiro.hasPermission name="/system/role/update" >
-									                           		 <a href="#" data-action="${ctx}/system/role/update/pre?id=${(_data.id)!''}" class="layui-btn layui-btn-normal layui-btn-mini">修改</a>
+																<@shiro.hasPermission name="/s/role/update" >
+									                           		 <a href="#" data-action="${ctx}/s/role/update/pre?id=${(_data.id)!''}" class="layui-btn layui-btn-normal layui-btn-mini">修改</a>
 									                            </@shiro.hasPermission>
-									                            <@shiro.hasPermission name="/system/role/delete" >
+									                            <@shiro.hasPermission name="/s/role/delete" >
 									                            	<a href="javascript:del('${(_data.id)!''}')" class="layui-btn layui-btn-danger layui-btn-mini ajax-delete">删除</a>
 									                            </@shiro.hasPermission>
 															</td>

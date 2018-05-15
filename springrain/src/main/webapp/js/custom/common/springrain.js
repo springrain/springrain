@@ -73,7 +73,7 @@
 						  type:"post",
 						  data:_pars,
 						  dataType:"json",
-						  async:false,
+						  async:true,
 						  success:function(data){
 							  if(data!=null&&"success"==data.status){
 								  layer.msg(data.message==null?'删除成功':data.message, {
@@ -83,11 +83,15 @@
 										if(_redirect){
 											_that.goTo(_redirect);
 										}else{
-											window.location.reload();
+											if( jQuery("#searchForm")!=null &&jQuery("#searchForm").length>0){
+												_that.commonSubmitForPage('searchForm')
+											}else{
+												window.location.reload();
+											}
 										}
 									}); 
 							  }else{
-								  layer.msg(data.message, {icon: 1,time: 1000}); 
+								  layer.msg(data.message, {icon: 2,time: 1000}); 
 							  }
 						  }
 					  });
@@ -116,7 +120,7 @@
 						  type:"post",
 						  data:{records:arr},
 						  dataType:"json",
-						  async:false,
+						  async:true,
 						  success:function(data){
 							  if(data!=null&&"success"==data.status){
 								  layer.msg(data.message==null?'删除成功':data.message, {
@@ -126,11 +130,16 @@
 										if(_redirect){
 											_that.goTo(_redirect);
 										}else{
-											window.location.reload();
+											if( jQuery("#searchForm")!=null &&jQuery("#searchForm").length>0){
+												_that.commonSubmitForPage('searchForm')
+											}else{
+												window.location.reload();
+											}
+											//window.location.reload();
 										}
 									}); 
 							  }else{
-								  layer.msg(data.message, {icon: 1,time: 1000}); 
+								  layer.msg(data.message, {icon: 2,time: 1000}); 
 							  }
 						  }
 					  });
@@ -185,9 +194,11 @@
 						"phone1":function(){
 							// 5.0 版本之后，要实现二选一的验证效果，datatype 的名称 不 需要以 "option_" 开头;	
 						},
+						"telphone11": /^1\d{10}$/, // 手机号码验证，只验证以1开头的11位数字
 						"identity":function(gets,obj,curform,regxp){
 							return _that.validIdentity(gets);
-						}
+						},
+						"xiaoshu": /^-?[1-9]+(\.\d+)?$|^-?0(\.\d+)?$|^-?[1-9]+[0-9]*(\.\d+)?$/
 					},
 					usePlugin:{
 						swfupload:{},
@@ -215,7 +226,7 @@
 					},
 					callback:function(data){
 						if(_after!=null &&typeof(_after)=="function"){
-							_after();
+							_after(data);
 						}
 						layer.close(index);
 						//返回数据data是json对象，{"info":"demo info","status":"y"}
@@ -271,6 +282,21 @@
 					formId="updateForm";
 				}
 				var _action=jQuery("#"+formId).attr("action");
+				
+				// 分页重置为第一页
+				jQuery("#"+formId).attr("action",_that.appendToken(_action) + "&pageIndex=0").submit();
+				//jQuery("#"+formId).attr("action",_that.appendToken(_action)).submit();
+			},
+			/**
+			 * 该方法供分页使用
+			 */
+			commonSubmitForPage:function(formId){
+				var _that=this;
+				if(!formId){
+					formId="updateForm";
+				}
+				var _action=jQuery("#"+formId).attr("action");
+				
 				jQuery("#"+formId).attr("action",_that.appendToken(_action)).submit();
 			},
 			/**
@@ -478,7 +504,7 @@
 			 * @param _textFildName AJAX返回JSON，对应的TEXT
 			 * @param _multival 是否是多选
 			 */
-			select2Remote:function(_domId,_url,_delay,_idFildName,_textFildName,_multival){
+			select2Remote:function(_domId,_url,_delay,_idFildName,_textFildName,_multival,_default){
 				if(!_url)return;
 				_delay=_delay?_delay:1000;
 				_idFildName=_idFildName?_idFildName:"id";
@@ -490,17 +516,24 @@
 					    url: _url,
 					    dataType: 'json',
 					    delay: _delay,
-					    data: function (params) {return {q: params.term,page: params.page};},
+					    data: function (params) {
+					    	return {q: params.term,page: params.page};
+					    },
 					    processResults: function (data, page) { 
 					    	return {results: data}
 					    },
-					    cache: false
+					    cache: true
 					  },
 					  id:function(obj){return obj["'"+_idFildName+"'"]},
 					  escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
 					  minimumInputLength: 1,
 					  templateResult: function(obj){
 						  return eval("obj."+_textFildName);
+				      },
+				      initSelection:function(el,callback){
+				    	var data=_default;
+				    	if(data==null&&el.val()==null) return;
+				    	callback(data);
 				      },
 				      templateSelection:function(obj){
 						  return eval("obj."+_textFildName);
@@ -671,6 +704,48 @@
 	            }
 	            //if(!pass) alert(tip);
 	            return pass;
+		},
+		mySubmitForm2:function(formId,target) {
+			var _type = jQuery('#' + formId).attr("method");
+			if (!_type) {
+				_type = "POST";
+			}
+			var _url = jQuery("#"+formId).attr("action");
+
+			if (_url) {
+				if (_url.indexOf("?") > 0)
+					_url += "&_=" + new Date().getTime();
+				else
+					_url += "?_=" + new Date().getTime();
+				
+				jQuery('#' + formId).attr('action',_url);
+				
+				if(target) {
+					jQuery('#' + formId).ajaxSubmit({
+						target: '#'+target
+					});
+				} else {
+					jQuery('#' + formId).submit();
+				}
+			} else {
+				if(target) {
+					jQuery('#' + formId).ajaxSubmit({
+						target: '#'+target
+					});
+				} else {
+					jQuery('#' + formId).submit();
+				}
+			}
+		},
+		/**
+		 * 限制input只能输入数字（替换非数字为空）
+		 */
+		onlynum: function(_thisInput) {
+			if(_thisInput.value.length==1){
+				_thisInput.value = _thisInput.value.replace(/[^0-9]/g,'');
+			}else{
+				_thisInput.value = _thisInput.value.replace(/\D/g,'')
+			}
 		}
 	}
 //私有方法

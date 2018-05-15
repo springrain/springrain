@@ -722,6 +722,7 @@
                     var responseText = (ret._raw || ret),
                         json = utils.str2json(responseText);
                     if (json.state == 'SUCCESS') {
+                    	
                         _this.imageList.push(json);
                         $file.append('<span class="success"></span>');
                     } else {
@@ -774,11 +775,13 @@
             var i, data, list = [],
                 align = getAlign(),
                 prefix = editor.getOpt('imageUrlPrefix');
+            var _tempUrl="";
             for (i = 0; i < this.imageList.length; i++) {
                 data = this.imageList[i];
+                _tempUrl=data.url.indexOf("http")==0?data.url:prefix + data.url;
                 list.push({
-                    src: prefix + data.url,
-                    _src: prefix + data.url,
+                    src: _tempUrl,
+                    _src: _tempUrl,
                     title: data.title,
                     alt: data.original,
                     floatStyle: align
