@@ -137,14 +137,14 @@ public class SystemLoginController extends BaseController   {
 				user.login(token);
 			} catch (UnknownAccountException e) {
 				logger.error(e.getMessage(), e);
-				model.addAttribute("message", "账号不存在!");
+				model.addAttribute("message", "账号或密码错误!");
 				 if(StringUtils.isNotBlank(gotourl)){
 				     model.addAttribute("gotourl", gotourl);
 				  }
 				return "/system/login";
 			} catch (IncorrectCredentialsException e) {
 				logger.error(e.getMessage(), e);
-				model.addAttribute("message", "密码错误!");
+				model.addAttribute("message", "账号或密码错误!");
 				 if(StringUtils.isNotBlank(gotourl)){
 				     model.addAttribute("gotourl", gotourl);
 				  }
