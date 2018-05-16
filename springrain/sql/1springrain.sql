@@ -11,7 +11,7 @@
  Target Server Version : 80011
  File Encoding         : 65001
 
- Date: 15/05/2018 17:29:00
+ Date: 16/05/2018 11:08:03
 */
 
 SET NAMES utf8mb4;
@@ -183,7 +183,6 @@ INSERT INTO `t_menu` VALUES ('169815aca9cf41d390e7feb6629d361d', '栏目管理',
 INSERT INTO `t_menu` VALUES ('3501ed1e23da40219b4f0fa5b7b2749a', '菜单列表', 't_menu_list', '', '/system/menu/list', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `t_menu` VALUES ('36ab9175f7b7423eadda974ba046be05', '修改密码', 't_user_list', '', '/system/user/modifiypwd/pre', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `t_menu` VALUES ('4adc1e3e3e244c0991d9dab66c63badf', '目录创建', 'f5203235547342f094a2c126ad4603bb', '', '/system/file/uploadDic', 0, 1, 2, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_menu` VALUES ('5442d67bcdf8401da675bb5e09650f36', '测试用例', 'business_manager', '', NULL, 1, 1, 100, '/img/iconImg/icon15.png', NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `t_menu` VALUES ('7cd0678633d5407dba2bd6a1553cadce', '文件下载', 'f5203235547342f094a2c126ad4603bb', '', '/system/file/downfile', 0, 1, 3, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `t_menu` VALUES ('91779a0d304f4b91932b63dec87a8536', '角色管理-系统', 'system_manager', '', '/system/role/list/all', 1, 1, NULL, '/img/iconImg/icon23.png', NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `t_menu` VALUES ('b94392f7b8714f64819c5c0222eb134a', '角色修改-系统', 't_role_list', '', '/system/role/update/admin', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -242,34 +241,6 @@ INSERT INTO `t_menu` VALUES ('t_user_list', '用户管理', 'business_manager', 
 INSERT INTO `t_menu` VALUES ('t_user_list_export', '导出用户', 't_user_list', NULL, '/system/user/list/export', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `t_menu` VALUES ('t_user_look', '查看用户', 't_user_list', NULL, '/system/user/look', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `t_menu` VALUES ('t_user_update', '修改用户', 't_user_list', NULL, '/system/user/update', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_menu` VALUES ('tc_htmlcase_delete', '删除Htmlcase', 'tc_htmlcase_list', NULL, '/selenium/htmlcase/delete', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_menu` VALUES ('tc_htmlcase_deletemore', '批量删除Htmlcase', 'tc_htmlcase_list', NULL, '/selenium/htmlcase/delete/more', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_menu` VALUES ('tc_htmlcase_export', '导出Htmlcase', 'tc_htmlcase_list', NULL, '/selenium/htmlcase/list/export', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_menu` VALUES ('tc_htmlcase_list', '测试用例管理', '5442d67bcdf8401da675bb5e09650f36', '', '/selenium/htmlcase/list', 1, 1, 4, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_menu` VALUES ('tc_htmlcase_look', '查看Htmlcase', 'tc_htmlcase_list', NULL, '/selenium/htmlcase/look', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_menu` VALUES ('tc_htmlcase_update', '修改Htmlcase', 'tc_htmlcase_list', NULL, '/selenium/htmlcase/update', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_menu` VALUES ('tc_htmlcase_upload', '导入Htmlcase', 'tc_htmlcase_list', NULL, '/selenium/htmlcase/upload', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_menu` VALUES ('tc_htmlfield_delete', '删除Htmlfield', 'tc_htmlfield_list', NULL, '/selenium/htmlfield/delete', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_menu` VALUES ('tc_htmlfield_deletemore', '批量删除Htmlfield', 'tc_htmlfield_list', NULL, '/selenium/htmlfield/delete/more', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_menu` VALUES ('tc_htmlfield_export', '导出Htmlfield', 'tc_htmlfield_list', NULL, '/selenium/htmlfield/list/export', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_menu` VALUES ('tc_htmlfield_list', '页面字段管理', '5442d67bcdf8401da675bb5e09650f36', '', '/selenium/htmlfield/list', 1, 1, 2, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_menu` VALUES ('tc_htmlfield_look', '查看Htmlfield', 'tc_htmlfield_list', NULL, '/selenium/htmlfield/look', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_menu` VALUES ('tc_htmlfield_update', '修改Htmlfield', 'tc_htmlfield_list', NULL, '/selenium/htmlfield/update', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_menu` VALUES ('tc_htmlfield_upload', '导入Htmlfield', 'tc_htmlfield_list', NULL, '/selenium/htmlfield/upload', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_menu` VALUES ('tc_htmlfunction_delete', '删除Htmlfunction', 'tc_htmlfunction_list', NULL, '/selenium/htmlfunction/delete', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_menu` VALUES ('tc_htmlfunction_deletemore', '批量删除Htmlfunction', 'tc_htmlfunction_list', NULL, '/selenium/htmlfunction/delete/more', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_menu` VALUES ('tc_htmlfunction_export', '导出Htmlfunction', 'tc_htmlfunction_list', NULL, '/selenium/htmlfunction/list/export', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_menu` VALUES ('tc_htmlfunction_list', '页面功能管理', '5442d67bcdf8401da675bb5e09650f36', '', '/selenium/htmlfunction/list', 1, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_menu` VALUES ('tc_htmlfunction_look', '查看Htmlfunction', 'tc_htmlfunction_list', NULL, '/selenium/htmlfunction/look', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_menu` VALUES ('tc_htmlfunction_update', '修改Htmlfunction', 'tc_htmlfunction_list', NULL, '/selenium/htmlfunction/update', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_menu` VALUES ('tc_htmlfunction_upload', '导入Htmlfunction', 'tc_htmlfunction_list', NULL, '/selenium/htmlfunction/upload', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_menu` VALUES ('tc_validaterule_delete', '删除Validaterule', 'tc_validaterule_list', NULL, '/selenium/validaterule/delete', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_menu` VALUES ('tc_validaterule_deletemore', '批量删除Validaterule', 'tc_validaterule_list', NULL, '/selenium/validaterule/delete/more', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_menu` VALUES ('tc_validaterule_export', '导出Validaterule', 'tc_validaterule_list', NULL, '/selenium/validaterule/list/export', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_menu` VALUES ('tc_validaterule_list', '验证规则管理', '5442d67bcdf8401da675bb5e09650f36', '', '/selenium/validaterule/list', 1, 1, 3, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_menu` VALUES ('tc_validaterule_look', '查看Validaterule', 'tc_validaterule_list', NULL, '/selenium/validaterule/look', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_menu` VALUES ('tc_validaterule_update', '修改Validaterule', 'tc_validaterule_list', NULL, '/selenium/validaterule/update', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_menu` VALUES ('tc_validaterule_upload', '导入Validaterule', 'tc_validaterule_list', NULL, '/selenium/validaterule/upload', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for t_org

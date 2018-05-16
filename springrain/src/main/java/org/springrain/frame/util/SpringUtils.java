@@ -14,9 +14,9 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Component;
+import org.springrain.SpringrainApplication;
 import org.springrain.frame.annotation.LuceneSearch;
 import org.springrain.frame.annotation.NotLog;
-import org.springrain.frame.entity.BaseEntity;
 
 /**
  * Spring 工具类
@@ -105,16 +105,11 @@ public class SpringUtils implements ApplicationContextAware {
 
     private void initEntityInfo() throws Exception {
 
-        String basePathName = BaseEntity.class.getName();
-        String[] basePaths = basePathName.split("\\.");
+        String basePathName = SpringrainApplication.class.getPackage().getName();
 
-        String classPath = "**/*.class";
+        String classPath = "/**/entity/*.class";
 
-        if (basePaths == null || basePaths.length < 2) {
-            return;
-        }
-
-        String packagePath = basePaths[0] + "/" + basePaths[1] + "/";
+        String packagePath =basePathName.replaceAll("\\.", "/");
         classPath = packagePath + classPath;
 
         PathMatchingResourcePatternResolver pmrpr = new PathMatchingResourcePatternResolver();
