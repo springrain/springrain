@@ -14,7 +14,8 @@
 			button[disabled]:active, button[disabled]:hover, html input[disabled]:active, html input[disabled]:hover { background-image: none; -webkit-box-shadow: none; box-shadow: none; }
 			.login_div{
 				width: 430px;
-				height: 320px;
+				height: fit-content;
+				padding-bottom:10px;
 				position: absolute;z-index:100;
 				left: 0;top: 0;bottom: 0;right: 0;margin: auto;
 				border-radius: 10px;-webkit-border-radius: 10px;-moz-border-radius: 10px;
@@ -83,6 +84,8 @@
 		<form action="${ctx}/system/login" method="post" id="loginForm">
 		 <input type="hidden" name="gotourl" value="${gotourl!''}" />
 		 <input type="hidden" name="systemSiteId" value="${systemSiteId!''}" />
+		 
+		 
 			<div class="login_div">
 				<div class="login_name">
 					<input type="text" name="account" placeholder="请输入用户名" />
@@ -90,10 +93,12 @@
 				<div class="login_name">
 					<input type="password" name="password"  placeholder="请输入密码" />
 				</div>
+				
+				<#if showCaptcha??>
 				<div class="login_name">
 					<div style="overflow: hidden;width: 80%;display: inline-block;">
 						<div class="input_div">
-							<input type="text" name="captcha" placeholder="请输入验证码" />
+							<input type="text" name="captcha"  value=""   placeholder="请输入验证码" />
 						</div>
 						<div class="yzm_img">
 							<img style="width: 100%;height: 100%;" id="captchaImg" onclick="reloadValidateCode();" src="${ctx}/getCaptcha"  align="absmiddle" />
@@ -101,12 +106,15 @@
 						</div>
 					</div>
 				</div>
+				</#if>
+				
+				
 				<div class="btnDiv">
 					<button class="btn" id="sbtButton" type="submit">
 						登  录
 					</button>
 				</div>
-				<div class="msg">
+				<div id="msg" class="msg">
 					<#if message?? && message!=''>
 						${message}
 					</#if>
@@ -126,14 +134,27 @@
 				
 	            $("#sbtButton").click(function(){
 	            	
+	            	
+	                //用户名为空
+                    var account=jQuery(":input[name='account']").val();
+                      if(!account||account==""){
+                            jQuery("#msg").html("用户名不能为空!");
+                            return false;
+                        }
+                    
+                    
+	            	
+	            	//处理密码
 	            	var pw=jQuery(":input[name='password']").val();
 	            	if(!pw||pw==""){
+	            		jQuery("#msg").html("密码不能为空!");
 	            		return false;
 	            	}
 	            	
 	            	pw=md5(pw);
 	            	jQuery(":input[name='password']").val(pw);
 	            	
+	          
 	                $("#loginForm").submit(function(){
 	                    return true;
 	                });

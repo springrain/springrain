@@ -1,5 +1,6 @@
 package org.springrain.system.web;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -10,6 +11,8 @@ import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.util.WebUtils;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +27,10 @@ import org.springrain.system.entity.User;
 @RequestMapping(value="/system")
 public class SystemLoginController extends BaseController   {
 	
+    
+    @Resource
+    private CacheManager cacheManager;
+    
 	/**
 	 * 首页的映射
 	 * @param model
@@ -80,6 +87,7 @@ public class SystemLoginController extends BaseController   {
 			  if(StringUtils.isNotBlank(url)){
 			     model.addAttribute("gotourl", url);
 			  }
+			  
 			return "/system/login";
 		}
 		
@@ -96,32 +104,45 @@ public class SystemLoginController extends BaseController   {
 		
 		@RequestMapping(value = "/login",method=RequestMethod.POST)
 		public String loginPost(User currUser,HttpSession session,Model model,HttpServletRequest request) throws Exception {
-			Subject user = SecurityUtils.getSubject();
-			//系统产生的验证码
-			  String code = (String) session.getAttribute(GlobalStatic.DEFAULT_CAPTCHA_PARAM);
+		
+			
+			//处理密码错误缓存
+	         Cache cache = cacheManager.getCache(GlobalStatic.springrainloginCacheKey);
+	         Integer errorLogincount=cache.get(currUser.getAccount(), Integer.class);
+			
+	         if(errorLogincount!=null&&(errorLogincount>=2)) {//错误超过2次,出现验证码
+	             //显示验证码
+                 model.addAttribute("showCaptcha", true);
+	         }
+	         if(errorLogincount!=null&&(errorLogincount>=3)) {//错误超过3次,校验验证码
+    			//系统产生的验证码
+    			  String code = (String) session.getAttribute(GlobalStatic.DEFAULT_CAPTCHA_PARAM);
+    			  session.removeAttribute(GlobalStatic.DEFAULT_CAPTCHA_PARAM);
+    			  
+    			  if(StringUtils.isNotBlank(code)){
+    				  code=code.toLowerCase();
+    			  }
+    			  //用户产生的验证码
+    			 String submitCode = WebUtils.getCleanParam(request, GlobalStatic.DEFAULT_CAPTCHA_PARAM);
+    			  if(StringUtils.isNotBlank(submitCode)){
+    				  submitCode=submitCode.toLowerCase();
+    			  }
+    			
+    			  //如果验证码不匹配,跳转到登录
+    			if (StringUtils.isBlank(submitCode) ||StringUtils.isBlank(code)||!code.equals(submitCode)) {
+    				model.addAttribute("message", "验证码错误!");
+    				return "/system/login";
+    	        }
+	         }
+			
 			  
-			  session.removeAttribute(GlobalStatic.DEFAULT_CAPTCHA_PARAM);
-			  
-			  
-			  String systemSiteId=request.getParameter("systemSiteId");
-			  if(StringUtils.isNotBlank(systemSiteId)){
-					model.addAttribute("systemSiteId", systemSiteId);
-				}
-			  
-			  if(StringUtils.isNotBlank(code)){
-				  code=code.toLowerCase();
-			  }
-			  //用户产生的验证码
-			 String submitCode = WebUtils.getCleanParam(request, GlobalStatic.DEFAULT_CAPTCHA_PARAM);
-			  if(StringUtils.isNotBlank(submitCode)){
-				  submitCode=submitCode.toLowerCase();
-			  }
+            String systemSiteId=request.getParameter("systemSiteId");
+            if(StringUtils.isNotBlank(systemSiteId)){
+                  model.addAttribute("systemSiteId", systemSiteId);
+              }
 			  String gotourl=request.getParameter("gotourl");
-			  //如果验证码不匹配,跳转到登录
-			if (StringUtils.isBlank(submitCode) ||StringUtils.isBlank(code)||!code.equals(submitCode)) {
-				model.addAttribute("message", "验证码错误!");
-				return "/system/login";
-	        }
+			
+			
 			//通过账号和密码获取 UsernamePasswordToken token
 			FrameAuthenticationToken token = new FrameAuthenticationToken(currUser.getAccount(),currUser.getPassword());
 			
@@ -134,6 +155,7 @@ public class SystemLoginController extends BaseController   {
 			
 			try {
 				//会调用 shiroDbRealm 的认证方法 org.springrain.frame.shiro.ShiroDbRealm.doGetAuthenticationInfo(AuthenticationToken)
+			    Subject user = SecurityUtils.getSubject();
 				user.login(token);
 			} catch (UnknownAccountException e) {
 				logger.error(e.getMessage(), e);
