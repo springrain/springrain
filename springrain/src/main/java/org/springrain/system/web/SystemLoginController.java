@@ -106,6 +106,13 @@ public class SystemLoginController extends BaseController   {
 		public String loginPost(User currUser,HttpSession session,Model model,HttpServletRequest request) throws Exception {
 		
 			
+		    
+            String systemSiteId=request.getParameter("systemSiteId");
+             if(StringUtils.isNotBlank(systemSiteId)){
+                     model.addAttribute("systemSiteId", systemSiteId);
+                 }
+            
+		    
 			//处理密码错误缓存
 	         Cache cache = cacheManager.getCache(GlobalStatic.springrainloginCacheKey);
 	         Integer errorLogincount=cache.get(currUser.getAccount(), Integer.class);
@@ -134,12 +141,21 @@ public class SystemLoginController extends BaseController   {
     				return "/system/login";
     	        }
 	         }
+	         
+	     
+	         if(StringUtils.isBlank(currUser.getAccount())) {
+	                model.addAttribute("message", "用户名不能为空!");
+	                return "/system/login";
+	            }
+	        
+	         
+             if(StringUtils.isBlank(currUser.getPassword())) {
+                    model.addAttribute("message", "密码不能为空!");
+                    return "/system/login";
+                }
 			
 			  
-            String systemSiteId=request.getParameter("systemSiteId");
-            if(StringUtils.isNotBlank(systemSiteId)){
-                  model.addAttribute("systemSiteId", systemSiteId);
-              }
+       
 			  String gotourl=request.getParameter("gotourl");
 			
 			
