@@ -34,9 +34,6 @@ ${r"<@h.commonHead"} title="后台管理系统" keywords="开源,永久免费" d
 			<!-- 主体内容开始 -->
 			<div class="layui-tab layui-tab-brief">
 				<ul class="layui-tab-title site-demo-title">
-		             <li class="layui-this">
-		             		
-		             </li>
 					 <li style="float:right;">
 		             	${r"<@shiro.hasPermission"} name="/${targetpackage}/${classNameLowerCase}/update" >
 		             		<button type="button"   class="layui-btn layui-btn-small" data-action="${r"${ctx}"}/${targetpackage}/${classNameLowerCase}/update/pre"><i class="layui-icon layui-icon-specil">&#xe61f;</i>新增</button>

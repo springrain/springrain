@@ -16,13 +16,6 @@ ${r"<@h.commonHead"} title="后台管理系统" keywords="开源,永久免费" d
 		<!-- 主体内容开始 -->
 			<div class="layui-tab layui-tab-brief">
 				<ul class="layui-tab-title site-demo-title">
-		            <li class="layui-this">
-		            		<i class="layui-icon">&#xe630;</i>
-		             		<span class="layui-breadcrumb" style="visibility: visible;">
-							   <a href="${r"${ctx}"}">首页<span class="layui-box">&gt;</span></a>
-							   <a><cite>${tableName}管理</cite></a>
-							</span>
-		            </li>
 		             <li style="float:right;">
 				        <button type="button" onclick="history.go(-1)" class="layui-btn layui-btn-small" style="margin-top:8px;"><i class="layui-icon layui-icon-specil">&#xe603;</i>返回</button>
 		             </li>
