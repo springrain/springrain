@@ -9,10 +9,10 @@ description="springrain开源系统管理后台"/>
 					<ul class="layui-tab-title site-demo-title">
 		              	<li style="float:right;">
 			             	<@shiro.hasPermission name="${ctx}/system/fwlog/export" >
-					        	<button type="button" class="layui-btn layui-btn-small"><i class="layui-icon layui-icon-specil">&#xe609;</i>导出</button>
+					        	<button type="button" class="layui-btn layui-btn-sm"><i class="layui-icon layui-icon-specil">&#xe609;</i>导出</button>
 					        </@shiro.hasPermission>
 			                <@shiro.hasPermission name="${ctx}/system/fwlog/delete" >
-			               		 <button type="button" class="layui-btn layui-btn-danger layui-btn-small"><i class="layui-icon">&#xe640;</i>批量删除</button>
+			               		 <button type="button" class="layui-btn layui-btn-danger layui-btn-sm"><i class="layui-icon">&#xe640;</i>批量删除</button>
 			                </@shiro.hasPermission>
 		             	</li>
 		       		 </ul>
@@ -75,7 +75,7 @@ description="springrain开源系统管理后台"/>
 													<!--start_no_export-->
 														<tr class="">
 															<td>
-															 <a href="#" data-action="${ctx}/system/auditlog/look?id=${(_data.id)!''}" class="layui-btn layui-btn-normal layui-btn-mini">查看</a>
+															 <a href="#" data-action="${ctx}/system/auditlog/look?id=${(_data.id)!''}" class="layui-btn layui-btn-xs">查看</a>
 															</td>
 															<!--end_no_export-->
 															<td>${(_data.operatorName)!''}</td>

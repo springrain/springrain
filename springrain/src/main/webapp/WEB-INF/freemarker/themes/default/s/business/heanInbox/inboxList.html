@@ -56,7 +56,7 @@
 				<li style="float: right;">
 					<@shiro.hasPermission name="/s/${siteId!''}/${businessId!''}/comment/delete" >
 					<button type="button" onclick="deleteMore();"
-						class="layui-btn layui-btn-danger layui-btn-small">
+						class="layui-btn layui-btn-danger layui-btn-sm">
 						<i class="layui-icon">&#xe640;</i>批量删除
 					</button>
 					</@shiro.hasPermission>
@@ -140,10 +140,10 @@
 										    </label></td>
 										    <td>
 										        <@shiro.hasPermission name="/s/${siteId!''}/${businessId!''}/comment/delete" >
-										        <a href="javascript:del('${(_data.id)!''}')" class="layui-btn layui-btn-danger layui-btn-mini ajax-delete">删除</a>
+										        <a href="javascript:del('${(_data.id)!''}')" class="layui-btn layui-btn-xs layui-btn-danger">删除</a>
 										        </@shiro.hasPermission>
 										        <@shiro.hasPermission name="/s/${siteId!''}/${businessId!''}/comment/look" >
-										        <a href="#" data-action="${ctx}/s/${siteId}/${businessId}/comment/look?id=${(_data.id)!''}" class="layui-btn layui-btn-normal layui-btn-mini">查看</a>
+										        <a href="#" data-action="${ctx}/s/${siteId}/${businessId}/comment/look?id=${(_data.id)!''}" class="layui-btn layui-btn-xs">查看</a>
 										        </@shiro.hasPermission>
 										    </td>
 										    <!--end_no_export-->

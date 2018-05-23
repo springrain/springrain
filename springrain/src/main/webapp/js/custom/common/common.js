@@ -34,21 +34,21 @@ $(document).ready(function(){
 	});
 	//初始化插件
 	configLayui("global");
+	//configLayui("form");
+	//configLayui("element");
 	//加载菜单
 	loadMenu();
 	init_sort_btn();
 	init_button_action();
 	//赋予 元素特殊事件 ，和表单的样式处理。如TAB和菜单 的滑过事件 ,不添加没有动画效果，且必须加到ready后
-	setTimeout(function(){
-		if(jQuery("form").length>0){
-			layui.use('form', function(){
-				  form = layui.form();
+	//setTimeout(function(){
+	    layui.use('form', function(){
+				  form = layui.form;
 			});
-		}
 		layui.use(['element'], function(){
-			  var element = layui.element();   
+			  var element = layui.element;   
 		});
-	},200);
+	//},200);
 	//处理列表中列多的
 	jQuery("#LAY_preview .layui-table").each(function(_i,_o){
 		if(jQuery(_o).parent("form").length<=0){
@@ -64,16 +64,13 @@ var form;
 /*添加form的监听回调*/
 function selectListener(filterId,callback){
 	if(form==null||form==undefined){
-		if(jQuery("form").length>0){
 			layui.use('form', function(){
-				  form = layui.form();
+				  form = layui.form;
 				  form.on('select('+filterId+')', function(data){
 						callback(data);
 				});
 			});
-		}else{
-			return;
-		}
+		
 	}else{ 
 		form.on('select('+filterId+')', function(data){
 			callback(data);

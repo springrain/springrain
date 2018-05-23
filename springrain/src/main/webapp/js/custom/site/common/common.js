@@ -47,16 +47,14 @@ $(document).ready(function(){
 	//加载站点logo页脚等信息
 	loadSiteInfo();
 	//赋予 元素特殊事件 ，和表单的样式处理。如TAB和菜单 的滑过事件 ,不添加没有动画效果，且必须加到ready后
-	setTimeout(function(){
-		if(jQuery("form").length>0){
+	//setTimeout(function(){
 			layui.use('form', function(){
-				  form = layui.form();
+				  form = layui.form;
 			});
-		}
 		layui.use(['element'], function(){
-			  var element = layui.element();   
+			  var element = layui.element;   
 		});
-	},200);
+	//},200);
 	//修改 修改密码的链接
 	var siteId = $.cookie('defaultSiteId');
 	jQuery("#modifypwd").attr("href","javascript:springrain.goTo('"+ctx+"/s/password/"+siteId+"/modifiypwd/pre')");
@@ -65,13 +63,10 @@ var form;
 /*添加form的监听回调*/
 function selectListener(filterId,callback){
 	if(form==null||form==undefined){
-		if(jQuery("form").length>0){
 			layui.use('form', function(){
-				  form = layui.form();
+				  form = layui.form;
 			});
-		}else{
-			return;
-		}
+		
 	}
 	form.on('select('+filterId+')', function(data){
 		callback(data);

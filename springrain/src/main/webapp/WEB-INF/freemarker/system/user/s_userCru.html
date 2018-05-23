@@ -314,7 +314,7 @@ function add(){
 	var _html=["<tr>",
 					"<td><input type='text' readonly onclick='showMangerZtreeOrg(this)'   name='managerOrgNames' placeholder='单击选择' class='layui-input'><input type='hidden' name='managerOrgIds'></td>",
 					"<td><select name='managerType'><option value='10'>员工</option><option value='11'>主管</option><option value='12'>代主管</option><option value='14'>虚拟主管</option></select></td><td><select name='hasleaf'><option value='0'>不包含</option><option value='1'>包含</option></select></td>",
-					"<td><a onclick='del(this)' class='layui-btn layui-btn-danger layui-btn-mini ajax-delete'>删除</a></td>",
+					"<td><a onclick='del(this)' class='ayui-btn layui-btn-xs layui-btn-danger'>删除</a></td>",
 				"</tr>"].join('');
 	var _html=jQuery(_html);
 	jQuery("#addTbody").append(_html);
@@ -377,7 +377,7 @@ function hasleafFun(_obj){
 			<div class="layui-tab layui-tab-brief">
 				<ul class="layui-tab-title site-demo-title">
 		             <li style="float:right;">
-				        <button type="button" onclick="history.go(-1)" class="layui-btn layui-btn-small" style="margin-top:8px;"><i class="layui-icon layui-icon-specil">&#xe603;</i>返回</button>
+				        <button type="button" onclick="history.go(-1)" class="layui-btn layui-btn-sm" style="margin-top:8px;"><i class="layui-icon layui-icon-specil">&#xe603;</i>返回</button>
 		             </li>
 	       		</ul>
 				
@@ -465,7 +465,7 @@ function hasleafFun(_obj){
 																												<option value='1' <#if _data.hasleaf?c=='1'>selected</#if>>包含</option>
 																											</select>
 																										</td>
-																										<td><a onclick='del(this)' class='layui-btn layui-btn-danger layui-btn-mini ajax-delete'>删除</a></td>
+																										<td><a onclick='del(this)' class='ayui-btn layui-btn-xs layui-btn-danger'>删除</a></td>
 																									</tr>
 																								</#list>
 																							</#if>

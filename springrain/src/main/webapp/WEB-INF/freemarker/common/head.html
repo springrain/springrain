@@ -27,8 +27,9 @@
     <script src="${ctx}/js/jquery/jquery.min.js"></script>
     <script src="${ctx}/js/cache/locache.min.js"></script>
     <script type="text/javascript" src="${ctx}/js/cookie/jquery.cookie.js"></script>
+    <!--
     <script type="text/javascript" src="${ctx}/js/layer/layer.js" ></script>
-    
+      -->
     <!-- layui -->
     <script src="${ctx}/layui/layui.js"></script>
     <!-- 自定义公共js -->
@@ -168,24 +169,28 @@
 <!-- ******************  -->
 
 <!-- 分页模块，需要传入参数  -->
-<#macro layPage   page groups="10"  skin="#009688" cont="laypageDiv" formId="searchForm">
+<#macro layPage   page groups="10"  skin="#009688" cont="laypageDiv"  formId="searchForm">
     <script>
     	jQuery("#recordsView span").eq(0).html('${page.pageCount}');
     	jQuery("#recordsView span").eq(1).html('${page.totalCount}');
-        layui.use(['laypage'], function(){
+    	
+    	<#if (page.pageCount>1)>
+        layui.use('laypage', function(){
+           var laypage = layui.laypage;
             var prev = !${page.hasPrev?c}?false:"上一页";
             var next = !${page.hasNext?c}?false:"下一页";
             var settings = {
-                    cont:'${cont}',
-                    pages:${page.pageCount},
+            		elem:'${cont}',
+            		limit:${page.pageSize},
+                    count:${page.totalCount},
                     curr:${page.pageIndex},
                     groups:${groups},
-                    skin:'${skin}',
+                    theme:'${skin}',
                     first:1,
                     last:${page.pageCount},
                     prev:prev,
                     next:next,
-                    skip:true,
+                   // skip:true,
                     jump:function(obj, first){
                         if("${page.pageIndex}"!=obj.curr){
                             $("[name='pageIndex']",$("#${formId}")).val(obj.curr);
@@ -194,8 +199,11 @@
                         }
                     }
             }
-            layui.laypage(settings);
+            laypage.render(settings);
         });
+      </#if>  
+        
+        
     </script>
 </#macro>
 
@@ -210,29 +218,32 @@
     <script>
     	jQuery("#recordsView span").eq(0).html('${page.pageCount}');
     	jQuery("#recordsView span").eq(1).html('${page.totalCount}');
+    	
+    	   <#if (page.pageCount>1)>
         layui.use(['laypage'], function(){
             var prev = !${page.hasPrev?c}?false:"上一页";
             var next = !${page.hasNext?c}?false:"下一页";
             var settings = {
-                    cont:'${cont}',
-                    pages:${page.pageCount},
+            		elem:'${cont}',
+                    limit:${page.pageSize},
+                    count:${page.totalCount},
                     curr:${page.pageIndex},
                     groups:${groups},
-                    skin:'${skin}',
+                    theme:'${skin}',
                     first:1,
                     last:${page.pageCount},
                     prev:prev,
                     next:next,
-                    skip:true,
+                   // skip:true,
                     jump:function(obj, first){
                         if("${page.pageIndex}"!=obj.curr){
                             $("[name='pageIndex']",$("#${formId}")).val(obj.curr);
-                            //debugger
                             springrain.mySubmitForm2("${formId}","${target}");
                         }
                     }
             }
-            layui.laypage(settings);
+            laypage.render(settings);
         });
+        </#if>  
     </script>
 </#macro>

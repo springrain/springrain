@@ -9,10 +9,10 @@ description="springrain开源系统管理后台"/>
 				<ul class="layui-tab-title site-demo-title">
 		              <li style="float:right;">
 		             	<@shiro.hasPermission name="${ctx}/system/fwlog/export" >
-				        	<button type="button" class="layui-btn layui-btn-small"><i class="layui-icon layui-icon-specil">&#xe609;</i>导出</button>
+				        	<button type="button" class="layui-btn layui-btn-sm"><i class="layui-icon layui-icon-specil">&#xe609;</i>导出</button>
 				        </@shiro.hasPermission>
 		                <@shiro.hasPermission name="${ctx}/system/fwlog/delete" >
-		               		 <button type="button" class="layui-btn layui-btn-danger layui-btn-small"><i class="layui-icon">&#xe640;</i>批量删除</button>
+		               		 <button type="button" class="layui-btn layui-btn-danger layui-btn-sm"><i class="layui-icon">&#xe640;</i>批量删除</button>
 		                </@shiro.hasPermission>
 		             </li>
 		        </ul>

@@ -36,14 +36,14 @@ ${r"<@h.commonHead"} title="后台管理系统" keywords="开源,永久免费" d
 				<ul class="layui-tab-title site-demo-title">
 					 <li style="float:right;">
 		             	${r"<@shiro.hasPermission"} name="/${targetpackage}/${classNameLowerCase}/update" >
-		             		<button type="button"   class="layui-btn layui-btn-small" data-action="${r"${ctx}"}/${targetpackage}/${classNameLowerCase}/update/pre"><i class="layui-icon layui-icon-specil">&#xe61f;</i>新增</button>
+		             		<button type="button"   class="layui-btn layui-btn-sm" data-action="${r"${ctx}"}/${targetpackage}/${classNameLowerCase}/update/pre"><i class="layui-icon layui-icon-specil">&#xe61f;</i>新增</button>
 		             	${r"</@shiro.hasPermission>"}
 		             	${r"<@shiro.hasPermission"} name="/${targetpackage}/${classNameLowerCase}/list/export" >
-				        	<button type="button"   class="layui-btn layui-btn-small"><i class="layui-icon layui-icon-specil">&#xe609;</i>导出</button>
+				        	<button type="button"   class="layui-btn layui-btn-sm"><i class="layui-icon layui-icon-specil">&#xe609;</i>导出</button>
 				        ${r"</@shiro.hasPermission>"}
-		                <button type="button"  class="layui-btn layui-btn-warm layui-btn-small"><i class="layui-icon layui-icon-specil">&#xe601;</i>导入</button>
+		                <button type="button"  class="layui-btn layui-btn-warm layui-btn-sm"><i class="layui-icon layui-icon-specil">&#xe601;</i>导入</button>
 		                ${r"<@shiro.hasPermission"} name="/${targetpackage}/${classNameLowerCase}/delete" >
-		               		 <button type="button"  class="layui-btn layui-btn-danger layui-btn-small"><i class="layui-icon">&#xe640;</i>批量删除</button>
+		               		 <button type="button"  class="layui-btn layui-btn-danger layui-btn-sm"><i class="layui-icon">&#xe640;</i>批量删除</button>
 		                ${r"</@shiro.hasPermission>"}
 		             </li>
 	       		</ul>
@@ -136,10 +136,10 @@ ${r"<@h.commonHead"} title="后台管理系统" keywords="开源,永久免费" d
 														</td>
 														<td>
 															${r"<@shiro.hasPermission"} name="/${targetpackage}/${classNameLowerCase}/update" >
-								                           		 <a href="#" data-action="${r"${ctx}"}/${targetpackage}/${classNameLowerCase}/update/pre?id=${r"${(_data.id)!''}"}" class="layui-btn layui-btn-normal layui-btn-mini">编辑</a>
+								                           		 <a href="#" data-action="${r"${ctx}"}/${targetpackage}/${classNameLowerCase}/update/pre?id=${r"${(_data.id)!''}"}" class="layui-btn layui-btn-normal layui-btn-xs">编辑</a>
 								                            ${r"</@shiro.hasPermission>"}
 								                            ${r"<@shiro.hasPermission"} name="/${targetpackage}/${classNameLowerCase}/delete" >
-								                            	<a href="javascript:del('${r"${(_data.id)!''}"}')" class="layui-btn layui-btn-danger layui-btn-mini ajax-delete">删除</a>
+								                            	<a href="javascript:del('${r"${(_data.id)!''}"}')" class="layui-btn layui-btn-danger layui-btn-xs ">删除</a>
 								                            ${r"</@shiro.hasPermission>"}
 														</td>
 														<!--end_no_export-->

@@ -29,14 +29,14 @@
 				<ul class="layui-tab-title site-demo-title">
 					 <li style="float:right;">
 		             	<@shiro.hasPermission name="/system/user/update" >
-		             		<button type="button" class="layui-btn layui-btn-small" data-action="${ctx}/system/user/update/pre"><i class="layui-icon layui-icon-specil">&#xe61f;</i>新增</button>
+		             		<button type="button" class="layui-btn layui-btn-sm" data-action="${ctx}/system/user/update/pre"><i class="layui-icon layui-icon-specil">&#xe61f;</i>新增</button>
 		             	</@shiro.hasPermission>
 		             	<@shiro.hasPermission name="/system/user/list/export" >
-				        	<button type="button" class="layui-btn layui-btn-small"><i class="layui-icon layui-icon-specil">&#xe609;</i>导出</button>
+				        	<button type="button" class="layui-btn layui-btn-sm"><i class="layui-icon layui-icon-specil">&#xe609;</i>导出</button>
 				        </@shiro.hasPermission>
-		                <button type="button" class="layui-btn layui-btn-warm layui-btn-small"><i class="layui-icon layui-icon-specil">&#xe601;</i>导入</button>
+		                <button type="button" class="layui-btn layui-btn-warm layui-btn-sm"><i class="layui-icon layui-icon-specil">&#xe601;</i>导入</button>
 		                <@shiro.hasPermission name="/system/user/delete" >
-		               		 <button type="button" class="layui-btn layui-btn-danger layui-btn-small"><i class="layui-icon">&#xe640;</i>批量删除</button>
+		               		 <button type="button" class="layui-btn layui-btn-danger layui-btn-sm"><i class="layui-icon">&#xe640;</i>批量删除</button>
 		                </@shiro.hasPermission>
 		             </li>
 	       		</ul>
@@ -134,10 +134,10 @@
 														</td>
 														<td>
 															<@shiro.hasPermission name="/system/user/update" >
-								                           		 <a href="#" data-action="${ctx}/system/user/update/pre?id=${(_data.id)!''}" class="layui-btn layui-btn-normal layui-btn-mini">修改</a>
+								                           		 <a href="#" data-action="${ctx}/system/user/update/pre?id=${(_data.id)!''}" class="layui-btn layui-btn-xs">修改</a>
 								                            </@shiro.hasPermission>
 								                            <@shiro.hasPermission name="/system/user/delete" >
-								                            	<a href="javascript:del('${(_data.id)!''}')" class="layui-btn layui-btn-danger layui-btn-mini ajax-delete">删除</a>
+								                            	<a href="javascript:del('${(_data.id)!''}')" class="layui-btn layui-btn-xs layui-btn-danger">删除</a>
 								                            </@shiro.hasPermission>
 														</td>
 														<!--end_no_export-->
