@@ -101,7 +101,6 @@ public class JsonUtils {
         } catch (JsonParseException e) {
             logger.error(e.getMessage(), e);
         } catch (JsonMappingException e) {
-            e.printStackTrace();
             logger.error(e.getMessage(), e);
         } catch (IOException e) {
             logger.error(e.getMessage(), e);
