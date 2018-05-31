@@ -1,17 +1,3 @@
-/*
-Navicat MySQL Data Transfer
-
-Source Server         : 127.0.0.1
-Source Server Version : 50716
-Source Host           : 127.0.0.1:3306
-Source Database       : springrain
-
-Target Server Type    : MYSQL
-Target Server Version : 50716
-File Encoding         : 65001
-
-Date: 2017-03-01 15:09:27
-*/
 
 SET FOREIGN_KEY_CHECKS=0;
 
@@ -149,7 +135,7 @@ CREATE TABLE `cms_link` (
   `siteId` varchar(50) NOT NULL COMMENT '网站ID',
   `businessId` varchar(50) NOT NULL COMMENT '业务Id',
   `lookcount` int(11) DEFAULT NULL COMMENT '打开次数',
-  `modelType` int(11) NOT NULL DEFAULT '0' COMMENT '0site,1channel,2content,3投票 4,站长后台模板(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)',
+  `modelType` int(11) NOT NULL DEFAULT '0' COMMENT '0site,1channel,2content,3投票 4,站长后台模板(以后可能扩展更多系统功能,例如 注册 登录 订单 购物车)',
   `ftlfile` varchar(1000) NOT NULL COMMENT '当前渲染使用的模板路径',
   `nodeftlfile` varchar(1000) DEFAULT NULL COMMENT '子内容使用的ftl模板文件',
   `statichtml` int(11) NOT NULL DEFAULT '0' COMMENT '是否静态化 0否,1是',
@@ -196,7 +182,7 @@ CREATE TABLE `cms_property` (
   `code` varchar(50) NOT NULL COMMENT '系统级别的编码,一个站点不可重复',
   `inputType` int(11) NOT NULL DEFAULT '0' COMMENT '0text,1date,2datatime,3int,4float,5select,6file,7img,8imgs',
   `businessId` varchar(50) NOT NULL COMMENT '业务Id',
-  `modelType` int(11) NOT NULL DEFAULT '0' COMMENT '0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)',
+  `modelType` int(11) NOT NULL DEFAULT '0' COMMENT '0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登录 订单 购物车)',
   `createPerson` varchar(50) NOT NULL COMMENT '创建人',
   `createDate` datetime NOT NULL COMMENT '创建时间',
   `defaultValue` varchar(100) DEFAULT NULL COMMENT '默认值',
@@ -256,7 +242,7 @@ CREATE TABLE `cms_template` (
   `description` varchar(2000) DEFAULT NULL COMMENT '备注',
   `ftlfile` varchar(1000) DEFAULT NULL COMMENT '渲染使用的模板路径',
   `imgfile` varchar(1000) DEFAULT NULL COMMENT '缩略图路径路径',
-  `modelType` int(11) NOT NULL DEFAULT '0' COMMENT '0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)',
+  `modelType` int(11) NOT NULL DEFAULT '0' COMMENT '0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登录 订单 购物车)',
   `usecount` int(11) DEFAULT NULL COMMENT '使用次数',
   `active` int(11) NOT NULL DEFAULT '1' COMMENT '状态 0不可用,1可用',
   PRIMARY KEY (`id`)

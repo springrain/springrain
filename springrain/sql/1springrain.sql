@@ -1,18 +1,4 @@
-/*
- Navicat Premium Data Transfer
 
- Source Server         : 127.0.0.1
- Source Server Type    : MySQL
- Source Server Version : 80011
- Source Host           : 127.0.0.1:3306
- Source Schema         : springrain
-
- Target Server Type    : MySQL
- Target Server Version : 80011
- File Encoding         : 65001
-
- Date: 16/05/2018 11:08:03
-*/
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
@@ -100,7 +86,7 @@ CREATE TABLE `t_fwlog_history_2018`  (
   `startDate` datetime(0) NULL DEFAULT NULL COMMENT '访问时间',
   `strDate` varchar(100)  NULL DEFAULT NULL COMMENT '访问时间(毫秒)',
   `tomcat` varchar(50)  NULL DEFAULT NULL COMMENT 'Tomcat',
-  `userCode` varchar(300)  NULL DEFAULT NULL COMMENT '登陆账号',
+  `userCode` varchar(300)  NULL DEFAULT NULL COMMENT '登录账号',
   `userName` varchar(200)  NULL DEFAULT NULL COMMENT '姓名',
   `sessionId` varchar(300)  NULL DEFAULT NULL COMMENT 'sessionId',
   `ip` varchar(200)  NULL DEFAULT NULL COMMENT 'IP',
@@ -124,7 +110,7 @@ CREATE TABLE `t_fwlog_history_2019`  (
   `startDate` datetime(0) NULL DEFAULT NULL COMMENT '访问时间',
   `strDate` varchar(100)  NULL DEFAULT NULL COMMENT '访问时间(毫秒)',
   `tomcat` varchar(50)  NULL DEFAULT NULL COMMENT 'Tomcat',
-  `userCode` varchar(300)  NULL DEFAULT NULL COMMENT '登陆账号',
+  `userCode` varchar(300)  NULL DEFAULT NULL COMMENT '登录账号',
   `userName` varchar(200)  NULL DEFAULT NULL COMMENT '姓名',
   `sessionId` varchar(300)  NULL DEFAULT NULL COMMENT 'sessionId',
   `ip` varchar(200)  NULL DEFAULT NULL COMMENT 'IP',
