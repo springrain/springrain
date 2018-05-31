@@ -125,20 +125,6 @@ CREATE TABLE `t_fwlog_history_2019`  (
   PRIMARY KEY (`id`) 
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4  COMMENT = '访问日志' ;
 
--- ----------------------------
--- Table structure for t_h5drag
--- ----------------------------
-DROP TABLE IF EXISTS `t_h5drag`;
-CREATE TABLE `t_h5drag`  (
-  `id` varchar(100)  NOT NULL,
-  `ajaxURL` varchar(1000)  NULL DEFAULT NULL COMMENT 'ajax请求的URL',
-  `pubTitle` varchar(1000)  NULL DEFAULT NULL COMMENT '大标题',
-  `module` varchar(1000)  NULL DEFAULT NULL COMMENT '组件',
-  `bgColor` varchar(2000)  NULL DEFAULT NULL COMMENT '背景色',
-  `classArrStr` varchar(2000)  NULL DEFAULT NULL COMMENT '类名',
-  `listArrStr` varchar(2000)  NULL DEFAULT NULL COMMENT '数据 array',
-  PRIMARY KEY (`id`) 
-) ENGINE = InnoDB CHARACTER SET = utf8mb4  COMMENT = 'H5拖拽后台表' ;
 
 -- ----------------------------
 -- Table structure for t_menu
