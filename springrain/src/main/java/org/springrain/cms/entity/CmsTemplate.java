@@ -27,7 +27,7 @@ public class CmsTemplate  extends BaseEntity {
 	public static final String ALIAS_DESCRIPTION = "备注";
 	public static final String ALIAS_FTLFILE = "渲染使用的模板路径";
 	public static final String ALIAS_IMGFILE = "缩略图路径路径";
-	public static final String ALIAS_MODELTYPE = "0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)";
+	public static final String ALIAS_MODELTYPE = "0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登录 订单 购物车)";
 	public static final String ALIAS_USECOUNT = "使用次数";
 	public static final String ALIAS_ACTIVE = "状态 0不可用,1可用";
     */
@@ -55,7 +55,7 @@ public class CmsTemplate  extends BaseEntity {
 	 */
 	private java.lang.String imgfile;
 	/**
-	 * 0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)
+	 * 0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登录 订单 购物车)
 	 */
 	private java.lang.Integer modelType;
 	/**
@@ -169,7 +169,7 @@ public class CmsTemplate  extends BaseEntity {
 			.append("备注[").append(getDescription()).append("],")
 			.append("渲染使用的模板路径[").append(getFtlfile()).append("],")
 			.append("缩略图路径路径[").append(getImgfile()).append("],")
-			.append("0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)[").append(getModelType()).append("],")
+			.append("0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登录 订单 购物车)[").append(getModelType()).append("],")
 			.append("使用次数[").append(getUsecount()).append("],")
 			.append("状态 0不可用,1可用[").append(getActive()).append("],")
 			.toString();

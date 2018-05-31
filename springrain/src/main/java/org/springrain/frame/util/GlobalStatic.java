@@ -50,7 +50,7 @@ public class GlobalStatic {
 	//public static final String staticHtmlCacheKey="statichtmlcache";
 	//登录次数校验缓存
 	public static final String springrainloginCacheKey="springrainlogincache";
-	//缓存用户最后有效的登陆sessionId
+	//缓存用户最后有效的登录sessionId
 	public static final String springrainkeeponeCacheKey="springrainkeeponecache";
 	//防火墙缓存
     public static final String springrainfirewallCacheKey="springrainfriewallcache";

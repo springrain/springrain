@@ -13,7 +13,7 @@ import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.InputSafeUtils;
 
 /**
- * 前台用户的 过滤器，主要设置登陆界面
+ * 前台用户的 过滤器，主要设置登录界面
  * @author caomei
  *
  */

@@ -36,7 +36,7 @@ public class Fwlog  extends BaseEntity {
 	public static final String ALIAS_STARTDATE = "访问时间";
 	public static final String ALIAS_STRDATE = "访问时间(毫秒)";
 	public static final String ALIAS_TOMCAT = "Tomcat";
-	public static final String ALIAS_USERCODE = "登陆账号";
+	public static final String ALIAS_USERCODE = "登录账号";
 	public static final String ALIAS_USERNAME = "姓名";
 	public static final String ALIAS_SESSIONID = "sessionId";
 	public static final String ALIAS_IP = "IP";
@@ -65,7 +65,7 @@ public class Fwlog  extends BaseEntity {
 	 */
 	private java.lang.String tomcat;
 	/**
-	 * 登陆账号
+	 * 登录账号
 	 */
 	private java.lang.String userCode;
 	/**
@@ -242,7 +242,7 @@ public class Fwlog  extends BaseEntity {
 			.append("访问时间[").append(getStartDate()).append("],")
 			.append("访问时间(毫秒)[").append(getStrDate()).append("],")
 			.append("Tomcat[").append(getTomcat()).append("],")
-			.append("登陆账号[").append(getUserCode()).append("],")
+			.append("登录账号[").append(getUserCode()).append("],")
 			.append("姓名[").append(getUserName()).append("],")
 			.append("sessionId[").append(getSessionId()).append("],")
 			.append("IP[").append(getIp()).append("],")

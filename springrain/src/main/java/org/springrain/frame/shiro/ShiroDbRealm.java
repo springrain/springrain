@@ -154,7 +154,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 			}
 			
 			if(1-user.getActive()!=0){
-				throw new LockedAccountException("您的账号正在审核中,暂无法登陆."); 
+				throw new LockedAccountException("您的账号正在审核中,暂无法登录."); 
 			}
 			
 			

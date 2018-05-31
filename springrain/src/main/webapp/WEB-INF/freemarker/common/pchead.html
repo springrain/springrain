@@ -101,7 +101,7 @@
     </script>
 </#macro>
 
-<!-- 内容页面通用头部,该宏包含一些通用js、css，适合业务页面使用，不适用与登陆注册等非业务页面。  -->
+<!-- 内容页面通用头部,该宏包含一些通用js、css，适合业务页面使用，不适用与登录注册等非业务页面。  -->
 <#macro pcCommonHead title keywords description>
     <@h.pcHead title="${title}" keywords="${keywords}" description="${description}"/>
     <@h.pcCommonHeadContent/>
@@ -1076,7 +1076,7 @@ function leftGategoryHover(){
 					}
 				},
 				error:function(){
-					layer.msg("登陆失败3",{icon:2});
+					layer.msg("登录失败3",{icon:2});
 				}
 			});
 		} 
@@ -1118,7 +1118,7 @@ function leftGategoryHover(){
 					}
 				},
 				error:function(){
-					layer.msg("登陆失败",{icon:2});
+					layer.msg("登录失败",{icon:2});
 				}
 			});
 		}

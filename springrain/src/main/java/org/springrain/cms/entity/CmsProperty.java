@@ -29,7 +29,7 @@ public class CmsProperty  extends BaseEntity {
 	public static final String ALIAS_CODE = "系统级别的编码,一个站点不可重复";
 	public static final String ALIAS_INPUTTYPE = "0text,1date,2datatime,3int,4float,5select,6file,7img,8imgs";
 	public static final String ALIAS_BUSINESSID = "业务Id";
-	public static final String ALIAS_MODELTYPE = "0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)";
+	public static final String ALIAS_MODELTYPE = "0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登录 订单 购物车)";
 	public static final String ALIAS_CREATEPERSON = "创建人";
 	public static final String ALIAS_CREATEDATE = "创建时间";
 	public static final String ALIAS_DEFAULTVALUE = "默认值";
@@ -66,7 +66,7 @@ public class CmsProperty  extends BaseEntity {
 	 */
 	private java.lang.String businessId;
 	/**
-	 * 0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)
+	 * 0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登录 订单 购物车)
 	 */
 	private java.lang.Integer modelType;
 	/**
@@ -284,7 +284,7 @@ public class CmsProperty  extends BaseEntity {
 			.append("系统级别的编码,一个站点不可重复[").append(getCode()).append("],")
 			.append("0text,1date,2datatime,3int,4float,5select,6file,7img,8imgs[").append(getInputType()).append("],")
 			.append("业务Id[").append(getBusinessId()).append("],")
-			.append("0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登陆 订单 购物车)[").append(getModelType()).append("],")
+			.append("0site,1channel,2content,3投票(以后可能扩展更多系统功能,例如 注册 登录 订单 购物车)[").append(getModelType()).append("],")
 			.append("创建人[").append(getCreatePerson()).append("],")
 			.append("创建时间[").append(getCreateDate()).append("],")
 			.append("默认值[").append(getDefaultValue()).append("],")

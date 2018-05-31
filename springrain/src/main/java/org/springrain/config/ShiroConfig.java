@@ -93,7 +93,7 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setFilters(getFilters());
         // 设置拦截规则
         shiroFilterFactoryBean.setFilterChainDefinitionMap(getFilterChainDefinitionMap());
-        // 设置登陆地址
+        // 设置登录地址
         shiroFilterFactoryBean.setLoginUrl("/system/login");
         // 未授权界面
         shiroFilterFactoryBean.setUnauthorizedUrl("/errorpage/unauth");

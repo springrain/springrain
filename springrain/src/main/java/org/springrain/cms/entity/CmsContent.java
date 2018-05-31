@@ -123,7 +123,7 @@ public class CmsContent  extends BaseEntity {
 	 */
 	private java.lang.Integer commentPerm;
 	/**
-	 * 登陆访问标识
+	 * 登录访问标识
 	 */
 	private Integer loginuser;
 	

@@ -126,7 +126,7 @@ public class CmsChannel  extends BaseEntity {
 	private String nodeftlPath;
 	private String frontFtl;
 	/**
-	 * 登陆访问标识
+	 * 登录访问标识
 	 */
 	private Integer loginuser;
 	

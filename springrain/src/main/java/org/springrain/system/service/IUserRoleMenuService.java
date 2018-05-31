@@ -73,7 +73,7 @@ public interface IUserRoleMenuService extends IBaseSpringrainService {
 	
 
 	/**
-	 * 根据账号密码 验证是否能够登陆,userType用于区分用户类型
+	 * 根据账号密码 验证是否能够登录,userType用于区分用户类型
 	 * @param account
 	 * @param password
 	 * @return
