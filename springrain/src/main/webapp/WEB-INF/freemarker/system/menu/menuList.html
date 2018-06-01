@@ -86,7 +86,6 @@ description="springrain开源系统管理后台"/>
 				点击时的数据展示
 				*/
 				function showdata(result) {
-					console.log(result);
 					$('#pageurl').val("");
 					$('#sortno').val("");
 					$("#updateForm select ").each(function() {
@@ -103,9 +102,10 @@ description="springrain开源系统管理后台"/>
 					}
 					var _imgIcon=result["menuIcon"];
 					if ((!_imgIcon) || _imgIcon == null || _imgIcon == "null" || _imgIcon == "") {
-						
+						$('#viewImg').hide()
 					}else{
 						$('#viewImg').attr('src',ctx + _imgIcon);
+						$('#viewImg').show()
 						//jQuery("#imgIcon").html(_imgIcon);
 					}
 					var _pNode = result.getParentNode();
