@@ -59,7 +59,7 @@
 			 * @param _tips	删除提示，默认“是否删除”
 			 * @param _redirect	删除成功，回跳的URL，传NULL默认会刷新当前页面
 			 */
-			mydelete:function(_id,_url,_tips,_redirect){
+			mydelete:function(_id,_url,_tips,_redirect,callback){
 				var _that=this;
 				if(!_url)return;
 				var _pars=null;
@@ -75,11 +75,24 @@
 						  dataType:"json",
 						  async:true,
 						  success:function(data){
+							  
+							
+							  if(callback&&typeof callback=="function"){
+									callback(data);
+								}
+							  
+							  
+							  
 							  if(data!=null&&"success"==data.status){
 								  layer.msg(data.message==null?'删除成功':data.message, {
 									  icon: 1,
 									  time: 2000 //2秒关闭（如果不配置，默认是3秒）
 									}, function(){
+										
+										if(callback&&typeof callback=="function"){
+											return;
+										}
+										
 										if(_redirect){
 											_that.goTo(_redirect);
 										}else{
@@ -370,11 +383,20 @@
 						layer.closeAll('loading')
 						if(callback&&typeof callback=="function"){
 							callback(ret);
-							return;
+							//return;
 						}
 						if(ret.status=="success"){
-							layer.alert(msg, {icon: 1},function(){
-								layer.closeAll();
+							layer.msg(msg, {
+								icon: 1, 
+								time: 2000 //2秒关闭（如果不配置，默认是3秒）
+								},function(){
+								//layer.closeAll();
+								
+								if(callback&&typeof callback=="function"){
+									return;
+								}
+								
+								
 								if(listurl!=null&&listurl!=""){
 									_that.goTo(listurl);
 								}
