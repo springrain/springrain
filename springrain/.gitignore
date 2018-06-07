@@ -1,9 +1,0 @@
-/target/
-*/logs/
-/logs/
-/.settings/
-.classpath
-.project
-*.gitignore
-.gitignore
-/bin/

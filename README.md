@@ -1,14 +1,13 @@
-#4.0.0之后基于SpringBoot最新版本,启动类修改为SpringBoot的org.springrain.SpringrainApplication类进行启动.
+#4.0.0之后基于SpringBoot最新版本,启动类修改为SpringBoot的org.springrain.SpringrainApplication类进行启动.  
 
-项目名为springrain[春雨]我的个人博客是 http://www.weicms.net QQ群是:238904840 </br>
-# demo
-http://springrain.weicms.net </br>
+ 项目名为springrain[春雨]我的个人博客是 http://www.weicms.net QQ群是:238904840 </br>
+
 # 文档
-https://git.oschina.net/chunanyong/springrain/tree/master/springrain/doc </br>
+https://git.oschina.net/chunanyong/springrain/tree/master/doc  </br>
 # 代码生成器
-http://git.oschina.net/chunanyong/springrain/tree/master/springrain/gencode </br>
+http://git.oschina.net/chunanyong/springrain/tree/master/gencode  </br>
 # sql脚本
-http://git.oschina.net/chunanyong/springrain/tree/master/springrain/sql </br>
+http://git.oschina.net/chunanyong/springrain/tree/master/sql  </br>
 
 
 springrain是spring/springboot的极简封装,spring/springboot一站式开发的范例.
