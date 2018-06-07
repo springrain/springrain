@@ -150,6 +150,9 @@ public class OrgController  extends BaseController {
 			returnObject.setStatus(ReturnDatas.ERROR);
 			returnObject.setMessage(MessageUtils.UPDATE_ERROR);
 		}
+			
+	   returnObject.setData(org);
+			
 		return returnObject;
 		
 	

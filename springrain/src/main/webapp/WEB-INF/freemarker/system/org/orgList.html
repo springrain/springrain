@@ -19,11 +19,13 @@ description="springrain开源系统管理后台"/>
 				var _valid_form;
 				var selectOrgZtree;
 				var orgjsondata4select;
+				var treeNode=null;
+				var zTree;
 				$(document).ready(function() {
 					jQuery.post("${ctx}/system/org/list/json",function(_json) {
 						if (_json.status == "success") {
 							orgjsondata4select = _json;
-							var zTree=springrain.tree({
+							   zTree=springrain.tree({
 								id:"orgListTree",
 								hasMenu:true,
 								data:_json.data,
@@ -38,6 +40,8 @@ description="springrain开源系统管理后台"/>
 								    		jQuery("#validForm")[0].reset();
 								    		jQuery("#pname").val(node.name);
 								    		jQuery("#pid").val(node.id);
+								    		jQuery("#id").val("");
+								    		treeNode=node;
 								        }},
 								        {'text':'删除','callback':function(tree,node){
 								    		var id = node.id;
@@ -47,7 +51,14 @@ description="springrain开源系统管理后台"/>
 											} else {
 												var _url = "${ctx}/system/org/delete?id=" + id;
 												var listurl = "${ctx}/system/org/list";
-												springrain.mydelete(id, _url, "部门下的子部门也会被删除,确定要删除部门?", listurl);
+												springrain.mydelete(id, _url, "部门下的子部门也会被删除,确定要删除部门?",null,function(ret){
+                                                     
+                                                    if(ret.status=="success"){//如果成功了
+                                                        jQuery("#validForm")[0].reset();
+                                                        tree.removeNode(node);
+                                                    }
+                                                    
+                                                });
 											}
 								        }}
 								       ]
@@ -136,9 +147,24 @@ description="springrain开源系统管理后台"/>
 				function dosubmit() {
 					var listurl = '${ctx}/system/menu/list';
 					if (saveType == 0) {
-						_valid_form=springrain.commonSaveForm("validForm",'${ctx}/system/org/list', '部门添加成功！');
+						_valid_form=springrain.commonUpdateForm("validForm",null, '部门添加成功!',function(ret){
+                            if(ret.status=="success"){//如果成功了
+                                zTree.addNodes(treeNode, ret.data);
+                                layer.closeAll();
+                            }
+                        });
 					} else {
-						_valid_form=springrain.commonUpdateForm("validForm",'${ctx}/system/org/list', '部门更新成功！');
+						_valid_form=springrain.commonUpdateForm("validForm",null, '部门更新成功!',function(ret){
+                            if(ret.status=="success"){//如果成功了
+                            	
+                            	for (p2 in ret.data){//更新dom节点
+                            		 treeNode[p2]=ret.data[p2];
+                                }
+                            
+                                zTree.updateNode(treeNode);
+                                layer.closeAll();
+                            }
+                        });
 					
 					}
 				}
@@ -224,7 +250,7 @@ description="springrain开源系统管理后台"/>
 										<div class="layui-form-item  col-lg-9">
 								    		<label class="layui-form-label col-lg-3">是否可用</label>
 										    <div class="layui-inline rlt">
-										      	<select id="active" name="active"  datatype="*" errormsg="请输入正确数值" nullmsg="排序不能为空!">
+										      	<select id="active" name="active"  datatype="*" errormsg="请输入正确数值" nullmsg="可用不能为空!">
 										      		<option value>请选择是否可用</option>
 													<option value="1">是</option>
 													<option value="0">否</option>
