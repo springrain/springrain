@@ -2,17 +2,7 @@
 <html>
   <head>
     <title>jQuery WeUI</title>
-    <meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-
-<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
-">
-
-<link rel="stylesheet" href="../lib/weui.min.css">
-<link rel="stylesheet" href="../css/jquery-weui.css">
-<link rel="stylesheet" href="css/demos.css">
-
+    <% include _head.html %>
   </head>
 
   <body ontouchstart>
@@ -51,6 +41,12 @@
           <input class="weui-input" id="time-format" type="text" value="2012年12月12日 12时13分">
         </div>
       </div>
+      <div class="weui-cell">
+        <div class="weui-cell__hd"><label for="time-format" class="weui-label">限制年月</label></div>
+        <div class="weui-cell__bd">
+          <input class="weui-input" id="years-monthes" type="text" value="2017-06-20 12:00">
+        </div>
+      </div>
     </div>
 
     <div class="weui-cells weui-cells_form">
@@ -63,15 +59,7 @@
     </div>
 
     <div id="time-container"></div>
-    <script src="../lib/jquery-2.1.4.js"></script>
-<script src="../lib/fastclick.js"></script>
-<script>
-  $(function() {
-    FastClick.attach(document.body);
-  });
-</script>
-<script src="../js/jquery-weui.js"></script>
-
+    <% include _foot.html %>
 
     <script>
       $("#time").datetimePicker({
@@ -170,6 +158,14 @@
           console.log(values);
         }
       })
+      $("#years-monthes").datetimePicker({
+        title: '限定年月',
+        years: [2017, 2018],
+        monthes: ['06', '07'],
+        onChange: function (picker, values, displayValues) {
+          console.log(values);
+        }
+      });
     </script>
   </body>
 </html>
