@@ -95,7 +95,9 @@ header.larry-personal-tit span {
 /**/
 .recorsView{font-weight:normal;float:right;}
 /*修改顶部颜色*/
-.layui-layout-admin .header-demo{background-color:#393D49!important;}
+.layui-layout-admin .header-demo{background-color:#20222A!important;}
+.layui-bg-black,.layui-nav {background-color:#20222A!important;}
+
 .header-demo .layui-nav .layui-this{background-color:#009688!important;}
 .header-demo .layui-nav .layui-nav-item a:hover, .header-demo .layui-nav .layui-this a{color:#fff!important;}
 .header-demo .layui-nav .layui-this:after, .header-demo .layui-nav-bar{background-color: #009688!important;}
@@ -105,7 +107,7 @@ header.larry-personal-tit span {
 .header-demo .layui-nav .layui-this a{padding:0px 20px!important;}
 .header-demo .layui-nav .layui-nav-item{line-height: 66px!important;}
 /* .header-demo .layui-nav .layui-nav-item a:hover{background:#009688!important;} */
-.layui-nav-tree .layui-nav-item  a:hover{background:#535660!important;}
+.layui-nav-tree .layui-nav-item  a:hover{background:#20222A!important;}
 .layui-nav-itemedlayui-this a{background:#009688!important;}
 .layui-nav-item .layui-icon{top:3px;}
 /*搜索框修改*/
@@ -116,5 +118,5 @@ header.larry-personal-tit span {
 .layui-form-label{width:160px!important;}
 /*菜单图片 */
 .icon_img { vertical-align:middle;width:18px;height:16px; }
-.layui-nav-itemed .layui-nav-child { background-color:#3e4350; }
+.layui-nav-itemed .layui-nav-child { background-color:#20222A; }
 .layui-nav-item a cite { position:relative;top:2px; }
