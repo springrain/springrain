@@ -566,8 +566,10 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		// 如果是ID,自动生成UUID,处理主键
 		Object _getId = ClassUtils.getPKValue(entity); // 主键
 
+		boolean pkisEmpty=true;
 		if (_getId != null && StringUtils.isNotBlank(_getId.toString())) {// 如果Id有值
 			id = _getId.toString();
+			pkisEmpty=false;
 		}
 
 		if (StringUtils.isNotBlank(entityInfo.getPksequence())) {// 如果包含主键序列注解
@@ -581,7 +583,18 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 				sql.append(")");
 				valueSql.append(")");
 			}
-		} else if (returnType == String.class) {
+		}else if (!pkisEmpty) {// 如果Id有值
+            sql.append(pkName);
+            valueSql.append(":" + pkName);
+            if (fdNames.size() > 1) {
+                sql.append(",");
+                valueSql.append(",");
+            } else {
+                sql.append(")");
+                valueSql.append(")");
+            }
+            paramMap.put(pkName, _getId);
+        } else if (returnType == String.class) {
 			sql.append(pkName);
 			valueSql.append(":" + pkName);
 			if (fdNames.size() > 1) {
@@ -631,19 +644,28 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		EntityInfo entityInfo = ClassUtils.getEntityInfoByEntity(entity);
 		Class<?> returnType = entityInfo.getPkReturnType();
 
+		
+      Object _getId = ClassUtils.getPKValue(entity); // 主键
+      boolean pkisEmpty=true;
+      if (_getId != null && StringUtils.isNotBlank(_getId.toString())) {// 如果Id有值
+          pkisEmpty=false;
+      }
+      
+      
 		Map paramMap = new HashMap();
 		Boolean isSequence = StringUtils.isNotBlank(entityInfo.getPksequence());
 		String sql = wrapsavesql(entity, paramMap, isSequence);
 		// 打印sql
 		logInfoSql(sql);
-
+		
 		// 增加如果表没有主键的判断
 		if (returnType == null) {
 			getWriteJdbc().update(sql, paramMap);
 			return null;
-		}
-
-		else if (returnType == String.class) {
+		}else if(!pkisEmpty) {//id有值
+		    getWriteJdbc().update(sql, paramMap);
+		    return ClassUtils.getPKValue(entity);
+		}else if (returnType == String.class) {
 			getWriteJdbc().update(sql, paramMap);
 			return ClassUtils.getPKValue(entity).toString();
 
