@@ -3,6 +3,8 @@ package org.springrain.weixin.sdk.xcx.api;
 import org.springrain.weixin.sdk.common.api.IWxXcxConfig;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
 import org.springrain.weixin.sdk.common.util.http.RequestExecutor;
+import org.springrain.weixin.sdk.xcx.bean.result.CodeInfo;
+import org.springrain.weixin.sdk.xcx.bean.result.EncryptedData;
 import org.springrain.weixin.sdk.xcx.bean.result.WxMpOAuth2SessionKey;
 
 /**
@@ -68,5 +70,27 @@ public interface IWxXcxService {
 	   */
 	  <T, E> T execute(IWxXcxConfig wxxcxconfig,RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException;
 
-
+      /**
+       * 获取小程序二维码
+       * @param siteId
+       * @param wxxcxconfig
+       * @param codeInfo
+       * @param fileSrc 获取的二维码要保存的目录
+       * @param fileName 获取二维码要保存的文件名称
+       * @param fileType 获取二维码文件保存类型（png,jpg）
+       * @return
+       * @throws Exception
+       */
+	  void getXcxCode(String siteId,IWxXcxConfig wxxcxconfig, CodeInfo codeInfo,String fileSrc,String fileName,String fileType) throws Exception;
+	  
+	  
+	  /**
+	   * 解析小程序用户加密信息
+	   * @param encryptedData
+	   * @param sessionkey
+	   * @param iv
+	   * @return
+	   * @throws Exception
+	   */
+	  EncryptedData getEncryptedDataInfo(String encryptedData,String sessionkey,String iv) throws Exception;
 }

@@ -1,13 +1,37 @@
 package org.springrain.weixin.sdk.xcx.api.impl;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.security.AlgorithmParameters;
+import java.security.Security;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 import org.springrain.frame.util.HttpClientUtils;
+import org.springrain.frame.util.JsonUtils;
+import org.springrain.frame.util.SecUtils;
 import org.springrain.weixin.sdk.common.api.IWxXcxConfig;
 import org.springrain.weixin.sdk.common.api.IWxXcxConfigService;
 import org.springrain.weixin.sdk.common.api.WxConsts;
@@ -19,6 +43,8 @@ import org.springrain.weixin.sdk.common.util.http.SimpleGetRequestExecutor;
 import org.springrain.weixin.sdk.common.util.http.SimplePostRequestExecutor;
 import org.springrain.weixin.sdk.common.util.json.WxGsonBuilder;
 import org.springrain.weixin.sdk.xcx.api.IWxXcxService;
+import org.springrain.weixin.sdk.xcx.bean.result.CodeInfo;
+import org.springrain.weixin.sdk.xcx.bean.result.EncryptedData;
 import org.springrain.weixin.sdk.xcx.bean.result.WxMpOAuth2SessionKey;
 
 /**
@@ -26,6 +52,7 @@ import org.springrain.weixin.sdk.xcx.bean.result.WxMpOAuth2SessionKey;
  * @author caomei
  *
  */
+@Service("wxXcxService")
 public class WxXcxServiceImpl implements IWxXcxService {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -82,7 +109,8 @@ public class WxXcxServiceImpl implements IWxXcxService {
 			return wxxcxconfig.getAccessToken();
 		}
 
-		WxAccessToken accessToken = wxXcxConfigService.getCustomAPIAccessToken(wxxcxconfig);
+		//WxAccessToken accessToken = wxXcxConfigService.getCustomAPIAccessToken(wxxcxconfig);
+		WxAccessToken accessToken = null;
 		if (accessToken == null) {
 			String url = WxConsts.mpapiurl + "/cgi-bin/token?grant_type=client_credential" + "&appid="
 					+ wxxcxconfig.getAppId() + "&secret=" + wxxcxconfig.getSecret();
@@ -108,7 +136,7 @@ public class WxXcxServiceImpl implements IWxXcxService {
 
 		wxxcxconfig.setAccessToken(accessToken.getAccessToken());
 		wxxcxconfig.setAccessTokenExpiresTime(Long.valueOf(accessToken.getExpiresIn()));
-		wxXcxConfigService.updateAccessToken(wxxcxconfig);
+		//wxXcxConfigService.updateAccessToken(wxxcxconfig);
 
 		return wxxcxconfig.getAccessToken();
 	}
@@ -212,6 +240,133 @@ public class WxXcxServiceImpl implements IWxXcxService {
 	      throw new RuntimeException(e);
 	    }
 	  }
+   
+	@SuppressWarnings("unchecked")
+	@Override
+	public void getXcxCode(String siteId, IWxXcxConfig wxxcxconfig,
+			CodeInfo codeInfo, String fileSrc, String fileName, String fileType)
+			throws Exception {
+		/**
+		 * 1、先获取tocken
+		 * 2、调用获取二维码
+		 * 3、生成二维码图片
+		 * 4、将图片保存到本地
+		 * 5、返回图片的url
+		 */
+		String accessToken = getAccessToken(wxxcxconfig);
+		
+		RestTemplate rest = new RestTemplate();
+        InputStream inputStream = null;
+        OutputStream outputStream = null;
+        String imgUrl = null;
+        try {
+            String url = WxConsts.mpapiurl+"/wxa/getwxacodeunlimit?access_token="+accessToken;
+            Map<String,Object> param = new HashMap<>();
+            param.put("scene", codeInfo.getScene());
+            param.put("page", codeInfo.getPage());
+            param.put("width", codeInfo.getWidth());
+            param.put("auto_color", codeInfo.getAuto_color());
+            if(codeInfo.getLine_color()==null){
+            	Map<String,Object> line_color = new HashMap<>();
+            	line_color.put("r", 0);
+            	line_color.put("g", 0);
+            	line_color.put("b", 0);
+            	param.put("line_color", line_color);
+            }else{
+            	param.put("line_color", codeInfo.getLine_color());
+            }
+            
+            //判断文件目录是否存在，不存在创建
+    		File folder = new File(fileSrc);
+    		if(!folder.exists()){
+    			folder.mkdirs();
+    		}
+    		
+			imgUrl = fileSrc + "/" + fileName + fileType;
+            File file = new File(imgUrl);
+            //判断文件是否存在，存在的话直接返回
+            if(file.exists()){
+            	System.out.println("存在，直接返回");
+            	return;
+            }
+            // 不存在，创建
+            if (!file.exists()){
+                file.createNewFile();
+            }
+          
+            MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+			HttpEntity requestEntity = new HttpEntity(param, headers);
+            ResponseEntity<byte[]> entity = rest.exchange(url, HttpMethod.POST, requestEntity, byte[].class, new Object[0]);
+
+            byte[] result = entity.getBody();
+            inputStream = new ByteArrayInputStream(result);
+    		
+            outputStream = new FileOutputStream(file);
+            int len = 0;
+            byte[] buf = new byte[1024];
+            while ((len = inputStream.read(buf, 0, 1024)) != -1) {
+                outputStream.write(buf, 0, len);
+            }
+            outputStream.flush();
+        } catch (Exception e) {
+        	imgUrl = null;
+            logger.error("小程序二维码生成失败！", e.getMessage());
+        } finally {
+            if(inputStream != null){
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if(outputStream != null){
+                try {
+                    outputStream.close();
+                } catch (IOException e) {
+                    logger.error(e.getMessage(), e);
+                }
+            }
+        }  
+	}
+
+	
+	@Override
+	public EncryptedData getEncryptedDataInfo(String encryptedData,
+			String sessionkey, String iv) throws Exception {
+		  // 被加密的数据
+        byte[] dataByte = SecUtils.decoderByteByBase64(encryptedData);  
+        // 加密秘钥
+        byte[] keyByte =SecUtils.decoderByteByBase64(sessionkey);
+        // 偏移量
+        byte[] ivByte = SecUtils.decoderByteByBase64(iv);
+        try {
+            // 如果密钥不足16位，那么就补足.  这个if 中的内容很重要
+            int base = 16;
+            if (keyByte.length % base != 0) {
+                int groups = keyByte.length / base + (keyByte.length % base != 0 ? 1 : 0);
+                byte[] temp = new byte[groups * base];
+                Arrays.fill(temp, (byte) 0);
+                System.arraycopy(keyByte, 0, temp, 0, keyByte.length);
+                keyByte = temp;
+            }
+            // 初始化
+            Security.addProvider(new BouncyCastleProvider());
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7Padding","BC");
+            SecretKeySpec spec = new SecretKeySpec(keyByte, "AES");
+            AlgorithmParameters parameters = AlgorithmParameters.getInstance("AES");
+            parameters.init(new IvParameterSpec(ivByte));
+            cipher.init(Cipher.DECRYPT_MODE, spec, parameters);// 初始化
+            byte[] resultByte = cipher.doFinal(dataByte);
+            if (null != resultByte && resultByte.length > 0) {
+                String result = new String(resultByte, "UTF-8");
+                EncryptedData dEncryptedData = JsonUtils.readValue(result, EncryptedData.class);
+                return dEncryptedData;
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        } 
+        return null;
+	}
 
 	
 	

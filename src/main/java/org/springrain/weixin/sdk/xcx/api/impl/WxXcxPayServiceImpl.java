@@ -24,6 +24,7 @@ import org.apache.http.conn.ssl.DefaultHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContexts;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
@@ -69,7 +70,7 @@ public class WxXcxPayServiceImpl implements IWxXcxPayService{
 	  private static final String[] REFUND_ACCOUNT = new String[]{"REFUND_SOURCE_RECHARGE_FUNDS",
 	    "REFUND_SOURCE_UNSETTLED_FUNDS"};
 	  private final Logger log = LoggerFactory.getLogger(getClass());
-	  
+	  //由spring注入
 	  private IWxXcxService wxXcxService;
 
 	  public WxXcxPayServiceImpl() {
@@ -471,8 +472,9 @@ public class WxXcxPayServiceImpl implements IWxXcxPayService{
 		        RequestConfig config = RequestConfig.custom().setProxy(new HttpHost(wxxcxconfig.getHttpProxyHost(), wxxcxconfig.getHttpProxyPort())).build();
 		        httpPost.setConfig(config);
 		      }
-		    CloseableHttpClient httpclient = HttpClientUtils.getHttpClientBuilder().setSSLSocketFactory(sslsf).build();
-	      try  {
+		    //CloseableHttpClient httpclient = HttpClientUtils.getHttpClientBuilder().setSSLSocketFactory(sslsf).build();
+		    CloseableHttpClient httpclient = HttpClients.custom().setSSLSocketFactory(sslsf).build();
+		  try  {
 	        httpPost.setEntity(new StringEntity(new String(requestStr.getBytes("UTF-8"), "ISO-8859-1")));
 	        try (CloseableHttpResponse response = httpclient.execute(httpPost)) {
 	          String result = EntityUtils.toString(response.getEntity(), Consts.UTF_8);
