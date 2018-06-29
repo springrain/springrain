@@ -230,6 +230,9 @@ public class LoginController extends BaseController  {
 		 */
 		//@RequestMapping(value = "/auto/login")
 		public String autologin(Model model,HttpServletRequest request,HttpServletResponse response) throws Exception {
+		    
+	          //自动登录之前,方法内不要调用 request.getSession(), 会造成自动登录的session无效
+		    
 			ShiroUser shiroUser=new ShiroUser();
 			shiroUser.setId("admin");
 			shiroUser.setName("admin");
