@@ -5,6 +5,7 @@ import org.springrain.weixin.sdk.common.exception.WxErrorException;
 import org.springrain.weixin.sdk.common.util.http.RequestExecutor;
 import org.springrain.weixin.sdk.xcx.bean.result.CodeInfo;
 import org.springrain.weixin.sdk.xcx.bean.result.EncryptedData;
+import org.springrain.weixin.sdk.xcx.bean.result.PhoneEncryptedData;
 import org.springrain.weixin.sdk.xcx.bean.result.WxMpOAuth2SessionKey;
 
 /**
@@ -93,4 +94,14 @@ public interface IWxXcxService {
 	   * @throws Exception
 	   */
 	  EncryptedData getEncryptedDataInfo(String encryptedData,String sessionkey,String iv) throws Exception;
+
+	  /**
+	   * 解析小程序用户手机号加密信息
+	   * @param encryptedData
+	   * @param sessionkey
+	   * @param iv
+	   * @return
+	   * @throws Exception
+	   */
+      PhoneEncryptedData getPhoneEncryptedDataInfo(String encryptedData, String sessionkey, String iv) throws Exception;
 }

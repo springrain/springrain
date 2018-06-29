@@ -16,6 +16,7 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
@@ -45,6 +46,7 @@ import org.springrain.weixin.sdk.common.util.json.WxGsonBuilder;
 import org.springrain.weixin.sdk.xcx.api.IWxXcxService;
 import org.springrain.weixin.sdk.xcx.bean.result.CodeInfo;
 import org.springrain.weixin.sdk.xcx.bean.result.EncryptedData;
+import org.springrain.weixin.sdk.xcx.bean.result.PhoneEncryptedData;
 import org.springrain.weixin.sdk.xcx.bean.result.WxMpOAuth2SessionKey;
 
 /**
@@ -330,8 +332,30 @@ public class WxXcxServiceImpl implements IWxXcxService {
 	}
 
 	
-	@Override
-	public EncryptedData getEncryptedDataInfo(String encryptedData,
+	
+	   @Override
+	    public EncryptedData getEncryptedDataInfo(String encryptedData,
+	            String sessionkey, String iv) throws Exception {
+	       String jsonEncryptedDataInfo = getJsonEncryptedDataInfo(encryptedData, sessionkey, iv);
+	       if(StringUtils.isBlank(jsonEncryptedDataInfo)) {
+	           return null;
+	       }
+	       EncryptedData dEncryptedData = JsonUtils.readValue(jsonEncryptedDataInfo, EncryptedData.class);
+           return dEncryptedData;
+	   }
+	   
+	   @Override
+       public PhoneEncryptedData getPhoneEncryptedDataInfo(String encryptedData,
+               String sessionkey, String iv) throws Exception {
+          String jsonEncryptedDataInfo = getJsonEncryptedDataInfo(encryptedData, sessionkey, iv);
+          if(StringUtils.isBlank(jsonEncryptedDataInfo)) {
+              return null;
+          }
+          PhoneEncryptedData dEncryptedData = JsonUtils.readValue(jsonEncryptedDataInfo, PhoneEncryptedData.class);
+          return dEncryptedData;
+      }
+	
+	public String getJsonEncryptedDataInfo(String encryptedData,
 			String sessionkey, String iv) throws Exception {
 		  // 被加密的数据
         byte[] dataByte = SecUtils.decoderByteByBase64(encryptedData);  
@@ -359,8 +383,7 @@ public class WxXcxServiceImpl implements IWxXcxService {
             byte[] resultByte = cipher.doFinal(dataByte);
             if (null != resultByte && resultByte.length > 0) {
                 String result = new String(resultByte, "UTF-8");
-                EncryptedData dEncryptedData = JsonUtils.readValue(result, EncryptedData.class);
-                return dEncryptedData;
+                return result;
             }
         } catch (Exception e) {
             logger.error(e.getMessage(), e);

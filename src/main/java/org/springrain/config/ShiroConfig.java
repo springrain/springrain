@@ -58,6 +58,8 @@ public class ShiroConfig {
     @Resource
     private Filter frontuser;
     @Resource
+    private Filter usercenter;
+    @Resource
     private Filter siteuser;
     @Resource
     private Filter systemuser;
@@ -214,8 +216,10 @@ public class ShiroConfig {
         filters.put("framefwlog", framefwlog);
         //权限校验的过滤器
         filters.put("frameperms", frameperms);
-        //前台用户过滤器
+        //前台未登录用户过滤器
         filters.put("frontuser", frontuser);
+        //前台登录用户过滤器
+        filters.put("usercenter", usercenter);
         //网站后台用户过滤器
         filters.put("siteuser", siteuser);
         //后台用户过滤器
@@ -250,13 +254,16 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/ueditor/**", "user");
         filterChainDefinitionMap.put("/errorpage/*", "noSessionCreation");
         filterChainDefinitionMap.put("/mp/**", "firewall");
-        filterChainDefinitionMap.put("/f/pc/**", "firewall");
         filterChainDefinitionMap.put("/f/mp/**", "firewall,wxmpautologin");
+        filterChainDefinitionMap.put("/f/**", "firewall");
         filterChainDefinitionMap.put("/tokenerror", "firewall,user");
         filterChainDefinitionMap.put("/getCaptcha", "firewall");
         filterChainDefinitionMap.put("/login", "firewall");
         filterChainDefinitionMap.put("/index", "firewall,user,keepone");
         filterChainDefinitionMap.put("/logout", "firewall,frontuser");
+        
+        filterChainDefinitionMap.put("/uc/**", "usercenter");
+        
         filterChainDefinitionMap.put("/s/*/login", "firewall");
         filterChainDefinitionMap.put("/s/*/index", "firewall,siteuser,keepone");
         filterChainDefinitionMap.put("/s/*/logout", "firewall,siteuser");

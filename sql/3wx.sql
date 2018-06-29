@@ -76,3 +76,30 @@ CREATE TABLE `wx_mpconfig` (
 -- Records of wx_mpconfig
 -- ----------------------------
 INSERT INTO `wx_mpconfig` VALUES ('s_10006', 's_10006', 'wx', 'abc', 'abc', '1', 'gh', '1', null, null, 1, null, null, null, null, null);
+
+
+DROP TABLE IF EXISTS `wx_xcxconfig`;
+CREATE TABLE `wx_xcxconfig`  (
+  `id` varchar(50)  NOT NULL COMMENT '主键id',
+  `siteId` varchar(50)  NOT NULL COMMENT '站点Id',
+  `appId` varchar(500)  NULL DEFAULT NULL COMMENT '开发者Id',
+  `secret` varchar(500)  NULL DEFAULT NULL COMMENT '应用密钥',
+  `token` varchar(500)  NULL DEFAULT NULL COMMENT '开发者Id',
+  `aesKey` varchar(500)  NULL DEFAULT NULL COMMENT '消息加解密密钥',
+  `wxId` varchar(500)  NULL DEFAULT NULL COMMENT '原始ID',
+  `active` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
+  `partnerId` varchar(500)  NULL DEFAULT NULL COMMENT '商户号id',
+  `partnerKey` varchar(500)  NULL DEFAULT NULL COMMENT '商户秘钥',
+  `oauth2` int(11) NULL DEFAULT 1 COMMENT '是否支持微信oauth2.0协议,0是不支持,1是支持',
+  `httpProxyHost` varchar(500)  NULL DEFAULT NULL COMMENT 'http代理地址',
+  `httpProxyPort` int(11) NULL DEFAULT NULL COMMENT 'http代理端口',
+  `httpProxyUsername` varchar(500)  NULL DEFAULT NULL COMMENT 'http代理账号',
+  `httpProxyPassword` varchar(500)  NULL DEFAULT NULL COMMENT 'http代理密码',
+  `certificateFile` varchar(500)  NULL DEFAULT NULL COMMENT '证书地址',
+  `planId` varchar(500)  NULL DEFAULT NULL COMMENT '签约模板Id',
+  `requestSerial` varchar(5000)  NULL DEFAULT NULL COMMENT '签约请求序列号',
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COMMENT = '小程序配置表' ;
+
+
+
