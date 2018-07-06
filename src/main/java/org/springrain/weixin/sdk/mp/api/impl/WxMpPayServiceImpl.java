@@ -24,6 +24,7 @@ import org.apache.http.conn.ssl.DefaultHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContexts;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
@@ -474,7 +475,8 @@ public class WxMpPayServiceImpl implements IWxMpPayService {
 	        RequestConfig config = RequestConfig.custom().setProxy(new HttpHost(wxmpconfig.getHttpProxyHost(), wxmpconfig.getHttpProxyPort())).build();
 	        httpPost.setConfig(config);
 	      }
-	    CloseableHttpClient httpclient = HttpClientUtils.getHttpClientBuilder().setSSLSocketFactory(sslsf).build();
+	   // CloseableHttpClient httpclient = HttpClientUtils.getHttpClientBuilder().setSSLSocketFactory(sslsf).build();
+	    CloseableHttpClient httpclient = HttpClients.custom().setSSLSocketFactory(sslsf).build();
       try  {
         httpPost.setEntity(new StringEntity(new String(requestStr.getBytes("UTF-8"), "ISO-8859-1")));
         try (CloseableHttpResponse response = httpclient.execute(httpPost)) {
@@ -484,6 +486,7 @@ public class WxMpPayServiceImpl implements IWxMpPayService {
         }
       } finally {
         httpPost.releaseConnection();
+        httpclient.close();
       }
     } catch (Exception e) {
       log.error("\n[URL]:  {}\n[PARAMS]: {}\n[EXCEPTION]: {}", url, requestStr, e.getMessage());

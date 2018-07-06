@@ -483,6 +483,7 @@ public class WxXcxPayServiceImpl implements IWxXcxPayService{
 	        }
 	      } finally {
 	        httpPost.releaseConnection();
+	        httpclient.close();
 	      }
 	    } catch (Exception e) {
 	      log.error("\n[URL]:  {}\n[PARAMS]: {}\n[EXCEPTION]: {}", url, requestStr, e.getMessage());
