@@ -25,6 +25,7 @@ import java.util.Random;
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -43,8 +44,17 @@ public class WxCryptUtil {
     @Override
     protected DocumentBuilder initialValue() {
       try {
-        return DocumentBuilderFactory.newInstance().newDocumentBuilder();
-      } catch (ParserConfigurationException exc) {
+          DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+          documentBuilderFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+          documentBuilderFactory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+          documentBuilderFactory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+          documentBuilderFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+          documentBuilderFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+          documentBuilderFactory.setXIncludeAware(false);
+          documentBuilderFactory.setExpandEntityReferences(false);
+
+          return documentBuilderFactory.newDocumentBuilder();
+          } catch (ParserConfigurationException exc) {
         throw new IllegalArgumentException(exc);
       }
     }
