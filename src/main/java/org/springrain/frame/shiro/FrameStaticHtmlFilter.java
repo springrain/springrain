@@ -23,85 +23,79 @@ import org.springrain.frame.util.FileUtils;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.InputSafeUtils;
 import org.springrain.system.service.IStaticHtmlService;
+
 /**
  * 页面静态化的过滤器
+ * 
  * @author caomei
  *
  */
 
-
 @Component("statichtml")
 public class FrameStaticHtmlFilter extends OncePerRequestFilter {
-	private final  Logger logger = LoggerFactory.getLogger(getClass());
-	
+	private final Logger logger = LoggerFactory.getLogger(getClass());
+
 	@Resource
 	private IStaticHtmlService staticHtmlService;
-	
-	
 
 	@Override
-    protected void doFilterInternal(ServletRequest request,
-			ServletResponse response, FilterChain chain)
+	protected void doFilterInternal(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws ServletException, IOException {
-		
-        HttpServletRequest req = (HttpServletRequest) request;
+
+		HttpServletRequest req = (HttpServletRequest) request;
 		String uri = req.getRequestURI();
 		String contextPath = req.getContextPath();
-		int i=uri.indexOf(contextPath);
-		if(i>-1){
-			uri=uri.substring(i+contextPath.length());
+		int i = uri.indexOf(contextPath);
+		if (i > -1) {
+			uri = uri.substring(i + contextPath.length());
 		}
-		
-		
-		 String siteId=InputSafeUtils.substringByURI(req.getRequestURI(), "/s_");
-		 
-		 
-		 if(StringUtils.isBlank(siteId)){//URL中没有siteId,从cookie中取值
-			 siteId = CookieUtils.getCookieValue(req, GlobalStatic.springraindefaultSiteId);
-		 }
-		
-		//cache key,可以根据URI从数据库进行查询资源Id
-		String htmlPath=null;
+
+		String siteId = InputSafeUtils.substringByURI(req.getRequestURI(), "/s_");
+
+		if (StringUtils.isBlank(siteId)) {// URL中没有siteId,从cookie中取值
+			siteId = CookieUtils.getCookieValue(req, GlobalStatic.springraindefaultSiteId);
+		}
+
+		// cache key,可以根据URI从数据库进行查询资源Id
+		String htmlPath = null;
 		try {
-			htmlPath = staticHtmlService.findHtmlPathByURI(siteId,uri);
+			htmlPath = staticHtmlService.findHtmlPathByURI(siteId, uri);
 		} catch (Exception e) {
-			logger.error(e.getMessage(),e);
+			logger.error(e.getMessage(), e);
 		}
-		
-		if(StringUtils.isBlank(htmlPath)||"error".equals(htmlPath)){//缓存中不存在
+
+		if (StringUtils.isBlank(htmlPath) || "error".equals(htmlPath)) {// 缓存中不存在
 			chain.doFilter(request, response);
 			return;
 		}
-		
-		File htmlFile = new File(GlobalStatic.staticHtmlDir+htmlPath);  
-		if(!htmlFile.exists()){
+
+		File htmlFile = new File(GlobalStatic.staticHtmlDir + htmlPath);
+		if (!htmlFile.exists()) {
 			chain.doFilter(request, response);
 			return;
 		}
-		
-		    response.setContentType("text/html;charset="+GlobalStatic.defaultCharset);
-		    response.setCharacterEncoding(GlobalStatic.defaultCharset);
 
-            PrintWriter writer = response.getWriter();
-            FileUtils.readIOFromFile(writer, htmlFile);
-          
-		}
+		response.setContentType("text/html;charset=" + GlobalStatic.defaultCharset);
+		response.setCharacterEncoding(GlobalStatic.defaultCharset);
 
+		PrintWriter writer = response.getWriter();
+		FileUtils.readIOFromFile(writer, htmlFile);
 
-    /**
-     *  springboot会把所有的filter列为平级,造成shiro的子拦截器和shiroFilter同级,造成访问异常,所以shiro的子Filter需要手动disable
-     * @param filter
-     * @return
-     */
+	}
 
-    @Bean("disableFrameStaticHtmlFilter")
-    public FilterRegistrationBean<FrameStaticHtmlFilter> disableFrameStaticHtmlFilter(FrameStaticHtmlFilter filter) {
-        FilterRegistrationBean<FrameStaticHtmlFilter> registration = new FilterRegistrationBean<FrameStaticHtmlFilter>(filter);
-        registration.setEnabled(false);
-        return registration;
-    }
-    
-   
+	/**
+	 * springboot会把所有的filter列为平级,造成shiro的子拦截器和shiroFilter同级,造成访问异常,所以shiro的子Filter需要手动disable
+	 * 
+	 * @param filter
+	 * @return
+	 */
 
-    
+	@Bean("disableFrameStaticHtmlFilter")
+	public FilterRegistrationBean<FrameStaticHtmlFilter> disableFrameStaticHtmlFilter(FrameStaticHtmlFilter filter) {
+		FilterRegistrationBean<FrameStaticHtmlFilter> registration = new FilterRegistrationBean<FrameStaticHtmlFilter>(
+				filter);
+		registration.setEnabled(false);
+		return registration;
+	}
+
 }

@@ -34,87 +34,79 @@ import org.springrain.system.service.IUserService;
  */
 @Service("userService")
 public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserService {
-	
+
 	@Resource
 	private IUserOrgService userOrgService;
-	
+
 	@Resource
 	private IUserRoleMenuService userRoleMenuService;
 
 	@Override
 	public String saveUser(User entity) throws Exception {
-		String id=super.save(entity).toString();
+		String id = super.save(entity).toString();
 		updateUserInfo(entity);
-		
+
 		return id;
 	}
 
 	@Override
-	@CacheEvict(value=GlobalStatic.qxCacheKey,allEntries=true)  
+	@CacheEvict(value = GlobalStatic.qxCacheKey, allEntries = true)
 	public Integer updateUser(User entity) throws Exception {
-		 Integer update = super.update(entity,true);
-		 updateUserInfo(entity);
+		Integer update = super.update(entity, true);
+		updateUserInfo(entity);
 		return update;
 	}
-	
-	private void  updateUserInfo(User user)throws Exception {
-		//韩彦阳   20160123 start
-		String userId=user.getId();
-		//删除原有的组织结构+管理部门
-		Finder f_del=Finder.getDeleteFinder(UserOrg.class).append(" WHERE userId=:userId");
-		f_del.setParam("userId",userId);
+
+	private void updateUserInfo(User user) throws Exception {
+		// 韩彦阳 20160123 start
+		String userId = user.getId();
+		// 删除原有的组织结构+管理部门
+		Finder f_del = Finder.getDeleteFinder(UserOrg.class).append(" WHERE userId=:userId");
+		f_del.setParam("userId", userId);
 		super.update(f_del);
-		//删除原有的管理权限
-		Finder f_del_role=Finder.getDeleteFinder(UserRole.class).append(" WHERE userId=:userId ");
-		f_del_role.setParam("userId",userId);
+		// 删除原有的管理权限
+		Finder f_del_role = Finder.getDeleteFinder(UserRole.class).append(" WHERE userId=:userId ");
+		f_del_role.setParam("userId", userId);
 		super.update(f_del_role);
-		//开始处理部门和门门主管数据
-		List<UserOrg> managerOrgs=user.getManagerOrgs();
-		if(CollectionUtils.isEmpty(managerOrgs)){
+		// 开始处理部门和门门主管数据
+		List<UserOrg> managerOrgs = user.getManagerOrgs();
+		if (CollectionUtils.isEmpty(managerOrgs)) {
 			return;
 		}
-		for(UserOrg e:managerOrgs){
+		for (UserOrg e : managerOrgs) {
 			e.setUserId(userId);
 		}
-		super.save(managerOrgs);//保存  管理的部门
-		//hyy   20160123  end
-		//老代码不动
+		super.save(managerOrgs);// 保存 管理的部门
+		// hyy 20160123 end
+		// 老代码不动
 		List<Role> listRole = user.getUserRoles();
-		List<UserRole> listur=new ArrayList<>();
-		for(Role role:listRole){
-			UserRole ur=new UserRole();
+		List<UserRole> listur = new ArrayList<>();
+		for (Role role : listRole) {
+			UserRole ur = new UserRole();
 			ur.setUserId(userId);
 			ur.setRoleId(role.getId());
 			listur.add(ur);
 		}
-		if(CollectionUtils.isEmpty(listur)){
+		if (CollectionUtils.isEmpty(listur)) {
 			return;
 		}
-		
+
 		super.save(listur);
-		
-		
-		
-		
-		
-		
+
 	}
-	
-	
 
 	@Override
 	public User findUserById(Object id) throws Exception {
-		
-		User u=super.findById(id, User.class);
-		
-		String userId=u.getId();
-		
+
+		User u = super.findById(id, User.class);
+
+		String userId = u.getId();
+
 		List<UserOrg> managerOrgs = userOrgService.findManagerOrgByUserId(userId);
 		u.setManagerOrgs(managerOrgs);
 		List<Role> roleByUserId = userRoleMenuService.findRoleByUserId(userId);
 		u.setUserRoles(roleByUserId);
-		
-		
+
 		return u;
 	}
 
@@ -129,70 +121,64 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
 	 * @throws Exception
 	 */
 	@Override
-	public <T> List<T> findListDataByFinder(Finder finder, Page page, Class<T> clazz, Object o)
-			throws Exception {
+	public <T> List<T> findListDataByFinder(Finder finder, Page page, Class<T> clazz, Object o) throws Exception {
 		User user = (User) o;
 		// ==执行分页查询
 		// user.setFrameTableAlias("tu");
-		// finder=Finder.getSelectFinder(User.class,"tu.*,tg.name gradeName ").append(" tu,").append(Finder.getTableName(DicData.class)).append(" tg WHERE tu.gradeId=tg.id and tg.typekey='grade' ");
-      
-		Finder qxfinder=userOrgService.findUserIdsSQLByManagerUserId(SessionUser.getUserId());
-        
-        user.setFrameTableAlias("u");
-        
+		// finder=Finder.getSelectFinder(User.class,"tu.*,tg.name gradeName ").append("
+		// tu,").append(Finder.getTableName(DicData.class)).append(" tg WHERE
+		// tu.gradeId=tg.id and tg.typekey='grade' ");
+
+		Finder qxfinder = userOrgService.findUserIdsSQLByManagerUserId(SessionUser.getUserId());
+
+		user.setFrameTableAlias("u");
+
 		finder = Finder.getSelectFinder(User.class).append(" u ").append(" WHERE 1=1 ");
 //		finder.setEscapeSql(false); 
-		
+
 //		finder = new Finder("select u.* from "+Finder.getTableName(User.class));
 //		finder.append("(select userId from "+Finder.getTableName(User.class)+" u ,"+Finder.getTableName(UserOrg.class)+" re where u.id=re.userId ")
 //		.append(" and re.orgId in (").append(qxsql).append(")").append("  group by userId ")
 //		.append(") m where m.userId=u.id ");
-		
-        if(StringUtils.isBlank(qxfinder.getSql())){
-        	//非管理员查看自己的
-        	finder.append(" and id=:currid ").setParam("currid", SessionUser.getUserId());
-        }else{
-        	finder.append(" and id in ").append("(").appendFinder(qxfinder).append(")");
-        }
-		
-		
+
+		if (StringUtils.isBlank(qxfinder.getSql())) {
+			// 非管理员查看自己的
+			finder.append(" and id=:currid ").setParam("currid", SessionUser.getUserId());
+		} else {
+			finder.append(" and id in ").append("(").appendFinder(qxfinder).append(")");
+		}
+
 		super.getFinderWhereByQueryBean(finder, user);
 		super.getFinderOrderBy(finder, page);
 		List<T> queryForList = super.queryForList(finder, clazz, page);
-		
+
 		return queryForList;
 	}
 
 	/**
 	 * 根据查询列表的宏,导出Excel
 	 * 
-	 * @param finder
-	 *            为空则只查询 clazz表
-	 * @param ftlurl
-	 *            类表的模版宏
-	 * @param page
-	 *            分页对象
-	 * @param clazz
-	 *            要查询的对象
-	 * @param o
-	 *            querybean
+	 * @param finder 为空则只查询 clazz表
+	 * @param ftlurl 类表的模版宏
+	 * @param page   分页对象
+	 * @param clazz  要查询的对象
+	 * @param o      querybean
 	 * @return
 	 * @throws Exception
 	 */
 	@Override
-	public <T> File findDataExportExcel(Finder finder, String ftlurl, Page page, Class<T> clazz,
-			Object o) throws Exception {
+	public <T> File findDataExportExcel(Finder finder, String ftlurl, Page page, Class<T> clazz, Object o)
+			throws Exception {
 		return super.findDataExportExcel(finder, ftlurl, page, clazz, o);
 	}
 
 	@Override
-	
-	@Caching(evict = {
-			@CacheEvict(value = GlobalStatic.cacheKey, key = "'findRoleByUserId_'+#userId"),
+
+	@Caching(evict = { @CacheEvict(value = GlobalStatic.cacheKey, key = "'findRoleByUserId_'+#userId"),
 			@CacheEvict(value = GlobalStatic.cacheKey, key = "'getRolesAsString_'+#userId"),
 			@CacheEvict(value = GlobalStatic.cacheKey, key = "'findUserByRoleId_'+#userId"),
 			@CacheEvict(value = GlobalStatic.cacheKey, key = "'findAllRoleAndMenu'") })
-	
+
 	public void updateRoleUser(String userId, String roleId) throws Exception {
 		// 删除
 		// Finder finder=new
@@ -204,7 +190,8 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
 		// 添加
 		String[] roleIds = roleId.split(",");
 		// finder=new
-		// Finder("insert into t_user_role(id,userId,roleId) values(:id,:userId,:roleId)");
+		// Finder("insert into t_user_role(id,userId,roleId)
+		// values(:id,:userId,:roleId)");
 		// finder.setParam("userId", userId);
 
 		List<UserRole> list = new ArrayList<>();
@@ -227,23 +214,24 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
 
 	@Override
 	public String deleteUserById(String userId) throws Exception {
-		if(StringUtils.isBlank(userId)){
+		if (StringUtils.isBlank(userId)) {
 			return null;
 		}
-		//删除前判断
-		
-		Finder f_del_role=Finder.getDeleteFinder(UserRole.class).append(" WHERE userId=:userId ").setParam("userId", userId);
+		// 删除前判断
+
+		Finder f_del_role = Finder.getDeleteFinder(UserRole.class).append(" WHERE userId=:userId ").setParam("userId",
+				userId);
 		super.update(f_del_role);
-		
-		Finder f_del_org=Finder.getDeleteFinder(UserOrg.class).append(" WHERE userId=:userId ").setParam("userId", userId);
+
+		Finder f_del_org = Finder.getDeleteFinder(UserOrg.class).append(" WHERE userId=:userId ").setParam("userId",
+				userId);
 		super.update(f_del_org);
-		
-		
-		Finder f_update=Finder.getUpdateFinder(User.class," active=:active ").append(" WHERE id=:id ").setParam("id", userId).setParam("active", 0);
-		
+
+		Finder f_update = Finder.getUpdateFinder(User.class, " active=:active ").append(" WHERE id=:id ")
+				.setParam("id", userId).setParam("active", 0);
+
 		super.update(f_update);
-		
-		
+
 		return null;
 	}
 

@@ -18,7 +18,6 @@
  */
 package org.springrain.frame.util.patchca.filter.library;
 
-
 public class RippleImageOp extends AbstractTransformImageOp {
 
 	protected double xWavelength;

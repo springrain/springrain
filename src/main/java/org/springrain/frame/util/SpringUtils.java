@@ -28,112 +28,107 @@ import org.springrain.frame.annotation.NotLog;
 @Component("springUtils")
 public class SpringUtils implements ApplicationContextAware {
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
-    private static ApplicationContext applicationContext;
+	private Logger logger = LoggerFactory.getLogger(getClass());
+	private static ApplicationContext applicationContext;
 
-    public SpringUtils() {
+	public SpringUtils() {
 
-    }
+	}
 
-    @Override
-    public void setApplicationContext(ApplicationContext context) throws BeansException {
-        this.applicationContext = context;
+	@Override
+	public void setApplicationContext(ApplicationContext context) throws BeansException {
+		this.applicationContext = context;
 
-        try {
-            
-            new Thread() {
-               
-                public void run() {
-                    
-                    try {
-                        initEntityInfo();
-                        // 初始化添加自定义的Lucene词语
-                        // LuceneUtils.addDictWord(words);
-                    } catch (Exception e) {
-                        logger.error(e.getMessage(), e);
-                    }
-                    
-                   
-                }
+		try {
 
-               
-            }.start();
-            
-            
-         
+			new Thread() {
 
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-        }
+				public void run() {
 
-        System.out.println("----------------------started----------------------");
+					try {
+						initEntityInfo();
+						// 初始化添加自定义的Lucene词语
+						// LuceneUtils.addDictWord(words);
+					} catch (Exception e) {
+						logger.error(e.getMessage(), e);
+					}
 
-    }
+				}
 
-    /**
-     * 根据beanName 获取 spring bean
-     * 
-     * @param beanName
-     * @return Object
-     */
-    public static Object getBean(String beanName) {
-        if (StringUtils.isEmpty(beanName)) {
-            return null;
-        }
-        return applicationContext.getBean(beanName);
-    }
+			}.start();
 
-    /**
-     * 根据bean type 获取springBean
-     * 
-     * @param clazz
-     * @return
-     */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public static Object getBeanByType(Class clazz) {
-        return applicationContext.getBean(clazz);
-    }
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
 
-    /**
-     * 获取 Spring applicationContext
-     * 
-     * @return
-     */
-    public static ApplicationContext getContext() {
-        return applicationContext;
-    }
+		System.out.println("----------------------started----------------------");
 
-    private void initEntityInfo() throws Exception {
+	}
 
-        String basePathName = SpringrainApplication.class.getPackage().getName();
+	/**
+	 * 根据beanName 获取 spring bean
+	 * 
+	 * @param beanName
+	 * @return Object
+	 */
+	public static Object getBean(String beanName) {
+		if (StringUtils.isEmpty(beanName)) {
+			return null;
+		}
+		return applicationContext.getBean(beanName);
+	}
 
-        String classPath = "/**/entity/*.class";
+	/**
+	 * 根据bean type 获取springBean
+	 * 
+	 * @param clazz
+	 * @return
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public static Object getBeanByType(Class clazz) {
+		return applicationContext.getBean(clazz);
+	}
 
-        String packagePath =basePathName.replaceAll("\\.", "/");
-        classPath = packagePath + classPath;
+	/**
+	 * 获取 Spring applicationContext
+	 * 
+	 * @return
+	 */
+	public static ApplicationContext getContext() {
+		return applicationContext;
+	}
 
-        PathMatchingResourcePatternResolver pmrpr = new PathMatchingResourcePatternResolver();
-        Resource[] resources = pmrpr
-                .getResources(PathMatchingResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + classPath);
+	private void initEntityInfo() throws Exception {
 
-        for (Resource resource : resources) {
+		String basePathName = SpringrainApplication.class.getPackage().getName();
 
-            URI uri = resource.getURI();
-            String entityClassName = uri.toString();
+		String classPath = "/**/entity/*.class";
 
-            entityClassName = entityClassName.substring(entityClassName.lastIndexOf(packagePath),
-                    entityClassName.lastIndexOf(".class"));
-            entityClassName = entityClassName.replaceAll("/", ".");
+		String packagePath = basePathName.replaceAll("\\.", "/");
+		classPath = packagePath + classPath;
 
-            Class<?> clazz = Class.forName(entityClassName);
+		PathMatchingResourcePatternResolver pmrpr = new PathMatchingResourcePatternResolver();
+		Resource[] resources = pmrpr
+				.getResources(PathMatchingResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + classPath);
 
-            if (clazz.isAnnotationPresent(Table.class) || clazz.isAnnotationPresent(LuceneSearch.class)
-                    || clazz.isAnnotationPresent(NotLog.class)) {// 如果有Table注解或者LuceneSearch注解,缓存实体类
-                ClassUtils.getEntityInfoByClass(clazz);
-            }
+		for (Resource resource : resources) {
 
-        }
+			URI uri = resource.getURI();
+			String entityClassName = uri.toString();
 
-    }
+			entityClassName = entityClassName.substring(entityClassName.lastIndexOf(packagePath),
+					entityClassName.lastIndexOf(".class"));
+			entityClassName = entityClassName.replaceAll("/", ".");
+
+			Class<?> clazz = Class.forName(entityClassName);
+
+			if (clazz.isAnnotationPresent(Table.class) || clazz.isAnnotationPresent(LuceneSearch.class)
+					|| clazz.isAnnotationPresent(NotLog.class)) {// 如果有Table注解或者LuceneSearch注解,缓存实体类
+				ClassUtils.getEntityInfoByClass(clazz);
+			}
+
+		}
+
+	}
 
 }

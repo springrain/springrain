@@ -108,8 +108,7 @@ public class TextCharacter {
 	}
 
 	public AttributedCharacterIterator iterator() {
-		AttributedString aString = new AttributedString(String
-				.valueOf(character));
+		AttributedString aString = new AttributedString(String.valueOf(character));
 		aString.addAttribute(TextAttribute.FONT, font, 0, 1);
 		return aString.getIterator();
 	}

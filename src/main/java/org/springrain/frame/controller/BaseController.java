@@ -41,8 +41,8 @@ public class BaseController extends BaseLogger {
 
 	public static final String forward = "forward:";
 
-	//@Resource
-	//private CacheManager shiroCacheManager;
+	// @Resource
+	// private CacheManager shiroCacheManager;
 
 	/**
 	 * 增加了@ModelAttribute的方法可以在本controller方法调用前执行,可以存放一些共享变量,如枚举值,或是一些初始化操作
@@ -60,120 +60,68 @@ public class BaseController extends BaseLogger {
 	 */
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
-		
+
 		binder.registerCustomEditor(Date.class, new DateTypeEditor());
-		
+
 		/*
-		binder.registerCustomEditor(Date.class, new PropertyEditorSupport() {
-			public void setAsText(String value) {
-				try {
-					if (StringUtils.isNotBlank(value)) {
-						try {
-							setValue(new SimpleDateFormat(DateUtils.DATETIME_FORMAT).parse(value));
-						} catch (Exception e) {
-							setValue(new SimpleDateFormat(DateUtils.DATE_FORMAT).parse(value));
-						}
-					} else {
-						setValue(null);
-					}
-				} catch (Exception e) {
-					setValue(null);
-					logger.error(e.getMessage(), e);
-				}
-			}
-		
-			 // public String getAsText() { return new
-			 // SimpleDateFormat("yyyy-MM-dd").format((Date) getValue()); }
-			 
-		});
-		
-		
-		
-
-		binder.registerCustomEditor(Integer.class, new PropertyEditorSupport() {
-			public void setAsText(String value) {
-				try {
-					if (StringUtils.isNotBlank(value)) {
-						setValue(Integer.valueOf(value));
-					} else {
-						setValue(null);
-					}
-				} catch (Exception e) {
-					setValue(null);
-					logger.error(e.getMessage(), e);
-				}
-			}
-		});
-		binder.registerCustomEditor(Long.class, new PropertyEditorSupport() {
-			public void setAsText(String value) {
-				try {
-					if (StringUtils.isNotBlank(value)) {
-						setValue(Long.valueOf(value));
-					} else {
-						setValue(null);
-					}
-				} catch (Exception e) {
-					setValue(null);
-					logger.error(e.getMessage(), e);
-				}
-			}
-		});
-		binder.registerCustomEditor(Double.class, new PropertyEditorSupport() {
-			public void setAsText(String value) {
-				try {
-					if (StringUtils.isNotBlank(value)) {
-						setValue(Double.valueOf(value));
-					} else {
-						setValue(null);
-					}
-				} catch (Exception e) {
-					setValue(null);
-					logger.error(e.getMessage(), e);
-				}
-			}
-		});
-
-		binder.registerCustomEditor(BigDecimal.class, new PropertyEditorSupport() {
-			public void setAsText(String value) {
-				try {
-					if (StringUtils.isNotBlank(value)) {
-						setValue(new BigDecimal(value));
-					} else {
-						setValue(null);
-					}
-				} catch (Exception e) {
-					setValue(null);
-					logger.error(e.getMessage(), e);
-				}
-			}
-		});
-		
-		*/
+		 * binder.registerCustomEditor(Date.class, new PropertyEditorSupport() { public
+		 * void setAsText(String value) { try { if (StringUtils.isNotBlank(value)) { try
+		 * { setValue(new SimpleDateFormat(DateUtils.DATETIME_FORMAT).parse(value)); }
+		 * catch (Exception e) { setValue(new
+		 * SimpleDateFormat(DateUtils.DATE_FORMAT).parse(value)); } } else {
+		 * setValue(null); } } catch (Exception e) { setValue(null);
+		 * logger.error(e.getMessage(), e); } }
+		 * 
+		 * // public String getAsText() { return new //
+		 * SimpleDateFormat("yyyy-MM-dd").format((Date) getValue()); }
+		 * 
+		 * });
+		 * 
+		 * 
+		 * 
+		 * 
+		 * binder.registerCustomEditor(Integer.class, new PropertyEditorSupport() {
+		 * public void setAsText(String value) { try { if
+		 * (StringUtils.isNotBlank(value)) { setValue(Integer.valueOf(value)); } else {
+		 * setValue(null); } } catch (Exception e) { setValue(null);
+		 * logger.error(e.getMessage(), e); } } });
+		 * binder.registerCustomEditor(Long.class, new PropertyEditorSupport() { public
+		 * void setAsText(String value) { try { if (StringUtils.isNotBlank(value)) {
+		 * setValue(Long.valueOf(value)); } else { setValue(null); } } catch (Exception
+		 * e) { setValue(null); logger.error(e.getMessage(), e); } } });
+		 * binder.registerCustomEditor(Double.class, new PropertyEditorSupport() {
+		 * public void setAsText(String value) { try { if
+		 * (StringUtils.isNotBlank(value)) { setValue(Double.valueOf(value)); } else {
+		 * setValue(null); } } catch (Exception e) { setValue(null);
+		 * logger.error(e.getMessage(), e); } } });
+		 * 
+		 * binder.registerCustomEditor(BigDecimal.class, new PropertyEditorSupport() {
+		 * public void setAsText(String value) { try { if
+		 * (StringUtils.isNotBlank(value)) { setValue(new BigDecimal(value)); } else {
+		 * setValue(null); } } catch (Exception e) { setValue(null);
+		 * logger.error(e.getMessage(), e); } } });
+		 * 
+		 */
 
 	}
 
 	/*
-	@ExceptionHandler
-	public String exp(HttpServletRequest request, Exception e) {
-		request.setAttribute("e", e);
-		logger.error(e.getMessage(), e);
-		return "/error";
-	}
-	*/
+	 * @ExceptionHandler public String exp(HttpServletRequest request, Exception e)
+	 * { request.setAttribute("e", e); logger.error(e.getMessage(), e); return
+	 * "/error"; }
+	 */
 
 	/**
 	 * 公共下载方法
 	 * 
 	 * @param response
-	 * @param file
-	 *            下载的文件
-	 * @param fileName
-	 *            下载时显示的文件名
+	 * @param file     下载的文件
+	 * @param fileName 下载时显示的文件名
 	 * @return
 	 * @throws Exception
 	 */
-	public HttpServletResponse downFile(HttpServletResponse response, File file, String fileName,
-			boolean delFile) throws Exception {
+	public HttpServletResponse downFile(HttpServletResponse response, File file, String fileName, boolean delFile)
+			throws Exception {
 		response.setContentType("application/x-download");
 		response.setHeader("Pragma", "public");
 		response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
@@ -208,37 +156,41 @@ public class BaseController extends BaseLogger {
 		}
 		return response;
 	}
+
 	/**
 	 * 获取分页 page 对象
+	 * 
 	 * @param request
 	 * @return
 	 */
 	public Page newPage(HttpServletRequest request) {
 		// ==获取分页信息
-	 return 	newPage(request, "id", "desc");
+		return newPage(request, "id", "desc");
 	}
+
 	/**
 	 * 指定默认的排序字段和方法 返回page分页对象
+	 * 
 	 * @param request
 	 * @param defaultOrder
 	 * @param defaultSort
 	 * @return
 	 */
-	public Page newPage(HttpServletRequest request,String defaultOrder,String defaultSort) {
+	public Page newPage(HttpServletRequest request, String defaultOrder, String defaultSort) {
 		// ==获取分页信息
 
 		String str_pageIndex = request.getParameter("pageIndex");
 		int pageIndex = NumberUtils.toInt(str_pageIndex, 1);
 		String order = request.getParameter("order");
 		String sort = request.getParameter("sort");
-		
+
 		if (StringUtils.isBlank(order)) {
 			order = defaultOrder;
 		}
 		if (StringUtils.isBlank(sort)) {
 			sort = defaultSort;
 		}
-		
+
 		if (StringUtils.isBlank(order)) {
 			order = "id";
 		}
@@ -251,31 +203,26 @@ public class BaseController extends BaseLogger {
 		page.setSort(sort);
 		return page;
 	}
-	
-	
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public void addModelParameter(HttpServletRequest request,Model model){
-		Map<String,String[]> map=request.getParameterMap();  
-	    Set<Map.Entry<String,String[]>> keSet=map.entrySet();  
-	    for(Iterator itr=keSet.iterator();itr.hasNext();){  
-	    	
-	        Map.Entry<String,String[]> me=(Map.Entry<String,String[]>)itr.next();  
-	        String key=me.getKey();  
-	        String[] value=me.getValue(); 
-	        if(value==null||value.length==0){
-	        	continue;
-	        }else if(value.length==1){
-	        	model.addAttribute(key, value[0]);
-	        }else{
-	        	model.addAttribute(key, value);
-	        }
-	        
-	  
-	     }  
-		
-		
+	public void addModelParameter(HttpServletRequest request, Model model) {
+		Map<String, String[]> map = request.getParameterMap();
+		Set<Map.Entry<String, String[]>> keSet = map.entrySet();
+		for (Iterator itr = keSet.iterator(); itr.hasNext();) {
+
+			Map.Entry<String, String[]> me = (Map.Entry<String, String[]>) itr.next();
+			String key = me.getKey();
+			String[] value = me.getValue();
+			if (value == null || value.length == 0) {
+				continue;
+			} else if (value.length == 1) {
+				model.addAttribute(key, value[0]);
+			} else {
+				model.addAttribute(key, value);
+			}
+
+		}
+
 	}
-	
 
 }

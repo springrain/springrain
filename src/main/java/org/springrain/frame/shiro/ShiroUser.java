@@ -1,12 +1,13 @@
 package org.springrain.frame.shiro;
 
-
 import java.io.Serializable;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.springrain.system.entity.User;
+
 /**
  * Shiro的内部User对象
+ * 
  * @author caomei
  *
  */
@@ -51,7 +52,7 @@ public class ShiroUser implements Serializable {
 		this.name = user.getName();
 		this.email = user.getEmail();
 		this.userType = user.getUserType();
-		this.sex=user.getSex();
+		this.sex = user.getSex();
 	}
 
 	/**
@@ -68,30 +69,28 @@ public class ShiroUser implements Serializable {
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
-            return true;
-        }
+			return true;
+		}
 		if (obj == null) {
-            return false;
-        }
+			return false;
+		}
 		if (getClass() != obj.getClass()) {
-            return false;
-        }
+			return false;
+		}
 		ShiroUser other = (ShiroUser) obj;
 		if (account == null) {
 			if (other.account != null) {
-                return false;
-            }
+				return false;
+			}
 		} else if (!account.equals(other.account)) {
-            return false;
-        }
+			return false;
+		}
 		return true;
 	}
-	
+
 	@Override
-    public int hashCode() {
-		return new HashCodeBuilder()
-			.append(getAccount())
-			.toHashCode();
+	public int hashCode() {
+		return new HashCodeBuilder().append(getAccount()).toHashCode();
 	}
 
 	public java.lang.String getId() {
@@ -106,12 +105,10 @@ public class ShiroUser implements Serializable {
 		return name;
 	}
 
-	
 	public void setName(java.lang.String name) {
 		this.name = name;
 	}
 
-	
 	public java.lang.String getAccount() {
 		return account;
 	}

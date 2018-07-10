@@ -20,45 +20,45 @@ import javax.servlet.http.HttpServletRequest;
 
 public class IPUtils {
 
-    private IPUtils() {
-        throw new IllegalAccessError("工具类不能实例化");
-    }
+	private IPUtils() {
+		throw new IllegalAccessError("工具类不能实例化");
+	}
 
-    /**
-     * ip校验
-     * 
-     * @param s
-     * @return Boolean
-     */
-    public static Boolean isIpAddress(String s) {
-        String regex = "(((2[0-4]\\d)|(25[0-5]))|(1\\d{2})|([1-9]\\d)|(\\d))[.](((2[0-4]\\d)|(25[0-5]))|(1\\d{2})|([1-9]\\d)|(\\d))[.](((2[0-4]\\d)|(25[0-5]))|(1\\d{2})|([1-9]\\d)|(\\d))[.](((2[0-4]\\d)|(25[0-5]))|(1\\d{2})|([1-9]\\d)|(\\d))";
-        Pattern p = Pattern.compile(regex);
-        Matcher m = p.matcher(s);
-        return m.matches();
-    }
+	/**
+	 * ip校验
+	 * 
+	 * @param s
+	 * @return Boolean
+	 */
+	public static Boolean isIpAddress(String s) {
+		String regex = "(((2[0-4]\\d)|(25[0-5]))|(1\\d{2})|([1-9]\\d)|(\\d))[.](((2[0-4]\\d)|(25[0-5]))|(1\\d{2})|([1-9]\\d)|(\\d))[.](((2[0-4]\\d)|(25[0-5]))|(1\\d{2})|([1-9]\\d)|(\\d))[.](((2[0-4]\\d)|(25[0-5]))|(1\\d{2})|([1-9]\\d)|(\\d))";
+		Pattern p = Pattern.compile(regex);
+		Matcher m = p.matcher(s);
+		return m.matches();
+	}
 
-    /**
-     * 获取客户端ip
-     * 
-     * @param request
-     * @return String
-     */
-    public static String getClientAddress(HttpServletRequest request) {
+	/**
+	 * 获取客户端ip
+	 * 
+	 * @param request
+	 * @return String
+	 */
+	public static String getClientAddress(HttpServletRequest request) {
 
-        String ip = request.getHeader("x-forwarded-for");
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("Proxy-Client-IP");
-        }
+		String ip = request.getHeader("x-forwarded-for");
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("Proxy-Client-IP");
+		}
 
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("X-Real-IP");
-        }
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("X-Real-IP");
+		}
 
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getRemoteAddr();
-        }
+		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getRemoteAddr();
+		}
 
-        return ip.equals("0:0:0:0:0:0:0:1") ? "127.0.0.1" : ip;
+		return ip.equals("0:0:0:0:0:0:0:1") ? "127.0.0.1" : ip;
 
-    }
+	}
 }

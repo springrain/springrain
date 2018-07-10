@@ -20,31 +20,32 @@ import freemarker.template.TemplateModel;
 
 /**
  * 通过微信用户ID与站点信息、业务信息获取微信用户的评论
+ * 
  * @author dmin93
  * @date 2017年4月6日
  */
 @Component("cmsCommentListForWeixinDirective")
-public class CmsCommentListForWeixinDirective extends AbstractCMSDirective{
+public class CmsCommentListForWeixinDirective extends AbstractCMSDirective {
 
 	private static final String TPL_NAME = "cms_comment_list_weixin";
 
 	@Resource
 	private ICmsCommentService cmsCommentService;
-	
+
 	@Override
-	public void execute(Environment env, Map params, TemplateModel[] loopVars,
-			TemplateDirectiveBody body) throws TemplateException, IOException {
+	public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body)
+			throws TemplateException, IOException {
 		try {
 			List<CmsComment> commentList;
 			String siteId = this.getSiteId(params);
 			String businessId = this.getBusinessId(params);
 			String openId = String.valueOf(this.getRequest().getSession().getAttribute("openId"));
-			
-			if(StringUtils.isNotEmpty(siteId) && StringUtils.isNotEmpty(businessId) &&
-					StringUtils.isNotEmpty(openId)){
-				commentList = cmsCommentService.findListByOpenId(
-						openId,siteId,businessId,DirectiveUtils.getInt("type", params));
-			}else{
+
+			if (StringUtils.isNotEmpty(siteId) && StringUtils.isNotEmpty(businessId)
+					&& StringUtils.isNotEmpty(openId)) {
+				commentList = cmsCommentService.findListByOpenId(openId, siteId, businessId,
+						DirectiveUtils.getInt("type", params));
+			} else {
 				commentList = null;
 			}
 			env.setVariable(DirectiveUtils.OUT_LIST, DirectiveUtils.wrap(commentList));
@@ -52,13 +53,13 @@ public class CmsCommentListForWeixinDirective extends AbstractCMSDirective{
 				body.render(env.getOut());
 			}
 		} catch (Exception e) {
-			logger.error(e.getMessage(),e);
+			logger.error(e.getMessage(), e);
 		}
 	}
-	
+
 	@PostConstruct
 	public void registerFreeMarkerVariable() {
 		setFreeMarkerSharedVariable(TPL_NAME, this);
 	}
-	
+
 }

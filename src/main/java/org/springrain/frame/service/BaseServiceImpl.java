@@ -67,15 +67,15 @@ public abstract class BaseServiceImpl extends BaseLogger implements IBaseService
 	public abstract IBaseJdbcDao getBaseDao();
 
 	@Override
-    public SpringUtils getSpringUtils() {
+	public SpringUtils getSpringUtils() {
 		return springUtils;
 	}
 
 	@Override
 	public Object getBean(String beanName) throws Exception {
 		if (beanName == null) {
-            return null;
-        }
+			return null;
+		}
 		return getSpringUtils().getBean(beanName);
 	}
 
@@ -268,13 +268,12 @@ public abstract class BaseServiceImpl extends BaseLogger implements IBaseService
 	@Override
 	public <T> File findDataExportExcel(Finder finder, String ftlurl, Page page, Class<T> clazz, Object queryBean,
 			Map map) throws Exception {
-		
-		return findDataExportFile(finder, ftlurl, page, clazz, queryBean, map,GlobalStatic.excelext);
-	}
-	
-	public <T> File findDataExportFile(Finder finder, String ftlurl, Page page, Class<T> clazz, Object queryBean,
-			Map map,String fileType) throws Exception{
 
+		return findDataExportFile(finder, ftlurl, page, clazz, queryBean, map, GlobalStatic.excelext);
+	}
+
+	public <T> File findDataExportFile(Finder finder, String ftlurl, Page page, Class<T> clazz, Object queryBean,
+			Map map, String fileType) throws Exception {
 
 		if (freeMarkerConfigurer == null) {
 			freeMarkerConfigurer = (FreeMarkerConfigurer) SpringUtils.getBean("freeMarkerConfigurer");
@@ -308,9 +307,9 @@ public abstract class BaseServiceImpl extends BaseLogger implements IBaseService
 
 		File excelFile = new File(tempExcelpath);
 		boolean first = true;
-		if(ftlurl.contains("Xml")) {
-            first = false;
-        }
+		if (ftlurl.contains("Xml")) {
+			first = false;
+		}
 		boolean end = false;
 		int pageCount = page.getPageCount();
 		if (pageCount < 2) {
@@ -346,7 +345,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements IBaseService
 			logger.error(e.getMessage(), e);
 		}
 		return excelFile;
-	
+
 	}
 
 	/**
@@ -397,42 +396,42 @@ public abstract class BaseServiceImpl extends BaseLogger implements IBaseService
 			boolean iswrite = false;
 			while ((line = br.readLine()) != null) {
 				if (StringUtils.isBlank(line)) {
-                    continue;
-                }
+					continue;
+				}
 
 				line = line.trim();
-				if (line.startsWith("<!--first_") && first == false) {//第一次输出,用于表头列的声明
+				if (line.startsWith("<!--first_") && first == false) {// 第一次输出,用于表头列的声明
 					iswrite = false;
 					continue;
 				}
-				if (line.startsWith("<!--last_") && end == false) {//最后的输出,用于结束
+				if (line.startsWith("<!--last_") && end == false) {// 最后的输出,用于结束
 					iswrite = false;
 					continue;
 				}
 
-				if ("<!--first_start_export-->".equals(line)) {//表头输出里包含的不输出内容开始.
+				if ("<!--first_start_export-->".equals(line)) {// 表头输出里包含的不输出内容开始.
 					iswrite = first;
 					continue;
 
-				} else if ("<!--last_start_export-->".equals(line)) {//最后输出的内容开始.
+				} else if ("<!--last_start_export-->".equals(line)) {// 最后输出的内容开始.
 					iswrite = end;
 					continue;
 
-				} else if ("<!--first_start_no_export-->".equals(line)) {//第一次输出内好办的不输出内容开始
+				} else if ("<!--first_start_no_export-->".equals(line)) {// 第一次输出内好办的不输出内容开始
 					iswrite = false;
 					continue;
 
-				} else if ("<!--first_end_no_export-->".equals(line)) {//第一次输出内好办的不输出内容结束
+				} else if ("<!--first_end_no_export-->".equals(line)) {// 第一次输出内好办的不输出内容结束
 					iswrite = true;
 					continue;
 
-				} else if ("<!--start_no_export-->".equals(line)) {//开始不输出
+				} else if ("<!--start_no_export-->".equals(line)) {// 开始不输出
 					iswrite = false;
 					continue;
-				} else if ("<!--start_export-->".equals(line)) {//开始输出
+				} else if ("<!--start_export-->".equals(line)) {// 开始输出
 					iswrite = true;
 					continue;
-				} else if ("<!--last_end_export-->".equals(line)) {//最后的不输出内容
+				} else if ("<!--last_end_export-->".equals(line)) {// 最后的不输出内容
 					iswrite = false;
 					continue;
 				} else if (line.startsWith("<!--end_")) {// 不包含需要输出的内容
@@ -454,20 +453,20 @@ public abstract class BaseServiceImpl extends BaseLogger implements IBaseService
 			throw new Exception("追加xlsx内容错误");
 		} finally {
 			if (bw != null) {
-                bw.close();
-            }
+				bw.close();
+			}
 			if (osw != null) {
-                osw.close();
-            }
+				osw.close();
+			}
 			if (fos != null) {
-                fos.close();
-            }
+				fos.close();
+			}
 			if (br != null) {
-                br.close();
-            }
+				br.close();
+			}
 			if (in != null) {
-                in.close();
-            }
+				in.close();
+			}
 		}
 
 		return excelFile;
@@ -514,22 +513,22 @@ public abstract class BaseServiceImpl extends BaseLogger implements IBaseService
 	}
 
 	@Override
-    public <T> T queryForObjectByProc(Finder finder, Class<T> clazz) throws Exception {
+	public <T> T queryForObjectByProc(Finder finder, Class<T> clazz) throws Exception {
 		return getBaseDao().queryForObjectByProc(finder, clazz);
 	}
 
 	@Override
-    public <T> List<T> queryForListByProc(Finder finder, Class<T> clazz) throws Exception {
+	public <T> List<T> queryForListByProc(Finder finder, Class<T> clazz) throws Exception {
 		return getBaseDao().queryForListByProc(finder, clazz);
 	}
 
 	@Override
-    public <T> T queryForObjectByByFunction(Finder finder, Class<T> clazz) throws Exception {
+	public <T> T queryForObjectByByFunction(Finder finder, Class<T> clazz) throws Exception {
 		return getBaseDao().queryForObjectByByFunction(finder, clazz);
 	}
 
 	@Override
-    public <T> List<T> queryForListByFunction(Finder finder, Class<T> clazz) throws Exception {
+	public <T> List<T> queryForListByFunction(Finder finder, Class<T> clazz) throws Exception {
 		return getBaseDao().queryForListByFunction(finder, clazz);
 	}
 

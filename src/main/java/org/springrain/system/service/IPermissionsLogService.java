@@ -33,21 +33,23 @@ public interface IPermissionsLogService extends IBaseSpringrainService {
 
 	/**
 	 * 保存角色变更日志
+	 * 
 	 * @param newRole
 	 * @param oldRole
 	 * @param actionType
 	 * @return
 	 * @throws Exception
 	 */
-	String saveUpdateRoleLog(Role newRole,Role oldRole,Integer actionType) throws Exception;
-	
+	String saveUpdateRoleLog(Role newRole, Role oldRole, Integer actionType) throws Exception;
+
 	/**
 	 * 保存用户变更日志
+	 * 
 	 * @param userId
 	 * @param actionType
 	 * @return
 	 * @throws Exception
 	 */
-	String saveUserLog(String userId,int actionType) throws Exception;
-	
+	String saveUserLog(String userId, int actionType) throws Exception;
+
 }

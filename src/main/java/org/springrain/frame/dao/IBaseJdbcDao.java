@@ -84,7 +84,7 @@ public interface IBaseJdbcDao {
 	/**
 	 * 调用数据库存储过程 返回指定 对象
 	 * 
-	 * @param <T>
+	 * @param          <T>
 	 * @param sql
 	 * @param paramMap
 	 * @param clazz
@@ -96,7 +96,7 @@ public interface IBaseJdbcDao {
 	/**
 	 * 调用数据库函数 返回指定 对象
 	 * 
-	 * @param <T>
+	 * @param          <T>
 	 * @param sql
 	 * @param paramMap
 	 * @param clazz
@@ -171,8 +171,7 @@ public interface IBaseJdbcDao {
 	 * Entity作为查询的query bean,并返回Entity
 	 * 
 	 * @param entity
-	 * @param page
-	 *            分页对象
+	 * @param page   分页对象
 	 * @return
 	 * @throws Exception
 	 */
@@ -192,11 +191,9 @@ public interface IBaseJdbcDao {
 	 * 列表查询,每个service都会重载,要把sql语句封装到service中,Finder只是最后的方案
 	 * 
 	 * @param finder
-	 * @param page
-	 *            分页对象
+	 * @param page      分页对象
 	 * @param clazz
-	 * @param queryBean
-	 *            是queryBean
+	 * @param queryBean 是queryBean
 	 * @return
 	 * @throws Exception
 	 */
@@ -206,7 +203,7 @@ public interface IBaseJdbcDao {
 	/**
 	 * 保存一个对象
 	 * 
-	 * @param <T>
+	 * @param       <T>
 	 * @param clazz
 	 * @return
 	 */
@@ -225,7 +222,7 @@ public interface IBaseJdbcDao {
 	/**
 	 * 更新一个对象,更新对象映射的所有字段
 	 * 
-	 * @param <T>
+	 * @param       <T>
 	 * @param clazz
 	 * @return
 	 */
@@ -284,7 +281,7 @@ public interface IBaseJdbcDao {
 	/**
 	 * 根据ID 查询对象,主要用于分表
 	 * 
-	 * @param <T>
+	 * @param    <T>
 	 * @param id
 	 * @return
 	 * @throws Exception

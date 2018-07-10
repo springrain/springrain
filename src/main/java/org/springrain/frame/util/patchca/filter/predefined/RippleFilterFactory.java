@@ -25,7 +25,6 @@ import java.awt.image.BufferedImageOp;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class RippleFilterFactory extends AbstractFilterFactory {
 
 	protected List<BufferedImageOp> filters;
@@ -41,9 +40,9 @@ public class RippleFilterFactory extends AbstractFilterFactory {
 
 	protected List<BufferedImageOp> getPostRippleFilters() {
 		return new ArrayList<>();
-		
+
 	}
-	
+
 	@Override
 	public List<BufferedImageOp> getFilters() {
 		if (filters == null) {
@@ -55,5 +54,4 @@ public class RippleFilterFactory extends AbstractFilterFactory {
 		return filters;
 	}
 
-	
 }

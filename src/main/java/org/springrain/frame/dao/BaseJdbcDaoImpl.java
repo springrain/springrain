@@ -258,8 +258,8 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 	public List<Map<String, Object>> queryForList(Finder finder, Page page) throws Exception {
 		String pageSql = getPageSql(page, finder);
 		if (pageSql == null) {
-            return null;
-        }
+			return null;
+		}
 		finder.setPageSql(pageSql);
 
 		// 打印sql
@@ -339,25 +339,26 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		String sort = page.getSort();
 		String order = page.getOrder();
 		if (StringUtils.isBlank(order)) {
-		    return finder;
+			return finder;
 		}
 		order = order.trim();
-		if (order.contains(" ") || order.contains(";") || order.contains(",") || order.contains("'") || order.contains("(") || order.contains(")")) {// 认为是异常的,主要是防止注入
-				return null;
+		if (order.contains(" ") || order.contains(";") || order.contains(",") || order.contains("'")
+				|| order.contains("(") || order.contains(")")) {// 认为是异常的,主要是防止注入
+			return null;
 		}
 
 		if (RegexValidateUtils.getOrderByIndex(finder.getSql()) < 0) {
-				finder.append(" order by ").append(order);
+			finder.append(" order by ").append(order);
 		}
 		if (StringUtils.isBlank(sort)) {
-			    return finder;
+			return finder;
 		}
 		if ("asc".equalsIgnoreCase(sort) && (finder.getSql().toLowerCase().contains(" asc ") == false)) {
-					finder.append(" asc ");
-		} else if ("desc".equalsIgnoreCase(sort)&& (finder.getSql().toLowerCase().contains(" desc ") == false)) {
-					finder.append(" desc ");
+			finder.append(" asc ");
+		} else if ("desc".equalsIgnoreCase(sort) && (finder.getSql().toLowerCase().contains(" desc ") == false)) {
+			finder.append(" desc ");
 		}
-			
+
 		return finder;
 	}
 
@@ -475,10 +476,10 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 
 		if (page == null) {
 			if (StringUtils.isNotBlank(orderSql)) {
-                return sql + " " + orderSql;
-            } else {
-                return sql;
-            }
+				return sql + " " + orderSql;
+			} else {
+				return sql;
+			}
 		}
 
 		// 如果不需要查询总条数
@@ -566,10 +567,10 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		// 如果是ID,自动生成UUID,处理主键
 		Object _getId = ClassUtils.getPKValue(entity); // 主键
 
-		boolean pkisEmpty=true;
+		boolean pkisEmpty = true;
 		if (_getId != null && StringUtils.isNotBlank(_getId.toString())) {// 如果Id有值
 			id = _getId.toString();
-			pkisEmpty=false;
+			pkisEmpty = false;
 		}
 
 		if (StringUtils.isNotBlank(entityInfo.getPksequence())) {// 如果包含主键序列注解
@@ -583,18 +584,18 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 				sql.append(")");
 				valueSql.append(")");
 			}
-		}else if (!pkisEmpty) {// 如果Id有值
-            sql.append(pkName);
-            valueSql.append(":" + pkName);
-            if (fdNames.size() > 1) {
-                sql.append(",");
-                valueSql.append(",");
-            } else {
-                sql.append(")");
-                valueSql.append(")");
-            }
-            paramMap.put(pkName, _getId);
-        } else if (returnType == String.class) {
+		} else if (!pkisEmpty) {// 如果Id有值
+			sql.append(pkName);
+			valueSql.append(":" + pkName);
+			if (fdNames.size() > 1) {
+				sql.append(",");
+				valueSql.append(",");
+			} else {
+				sql.append(")");
+				valueSql.append(")");
+			}
+			paramMap.put(pkName, _getId);
+		} else if (returnType == String.class) {
 			sql.append(pkName);
 			valueSql.append(":" + pkName);
 			if (fdNames.size() > 1) {
@@ -644,28 +645,26 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		EntityInfo entityInfo = ClassUtils.getEntityInfoByEntity(entity);
 		Class<?> returnType = entityInfo.getPkReturnType();
 
-		
-      Object _getId = ClassUtils.getPKValue(entity); // 主键
-      boolean pkisEmpty=true;
-      if (_getId != null && StringUtils.isNotBlank(_getId.toString())) {// 如果Id有值
-          pkisEmpty=false;
-      }
-      
-      
+		Object _getId = ClassUtils.getPKValue(entity); // 主键
+		boolean pkisEmpty = true;
+		if (_getId != null && StringUtils.isNotBlank(_getId.toString())) {// 如果Id有值
+			pkisEmpty = false;
+		}
+
 		Map paramMap = new HashMap();
 		Boolean isSequence = StringUtils.isNotBlank(entityInfo.getPksequence());
 		String sql = wrapsavesql(entity, paramMap, isSequence);
 		// 打印sql
 		logInfoSql(sql);
-		
+
 		// 增加如果表没有主键的判断
 		if (returnType == null) {
 			getWriteJdbc().update(sql, paramMap);
 			return null;
-		}else if(!pkisEmpty) {//id有值
-		    getWriteJdbc().update(sql, paramMap);
-		    return ClassUtils.getPKValue(entity);
-		}else if (returnType == String.class) {
+		} else if (!pkisEmpty) {// id有值
+			getWriteJdbc().update(sql, paramMap);
+			return ClassUtils.getPKValue(entity);
+		} else if (returnType == String.class) {
 			getWriteJdbc().update(sql, paramMap);
 			return ClassUtils.getPKValue(entity).toString();
 
@@ -949,8 +948,8 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		checkMethodName();
 
 		if (id == null) {
-            return;
-        }
+			return;
+		}
 
 		EntityInfo entityInfo = ClassUtils.getEntityInfoByClass(clazz);
 		String tableName = entityInfo.getTableName();
@@ -1013,8 +1012,8 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		checkMethodName();
 
 		if (CollectionUtils.isEmpty(ids)) {
-            return;
-        }
+			return;
+		}
 
 		EntityInfo entityInfo = ClassUtils.getEntityInfoByClass(clazz);
 		String tableName = entityInfo.getTableName();
@@ -1138,8 +1137,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 	 * Entity作为查询的query bean,并返回Entity
 	 * 
 	 * @param entity
-	 * @param page
-	 *            分页对象
+	 * @param page   分页对象
 	 * @return
 	 * @throws Exception
 	 */

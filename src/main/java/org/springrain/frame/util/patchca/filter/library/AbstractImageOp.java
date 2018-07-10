@@ -30,7 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public abstract class AbstractImageOp implements BufferedImageOp {
-	private final  Logger logger = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 	public static final int EDGE_ZERO = 0;
 	public static final int EDGE_MIRROR = 1;
 	public static final int EDGE_CLAMP = 2;
@@ -77,14 +77,15 @@ public abstract class AbstractImageOp implements BufferedImageOp {
 			try {
 				return pixels[x + y * width];
 			} catch (Exception e) {
-				logger.error(e.getMessage(),e);
+				logger.error(e.getMessage(), e);
 				return 0;
 			}
 		}
 	}
 
 	private int linear(int from, int to, int shift, double d) {
-		return ((int) Math.floor(((from >> shift) & 0xff) + d * (((to >> shift) & 0xff) - ((from >> shift) & 0xff)))) << shift;
+		return ((int) Math
+				.floor(((from >> shift) & 0xff) + d * (((to >> shift) & 0xff) - ((from >> shift) & 0xff)))) << shift;
 	}
 
 	private int linear(int from, int to, double d) {
@@ -151,7 +152,8 @@ public abstract class AbstractImageOp implements BufferedImageOp {
 				destCM = ColorModel.getRGBdefault();
 			}
 		}
-		return new BufferedImage(destCM, destCM.createCompatibleWritableRaster(src.getWidth(), src.getHeight()), destCM.isAlphaPremultiplied(), null);
+		return new BufferedImage(destCM, destCM.createCompatibleWritableRaster(src.getWidth(), src.getHeight()),
+				destCM.isAlphaPremultiplied(), null);
 	}
 
 	@Override

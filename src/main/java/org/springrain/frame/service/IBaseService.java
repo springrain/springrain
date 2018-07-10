@@ -126,18 +126,12 @@ public interface IBaseService {
 	/**
 	 * 根据查询列表的宏,导出Excel
 	 * 
-	 * @param finder
-	 *            为空则只查询 clazz表
-	 * @param ftlurl
-	 *            类表的模版宏
-	 * @param page
-	 *            分页对象
-	 * @param clazz
-	 *            要查询的对象
-	 * @param baseService
-	 *            service 调用
-	 * @param queryBean
-	 *            querybean
+	 * @param finder      为空则只查询 clazz表
+	 * @param ftlurl      类表的模版宏
+	 * @param page        分页对象
+	 * @param clazz       要查询的对象
+	 * @param baseService service 调用
+	 * @param queryBean   querybean
 	 * @return
 	 * @throws Exception
 	 */
@@ -148,20 +142,13 @@ public interface IBaseService {
 	/**
 	 * 根据查询列表的宏,导出Excel
 	 * 
-	 * @param finder
-	 *            为空则只查询 clazz表
-	 * @param ftlurl
-	 *            类表的模版宏
-	 * @param page
-	 *            分页对象
-	 * @param clazz
-	 *            要查询的对象
-	 * @param baseService
-	 *            service 调用
-	 * @param queryBean
-	 *            querybean
-	 * @param map
-	 *            封装自定义的参数
+	 * @param finder      为空则只查询 clazz表
+	 * @param ftlurl      类表的模版宏
+	 * @param page        分页对象
+	 * @param clazz       要查询的对象
+	 * @param baseService service 调用
+	 * @param queryBean   querybean
+	 * @param map         封装自定义的参数
 	 * @return
 	 * @throws Exception
 	 */
@@ -249,7 +236,7 @@ public interface IBaseService {
 	/**
 	 * 调用数据库存储过程 返回指定 对象
 	 * 
-	 * @param <T>
+	 * @param          <T>
 	 * @param sql
 	 * @param paramMap
 	 * @param clazz
@@ -262,7 +249,7 @@ public interface IBaseService {
 	/**
 	 * 调用数据库存储过程 返回指定 对象
 	 * 
-	 * @param <T>
+	 * @param          <T>
 	 * @param sql
 	 * @param paramMap
 	 * @param clazz
@@ -275,7 +262,7 @@ public interface IBaseService {
 	/**
 	 * 调用数据库函数 返回指定 对象
 	 * 
-	 * @param <T>
+	 * @param          <T>
 	 * @param sql
 	 * @param paramMap
 	 * @param clazz
@@ -356,7 +343,7 @@ public interface IBaseService {
 	/**
 	 * 保存一个对象
 	 * 
-	 * @param <T>
+	 * @param       <T>
 	 * @param clazz
 	 * @return
 	 */
@@ -374,7 +361,7 @@ public interface IBaseService {
 	/**
 	 * 更新一个对象,id必须有值
 	 * 
-	 * @param <T>
+	 * @param       <T>
 	 * @param clazz
 	 * @return
 	 */
@@ -412,7 +399,7 @@ public interface IBaseService {
 	/**
 	 * 根据ID 查询对象
 	 * 
-	 * @param <T>
+	 * @param    <T>
 	 * @param id
 	 * @return
 	 * @throws Exception
@@ -451,8 +438,7 @@ public interface IBaseService {
 	/**
 	 * 根据Entity 删除
 	 * 
-	 * @param IBaseEntity
-	 *            entity
+	 * @param IBaseEntity entity
 	 * @throws Exception
 	 */
 	public void deleteByEntity(IBaseEntity entity) throws Exception;
@@ -466,7 +452,8 @@ public interface IBaseService {
 	public Object saveorupdate(Object entity) throws Exception;
 
 	/**
-	 * 根据查询的queryBean,拼接Finder的 Where条件,只拼接非NULL的值,拼接前Finder中必须包含WHERE,只拼接 and 条件,用于普通查询<br/>
+	 * 根据查询的queryBean,拼接Finder的 Where条件,只拼接非NULL的值,拼接前Finder中必须包含WHERE,只拼接 and
+	 * 条件,用于普通查询<br/>
 	 * 例如:User对象的name属性值为 张三 ,根据name属性的@WhereSQL注解,拼接出来的语句类似:<br/>
 	 * finder.append(" and name=:User_name").setParam("User_name","张三");
 	 * 
@@ -480,7 +467,8 @@ public interface IBaseService {
 	/**
 	 * finder清除自身的排序,根据page对象中sort和order 添加order by 排序,一般用于前台传递的自定义排序<br/>
 	 * 代码类似:<br/>
-	 * finder.append(" order by ").append(page.getOrder()).append(" ").append(page.getSort());
+	 * finder.append(" order by ").append(page.getOrder()).append("
+	 * ").append(page.getSort());
 	 * 
 	 * @param finder
 	 * @param page

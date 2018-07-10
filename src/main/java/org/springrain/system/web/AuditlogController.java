@@ -1,4 +1,5 @@
-package  org.springrain.system.web;
+package org.springrain.system.web;
+
 import java.io.File;
 import java.util.List;
 
@@ -19,22 +20,22 @@ import org.springrain.frame.util.Page;
 import org.springrain.frame.util.ReturnDatas;
 import org.springrain.system.service.IAuditlogService;
 
-
 /**
  * TODO 在此加入类描述
+ * 
  * @copyright {@link springrain}
  * @author weicms.net<Auto generate>
- * @version  2013-08-02 12:14:50
+ * @version 2013-08-02 12:14:50
  * @see org.springrain.frame.entity.springrain.web.AuditLog
  */
 @Controller
-@RequestMapping(value="/system/auditlog")
-public class AuditlogController  extends BaseController {
+@RequestMapping(value = "/system/auditlog")
+public class AuditlogController extends BaseController {
 	@Resource
 	private IAuditlogService auditlogService;
-	
-	private String listurl="/system/auditlog/auditlogList";
-	
+
+	private String listurl = "/system/auditlog/auditlogList";
+
 	/**
 	 * 列表数据,调用listjson方法,保证和app端数据统一
 	 * 
@@ -61,14 +62,14 @@ public class AuditlogController  extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/list/json")
-	@ResponseBody 
+	@ResponseBody
 	public ReturnDatas listjson(HttpServletRequest request, Model model, AuditLog auditlog) throws Exception {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
-	
+
 		Page page = newPage(request);
 		page.setOrder("operationTime");
 		page.setSort("desc");
-		
+
 		List<AuditLog> datas = auditlogService.findListDataByFinder(null, page, AuditLog.class, auditlog);
 		returnObject.setQueryBean(auditlog);
 		returnObject.setPage(page);
@@ -86,8 +87,8 @@ public class AuditlogController  extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/list/export")
-	public void listexport(HttpServletRequest request, HttpServletResponse response, Model model,
-			AuditLog auditlog) throws Exception {
+	public void listexport(HttpServletRequest request, HttpServletResponse response, Model model, AuditLog auditlog)
+			throws Exception {
 		// ==构造分页请求
 		Page page = newPage(request);
 		File file = auditlogService.findDataExportExcel(null, listurl, page, AuditLog.class, auditlog);
@@ -100,8 +101,7 @@ public class AuditlogController  extends BaseController {
 	 * 查看操作,调用APP端lookjson方法
 	 */
 	@RequestMapping(value = "/look")
-	public String look(Model model, HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
+	public String look(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ReturnDatas returnObject = lookjson(model, request, response);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
 		return "/system/auditlog/auditlogLook";
@@ -111,7 +111,7 @@ public class AuditlogController  extends BaseController {
 	 * 查看的Json格式数据,为APP端提供数据
 	 */
 	@RequestMapping(value = "/look/json")
-	@ResponseBody 
+	@ResponseBody
 	public ReturnDatas lookjson(Model model, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();

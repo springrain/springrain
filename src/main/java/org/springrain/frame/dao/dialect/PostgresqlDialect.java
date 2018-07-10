@@ -17,8 +17,7 @@ public class PostgresqlDialect implements IDialect {
 		if (StringUtils.isNotBlank(orderby)) {
 			sb.append(" ").append(orderby);
 		}
-		sb.append(" limit ").append(pageSize).append(" offset ")
-				.append(pageSize * (pageNo - 1));
+		sb.append(" limit ").append(pageSize).append(" offset ").append(pageSize * (pageNo - 1));
 
 		return sb.toString();
 	}

@@ -14,7 +14,6 @@ public interface ISystemRootService extends IBaseSpringrainService {
 	 * @throws Exception
 	 */
 
-	List<FileDto> findFileDtosByPath(String path, String rootPath)
-			throws Exception;
+	List<FileDto> findFileDtosByPath(String path, String rootPath) throws Exception;
 
 }

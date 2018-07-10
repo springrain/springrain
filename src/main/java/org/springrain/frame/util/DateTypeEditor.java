@@ -18,9 +18,9 @@ public class DateTypeEditor extends PropertyEditorSupport {
 	 * 短类型日期长度
 	 */
 	public static final int SHORT_DATE = 10;
-	
+
 	public static final int YEAR_DATE = 4;
-	
+
 	public static final int MONTH_DATE = 7;
 
 	public void setAsText(String text) throws IllegalArgumentException {
@@ -32,16 +32,15 @@ public class DateTypeEditor extends PropertyEditorSupport {
 		try {
 			if (text.length() <= YEAR_DATE) {
 				setValue(new SimpleDateFormat("yyyy").parse(text));
-			}else  if (text.length() <= MONTH_DATE) {
+			} else if (text.length() <= MONTH_DATE) {
 				setValue(new SimpleDateFormat("yyyy-MM").parse(text));
-			}else if (text.length() <= SHORT_DATE) {
+			} else if (text.length() <= SHORT_DATE) {
 				setValue(new SimpleDateFormat("yyyy-MM-dd").parse(text));
 			} else {
 				setValue(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(text));
 			}
 		} catch (ParseException ex) {
-			IllegalArgumentException iae = new IllegalArgumentException(
-					"Could not parse date: " + ex.getMessage());
+			IllegalArgumentException iae = new IllegalArgumentException("Could not parse date: " + ex.getMessage());
 			iae.initCause(ex);
 			throw iae;
 		}

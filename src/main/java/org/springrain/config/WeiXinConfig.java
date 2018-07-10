@@ -41,107 +41,106 @@ import org.springrain.weixin.sdk.xcx.api.impl.WxXcxTemplateMsgServiceImpl;
 @Configuration("configuration-WeiXinConfig")
 public class WeiXinConfig {
 
-    @Resource
-    private IWxMpConfigService wxMpConfigService;
-    @Resource
-    private IWxCpConfigService wxCpConfigService;
-    @Resource
-    private IWxXcxConfigService wxXcxConfigService;
-    
+	@Resource
+	private IWxMpConfigService wxMpConfigService;
+	@Resource
+	private IWxCpConfigService wxCpConfigService;
+	@Resource
+	private IWxXcxConfigService wxXcxConfigService;
 
-    /**
-     * 
-     * @return
-     */
+	/**
+	 * 
+	 * @return
+	 */
 
-    @Bean("wxMpService")
-    public IWxMpService wxMpService() {
-        IWxMpService wxMpService = new WxMpServiceImpl(wxMpConfigService);
-        return wxMpService;
-    }
+	@Bean("wxMpService")
+	public IWxMpService wxMpService() {
+		IWxMpService wxMpService = new WxMpServiceImpl(wxMpConfigService);
+		return wxMpService;
+	}
 
-    @Bean("wxMpCardService")
-    public IWxMpCardService wxMpCardService() {
-        IWxMpCardService wxMpCardService = new WxMpCardServiceImpl(wxMpService(), wxMpConfigService);
-        return wxMpCardService;
-    }
+	@Bean("wxMpCardService")
+	public IWxMpCardService wxMpCardService() {
+		IWxMpCardService wxMpCardService = new WxMpCardServiceImpl(wxMpService(), wxMpConfigService);
+		return wxMpCardService;
+	}
 
-    @Bean("wxMpDataCubeService")
-    public IWxMpDataCubeService wxMpDataCubeService() {
-        IWxMpDataCubeService wxMpDataCubeService = new WxMpDataCubeServiceImpl(wxMpService());
-        return wxMpDataCubeService;
-    }
+	@Bean("wxMpDataCubeService")
+	public IWxMpDataCubeService wxMpDataCubeService() {
+		IWxMpDataCubeService wxMpDataCubeService = new WxMpDataCubeServiceImpl(wxMpService());
+		return wxMpDataCubeService;
+	}
 
-    @Bean("wxMpKefuService")
-    public IWxMpKefuService wxMpKefuService() {
-        IWxMpKefuService wxMpKefuService = new WxMpKefuServiceImpl(wxMpService());
-        return wxMpKefuService;
-    }
+	@Bean("wxMpKefuService")
+	public IWxMpKefuService wxMpKefuService() {
+		IWxMpKefuService wxMpKefuService = new WxMpKefuServiceImpl(wxMpService());
+		return wxMpKefuService;
+	}
 
-    @Bean("wxMpMaterialService")
-    public IWxMpMaterialService wxMpMaterialService() {
-        IWxMpMaterialService wxMpMaterialService = new WxMpMaterialServiceImpl(wxMpService());
-        return wxMpMaterialService;
-    }
+	@Bean("wxMpMaterialService")
+	public IWxMpMaterialService wxMpMaterialService() {
+		IWxMpMaterialService wxMpMaterialService = new WxMpMaterialServiceImpl(wxMpService());
+		return wxMpMaterialService;
+	}
 
-    @Bean("wxMpMenuService")
-    public IWxMpMenuService wxMpMenuService() {
-        IWxMpMenuService wxMpMenuService = new WxMpMenuServiceImpl(wxMpService());
-        return wxMpMenuService;
-    }
+	@Bean("wxMpMenuService")
+	public IWxMpMenuService wxMpMenuService() {
+		IWxMpMenuService wxMpMenuService = new WxMpMenuServiceImpl(wxMpService());
+		return wxMpMenuService;
+	}
 
-    @Bean("wxMpPayService")
-    public IWxMpPayService wxMpPayService() {
-        IWxMpPayService wxMpPayService = new WxMpPayServiceImpl(wxMpService());
-        return wxMpPayService;
-    }
+	@Bean("wxMpPayService")
+	public IWxMpPayService wxMpPayService() {
+		IWxMpPayService wxMpPayService = new WxMpPayServiceImpl(wxMpService());
+		return wxMpPayService;
+	}
 
-    @Bean("wxMpQrcodeService")
-    public IWxMpQrcodeService wxMpQrcodeService() {
-        IWxMpQrcodeService wxMpQrcodeService = new WxMpQrcodeServiceImpl(wxMpService());
-        return wxMpQrcodeService;
-    }
+	@Bean("wxMpQrcodeService")
+	public IWxMpQrcodeService wxMpQrcodeService() {
+		IWxMpQrcodeService wxMpQrcodeService = new WxMpQrcodeServiceImpl(wxMpService());
+		return wxMpQrcodeService;
+	}
 
-    @Bean("wxMpUserService")
-    public IWxMpUserService wxMpUserService() {
-        IWxMpUserService wxMpUserService = new WxMpUserServiceImpl(wxMpService());
-        return wxMpUserService;
-    }
+	@Bean("wxMpUserService")
+	public IWxMpUserService wxMpUserService() {
+		IWxMpUserService wxMpUserService = new WxMpUserServiceImpl(wxMpService());
+		return wxMpUserService;
+	}
 
-    @Bean("wxMpTemplateMsgService")
-    public IWxMpTemplateMsgService wxMpTemplateMsgService() {
-        IWxMpTemplateMsgService wxMpTemplateMsgService = new WxMpTemplateMsgServiceImpl(wxMpService());
-        return wxMpTemplateMsgService;
-    }
+	@Bean("wxMpTemplateMsgService")
+	public IWxMpTemplateMsgService wxMpTemplateMsgService() {
+		IWxMpTemplateMsgService wxMpTemplateMsgService = new WxMpTemplateMsgServiceImpl(wxMpService());
+		return wxMpTemplateMsgService;
+	}
 
-    @Bean("wxCpService")
-    public IWxCpService wxCpService() {
-        IWxCpService wxCpService = new WxCpServiceImpl(wxCpConfigService);
-        return wxCpService;
-    }
+	@Bean("wxCpService")
+	public IWxCpService wxCpService() {
+		IWxCpService wxCpService = new WxCpServiceImpl(wxCpConfigService);
+		return wxCpService;
+	}
 
-    @Bean("wxXcxService")
-    public IWxXcxService wxXcxService() {
-        IWxXcxService wxXcxService = new WxXcxServiceImpl(wxXcxConfigService);
-        return wxXcxService;
-    }
+	@Bean("wxXcxService")
+	public IWxXcxService wxXcxService() {
+		IWxXcxService wxXcxService = new WxXcxServiceImpl(wxXcxConfigService);
+		return wxXcxService;
+	}
 
-    @Bean("wxXcxPayService")
-    public IWxXcxPayService wxXcxPayService() {
-        IWxXcxPayService wxXcxPayService = new WxXcxPayServiceImpl(wxXcxService());
-        return wxXcxPayService;
-    }
+	@Bean("wxXcxPayService")
+	public IWxXcxPayService wxXcxPayService() {
+		IWxXcxPayService wxXcxPayService = new WxXcxPayServiceImpl(wxXcxService());
+		return wxXcxPayService;
+	}
 
-    @Bean("wxXcxTemplateMsgService")
-    public IWxXcxTemplateMsgService wxXcxTemplateMsgService() {
-        IWxXcxTemplateMsgService wxXcxTemplateMsgService = new WxXcxTemplateMsgServiceImpl(wxXcxService());
-        return wxXcxTemplateMsgService;
-    }
+	@Bean("wxXcxTemplateMsgService")
+	public IWxXcxTemplateMsgService wxXcxTemplateMsgService() {
+		IWxXcxTemplateMsgService wxXcxTemplateMsgService = new WxXcxTemplateMsgServiceImpl(wxXcxService());
+		return wxXcxTemplateMsgService;
+	}
 
-    @Bean("wxXcxMaterialService")
-    public IWxXcxMaterialService wxXcxMaterialService() {
-        IWxXcxMaterialService wxXcxMaterialService = new WxXcxMaterialServiceImpl(wxXcxService());
-        return wxXcxMaterialService;
-    }
+	@Bean("wxXcxMaterialService")
+	public IWxXcxMaterialService wxXcxMaterialService() {
+		IWxXcxMaterialService wxXcxMaterialService = new WxXcxMaterialServiceImpl(wxXcxService());
+		return wxXcxMaterialService;
+	}
 
 }

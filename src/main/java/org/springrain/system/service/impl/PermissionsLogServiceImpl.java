@@ -41,16 +41,16 @@ public class PermissionsLogServiceImpl extends BaseSpringrainServiceImpl impleme
 
 	@Resource
 	private IRoleService roleService;
-	
+
 	@Resource
 	private IMenuService menuService;
-	
+
 	@Resource
 	private IUserService userService;
-	
+
 	@Resource
 	private IUserRoleMenuService userRoleMenuService;
-	
+
 	@Override
 	public String save(Object entity) throws Exception {
 		PermissionsLog permissionsLog = (PermissionsLog) entity;
@@ -92,16 +92,11 @@ public class PermissionsLogServiceImpl extends BaseSpringrainServiceImpl impleme
 	/**
 	 * 根据查询列表的宏,导出Excel
 	 * 
-	 * @param finder
-	 *            为空则只查询 clazz表
-	 * @param ftlurl
-	 *            类表的模版宏
-	 * @param page
-	 *            分页对象
-	 * @param clazz
-	 *            要查询的对象
-	 * @param o
-	 *            querybean
+	 * @param finder 为空则只查询 clazz表
+	 * @param ftlurl 类表的模版宏
+	 * @param page   分页对象
+	 * @param clazz  要查询的对象
+	 * @param o      querybean
 	 * @return
 	 * @throws Exception
 	 */
@@ -113,27 +108,27 @@ public class PermissionsLogServiceImpl extends BaseSpringrainServiceImpl impleme
 
 	@Override
 	public String savePermissionsLog(PermissionsLog log) throws Exception {
-		if(log == null) {
+		if (log == null) {
 			return null;
 		}
-		
-		if(StringUtils.isBlank(log.getOperatorUserId())) {
+
+		if (StringUtils.isBlank(log.getOperatorUserId())) {
 			String operatorUserId = SessionUser.getUserId();
 			User operatorUser = userService.findById(operatorUserId, User.class);
 			log.setOperatorUserName(operatorUser.getName());
 			log.setOperatorUserRoles(findRoleNamesByUserId(operatorUser.getId()));
 		}
-		
-		if(StringUtils.isBlank(log.getCreateUserId())) {
+
+		if (StringUtils.isBlank(log.getCreateUserId())) {
 			log.setCreateUserId(SessionUser.getUserId());
 		}
-		if(log.getCreateTime() == null) {
+		if (log.getCreateTime() == null) {
 			log.setCreateTime(new Date());
 		}
-		
-		if(StringUtils.isBlank(log.getId())) {
+
+		if (StringUtils.isBlank(log.getId())) {
 			super.save(log);
-		}else {
+		} else {
 			super.update(log, true);
 		}
 		return ReturnDatas.SUCCESS;
@@ -141,11 +136,10 @@ public class PermissionsLogServiceImpl extends BaseSpringrainServiceImpl impleme
 
 	@Override
 	public String saveUpdateRoleLog(Role newRole, Role oldRole, Integer actionType) throws Exception {
-		if(Enumerations.PermissionsLogActionType.getActionType(actionType) == null 
-				|| newRole == null ) {
+		if (Enumerations.PermissionsLogActionType.getActionType(actionType) == null || newRole == null) {
 			return null;
 		}
-		
+
 		String siteId = null;
 		String operatorUserId = SessionUser.getUserId();
 		String operatorUserName = SessionUser.getUserName();
@@ -156,211 +150,215 @@ public class PermissionsLogServiceImpl extends BaseSpringrainServiceImpl impleme
 		String actionContent = "";
 		String createUserId = SessionUser.getUserId();
 		Date createTime = new Date();
-		
-		if(actionType.intValue() == Enumerations.PermissionsLogActionType.创建.getVal()) {
+
+		if (actionType.intValue() == Enumerations.PermissionsLogActionType.创建.getVal()) {
 			operatorObjectName = newRole.getName();
-			
+
 			StringBuffer sb = new StringBuffer();
 //			sb.append("增加权限：" + getMenuInfosByRoleMenus(newRole.getRoleMenus()));
 			sb.append(getMenuInfosByRoleMenus(newRole.getRoleMenus()));
 			sb.append("<contenttsplit>");
-			
+
 			actionContent = sb.toString();
-		}else if(actionType.intValue() == Enumerations.PermissionsLogActionType.编辑.getVal()){
+		} else if (actionType.intValue() == Enumerations.PermissionsLogActionType.编辑.getVal()) {
 			operatorObjectName = oldRole.getName();
-			
+
 			StringBuffer sb = new StringBuffer();
-			if(!newRole.getName().equals(oldRole.getName())) {
+			if (!newRole.getName().equals(oldRole.getName())) {
 //				sb.append("名称变更：" + oldRole.getName() + " -> " + newRole.getName());
 				sb.append(oldRole.getName() + " -> " + newRole.getName());
 			}
 			sb.append("<contenttsplit>");
-			
+
 			// 新增的
 			List<RoleMenu> addRoleMenus = getAddRoleMenu(newRole.getRoleMenus(), oldRole.getRoleMenus());
-			if(addRoleMenus!=null && !addRoleMenus.isEmpty()) {
+			if (addRoleMenus != null && !addRoleMenus.isEmpty()) {
 //				sb.append("增加权限：").append(getMenuInfosByRoleMenus(addRoleMenus));
 				sb.append(getMenuInfosByRoleMenus(addRoleMenus));
 			}
 			sb.append("<contenttsplit>");
-			
+
 			// 删除的
 			List<RoleMenu> delRoleMenus = getDelRoleMenu(newRole.getRoleMenus(), oldRole.getRoleMenus());
-			if(delRoleMenus!=null && !delRoleMenus.isEmpty()) {
+			if (delRoleMenus != null && !delRoleMenus.isEmpty()) {
 //				sb.append("减少权限：").append(getMenuInfosByRoleMenus(delRoleMenus));
 				sb.append(getMenuInfosByRoleMenus(delRoleMenus));
 			}
-			
+
 			actionContent = sb.toString();
 		}
-		
-		if(StringUtils.isBlank(actionContent)) {
+
+		if (StringUtils.isBlank(actionContent)) {
 			return null;
 		}
-		
-		PermissionsLog log = new PermissionsLog(siteId, actionType, operatorUserId, operatorUserName, operatorUserRoles
-				, operatorObjectType, operatorObjectId, operatorObjectName, actionContent, createUserId, createTime);
-		
+
+		PermissionsLog log = new PermissionsLog(siteId, actionType, operatorUserId, operatorUserName, operatorUserRoles,
+				operatorObjectType, operatorObjectId, operatorObjectName, actionContent, createUserId, createTime);
+
 		return this.savePermissionsLog(log);
 	}
-	
+
 	/**
 	 * 根据用户ID获取用户拥有的角色名称的拼接，已英文逗号分割
+	 * 
 	 * @param userId
 	 * @return
 	 * @throws Exception
 	 */
-	private String findRoleNamesByUserId(String userId) throws Exception{
-		if(StringUtils.isBlank(userId)) {
+	private String findRoleNamesByUserId(String userId) throws Exception {
+		if (StringUtils.isBlank(userId)) {
 			return null;
 		}
-		
+
 		List<Role> roles = userRoleMenuService.findRoleByUserId(userId);
-		if(roles == null || roles.isEmpty()) {
+		if (roles == null || roles.isEmpty()) {
 			return null;
 		}
-		
+
 		String roleNames = "";
-		for(Role role : roles) {
+		for (Role role : roles) {
 			roleNames += role.getName() + ",";
 		}
-		if(StringUtils.isBlank(roleNames)) {
+		if (StringUtils.isBlank(roleNames)) {
 			return null;
 		}
-		
-		roleNames = roleNames.substring(0,roleNames.length()-1);
+
+		roleNames = roleNames.substring(0, roleNames.length() - 1);
 		return roleNames;
 	}
-	
+
 	/**
 	 * 根据角色菜单关联关系获取菜单描述信息
+	 * 
 	 * @param roleMenus
 	 * @return
 	 * @throws Exception
 	 */
-	private String getMenuInfosByRoleMenus(List<RoleMenu> roleMenus) throws Exception{
-		if(roleMenus == null || roleMenus.isEmpty()) {
+	private String getMenuInfosByRoleMenus(List<RoleMenu> roleMenus) throws Exception {
+		if (roleMenus == null || roleMenus.isEmpty()) {
 			return "";
 		}
-		
+
 		List<String> menuIds = new ArrayList<String>();
-		for(RoleMenu roleMenu : roleMenus) {
+		for (RoleMenu roleMenu : roleMenus) {
 			menuIds.add(roleMenu.getMenuId());
 		}
-		
+
 		Finder finder_menu = Finder.getSelectFinder(Menu.class).append(" where id in (:ids) ").setParam("ids", menuIds);
 		List<Menu> menuList = super.queryForList(finder_menu, Menu.class);
-		
+
 		// 补全数据
 		Finder finder_allmenu = new Finder("select m1.* from ").append(Finder.getTableName(Menu.class)).append(" m1 ")
-			.append(",").append(Finder.getTableName(RoleMenu.class)).append(" rm ")
-			.append(",").append(Finder.getTableName(UserRole.class)).append(" ur ")
-			.append(" where m1.id = rm.menuId and rm.roleId = ur.roleId and ur.userId = :userId ")
-			.setParam("userId", SessionUser.getUserId());
+				.append(",").append(Finder.getTableName(RoleMenu.class)).append(" rm ").append(",")
+				.append(Finder.getTableName(UserRole.class)).append(" ur ")
+				.append(" where m1.id = rm.menuId and rm.roleId = ur.roleId and ur.userId = :userId ")
+				.setParam("userId", SessionUser.getUserId());
 		List<Menu> allMenus = super.queryForList(finder_allmenu, Menu.class);
 		List<Menu> pmenuListAll = new ArrayList<Menu>();
-		for(Menu menu : menuList) {
+		for (Menu menu : menuList) {
 			List<Menu> pmenuList = menuService.findAllParentByChildIdFromAll(menu.getPid(), allMenus);
-			if(pmenuList == null || pmenuList.isEmpty()) {
+			if (pmenuList == null || pmenuList.isEmpty()) {
 				continue;
 			}
-			for(Menu pmenu : pmenuList) {
+			for (Menu pmenu : pmenuList) {
 				boolean has = false;
-				for(Menu pmenu2 : pmenuListAll) {
-					if(pmenu2.getId().equals(pmenu.getId())) {
+				for (Menu pmenu2 : pmenuListAll) {
+					if (pmenu2.getId().equals(pmenu.getId())) {
 						has = true;
 						break;
 					}
 				}
-				if(!has) {
+				if (!has) {
 					pmenuListAll.add(pmenu);
 				}
 			}
 		}
-		
+
 		menuList.addAll(pmenuListAll);
 		menuList = setLeaf(menuList);
-		
+
 		String res = getMenuInfos(menuList, null);
-		
+
 		// 去重
-		if(StringUtils.isNotBlank(res)) {
+		if (StringUtils.isNotBlank(res)) {
 			String[] resArr = res.split("<br>");
-			if(resArr!=null && resArr.length>1) {
+			if (resArr != null && resArr.length > 1) {
 				List<String> resList = new ArrayList<String>();
-				for(String resone : resArr) {
-					if(!resList.contains(resone)) {
+				for (String resone : resArr) {
+					if (!resList.contains(resone)) {
 						resList.add(resone);
 					}
 				}
-				if(resList.size()>0) {
+				if (resList.size() > 0) {
 					res = "";
-					for(String resone : resList) {
+					for (String resone : resList) {
 						res += resone + "<br>";
 					}
-					if(StringUtils.isNotBlank(res)) {
-						res = res.substring(0, res.length()-4);
+					if (StringUtils.isNotBlank(res)) {
+						res = res.substring(0, res.length() - 4);
 					}
 				}
 			}
 		}
-		
+
 		return res;
 	}
-	
+
 	/**
 	 * 给一个总集合中的元素设置成树结构
+	 * 
 	 * @param menuList
 	 * @return
 	 * @throws Exception
 	 */
-	private List<Menu> setLeaf(List<Menu> menuList) throws Exception{
+	private List<Menu> setLeaf(List<Menu> menuList) throws Exception {
 		List<Menu> res = new ArrayList<Menu>();
-		for(Menu menu1 : menuList) {
+		for (Menu menu1 : menuList) {
 			List<Menu> leafs = new ArrayList<Menu>();
-			for(Menu menu2 : menuList) {
-				if(menu1.getId().equals(menu2.getPid())) {
+			for (Menu menu2 : menuList) {
+				if (menu1.getId().equals(menu2.getPid())) {
 					leafs.add(menu2);
 				}
 			}
 			menu1.setLeaf(leafs);
 		}
-		
-		for(Menu menu1 : menuList) {
+
+		for (Menu menu1 : menuList) {
 			boolean isParent = true;
-			for(Menu menu2 : menuList) {
-				if(menu2.getId().equals(menu1.getPid())) {
+			for (Menu menu2 : menuList) {
+				if (menu2.getId().equals(menu1.getPid())) {
 					isParent = false;
 					break;
 				}
 			}
-			if(isParent) {
+			if (isParent) {
 				res.add(menu1);
 			}
 		}
-		
+
 		return res;
 	}
-	
+
 	/**
 	 * 获取拼接信息
+	 * 
 	 * @param menuList
 	 * @return
 	 * @throws Exception
 	 */
-	private String getMenuInfos(List<Menu> menuList,String pName) throws Exception{
-		if(menuList == null || menuList.isEmpty()) {
+	private String getMenuInfos(List<Menu> menuList, String pName) throws Exception {
+		if (menuList == null || menuList.isEmpty()) {
 			return "";
 		}
 		String res = "";
 		String leafPname = "";
-		for(Menu menu : menuList) {
-			if(StringUtils.isBlank(pName)) {
+		for (Menu menu : menuList) {
+			if (StringUtils.isBlank(pName)) {
 				leafPname = menu.getName();
-			}else {
+			} else {
 				leafPname = pName + " - " + menu.getName();
 			}
-			if(menu.getLeaf()== null || menu.getLeaf().isEmpty()) {
+			if (menu.getLeaf() == null || menu.getLeaf().isEmpty()) {
 				res += leafPname + "<br>";
 				continue;
 			}
@@ -368,94 +366,96 @@ public class PermissionsLogServiceImpl extends BaseSpringrainServiceImpl impleme
 		}
 		return res;
 	}
-	
+
 	/**
 	 * 比较获得新增的
+	 * 
 	 * @param newRoleMenuList
 	 * @param oldRoleMenuList
 	 * @return
 	 */
-	private List<RoleMenu> getAddRoleMenu(List<RoleMenu> newRoleMenuList,List<RoleMenu> oldRoleMenuList){
+	private List<RoleMenu> getAddRoleMenu(List<RoleMenu> newRoleMenuList, List<RoleMenu> oldRoleMenuList) {
 		List<RoleMenu> addRoleMenuList = new ArrayList<RoleMenu>();
-		if(newRoleMenuList == null || newRoleMenuList.isEmpty()) {
+		if (newRoleMenuList == null || newRoleMenuList.isEmpty()) {
 			return null;
 		}
 		// 新增的
-		for(RoleMenu newRoleMenu : newRoleMenuList) {
+		for (RoleMenu newRoleMenu : newRoleMenuList) {
 			boolean isNew = true;
-			for(RoleMenu oldRoleMenu : oldRoleMenuList) {
-				if(newRoleMenu.getMenuId().equals(oldRoleMenu.getMenuId())) {
+			for (RoleMenu oldRoleMenu : oldRoleMenuList) {
+				if (newRoleMenu.getMenuId().equals(oldRoleMenu.getMenuId())) {
 					isNew = false;
 					break;
 				}
 			}
-			if(isNew) {
+			if (isNew) {
 				addRoleMenuList.add(newRoleMenu);
 			}
 		}
-		
+
 		return addRoleMenuList;
 	}
-	
+
 	/**
 	 * 比较获得被删除的
+	 * 
 	 * @param newRoleMenuList
 	 * @param oldRoleMenuList
 	 * @return
 	 */
-	private List<RoleMenu> getDelRoleMenu(List<RoleMenu> newRoleMenuList,List<RoleMenu> oldRoleMenuList){
+	private List<RoleMenu> getDelRoleMenu(List<RoleMenu> newRoleMenuList, List<RoleMenu> oldRoleMenuList) {
 		List<RoleMenu> delRoleMenuList = new ArrayList<RoleMenu>();
-		if(oldRoleMenuList == null || oldRoleMenuList.isEmpty()) {
+		if (oldRoleMenuList == null || oldRoleMenuList.isEmpty()) {
 			return null;
 		}
 		// 被删除的
-		for(RoleMenu oldRoleMenu : oldRoleMenuList) {
+		for (RoleMenu oldRoleMenu : oldRoleMenuList) {
 			boolean isDel = true;
-			if(newRoleMenuList!=null && !newRoleMenuList.isEmpty()) {
-				for(RoleMenu newRoleMenu : newRoleMenuList) {
-					if(newRoleMenu.getMenuId().equals(oldRoleMenu.getMenuId())) {
+			if (newRoleMenuList != null && !newRoleMenuList.isEmpty()) {
+				for (RoleMenu newRoleMenu : newRoleMenuList) {
+					if (newRoleMenu.getMenuId().equals(oldRoleMenu.getMenuId())) {
 						isDel = false;
 						break;
 					}
 				}
 			}
-			if(isDel) {
+			if (isDel) {
 				delRoleMenuList.add(oldRoleMenu);
 			}
 		}
-		
+
 		return delRoleMenuList;
 	}
 
 	@Override
 	public String saveUserLog(String userId, int actionType) throws Exception {
-		if(StringUtils.isBlank(userId) || Enumerations.PermissionsLogActionType.getActionType(actionType) == null) {
+		if (StringUtils.isBlank(userId) || Enumerations.PermissionsLogActionType.getActionType(actionType) == null) {
 			return null;
 		}
-		
+
 		User user = super.findById(userId, User.class);
 		String siteId = "default";
 		int operatorObjectType = Enumerations.PermissionsLogOperatorObjectType.用户.getVal();
 		String operatorObjectId = user.getId();
 		String operatorObjectName = user.getName();
 		String actionContent = "";
-		
+
 		// 从属角色
 		List<Role> roleList = userRoleMenuService.findRoleByUserId(user.getId());
-		if(roleList!=null && !roleList.isEmpty()) {
+		if (roleList != null && !roleList.isEmpty()) {
 			String split = ",";
-			for(Role role : roleList) {
+			for (Role role : roleList) {
 				actionContent += role.getName() + split;
 			}
-			if(StringUtils.isNotBlank(actionContent)) {
-				actionContent = actionContent.substring(0,actionContent.length()-split.length());
+			if (StringUtils.isNotBlank(actionContent)) {
+				actionContent = actionContent.substring(0, actionContent.length() - split.length());
 			}
 		}
-		
-		PermissionsLog log = new PermissionsLog(siteId, actionType, operatorObjectType
-				, operatorObjectId, operatorObjectName, actionContent);
-		
+
+		PermissionsLog log = new PermissionsLog(siteId, actionType, operatorObjectType, operatorObjectId,
+				operatorObjectName, actionContent);
+
 		return this.savePermissionsLog(log);
 	}
-	
+
 }

@@ -1,7 +1,5 @@
 package org.springrain.cms.util;
 
-
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -28,7 +26,7 @@ import freemarker.template.TemplateScalarModel;
  * Freemarker标签工具类
  */
 public abstract class DirectiveUtils {
-	
+
 	/**
 	 * 输出参数：对象数据
 	 */
@@ -41,17 +39,17 @@ public abstract class DirectiveUtils {
 	 * 输出参数：分页数据
 	 */
 	public static final String OUT_PAGINATION = "tag_pagination";
-	
+
 	/**
 	 * 封装对象为 TemplateModel
+	 * 
 	 * @param obj
 	 * @return
 	 * @throws TemplateModelException
 	 */
-	public static TemplateModel wrap(Object obj) throws TemplateModelException{
+	public static TemplateModel wrap(Object obj) throws TemplateModelException {
 		return new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_26).build().wrap(obj);
 	}
-
 
 	/**
 	 * 将params的值复制到variable中
@@ -61,8 +59,7 @@ public abstract class DirectiveUtils {
 	 * @return 原Variable中的值
 	 * @throws TemplateException
 	 */
-	public static Map<String, TemplateModel> addParamsToVariable(
-			Environment env, Map<String, TemplateModel> params)
+	public static Map<String, TemplateModel> addParamsToVariable(Environment env, Map<String, TemplateModel> params)
 			throws TemplateException {
 		Map<String, TemplateModel> origMap = new HashMap<String, TemplateModel>();
 		if (params.size() <= 0) {
@@ -90,8 +87,7 @@ public abstract class DirectiveUtils {
 	 * @param origMap
 	 * @throws TemplateException
 	 */
-	public static void removeParamsFromVariable(Environment env,
-			Map<String, TemplateModel> params,
+	public static void removeParamsFromVariable(Environment env, Map<String, TemplateModel> params,
 			Map<String, TemplateModel> origMap) throws TemplateException {
 		if (params.size() <= 0) {
 			return;
@@ -101,10 +97,7 @@ public abstract class DirectiveUtils {
 		}
 	}
 
-	
-
-	public static String getString(String name,
-			Map<String, TemplateModel> params) throws TemplateException {
+	public static String getString(String name, Map<String, TemplateModel> params) throws TemplateException {
 		TemplateModel model = params.get(name);
 		if (model == null) {
 			return null;
@@ -118,8 +111,7 @@ public abstract class DirectiveUtils {
 		}
 	}
 
-	public static Long getLong(String name, Map<String, TemplateModel> params)
-			throws TemplateException {
+	public static Long getLong(String name, Map<String, TemplateModel> params) throws TemplateException {
 		TemplateModel model = params.get(name);
 		if (model == null) {
 			return null;
@@ -141,8 +133,7 @@ public abstract class DirectiveUtils {
 		}
 	}
 
-	public static Integer getInt(String name, Map<String, TemplateModel> params)
-			throws TemplateException {
+	public static Integer getInt(String name, Map<String, TemplateModel> params) throws TemplateException {
 		TemplateModel model = params.get(name);
 		if (model == null) {
 			return null;
@@ -164,8 +155,7 @@ public abstract class DirectiveUtils {
 		}
 	}
 
-	public static Integer[] getIntArray(String name,
-			Map<String, TemplateModel> params) throws TemplateException {
+	public static Integer[] getIntArray(String name, Map<String, TemplateModel> params) throws TemplateException {
 		String str = DirectiveUtils.getString(name, params);
 		if (StringUtils.isBlank(str)) {
 			return null;
@@ -183,8 +173,7 @@ public abstract class DirectiveUtils {
 		}
 	}
 
-	public static Boolean getBool(String name, Map<String, TemplateModel> params)
-			throws TemplateException {
+	public static Boolean getBool(String name, Map<String, TemplateModel> params) throws TemplateException {
 		TemplateModel model = params.get(name);
 		if (model == null) {
 			return null;
@@ -197,8 +186,7 @@ public abstract class DirectiveUtils {
 			String s = ((TemplateScalarModel) model).getAsString();
 			// 空串应该返回null还是true呢？
 			if (!StringUtils.isBlank(s)) {
-				return !("0".equals(s) || "false".equalsIgnoreCase(s) ||"f"
-						.equalsIgnoreCase(s));
+				return !("0".equals(s) || "false".equalsIgnoreCase(s) || "f".equalsIgnoreCase(s));
 			} else {
 				return null;
 			}
@@ -207,8 +195,7 @@ public abstract class DirectiveUtils {
 		}
 	}
 
-	public static Date getDate(String name, Map<String, TemplateModel> params)
-			throws TemplateException {
+	public static Date getDate(String name, Map<String, TemplateModel> params) throws TemplateException {
 		TemplateModel model = params.get(name);
 		if (model == null) {
 			return null;
@@ -223,15 +210,15 @@ public abstract class DirectiveUtils {
 			throw new MustDateException(name);
 		}
 	}
-	
-	public static Set<String> getKeysByPrefix(String prefix,Map<String, TemplateModel> params) {
+
+	public static Set<String> getKeysByPrefix(String prefix, Map<String, TemplateModel> params) {
 		Set<String> keys = params.keySet();
 		Set<String> startWithPrefixKeys = new HashSet<String>();
 		if (keys == null) {
 			return null;
 		}
-		for(String key:keys){
-			if(key.startsWith(prefix)){
+		for (String key : keys) {
+			if (key.startsWith(prefix)) {
 				startWithPrefixKeys.add(key);
 			}
 		}
@@ -240,43 +227,45 @@ public abstract class DirectiveUtils {
 
 	/**
 	 * 获取字符串数组
+	 * 
 	 * @param keyName
 	 * @param params
 	 * @param splitStr
 	 * @return
-	 * @throws TemplateException 
+	 * @throws TemplateException
 	 */
-	public static String[] getStringArr(String keyName, Map params,String splitStr) throws TemplateException {
+	public static String[] getStringArr(String keyName, Map params, String splitStr) throws TemplateException {
 		String str = getString(keyName, params);
-		if(str != null ){
+		if (str != null) {
 			return str.split(splitStr);
 		}
 		return null;
 	}
-	
+
 	/**
 	 * 从参数中提取page对象
+	 * 
 	 * @param keyName 默认为"page"
-	 * @param params 
+	 * @param params
 	 * @return
 	 * @throws Exception
 	 */
-	public static Page getPage(String keyName,Map params) throws Exception{
-		if(StringUtils.isEmpty(keyName)){
+	public static Page getPage(String keyName, Map params) throws Exception {
+		if (StringUtils.isEmpty(keyName)) {
 			keyName = "page";
 		}
-		if(params == null || params.get(keyName) == null){
+		if (params == null || params.get(keyName) == null) {
 			return null;
 		}
 		StringModel stringModel = (StringModel) params.get(keyName);
 		Page page = (Page) stringModel.getAdaptedObject(Page.class);
-		
+
 		// 修改分页大小
 		Integer pageSize = getInt("pageSize", params);
-		if(pageSize!=null){
+		if (pageSize != null) {
 			page.setPageSize(pageSize);
 		}
 		return page;
 	}
-	
+
 }

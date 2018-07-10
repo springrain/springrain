@@ -31,9 +31,8 @@ public class ConfigurableCaptchaService extends AbstractCaptchaService {
 
 	public ConfigurableCaptchaService() {
 		backgroundFactory = new SingleColorBackgroundFactory();
-		//backgroundFactory = new GradientBackgroundFactory();
-		
-		
+		// backgroundFactory = new GradientBackgroundFactory();
+
 		wordFactory = new AdaptiveRandomWordFactory();
 		fontFactory = new RandomFontFactory();
 		textRenderer = new BestFitTextRenderer();
@@ -45,9 +44,9 @@ public class ConfigurableCaptchaService extends AbstractCaptchaService {
 		textRenderer.setTopMargin(3);
 		width = 100;
 		height = 40;
-		
-		 setColorFactory(new SingleColorFactory(Color.BLACK));
-		 setFilterFactory(new CurvesRippleFilterFactory(colorFactory));
+
+		setColorFactory(new SingleColorFactory(Color.BLACK));
+		setFilterFactory(new CurvesRippleFilterFactory(colorFactory));
 	}
 
 }

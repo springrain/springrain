@@ -48,7 +48,7 @@ public class RandomFontFactory implements FontFactory {
 		this();
 		this.families = Arrays.asList(families);
 	}
-	
+
 	public RandomFontFactory(int size, List<String> families) {
 		this(families);
 		minSize = maxSize = size;
@@ -58,7 +58,7 @@ public class RandomFontFactory implements FontFactory {
 		this(families);
 		minSize = maxSize = size;
 	}
-	
+
 	public void setFamilies(List<String> families) {
 		this.families = families;
 	}

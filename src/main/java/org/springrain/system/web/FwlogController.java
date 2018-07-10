@@ -1,4 +1,5 @@
-package  org.springrain.system.web;
+package org.springrain.system.web;
+
 import java.io.File;
 import java.util.List;
 
@@ -18,21 +19,22 @@ import org.springrain.frame.util.ReturnDatas;
 import org.springrain.system.entity.Fwlog;
 import org.springrain.system.service.IFwlogService;
 
-
 /**
  * TODO 在此加入类描述
+ * 
  * @copyright {@link springrain}
  * @author weicms.net<Auto generate>
- * @version  2013-07-29 11:36:44
+ * @version 2013-07-29 11:36:44
  * @see org.springrain.springrain.web.Fwlog
  */
 @Controller
-@RequestMapping(value="/system/fwlog")
-public class FwlogController  extends BaseController {
+@RequestMapping(value = "/system/fwlog")
+public class FwlogController extends BaseController {
 	@Resource
 	private IFwlogService fwlogService;
-	
-	private String listurl="/system/fwlog/fwlogList";
+
+	private String listurl = "/system/fwlog/fwlogList";
+
 	/**
 	 * 列表数据,调用listjson方法,保证和app端数据统一
 	 * 
@@ -59,10 +61,10 @@ public class FwlogController  extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/list/json")
-	@ResponseBody 
+	@ResponseBody
 	public ReturnDatas listjson(HttpServletRequest request, Model model, Fwlog fwlog) throws Exception {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
-	
+
 		Page page = newPage(request);
 		page.setOrder("strDate");
 		page.setSort("desc");
@@ -83,8 +85,8 @@ public class FwlogController  extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/list/export")
-	public void listexport(HttpServletRequest request, HttpServletResponse response, Model model,
-			Fwlog fwlog) throws Exception {
+	public void listexport(HttpServletRequest request, HttpServletResponse response, Model model, Fwlog fwlog)
+			throws Exception {
 		// ==构造分页请求
 		Page page = newPage(request);
 		File file = fwlogService.findDataExportExcel(null, listurl, page, Fwlog.class, fwlog);
@@ -97,8 +99,7 @@ public class FwlogController  extends BaseController {
 	 * 查看操作,调用APP端lookjson方法
 	 */
 	@RequestMapping(value = "/look")
-	public String look(Model model, HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
+	public String look(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ReturnDatas returnObject = lookjson(model, request, response);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
 		return "/system/fwlog/fwlogLook";
@@ -108,7 +109,7 @@ public class FwlogController  extends BaseController {
 	 * 查看的Json格式数据,为APP端提供数据
 	 */
 	@RequestMapping(value = "/look/json")
-	@ResponseBody 
+	@ResponseBody
 	public ReturnDatas lookjson(Model model, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
@@ -123,50 +124,40 @@ public class FwlogController  extends BaseController {
 		return returnObject;
 
 	}
-	
 
-	
 	/*
-	@RequestMapping("/test/jsonp")
-	public void testJsonp(HttpServletRequest request,HttpServletResponse response) throws Exception{
-			//得到js函数名称     
-			String jsonpcallback=request.getParameter("jsonpcallback");
-		    
-			if(StringUtils.isBlank(jsonpcallback)){
-				return;
-			}
-			
-			//对参数编码,处理异常的注入
-			jsonpcallback=URLEncoder.encode(jsonpcallback);
-		
-			List data=new ArrayList();
-			response.setHeader("content-type", "application/javascript;charset=UTF-8");
-			String _json=JsonUtils.writeValueAsString(data);
-		     try { 
-		    	 response.getWriter().write(jsonpcallback + "("+_json+")"); //返回jsonp数据 
-		     } catch (IOException e) { 
-		     } 
-	}
-    */
-	
-	
+	 * @RequestMapping("/test/jsonp") public void testJsonp(HttpServletRequest
+	 * request,HttpServletResponse response) throws Exception{ //得到js函数名称 String
+	 * jsonpcallback=request.getParameter("jsonpcallback");
+	 * 
+	 * if(StringUtils.isBlank(jsonpcallback)){ return; }
+	 * 
+	 * //对参数编码,处理异常的注入 jsonpcallback=URLEncoder.encode(jsonpcallback);
+	 * 
+	 * List data=new ArrayList(); response.setHeader("content-type",
+	 * "application/javascript;charset=UTF-8"); String
+	 * _json=JsonUtils.writeValueAsString(data); try {
+	 * response.getWriter().write(jsonpcallback + "("+_json+")"); //返回jsonp数据 }
+	 * catch (IOException e) { } }
+	 */
+
 	/**
 	 * spring webmvc 输出纯文本文件
+	 * 
 	 * @return
 	 * @throws Exception
 	 */
-	
+
 	/*
-	@RequestMapping("/download/txtfile")
-	@ResponseBody
-	public ResponseEntity<byte[]> downloadtxtfile()throws Exception {
-	  
-		byte[] bb = IOUtils.toByteArray(new FileInputStream(new File("txtfile")));
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.TEXT_PLAIN);
-		return new ResponseEntity<byte[]>(bb, headers, HttpStatus.OK);
-	}
-    */
-	
-	
+	 * @RequestMapping("/download/txtfile")
+	 * 
+	 * @ResponseBody public ResponseEntity<byte[]> downloadtxtfile()throws Exception
+	 * {
+	 * 
+	 * byte[] bb = IOUtils.toByteArray(new FileInputStream(new File("txtfile")));
+	 * HttpHeaders headers = new HttpHeaders();
+	 * headers.setContentType(MediaType.TEXT_PLAIN); return new
+	 * ResponseEntity<byte[]>(bb, headers, HttpStatus.OK); }
+	 */
+
 }

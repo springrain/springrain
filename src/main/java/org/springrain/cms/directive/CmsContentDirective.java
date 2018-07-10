@@ -18,11 +18,12 @@ import freemarker.template.TemplateModel;
 
 /**
  * 内容
+ * 
  * @author dmin93
  * @date 2017年3月8日
  */
 @Component("cmsContentDirective")
-public class CmsContentDirective extends AbstractCMSDirective{
+public class CmsContentDirective extends AbstractCMSDirective {
 
 	private static final String TPL_NAME = "cms_content";
 
@@ -38,36 +39,36 @@ public class CmsContentDirective extends AbstractCMSDirective{
 	 * 输入参数，栏目ID
 	 */
 	public static final String PARAM_CHANNEL_ID = "channelId";
-	
+
 	@Resource
 	private ICmsContentService cmsContentService;
-	
-	@SuppressWarnings({ "rawtypes", "unchecked"})
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public void execute(Environment env, Map params, TemplateModel[] loopVars,
-			TemplateDirectiveBody body) throws TemplateException, IOException {
+	public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body)
+			throws TemplateException, IOException {
 		try {
 			CmsContent cmsContent;
-			
+
 			Boolean next = DirectiveUtils.getBool(PARAM_NEXT, params);
 			String id = DirectiveUtils.getString(PARAM_ID, params);
 			String siteId = this.getSiteId(params);
 			String channelId = DirectiveUtils.getString(PARAM_CHANNEL_ID, params);
-			if(next != null ){
-				cmsContent = cmsContentService.findCmsContentSide(id,siteId,channelId,next);
-			}else{
+			if (next != null) {
+				cmsContent = cmsContentService.findCmsContentSide(id, siteId, channelId, next);
+			} else {
 				cmsContent = cmsContentService.findCmsContentById(siteId, id);
 			}
-			
+
 			env.setVariable(DirectiveUtils.OUT_BEAN, DirectiveUtils.wrap(cmsContent));
-			if(body!=null){
+			if (body != null) {
 				body.render(env.getOut());
 			}
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 		}
 	}
-	
+
 	@PostConstruct
 	public void registerFreeMarkerVariable() {
 		setFreeMarkerSharedVariable(TPL_NAME, this);

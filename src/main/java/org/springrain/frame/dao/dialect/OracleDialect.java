@@ -20,10 +20,8 @@ public class OracleDialect implements IDialect {
 		if (StringUtils.isNotBlank(orderby)) {
 			sb.append(" ").append(orderby);
 		}
-		sb.append(") frame_sql_temp_table1 where rownum <= ").append(end)
-				.append(") frame_sql_temp_table2");
-		sb.append(" where frame_sql_temp_table2.frame_page_sql_row_number >= ")
-				.append(satrt);
+		sb.append(") frame_sql_temp_table1 where rownum <= ").append(end).append(") frame_sql_temp_table2");
+		sb.append(" where frame_sql_temp_table2.frame_page_sql_row_number >= ").append(satrt);
 
 		return sb.toString();
 	}

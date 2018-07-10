@@ -8,28 +8,26 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class PropertyFile {
-	
-	private final  Logger logger = LoggerFactory.getLogger(getClass());
-	
+
+	private final Logger logger = LoggerFactory.getLogger(getClass());
+
 	private PropertyResourceBundle propertyResourceBundle;
 
 	public PropertyFile(String fileName) {
-		propertyResourceBundle = (PropertyResourceBundle) ResourceBundle
-				.getBundle(fileName);
+		propertyResourceBundle = (PropertyResourceBundle) ResourceBundle.getBundle(fileName);
 	}
 
 	/**
 	 * 根据key获得对应的value
 	 * 
-	 * @param strPropertyName
-	 *            key
+	 * @param strPropertyName key
 	 * @return String
 	 */
 	public String getString(String strPropertyName) {
 		try {
 			return propertyResourceBundle.getString(strPropertyName);
 		} catch (Exception e) {
-			logger.error(e.getMessage(),e);
+			logger.error(e.getMessage(), e);
 			return null;
 		}
 	}
@@ -45,7 +43,5 @@ public class PropertyFile {
 	public PropertyResourceBundle getBundle() {
 		return propertyResourceBundle;
 	}
-
-	
 
 }

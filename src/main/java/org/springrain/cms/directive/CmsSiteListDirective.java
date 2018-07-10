@@ -21,44 +21,41 @@ import freemarker.template.TemplateModel;
 
 @Component("siteListDirective")
 public class CmsSiteListDirective extends AbstractCMSDirective {
-	
+
 	@Resource
 	private ICmsSiteService cmsSiteService;
-	
-	
+
 	private static final String TPL_NAME = "cms_site_list";
-	
+
 	@SuppressWarnings({ "rawtypes" })
 	@Override
-	public void execute(Environment env, Map params, TemplateModel[] loopVars,
-			TemplateDirectiveBody body) throws TemplateException, IOException {
-		
-		
-			List<CmsSite> siteList = null;
-	
-			StringModel stringModel = (StringModel) params.get("page");
-			Page page = (Page) stringModel.getAdaptedObject(Page.class);
-			
-			stringModel = (StringModel) params.get("queryBean");
-			CmsSite cmsSite = (CmsSite) stringModel.getAdaptedObject(CmsSite.class);
-			try {
-				siteList = cmsSiteService.findListDataByFinder(null, page, CmsSite.class, cmsSite);
-			} catch (Exception e) {
-				logger.error(e.getMessage(),e);
-				
-			}
-			
-			
+	public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body)
+			throws TemplateException, IOException {
+
+		List<CmsSite> siteList = null;
+
+		StringModel stringModel = (StringModel) params.get("page");
+		Page page = (Page) stringModel.getAdaptedObject(Page.class);
+
+		stringModel = (StringModel) params.get("queryBean");
+		CmsSite cmsSite = (CmsSite) stringModel.getAdaptedObject(CmsSite.class);
+		try {
+			siteList = cmsSiteService.findListDataByFinder(null, page, CmsSite.class, cmsSite);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+
+		}
+
 		env.setVariable("siteList", DirectiveUtils.wrap(siteList));
-		if (body != null) { 
-			body.render(env.getOut());  
+		if (body != null) {
+			body.render(env.getOut());
 		}
 	}
-	
+
 	@PostConstruct
-	public void  registerFreeMarkerVariable(){
+	public void registerFreeMarkerVariable() {
 		setFreeMarkerSharedVariable(TPL_NAME, this);
-		
+
 	}
 
 }

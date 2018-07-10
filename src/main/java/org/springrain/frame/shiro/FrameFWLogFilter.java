@@ -25,103 +25,99 @@ import org.springrain.frame.util.IPUtils;
 import org.springrain.system.entity.Fwlog;
 import org.springrain.system.service.IFwlogService;
 import org.springrain.system.service.IMenuService;
+
 /**
  * 记录访问日志的过滤器
+ * 
  * @author caomei
  *
  */
 
-
 @Component("framefwlog")
 public class FrameFWLogFilter extends OncePerRequestFilter {
-	private final  Logger logger = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 	@Resource
 	private IMenuService menuService;
-	
-	
+
 	@Resource
 	private IFwlogService fwlogService;
-	
+
 	@Override
-	protected void doFilterInternal(ServletRequest request,
-			ServletResponse response, FilterChain chain)
+	protected void doFilterInternal(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws ServletException, IOException {
-		
+
 		HttpServletRequest req = (HttpServletRequest) request;
-		
+
 		String uri = req.getRequestURI();
 		String requestURL = req.getRequestURL().toString();
 		String contextPath = req.getContextPath();
-		if(uri.endsWith("/pre")){// 去掉pre
-			uri=uri.substring(0,uri.length()-4);
+		if (uri.endsWith("/pre")) {// 去掉pre
+			uri = uri.substring(0, uri.length() - 4);
 		}
-		if(uri.endsWith("/json")){// 去掉json
-			uri=uri.substring(0,uri.length()-5);
+		if (uri.endsWith("/json")) {// 去掉json
+			uri = uri.substring(0, uri.length() - 5);
 		}
-		if(uri.endsWith("/more")){// 去掉more
-			uri=uri.substring(0,uri.length()-5);
+		if (uri.endsWith("/more")) {// 去掉more
+			uri = uri.substring(0, uri.length() - 5);
 		}
-		int i=uri.indexOf(contextPath);
-		if(i>-1){
-			uri=uri.substring(i+contextPath.length());
+		int i = uri.indexOf(contextPath);
+		if (i > -1) {
+			uri = uri.substring(i + contextPath.length());
 		}
-		if(StringUtils.isBlank(uri)){
-			uri="/";
+		if (StringUtils.isBlank(uri)) {
+			uri = "/";
 		}
-		
-		
-		
-		
-		 boolean permitted = false;
-		 if("/".equals(uri)){
-			 permitted=true;
-		 }else{
-		 permitted= SecurityUtils.getSubject().isPermitted(uri);
-		 }
-		 String isqx="否";
-		 if(permitted){
-			 isqx="是";
-		 }
-		 String ip = IPUtils.getClientAddress(req);
-		
-		 Fwlog fwlog=new Fwlog();
-		 fwlog.setFwUrl(requestURL);
-		 fwlog.setIsqx(isqx);
-		 fwlog.setIp(ip);
-	
+
+		boolean permitted = false;
+		if ("/".equals(uri)) {
+			permitted = true;
+		} else {
+			permitted = SecurityUtils.getSubject().isPermitted(uri);
+		}
+		String isqx = "否";
+		if (permitted) {
+			isqx = "是";
+		}
+		String ip = IPUtils.getClientAddress(req);
+
+		Fwlog fwlog = new Fwlog();
+		fwlog.setFwUrl(requestURL);
+		fwlog.setIsqx(isqx);
+		fwlog.setIp(ip);
+
 		fwlog.setUserCode(SessionUser.getUserCode());
 		fwlog.setUserName(SessionUser.getUserName());
-		Date startDate=new Date();
+		Date startDate = new Date();
 		fwlog.setStartDate(startDate);
 		fwlog.setStrDate(DateUtils.convertDate2String("yyyy-MM-dd HH:mm:ss.SSSS", startDate));
 		HttpSession httpSession = req.getSession(false);
-		if(httpSession!=null){
+		if (httpSession != null) {
 			fwlog.setSessionId(httpSession.getId());
 		}
 		try {
 			String menuName = menuService.getNameByPageurl(uri);
-			//req.setAttribute(GlobalStatic.pageurlName, menuName);
+			// req.setAttribute(GlobalStatic.pageurlName, menuName);
 			fwlog.setMenuName(menuName);
 			fwlogService.save(fwlog);
-			
+
 		} catch (Exception e) {
-			logger.error(e.getMessage(),e);
+			logger.error(e.getMessage(), e);
 		}
 		chain.doFilter(request, response);
 	}
-	
 
-    /**
-     *  springboot会把所有的filter列为平级,造成shiro的子拦截器和shiroFilter同级,造成访问异常,所以shiro的子Filter需要手动disable
-     * @param filter
-     * @return
-     */
+	/**
+	 * springboot会把所有的filter列为平级,造成shiro的子拦截器和shiroFilter同级,造成访问异常,所以shiro的子Filter需要手动disable
+	 * 
+	 * @param filter
+	 * @return
+	 */
 
-    @Bean("disableFrameFWLogFilter")
-    public FilterRegistrationBean<FrameFWLogFilter> disableFrameFWLogFilter(FrameFWLogFilter filter) {
-        FilterRegistrationBean<FrameFWLogFilter> registration = new FilterRegistrationBean<FrameFWLogFilter>(filter);
-        registration.setEnabled(false);
-        return registration;
-    }
-    
+	@Bean("disableFrameFWLogFilter")
+	public FilterRegistrationBean<FrameFWLogFilter> disableFrameFWLogFilter(FrameFWLogFilter filter) {
+		FilterRegistrationBean<FrameFWLogFilter> registration = new FilterRegistrationBean<FrameFWLogFilter>(filter);
+		registration.setEnabled(false);
+		return registration;
+	}
+
 }

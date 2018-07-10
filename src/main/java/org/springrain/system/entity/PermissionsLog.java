@@ -10,42 +10,41 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.springrain.frame.annotation.WhereSQL;
 import org.springrain.frame.entity.BaseEntity;
+
 /**
  * 权限变更日志
+ * 
  * @copyright {@link weicms.net}
  * @author springrain<Auto generate>
- * @version  2017-12-15 12:13:15
+ * @version 2017-12-15 12:13:15
  * @see org.springrain.system.entity.PermissionsLog
  */
-@Table(name="t_permissions_log")
-public class PermissionsLog  extends BaseEntity {
-	
+@Table(name = "t_permissions_log")
+public class PermissionsLog extends BaseEntity {
+
 	private static final long serialVersionUID = 1L;
 
-	//alias
+	// alias
 	/*
-	public static final String TABLE_ALIAS = "权限变更日志";
-	public static final String ALIAS_ID = "主键";
-	public static final String ALIAS_SITEID = "站点ID";
-	public static final String ALIAS_ACTIONTYPE = "操作类型 创建、编辑、删除、启用、禁用";
-	public static final String ALIAS_OPERATORUSERID = "操作人ID";
-	public static final String ALIAS_OPERATORUSERNAME = "操作人当时名称";
-	public static final String ALIAS_OPERATORUSERROLES = "操作人当时所属角色名称，逗号分割";
-	public static final String ALIAS_OPERATOROBJECTID = "操作对象ID";
-	public static final String ALIAS_OPERATOROBJECTNAME = "操作对象当时的名称";
-	public static final String ALIAS_ACTIONCONTENT = "操作内容详情";
-	public static final String ALIAS_CREATEUSERID = "记录创建人";
-	public static final String ALIAS_CREATETIME = "记录创建时间";
-	public static final String ALIAS_BAK1 = "备用字段";
-	public static final String ALIAS_BAK2 = "备用字段";
-	public static final String ALIAS_BAK3 = "备用字段";
-	public static final String ALIAS_BAK4 = "备用字段";
-	public static final String ALIAS_BAK5 = "备用字段";
-    */
-	//date formats
-	//public static final String FORMAT_CREATETIME = DateUtils.DATETIME_FORMAT;
-	
-	//columns START
+	 * public static final String TABLE_ALIAS = "权限变更日志"; public static final String
+	 * ALIAS_ID = "主键"; public static final String ALIAS_SITEID = "站点ID"; public
+	 * static final String ALIAS_ACTIONTYPE = "操作类型 创建、编辑、删除、启用、禁用"; public static
+	 * final String ALIAS_OPERATORUSERID = "操作人ID"; public static final String
+	 * ALIAS_OPERATORUSERNAME = "操作人当时名称"; public static final String
+	 * ALIAS_OPERATORUSERROLES = "操作人当时所属角色名称，逗号分割"; public static final String
+	 * ALIAS_OPERATOROBJECTID = "操作对象ID"; public static final String
+	 * ALIAS_OPERATOROBJECTNAME = "操作对象当时的名称"; public static final String
+	 * ALIAS_ACTIONCONTENT = "操作内容详情"; public static final String ALIAS_CREATEUSERID
+	 * = "记录创建人"; public static final String ALIAS_CREATETIME = "记录创建时间"; public
+	 * static final String ALIAS_BAK1 = "备用字段"; public static final String
+	 * ALIAS_BAK2 = "备用字段"; public static final String ALIAS_BAK3 = "备用字段"; public
+	 * static final String ALIAS_BAK4 = "备用字段"; public static final String
+	 * ALIAS_BAK5 = "备用字段";
+	 */
+	// date formats
+	// public static final String FORMAT_CREATETIME = DateUtils.DATETIME_FORMAT;
+
+	// columns START
 	/**
 	 * 主键
 	 */
@@ -70,12 +69,12 @@ public class PermissionsLog  extends BaseEntity {
 	 * 操作人当时所属角色名称，逗号分割
 	 */
 	private java.lang.String operatorUserRoles;
-	
+
 	/**
 	 * 操作对象类型
 	 */
 	private java.lang.Integer operatorObjectType;
-	
+
 	/**
 	 * 操作对象ID
 	 */
@@ -116,19 +115,17 @@ public class PermissionsLog  extends BaseEntity {
 	 * 备用字段
 	 */
 	private java.lang.String bak5;
-	//columns END 数据库字段结束
-	
-	//concstructor
+	// columns END 数据库字段结束
 
-	public PermissionsLog(){
+	// concstructor
+
+	public PermissionsLog() {
 	}
 
-	public PermissionsLog(
-		java.lang.String id
-	){
+	public PermissionsLog(java.lang.String id) {
 		this.id = id;
 	}
-	
+
 	public PermissionsLog(String siteId, Integer actionType, String operatorUserId, String operatorUserName,
 			String operatorUserRoles, Integer operatorObjectType, String operatorObjectId, String operatorObjectName,
 			String actionContent, String createUserId, Date createTime) {
@@ -157,7 +154,7 @@ public class PermissionsLog  extends BaseEntity {
 		this.actionContent = actionContent;
 	}
 
-	//get and set
+	// get and set
 	/**
 	 * 主键
 	 */
@@ -167,9 +164,7 @@ public class PermissionsLog  extends BaseEntity {
 		}
 		this.id = value;
 	}
-	
-	
-	
+
 	/**
 	 * 主键
 	 */
@@ -268,6 +263,7 @@ public class PermissionsLog  extends BaseEntity {
 
 	/**
 	 * 操作对象类型
+	 * 
 	 * @return
 	 */
 	public java.lang.Integer getOperatorObjectType() {
@@ -350,12 +346,11 @@ public class PermissionsLog  extends BaseEntity {
 		return this.createUserId;
 	}
 	/*
-	public String getcreateTimeString() {
-		return DateUtils.convertDate2String(FORMAT_CREATETIME, getcreateTime());
-	}
-	public void setcreateTimeString(String value) throws ParseException{
-		setcreateTime(DateUtils.convertString2Date(FORMAT_CREATETIME,value));
-	}*/
+	 * public String getcreateTimeString() { return
+	 * DateUtils.convertDate2String(FORMAT_CREATETIME, getcreateTime()); } public
+	 * void setcreateTimeString(String value) throws ParseException{
+	 * setcreateTime(DateUtils.convertString2Date(FORMAT_CREATETIME,value)); }
+	 */
 
 	/**
 	 * 记录创建时间
@@ -435,9 +430,7 @@ public class PermissionsLog  extends BaseEntity {
 		}
 		this.bak4 = value;
 	}
-	
-	
-	
+
 	/**
 	 * 备用字段
 	 */
@@ -455,7 +448,7 @@ public class PermissionsLog  extends BaseEntity {
 		}
 		this.bak5 = value;
 	}
-	
+
 	/**
 	 * 备用字段
 	 */
@@ -463,27 +456,19 @@ public class PermissionsLog  extends BaseEntity {
 	public java.lang.String getBak5() {
 		return this.bak5;
 	}
-	
+
 	@Override
 	public String toString() {
-		return new StringBuilder()
-			.append("主键[").append(getId()).append("],")
-			.append("站点ID[").append(getSiteId()).append("],")
-			.append("操作类型 创建、编辑、删除、启用、禁用[").append(getActionType()).append("],")
-			.append("操作人ID[").append(getOperatorUserId()).append("],")
-			.append("操作人当时名称[").append(getOperatorUserName()).append("],")
-			.append("操作人当时所属角色名称，逗号分割[").append(getOperatorUserRoles()).append("],")
-			.append("操作对象类型[").append(getOperatorObjectId()).append("],")
-			.append("操作对象当时的名称[").append(getOperatorObjectName()).append("],")
-			.append("操作内容详情[").append(getActionContent()).append("],")
-			.append("记录创建人[").append(getCreateUserId()).append("],")
-			.append("记录创建时间[").append(getCreateTime()).append("],")
-			.append("备用字段[").append(getBak1()).append("],")
-			.append("备用字段[").append(getBak2()).append("],")
-			.append("备用字段[").append(getBak3()).append("],")
-			.append("备用字段[").append(getBak4()).append("],")
-			.append("备用字段[").append(getBak5()).append("],")
-			.toString();
+		return new StringBuilder().append("主键[").append(getId()).append("],").append("站点ID[").append(getSiteId())
+				.append("],").append("操作类型 创建、编辑、删除、启用、禁用[").append(getActionType()).append("],").append("操作人ID[")
+				.append(getOperatorUserId()).append("],").append("操作人当时名称[").append(getOperatorUserName()).append("],")
+				.append("操作人当时所属角色名称，逗号分割[").append(getOperatorUserRoles()).append("],").append("操作对象类型[")
+				.append(getOperatorObjectId()).append("],").append("操作对象当时的名称[").append(getOperatorObjectName())
+				.append("],").append("操作内容详情[").append(getActionContent()).append("],").append("记录创建人[")
+				.append(getCreateUserId()).append("],").append("记录创建时间[").append(getCreateTime()).append("],")
+				.append("备用字段[").append(getBak1()).append("],").append("备用字段[").append(getBak2()).append("],")
+				.append("备用字段[").append(getBak3()).append("],").append("备用字段[").append(getBak4()).append("],")
+				.append("备用字段[").append(getBak5()).append("],").toString();
 	}
 
 	@Override
@@ -505,5 +490,3 @@ public class PermissionsLog  extends BaseEntity {
 		return new EqualsBuilder().append(getId(), other.getId()).isEquals();
 	}
 }
-
-	

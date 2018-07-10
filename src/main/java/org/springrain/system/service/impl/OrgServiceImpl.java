@@ -29,8 +29,7 @@ import org.springrain.system.service.IUserOrgService;
  * @see org.springrain.springrain.service.impl.Org
  */
 @Service("orgService")
-public class OrgServiceImpl extends BaseSpringrainServiceImpl implements
-		IOrgService {
+public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgService {
 
 	@Resource
 	private ITableindexService tableindexService;
@@ -42,12 +41,12 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements
 
 		// String id=SecUtils.getUUID();
 		String id = null;
-		if (StringUtils.isNotBlank(entity.getId())) { 
-			id=entity.getId();
+		if (StringUtils.isNotBlank(entity.getId())) {
+			id = entity.getId();
 		} else {
 			id = tableindexService.updateNewId(Org.class);
 		}
-		entity.setId(id); 
+		entity.setId(id);
 
 		String comcode = findOrgNewComcode(id, entity.getPid());
 
@@ -74,8 +73,7 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements
 		 */
 		// updateOrgManager(id,entity.getManagerRoleId());
 
-		Finder f_old_c = Finder.getSelectFinder(Org.class, "comcode")
-				.append(" WHERE id=:id ").setParam("id", id);
+		Finder f_old_c = Finder.getSelectFinder(Org.class, "comcode").append(" WHERE id=:id ").setParam("id", id);
 
 		String old_c = super.queryForObject(f_old_c, String.class);
 
@@ -89,8 +87,8 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements
 		Integer update = super.update(entity, true);
 		// 级联更新
 		Finder f_s_list = Finder.getSelectFinder(Org.class, "id,comcode")
-				.append(" WHERE comcode like :comcode and id<>:id ")
-				.setParam("comcode", old_c + "%").setParam("id", id);
+				.append(" WHERE comcode like :comcode and id<>:id ").setParam("comcode", old_c + "%")
+				.setParam("id", id);
 		List<Org> list = super.queryForList(f_s_list, Org.class);
 		if (CollectionUtils.isEmpty(list)) {
 			return update;
@@ -119,8 +117,7 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements
 	 */
 
 	@SuppressWarnings("unused")
-	private void updateOrgManager(String orgId, String managerId)
-			throws Exception {
+	private void updateOrgManager(String orgId, String managerId) throws Exception {
 		/*
 		 * 此方法不在用。 部门没有主管，只要主管角色相关联
 		 */
@@ -128,8 +125,7 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements
 			return;
 		}
 
-		Finder finder = Finder.getDeleteFinder(UserOrg.class).append(
-				" WHERE orgId=:orgId and manager=1 ");
+		Finder finder = Finder.getDeleteFinder(UserOrg.class).append(" WHERE orgId=:orgId and manager=1 ");
 		finder.setParam("orgId", orgId);
 		super.update(finder);
 		UserOrg userOrg = new UserOrg();
@@ -147,8 +143,7 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements
 			return null;
 		}
 
-		Finder f = new Finder("SELECT u.id id,u.name name FROM  ")
-				.append(Finder.getTableName(User.class)).append(" u,")
+		Finder f = new Finder("SELECT u.id id,u.name name FROM  ").append(Finder.getTableName(User.class)).append(" u,")
 				.append(Finder.getTableName(UserOrg.class)).append(" re ");
 		f.append(" WHERE re.userId=u.id and re.manager=1 and re.orgId=:orgId order by u.id asc ");
 		f.setParam("orgId", org.getId());
@@ -179,16 +174,13 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements
 	 * @throws Exception
 	 */
 	@Override
-	public <T> List<T> findListDataByFinder(Finder finder, Page page,
-			Class<T> clazz, Object o) throws Exception {
+	public <T> List<T> findListDataByFinder(Finder finder, Page page, Class<T> clazz, Object o) throws Exception {
 
-		finder = new Finder("SELECT o.* FROM ").append(
-				Finder.getTableName(Org.class)).append(" o ");
+		finder = new Finder("SELECT o.* FROM ").append(Finder.getTableName(Org.class)).append(" o ");
 		finder.append(" WHERE o.active=:active  ");
 		finder.setParam("active", 1);
 //		finder.setEscapeSql(false);
-		Finder qxfinder = userOrgService.findOrgIdsSQLByManagerUserId(SessionUser
-				.getUserId());
+		Finder qxfinder = userOrgService.findOrgIdsSQLByManagerUserId(SessionUser.getUserId());
 		if (StringUtils.isNotBlank(qxfinder.getSql())) {
 			// 有权限的时候
 			finder.append(" and id in (").appendFinder(qxfinder).append(")");
@@ -204,22 +196,17 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements
 	/**
 	 * 根据查询列表的宏,导出Excel
 	 * 
-	 * @param finder
-	 *            为空则只查询 clazz表
-	 * @param ftlurl
-	 *            类表的模版宏
-	 * @param page
-	 *            分页对象
-	 * @param clazz
-	 *            要查询的对象
-	 * @param o
-	 *            querybean
+	 * @param finder 为空则只查询 clazz表
+	 * @param ftlurl 类表的模版宏
+	 * @param page   分页对象
+	 * @param clazz  要查询的对象
+	 * @param o      querybean
 	 * @return
 	 * @throws Exception
 	 */
 	@Override
-	public <T> File findDataExportExcel(Finder finder, String ftlurl,
-			Page page, Class<T> clazz, Object o) throws Exception {
+	public <T> File findDataExportExcel(Finder finder, String ftlurl, Page page, Class<T> clazz, Object o)
+			throws Exception {
 
 		return super.findDataExportExcel(finder, ftlurl, page, clazz, o);
 	}
@@ -230,8 +217,7 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements
 		return findTreeByPid(null);
 	}
 
-	private List<Org> diguiwrapList(List<Org> from, List<Org> tolist,
-			String parentId) {
+	private List<Org> diguiwrapList(List<Org> from, List<Org> tolist, String parentId) {
 		if (CollectionUtils.isEmpty(from)) {
 			return null;
 		}
@@ -270,13 +256,12 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements
 		if (StringUtils.isEmpty(orgId)) {
 			return null;
 		}
-		Finder finder = Finder.getSelectFinder(Org.class, "comcode")
-				.append(" WHERE id=:orgId ").setParam("orgId", orgId);
+		Finder finder = Finder.getSelectFinder(Org.class, "comcode").append(" WHERE id=:orgId ").setParam("orgId",
+				orgId);
 		String comcode = super.queryForObject(finder, String.class);
 
-		Finder f_update = Finder.getUpdateFinder(Org.class, " active=:active ")
-				.append(" WHERE comcode like :comcode ").setParam("active", 0)
-				.setParam("comcode", comcode + "%");
+		Finder f_update = Finder.getUpdateFinder(Org.class, " active=:active ").append(" WHERE comcode like :comcode ")
+				.setParam("active", 0).setParam("comcode", comcode + "%");
 
 		super.update(f_update);
 
@@ -285,12 +270,10 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements
 
 	@Override
 	public List<Org> findTreeByPid(String pid) throws Exception {
-		Finder finder = Finder.getSelectFinder(Org.class)
-				.append(" WHERE active=:active ").setParam("active", 1);
+		Finder finder = Finder.getSelectFinder(Org.class).append(" WHERE active=:active ").setParam("active", 1);
 
 		if (StringUtils.isNotBlank(pid)) {
-			finder.append(" and comcode like :comcode and id<>:pid ")
-					.setParam("comcode", "%," + pid + ",%")
+			finder.append(" and comcode like :comcode and id<>:pid ").setParam("comcode", "%," + pid + ",%")
 					.setParam("pid", pid);
 		}
 		finder.append(" order by sortno asc ");
@@ -313,8 +296,7 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements
 		}
 
 		String comcode = null;
-		Finder f_p_c = Finder.getSelectFinder(Org.class, "comcode")
-				.append(" WHERE id=:pid ").setParam("pid", pid);
+		Finder f_p_c = Finder.getSelectFinder(Org.class, "comcode").append(" WHERE id=:pid ").setParam("pid", pid);
 		String p_c = super.queryForObject(f_p_c, String.class);
 		// 如果没有上级部门
 		if (StringUtils.isEmpty(p_c)) {

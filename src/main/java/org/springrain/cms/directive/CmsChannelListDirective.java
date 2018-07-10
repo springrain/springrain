@@ -20,6 +20,7 @@ import freemarker.template.TemplateModel;
 
 /**
  * 栏目列表
+ * 
  * @author dmin93
  * @date 2017年3月23日
  */
@@ -27,15 +28,15 @@ import freemarker.template.TemplateModel;
 public class CmsChannelListDirective extends AbstractCMSDirective {
 
 	private static final String TPL_NAME = "cms_channel_list";
-	
+
 	@Resource
 	private ICmsChannelService cmsChannelService;
-	
+
 	@Override
-	public void execute(Environment env, Map params, TemplateModel[] loopVars,
-			TemplateDirectiveBody body) throws TemplateException, IOException {
+	public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body)
+			throws TemplateException, IOException {
 		try {
-			List<CmsChannel> channelList = getList(params,env,this.getSiteId(params));
+			List<CmsChannel> channelList = getList(params, env, this.getSiteId(params));
 			env.setVariable(DirectiveUtils.OUT_LIST, DirectiveUtils.wrap(channelList));
 			if (body != null) {
 				body.render(env.getOut());
@@ -47,32 +48,32 @@ public class CmsChannelListDirective extends AbstractCMSDirective {
 
 	/**
 	 * 获取栏目列表
+	 * 
 	 * @param params
 	 * @param env
 	 * @param siteId
 	 * @return
 	 */
-	private List<CmsChannel> getList(Map params, Environment env, String siteId) throws Exception{
+	private List<CmsChannel> getList(Map params, Environment env, String siteId) throws Exception {
 		List<CmsChannel> resList;
-		String[] idArr = DirectiveUtils.getStringArr(PARAM_IDS, params,PARAM_SPLIT);
-		if(idArr!=null && idArr.length>0){
-			resList = cmsChannelService.findListByIdsForTag(Arrays.asList(idArr),siteId,params);
-		}else{
+		String[] idArr = DirectiveUtils.getStringArr(PARAM_IDS, params, PARAM_SPLIT);
+		if (idArr != null && idArr.length > 0) {
+			resList = cmsChannelService.findListByIdsForTag(Arrays.asList(idArr), siteId, params);
+		} else {
 			// 默认查询可用的内容
 			Integer active = DirectiveUtils.getInt("active", params);
-			if(active == null){
+			if (active == null) {
 				params.put("active", DirectiveUtils.wrap(1));
 			}
-			
-			resList = cmsChannelService.findListForTag(params,env,siteId);
+
+			resList = cmsChannelService.findListForTag(params, env, siteId);
 		}
 		return resList;
 	}
-
 
 	@PostConstruct
 	public void registerFreeMarkerVariable() {
 		setFreeMarkerSharedVariable(TPL_NAME, this);
 	}
-	
+
 }

@@ -24,7 +24,6 @@ import java.awt.image.BufferedImageOp;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class MarbleRippleFilterFactory extends RippleFilterFactory {
 
 	protected MarbleImageOp marble = new MarbleImageOp();
@@ -35,6 +34,5 @@ public class MarbleRippleFilterFactory extends RippleFilterFactory {
 		list.add(marble);
 		return list;
 	}
-	
-}
 
+}

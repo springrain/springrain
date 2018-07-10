@@ -17,8 +17,7 @@ public class MysqlDialect implements IDialect {
 		if (StringUtils.isNotBlank(orderby)) {
 			sb.append(" ").append(orderby);
 		}
-		sb.append(" limit ").append(pageSize * (pageNo - 1)).append(",")
-				.append(pageSize);
+		sb.append(" limit ").append(pageSize * (pageNo - 1)).append(",").append(pageSize);
 		return sb.toString();
 	}
 

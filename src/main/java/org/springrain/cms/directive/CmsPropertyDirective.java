@@ -24,7 +24,7 @@ public class CmsPropertyDirective extends AbstractCMSDirective {
 
 	@Resource
 	private ICmsPropertyService cmsPropertyService;
-	
+
 	/**
 	 * 模板名称
 	 */
@@ -32,38 +32,34 @@ public class CmsPropertyDirective extends AbstractCMSDirective {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public void execute(Environment env, Map params, TemplateModel[] loopVars,
-			TemplateDirectiveBody body) throws TemplateException, IOException {
+	public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body)
+			throws TemplateException, IOException {
 		String businessId = DirectiveUtils.getString("businessId", params);
-		if(StringUtils.isBlank(businessId)) {
-            businessId = getBusinessId(params);
-        }
-		String cacheKey=TPL_NAME+"_cache_key_"+businessId;
-		
+		if (StringUtils.isBlank(businessId)) {
+			businessId = getBusinessId(params);
+		}
+		String cacheKey = TPL_NAME + "_cache_key_" + businessId;
+
 		List<CmsProperty> list = (List<CmsProperty>) getDirectiveData(cacheKey);
-		if(list == null){
+		if (list == null) {
 			try {
-				list = cmsPropertyService.findByBusinessId(businessId,
-						null);
+				list = cmsPropertyService.findByBusinessId(businessId, null);
 			} catch (Exception e) {
 				logger.error(e.getMessage(), e);
 				list = new ArrayList<>();
 			}
-			setDirectiveData(cacheKey,list);
+			setDirectiveData(cacheKey, list);
 		}
-		
+
 		env.setVariable("propertyList", DirectiveUtils.wrap(list));
 		if (body != null) {
 			body.render(env.getOut());
 		}
 	}
-	
-	
+
 	@PostConstruct
-	public void  registerFreeMarkerVariable(){
+	public void registerFreeMarkerVariable() {
 		setFreeMarkerSharedVariable(TPL_NAME, this);
 	}
-	
-	
 
 }

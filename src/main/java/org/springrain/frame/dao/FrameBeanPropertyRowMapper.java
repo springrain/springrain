@@ -45,30 +45,39 @@ import org.springframework.util.StringUtils;
 import org.springrain.frame.util.GlobalStatic;
 
 /**
- * {@link RowMapper} implementation that converts a row into a new instance
- * of the specified mapped target class. The mapped target class must be a
+ * {@link RowMapper} implementation that converts a row into a new instance of
+ * the specified mapped target class. The mapped target class must be a
  * top-level class and it must have a default or no-arg constructor.
  *
- * <p>Column values are mapped based on matching the column name as obtained from result set
- * metadata to public setters for the corresponding properties. The names are matched either
- * directly or by transforming a name separating the parts with underscores to the same name
- * using "camel" case.
+ * <p>
+ * Column values are mapped based on matching the column name as obtained from
+ * result set metadata to public setters for the corresponding properties. The
+ * names are matched either directly or by transforming a name separating the
+ * parts with underscores to the same name using "camel" case.
  *
- * <p>Mapping is provided for fields in the target class for many common types, e.g.:
- * String, boolean, Boolean, byte, Byte, short, Short, int, Integer, long, Long,
- * float, Float, double, Double, BigDecimal, {@code java.util.Date}, etc.
+ * <p>
+ * Mapping is provided for fields in the target class for many common types,
+ * e.g.: String, boolean, Boolean, byte, Byte, short, Short, int, Integer, long,
+ * Long, float, Float, double, Double, BigDecimal, {@code java.util.Date}, etc.
  *
- * <p>To facilitate mapping between columns and fields that don't have matching names,
- * try using column aliases in the SQL statement like "select fname as first_name from customer".
+ * <p>
+ * To facilitate mapping between columns and fields that don't have matching
+ * names, try using column aliases in the SQL statement like "select fname as
+ * first_name from customer".
  *
- * <p>For 'null' values read from the database, we will attempt to call the setter, but in the case of
- * Java primitives, this causes a TypeMismatchException. This class can be configured (using the
- * primitivesDefaultedForNullValue property) to trap this exception and use the primitives default value.
- * Be aware that if you use the values from the generated bean to update the database the primitive value
- * will have been set to the primitive's default value instead of null.
+ * <p>
+ * For 'null' values read from the database, we will attempt to call the setter,
+ * but in the case of Java primitives, this causes a TypeMismatchException. This
+ * class can be configured (using the primitivesDefaultedForNullValue property)
+ * to trap this exception and use the primitives default value. Be aware that if
+ * you use the values from the generated bean to update the database the
+ * primitive value will have been set to the primitive's default value instead
+ * of null.
  *
- * <p>Please note that this class is designed to provide convenience rather than high performance.
- * For best performance, consider using a custom {@link RowMapper} implementation.
+ * <p>
+ * Please note that this class is designed to provide convenience rather than
+ * high performance. For best performance, consider using a custom
+ * {@link RowMapper} implementation.
  *
  * @author Thomas Risberg
  * @author Juergen Hoeller
@@ -97,9 +106,9 @@ public class FrameBeanPropertyRowMapper<T> implements RowMapper<T> {
 	/** Set of bean properties we provide mapping for */
 	private Set<String> mappedProperties;
 
-
 	/**
 	 * Create a new {@code BeanPropertyRowMapper} for bean-style configuration.
+	 * 
 	 * @see #setMappedClass
 	 * @see #setCheckFullyPopulated
 	 */
@@ -107,10 +116,12 @@ public class FrameBeanPropertyRowMapper<T> implements RowMapper<T> {
 	}
 
 	/**
-	 * Create a new {@code BeanPropertyRowMapper}, accepting unpopulated
-	 * properties in the target bean.
-	 * <p>Consider using the {@link #newInstance} factory method instead,
-	 * which allows for specifying the mapped type once only.
+	 * Create a new {@code BeanPropertyRowMapper}, accepting unpopulated properties
+	 * in the target bean.
+	 * <p>
+	 * Consider using the {@link #newInstance} factory method instead, which allows
+	 * for specifying the mapped type once only.
+	 * 
 	 * @param mappedClass the class that each row should be mapped to
 	 */
 	public FrameBeanPropertyRowMapper(Class<T> mappedClass) {
@@ -119,15 +130,16 @@ public class FrameBeanPropertyRowMapper<T> implements RowMapper<T> {
 
 	/**
 	 * Create a new {@code BeanPropertyRowMapper}.
-	 * @param mappedClass the class that each row should be mapped to
-	 * @param checkFullyPopulated whether we're strictly validating that
-	 * all bean properties have been mapped from corresponding database fields
+	 * 
+	 * @param mappedClass         the class that each row should be mapped to
+	 * @param checkFullyPopulated whether we're strictly validating that all bean
+	 *                            properties have been mapped from corresponding
+	 *                            database fields
 	 */
 	public FrameBeanPropertyRowMapper(Class<T> mappedClass, boolean checkFullyPopulated) {
 		initialize(mappedClass);
 		this.checkFullyPopulated = checkFullyPopulated;
 	}
-
 
 	/**
 	 * Set the class that each row should be mapped to.
@@ -135,11 +147,10 @@ public class FrameBeanPropertyRowMapper<T> implements RowMapper<T> {
 	public void setMappedClass(Class<T> mappedClass) {
 		if (this.mappedClass == null) {
 			initialize(mappedClass);
-		}
-		else {
+		} else {
 			if (this.mappedClass != mappedClass) {
-				throw new InvalidDataAccessApiUsageException("The mapped class can not be reassigned to map to " +
-						mappedClass + " since it is already providing mapping for " + this.mappedClass);
+				throw new InvalidDataAccessApiUsageException("The mapped class can not be reassigned to map to "
+						+ mappedClass + " since it is already providing mapping for " + this.mappedClass);
 			}
 		}
 	}
@@ -152,9 +163,11 @@ public class FrameBeanPropertyRowMapper<T> implements RowMapper<T> {
 	}
 
 	/**
-	 * Set whether we're strictly validating that all bean properties have been mapped
-	 * from corresponding database fields.
-	 * <p>Default is {@code false}, accepting unpopulated properties in the target bean.
+	 * Set whether we're strictly validating that all bean properties have been
+	 * mapped from corresponding database fields.
+	 * <p>
+	 * Default is {@code false}, accepting unpopulated properties in the target
+	 * bean.
 	 */
 	public void setCheckFullyPopulated(boolean checkFullyPopulated) {
 		this.checkFullyPopulated = checkFullyPopulated;
@@ -169,17 +182,19 @@ public class FrameBeanPropertyRowMapper<T> implements RowMapper<T> {
 	}
 
 	/**
-	 * Set whether we're defaulting Java primitives in the case of mapping a null value
-	 * from corresponding database fields.
-	 * <p>Default is {@code false}, throwing an exception when nulls are mapped to Java primitives.
+	 * Set whether we're defaulting Java primitives in the case of mapping a null
+	 * value from corresponding database fields.
+	 * <p>
+	 * Default is {@code false}, throwing an exception when nulls are mapped to Java
+	 * primitives.
 	 */
 	public void setPrimitivesDefaultedForNullValue(boolean primitivesDefaultedForNullValue) {
 		this.primitivesDefaultedForNullValue = primitivesDefaultedForNullValue;
 	}
 
 	/**
-	 * Return whether we're defaulting Java primitives in the case of mapping a null value
-	 * from corresponding database fields.
+	 * Return whether we're defaulting Java primitives in the case of mapping a null
+	 * value from corresponding database fields.
 	 */
 	public boolean isPrimitivesDefaultedForNullValue() {
 		return this.primitivesDefaultedForNullValue;
@@ -188,8 +203,10 @@ public class FrameBeanPropertyRowMapper<T> implements RowMapper<T> {
 	/**
 	 * Set a {@link ConversionService} for binding JDBC values to bean properties,
 	 * or {@code null} for none.
-	 * <p>Default is a {@link DefaultConversionService}, as of Spring 4.3. This
+	 * <p>
+	 * Default is a {@link DefaultConversionService}, as of Spring 4.3. This
 	 * provides support for {@code java.time} conversion and other special types.
+	 * 
 	 * @since 4.3
 	 * @see #initBeanWrapper(BeanWrapper)
 	 */
@@ -198,17 +215,18 @@ public class FrameBeanPropertyRowMapper<T> implements RowMapper<T> {
 	}
 
 	/**
-	 * Return a {@link ConversionService} for binding JDBC values to bean properties,
-	 * or {@code null} if none.
+	 * Return a {@link ConversionService} for binding JDBC values to bean
+	 * properties, or {@code null} if none.
+	 * 
 	 * @since 4.3
 	 */
 	public ConversionService getConversionService() {
 		return this.conversionService;
 	}
 
-
 	/**
 	 * Initialize the mapping metadata for the given class.
+	 * 
 	 * @param mappedClass the mapped class
 	 */
 	protected void initialize(Class<T> mappedClass) {
@@ -229,8 +247,9 @@ public class FrameBeanPropertyRowMapper<T> implements RowMapper<T> {
 	}
 
 	/**
-	 * Convert a name in camelCase to an underscored name in lower case.
-	 * Any upper case letters are converted to lower case with a preceding underscore.
+	 * Convert a name in camelCase to an underscored name in lower case. Any upper
+	 * case letters are converted to lower case with a preceding underscore.
+	 * 
 	 * @param name the original name
 	 * @return the converted name
 	 * @since 4.2
@@ -247,8 +266,7 @@ public class FrameBeanPropertyRowMapper<T> implements RowMapper<T> {
 			String slc = lowerCaseName(s);
 			if (!s.equals(slc)) {
 				result.append("_").append(slc);
-			}
-			else {
+			} else {
 				result.append(s);
 			}
 		}
@@ -256,8 +274,9 @@ public class FrameBeanPropertyRowMapper<T> implements RowMapper<T> {
 	}
 
 	/**
-	 * Convert the given name to lower case.
-	 * By default, conversions will happen within the US locale.
+	 * Convert the given name to lower case. By default, conversions will happen
+	 * within the US locale.
+	 * 
 	 * @param name the original name
 	 * @return the converted name
 	 * @since 4.2
@@ -266,10 +285,11 @@ public class FrameBeanPropertyRowMapper<T> implements RowMapper<T> {
 		return name.toLowerCase(Locale.US);
 	}
 
-
 	/**
 	 * Extract the values for all columns in the current row.
-	 * <p>Utilizes public setters and result set metadata.
+	 * <p>
+	 * Utilizes public setters and result set metadata.
+	 * 
 	 * @see java.sql.ResultSetMetaData
 	 */
 	@Override
@@ -287,59 +307,55 @@ public class FrameBeanPropertyRowMapper<T> implements RowMapper<T> {
 			String column = JdbcUtils.lookupColumnName(rsmd, index);
 			String field = lowerCaseName(column.replaceAll(" ", ""));
 			PropertyDescriptor pd = this.mappedFields.get(field);
-			
-			String _name=column;
+
+			String _name = column;
 			if (_name.contains(GlobalStatic.SQLCutSeparator)) {
 				try {
 					String[] strs = _name.split(GlobalStatic.SQLCutSeparator);
 					// 获取最后的属性名称
 					_name = strs[strs.length - 1];
 					// 循环获取实体对象
-					Object o=mappedObject;
+					Object o = mappedObject;
 					for (int i = 0; i < strs.length - 1; i++) {
 						o = org.springrain.frame.util.ClassUtils.getPropertieValue(strs[i], o);
 					}
-					org.springrain.frame.util.ClassUtils.setPropertieValue(_name, o, JdbcUtils.getResultSetValue(rs, index));
+					org.springrain.frame.util.ClassUtils.setPropertieValue(_name, o,
+							JdbcUtils.getResultSetValue(rs, index));
 				} catch (Exception e) {
 					logger.error(e.getMessage(), e);
 				}
-				
+
 			}
-			
+
 			else if (pd != null) {
 				try {
 					Object value = getColumnValue(rs, index, pd);
 					if (rowNumber == 0 && logger.isDebugEnabled()) {
-						logger.debug("Mapping column '" + column + "' to property '" + pd.getName() +
-								"' of type '" + ClassUtils.getQualifiedName(pd.getPropertyType()) + "'");
+						logger.debug("Mapping column '" + column + "' to property '" + pd.getName() + "' of type '"
+								+ ClassUtils.getQualifiedName(pd.getPropertyType()) + "'");
 					}
 					try {
 						bw.setPropertyValue(pd.getName(), value);
-					}
-					catch (TypeMismatchException ex) {
+					} catch (TypeMismatchException ex) {
 						if (value == null && this.primitivesDefaultedForNullValue) {
 							if (logger.isDebugEnabled()) {
-								logger.debug("Intercepted TypeMismatchException for row " + rowNumber +
-										" and column '" + column + "' with null value when setting property '" +
-										pd.getName() + "' of type '" +
-										ClassUtils.getQualifiedName(pd.getPropertyType()) +
-										"' on object: " + mappedObject, ex);
+								logger.debug("Intercepted TypeMismatchException for row " + rowNumber + " and column '"
+										+ column + "' with null value when setting property '" + pd.getName()
+										+ "' of type '" + ClassUtils.getQualifiedName(pd.getPropertyType())
+										+ "' on object: " + mappedObject, ex);
 							}
-						}
-						else {
+						} else {
 							throw ex;
 						}
 					}
 					if (populatedProperties != null) {
 						populatedProperties.add(pd.getName());
 					}
-				}
-				catch (NotWritablePropertyException ex) {
+				} catch (NotWritablePropertyException ex) {
 					throw new DataRetrievalFailureException(
 							"Unable to map column '" + column + "' to property '" + pd.getName() + "'", ex);
 				}
-			}
-			else {
+			} else {
 				// No PropertyDescriptor found
 				if (rowNumber == 0 && logger.isDebugEnabled()) {
 					logger.debug("No property found for column '" + column + "' mapped to field '" + field + "'");
@@ -348,19 +364,21 @@ public class FrameBeanPropertyRowMapper<T> implements RowMapper<T> {
 		}
 
 		if (populatedProperties != null && !populatedProperties.equals(this.mappedProperties)) {
-			throw new InvalidDataAccessApiUsageException("Given ResultSet does not contain all fields " +
-					"necessary to populate object of class [" + this.mappedClass.getName() + "]: " +
-					this.mappedProperties);
+			throw new InvalidDataAccessApiUsageException(
+					"Given ResultSet does not contain all fields " + "necessary to populate object of class ["
+							+ this.mappedClass.getName() + "]: " + this.mappedProperties);
 		}
 
 		return mappedObject;
 	}
 
 	/**
-	 * Initialize the given BeanWrapper to be used for row mapping.
-	 * To be called for each row.
-	 * <p>The default implementation applies the configured {@link ConversionService},
+	 * Initialize the given BeanWrapper to be used for row mapping. To be called for
+	 * each row.
+	 * <p>
+	 * The default implementation applies the configured {@link ConversionService},
 	 * if any. Can be overridden in subclasses.
+	 * 
 	 * @param bw the BeanWrapper to initialize
 	 * @see #getConversionService()
 	 * @see BeanWrapper#setConversionService
@@ -374,26 +392,29 @@ public class FrameBeanPropertyRowMapper<T> implements RowMapper<T> {
 
 	/**
 	 * Retrieve a JDBC object value for the specified column.
-	 * <p>The default implementation calls
+	 * <p>
+	 * The default implementation calls
 	 * {@link JdbcUtils#getResultSetValue(java.sql.ResultSet, int, Class)}.
-	 * Subclasses may override this to check specific value types upfront,
-	 * or to post-process values return from {@code getResultSetValue}.
-	 * @param rs is the ResultSet holding the data
+	 * Subclasses may override this to check specific value types upfront, or to
+	 * post-process values return from {@code getResultSetValue}.
+	 * 
+	 * @param rs    is the ResultSet holding the data
 	 * @param index is the column index
-	 * @param pd the bean property that each result object is expected to match
-	 * (or {@code null} if none specified)
+	 * @param pd    the bean property that each result object is expected to match
+	 *              (or {@code null} if none specified)
 	 * @return the Object value
 	 * @throws SQLException in case of extraction failure
-	 * @see org.springframework.jdbc.support.JdbcUtils#getResultSetValue(java.sql.ResultSet, int, Class)
+	 * @see org.springframework.jdbc.support.JdbcUtils#getResultSetValue(java.sql.ResultSet,
+	 *      int, Class)
 	 */
 	protected Object getColumnValue(ResultSet rs, int index, PropertyDescriptor pd) throws SQLException {
 		return JdbcUtils.getResultSetValue(rs, index, pd.getPropertyType());
 	}
 
-
 	/**
-	 * Static factory method to create a new {@code BeanPropertyRowMapper}
-	 * (with the mapped class specified only once).
+	 * Static factory method to create a new {@code BeanPropertyRowMapper} (with the
+	 * mapped class specified only once).
+	 * 
 	 * @param mappedClass the class that each row should be mapped to
 	 */
 	public static <T> FrameBeanPropertyRowMapper<T> newInstance(Class<T> mappedClass) {

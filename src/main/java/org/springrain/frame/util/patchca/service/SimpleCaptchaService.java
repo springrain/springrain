@@ -29,7 +29,8 @@ import java.awt.*;
 
 public class SimpleCaptchaService extends AbstractCaptchaService {
 
-	public SimpleCaptchaService(int width, int height, Color textColor, Color backgroundColor, int fontSize, FilterFactory ff) {
+	public SimpleCaptchaService(int width, int height, Color textColor, Color backgroundColor, int fontSize,
+			FilterFactory ff) {
 		backgroundFactory = new SingleColorBackgroundFactory(backgroundColor);
 		wordFactory = new AdaptiveRandomWordFactory();
 		fontFactory = new RandomFontFactory();
@@ -39,8 +40,9 @@ public class SimpleCaptchaService extends AbstractCaptchaService {
 		this.width = width;
 		this.height = height;
 	}
-	
-	public SimpleCaptchaService(int width, int height, Color textColor, Color backgroundColor, int fontSize, String[]fontNames, FilterFactory ff) {
+
+	public SimpleCaptchaService(int width, int height, Color textColor, Color backgroundColor, int fontSize,
+			String[] fontNames, FilterFactory ff) {
 		backgroundFactory = new SingleColorBackgroundFactory(backgroundColor);
 		wordFactory = new AdaptiveRandomWordFactory();
 		fontFactory = new RandomFontFactory(fontNames);
@@ -50,7 +52,7 @@ public class SimpleCaptchaService extends AbstractCaptchaService {
 		this.width = width;
 		this.height = height;
 	}
-	
+
 	@Override
 	public Captcha getCaptcha() {
 		return null;

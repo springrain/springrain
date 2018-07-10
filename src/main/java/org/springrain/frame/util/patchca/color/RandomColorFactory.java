@@ -28,10 +28,10 @@ public class RandomColorFactory implements ColorFactory {
 	private Color color;
 
 	public RandomColorFactory() {
-		min = new Color(20,40,80);
-		max = new Color(21,50,140);
+		min = new Color(20, 40, 80);
+		max = new Color(21, 50, 140);
 	}
-	
+
 	public void setMin(Color min) {
 		this.min = min;
 	}
@@ -44,7 +44,7 @@ public class RandomColorFactory implements ColorFactory {
 	public Color getColor(int index) {
 		if (color == null) {
 			Random r = new Random();
-			color = new Color( min.getRed() + r.nextInt((max.getRed() - min.getRed())),
+			color = new Color(min.getRed() + r.nextInt((max.getRed() - min.getRed())),
 					min.getGreen() + r.nextInt((max.getGreen() - min.getGreen())),
 					min.getBlue() + r.nextInt((max.getBlue() - min.getBlue())));
 		}

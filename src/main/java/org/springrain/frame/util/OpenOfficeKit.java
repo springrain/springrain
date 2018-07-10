@@ -80,18 +80,18 @@ public class OpenOfficeKit {
 	}
 
 	@Value("${springrain.openoffice.home}")
-	public  void setOpenOfficeHome(String value) {
+	public void setOpenOfficeHome(String value) {
 		openOfficeHome = value;
 		createOpenOfficeConnection();
 	}
 
 	@Value("${springrain.openoffice.host}")
-	public  void setHost(String value) {
+	public void setHost(String value) {
 		host = value;
 	}
 
 	@Value("${springrain.openoffice.port}")
-	public  void setPort(String value) {
+	public void setPort(String value) {
 		port = value;
 	}
 

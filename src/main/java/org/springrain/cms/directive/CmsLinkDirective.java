@@ -19,49 +19,48 @@ import freemarker.template.TemplateModel;
 
 @Component("cmsLink")
 public class CmsLinkDirective extends AbstractCMSDirective {
-	
+
 	@Resource
 	private ICmsLinkService cmsLinkService;
 	private static final String TPL_NAME = "cms_link";
-	
+
 	@SuppressWarnings({ "rawtypes" })
 	@Override
-	public void execute(Environment env, Map params, TemplateModel[] loopVars,
-			TemplateDirectiveBody body) throws TemplateException, IOException {
-		
-		
+	public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body)
+			throws TemplateException, IOException {
+
 		String businessId = getBusinessId(params);
-		String siteId=getSiteId(params);
-		Integer modelType=DirectiveUtils.getInt("modelType", params);
-		if(modelType==null){
+		String siteId = getSiteId(params);
+		Integer modelType = DirectiveUtils.getInt("modelType", params);
+		if (modelType == null) {
 			body.render(env.getOut());
 			return;
 		}
-		String cacheKey=TPL_NAME+"_cache_key_"+siteId+"_"+businessId;
+		String cacheKey = TPL_NAME + "_cache_key_" + siteId + "_" + businessId;
 		CmsLink cmsLink = (CmsLink) getDirectiveData(cacheKey);
-		if(cmsLink == null){
+		if (cmsLink == null) {
 			try {
-				
-				if(StringUtils.isBlank(businessId)){
+
+				if (StringUtils.isBlank(businessId)) {
 					businessId = getBusinessId(params);
 				}
-				//此处默认查前台的LINK
-				cmsLink = cmsLinkService.findLinkBySiteBusinessIdModelType(siteId, businessId,modelType);
+				// 此处默认查前台的LINK
+				cmsLink = cmsLinkService.findLinkBySiteBusinessIdModelType(siteId, businessId, modelType);
 			} catch (Exception e) {
 				logger.error(e.getMessage(), e);
 				cmsLink = new CmsLink();
 			}
-			setDirectiveData(cacheKey,cmsLink);
+			setDirectiveData(cacheKey, cmsLink);
 		}
-		
+
 		env.setVariable("cmsLink", DirectiveUtils.wrap(cmsLink));
-		if (body != null) { 
-			body.render(env.getOut());  
+		if (body != null) {
+			body.render(env.getOut());
 		}
 	}
-	
+
 	@PostConstruct
-	public void  registerFreeMarkerVariable(){
+	public void registerFreeMarkerVariable() {
 		setFreeMarkerSharedVariable(TPL_NAME, this);
 	}
 }

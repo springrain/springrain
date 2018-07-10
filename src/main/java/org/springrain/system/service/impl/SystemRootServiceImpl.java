@@ -11,18 +11,16 @@ import org.springrain.system.service.BaseSpringrainServiceImpl;
 import org.springrain.system.service.ISystemRootService;
 
 @Service("systemRootService")
-public class SystemRootServiceImpl extends BaseSpringrainServiceImpl implements
-		ISystemRootService {
+public class SystemRootServiceImpl extends BaseSpringrainServiceImpl implements ISystemRootService {
 
 	@Override
-	public List<FileDto> findFileDtosByPath(String path, String rootPath)
-			throws Exception {
+	public List<FileDto> findFileDtosByPath(String path, String rootPath) throws Exception {
 		List<FileDto> rets = new ArrayList<>();
 		List<FileDto> fileDtos = new ArrayList<>();
 		File file = new File(path);
 
 		File[] fs = file.listFiles();
-		
+
 		if (fs != null) {
 			for (File f : fs) {
 				FileDto dto = new FileDto();

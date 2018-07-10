@@ -28,34 +28,30 @@ import java.io.StringReader;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.util.IOUtils;
 
-
 /**
- * IK分词器，Lucene Analyzer接口实现
- * 兼容Lucene 6.5.0版本
+ * IK分词器，Lucene Analyzer接口实现 兼容Lucene 6.5.0版本
  */
-public final class IKAnalyzer extends Analyzer{
-	
+public final class IKAnalyzer extends Analyzer {
 
 	/**
-	 * IK分词器Lucene  Analyzer接口实现类
+	 * IK分词器Lucene Analyzer接口实现类
 	 * 
 	 * 默认细粒度切分算法
 	 */
-	public IKAnalyzer(){
-	    super();
+	public IKAnalyzer() {
+		super();
 	}
-	
-	
+
 	@Override
 	protected TokenStreamComponents createComponents(String fieldName) {
-		 Reader reader=null;
-	        try{
-	            reader=new StringReader(fieldName);
-	            IKTokenizer it = new IKTokenizer(reader);
-	            return new Analyzer.TokenStreamComponents(it);
-	        }finally {
-	            IOUtils.closeWhileHandlingException(reader);
-	        }
+		Reader reader = null;
+		try {
+			reader = new StringReader(fieldName);
+			IKTokenizer it = new IKTokenizer(reader);
+			return new Analyzer.TokenStreamComponents(it);
+		} finally {
+			IOUtils.closeWhileHandlingException(reader);
+		}
 	}
 
 }

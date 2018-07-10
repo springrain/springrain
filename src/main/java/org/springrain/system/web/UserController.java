@@ -55,8 +55,7 @@ public class UserController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/list")
-	public String list(HttpServletRequest request, Model model, User user)
-			throws Exception {
+	public String list(HttpServletRequest request, Model model, User user) throws Exception {
 		ReturnDatas returnObject = listjson(request, model, user);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
 		return listurl;
@@ -72,33 +71,28 @@ public class UserController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/list/json")
-	@ResponseBody 
-	public ReturnDatas listjson(HttpServletRequest request, Model model, User user)
-			throws Exception {
+	@ResponseBody
+	public ReturnDatas listjson(HttpServletRequest request, Model model, User user) throws Exception {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		Page page = newPage(request);
-		
-		Integer active=user.getActive();
-		if(active==null){
+
+		Integer active = user.getActive();
+		if (active == null) {
 			user.setActive(1);
 		}
-		
-		
-		List<User> datas = userService.findListDataByFinder(null, page,
-				User.class, user);
+
+		List<User> datas = userService.findListDataByFinder(null, page, User.class, user);
 		returnObject.setQueryBean(user);
 		returnObject.setPage(page);
 		returnObject.setData(datas);
 		return returnObject;
 	}
 
-	
 	/**
 	 * 查看操作,调用APP端lookjson方法
 	 */
 	@RequestMapping(value = "/look")
-	public String look(Model model, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	public String look(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ReturnDatas returnObject = lookjson(model, request, response);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
 		return "/system/user/userLook";
@@ -108,9 +102,9 @@ public class UserController extends BaseController {
 	 * 查看的Json格式数据,为APP端提供数据
 	 */
 	@RequestMapping(value = "/look/json")
-	@ResponseBody 
-	public ReturnDatas lookjson(Model model, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	@ResponseBody
+	public ReturnDatas lookjson(Model model, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		String id = request.getParameter("id");
 		if (StringUtils.isNotBlank(id)) {
@@ -127,8 +121,9 @@ public class UserController extends BaseController {
 	 * 
 	 */
 	@RequestMapping("/update")
-	@ResponseBody 
-	public ReturnDatas saveorupdate(User user, HttpServletRequest request,HttpServletResponse response) throws Exception {
+	@ResponseBody
+	public ReturnDatas saveorupdate(User user, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		returnObject.setMessage(MessageUtils.UPDATE_SUCCESS);
 		try {
@@ -140,49 +135,49 @@ public class UserController extends BaseController {
 			} else {
 				user.setPassword(SecUtils.encoderByMd5With32Bit(password));
 			}
-			String[] roleIds=request.getParameterValues("roleIds");
-			List<Role> listRole=null;
-			if(roleIds!=null&&roleIds.length>0){
-				Set<String> set=new HashSet<String>();
-				for(String s:roleIds){
-					if(StringUtils.isBlank(s)){
+			String[] roleIds = request.getParameterValues("roleIds");
+			List<Role> listRole = null;
+			if (roleIds != null && roleIds.length > 0) {
+				Set<String> set = new HashSet<String>();
+				for (String s : roleIds) {
+					if (StringUtils.isBlank(s)) {
 						continue;
 					}
 					set.add(s);
 				}
-				listRole=new ArrayList<>();
-				for(String s2:set){
-					Role role=new Role();
+				listRole = new ArrayList<>();
+				for (String s2 : set) {
+					Role role = new Role();
 					role.setId(s2);
 					listRole.add(role);
 				}
 			}
 			user.setUserRoles(listRole);
-			
-			//处理管理的部门  韩彦阳   开始
-			String[]  managerOrgNames= request.getParameterValues("managerOrgNames");
+
+			// 处理管理的部门 韩彦阳 开始
+			String[] managerOrgNames = request.getParameterValues("managerOrgNames");
 			String[] managerOrgIds = request.getParameterValues("managerOrgIds");
 			String[] hasleafs = request.getParameterValues("hasleaf");
 			String[] managerTypes = request.getParameterValues("managerType");
-			List<UserOrg> managerOrgs=null;
-			if(managerOrgNames!=null&&managerOrgIds!=null&&managerOrgIds.length==managerOrgNames.length){
-				managerOrgs=new ArrayList<>();
-				UserOrg managerOrg=null;
-				for(int i=0;i<managerOrgIds.length;i++){
-					managerOrg=new UserOrg();
+			List<UserOrg> managerOrgs = null;
+			if (managerOrgNames != null && managerOrgIds != null && managerOrgIds.length == managerOrgNames.length) {
+				managerOrgs = new ArrayList<>();
+				UserOrg managerOrg = null;
+				for (int i = 0; i < managerOrgIds.length; i++) {
+					managerOrg = new UserOrg();
 					managerOrg.setOrgId(managerOrgIds[i]);
-					managerOrg.setUserId(id);//可能为空，service中再补全
+					managerOrg.setUserId(id);// 可能为空，service中再补全
 					managerOrg.setManagerType(Integer.valueOf(managerTypes[i]));
 					managerOrg.setHasleaf(Integer.valueOf(hasleafs[i]));
-					if(Integer.valueOf(managerTypes[i])<=10){
-						//会员  或 员工
-						managerOrg.setHasleaf(0);//没有用
+					if (Integer.valueOf(managerTypes[i]) <= 10) {
+						// 会员 或 员工
+						managerOrg.setHasleaf(0);// 没有用
 					}
 					managerOrgs.add(managerOrg);
 				}
 			}
 			user.setManagerOrgs(managerOrgs);
-			//处理管理的部门  韩彦阳  结束
+			// 处理管理的部门 韩彦阳 结束
 			if (StringUtils.isBlank(id)) {
 				user.setId(null);
 				userService.saveUser(user);
@@ -192,7 +187,7 @@ public class UserController extends BaseController {
 				userService.updateUser(user);
 			}
 		} catch (Exception e) {
-			logger.error(e.getMessage(),e);
+			logger.error(e.getMessage(), e);
 			returnObject.setStatus(ReturnDatas.ERROR);
 			returnObject.setMessage(MessageUtils.UPDATE_ERROR);
 		}
@@ -203,8 +198,7 @@ public class UserController extends BaseController {
 	 * 进入修改页面,APP端可以调用 lookjson 获取json格式数据
 	 */
 	@RequestMapping(value = "/update/pre")
-	public String edit(Model model, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	public String edit(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ReturnDatas returnObject = lookjson(model, request, response);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
 		return "/system/user/userCru";
@@ -214,117 +208,121 @@ public class UserController extends BaseController {
 	 * 删除操作
 	 */
 	@RequestMapping(value = "/delete")
-	@ResponseBody 
+	@ResponseBody
 	public ReturnDatas destroy(HttpServletRequest request) throws Exception {
 		// 执行删除
 		try {
 			java.lang.String id = request.getParameter("id");
-			
+
 			if (StringUtils.isBlank(id)) {
-				return new ReturnDatas(ReturnDatas.ERROR, "删除失败,用户Id不能为空!"); 
+				return new ReturnDatas(ReturnDatas.ERROR, "删除失败,用户Id不能为空!");
 			}
-			
-		    userService.deleteUserById(id);
-				
-			
+
+			userService.deleteUserById(id);
+
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			return new ReturnDatas(ReturnDatas.ERROR, "删除失败!");
 		}
-		return  new ReturnDatas(ReturnDatas.SUCCESS, "用户删除成功!"); 
+		return new ReturnDatas(ReturnDatas.SUCCESS, "用户删除成功!");
 	}
-	
-	
+
 	@RequestMapping(value = "/ajax/select2")
-	@ResponseBody 
-	public  List<User> ajaxUser(HttpServletRequest request) throws Exception {
-		String key=request.getParameter("q");
-		Page page=new Page();
+	@ResponseBody
+	public List<User> ajaxUser(HttpServletRequest request) throws Exception {
+		String key = request.getParameter("q");
+		Page page = new Page();
 		page.setPageIndex(1);
-		
-		Finder finder=Finder.getSelectFinder(User.class, "id,name").append(" WHERE account like :account order by account asc ");
-		finder.setParam("account", key+"%");
-		
-		return userService.queryForList(finder,User.class, page);
-		
+
+		Finder finder = Finder.getSelectFinder(User.class, "id,name")
+				.append(" WHERE account like :account order by account asc ");
+		finder.setParam("account", key + "%");
+
+		return userService.queryForList(finder, User.class, page);
+
 	}
+
 	/**
 	 * 进入修改页面,APP端可以调用 lookjson 获取json格式数据
 	 */
 	@RequestMapping(value = "/modifiypwd/pre")
-	public String modifiypwdpre(Model model, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	public String modifiypwdpre(Model model, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
 		String userId = SessionUser.getUserId();
-		if(StringUtils.isEmpty(userId)){
+		if (StringUtils.isEmpty(userId)) {
 			return "/system/user/modifiypwd";
 		}
-		//获取当前登录人
+		// 获取当前登录人
 		User currentUser = userService.findUserById(userId);
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		returnObject.setData(currentUser);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
 		return "/system/user/modifiypwd";
 	}
-	@RequestMapping(value="/modifiypwd/ispwd")
-	@ResponseBody 
-	public  Map<String, Object> checkPwd(HttpServletRequest request,HttpServletResponse response,Model model)throws Exception{
+
+	@RequestMapping(value = "/modifiypwd/ispwd")
+	@ResponseBody
+	public Map<String, Object> checkPwd(HttpServletRequest request, HttpServletResponse response, Model model)
+			throws Exception {
 		String userId = SessionUser.getUserId();
-		String pwd=request.getParameter("pwd");
-		Map<String, Object> maps=new HashMap<String, Object>();
+		String pwd = request.getParameter("pwd");
+		Map<String, Object> maps = new HashMap<String, Object>();
 		User user = userService.findById(userId, User.class);
-		if(user==null){
+		if (user == null) {
 			maps.put("msg", "-1");
 			maps.put("msgbox", "数据有问题，正在返回");
 			return maps;
 		}
-		if(user.getPassword().equals(SecUtils.encoderByMd5With32Bit(pwd))){
+		if (user.getPassword().equals(SecUtils.encoderByMd5With32Bit(pwd))) {
 			maps.put("msg", "1");
 			maps.put("msgbox", "正确");
 			return maps;
-		}else{
+		} else {
 			maps.put("msg", "0");
 			maps.put("msgbox", "原始密码错误，请修改");
 			return maps;
 		}
-		
+
 	}
-	@RequestMapping(value="/modifiypwd/save")
-	@ResponseBody 
-	public  ReturnDatas modifiySave(HttpServletRequest request,HttpServletResponse response,Model model)throws Exception{
-		ReturnDatas datas=ReturnDatas.getSuccessReturnDatas();
-		String userId=request.getParameter("id");
-		String pwd=request.getParameter("newpwd");
-		String repwd=request.getParameter("renewpwd");
+
+	@RequestMapping(value = "/modifiypwd/save")
+	@ResponseBody
+	public ReturnDatas modifiySave(HttpServletRequest request, HttpServletResponse response, Model model)
+			throws Exception {
+		ReturnDatas datas = ReturnDatas.getSuccessReturnDatas();
+		String userId = request.getParameter("id");
+		String pwd = request.getParameter("newpwd");
+		String repwd = request.getParameter("renewpwd");
 		User user = userService.findById(userId, User.class);
-		if(user==null){
+		if (user == null) {
 			datas.setStatus(ReturnDatas.ERROR);
 			datas.setMessage("数据有问题，正在返回");
 			return datas;
 		}
-		if(StringUtils.isEmpty(pwd)||StringUtils.isEmpty(repwd)){
+		if (StringUtils.isEmpty(pwd) || StringUtils.isEmpty(repwd)) {
 			datas.setStatus(ReturnDatas.ERROR);
 			datas.setMessage("新密码或重复密码为空，请修改。");
 			return datas;
 		}
-		pwd=pwd.trim();
-		repwd=repwd.trim();
-		if(!pwd.equals(repwd)){
+		pwd = pwd.trim();
+		repwd = repwd.trim();
+		if (!pwd.equals(repwd)) {
 			datas.setStatus(ReturnDatas.ERROR);
 			datas.setMessage("两次密码不一致，请修改。");
 			return datas;
 		}
-		try{
+		try {
 			user.setPassword(SecUtils.encoderByMd5With32Bit(pwd));
 			userService.update(user);
 			datas.setMessage("修改成功，请用新密码登录，即将退出。");
 			return datas;
-		}catch(Exception e){
-			logger.error(e.getMessage(),e);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
 			datas.setStatus(ReturnDatas.ERROR);
 			datas.setMessage("系统故障，请稍后再试。");
 			return datas;
 		}
-		
+
 	}
-	
+
 }

@@ -25,12 +25,11 @@ import java.awt.image.BufferedImageOp;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class DoubleRippleFilterFactory extends AbstractFilterFactory {
 
 	protected List<BufferedImageOp> filters;
 	protected DoubleRippleImageOp ripple;
-	
+
 	public DoubleRippleFilterFactory() {
 		ripple = new DoubleRippleImageOp();
 	}
@@ -43,5 +42,5 @@ public class DoubleRippleFilterFactory extends AbstractFilterFactory {
 		}
 		return filters;
 	}
-	
+
 }

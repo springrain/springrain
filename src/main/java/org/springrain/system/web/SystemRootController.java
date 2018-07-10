@@ -33,8 +33,7 @@ public class SystemRootController extends BaseController {
 	private String webinfpath = "";
 
 	@RequestMapping("/list")
-	public String list(HttpServletRequest request, Model model, Menu menu)
-			throws Exception {
+	public String list(HttpServletRequest request, Model model, Menu menu) throws Exception {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		String p = request.getParameter("p");
 		path = request.getServletContext().getRealPath("");
@@ -49,7 +48,7 @@ public class SystemRootController extends BaseController {
 		List<FileDto> dtos = systemRootService.findFileDtosByPath(p, path);
 		returnObject.setData(dtos);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
-		
+
 		// 获取上级目录
 		String parent = "";
 		if (!p.equals(path)) {
@@ -67,8 +66,7 @@ public class SystemRootController extends BaseController {
 	}
 
 	@RequestMapping("/web/list")
-	public String web_list(HttpServletRequest request, Model model, Menu menu)
-			throws Exception {
+	public String web_list(HttpServletRequest request, Model model, Menu menu) throws Exception {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		String p = request.getParameter("p");
 		webinfpath = request.getServletContext().getRealPath("WEB-INF");
@@ -80,8 +78,7 @@ public class SystemRootController extends BaseController {
 		} else {
 			p = webinfpath;
 		}
-		List<FileDto> dtos = systemRootService
-				.findFileDtosByPath(p, webinfpath);
+		List<FileDto> dtos = systemRootService.findFileDtosByPath(p, webinfpath);
 		returnObject.setData(dtos);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
 		model.addAttribute("t", "t");
@@ -103,10 +100,9 @@ public class SystemRootController extends BaseController {
 	}
 
 	@RequestMapping("/uploadDic")
-	@ResponseBody 
-	public  ReturnDatas uploadDic(HttpServletRequest request,
-			HttpServletResponse response, String t, String p, String name)
-			throws Exception {
+	@ResponseBody
+	public ReturnDatas uploadDic(HttpServletRequest request, HttpServletResponse response, String t, String p,
+			String name) throws Exception {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		String currpath = "";
 		if (StringUtils.isBlank(t)) {
@@ -129,10 +125,9 @@ public class SystemRootController extends BaseController {
 	}
 
 	@RequestMapping("/uploadFile")
-	@ResponseBody 
-	public  ReturnDatas uploadImage(HttpServletRequest request,
-			HttpServletResponse response, MultipartFile _fileUpload, String t,
-			String p) throws Exception {
+	@ResponseBody
+	public ReturnDatas uploadImage(HttpServletRequest request, HttpServletResponse response, MultipartFile _fileUpload,
+			String t, String p) throws Exception {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		if (_fileUpload == null || _fileUpload.isEmpty()) {
 			returnObject = ReturnDatas.getErrorReturnDatas();
@@ -152,16 +147,14 @@ public class SystemRootController extends BaseController {
 			p = currpath + p;
 		}
 		// 复制文件
-		FileUtils.copyInputStreamToFile(_fileUpload.getInputStream(), new File(
-				p, _fileUpload.getOriginalFilename()));
+		FileUtils.copyInputStreamToFile(_fileUpload.getInputStream(), new File(p, _fileUpload.getOriginalFilename()));
 
 		returnObject.setData(p + _fileUpload.getOriginalFilename());
 		return returnObject;
 	}
 
 	@RequestMapping("/downfile")
-	public void downfile(HttpServletRequest request,
-			HttpServletResponse response, Model model, Menu menu)
+	public void downfile(HttpServletRequest request, HttpServletResponse response, Model model, Menu menu)
 			throws Exception {
 
 		String currpath = "";

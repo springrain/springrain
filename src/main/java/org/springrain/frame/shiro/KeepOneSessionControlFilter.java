@@ -26,90 +26,87 @@ import org.springrain.frame.util.GlobalStatic;
 
 /**
  * 保存最新的用户在线，踢出上一个用户
+ * 
  * @author caomei
  *
  */
 
 @Component("keepone")
 public class KeepOneSessionControlFilter extends AccessControlFilter {
-	private final  Logger logger = LoggerFactory.getLogger(getClass());
-    @Resource
+	private final Logger logger = LoggerFactory.getLogger(getClass());
+	@Resource
 	private SessionManager sessionManager;
-    @Resource
-    private CacheManager cacheManager;
-
+	@Resource
+	private CacheManager cacheManager;
 
 	@Override
-	protected boolean isAccessAllowed(ServletRequest request,
-			ServletResponse response, Object mappedValue) throws Exception {
+	protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue)
+			throws Exception {
 		return false;
 	}
 
 	@Override
-	protected boolean onAccessDenied(ServletRequest request,
-			ServletResponse response) throws Exception {
+	protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
 		String userId = SessionUser.getUserId();
 		if (StringUtils.isBlank(userId)) {// 没有登录
 			return true;
 		}
-		
-		//当前session 的Id
-		Serializable sessionId =SessionUser.getSession().getId();
 
-		
-		//当前用户缓存中的sessionId
-		  Cache cache = cacheManager.getCache(GlobalStatic.springrainkeeponeCacheKey);
-		  String deleteSessionId = cache.get(userId,String.class);
-	
+		// 当前session 的Id
+		Serializable sessionId = SessionUser.getSession().getId();
+
+		// 当前用户缓存中的sessionId
+		Cache cache = cacheManager.getCache(GlobalStatic.springrainkeeponeCacheKey);
+		String deleteSessionId = cache.get(userId, String.class);
+
 		if (sessionId.toString().equalsIgnoreCase(deleteSessionId)) {
 			return true;
-		} else if(StringUtils.isBlank(deleteSessionId)){
+		} else if (StringUtils.isBlank(deleteSessionId)) {
 			cache.put(userId, sessionId.toString());
 			return true;
-		}else {
+		} else {
 			cache.put(userId, sessionId.toString());
-			
-			//Session deletetSession = sessionManager.getSession(new DefaultSessionKey(deleteSessionId));
-			Session deletetSession=null;
+
+			// Session deletetSession = sessionManager.getSession(new
+			// DefaultSessionKey(deleteSessionId));
+			Session deletetSession = null;
 			try {
-			    deletetSession = sessionManager.getSession(new DefaultSessionKey(deleteSessionId));
-			} catch (UnknownSessionException e) {//no session with  id [deleteSessionId]
-				logger.error(e.getMessage(),e);
-			} catch(ExpiredSessionException e){//Session with id [deleteSessionId] has expired
-				logger.error(e.getMessage(),e);
+				deletetSession = sessionManager.getSession(new DefaultSessionKey(deleteSessionId));
+			} catch (UnknownSessionException e) {// no session with id [deleteSessionId]
+				logger.error(e.getMessage(), e);
+			} catch (ExpiredSessionException e) {// Session with id [deleteSessionId] has expired
+				logger.error(e.getMessage(), e);
 			}
-			
+
 			if (deletetSession == null) {
 				return true;
 			}
-			//根据 需要删除的 sessionId,生成subject
+			// 根据 需要删除的 sessionId,生成subject
 			Subject deleteSubject = new Subject.Builder().sessionId(deleteSessionId).buildSubject();
-            //退出
+			// 退出
 			deleteSubject.logout();
-			
-			//在此可以自定义json格式的回复
+
+			// 在此可以自定义json格式的回复
 			return true;
 
 		}
 
 	}
 
+	/**
+	 * springboot会把所有的filter列为平级,造成shiro的子拦截器和shiroFilter同级,造成访问异常,所以shiro的子Filter需要手动disable
+	 * 
+	 * @param filter
+	 * @return
+	 */
 
-    /**
-     *  springboot会把所有的filter列为平级,造成shiro的子拦截器和shiroFilter同级,造成访问异常,所以shiro的子Filter需要手动disable
-     * @param filter
-     * @return
-     */
+	@Bean("disableKeepOneSessionControlFilter")
+	public FilterRegistrationBean<KeepOneSessionControlFilter> disableKeepOneSessionControlFilter(
+			KeepOneSessionControlFilter filter) {
+		FilterRegistrationBean<KeepOneSessionControlFilter> registration = new FilterRegistrationBean<KeepOneSessionControlFilter>(
+				filter);
+		registration.setEnabled(false);
+		return registration;
+	}
 
-    @Bean("disableKeepOneSessionControlFilter")
-    public FilterRegistrationBean<KeepOneSessionControlFilter> disableKeepOneSessionControlFilter(KeepOneSessionControlFilter filter) {
-        FilterRegistrationBean<KeepOneSessionControlFilter> registration = new FilterRegistrationBean<KeepOneSessionControlFilter>(filter);
-        registration.setEnabled(false);
-        return registration;
-    }
-    
-   
-
-
-    
 }

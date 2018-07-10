@@ -16,56 +16,50 @@ import org.springrain.frame.util.CaptchaUtils;
 import org.springrain.frame.util.GlobalStatic;
 
 @Controller
-public class CommonController extends BaseController  {
-	
+public class CommonController extends BaseController {
 
-		
-		
-		/**
-		 * 错误页面
-		 * @param model
-		 * @return
-		 * @throws Exception
-		 */
-		@RequestMapping(value = "/errorpage/{error}")
-		public String errorpage(HttpServletRequest request,@PathVariable String error) throws Exception {
-			
-			
-			Exception exception = (Exception) request.getAttribute("javax.servlet.error.exception");
-			
-			if(exception!=null){
-				logger.error(exception.getMessage(), exception);
-				request.setAttribute("exception", exception.getMessage());
-			}
-			
-			
-			return "/errorpage/"+error;
+	/**
+	 * 错误页面
+	 * 
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/errorpage/{error}")
+	public String errorpage(HttpServletRequest request, @PathVariable String error) throws Exception {
+
+		Exception exception = (Exception) request.getAttribute("javax.servlet.error.exception");
+
+		if (exception != null) {
+			logger.error(exception.getMessage(), exception);
+			request.setAttribute("exception", exception.getMessage());
 		}
-		
-		
-		
-		/**
-		 * 生成验证码
-		 * 
-		 * @return
-		 * @throws IOException 
-		 */
-		@RequestMapping("/getCaptcha")
-		public void getCaptcha(HttpSession session,HttpServletResponse response) throws IOException {
 
-			//HttpHeaders headers = new HttpHeaders();
-			//headers.setContentType(MediaType.IMAGE_JPEG);
+		return "/errorpage/" + error;
+	}
 
-			StringBuilder code = new StringBuilder();
-			BufferedImage image = CaptchaUtils.genRandomCodeImage(code);
-			session.removeAttribute(GlobalStatic.DEFAULT_CAPTCHA_PARAM);
-			session.setAttribute(GlobalStatic.DEFAULT_CAPTCHA_PARAM, code.toString());
+	/**
+	 * 生成验证码
+	 * 
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping("/getCaptcha")
+	public void getCaptcha(HttpSession session, HttpServletResponse response) throws IOException {
 
-			response.setHeader("Content-Type", "image/jpeg");
-			
-			// 将内存中的图片通过流动形式输出到客户端
-			ImageIO.write(image, "JPEG", response.getOutputStream());
-			return;
-		}
-		
+		// HttpHeaders headers = new HttpHeaders();
+		// headers.setContentType(MediaType.IMAGE_JPEG);
+
+		StringBuilder code = new StringBuilder();
+		BufferedImage image = CaptchaUtils.genRandomCodeImage(code);
+		session.removeAttribute(GlobalStatic.DEFAULT_CAPTCHA_PARAM);
+		session.setAttribute(GlobalStatic.DEFAULT_CAPTCHA_PARAM, code.toString());
+
+		response.setHeader("Content-Type", "image/jpeg");
+
+		// 将内存中的图片通过流动形式输出到客户端
+		ImageIO.write(image, "JPEG", response.getOutputStream());
+		return;
+	}
+
 }

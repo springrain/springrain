@@ -24,11 +24,10 @@ import org.springrain.frame.util.patchca.color.SingleColorFactory;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-
 public class SingleColorBackgroundFactory implements BackgroundFactory {
 
 	private ColorFactory colorFactory;
-	
+
 	public SingleColorBackgroundFactory() {
 		colorFactory = new SingleColorFactory(Color.WHITE);
 	}
@@ -36,7 +35,7 @@ public class SingleColorBackgroundFactory implements BackgroundFactory {
 	public SingleColorBackgroundFactory(Color color) {
 		colorFactory = new SingleColorFactory(color);
 	}
-	
+
 	public void setColorFactory(ColorFactory colorFactory) {
 		this.colorFactory = colorFactory;
 	}

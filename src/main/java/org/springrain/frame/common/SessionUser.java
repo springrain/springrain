@@ -17,6 +17,7 @@ import org.springrain.frame.shiro.ShiroUser;
  */
 public class SessionUser {
 	private static final Logger logger = LoggerFactory.getLogger(SessionUser.class);
+
 	private SessionUser() {
 		throw new IllegalAccessError("工具类不能实例化");
 	}
@@ -35,7 +36,7 @@ public class SessionUser {
 			}
 			return shiroUser;
 		} catch (Exception e) {
-			logger.error(e.getMessage(),e);
+			logger.error(e.getMessage(), e);
 			return null;
 		}
 	}
@@ -49,7 +50,7 @@ public class SessionUser {
 			Session session = user.getSession();
 			return session;
 		} catch (Exception e) {
-			logger.error(e.getMessage(),e);
+			logger.error(e.getMessage(), e);
 			return null;
 		}
 	}
@@ -62,7 +63,7 @@ public class SessionUser {
 			}
 			return shiroUser.getId();
 		} catch (Exception e) {
-			logger.error(e.getMessage(),e);
+			logger.error(e.getMessage(), e);
 			return null;
 		}
 	}

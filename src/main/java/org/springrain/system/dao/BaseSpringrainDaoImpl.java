@@ -62,8 +62,8 @@ public class BaseSpringrainDaoImpl extends BaseJdbcDaoImpl implements IBaseJdbcD
 	}
 
 	/*
-	 * 读写分离时,处理同步延迟问题
-	 * ++
+	 * 读写分离时,处理同步延迟问题 ++
+	 * 
 	 * @Override public NamedParameterJdbcTemplate getJdbc() { try{
 	 * TransactionInterceptor.currentTransactionStatus();
 	 * }catch(NoTransactionException e){ return this.jdbc; } return getWriteJdbc();

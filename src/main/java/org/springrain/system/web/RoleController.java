@@ -1,4 +1,5 @@
-package  org.springrain.system.web;
+package org.springrain.system.web;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,17 +27,17 @@ import org.springrain.system.service.IOrgService;
 import org.springrain.system.service.IRoleService;
 import org.springrain.system.service.IUserRoleMenuService;
 
-
 /**
  * TODO 在此加入类描述
+ * 
  * @copyright {@link springrain}
  * @author weicms.net<Auto generate>
- * @version  2013-07-29 11:36:46
+ * @version 2013-07-29 11:36:46
  * @see org.springrain.springrain.web.Role
  */
 @Controller
-@RequestMapping(value="/system/role")
-public class RoleController  extends BaseController {
+@RequestMapping(value = "/system/role")
+public class RoleController extends BaseController {
 	@Resource
 	private IRoleService roleService;
 	@Resource
@@ -45,14 +46,13 @@ public class RoleController  extends BaseController {
 	private IOrgService orgService;
 	@Resource
 	private IMenuService menuService;
-	//角色管理页面  普通用户使用
-	private String listurl="/system/role/roleList";
-	//角色管理页面  管理员使用
-	private String listurlAdmin="/system/role/roleListAdmin";
-	
+	// 角色管理页面 普通用户使用
+	private String listurl = "/system/role/roleList";
+	// 角色管理页面 管理员使用
+	private String listurlAdmin = "/system/role/roleListAdmin";
 
 	/**
-	 * 查询角色带权限  非管理员使用
+	 * 查询角色带权限 非管理员使用
 	 * 
 	 * @param request
 	 * @param model
@@ -66,9 +66,9 @@ public class RoleController  extends BaseController {
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
 		return listurl;
 	}
-	
+
 	/**
-	 * 查询角色带权限  管理员使用
+	 * 查询角色带权限 管理员使用
 	 * 
 	 * @param request
 	 * @param model
@@ -84,7 +84,7 @@ public class RoleController  extends BaseController {
 	}
 
 	/**
-	 * 查询角色 带权限  非管理员使用
+	 * 查询角色 带权限 非管理员使用
 	 * 
 	 * @param request
 	 * @param model
@@ -93,27 +93,27 @@ public class RoleController  extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/list/json")
-	@ResponseBody 
+	@ResponseBody
 	public ReturnDatas listjson(HttpServletRequest request, Model model, Role role) throws Exception {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
-	
+
 		Page page = newPage(request);
-	
-		List<Role> datas =roleService.findListDataByFinder(null, page, Role.class, role);
-		if(!CollectionUtils.isEmpty(datas)){
-			for(Role r:datas){
-				StringBuilder menunames=new StringBuilder();
-				//查询部门名称
-				if(StringUtils.isNotBlank(r.getOrgId())){
-					Org org=orgService.findById(r.getOrgId(), Org.class);
-					if(org!=null){
-						r.setOrgname(org.getName()); 
+
+		List<Role> datas = roleService.findListDataByFinder(null, page, Role.class, role);
+		if (!CollectionUtils.isEmpty(datas)) {
+			for (Role r : datas) {
+				StringBuilder menunames = new StringBuilder();
+				// 查询部门名称
+				if (StringUtils.isNotBlank(r.getOrgId())) {
+					Org org = orgService.findById(r.getOrgId(), Org.class);
+					if (org != null) {
+						r.setOrgname(org.getName());
 					}
 				}
-				//查询角色对应菜单
-				List<Menu> lsmenu=userRoleMenuService.findMenuByRoleId(r.getId());
-				if(!CollectionUtils.isEmpty(lsmenu)){
-					for(Menu m:lsmenu){
+				// 查询角色对应菜单
+				List<Menu> lsmenu = userRoleMenuService.findMenuByRoleId(r.getId());
+				if (!CollectionUtils.isEmpty(lsmenu)) {
+					for (Menu m : lsmenu) {
 						menunames.append(m.getName()).append(",");
 					}
 				}
@@ -126,16 +126,11 @@ public class RoleController  extends BaseController {
 		return returnObject;
 	}
 
-	
-
-	
-
 	/**
 	 * 查看操作,调用APP端lookjson方法
 	 */
 	@RequestMapping(value = "/look")
-	public String look(Model model, HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
+	public String look(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ReturnDatas returnObject = lookjson(model, request, response);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
 		return "/system/role/roleLook";
@@ -145,16 +140,16 @@ public class RoleController  extends BaseController {
 	 * 查看的Json格式数据,为APP端提供数据
 	 */
 	@RequestMapping(value = "/look/json")
-	@ResponseBody 
+	@ResponseBody
 	public ReturnDatas lookjson(Model model, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		String id = request.getParameter("id");
 		if (StringUtils.isNotBlank(id)) {
 			Role role = userRoleMenuService.findRoleAndMenu(id);
-			if(role!=null&&StringUtils.isNotBlank(role.getOrgId())){
-				Org org=orgService.findById(role.getOrgId(),Org.class); 
-				role.setOrgname(org.getName());    
+			if (role != null && StringUtils.isNotBlank(role.getOrgId())) {
+				Org org = orgService.findById(role.getOrgId(), Org.class);
+				role.setOrgname(org.getName());
 			}
 			returnObject.setData(role);
 		} else {
@@ -170,43 +165,42 @@ public class RoleController  extends BaseController {
 	 * 
 	 */
 	@RequestMapping("/update")
-	@ResponseBody 
-	public  ReturnDatas saveorupdate(Role role, HttpServletRequest request, HttpServletResponse response)
+	@ResponseBody
+	public ReturnDatas saveorupdate(Role role, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		returnObject.setMessage(MessageUtils.UPDATE_SUCCESS);
 		try {
-			String id=role.getId();
-			if(StringUtils.isBlank(id)){
+			String id = role.getId();
+			if (StringUtils.isBlank(id)) {
 				role.setId(null);
 			}
-			
-			String str_menuIds=request.getParameter("menuIds");
-			if(StringUtils.isBlank(str_menuIds)){
+
+			String str_menuIds = request.getParameter("menuIds");
+			if (StringUtils.isBlank(str_menuIds)) {
 				role.setMenus(null);
-			}else{
-				String[] menuIds=str_menuIds.split(",");
-				if(menuIds!=null&&menuIds.length>0){
-					List<Menu> menus=new ArrayList<>();
-					for(String s:menuIds){
-						if(StringUtils.isBlank(s)){
+			} else {
+				String[] menuIds = str_menuIds.split(",");
+				if (menuIds != null && menuIds.length > 0) {
+					List<Menu> menus = new ArrayList<>();
+					for (String s : menuIds) {
+						if (StringUtils.isBlank(s)) {
 							continue;
 						}
-						Menu m=new Menu();
+						Menu m = new Menu();
 						m.setId(s);
 						menus.add(m);
 					}
-					
+
 					role.setMenus(menus);
-					
+
 				}
-				
-				
+
 			}
-			
+
 			roleService.saveorupdateRole(role);
 		} catch (Exception e) {
-			logger.error(e.getMessage(),e);
+			logger.error(e.getMessage(), e);
 			returnObject.setStatus(ReturnDatas.ERROR);
 			returnObject.setMessage(MessageUtils.UPDATE_ERROR);
 		}
@@ -214,21 +208,20 @@ public class RoleController  extends BaseController {
 	}
 
 	/**
-	 * 角色添加修改页面   普通人员使用
+	 * 角色添加修改页面 普通人员使用
 	 */
 	@RequestMapping(value = "/update/pre")
-	public String edit(Model model, HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
+	public String edit(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ReturnDatas returnObject = lookjson(model, request, response);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
 		return "/system/role/roleCru";
 	}
+
 	/**
-	 * 角色添加修改页面  普通人员使用
+	 * 角色添加修改页面 普通人员使用
 	 */
 	@RequestMapping(value = "/update/admin/pre")
-	public String editadmin(Model model, HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
+	public String editadmin(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ReturnDatas returnObject = lookjson(model, request, response);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
 		return "/system/role/roleCruAdmin";
@@ -238,7 +231,7 @@ public class RoleController  extends BaseController {
 	 * 删除操作
 	 */
 	@RequestMapping(value = "/delete")
-	@ResponseBody 
+	@ResponseBody
 	public ReturnDatas destroy(HttpServletRequest request) throws Exception {
 		// 执行删除
 		try {
@@ -254,18 +247,19 @@ public class RoleController  extends BaseController {
 		}
 		return new ReturnDatas(ReturnDatas.WARNING, MessageUtils.DELETE_WARNING);
 	}
+
 	@RequestMapping(value = "/ajax/select2")
-	@ResponseBody 
-	public  List<Role> ajaxUser(HttpServletRequest request) throws Exception {
-		String key=request.getParameter("q");
-		Page page=new Page();
+	@ResponseBody
+	public List<Role> ajaxUser(HttpServletRequest request) throws Exception {
+		String key = request.getParameter("q");
+		Page page = new Page();
 		page.setPageIndex(1);
-		
-		Finder finder=Finder.getSelectFinder(Role.class, "id,name").append(" WHERE roleType=1 and name like :name order by name asc ");
-		finder.setParam("name", key+"%");
-		return roleService.queryForList(finder,Role.class, page);
-		
+
+		Finder finder = Finder.getSelectFinder(Role.class, "id,name")
+				.append(" WHERE roleType=1 and name like :name order by name asc ");
+		finder.setParam("name", key + "%");
+		return roleService.queryForList(finder, Role.class, page);
+
 	}
-	
 
 }

@@ -18,11 +18,10 @@
  */
 package org.springrain.frame.util.patchca.filter.library;
 
-
 public abstract class AbstractConvolveImageOp extends AbstractImageOp {
 
-	private float[][] matrix; 
-	
+	private float[][] matrix;
+
 	protected AbstractConvolveImageOp(float[][] matrix) {
 		this.matrix = matrix;
 	}
@@ -31,19 +30,19 @@ public abstract class AbstractConvolveImageOp extends AbstractImageOp {
 	protected void filter(int[] inPixels, int[] outPixels, int width, int height) {
 		int matrixWidth = matrix[0].length;
 		int matrixHeight = matrix.length;
-		int mattrixLeft = - matrixWidth / 2; 
-		int matrixTop = - matrixHeight / 2;
+		int mattrixLeft = -matrixWidth / 2;
+		int matrixTop = -matrixHeight / 2;
 		for (int y = 0; y < height; y++) {
 			int ytop = y + matrixTop;
-			int ybottom = y + matrixTop + matrixHeight; 
+			int ybottom = y + matrixTop + matrixHeight;
 			for (int x = 0; x < width; x++) {
-				float[] sum = {0.5f, 0.5f, 0.5f, 0.5f};
+				float[] sum = { 0.5f, 0.5f, 0.5f, 0.5f };
 				int xleft = x + mattrixLeft;
 				int xright = x + mattrixLeft + matrixWidth;
 				int matrixY = 0;
-				for (int my = ytop; my < ybottom; my ++, matrixY++) {
+				for (int my = ytop; my < ybottom; my++, matrixY++) {
 					int matrixX = 0;
-					for (int mx = xleft; mx < xright; mx ++, matrixX ++) {
+					for (int mx = xleft; mx < xright; mx++, matrixX++) {
 						int pixel = getPixel(inPixels, mx, my, width, height, EDGE_ZERO);
 						float m = matrix[matrixY][matrixX];
 						sum[0] += m * ((pixel >> 24) & 0xff);
@@ -52,11 +51,11 @@ public abstract class AbstractConvolveImageOp extends AbstractImageOp {
 						sum[3] += m * (pixel & 0xff);
 					}
 				}
-				outPixels[x + y * width] = (limitByte((int)sum[0]) << 24) | (limitByte((int)sum[1]) << 16) | (limitByte((int)sum[2]) << 8) | (limitByte((int)sum[3]));				
+				outPixels[x + y * width] = (limitByte((int) sum[0]) << 24) | (limitByte((int) sum[1]) << 16)
+						| (limitByte((int) sum[2]) << 8) | (limitByte((int) sum[3]));
 			}
 		}
-		
+
 	}
 
-	
 }

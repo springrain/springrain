@@ -33,13 +33,13 @@ public class CmsContentListDirective extends AbstractCMSDirective {
 	private ICmsContentService cmsContentService;
 
 	@Override
-	public void execute(Environment env, Map params, TemplateModel[] loopVars,
-			TemplateDirectiveBody body) throws TemplateException, IOException {
+	public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body)
+			throws TemplateException, IOException {
 		try {
-			
-			List<CmsContent> contentList = getList(params, env, this.getSiteId(params),this.getBusinessId(params));
+
+			List<CmsContent> contentList = getList(params, env, this.getSiteId(params), this.getBusinessId(params));
 			env.setVariable(DirectiveUtils.OUT_LIST, DirectiveUtils.wrap(contentList));
-			
+
 			if (body != null) {
 				body.render(env.getOut());
 			}
@@ -50,6 +50,7 @@ public class CmsContentListDirective extends AbstractCMSDirective {
 
 	/**
 	 * 获取内容列表
+	 * 
 	 * @param params
 	 * @param env
 	 * @param siteId
@@ -57,33 +58,32 @@ public class CmsContentListDirective extends AbstractCMSDirective {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<CmsContent> getList(Map params, Environment env, String siteId, String channelId)
-			throws Exception {
+	public List<CmsContent> getList(Map params, Environment env, String siteId, String channelId) throws Exception {
 		List<CmsContent> resList;
-		String[] idArr = DirectiveUtils.getStringArr(PARAM_IDS, params,PARAM_SPLIT);
-		if(idArr != null && idArr.length > 0 ){
+		String[] idArr = DirectiveUtils.getStringArr(PARAM_IDS, params, PARAM_SPLIT);
+		if (idArr != null && idArr.length > 0) {
 			// 有ID以ID作为主参数进行查询，排斥其他筛选参数
-			resList = cmsContentService.findListByIdsForTag(Arrays.asList(idArr),getOrderBy(params));
+			resList = cmsContentService.findListByIdsForTag(Arrays.asList(idArr), getOrderBy(params));
 		} else {
 			// 前台使用还是后台使用
 			Boolean isFront = DirectiveUtils.getBool("isFront", params);
-			if(isFront == null){
+			if (isFront == null) {
 				isFront = true;
 			}
-			
-			if(isFront){
+
+			if (isFront) {
 				// 默认查询可用的内容
 				Integer active = DirectiveUtils.getInt("active", params);
-				if(active == null){
+				if (active == null) {
 					params.put("active", DirectiveUtils.wrap(1));
 				}
-			}else{
+			} else {
 				Integer active = DirectiveUtils.getInt("active", params);
-				if(active == null){
+				if (active == null) {
 					params.remove("active");
 				}
 			}
-			resList = cmsContentService.findListForTag(params, env, siteId,channelId);
+			resList = cmsContentService.findListForTag(params, env, siteId, channelId);
 		}
 		return resList;
 	}

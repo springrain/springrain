@@ -32,7 +32,7 @@ public class AdaptiveRandomWordFactory extends RandomWordFactory {
 		characters = "abdekmnpwx34678";
 		wideCharacters = "mw";
 	}
-	
+
 	@Override
 	public String getNextWord() {
 		Random rnd = new Random();
