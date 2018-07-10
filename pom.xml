@@ -38,7 +38,7 @@
         <commons-fileupload.version>1.3.3</commons-fileupload.version>
 		
 		<javax.persistence.version>2.2.0</javax.persistence.version>
-		<lucene.version>7.3.1</lucene.version>
+		<lucene.version>7.4.0</lucene.version>
         <jxl.version>2.6.12</jxl.version>
         <jodconverter.version>2.2.1</jodconverter.version>
         <zxing.version>3.3.2</zxing.version>
@@ -52,7 +52,7 @@
           -->
         <shiro.version>1.3.2</shiro.version>
         
-        <redisson.version>3.7.2</redisson.version>
+        <redisson.version>3.7.3</redisson.version>
         <fst.version>2.57</fst.version>
         
         
