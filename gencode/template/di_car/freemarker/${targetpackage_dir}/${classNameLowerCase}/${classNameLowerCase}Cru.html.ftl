@@ -27,7 +27,7 @@ ${r"<@h.commonHead"} title="后台管理系统" keywords="开源,永久免费" d
 			<div class="layui-tab layui-tab-brief">
 				<ul class="layui-tab-title site-demo-title">
 		             <li style="float:right;">
-				        <button type="button" onclick="history.go(-1)" class="layui-btn layui-btn-small" style="margin-top:8px;"><i class="layui-icon layui-icon-specil">&#xe603;</i>返回</button>
+				        <button type="button" onclick="history.go(-1)" class="layui-btn layui-btn-sm" style="margin-top:8px;"><i class="layui-icon layui-icon-specil">&#xe603;</i>返回</button>
 		             </li>
 	       		</ul>
 				

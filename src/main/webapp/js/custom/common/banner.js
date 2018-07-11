@@ -53,9 +53,9 @@
 		            var $li = $('<div id="' + file.id + '" name="showbanner" class="file-item thumbnail layui-inline">' +
 		                        '<img>' +
 		                        '<div class="info">' + 
-		                            '<button type="button" style="width:50px;" class="layui-btn layui-btn-mini" ' + 
+		                            '<button type="button" style="width:50px;" class="layui-btn layui-btn-xs" ' + 
 		                                'onclick="editImg(\'' + domId + '\',this);" >编辑</button>' + 
-		                            '<button type="button" style="width:50px;margin-left:0;float:right;" class="layui-btn layui-btn-danger layui-btn-mini" ' + 
+		                            '<button type="button" style="width:50px;margin-left:0;float:right;" class="layui-btn layui-btn-danger layui-btn-xs" ' + 
 		                            'onclick="deleteImgTips(\'' + domId + '\',this);" >删除</button>' + 
 		                        '</div>' 
 		                        // '<div class="info">' + file.name + '</div>' 
@@ -262,10 +262,10 @@ function saveEditImg(){
        html += '<div id="' + obj.id + '" name="showbanner" class="file-item thumbnail layui-inline" >' + 
                        '<img src="${ctx}' + obj.path + '" alt="" height="100" width="100" >' + 
                        '<div class="info">' + 
-                           '<button type="button" style="width:50px;" class="layui-btn layui-btn-mini" ' + 
+                           '<button type="button" style="width:50px;" class="layui-btn layui-btn-xs" ' + 
                                ' onclick="editImg(\'' + obj.id + '\',this);">编辑</button>' + 
                            '<button type="button" style="width:50px;margin-left: 0px;float: right;" ' + 
-                               'class="layui-btn layui-btn-danger layui-btn-mini " ' + 
+                               'class="layui-btn layui-btn-danger layui-btn-xs " ' + 
                                'onclick="deleteImgTips(\'' + obj.id + '\',this);" ' + 
                                'style="width:50px;margin-left:0;float:right;" >删除</button>' + 
                        '</div>' + 

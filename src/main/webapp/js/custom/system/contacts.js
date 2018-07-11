@@ -79,7 +79,7 @@ function addHoverDom(treeId, treeNode) {
 		+ "_div'><li onclick='addOrg(\""+treeNode.id+"\");'>新增</li><li onclick='editOrg(\""+treeNode.id+"\");'>编辑</li><li onclick='delOrg(\""+treeNode.id+"\");'>删除</li></ul>";*/
 	var addStr = "<span class='button add' id='addBtn_" + treeNode.tId
 	+ "' title='add node' onclick='showEditorMenu(\""+treeNode.tId+"\");'></span><span id='addBtn_" + treeNode.tId
-	+ "_div'><button class='layui-btn layui-btn-small' style='height:24px;width:24px;border-radius:12px;'><i class='layui-icon'>&#x1002;</i></button></span>";
+	+ "_div'><button class='layui-btn layui-btn-sm' style='height:24px;width:24px;border-radius:12px;'><i class='layui-icon'>&#x1002;</i></button></span>";
 	sObj.after(addStr);
 };
 
