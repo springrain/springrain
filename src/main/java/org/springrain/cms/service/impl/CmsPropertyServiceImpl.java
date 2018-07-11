@@ -21,8 +21,7 @@ import org.springrain.system.service.BaseSpringrainServiceImpl;
  * @see org.springrain.cms.entity.demo.service.impl.CmsProperty
  */
 @Service("cmsPropertyService")
-public class CmsPropertyServiceImpl extends BaseSpringrainServiceImpl implements
-		ICmsPropertyService {
+public class CmsPropertyServiceImpl extends BaseSpringrainServiceImpl implements ICmsPropertyService {
 
 	@Override
 	public String save(Object entity) throws Exception {
@@ -58,30 +57,24 @@ public class CmsPropertyServiceImpl extends BaseSpringrainServiceImpl implements
 	 * @throws Exception
 	 */
 	@Override
-	public <T> List<T> findListDataByFinder(Finder finder, Page page,
-			Class<T> clazz, Object o) throws Exception {
+	public <T> List<T> findListDataByFinder(Finder finder, Page page, Class<T> clazz, Object o) throws Exception {
 		return super.findListDataByFinder(finder, page, clazz, o);
 	}
 
 	/**
 	 * 根据查询列表的宏,导出Excel
 	 * 
-	 * @param finder
-	 *            为空则只查询 clazz表
-	 * @param ftlurl
-	 *            类表的模版宏
-	 * @param page
-	 *            分页对象
-	 * @param clazz
-	 *            要查询的对象
-	 * @param o
-	 *            querybean
+	 * @param finder 为空则只查询 clazz表
+	 * @param ftlurl 类表的模版宏
+	 * @param page   分页对象
+	 * @param clazz  要查询的对象
+	 * @param o      querybean
 	 * @return
 	 * @throws Exception
 	 */
 	@Override
-	public <T> File findDataExportExcel(Finder finder, String ftlurl,
-			Page page, Class<T> clazz, Object o) throws Exception {
+	public <T> File findDataExportExcel(Finder finder, String ftlurl, Page page, Class<T> clazz, Object o)
+			throws Exception {
 		return super.findDataExportExcel(finder, ftlurl, page, clazz, o);
 	}
 
@@ -95,17 +88,14 @@ public class CmsPropertyServiceImpl extends BaseSpringrainServiceImpl implements
 
 	}
 
-
 	@Override
-	public List<CmsProperty> findByBusinessId(String businessId, String state)
-			throws Exception {
+	public List<CmsProperty> findByBusinessId(String businessId, String state) throws Exception {
 		if (StringUtils.isBlank(businessId)) {
 			return null;
 		}
 		// 查询本身字段
 		Finder finder = Finder.getSelectFinder(CmsProperty.class);
-		finder.append(" where businessId=:businessId ").setParam("businessId",
-				businessId);
+		finder.append(" where businessId=:businessId ").setParam("businessId", businessId);
 		if (StringUtils.isNotBlank(state)) {
 			finder.append(" and state=:state").setParam("state", state);
 		}

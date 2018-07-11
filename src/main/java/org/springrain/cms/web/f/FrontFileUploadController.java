@@ -32,65 +32,69 @@ import org.springrain.weixin.sdk.mp.api.impl.WxMpMenuServiceImpl;
 import org.springrain.weixin.sdk.mp.api.impl.WxMpServiceImpl;
 
 @Controller
-@RequestMapping(value="/f/{siteType}/{siteId}/{businessId}/file")
+@RequestMapping(value = "/f/{siteType}/{siteId}/{businessId}/file")
 public class FrontFileUploadController {
-	
+
 	@Resource
 	private IWxMpConfigService wxMpConfigService;
+
 	/**
 	 * 上传logo
-	 * @throws IOException 
-	 * */
+	 * 
+	 * @throws IOException
+	 */
 	@RequestMapping("/upload")
-	@ResponseBody 
-	public  ReturnDatas logoUpload(HttpServletRequest request,@PathVariable String siteId,@PathVariable String businessId,@PathVariable String siteType) throws IOException{
-		ReturnDatas returnDatas=ReturnDatas.getSuccessReturnDatas();
-		MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest)request;
-	    List<Map<String, String>> fileList = uploadFile(multiRequest,siteId,businessId,siteType);
+	@ResponseBody
+	public ReturnDatas logoUpload(HttpServletRequest request, @PathVariable String siteId,
+			@PathVariable String businessId, @PathVariable String siteType) throws IOException {
+		ReturnDatas returnDatas = ReturnDatas.getSuccessReturnDatas();
+		MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
+		List<Map<String, String>> fileList = uploadFile(multiRequest, siteId, businessId, siteType);
 		returnDatas.setData(fileList);
 		return returnDatas;
 	}
 
-	private List<Map<String, String>> uploadFile(
-			MultipartHttpServletRequest multiRequest, String siteId,String businessId,String siteType) throws IOException {
+	private List<Map<String, String>> uploadFile(MultipartHttpServletRequest multiRequest, String siteId,
+			String businessId, String siteType) throws IOException {
 		Iterator<String> iter = multiRequest.getFileNames();
-		List<Map<String, String>> fileList = new ArrayList<>(); 
-		while(iter.hasNext()){
+		List<Map<String, String>> fileList = new ArrayList<>();
+		while (iter.hasNext()) {
 			MultipartFile tempFile = multiRequest.getFile(iter.next());
-    		String[] fullFileName = StringUtils.split(tempFile.getOriginalFilename(), ".");
-    		String fileName = fullFileName[0];
-    		String prefix = fullFileName[1];
-			
-			//String path = "/upload/"+siteType+"/"+siteId+"/"+businessId+"/"+SecUtils.getUUID()+tempFile.getOriginalFilename();
-			String path = "/upload/"+siteType+"/"+siteId+"/"+businessId+"/"+SecUtils.getUUID()+"."+prefix;
-			
-			
-    		File file = new File(GlobalStatic.rootDir+path);
-    		if(!file.getParentFile().exists()) {
-                file.getParentFile().mkdirs();
-            }
-    		if(!file.exists()){
-    			boolean createNewFile = file.createNewFile();
-    			if(!createNewFile){
-    				return null;
-    			}
-    		}
-    			
-    		tempFile.transferTo(file);
-    		Map<String, String> uploadFileMap = new HashMap<>();
-    		uploadFileMap.put("name", fileName);
-    		uploadFileMap.put("path", path);
-    		uploadFileMap.put("size", String.valueOf(file.getTotalSpace()));
-    		uploadFileMap.put("prefix", prefix);
-    		
-    		fileList.add(uploadFileMap);
+			String[] fullFileName = StringUtils.split(tempFile.getOriginalFilename(), ".");
+			String fileName = fullFileName[0];
+			String prefix = fullFileName[1];
+
+			// String path =
+			// "/upload/"+siteType+"/"+siteId+"/"+businessId+"/"+SecUtils.getUUID()+tempFile.getOriginalFilename();
+			String path = "/upload/" + siteType + "/" + siteId + "/" + businessId + "/" + SecUtils.getUUID() + "."
+					+ prefix;
+
+			File file = new File(GlobalStatic.rootDir + path);
+			if (!file.getParentFile().exists()) {
+				file.getParentFile().mkdirs();
+			}
+			if (!file.exists()) {
+				boolean createNewFile = file.createNewFile();
+				if (!createNewFile) {
+					return null;
+				}
+			}
+
+			tempFile.transferTo(file);
+			Map<String, String> uploadFileMap = new HashMap<>();
+			uploadFileMap.put("name", fileName);
+			uploadFileMap.put("path", path);
+			uploadFileMap.put("size", String.valueOf(file.getTotalSpace()));
+			uploadFileMap.put("prefix", prefix);
+
+			fileList.add(uploadFileMap);
 		}
-		
+
 		return fileList;
 	}
-	
+
 	@RequestMapping("/menu")
-	@ResponseBody 
+	@ResponseBody
 	public ReturnDatas createMenu(@PathVariable String siteId) throws WxErrorException {
 		WxMenu menu = new WxMenu();
 		List<WxMenuButton> buttons = new ArrayList<WxMenuButton>();
@@ -123,7 +127,7 @@ public class FrontFileUploadController {
 		subBtn15.setUrl("http://wzga.wxyapp.com/wzga_wx_sys/f/mp/s_10007/h_10018");
 		subButtons1.add(subBtn15);
 		btn1.setSubButtons(subButtons1);
-		
+
 		WxMenuButton btn2 = new WxMenuButton();
 		btn2.setName("服务大厅");
 		List<WxMenuButton> subButtons2 = new ArrayList<WxMenuButton>();
@@ -153,7 +157,7 @@ public class FrontFileUploadController {
 		subBtn25.setUrl("http://wzga.wxyapp.com/wzga_wx_sys/f/mp/s_10007/h_10096");
 		subButtons2.add(subBtn25);
 		btn2.setSubButtons(subButtons2);
-		
+
 		WxMenuButton btn3 = new WxMenuButton();
 		btn3.setName("平安义工");
 		List<WxMenuButton> subButtons3 = new ArrayList<WxMenuButton>();
@@ -187,7 +191,7 @@ public class FrontFileUploadController {
 		buttons.add(btn2);
 		buttons.add(btn3);
 		menu.setButtons(buttons);
-		
+
 		IWxMpService wxMpService = new WxMpServiceImpl(wxMpConfigService);
 		IWxMpMenuService wxMpMenuService = new WxMpMenuServiceImpl(wxMpService);
 		IWxMpConfig wxMpConfig = wxMpConfigService.findWxMpConfigById(siteId);

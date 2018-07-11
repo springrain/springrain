@@ -43,8 +43,7 @@ import org.springrain.weixin.service.IWxMpServletService;
  * @see org.springrain.cms.entity.demo.service.impl.CmsSite
  */
 @Service("cmsSiteService")
-public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements
-		ICmsSiteService {
+public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICmsSiteService {
 
 	@Resource
 	private ITableindexService tableindexService;
@@ -80,26 +79,20 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T> List<T> findListDataByFinder(Finder finder, Page page,
-			Class<T> clazz, Object queryBean) throws Exception {
-		List<String> orgIds = userOrgService
-				.findOrgIdsByManagerUserId(SessionUser.getUserId());
-		finder = Finder.getSelectFinder(CmsSite.class).append(
-				" where orgId in (:orgIds)");
+	public <T> List<T> findListDataByFinder(Finder finder, Page page, Class<T> clazz, Object queryBean)
+			throws Exception {
+		List<String> orgIds = userOrgService.findOrgIdsByManagerUserId(SessionUser.getUserId());
+		finder = Finder.getSelectFinder(CmsSite.class).append(" where orgId in (:orgIds)");
 		finder.setParam("orgIds", orgIds);
 		List<CmsSite> siteList;
 		if (page.getPageIndex() == 1) {
-			siteList = getByCache(GlobalStatic.cacheKey,
-					"cmsSiteService_findListDataByFinder", ArrayList.class);
+			siteList = getByCache(GlobalStatic.cacheKey, "cmsSiteService_findListDataByFinder", ArrayList.class);
 			if (CollectionUtils.isEmpty(siteList)) {// 缓存中没有
-				siteList = super.findListDataByFinder(finder, page,
-						CmsSite.class, queryBean);
-				putByCache(GlobalStatic.cacheKey,
-						"cmsSiteService_findListDataByFinder", siteList);
+				siteList = super.findListDataByFinder(finder, page, CmsSite.class, queryBean);
+				putByCache(GlobalStatic.cacheKey, "cmsSiteService_findListDataByFinder", siteList);
 			}
 		} else {
-			siteList = super.findListDataByFinder(finder, page, CmsSite.class,
-					queryBean);
+			siteList = super.findListDataByFinder(finder, page, CmsSite.class, queryBean);
 		}
 		return (List<T>) siteList;
 	}
@@ -122,7 +115,7 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements
 
 		// 如果是企业号或服务号，新建配置信息
 		Integer siteType = cmsSite.getSiteType();
-		if (OrgType.cp.getType()-siteType==0) {
+		if (OrgType.cp.getType() - siteType == 0) {
 			/*
 			 * CmsSiteWxconfig config = new CmsSiteWxconfig(SecUtils.getUUID());
 			 * config.setActive(1); config.setSiteId(id);
@@ -134,7 +127,7 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements
 			config.setSiteId(id);
 			wxMpServletService.save(config);
 		}
-		if (OrgType.mp.getType() -siteType == 0) {
+		if (OrgType.mp.getType() - siteType == 0) {
 			WxCpConfig config = new WxCpConfig();
 			config.setId(id);
 			config.setActive(1);
@@ -155,9 +148,7 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements
 		cmsLink.setActive(1);// 默认可以使用 ,可以用为1啊大哥
 		cmsLink.setSortno(1);
 		// 首页默认
-		String _index = "/f/"
-				+ OrgType.getOrgType(cmsSite.getSiteType()).name() + "/" + id
-				+ "/index";
+		String _index = "/f/" + OrgType.getOrgType(cmsSite.getSiteType()).name() + "/" + id + "/index";
 		cmsLink.setDefaultLink(_index);
 		cmsLink.setLink(_index);
 		// 设置模板路径
@@ -196,7 +187,7 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements
 		String str_f_jsdir = GlobalStatic.rootDir + "/u/" + id + "/f/js/";
 		String str_f_cssdir = GlobalStatic.rootDir + "/u/" + id + "/f/css/";
 		String str_f_imgdir = GlobalStatic.rootDir + "/u/" + id + "/f/img/";
-		
+
 		String str_s_jsdir = GlobalStatic.rootDir + "/u/" + id + "/s/js/";
 		String str_s_cssdir = GlobalStatic.rootDir + "/u/" + id + "/s/css/";
 		String str_s_imgdir = GlobalStatic.rootDir + "/u/" + id + "/s/img/";
@@ -215,7 +206,7 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements
 		if (!f_imgdir.exists()) {
 			f_imgdir.mkdirs();
 		}
-		
+
 		File s_jsdir = new File(str_s_jsdir);
 		if (!s_jsdir.exists()) {
 			s_jsdir.mkdirs();
@@ -262,20 +253,17 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements
 		userOrg.setUserId(SessionUser.getUserId());
 		userOrg.setOrgId(orgId);
 		userOrg.setHasleaf(0);
-		userOrg.setManagerType(UserOrgType.getUserOrgTypeByName(
-				UserOrgType.主管.name()).getType());
+		userOrg.setManagerType(UserOrgType.getUserOrgTypeByName(UserOrgType.主管.name()).getType());
 		userOrgService.save(userOrg);
 		// 如果选择默认模板，把默认模板下的文件拷贝一份到站点文件夹下面
-		if (StringUtils.isNotBlank(cmsSite.getThemeId())
-				&& !"-1".equals(cmsSite.getThemeId())) {
+		if (StringUtils.isNotBlank(cmsSite.getThemeId()) && !"-1".equals(cmsSite.getThemeId())) {
 			// 拷贝页面
-			File html_oldPath = new File(GlobalStatic.webInfoDir
-					+ "/freemarker/themes/" + cmsSite.getThemeName() + "/");
+			File html_oldPath = new File(
+					GlobalStatic.webInfoDir + "/freemarker/themes/" + cmsSite.getThemeName() + "/");
 			FileUtils.copyDirectoryToDirectory(html_oldPath, t_file);
 			// 拷贝js、css、img
 			File js_file = new File(GlobalStatic.rootDir + "/u/" + id);
-			File js_oldPath = new File(GlobalStatic.rootDir + "/themes/"
-					+ cmsSite.getThemeName() + "/");
+			File js_oldPath = new File(GlobalStatic.rootDir + "/themes/" + cmsSite.getThemeName() + "/");
 			FileUtils.copyDirectoryToDirectory(js_oldPath, js_file);
 		}
 		return id;
@@ -283,8 +271,7 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements
 
 	@Override
 	public CmsSite findCmsSiteById(String id) throws Exception {
-		CmsSite site = getByCache(id, "cmsSiteService_findCmsSiteById_" + id,
-				CmsSite.class);
+		CmsSite site = getByCache(id, "cmsSiteService_findCmsSiteById_" + id, CmsSite.class);
 		if (site == null) {
 			site = findById(id, CmsSite.class);
 			putByCache(id, "cmsSiteService_findCmsSiteById_" + id, site);
@@ -304,15 +291,13 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements
 		// 如果选择默认模板，把默认模板下的文件拷贝一份到站点文件夹下面
 		if (StringUtils.isNotBlank(cmsSite.getThemeId())) {
 			// 拷贝页面
-			File t_file = new File(GlobalStatic.webInfoDir + "/freemarker/u/"
-					+ siteId + "/");
-			File html_oldPath = new File(GlobalStatic.webInfoDir
-					+ "/freemarker/themes/" + cmsSite.getThemeName() + "/");
+			File t_file = new File(GlobalStatic.webInfoDir + "/freemarker/u/" + siteId + "/");
+			File html_oldPath = new File(
+					GlobalStatic.webInfoDir + "/freemarker/themes/" + cmsSite.getThemeName() + "/");
 			FileUtils.copyDirectoryToDirectory(html_oldPath, t_file);
 			// 拷贝js、css、img
 			File js_file = new File(GlobalStatic.rootDir + "/u/" + siteId);
-			File js_oldPath = new File(GlobalStatic.rootDir + "/themes/"
-					+ cmsSite.getThemeName() + "/");
+			File js_oldPath = new File(GlobalStatic.rootDir + "/themes/" + cmsSite.getThemeName() + "/");
 			FileUtils.copyDirectoryToDirectory(js_oldPath, js_file);
 		}
 		return null;
@@ -323,8 +308,7 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements
 		if (StringUtils.isBlank(siteId)) {
 			return null;
 		}
-		Finder finder = Finder.getSelectFinder(CmsSite.class, "siteType")
-				.append(" WHERE id=:siteId ");
+		Finder finder = Finder.getSelectFinder(CmsSite.class, "siteType").append(" WHERE id=:siteId ");
 		finder.setParam("siteId", siteId);
 
 		return super.queryForObject(finder, Integer.class);
@@ -332,8 +316,7 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements
 
 	@Override
 	public List<CmsSite> findSiteByUserId(String userId) throws Exception {
-		Finder finder = Finder.getSelectFinder(CmsSite.class).append(
-				" WHERE userId=:userId");
+		Finder finder = Finder.getSelectFinder(CmsSite.class).append(" WHERE userId=:userId");
 		finder.setParam("userId", userId);
 		return super.queryForList(finder, CmsSite.class);
 	}
@@ -344,15 +327,13 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements
 	}
 
 	@Override
-	public String saveTmpLogo(MultipartFile tempFile, String siteId)
-			throws IOException {
-		String filePath = "/upload/" + siteId + "/logo/" + SecUtils.getUUID()
-				+ tempFile.getOriginalFilename();
+	public String saveTmpLogo(MultipartFile tempFile, String siteId) throws IOException {
+		String filePath = "/upload/" + siteId + "/logo/" + SecUtils.getUUID() + tempFile.getOriginalFilename();
 		File file = new File(GlobalStatic.rootDir + filePath);
 		File fileParentDir = file.getParentFile();
 		if (!fileParentDir.exists()) {
-            fileParentDir.mkdirs();
-        }
+			fileParentDir.mkdirs();
+		}
 		if (!file.exists()) {
 			boolean createNewFile = file.createNewFile();
 			if (!createNewFile) {
@@ -366,10 +347,8 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements
 
 	@Override
 	public List<CmsSite> findMpSiteByUserId(String userId) throws Exception {
-		Finder finder = Finder.getSelectFinder(CmsSite.class).append(
-				" WHERE userId=:userId and siteType=:siteType");
-		finder.setParam("userId", userId).setParam("siteType",
-				OrgType.mp.getType());
+		Finder finder = Finder.getSelectFinder(CmsSite.class).append(" WHERE userId=:userId and siteType=:siteType");
+		finder.setParam("userId", userId).setParam("siteType", OrgType.mp.getType());
 		return super.queryForList(finder, CmsSite.class);
 	}
 

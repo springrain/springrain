@@ -33,86 +33,88 @@ import org.springrain.system.service.IUserService;
 public class UserPasswordController extends BaseController {
 	@Resource
 	private IUserService userService;
-	 
+
 	/**
 	 * 进入修改页面,APP端可以调用 lookjson 获取json格式数据
 	 */
 	@RequestMapping(value = "/modifiypwd/pre")
-	public String modifiypwdpre(Model model, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	public String modifiypwdpre(Model model, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
 		String userId = SessionUser.getUserId();
-		if(StringUtils.isEmpty(userId)){
+		if (StringUtils.isEmpty(userId)) {
 			return "/cms/userpassword/modifiypwd";
 		}
-		//获取当前登录人
+		// 获取当前登录人
 		User currentUser = userService.findUserById(userId);
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		returnObject.setData(currentUser);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
 		return "/cms/userpassword/modifiypwd";
 	}
-	@RequestMapping(value="/modifiypwd/ispwd")
-	@ResponseBody 
-	public  Map<String, Object> checkPwd(HttpServletRequest request,HttpServletResponse response,Model model)throws Exception{
+
+	@RequestMapping(value = "/modifiypwd/ispwd")
+	@ResponseBody
+	public Map<String, Object> checkPwd(HttpServletRequest request, HttpServletResponse response, Model model)
+			throws Exception {
 		String userId = SessionUser.getUserId();
-		String pwd=request.getParameter("pwd");
-		Map<String, Object> maps=new HashMap<String, Object>();
+		String pwd = request.getParameter("pwd");
+		Map<String, Object> maps = new HashMap<String, Object>();
 		User user = userService.findById(userId, User.class);
-		if(user==null){
+		if (user == null) {
 			maps.put("msg", "-1");
 			maps.put("msgbox", "数据有问题，正在返回");
 			return maps;
 		}
-		if(user.getPassword().equals(SecUtils.encoderByMd5With32Bit(pwd))){
+		if (user.getPassword().equals(SecUtils.encoderByMd5With32Bit(pwd))) {
 			maps.put("msg", "1");
 			maps.put("msgbox", "正确");
 			return maps;
-		}else{
+		} else {
 			maps.put("msg", "0");
 			maps.put("msgbox", "原始密码错误，请修改");
 			return maps;
 		}
-		
+
 	}
-	@RequestMapping(value="/modifiypwd/save")
-	@ResponseBody 
-	public  ReturnDatas modifiySave(HttpServletRequest request,HttpServletResponse response,Model model)throws Exception{
-		ReturnDatas datas=ReturnDatas.getSuccessReturnDatas();
-		String userId=request.getParameter("id");
-		String pwd=request.getParameter("newpwd");
-		String repwd=request.getParameter("renewpwd");
+
+	@RequestMapping(value = "/modifiypwd/save")
+	@ResponseBody
+	public ReturnDatas modifiySave(HttpServletRequest request, HttpServletResponse response, Model model)
+			throws Exception {
+		ReturnDatas datas = ReturnDatas.getSuccessReturnDatas();
+		String userId = request.getParameter("id");
+		String pwd = request.getParameter("newpwd");
+		String repwd = request.getParameter("renewpwd");
 		User user = userService.findById(userId, User.class);
-		if(user==null){
+		if (user == null) {
 			datas.setStatus(ReturnDatas.ERROR);
 			datas.setMessage("数据有问题，正在返回");
 			return datas;
 		}
-		if(StringUtils.isEmpty(pwd)||StringUtils.isEmpty(repwd)){
+		if (StringUtils.isEmpty(pwd) || StringUtils.isEmpty(repwd)) {
 			datas.setStatus(ReturnDatas.ERROR);
 			datas.setMessage("新密码或重复密码为空，请修改。");
 			return datas;
 		}
-		pwd=pwd.trim();
-		repwd=repwd.trim();
-		if(!pwd.equals(repwd)){
+		pwd = pwd.trim();
+		repwd = repwd.trim();
+		if (!pwd.equals(repwd)) {
 			datas.setStatus(ReturnDatas.ERROR);
 			datas.setMessage("两次密码不一致，请修改。");
 			return datas;
 		}
-		try{
+		try {
 			user.setPassword(SecUtils.encoderByMd5With32Bit(pwd));
 			userService.update(user);
 			datas.setMessage("修改成功，请用新密码登录，即将退出。");
 			return datas;
-		}catch(Exception e){
+		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			datas.setStatus(ReturnDatas.ERROR);
 			datas.setMessage("系统故障，请稍后再试。");
 			return datas;
 		}
-		
+
 	}
-	
-	
-	
+
 }

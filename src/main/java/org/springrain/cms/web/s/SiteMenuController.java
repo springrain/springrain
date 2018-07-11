@@ -16,36 +16,32 @@ import org.springrain.system.entity.Menu;
 import org.springrain.system.service.IUserRoleMenuService;
 
 @Controller
-@RequestMapping(value="/s/{siteId}/menu")
+@RequestMapping(value = "/s/{siteId}/menu")
 public class SiteMenuController extends BaseController {
 	@Resource
 	private IUserRoleMenuService userRoleMenuService;
 
 	/**
 	 * 
-	 * @Title: menu
-	 * @Description: 菜单列表
-	 * @return
-	 * @return Map
-	 * @throws
+	 * @Title: menu @Description: 菜单列表 @return @return Map @throws
 	 */
 	@RequestMapping("/leftMenu")
-	@ResponseBody 
-	public  ReturnDatas leftMenu(){
-		//获取当前登录人
-		String userId=SessionUser.getUserId();
-		if(StringUtils.isBlank(userId)){
+	@ResponseBody
+	public ReturnDatas leftMenu() {
+		// 获取当前登录人
+		String userId = SessionUser.getUserId();
+		if (StringUtils.isBlank(userId)) {
 			return null;
 		}
-		
+
 		try {
-		     List<Menu> listMenu=userRoleMenuService.findMenuAndLeafByUserId(userId);
-			return new ReturnDatas(ReturnDatas.SUCCESS, null,listMenu);
-		
+			List<Menu> listMenu = userRoleMenuService.findMenuAndLeafByUserId(userId);
+			return new ReturnDatas(ReturnDatas.SUCCESS, null, listMenu);
+
 		} catch (Exception e) {
 			logger.error("获取导航菜单异常", e);
 			return new ReturnDatas(ReturnDatas.ERROR, MessageUtils.SELECT_WARING);
 		}
-	
+
 	}
 }

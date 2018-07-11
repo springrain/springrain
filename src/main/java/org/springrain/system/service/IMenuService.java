@@ -61,7 +61,7 @@ public interface IMenuService extends IBaseSpringrainService {
 	/**
 	 * 
 	 * @Title: findListById @Description: 根据ID查找 @param id @return @throws
-	 * Exception @return List<Menu> @throws
+	 *         Exception @return List<Menu> @throws
 	 */
 	List<Menu> findListById(Object id) throws Exception;
 
