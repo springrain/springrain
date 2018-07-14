@@ -22,6 +22,7 @@ import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
 public class QrCodeUtils {
 
@@ -65,7 +66,11 @@ public class QrCodeUtils {
 			qrCodeFormat = defaultQrCodeFormat;
 		}
 
-		HashMap<EncodeHintType, String> hints = new HashMap<EncodeHintType, String>();
+		// 配置参数
+		HashMap<EncodeHintType, Object> hints = new HashMap<EncodeHintType, Object>();
+		// 容错级别 这里选择最高H级别
+		hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
+		// 编码格式
 		hints.put(EncodeHintType.CHARACTER_SET, GlobalStatic.defaultCharset);
 		BitMatrix bitMatrix = new MultiFormatWriter().encode(content, BarcodeFormat.QR_CODE, width, height, hints);// 生成矩阵
 		MatrixToImageWriter.writeToPath(bitMatrix, qrCodeFormat, qrFile.toPath());// 输出图像
