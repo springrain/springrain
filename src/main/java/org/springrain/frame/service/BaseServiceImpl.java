@@ -94,7 +94,16 @@ public abstract class BaseServiceImpl extends BaseLogger implements IBaseService
 
 	@Override
 	public <T> T getByCache(String cacheName, String key, Class<T> clazz) throws Exception {
-		return getCache(cacheName).get(key, clazz);
+		T t = null;
+		try {
+			t = getCache(cacheName).get(key, clazz);
+		} catch (Exception e) {
+			// 如果java对象文件发生了改变,缓存实例化对象时会出现异常,清理掉这个缓存
+			logger.error(e.getMessage(), e);
+			evictByKey(cacheName, key);
+		}
+
+		return t;
 	}
 
 	@Override
