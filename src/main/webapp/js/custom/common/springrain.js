@@ -296,7 +296,8 @@
 				}
 				var _action=jQuery("#"+formId).attr("action");
 				
-				jQuery("#"+formId).attr("action",_that.appendToken(_action)).submit();
+				// 分页重置为第一页
+				jQuery("#"+formId).attr("action",_that.appendToken(_action) + "&pageIndex=0").submit();
 				//jQuery("#"+formId).attr("action",_that.appendToken(_action)).submit();
 			},
 			/**
