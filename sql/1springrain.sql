@@ -21,7 +21,7 @@ CREATE TABLE `t_auditlog_history_2018`  (
   `bak3` varchar(100)  NULL DEFAULT NULL,
   `bak4` varchar(100)  NULL DEFAULT NULL,
   `bak5` varchar(100)  NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) 
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4  COMMENT = '操作记录' ;
 
 -- ----------------------------
@@ -42,7 +42,7 @@ CREATE TABLE `t_auditlog_history_2019`  (
   `bak3` varchar(100)  NULL DEFAULT NULL,
   `bak4` varchar(100)  NULL DEFAULT NULL,
   `bak5` varchar(100)  NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) 
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4  COMMENT = '操作记录' ;
 
 -- ----------------------------
@@ -63,7 +63,7 @@ CREATE TABLE `t_dic_data`  (
   `bak3` varchar(100)  NULL DEFAULT NULL,
   `bak4` varchar(100)  NULL DEFAULT NULL,
   `bak5` varchar(100)  NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) 
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4  COMMENT = '公共字典' ;
 
 -- ----------------------------
@@ -98,7 +98,7 @@ CREATE TABLE `t_fwlog_history_2018`  (
   `bak3` varchar(100)  NULL DEFAULT NULL,
   `bak4` varchar(100)  NULL DEFAULT NULL,
   `bak5` varchar(100)  NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) 
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4  COMMENT = '访问日志' ;
 
 -- ----------------------------
@@ -122,9 +122,8 @@ CREATE TABLE `t_fwlog_history_2019`  (
   `bak3` varchar(100)  NULL DEFAULT NULL,
   `bak4` varchar(100)  NULL DEFAULT NULL,
   `bak5` varchar(100)  NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) 
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4  COMMENT = '访问日志' ;
-
 
 -- ----------------------------
 -- Table structure for t_menu
@@ -145,29 +144,45 @@ CREATE TABLE `t_menu`  (
   `bak3` varchar(100)  NULL DEFAULT NULL,
   `bak4` varchar(100)  NULL DEFAULT NULL,
   `bak5` varchar(100)  NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) 
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4  COMMENT = '菜单' ;
 
 -- ----------------------------
 -- Records of t_menu
 -- ----------------------------
+INSERT INTO `t_menu` VALUES ('081b3344872545448cf5d1804890ab03', '选择专题页', '50374413883c45ae9b9f8e8d7c7609bf', '', '/s/s_PT/adver/xcx/topic/list', 0, 1, 4, '/img/iconImg/default.png', NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `t_menu` VALUES ('169815aca9cf41d390e7feb6629d361d', '栏目管理', 'business_manager', '', '/system/cms/channel/list', 1, 1, 4, '/img/iconImg/icon15.png', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_menu` VALUES ('3330456139a241b1a27a7dcd171d7bf1', '拖拽演示网站', 'f4d7a1bf7ddf43dc9016e1465cd3d9d8', '', NULL, 1, 1, NULL, '', NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `t_menu` VALUES ('3501ed1e23da40219b4f0fa5b7b2749a', '菜单列表', 't_menu_list', '', '/system/menu/list', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `t_menu` VALUES ('36ab9175f7b7423eadda974ba046be05', '修改密码', 't_user_list', '', '/system/user/modifiypwd/pre', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `t_menu` VALUES ('4adc1e3e3e244c0991d9dab66c63badf', '目录创建', 'f5203235547342f094a2c126ad4603bb', '', '/system/file/uploadDic', 0, 1, 2, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_menu` VALUES ('50374413883c45ae9b9f8e8d7c7609bf', '微信首页设置', 's_PT_854e84ec22284834b9055aaea98e910c', '', '/s/s_PT/dragpage/dragPage', 0, 1, 1, '/img/iconImg/default.png', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_menu` VALUES ('5cce870b5880479794c2c00535c55ad8', '后台管理', '3330456139a241b1a27a7dcd171d7bf1', '', NULL, 1, 1, NULL, '', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_menu` VALUES ('78287e4ac70546168b2fa68818710470', '保存首页数据', '50374413883c45ae9b9f8e8d7c7609bf', '', '/s/s_PT/adver/weChat/saveDragJosn', 0, 1, 2, '/img/iconImg/default.png', NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `t_menu` VALUES ('7cd0678633d5407dba2bd6a1553cadce', '文件下载', 'f5203235547342f094a2c126ad4603bb', '', '/system/file/downfile', 0, 1, 3, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_menu` VALUES ('8c72a4b5e56643ac9a9ca3aeec753c4e', '启用/禁用', '9efc46fc51304cae8a35d12c942059c9', '', '/s/s_PT/dragpage/updateActive', 0, 1, 2, '/img/iconImg/default.png', NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `t_menu` VALUES ('91779a0d304f4b91932b63dec87a8536', '角色管理-系统', 'system_manager', '', '/system/role/list/all', 1, 1, NULL, '/img/iconImg/icon23.png', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_menu` VALUES ('9bccbc28b32e41438c5ac73a5e61ed58', '专题页设置', 's_PT_854e84ec22284834b9055aaea98e910c', '', '/s/s_PT/dragpage/specialPage/list', 1, 1, 2, '/img/iconImg/default.png', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_menu` VALUES ('9efc46fc51304cae8a35d12c942059c9', '首页设置', 's_PT_854e84ec22284834b9055aaea98e910c', '', '/s/s_PT/dragpage/1/list', 1, 1, 1, '/img/iconImg/default.png', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_menu` VALUES ('af298b90f073443bbde4b9e67113d697', '添加/编辑', '9efc46fc51304cae8a35d12c942059c9', '', '/s/s_PT/dragpage/update', 0, 1, 1, '/img/iconImg/default.png', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_menu` VALUES ('aff3dc802af540c298af95cb5608fefe', '拖拽页面', '9efc46fc51304cae8a35d12c942059c9', '', '/s/s_PT/dragpage/drop', 0, 1, 4, '/img/iconImg/default.png', NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `t_menu` VALUES ('b94392f7b8714f64819c5c0222eb134a', '角色修改-系统', 't_role_list', '', '/system/role/update/admin', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `t_menu` VALUES ('b9c4e8ecffe949c0b346e1fd0d6b9977', '内容管理', 'business_manager', '', '/system/cms/content/list', 1, 1, 5, '/img/iconImg/icon9.png', NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `t_menu` VALUES ('business_manager', '业务管理', NULL, '', NULL, 1, 1, 1, '/img/iconImg/icon10.png', NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `t_menu` VALUES ('ca152df1a7b44d4f81162f34b808934a', '验证老密码', '36ab9175f7b7423eadda974ba046be05', '', '/system/user/modifiypwd/ispwd', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `t_menu` VALUES ('ca28235dbd234b7585e133e70cc7999a', '文件上传', 'f5203235547342f094a2c126ad4603bb', '', '/system/file/uploadFile', 0, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_menu` VALUES ('cafda855318c4560874f7fb14419be4f', '楼层商品选择', '50374413883c45ae9b9f8e8d7c7609bf', '', '/s/s_PT/adver/weChat/addGoods', 0, 1, 3, '/img/iconImg/default.png', NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `t_menu` VALUES ('d6abe682007849869c3a168215ae40d4', 'WEB-INF文件管理', 'system_manager', '', '/system/file/web/list', 1, 1, 7, '/img/iconImg/icon20.png', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_menu` VALUES ('d7e44d49421e41ef9c3329be68dff6f7', '获取微信首页', '50374413883c45ae9b9f8e8d7c7609bf', '', '/s/s_PT/adver/weChat/dragPageJosn', 0, 1, 1, '/img/iconImg/default.png', NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `t_menu` VALUES ('dic_manager', '字典管理', 'system_manager', '', NULL, 1, 1, NULL, '/img/iconImg/icon30.png', NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `t_menu` VALUES ('e51808e351c24a7e9fb4d47392930a2d', '保存新密码', '36ab9175f7b7423eadda974ba046be05', '', '/system/user/modifiypwd/save', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_menu` VALUES ('e614beb39da04bd79797d7fc6ab91d66', '获取专题页json数据', '50374413883c45ae9b9f8e8d7c7609bf', '', '/s/s_PT/dragpage/specialPageJson', 0, 1, 3, '/img/iconImg/default.png', NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `t_menu` VALUES ('f41b9f3b4a0d45f5a3b5842ee40e0e96', '站点管理', 'business_manager', '', '/system/cms/site/list', 1, 1, 3, '/img/iconImg/icon4.png', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_menu` VALUES ('f4d7a1bf7ddf43dc9016e1465cd3d9d8', '网站', NULL, '', NULL, 1, 1, 3, '', NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `t_menu` VALUES ('f5203235547342f094a2c126ad4603bb', '文件管理', 'system_manager', '', '/system/file/list', 1, 1, 6, '/img/iconImg/icon20.png', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_menu` VALUES ('f86962e16c214382bd6a7f57a765693f', '删除', '9efc46fc51304cae8a35d12c942059c9', '', '/s/s_PT/dragpage/delete', 0, 1, 3, '/img/iconImg/default.png', NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `t_menu` VALUES ('system_manager', '系统管理', NULL, '', NULL, 1, 1, 2, '/img/iconImg/icon13.png', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_menu` VALUES ('s_PT_854e84ec22284834b9055aaea98e910c', '拖拽网页', '5cce870b5880479794c2c00535c55ad8', '', NULL, 1, 1, 6, '/img/iconImg/icon5.png', NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `t_menu` VALUES ('t_auditlog_list', '修改日志', 'system_manager', '', '/system/auditlog/list', 1, 1, 1, '/img/iconImg/icon42.png', NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `t_menu` VALUES ('t_auditlog_look', '查看修改日志', 't_auditlog_list', NULL, '/system/auditlog/look', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `t_menu` VALUES ('t_dic_data_grade_delete', '删除级别', 't_dic_data_grade_list', NULL, '/system/dicdata/grade/delete', 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -233,7 +248,7 @@ CREATE TABLE `t_org`  (
   `bak3` varchar(100)  NULL DEFAULT NULL,
   `bak4` varchar(100)  NULL DEFAULT NULL,
   `bak5` varchar(100)  NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) 
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4  COMMENT = '部门' ;
 
 -- ----------------------------
@@ -241,7 +256,7 @@ CREATE TABLE `t_org`  (
 -- ----------------------------
 INSERT INTO `t_org` VALUES ('o_10001', '平台', ',o_10001,', NULL, NULL, NULL, 1, '', 1, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `t_org` VALUES ('o_10002', '网站', ',o_10001,o_10002,', 'o_10001', NULL, NULL, 1, '', 1, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_org` VALUES ('o_10003', '张三的站', ',o_10001,o_10002,o_10003,', 'o_10002', 10, NULL, 1, '张三的站', 1, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_org` VALUES ('o_10003', '拖拽演示', ',o_10001,o_10002,o_10003,', 'o_10002', 10, NULL, 1, '', 1, NULL, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for t_permissions_log
@@ -265,14 +280,8 @@ CREATE TABLE `t_permissions_log`  (
   `bak3` varchar(200)  NULL DEFAULT NULL COMMENT '备用字段',
   `bak4` varchar(200)  NULL DEFAULT NULL COMMENT '备用字段',
   `bak5` varchar(200)  NULL DEFAULT NULL COMMENT '备用字段',
-  PRIMARY KEY (`id`) 
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4  COMMENT = '权限变更日志' ;
-
--- ----------------------------
--- Records of t_permissions_log
--- ----------------------------
-INSERT INTO `t_permissions_log` VALUES ('19ca6e3bf501482b8aeab8af57d9f8f7', NULL, 2, 'u_10001', '超级管理员', '超级管理员', 2, 'r_10001', '超级管理员', '<contenttsplit><contenttsplit>业务管理 - 栏目管理<br>业务管理 - 测试用例 - 测试用例管理 - 删除Htmlcase<br>业务管理 - 测试用例 - 测试用例管理 - 批量删除Htmlcase<br>业务管理 - 测试用例 - 测试用例管理 - 导出Htmlcase<br>业务管理 - 测试用例 - 测试用例管理 - 查看Htmlcase<br>业务管理 - 测试用例 - 测试用例管理 - 修改Htmlcase<br>业务管理 - 测试用例 - 测试用例管理 - 导入Htmlcase<br>业务管理 - 测试用例 - 页面字段管理 - 删除Htmlfield<br>业务管理 - 测试用例 - 页面字段管理 - 批量删除Htmlfield<br>业务管理 - 测试用例 - 页面字段管理 - 导出Htmlfield<br>业务管理 - 测试用例 - 页面字段管理 - 查看Htmlfield<br>业务管理 - 测试用例 - 页面字段管理 - 修改Htmlfield<br>业务管理 - 测试用例 - 页面字段管理 - 导入Htmlfield<br>业务管理 - 测试用例 - 页面功能管理 - 删除Htmlfunction<br>业务管理 - 测试用例 - 页面功能管理 - 批量删除Htmlfunction<br>业务管理 - 测试用例 - 页面功能管理 - 导出Htmlfunction<br>业务管理 - 测试用例 - 页面功能管理 - 查看Htmlfunction<br>业务管理 - 测试用例 - 页面功能管理 - 修改Htmlfunction<br>业务管理 - 测试用例 - 页面功能管理 - 导入Htmlfunction<br>业务管理 - 测试用例 - 验证规则管理 - 删除Validaterule<br>业务管理 - 测试用例 - 验证规则管理 - 批量删除Validaterule<br>业务管理 - 测试用例 - 验证规则管理 - 导出Validaterule<br>业务管理 - 测试用例 - 验证规则管理 - 查看Validaterule<br>业务管理 - 测试用例 - 验证规则管理 - 修改Validaterule<br>业务管理 - 测试用例 - 验证规则管理 - 导入Validaterule<br>业务管理 - 内容管理<br>业务管理 - 站点管理', 'u_10001', '2018-05-15 17:26:25', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_permissions_log` VALUES ('809a7b8698494f2aab7988b171afcc82', NULL, 2, 'u_10001', '超级管理员', '超级管理员', 2, 'r_10001', '超级管理员', '<contenttsplit><contenttsplit>', 'u_10001', '2018-05-15 17:26:45', NULL, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for t_role
@@ -296,12 +305,13 @@ CREATE TABLE `t_role`  (
   `bak3` varchar(100)  NULL DEFAULT NULL,
   `bak4` varchar(100)  NULL DEFAULT NULL,
   `bak5` varchar(100)  NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) 
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4  COMMENT = '角色' ;
 
 -- ----------------------------
 -- Records of t_role
 -- ----------------------------
+INSERT INTO `t_role` VALUES ('e8a4ad9944894908b43ded631094dcbb', '演示站长', NULL, NULL, 1, '', 1, 'o_10003', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `t_role` VALUES ('r_10001', '超级管理员', NULL, NULL, 0, '', 1, 'o_10001', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
@@ -317,9 +327,9 @@ CREATE TABLE `t_role_menu`  (
   `bak3` varchar(100)  NULL DEFAULT NULL,
   `bak4` varchar(100)  NULL DEFAULT NULL,
   `bak5` varchar(100)  NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) ,
-  INDEX `fk_t_role_menu_roleId_t_role_id`(`roleId`) ,
-  INDEX `fk_t_role_menu_menuId_t_menu_id`(`menuId`) ,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `fk_t_role_menu_roleId_t_role_id`(`roleId`) USING BTREE,
+  INDEX `fk_t_role_menu_menuId_t_menu_id`(`menuId`) USING BTREE,
   CONSTRAINT `fk_t_role_menu_menuId_t_menu_id` FOREIGN KEY (`menuId`) REFERENCES `t_menu` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_t_role_menu_roleId_t_role_id` FOREIGN KEY (`roleId`) REFERENCES `t_role` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4  COMMENT = '角色菜单中间表' ;
@@ -327,65 +337,94 @@ CREATE TABLE `t_role_menu`  (
 -- ----------------------------
 -- Records of t_role_menu
 -- ----------------------------
-INSERT INTO `t_role_menu` VALUES ('052ca6e8c15a46608f874c4a2623b76f', 'r_10001', 't_menu_look', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('05b0f81315424c57ade2d25571ae6d56', 'r_10001', 't_dic_data_xueli_update', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('05eaee6161f449e685aa5b7843d4387c', 'r_10001', 'ca28235dbd234b7585e133e70cc7999a', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('0882149a2f6d4536b24da9535bfb2085', 'r_10001', 't_dic_data_grade_delete', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('08e854dcdb8a47028dc2f3ffea656fbc', 'r_10001', 'e51808e351c24a7e9fb4d47392930a2d', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('0a2f718b7aa04ddf9b9165159948a494', 'r_10001', 'f5203235547342f094a2c126ad4603bb', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('0e2945d86120434db951c05be8f855c2', 'r_10001', 't_user_list', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('161f0e43c9c44a138f59bfbd6b407939', 'r_10001', '36ab9175f7b7423eadda974ba046be05', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('165849143aad44d5b9cdc3d0869f4af3', 'r_10001', 't_menu_delete', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('1cfd544e62b841dc8be2467ee51dfc38', 'r_10001', 't_fwlog_look', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('25505b186be34b05957ea7b3bfbe515e', 'r_10001', 'd6abe682007849869c3a168215ae40d4', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('26f46b98af8042bbb33978d5375b4ef7', 'r_10001', 't_dic_data_grade_look', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('27d8086a3ff949148344271197177d14', 'r_10001', 't_dic_data_minzu_deletemore', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('28a729c775804ce9ab77524969e806c1', 'r_10001', 'ca152df1a7b44d4f81162f34b808934a', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('3828cf4c20c540b0a571a3d6b6f9104a', 'r_10001', 'dic_manager', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('47efee46f18046639d3b6338c9e3f7f0', 'r_10001', 't_menu_deletemore', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('48af021b187d489a9016aef0f27a9feb', 'r_10001', 't_org_deletemore', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('4d81f8656923475981cdac2f16cb2a0f', 'r_10001', 't_role_delete', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('4d8748f4b9824bc9a0adb4bbeaaef306', 'r_10001', '3501ed1e23da40219b4f0fa5b7b2749a', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('4ec2d65ea17940fabd691674d70bbea9', 'r_10001', 't_org_update', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('4f210223295a461d9e95c73591ba1b4a', 'r_10001', 't_fwlog_list', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('67638c8600884ead9e78d65811dbec09', 'r_10001', 't_dic_data_grade_update', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('6ee5b1e7260340319eccf758f2ae4509', 'r_10001', 't_user_delete', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('6efc6ff902b643068ceea91c66078289', 'r_10001', '4adc1e3e3e244c0991d9dab66c63badf', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('71e33057208a4eb09acb3144a441040e', 'r_10001', 't_role_deletemore', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('722cd22efd714ed79a730fb2ed370dc3', 'r_10001', 't_dic_data_grade_deletemore', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('75542ccb051849f39ffda0e61c03171f', 'r_10001', 'b94392f7b8714f64819c5c0222eb134a', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('762a197d6b784e3cb72deda0b406d3aa', 'r_10001', 't_menu_update', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('779ee00079fb4054a45597fd90f6dfe3', 'r_10001', 't_menu_list', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('7c0deb6c8b7b44cabe05c359274c063f', 'r_10001', 't_auditlog_list', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('7d5af816da7647efab4a8cd8c0cc1cb9', 'r_10001', 't_org_tree', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('7d5ed877bf924304837da9145ae42f54', 'r_10001', 't_dic_data_minzu_look', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('7f4d9ae8742743179464433400eb4d1a', 'r_10001', 't_dic_data_grade_list', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('7fce89e49e3d49b7bed87f5da5f7f175', 'r_10001', 't_dic_data_xueli_list', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('82ee4ccbe2734f4384e740c20bacfeed', 'r_10001', 't_menu_tree', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('834e3b72177847d08d02260fdcc9e01a', 'r_10001', 't_org_delete', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('9382510a6d9d47f9b036bf5d3bfd2e9a', 'r_10001', '91779a0d304f4b91932b63dec87a8536', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('9a666f79f77b43c68d93534e93b79e00', 'r_10001', 't_role_list', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('9c245be1416447e6ab94141277ee545c', 'r_10001', 't_dic_data_minzu_tree', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('9d3f48a13b0b402d9e0beaadfc0229f3', 'r_10001', 't_dic_data_minzu_update', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('9dea0a4adaf245c4b07e56907d460995', 'r_10001', 't_dic_data_minzu_delete', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('a15488cda1f34b9192b196311489d0e9', 'r_10001', 't_auditlog_look', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('a52fbb32acbb4aef88fbc129e36f880d', 'r_10001', 't_dic_data_xueli_tree', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('a5b5e51cec33487994ad387a6dff859e', 'r_10001', 't_dic_data_grade_tree', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('a655d6b4fd1e497b8f3a4a9d61c88f42', 'r_10001', 't_org_look', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('ab0409c12ed54b26aecc05c909ebfdcd', 'r_10001', 't_user_update', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('afd31ebb59d1455e901f48b6fe005def', 'r_10001', 't_role_look', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('b3f7bd1f72a64454b3c220a72e573f25', 'r_10001', '7cd0678633d5407dba2bd6a1553cadce', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('bffee090d0764aa4a1983f593b21ed26', 'r_10001', 't_dic_data_xueli_delete', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('c25133edb7e44154be39b47210466a16', 'r_10001', 't_user_look', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('d7d33a7649d3471993c95454d9669042', 'r_10001', 'system_manager', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('db6396905d6b4e1ab4cb9aa89d9a735a', 'r_10001', 't_user_deletemore', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('de8510c67461452ba19850ea87b0b95c', 'r_10001', 't_dic_data_xueli_look', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('e175e7e5179b4921bff1ca31df3d14e9', 'r_10001', 't_dic_data_xueli_deletemore', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('e555f82d3fbe4b72b58b0d290a16842f', 'r_10001', 't_dic_data_minzu_list', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('eafb142b105640568602f6895bdf282c', 'r_10001', 't_user_list_export', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('fb2dbcde054241c78b7f3a83dbf59b26', 'r_10001', 't_org_list', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('fc7b68b84deb420690d3f34736d1976c', 'r_10001', 'business_manager', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_role_menu` VALUES ('fe13d3aba12f4f0da0c27b2cd2ddb9b8', 'r_10001', 't_role_update', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('0060df3515694b268110cefdd937e51d', 'e8a4ad9944894908b43ded631094dcbb', '9bccbc28b32e41438c5ac73a5e61ed58', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('044d51aa28284877b13398b4e41a19ef', 'r_10001', 'ca28235dbd234b7585e133e70cc7999a', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('0626b594e7f8428b87ef5c11c494fb52', 'r_10001', 'dic_manager', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('0717e629cecf4f29816208e96c6cfdb5', 'r_10001', '081b3344872545448cf5d1804890ab03', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('07bb61936d3148e3a555081bcaa039fa', 'r_10001', 't_auditlog_look', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('0ad8b9ceb54d4e3ea2b932bbf05f098a', 'r_10001', 'aff3dc802af540c298af95cb5608fefe', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('0b3d0790459346c1bed59c092e21b45e', 'r_10001', '7cd0678633d5407dba2bd6a1553cadce', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('0e0f716292b248b89d1bf8ee3e04e611', 'r_10001', 't_user_delete', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('18aeb685ab654c058784f16cd8dfa64f', 'r_10001', 't_dic_data_minzu_delete', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('1953283e845f4181b1ce1a59e8af3da6', 'r_10001', 't_user_update', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('1d69f4febb074398b9d92165f5ba0541', 'r_10001', 't_dic_data_grade_deletemore', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('1e8f03316566461295d59bea54933f80', 'r_10001', 'f5203235547342f094a2c126ad4603bb', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('209b1c9894d84605b007f682fb309fd3', 'r_10001', 'b94392f7b8714f64819c5c0222eb134a', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('24879970948149e3b8f6a04cb87803ff', 'e8a4ad9944894908b43ded631094dcbb', '5cce870b5880479794c2c00535c55ad8', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('28ad70e3fe104fa7bfb785f828d87d3e', 'r_10001', 'e614beb39da04bd79797d7fc6ab91d66', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('3749117fadbf45e09b843d0c321aa0b0', 'r_10001', '9efc46fc51304cae8a35d12c942059c9', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('39a2a7544ad3418aabbceecc07b63ff7', 'r_10001', 't_dic_data_grade_tree', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('3c5bfeb5b1a64f4684148c31471ccec2', 'r_10001', '91779a0d304f4b91932b63dec87a8536', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('43419f02c95c4408b2090c108c0fb8ed', 'r_10001', 'd6abe682007849869c3a168215ae40d4', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('47cafe9a1a6e4cc284fd8cce8bcac751', 'e8a4ad9944894908b43ded631094dcbb', '3330456139a241b1a27a7dcd171d7bf1', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('48b508983f424b4588a3d47ccb804acd', 'r_10001', '78287e4ac70546168b2fa68818710470', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('4b09ef03ac634d4a8d40d4921531daee', 'r_10001', 't_user_look', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('54cc4a1baa494c89b14a9fc1a6131f4c', 'r_10001', 'af298b90f073443bbde4b9e67113d697', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('576cf7e03d83498da1e44f45b981f6aa', 'r_10001', 'business_manager', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('5d921b6428b34368883749d0713ec7c7', 'r_10001', 't_org_tree', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('5f77b7ac7fbd4142801c25926d91ba48', 'e8a4ad9944894908b43ded631094dcbb', '9efc46fc51304cae8a35d12c942059c9', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('622afbe526b742da85656a5cd3275a42', 'r_10001', '36ab9175f7b7423eadda974ba046be05', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('64351523b1c64603b9db4698af9d5905', 'r_10001', '8c72a4b5e56643ac9a9ca3aeec753c4e', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('6617bb7e1cc74bc29b0c0f9fb6dac762', 'r_10001', 's_PT_854e84ec22284834b9055aaea98e910c', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('66b570a6c9594d619217cb2689193c2f', 'r_10001', 't_dic_data_minzu_deletemore', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('67b9bd7c0d324868a93d582111fd3c7a', 'r_10001', 't_dic_data_minzu_look', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('6ac40862cd9e49b2a70eef86574decba', 'r_10001', 't_role_update', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('7316b9482e02416f8403c9cec7076de9', 'r_10001', 't_menu_delete', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('73cd2ff78f214e1583c7f480bb80c4bb', 'e8a4ad9944894908b43ded631094dcbb', '50374413883c45ae9b9f8e8d7c7609bf', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('74fd467552b1438ea4012dd5d1e395a8', 'r_10001', 't_dic_data_grade_delete', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('75458bea2acd403e8f1950c4b64465e0', 'r_10001', '3501ed1e23da40219b4f0fa5b7b2749a', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('7c6ae81475884235b13bbbfffb805467', 'r_10001', 't_dic_data_xueli_tree', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('81b9ffcfdc5a4c959c268c306c1dd84e', 'r_10001', 't_menu_deletemore', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('8392fd4f460d44f294cb8d2cc5777d6a', 'r_10001', 't_auditlog_list', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('83ddff0ff5184d06a51f6947abc13b64', 'r_10001', 't_org_update', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('852efc9c9953441a99671bb3a2de9b80', 'r_10001', 't_dic_data_xueli_delete', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('858eda8dee6441dd81cb21787b00b624', 'r_10001', 't_org_deletemore', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('8961288dad9c4652adbaba4a4ef05ebc', 'e8a4ad9944894908b43ded631094dcbb', '78287e4ac70546168b2fa68818710470', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('898d4937aeb84760ab0e527453035de1', 'r_10001', 't_dic_data_minzu_tree', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('9425a831124c4137adb75fe0d3324639', 'r_10001', 't_role_list', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('a1f5143cc765499d9ba47bb4dce3c0a9', 'r_10001', 't_role_deletemore', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('a3b2fe2144b84623868cedd4caefab24', 'r_10001', 't_dic_data_grade_update', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('a52b264f7ba4417f8f0f1e933a0dec53', 'r_10001', 't_user_list', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('a8a8ba0e89294b9ebd5ae890120466ad', 'r_10001', 't_dic_data_xueli_update', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('a8bd194150fe4fd4912291f8cae72eef', 'r_10001', 't_fwlog_look', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('a966d66d174a41d0ab309841d457b4f6', 'r_10001', '50374413883c45ae9b9f8e8d7c7609bf', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('aa5e76f506f54cb48e95d2d7b065cc74', 'r_10001', '4adc1e3e3e244c0991d9dab66c63badf', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('aaf5d6a2b7ed4651a5e1e02252a8e016', 'r_10001', 't_dic_data_xueli_deletemore', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('ab5db59a708d4689afa2cb320a9592d2', 'e8a4ad9944894908b43ded631094dcbb', 'd7e44d49421e41ef9c3329be68dff6f7', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('ae021afcea874620a8337c21914b0244', 'r_10001', 't_role_delete', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('af92b74385c94cc78548d2014ffadd17', 'r_10001', '9bccbc28b32e41438c5ac73a5e61ed58', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('b0a82cf6773341d89267994a59e3f004', 'r_10001', 'system_manager', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('b2bffc54c8df4d2eacabc747bb9f2f7f', 'r_10001', 't_menu_tree', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('b62086c3c4794451aef36a70273f1f82', 'r_10001', 't_dic_data_minzu_list', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('b66a63a56cb64a6daa49eaf456850fac', 'r_10001', 't_role_look', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('bad1e832a2ca41839ae15acc53070d4d', 'e8a4ad9944894908b43ded631094dcbb', 's_PT_854e84ec22284834b9055aaea98e910c', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('bb2d588a15264d5ba02dbdce7c876105', 'r_10001', 't_menu_update', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('bb6d2ce9371e4654a03fb53e516f226d', 'r_10001', 't_menu_look', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('be29394d55ca43cc899235ef06c0f978', 'r_10001', 'ca152df1a7b44d4f81162f34b808934a', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('c39e25b122e341f5a713c3ac79d405c4', 'r_10001', 'cafda855318c4560874f7fb14419be4f', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('cb1196d49acb44bcaf65871de1472e0c', 'r_10001', 'f86962e16c214382bd6a7f57a765693f', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('d102518883544b52816b70382702590d', 'r_10001', 't_org_delete', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('d2e97f48d4044506aca7011e3616dce9', 'e8a4ad9944894908b43ded631094dcbb', '081b3344872545448cf5d1804890ab03', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('d8576f6d04e249858029ed4e20249be7', 'e8a4ad9944894908b43ded631094dcbb', 'af298b90f073443bbde4b9e67113d697', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('d98fe095578d424c83570d5d961931e1', 'r_10001', 'e51808e351c24a7e9fb4d47392930a2d', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('dd75e67089a640079527ead4c90d8d43', 'r_10001', 't_dic_data_minzu_update', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('de67b0aa1b094a43871951714eaae9a7', 'r_10001', 't_dic_data_xueli_list', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('e16e1dbf5c74448da774493602016990', 'r_10001', 't_dic_data_grade_look', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('e2315a28b7aa4e9eb1643f40176e940a', 'r_10001', 't_dic_data_xueli_look', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('e51470df0018461c9e231287d6b9f88c', 'e8a4ad9944894908b43ded631094dcbb', 'f4d7a1bf7ddf43dc9016e1465cd3d9d8', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('e9c511b8bc064eafb31c4b19bc80893f', 'r_10001', 't_user_list_export', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('eb1f7cde31e6458c8bd88e0a224942be', 'e8a4ad9944894908b43ded631094dcbb', 'aff3dc802af540c298af95cb5608fefe', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('ed95c85b76504602a8201c420f3cdca9', 'r_10001', 't_menu_list', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('eebdbdd8278d4df6abe8dee39a5c4972', 'r_10001', 't_org_list', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('f00faad6a19b4da8a3caeb8340f7666c', 'r_10001', 't_user_deletemore', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('f0faaa9c51064b779d14edaea2487d8a', 'e8a4ad9944894908b43ded631094dcbb', 'f86962e16c214382bd6a7f57a765693f', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('f17badbb4d38484893c3bc15d3911e1d', 'r_10001', 't_fwlog_list', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('f366eb74755c43b991b4b292d245426e', 'r_10001', 't_org_look', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('f6544c19ddea45ae862be6792343c2a1', 'e8a4ad9944894908b43ded631094dcbb', 'e614beb39da04bd79797d7fc6ab91d66', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('f8554632a6d942d39ab95344a4f9bfc2', 'e8a4ad9944894908b43ded631094dcbb', '8c72a4b5e56643ac9a9ca3aeec753c4e', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('fa21e7d6caad4c2fbd97aa026a396cdf', 'e8a4ad9944894908b43ded631094dcbb', 'cafda855318c4560874f7fb14419be4f', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('fb6ab8791e2449938ad5b77e6592dc39', 'r_10001', 't_dic_data_grade_list', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_role_menu` VALUES ('ffabbb9da63842609ff3d367874c32ca', 'r_10001', 'd7e44d49421e41ef9c3329be68dff6f7', NULL, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for t_role_org
@@ -399,9 +438,9 @@ CREATE TABLE `t_role_org`  (
   `hasLeaf` int(11) NOT NULL DEFAULT 0 COMMENT '是否包含子部门,0不包含,1包含',
   `active` int(11) NOT NULL DEFAULT 1 COMMENT '是否可用,0不可用,1可用',
   `manager` int(11) NULL DEFAULT 0 COMMENT '0:非主管，1:主管',
-  PRIMARY KEY (`id`) ,
-  INDEX `fk_t_role_org_roleId_t_role_id`(`roleId`) ,
-  INDEX `fk_t_role_org_orgId_t_org_id`(`orgId`) ,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `fk_t_role_org_roleId_t_role_id`(`roleId`) USING BTREE,
+  INDEX `fk_t_role_org_orgId_t_org_id`(`orgId`) USING BTREE,
   CONSTRAINT `fk_t_role_org_orgId_t_org_id` FOREIGN KEY (`orgId`) REFERENCES `t_org` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_t_role_org_roleId_t_role_id` FOREIGN KEY (`roleId`) REFERENCES `t_role` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4  COMMENT = '角色部门中间表' ;
@@ -419,7 +458,7 @@ CREATE TABLE `t_tableindex`  (
   `bak3` varchar(100)  NULL DEFAULT NULL,
   `bak4` varchar(100)  NULL DEFAULT NULL,
   `bak5` varchar(100)  NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) 
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4  COMMENT = '记录表最大的行记录' ;
 
 -- ----------------------------
@@ -451,12 +490,13 @@ CREATE TABLE `t_user`  (
   `bak3` varchar(100)  NULL DEFAULT NULL,
   `bak4` varchar(100)  NULL DEFAULT NULL,
   `bak5` varchar(100)  NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) 
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4  COMMENT = '用户' ;
 
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
+INSERT INTO `t_user` VALUES ('23a2c0c52ed142938c159c9b9004fa35', 'ptAdmin', 'ptAdmin', '21232f297a57a5a743894a0e4a801fc3', '男', '', '', '', 2, 1, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `t_user` VALUES ('u_10001', '超级管理员', 'admin', '21232f297a57a5a743894a0e4a801fc3', '男', NULL, NULL, NULL, 0, 1, NULL, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
@@ -474,9 +514,9 @@ CREATE TABLE `t_user_org`  (
   `bak3` varchar(100)  NULL DEFAULT NULL,
   `bak4` varchar(100)  NULL DEFAULT NULL,
   `bak5` varchar(100)  NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) ,
-  INDEX `fk_t_user_org_userId_t_user_id`(`userId`) ,
-  INDEX `fk_t_user_org_orgId_t_org_id`(`orgId`) ,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `fk_t_user_org_userId_t_user_id`(`userId`) USING BTREE,
+  INDEX `fk_t_user_org_orgId_t_org_id`(`orgId`) USING BTREE,
   CONSTRAINT `fk_t_user_org_orgId_t_org_id` FOREIGN KEY (`orgId`) REFERENCES `t_org` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_t_user_org_userId_t_user_id` FOREIGN KEY (`userId`) REFERENCES `t_user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4  COMMENT = '用户部门中间表' ;
@@ -485,6 +525,7 @@ CREATE TABLE `t_user_org`  (
 -- Records of t_user_org
 -- ----------------------------
 INSERT INTO `t_user_org` VALUES ('1', 'u_10001', 'o_10001', 11, 1, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_user_org` VALUES ('e6e6ed8fce534c6d9b66feb77c817413', '23a2c0c52ed142938c159c9b9004fa35', 'o_10003', 11, 1, NULL, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for t_user_platform_infos
@@ -500,7 +541,7 @@ CREATE TABLE `t_user_platform_infos`  (
   `bak2` varchar(255)  NULL DEFAULT NULL,
   `bak3` varchar(255)  NULL DEFAULT NULL,
   `bak4` varchar(255)  NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) 
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4  COMMENT = '用户平台信息表' ;
 
 -- ----------------------------
@@ -516,9 +557,9 @@ CREATE TABLE `t_user_role`  (
   `bak3` varchar(100)  NULL DEFAULT NULL,
   `bak4` varchar(100)  NULL DEFAULT NULL,
   `bak5` varchar(100)  NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) ,
-  INDEX `fk_t_user_role_userId_t_user_id`(`userId`) ,
-  INDEX `fk_t_user_role_roleId_t_role_id`(`roleId`) ,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `fk_t_user_role_userId_t_user_id`(`userId`) USING BTREE,
+  INDEX `fk_t_user_role_roleId_t_role_id`(`roleId`) USING BTREE,
   CONSTRAINT `fk_t_user_role_roleId_t_role_id` FOREIGN KEY (`roleId`) REFERENCES `t_role` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_t_user_role_userId_t_user_id` FOREIGN KEY (`userId`) REFERENCES `t_user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4  COMMENT = '用户角色中间表' ;
@@ -527,5 +568,6 @@ CREATE TABLE `t_user_role`  (
 -- Records of t_user_role
 -- ----------------------------
 INSERT INTO `t_user_role` VALUES ('1', 'u_10001', 'r_10001', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_user_role` VALUES ('8a7f31289845414583f230839b98e98d', '23a2c0c52ed142938c159c9b9004fa35', 'e8a4ad9944894908b43ded631094dcbb', NULL, NULL, NULL, NULL, NULL);
 
 SET FOREIGN_KEY_CHECKS = 1;

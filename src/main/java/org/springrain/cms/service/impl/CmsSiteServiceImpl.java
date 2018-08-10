@@ -274,6 +274,11 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 		CmsSite site = getByCache(id, "cmsSiteService_findCmsSiteById_" + id, CmsSite.class);
 		if (site == null) {
 			site = findById(id, CmsSite.class);
+
+			if (site == null) {
+				return null;
+			}
+
 			putByCache(id, "cmsSiteService_findCmsSiteById_" + id, site);
 		}
 		return site;
