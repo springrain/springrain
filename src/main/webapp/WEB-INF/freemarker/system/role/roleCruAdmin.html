@@ -21,7 +21,7 @@
 		 _roleType="${(returnDatas.data.roleType)!''}";
 		 _state="${(returnDatas.data.active)!''}";
 		 
-		 <#if returnDatas.data?? && returnDatas.data.menus?size gt 0>
+		 <#if returnDatas.data?? && returnDatas.data.menus??&& returnDatas.data.menus?size gt 0>
 		 	<#list returnDatas.data.menus as _data>
 				 	menuNames+="${(_data.name)!''},";
 				 	menuIds+="${(_data.id)!''},";
