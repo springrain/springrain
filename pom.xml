@@ -52,7 +52,7 @@
           -->
         <shiro.version>1.3.2</shiro.version>
         
-        <redisson.version>3.8.0</redisson.version>
+        <redisson.version>3.8.1</redisson.version>
         <fst.version>2.57</fst.version>
         
         
