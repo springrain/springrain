@@ -145,7 +145,7 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
 
 		Finder f = new Finder("SELECT u.id id,u.name name FROM  ").append(Finder.getTableName(User.class)).append(" u,")
 				.append(Finder.getTableName(UserOrg.class)).append(" re ");
-		f.append(" WHERE re.userId=u.id and re.manager=1 and re.orgId=:orgId order by u.id asc ");
+		f.append(" WHERE re.userId=u.id and re.managerType=11 and re.orgId=:orgId order by u.id asc ");
 		f.setParam("orgId", org.getId());
 
 		Page page = new Page(1);
