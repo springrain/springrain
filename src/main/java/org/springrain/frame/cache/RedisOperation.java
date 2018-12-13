@@ -3,13 +3,16 @@ package org.springrain.frame.cache;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
+import javax.annotation.Resource;
+
 import org.apache.commons.lang3.StringUtils;
 import org.redisson.api.RAtomicLong;
 import org.redisson.api.RBlockingQueue;
 import org.redisson.api.RLock;
-import org.redisson.api.RRemoteService;
 import org.redisson.api.RedissonClient;
+import org.springframework.stereotype.Component;
 import org.springrain.frame.common.BaseLogger;
+import org.springrain.frame.util.GlobalStatic;
 
 /**
  * 基于 Redisson的 redis操作,包含lock和queue
@@ -17,14 +20,11 @@ import org.springrain.frame.common.BaseLogger;
  *
  */
 
-//是在 CacheConfig 中进行了声明,方便启用和禁用
-
+@Component("redisOperation")
 public class RedisOperation extends BaseLogger {
     
+	@Resource
     private RedissonClient redissonClient;
-    
-    //远程Service默认的工作并发
-    private int remoteServiceWorkersAmount=1000;
     
     private int queueCapacity=1000;
     
@@ -44,7 +44,7 @@ public class RedisOperation extends BaseLogger {
         }
     
         try {
-            RLock rLock = redissonClient.getLock(key+"_lock");
+			RLock rLock = redissonClient.getLock(GlobalStatic.projectKeyPrefix + key + "_lock");
             //不做任何等待,抢不到就返回false
             if(rLock.tryLock(-1,expire, TimeUnit.MILLISECONDS)) {
                 return true;
@@ -68,7 +68,7 @@ public class RedisOperation extends BaseLogger {
             return;
         }
         try {
-            RLock rLock = redissonClient.getLock(key+"_lock");
+			RLock rLock = redissonClient.getLock(GlobalStatic.projectKeyPrefix + key + "_lock");
             if(rLock.isLocked()){
                 rLock.unlock();
             }
@@ -81,58 +81,22 @@ public class RedisOperation extends BaseLogger {
     
     
     public  <T> BlockingQueue<T> getBlockingQueue(String queueName ,Class<T> clazz) {
-        RBlockingQueue<T> queue = redissonClient.getBlockingQueue(queueName);
+		RBlockingQueue<T> queue = redissonClient.getBlockingQueue(GlobalStatic.projectKeyPrefix + queueName);
         return queue;
     }
     
     public RAtomicLong getAtomicLong(String name){
-        RAtomicLong atomicLong = redissonClient.getAtomicLong(name);
+		RAtomicLong atomicLong = redissonClient.getAtomicLong(GlobalStatic.projectKeyPrefix + name);
         return atomicLong;
         
     }
     
     public RAtomicLong getAtomicLong(String name,Long initValue){
-        RAtomicLong atomicLong = redissonClient.getAtomicLong(name);
+		RAtomicLong atomicLong = redissonClient.getAtomicLong(GlobalStatic.projectKeyPrefix + name);
         atomicLong.set(initValue);
         return atomicLong;
         
     }
-    
-    
-    
-    
-    /**
-     * 注册到远程Service服务(基于redisson实现的RPC)
-     * @param clazz
-     * @param t
-     * @return
-     * @throws Exception
-     */
-    public  <T> void registerRemoteService(Class<T> clazz,T t){
-        
-        RRemoteService remoteService = getRedissonClient().getRemoteService();
-     // 注册了1000个服务端工作者实例，可以同时执行1000个并发调用
-        remoteService.register(clazz, t, remoteServiceWorkersAmount);
-        
-    }
-    
-    
-    
-      /**
-       * 获取远程的Service(基于redisson实现的RPC)
-       * @param clazz
-       * @return
-       * @throws Exception
-       */
-    public  <T> T getRemoteService(Class<T> clazz){
-        RRemoteService remoteService = getRedissonClient().getRemoteService();
-        T t = remoteService.get(clazz);
-        return t;
-        
-    }
-    
-    
-    
 
     public boolean getReceiveQueue() {
         return receiveQueue;
@@ -140,14 +104,6 @@ public class RedisOperation extends BaseLogger {
 
     public void setReceiveQueue(boolean receiveQueue) {
         this.receiveQueue = receiveQueue;
-    }
-
-    public RedissonClient getRedissonClient() {
-        return redissonClient;
-    }
-
-    public void setRedissonClient(RedissonClient redissonClient) {
-        this.redissonClient = redissonClient;
     }
 
 

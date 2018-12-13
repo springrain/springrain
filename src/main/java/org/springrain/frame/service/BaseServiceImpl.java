@@ -73,9 +73,8 @@ public abstract class BaseServiceImpl extends BaseLogger implements IBaseService
 
 	@Override
 	public Object getBean(String beanName) throws Exception {
-		if (beanName == null) {
+		if (beanName == null)
 			return null;
-		}
 		return getSpringUtils().getBean(beanName);
 	}
 
@@ -89,26 +88,26 @@ public abstract class BaseServiceImpl extends BaseLogger implements IBaseService
 		if (StringUtils.isBlank(cacheName)) {
 			return null;
 		}
-		return cacheManager.getCache(cacheName);
+		return cacheManager.getCache(GlobalStatic.projectKeyPrefix + cacheName);
 	}
 
 	@Override
 	public <T> T getByCache(String cacheName, String key, Class<T> clazz) throws Exception {
-		T t = null;
-		try {
-			t = getCache(cacheName).get(key, clazz);
-		} catch (Exception e) {
-			// 如果java对象文件发生了改变,缓存实例化对象时会出现异常,清理掉这个缓存
+		T t=null;
+		try{
+			t = getCache(cacheName).get(GlobalStatic.projectKeyPrefix + key, clazz);
+		}catch(Exception e){
 			logger.error(e.getMessage(), e);
 			evictByKey(cacheName, key);
 		}
-
+		
 		return t;
+		
 	}
 
 	@Override
 	public void putByCache(String cacheName, String key, Object value) throws Exception {
-		getCache(cacheName).put(key, value);
+		getCache(cacheName).put(GlobalStatic.projectKeyPrefix + key, value);
 	}
 
 	@Override
@@ -118,7 +117,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements IBaseService
 
 	@Override
 	public void evictByKey(String cacheName, String key) throws Exception {
-		getCache(cacheName).evict(key);
+		getCache(cacheName).evict(GlobalStatic.projectKeyPrefix + key);
 	}
 
 	@Override
@@ -277,12 +276,13 @@ public abstract class BaseServiceImpl extends BaseLogger implements IBaseService
 	@Override
 	public <T> File findDataExportExcel(Finder finder, String ftlurl, Page page, Class<T> clazz, Object queryBean,
 			Map map) throws Exception {
-
-		return findDataExportFile(finder, ftlurl, page, clazz, queryBean, map, GlobalStatic.excelext);
+		
+		return findDataExportFile(finder, ftlurl, page, clazz, queryBean, map,GlobalStatic.excelext);
 	}
-
+	
 	public <T> File findDataExportFile(Finder finder, String ftlurl, Page page, Class<T> clazz, Object queryBean,
-			Map map, String fileType) throws Exception {
+			Map map,String fileType) throws Exception{
+
 
 		if (freeMarkerConfigurer == null) {
 			freeMarkerConfigurer = (FreeMarkerConfigurer) SpringUtils.getBean("freeMarkerConfigurer");
@@ -316,9 +316,8 @@ public abstract class BaseServiceImpl extends BaseLogger implements IBaseService
 
 		File excelFile = new File(tempExcelpath);
 		boolean first = true;
-		if (ftlurl.contains("Xml")) {
+		if(ftlurl.contains("Xml"))
 			first = false;
-		}
 		boolean end = false;
 		int pageCount = page.getPageCount();
 		if (pageCount < 2) {
@@ -351,10 +350,88 @@ public abstract class BaseServiceImpl extends BaseLogger implements IBaseService
 			OpenOfficeKit.cvtXls(excelFile, excelnew);
 			return excelnew;
 		} catch (Exception e) {
+			e.printStackTrace();
 			logger.error(e.getMessage(), e);
 		}
 		return excelFile;
+	
+	}
+	
+	public <T> File findDataExportFileByES(List<T> datas, String ftlurl, Page page, Class<T> clazz, Object queryBean,
+			Map map,String fileType,String fileName) throws Exception{
 
+
+		if (freeMarkerConfigurer == null) {
+			freeMarkerConfigurer = (FreeMarkerConfigurer) SpringUtils.getBean("freeMarkerConfigurer");
+		}
+
+		if (freeMarkerConfigurer == null) {
+			return null;
+		}
+
+		// Map map = new HashMap();
+		ReturnDatas returnDatas = new ReturnDatas();
+		map.put(GlobalStatic.exportexcel, true);// 设置导出excel变量
+		Template template = freeMarkerConfigurer.getConfiguration().getTemplate(ftlurl + GlobalStatic.suffix);
+		Integer pageIndex=page.getPageIndex();
+		if(pageIndex==1){
+			returnDatas.setData(datas);
+			returnDatas.setPage(page);
+			returnDatas.setQueryBean(queryBean);
+			map.put(GlobalStatic.returnDatas, returnDatas);
+		}
+		returnDatas.setMessage("export");
+		String tempFFilepath = GlobalStatic.tempRootpath + "/" + fileName + "/freemarker.html";
+		String tempExcelpath = GlobalStatic.tempRootpath + "/" + fileName + "/" + fileName + fileType;
+		File tempfdir = new File(GlobalStatic.tempRootpath + "/" + fileName);
+		if (tempfdir.exists() == false) {
+			tempfdir.mkdirs();
+		}
+		File ffile = new File(tempFFilepath);
+
+		File excelFile = new File(tempExcelpath);
+		boolean first = true;
+		if(ftlurl.contains("Xml"))
+			first = false;
+		boolean end = false;
+		int pageCount = page.getPageCount();
+		if (pageCount < 2) {
+			pageCount = 1;
+			end = true;
+		}
+		if(pageIndex==1){
+			createExceFile(template, ffile, excelFile, first, end, map);
+		}
+		first = false;
+		if(pageIndex==pageCount){
+			end = true;
+		}
+		if(pageIndex>1){
+			returnDatas.setData(datas);
+			map.put(GlobalStatic.returnDatas, returnDatas);
+			createExceFile(template, ffile, excelFile, first, end, map);
+		}
+		if(pageIndex==pageCount){
+			if (ffile.exists()) {
+				ffile.delete(); 
+			}
+	
+			if (excelFile.exists()) {
+				excelFile.setReadOnly();
+			}
+			// excel转化
+			try {
+				File excelnew = new File(
+						GlobalStatic.tempRootpath + "/" + fileName + "/" + SecUtils.getUUID() + GlobalStatic.excelext);
+				OpenOfficeKit.cvtXls(excelFile, excelnew);
+				return excelnew;
+			} catch (Exception e) {
+				e.printStackTrace();
+				logger.error(e.getMessage(), e);
+			}
+		}
+		return excelFile;
+	
 	}
 
 	/**
@@ -404,43 +481,42 @@ public abstract class BaseServiceImpl extends BaseLogger implements IBaseService
 
 			boolean iswrite = false;
 			while ((line = br.readLine()) != null) {
-				if (StringUtils.isBlank(line)) {
+				if (StringUtils.isBlank(line))
 					continue;
-				}
 
 				line = line.trim();
-				if (line.startsWith("<!--first_") && first == false) {// 第一次输出,用于表头列的声明
+				if (line.startsWith("<!--first_") && first == false) {//第一次输出,用于表头列的声明
 					iswrite = false;
 					continue;
 				}
-				if (line.startsWith("<!--last_") && end == false) {// 最后的输出,用于结束
+				if (line.startsWith("<!--last_") && end == false) {//最后的输出,用于结束
 					iswrite = false;
 					continue;
 				}
 
-				if ("<!--first_start_export-->".equals(line)) {// 表头输出里包含的不输出内容开始.
+				if ("<!--first_start_export-->".equals(line)) {//表头输出里包含的不输出内容开始.
 					iswrite = first;
 					continue;
 
-				} else if ("<!--last_start_export-->".equals(line)) {// 最后输出的内容开始.
+				} else if ("<!--last_start_export-->".equals(line)) {//最后输出的内容开始.
 					iswrite = end;
 					continue;
 
-				} else if ("<!--first_start_no_export-->".equals(line)) {// 第一次输出内好办的不输出内容开始
+				} else if ("<!--first_start_no_export-->".equals(line)) {//第一次输出内好办的不输出内容开始
 					iswrite = false;
 					continue;
 
-				} else if ("<!--first_end_no_export-->".equals(line)) {// 第一次输出内好办的不输出内容结束
+				} else if ("<!--first_end_no_export-->".equals(line)) {//第一次输出内好办的不输出内容结束
 					iswrite = true;
 					continue;
 
-				} else if ("<!--start_no_export-->".equals(line)) {// 开始不输出
+				} else if ("<!--start_no_export-->".equals(line)) {//开始不输出
 					iswrite = false;
 					continue;
-				} else if ("<!--start_export-->".equals(line)) {// 开始输出
+				} else if ("<!--start_export-->".equals(line)) {//开始输出
 					iswrite = true;
 					continue;
-				} else if ("<!--last_end_export-->".equals(line)) {// 最后的不输出内容
+				} else if ("<!--last_end_export-->".equals(line)) {//最后的不输出内容
 					iswrite = false;
 					continue;
 				} else if (line.startsWith("<!--end_")) {// 不包含需要输出的内容
@@ -454,6 +530,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements IBaseService
 
 				if (iswrite) {// 如果是写入标签
 					bw.write(line);
+					bw.flush();
 				}
 
 			}
@@ -461,21 +538,16 @@ public abstract class BaseServiceImpl extends BaseLogger implements IBaseService
 			logger.error(e.getMessage(), e);
 			throw new Exception("追加xlsx内容错误");
 		} finally {
-			if (bw != null) {
+			if (bw != null)
 				bw.close();
-			}
-			if (osw != null) {
+			if (osw != null)
 				osw.close();
-			}
-			if (fos != null) {
+			if (fos != null)
 				fos.close();
-			}
-			if (br != null) {
+			if (br != null)
 				br.close();
-			}
-			if (in != null) {
+			if (in != null)
 				in.close();
-			}
 		}
 
 		return excelFile;
@@ -599,6 +671,10 @@ public abstract class BaseServiceImpl extends BaseLogger implements IBaseService
 					}
 				}
 				String value = cell.getContents().trim();
+				// 处理特殊字符，如果以`开头则去掉
+				if (value.startsWith("`")) {
+					value = value.substring(1, value.length());
+				}
 				Class className = ClassUtils.getReturnType(name, o.getClass());
 
 				if (className == String.class) {

@@ -30,6 +30,8 @@ public class GlobalStatic {
 
 	public static final String SQLCutSeparator = "___";// SQL复合对象查询的分隔符,三个 下划线
 
+	public static final String projectKeyPrefix = "springrain_";// ES和redis的固定前缀,用于多个项目使用同一个ES和redis集群
+
 	public static final String mpConfigCacheKey = "mpConfigCacheKey";// 订阅号配置缓存Key
 
 	public static final String cpConfigCacheKey = "cpConfigCacheKey";// 企业号配置缓存Key
