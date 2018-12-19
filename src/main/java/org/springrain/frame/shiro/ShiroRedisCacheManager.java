@@ -14,7 +14,7 @@ public class ShiroRedisCacheManager extends AbstractCacheManager {
     private RedissonClient redissonClient;
 	@Override
 	protected Cache createCache(String cacheName) throws CacheException {
-		return new ShiroRedisCache<String, Object>(GlobalStatic.projectKeyPrefix + cacheName, redissonClient);
+		return new ShiroRedisCache<String, Object>(cacheName, redissonClient);
 	}
 
 	@Override
