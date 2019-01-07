@@ -3,15 +3,12 @@ package org.springrain.frame.cache;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-import javax.annotation.Resource;
-
 import org.apache.commons.lang3.StringUtils;
 import org.redisson.api.RAtomicLong;
 import org.redisson.api.RBlockingQueue;
 import org.redisson.api.RLock;
 import org.redisson.api.RRemoteService;
 import org.redisson.api.RedissonClient;
-import org.springframework.stereotype.Component;
 import org.springrain.frame.common.BaseLogger;
 import org.springrain.frame.util.GlobalStatic;
 
@@ -21,10 +18,10 @@ import org.springrain.frame.util.GlobalStatic;
  *
  */
 
-@Component("redisOperation")
+//@Component("redisOperation")
 public class RedisOperation extends BaseLogger {
     
-	@Resource
+	// @Resource
     private RedissonClient redissonClient;
 	
 	   //远程Service默认的工作并发
