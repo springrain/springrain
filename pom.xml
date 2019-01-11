@@ -16,7 +16,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.1.0.RELEASE</version>
+		<version>2.1.1.RELEASE</version>
 		<relativePath/> 
 	</parent>
 
@@ -38,21 +38,21 @@
         <commons-fileupload.version>1.3.3</commons-fileupload.version>
 		
 		<javax.persistence.version>2.2.0</javax.persistence.version>
-		<lucene.version>7.5.0</lucene.version>
+		<lucene.version>7.6.0</lucene.version>
         <jxl.version>2.6.12</jxl.version>
         <jodconverter.version>2.2.1</jodconverter.version>
-        <zxing.version>3.3.2</zxing.version>
+        <zxing.version>3.3.3</zxing.version>
         <gson.version>2.8.5</gson.version>
         <jsoup.version>1.11.3</jsoup.version>
-        <xstream.version>1.4.10</xstream.version>
+        <xstream.version>1.4.11.1</xstream.version>
         <druid-spring-boot-starter.version>1.1.10</druid-spring-boot-starter.version>
         <!--
         <shiro-spring-boot-starter.version>1.4.0</shiro-spring-boot-starter.version>
         <freemarker.version>2.3.28</freemarker.version>
           -->
-        <shiro.version>1.3.2</shiro.version>
+        <shiro.version>1.4.0</shiro.version>
         
-        <redisson.version>3.9.0</redisson.version>
+        <redisson.version>3.10.0</redisson.version>
         <fst.version>2.57</fst.version>
         
         
