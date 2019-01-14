@@ -47,7 +47,7 @@ public class OpenOfficeKit {
 				}
 			}
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
+			logger.error("未找到openoffice组件,会影响导出的Excel美观度,不影响功能.");
 		}
 	}
 
