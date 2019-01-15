@@ -344,6 +344,8 @@ public interface IBaseJdbcDao {
 	 */
 	boolean isCheckMethodName();
 
+	public String getUserName();
+
 	/**
 	 * 获取数据库的版本
 	 * 

@@ -5,6 +5,7 @@ import javax.annotation.Resource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
+import org.springrain.frame.common.SessionUser;
 import org.springrain.frame.dao.BaseJdbcDaoImpl;
 import org.springrain.frame.dao.IBaseJdbcDao;
 import org.springrain.frame.dao.dialect.IDialect;
@@ -86,6 +87,11 @@ public class BaseSpringrainDaoImpl extends BaseJdbcDaoImpl implements IBaseJdbcD
 	@Override
 	public boolean showsql() {
 		return false;
+	}
+
+	@Override
+	public String getUserName() {
+		return SessionUser.getUserName();
 	}
 
 }

@@ -25,7 +25,6 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.jdbc.core.CallableStatementCreator;
 import org.springframework.jdbc.core.SqlParameter;
-import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springrain.frame.common.BaseLogger;
 import org.springrain.frame.dao.IBaseJdbcDao;
 import org.springrain.frame.entity.IBaseEntity;
@@ -41,6 +40,7 @@ import org.springrain.frame.util.ReturnDatas;
 import org.springrain.frame.util.SecUtils;
 import org.springrain.frame.util.SpringUtils;
 
+import freemarker.template.Configuration;
 import freemarker.template.Template;
 import jxl.Cell;
 
@@ -59,7 +59,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements IBaseService
 	@Resource
 	public SpringUtils springUtils;
 	// @Resource
-	public FreeMarkerConfigurer freeMarkerConfigurer = null;
+	public Configuration freeMarkerConfigurer = null;
 
 	@Resource
 	private CacheManager cacheManager;
@@ -285,7 +285,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements IBaseService
 
 
 		if (freeMarkerConfigurer == null) {
-			freeMarkerConfigurer = (FreeMarkerConfigurer) SpringUtils.getBean("freeMarkerConfigurer");
+			freeMarkerConfigurer = (Configuration) SpringUtils.getBean("freeMarkerConfigurer");
 		}
 
 		if (freeMarkerConfigurer == null) {
@@ -295,7 +295,10 @@ public abstract class BaseServiceImpl extends BaseLogger implements IBaseService
 		// Map map = new HashMap();
 		ReturnDatas returnDatas = new ReturnDatas();
 		map.put(GlobalStatic.exportexcel, true);// 设置导出excel变量
-		Template template = freeMarkerConfigurer.getConfiguration().getTemplate(ftlurl + GlobalStatic.suffix);
+		// Template template =
+		// freeMarkerConfigurer.getConfiguration().getTemplate(ftlurl +
+		// GlobalStatic.suffix);
+		Template template = freeMarkerConfigurer.getTemplate(ftlurl + GlobalStatic.suffix);
 		page.setPageSize(GlobalStatic.excelPageSize);
 		page.setPageIndex(1);
 		List datas = findListDataByFinder(finder, page, clazz, queryBean);
@@ -362,7 +365,7 @@ public abstract class BaseServiceImpl extends BaseLogger implements IBaseService
 
 
 		if (freeMarkerConfigurer == null) {
-			freeMarkerConfigurer = (FreeMarkerConfigurer) SpringUtils.getBean("freeMarkerConfigurer");
+			freeMarkerConfigurer = (Configuration) SpringUtils.getBean("freeMarkerConfigurer");
 		}
 
 		if (freeMarkerConfigurer == null) {
@@ -372,7 +375,10 @@ public abstract class BaseServiceImpl extends BaseLogger implements IBaseService
 		// Map map = new HashMap();
 		ReturnDatas returnDatas = new ReturnDatas();
 		map.put(GlobalStatic.exportexcel, true);// 设置导出excel变量
-		Template template = freeMarkerConfigurer.getConfiguration().getTemplate(ftlurl + GlobalStatic.suffix);
+		// Template template =
+		// freeMarkerConfigurer.getConfiguration().getTemplate(ftlurl +
+		// GlobalStatic.suffix);
+		Template template = freeMarkerConfigurer.getTemplate(ftlurl + GlobalStatic.suffix);
 		Integer pageIndex=page.getPageIndex();
 		if(pageIndex==1){
 			returnDatas.setData(datas);

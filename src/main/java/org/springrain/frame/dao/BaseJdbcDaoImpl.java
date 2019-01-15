@@ -24,7 +24,6 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.transaction.NoTransactionException;
 import org.springframework.transaction.interceptor.TransactionInterceptor;
 import org.springrain.frame.common.BaseLogger;
-import org.springrain.frame.common.SessionUser;
 import org.springrain.frame.dao.dialect.IDialect;
 import org.springrain.frame.entity.AuditLog;
 import org.springrain.frame.task.LuceneTask;
@@ -121,9 +120,8 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		return false;
 	}
 
-	public String getUserName() {
-		return SessionUser.getUserName();
-	}
+	@Override
+	public abstract String getUserName();
 
 	/**
 	 * 打印sql
@@ -533,10 +531,10 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 		T t = null;
 		try {
 			if (ClassUtils.isBaseType(clazz)) {
-				t = (T) getReadJdbc().queryForObject(finder.getSql(), finder.getParams(), clazz);
+				t = getReadJdbc().queryForObject(finder.getSql(), finder.getParams(), clazz);
 
 			} else {
-				t = (T) getReadJdbc().queryForObject(finder.getSql(), finder.getParams(),
+				t = getReadJdbc().queryForObject(finder.getSql(), finder.getParams(),
 						FrameBeanPropertyRowMapper.newInstance(clazz));
 			}
 		} catch (EmptyResultDataAccessException e) {
@@ -1082,7 +1080,7 @@ public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao
 			if (params == null) {
 				params = new HashMap<String, Object>();
 			}
-			t = (T) getJdbcCall().withProcedureName(procName).executeObject(clazz, params);
+			t = getJdbcCall().withProcedureName(procName).executeObject(clazz, params);
 
 		} catch (EmptyResultDataAccessException e) {
 			logger.error(e.getMessage(), e);
