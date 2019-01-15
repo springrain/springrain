@@ -7,7 +7,8 @@ import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;
 import org.redisson.api.RMap;
 import org.redisson.api.RedissonClient;
-import org.springrain.frame.common.BaseLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Shiro 实现的缓存
@@ -17,7 +18,9 @@ import org.springrain.frame.common.BaseLogger;
  * @param <K>
  * @param <V>
  */
-public class ShiroRedisCache<K, V> extends BaseLogger implements Cache<K, V> {
+public class ShiroRedisCache<K, V> implements Cache<K, V> {
+	private Logger logger = LoggerFactory.getLogger(getClass());
+
 	private String name;
 	private RedissonClient redissonClient;
 	
