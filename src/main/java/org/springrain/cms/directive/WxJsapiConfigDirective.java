@@ -8,7 +8,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
 import org.springrain.cms.util.DirectiveUtils;
-import org.springrain.cms.util.SiteUtils;
+import org.springrain.frame.util.RequestURLUtils;
 import org.springrain.weixin.sdk.common.api.IWxMpConfigService;
 
 import freemarker.core.Environment;
@@ -33,7 +33,7 @@ public class WxJsapiConfigDirective extends AbstractCMSDirective {
 		try {
 			// String url =
 			// request.getRequestURL().toString()+(request.getQueryString()==null?"":"?"+request.getQueryString());
-			String url = SiteUtils.getRequestURL(getRequest());
+			String url = RequestURLUtils.getRequestURL(getRequest());
 			wxJsapiConf = wxMpConfigService.findMpJsApiParam(wxMpConfigService.findWxMpConfigById(getSiteId(params)),
 					url);
 		} catch (Exception e) {

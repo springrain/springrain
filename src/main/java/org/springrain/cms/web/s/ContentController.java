@@ -18,11 +18,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springrain.cms.entity.CmsContent;
 import org.springrain.cms.service.ICmsContentService;
 import org.springrain.cms.service.ICmsLinkService;
-import org.springrain.cms.util.SiteUtils;
 import org.springrain.frame.util.Enumerations;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.InputSafeUtils;
 import org.springrain.frame.util.Page;
+import org.springrain.frame.util.RequestURLUtils;
 import org.springrain.frame.util.ReturnDatas;
 import org.springrain.frame.util.property.MessageUtils;
 
@@ -67,7 +67,7 @@ public class ContentController extends SiteBaseController {
 		cmsContent.setSiteId(siteId);
 		cmsContent.setChannelId(businessId);
 		String content = cmsContent.getContent();
-		cmsContent.setContent(InputSafeUtils.filterRichTextContent(content, SiteUtils.getBaseURL(request)));
+		cmsContent.setContent(InputSafeUtils.filterRichTextContent(content, RequestURLUtils.getBaseURL(request)));
 		try {
 			java.lang.String id = cmsContent.getId();
 			if (StringUtils.isBlank(id)) {

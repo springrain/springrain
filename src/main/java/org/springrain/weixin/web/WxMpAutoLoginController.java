@@ -11,10 +11,10 @@ import org.apache.shiro.web.subject.WebSubject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springrain.cms.util.SiteUtils;
 import org.springrain.frame.controller.BaseController;
 import org.springrain.frame.shiro.ShiroUser;
 import org.springrain.frame.util.GlobalStatic;
+import org.springrain.frame.util.RequestURLUtils;
 import org.springrain.system.entity.User;
 import org.springrain.system.service.IUserService;
 import org.springrain.weixin.sdk.common.api.IWxMpConfig;
@@ -57,7 +57,7 @@ public class WxMpAutoLoginController extends BaseController {
 		IWxMpConfig wxmpconfig = wxMpConfigService.findWxMpConfigById(siteId);
 		
 		
-		String _url=SiteUtils.getBaseURL(request)+"/mp/mpautologin/"+siteId+"/callback?url=" + url;
+		String _url=RequestURLUtils.getBaseURL(request)+"/mp/mpautologin/"+siteId+"/callback?url=" + url;
 		
 		String oauthUrl = wxMpService.oauth2buildAuthorizationUrl(wxmpconfig,_url, WxConsts.OAUTH2_SCOPE_BASE, null);
 		

@@ -1,4 +1,4 @@
-#4.0.0之后基于SpringBoot最新版本,启动类修改为SpringBoot的org.springrain.SpringrainApplication类进行启动.  
+#5.0.0正在拆分为微服务架构,请使用4.0.0分支  
 
  项目名为springrain[春雨]我的个人博客是 http://www.weicms.net QQ群是:238904840 </br>
 

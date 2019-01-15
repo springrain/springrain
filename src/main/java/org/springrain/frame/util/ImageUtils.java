@@ -23,7 +23,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springrain.cms.util.SiteUtils;
 
 /**
  * 图片工具类
@@ -312,7 +311,7 @@ public final class ImageUtils {
     		return null;
     	}
     	if(imgUrl.indexOf("http")==-1){
-    		imgUrl = SiteUtils.getBaseURL(request) + imgUrl;
+    		imgUrl = RequestURLUtils.getBaseURL(request) + imgUrl;
     	}else{
     		return imgUrl;
     	}

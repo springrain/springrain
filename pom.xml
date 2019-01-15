@@ -5,7 +5,7 @@
 
 	<groupId>org.springrain</groupId>
 	<artifactId>springrain</artifactId>
-	<version>4.0.0-SNAPSHOT</version>
+	<version>5.0.0-SNAPSHOT</version>
 
 	<name>springrain</name>
 	<description>springrain for Spring Boot</description>

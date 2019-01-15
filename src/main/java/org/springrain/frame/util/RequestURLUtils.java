@@ -1,4 +1,4 @@
-package org.springrain.cms.util;
+package org.springrain.frame.util;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 
-public class SiteUtils {
+public class RequestURLUtils {
 
 	private volatile static Map<String, Integer> schemeMap = new HashMap<String, Integer>();// 缓存scheme的协议和端口
 	static {
@@ -16,7 +16,7 @@ public class SiteUtils {
 		schemeMap.put("ftp", 21);
 	}
 
-	private SiteUtils() {
+	private RequestURLUtils() {
 		throw new IllegalAccessError("工具类不能实例化");
 	}
 
