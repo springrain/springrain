@@ -20,7 +20,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
-import org.springrain.SpringrainApplication;
+import org.springrain.BasePackagePath;
 import org.springrain.frame.common.SpringMVCAnnotationBeanNameGenerator;
 import org.springrain.frame.common.StaticHtmlFreeMarkerView;
 import org.springrain.frame.util.FrameObjectMapper;
@@ -33,7 +33,7 @@ import org.springrain.frame.util.FrameObjectMapper;
  */
 
 @Configuration("configuration-SpringMVCConfig")
-@ComponentScan(basePackageClasses = SpringrainApplication.class, nameGenerator = SpringMVCAnnotationBeanNameGenerator.class, useDefaultFilters = false, includeFilters = {
+@ComponentScan(basePackageClasses = BasePackagePath.class, nameGenerator = SpringMVCAnnotationBeanNameGenerator.class, useDefaultFilters = false, includeFilters = {
 		@Filter(type = FilterType.ANNOTATION, value = Controller.class) })
 public class SpringMVCConfig implements WebMvcConfigurer {
 

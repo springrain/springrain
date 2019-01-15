@@ -14,7 +14,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Component;
-import org.springrain.SpringrainApplication;
+import org.springrain.BasePackagePath;
 import org.springrain.frame.annotation.LuceneSearch;
 import org.springrain.frame.annotation.NotLog;
 
@@ -43,6 +43,7 @@ public class SpringUtils implements ApplicationContextAware {
 
 			new Thread() {
 
+				@Override
 				public void run() {
 
 					try {
@@ -100,7 +101,7 @@ public class SpringUtils implements ApplicationContextAware {
 
 	private void initEntityInfo() throws Exception {
 
-		String basePathName = SpringrainApplication.class.getPackage().getName();
+		String basePathName = BasePackagePath.class.getPackage().getName();
 
 		String classPath = "/**/entity/*.class";
 
