@@ -21,7 +21,7 @@ import org.springrain.frame.util.GlobalStatic;
 
 //@Component("redisOperation")
 public class RedisOperation {
-	public Logger logger = LoggerFactory.getLogger(getClass());
+	private Logger logger = LoggerFactory.getLogger(getClass());
 	// @Resource
     private RedissonClient redissonClient;
 	
