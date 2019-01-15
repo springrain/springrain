@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springrain.frame.util.property.PropertyFile;
+import org.springrain.weixin.sdk.common.util.PropertyFile;
 
 public class WxConsts {
 	private static final  Logger logger = LoggerFactory.getLogger(WxConsts.class);
