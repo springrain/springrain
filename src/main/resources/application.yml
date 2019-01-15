@@ -6,6 +6,7 @@
 
 
 springrain: 
+    ###基本的包路径,因为事务xml需要配置路径,程序中也需要使用,抽出来了,以后修改报名记得修改###
     basepackagepath: org.springrain
     session:    ###session的超时时间###
         timeout: 3600000
