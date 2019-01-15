@@ -1,4 +1,4 @@
-package org.springrain.weixin.sdk.common.util;
+package org.springrain.frame.util.property;
 
 import java.text.MessageFormat;
 import java.util.PropertyResourceBundle;
