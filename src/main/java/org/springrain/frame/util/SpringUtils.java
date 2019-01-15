@@ -9,12 +9,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Component;
-import org.springrain.BasePackagePath;
 import org.springrain.frame.annotation.LuceneSearch;
 import org.springrain.frame.annotation.NotLog;
 
@@ -30,6 +30,9 @@ public class SpringUtils implements ApplicationContextAware {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	private static ApplicationContext applicationContext;
+
+	@Value("${springrain.basepackagepath}")
+	private String basepackagepath;
 
 	public SpringUtils() {
 
@@ -101,7 +104,7 @@ public class SpringUtils implements ApplicationContextAware {
 
 	private void initEntityInfo() throws Exception {
 
-		String basePathName = BasePackagePath.class.getPackage().getName();
+		String basePathName = basepackagepath;
 
 		String classPath = "/**/entity/*.class";
 

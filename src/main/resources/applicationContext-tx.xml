@@ -47,7 +47,7 @@
 	<aop:config>
 		<!-- 切面事务操作-->
 		<aop:pointcut id="servicePointcut"
-			expression="execution(* org.springrain..*Service.*(..))" />
+			expression="execution(* ${springrain.basepackagepath}..*Service.*(..))" />
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="servicePointcut" />
 	</aop:config>
 

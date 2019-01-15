@@ -6,6 +6,7 @@
 
 
 springrain: 
+    basepackagepath: org.springrain
     session:    ###session的超时时间###
         timeout: 3600000
         
