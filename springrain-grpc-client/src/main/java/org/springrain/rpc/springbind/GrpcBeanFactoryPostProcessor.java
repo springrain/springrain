@@ -5,11 +5,12 @@ import java.net.URI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.cglib.proxy.InvocationHandler;
 import org.springframework.cglib.proxy.Proxy;
+import org.springframework.context.EnvironmentAware;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Component;
@@ -17,18 +18,19 @@ import org.springrain.rpc.annotation.RpcServiceAnnotation;
 import org.springrain.rpc.grpcimpl.GrpcCommonRequest;
 
 /**
- * 在spring初始化之前,通过beanFactory先注入需要代理的bean,不然springbean初始化会异常
+ * 在spring初始化之前,通过beanFactory先注入需要代理的bean,不然springbean初始化会异常.
+ * 需要实现EnvironmentAware,setEnvironment 这样才能正常获取到Environment变量
  * 
  * @author caomei
  *
  */
-@Component
-public class GrpcBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
+@Component("grpcBeanFactoryPostProcessor")
+public class GrpcBeanFactoryPostProcessor implements BeanFactoryPostProcessor, EnvironmentAware {
 	private static final Logger logger = LoggerFactory.getLogger(GrpcBeanFactoryPostProcessor.class);
 
 
-	@Value("${springrain.basepackagepath}")
-	private String basepackagepath;
+	private Environment environment;
+
 
 	@Override
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
@@ -46,12 +48,13 @@ public class GrpcBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
 	 * @throws Exception
 	 */
 	private void initRpcServiceImpl(ConfigurableListableBeanFactory beanFactory) throws Exception {
-
-
-		String classPath = "/**/service/*.class";
-
-		String packagePath = basepackagepath;
-		classPath = packagePath + classPath;
+		
+		
+		String basepackagepath = environment.getProperty("springrain.basepackagepath");
+		
+		// 无法获取 basepackagepath,需要自己解析yaml
+		// String basepackagepath = basepackagepath;
+		String classPath = basepackagepath + "/**/service/*.class";
 
 		PathMatchingResourcePatternResolver pmrpr = new PathMatchingResourcePatternResolver();
 		Resource[] resources = pmrpr
@@ -62,7 +65,7 @@ public class GrpcBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
 			URI uri = resource.getURI();
 			String rpcServiceClassName = uri.toString();
 
-			rpcServiceClassName = rpcServiceClassName.substring(rpcServiceClassName.lastIndexOf(packagePath),
+			rpcServiceClassName = rpcServiceClassName.substring(rpcServiceClassName.lastIndexOf(basepackagepath),
 					rpcServiceClassName.lastIndexOf(".class"));
 			rpcServiceClassName = rpcServiceClassName.replaceAll("/", ".");
 
@@ -125,6 +128,12 @@ public class GrpcBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
 
 		}
 
+	}
+
+
+	@Override
+	public void setEnvironment(Environment environment) {
+		this.environment = environment;
 	}
 
 }
