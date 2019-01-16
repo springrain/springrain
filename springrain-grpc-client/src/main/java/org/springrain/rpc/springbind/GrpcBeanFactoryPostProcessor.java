@@ -5,6 +5,7 @@ import java.net.URI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.cglib.proxy.InvocationHandler;
@@ -25,6 +26,10 @@ import org.springrain.rpc.grpcimpl.GrpcCommonRequest;
 public class GrpcBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
 	private static final Logger logger = LoggerFactory.getLogger(GrpcBeanFactoryPostProcessor.class);
 
+
+	@Value("${springrain.basepackagepath}")
+	private String basepackagepath;
+
 	@Override
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
 		try {
@@ -42,10 +47,7 @@ public class GrpcBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
 	 */
 	private void initRpcServiceImpl(ConfigurableListableBeanFactory beanFactory) throws Exception {
 
-		String packageNames = GrpcBeanFactoryPostProcessor.class.getPackage().getName();
-		String[] split = packageNames.split("\\.");
-
-		String basePathName = split[0] + "." + split[1];
+		String basePathName = basepackagepath;
 
 		String classPath = "/**/service/*.class";
 
