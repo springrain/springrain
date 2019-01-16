@@ -1,13 +1,16 @@
-#5.0.0正在拆分为微服务架构,请使用4.0.0分支  
+# 5.0.0正在拆分为微服务架构,请使用4.0.0分支  
 
  项目名为springrain[春雨]我的个人博客是 http://www.weicms.net QQ群是:238904840 </br>
+ 
+
+# 入口项目是 springrain/springrain-system/springrain-system-web
 
 # 文档
-https://git.oschina.net/chunanyong/springrain/tree/master/doc  </br>
+https://gitee.com/chunanyong/springrain/tree/master/springrain-system/springrain-system-web/doc  </br>
 # 代码生成器
-http://git.oschina.net/chunanyong/springrain/tree/master/gencode  </br>
+https://gitee.com/chunanyong/springrain/tree/master/springrain-system/springrain-system-web/gencode  </br>
 # sql脚本
-http://git.oschina.net/chunanyong/springrain/tree/master/sql  </br>
+https://gitee.com/chunanyong/springrain/tree/master/springrain-system/springrain-system-web/sql  </br>
 
 
 springrain是spring/springboot的极简封装,spring/springboot一站式开发的范例.
