@@ -19,12 +19,11 @@
 
 	<dependencies>
 
-		<!-- 只使用最核心的starter,没有web和tomcat -->
+	
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
+			<artifactId>spring-boot-starter-aop</artifactId>
 		</dependency>
-
 
 		<dependency>
 			<groupId>io.grpc</groupId>
