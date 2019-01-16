@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+option java_package = "org.springrain.rpc.grpcauto";
+option java_outer_classname = "GrpcAutoCreateTransactionNoticeService";
+option java_multiple_files = true;
+
+// 定义通用的 Grpc 事务通知 服务
+service GrpcTransactionNoticeService {
+    // 处理请求
+    rpc sendNotice ( NoticeRequest ) returns ( NoticeResponse ) {}
+}
+
+// 定义通用的 Grpc 事务通知 请求体
+message NoticeRequest {
+    string txId = 1;
+    string txGroupId = 2;
+    int32 operation = 3;
+}
+
+// 定义通用的 Grpc  事务通知  响应体
+message NoticeResponse {
+    string message = 1;
+    int32 result = 2;
+}
