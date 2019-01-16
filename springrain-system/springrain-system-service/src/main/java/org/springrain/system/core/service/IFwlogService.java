@@ -1,5 +1,6 @@
 package org.springrain.system.core.service;
 
+import org.springrain.rpc.annotation.RpcServiceAnnotation;
 import org.springrain.system.core.entity.Fwlog;
 
 /**
@@ -10,6 +11,7 @@ import org.springrain.system.core.entity.Fwlog;
  * @version 2013-07-29 11:36:44
  * @see org.springrain.springrain.service.Fwlog
  */
+@RpcServiceAnnotation
 public interface IFwlogService extends IBaseSpringrainService {
 
 	/**

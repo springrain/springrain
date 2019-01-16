@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springrain.frame.base.util.Finder;
 import org.springrain.frame.util.Page;
+import org.springrain.rpc.annotation.RpcServiceAnnotation;
 import org.springrain.system.core.entity.Org;
 import org.springrain.system.core.entity.User;
 import org.springrain.system.core.entity.UserOrg;
@@ -16,6 +17,7 @@ import org.springrain.system.core.entity.UserOrg;
  * @version 2013-07-06 15:28:18
  * @see org.springrain.springrain.service.TuserOrg
  */
+@RpcServiceAnnotation
 public interface IUserOrgService extends IBaseSpringrainService {
 
 	/**

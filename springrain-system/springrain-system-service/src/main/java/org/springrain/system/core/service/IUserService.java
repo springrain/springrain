@@ -1,5 +1,6 @@
 package org.springrain.system.core.service;
 
+import org.springrain.rpc.annotation.RpcServiceAnnotation;
 import org.springrain.system.core.entity.User;
 
 /**
@@ -10,6 +11,7 @@ import org.springrain.system.core.entity.User;
  * @version 2013-07-06 16:03:00
  * @see org.springrain.springrain.service.User
  */
+@RpcServiceAnnotation
 public interface IUserService extends IBaseSpringrainService {
 	/**
 	 * 保存

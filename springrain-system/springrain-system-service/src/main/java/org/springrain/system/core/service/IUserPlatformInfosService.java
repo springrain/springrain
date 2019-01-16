@@ -2,6 +2,7 @@ package org.springrain.system.core.service;
 
 import java.util.List;
 
+import org.springrain.rpc.annotation.RpcServiceAnnotation;
 import org.springrain.system.core.entity.UserPlatformInfos;
 
 /**
@@ -12,6 +13,7 @@ import org.springrain.system.core.entity.UserPlatformInfos;
  * @version 2017-07-31 16:41:34
  * @see org.springrain.cms.base.service.UserPlatformInfos
  */
+@RpcServiceAnnotation
 public interface IUserPlatformInfosService extends IBaseSpringrainService {
 
 	/**

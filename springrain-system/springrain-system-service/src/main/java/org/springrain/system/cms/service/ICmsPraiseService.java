@@ -1,5 +1,6 @@
 package org.springrain.system.cms.service;
 
+import org.springrain.rpc.annotation.RpcServiceAnnotation;
 import org.springrain.system.cms.entity.CmsPraise;
 import org.springrain.system.core.service.IBaseSpringrainService;
 
@@ -11,6 +12,7 @@ import org.springrain.system.core.service.IBaseSpringrainService;
  * @version 2017-02-15 15:02:34
  * @see org.springrain.cms.base.service.CmsPraise
  */
+@RpcServiceAnnotation
 public interface ICmsPraiseService extends IBaseSpringrainService {
 
 	/**

@@ -47,11 +47,10 @@ public class GrpcBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
 	 */
 	private void initRpcServiceImpl(ConfigurableListableBeanFactory beanFactory) throws Exception {
 
-		String basePathName = basepackagepath;
 
 		String classPath = "/**/service/*.class";
 
-		String packagePath = basePathName.replaceAll("\\.", "/");
+		String packagePath = basepackagepath;
 		classPath = packagePath + classPath;
 
 		PathMatchingResourcePatternResolver pmrpr = new PathMatchingResourcePatternResolver();

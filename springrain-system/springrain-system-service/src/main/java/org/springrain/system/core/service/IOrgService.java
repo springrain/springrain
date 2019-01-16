@@ -2,6 +2,7 @@ package org.springrain.system.core.service;
 
 import java.util.List;
 
+import org.springrain.rpc.annotation.RpcServiceAnnotation;
 import org.springrain.system.core.entity.Org;
 
 /**
@@ -12,6 +13,7 @@ import org.springrain.system.core.entity.Org;
  * @version 2013-07-06 16:02:58
  * @see org.springrain.springrain.service.Org
  */
+@RpcServiceAnnotation
 public interface IOrgService extends IBaseSpringrainService {
 	/**
 	 * 保存

@@ -2,6 +2,7 @@ package org.springrain.system.core.service;
 
 import java.util.List;
 
+import org.springrain.rpc.annotation.RpcServiceAnnotation;
 import org.springrain.system.core.entity.Menu;
 
 /**
@@ -12,6 +13,7 @@ import org.springrain.system.core.entity.Menu;
  * @version 2013-07-06 16:02:58
  * @see org.springrain.springrain.service.Menu
  */
+@RpcServiceAnnotation
 public interface IMenuService extends IBaseSpringrainService {
 	/**
 	 * 保存

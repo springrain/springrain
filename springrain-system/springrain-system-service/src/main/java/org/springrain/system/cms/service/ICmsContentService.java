@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springrain.frame.util.Page;
+import org.springrain.rpc.annotation.RpcServiceAnnotation;
 import org.springrain.system.cms.entity.CmsContent;
 import org.springrain.system.core.service.IBaseSpringrainService;
 
@@ -17,6 +18,7 @@ import freemarker.core.Environment;
  * @version 2016-11-10 11:55:19
  * @see org.springrain.cms.entity.demo.service.CmsContent
  */
+@RpcServiceAnnotation
 public interface ICmsContentService extends IBaseSpringrainService {
 
 	/**

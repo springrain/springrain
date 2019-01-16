@@ -1,5 +1,7 @@
 package org.springrain.system.core.service;
 
+import org.springrain.rpc.annotation.RpcServiceAnnotation;
+
 /**
  * TODO 在此加入类描述
  * 
@@ -8,6 +10,7 @@ package org.springrain.system.core.service;
  * @version 2013-07-29 11:36:44
  * @see org.springrain.springrain.service.Fwlog
  */
+@RpcServiceAnnotation
 public interface IStaticHtmlService extends IBaseSpringrainService {
 
 	/**

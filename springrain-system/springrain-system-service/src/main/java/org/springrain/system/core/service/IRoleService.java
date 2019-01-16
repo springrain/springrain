@@ -1,5 +1,6 @@
 package org.springrain.system.core.service;
 
+import org.springrain.rpc.annotation.RpcServiceAnnotation;
 import org.springrain.system.core.entity.Role;
 
 /**
@@ -10,6 +11,7 @@ import org.springrain.system.core.entity.Role;
  * @version 2013-07-06 16:02:59
  * @see org.springrain.springrain.service.Role
  */
+@RpcServiceAnnotation
 public interface IRoleService extends IBaseSpringrainService {
 	/**
 	 * 保存

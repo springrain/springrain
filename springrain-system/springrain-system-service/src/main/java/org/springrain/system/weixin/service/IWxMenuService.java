@@ -2,6 +2,7 @@ package org.springrain.system.weixin.service;
 
 import java.util.List;
 
+import org.springrain.rpc.annotation.RpcServiceAnnotation;
 import org.springrain.system.core.service.IBaseSpringrainService;
 import org.springrain.system.weixin.entity.WxMenu;
 import org.springrain.system.weixin.entity.WxMpConfig;
@@ -14,6 +15,7 @@ import org.springrain.system.weixin.entity.WxMpConfig;
  * @version 2017-02-06 17:23:12
  * @see org.springrain.system.weixin.entity.WxMenu.service.CmsWxMenu
  */
+@RpcServiceAnnotation
 public interface IWxMenuService extends IBaseSpringrainService {
 
 	/**

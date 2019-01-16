@@ -1,6 +1,7 @@
 package org.springrain.system.core.service;
 
 import org.springrain.frame.base.entity.AuditLog;
+import org.springrain.rpc.annotation.RpcServiceAnnotation;
 
 /**
  * TODO 在此加入类描述
@@ -10,6 +11,7 @@ import org.springrain.frame.base.entity.AuditLog;
  * @version 2013-04-02 10:17:31
  * @see org.springrain.frame.entity.springrain.service.AuditLog
  */
+@RpcServiceAnnotation
 public interface IAuditlogService extends IBaseSpringrainService {
 	String saveAuditlog(AuditLog entity) throws Exception;
 

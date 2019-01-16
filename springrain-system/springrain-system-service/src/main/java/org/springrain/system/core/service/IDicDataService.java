@@ -3,6 +3,7 @@ package org.springrain.system.core.service;
 import java.util.List;
 
 import org.springrain.frame.util.Page;
+import org.springrain.rpc.annotation.RpcServiceAnnotation;
 import org.springrain.system.core.entity.DicData;
 
 /**
@@ -13,6 +14,7 @@ import org.springrain.system.core.entity.DicData;
  * @version 2013-07-31 15:56:45
  * @see org.springrain.springrain.service.DicData
  */
+@RpcServiceAnnotation
 public interface IDicDataService extends IBaseSpringrainService {
 
 	/**

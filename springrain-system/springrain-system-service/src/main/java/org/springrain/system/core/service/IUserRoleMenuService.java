@@ -3,6 +3,7 @@ package org.springrain.system.core.service;
 import java.util.List;
 import java.util.Set;
 
+import org.springrain.rpc.annotation.RpcServiceAnnotation;
 import org.springrain.system.core.entity.Menu;
 import org.springrain.system.core.entity.Role;
 import org.springrain.system.core.entity.User;
@@ -15,6 +16,7 @@ import org.springrain.system.core.entity.User;
  * @version 2013-07-06 16:03:00
  * @see org.springrain.springrain.service.UserRole
  */
+@RpcServiceAnnotation
 public interface IUserRoleMenuService extends IBaseSpringrainService {
 	/**
 	 * 根据用户ID 获取角色

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springrain.frame.util.Page;
+import org.springrain.rpc.annotation.RpcServiceAnnotation;
 import org.springrain.system.cms.entity.CmsComment;
 import org.springrain.system.core.service.IBaseSpringrainService;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
@@ -16,6 +17,7 @@ import org.springrain.weixin.sdk.common.exception.WxErrorException;
  * @version 2016-11-10 11:55:18
  * @see org.springrain.cms.entity.demo.service.CmsComment
  */
+@RpcServiceAnnotation
 public interface ICmsCommentService extends IBaseSpringrainService {
 
 	/**

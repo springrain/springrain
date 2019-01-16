@@ -1,5 +1,6 @@
 package org.springrain.system.core.service;
 
+import org.springrain.rpc.annotation.RpcServiceAnnotation;
 import org.springrain.system.core.entity.PermissionsLog;
 import org.springrain.system.core.entity.Role;
 
@@ -11,6 +12,7 @@ import org.springrain.system.core.entity.Role;
  * @version 2017-12-15 12:13:15
  * @see org.springrain.system.service.PermissionsLog
  */
+@RpcServiceAnnotation
 public interface IPermissionsLogService extends IBaseSpringrainService {
 
 	/**

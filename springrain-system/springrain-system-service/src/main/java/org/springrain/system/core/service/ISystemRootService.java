@@ -2,8 +2,10 @@ package org.springrain.system.core.service;
 
 import java.util.List;
 
+import org.springrain.rpc.annotation.RpcServiceAnnotation;
 import org.springrain.system.core.dto.FileDto;
 
+@RpcServiceAnnotation
 public interface ISystemRootService extends IBaseSpringrainService {
 
 	/**

@@ -1,5 +1,7 @@
 package org.springrain.system.core.service;
 
+import org.springrain.rpc.annotation.RpcServiceAnnotation;
+
 /**
  * TODO 在此加入类描述
  * 
@@ -8,6 +10,7 @@ package org.springrain.system.core.service;
  * @version 2016-11-10 14:16:38
  * @see org.springrain.demo.service.Tableindex
  */
+@RpcServiceAnnotation
 public interface ITableindexService extends IBaseSpringrainService {
 
 	/**

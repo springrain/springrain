@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
+import org.springrain.rpc.annotation.RpcServiceAnnotation;
 import org.springrain.system.cms.entity.CmsSite;
 import org.springrain.system.core.service.IBaseSpringrainService;
 
@@ -15,6 +16,7 @@ import org.springrain.system.core.service.IBaseSpringrainService;
  * @version 2016-11-10 11:55:21
  * @see org.springrain.cms.entity.demo.service.CmsSite
  */
+@RpcServiceAnnotation
 public interface ICmsSiteService extends IBaseSpringrainService {
 
 	/**
