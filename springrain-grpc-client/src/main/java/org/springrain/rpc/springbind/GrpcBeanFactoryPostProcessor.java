@@ -91,7 +91,7 @@ public class GrpcBeanFactoryPostProcessor implements BeanFactoryPostProcessor, E
 				}
 
 			} catch (Exception e) {
-				logger.error(e.getMessage(), e);
+				logger.error("未找到接口" + clazz.getName() + "的实现类" + rpcServiceImplClassName + ",开始RPC调用远程实现");
 			}
 
 			RpcServiceAnnotation rpcServiceAnnotation = clazz.getAnnotation(RpcServiceAnnotation.class);
@@ -111,9 +111,7 @@ public class GrpcBeanFactoryPostProcessor implements BeanFactoryPostProcessor, E
 			if (beanName == null || beanName.equals("")) {
 				beanName = clazz.getName();
 			}
-
-			System.out.println(clazz.getName());
-
+			// 开始GRPC请求调用
 			GrpcCommonRequest grpcRequest = new GrpcCommonRequest();
 			grpcRequest.setClazz(clazz.getName());
 			grpcRequest.setBeanName(beanName);
