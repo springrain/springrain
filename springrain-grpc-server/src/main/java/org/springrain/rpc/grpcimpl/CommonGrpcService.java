@@ -9,9 +9,12 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.reflect.MethodUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
+import org.springframework.cglib.reflect.FastClass;
+import org.springframework.cglib.reflect.FastMethod;
 import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
@@ -73,22 +76,18 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 		// String beanName = grpcRequest.getBeanName();
 		// 需要调用的类
 		String className = grpcRequest.getClazz();
-		// 获取springbean
-		Object bean = null;
-		Method method = null;
 		// 获取获取参数
 		Object[] args = grpcRequest.getArgs();
 		// 获取参数类型
 		Class[] argsTypes = getParameterTypes(args);
 
+		Object bean = null;
+
 		// 入口方法是否有事务
 		boolean notx = false;
 		try {
+			// 找到spring的bean
 			bean = getBean(Class.forName(className));
-			// 找到类的方法
-			// 可以写个这个这或者el表达式,验证方法是否需要事务操作.如果在事务内,就有事务.
-			method = bean.getClass().getMethod(grpcRequest.getMethod(), argsTypes);
-
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			return;
@@ -141,9 +140,7 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 			if (notx) {
 
 				// 执行service的方法
-				Object result;
-
-				result = method.invoke(bean, args);
+				Object result = invokeMethod(bean, grpcRequest.getMethod(), args);
 
 				// 返回事务对象id
 				grpcResponse.setTxId(txId);
@@ -211,7 +208,8 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 			status = transactionManager.getTransaction(def);
 
 			// 执行service的方法
-			Object result = method.invoke(bean, args);
+			Object result = invokeMethod(bean, grpcRequest.getMethod(), args);
+
 			// 返回事务对象id
 			grpcResponse.setTxId(txId);
 			//返回事务组Id
@@ -420,5 +418,36 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 		boolean matches = r.matcher(methodPath).matches();
 		return !matches;
 	}
+	
+	
+	
+	/**
+	 * 反射调用方法,需要使用MethodUtils, 直接反射会造成形参和实参不对应的时候找不到方法,例如形参Object,参数Entity
+	 * 
+	 * @param bean
+	 * @param methodName
+	 * @param args
+	 * @return
+	 * @throws Exception
+	 */
+	private Object invokeMethod(Object bean, String methodName, Object[] args) throws Exception {
+
+			// 可以写个这个这或者el表达式,验证方法是否需要事务操作.如果在事务内,就有事务.
+		Method matchingMethod = MethodUtils.getMatchingMethod(bean.getClass(), methodName,
+					getParameterTypes(args));
+
+		if (matchingMethod == null) {
+			return null;
+		}
+
+			FastClass serviceFastClass = FastClass.create(bean.getClass());
+			FastMethod serviceFastMethod = serviceFastClass.getMethod(matchingMethod);
+			Object result = serviceFastMethod.invoke(bean, args);
+			return result;
+
+	}
+
+
+	
 
 }
