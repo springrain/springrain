@@ -12,9 +12,6 @@
 	<packaging>pom</packaging>
 	<description>自带的系统管理web项目</description>
 	<modules>
-	
-		<!-- 主要是shiroUser的公共引用类 -->
-		<module>springrain-system-common</module>
 		
 		<!-- 系统管理的service接口 -->
 		<module>springrain-system-service</module>

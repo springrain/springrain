@@ -1,4 +1,4 @@
-package org.springrain.system.common;
+package org.springrain.system.base;
 
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.AnnotationBeanNameGenerator;

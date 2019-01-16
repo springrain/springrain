@@ -22,7 +22,7 @@ import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springrain.frame.util.GlobalStatic;
-import org.springrain.system.common.SessionUser;
+import org.springrain.system.base.SessionUser;
 
 /**
  * 保存最新的用户在线，踢出上一个用户

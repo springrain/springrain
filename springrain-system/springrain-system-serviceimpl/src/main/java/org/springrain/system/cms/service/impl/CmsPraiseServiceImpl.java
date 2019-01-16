@@ -7,9 +7,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springrain.frame.base.util.Finder;
 import org.springrain.frame.util.Page;
+import org.springrain.system.base.SessionUser;
 import org.springrain.system.cms.entity.CmsPraise;
 import org.springrain.system.cms.service.ICmsPraiseService;
-import org.springrain.system.common.SessionUser;
 import org.springrain.system.core.service.impl.BaseSpringrainServiceImpl;
 
 /**

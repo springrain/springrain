@@ -9,8 +9,8 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
+import org.springrain.system.base.SessionUser;
 import org.springrain.system.cms.util.DirectiveUtils;
-import org.springrain.system.common.SessionUser;
 import org.springrain.system.weixin.entity.WxMpConfig;
 import org.springrain.system.weixin.service.IWxMenuService;
 

@@ -1,4 +1,4 @@
-package org.springrain.system.common;
+package org.springrain.system.base;
 
 import java.io.Serializable;
 

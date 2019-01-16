@@ -14,7 +14,7 @@ import org.springrain.frame.base.util.Finder;
 import org.springrain.frame.util.Enumerations;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.Page;
-import org.springrain.system.common.SessionUser;
+import org.springrain.system.base.SessionUser;
 import org.springrain.system.core.entity.Menu;
 import org.springrain.system.core.entity.PermissionsLog;
 import org.springrain.system.core.entity.Role;

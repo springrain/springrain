@@ -23,7 +23,7 @@ import org.springrain.frame.util.ReturnDatas;
 import org.springrain.frame.util.SecUtils;
 import org.springrain.frame.util.property.MessageUtils;
 import org.springrain.system.base.BaseController;
-import org.springrain.system.common.SessionUser;
+import org.springrain.system.base.SessionUser;
 import org.springrain.system.core.entity.Role;
 import org.springrain.system.core.entity.User;
 import org.springrain.system.core.entity.UserOrg;

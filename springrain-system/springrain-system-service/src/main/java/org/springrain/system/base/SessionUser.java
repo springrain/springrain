@@ -1,4 +1,4 @@
-package org.springrain.system.common;
+package org.springrain.system.base;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
  * @copyright {@link weicms.net}
  * @author springrain<9iuorg@gmail.com>
  * @version 2013-03-19 11:08:15
- * @see org.springrain.system.common.SessionUser
+ * @see org.springrain.system.base.SessionUser
  */
 public class SessionUser {
 	private static final Logger logger = LoggerFactory.getLogger(SessionUser.class);

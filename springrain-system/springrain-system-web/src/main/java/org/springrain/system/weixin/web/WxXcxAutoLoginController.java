@@ -19,7 +19,7 @@ import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.ReturnDatas;
 import org.springrain.frame.util.SecUtils;
 import org.springrain.system.base.BaseController;
-import org.springrain.system.common.ShiroUser;
+import org.springrain.system.base.ShiroUser;
 import org.springrain.system.core.service.IUserService;
 import org.springrain.weixin.sdk.common.service.IWxXcxConfig;
 import org.springrain.weixin.sdk.common.service.IWxXcxConfigService;

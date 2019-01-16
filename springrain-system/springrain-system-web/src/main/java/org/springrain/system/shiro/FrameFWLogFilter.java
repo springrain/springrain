@@ -20,7 +20,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springrain.frame.util.DateUtils;
-import org.springrain.system.common.SessionUser;
+import org.springrain.system.base.SessionUser;
 import org.springrain.system.core.entity.Fwlog;
 import org.springrain.system.core.service.IFwlogService;
 import org.springrain.system.core.service.IMenuService;

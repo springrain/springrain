@@ -11,7 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springrain.frame.base.util.Finder;
 import org.springrain.frame.util.Page;
-import org.springrain.system.common.SessionUser;
+import org.springrain.system.base.SessionUser;
 import org.springrain.system.core.entity.Org;
 import org.springrain.system.core.entity.User;
 import org.springrain.system.core.entity.UserOrg;

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.system.base.BaseController;
-import org.springrain.system.common.ShiroUser;
+import org.springrain.system.base.ShiroUser;
 import org.springrain.system.core.entity.User;
 import org.springrain.system.core.service.IUserService;
 import org.springrain.system.util.RequestURLUtils;

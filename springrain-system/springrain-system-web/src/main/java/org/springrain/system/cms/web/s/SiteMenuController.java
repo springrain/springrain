@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springrain.frame.util.ReturnDatas;
 import org.springrain.frame.util.property.MessageUtils;
 import org.springrain.system.base.BaseController;
-import org.springrain.system.common.SessionUser;
+import org.springrain.system.base.SessionUser;
 import org.springrain.system.core.entity.Menu;
 import org.springrain.system.core.service.IUserRoleMenuService;
 

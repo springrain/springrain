@@ -21,12 +21,12 @@ import org.springrain.frame.util.Page;
 import org.springrain.frame.util.ReturnDatas;
 import org.springrain.frame.util.property.MessageUtils;
 import org.springrain.system.base.BaseController;
+import org.springrain.system.base.SessionUser;
 import org.springrain.system.cms.entity.CmsChannel;
 import org.springrain.system.cms.entity.CmsSite;
 import org.springrain.system.cms.service.ICmsChannelService;
 import org.springrain.system.cms.service.ICmsLinkService;
 import org.springrain.system.cms.service.ICmsSiteService;
-import org.springrain.system.common.SessionUser;
 
 /**
  * TODO 在此加入类描述
