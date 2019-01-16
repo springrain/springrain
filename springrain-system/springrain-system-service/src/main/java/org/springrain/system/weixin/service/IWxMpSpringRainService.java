@@ -5,7 +5,7 @@ import org.springrain.system.core.service.IBaseSpringrainService;
 import org.springrain.system.weixin.entity.WxMpConfig;
 
 @RpcServiceAnnotation
-public interface IWxMpServletService extends IBaseSpringrainService {
+public interface IWxMpSpringRainService extends IBaseSpringrainService {
 
 	void saveWxMpConfig(WxMpConfig wxMpConfig) throws Exception;
 

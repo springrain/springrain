@@ -18,7 +18,7 @@ import org.springrain.frame.util.property.MessageUtils;
 import org.springrain.system.cms.entity.CmsSite;
 import org.springrain.system.cms.service.ICmsSiteService;
 import org.springrain.system.weixin.entity.WxMpConfig;
-import org.springrain.system.weixin.service.IWxMpServletService;
+import org.springrain.system.weixin.service.IWxMpSpringRainService;
 import org.springrain.weixin.sdk.common.service.IWxMpConfigService;
 
 @Controller
@@ -29,7 +29,7 @@ public class SiteWxconfigController extends SiteBaseController {
 	private IWxMpConfigService wxMpConfigService;
 
 	@Resource
-	private IWxMpServletService wxMpServletService;
+	private IWxMpSpringRainService wxMpSpringRainService;
 
 	@Resource
 	private ICmsSiteService cmsSiteService;
@@ -91,7 +91,7 @@ public class SiteWxconfigController extends SiteBaseController {
 			if (StringUtils.isBlank(id)) {
 				cmsSiteWxconfig.setId(null);
 			}
-			wxMpServletService.saveorupdate(cmsSiteWxconfig);
+			wxMpSpringRainService.saveorupdate(cmsSiteWxconfig);
 
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
