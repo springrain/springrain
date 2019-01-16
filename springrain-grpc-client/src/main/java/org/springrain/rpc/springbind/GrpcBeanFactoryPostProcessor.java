@@ -19,7 +19,8 @@ import org.springrain.rpc.grpcimpl.GrpcCommonRequest;
 
 /**
  * 在spring初始化之前,通过beanFactory先注入需要代理的bean,不然springbean初始化会异常.
- * 需要实现EnvironmentAware,setEnvironment 这样才能正常获取到Environment变量
+ * 需要实现EnvironmentAware,setEnvironment
+ * 这样才能正常获取到Environment变量,参考:https://blog.csdn.net/xiejx618/article/details/50413412
  * 
  * @author caomei
  *
