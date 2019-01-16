@@ -2,7 +2,7 @@ package org.springrain.system.core.service;
 
 import java.util.List;
 
-import org.springrain.frame.util.Finder;
+import org.springrain.frame.base.util.Finder;
 import org.springrain.frame.util.Page;
 import org.springrain.system.core.entity.Org;
 import org.springrain.system.core.entity.User;

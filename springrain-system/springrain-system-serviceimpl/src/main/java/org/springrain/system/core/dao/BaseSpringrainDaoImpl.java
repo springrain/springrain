@@ -5,10 +5,10 @@ import javax.annotation.Resource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
-import org.springrain.frame.dao.BaseJdbcDaoImpl;
-import org.springrain.frame.dao.IBaseJdbcDao;
-import org.springrain.frame.dao.dialect.IDialect;
-import org.springrain.frame.entity.AuditLog;
+import org.springrain.frame.base.dao.BaseJdbcDaoImpl;
+import org.springrain.frame.base.dao.IBaseJdbcDao;
+import org.springrain.frame.base.dao.dialect.IDialect;
+import org.springrain.frame.base.entity.AuditLog;
 import org.springrain.system.common.SessionUser;
 
 /**

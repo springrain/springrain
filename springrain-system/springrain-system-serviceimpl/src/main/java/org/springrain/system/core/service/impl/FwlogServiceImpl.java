@@ -4,8 +4,8 @@ import java.io.File;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-import org.springrain.frame.entity.IBaseEntity;
-import org.springrain.frame.util.Finder;
+import org.springrain.frame.base.entity.IBaseEntity;
+import org.springrain.frame.base.util.Finder;
 import org.springrain.frame.util.Page;
 import org.springrain.system.core.entity.Fwlog;
 import org.springrain.system.core.service.IFwlogService;

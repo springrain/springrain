@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
-import org.springrain.frame.controller.BaseController;
+import org.springrain.frame.base.controller.BaseController;
 import org.springrain.frame.util.Enumerations;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.Page;

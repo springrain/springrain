@@ -11,7 +11,7 @@ import org.apache.shiro.web.subject.WebSubject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springrain.frame.controller.BaseController;
+import org.springrain.frame.base.controller.BaseController;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.RequestURLUtils;
 import org.springrain.system.common.ShiroUser;

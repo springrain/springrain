@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springrain.frame.controller.BaseController;
+import org.springrain.frame.base.controller.BaseController;
 import org.springrain.frame.util.CaptchaUtils;
 import org.springrain.frame.util.GlobalStatic;
 

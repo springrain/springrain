@@ -1,6 +1,6 @@
 package org.springrain.system.core.service;
 
-import org.springrain.frame.entity.AuditLog;
+import org.springrain.frame.base.entity.AuditLog;
 
 /**
  * TODO 在此加入类描述
