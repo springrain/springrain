@@ -1,4 +1,4 @@
-package org.springrain.frame.base.controller;
+package org.springrain.system.base;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -27,7 +27,7 @@ import org.springrain.frame.util.Page;
  * @copyright {@link weicms.net}
  * @author springrain<9iuorg@gmail.com>
  * @version 2013-03-19 11:08:15
- * @see org.springrain.frame.base.controller.BaseController
+ * @see org.springrain.system.base.BaseController
  * @param <T>
  */
 // @Controller

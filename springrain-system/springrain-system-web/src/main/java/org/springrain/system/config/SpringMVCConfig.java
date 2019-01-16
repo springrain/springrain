@@ -22,7 +22,7 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 import org.springrain.frame.base.common.SpringMVCAnnotationBeanNameGenerator;
 import org.springrain.frame.util.FrameObjectMapper;
-import org.springrain.system.common.StaticHtmlFreeMarkerView;
+import org.springrain.system.base.StaticHtmlFreeMarkerView;
 
 /**
  * MVC的配置,只扫描@Controller注解,带包名命名,避免混淆同名问题.

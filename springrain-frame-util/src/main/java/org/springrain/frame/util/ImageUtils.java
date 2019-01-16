@@ -18,9 +18,7 @@ import javax.imageio.ImageIO;
 import javax.imageio.ImageReadParam;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
-import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -300,22 +298,5 @@ public final class ImageUtils {
     }
     
     
-    /**
-     * 没有上传到oss的图片，需要重新组合图片的url
-     * @param request
-     * @param imgUrl
-     * @return
-     */
-    public static String generateImgUrl(HttpServletRequest request, String imgUrl){
-    	if(StringUtils.isBlank(imgUrl)){
-    		return null;
-    	}
-    	if(imgUrl.indexOf("http")==-1){
-			imgUrl = RequestURLUtils.getBaseURL(request) + imgUrl;
-    	}else{
-    		return imgUrl;
-    	}
-		return imgUrl;
-    }
     
 }

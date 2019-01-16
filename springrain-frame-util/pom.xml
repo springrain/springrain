@@ -142,12 +142,13 @@
 
 
 		<!-- 引用servletAPI,用于开发编译,不打包发布 -->
+		<!-- 
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
-
+       -->
 
 	</dependencies>
 

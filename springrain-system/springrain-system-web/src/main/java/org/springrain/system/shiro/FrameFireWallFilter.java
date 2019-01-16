@@ -19,7 +19,7 @@ import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springrain.frame.util.GlobalStatic;
-import org.springrain.frame.util.IPUtils;
+import org.springrain.system.util.IPUtils;
 
 /**
  * 简单的防火墙策略,一般是专业防火墙实现的功能

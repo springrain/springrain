@@ -2,7 +2,7 @@
 /**
  * 
  */
-package org.springrain.frame.util;
+package org.springrain.system.util;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
  * @copyright {@link weicms.net}
  * @author springrain<Auto generate>
  * @version 2013-03-19 11:08:15
- * @see org.springrain.frame.util.IPUtils
+ * @see org.springrain.system.util.IPUtils
  */
 
 public class IPUtils {

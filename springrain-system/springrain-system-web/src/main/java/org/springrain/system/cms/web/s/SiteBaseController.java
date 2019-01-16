@@ -4,7 +4,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.ui.Model;
-import org.springrain.frame.base.controller.BaseController;
+import org.springrain.system.base.BaseController;
 import org.springrain.system.cms.entity.CmsLink;
 import org.springrain.system.cms.service.ICmsLinkService;
 

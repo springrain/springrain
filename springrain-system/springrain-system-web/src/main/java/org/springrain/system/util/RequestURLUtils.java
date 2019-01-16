@@ -1,4 +1,4 @@
-package org.springrain.frame.util;
+package org.springrain.system.util;
 
 import java.util.HashMap;
 import java.util.Map;

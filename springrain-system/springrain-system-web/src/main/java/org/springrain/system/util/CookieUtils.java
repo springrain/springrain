@@ -1,4 +1,4 @@
-package org.springrain.frame.util;
+package org.springrain.system.util;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;

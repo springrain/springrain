@@ -19,12 +19,12 @@ import org.springrain.frame.util.Enumerations;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.InputSafeUtils;
 import org.springrain.frame.util.Page;
-import org.springrain.frame.util.RequestURLUtils;
 import org.springrain.frame.util.ReturnDatas;
 import org.springrain.frame.util.property.MessageUtils;
 import org.springrain.system.cms.entity.CmsContent;
 import org.springrain.system.cms.service.ICmsContentService;
 import org.springrain.system.cms.service.ICmsLinkService;
+import org.springrain.system.util.RequestURLUtils;
 
 @Controller
 @RequestMapping(value = "/s/{siteId}/{businessId}/content")

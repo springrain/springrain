@@ -14,7 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springrain.frame.base.util.Finder;
 import org.springrain.frame.util.Enumerations;
 import org.springrain.frame.util.Enumerations.OrgType;
-import org.springrain.system.cms.directive.CmsChannelListDirective;
+import org.springrain.frame.util.GlobalStatic;
+import org.springrain.frame.util.Page;
 import org.springrain.system.cms.entity.CmsChannel;
 import org.springrain.system.cms.entity.CmsLink;
 import org.springrain.system.cms.service.ICmsChannelService;
@@ -23,8 +24,6 @@ import org.springrain.system.cms.service.ICmsSiteService;
 import org.springrain.system.cms.util.DirectiveUtils;
 import org.springrain.system.core.service.ITableindexService;
 import org.springrain.system.core.service.impl.BaseSpringrainServiceImpl;
-import org.springrain.frame.util.GlobalStatic;
-import org.springrain.frame.util.Page;
 
 import freemarker.core.Environment;
 import freemarker.ext.beans.StringModel;
@@ -39,6 +38,16 @@ import freemarker.ext.beans.StringModel;
  */
 @Service("cmsChannelService")
 public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements ICmsChannelService {
+
+	/**
+	 * 默认的参数分隔符
+	 */
+	public static final String PARAM_SPLIT = ",";
+
+	/**
+	 * 输入参数，排序方式。
+	 */
+	public static final String PARAM_ORDER_BY = "orderBy";
 
 	@Resource
 	private ITableindexService tableindexService;
@@ -466,7 +475,7 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 		// 父类ID集合,不存在时只获取顶级栏目
 		String pids = DirectiveUtils.getString("pids", params);
 		if (StringUtils.isNotEmpty(pids)) {
-			List<String> pidList = Arrays.asList(pids.split(CmsChannelListDirective.PARAM_SPLIT));
+			List<String> pidList = Arrays.asList(pids.split(PARAM_SPLIT));
 			finder.append(" and pid in (:pids) ").setParam("pids", pidList);
 		} else {
 			finder.append(" and pid is null ");
@@ -485,7 +494,7 @@ public class CmsChannelServiceImpl extends BaseSpringrainServiceImpl implements 
 		}
 
 		// 排序
-		Integer orderBy = DirectiveUtils.getInt(CmsChannelListDirective.PARAM_ORDER_BY, params);
+		Integer orderBy = DirectiveUtils.getInt(PARAM_ORDER_BY, params);
 		if (orderBy == null) {
 			orderBy = 0;
 		}

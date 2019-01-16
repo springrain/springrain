@@ -7,8 +7,8 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
-import org.springrain.frame.util.RequestURLUtils;
 import org.springrain.system.cms.util.DirectiveUtils;
+import org.springrain.system.util.RequestURLUtils;
 import org.springrain.weixin.sdk.common.service.IWxMpConfigService;
 
 import freemarker.core.Environment;
