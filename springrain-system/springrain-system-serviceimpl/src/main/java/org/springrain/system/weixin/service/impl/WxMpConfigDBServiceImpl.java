@@ -4,10 +4,10 @@ import org.springframework.stereotype.Service;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.system.core.service.impl.BaseSpringrainServiceImpl;
 import org.springrain.system.weixin.entity.WxMpConfig;
-import org.springrain.system.weixin.service.IWxMpSpringRainService;
+import org.springrain.system.weixin.service.IWxMpConfigDBService;
 
-@Service("wxMpSpringRainService")
-public class WxMpSpringRainServiceImpl extends BaseSpringrainServiceImpl implements IWxMpSpringRainService {
+@Service("WxMpConfigDBService")
+public class WxMpConfigDBServiceImpl extends BaseSpringrainServiceImpl implements IWxMpConfigDBService {
 	@Override
 	public void saveWxMpConfig(WxMpConfig wxMpConfig) throws Exception {
 		super.save(wxMpConfig);

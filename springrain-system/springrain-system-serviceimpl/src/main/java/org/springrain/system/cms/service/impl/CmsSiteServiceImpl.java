@@ -31,7 +31,7 @@ import org.springrain.system.core.service.ITableindexService;
 import org.springrain.system.core.service.IUserOrgService;
 import org.springrain.system.core.service.impl.BaseSpringrainServiceImpl;
 import org.springrain.system.weixin.entity.WxCpConfig;
-import org.springrain.system.weixin.service.IWxMpSpringRainService;
+import org.springrain.system.weixin.service.IWxMpConfigDBService;
 import org.springrain.weixin.sdk.common.service.IWxMpConfigService;
 
 /**
@@ -60,7 +60,7 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 	private IWxMpConfigService wxMpConfigService;
 
 	@Resource
-	private IWxMpSpringRainService wxMpSpringRainService;
+	private IWxMpConfigDBService wxMpConfigDBService;
 
 	@Override
 	public Object saveorupdate(Object entity) throws Exception {
@@ -125,14 +125,14 @@ public class CmsSiteServiceImpl extends BaseSpringrainServiceImpl implements ICm
 			config.setId(id);
 			config.setActive(1);
 			config.setSiteId(id);
-			wxMpSpringRainService.save(config);
+			wxMpConfigDBService.save(config);
 		}
 		if (OrgType.mp.getType() - siteType == 0) {
 			WxCpConfig config = new WxCpConfig();
 			config.setId(id);
 			config.setActive(1);
 			config.setSiteId(id);
-			wxMpSpringRainService.save(config);
+			wxMpConfigDBService.save(config);
 		}
 
 		int statichtml = 0; // 默认不静态化

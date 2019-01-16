@@ -24,7 +24,7 @@ import org.springrain.system.common.SessionUser;
 import org.springrain.system.weixin.entity.WxMenu;
 import org.springrain.system.weixin.entity.WxMpConfig;
 import org.springrain.system.weixin.service.IWxMenuService;
-import org.springrain.system.weixin.service.IWxMpSpringRainService;
+import org.springrain.system.weixin.service.IWxMpConfigDBService;
 import org.springrain.weixin.sdk.common.service.IWxMpConfig;
 import org.springrain.weixin.sdk.common.service.IWxMpConfigService;
 
@@ -42,7 +42,7 @@ public class CmsSiteWxconfigController  extends BaseController {
 	private IWxMpConfigService wxMpConfigService;
 	
 	@Resource
-	private IWxMpSpringRainService wxMpSpringRainService;
+	private IWxMpConfigDBService wxMpConfigDBService;
 	
 	@Resource
 	private ICmsSiteService cmsSiteService;
@@ -83,7 +83,7 @@ public class CmsSiteWxconfigController  extends BaseController {
 		// ==构造分页请求
 		Page page = newPage(request);
 		// ==执行分页查询
-		List<WxMpConfig> datas=wxMpSpringRainService.findListDataByFinder(null,page,WxMpConfig.class,wxMpConfig);
+		List<WxMpConfig> datas=wxMpConfigDBService.findListDataByFinder(null,page,WxMpConfig.class,wxMpConfig);
 		returnObject.setQueryBean(wxMpConfig);
 		returnObject.setPage(page);
 		returnObject.setData(datas);
@@ -137,9 +137,9 @@ public class CmsSiteWxconfigController  extends BaseController {
 			java.lang.String id =wxMpConfig.getId();
 			if(StringUtils.isBlank(id)){
 				wxMpConfig.setId(wxMpConfig.getSiteId());
-				wxMpSpringRainService.saveWxMpConfig(wxMpConfig);
+				wxMpConfigDBService.saveWxMpConfig(wxMpConfig);
 			} else {
-				wxMpSpringRainService.updateWxMpConfig(wxMpConfig);
+				wxMpConfigDBService.updateWxMpConfig(wxMpConfig);
 			}
 		
 			//wxMpServletService.saveorupdate(wxMpConfig);
@@ -177,7 +177,7 @@ public class CmsSiteWxconfigController  extends BaseController {
 		try {
 		java.lang.String id=request.getParameter("id");
 		if(StringUtils.isNotBlank(id)){
-			wxMpSpringRainService.deleteById(id,WxMpConfig.class);
+			wxMpConfigDBService.deleteById(id,WxMpConfig.class);
 				return new ReturnDatas(ReturnDatas.SUCCESS,
 						MessageUtils.DELETE_SUCCESS);
 			} else {
@@ -209,7 +209,7 @@ public class CmsSiteWxconfigController  extends BaseController {
 		}
 		try {
 			List<String> ids = Arrays.asList(rs);
-			wxMpSpringRainService.deleteByIds(ids,WxMpConfig.class);
+			wxMpConfigDBService.deleteByIds(ids,WxMpConfig.class);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			return new ReturnDatas(ReturnDatas.ERROR,
