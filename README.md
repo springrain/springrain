@@ -1,4 +1,5 @@
 # 5.0.0正在拆分为微服务架构,请使用4.0.0分支  
+# 微服务springrain是基于Istio实现的,后面会陆续出教程.
 
  项目名为springrain[春雨]我的个人博客是 http://www.weicms.net QQ群是:238904840 </br>
  
