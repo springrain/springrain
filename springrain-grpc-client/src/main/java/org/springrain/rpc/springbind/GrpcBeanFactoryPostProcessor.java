@@ -53,8 +53,6 @@ public class GrpcBeanFactoryPostProcessor implements BeanFactoryPostProcessor, E
 		
 		String basepackagepath = environment.getProperty("springrain.basepackagepath");
 		
-		// 无法获取 basepackagepath,需要自己解析yaml
-		// String basepackagepath = basepackagepath;
 		String classPath = basepackagepath + "/**/service/*.class";
 
 		PathMatchingResourcePatternResolver pmrpr = new PathMatchingResourcePatternResolver();
