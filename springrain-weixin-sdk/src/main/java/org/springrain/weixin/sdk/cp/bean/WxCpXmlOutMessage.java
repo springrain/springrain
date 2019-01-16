@@ -2,7 +2,7 @@ package org.springrain.weixin.sdk.cp.bean;
 
 import java.io.Serializable;
 
-import org.springrain.weixin.sdk.common.api.IWxCpConfig;
+import org.springrain.weixin.sdk.common.service.IWxCpConfig;
 import org.springrain.weixin.sdk.common.util.xml.XStreamCDataConverter;
 import org.springrain.weixin.sdk.cp.bean.outxmlbuilder.ImageBuilder;
 import org.springrain.weixin.sdk.cp.bean.outxmlbuilder.NewsBuilder;

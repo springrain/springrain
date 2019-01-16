@@ -32,7 +32,7 @@ import org.springrain.system.core.service.IUserOrgService;
 import org.springrain.system.core.service.impl.BaseSpringrainServiceImpl;
 import org.springrain.system.weixin.entity.WxCpConfig;
 import org.springrain.system.weixin.service.IWxMpServletService;
-import org.springrain.weixin.sdk.common.api.IWxMpConfigService;
+import org.springrain.weixin.sdk.common.service.IWxMpConfigService;
 
 /**
  * 在此加入类描述

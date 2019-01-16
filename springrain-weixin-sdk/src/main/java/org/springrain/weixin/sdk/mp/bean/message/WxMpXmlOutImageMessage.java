@@ -1,6 +1,6 @@
 package org.springrain.weixin.sdk.mp.bean.message;
 
-import org.springrain.weixin.sdk.common.api.WxConsts;
+import org.springrain.weixin.sdk.common.service.WxConsts;
 import org.springrain.weixin.sdk.common.util.xml.XStreamMediaIdConverter;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;

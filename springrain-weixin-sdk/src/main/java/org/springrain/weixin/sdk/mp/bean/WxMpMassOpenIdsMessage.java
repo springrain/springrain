@@ -30,11 +30,11 @@ public class WxMpMassOpenIdsMessage implements Serializable {
   /**
    * <pre>
    * 请使用
-   * {@link org.springrain.weixin.sdk.common.api.WxConsts#MASS_MSG_IMAGE}
-   * {@link org.springrain.weixin.sdk.common.api.WxConsts#MASS_MSG_NEWS}
-   * {@link org.springrain.weixin.sdk.common.api.WxConsts#MASS_MSG_TEXT}
-   * {@link org.springrain.weixin.sdk.common.api.WxConsts#MASS_MSG_VIDEO}
-   * {@link org.springrain.weixin.sdk.common.api.WxConsts#MASS_MSG_VOICE}
+   * {@link org.springrain.weixin.sdk.common.service.WxConsts#MASS_MSG_IMAGE}
+   * {@link org.springrain.weixin.sdk.common.service.WxConsts#MASS_MSG_NEWS}
+   * {@link org.springrain.weixin.sdk.common.service.WxConsts#MASS_MSG_TEXT}
+   * {@link org.springrain.weixin.sdk.common.service.WxConsts#MASS_MSG_VIDEO}
+   * {@link org.springrain.weixin.sdk.common.service.WxConsts#MASS_MSG_VOICE}
    * 如果msgtype和media_id不匹配的话，会返回系统繁忙的错误
    * </pre>
    * @param msgType

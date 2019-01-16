@@ -1,4 +1,4 @@
-package org.springrain.weixin.sdk.common.api;
+package org.springrain.weixin.sdk.common.service;
 
 import java.util.HashMap;
 import java.util.Map;

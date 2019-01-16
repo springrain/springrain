@@ -11,7 +11,7 @@ package org.springrain.weixin.sdk.mp.util.json;
 import java.lang.reflect.Type;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springrain.weixin.sdk.common.api.WxConsts;
+import org.springrain.weixin.sdk.common.service.WxConsts;
 import org.springrain.weixin.sdk.mp.bean.kefu.WxMpKefuMessage;
 
 import com.google.gson.JsonArray;

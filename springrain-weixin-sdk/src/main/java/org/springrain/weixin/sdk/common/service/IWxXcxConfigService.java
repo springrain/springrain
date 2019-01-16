@@ -1,7 +1,9 @@
-package org.springrain.weixin.sdk.common.api;
+package org.springrain.weixin.sdk.common.service;
 
+import org.springrain.rpc.annotation.RpcServiceAnnotation;
 import org.springrain.weixin.sdk.common.bean.WxAccessToken;
 
+@RpcServiceAnnotation
 public interface IWxXcxConfigService {
 	
 	/**

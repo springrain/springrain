@@ -25,8 +25,8 @@ import org.springrain.system.weixin.entity.WxMenu;
 import org.springrain.system.weixin.entity.WxMpConfig;
 import org.springrain.system.weixin.service.IWxMenuService;
 import org.springrain.system.weixin.service.IWxMpServletService;
-import org.springrain.weixin.sdk.common.api.IWxMpConfig;
-import org.springrain.weixin.sdk.common.api.IWxMpConfigService;
+import org.springrain.weixin.sdk.common.service.IWxMpConfig;
+import org.springrain.weixin.sdk.common.service.IWxMpConfigService;
 
 
 /**

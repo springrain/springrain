@@ -3,9 +3,9 @@ package org.springrain.weixin.sdk.mp.api;
 import java.io.File;
 import java.io.InputStream;
 
-import org.springrain.weixin.sdk.common.api.IWxMpConfig;
 import org.springrain.weixin.sdk.common.bean.result.WxMediaUploadResult;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
+import org.springrain.weixin.sdk.common.service.IWxMpConfig;
 import org.springrain.weixin.sdk.mp.bean.material.WxMediaImgUploadResult;
 import org.springrain.weixin.sdk.mp.bean.material.WxMpMaterial;
 import org.springrain.weixin.sdk.mp.bean.material.WxMpMaterialArticleUpdate;
@@ -47,7 +47,7 @@ public interface IWxMpMaterialService {
    * 详情请见: <a href="http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1444738726&token=&lang=zh_CN">新增临时素材</a>
    * 接口url格式：https://api.weixin.qq.com/cgi-bin/media/upload?access_token=ACCESS_TOKEN&type=TYPE
    * </pre>
-   * @param mediaType 媒体类型, 请看{@link org.springrain.weixin.sdk.common.api.WxConsts}
+   * @param mediaType 媒体类型, 请看{@link org.springrain.weixin.sdk.common.service.WxConsts}
    * @param file 文件对象
    * @throws WxErrorException
    * @see #mediaUpload(String, String, InputStream)
@@ -63,8 +63,8 @@ public interface IWxMpMaterialService {
    * 接口url格式：https://api.weixin.qq.com/cgi-bin/media/upload?access_token=ACCESS_TOKEN&type=TYPE
    * </pre>
    *
-   * @param mediaType   媒体类型, 请看{@link org.springrain.weixin.sdk.common.api.WxConsts}
-   * @param fileType    文件类型，请看{@link org.springrain.weixin.sdk.common.api.WxConsts}
+   * @param mediaType   媒体类型, 请看{@link org.springrain.weixin.sdk.common.service.WxConsts}
+   * @param fileType    文件类型，请看{@link org.springrain.weixin.sdk.common.service.WxConsts}
    * @param inputStream 输入流
    * @throws WxErrorException
    * @see #mediaUpload(java.lang.String, java.io.File)
@@ -120,7 +120,7 @@ public interface IWxMpMaterialService {
    4、调用该接口需https协议
    * </pre>
    *
-   * @param mediaType 媒体类型, 请看{@link org.springrain.weixin.sdk.common.api.WxConsts}
+   * @param mediaType 媒体类型, 请看{@link org.springrain.weixin.sdk.common.service.WxConsts}
    * @param material  上传的素材, 请看{@link WxMpMaterial}
    */
   WxMpMaterialUploadResult materialFileUpload(IWxMpConfig wxmpconfig,String mediaType, WxMpMaterial material) throws WxErrorException;
@@ -245,7 +245,7 @@ public interface IWxMpMaterialService {
    * 接口url格式：https://api.weixin.qq.com/cgi-bin/material/batchget_material?access_token=ACCESS_TOKEN
    * </pre>
    *
-   * @param type   媒体类型, 请看{@link org.springrain.weixin.sdk.common.api.WxConsts}
+   * @param type   媒体类型, 请看{@link org.springrain.weixin.sdk.common.service.WxConsts}
    * @param offset 从全部素材的该偏移位置开始返回，0表示从第一个素材 返回
    * @param count  返回素材的数量，取值在1到20之间
    */

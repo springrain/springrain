@@ -5,10 +5,10 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
-import org.springrain.weixin.sdk.common.api.IWxMpConfig;
-import org.springrain.weixin.sdk.common.api.WxConsts;
 import org.springrain.weixin.sdk.common.bean.result.WxError;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
+import org.springrain.weixin.sdk.common.service.IWxMpConfig;
+import org.springrain.weixin.sdk.common.service.WxConsts;
 import org.springrain.weixin.sdk.common.util.http.SimplePostRequestExecutor;
 import org.springrain.weixin.sdk.mp.api.IWxMpQrcodeService;
 import org.springrain.weixin.sdk.mp.api.IWxMpService;

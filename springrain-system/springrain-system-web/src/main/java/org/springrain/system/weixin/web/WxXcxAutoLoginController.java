@@ -21,8 +21,8 @@ import org.springrain.frame.util.ReturnDatas;
 import org.springrain.frame.util.SecUtils;
 import org.springrain.system.common.ShiroUser;
 import org.springrain.system.core.service.IUserService;
-import org.springrain.weixin.sdk.common.api.IWxXcxConfig;
-import org.springrain.weixin.sdk.common.api.IWxXcxConfigService;
+import org.springrain.weixin.sdk.common.service.IWxXcxConfig;
+import org.springrain.weixin.sdk.common.service.IWxXcxConfigService;
 import org.springrain.weixin.sdk.xcx.api.IWxXcxService;
 import org.springrain.weixin.sdk.xcx.bean.result.WxMpOAuth2SessionKey;
 

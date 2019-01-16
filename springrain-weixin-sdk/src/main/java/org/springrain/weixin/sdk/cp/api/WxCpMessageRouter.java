@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springrain.weixin.sdk.common.api.IWxErrorExceptionHandler;
+import org.springrain.weixin.sdk.common.service.IWxErrorExceptionHandler;
 import org.springrain.weixin.sdk.common.util.LogExceptionHandler;
 import org.springrain.weixin.sdk.cp.bean.WxCpXmlMessage;
 import org.springrain.weixin.sdk.cp.bean.WxCpXmlOutMessage;
@@ -96,7 +96,7 @@ public class WxCpMessageRouter {
 */
   /**
    * <pre>
-   * 设置自定义的{@link org.springrain.weixin.sdk.common.api.IWxErrorExceptionHandler}
+   * 设置自定义的{@link org.springrain.weixin.sdk.common.service.IWxErrorExceptionHandler}
    * 如果不调用该方法，默认使用 {@link org.springrain.weixin.sdk.common.util.LogExceptionHandler}
    * </pre>
    *

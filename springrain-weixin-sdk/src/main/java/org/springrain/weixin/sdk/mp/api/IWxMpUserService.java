@@ -2,8 +2,8 @@ package org.springrain.weixin.sdk.mp.api;
 
 import java.util.List;
 
-import org.springrain.weixin.sdk.common.api.IWxMpConfig;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
+import org.springrain.weixin.sdk.common.service.IWxMpConfig;
 import org.springrain.weixin.sdk.mp.bean.WxMpUserQuery;
 import org.springrain.weixin.sdk.mp.bean.result.WxMpUser;
 import org.springrain.weixin.sdk.mp.bean.result.WxMpUserList;

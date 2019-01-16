@@ -19,8 +19,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springrain.frame.util.InputSafeUtils;
 import org.springrain.system.core.service.IUserService;
-import org.springrain.weixin.sdk.common.api.IWxMpConfig;
-import org.springrain.weixin.sdk.common.api.IWxMpConfigService;
+import org.springrain.weixin.sdk.common.service.IWxMpConfig;
+import org.springrain.weixin.sdk.common.service.IWxMpConfigService;
 
 @Component("wxmpautologin")
 public class WxMpAutoLoginFilter extends OncePerRequestFilter {

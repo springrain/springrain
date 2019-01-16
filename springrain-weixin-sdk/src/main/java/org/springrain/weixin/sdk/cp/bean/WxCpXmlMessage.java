@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
-import org.springrain.weixin.sdk.common.api.IWxCpConfig;
+import org.springrain.weixin.sdk.common.service.IWxCpConfig;
 import org.springrain.weixin.sdk.common.util.xml.XStreamCDataConverter;
 import org.springrain.weixin.sdk.cp.util.crypto.WxCpCryptUtil;
 import org.springrain.weixin.sdk.cp.util.xml.XStreamTransformer;
@@ -228,13 +228,13 @@ public class WxCpXmlMessage implements Serializable {
   /**
    * <pre>
    * 当接受用户消息时，可能会获得以下值：
-   * {@link org.springrain.weixin.sdk.common.api.WxConsts#XML_MSG_TEXT}
-   * {@link org.springrain.weixin.sdk.common.api.WxConsts#XML_MSG_IMAGE}
-   * {@link org.springrain.weixin.sdk.common.api.WxConsts#XML_MSG_VOICE}
-   * {@link org.springrain.weixin.sdk.common.api.WxConsts#XML_MSG_VIDEO}
-   * {@link org.springrain.weixin.sdk.common.api.WxConsts#XML_MSG_LOCATION}
-   * {@link org.springrain.weixin.sdk.common.api.WxConsts#XML_MSG_LINK}
-   * {@link org.springrain.weixin.sdk.common.api.WxConsts#XML_MSG_EVENT}
+   * {@link org.springrain.weixin.sdk.common.service.WxConsts#XML_MSG_TEXT}
+   * {@link org.springrain.weixin.sdk.common.service.WxConsts#XML_MSG_IMAGE}
+   * {@link org.springrain.weixin.sdk.common.service.WxConsts#XML_MSG_VOICE}
+   * {@link org.springrain.weixin.sdk.common.service.WxConsts#XML_MSG_VIDEO}
+   * {@link org.springrain.weixin.sdk.common.service.WxConsts#XML_MSG_LOCATION}
+   * {@link org.springrain.weixin.sdk.common.service.WxConsts#XML_MSG_LINK}
+   * {@link org.springrain.weixin.sdk.common.service.WxConsts#XML_MSG_EVENT}
    * </pre>
    */
   public String getMsgType() {
@@ -244,11 +244,11 @@ public class WxCpXmlMessage implements Serializable {
   /**
    * <pre>
    * 当发送消息的时候使用：
-   * {@link org.springrain.weixin.sdk.common.api.WxConsts#XML_MSG_TEXT}
-   * {@link org.springrain.weixin.sdk.common.api.WxConsts#XML_MSG_IMAGE}
-   * {@link org.springrain.weixin.sdk.common.api.WxConsts#XML_MSG_VOICE}
-   * {@link org.springrain.weixin.sdk.common.api.WxConsts#XML_MSG_VIDEO}
-   * {@link org.springrain.weixin.sdk.common.api.WxConsts#XML_MSG_NEWS}
+   * {@link org.springrain.weixin.sdk.common.service.WxConsts#XML_MSG_TEXT}
+   * {@link org.springrain.weixin.sdk.common.service.WxConsts#XML_MSG_IMAGE}
+   * {@link org.springrain.weixin.sdk.common.service.WxConsts#XML_MSG_VOICE}
+   * {@link org.springrain.weixin.sdk.common.service.WxConsts#XML_MSG_VIDEO}
+   * {@link org.springrain.weixin.sdk.common.service.WxConsts#XML_MSG_NEWS}
    * </pre>
    *
    * @param msgType

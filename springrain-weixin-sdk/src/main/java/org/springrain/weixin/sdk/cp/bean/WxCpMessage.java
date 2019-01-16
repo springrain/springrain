@@ -111,12 +111,12 @@ public class WxCpMessage implements Serializable {
   /**
    * <pre>
    * 请使用
-   * {@link org.springrain.weixin.sdk.common.api.WxConsts#CUSTOM_MSG_TEXT}
-   * {@link org.springrain.weixin.sdk.common.api.WxConsts#CUSTOM_MSG_IMAGE}
-   * {@link org.springrain.weixin.sdk.common.api.WxConsts#CUSTOM_MSG_VOICE}
-   * {@link org.springrain.weixin.sdk.common.api.WxConsts#CUSTOM_MSG_MUSIC}
-   * {@link org.springrain.weixin.sdk.common.api.WxConsts#CUSTOM_MSG_VIDEO}
-   * {@link org.springrain.weixin.sdk.common.api.WxConsts#CUSTOM_MSG_NEWS}
+   * {@link org.springrain.weixin.sdk.common.service.WxConsts#CUSTOM_MSG_TEXT}
+   * {@link org.springrain.weixin.sdk.common.service.WxConsts#CUSTOM_MSG_IMAGE}
+   * {@link org.springrain.weixin.sdk.common.service.WxConsts#CUSTOM_MSG_VOICE}
+   * {@link org.springrain.weixin.sdk.common.service.WxConsts#CUSTOM_MSG_MUSIC}
+   * {@link org.springrain.weixin.sdk.common.service.WxConsts#CUSTOM_MSG_VIDEO}
+   * {@link org.springrain.weixin.sdk.common.service.WxConsts#CUSTOM_MSG_NEWS}
    * </pre>
    *
    * @param msgType

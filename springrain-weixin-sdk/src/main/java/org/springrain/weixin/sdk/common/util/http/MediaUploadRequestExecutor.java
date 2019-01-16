@@ -12,10 +12,10 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.springrain.frame.util.HttpClientUtils;
-import org.springrain.weixin.sdk.common.api.IWxConfig;
 import org.springrain.weixin.sdk.common.bean.result.WxError;
 import org.springrain.weixin.sdk.common.bean.result.WxMediaUploadResult;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
+import org.springrain.weixin.sdk.common.service.IWxConfig;
 
 /**
  * 上传媒体文件请求执行器，请求的参数是File, 返回的结果是String

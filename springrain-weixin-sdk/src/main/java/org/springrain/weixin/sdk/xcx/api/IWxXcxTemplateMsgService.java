@@ -2,8 +2,8 @@ package org.springrain.weixin.sdk.xcx.api;
 
 import java.util.List;
 
-import org.springrain.weixin.sdk.common.api.IWxXcxConfig;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
+import org.springrain.weixin.sdk.common.service.IWxXcxConfig;
 import org.springrain.weixin.sdk.mp.bean.template.WxMpTemplate;
 import org.springrain.weixin.sdk.mp.bean.template.WxMpTemplateIndustry;
 import org.springrain.weixin.sdk.mp.bean.template.WxMpTemplateMessage;

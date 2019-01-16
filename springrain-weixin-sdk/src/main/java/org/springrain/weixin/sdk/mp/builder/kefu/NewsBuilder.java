@@ -3,7 +3,7 @@ package org.springrain.weixin.sdk.mp.builder.kefu;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springrain.weixin.sdk.common.api.WxConsts;
+import org.springrain.weixin.sdk.common.service.WxConsts;
 import org.springrain.weixin.sdk.mp.bean.kefu.WxMpKefuMessage;
 
 /**

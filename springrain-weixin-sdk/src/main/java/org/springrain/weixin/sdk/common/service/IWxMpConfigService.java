@@ -1,10 +1,12 @@
-package org.springrain.weixin.sdk.common.api;
+package org.springrain.weixin.sdk.common.service;
 
 import java.util.Map;
 
+import org.springrain.rpc.annotation.RpcServiceAnnotation;
 import org.springrain.weixin.sdk.common.bean.WxAccessToken;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
 
+@RpcServiceAnnotation
 public interface IWxMpConfigService {
 
 	/**

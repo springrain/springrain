@@ -6,10 +6,10 @@ import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
-import org.springrain.weixin.sdk.common.api.IWxMpConfig;
-import org.springrain.weixin.sdk.common.api.WxConsts;
 import org.springrain.weixin.sdk.common.bean.result.WxError;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
+import org.springrain.weixin.sdk.common.service.IWxMpConfig;
+import org.springrain.weixin.sdk.common.service.WxConsts;
 import org.springrain.weixin.sdk.mp.api.IWxMpService;
 import org.springrain.weixin.sdk.mp.api.IWxMpUserTagService;
 import org.springrain.weixin.sdk.mp.bean.tag.WxTagListUser;

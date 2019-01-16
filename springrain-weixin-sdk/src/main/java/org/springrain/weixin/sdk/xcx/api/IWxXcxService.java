@@ -1,7 +1,7 @@
 package org.springrain.weixin.sdk.xcx.api;
 
-import org.springrain.weixin.sdk.common.api.IWxXcxConfig;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
+import org.springrain.weixin.sdk.common.service.IWxXcxConfig;
 import org.springrain.weixin.sdk.common.util.http.RequestExecutor;
 import org.springrain.weixin.sdk.xcx.bean.result.CodeInfo;
 import org.springrain.weixin.sdk.xcx.bean.result.EncryptedData;

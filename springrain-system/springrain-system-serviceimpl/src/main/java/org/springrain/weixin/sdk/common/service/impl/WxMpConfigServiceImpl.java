@@ -1,4 +1,4 @@
-package org.springrain.system.weixin.service.impl;
+package org.springrain.weixin.sdk.common.service.impl;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,10 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.system.core.service.impl.BaseSpringrainServiceImpl;
 import org.springrain.system.weixin.entity.WxMpConfig;
-import org.springrain.weixin.sdk.common.api.IWxMpConfig;
-import org.springrain.weixin.sdk.common.api.IWxMpConfigService;
 import org.springrain.weixin.sdk.common.bean.WxAccessToken;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
+import org.springrain.weixin.sdk.common.service.IWxMpConfig;
+import org.springrain.weixin.sdk.common.service.IWxMpConfigService;
 import org.springrain.weixin.sdk.common.util.crypto.SHA1;
 import org.springrain.weixin.sdk.mp.api.IWxMpService;
 

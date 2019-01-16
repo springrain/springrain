@@ -6,11 +6,11 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
-import org.springrain.weixin.sdk.common.api.IWxCpConfig;
 import org.springrain.weixin.sdk.common.bean.WxJsApiSignature;
 import org.springrain.weixin.sdk.common.bean.menu.WxMenu;
 import org.springrain.weixin.sdk.common.bean.result.WxMediaUploadResult;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
+import org.springrain.weixin.sdk.common.service.IWxCpConfig;
 import org.springrain.weixin.sdk.common.util.http.RequestExecutor;
 import org.springrain.weixin.sdk.cp.bean.WxCpDepart;
 import org.springrain.weixin.sdk.cp.bean.WxCpMessage;
@@ -110,8 +110,8 @@ public interface IWxCpService {
    * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=上传下载多媒体文件
    * </pre>
    *
-   * @param mediaType   媒体类型, 请看{@link org.springrain.weixin.sdk.common.api.WxConsts}
-   * @param fileType    文件类型，请看{@link org.springrain.weixin.sdk.common.api.WxConsts}
+   * @param mediaType   媒体类型, 请看{@link org.springrain.weixin.sdk.common.service.WxConsts}
+   * @param fileType    文件类型，请看{@link org.springrain.weixin.sdk.common.service.WxConsts}
    * @param inputStream 输入流
    * @throws WxErrorException
    */

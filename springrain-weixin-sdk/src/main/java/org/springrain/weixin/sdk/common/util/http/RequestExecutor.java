@@ -2,8 +2,8 @@ package org.springrain.weixin.sdk.common.util.http;
 
 import java.io.IOException;
 
-import org.springrain.weixin.sdk.common.api.IWxConfig;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
+import org.springrain.weixin.sdk.common.service.IWxConfig;
 
 /**
  * http请求执行器

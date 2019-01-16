@@ -22,8 +22,8 @@ import org.springrain.frame.util.ReturnDatas;
 import org.springrain.frame.util.property.MessageUtils;
 import org.springrain.system.cms.entity.CmsComment;
 import org.springrain.system.cms.service.ICmsCommentService;
-import org.springrain.weixin.sdk.common.api.IWxMpConfig;
-import org.springrain.weixin.sdk.common.api.IWxMpConfigService;
+import org.springrain.weixin.sdk.common.service.IWxMpConfig;
+import org.springrain.weixin.sdk.common.service.IWxMpConfigService;
 import org.springrain.weixin.sdk.mp.api.IWxMpUserService;
 import org.springrain.weixin.sdk.mp.bean.result.WxMpUser;
 

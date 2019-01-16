@@ -9,7 +9,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.springrain.frame.base.annotation.WhereSQL;
 import org.springrain.frame.base.entity.BaseEntity;
-import org.springrain.weixin.sdk.common.api.IWxXcxConfig;
+import org.springrain.weixin.sdk.common.service.IWxXcxConfig;
 
 @Table(name="wx_xcxconfig")
 public class WxXcxConfig   extends BaseEntity implements IWxXcxConfig {

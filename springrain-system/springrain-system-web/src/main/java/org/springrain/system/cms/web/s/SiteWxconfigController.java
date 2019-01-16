@@ -19,7 +19,7 @@ import org.springrain.system.cms.entity.CmsSite;
 import org.springrain.system.cms.service.ICmsSiteService;
 import org.springrain.system.weixin.entity.WxMpConfig;
 import org.springrain.system.weixin.service.IWxMpServletService;
-import org.springrain.weixin.sdk.common.api.IWxMpConfigService;
+import org.springrain.weixin.sdk.common.service.IWxMpConfigService;
 
 @Controller
 @RequestMapping("/s/{siteId}/{businessId}/mp")

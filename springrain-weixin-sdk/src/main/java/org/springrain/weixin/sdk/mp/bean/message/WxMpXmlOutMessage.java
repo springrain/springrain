@@ -2,7 +2,7 @@ package org.springrain.weixin.sdk.mp.bean.message;
 
 import java.io.Serializable;
 
-import org.springrain.weixin.sdk.common.api.IWxConfig;
+import org.springrain.weixin.sdk.common.service.IWxConfig;
 import org.springrain.weixin.sdk.common.util.xml.XStreamCDataConverter;
 import org.springrain.weixin.sdk.mp.builder.outxml.ImageBuilder;
 import org.springrain.weixin.sdk.mp.builder.outxml.MusicBuilder;

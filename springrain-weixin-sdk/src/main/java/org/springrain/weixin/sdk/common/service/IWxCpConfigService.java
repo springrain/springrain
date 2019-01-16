@@ -1,5 +1,8 @@
-package org.springrain.weixin.sdk.common.api;
+package org.springrain.weixin.sdk.common.service;
 
+import org.springrain.rpc.annotation.RpcServiceAnnotation;
+
+@RpcServiceAnnotation
 public interface IWxCpConfigService {
 
 	/**

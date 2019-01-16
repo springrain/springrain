@@ -2,8 +2,8 @@ package org.springrain.weixin.sdk.mp.api;
 
 import java.io.File;
 
-import org.springrain.weixin.sdk.common.api.IWxMpConfig;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
+import org.springrain.weixin.sdk.common.service.IWxMpConfig;
 import org.springrain.weixin.sdk.mp.bean.result.WxMpQrCodeTicket;
 
 /**

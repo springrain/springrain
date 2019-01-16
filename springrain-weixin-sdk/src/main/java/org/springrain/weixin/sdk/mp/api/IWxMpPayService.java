@@ -3,8 +3,8 @@ package org.springrain.weixin.sdk.mp.api;
 import java.io.File;
 import java.util.Map;
 
-import org.springrain.weixin.sdk.common.api.IWxMpConfig;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
+import org.springrain.weixin.sdk.common.service.IWxMpConfig;
 import org.springrain.weixin.sdk.mp.bean.pay.WxPayJsSDKCallback;
 import org.springrain.weixin.sdk.mp.bean.pay.request.WxEntPayRequest;
 import org.springrain.weixin.sdk.mp.bean.pay.request.WxPayRefundRequest;

@@ -14,7 +14,7 @@
 package org.springrain.weixin.sdk.mp.util.crypto;
 
 import org.apache.commons.codec.binary.Base64;
-import org.springrain.weixin.sdk.common.api.IWxConfig;
+import org.springrain.weixin.sdk.common.service.IWxConfig;
 import org.springrain.weixin.sdk.common.util.crypto.WxCryptUtil;
 
 public class WxMpCryptUtil extends WxCryptUtil {

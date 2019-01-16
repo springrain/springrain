@@ -52,8 +52,10 @@ public class GrpcBeanFactoryPostProcessor implements BeanFactoryPostProcessor, E
 		
 		
 		String basepackagepath = environment.getProperty("springrain.basepackagepath");
-		
+		basepackagepath = basepackagepath.replaceAll("\\.", "/");
+
 		String classPath = basepackagepath + "/**/service/*.class";
+
 
 		PathMatchingResourcePatternResolver pmrpr = new PathMatchingResourcePatternResolver();
 		Resource[] resources = pmrpr
@@ -109,6 +111,9 @@ public class GrpcBeanFactoryPostProcessor implements BeanFactoryPostProcessor, E
 			if (beanName == null || beanName.equals("")) {
 				beanName = clazz.getName();
 			}
+
+			System.out.println(clazz.getName());
+
 			GrpcCommonRequest grpcRequest = new GrpcCommonRequest();
 			grpcRequest.setClazz(clazz.getName());
 			grpcRequest.setBeanName(beanName);

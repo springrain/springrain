@@ -2,8 +2,8 @@ package org.springrain.weixin.sdk.xcx.api;
 
 import java.util.Map;
 
-import org.springrain.weixin.sdk.common.api.IWxXcxConfig;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
+import org.springrain.weixin.sdk.common.service.IWxXcxConfig;
 import org.springrain.weixin.sdk.xcx.bean.result.sign.request.WxSignRequest;
 import org.springrain.weixin.sdk.xcx.bean.result.sign.request.WxSurrenderRequest;
 import org.springrain.weixin.sdk.xcx.bean.result.sign.result.WxSignResult;

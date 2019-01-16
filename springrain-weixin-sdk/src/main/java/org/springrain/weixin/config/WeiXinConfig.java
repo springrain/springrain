@@ -1,12 +1,12 @@
-package org.springrain.system.config;
+package org.springrain.weixin.config;
 
 import javax.annotation.Resource;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springrain.weixin.sdk.common.api.IWxCpConfigService;
-import org.springrain.weixin.sdk.common.api.IWxMpConfigService;
-import org.springrain.weixin.sdk.common.api.IWxXcxConfigService;
+import org.springrain.weixin.sdk.common.service.IWxCpConfigService;
+import org.springrain.weixin.sdk.common.service.IWxMpConfigService;
+import org.springrain.weixin.sdk.common.service.IWxXcxConfigService;
 import org.springrain.weixin.sdk.cp.api.IWxCpService;
 import org.springrain.weixin.sdk.cp.api.WxCpServiceImpl;
 import org.springrain.weixin.sdk.mp.api.IWxMpCardService;

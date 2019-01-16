@@ -1,6 +1,6 @@
 package org.springrain.weixin.sdk.cp.bean.messagebuilder;
 
-import org.springrain.weixin.sdk.common.api.WxConsts;
+import org.springrain.weixin.sdk.common.service.WxConsts;
 import org.springrain.weixin.sdk.cp.bean.WxCpMessage;
 
 public class BaseBuilder<T> {

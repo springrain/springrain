@@ -7,9 +7,9 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
-import org.springrain.weixin.sdk.common.api.IWxMpConfig;
-import org.springrain.weixin.sdk.common.api.WxConsts;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
+import org.springrain.weixin.sdk.common.service.IWxMpConfig;
+import org.springrain.weixin.sdk.common.service.WxConsts;
 import org.springrain.weixin.sdk.common.util.http.SimplePostRequestExecutor;
 import org.springrain.weixin.sdk.mp.api.IWxMpService;
 import org.springrain.weixin.sdk.mp.api.IWxMpUserBlacklistService;

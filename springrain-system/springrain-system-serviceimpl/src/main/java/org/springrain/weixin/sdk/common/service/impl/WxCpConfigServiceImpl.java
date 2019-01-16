@@ -1,12 +1,12 @@
-package org.springrain.system.weixin.service.impl;
+package org.springrain.weixin.sdk.common.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.system.core.service.impl.BaseSpringrainServiceImpl;
 import org.springrain.system.weixin.entity.WxCpConfig;
-import org.springrain.weixin.sdk.common.api.IWxCpConfig;
-import org.springrain.weixin.sdk.common.api.IWxCpConfigService;
+import org.springrain.weixin.sdk.common.service.IWxCpConfig;
+import org.springrain.weixin.sdk.common.service.IWxCpConfigService;
 
 @Service("wxCpConfigService")
 public class WxCpConfigServiceImpl extends BaseSpringrainServiceImpl implements IWxCpConfigService {

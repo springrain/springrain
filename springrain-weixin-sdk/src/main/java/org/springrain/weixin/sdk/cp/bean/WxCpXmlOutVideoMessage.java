@@ -1,6 +1,6 @@
 package org.springrain.weixin.sdk.cp.bean;
 
-import org.springrain.weixin.sdk.common.api.WxConsts;
+import org.springrain.weixin.sdk.common.service.WxConsts;
 import org.springrain.weixin.sdk.common.util.xml.XStreamCDataConverter;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
