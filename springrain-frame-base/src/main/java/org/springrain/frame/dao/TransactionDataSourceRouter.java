@@ -1,4 +1,4 @@
-package org.springrain.frame.base.dao;
+package org.springrain.frame.dao;
 
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 

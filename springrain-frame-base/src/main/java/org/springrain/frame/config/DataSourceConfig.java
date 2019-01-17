@@ -1,16 +1,17 @@
-package org.springrain.frame.base.config;
+package org.springrain.frame.config;
 
 import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
-import org.springrain.frame.base.common.BaseLogger;
 
 import com.alibaba.druid.pool.DruidDataSource;
 
@@ -22,7 +23,9 @@ import com.alibaba.druid.pool.DruidDataSource;
  *
  */
 @Configuration("configuration-DataSourceConfig")
-public class DataSourceConfig extends BaseLogger {
+public class DataSourceConfig {
+	private Logger logger = LoggerFactory.getLogger(getClass());
+
 	@Value("${spring.datasource.url}")
 	private String url;
 	@Value("${spring.datasource.username}")

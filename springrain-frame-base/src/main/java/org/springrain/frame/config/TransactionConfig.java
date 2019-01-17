@@ -1,4 +1,4 @@
-package org.springrain.frame.base.config;
+package org.springrain.frame.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;

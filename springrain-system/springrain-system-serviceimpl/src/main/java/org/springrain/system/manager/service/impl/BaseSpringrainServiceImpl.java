@@ -6,9 +6,9 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
-import org.springrain.frame.base.dao.IBaseJdbcDao;
-import org.springrain.frame.base.service.BaseServiceImpl;
+import org.springrain.frame.dao.IBaseJdbcDao;
 import org.springrain.frame.entity.IBaseEntity;
+import org.springrain.frame.service.BaseServiceImpl;
 import org.springrain.frame.util.Finder;
 import org.springrain.system.manager.service.IBaseSpringrainService;
 

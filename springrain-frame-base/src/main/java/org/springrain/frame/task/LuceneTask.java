@@ -1,4 +1,4 @@
-package org.springrain.frame.base.task;
+package org.springrain.frame.task;
 
 import java.util.List;
 

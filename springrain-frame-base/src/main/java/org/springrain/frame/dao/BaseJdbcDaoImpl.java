@@ -1,4 +1,4 @@
-package org.springrain.frame.base.dao;
+package org.springrain.frame.dao;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -9,6 +9,8 @@ import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
 //import org.springframework.jdbc.core.FrameBeanPropertyRowMapper;
 import org.springframework.jdbc.core.CallableStatementCreator;
@@ -23,10 +25,9 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.transaction.NoTransactionException;
 import org.springframework.transaction.interceptor.TransactionInterceptor;
-import org.springrain.frame.base.common.BaseLogger;
-import org.springrain.frame.base.dao.dialect.IDialect;
-import org.springrain.frame.base.task.LuceneTask;
+import org.springrain.frame.dao.dialect.IDialect;
 import org.springrain.frame.entity.AuditLog;
+import org.springrain.frame.task.LuceneTask;
 import org.springrain.frame.util.ClassUtils;
 import org.springrain.frame.util.EntityInfo;
 import org.springrain.frame.util.FieldInfo;
@@ -46,9 +47,12 @@ import org.springrain.frame.util.ThreadPoolManager;
  * @copyright {@link weicms.net}
  * @author springrain<Auto generate>
  * @version 2013-03-19 11:08:15
- * @see org.springrain.frame.base.dao.BaseJdbcDaoImpl
+ * @see org.springrain.frame.dao.BaseJdbcDaoImpl
  */
-public abstract class BaseJdbcDaoImpl extends BaseLogger implements IBaseJdbcDao {
+public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
+
+	private Logger logger = LoggerFactory.getLogger(getClass());
+
 	private static final String frame_jdbc_call_key = "frame_jdbc_call_key";
 
 	/**

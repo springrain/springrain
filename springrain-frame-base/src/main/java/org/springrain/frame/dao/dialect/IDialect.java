@@ -2,7 +2,7 @@
  * 数据库方言接口
  */
 
-package org.springrain.frame.base.dao.dialect;
+package org.springrain.frame.dao.dialect;
 
 import org.springrain.frame.util.Page;
 

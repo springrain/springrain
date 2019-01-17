@@ -1,4 +1,4 @@
-package org.springrain.frame.base.service;
+package org.springrain.frame.service;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -27,7 +27,7 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.jdbc.core.CallableStatementCreator;
 import org.springframework.jdbc.core.SqlParameter;
-import org.springrain.frame.base.dao.IBaseJdbcDao;
+import org.springrain.frame.dao.IBaseJdbcDao;
 import org.springrain.frame.entity.IBaseEntity;
 import org.springrain.frame.service.IBaseService;
 import org.springrain.frame.util.ClassUtils;
@@ -54,7 +54,7 @@ import jxl.Cell;
  * @copyright {@link weicms.net}
  * @author springrain<Auto generate>
  * @version 2013-03-19 11:08:15
- * @see org.springrain.frame.base.service.BaseServiceImpl
+ * @see org.springrain.frame.service.BaseServiceImpl
  */
 public abstract class BaseServiceImpl implements IBaseService {
 	public Logger logger = LoggerFactory.getLogger(getClass());

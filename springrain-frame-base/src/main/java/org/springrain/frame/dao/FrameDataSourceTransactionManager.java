@@ -1,4 +1,4 @@
-package org.springrain.frame.base.dao;
+package org.springrain.frame.dao;
 
 import org.springframework.core.NamedThreadLocal;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;

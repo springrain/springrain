@@ -34,11 +34,11 @@ import com.google.protobuf.ByteString;
  * 集成自动产生的java类,自定义自己的实现.总体思路是
  * 请求的class,方法,和参数做成二进制,通过grpc传递,实际是二次序列化,对性能有损耗,但是方便......
  * 
- * 事务的逻辑应该都在服务端时间,开始在客户端处理了.入口一定是个service,必须保证彻底分离,不能混合......
+ * 事务的逻辑应该都在服务端实现,入口一定是个service,必须保证彻底分离,不能混合......
  * 如果混合了,就需要在客户端监听事务提交,做为全局事务的提交,客户端的事务是spring的事务,很难操作,有个监听器,没有试
  * 所以,还是建议service彻底分开吧,别和web混搭了,入口只会是一个事务方法.
  * rpc调用完成,通过rpc返回结果,线程是等待状态,等待事务的提交或者回滚通知. 通过全局变量,两个线程共享数据.
- * 限制:不能使用spring事务了,不然会混
+ * 限制:不能使用spring事务.
  * 
  * 
  * @author caomei
@@ -77,6 +77,8 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 		String className = grpcRequest.getClazz();
 		// 获取获取参数
 		Object[] args = grpcRequest.getArgs();
+		//spring bean name
+		String beanName=grpcRequest.getBeanName();
 
 
 		Object bean = null;
@@ -84,8 +86,14 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 		// 入口方法是否有事务
 		boolean notx = false;
 		try {
-			// 找到spring的bean
-			bean = getBean(Class.forName(className));
+			if ((beanName != null) && (!"".equals(beanName))) {// 先按照beanName查找
+				bean = getBeanByName(beanName);
+			}
+
+			if (bean == null) {// 按照类型找到springbean
+				bean = getBean(Class.forName(className));
+			}
+
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			return;
@@ -418,10 +426,10 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 	
 	
 	/**
-	 * 反射调用方法,需要使用MethodUtils, 直接反射会造成形参和实参不对应的时候找不到方法,例如形参Object,参数Entity
+	 * 反射调用方法,也可以使用MethodUtils, 直接反射会造成形参和实参不对应的时候找不到方法,例如形参Object,参数Entity
 	 * 
 	 * @param bean
-	 * @param methodName
+	 * @param method
 	 * @param args
 	 * @return
 	 * @throws Exception

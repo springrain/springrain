@@ -1,4 +1,4 @@
-package org.springrain.frame.base.dao;
+package org.springrain.frame.dao;
 
 import java.util.List;
 import java.util.Map;
@@ -16,7 +16,7 @@ import org.springrain.frame.util.Page;
  * @copyright {@link weicms.net}
  * @author springrain<Auto generate>
  * @version 2013-03-19 11:08:15
- * @see org.springrain.frame.base.dao.IBaseJdbcDao
+ * @see org.springrain.frame.dao.IBaseJdbcDao
  */
 
 public interface IBaseJdbcDao {

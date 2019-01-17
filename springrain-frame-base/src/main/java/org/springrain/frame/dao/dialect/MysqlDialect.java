@@ -1,12 +1,12 @@
-package org.springrain.frame.base.dao.dialect;
+package org.springrain.frame.dao.dialect;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import org.springrain.frame.util.Page;
 
-@Component("sqlite3Dialect")
-public class Sqlite3Dialect implements IDialect {
+@Component("mysqlDialect")
+public class MysqlDialect implements IDialect {
 
 	@Override
 	public String getPageSql(String sql, String orderby, Page page) {
@@ -23,7 +23,7 @@ public class Sqlite3Dialect implements IDialect {
 
 	@Override
 	public String getDataDaseType() {
-		return "sqlite3";
+		return "mysql";
 	}
 
 	@Override

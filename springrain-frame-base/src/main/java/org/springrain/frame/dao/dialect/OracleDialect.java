@@ -1,4 +1,4 @@
-package org.springrain.frame.base.dao.dialect;
+package org.springrain.frame.dao.dialect;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;

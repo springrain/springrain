@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.springrain.frame.base.dao;
+package org.springrain.frame.dao;
 
 import java.beans.PropertyDescriptor;
 import java.sql.ResultSet;
