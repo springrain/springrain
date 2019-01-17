@@ -14,10 +14,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
-import org.springrain.frame.base.common.BaseLogger;
 import org.springrain.frame.util.DateTypeEditor;
 import org.springrain.frame.util.Page;
 
@@ -31,8 +32,8 @@ import org.springrain.frame.util.Page;
  * @param <T>
  */
 // @Controller
-public class BaseController extends BaseLogger {
-
+public class BaseController {
+	public Logger logger = LoggerFactory.getLogger(getClass());
 	public static final String messageurl = "/common/message";
 
 	public static final String message = "message";
