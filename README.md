@@ -1,16 +1,30 @@
 # 5.0.0正在拆分为微服务架构,请使用4.0.0分支  
-# 微服务springrain是基于Istio实现的,后面会陆续出教程.
+# 入口项目是springrain-system-web,基于Istio实现微服务,详细文档正在编写.
 
- 项目名为springrain[春雨]我的个人博客是 http://www.weicms.net QQ群是:238904840 </br>
- 
+# 实现了什么?
+* 不增加学习成本,像单体一样开发分布式微服务.
+* 不修改业务代码可以实现单体,分离,微服务多种部署模式切换.
+* 内置同步的分布式事务实现. 
 
-# 入口项目是 springrain/springrain-system/springrain-system-web
+# 实现思路
+* 启动加载springbean时,先检查本地是否有实现,如果没有就启动RPC远程调用.整个过程对开发人员无感知.
+* 基于GRPC协议调用和事务通知.
+* 如果开启了分布式事务,入口方法作为事务控制器,由入口方法通过grpc协议RPC通知事务提交或者回滚.
+* 基于Istio实现微服务的监控,熔断,限流.
 
-# 文档
+# 体验分离调用
+* 修改springrain-system-web依赖springrain-system-service,作为客户端,不再依赖springrain-system-serviceimpl.
+* springrain-system-serviceimpl添加springrain-grpc-server依赖,作为服务端.
+* 启动springrain-system-serviceimpl
+* 启动springrain-system-web
+* 访问http://127.0.0.1:8080/ 
+
+### 项目名为springrain[春雨]我的个人博客是 http://www.weicms.net QQ群是:238904840 </br>
+### 文档
 https://gitee.com/chunanyong/springrain/tree/master/springrain-system/springrain-system-web/doc  </br>
-# 代码生成器
+### 代码生成器
 https://gitee.com/chunanyong/springrain/tree/master/springrain-system/springrain-system-web/gencode  </br>
-# sql脚本
+### sql脚本
 https://gitee.com/chunanyong/springrain/tree/master/springrain-system/springrain-system-web/sql  </br>
 
 
