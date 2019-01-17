@@ -40,7 +40,7 @@ public class GrpcServiceProxy<T> implements InvocationHandler {
 		// 初始化请求数据
 		GrpcCommonRequest grpRequest = new GrpcCommonRequest();
 		grpRequest.setArgs(args);
-		grpRequest.setMethod(method.getName());
+		grpRequest.setMethod(method);
 		grpRequest.setBeanName(grpcCommonRequest.getBeanName());
 		grpRequest.setClazz(grpcCommonRequest.getClazz());
 		grpRequest.setTimeout(grpcCommonRequest.getTimeout());

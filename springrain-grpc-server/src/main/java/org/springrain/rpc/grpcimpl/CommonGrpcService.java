@@ -9,7 +9,6 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang3.reflect.MethodUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -78,8 +77,7 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 		String className = grpcRequest.getClazz();
 		// 获取获取参数
 		Object[] args = grpcRequest.getArgs();
-		// 获取参数类型
-		Class[] argsTypes = getParameterTypes(args);
+
 
 		Object bean = null;
 
@@ -391,18 +389,16 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 	/**
 	 * 获取参数类型
 	 */
-	private Class[] getParameterTypes(Object[] parameters) {
-		if (parameters == null) {
-			return null;
-		}
-		Class[] clazzArray = new Class[parameters.length];
-		for (int i = 0; i < parameters.length; i++) {
-			clazzArray[i] = parameters[i].getClass();
-
-		}
-		return clazzArray;
-	}
-
+	/*
+	 * private Class[] getParameterTypes(Object[] parameters) { if (parameters ==
+	 * null) { return null; } Class[] clazzArray = new Class[parameters.length];
+	 * 
+	 * 
+	 * for (int i = 0; i < parameters.length; i++) { if (parameters[i] == null) {
+	 * clazzArray[i] = null; continue; } clazzArray[i] = parameters[i].getClass();
+	 * 
+	 * } return clazzArray; }
+	 */
 	/**
 	 * 判断调用的方法是否没有事务
 	 * 
@@ -430,18 +426,10 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 	 * @return
 	 * @throws Exception
 	 */
-	private Object invokeMethod(Object bean, String methodName, Object[] args) throws Exception {
-
-			// 可以写个这个这或者el表达式,验证方法是否需要事务操作.如果在事务内,就有事务.
-		Method matchingMethod = MethodUtils.getMatchingMethod(bean.getClass(), methodName,
-					getParameterTypes(args));
-
-		if (matchingMethod == null) {
-			return null;
-		}
+	private Object invokeMethod(Object bean, Method method, Object[] args) throws Exception {
 
 			FastClass serviceFastClass = FastClass.create(bean.getClass());
-			FastMethod serviceFastMethod = serviceFastClass.getMethod(matchingMethod);
+		FastMethod serviceFastMethod = serviceFastClass.getMethod(method);
 			Object result = serviceFastMethod.invoke(bean, args);
 			return result;
 

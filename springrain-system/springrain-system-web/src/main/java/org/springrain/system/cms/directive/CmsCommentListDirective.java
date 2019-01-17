@@ -9,7 +9,9 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springrain.frame.util.Page;
+import org.springrain.frame.util.SpringUtils;
 import org.springrain.system.cms.entity.CmsComment;
 import org.springrain.system.cms.service.ICmsCommentService;
 import org.springrain.system.cms.util.DirectiveUtils;
@@ -66,9 +68,13 @@ public class CmsCommentListDirective extends AbstractCMSDirective {
 		}
 	}
 
+	@Resource
+	private SpringUtils springUtils;
 	@PostConstruct
 	public void registerFreeMarkerVariable() {
-		setFreeMarkerSharedVariable(TPL_NAME, this);
+		// setFreeMarkerSharedVariable(TPL_NAME, this);
+		FreeMarkerConfigurer freeMarkerConfigurer = (FreeMarkerConfigurer) springUtils.getBean("freeMarkerConfigurer");
+		freeMarkerConfigurer.getConfiguration().setSharedVariable(TPL_NAME, this);
 	}
 
 }

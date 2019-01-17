@@ -234,7 +234,7 @@ public class ShiroConfig {
 		filterChainDefinitionMap.put("/s/*/menu/leftMenu", "firewall,siteuser,keepone");
 		filterChainDefinitionMap.put("/s/**", "firewall,siteuser,keepone,frameperms");
 		filterChainDefinitionMap.put("/system/login", "firewall");
-		filterChainDefinitionMap.put("/system/index ", "firewall,systemuser,framefwlog,keepone");
+		filterChainDefinitionMap.put("/system/index ", "firewall,systemuser,keepone");
 		filterChainDefinitionMap.put("/system/logout", "firewall,systemuser");
 		filterChainDefinitionMap.put("/system/menu/leftMenu", "firewall,systemuser,keepone");
 		filterChainDefinitionMap.put("/system/**", "firewall,systemuser,keepone,frameperms");

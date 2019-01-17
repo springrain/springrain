@@ -106,14 +106,14 @@ public abstract class AbstractCMSDirective implements TemplateDirectiveModel {
 		return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 	}
 
-	public FreeMarkerConfig getFreeMarkerConfig() {
-		return (FreeMarkerConfigurer) SpringUtils.getBean("freeMarkerConfigurer");
-	}
+	//public FreeMarkerConfig getFreeMarkerConfig() {
+	///	return (FreeMarkerConfigurer) SpringUtils.getBean("freeMarkerConfigurer");
+///	}
 
-	public void setFreeMarkerSharedVariable(String key, TemplateModel model) {
-		FreeMarkerConfigurer freeMarkerConfigurer = (FreeMarkerConfigurer) SpringUtils.getBean("freeMarkerConfigurer");
-		freeMarkerConfigurer.getConfiguration().setSharedVariable(key, model);
-	}
+	///public void setFreeMarkerSharedVariable(String key, TemplateModel model) {
+	///	FreeMarkerConfigurer freeMarkerConfigurer = (FreeMarkerConfigurer) SpringUtils.getBean("freeMarkerConfigurer");
+	//	freeMarkerConfigurer.getConfiguration().setSharedVariable(key, model);
+	//}
 
 	public Object getDirectiveData(String key) {
 		return getRequest().getAttribute(key);

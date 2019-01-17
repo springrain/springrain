@@ -1,6 +1,7 @@
 package org.springrain.rpc.grpcimpl;
 
 import java.io.Serializable;
+import java.lang.reflect.Method;
 
 /**
  * 接受请求,所有的请求都封装成springbean的调用. 序列化成二进制,然后再经过grpc传输
@@ -25,7 +26,7 @@ public class GrpcCommonRequest implements Serializable {
 	/**
 	 * 方法
 	 */
-	private String method;
+	private Method method;
 
 	/**
 	 * service 方法参数
@@ -61,7 +62,7 @@ public class GrpcCommonRequest implements Serializable {
 		this.beanName = beanName;
 	}
 
-	public String getMethod() {
+	public Method getMethod() {
 		return method;
 	}
 
@@ -73,7 +74,7 @@ public class GrpcCommonRequest implements Serializable {
 		this.clazz = clazz;
 	}
 
-	public void setMethod(String method) {
+	public void setMethod(Method method) {
 		this.method = method;
 	}
 
