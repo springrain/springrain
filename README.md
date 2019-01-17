@@ -3,7 +3,7 @@
 
 ## 实现了什么?
 * 不增加学习成本,像单体一样开发分布式微服务.
-* 不修改业务代码可以实现单体,分离,微服务多种部署模式切换.
+* 不修改业务代码可以实现单体,分层,微服务多种部署模式切换.
 * 内置同步的分布式事务实现. 
 
 ## 实现思路
@@ -12,7 +12,7 @@
 * 如果开启了分布式事务,入口方法作为事务控制器,由入口方法通过grpc协议RPC通知事务提交或者回滚.
 * 基于Istio实现微服务的监控,熔断,限流.
 
-## 体验单体到分离切换
+## 体验单体到分层切换
 * 修改springrain-system-web依赖springrain-system-service,作为客户端,不再依赖springrain-system-serviceimpl.
 * springrain-system-serviceimpl添加springrain-grpc-server依赖,作为服务端.
 * 启动springrain-system-serviceimpl
