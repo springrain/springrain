@@ -7,10 +7,10 @@
 		<artifactId>springrain</artifactId>
 		<version>5.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>springrain-frame-base</artifactId>
+	<artifactId>springrain-frame-dao</artifactId>
 	<packaging>jar</packaging>
 	<url>http://www.weicms.net</url>
-	<description>frame的基础模块,主要是dao层的操作</description>
+	<description>frame的dao层的操作</description>
 
 	<dependencies>
 

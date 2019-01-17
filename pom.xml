@@ -216,8 +216,8 @@
 		<!-- frame的基础工具类模块 -->
 		<module>springrain-frame-util</module>
 
-		<!-- frame的基础模块,主要是dao层的操作 -->
-		<module>springrain-frame-base</module>
+		<!-- frame的dao层的操作 -->
+		<module>springrain-frame-dao</module>
 
 		<!-- memory内存类型的缓存,和redis缓存互斥,只能使用一个 -->
 		<module>springrain-frame-cache-memory</module>

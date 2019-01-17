@@ -31,7 +31,7 @@
 		
 		<dependency>
 			<groupId>org.springrain</groupId>
-			<artifactId>springrain-frame-base</artifactId>
+			<artifactId>springrain-frame-dao</artifactId>
 			<version>5.0.0-SNAPSHOT</version>
 		</dependency>
 
