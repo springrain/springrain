@@ -146,7 +146,12 @@ function buildModule(data) {
             var tmpData = data[i]['leaf'][0];
             while(!!tmpData){
                 url = tmpData.pageurl;
-                tmpData = tmpData['leaf'][0];
+                if(!!tmpData['leaf']){
+                	 tmpData = tmpData['leaf'][0];
+                }else{
+                	 tmpData =null;
+                }
+               
             }
             //debugger;
             var tmpPid = locache.get("currentPagePid");
@@ -207,7 +212,10 @@ function getParentModule(childrenMenuList) {
         }else{
         	htmlStr += '<li class="layui-nav-item layui-nav-itemed'+showItem+'" id="'+childrenMenuList[i].id+'"><a href="javascript:void(0);" data-pid="'+childrenMenuList[i].pid+'" data-action="';
         	 var url = childrenMenuList[i].pageurl;
-             var tmpData = childrenMenuList[i]['leaf'][0];
+        	 var tmpData=null;
+        	 if(!!childrenMenuList[i]['leaf']){
+        		 tmpData = childrenMenuList[i]['leaf'][0];
+        	 }
              while(!!tmpData){
                  url = tmpData.pageurl;
                  tmpData = tmpData['leaf'][0];
