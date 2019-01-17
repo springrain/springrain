@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 import org.springrain.rpc.annotation.RpcServiceAnnotation;
 import org.springrain.system.cms.entity.CmsSite;
-import org.springrain.system.core.service.IBaseSpringrainService;
+import org.springrain.system.manager.service.IBaseSpringrainService;
 
 /**
  * TODO 在此加入类描述

@@ -3,7 +3,7 @@ package org.springrain.weixin.sdk.common.service.impl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springrain.frame.util.GlobalStatic;
-import org.springrain.system.core.service.impl.BaseSpringrainServiceImpl;
+import org.springrain.system.manager.service.impl.BaseSpringrainServiceImpl;
 import org.springrain.system.weixin.entity.WxXcxConfig;
 import org.springrain.weixin.sdk.common.bean.WxAccessToken;
 import org.springrain.weixin.sdk.common.service.IWxXcxConfig;

@@ -29,9 +29,9 @@ import org.springrain.system.cms.service.ICmsPropertyService;
 import org.springrain.system.cms.service.ICmsSiteService;
 import org.springrain.system.cms.util.ContentConstant;
 import org.springrain.system.cms.util.DirectiveUtils;
-import org.springrain.system.core.entity.User;
-import org.springrain.system.core.service.ITableindexService;
-import org.springrain.system.core.service.impl.BaseSpringrainServiceImpl;
+import org.springrain.system.manager.entity.User;
+import org.springrain.system.manager.service.ITableindexService;
+import org.springrain.system.manager.service.impl.BaseSpringrainServiceImpl;
 
 import freemarker.core.Environment;
 import freemarker.ext.beans.StringModel;

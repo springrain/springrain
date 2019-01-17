@@ -2,7 +2,7 @@ package org.springrain.system.cms.service;
 
 import org.springrain.rpc.annotation.RpcServiceAnnotation;
 import org.springrain.system.cms.entity.CmsFriendSite;
-import org.springrain.system.core.service.IBaseSpringrainService;
+import org.springrain.system.manager.service.IBaseSpringrainService;
 
 /**
  * TODO 在此加入类描述

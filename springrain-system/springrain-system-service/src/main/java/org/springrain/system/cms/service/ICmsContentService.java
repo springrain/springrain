@@ -6,7 +6,7 @@ import java.util.Map;
 import org.springrain.frame.util.Page;
 import org.springrain.rpc.annotation.RpcServiceAnnotation;
 import org.springrain.system.cms.entity.CmsContent;
-import org.springrain.system.core.service.IBaseSpringrainService;
+import org.springrain.system.manager.service.IBaseSpringrainService;
 
 import freemarker.core.Environment;
 

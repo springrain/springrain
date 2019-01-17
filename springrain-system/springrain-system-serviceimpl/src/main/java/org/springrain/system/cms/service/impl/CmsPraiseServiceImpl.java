@@ -10,7 +10,7 @@ import org.springrain.frame.util.Page;
 import org.springrain.system.base.SessionUser;
 import org.springrain.system.cms.entity.CmsPraise;
 import org.springrain.system.cms.service.ICmsPraiseService;
-import org.springrain.system.core.service.impl.BaseSpringrainServiceImpl;
+import org.springrain.system.manager.service.impl.BaseSpringrainServiceImpl;
 
 /**
  * TODO 在此加入类描述

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springrain.frame.base.util.Finder;
 import org.springrain.system.cms.entity.CmsLink;
 import org.springrain.system.cms.service.ICmsLinkService;
-import org.springrain.system.core.service.impl.BaseSpringrainServiceImpl;
+import org.springrain.system.manager.service.impl.BaseSpringrainServiceImpl;
 
 /**
  * TODO 在此加入类描述

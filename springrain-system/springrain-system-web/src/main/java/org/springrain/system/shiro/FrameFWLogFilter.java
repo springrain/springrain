@@ -21,9 +21,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springrain.frame.util.DateUtils;
 import org.springrain.system.base.SessionUser;
-import org.springrain.system.core.entity.Fwlog;
-import org.springrain.system.core.service.IFwlogService;
-import org.springrain.system.core.service.IMenuService;
+import org.springrain.system.manager.entity.Fwlog;
+import org.springrain.system.manager.service.IFwlogService;
+import org.springrain.system.manager.service.IMenuService;
 import org.springrain.system.util.IPUtils;
 
 /**

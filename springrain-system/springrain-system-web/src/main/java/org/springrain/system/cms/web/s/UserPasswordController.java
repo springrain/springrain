@@ -17,8 +17,8 @@ import org.springrain.frame.util.ReturnDatas;
 import org.springrain.frame.util.SecUtils;
 import org.springrain.system.base.BaseController;
 import org.springrain.system.base.SessionUser;
-import org.springrain.system.core.entity.User;
-import org.springrain.system.core.service.IUserService;
+import org.springrain.system.manager.entity.User;
+import org.springrain.system.manager.service.IUserService;
 
 /**
  * 用户管理Controller,PC和手机浏览器用ACE自适应,APP提供JSON格式的数据接口

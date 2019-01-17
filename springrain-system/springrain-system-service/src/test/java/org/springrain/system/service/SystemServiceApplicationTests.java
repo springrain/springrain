@@ -1,7 +1,7 @@
 package org.springrain.system.service;
 
-import org.springrain.system.core.entity.Fwlog;
-import org.springrain.system.core.service.IFwlogService;
+import org.springrain.system.manager.entity.Fwlog;
+import org.springrain.system.manager.service.IFwlogService;
 
 //@RunWith(SpringRunner.class)
 //@SpringBootTest

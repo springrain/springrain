@@ -22,8 +22,8 @@ import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Component;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.system.base.ShiroUser;
-import org.springrain.system.core.entity.User;
-import org.springrain.system.core.service.IUserRoleMenuService;
+import org.springrain.system.manager.entity.User;
+import org.springrain.system.manager.service.IUserRoleMenuService;
 
 /**
  * 数据库认证及权限查询

@@ -18,7 +18,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springrain.frame.util.InputSafeUtils;
-import org.springrain.system.core.service.IUserService;
+import org.springrain.system.manager.service.IUserService;
 import org.springrain.weixin.sdk.common.service.IWxMpConfig;
 import org.springrain.weixin.sdk.common.service.IWxMpConfigService;
 

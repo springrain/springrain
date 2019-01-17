@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
 import org.springrain.frame.util.FileUtils;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.InputSafeUtils;
-import org.springrain.system.core.service.IStaticHtmlService;
+import org.springrain.system.manager.service.IStaticHtmlService;
 import org.springrain.system.util.CookieUtils;
 
 /**

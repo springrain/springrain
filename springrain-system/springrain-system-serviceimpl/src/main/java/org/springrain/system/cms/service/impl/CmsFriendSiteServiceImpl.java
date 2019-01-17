@@ -9,7 +9,7 @@ import org.springrain.frame.base.util.Finder;
 import org.springrain.frame.util.Page;
 import org.springrain.system.cms.entity.CmsFriendSite;
 import org.springrain.system.cms.service.ICmsFriendSiteService;
-import org.springrain.system.core.service.impl.BaseSpringrainServiceImpl;
+import org.springrain.system.manager.service.impl.BaseSpringrainServiceImpl;
 
 /**
  * TODO 在此加入类描述

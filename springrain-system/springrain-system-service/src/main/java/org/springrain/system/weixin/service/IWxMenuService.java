@@ -3,7 +3,7 @@ package org.springrain.system.weixin.service;
 import java.util.List;
 
 import org.springrain.rpc.annotation.RpcServiceAnnotation;
-import org.springrain.system.core.service.IBaseSpringrainService;
+import org.springrain.system.manager.service.IBaseSpringrainService;
 import org.springrain.system.weixin.entity.WxMenu;
 import org.springrain.system.weixin.entity.WxMpConfig;
 

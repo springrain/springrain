@@ -17,7 +17,7 @@ import org.springrain.frame.util.Page;
 import org.springrain.frame.util.SecUtils;
 import org.springrain.system.cms.entity.CmsComment;
 import org.springrain.system.cms.service.ICmsCommentService;
-import org.springrain.system.core.service.impl.BaseSpringrainServiceImpl;
+import org.springrain.system.manager.service.impl.BaseSpringrainServiceImpl;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
 import org.springrain.weixin.sdk.common.service.IWxMpConfig;
 import org.springrain.weixin.sdk.common.service.IWxMpConfigService;
