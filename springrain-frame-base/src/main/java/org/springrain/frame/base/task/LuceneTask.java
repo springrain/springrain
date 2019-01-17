@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springrain.frame.base.util.LuceneUtils;
 import org.springrain.frame.util.GlobalStatic;
+import org.springrain.frame.util.LuceneUtils;
 
 public class LuceneTask implements Runnable {
 

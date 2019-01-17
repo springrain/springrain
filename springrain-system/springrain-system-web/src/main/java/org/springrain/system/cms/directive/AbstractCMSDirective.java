@@ -10,7 +10,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfig;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
-import org.springrain.frame.base.util.SpringUtils;
+import org.springrain.frame.util.SpringUtils;
 import org.springrain.system.cms.util.DirectiveUtils;
 
 import freemarker.template.TemplateDirectiveModel;

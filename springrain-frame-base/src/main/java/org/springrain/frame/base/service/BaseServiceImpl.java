@@ -21,24 +21,26 @@ import javax.annotation.Resource;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.jdbc.core.CallableStatementCreator;
 import org.springframework.jdbc.core.SqlParameter;
-import org.springrain.frame.base.common.BaseLogger;
 import org.springrain.frame.base.dao.IBaseJdbcDao;
-import org.springrain.frame.base.entity.IBaseEntity;
-import org.springrain.frame.base.util.ClassUtils;
-import org.springrain.frame.base.util.Finder;
-import org.springrain.frame.base.util.SpringUtils;
+import org.springrain.frame.entity.IBaseEntity;
+import org.springrain.frame.service.IBaseService;
+import org.springrain.frame.util.ClassUtils;
 import org.springrain.frame.util.DateUtils;
 import org.springrain.frame.util.EntityInfo;
 import org.springrain.frame.util.ExcelUtils;
+import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.OpenOfficeKit;
 import org.springrain.frame.util.Page;
 import org.springrain.frame.util.ReturnDatas;
 import org.springrain.frame.util.SecUtils;
+import org.springrain.frame.util.SpringUtils;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -54,7 +56,8 @@ import jxl.Cell;
  * @version 2013-03-19 11:08:15
  * @see org.springrain.frame.base.service.BaseServiceImpl
  */
-public abstract class BaseServiceImpl extends BaseLogger implements IBaseService {
+public abstract class BaseServiceImpl implements IBaseService {
+	public Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Resource
 	public SpringUtils springUtils;

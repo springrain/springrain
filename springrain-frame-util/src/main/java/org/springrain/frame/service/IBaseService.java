@@ -1,4 +1,4 @@
-package org.springrain.frame.base.service;
+package org.springrain.frame.service;
 
 import java.io.File;
 import java.util.List;
@@ -7,10 +7,10 @@ import java.util.Map;
 import org.springframework.cache.Cache;
 import org.springframework.jdbc.core.CallableStatementCreator;
 import org.springframework.jdbc.core.SqlParameter;
-import org.springrain.frame.base.entity.IBaseEntity;
-import org.springrain.frame.base.util.Finder;
-import org.springrain.frame.base.util.SpringUtils;
+import org.springrain.frame.entity.IBaseEntity;
+import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.Page;
+import org.springrain.frame.util.SpringUtils;
 
 /**
  * 基础的Service接口,所有的Service都必须实现此接口,每个数据库都需要一个实现.</br>
@@ -20,7 +20,7 @@ import org.springrain.frame.util.Page;
  * @copyright {@link weicms.net}
  * @author springrain<Auto generate>
  * @version 2013-03-19 11:08:15
- * @see org.springrain.frame.base.service.IBaseService
+ * @see org.springrain.frame.service.IBaseService
  */
 public interface IBaseService {
 	/**

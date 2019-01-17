@@ -4,7 +4,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.springrain.frame.base.entity.BaseEntity;
+import org.springrain.frame.entity.BaseEntity;
 import org.springrain.weixin.sdk.common.service.IWxCpConfig;
 
 @Table(name = "wx_cpconfig")

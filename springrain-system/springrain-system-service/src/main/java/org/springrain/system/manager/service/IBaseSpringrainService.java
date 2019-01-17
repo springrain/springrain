@@ -1,6 +1,6 @@
 package org.springrain.system.manager.service;
 
-import org.springrain.frame.base.service.IBaseService;
+import org.springrain.frame.service.IBaseService;
 import org.springrain.rpc.annotation.RpcServiceAnnotation;
 
 @RpcServiceAnnotation

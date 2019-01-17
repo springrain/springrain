@@ -9,7 +9,7 @@ import javax.annotation.Resource;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
-import org.springrain.frame.base.util.Finder;
+import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.Page;
 import org.springrain.system.base.SessionUser;
 import org.springrain.system.manager.entity.Org;

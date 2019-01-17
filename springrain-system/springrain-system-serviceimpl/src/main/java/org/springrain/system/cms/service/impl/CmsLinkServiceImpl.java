@@ -2,7 +2,7 @@ package org.springrain.system.cms.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
-import org.springrain.frame.base.util.Finder;
+import org.springrain.frame.util.Finder;
 import org.springrain.system.cms.entity.CmsLink;
 import org.springrain.system.cms.service.ICmsLinkService;
 import org.springrain.system.manager.service.impl.BaseSpringrainServiceImpl;

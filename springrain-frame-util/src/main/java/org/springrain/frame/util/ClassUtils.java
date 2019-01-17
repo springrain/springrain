@@ -2,7 +2,7 @@
 /**
  * 
  */
-package org.springrain.frame.base.util;
+package org.springrain.frame.util;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
@@ -39,15 +39,12 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springrain.frame.base.annotation.LuceneField;
-import org.springrain.frame.base.annotation.LuceneSearch;
-import org.springrain.frame.base.annotation.NotLog;
-import org.springrain.frame.base.annotation.PKSequence;
-import org.springrain.frame.base.annotation.TableSuffix;
-import org.springrain.frame.base.annotation.WhereSQL;
-import org.springrain.frame.util.EntityInfo;
-import org.springrain.frame.util.FieldInfo;
-import org.springrain.frame.util.GlobalStatic;
+import org.springrain.frame.annotation.LuceneField;
+import org.springrain.frame.annotation.LuceneSearch;
+import org.springrain.frame.annotation.NotLog;
+import org.springrain.frame.annotation.PKSequence;
+import org.springrain.frame.annotation.TableSuffix;
+import org.springrain.frame.annotation.WhereSQL;
 
 /**
  * 处理类的工具类. 例如反射
@@ -55,7 +52,7 @@ import org.springrain.frame.util.GlobalStatic;
  * @copyright {@link weicms.net}
  * @author springrain<Auto generate>
  * @version 2013-03-19 11:08:15
- * @see org.springrain.frame.base.util.ClassUtils
+ * @see org.springrain.frame.util.ClassUtils
  */
 
 public class ClassUtils {

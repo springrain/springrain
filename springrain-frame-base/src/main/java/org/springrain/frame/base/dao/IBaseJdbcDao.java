@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.springframework.jdbc.core.CallableStatementCreator;
 import org.springframework.jdbc.core.SqlParameter;
-import org.springrain.frame.base.util.Finder;
+import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.Page;
 
 /**

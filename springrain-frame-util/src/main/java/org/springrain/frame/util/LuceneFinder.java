@@ -1,4 +1,4 @@
-package org.springrain.frame.base.util;
+package org.springrain.frame.util;
 
 import java.math.BigInteger;
 import java.util.ArrayList;

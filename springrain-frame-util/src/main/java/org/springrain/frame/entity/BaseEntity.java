@@ -1,4 +1,4 @@
-package org.springrain.frame.base.entity;
+package org.springrain.frame.entity;
 
 import javax.persistence.Transient;
 
@@ -8,7 +8,7 @@ import javax.persistence.Transient;
  * @copyright {@link weicms.net}
  * @author springrain<9iuorg@gmail.com>
  * @version 2013-03-19 11:08:15
- * @see org.springrain.frame.base.entity.BaseEntity
+ * @see org.springrain.frame.entity.BaseEntity
  */
 public class BaseEntity implements IBaseEntity {
 

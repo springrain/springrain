@@ -2,7 +2,7 @@
 /**
  * 
  */
-package org.springrain.frame.base.annotation;
+package org.springrain.frame.annotation;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -14,7 +14,7 @@ import java.lang.annotation.RetentionPolicy;
  * @copyright {@link weicms.net}
  * @author springrain<9iuorg@gmail.com>
  * @version 2013-03-19 11:08:15
- * @see org.springrain.frame.base.annotation.WhereSQL
+ * @see org.springrain.frame.annotation.WhereSQL
  */
 @Retention(RetentionPolicy.RUNTIME)
 public @interface WhereSQL {

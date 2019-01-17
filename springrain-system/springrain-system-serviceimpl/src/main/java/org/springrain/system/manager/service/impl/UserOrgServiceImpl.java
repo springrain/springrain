@@ -12,7 +12,7 @@ import org.springrain.system.manager.entity.User;
 import org.springrain.system.manager.entity.UserOrg;
 import org.springrain.system.manager.entity.UserRole;
 import org.springrain.system.manager.service.IUserOrgService;
-import org.springrain.frame.base.util.Finder;
+import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.Page;
 
 /**

@@ -10,8 +10,8 @@ import javax.persistence.Transient;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.springrain.frame.base.annotation.WhereSQL;
-import org.springrain.frame.base.entity.BaseEntity;
+import org.springrain.frame.annotation.WhereSQL;
+import org.springrain.frame.entity.BaseEntity;
 
 /**
  * TODO 在此加入类描述

@@ -1,4 +1,4 @@
-package org.springrain.frame.base.util;
+package org.springrain.frame.util;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +11,7 @@ import org.apache.commons.lang3.StringUtils;
  * @copyright {@link weicms.net}
  * @author springrain<Auto generate>
  * @version 2013-03-19 11:08:15
- * @see org.springrain.frame.base.util.Finder
+ * @see org.springrain.frame.util.Finder
  */
 public class Finder {
 	private Map<String, Object> params = null;

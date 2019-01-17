@@ -317,9 +317,9 @@ public class FrameBeanPropertyRowMapper<T> implements RowMapper<T> {
 					// 循环获取实体对象
 					Object o = mappedObject;
 					for (int i = 0; i < strs.length - 1; i++) {
-						o = org.springrain.frame.base.util.ClassUtils.getPropertieValue(strs[i], o);
+						o = org.springrain.frame.util.ClassUtils.getPropertieValue(strs[i], o);
 					}
-					org.springrain.frame.base.util.ClassUtils.setPropertieValue(_name, o,
+					org.springrain.frame.util.ClassUtils.setPropertieValue(_name, o,
 							JdbcUtils.getResultSetValue(rs, index));
 				} catch (Exception e) {
 					logger.error(e.getMessage(), e);

@@ -2,7 +2,7 @@ package org.springrain.system.manager.service;
 
 import java.util.List;
 
-import org.springrain.frame.base.util.Finder;
+import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.Page;
 import org.springrain.rpc.annotation.RpcServiceAnnotation;
 import org.springrain.system.manager.entity.Org;

@@ -18,10 +18,10 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.web.servlet.support.RequestContextUtils;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerView;
-import org.springrain.frame.base.util.SpringUtils;
 import org.springrain.frame.util.FileUtils;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.InputSafeUtils;
+import org.springrain.frame.util.SpringUtils;
 import org.springrain.system.util.CookieUtils;
 
 import freemarker.template.SimpleHash;

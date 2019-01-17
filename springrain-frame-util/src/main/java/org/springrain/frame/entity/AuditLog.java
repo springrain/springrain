@@ -1,4 +1,4 @@
-package org.springrain.frame.base.entity;
+package org.springrain.frame.entity;
 
 import java.util.Calendar;
 
@@ -9,8 +9,8 @@ import javax.persistence.Transient;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.springrain.frame.base.annotation.TableSuffix;
-import org.springrain.frame.base.annotation.WhereSQL;
+import org.springrain.frame.annotation.TableSuffix;
+import org.springrain.frame.annotation.WhereSQL;
 import org.springrain.frame.util.GlobalStatic;
 
 /**
@@ -19,7 +19,7 @@ import org.springrain.frame.util.GlobalStatic;
  * @copyright {@link weicms.net}
  * @author springrain<Auto generate>
  * @version 2013-04-02 10:17:31
- * @see org.springrain.frame.base.entity.AuditLog
+ * @see org.springrain.frame.entity.AuditLog
  */
 @Table(name = "t_auditlog")
 @TableSuffix(name = "suffix")

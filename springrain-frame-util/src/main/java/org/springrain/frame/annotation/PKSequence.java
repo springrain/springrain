@@ -2,7 +2,7 @@
 /**
  * 
  */
-package org.springrain.frame.base.annotation;
+package org.springrain.frame.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -15,7 +15,7 @@ import java.lang.annotation.Target;
  * @copyright {@link weicms.net}
  * @author springrain<9iuorg@gmail.com>
  * @version 2013-03-19 11:08:15
- * @see org.springrain.frame.base.annotation.PKSequence
+ * @see org.springrain.frame.annotation.PKSequence
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)

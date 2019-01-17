@@ -1,5 +1,5 @@
 
-package org.springrain.frame.base.util;
+package org.springrain.frame.util;
 
 import java.net.URI;
 
@@ -15,8 +15,8 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Component;
-import org.springrain.frame.base.annotation.LuceneSearch;
-import org.springrain.frame.base.annotation.NotLog;
+import org.springrain.frame.annotation.LuceneSearch;
+import org.springrain.frame.annotation.NotLog;
 
 /**
  * Spring 工具类

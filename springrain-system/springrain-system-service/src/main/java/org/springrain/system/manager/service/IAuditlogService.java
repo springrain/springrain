@@ -1,6 +1,6 @@
 package org.springrain.system.manager.service;
 
-import org.springrain.frame.base.entity.AuditLog;
+import org.springrain.frame.entity.AuditLog;
 import org.springrain.rpc.annotation.RpcServiceAnnotation;
 
 /**

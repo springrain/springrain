@@ -1,4 +1,4 @@
-package org.springrain.frame.base.util;
+package org.springrain.frame.util;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,10 +49,6 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springrain.frame.util.EntityInfo;
-import org.springrain.frame.util.FieldInfo;
-import org.springrain.frame.util.JsonUtils;
-import org.springrain.frame.util.Page;
 import org.springrain.frame.util.IK.dic.Dictionary;
 import org.springrain.frame.util.IK.lucene.IKAnalyzer;
 

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springrain.frame.base.dao.BaseJdbcDaoImpl;
 import org.springrain.frame.base.dao.IBaseJdbcDao;
 import org.springrain.frame.base.dao.dialect.IDialect;
-import org.springrain.frame.base.entity.AuditLog;
+import org.springrain.frame.entity.AuditLog;
 import org.springrain.system.base.SessionUser;
 
 /**
