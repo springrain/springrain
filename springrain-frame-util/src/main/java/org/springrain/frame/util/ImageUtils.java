@@ -199,7 +199,7 @@ public final class ImageUtils {
 				itemp = op.filter(bi, null);
 			}
 			if (bb) {
-				BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+				BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_USHORT_555_RGB);
 				Graphics2D g = image.createGraphics();
 				g.setColor(Color.white);
 				g.fillRect(0, 0, width, height);
