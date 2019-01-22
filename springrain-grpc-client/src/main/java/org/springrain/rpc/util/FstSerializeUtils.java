@@ -1,6 +1,7 @@
 package org.springrain.rpc.util;
 
 
+import org.nustaq.serialization.FSTConfiguration;
 import org.springrain.rpc.grpcauto.CommonRequest;
 import org.springrain.rpc.grpcauto.CommonResponse;
 import org.springrain.rpc.grpcimpl.GrpcCommonRequest;
@@ -13,22 +14,32 @@ import com.google.protobuf.ByteString;
 /**
  * ProtoStuff 序列化/反序列化工具
  */
-public class GRPCSerializeUtils {
+public class FstSerializeUtils {
+	
+	static FSTConfiguration conf = FSTConfiguration.createDefaultConfiguration();
+
 
 	public static GrpcCommonRequest deserialize(CommonRequest request) {
-		return ProtobufUtils.deserialize(request.getRequest().toByteArray(), GrpcCommonRequest.class);
+		
+		GrpcCommonRequest grpcCommonRequest = (GrpcCommonRequest) conf.asObject(request.getRequest().toByteArray());
+		
+		return grpcCommonRequest;
     }
 
 	public static GrpcCommonResponse deserialize(CommonResponse response) {
-		return ProtobufUtils.deserialize(response.getResponse().toByteArray(), GrpcCommonResponse.class);
+		
+		GrpcCommonResponse grpcCommonResponse = (GrpcCommonResponse) conf
+				.asObject(response.getResponse().toByteArray());
+		
+		return grpcCommonResponse;
     }
 
 	public static ByteString serialize(GrpcCommonResponse response) {
-        return ByteString.copyFrom(ProtobufUtils.serialize(response));
+		return ByteString.copyFrom(conf.asByteArray(response));
     }
 
 	public static ByteString serialize(GrpcCommonRequest request) {
-		return ByteString.copyFrom(ProtobufUtils.serialize(request));
+		return ByteString.copyFrom(conf.asByteArray(request));
     }
 
 }

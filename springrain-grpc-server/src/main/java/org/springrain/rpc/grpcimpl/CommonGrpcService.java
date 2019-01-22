@@ -26,7 +26,7 @@ import org.springrain.rpc.grpcauto.NoticeRequest;
 import org.springrain.rpc.grpcauto.NoticeResponse;
 import org.springrain.rpc.springbind.RemoteRpcTxDto;
 import org.springrain.rpc.springbind.RpcStaticVariable;
-import org.springrain.rpc.util.GRPCSerializeUtils;
+import org.springrain.rpc.util.FstSerializeUtils;
 
 import com.google.protobuf.ByteString;
 
@@ -70,7 +70,7 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 			io.grpc.stub.StreamObserver<org.springrain.rpc.grpcauto.CommonResponse> responseObserver) {
 
 		// 把请求反序列化成正常对象,GrpcRequest
-		GrpcCommonRequest grpcRequest = GRPCSerializeUtils.deserialize(commonRequest);
+		GrpcCommonRequest grpcRequest = FstSerializeUtils.deserialize(commonRequest);
 
 		// String beanName = grpcRequest.getBeanName();
 		// 需要调用的类
@@ -146,7 +146,7 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 			if (notx) {
 
 				// 执行service的方法
-				Object result = invokeMethod(bean, grpcRequest.getMethod(), args);
+				Object result = invokeMethod(bean, grpcRequest.getMethod(), args, grpcRequest.getArgTypes());
 
 				// 返回事务对象id
 				grpcResponse.setTxId(txId);
@@ -156,7 +156,7 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 				grpcResponse.success(result);
 
 				// 序列化需要返回的结果
-				ByteString bytes = GRPCSerializeUtils.serialize(grpcResponse);
+				ByteString bytes = FstSerializeUtils.serialize(grpcResponse);
 				// 封装成grpc传递的对象
 				CommonResponse commonResponse = CommonResponse.newBuilder().setResponse(bytes).build();
 				// grpc下一步处理
@@ -214,7 +214,7 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 			status = transactionManager.getTransaction(def);
 
 			// 执行service的方法
-			Object result = invokeMethod(bean, grpcRequest.getMethod(), args);
+			Object result = invokeMethod(bean, grpcRequest.getMethod(), args, grpcRequest.getArgTypes());
 
 			// 返回事务对象id
 			grpcResponse.setTxId(txId);
@@ -225,7 +225,7 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 
 
 			// 序列化需要返回的结果
-			ByteString bytes = GRPCSerializeUtils.serialize(grpcResponse);
+			ByteString bytes = FstSerializeUtils.serialize(grpcResponse);
 			// 封装成grpc传递的对象
 			CommonResponse commonResponse = CommonResponse.newBuilder().setResponse(bytes).build();
 			// grpc下一步处理
@@ -394,19 +394,8 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 		}
 	}
 
-	/**
-	 * 获取参数类型
-	 */
-	/*
-	 * private Class[] getParameterTypes(Object[] parameters) { if (parameters ==
-	 * null) { return null; } Class[] clazzArray = new Class[parameters.length];
-	 * 
-	 * 
-	 * for (int i = 0; i < parameters.length; i++) { if (parameters[i] == null) {
-	 * clazzArray[i] = null; continue; } clazzArray[i] = parameters[i].getClass();
-	 * 
-	 * } return clazzArray; }
-	 */
+
+
 	/**
 	 * 判断调用的方法是否没有事务
 	 * 
@@ -434,8 +423,11 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 	 * @return
 	 * @throws Exception
 	 */
-	private Object invokeMethod(Object bean, Method method, Object[] args) throws Exception {
-
+	private Object invokeMethod(Object bean, String methodName, Object[] args, Class[] parameterTypes)
+			throws Exception {
+		Method method = bean.getClass().getMethod(methodName, parameterTypes);
+		// Method method = MethodUtils.getMatchingMethod(bean.getClass(),
+		// methodName,parameterTypes);
 			FastClass serviceFastClass = FastClass.create(bean.getClass());
 		FastMethod serviceFastMethod = serviceFastClass.getMethod(method);
 			Object result = serviceFastMethod.invoke(bean, args);

@@ -10,7 +10,7 @@ import org.springrain.rpc.grpcauto.NoticeRequest;
 import org.springrain.rpc.grpcauto.NoticeResponse;
 import org.springrain.rpc.grpcauto.GrpcCommonServiceGrpc.GrpcCommonServiceBlockingStub;
 import org.springrain.rpc.grpcauto.GrpcTransactionNoticeServiceGrpc.GrpcTransactionNoticeServiceBlockingStub;
-import org.springrain.rpc.util.GRPCSerializeUtils;
+import org.springrain.rpc.util.FstSerializeUtils;
 
 import com.google.protobuf.ByteString;
 
@@ -32,14 +32,14 @@ public class GrpcClient {
 	 */
 	public static GrpcCommonResponse commonHandle(GrpcCommonServiceBlockingStub blockingStub, GrpcCommonRequest grpcRequest) {
 
-		ByteString bytes = GRPCSerializeUtils.serialize(grpcRequest);
+		ByteString bytes = FstSerializeUtils.serialize(grpcRequest);
 
 		CommonRequest request = CommonRequest.newBuilder().setRequest(bytes).build();
 		CommonResponse response = null;
 		try {
 			response = blockingStub.commonHandle(request);
 
-			GrpcCommonResponse grpcResponse = GRPCSerializeUtils.deserialize(response);
+			GrpcCommonResponse grpcResponse = FstSerializeUtils.deserialize(response);
 			return grpcResponse;
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);

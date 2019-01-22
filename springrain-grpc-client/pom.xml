@@ -43,21 +43,12 @@
 
 
 
-        
-        
-        
-        <!-- protostuff 序列化/反序列化 -->
         <dependency>
-            <groupId>io.protostuff</groupId>
-            <artifactId>protostuff-core</artifactId>
-            <version>${io.protostuff.version}</version>
-        </dependency>
+		  <groupId>de.ruedigermoeller</groupId>
+		  <artifactId>fst</artifactId>
+		</dependency>
+		        
 
-        <dependency>
-            <groupId>io.protostuff</groupId>
-            <artifactId>protostuff-runtime</artifactId>
-            <version>${io.protostuff.version}</version>
-        </dependency>
 		
 	</dependencies>
 
