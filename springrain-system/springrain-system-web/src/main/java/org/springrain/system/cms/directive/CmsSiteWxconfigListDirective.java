@@ -11,7 +11,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springrain.frame.util.SpringUtils;
-import org.springrain.system.base.SessionUser;
+import org.springrain.rpc.sessionuser.SessionUser;
 import org.springrain.system.cms.util.DirectiveUtils;
 import org.springrain.system.weixin.entity.WxMpConfig;
 import org.springrain.system.weixin.service.IWxMenuService;

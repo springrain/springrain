@@ -12,6 +12,7 @@ import org.springrain.rpc.grpcimpl.GrpcClient;
 import org.springrain.rpc.grpcimpl.GrpcCommonException;
 import org.springrain.rpc.grpcimpl.GrpcCommonRequest;
 import org.springrain.rpc.grpcimpl.GrpcCommonResponse;
+import org.springrain.rpc.sessionuser.SessionUser;
 
 /**
  * 代理grpc的service服务
@@ -66,6 +67,11 @@ public class GrpcServiceProxy<T> implements InvocationHandler {
 			if (txGroupId.startsWith("autocommit_")) {
 				grpRequest.setAutocommit(true);
 			}
+		}
+
+		// 传递shiroUser对象
+		if (SessionUser.getShiroUser() != null) {
+			grpRequest.setShiroUser(SessionUser.getShiroUser());
 		}
 
 		GrpcCommonServiceBlockingStub blockingStub = GrpcClient.getCommonServiceBlockingStub(rpcHost, rpcPort);

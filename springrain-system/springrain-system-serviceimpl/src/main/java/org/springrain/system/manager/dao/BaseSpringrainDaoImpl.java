@@ -9,7 +9,7 @@ import org.springrain.frame.dao.BaseJdbcDaoImpl;
 import org.springrain.frame.dao.IBaseJdbcDao;
 import org.springrain.frame.dao.dialect.IDialect;
 import org.springrain.frame.entity.AuditLog;
-import org.springrain.system.base.SessionUser;
+import org.springrain.rpc.sessionuser.SessionUser;
 
 /**
  * springrain项目的基础Dao,代理demo数据库

@@ -14,7 +14,7 @@ import org.springrain.frame.util.Enumerations;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.Page;
 import org.springrain.frame.util.ReturnDatas;
-import org.springrain.system.base.SessionUser;
+import org.springrain.rpc.sessionuser.SessionUser;
 import org.springrain.system.manager.entity.Menu;
 import org.springrain.system.manager.entity.PermissionsLog;
 import org.springrain.system.manager.entity.Role;

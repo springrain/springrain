@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.SecUtils;
+import org.springrain.rpc.sessionuser.ShiroUser;
 import org.springrain.system.base.BaseController;
-import org.springrain.system.base.ShiroUser;
 import org.springrain.system.manager.entity.User;
 import org.springrain.system.shiro.FrameAuthenticationToken;
 

@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springrain.frame.util.ReturnDatas;
 import org.springrain.frame.util.property.MessageUtils;
+import org.springrain.rpc.sessionuser.SessionUser;
 import org.springrain.system.base.BaseController;
-import org.springrain.system.base.SessionUser;
 import org.springrain.system.manager.entity.Menu;
 import org.springrain.system.manager.service.IUserRoleMenuService;
 

@@ -21,7 +21,7 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Component;
 import org.springrain.frame.util.GlobalStatic;
-import org.springrain.system.base.ShiroUser;
+import org.springrain.rpc.sessionuser.ShiroUser;
 import org.springrain.system.manager.entity.User;
 import org.springrain.system.manager.service.IUserRoleMenuService;
 

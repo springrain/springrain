@@ -24,6 +24,7 @@ import org.springrain.rpc.grpcauto.GrpcCommonServiceGrpc;
 import org.springrain.rpc.grpcauto.GrpcTransactionNoticeServiceGrpc.GrpcTransactionNoticeServiceBlockingStub;
 import org.springrain.rpc.grpcauto.NoticeRequest;
 import org.springrain.rpc.grpcauto.NoticeResponse;
+import org.springrain.rpc.sessionuser.ShiroUser;
 import org.springrain.rpc.springbind.RemoteRpcTxDto;
 import org.springrain.rpc.springbind.RpcStaticVariable;
 import org.springrain.rpc.util.FstSerializeUtils;
@@ -79,6 +80,8 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 		Object[] args = grpcRequest.getArgs();
 		//spring bean name
 		String beanName=grpcRequest.getBeanName();
+		// 当前登录用户对象信息
+		ShiroUser shiroUser = grpcRequest.getShiroUser();
 
 
 		Object bean = null;
@@ -146,7 +149,7 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 			if (notx) {
 
 				// 执行service的方法
-				Object result = invokeMethod(bean, grpcRequest.getMethod(), args, grpcRequest.getArgTypes());
+				Object result = invokeMethod(bean, grpcRequest.getMethod(), args, grpcRequest.getArgTypes(), shiroUser);
 
 				// 返回事务对象id
 				grpcResponse.setTxId(txId);
@@ -214,7 +217,7 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 			status = transactionManager.getTransaction(def);
 
 			// 执行service的方法
-			Object result = invokeMethod(bean, grpcRequest.getMethod(), args, grpcRequest.getArgTypes());
+			Object result = invokeMethod(bean, grpcRequest.getMethod(), args, grpcRequest.getArgTypes(), shiroUser);
 
 			// 返回事务对象id
 			grpcResponse.setTxId(txId);
@@ -423,14 +426,21 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 	 * @return
 	 * @throws Exception
 	 */
-	private Object invokeMethod(Object bean, String methodName, Object[] args, Class[] parameterTypes)
+	private Object invokeMethod(Object bean, String methodName, Object[] args, Class[] parameterTypes,
+			ShiroUser shiroUser)
 			throws Exception {
+
+		if (shiroUser != null) {
+			RpcStaticVariable.shiroUserLocal.set(shiroUser);
+		}
+
 		Method method = bean.getClass().getMethod(methodName, parameterTypes);
 		// Method method = MethodUtils.getMatchingMethod(bean.getClass(),
 		// methodName,parameterTypes);
 			FastClass serviceFastClass = FastClass.create(bean.getClass());
 		FastMethod serviceFastMethod = serviceFastClass.getMethod(method);
 			Object result = serviceFastMethod.invoke(bean, args);
+		RpcStaticVariable.shiroUserLocal.remove();
 			return result;
 
 	}

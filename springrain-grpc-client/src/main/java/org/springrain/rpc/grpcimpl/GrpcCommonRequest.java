@@ -2,6 +2,8 @@ package org.springrain.rpc.grpcimpl;
 
 import java.io.Serializable;
 
+import org.springrain.rpc.sessionuser.ShiroUser;
+
 /**
  * 接受请求,所有的请求都封装成springbean的调用. 序列化成二进制,然后再经过grpc传输
  * 
@@ -52,6 +54,9 @@ public class GrpcCommonRequest implements Serializable {
 
 	// 事务自动提交,默认true,如果是false就需要等待入口通知提交.
 	private Boolean autocommit;
+
+	// 当前登录用户id
+	private ShiroUser shiroUser;
 
 	public String getClazz() {
 		return clazz;
@@ -145,6 +150,14 @@ public class GrpcCommonRequest implements Serializable {
 
 	public void setArgTypes(Class[] argTypes) {
 		this.argTypes = argTypes;
+	}
+
+	public ShiroUser getShiroUser() {
+		return shiroUser;
+	}
+
+	public void setShiroUser(ShiroUser shiroUser) {
+		this.shiroUser = shiroUser;
 	}
 
 }

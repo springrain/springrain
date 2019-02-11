@@ -6,6 +6,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 
+import org.springrain.rpc.sessionuser.ShiroUser;
+
 /**
  * 可以抽成配置文件,测试使用
  * 
@@ -32,5 +34,8 @@ public class RpcStaticVariable {
 
 	// 存放 事务是回滚还是提交的操作
 	public static Map<String, Integer> grpcTxOperationMap = new ConcurrentHashMap<>();
+
+	// 存放sessionUser对象
+	public static ThreadLocal<ShiroUser> shiroUserLocal = new ThreadLocal<>();
 
 }
