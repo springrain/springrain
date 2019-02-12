@@ -32,7 +32,7 @@
 		             		<button type="button" class="layui-btn layui-btn-sm" data-action="${ctx}/system/user/update/pre"><i class="layui-icon layui-icon-specil">&#xe61f;</i>新增</button>
 		             	</@shiro.hasPermission>
 		             	<@shiro.hasPermission name="/system/user/list/export" >
-				        	<button type="button" class="layui-btn layui-btn-sm"><i class="layui-icon layui-icon-specil">&#xe609;</i>导出</button>
+				        	<button type="button" class="layui-btn layui-btn-sm" data-action="${ctx}/system/user/list/export"><i class="layui-icon layui-icon-specil">&#xe609;</i>导出</button>
 				        </@shiro.hasPermission>
 		                <button type="button" class="layui-btn layui-btn-warm layui-btn-sm"><i class="layui-icon layui-icon-specil">&#xe601;</i>导入</button>
 		                <@shiro.hasPermission name="/system/user/delete" >
@@ -90,6 +90,7 @@
 									</form>
 									<!--start_export-->
 									<table class="layui-table" lay-even>
+									      <!--start_no_export-->
 										  <colgroup>
 										    <col width="40">
 										    <col width="120">
@@ -99,10 +100,10 @@
 										  <!--first_start_export-->
 											<thead>
 												<tr>
+												    <!--first_start_no_export-->
 													<th colspan="11">用户列表<font id='recordsView' class='recorsView'>共<span></span>页 ,共<span></span>条记录</font></th>
 												</tr>
 												<tr>
-												  <!--first_start_no_export-->
 												  <th class="center">
 														<label class="position-relative">
 															<input id="checkAll" class="ace" type="checkbox">
@@ -174,6 +175,7 @@
 											 </#if>
 											</tbody>
 										</table>
+										<!--last_end_export-->
 									<#if returnDatas.page??> 
 										<div id='laypageDiv'></div>
 										<@h.layPage page=returnDatas.page /> 

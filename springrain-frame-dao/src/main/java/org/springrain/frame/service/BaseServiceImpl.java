@@ -29,7 +29,6 @@ import org.springframework.jdbc.core.CallableStatementCreator;
 import org.springframework.jdbc.core.SqlParameter;
 import org.springrain.frame.dao.IBaseJdbcDao;
 import org.springrain.frame.entity.IBaseEntity;
-import org.springrain.frame.service.IBaseService;
 import org.springrain.frame.util.ClassUtils;
 import org.springrain.frame.util.DateUtils;
 import org.springrain.frame.util.EntityInfo;

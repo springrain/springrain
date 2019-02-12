@@ -1,5 +1,6 @@
 package org.springrain.system.manager.web;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -28,6 +29,7 @@ import org.springrain.system.manager.entity.Role;
 import org.springrain.system.manager.entity.User;
 import org.springrain.system.manager.entity.UserOrg;
 import org.springrain.system.manager.service.IUserService;
+import org.springrain.system.util.ExportUtils;
 
 /**
  * 用户管理Controller,PC和手机浏览器用ACE自适应,APP提供JSON格式的数据接口
@@ -323,6 +325,28 @@ public class UserController extends BaseController {
 			return datas;
 		}
 
+	}
+
+	/**
+	 * 导出Excle格式的数据
+	 * 
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @param auditlog
+	 * @throws Exception
+	 */
+	@RequestMapping("/list/export")
+	public void listexport(HttpServletRequest request, HttpServletResponse response, Model model, User user)
+			throws Exception {
+		// ==构造分页请求
+		Page page = newPage(request);
+		File file = ExportUtils.findDataExportFile(null, listurl, page, User.class, user, GlobalStatic.excelext,
+				userService);
+
+		String fileName = "user" + GlobalStatic.excelext;
+		downFile(response, file, fileName, true);
+		return;
 	}
 
 }
