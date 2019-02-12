@@ -33,14 +33,14 @@
 
 		<commons-lang3.version>3.8.1</commons-lang3.version>
 		<commons-pool2.version>2.6.0</commons-pool2.version>
-		<commons-collections4.version>4.2</commons-collections4.version>
+		<commons-collections4.version>4.3</commons-collections4.version>
 		<commons-io.version>2.6</commons-io.version>
 		<commons-codec.version>1.11</commons-codec.version>
 		<commons-beanutils.version>1.9.3</commons-beanutils.version>
-		<commons-fileupload.version>1.3.3</commons-fileupload.version>
+		<commons-fileupload.version>1.4</commons-fileupload.version>
 
 		<javax.persistence.version>2.2.0</javax.persistence.version>
-		<lucene.version>7.6.0</lucene.version>
+		<lucene.version>7.7.0</lucene.version>
 		<jxl.version>2.6.12</jxl.version>
 		<jodconverter.version>2.2.1</jodconverter.version>
 		<zxing.version>3.3.3</zxing.version>
