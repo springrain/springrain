@@ -22,6 +22,7 @@ import org.springrain.frame.util.property.MessageUtils;
 import org.springrain.system.base.BaseController;
 import org.springrain.system.cms.entity.CmsComment;
 import org.springrain.system.cms.service.ICmsCommentService;
+import org.springrain.system.util.ExportUtils;
 import org.springrain.weixin.sdk.common.service.IWxMpConfig;
 import org.springrain.weixin.sdk.common.service.IWxMpConfigService;
 import org.springrain.weixin.sdk.mp.api.IWxMpUserService;
@@ -91,7 +92,10 @@ public class CmsCommentController extends BaseController {
 		// ==构造分页请求
 		Page page = newPage(request);
 
-		File file = cmsCommentService.findDataExportExcel(null, listurl, page, CmsComment.class, cmsComment);
+		File file = ExportUtils.findDataExportFile(null, listurl, page, CmsComment.class, cmsComment,
+				GlobalStatic.excelext,
+				cmsCommentService);
+
 		String fileName = "cmsComment" + GlobalStatic.excelext;
 		downFile(response, file, fileName, true);
 		return;

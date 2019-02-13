@@ -123,37 +123,6 @@ public interface IBaseService {
 	 */
 	public void evictByKey(String cacheName, String key, Page page) throws Exception;
 
-	/**
-	 * 根据查询列表的宏,导出Excel
-	 * 
-	 * @param finder      为空则只查询 clazz表
-	 * @param ftlurl      类表的模版宏
-	 * @param page        分页对象
-	 * @param clazz       要查询的对象
-	 * @param baseService service 调用
-	 * @param queryBean   querybean
-	 * @return
-	 * @throws Exception
-	 */
-
-	public <T> File findDataExportExcel(Finder finder, String ftlurl, Page page, Class<T> clazz, Object queryBean)
-			throws Exception;
-
-	/**
-	 * 根据查询列表的宏,导出Excel
-	 * 
-	 * @param finder      为空则只查询 clazz表
-	 * @param ftlurl      类表的模版宏
-	 * @param page        分页对象
-	 * @param clazz       要查询的对象
-	 * @param baseService service 调用
-	 * @param queryBean   querybean
-	 * @param map         封装自定义的参数
-	 * @return
-	 * @throws Exception
-	 */
-	public <T> File findDataExportExcel(Finder finder, String ftlurl, Page page, Class<T> clazz, Object queryBean,
-			Map map) throws Exception;
 
 	/**
 	 * 只有Finder查询语句,返回结果是List<Map>

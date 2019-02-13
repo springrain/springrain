@@ -27,6 +27,7 @@ import org.springrain.system.cms.entity.CmsSite;
 import org.springrain.system.cms.service.ICmsChannelService;
 import org.springrain.system.cms.service.ICmsLinkService;
 import org.springrain.system.cms.service.ICmsSiteService;
+import org.springrain.system.util.ExportUtils;
 
 /**
  * TODO 在此加入类描述
@@ -108,7 +109,10 @@ public class CmsChannelController extends BaseController {
 		// ==构造分页请求
 		Page page = newPage(request);
 
-		File file = cmsChannelService.findDataExportExcel(null, listurl, page, CmsChannel.class, cmsChannel);
+		File file = ExportUtils.findDataExportFile(null, listurl, page, CmsChannel.class, cmsChannel,
+				GlobalStatic.excelext,
+				cmsChannelService);
+
 		String fileName = "cmsChannel" + GlobalStatic.excelext;
 		downFile(response, file, fileName, true);
 		return;

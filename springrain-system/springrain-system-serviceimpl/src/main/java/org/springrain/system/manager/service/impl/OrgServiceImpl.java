@@ -1,6 +1,5 @@
 package org.springrain.system.manager.service.impl;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -190,24 +189,6 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
 		finder.append(" order by o.sortno asc ");
 
 		return super.queryForList(finder, clazz);
-	}
-
-	/**
-	 * 根据查询列表的宏,导出Excel
-	 * 
-	 * @param finder 为空则只查询 clazz表
-	 * @param ftlurl 类表的模版宏
-	 * @param page   分页对象
-	 * @param clazz  要查询的对象
-	 * @param o      querybean
-	 * @return
-	 * @throws Exception
-	 */
-	@Override
-	public <T> File findDataExportExcel(Finder finder, String ftlurl, Page page, Class<T> clazz, Object o)
-			throws Exception {
-
-		return super.findDataExportExcel(finder, ftlurl, page, clazz, o);
 	}
 
 	@Override

@@ -20,6 +20,7 @@ import org.springrain.frame.util.property.MessageUtils;
 import org.springrain.system.base.BaseController;
 import org.springrain.system.cms.entity.CmsPraise;
 import org.springrain.system.cms.service.ICmsPraiseService;
+import org.springrain.system.util.ExportUtils;
 
 /**
  * TODO 在此加入类描述
@@ -82,7 +83,9 @@ public class CmsPraiseController extends BaseController {
 		// ==构造分页请求
 		Page page = newPage(request);
 
-		File file = cmsPraiseService.findDataExportExcel(null, listurl, page, CmsPraise.class, cmsPraise);
+		File file = ExportUtils.findDataExportFile(null, listurl, page, CmsPraise.class, cmsPraise,
+				GlobalStatic.excelext, cmsPraiseService);
+
 		String fileName = "cmsPraise" + GlobalStatic.excelext;
 		downFile(response, file, fileName, true);
 		return;

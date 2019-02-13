@@ -26,8 +26,11 @@ import ${basepackage}.service.I${className}Service;
 import org.springrain.frame.controller.BaseController;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.property.MessageUtils;
+import org.springrain.system.manager.entity.User;
+import org.springrain.system.util.ExportUtils;
 import org.springrain.frame.util.Page;
 import org.springrain.frame.util.ReturnDatas;
+import org.springrain.system.util.ExportUtils;
 <#assign myParentDir="web">
 
 
@@ -87,7 +90,8 @@ public class ${className}Controller  extends BaseController {
 		// ==构造分页请求
 		Page page = newPage(request);
 	
-		File file = ${classNameLower}Service.findDataExportExcel(null,listurl, page,${className}.class,${classNameLower});
+		File file = ExportUtils.findDataExportFile(null, listurl, page, ${className}.class, ${classNameLower}, GlobalStatic.excelext,
+				${classNameLower}Service);	
 		String fileName="${classNameLower}"+GlobalStatic.excelext;
 		downFile(response, file, fileName,true);
 		return;

@@ -34,6 +34,7 @@ import org.springrain.system.cms.entity.CmsTheme;
 import org.springrain.system.cms.service.ICmsLinkService;
 import org.springrain.system.cms.service.ICmsSiteService;
 import org.springrain.system.cms.service.ICmsThemeService;
+import org.springrain.system.util.ExportUtils;
 
 /**
  * 站点管理类
@@ -108,7 +109,9 @@ public class CmsSiteController extends BaseController {
 		// ==构造分页请求
 		Page page = newPage(request);
 
-		File file = cmsSiteService.findDataExportExcel(null, listurl, page, CmsSite.class, cmsSite);
+		File file = ExportUtils.findDataExportFile(null, listurl, page, CmsSite.class, cmsSite, GlobalStatic.excelext,
+				cmsSiteService);
+
 		String fileName = "CmsSite" + GlobalStatic.excelext;
 		downFile(response, file, fileName, true);
 		return;

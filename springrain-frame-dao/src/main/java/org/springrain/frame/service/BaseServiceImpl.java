@@ -15,7 +15,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.annotation.Resource;
 
@@ -266,100 +265,6 @@ public abstract class BaseServiceImpl implements IBaseService {
 	public <T> List<T> findListDataByFinder(Finder finder, Page page, Class<T> clazz, Object queryBean)
 			throws Exception {
 		return getBaseDao().findListDataByFinder(finder, page, clazz, queryBean);
-	}
-
-	@Override
-	public <T> File findDataExportExcel(Finder finder, String ftlurl, Page page, Class<T> clazz, Object queryBean)
-			throws Exception {
-		Map map = new HashMap();
-		return findDataExportExcel(finder, ftlurl, page, clazz, queryBean, map);
-	}
-
-	@Override
-	public <T> File findDataExportExcel(Finder finder, String ftlurl, Page page, Class<T> clazz, Object queryBean,
-			Map map) throws Exception {
-		
-		return findDataExportFile(finder, ftlurl, page, clazz, queryBean, map,GlobalStatic.excelext);
-	}
-	
-	public <T> File findDataExportFile(Finder finder, String ftlurl, Page page, Class<T> clazz, Object queryBean,
-			Map map,String fileType) throws Exception{
-
-
-		if (freeMarkerConfigurer == null) {
-			freeMarkerConfigurer = (Configuration) SpringUtils.getBean("freeMarkerConfigurer");
-		}
-
-		if (freeMarkerConfigurer == null) {
-			return null;
-		}
-
-		// Map map = new HashMap();
-		ReturnDatas returnDatas = new ReturnDatas();
-		map.put(GlobalStatic.exportexcel, true);// 设置导出excel变量
-		// Template template =
-		// freeMarkerConfigurer.getConfiguration().getTemplate(ftlurl +
-		// GlobalStatic.suffix);
-		Template template = freeMarkerConfigurer.getTemplate(ftlurl + GlobalStatic.suffix);
-		page.setPageSize(GlobalStatic.excelPageSize);
-		page.setPageIndex(1);
-		List datas = findListDataByFinder(finder, page, clazz, queryBean);
-		returnDatas.setData(datas);
-		returnDatas.setPage(page);
-		returnDatas.setQueryBean(queryBean);
-		returnDatas.setMessage("export");
-		map.put(GlobalStatic.returnDatas, returnDatas);
-		String fileName = UUID.randomUUID().toString();
-		String tempFFilepath = GlobalStatic.tempRootpath + "/" + fileName + "/freemarker.html";
-		String tempExcelpath = GlobalStatic.tempRootpath + "/" + fileName + "/" + fileName + fileType;
-		File tempfdir = new File(GlobalStatic.tempRootpath + "/" + fileName);
-		if (tempfdir.exists() == false) {
-			tempfdir.mkdirs();
-		}
-
-		File ffile = new File(tempFFilepath);
-
-		File excelFile = new File(tempExcelpath);
-		boolean first = true;
-		if(ftlurl.contains("Xml"))
-			first = false;
-		boolean end = false;
-		int pageCount = page.getPageCount();
-		if (pageCount < 2) {
-			pageCount = 1;
-			end = true;
-		}
-		createExceFile(template, ffile, excelFile, first, end, map);
-		first = false;
-		for (int i = 2; i <= pageCount; i++) {
-			if (i == pageCount) {
-				end = true;
-			}
-			page.setPageIndex(i);
-			datas = findListDataByFinder(finder, page, clazz, queryBean);
-			returnDatas.setData(datas);
-			map.put(GlobalStatic.returnDatas, returnDatas);
-			createExceFile(template, ffile, excelFile, first, end, map);
-		}
-		if (ffile.exists()) {
-			ffile.delete();
-		}
-
-		if (excelFile.exists()) {
-			excelFile.setReadOnly();
-		}
-		// excel转化
-		try {
-			File excelnew = new File(
-					GlobalStatic.tempRootpath + "/" + fileName + "/" + SecUtils.getUUID() + GlobalStatic.excelext);
-			OpenOfficeKit.cvtXls(excelFile, excelnew);
-			return excelnew;
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error(e.getMessage(), e);
-		}
-		return excelFile;
-	
 	}
 	
 	public <T> File findDataExportFileByES(List<T> datas, String ftlurl, Page page, Class<T> clazz, Object queryBean,

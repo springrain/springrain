@@ -18,6 +18,7 @@ import org.springrain.frame.util.ReturnDatas;
 import org.springrain.system.base.BaseController;
 import org.springrain.system.manager.entity.Fwlog;
 import org.springrain.system.manager.service.IFwlogService;
+import org.springrain.system.util.ExportUtils;
 
 /**
  * TODO 在此加入类描述
@@ -89,7 +90,9 @@ public class FwlogController extends BaseController {
 			throws Exception {
 		// ==构造分页请求
 		Page page = newPage(request);
-		File file = fwlogService.findDataExportExcel(null, listurl, page, Fwlog.class, fwlog);
+		File file = ExportUtils.findDataExportFile(null, listurl, page, Fwlog.class, fwlog, GlobalStatic.excelext,
+				fwlogService);
+
 		String fileName = "fwlog" + GlobalStatic.excelext;
 		downFile(response, file, fileName, true);
 		return;

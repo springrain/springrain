@@ -18,6 +18,7 @@ import org.springrain.frame.util.Page;
 import org.springrain.frame.util.ReturnDatas;
 import org.springrain.system.base.BaseController;
 import org.springrain.system.manager.service.IAuditlogService;
+import org.springrain.system.util.ExportUtils;
 
 /**
  * TODO 在此加入类描述
@@ -90,7 +91,9 @@ public class AuditlogController extends BaseController {
 			throws Exception {
 		// ==构造分页请求
 		Page page = newPage(request);
-		File file = auditlogService.findDataExportExcel(null, listurl, page, AuditLog.class, auditlog);
+		File file = ExportUtils.findDataExportFile(null, listurl, page, AuditLog.class, auditlog, GlobalStatic.excelext,
+				auditlogService);
+
 		String fileName = "auditlog" + GlobalStatic.excelext;
 		downFile(response, file, fileName, true);
 		return;

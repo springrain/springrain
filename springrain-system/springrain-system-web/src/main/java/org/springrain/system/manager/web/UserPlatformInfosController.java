@@ -20,6 +20,7 @@ import org.springrain.frame.util.property.MessageUtils;
 import org.springrain.system.base.BaseController;
 import org.springrain.system.manager.entity.UserPlatformInfos;
 import org.springrain.system.manager.service.IUserPlatformInfosService;
+import org.springrain.system.util.ExportUtils;
 
 /**
  * TODO 在此加入类描述
@@ -84,8 +85,10 @@ public class UserPlatformInfosController extends BaseController {
 		// ==构造分页请求
 		Page page = newPage(request);
 
-		File file = userPlatformInfosService.findDataExportExcel(null, listurl, page, UserPlatformInfos.class,
-				userPlatformInfos);
+		File file = ExportUtils.findDataExportFile(null, listurl, page, UserPlatformInfos.class, userPlatformInfos,
+				GlobalStatic.excelext,
+				userPlatformInfosService);
+
 		String fileName = "userPlatformInfos" + GlobalStatic.excelext;
 		downFile(response, file, fileName, true);
 		return;
