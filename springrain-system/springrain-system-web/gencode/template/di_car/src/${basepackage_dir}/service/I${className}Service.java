@@ -5,7 +5,9 @@ package ${basepackage}.service;
 
 import ${basepackage}.entity.${className};
 import org.springrain.system.service.IBaseSpringrainService;
+import org.springrain.rpc.annotation.RpcServiceAnnotation;
 <#include "/copyright_class.include" >
+@RpcServiceAnnotation
 public interface I${className}Service extends IBaseSpringrainService {
 	
 	/**
