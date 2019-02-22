@@ -16,11 +16,8 @@ import org.springrain.frame.shiro.ShiroRedisCacheManager;
  * @author caomei
  *
  */
-@Configuration("configuration-ShiroConfig")
+@Configuration("configuration-RedisCacheShiroConfig")
 public class RedisCacheShiroConfig {
-
-
-
 
 	/**
 	 * 集群session
