@@ -11,6 +11,8 @@ import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 
 import org.apache.shiro.cache.CacheManager;
+import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
+import org.apache.shiro.mgt.DefaultSubjectDAO;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
@@ -26,6 +28,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springrain.system.shiro.jwt.JwtRealm;
 
 /**
  * 配置 shiro<br>
@@ -110,6 +113,27 @@ public class ShiroConfig {
 		// 缓存管理器
 		securityManager.setCacheManager(shiroCacheManager);
 		return securityManager;
+	}
+	
+	/**
+	* jwt权限管理
+	*
+	* @param jwtRealm
+	* @return
+	* @author 程相羽
+	* @version 2019年3月6日 上午11:54:02
+	*/
+	@Bean("jwtSecurityManager")
+	public org.apache.shiro.mgt.SecurityManager jwtSecurityManager(JwtRealm jwtRealm) {
+		DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+		securityManager.setRealm(jwtRealm);
+		
+		DefaultSubjectDAO subjectDAO = new DefaultSubjectDAO();
+        DefaultSessionStorageEvaluator defaultSessionStorageEvaluator = new DefaultSessionStorageEvaluator();
+        defaultSessionStorageEvaluator.setSessionStorageEnabled(false);
+        subjectDAO.setSessionStorageEvaluator(defaultSessionStorageEvaluator);
+        securityManager.setSubjectDAO(subjectDAO);
+        return securityManager;
 	}
 
 	/**
