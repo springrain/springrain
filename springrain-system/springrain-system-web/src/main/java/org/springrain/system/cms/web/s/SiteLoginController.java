@@ -124,12 +124,15 @@ public class SiteLoginController extends BaseController {
 		// 通过账号和密码获取 UsernamePasswordToken token
 		FrameAuthenticationToken token = new FrameAuthenticationToken(currUser.getAccount(), currUser.getPassword());
 
-		String rememberme = request.getParameter("rememberme");
-		if (StringUtils.isNotBlank(rememberme)) {
-			token.setRememberMe(true);
-		} else {
-			token.setRememberMe(false);
-		}
+
+		/**
+		 * String rememberme = request.getParameter("rememberme"); if
+		 * (StringUtils.isNotBlank(rememberme)) { token.setRememberMe(true); } else {
+		 * token.setRememberMe(false); }
+		 **/
+
+		// 存在安全漏洞,禁用
+		token.setRememberMe(false);
 
 		try {
 			// 会调用 shiroDbRealm 的认证方法
