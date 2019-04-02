@@ -33,7 +33,7 @@ https://gitee.com/chunanyong/springrain/tree/master/springrain-system/springrain
 
 springrain是spring/springboot的极简封装,spring/springboot一站式开发的范例.
 
-springrain本身就是一个完整的eclipse项目,spring/springboot一站式开发的范例,包含spring core,spring jdbc,spring mvc.可以认为就是一个spring/springboot的demo.
+springrain本身就是一个完整的Maven项目,spring/springboot一站式开发的范例,包含spring core,spring jdbc,spring mvc.可以认为就是一个spring/springboot的demo.
 
 springrain 自带一个代码生成器,能够生成对表的增删改查的逻辑代码,以及前台页面样式和js文件
 
