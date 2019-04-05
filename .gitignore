@@ -1,9 +1,13 @@
 /target/
+*/target/
 */logs/
 /logs/
 /.settings/
+*/.settings/
 .classpath
 .project
+*/.classpath
+*/.project
 *.gitignore
 .gitignore
 /bin/
