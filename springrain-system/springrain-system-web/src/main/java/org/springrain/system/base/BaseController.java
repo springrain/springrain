@@ -178,12 +178,24 @@ public class BaseController {
 	 * @return
 	 */
 	public Page newPage(HttpServletRequest request, String defaultOrder, String defaultSort) {
-		// ==获取分页信息
 
+		if (request == null) {
+			Page page = new Page(1);
+			page.setOrder("id");
+			page.setSort("asc");
+			return page;
+		}
+
+		// ==获取分页信息
 		String str_pageIndex = request.getParameter("pageIndex");
-		int pageIndex = NumberUtils.toInt(str_pageIndex, 1);
 		String order = request.getParameter("order");
 		String sort = request.getParameter("sort");
+
+		if (StringUtils.isBlank(str_pageIndex)) {
+			str_pageIndex = "1";
+		}
+
+		int pageIndex = NumberUtils.toInt(str_pageIndex, 1);
 
 		if (StringUtils.isBlank(order)) {
 			order = defaultOrder;
