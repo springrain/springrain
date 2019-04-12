@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import com.artofsolving.jodconverter.DocumentConverter;
 import com.artofsolving.jodconverter.openoffice.connection.OpenOfficeConnection;
 import com.artofsolving.jodconverter.openoffice.connection.SocketOpenOfficeConnection;
-import com.artofsolving.jodconverter.openoffice.converter.OpenOfficeDocumentConverter;
+import com.artofsolving.jodconverter.openoffice.converter.StreamOpenOfficeDocumentConverter;
 
 /**
  * openoffice工具类 wupeilei
@@ -79,7 +79,7 @@ public class OpenOfficeKit {
 	public static void cvtXls(File inputFile, File outputFile) throws Exception {
 		createOpenOfficeConnection();
 		if (connection != null && connection.isConnected()) {
-			DocumentConverter converter = new OpenOfficeDocumentConverter(connection);
+			DocumentConverter converter = new StreamOpenOfficeDocumentConverter(connection);
 			converter.convert(inputFile, outputFile);
 		} else {
 			throw new Exception();
