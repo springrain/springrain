@@ -39,11 +39,18 @@ public class OpenOfficeKit {
 			if (connection == null || (!connection.isConnected())) {
 				if (StringUtils.isNotBlank(openOfficeHome) && StringUtils.isNotBlank(host)
 						&& StringUtils.isNotBlank(port)) {
-					String command = openOfficeHome + " -headless -accept=\"socket,host=" + host + ",port=" + port
-							+ ";urp;\"";
-					pro = Runtime.getRuntime().exec(command);
-					connection = new SocketOpenOfficeConnection(host, Integer.parseInt(port));
-					connection.connect();
+
+					try {
+						connection = new SocketOpenOfficeConnection(host, Integer.parseInt(port));
+						connection.connect();
+					} catch (Exception e) {
+						String command = openOfficeHome + " -headless -accept=\"socket,host=" + host + ",port=" + port
+								+ ";urp;\"";
+						pro = Runtime.getRuntime().exec(command);
+						connection = new SocketOpenOfficeConnection(host, Integer.parseInt(port));
+						connection.connect();
+					}
+
 				}
 			}
 		} catch (Exception e) {
