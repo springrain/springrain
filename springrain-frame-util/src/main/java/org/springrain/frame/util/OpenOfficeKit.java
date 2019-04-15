@@ -14,7 +14,9 @@ import com.artofsolving.jodconverter.openoffice.connection.SocketOpenOfficeConne
 import com.artofsolving.jodconverter.openoffice.converter.OpenOfficeDocumentConverter;
 
 /**
- * openoffice工具类 wupeilei
+ * openoffice工具类 wupeilei </br>
+ * 
+ * openoffice无法跨机器处理,必须要和应用部署到同一台.k8s环境,我是在pod里安装了两个容器,一个openoffice,一个tomcat应用,需要共享需要转化的文件目录.等同于是同一台服务器了.
  *
  */
 @Component
