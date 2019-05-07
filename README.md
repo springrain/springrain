@@ -6,8 +6,7 @@
 * 内置同步的分布式事务实现. 
 
 ## 实现思路
-* 启动加载springbean时,先检查本地是否有实现,如果没有就启动RPC远程调用.整个过程对开发人员无感知.
-* 基于GRPC协议调用和事务通知.
+* 启动加载springbean时,先检查本地是否有实现,如果没有就启动GRPC远程调用.整个过程对开发人员无感知.
 * 如果开启了分布式事务,入口方法作为事务控制器,由入口方法通过GRPC通知事务提交或者回滚.
 * 基于Istio实现微服务的监控,熔断,限流.
 
@@ -31,13 +30,11 @@ https://gitee.com/chunanyong/springrain/tree/master/springrain-system/springrain
 https://gitee.com/chunanyong/springrain/tree/master/springrain-system/springrain-system-web/sql  </br>
 
 
-springrain是spring/springboot的极简封装,spring/springboot一站式开发的范例.
+springrain是spring/springboot的极简封装,springboot一站式开发的范例.
 
-springrain本身就是一个完整的Maven项目,spring/springboot一站式开发的范例,包含spring core,spring jdbc,spring mvc.可以认为就是一个spring/springboot的demo.
+springrain是一个完整的Maven项目,包含spring core,spring jdbc,spring mvc.
 
-springrain 自带一个代码生成器,能够生成对表的增删改查的逻辑代码,以及前台页面样式和js文件
-
-spring良好的扩展性,集成度,IOC,AOP事务,已经是项目的基础条件.
+springrain自带一个代码生成器,能够生成对表的增删改查的逻辑代码,以及前台页面样式和js文件
 
 项目只依赖spring,没有hibernate,struts,ibatis.
 
@@ -45,9 +42,7 @@ spring良好的扩展性,集成度,IOC,AOP事务,已经是项目的基础条件.
 
 结合shiro,redis实现了天然的分布式session共享
 
-hibernate太过复杂,运用不好就会造成很大影响,ibatis的优势就是把sql写入xml文件,利于数据库调优和sql语句管理.数据库调优可以使用druid直接输出比较慢的sql,比分析xml中的语句更直观,关于sql管理,springrain所有的sql语句都使用Finder封装,只要查看Finder在项目中的引用,就能查看项目中所有的sql语句,就此,ibatis的优势就很小了.
-
-struts 和 spring mvc 相比,个人感觉还是有点差距的.
+hibernate太过复杂.ibatis把sql写入xml文件,利于数据库调优和sql语句管理.数据库调优可以使用druid输出比慢sql,比分析xml中的语句更直观,springrain所有的sql语句都使用Finder封装,只要查看Finder的引用,就能查看项目中所有的sql语句,也比较容易管理.
 
 一些测试案例：
 
