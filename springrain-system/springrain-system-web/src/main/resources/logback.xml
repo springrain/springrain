@@ -4,7 +4,6 @@
 	<property name="AppName" value="springrain" />
 	<!-- 控制台日志 -->
 	<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
-		<Target>System.out</Target>
 		<encoder>
 			<pattern>%d [%thread] %c:%L-%m%n</pattern>
 		</encoder>
