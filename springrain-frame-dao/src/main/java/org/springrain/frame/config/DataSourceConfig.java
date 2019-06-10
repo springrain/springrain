@@ -44,7 +44,8 @@ public class DataSourceConfig {
 	private Boolean removeAbandoned = true;
 	private Boolean logAbandoned = true;
 	private Boolean testWhileIdle = true;
-	private Boolean testOnBorrow = true;
+	// 提升性能,暂时关闭testOnBorrow.还存在和mssql2015兼容的问题.
+	private Boolean testOnBorrow = false;
 	private Boolean testOnReturn = false;
 
 	// private String filters="stat,wall,slf4j";
