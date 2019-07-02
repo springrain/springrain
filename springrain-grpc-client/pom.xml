@@ -12,7 +12,7 @@
   
   
   <properties>
-		<io.grpc.version>1.17.1</io.grpc.version>
+		<io.grpc.version>1.21.0</io.grpc.version>
 		<kr.motd.maven.version>1.5.0.Final</kr.motd.maven.version>
 		<io.protostuff.version>1.6.0</io.protostuff.version>
 	</properties>
@@ -58,6 +58,10 @@
             <artifactId>springrain-frame-util</artifactId>
             <version>5.0.0-SNAPSHOT</version>
         </dependency>
+        
+        
+
+        
 
 		
 	</dependencies>
@@ -108,16 +112,15 @@
 			
 			
 			<!-- grpc生成代码 -->
-			
-			<!--  
+	<!-- 
 				<plugin>
 				<groupId>org.xolstice.maven.plugins</groupId>
 				<artifactId>protobuf-maven-plugin</artifactId>
-				<version>0.5.1</version>
+				<version>0.6.1</version>
 				<configuration>
-					<protocArtifact>com.google.protobuf:protoc:3.5.1-1:exe:${os.detected.classifier}</protocArtifact>
+					<protocArtifact>com.google.protobuf:protoc:3.7.1:exe:${os.detected.classifier}</protocArtifact>
 					<pluginId>grpc-java</pluginId>
-					<pluginArtifact>io.grpc:protoc-gen-grpc-java:1.17.1:exe:${os.detected.classifier}</pluginArtifact>
+					<pluginArtifact>io.grpc:protoc-gen-grpc-java:1.21.0:exe:${os.detected.classifier}</pluginArtifact>
 				</configuration>
 				<executions>
 					<execution>
@@ -130,8 +133,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			
-			-->	
+	 -->       		
 
 		</plugins>
 	</build>
