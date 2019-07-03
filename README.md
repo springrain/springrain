@@ -17,7 +17,7 @@
 ## 体验单体到分层切换
 * 修改springrain-system-web依赖springrain-system-service,不再依赖springrain-system-serviceimpl.
 * springrain-system-serviceimpl添加springrain-grpc-server依赖,启用org.springrain.SystemServiceImplApplication的@SpringBootApplication注解
-* 启动seata服务
+* 修改file.conf中vgroup_mapping.seata_tx_group = "default",启动seata服务.就是把默认的my_test_tx_group更换成seata_tx_group
 * 启动springrain-system-serviceimpl
 * 启动springrain-system-web
 * 访问http://127.0.0.1:8080/ 
