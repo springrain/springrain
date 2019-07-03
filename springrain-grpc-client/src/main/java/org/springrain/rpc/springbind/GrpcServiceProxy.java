@@ -98,7 +98,7 @@ public class GrpcServiceProxy<T> implements InvocationHandler {
 				tx = GlobalTransactionContext.getCurrentOrCreate();
 
 				// 2. 开启全局事务
-				try {
+			try {
 				tx.begin(grpRequest.getTimeout(), grpRequest.getClazz() + "-" + grpRequest.getMethod());
 					txGroupId = tx.getXid();
 				} catch (TransactionException txe) {
