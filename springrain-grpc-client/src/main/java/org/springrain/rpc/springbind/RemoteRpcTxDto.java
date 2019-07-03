@@ -4,7 +4,6 @@ public class RemoteRpcTxDto {
 
 	private String rpcHost = null;
 	private Integer rpcPort = null;
-	private String txId;
 	private String txGroupId;
 	// 版本的编号,用于处理不同的版本
 	private Integer versionCode;
@@ -23,9 +22,6 @@ public class RemoteRpcTxDto {
 		return rpcPort;
 	}
 
-	public String getTxId() {
-		return txId;
-	}
 
 	public String getTxGroupId() {
 		return txGroupId;
@@ -39,9 +35,6 @@ public class RemoteRpcTxDto {
 		this.rpcPort = rpcPort;
 	}
 
-	public void setTxId(String txId) {
-		this.txId = txId;
-	}
 
 	public void setTxGroupId(String txGroupId) {
 		this.txGroupId = txGroupId;

@@ -38,6 +38,8 @@ import org.springrain.frame.util.RegexValidateUtils;
 import org.springrain.frame.util.SecUtils;
 import org.springrain.frame.util.ThreadPoolManager;
 
+import io.seata.core.context.RootContext;
+
 /**
  * 基础的Dao父类,所有的Dao都必须继承此类,每个数据库都需要一个实现.</br>
  * 
@@ -734,6 +736,46 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
 
 	@Override
 	public List<Integer> update(List list, boolean onlyupdatenotnull) throws Exception {
+		if (RootContext.inGlobalTransaction()) {// 是否在seata分布式事务内
+			return updateForSeataTx(list, onlyupdatenotnull);
+		} else {
+			return updateForLocalTx(list, onlyupdatenotnull);
+		}
+		
+	}
+
+	/**
+	 * seata暂时不支持batchUpdate,循环进行单个对象操作了.
+	 * 
+	 * @param list
+	 * @param onlyupdatenotnull
+	 * @return
+	 * @throws Exception
+	 */
+	private List<Integer> updateForSeataTx(List list, boolean onlyupdatenotnull) throws Exception {
+		checkMethodName();
+
+		if (CollectionUtils.isEmpty(list)) {
+			return null;
+		}
+		List<Integer> updateList = new ArrayList<>();
+		for (Object o : list) {
+			Integer update = update(o, onlyupdatenotnull);
+			updateList.add(update);
+		}
+		return updateList;
+
+	}
+
+	/**
+	 * batchUpdate批量操作本地事务
+	 * 
+	 * @param list
+	 * @param onlyupdatenotnull
+	 * @return
+	 * @throws Exception
+	 */
+	private List<Integer> updateForLocalTx(List list, boolean onlyupdatenotnull) throws Exception {
 		checkMethodName();
 
 		if (CollectionUtils.isEmpty(list)) {
@@ -769,6 +811,43 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
 
 	@Override
 	public List<Integer> save(List list) throws Exception {
+		if (RootContext.inGlobalTransaction()) {// 是否在seata分布式事务内
+			return saveForSeataTx(list);
+		} else {
+			return saveForLocalTx(list);
+		}
+	}
+
+	/**
+	 * seata暂时不支持batchUpdate,循环进行单个对象操作了.
+	 * 
+	 * @param list
+	 * @return
+	 * @throws Exception
+	 */
+	private List<Integer> saveForSeataTx(List list) throws Exception {
+		checkMethodName();
+
+		if (CollectionUtils.isEmpty(list)) {
+			return null;
+		}
+		List<Integer> saveList = new ArrayList<>();
+		for (Object o : list) {
+			save(o);
+			saveList.add(1);
+		}
+		return saveList;
+
+	}
+
+	/**
+	 * 使用本地事务批量保存
+	 * 
+	 * @param list
+	 * @return
+	 * @throws Exception
+	 */
+	private List<Integer> saveForLocalTx(List list) throws Exception {
 		checkMethodName();
 
 		if (CollectionUtils.isEmpty(list)) {

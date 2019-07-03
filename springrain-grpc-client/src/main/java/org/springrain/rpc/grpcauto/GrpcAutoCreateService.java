@@ -37,9 +37,9 @@ public final class GrpcAutoCreateService {
       "st\022\021\n\tserialize\030\001 \001(\005\022\017\n\007request\030\002 \001(\014\"\"" +
       "\n\016CommonResponse\022\020\n\010response\030\001 \001(\0142F\n\021Gr" +
       "pcCommonService\0221\n\014commonHandle\022\016.Common" +
-      "Request\032\017.CommonResponse\"\000B1\n\026com.mzywx." +
-      "rpc.grpcautoB\025GrpcAutoCreateServiceP\001b\006p" +
-      "roto3"
+      "Request\032\017.CommonResponse\"\000B6\n\033org.spring" +
+      "rain.rpc.grpcautoB\025GrpcAutoCreateService" +
+      "P\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

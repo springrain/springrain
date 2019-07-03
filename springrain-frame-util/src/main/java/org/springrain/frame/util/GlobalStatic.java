@@ -32,6 +32,15 @@ public class GlobalStatic {
 
 	public static final String projectKeyPrefix = "springrain_";// ES和redis的固定前缀,用于多个项目使用同一个ES和redis集群
 
+	// seata的全局变量
+	public static final String seataApplicationId = projectKeyPrefix;
+	public static final String seataTransactionServiceGroup = "seata_tx_group";
+	// 是否开启seata分布式事务,默认是开启的,一旦关闭,整个应用就会关闭
+	public static final boolean seataGlobalEnable = true;
+	// 默认不开去seata,如果存在service的分布式调用,就修改成true.只有seataGlobalEnable和seataEnable都是true,seata才会启用.
+	public static boolean seataEnable = false;
+
+	// 微信缓存配置
 	public static final String mpConfigCacheKey = "mpConfigCacheKey";// 订阅号配置缓存Key
 
 	public static final String cpConfigCacheKey = "cpConfigCacheKey";// 企业号配置缓存Key

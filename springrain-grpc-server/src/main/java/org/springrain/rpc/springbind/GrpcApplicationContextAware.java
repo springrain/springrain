@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springrain.rpc.grpcimpl.CommonGrpcService;
 import org.springrain.rpc.grpcimpl.GrpcServer;
-import org.springrain.rpc.grpcimpl.NoticeGrpcService;
 
 /**
  * 获取applicationContext,启动grpcServer
@@ -31,13 +30,6 @@ public class GrpcApplicationContextAware implements ApplicationContextAware {
 		return new CommonGrpcService(applicationContext);
 	}
 
-	/**
-	 * PRC 服务调用
-	 */
-	@Bean("noticeGrpcService")
-	public NoticeGrpcService noticeGrpcService() {
-		return new NoticeGrpcService();
-	}
 
 	/**
 	 * RPC 服务端,启动rpc服务
@@ -46,7 +38,7 @@ public class GrpcApplicationContextAware implements ApplicationContextAware {
 	// @ConditionalOnMissingBean(GrpcServer.class)
 	public GrpcServer grpcServer() throws Exception {
 		GrpcServer server = new GrpcServer();
-		server.addService(commonGrpcService()).addService(noticeGrpcService());
+		server.addService(commonGrpcService());
 		server.start();
 		return server;
 	}

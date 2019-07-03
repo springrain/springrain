@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.springrain</groupId>
     <artifactId>springrain</artifactId>
-    <version>5.0.0-SNAPSHOT</version>
+    <version>5.1.0-SNAPSHOT</version>
   </parent>
   <artifactId>springrain-grpc-client</artifactId>
   <packaging>jar</packaging>
@@ -56,11 +56,22 @@
         <dependency>
             <groupId>org.springrain</groupId>
             <artifactId>springrain-frame-util</artifactId>
-            <version>5.0.0-SNAPSHOT</version>
+            <version>5.1.0-SNAPSHOT</version>
         </dependency>
         
         
-
+            <dependency>
+                <groupId>io.seata</groupId>
+                <artifactId>seata-core</artifactId>
+            </dependency>
+        
+             <dependency>
+                <groupId>io.seata</groupId>
+                <artifactId>seata-tm</artifactId>
+            </dependency>
+        
+        
+        
         
 
 		

@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springrain</groupId>
 		<artifactId>springrain-system</artifactId>
-		<version>5.0.0-SNAPSHOT</version>
+		<version>5.1.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>springrain-system-serviceimpl</artifactId>
 	<url>http://www.weicms.net</url>
@@ -15,29 +15,37 @@
 	<dependencies>
 	
 	<!-- 作为RPC实现时,需要依赖  springrain-grpc-server,作为单体就不需要依赖.-->
-	    <!--  
+	
+	<!--  
 		<dependency>
 			<groupId>org.springrain</groupId>
 			<artifactId>springrain-grpc-server</artifactId>
-			<version>5.0.0-SNAPSHOT</version>
+			<version>5.1.0-SNAPSHOT</version>
 		</dependency>
-		-->
-	
+		
+		<dependency>
+            <groupId>org.springrain</groupId>
+            <artifactId>springrain-frame-cache-memory</artifactId>
+            <version>5.1.0-SNAPSHOT</version>
+        </dependency>   
+		
+		
+	-->
 
 		
 		<dependency>
 			<groupId>org.springrain</groupId>
 			<artifactId>springrain-frame-dao</artifactId>
-			<version>5.0.0-SNAPSHOT</version>
+			<version>5.1.0-SNAPSHOT</version>
 		</dependency>
 
 
 		<dependency>
 			<groupId>org.springrain</groupId>
 			<artifactId>springrain-system-service</artifactId>
-			<version>5.0.0-SNAPSHOT</version>
+			<version>5.1.0-SNAPSHOT</version>
 		</dependency>
-		
+
 		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -59,12 +67,12 @@
 			<!-- =================== -->
 			<!-- springboot compile plugin,RCP独立运行时需要使用springboot插件进行打包 -->
 			<!-- =================== -->
-<!-- 
+
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
- -->
+
 
 
 			<!-- =================== -->

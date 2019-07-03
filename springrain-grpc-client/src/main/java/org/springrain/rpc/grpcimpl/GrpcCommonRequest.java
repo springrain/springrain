@@ -38,10 +38,8 @@ public class GrpcCommonRequest implements Serializable {
 	 */
 	private Class[] argTypes;
 
-	private Integer type = 0;
 
-	// 事务Id,每次RPC请求,都会产生新的事务Id
-	private String txId = null;
+
 
 	// 事务组Id,一次完整的请求链,groupId是唯一的.
 	private String txGroupId = null;
@@ -90,23 +88,7 @@ public class GrpcCommonRequest implements Serializable {
 		this.args = args;
 	}
 
-	public Integer getType() {
-		return type;
-	}
 
-
-
-	public void setType(Integer type) {
-		this.type = type;
-	}
-
-	public String getTxId() {
-		return txId;
-	}
-
-	public void setTxId(String txId) {
-		this.txId = txId;
-	}
 
 	public String getTxGroupId() {
 		return txGroupId;
