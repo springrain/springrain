@@ -17,7 +17,7 @@
 ## 体验单体到分层切换
 * 修改springrain-system-web依赖springrain-system-service,不再依赖springrain-system-serviceimpl.
 * springrain-system-serviceimpl添加springrain-grpc-server依赖,启用org.springrain.SystemServiceImplApplication的@SpringBootApplication注解
-* 修改file.conf中vgroup_mapping.seata_tx_group = "default",启动seata服务.就是把默认的my_test_tx_group更换成seata_tx_group
+* seata的conf目录下file.conf,修改vgroup_mapping.my_test_tx_group = "default" 为 vgroup_mapping.seata_tx_group = "default",启动seata服务.
 * 启动springrain-system-serviceimpl
 * 启动springrain-system-web
 * 访问http://127.0.0.1:8080/ 账号admin,密码admin
@@ -41,9 +41,9 @@ springrain自带一个代码生成器,能够生成对表的增删改查的逻辑
 
 使用shiro权限控制到按钮级
 
-结合shiro,redis实现了天然的分布式session共享
+结合shiro,redis实现了分布式session共享
 
-hibernate太过复杂.ibatis把sql写入xml文件,利于数据库调优和sql语句管理.数据库调优可以使用druid输出比慢sql,比分析xml中的语句更直观,springrain所有的sql语句都使用Finder封装,只要查看Finder的引用,就能查看项目中所有的sql语句,也比较容易管理.
+数据库调优可以使用druid输出比慢sql,比分析xml中的语句更直观,springrain所有的sql语句都使用Finder封装,只要查看Finder的引用,就能查看项目中所有的sql语句,也比较容易管理.
 
 一些测试案例：
 
