@@ -1,13 +1,13 @@
-## 5.0.0 项目入口是springrain-system-web,基于Istio实现微服务,正在整理文档.
+## 5.1.0 项目入口是springrain-system-web,基于Istio实现微服务,正在整理文档.
 
 ## 实现了什么?
 * 不增加学习成本,像单体一样开发分布式微服务.
 * 不修改业务代码,可以实现单体,分层,微服务多种部署模式切换.
-* 内置同步的分布式事务实现. 
+* 集成seata分布式事务实现. 
 
 ## 实现思路
-* 启动加载springbean时,先检查本地是否有实现,如果没有就启动GRPC远程调用.整个过程对开发人员无感知.
-* 如果开启了分布式事务,入口方法作为事务控制器,由入口方法通过GRPC通知事务提交或者回滚.
+* 启动加载springbean时,先检查本地是否有实现,如果没有就启动GRPC远程调用.开发人员无感知.
+* 使用seata分布式事务实现
 * 基于Istio实现微服务的监控,熔断,限流.
 
 ## 限制
@@ -15,8 +15,9 @@
 * 一个RPC接口只能有一个实现.
 
 ## 体验单体到分层切换
-* 修改springrain-system-web依赖springrain-system-service,作为客户端,不再依赖springrain-system-serviceimpl.
-* springrain-system-serviceimpl添加springrain-grpc-server依赖,作为服务端.
+* 修改springrain-system-web依赖springrain-system-service,不再依赖springrain-system-serviceimpl.
+* springrain-system-serviceimpl添加springrain-grpc-server依赖,启用org.springrain.SystemServiceImplApplication的@SpringBootApplication注解
+* 启动seata服务
 * 启动springrain-system-serviceimpl
 * 启动springrain-system-web
 * 访问http://127.0.0.1:8080/ 
