@@ -47,12 +47,12 @@
 		<gson.version>2.8.5</gson.version>
 		<jsoup.version>1.12.1</jsoup.version>
 		<xstream.version>1.4.11.1</xstream.version>
-		<druid-spring-boot-starter.version>1.1.16</druid-spring-boot-starter.version>
+		<druid-spring-boot-starter.version>1.1.18</druid-spring-boot-starter.version>
 
 		<shiro.version>1.4.1</shiro.version>
 		<jwt.version>3.7.0</jwt.version>
 
-		<redisson.version>3.11.0</redisson.version>
+		<redisson.version>3.11.1</redisson.version>
 		<fst.version>2.57</fst.version>
 		<bcprov.version>1.62</bcprov.version>
 		
