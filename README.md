@@ -20,7 +20,7 @@
 * 修改file.conf中vgroup_mapping.seata_tx_group = "default",启动seata服务.就是把默认的my_test_tx_group更换成seata_tx_group
 * 启动springrain-system-serviceimpl
 * 启动springrain-system-web
-* 访问http://127.0.0.1:8080/ 
+* 访问http://127.0.0.1:8080/ 账号admin,密码admin
 
 ### 项目名为springrain[春雨]我的个人博客是 http://www.weicms.net </br>
 ### 文档
