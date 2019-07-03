@@ -99,7 +99,7 @@ public class GrpcServiceProxy<T> implements InvocationHandler {
 
 				// 2. 开启全局事务
 				try {
-					tx.begin(grpRequest.getTimeout(), System.currentTimeMillis() + "");
+				tx.begin(grpRequest.getTimeout(), grpRequest.getClazz() + "-" + grpRequest.getMethod());
 					txGroupId = tx.getXid();
 				} catch (TransactionException txe) {
 					// 2.1 开启失败
