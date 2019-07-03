@@ -22,7 +22,7 @@
 * 启动springrain-system-web
 * 访问http://127.0.0.1:8080/ 
 
-### 项目名为springrain[春雨]我的个人博客是 http://www.weicms.net QQ群是:238904840 </br>
+### 项目名为springrain[春雨]我的个人博客是 http://www.weicms.net </br>
 ### 文档
 https://gitee.com/chunanyong/springrain/tree/master/springrain-system/springrain-system-web/doc  </br>
 ### 代码生成器
