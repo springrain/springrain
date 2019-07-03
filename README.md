@@ -31,11 +31,11 @@ https://gitee.com/chunanyong/springrain/tree/master/springrain-system/springrain
 https://gitee.com/chunanyong/springrain/tree/master/springrain-system/springrain-system-web/sql  </br>
 
 
-springrain是spring/springboot的极简封装,springboot一站式开发的范例.
+springrain是spring/springboot的封装,springboot开发范例.
 
-springrain是一个完整的Maven项目,包含spring core,spring jdbc,spring mvc.
+springrain是一个Maven项目,包含spring core,spring jdbc,spring mvc.
 
-springrain自带一个代码生成器,能够生成对表的增删改查的逻辑代码,以及前台页面样式和js文件
+springrain自带代码生成器,能够生成对表的增删改查的逻辑代码,以及前台页面样式和js文件
 
 项目只依赖spring,没有hibernate,struts,ibatis.
 
@@ -43,7 +43,7 @@ springrain自带一个代码生成器,能够生成对表的增删改查的逻辑
 
 结合shiro,redis实现了分布式session共享
 
-数据库调优可以使用druid输出比慢sql,比分析xml中的语句更直观,springrain所有的sql语句都使用Finder封装,只要查看Finder的引用,就能查看项目中所有的sql语句,也比较容易管理.
+数据库调优可以使用druid输出慢sql,比分析xml中的语句更直观,springrain所有的sql语句都使用Finder封装管理,只要查看Finder的引用即可.
 
 一些测试案例：
 
