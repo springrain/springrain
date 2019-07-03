@@ -82,7 +82,8 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 		// 初始化需要返回的对象
 		GrpcCommonResponse grpcResponse = new GrpcCommonResponse();
 
-		// 事务的入口,作为提交事务的依据,先判断是否有参数传递进来
+		// 需要考虑是调用链入口还是中间节点
+		// 先判断是否有参数传递进来
 		String txGroupId = grpcRequest.getTxGroupId();
 		boolean bind = false;
 

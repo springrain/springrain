@@ -23,6 +23,12 @@ import io.seata.tm.api.TransactionalExecutor;
 /**
  * 代理grpc的service服务
  * 
+ * seata处理分布式事务,假设调用链是 A-->B-->C-->D
+ * 
+ * 需要测试的事务场景 1.单体项目事务测试 2.远程调用,事务测试
+ * 3.远程调用,spring本地事务混合调用.例如服务A内update方法,方法内有远程调用了B服务的update方法.
+ * 4.远程调用,多次修改造成的数据冲突,回滚时会不会有问题
+ * 
  * @author caomei
  *
  * @param <T>
@@ -75,6 +81,8 @@ public class GrpcServiceProxy<T> implements InvocationHandler {
 		if (SessionUser.getShiroUser() != null) {
 			grpRequest.setShiroUser(SessionUser.getShiroUser());
 		}
+
+		// 需要考虑是调用链入口还是中间节点
 
 		// 获取全局的xid
 		String txGroupId = RootContext.getXID();
