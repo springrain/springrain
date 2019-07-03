@@ -16,9 +16,7 @@ import org.springrain.frame.util.GlobalStatic;
 
 import com.alibaba.druid.pool.DruidDataSource;
 
-import io.seata.rm.RMClient;
 import io.seata.rm.datasource.DataSourceProxy;
-import io.seata.tm.TMClient;
 
 /**
  * 数据库配置
@@ -74,8 +72,6 @@ public class DataSourceConfig {
 		if (GlobalStatic.seataEnable) {
 			// 设置seata的datasource代理
 			DataSourceProxy proxy = new DataSourceProxy(dataSource);
-			RMClient.init(GlobalStatic.seataApplicationId, GlobalStatic.seataTransactionServiceGroup);
-			TMClient.init(GlobalStatic.seataApplicationId, GlobalStatic.seataTransactionServiceGroup);
 			return proxy;
 		}
 

@@ -28,9 +28,8 @@
             <artifactId>springrain-frame-cache-memory</artifactId>
             <version>5.1.0-SNAPSHOT</version>
         </dependency>   
+		-->
 		
-		
-	-->
 
 		
 		<dependency>

@@ -39,7 +39,7 @@ public class GlobalStatic {
 	public static final String seataTransactionServiceGroup = "seata_tx_group";
 	// 是否开启seata分布式事务,默认是开启的,一旦关闭,整个应用就会关闭
 	public static final boolean seataGlobalEnable = true;
-	// 默认不开去seata,如果存在service的分布式调用,就修改成true.只有seataGlobalEnable和seataEnable都是true,seata才会启用.
+	// 默认不启用seata,如果存在service的分布式调用,就修改成true.只有seataGlobalEnable和seataEnable都是true,seata才会启用.
 	public static boolean seataEnable = false;
 
 	// 微信缓存配置

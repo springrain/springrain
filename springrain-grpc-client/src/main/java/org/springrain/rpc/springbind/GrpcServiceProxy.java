@@ -2,11 +2,10 @@ package org.springrain.rpc.springbind;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cglib.proxy.InvocationHandler;
-import org.springframework.transaction.NoTransactionException;
-import org.springframework.transaction.interceptor.TransactionInterceptor;
 import org.springrain.rpc.annotation.RpcServiceMethodAnnotation;
 import org.springrain.rpc.grpcauto.GrpcCommonServiceGrpc.GrpcCommonServiceBlockingStub;
 import org.springrain.rpc.grpcimpl.GrpcClient;
@@ -36,6 +35,10 @@ public class GrpcServiceProxy<T> implements InvocationHandler {
 
 	private Integer rpcPort;
 
+	// 事务匹配的规则
+	String pattern = ".*Service.(save|update|delete)(.*)";
+	// 创建 Pattern 对象
+	Pattern r = Pattern.compile(pattern);
 
 	public GrpcServiceProxy(String rpcHost, Integer rpcPort, GrpcCommonRequest grpcRequest) {
 		this.rpcHost = rpcHost;
@@ -56,10 +59,10 @@ public class GrpcServiceProxy<T> implements InvocationHandler {
 		grpRequest.setVersionCode(grpcCommonRequest.getVersionCode());
 		grpRequest.setAutocommit(grpcCommonRequest.getAutocommit());
 		grpRequest.setArgTypes(method.getParameterTypes());
-
+		// 方法的全路径
+		String methodPath = grpRequest.getClazz() + "." + grpRequest.getMethod();
 
 		boolean istx = false;
-
 
 		// 获取方法上的RpcServiceMethodAnnotation注解内容
 		RpcServiceMethodAnnotation rpcServiceMethodAnnotation = method.getAnnotation(RpcServiceMethodAnnotation.class);
@@ -73,44 +76,34 @@ public class GrpcServiceProxy<T> implements InvocationHandler {
 			grpRequest.setShiroUser(SessionUser.getShiroUser());
 		}
 
+		// 获取全局的xid
+		String txGroupId = RootContext.getXID();
 
-
-
-			String txGroupId = RootContext.getXID();
-			
 		if (StringUtils.isNotBlank(txGroupId)) {// 如果有全局事务
 			istx = true;
 			// 设置xid
 			grpRequest.setTxGroupId(txGroupId);
-		} else {
-			try {
-				TransactionInterceptor.currentTransactionStatus();
-				istx = true;
-			} catch (NoTransactionException e) {
-
-			}
+		} else {// 如果没有全局事务,判断此方法是否具有spring事务
+			istx = istx(methodPath);
 		}
-			// 1. 获取当前全局事务实例或创建新的实例
-			GlobalTransaction tx = null;
-			// 如果没有全局事务
+		// 1. 获取当前全局事务实例或创建新的实例
+		GlobalTransaction tx = null;
+		// 如果没有全局事务
 		if (StringUtils.isBlank(txGroupId) && istx) {
-				// 1. 获取当前全局事务实例或创建新的实例
-				tx = GlobalTransactionContext.getCurrentOrCreate();
+			// 1. 获取当前全局事务实例或创建新的实例
+			tx = GlobalTransactionContext.getCurrentOrCreate();
 
-				// 2. 开启全局事务
+			// 2. 开启全局事务
 			try {
-				tx.begin(grpRequest.getTimeout(), grpRequest.getClazz() + "-" + grpRequest.getMethod());
-					txGroupId = tx.getXid();
-				} catch (TransactionException txe) {
-					// 2.1 开启失败
-					throw new TransactionalExecutor.ExecutionException(tx, txe,
-							TransactionalExecutor.Code.BeginFailure);
-				}
+				tx.begin(grpRequest.getTimeout(), methodPath);
+				txGroupId = tx.getXid();
+			} catch (TransactionException txe) {
+				// 2.1 开启失败
+				throw new TransactionalExecutor.ExecutionException(tx, txe, TransactionalExecutor.Code.BeginFailure);
+			}
 			// 设置xid
 			grpRequest.setTxGroupId(txGroupId);
 		}
-
-
 
 		GrpcCommonServiceBlockingStub blockingStub = GrpcClient.getCommonServiceBlockingStub(rpcHost, rpcPort);
 
@@ -122,17 +115,16 @@ public class GrpcServiceProxy<T> implements InvocationHandler {
 			Throwable throwable = grpcResponse.getException();
 			// 业务调用本身的异常
 
+			GrpcCommonException exception = new GrpcCommonException(
+					throwable.getClass().getName() + ": " + throwable.getMessage());
+			StackTraceElement[] exceptionStackTrace = exception.getStackTrace();
+			StackTraceElement[] responseStackTrace = grpcResponse.getStackTrace();
+			StackTraceElement[] allStackTrace = Arrays.copyOf(exceptionStackTrace,
+					exceptionStackTrace.length + responseStackTrace.length);
+			System.arraycopy(responseStackTrace, 0, allStackTrace, exceptionStackTrace.length,
+					responseStackTrace.length);
+			exception.setStackTrace(allStackTrace);
 
-				GrpcCommonException exception = new GrpcCommonException(
-						throwable.getClass().getName() + ": " + throwable.getMessage());
-				StackTraceElement[] exceptionStackTrace = exception.getStackTrace();
-				StackTraceElement[] responseStackTrace = grpcResponse.getStackTrace();
-				StackTraceElement[] allStackTrace = Arrays.copyOf(exceptionStackTrace,
-						exceptionStackTrace.length + responseStackTrace.length);
-				System.arraycopy(responseStackTrace, 0, allStackTrace, exceptionStackTrace.length,
-						responseStackTrace.length);
-				exception.setStackTrace(allStackTrace);
-				
 			try {
 				// 全局回滚
 				if (tx != null) {
@@ -166,12 +158,21 @@ public class GrpcServiceProxy<T> implements InvocationHandler {
 		// 返回结果
 		return grpcResponse.getResult();
 	}
-	
-	
 
-	
-	
+	/**
+	 * 判断调用的方法是否没有事务
+	 * 
+	 * @param methodPath
+	 * @return
+	 */
+	private boolean istx(String methodPath) {
 
+		if (methodPath == null) {
+			return false;
+		}
 
+		boolean matches = r.matcher(methodPath).matches();
+		return matches;
+	}
 
 }

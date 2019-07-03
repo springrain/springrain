@@ -47,10 +47,7 @@
                 <groupId>io.seata</groupId>
                 <artifactId>seata-rm-datasource</artifactId>
             </dependency>
-             <dependency>
-                <groupId>io.seata</groupId>
-                <artifactId>seata-tm</artifactId>
-            </dependency>                   
+              
             
 
 
