@@ -67,11 +67,12 @@
 			<!-- springboot compile plugin,RCP独立运行时需要使用springboot插件进行打包 -->
 			<!-- =================== -->
 
+           <!--  
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-
+            -->
 
 
 			<!-- =================== -->
