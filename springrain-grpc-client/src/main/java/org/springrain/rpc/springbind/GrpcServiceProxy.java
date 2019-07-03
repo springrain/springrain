@@ -110,7 +110,7 @@ public class GrpcServiceProxy<T> implements InvocationHandler {
 		// grpc客户端.发起请求
 		GrpcCommonResponse grpcResponse = GrpcClient.commonHandle(blockingStub, grpRequest);
 
-		// 处理异常,异常是再服务端抛出的,直接在服务端代码里回滚了.如果还未兼容spring事务,因为需要在客户端事务监听里,回滚所有事务.
+		// 处理异常,异常是在服务端抛出的.
 		if (grpcResponse.getStatus() >= 400) {
 			Throwable throwable = grpcResponse.getException();
 			// 业务调用本身的异常
