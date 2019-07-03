@@ -84,7 +84,7 @@ public class GrpcServiceProxy<T> implements InvocationHandler {
 			// 设置xid
 			grpRequest.setTxGroupId(txGroupId);
 		} else {// 如果没有全局事务,判断此方法是否具有spring事务
-			istx = istx(methodPath);
+			istx = isSpringTx(methodPath);
 		}
 		// 1. 获取当前全局事务实例或创建新的实例
 		GlobalTransaction tx = null;
@@ -165,7 +165,7 @@ public class GrpcServiceProxy<T> implements InvocationHandler {
 	 * @param methodPath
 	 * @return
 	 */
-	private boolean istx(String methodPath) {
+	private boolean isSpringTx(String methodPath) {
 
 		if (methodPath == null) {
 			return false;
