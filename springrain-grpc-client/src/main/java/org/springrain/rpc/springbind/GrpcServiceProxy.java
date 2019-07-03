@@ -160,7 +160,7 @@ public class GrpcServiceProxy<T> implements InvocationHandler {
 	}
 
 	/**
-	 * 判断调用的方法是否没有事务
+	 * 判断调用的方法是否没有事务.暂时未找到spring的验证方法,临时实现,待完善.
 	 * 
 	 * @param methodPath
 	 * @return
