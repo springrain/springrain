@@ -4,10 +4,10 @@ SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
--- Table structure for t_auditlog_history_2018
+-- Table structure for t_auditlog_history_2020
 -- ----------------------------
-DROP TABLE IF EXISTS `t_auditlog_history_2018`;
-CREATE TABLE `t_auditlog_history_2018`  (
+DROP TABLE IF EXISTS `t_auditlog_history_2020`;
+CREATE TABLE `t_auditlog_history_2020`  (
   `id` varchar(50)  NOT NULL COMMENT 'ID',
   `operationType` varchar(50)  NULL DEFAULT NULL COMMENT '操作类型',
   `operatorName` varchar(50)  NULL DEFAULT NULL COMMENT '操作人姓名',
@@ -53,6 +53,7 @@ CREATE TABLE `t_dic_data`  (
   `id` varchar(50)  NOT NULL,
   `name` varchar(60)  NOT NULL COMMENT '名称',
   `code` varchar(60)  NULL DEFAULT NULL COMMENT '编码',
+  `val` varchar(1000)  NULL DEFAULT NULL COMMENT '值',
   `pid` varchar(50)  NULL DEFAULT NULL COMMENT '父ID',
   `sortno` int(11) NULL DEFAULT NULL COMMENT '排序',
   `remark` varchar(2000)  NULL DEFAULT NULL COMMENT '描述',
@@ -69,19 +70,19 @@ CREATE TABLE `t_dic_data`  (
 -- ----------------------------
 -- Records of t_dic_data
 -- ----------------------------
-INSERT INTO `t_dic_data` VALUES ('16b80bfb-f0ee-47a0-ba94-cc256abaed17', '专科', '', NULL, NULL, '', 1, 'xueli', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_dic_data` VALUES ('7ed23330-5538-4943-8678-0c5a2121cf57', '高中', '', NULL, NULL, '', 1, 'xueli', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_dic_data` VALUES ('936db407-ae1-45a7-a657-b60580e2a77a', '汉族', '101', NULL, NULL, '', 1, 'minzu', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_dic_data` VALUES ('936db407-ae2-45a7-a657-b60580e2a77a', '回族', '', NULL, NULL, '', 1, 'minzu', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_dic_data` VALUES ('936db407-ae3-45a7-a657-b60580e2a77a', '一级', '', NULL, NULL, '', 1, 'grade', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_dic_data` VALUES ('936db407-ae4-45a7-a657-b60580e2a77a', '二级', '', NULL, NULL, '', 1, 'grade', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `t_dic_data` VALUES ('d7d1744b-e69f-48d0-9760-b2eae6af039b', '本科', '', NULL, NULL, '', 1, 'xueli', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_dic_data` VALUES ('16b80bfb-f0ee-47a0-ba94-cc256abaed17', '专科', '',NULL, NULL, NULL, '', 1, 'xueli', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_dic_data` VALUES ('7ed23330-5538-4943-8678-0c5a2121cf57', '高中', '', NULL,NULL, NULL, '', 1, 'xueli', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_dic_data` VALUES ('936db407-ae1-45a7-a657-b60580e2a77a', '汉族', '101',NULL, NULL, NULL, '', 1, 'minzu', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_dic_data` VALUES ('936db407-ae2-45a7-a657-b60580e2a77a', '回族', '', NULL,NULL, NULL, '', 1, 'minzu', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_dic_data` VALUES ('936db407-ae3-45a7-a657-b60580e2a77a', '一级', '', NULL,NULL, NULL, '', 1, 'grade', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_dic_data` VALUES ('936db407-ae4-45a7-a657-b60580e2a77a', '二级', '', NULL,NULL, NULL, '', 1, 'grade', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `t_dic_data` VALUES ('d7d1744b-e69f-48d0-9760-b2eae6af039b', '本科', '', NULL,NULL, NULL, '', 1, 'xueli', NULL, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
--- Table structure for t_fwlog_history_2018
+-- Table structure for t_fwlog_history_2020
 -- ----------------------------
-DROP TABLE IF EXISTS `t_fwlog_history_2018`;
-CREATE TABLE `t_fwlog_history_2018`  (
+DROP TABLE IF EXISTS `t_fwlog_history_2020`;
+CREATE TABLE `t_fwlog_history_2020`  (
   `id` varchar(100)  NOT NULL COMMENT 'ID',
   `startDate` datetime(0) NULL DEFAULT NULL COMMENT '访问时间',
   `strDate` varchar(100)  NULL DEFAULT NULL COMMENT '访问时间(毫秒)',
