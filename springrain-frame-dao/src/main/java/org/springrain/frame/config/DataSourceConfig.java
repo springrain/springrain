@@ -17,6 +17,7 @@ import org.springrain.frame.util.GlobalStatic;
 import com.alibaba.druid.pool.DruidDataSource;
 
 import io.seata.rm.datasource.DataSourceProxy;
+import io.seata.spring.annotation.GlobalTransactionScanner;
 
 /**
  * 数据库配置
@@ -69,13 +70,13 @@ public class DataSourceConfig {
 		// 设置属性
 		setDataSourceProperties(dataSource);
 		
-		if (GlobalStatic.seataEnable) {
+		// if (GlobalStatic.seataEnable) {
 			// 设置seata的datasource代理
 			DataSourceProxy proxy = new DataSourceProxy(dataSource);
 			return proxy;
-		}
+		// }
 
-		return dataSource;
+		// return dataSource;
 	}
 
 	/**
@@ -131,5 +132,17 @@ public class DataSourceConfig {
 		return dataSource;
 
 	}
+
+	/**
+	 * seata的扫描器
+	 * 
+	 * @return
+	 */
+	@Bean("globalTransactionScanner")
+	public GlobalTransactionScanner globalTransactionScanner() {
+		return new GlobalTransactionScanner(GlobalStatic.seataApplicationId, GlobalStatic.seataTransactionServiceGroup);
+
+	}
+
 
 }

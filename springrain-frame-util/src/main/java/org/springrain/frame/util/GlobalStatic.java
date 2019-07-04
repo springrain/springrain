@@ -38,9 +38,9 @@ public class GlobalStatic {
 	// 对应file.conf的vgroup_mapping.seata_tx_group,seata是拼接vgroup_mapping.+seataTransactionServiceGroup###
 	public static final String seataTransactionServiceGroup = "seata_tx_group";
 	// 是否开启seata分布式事务,默认是开启的,一旦关闭,整个应用就会关闭
-	public static final boolean seataGlobalEnable = true;
+	// public static final boolean seataGlobalEnable = true;
 	// 默认不启用seata,如果存在service的分布式调用,就修改成true.只有seataGlobalEnable和seataEnable都是true,seata才会启用.
-	public static boolean seataEnable = false;
+	// public static boolean seataEnable = false;
 
 	// 微信缓存配置
 	public static final String mpConfigCacheKey = "mpConfigCacheKey";// 订阅号配置缓存Key

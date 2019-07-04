@@ -15,10 +15,6 @@ import org.springrain.rpc.grpcimpl.GrpcCommonResponse;
 import org.springrain.rpc.sessionuser.SessionUser;
 
 import io.seata.core.context.RootContext;
-import io.seata.core.exception.TransactionException;
-import io.seata.tm.api.GlobalTransaction;
-import io.seata.tm.api.GlobalTransactionContext;
-import io.seata.tm.api.TransactionalExecutor;
 
 /**
  * 代理grpc的service服务
@@ -65,10 +61,7 @@ public class GrpcServiceProxy<T> implements InvocationHandler {
 		grpRequest.setVersionCode(grpcCommonRequest.getVersionCode());
 		grpRequest.setAutocommit(grpcCommonRequest.getAutocommit());
 		grpRequest.setArgTypes(method.getParameterTypes());
-		// 方法的全路径
-		String methodPath = grpRequest.getClazz() + "." + grpRequest.getMethod();
 
-		boolean istx = false;
 
 		// 获取方法上的RpcServiceMethodAnnotation注解内容
 		RpcServiceMethodAnnotation rpcServiceMethodAnnotation = method.getAnnotation(RpcServiceMethodAnnotation.class);
@@ -88,27 +81,6 @@ public class GrpcServiceProxy<T> implements InvocationHandler {
 		String txGroupId = RootContext.getXID();
 
 		if (StringUtils.isNotBlank(txGroupId)) {// 如果有全局事务
-			istx = true;
-			// 设置xid
-			grpRequest.setTxGroupId(txGroupId);
-		} else {// 如果没有全局事务,判断此方法是否具有spring事务
-			istx = isSpringTx(methodPath);
-		}
-		// 1. 获取当前全局事务实例或创建新的实例
-		GlobalTransaction tx = null;
-		// 如果没有全局事务
-		if (StringUtils.isBlank(txGroupId) && istx) {
-			// 1. 获取当前全局事务实例或创建新的实例
-			tx = GlobalTransactionContext.getCurrentOrCreate();
-
-			// 2. 开启全局事务
-			try {
-				tx.begin(grpRequest.getTimeout(), methodPath);
-				txGroupId = tx.getXid();
-			} catch (TransactionException txe) {
-				// 2.1 开启失败
-				throw new TransactionalExecutor.ExecutionException(tx, txe, TransactionalExecutor.Code.BeginFailure);
-			}
 			// 设置xid
 			grpRequest.setTxGroupId(txGroupId);
 		}
@@ -133,36 +105,11 @@ public class GrpcServiceProxy<T> implements InvocationHandler {
 					responseStackTrace.length);
 			exception.setStackTrace(allStackTrace);
 
-			try {
-				// 全局回滚
-				if (tx != null) {
-					tx.rollback();
-				}
 
-				// 3.1 全局回滚成功：抛出原始业务异常
-				throw new TransactionalExecutor.ExecutionException(tx, TransactionalExecutor.Code.RollbackDone,
-						exception);
-
-			} catch (TransactionException txe) {
-				// 3.2 全局回滚失败：
-				throw new TransactionalExecutor.ExecutionException(tx, txe, TransactionalExecutor.Code.RollbackFailure,
-						throwable);
-
-			}
 
 		}
 
-		// 4. 全局提交
-		try {
-			if (tx != null) {
-				tx.commit();
-			}
 
-		} catch (TransactionException txe) {
-			// 4.1 全局提交失败：
-			throw new TransactionalExecutor.ExecutionException(tx, txe, TransactionalExecutor.Code.CommitFailure);
-
-		}
 		// 返回结果
 		return grpcResponse.getResult();
 	}

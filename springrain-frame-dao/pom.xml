@@ -45,7 +45,7 @@
             
             <dependency>
                 <groupId>io.seata</groupId>
-                <artifactId>seata-rm-datasource</artifactId>
+                <artifactId>seata-spring</artifactId>
             </dependency>
               
             
