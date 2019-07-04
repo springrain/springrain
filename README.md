@@ -7,7 +7,7 @@
 
 ## 实现思路
 * 启动加载springbean时,先检查本地是否有实现,如果没有就启动GRPC远程调用.开发人员无感知.
-* 使用seata分布式事务实现.无注解,开发人员无感知.
+* 使用seata分布式事务实现.
 * 基于Istio实现微服务的发现,监控,熔断,限流.开发人员无感知.
 
 ## 限制
@@ -17,7 +17,7 @@
 ## 体验单体到分层切换
 * 修改springrain-system-web依赖springrain-system-service,不再依赖springrain-system-serviceimpl.
 * springrain-system-serviceimpl添加springrain-grpc-server依赖,启用org.springrain.SystemServiceImplApplication的@SpringBootApplication注解
-* seata的conf目录下file.conf,修改vgroup_mapping.my_test_tx_group = "default" 为 vgroup_mapping.seata_tx_group = "default",启动seata服务.
+* seata-server的conf目录下file.conf,修改vgroup_mapping.my_test_tx_group = "default" 为 vgroup_mapping.seata_tx_group = "default",启动seata-server服务.
 * 启动springrain-system-serviceimpl
 * 启动springrain-system-web
 * 访问http://127.0.0.1:8080/ 账号admin,密码admin
