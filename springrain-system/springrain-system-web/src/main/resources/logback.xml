@@ -37,15 +37,18 @@
 		<appender-ref ref="sqlFile" />
 	</logger>
 	
+	<!--
 	<logger name="org" level="ERROR" additivity="false"  >
 	     <appender-ref ref="stdout" />
          <appender-ref ref="errorFile" />
 	</logger>
-	
+	  -->
 
-	<root level="ERROR">
-		<appender-ref ref="stdout" />
-	</root>
+
+    <root level="ERROR">
+        <appender-ref ref="stdout" />
+        <appender-ref ref="errorFile" />
+    </root>
 
 	
 </configuration>
