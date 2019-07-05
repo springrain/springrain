@@ -74,7 +74,7 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
 		for (UserOrg e : managerOrgs) {
 			e.setUserId(userId);
 		}
-		super.save(managerOrgs);// 保存 管理的部门
+		userRoleMenuService.save(managerOrgs);// 保存 管理的部门
 		// hyy 20160123 end
 		// 老代码不动
 		List<Role> listRole = user.getUserRoles();
@@ -89,7 +89,7 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
 			return;
 		}
 
-		super.save(listur);
+		userRoleMenuService.save(listur);
 
 	}
 
