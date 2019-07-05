@@ -79,8 +79,7 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 			return;
 		}
 
-		// 初始化需要返回的对象
-		GrpcCommonResponse grpcResponse = new GrpcCommonResponse();
+
 
 		// 需要考虑是调用链入口还是中间节点
 		// 先判断是否有参数传递进来
@@ -98,10 +97,9 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 			}
 
 			// 执行service的方法
-			Object result = invokeMethod(bean, grpcRequest.getMethod(), args, grpcRequest.getArgTypes(), shiroUser);
+			GrpcCommonResponse grpcResponse = invokeMethod(bean, grpcRequest.getMethod(), args,
+					grpcRequest.getArgTypes(), shiroUser);
 
-			// 设置结果状态
-			grpcResponse.success(result);
 
 			// 序列化需要返回的结果
 			ByteString bytes = FstSerializeUtils.serialize(grpcResponse);
@@ -163,24 +161,29 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 	 * @return
 	 * @throws Exception
 	 */
-	private Object invokeMethod(Object bean, String methodName, Object[] args, Class[] parameterTypes,
-			ShiroUser shiroUser) throws Exception {
-
+	private GrpcCommonResponse invokeMethod(Object bean, String methodName, Object[] args, Class[] parameterTypes,
+			ShiroUser shiroUser) {
+		// 初始化需要返回的对象
+		GrpcCommonResponse grpcResponse = new GrpcCommonResponse();
 		if (shiroUser != null) {
 			RpcStaticVariable.shiroUserLocal.set(shiroUser);
 		}
+		try {
+			Method method = bean.getClass().getMethod(methodName, parameterTypes);
+			// Method method = MethodUtils.getMatchingMethod(bean.getClass(), methodName,
+			// parameterTypes);
+			FastClass serviceFastClass = FastClass.create(bean.getClass());
+			FastMethod serviceFastMethod = serviceFastClass.getMethod(method);
+			Object result = serviceFastMethod.invoke(bean, args);
+			grpcResponse.success(result);
+		} catch (Exception e) {
+			grpcResponse.error(e.getMessage(), e, e.getStackTrace());
+		}
 
-		Method method = bean.getClass().getMethod(methodName, parameterTypes);
-		// Object result = method.invoke(bean, args);
-
-		// Method method = MethodUtils.getMatchingMethod(bean.getClass(), methodName,
-		// parameterTypes);
-		FastClass serviceFastClass = FastClass.create(bean.getClass());
-		FastMethod serviceFastMethod = serviceFastClass.getMethod(method);
-		Object result = serviceFastMethod.invoke(bean, args);
 
 
-		return result;
+
+		return grpcResponse;
 
 	}
 
