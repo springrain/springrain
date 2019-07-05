@@ -117,6 +117,7 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 			// String message = e.getClass().getName() + ": " + e.getMessage();
 			// grpcResponse.error(message, e, e.getStackTrace());
 		} finally {
+			RpcStaticVariable.shiroUserLocal.remove();
 			if (bind) {
 				String unbindXid = RootContext.unbind();
 				if (!txGroupId.equalsIgnoreCase(unbindXid)) {
@@ -178,7 +179,7 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 		FastMethod serviceFastMethod = serviceFastClass.getMethod(method);
 		Object result = serviceFastMethod.invoke(bean, args);
 
-		RpcStaticVariable.shiroUserLocal.remove();
+
 		return result;
 
 	}
