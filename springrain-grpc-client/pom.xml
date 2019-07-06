@@ -65,15 +65,7 @@
                 <artifactId>seata-core</artifactId>
             </dependency>
         
-             <dependency>
-                <groupId>io.seata</groupId>
-                <artifactId>seata-rm</artifactId>
-            </dependency>
-        
-             <dependency>
-                <groupId>io.seata</groupId>
-                <artifactId>seata-tm</artifactId>
-            </dependency>     
+   
         
         
 

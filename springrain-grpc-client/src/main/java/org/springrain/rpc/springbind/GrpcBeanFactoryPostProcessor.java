@@ -18,9 +18,6 @@ import org.springrain.frame.util.GlobalStatic;
 import org.springrain.rpc.annotation.RpcServiceAnnotation;
 import org.springrain.rpc.grpcimpl.GrpcCommonRequest;
 
-import io.seata.rm.RMClient;
-import io.seata.tm.TMClient;
-
 /**
  * 在spring初始化之前,通过beanFactory先注入需要代理的bean,不然springbean初始化会异常.
  * 需要实现EnvironmentAware,setEnvironment
@@ -144,11 +141,7 @@ public class GrpcBeanFactoryPostProcessor implements BeanFactoryPostProcessor, E
 
 		}
 
-		// 初始化seata注册
-		if (GlobalStatic.seataEnable) {
-			RMClient.init(GlobalStatic.seataApplicationId, GlobalStatic.seataTransactionServiceGroup);
-			TMClient.init(GlobalStatic.seataApplicationId, GlobalStatic.seataTransactionServiceGroup);
-		}
+
 
 	}
 
