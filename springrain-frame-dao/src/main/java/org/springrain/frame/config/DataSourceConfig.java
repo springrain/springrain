@@ -18,10 +18,11 @@ import com.alibaba.druid.pool.DruidDataSource;
 
 import io.seata.rm.RMClient;
 import io.seata.rm.datasource.DataSourceProxy;
+import io.seata.spring.annotation.GlobalTransactionScanner;
 import io.seata.tm.TMClient;
 
 /**
- * 数据库配置
+ * 数据库配置和seata配置,使用@GlobalTransaction注解
  * 
  * @author caomei
  *
@@ -60,6 +61,17 @@ public class DataSourceConfig {
 	private String connectionProperties = "druid.stat.slowSqlMillis=1000;druid.stat.logSlowSql=true";
 
 	/**
+	 * 如果使用了spring扫描器,就要把datasource里的RMClient.init和TMClient.init注释掉,避免重复注册,也不用判断GlobalStatic.seataEnable了.
+	 * 
+	 * @return
+	 */
+	// @Bean("globalTransactionScanner")
+	public GlobalTransactionScanner globalTransactionScanner() {
+		GlobalStatic.seataEnable = true;
+		return new GlobalTransactionScanner(GlobalStatic.seataApplicationId, GlobalStatic.seataTransactionServiceGroup);
+	}
+
+	/**
 	 * 自定义 dataSource,用户扩展实现
 	 */
 	@Bean("dataSource")
@@ -71,6 +83,11 @@ public class DataSourceConfig {
 		// 设置属性
 		setDataSourceProperties(dataSource);
 		
+
+		// 如果使用了globalTransactionScanner,就一定要使用DataSourceProxy
+		// return new DataSourceProxy(dataSource);
+
+		// 如果没有使用globalTransactionScanner
 		if (GlobalStatic.seataEnable) {
 			// 设置seata的datasource代理
 			DataSourceProxy proxy = new DataSourceProxy(dataSource);
