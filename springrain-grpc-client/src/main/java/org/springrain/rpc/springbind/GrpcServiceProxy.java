@@ -6,6 +6,9 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cglib.proxy.InvocationHandler;
+import org.springframework.transaction.NoTransactionException;
+import org.springframework.transaction.interceptor.TransactionInterceptor;
+import org.springrain.frame.util.GlobalStatic;
 import org.springrain.rpc.annotation.RpcServiceMethodAnnotation;
 import org.springrain.rpc.grpcauto.GrpcCommonServiceGrpc.GrpcCommonServiceBlockingStub;
 import org.springrain.rpc.grpcimpl.GrpcClient;
@@ -15,6 +18,10 @@ import org.springrain.rpc.grpcimpl.GrpcCommonResponse;
 import org.springrain.rpc.sessionuser.SessionUser;
 
 import io.seata.core.context.RootContext;
+import io.seata.core.exception.TransactionException;
+import io.seata.tm.api.GlobalTransaction;
+import io.seata.tm.api.GlobalTransactionContext;
+import io.seata.tm.api.TransactionalExecutor;
 
 /**
  * 代理grpc的service服务
@@ -52,27 +59,30 @@ public class GrpcServiceProxy<T> implements InvocationHandler {
 	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 
 		// 初始化请求数据
-		GrpcCommonRequest grpRequest = new GrpcCommonRequest();
-		grpRequest.setArgs(args);
-		grpRequest.setMethod(method.getName());
-		grpRequest.setBeanName(grpcCommonRequest.getBeanName());
-		grpRequest.setClazz(grpcCommonRequest.getClazz());
-		grpRequest.setTimeout(grpcCommonRequest.getTimeout());
-		grpRequest.setVersionCode(grpcCommonRequest.getVersionCode());
-		grpRequest.setAutocommit(grpcCommonRequest.getAutocommit());
-		grpRequest.setArgTypes(method.getParameterTypes());
+		GrpcCommonRequest grpcRequest = new GrpcCommonRequest();
+		grpcRequest.setArgs(args);
+		grpcRequest.setMethod(method.getName());
+		grpcRequest.setBeanName(grpcCommonRequest.getBeanName());
+		grpcRequest.setClazz(grpcCommonRequest.getClazz());
+		grpcRequest.setTimeout(grpcCommonRequest.getTimeout());
+		grpcRequest.setVersionCode(grpcCommonRequest.getVersionCode());
+		grpcRequest.setAutocommit(grpcCommonRequest.getAutocommit());
+		grpcRequest.setArgTypes(method.getParameterTypes());
+		// 方法的全路径
+		String methodPath = grpcRequest.getClazz() + "." + grpcRequest.getMethod();
 
+		boolean istx = false;
 
 		// 获取方法上的RpcServiceMethodAnnotation注解内容
 		RpcServiceMethodAnnotation rpcServiceMethodAnnotation = method.getAnnotation(RpcServiceMethodAnnotation.class);
 		if (rpcServiceMethodAnnotation != null) {
-			grpRequest.setTimeout(rpcServiceMethodAnnotation.timeout());
-			grpRequest.setAutocommit(rpcServiceMethodAnnotation.autocommit());
+			grpcRequest.setTimeout(rpcServiceMethodAnnotation.timeout());
+			grpcRequest.setAutocommit(rpcServiceMethodAnnotation.autocommit());
 
 		}
 		// 传递shiroUser对象
 		if (SessionUser.getShiroUser() != null) {
-			grpRequest.setShiroUser(SessionUser.getShiroUser());
+			grpcRequest.setShiroUser(SessionUser.getShiroUser());
 		}
 
 		// 需要考虑是调用链入口还是中间节点
@@ -81,19 +91,44 @@ public class GrpcServiceProxy<T> implements InvocationHandler {
 		String txGroupId = RootContext.getXID();
 
 		if (StringUtils.isNotBlank(txGroupId)) {// 如果有全局事务
+			istx = true;
 			// 设置xid
-			grpRequest.setTxGroupId(txGroupId);
+			grpcRequest.setTxGroupId(txGroupId);
+		} else {// 如果没有全局事务,判断此方法是否具有spring事务.如果客户端没有事务,开启事务的权限就在服务端.
+			istx = hasSpringTx();
+			// istx = isSpringTxMethod(methodPath);
+		}
+		// 1. 获取当前全局事务实例或创建新的实例
+		GlobalTransaction tx = null;
+		// 如果没有全局事务
+		if (StringUtils.isBlank(txGroupId) && istx) {
+			// 1. 获取当前全局事务实例或创建新的实例
+			tx = GlobalTransactionContext.getCurrentOrCreate();
+
+			// 2. 开启全局事务
+			try {
+				tx.begin(grpcRequest.getTimeout(), methodPath);
+				txGroupId = tx.getXid();
+				// 创建线程
+				GlobalStatic.seataTransactionBegin.set(true);
+			} catch (TransactionException txe) {
+				// 2.1 开启失败
+				throw new TransactionalExecutor.ExecutionException(tx, txe, TransactionalExecutor.Code.BeginFailure);
+			}
+			// 设置xid
+			grpcRequest.setTxGroupId(txGroupId);
 		}
 
 		GrpcCommonServiceBlockingStub blockingStub = GrpcClient.getCommonServiceBlockingStub(rpcHost, rpcPort);
 
 		// grpc客户端.发起请求
-		GrpcCommonResponse grpcResponse = GrpcClient.commonHandle(blockingStub, grpRequest);
+		GrpcCommonResponse grpcResponse = GrpcClient.commonHandle(blockingStub, grpcRequest);
 
 		// 处理异常,异常是在服务端抛出的.
 		if (grpcResponse.getStatus() >= 400) {
 			Throwable throwable = grpcResponse.getException();
 			// 业务调用本身的异常
+
 
 			GrpcCommonException exception = new GrpcCommonException(
 					throwable.getClass().getName() + ": " + throwable.getMessage());
@@ -104,10 +139,7 @@ public class GrpcServiceProxy<T> implements InvocationHandler {
 			System.arraycopy(responseStackTrace, 0, allStackTrace, exceptionStackTrace.length,
 					responseStackTrace.length);
 			exception.setStackTrace(allStackTrace);
-			
 			throw exception;
-
-
 
 		}
 
@@ -117,12 +149,27 @@ public class GrpcServiceProxy<T> implements InvocationHandler {
 	}
 
 	/**
-	 * 判断调用的方法是否没有事务.暂时未找到spring的验证方法,临时实现,待完善.
+	 * 如果已经存在spring事务,说明是中间节点,需要在rpc客户端产生全局事务,和当前事务绑定.如果没有事务,在服务端创建分布式事务.
+	 * 
+	 * @return
+	 */
+	private boolean hasSpringTx() {
+
+		try {
+			TransactionInterceptor.currentTransactionStatus();
+			return true;
+		} catch (NoTransactionException e) {
+		   return false;
+		}
+	}
+
+	/**
+	 * 如果已经存在spring事务,说明是中间节点,需要在rpc客户端产生全局事务,和当前事务绑定.如果没有事务,在服务端创建分布式事务.判断方法是否会产生spring事务.
 	 * 
 	 * @param methodPath
 	 * @return
 	 */
-	private boolean isSpringTx(String methodPath) {
+	private boolean isSpringTxMethod(String methodPath) {
 
 		if (methodPath == null) {
 			return false;

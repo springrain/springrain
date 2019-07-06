@@ -14,8 +14,12 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Component;
+import org.springrain.frame.util.GlobalStatic;
 import org.springrain.rpc.annotation.RpcServiceAnnotation;
 import org.springrain.rpc.grpcimpl.GrpcCommonRequest;
+
+import io.seata.rm.RMClient;
+import io.seata.tm.TMClient;
 
 /**
  * 在spring初始化之前,通过beanFactory先注入需要代理的bean,不然springbean初始化会异常.
@@ -94,11 +98,15 @@ public class GrpcBeanFactoryPostProcessor implements BeanFactoryPostProcessor, E
 				logger.error("未找到接口" + clazz.getName() + "的实现类" + rpcServiceImplClassName + ",开始RPC调用远程实现");
 			}
 			
-			/*
-			 * // 因为有远程调用的service,设置seata为启用状态. if (GlobalStatic.seataGlobalEnable) { if
-			 * (!GlobalStatic.seataEnable) { GlobalStatic.seataEnable = true; } } else {//
-			 * 如果全局禁用seata,就设置为false GlobalStatic.seataEnable = false; }
-			 */
+			// 因为有远程调用的service,设置seata为启用状态.
+			if (GlobalStatic.seataGlobalEnable) {
+				if (!GlobalStatic.seataEnable) {
+					GlobalStatic.seataEnable = true;
+				}
+			} else {// 如果全局禁用seata,就设置为false
+				GlobalStatic.seataEnable = false;
+			}
+			
 			
 
 			RpcServiceAnnotation rpcServiceAnnotation = clazz.getAnnotation(RpcServiceAnnotation.class);
@@ -136,13 +144,11 @@ public class GrpcBeanFactoryPostProcessor implements BeanFactoryPostProcessor, E
 
 		}
 
-		/**
-		 * // 初始化seata注册 if (GlobalStatic.seataEnable) {
-		 * RMClient.init(GlobalStatic.seataApplicationId,
-		 * GlobalStatic.seataTransactionServiceGroup);
-		 * TMClient.init(GlobalStatic.seataApplicationId,
-		 * GlobalStatic.seataTransactionServiceGroup); }
-		 */
+		// 初始化seata注册
+		if (GlobalStatic.seataEnable) {
+			RMClient.init(GlobalStatic.seataApplicationId, GlobalStatic.seataTransactionServiceGroup);
+			TMClient.init(GlobalStatic.seataApplicationId, GlobalStatic.seataTransactionServiceGroup);
+		}
 
 	}
 

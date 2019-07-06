@@ -1,6 +1,7 @@
 package org.springrain.rpc.grpcimpl;
 
 import java.lang.reflect.Method;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -18,6 +19,10 @@ import org.springrain.rpc.util.FstSerializeUtils;
 import com.google.protobuf.ByteString;
 
 import io.seata.core.context.RootContext;
+import io.seata.core.exception.TransactionException;
+import io.seata.tm.api.GlobalTransaction;
+import io.seata.tm.api.GlobalTransactionContext;
+import io.seata.tm.api.TransactionalExecutor;
 
 /**
  * 集成自动产生的java类,自定义自己的实现.总体思路是
@@ -35,6 +40,11 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 	private static final Logger logger = LoggerFactory.getLogger(CommonGrpcService.class);
 
 	private ApplicationContext applicationContext = null;
+
+	// 事务匹配的规则
+	String pattern = ".*Service.(save|update|delete)(.*)";
+	// 创建 Pattern 对象
+	Pattern r = Pattern.compile(pattern);
 
 	public CommonGrpcService(ApplicationContext applicationContext) {
 
@@ -63,6 +73,9 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 		// 当前登录用户对象信息
 		ShiroUser shiroUser = grpcRequest.getShiroUser();
 
+		// 方法的全路径
+		String methodPath = className + "." + grpcRequest.getMethod();
+
 		Object bean = null;
 
 		try {
@@ -79,13 +92,16 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 			return;
 		}
 
-
+		if (grpcRequest.getMethod().contains("save")) {
+			System.out.println("----------");
+		}
 
 		// 需要考虑是调用链入口还是中间节点
 		// 先判断是否有参数传递进来
 		String txGroupId = grpcRequest.getTxGroupId();
 		boolean bind = false;
-
+		// 是否是全局事务入口
+		GlobalTransaction tx = null;
 
 		try {
 
@@ -94,6 +110,28 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 			if (StringUtils.isBlank(xid) && StringUtils.isNotBlank(txGroupId)) {
 				RootContext.bind(txGroupId);
 				bind = true;
+			}
+
+			if (StringUtils.isBlank(xid) && StringUtils.isBlank(txGroupId) && isSpringTxMethod(methodPath)) {// 需要产生事务,创建分布式事务.
+				// 1. 获取当前全局事务实例或创建新的实例
+				tx = GlobalTransactionContext.getCurrentOrCreate();
+
+				// 2. 开启全局事务
+				try {
+					tx.begin(grpcRequest.getTimeout(), methodPath);
+					txGroupId = tx.getXid();
+					// 如果是入口开启,就做TM使用了,不再依赖事务管理器
+					// GlobalStatic.seataTransactionBegin.set(true);
+					bind = true;
+				} catch (TransactionException txe) {
+					// 2.1 开启失败
+					throw new TransactionalExecutor.ExecutionException(tx, txe,
+							TransactionalExecutor.Code.BeginFailure);
+				}
+			}
+
+			if (shiroUser != null) {
+				RpcStaticVariable.shiroUserLocal.set(shiroUser);
 			}
 
 			// 执行service的方法
@@ -110,20 +148,61 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 			// 完成传输
 			responseObserver.onCompleted();
 
+			// 分层的情况下,
+			if (tx != null) {
+				tx.commit();
+			}
+
+			// 异常,回滚事务
+			if (grpcResponse.getStatus() >= 400) {
+				// 全局回滚
+				// 业务调用本身的异常
+				try {
+					// 全局回滚
+					if (tx != null) { // 3.1 全局回滚成功：抛出原始业务异常
+						tx.rollback();
+					}
+
+				} catch (TransactionException txe) {// 3.2 全局回滚失败：
+					// 3.2 全局回滚失败：
+					logger.error(txe.getMessage(), txe);
+				}
+			}
+
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			// String message = e.getClass().getName() + ": " + e.getMessage();
 			// grpcResponse.error(message, e, e.getStackTrace());
+
+
+			// 全局回滚
+			// 业务调用本身的异常
+			try {
+				// 全局回滚
+				if (tx != null) { // 3.1 全局回滚成功：抛出原始业务异常
+					tx.rollback();
+				}
+
+			} catch (TransactionException txe) {// 3.2 全局回滚失败：
+				// 3.2 全局回滚失败：
+				logger.error(txe.getMessage(), txe);
+			}
+
 		} finally {
+
 			RpcStaticVariable.shiroUserLocal.remove();
+
 			if (bind) {
 				String unbindXid = RootContext.unbind();
+
 				if (!txGroupId.equalsIgnoreCase(unbindXid)) {
 					if (unbindXid != null) {
 						RootContext.bind(unbindXid);
 					}
 				}
+
 			}
+
 		}
 
 	}
@@ -165,9 +244,7 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 			ShiroUser shiroUser) {
 		// 初始化需要返回的对象
 		GrpcCommonResponse grpcResponse = new GrpcCommonResponse();
-		if (shiroUser != null) {
-			RpcStaticVariable.shiroUserLocal.set(shiroUser);
-		}
+
 		try {
 			Method method = bean.getClass().getMethod(methodName, parameterTypes);
 			// Method method = MethodUtils.getMatchingMethod(bean.getClass(), methodName,
@@ -179,12 +256,24 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 		} catch (Exception e) {
 			grpcResponse.error(e.getMessage(), e, e.getStackTrace());
 		}
-
-
-
-
 		return grpcResponse;
 
+	}
+
+	/**
+	 * 如果已经存在spring事务,说明是中间节点,需要在rpc客户端产生全局事务,和当前事务绑定.如果没有事务,在服务端创建分布式事务.判断方法是否会产生spring事务.
+	 * 
+	 * @param methodPath
+	 * @return
+	 */
+	private boolean isSpringTxMethod(String methodPath) {
+
+		if (methodPath == null) {
+			return false;
+		}
+
+		boolean matches = r.matcher(methodPath).matches();
+		return matches;
 	}
 
 }
