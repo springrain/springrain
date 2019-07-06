@@ -18,6 +18,10 @@ import io.seata.tm.api.GlobalTransactionContext;
  * seata和spring事务混合使用,spring事务开启-->seata事务开启-->spring事务提交-->seata事务提交.
  * 虽然存在提交或者回滚时状态不一致的风险,但是无注解,可以动态开启seata事务.敏感操作建议使用@GlobalTransaction注解
  * 
+ * 清铭大佬:这样写的风险:如果本地事务提交成功,分布式事务未提交成功-->无风险,分布式事务数据已经在一阶段落地.
+ * 本地事务提交失败,分布式事务未回滚成功-->有风险,导致分布式事务未回滚成功原因：外部修改数据,回滚时数据校验不多,回滚失败不重试.
+ * 框架网络或其他问题,一直重试但存在重试不成功风险,比如客户端宕机了,这样数据不一致的,但对于本地事务即使客户端宕机了也可以基于连接的回滚.
+ * 
  * @author caomei
  *
  */
@@ -39,7 +43,7 @@ public class SeataDataSourceTransactionManager extends DataSourceTransactionMana
 		}
 		if (begin && RootContext.inGlobalTransaction()) {
 			try {
-				// 分支事务执行把,把事务角色修改成了GlobalTransactionRole.Participant,reload重新设置成GlobalTransactionRole.Launcher
+				// 分支事务执行时把事务角色修改成了GlobalTransactionRole.Participant,reload重新设置成GlobalTransactionRole.Launcher
 				GlobalTransaction tx = GlobalTransactionContext.reload(RootContext.getXID());
 				tx.commit();
 
