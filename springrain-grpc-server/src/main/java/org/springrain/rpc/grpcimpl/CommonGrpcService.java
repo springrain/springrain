@@ -117,11 +117,13 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 			// 如果启用seata-spring注解@GlobalTransactional方法,和grpcserver的切面存在冲突,会重复提交,grpc就不再负责seata事务管理了.
 			// 代码先注释了,不想引入seata-spring的jar,用到了再解开.
 
-			// if
-			// (GlobalStatic.seataSpringEnable&&method.isAnnotationPresent(GlobalTransactional.class))
-			// {
-			// isSpringTxMethod=false;
-			// }
+			/**
+			 * if (GlobalStatic.seataSpringEnable &&
+			 * method.isAnnotationPresent(GlobalTransactional.class)) { if
+			 * (isSpringTxMethod) {// 如果有spring本地事务,设置为false,由seata-spring管理事务.
+			 * isSpringTxMethod = false; } else { throw new
+			 * Exception("有@GlobalTransactional注解,却没有Spring本地事务,认为异常"); } }
+			 **/
 
 			if (StringUtils.isBlank(xid) && StringUtils.isBlank(txGroupId) && isSpringTxMethod) {// 需要产生事务,创建分布式事务.
 				// 1. 获取当前全局事务实例或创建新的实例

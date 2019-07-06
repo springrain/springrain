@@ -61,6 +61,7 @@ public class DataSourceConfig {
 
 	/**
 	 * 如果使用了spring扫描器,就要把datasource里的RMClient.init和TMClient.init注释掉,避免重复注册,也不用判断GlobalStatic.seataEnable了.
+	 * 解开org.springrain.rpc.grpcimpl.CommonGrpcService.commonHandle中有关GlobalStatic.seataSpringEnable判断的代码.
 	 * 
 	 * @return
 	 */
