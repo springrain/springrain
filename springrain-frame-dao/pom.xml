@@ -53,7 +53,7 @@
             <artifactId>seata-tm</artifactId>
         </dependency>
         
-        <!-- 使用spring集成,seata,使用@GlobalTransaction注解,参见org.springrain.frame.config.DataSourceConfig -->
+        <!-- 使用spring集成,seata,使用@GlobalTransactional注解,参见org.springrain.frame.config.DataSourceConfig -->
         <!-- 如果引用jar,但是不使用GlobalTransactionScanner,可能会造成作为独立服务无法运行 -->
         <!--
         <dependency>
