@@ -15,6 +15,9 @@ import io.seata.tm.api.GlobalTransaction;
 import io.seata.tm.api.GlobalTransactionContext;
 
 /**
+ * 
+ * 分布式事务,一定要避免A服务update表t,RPC调用B服务,B服务也update表t.这样A等待B结果,B等待A释放锁,造成死锁.
+ * 
  * seata和spring事务混合使用,spring事务开启-->seata事务开启-->spring事务提交-->seata事务提交.
  * 虽然存在提交或者回滚时状态不一致的风险,但是无注解,可以动态开启seata事务.敏感操作建议使用@GlobalTransaction注解
  * 
