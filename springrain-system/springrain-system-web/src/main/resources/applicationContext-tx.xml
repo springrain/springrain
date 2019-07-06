@@ -15,13 +15,21 @@
 		http://www.springframework.org/schema/aop/spring-aop.xsd"
 	default-lazy-init="false">
 
-
+   <!-- 默认的事务管理器 -->
+    <!-- 
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">  
 	    <property name="dataSource" ref="dataSource"></property>  
 	</bean>  
-	
+     -->	
+ 
+    <!-- 集成seata的事务管理器 -->
+    <!-- seata和spring事务混合使用,spring事务开启.seata事务开启--spring事务提交--seata事务提交.虽然存在提交或者回滚时状态不一致的风险,但是无注解,可以动态开启seata事务.敏感操作建议使用@GlobalTransaction注解 -->
+    <bean id="transactionManager" class="org.springrain.frame.dao.SeataDataSourceTransactionManager">  
+        <property name="dataSource" ref="dataSource"></property>  
+    </bean>  
+ 
+ 
 	<!-- 处理读写分离,需要复写 DataSourceTransactionManager -->
-	
 	<!--
 	<bean id="transactionManager" class="org.springrain.frame.dao.FrameDataSourceTransactionManager">  
 	    <property name="dataSource" ref="dataSource"></property>  

@@ -15,7 +15,8 @@ import io.seata.tm.api.GlobalTransaction;
 import io.seata.tm.api.GlobalTransactionContext;
 
 /**
- * Spring 没有提供获取当前县城的事务状态,自定义ThreadLocal实现,在事务开始前记录.
+ * seata和spring事务混合使用,spring事务开启-->seata事务开启-->spring事务提交-->seata事务提交.
+ * 虽然存在提交或者回滚时状态不一致的风险,但是无注解,可以动态开启seata事务.敏感操作建议使用@GlobalTransaction注解
  * 
  * @author caomei
  *
@@ -28,14 +29,17 @@ public class SeataDataSourceTransactionManager extends DataSourceTransactionMana
 	@Override
 	protected void doCommit(DefaultTransactionStatus status) {
 
+		// 先提交spring事务.
 		super.doCommit(status);
+
+		// 当前线程是否是seata的创建者,和spring事务存在同步风险,需要记录好日志.敏感操作建议使用@GlobalTransaction注解
 		Boolean begin = GlobalStatic.seataTransactionBegin.get();
 		if (begin == null) {
 			begin = false;
 		}
 		if (begin && RootContext.inGlobalTransaction()) {
 			try {
-
+				// 分支事务执行把,把事务角色修改成了GlobalTransactionRole.Participant,reload重新设置成GlobalTransactionRole.Launcher
 				GlobalTransaction tx = GlobalTransactionContext.reload(RootContext.getXID());
 				tx.commit();
 
@@ -51,11 +55,13 @@ public class SeataDataSourceTransactionManager extends DataSourceTransactionMana
 
 	@Override
 	protected void doRollback(DefaultTransactionStatus status) {
+		// 先回滚spring事务
 		super.doRollback(status);
 
-
+		// 回滚seata事务.
 		if (RootContext.inGlobalTransaction()) {
 			try {
+				// 分支事务执行把,把事务角色修改成了GlobalTransactionRole.Participant,reload重新设置成GlobalTransactionRole.Launcher
 				GlobalTransaction tx = GlobalTransactionContext.reload(RootContext.getXID());
 				tx.rollback();
 			} catch (TransactionException txe) {
