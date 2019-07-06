@@ -19,7 +19,7 @@ import io.seata.tm.api.GlobalTransactionContext;
  * 分布式事务,一定要避免A服务update表t,RPC调用B服务,B服务也update表t.这样A等待B结果,B等待A释放锁,造成死锁.
  * 
  * seata和spring事务混合使用,spring事务开启-->seata事务开启-->spring事务提交-->seata事务提交.
- * 虽然存在提交或者回滚时状态不一致的风险,但是无注解,可以动态开启seata事务.敏感操作建议使用@GlobalTransaction注解
+ * 虽然存在提交或者回滚时状态不一致的风险,但是无注解,可以动态开启seata事务.敏感操作建议使用@GlobalTransactional注解
  * 
  * 清铭大佬:这样写的风险:如果本地事务提交成功,分布式事务未提交成功-->无风险,分布式事务数据已经在一阶段落地.
  * 本地事务提交失败,分布式事务未回滚成功-->有风险,导致分布式事务未回滚成功原因：外部修改数据,回滚时数据校验不多,回滚失败不重试.
@@ -39,7 +39,7 @@ public class SeataDataSourceTransactionManager extends DataSourceTransactionMana
 		// 先提交spring事务.
 		super.doCommit(status);
 
-		// 当前线程是否是seata的创建者,和spring事务存在同步风险,需要记录好日志.敏感操作建议使用@GlobalTransaction注解
+		// 当前线程是否是seata的创建者,和spring事务存在同步风险,需要记录好日志.敏感操作建议使用@GlobalTransactional注解
 		Boolean begin = GlobalStatic.seataTransactionBegin.get();
 		if (begin == null) {
 			begin = false;

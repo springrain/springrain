@@ -114,7 +114,7 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 
 			boolean isSpringTxMethod = isSpringTxMethod(methodPath);
 
-			// 如果启用seata-spring注解@GlobalTransaction方法,和grpcserver的切面存在冲突,会重复提交,grpc就不再负责seata事务管理了.
+			// 如果启用seata-spring注解@GlobalTransactional方法,和grpcserver的切面存在冲突,会重复提交,grpc就不再负责seata事务管理了.
 			// 代码先注释了,不想引入seata-spring的jar,用到了再解开.
 
 			// if

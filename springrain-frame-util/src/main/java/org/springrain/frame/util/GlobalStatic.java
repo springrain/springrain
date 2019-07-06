@@ -41,7 +41,7 @@ public class GlobalStatic {
 	public static final boolean seataGlobalEnable = true;
 	// 默认不启用seata,如果存在service的分布式调用,就修改成true.只有seataGlobalEnable和seataEnable都是true,seata才会启用.
 	public static boolean seataEnable = false;
-	// 如果启用seata-spring注解@GlobalTransaction方法,和grpcserver的切面存在冲突,会重复提交,grpc就不再负责seata事务管理了.
+	// 如果启用seata-spring注解@GlobalTransactional方法,和grpcserver的切面存在冲突,会重复提交,grpc就不再负责seata事务管理了.
 	public static boolean seataSpringEnable = false;
 	// 记录是否是分布事务的开始线程
 	public static final ThreadLocal<Boolean> seataTransactionBegin = new ThreadLocal<>();

@@ -21,7 +21,7 @@ import io.seata.rm.datasource.DataSourceProxy;
 import io.seata.tm.TMClient;
 
 /**
- * 数据库配置和seata配置,使用@GlobalTransaction注解
+ * 数据库配置和seata配置,使用@GlobalTransactional注解
  * 
  * @author caomei
  *
