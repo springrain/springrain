@@ -130,10 +130,9 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 			if (shiroUser != null) {
 				RpcStaticVariable.shiroUserLocal.set(shiroUser);
 			}
-
+			Method method = bean.getClass().getMethod(grpcRequest.getMethod(), grpcRequest.getArgTypes());
 			// 执行service的方法
-			GrpcCommonResponse grpcResponse = invokeMethod(bean, grpcRequest.getMethod(), args,
-					grpcRequest.getArgTypes(), shiroUser);
+			GrpcCommonResponse grpcResponse = invokeMethod(bean, method, args, shiroUser);
 
 
 			// 序列化需要返回的结果
@@ -145,7 +144,15 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 			// 完成传输
 			responseObserver.onCompleted();
 
-			// 分层的情况下,
+			// 入口就是事务方法,如果方法有@GlobalTransaction注解,会重复执行.
+			// 如果启用seata-spring切面拦截注解@GlobalTransaction方法,和grpcserver的切面存在冲突.所以如果启用了,grpc就不能自己控制提交,还需要开启的方法是否有@GlobalTransaction注解,有注解的才会被seata-spring的切面拦截..
+			// 代码先注释了,不想引入seata-spring的jar,用到spring了再解开
+
+			// if ((tx != null)&& (GlobalStatic.seataSpringEnable)
+			// &&(method.isAnnotationPresent(GlobalTransaction.class))) {
+			// return;
+			// }
+
 			if (tx != null) {
 				tx.commit();
 			}
@@ -237,13 +244,13 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 	 * @return
 	 * @throws Exception
 	 */
-	private GrpcCommonResponse invokeMethod(Object bean, String methodName, Object[] args, Class[] parameterTypes,
+	private GrpcCommonResponse invokeMethod(Object bean, Method method, Object[] args,
 			ShiroUser shiroUser) {
 		// 初始化需要返回的对象
 		GrpcCommonResponse grpcResponse = new GrpcCommonResponse();
 
 		try {
-			Method method = bean.getClass().getMethod(methodName, parameterTypes);
+			// Method method = bean.getClass().getMethod(methodName, parameterTypes);
 			// Method method = MethodUtils.getMatchingMethod(bean.getClass(), methodName,
 			// parameterTypes);
 			FastClass serviceFastClass = FastClass.create(bean.getClass());

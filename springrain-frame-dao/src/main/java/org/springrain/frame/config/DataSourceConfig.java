@@ -66,11 +66,11 @@ public class DataSourceConfig {
 	 */
 	/**
 	 * @Bean("globalTransactionScanner") public GlobalTransactionScanner
-	 * globalTransactionScanner() { GlobalStatic.seataEnable = true; return new
+	 * globalTransactionScanner() { GlobalStatic.seataEnable = true;
+	 * GlobalStatic.seataSpringEnable = true; return new
 	 * GlobalTransactionScanner(GlobalStatic.seataApplicationId,
 	 * GlobalStatic.seataTransactionServiceGroup); }
 	 **/
-
 	/**
 	 * 自定义 dataSource,用户扩展实现
 	 */
