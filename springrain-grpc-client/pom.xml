@@ -60,12 +60,17 @@
         </dependency>
         
         
-            <dependency>
-                <groupId>io.seata</groupId>
-                <artifactId>seata-core</artifactId>
-            </dependency>
+        <!-- seata依赖 -->
+        <dependency>
+            <groupId>io.seata</groupId>
+            <artifactId>seata-core</artifactId>
+        </dependency>
         
-   
+        <dependency>
+            <groupId>io.seata</groupId>
+            <artifactId>seata-tm</artifactId>
+        </dependency>
+        
         
         
 
