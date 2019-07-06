@@ -109,7 +109,20 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 				bind = true;
 			}
 
-			if (StringUtils.isBlank(xid) && StringUtils.isBlank(txGroupId) && isSpringTxMethod(methodPath)) {// 需要产生事务,创建分布式事务.
+			// 调用的方法
+			Method method = bean.getClass().getMethod(grpcRequest.getMethod(), grpcRequest.getArgTypes());
+
+			boolean isSpringTxMethod = isSpringTxMethod(methodPath);
+
+			// 如果启用seata-spring注解@GlobalTransaction方法,和grpcserver的切面存在冲突,会重复提交,grpc就不再负责seata事务管理了.
+			// 代码先注释了,不想引入seata-spring的jar,用到spring了再解开.
+
+			// if ((tx != null)&& (GlobalStatic.seataSpringEnable)
+			// &&(method.isAnnotationPresent(GlobalTransaction.class))) {
+			// isSpringTxMethod=false;
+			// }
+
+			if (StringUtils.isBlank(xid) && StringUtils.isBlank(txGroupId) && isSpringTxMethod) {// 需要产生事务,创建分布式事务.
 				// 1. 获取当前全局事务实例或创建新的实例
 				tx = GlobalTransactionContext.getCurrentOrCreate();
 
@@ -130,7 +143,7 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 			if (shiroUser != null) {
 				RpcStaticVariable.shiroUserLocal.set(shiroUser);
 			}
-			Method method = bean.getClass().getMethod(grpcRequest.getMethod(), grpcRequest.getArgTypes());
+
 			// 执行service的方法
 			GrpcCommonResponse grpcResponse = invokeMethod(bean, method, args, shiroUser);
 
@@ -144,15 +157,8 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 			// 完成传输
 			responseObserver.onCompleted();
 
-			// 入口就是事务方法,如果方法有@GlobalTransaction注解,会重复执行.
-			// 如果启用seata-spring切面拦截注解@GlobalTransaction方法,和grpcserver的切面存在冲突.所以如果启用了,grpc就不能自己控制提交,还需要开启的方法是否有@GlobalTransaction注解,有注解的才会被seata-spring的切面拦截..
-			// 代码先注释了,不想引入seata-spring的jar,用到spring了再解开
 
-			// if ((tx != null)&& (GlobalStatic.seataSpringEnable)
-			// &&(method.isAnnotationPresent(GlobalTransaction.class))) {
-			// return;
-			// }
-
+			// 提交事务
 			if (tx != null) {
 				tx.commit();
 			}
