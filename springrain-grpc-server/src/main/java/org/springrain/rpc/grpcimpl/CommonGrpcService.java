@@ -92,9 +92,6 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 			return;
 		}
 
-		if (grpcRequest.getMethod().contains("save")) {
-			System.out.println("----------");
-		}
 
 		// 需要考虑是调用链入口还是中间节点
 		// 先判断是否有参数传递进来
