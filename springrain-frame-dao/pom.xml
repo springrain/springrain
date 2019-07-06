@@ -54,11 +54,12 @@
         </dependency>
         
         <!-- 使用spring集成,seata,使用@GlobalTransaction注解,参见org.springrain.frame.config.DataSourceConfig -->
+        <!--
         <dependency>
             <groupId>io.seata</groupId>
             <artifactId>seata-spring</artifactId>
         </dependency>
-                
+          -->        
 
 
 	</dependencies>

@@ -18,7 +18,6 @@ import com.alibaba.druid.pool.DruidDataSource;
 
 import io.seata.rm.RMClient;
 import io.seata.rm.datasource.DataSourceProxy;
-import io.seata.spring.annotation.GlobalTransactionScanner;
 import io.seata.tm.TMClient;
 
 /**
@@ -65,11 +64,12 @@ public class DataSourceConfig {
 	 * 
 	 * @return
 	 */
-	// @Bean("globalTransactionScanner")
-	public GlobalTransactionScanner globalTransactionScanner() {
-		GlobalStatic.seataEnable = true;
-		return new GlobalTransactionScanner(GlobalStatic.seataApplicationId, GlobalStatic.seataTransactionServiceGroup);
-	}
+	/**
+	 * @Bean("globalTransactionScanner") public GlobalTransactionScanner
+	 * globalTransactionScanner() { GlobalStatic.seataEnable = true; return new
+	 * GlobalTransactionScanner(GlobalStatic.seataApplicationId,
+	 * GlobalStatic.seataTransactionServiceGroup); }
+	 **/
 
 	/**
 	 * 自定义 dataSource,用户扩展实现
