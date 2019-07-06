@@ -118,7 +118,7 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 			// 代码先注释了,不想引入seata-spring的jar,用到了再解开.
 
 			// if
-			// (GlobalStatic.seataSpringEnable&&method.isAnnotationPresent(GlobalTransaction.class))
+			// (GlobalStatic.seataSpringEnable&&method.isAnnotationPresent(GlobalTransactional.class))
 			// {
 			// isSpringTxMethod=false;
 			// }
