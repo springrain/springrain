@@ -12,7 +12,7 @@
   
   
   <properties>
-		<io.grpc.version>1.21.0</io.grpc.version>
+		<io.grpc.version>1.22.0</io.grpc.version>
 		<kr.motd.maven.version>1.5.0.Final</kr.motd.maven.version>
 		<io.protostuff.version>1.6.0</io.protostuff.version>
 	</properties>
@@ -131,7 +131,7 @@
 				<configuration>
 					<protocArtifact>com.google.protobuf:protoc:3.7.1:exe:${os.detected.classifier}</protocArtifact>
 					<pluginId>grpc-java</pluginId>
-					<pluginArtifact>io.grpc:protoc-gen-grpc-java:1.21.0:exe:${os.detected.classifier}</pluginArtifact>
+					<pluginArtifact>io.grpc:protoc-gen-grpc-java:1.22.0:exe:${os.detected.classifier}</pluginArtifact>
 				</configuration>
 				<executions>
 					<execution>
