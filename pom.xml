@@ -57,7 +57,7 @@
 		<bcprov.version>1.62</bcprov.version>
 		
 		<!-- seata分布式事务 -->
-		<seata.version>0.6.1</seata.version>
+		<seata.version>0.7.0</seata.version>
 
 	</properties>
 
