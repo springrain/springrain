@@ -31,7 +31,7 @@
 	<entry key="jdbc.password">root</entry>
 	
 	<!-- Mysql -->
-	<entry key="jdbc.url">jdbc:mysql://127.0.0.1:3306/springrain?useUnicode=true&amp;characterEncoding=UTF-8&amp;useSSL=false</entry>
+	<entry key="jdbc.url">jdbc:mysql://127.0.0.1:3306/springrain?characterEncoding=utf8&amp;useUnicode=true&amp;useSSL=false&amp;serverTimezone=Hongkong</entry>
 	<entry key="jdbc.driver">com.mysql.jdbc.Driver</entry>
 	
 	<!-- H2
