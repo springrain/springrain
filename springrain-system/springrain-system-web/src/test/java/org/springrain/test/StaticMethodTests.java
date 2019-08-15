@@ -1,4 +1,4 @@
-package cn.aibianli.test;
+package org.springrain.test;
 
 import org.junit.Test;
 import org.springrain.frame.util.SecUtils;

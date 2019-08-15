@@ -1,4 +1,6 @@
 ﻿
+单独的代码生成器文件夹
+
 通过windos窗口打开文件夹,不要在Eclipse中点开rapid-gen.bat,会报错的!
 
 运行rapid-gen.bat用于再输入gen 表名,例如:gen t_user 用于生成代码

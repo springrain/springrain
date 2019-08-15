@@ -1,4 +1,4 @@
-package cn.aibianli.test;
+package org.springrain.test;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.junit.Test;
