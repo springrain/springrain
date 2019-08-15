@@ -1,4 +1,5 @@
-## 5.1.0 项目入口是springrain-system-web,基于Istio实现微服务,正在整理文档.
+## 6.0.0 项目入口是springrain-system-web,基于Istio实现微服务,正在整理文档.
+## 6.0.0 版本是基于VUE前后端彻底分离的版本,放弃Session,使用JWT实现认证.前端项目是springrainvue
 
 ## 实现了什么?
 * 不增加学习成本,像单体一样开发分布式微服务.
@@ -41,9 +42,7 @@ springrain自带代码生成器,能够生成对表的增删改查的逻辑代码
 
 项目只依赖spring,没有hibernate,struts,ibatis.
 
-使用shiro权限控制到按钮级
-
-结合shiro,redis实现了分布式session共享
+使用jwt认证用户.
 
 数据库调优可以使用druid输出慢sql,比分析xml中的语句更直观,springrain所有的sql语句都使用Finder封装管理,只要查看Finder的引用即可.
 
