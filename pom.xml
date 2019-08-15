@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.springrain</groupId>
+	<artifactId>springrain</artifactId>
+	<version>6.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<url>http://www.weicms.net</url>
+	<description>springrain总项目</description>
+
+
+
+	<!-- 整体依赖 springboot -->
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.1.7.RELEASE</version>
+		<relativePath />
+	</parent>
+
+
+	<!-- 声明引用组件的版本 -->
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<jdk.version>1.8</jdk.version>
+
+		<proguard-maven-plugin.version>2.0.14</proguard-maven-plugin.version>
+		<proguard.version>6.0.3</proguard.version>
+
+		<!--
+		<servlet-api.version>4.0.1</servlet-api.version>
+		-->
+
+		<commons-lang3.version>3.9</commons-lang3.version>
+		<commons-pool2.version>2.6.2</commons-pool2.version>
+		<commons-collections4.version>4.4</commons-collections4.version>
+		<commons-io.version>2.6</commons-io.version>
+		<commons-codec.version>1.12</commons-codec.version>
+		<commons-beanutils.version>1.9.3</commons-beanutils.version>
+		<commons-fileupload.version>1.4</commons-fileupload.version>
+		<commons-text.version>1.7</commons-text.version>
+
+		<javax.persistence.version>2.2.1</javax.persistence.version>
+		<lucene.version>8.1.1</lucene.version>
+		<jxl.version>2.6.12</jxl.version>
+		<!--
+		<jodconverter.version>2.2.1</jodconverter.version>
+		-->
+		<zxing.version>3.4.0</zxing.version>
+		<gson.version>2.8.5</gson.version>
+		<jsoup.version>1.12.1</jsoup.version>
+		<xstream.version>1.4.11.1</xstream.version>
+		<druid-spring-boot-starter.version>1.1.18</druid-spring-boot-starter.version>
+
+		<jwt.version>3.8.1</jwt.version>
+
+		<redisson.version>3.11.2</redisson.version>
+		<fst.version>2.57</fst.version>
+		<bcprov.version>1.62</bcprov.version>
+		
+		<!-- seata分布式事务 -->
+		<seata.version>0.7.1</seata.version>
+
+	</properties>
+
+
+	<!-- 统一组件版本 -->
+	<dependencyManagement>
+
+		<dependencies>
+
+
+			<!--
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>servlet-api</artifactId>
+				<version>${servlet-api.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			-->
+
+
+			<!-- 阿里巴巴的druid数据库连接池 -->
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>druid-spring-boot-starter</artifactId>
+				<version>${druid-spring-boot-starter.version}</version>
+			</dependency>
+			<!-- redis 客户端,强依赖,不可更换为其他redis客户端 -->
+			<dependency>
+				<groupId>org.redisson</groupId>
+				<artifactId>redisson</artifactId>
+				<version>${redisson.version}</version>
+			</dependency>
+			<!-- java序列化框架fst -->
+			<dependency>
+				<groupId>de.ruedigermoeller</groupId>
+				<artifactId>fst</artifactId>
+				<version>${fst.version}</version>
+			</dependency>
+
+
+			
+			
+			<!--  jwt  -->
+			<dependency>
+			    <groupId>com.auth0</groupId>
+			    <artifactId>java-jwt</artifactId>
+			    <version>${jwt.version}</version>
+			</dependency>
+			
+			<!-- 上传组件 -->
+			<dependency>
+				<groupId>commons-fileupload</groupId>
+				<artifactId>commons-fileupload</artifactId>
+				<version>${commons-fileupload.version}</version>
+			</dependency>
+			<!-- 集合工具类 -->
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-collections4</artifactId>
+				<version>${commons-collections4.version}</version>
+			</dependency>
+			<!-- beanutils工具类 -->
+			<dependency>
+				<groupId>commons-beanutils</groupId>
+				<artifactId>commons-beanutils</artifactId>
+				<version>${commons-beanutils.version}</version>
+			</dependency>
+
+			<!-- io工具类 -->
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>${commons-io.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-text</artifactId>
+				<version>${commons-text.version}</version>
+			</dependency>
+
+
+			<!-- jpa规范的注解 -->
+			<dependency>
+				<groupId>org.eclipse.persistence</groupId>
+				<artifactId>javax.persistence</artifactId>
+				<version>${javax.persistence.version}</version>
+			</dependency>
+
+			<!-- excle导入组件 -->
+			<dependency>
+				<groupId>net.sourceforge.jexcelapi</groupId>
+				<artifactId>jxl</artifactId>
+				<version>${jxl.version}</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>log4j</artifactId>
+						<groupId>log4j</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+
+
+
+			<!-- lucene -->
+
+			<dependency>
+				<groupId>org.apache.lucene</groupId>
+				<artifactId>lucene-core</artifactId>
+				<version>${lucene.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.lucene</groupId>
+				<artifactId>lucene-queryparser</artifactId>
+				<version>${lucene.version}</version>
+			</dependency>
+
+
+			<!-- openoffice连接组件 -->
+			<!--
+			<dependency>
+				<groupId>com.artofsolving</groupId>
+				<artifactId>jodconverter</artifactId>
+				<version>${jodconverter.version}</version>
+			</dependency>
+			-->
+
+
+			<!-- HTML解析组件 -->
+			<dependency>
+				<groupId>org.jsoup</groupId>
+				<artifactId>jsoup</artifactId>
+				<version>${jsoup.version}</version>
+			</dependency>
+			<!-- 条形码和二维码组件 -->
+			<dependency>
+				<groupId>com.google.zxing</groupId>
+				<artifactId>core</artifactId>
+				<version>${zxing.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.zxing</groupId>
+				<artifactId>javase</artifactId>
+				<version>${zxing.version}</version>
+			</dependency>
+
+
+			<!-- xstream解析微信xml格式协议 -->
+			<dependency>
+				<groupId>com.thoughtworks.xstream</groupId>
+				<artifactId>xstream</artifactId>
+				<version>${xstream.version}</version>
+			</dependency>
+
+
+			<!-- 兼容微信的加密协议 -->
+			<dependency>
+				<groupId>org.bouncycastle</groupId>
+				<artifactId>bcprov-jdk15on</artifactId>
+				<version>${bcprov.version}</version>
+			</dependency>
+			
+			
+			
+			
+			
+			<!-- JDK11需要的jar包 -->
+			<!-- 
+			 <dependency>
+	            <groupId>com.sun.xml.bind</groupId>
+	            <artifactId>jaxb-core</artifactId>
+	            <version>2.3.0.1</version>
+	        </dependency>
+	        <dependency>
+	            <groupId>javax.xml.bind</groupId>
+	            <artifactId>jaxb-api</artifactId>
+	            <version>2.3.1</version>
+	        </dependency>
+	        <dependency>
+	            <groupId>com.sun.xml.bind</groupId>
+	            <artifactId>jaxb-impl</artifactId>
+	            <version>2.3.1</version>
+	        </dependency>       
+	        
+	        
+	        
+	        <dependency>
+	            <groupId>javax.annotation</groupId>
+	            <artifactId>javax.annotation-api</artifactId>
+	            <version>1.3.2</version>
+	        </dependency>
+			 -->
+			
+			
+			
+			
+			<!-- seata组件 -->
+			
+            <dependency>
+                <groupId>io.seata</groupId>
+                <artifactId>seata-rm-datasource</artifactId>
+                <version>${seata.version}</version>
+            </dependency>
+                    
+            <dependency>
+                <groupId>io.seata</groupId>
+                <artifactId>seata-rm</artifactId>
+                <version>${seata.version}</version>
+            </dependency>
+                    
+            <dependency>
+                <groupId>io.seata</groupId>
+                <artifactId>seata-tm</artifactId>
+                <version>${seata.version}</version>
+            </dependency>                    
+            <dependency>
+                <groupId>io.seata</groupId>
+                <artifactId>seata-core</artifactId>
+                <version>${seata.version}</version>
+            </dependency>
+			
+			<dependency>
+			    <groupId>io.seata</groupId>
+			    <artifactId>seata-spring</artifactId>
+			    <version>${seata.version}</version>
+		    </dependency>
+					
+			
+			
+
+		</dependencies>
+
+
+	</dependencyManagement>
+
+
+
+
+	<modules>
+
+		<!-- frame的基础工具类模块 -->
+		<module>springrain-frame-util</module>
+
+		<!-- frame的dao层的操作 -->
+		<module>springrain-frame-dao</module>
+
+		<!-- memory内存类型的缓存,和redis缓存互斥,只能使用一个 -->
+		<module>springrain-frame-cache-memory</module>
+
+		<!-- redis类型的缓存,和memory内存缓存互斥,只能使用一个 - -->
+		<module>springrain-frame-cache-redis</module>
+
+		<!-- 微信的SDK模块 -->
+		<module>springrain-weixin-sdk</module>
+
+		<!-- 自带的系统管理web项目 -->
+		<module>springrain-system</module>
+
+		<!-- grpc的客户端模块 -->
+		<module>springrain-grpc-client</module>
+
+		<!-- grpc的服务端模块 -->
+		<module>springrain-grpc-server</module>
+
+
+
+
+	</modules>
+
+
+
+</project>
