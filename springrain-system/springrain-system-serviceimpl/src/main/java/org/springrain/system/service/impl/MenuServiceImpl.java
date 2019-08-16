@@ -46,6 +46,8 @@ public class MenuServiceImpl extends BaseSpringrainServiceImpl implements IMenuS
         super.save(entity);
 
         // updateMenuManager(id,entity.getManagerRoleId());
+        // 清除缓存
+        super.evictByKey(GlobalStatic.qxCacheKey,"findAllMenuTree");
 
         return id;
 
@@ -101,7 +103,8 @@ public class MenuServiceImpl extends BaseSpringrainServiceImpl implements IMenuS
         }
 
         super.update(list, true);
-
+        // 清除缓存
+        super.evictByKey(GlobalStatic.qxCacheKey,"findAllMenuTree");
         return update;
     }
 
