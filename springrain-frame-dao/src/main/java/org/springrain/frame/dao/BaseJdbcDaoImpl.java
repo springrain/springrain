@@ -1,5 +1,6 @@
 package org.springrain.frame.dao;
 
+import io.seata.core.context.RootContext;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -727,8 +728,8 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
 
 	@Override
 	public List<Integer> update(List<IBaseEntity> list, boolean onlyupdatenotnull) throws Exception {
-		// if (RootContext.inGlobalTransaction()) {// 是否在seata分布式事务内
-		if (GlobalStatic.seataEnable) {// 因为使用了seata的datasourceproxy,不支持批量了.........
+		if (RootContext.inGlobalTransaction()) {// 是否在seata分布式事务内
+		//if (GlobalStatic.seataEnable) {// 因为使用了seata的datasourceproxy,不支持批量了.0.8.0版本支持mysql了
 			return updateForSeataTx(list, onlyupdatenotnull);
 		} else {
 			return updateForLocalTx(list, onlyupdatenotnull);
@@ -803,8 +804,8 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
 
 	@Override
 	public List<Integer> save(List<IBaseEntity> list) throws Exception {
-		// if (RootContext.inGlobalTransaction()) {// 是否在seata分布式事务内
-		if (GlobalStatic.seataEnable) {// 因为使用了seata的datasourceproxy,不支持批量了.........
+		if (RootContext.inGlobalTransaction()) {// 是否在seata分布式事务内
+			// if (GlobalStatic.seataEnable) {// 因为使用了seata的datasourceproxy,不支持批量了.0.8.0版本支持mysql了
 			return saveForSeataTx(list);
 		} else {
 			return saveForLocalTx(list);
