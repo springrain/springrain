@@ -29,7 +29,7 @@
 ### 文档
 https://gitee.com/chunanyong/springrain/tree/master/springrain-system/springrain-system-web/doc  </br>
 ### 代码生成器
-https://gitee.com/chunanyong/springrain/tree/master/springrain-system/springrain-system-web/gencode  </br>
+https://gitee.com/chunanyong/springrain/tree/master/springrain-gencode  </br>
 ### sql脚本
 https://gitee.com/chunanyong/springrain/tree/master/springrain-system/springrain-system-web/sql  </br>
 
