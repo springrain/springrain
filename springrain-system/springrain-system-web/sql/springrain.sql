@@ -583,6 +583,22 @@ INSERT INTO `t_tableindex` VALUES ('cms_site', 10001, 's_', NULL, NULL, NULL, NU
 INSERT INTO `t_tableindex` VALUES ('t_org', 10003, 'o_', NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `t_tableindex` VALUES ('t_user', 10001, 'u_', NULL, NULL, NULL, NULL, NULL);
 
+
+
+-- ----------------------------
+-- Table structure for t_stock
+-- ----------------------------
+DROP TABLE IF EXISTS `t_stock`;
+CREATE TABLE `t_stock`  (
+    `id` varchar(50)   NOT NULL COMMENT ' ',
+    `good_id` int(11)   NOT NULL COMMENT '商品id',
+    `num` int(11) NOT NULL  COMMENT '数量',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB CHARACTER SET = utf8mb4  COMMENT = '库存' ;
+
+
+
+insert into t_stock (id ,good_id,num) values ( 1,1,200);
 -- ----------------------------
 -- Table structure for t_user
 -- ----------------------------
