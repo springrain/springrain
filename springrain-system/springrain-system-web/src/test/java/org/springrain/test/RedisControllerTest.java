@@ -1,24 +1,18 @@
 package org.springrain.test;
 
 
-import org.junit.Test;
+
 import org.junit.runner.RunWith;
-import org.redisson.api.RAtomicLong;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springrain.SpringrainApplication;
-import org.springrain.frame.cache.RedisOperation;
-import org.springrain.system.entity.Stock;
-import org.springrain.system.service.IStockService;
 
-import javax.annotation.Resource;
-import java.util.stream.Stream;
-
-import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes= SpringrainApplication.class)
 public class RedisControllerTest {
+
+    /**
 
     @Resource
     private RedisOperation redisOperation;
@@ -125,4 +119,7 @@ public class RedisControllerTest {
 
 
     }
+
+    */
+
 }
