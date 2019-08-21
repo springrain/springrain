@@ -23,7 +23,7 @@
 * seata-server的conf目录下file.conf,修改vgroup_mapping.my_test_tx_group = "default" 为 vgroup_mapping.seata_tx_group = "default",启动seata-server服务.
 * 启动springrain-system-serviceimpl
 * 启动springrain-system-web
-* 访问http://127.0.0.1:8080/ 账号admin,密码admin
+* 访问http://127.0.0.1:8080/api/checkHealth
 
 ### 项目名为springrain[春雨]我的个人博客是 http://www.weicms.net </br>
 ### 文档
