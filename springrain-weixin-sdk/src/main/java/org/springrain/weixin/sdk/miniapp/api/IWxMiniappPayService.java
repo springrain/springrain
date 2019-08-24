@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.Map;
 
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
-import org.springrain.weixin.sdk.common.service.IWxXcxConfig;
+import org.springrain.weixin.sdk.common.service.IWxMiniappConfig;
 import org.springrain.weixin.sdk.mp.bean.pay.WxPayJsSDKCallback;
 import org.springrain.weixin.sdk.mp.bean.pay.request.WxEntPayRequest;
 import org.springrain.weixin.sdk.mp.bean.pay.request.WxPayRefundRequest;
@@ -22,7 +22,7 @@ import org.springrain.weixin.sdk.mp.bean.pay.result.WxPayUnifiedOrderResult;
 import org.springrain.weixin.sdk.miniapp.bean.result.sign.request.WxAutoDebitRequest;
 import org.springrain.weixin.sdk.miniapp.bean.result.sign.result.WxAutoDebitResult;
 
-public interface IWxXcxPayService {
+public interface IWxMiniappPayService {
 
 	  /**
 	   * <pre>
@@ -40,7 +40,7 @@ public interface IWxXcxPayService {
 	   * @param outTradeNo    商户系统内部的订单号，当没提供transaction_id时需要传这个。
 	   * @throws WxErrorException
 	   */
-	  WxPayOrderQueryResult queryOrder(IWxXcxConfig wxxcxconfig,String transactionId, String outTradeNo) throws WxErrorException;
+	  WxPayOrderQueryResult queryOrder(IWxMiniappConfig wxminiappconfig, String transactionId, String outTradeNo) throws WxErrorException;
 
 	  /**
 	   * <pre>
@@ -57,7 +57,7 @@ public interface IWxXcxPayService {
 	   * @param outTradeNo 商户系统内部的订单号，当没提供transaction_id时需要传这个。
 	   * @throws WxErrorException
 	   */
-	  WxPayOrderCloseResult closeOrder(IWxXcxConfig wxxcxconfig,String outTradeNo) throws WxErrorException;
+	  WxPayOrderCloseResult closeOrder(IWxMiniappConfig wxminiappconfig, String outTradeNo) throws WxErrorException;
 
 	  /**
 	   * 统一下单(详见http://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1)
@@ -67,7 +67,7 @@ public interface IWxXcxPayService {
 	   * @param request 请求对象，注意一些参数如appid、mchid等不用设置，方法内会自动从配置对象中获取到（前提是对应配置中已经设置）
 	   * @throws WxErrorException
 	   */
-	  WxPayUnifiedOrderResult unifiedOrder(IWxXcxConfig wxxcxconfig,WxPayUnifiedOrderRequest request) throws WxErrorException;
+	  WxPayUnifiedOrderResult unifiedOrder(IWxMiniappConfig wxminiappconfig, WxPayUnifiedOrderRequest request) throws WxErrorException;
 
 	  /**
 	   * 该接口调用“统一下单”接口，并拼装发起支付请求需要的参数
@@ -76,7 +76,7 @@ public interface IWxXcxPayService {
 	   * @param request 请求对象，注意一些参数如appid、mchid等不用设置，方法内会自动从配置对象中获取到（前提是对应配置中已经设置）
 	   * @throws WxErrorException
 	   */
-	  Map<String, String> getPayInfo(IWxXcxConfig wxxcxconfig,WxPayUnifiedOrderRequest request) throws WxErrorException;
+	  Map<String, String> getPayInfo(IWxMiniappConfig wxminiappconfig, WxPayUnifiedOrderRequest request) throws WxErrorException;
 
 	  /**
 	   * <pre>
@@ -89,7 +89,7 @@ public interface IWxXcxPayService {
 	   * @param keyFile 证书文件对象
 	   * @return 退款操作结果
 	   */
-	  WxPayRefundResult refund(IWxXcxConfig wxxcxconfig,WxPayRefundRequest request, File keyFile) throws WxErrorException;
+	  WxPayRefundResult refund(IWxMiniappConfig wxminiappconfig, WxPayRefundRequest request, File keyFile) throws WxErrorException;
 
 	  /**
 	   * <pre>
@@ -106,13 +106,13 @@ public interface IWxXcxPayService {
 	   * @param refundId      微信退款单号
 	   * @return 退款信息
 	   */
-	  WxPayRefundQueryResult refundQuery(IWxXcxConfig wxxcxconfig,String transactionId, String outTradeNo, String outRefundNo, String refundId) throws WxErrorException;
+	  WxPayRefundQueryResult refundQuery(IWxMiniappConfig wxminiappconfig, String transactionId, String outTradeNo, String outRefundNo, String refundId) throws WxErrorException;
 
 	  /**
 	   * 读取支付结果通知
 	   * 详见http://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_7
 	   */
-	  WxPayJsSDKCallback getJSSDKCallbackData(IWxXcxConfig wxxcxconfig,String xmlData) throws WxErrorException;
+	  WxPayJsSDKCallback getJSSDKCallbackData(IWxMiniappConfig wxminiappconfig, String xmlData) throws WxErrorException;
 
 	  /**
 	   * <pre>
@@ -120,7 +120,7 @@ public interface IWxXcxPayService {
 	   * 按照字段名的 ASCII 码从小到大排序(字典序)后,使用 URL 键值对的 格式(即 key1=value1&key2=value2...)拼接成字符串
 	   * </pre>
 	   */
-	  boolean checkJSSDKCallbackDataSignature(IWxXcxConfig wxxcxconfig,Map<String, String> kvm, String signature);
+	  boolean checkJSSDKCallbackDataSignature(IWxMiniappConfig wxminiappconfig, Map<String, String> kvm, String signature);
 
 	  /**
 	   * 发送微信红包给个人用户
@@ -135,7 +135,7 @@ public interface IWxXcxPayService {
 	   * @param request 请求对象
 	   * @param keyFile 证书文件对象
 	   */
-	  WxPaySendRedpackResult sendRedpack(IWxXcxConfig wxxcxconfig,WxPaySendRedpackRequest request, File keyFile) throws WxErrorException;
+	  WxPaySendRedpackResult sendRedpack(IWxMiniappConfig wxminiappconfig, WxPaySendRedpackRequest request, File keyFile) throws WxErrorException;
 
 	  /**
 	   * <pre>
@@ -148,7 +148,7 @@ public interface IWxXcxPayService {
 	   * @param mchBillNo 商户发放红包的商户订单号，比如10000098201411111234567890
 	   * @param keyFile 证书文件对象
 	   */
-	  WxPayRedpackQueryResult queryRedpack(IWxXcxConfig wxxcxconfig,String mchBillNo, File keyFile) throws WxErrorException;
+	  WxPayRedpackQueryResult queryRedpack(IWxMiniappConfig wxminiappconfig, String mchBillNo, File keyFile) throws WxErrorException;
 
 	  /**
 	   * <pre>
@@ -163,7 +163,7 @@ public interface IWxXcxPayService {
 	   * @param request 请求对象
 	   * @param keyFile 证书文件对象
 	   */
-	  WxEntPayResult entPay(IWxXcxConfig wxxcxconfig,WxEntPayRequest request, File keyFile) throws WxErrorException;
+	  WxEntPayResult entPay(IWxMiniappConfig wxminiappconfig, WxEntPayRequest request, File keyFile) throws WxErrorException;
 
 	  /**
 	   * <pre>
@@ -176,16 +176,16 @@ public interface IWxXcxPayService {
 	   * @param partnerTradeNo 商户订单号
 	   * @param keyFile        证书文件对象
 	   */
-	  WxEntPayQueryResult queryEntPay(IWxXcxConfig wxxcxconfig,String partnerTradeNo, File keyFile) throws WxErrorException;
+	  WxEntPayQueryResult queryEntPay(IWxMiniappConfig wxminiappconfig, String partnerTradeNo, File keyFile) throws WxErrorException;
 	  
 	  
 	  /**
 	   * 微信委托自动扣款接口
-	   * @param wxxcxconfig
+	   * @param wxminiappconfig
 	   * @param request
 	   * @return
 	   * @throws WxErrorException
 	   */
-	  WxAutoDebitResult getAutoDebitInfo(IWxXcxConfig wxxcxconfig,WxAutoDebitRequest request) throws WxErrorException;
+	  WxAutoDebitResult getAutoDebitInfo(IWxMiniappConfig wxminiappconfig, WxAutoDebitRequest request) throws WxErrorException;
 
 }

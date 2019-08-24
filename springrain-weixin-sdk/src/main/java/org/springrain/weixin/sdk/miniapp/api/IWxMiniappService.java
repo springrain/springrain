@@ -1,7 +1,7 @@
 package org.springrain.weixin.sdk.miniapp.api;
 
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
-import org.springrain.weixin.sdk.common.service.IWxXcxConfig;
+import org.springrain.weixin.sdk.common.service.IWxMiniappConfig;
 import org.springrain.weixin.sdk.common.util.http.RequestExecutor;
 import org.springrain.weixin.sdk.miniapp.bean.result.CodeInfo;
 import org.springrain.weixin.sdk.miniapp.bean.result.EncryptedData;
@@ -13,15 +13,14 @@ import org.springrain.weixin.sdk.miniapp.bean.result.WxMpOAuth2SessionKey;
  *
  * @author springrain
  */
-public interface IWxXcxService {
+public interface IWxMiniappService {
 
 	  /**
 	   * 获取access_token, 不强制刷新access_token
 	 * @throws Exception 
 	   *
-	   * @see #getAccessToken(boolean)
 	   */
-	  String getAccessToken(IWxXcxConfig wxxcxconfig) throws WxErrorException;
+	  String getAccessToken(IWxMiniappConfig wxminiappconfig) throws WxErrorException;
 
 	  /**
 	   * <pre>
@@ -38,7 +37,7 @@ public interface IWxXcxService {
 	   * @param forceRefresh 强制刷新
 	 * @throws Exception 
 	   */
-	  String getAccessToken(IWxXcxConfig wxxcxconfig,boolean forceRefresh) throws WxErrorException, Exception;
+	  String getAccessToken(IWxMiniappConfig wxminiappconfig, boolean forceRefresh) throws WxErrorException, Exception;
 	
 	
 	/**
@@ -46,21 +45,21 @@ public interface IWxXcxService {
 	  * 用code换取oauth2的sessionKey
 	  * 详情请见: https://mp.weixin.qq.com/debug/wxadoc/dev/api/api-login.html#wxloginobject
 	 * </pre>
-	 * @param wxxcxconfig
+	 * @param wxminiappconfig
 	 * @param code
 	 * @throws WxErrorException
 	 */
-	WxMpOAuth2SessionKey oauth2getSessionKey(IWxXcxConfig wxxcxconfig, String code) throws WxErrorException;
+	WxMpOAuth2SessionKey oauth2getSessionKey(IWxMiniappConfig wxminiappconfig, String code) throws WxErrorException;
 	
 	/**
 	   * 当本Service没有实现某个API的时候，可以用这个，针对所有微信API中的GET请求
 	   */
-	  String get(IWxXcxConfig wxxcxconfig,String url, String queryParam) throws WxErrorException;
+	  String get(IWxMiniappConfig wxminiappconfig, String url, String queryParam) throws WxErrorException;
 
 	  /**
 	   * 当本Service没有实现某个API的时候，可以用这个，针对所有微信API中的POST请求
 	   */
-	  String post(IWxXcxConfig wxxcxconfig,String url, String postData) throws WxErrorException;
+	  String post(IWxMiniappConfig wxminiappconfig, String url, String postData) throws WxErrorException;
 
 	  /**
 	   * <pre>
@@ -69,12 +68,12 @@ public interface IWxXcxService {
 	   * 可以参考，{@link org.springrain.weixin.sdk.common.util.http.MediaUploadRequestExecutor}的实现方法
 	   * </pre>
 	   */
-	  <T, E> T execute(IWxXcxConfig wxxcxconfig,RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException;
+	  <T, E> T execute(IWxMiniappConfig wxminiappconfig, RequestExecutor<T, E> executor, String uri, E data) throws WxErrorException;
 
       /**
        * 获取小程序二维码
        * @param siteId
-       * @param wxxcxconfig
+       * @param wxminiappconfig
        * @param codeInfo
        * @param fileSrc 获取的二维码要保存的目录
        * @param fileName 获取二维码要保存的文件名称
@@ -82,7 +81,7 @@ public interface IWxXcxService {
        * @return
        * @throws Exception
        */
-	  void getXcxCode(String siteId,IWxXcxConfig wxxcxconfig, CodeInfo codeInfo,String fileSrc,String fileName,String fileType) throws Exception;
+	  void getMiniappCode(String siteId, IWxMiniappConfig wxminiappconfig, CodeInfo codeInfo, String fileSrc, String fileName, String fileType) throws Exception;
 	  
 	  
 	  /**

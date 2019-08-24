@@ -7,7 +7,7 @@ import org.springrain.weixin.sdk.miniapp.bean.result.WxMpOAuth2SessionKey;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public class WxXcxGsonBuilder {
+public class WxMiniappGsonBuilder {
 
   public static final GsonBuilder INSTANCE = new GsonBuilder();
 

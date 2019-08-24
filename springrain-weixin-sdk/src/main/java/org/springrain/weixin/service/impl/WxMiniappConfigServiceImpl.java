@@ -3,19 +3,18 @@ package org.springrain.weixin.service.impl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springrain.frame.util.GlobalStatic;
-import org.springrain.weixin.entity.WxXcxConfig;
+import org.springrain.weixin.entity.WxMiniappConfig;
 import org.springrain.weixin.sdk.common.bean.WxAccessToken;
-import org.springrain.weixin.sdk.common.service.IWxXcxConfig;
-import org.springrain.weixin.sdk.common.service.IWxXcxConfigService;
+import org.springrain.weixin.sdk.common.service.IWxMiniappConfig;
+import org.springrain.weixin.sdk.common.service.IWxMiniappConfigService;
 import org.springrain.weixin.sdk.common.util.crypto.SHA1;
-import org.springrain.weixin.service.impl.BaseSpringrainWeiXinServiceImpl;
 
 @Service("wxXcxConfigService")
-public class WxXcxConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl implements IWxXcxConfigService {
+public class WxMiniappConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl implements IWxMiniappConfigService {
 
 
 	@Override
-	public IWxXcxConfig expireAccessToken(IWxXcxConfig wxxcxconfig) {
+	public IWxMiniappConfig expireAccessToken(IWxMiniappConfig wxxcxconfig) {
 		wxxcxconfig.setAccessTokenExpiresTime(0L);
 		// 缓存操作
 		updateWxXcxConfig(wxxcxconfig);
@@ -23,7 +22,7 @@ public class WxXcxConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl impl
 	}
 
 	@Override
-	public IWxXcxConfig updateAccessToken(IWxXcxConfig wxxcxconfig) {
+	public IWxMiniappConfig updateAccessToken(IWxMiniappConfig wxxcxconfig) {
 
 		// 缓存操作
 		updateWxXcxConfig(wxxcxconfig);
@@ -32,16 +31,16 @@ public class WxXcxConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl impl
 	}
 
 	@Override
-	public IWxXcxConfig findWxXcxConfigById(String id) {
+	public IWxMiniappConfig findWxXcxConfigById(String id) {
 		if (StringUtils.isBlank(id)) {
 			return null;
 		}
 
-		IWxXcxConfig wxXcxConfig = null;
+		IWxMiniappConfig wxXcxConfig = null;
 		try {
-			wxXcxConfig = super.getByCache(id, GlobalStatic.xcxConfigCacheKey, WxXcxConfig.class);
+			wxXcxConfig = super.getByCache(id, GlobalStatic.xcxConfigCacheKey, WxMiniappConfig.class);
 			if (wxXcxConfig == null) {
-				wxXcxConfig = super.findById(id, WxXcxConfig.class);
+				wxXcxConfig = super.findById(id, WxMiniappConfig.class);
 				super.putByCache(id, GlobalStatic.xcxConfigCacheKey, wxXcxConfig);
 			}
 		} catch (Exception e) {
@@ -56,7 +55,7 @@ public class WxXcxConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl impl
 	 * 缓存处理,可以把配置进行缓存更新 @
 	 */
 	@Override
-	public IWxXcxConfig updateWxXcxConfig(IWxXcxConfig wxxcxconfig) {
+	public IWxMiniappConfig updateWxXcxConfig(IWxMiniappConfig wxxcxconfig) {
 
 		String id = wxxcxconfig.getId();
 		if (StringUtils.isBlank(id)) {
@@ -83,11 +82,11 @@ public class WxXcxConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl impl
 	}
 
 	@Override
-	public WxAccessToken getCustomAPIAccessToken(IWxXcxConfig wxxcxconfig) {
+	public WxAccessToken getCustomAPIAccessToken(IWxMiniappConfig wxxcxconfig) {
 		try {
 
 			// 默认命名方式,建议继承这个wxXcxConfigService重写这个方法,新Service请遵循默认的命名规则
-			IWxXcxConfigService wxXcxConfigBean = (IWxXcxConfigService) getBean(
+			IWxMiniappConfigService wxXcxConfigBean = (IWxMiniappConfigService) getBean(
 					"wxXcxConfigService_" + wxxcxconfig.getId());
 			if (wxXcxConfigBean != null) {
 				return wxXcxConfigBean.getCustomAPIAccessToken(wxxcxconfig);

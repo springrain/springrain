@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springrain.frame.util.ReturnDatas;
 
-import org.springrain.weixin.sdk.common.service.IWxXcxConfigService;
-import org.springrain.weixin.sdk.miniapp.api.IWxXcxService;
+import org.springrain.weixin.sdk.common.service.IWxMiniappConfigService;
+import org.springrain.weixin.sdk.miniapp.api.IWxMiniappService;
 
 import javax.annotation.Resource;
 
@@ -19,10 +19,10 @@ public class WxXcxAutoLoginController  {
     //private IUserService userService;
 
     @Resource
-    IWxXcxConfigService wxXcxConfigService;
+    IWxMiniappConfigService wxXcxConfigService;
 
     @Resource
-    IWxXcxService wxXcxService;
+    IWxMiniappService wxXcxService;
 
     /**
      * 通过code获取access_token

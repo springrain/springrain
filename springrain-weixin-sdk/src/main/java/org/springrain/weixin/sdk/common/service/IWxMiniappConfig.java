@@ -1,6 +1,6 @@
 package org.springrain.weixin.sdk.common.service;
 
-public interface IWxXcxConfig extends IWxConfig {
+public interface IWxMiniappConfig extends IWxConfig {
 
 	String getSessionKey();
 

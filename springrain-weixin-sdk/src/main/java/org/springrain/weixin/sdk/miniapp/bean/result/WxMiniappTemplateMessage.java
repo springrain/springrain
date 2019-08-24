@@ -9,14 +9,14 @@ import org.springrain.weixin.sdk.mp.util.json.WxMpGsonBuilder;
 /**
  * 参考 http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1433751277&token=&lang=zh_CN 发送模板消息接口部分
  */
-public class WxXcxTemplateMessage implements Serializable {
+public class WxMiniappTemplateMessage implements Serializable {
   private static final long serialVersionUID = 5063374783759519418L;
   
   private String form_id;
   private String toUser;
   private String template_id;
   private String url;
-  private List<WxXcxTemplateData> data = new ArrayList<>();
+  private List<WxMinappTemplateData> data = new ArrayList<>();
 
   public String getToUser() {
     return this.toUser;
@@ -34,15 +34,15 @@ public class WxXcxTemplateMessage implements Serializable {
     this.url = url;
   }
 
-  public List<WxXcxTemplateData> getData() {
+  public List<WxMinappTemplateData> getData() {
     return this.data;
   }
 
-  public void setData(List<WxXcxTemplateData> data) {
+  public void setData(List<WxMinappTemplateData> data) {
     this.data = data;
   }
 
-  public void addWxMpTemplateData(WxXcxTemplateData datum) {
+  public void addWxMpTemplateData(WxMinappTemplateData datum) {
     this.data.add(datum);
   }
   
@@ -75,7 +75,7 @@ public String toJson() {
     private String template_id;
     private String url;
     private String form_id;
-    private List<WxXcxTemplateData> data = new ArrayList<>();
+    private List<WxMinappTemplateData> data = new ArrayList<>();
 
     public WxMpTemplateMessageBuilder toUser(String toUser) {
       this.toUser = toUser;
@@ -92,7 +92,7 @@ public String toJson() {
       return this;
     }
 
-    public WxMpTemplateMessageBuilder data(List<WxXcxTemplateData> data) {
+    public WxMpTemplateMessageBuilder data(List<WxMinappTemplateData> data) {
       this.data = data;
       return this;
     }
@@ -102,7 +102,7 @@ public String toJson() {
         return this;
       }
 
-    public WxMpTemplateMessageBuilder from(WxXcxTemplateMessage origin) {
+    public WxMpTemplateMessageBuilder from(WxMiniappTemplateMessage origin) {
       this.toUser(origin.toUser);
       this.template_id(origin.template_id);
       this.url(origin.url);
@@ -111,8 +111,8 @@ public String toJson() {
       return this;
     }
 
-    public WxXcxTemplateMessage build() {
-      WxXcxTemplateMessage m = new WxXcxTemplateMessage();
+    public WxMiniappTemplateMessage build() {
+      WxMiniappTemplateMessage m = new WxMiniappTemplateMessage();
       m.toUser = this.toUser;
       m.template_id = this.template_id;
       m.url = this.url;

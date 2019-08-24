@@ -3,7 +3,7 @@ package org.springrain.weixin.sdk.miniapp.api;
 import java.util.List;
 
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
-import org.springrain.weixin.sdk.common.service.IWxXcxConfig;
+import org.springrain.weixin.sdk.common.service.IWxMiniappConfig;
 import org.springrain.weixin.sdk.mp.bean.template.WxMpTemplate;
 import org.springrain.weixin.sdk.mp.bean.template.WxMpTemplateIndustry;
 import org.springrain.weixin.sdk.mp.bean.template.WxMpTemplateMessage;
@@ -17,7 +17,7 @@ import org.springrain.weixin.sdk.mp.bean.template.WxMpTemplateMessage;
  * @author <a href="http://git.oschina.net/chunanyong/springrain">springrain(springrain)</a>
  * </pre>
  */
-public interface IWxXcxTemplateMsgService {
+public interface IWxMiniappTemplateMsgService {
 
   /**
    * <pre>
@@ -28,7 +28,7 @@ public interface IWxXcxTemplateMsgService {
    *
    * @return 是否成功
    */
-  boolean setIndustry(IWxXcxConfig wxxcxconfig,WxMpTemplateIndustry wxMpIndustry) throws WxErrorException;
+  boolean setIndustry(IWxMiniappConfig wxminiappconfig, WxMpTemplateIndustry wxMpIndustry) throws WxErrorException;
 
   /***
    * <pre>
@@ -38,7 +38,7 @@ public interface IWxXcxTemplateMsgService {
    *
    * @return wxMpIndustry
    */
-  WxMpTemplateIndustry getIndustry(IWxXcxConfig wxxcxconfig) throws WxErrorException;
+  WxMpTemplateIndustry getIndustry(IWxMiniappConfig wxminiappconfig) throws WxErrorException;
 
   /**
    * <pre>
@@ -48,7 +48,7 @@ public interface IWxXcxTemplateMsgService {
    *
    * @return 消息Id
    */
-  String sendTemplateMsg(IWxXcxConfig wxxcxconfig,WxMpTemplateMessage templateMessage) throws WxErrorException;
+  String sendTemplateMsg(IWxMiniappConfig wxminiappconfig, WxMpTemplateMessage templateMessage) throws WxErrorException;
 
   /**
    * <pre>
@@ -60,7 +60,7 @@ public interface IWxXcxTemplateMsgService {
    * @param shortTemplateId 模板库中模板的编号，有“TM**”和“OPENTMTM**”等形式
    * @return templateId 模板Id
    */
-  String addTemplate(IWxXcxConfig wxxcxconfig,String shortTemplateId) throws WxErrorException;
+  String addTemplate(IWxMiniappConfig wxminiappconfig, String shortTemplateId) throws WxErrorException;
 
   /**
    * <pre>
@@ -72,7 +72,7 @@ public interface IWxXcxTemplateMsgService {
    *
    * @return templateId 模板Id
    */
-  List<WxMpTemplate> getAllPrivateTemplate(IWxXcxConfig wxxcxconfig) throws WxErrorException;
+  List<WxMpTemplate> getAllPrivateTemplate(IWxMiniappConfig wxminiappconfig) throws WxErrorException;
 
   /**
    * <pre>
@@ -84,5 +84,5 @@ public interface IWxXcxTemplateMsgService {
    *
    * @param templateId 模板Id
    */
-  boolean delPrivateTemplate(IWxXcxConfig wxxcxconfig,String templateId) throws WxErrorException;
+  boolean delPrivateTemplate(IWxMiniappConfig wxminiappconfig, String templateId) throws WxErrorException;
 }

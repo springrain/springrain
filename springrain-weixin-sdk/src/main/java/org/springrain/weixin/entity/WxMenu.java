@@ -13,10 +13,8 @@ import org.springrain.frame.annotation.WhereSQL;
 import org.springrain.frame.entity.BaseEntity;
 /**
  * TODO 在此加入类描述
- * @copyright {@link weicms.net}
  * @author springrain<Auto generate>
  * @version  2017-02-06 17:23:12
- * @see WxMenu.entity.CmsWxMenu
  */
 @Table(name="wx_menu")
 public class WxMenu  extends BaseEntity {

@@ -4,14 +4,14 @@ import org.springrain.rpc.annotation.RpcServiceAnnotation;
 import org.springrain.weixin.sdk.common.bean.WxAccessToken;
 
 @RpcServiceAnnotation(implpackage = "weixin.service.impl")
-public interface IWxXcxConfigService {
+public interface IWxMiniappConfigService {
 	
 	/**
 	 * 根据ID查找微信配置,可以进行缓存处理
 	 * @param id
 	 * @return
 	 */
-	IWxXcxConfig findWxXcxConfigById(String id);
+	IWxMiniappConfig findWxXcxConfigById(String id);
 	
 	
 	/**
@@ -19,7 +19,7 @@ public interface IWxXcxConfigService {
 	 * @param wxxcxconfig
 	 * @return
 	 */
-	IWxXcxConfig updateWxXcxConfig(IWxXcxConfig wxxcxconfig);
+	IWxMiniappConfig updateWxXcxConfig(IWxMiniappConfig wxxcxconfig);
 	
 
 	
@@ -28,7 +28,7 @@ public interface IWxXcxConfigService {
 	 * @param wxMpConfig
 	 * @return
 	 */
-	IWxXcxConfig expireAccessToken(IWxXcxConfig wxxcxconfig);
+	IWxMiniappConfig expireAccessToken(IWxMiniappConfig wxxcxconfig);
 	
 
 	/**
@@ -36,7 +36,7 @@ public interface IWxXcxConfigService {
 	 * @param wxMpConfig
 	 * @return
 	 */
-    IWxXcxConfig updateAccessToken(IWxXcxConfig wxxcxconfig);
+    IWxMiniappConfig updateAccessToken(IWxMiniappConfig wxxcxconfig);
    
    
 	
@@ -46,7 +46,7 @@ public interface IWxXcxConfigService {
 	 * @param wxxcxconfig
 	 * @return
 	 */
-	WxAccessToken getCustomAPIAccessToken(IWxXcxConfig wxxcxconfig);
+	WxAccessToken getCustomAPIAccessToken(IWxMiniappConfig wxxcxconfig);
 	
 	
 	

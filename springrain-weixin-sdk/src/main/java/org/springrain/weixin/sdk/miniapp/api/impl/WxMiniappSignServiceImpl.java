@@ -22,11 +22,11 @@ import org.springframework.stereotype.Service;
 import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.weixin.sdk.common.bean.result.WxError;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
-import org.springrain.weixin.sdk.common.service.IWxXcxConfig;
+import org.springrain.weixin.sdk.common.service.IWxMiniappConfig;
 import org.springrain.weixin.sdk.common.service.WxConsts;
 import org.springrain.weixin.sdk.common.util.BeanUtils;
 import org.springrain.weixin.sdk.common.util.xml.XStreamInitializer;
-import org.springrain.weixin.sdk.miniapp.api.IWxXcxSignService;
+import org.springrain.weixin.sdk.miniapp.api.IWxMiniappSignService;
 import org.springrain.weixin.sdk.miniapp.bean.result.sign.request.WxSignRequest;
 import org.springrain.weixin.sdk.miniapp.bean.result.sign.request.WxSurrenderRequest;
 import org.springrain.weixin.sdk.miniapp.bean.result.sign.result.WxSignBaseResult;
@@ -35,37 +35,37 @@ import org.springrain.weixin.sdk.miniapp.bean.result.sign.result.WxSurrenderResu
 
 import com.thoughtworks.xstream.XStream;
 
-@Service("wxXcxSignService")
-public class WxXcxSignServiceImpl implements IWxXcxSignService {
+@Service("wxMiniappSignService")
+public class WxMiniappSignServiceImpl implements IWxMiniappSignService {
 	
 	private static final String PAY_BASE_URL = WxConsts.mppaybaseurl;
 	
 	private final Logger log = LoggerFactory.getLogger(getClass());
 
 	@Override
-	public WxSignResult getWxSignInfo(IWxXcxConfig wxxcxconfig,
-			WxSignRequest request) throws WxErrorException {
+	public WxSignResult getWxSignInfo(IWxMiniappConfig wxminiappconfig,
+                                      WxSignRequest request) throws WxErrorException {
 
 		XStream xstream = XStreamInitializer.getInstance();
 		xstream.processAnnotations(WxSignRequest.class);
 		xstream.processAnnotations(WxSignResult.class);
 
-		request.setAppid(wxxcxconfig.getAppId());
-		request.setMchId(wxxcxconfig.getPartnerId());
+		request.setAppid(wxminiappconfig.getAppId());
+		request.setMchId(wxminiappconfig.getPartnerId());
 
-		String sign = createSign(wxxcxconfig, BeanUtils.xmlBean2Map(request),
-				wxxcxconfig.getPartnerKey());
+		String sign = createSign(wxminiappconfig, BeanUtils.xmlBean2Map(request),
+				wxminiappconfig.getPartnerKey());
 		request.setSign(sign);
 
 		String url = PAY_BASE_URL + "/papay/entrustweb";
 
-		String responseContent = executeRequest(wxxcxconfig, url,
+		String responseContent = executeRequest(wxminiappconfig, url,
 				xstream.toXML(request));
 
 		WxSignResult result = (WxSignResult) xstream.fromXML(responseContent);
         
 		//校验结果
-		checkSignResult(wxxcxconfig, result);
+		checkSignResult(wxminiappconfig, result);
 
 		return result;
 	}
@@ -80,8 +80,8 @@ public class WxXcxSignServiceImpl implements IWxXcxSignService {
 	 *            加密Key(即 商户Key)
 	 * @return 签名字符串
 	 */
-	private String createSign(IWxXcxConfig wxxcxconfig,
-			Map<String, String> packageParams, String signKey) {
+	private String createSign(IWxMiniappConfig wxminiappconfig,
+                              Map<String, String> packageParams, String signKey) {
 		SortedMap<String, String> sortedMap = new TreeMap<>(packageParams);
 
 		StringBuilder toSign = new StringBuilder();
@@ -99,15 +99,15 @@ public class WxXcxSignServiceImpl implements IWxXcxSignService {
 	}
 	  
 	
-	private String executeRequest(IWxXcxConfig wxxcxconfig, String url,
-			String requestStr) throws WxErrorException {
+	private String executeRequest(IWxMiniappConfig wxminiappconfig, String url,
+                                  String requestStr) throws WxErrorException {
 		HttpPost httpPost = new HttpPost(url);
-		if (wxxcxconfig.getHttpProxyHost() != null) {
+		if (wxminiappconfig.getHttpProxyHost() != null) {
 			RequestConfig config = RequestConfig
 					.custom()
 					.setProxy(
-							new HttpHost(wxxcxconfig.getHttpProxyHost(),
-									wxxcxconfig.getHttpProxyPort())).build();
+							new HttpHost(wxminiappconfig.getHttpProxyHost(),
+									wxminiappconfig.getHttpProxyPort())).build();
 			httpPost.setConfig(config);
 		}
 
@@ -135,8 +135,8 @@ public class WxXcxSignServiceImpl implements IWxXcxSignService {
 	  
 	
 	
-	private void checkSignResult(IWxXcxConfig wxxcxconfig,
-			WxSignBaseResult result) throws WxErrorException {
+	private void checkSignResult(IWxMiniappConfig wxminiappconfig,
+                                 WxSignBaseResult result) throws WxErrorException {
 		if (!"SUCCESS".equalsIgnoreCase(result.getReturnCode())
 				|| !"SUCCESS".equalsIgnoreCase(result.getResultCode())) {
 			throw new WxErrorException(WxError
@@ -153,42 +153,42 @@ public class WxXcxSignServiceImpl implements IWxXcxSignService {
 	
 
 	@Override
-	public WxSurrenderResult getWxSurrenderInfo(IWxXcxConfig wxxcxconfig,
-			WxSurrenderRequest request) throws WxErrorException {
+	public WxSurrenderResult getWxSurrenderInfo(IWxMiniappConfig wxminiappconfig,
+                                                WxSurrenderRequest request) throws WxErrorException {
 		XStream xstream = XStreamInitializer.getInstance();
 		xstream.processAnnotations(WxSurrenderRequest.class);
 		xstream.processAnnotations(WxSurrenderResult.class);
 
-		request.setAppid(wxxcxconfig.getAppId());
-		request.setMchId(wxxcxconfig.getPartnerId());
+		request.setAppid(wxminiappconfig.getAppId());
+		request.setMchId(wxminiappconfig.getPartnerId());
 
-		String sign = createSign(wxxcxconfig, BeanUtils.xmlBean2Map(request),
-				wxxcxconfig.getPartnerKey());
+		String sign = createSign(wxminiappconfig, BeanUtils.xmlBean2Map(request),
+				wxminiappconfig.getPartnerKey());
 		request.setSign(sign);
 
 		String url = PAY_BASE_URL + "/papay/deletecontract";
 
-		String responseContent = executeRequest(wxxcxconfig, url,
+		String responseContent = executeRequest(wxminiappconfig, url,
 				xstream.toXML(request));
 
 		WxSurrenderResult result = (WxSurrenderResult) xstream.fromXML(responseContent);
         
 		//校验结果
-		checkSignResult(wxxcxconfig, result);
+		checkSignResult(wxminiappconfig, result);
 		
 		return result;
 
 	}
 
 	@Override
-	public String getWxSignUrl(IWxXcxConfig wxxcxconfig, WxSignRequest request)
+	public String getWxSignUrl(IWxMiniappConfig wxminiappconfig, WxSignRequest request)
 			throws WxErrorException {
 
-		request.setAppid(wxxcxconfig.getAppId());
-		request.setMchId(wxxcxconfig.getPartnerId());
+		request.setAppid(wxminiappconfig.getAppId());
+		request.setMchId(wxminiappconfig.getPartnerId());
 
-		String sign = createSign(wxxcxconfig, BeanUtils.xmlBean2Map(request),
-				wxxcxconfig.getPartnerKey());
+		String sign = createSign(wxminiappconfig, BeanUtils.xmlBean2Map(request),
+				wxminiappconfig.getPartnerKey());
 		request.setSign(sign);
 		
 		String url = PAY_BASE_URL + "/papay/entrustweb";
@@ -216,15 +216,15 @@ public class WxXcxSignServiceImpl implements IWxXcxSignService {
 	}
 
 	@Override
-	public Map<String, String> getSignParam(IWxXcxConfig wxxcxconfig,
-			WxSignRequest request) throws WxErrorException {
-		request.setAppid(wxxcxconfig.getAppId());
-		request.setMchId(wxxcxconfig.getPartnerId());
-		request.setPlanId(wxxcxconfig.getPlanId());
-		request.setRequestSerial(wxxcxconfig.getRequestSerial());
+	public Map<String, String> getSignParam(IWxMiniappConfig wxminiappconfig,
+                                            WxSignRequest request) throws WxErrorException {
+		request.setAppid(wxminiappconfig.getAppId());
+		request.setMchId(wxminiappconfig.getPartnerId());
+		request.setPlanId(wxminiappconfig.getPlanId());
+		request.setRequestSerial(wxminiappconfig.getRequestSerial());
 
-		String sign = createSign(wxxcxconfig, BeanUtils.xmlBean2Map(request),
-				wxxcxconfig.getPartnerKey());
+		String sign = createSign(wxminiappconfig, BeanUtils.xmlBean2Map(request),
+				wxminiappconfig.getPartnerKey());
 		request.setSign(sign);
 		
 		String notifyURL = request.getNotifyURL();

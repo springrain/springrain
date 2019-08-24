@@ -9,10 +9,10 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.springrain.frame.annotation.WhereSQL;
 import org.springrain.frame.entity.BaseEntity;
-import org.springrain.weixin.sdk.common.service.IWxXcxConfig;
+import org.springrain.weixin.sdk.common.service.IWxMiniappConfig;
 
-@Table(name="wx_xcxconfig")
-public class WxXcxConfig   extends BaseEntity implements IWxXcxConfig {
+@Table(name="wx_miniappconfig")
+public class WxMiniappConfig extends BaseEntity implements IWxMiniappConfig {
 	private static final long serialVersionUID = 1L;
 	 
 
@@ -135,10 +135,10 @@ public class WxXcxConfig   extends BaseEntity implements IWxXcxConfig {
 	  
 	//concstructor
 
-		public WxXcxConfig(){
+		public WxMiniappConfig(){
 		}
 
-		public WxXcxConfig(
+		public WxMiniappConfig(
 			java.lang.String id
 		){
 			this.id = id;
@@ -388,13 +388,13 @@ public class WxXcxConfig   extends BaseEntity implements IWxXcxConfig {
 		
 		@Override
         public boolean equals(Object obj) {
-			if(obj instanceof WxXcxConfig == false){
+			if(obj instanceof WxMiniappConfig == false){
 				return false;
 			} 
 			if(this == obj){
 				return true;
 			} 
-			WxXcxConfig other = (WxXcxConfig)obj;
+			WxMiniappConfig other = (WxMiniappConfig)obj;
 			return new EqualsBuilder()
 				.append(getId(),other.getId())
 				.isEquals();

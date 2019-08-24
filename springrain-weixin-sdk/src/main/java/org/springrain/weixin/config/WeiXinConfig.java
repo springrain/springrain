@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springrain.weixin.sdk.common.service.IWxCpConfigService;
 import org.springrain.weixin.sdk.common.service.IWxMpConfigService;
-import org.springrain.weixin.sdk.common.service.IWxXcxConfigService;
+import org.springrain.weixin.sdk.common.service.IWxMiniappConfigService;
 import org.springrain.weixin.sdk.cp.api.IWxCpService;
 import org.springrain.weixin.sdk.cp.api.WxCpServiceImpl;
 import org.springrain.weixin.sdk.mp.api.IWxMpCardService;
@@ -29,14 +29,14 @@ import org.springrain.weixin.sdk.mp.api.impl.WxMpQrcodeServiceImpl;
 import org.springrain.weixin.sdk.mp.api.impl.WxMpServiceImpl;
 import org.springrain.weixin.sdk.mp.api.impl.WxMpTemplateMsgServiceImpl;
 import org.springrain.weixin.sdk.mp.api.impl.WxMpUserServiceImpl;
-import org.springrain.weixin.sdk.miniapp.api.IWxXcxMaterialService;
-import org.springrain.weixin.sdk.miniapp.api.IWxXcxPayService;
-import org.springrain.weixin.sdk.miniapp.api.IWxXcxService;
-import org.springrain.weixin.sdk.miniapp.api.IWxXcxTemplateMsgService;
-import org.springrain.weixin.sdk.miniapp.api.impl.WxXcxMaterialServiceImpl;
-import org.springrain.weixin.sdk.miniapp.api.impl.WxXcxPayServiceImpl;
-import org.springrain.weixin.sdk.miniapp.api.impl.WxXcxServiceImpl;
-import org.springrain.weixin.sdk.miniapp.api.impl.WxXcxTemplateMsgServiceImpl;
+import org.springrain.weixin.sdk.miniapp.api.IWxMiniappMaterialService;
+import org.springrain.weixin.sdk.miniapp.api.IWxMiniappPayService;
+import org.springrain.weixin.sdk.miniapp.api.IWxMiniappService;
+import org.springrain.weixin.sdk.miniapp.api.IWxMiniappTemplateMsgService;
+import org.springrain.weixin.sdk.miniapp.api.impl.WxMiniappMaterialServiceImpl;
+import org.springrain.weixin.sdk.miniapp.api.impl.WxMiniappPayServiceImpl;
+import org.springrain.weixin.sdk.miniapp.api.impl.WxMiniappServiceImpl;
+import org.springrain.weixin.sdk.miniapp.api.impl.WxMiniappTemplateMsgServiceImpl;
 
 @Configuration("configuration-WeiXinConfig")
 public class WeiXinConfig {
@@ -46,7 +46,7 @@ public class WeiXinConfig {
 	@Resource
 	private IWxCpConfigService wxCpConfigService;
 	@Resource
-	private IWxXcxConfigService wxXcxConfigService;
+	private IWxMiniappConfigService wxMiniappConfigService;
 
 	/**
 	 * 
@@ -119,28 +119,28 @@ public class WeiXinConfig {
 		return wxCpService;
 	}
 
-	@Bean("wxXcxService")
-	public IWxXcxService wxXcxService() {
-		IWxXcxService wxXcxService = new WxXcxServiceImpl(wxXcxConfigService);
-		return wxXcxService;
+	@Bean("wxMiniappService")
+	public IWxMiniappService wxMiniappService() {
+		IWxMiniappService wxMiniappService = new WxMiniappServiceImpl(wxMiniappConfigService);
+		return wxMiniappService;
 	}
 
-	@Bean("wxXcxPayService")
-	public IWxXcxPayService wxXcxPayService() {
-		IWxXcxPayService wxXcxPayService = new WxXcxPayServiceImpl(wxXcxService());
-		return wxXcxPayService;
+	@Bean("wxMiniappPayService")
+	public IWxMiniappPayService wxMiniappPayService() {
+		IWxMiniappPayService wxMiniappPayService = new WxMiniappPayServiceImpl(wxMiniappService());
+		return wxMiniappPayService;
 	}
 
-	@Bean("wxXcxTemplateMsgService")
-	public IWxXcxTemplateMsgService wxXcxTemplateMsgService() {
-		IWxXcxTemplateMsgService wxXcxTemplateMsgService = new WxXcxTemplateMsgServiceImpl(wxXcxService());
-		return wxXcxTemplateMsgService;
+	@Bean("wxMiniappTemplateMsgService")
+	public IWxMiniappTemplateMsgService wxMiniappTemplateMsgService() {
+		IWxMiniappTemplateMsgService wxMiniappTemplateMsgService = new WxMiniappTemplateMsgServiceImpl(wxMiniappService());
+		return wxMiniappTemplateMsgService;
 	}
 
-	@Bean("wxXcxMaterialService")
-	public IWxXcxMaterialService wxXcxMaterialService() {
-		IWxXcxMaterialService wxXcxMaterialService = new WxXcxMaterialServiceImpl(wxXcxService());
-		return wxXcxMaterialService;
+	@Bean("wxMiniappMaterialService")
+	public IWxMiniappMaterialService wxMiniappMaterialService() {
+		IWxMiniappMaterialService wxMiniappMaterialService = new WxMiniappMaterialServiceImpl(wxMiniappService());
+		return wxMiniappMaterialService;
 	}
 
 }

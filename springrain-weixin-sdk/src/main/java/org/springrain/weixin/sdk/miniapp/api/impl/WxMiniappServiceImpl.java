@@ -35,14 +35,14 @@ import org.springrain.frame.util.SecUtils;
 import org.springrain.weixin.sdk.common.bean.WxAccessToken;
 import org.springrain.weixin.sdk.common.bean.result.WxError;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
-import org.springrain.weixin.sdk.common.service.IWxXcxConfig;
-import org.springrain.weixin.sdk.common.service.IWxXcxConfigService;
+import org.springrain.weixin.sdk.common.service.IWxMiniappConfig;
+import org.springrain.weixin.sdk.common.service.IWxMiniappConfigService;
 import org.springrain.weixin.sdk.common.service.WxConsts;
 import org.springrain.weixin.sdk.common.util.http.RequestExecutor;
 import org.springrain.weixin.sdk.common.util.http.SimpleGetRequestExecutor;
 import org.springrain.weixin.sdk.common.util.http.SimplePostRequestExecutor;
 import org.springrain.weixin.sdk.common.util.json.WxGsonBuilder;
-import org.springrain.weixin.sdk.miniapp.api.IWxXcxService;
+import org.springrain.weixin.sdk.miniapp.api.IWxMiniappService;
 import org.springrain.weixin.sdk.miniapp.bean.result.CodeInfo;
 import org.springrain.weixin.sdk.miniapp.bean.result.EncryptedData;
 import org.springrain.weixin.sdk.miniapp.bean.result.PhoneEncryptedData;
@@ -53,40 +53,40 @@ import org.springrain.weixin.sdk.miniapp.bean.result.WxMpOAuth2SessionKey;
  * @author caomei
  *
  */
-public class WxXcxServiceImpl implements IWxXcxService {
+public class WxMiniappServiceImpl implements IWxMiniappService {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	// 生产环境应该是spring注入
-	private IWxXcxConfigService wxXcxConfigService;
+	private IWxMiniappConfigService wxMiniappConfigService;
 
-	public WxXcxServiceImpl() {
+	public WxMiniappServiceImpl() {
 
 	}
 
-	public WxXcxServiceImpl(IWxXcxConfigService wxXcxConfigService) {
-		this.wxXcxConfigService = wxXcxConfigService;
+	public WxMiniappServiceImpl(IWxMiniappConfigService wxMiniappConfigService) {
+		this.wxMiniappConfigService = wxMiniappConfigService;
 	}
 
 	@Override
-	public WxMpOAuth2SessionKey oauth2getSessionKey(IWxXcxConfig wxxcxconfig, String code) throws WxErrorException {
+	public WxMpOAuth2SessionKey oauth2getSessionKey(IWxMiniappConfig wxminiappconfig, String code) throws WxErrorException {
 
 		StringBuilder url = new StringBuilder();
 		url.append(WxConsts.mpapiurl + "/sns/jscode2session?");
-		url.append("appid=").append(wxxcxconfig.getAppId());
-		url.append("&secret=").append(wxxcxconfig.getSecret());
+		url.append("appid=").append(wxminiappconfig.getAppId());
+		url.append("&secret=").append(wxminiappconfig.getSecret());
 		url.append("&js_code=").append(code);
 		url.append("&grant_type=authorization_code");
 
-		return getOAuth2SessionKey(wxxcxconfig, url);
+		return getOAuth2SessionKey(wxminiappconfig, url);
 
 	}
 
-	private WxMpOAuth2SessionKey getOAuth2SessionKey(IWxXcxConfig wxxcxconfig, StringBuilder url)
+	private WxMpOAuth2SessionKey getOAuth2SessionKey(IWxMiniappConfig wxminiappconfig, StringBuilder url)
 			throws WxErrorException {
 		try {
 			RequestExecutor<String, String> executor = new SimpleGetRequestExecutor();
-			String responseText = executor.execute(wxxcxconfig, url.toString(), null);
+			String responseText = executor.execute(wxminiappconfig, url.toString(), null);
 			return WxMpOAuth2SessionKey.fromJson(responseText);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
@@ -94,31 +94,31 @@ public class WxXcxServiceImpl implements IWxXcxService {
 	}
 
 	@Override
-	public String getAccessToken(IWxXcxConfig wxxcxconfig) throws WxErrorException {
-		return getAccessToken(wxxcxconfig, false);
+	public String getAccessToken(IWxMiniappConfig wxminiappconfig) throws WxErrorException {
+		return getAccessToken(wxminiappconfig, false);
 	}
 
 	@Override
-	public String getAccessToken(IWxXcxConfig wxxcxconfig, boolean forceRefresh) throws WxErrorException {
+	public String getAccessToken(IWxMiniappConfig wxminiappconfig, boolean forceRefresh) throws WxErrorException {
 
 		if (forceRefresh) {
-			wxXcxConfigService.expireAccessToken(wxxcxconfig);
+			wxMiniappConfigService.expireAccessToken(wxminiappconfig);
 		}
 
-		if (!wxxcxconfig.isAccessTokenExpired()) {
-			return wxxcxconfig.getAccessToken();
+		if (!wxminiappconfig.isAccessTokenExpired()) {
+			return wxminiappconfig.getAccessToken();
 		}
 
 		// WxAccessToken accessToken =
-		// wxXcxConfigService.getCustomAPIAccessToken(wxxcxconfig);
+		// wxMiniappConfigService.getCustomAPIAccessToken(wxminiappconfig);
 		WxAccessToken accessToken = null;
 		if (accessToken == null) {
 			String url = WxConsts.mpapiurl + "/cgi-bin/token?grant_type=client_credential" + "&appid="
-					+ wxxcxconfig.getAppId() + "&secret=" + wxxcxconfig.getSecret();
+					+ wxminiappconfig.getAppId() + "&secret=" + wxminiappconfig.getSecret();
 			HttpGet httpGet = new HttpGet(url);
-			if (wxxcxconfig.getHttpProxyHost() != null) {
+			if (wxminiappconfig.getHttpProxyHost() != null) {
 				RequestConfig config = RequestConfig.custom()
-						.setProxy(new HttpHost(wxxcxconfig.getHttpProxyHost(), wxxcxconfig.getHttpProxyPort())).build();
+						.setProxy(new HttpHost(wxminiappconfig.getHttpProxyHost(), wxminiappconfig.getHttpProxyPort())).build();
 				httpGet.setConfig(config);
 			}
 
@@ -135,27 +135,27 @@ public class WxXcxServiceImpl implements IWxXcxService {
 			return null;
 		}
 
-		wxxcxconfig.setAccessToken(accessToken.getAccessToken());
-		wxxcxconfig.setAccessTokenExpiresTime(Long.valueOf(accessToken.getExpiresIn()));
-		// wxXcxConfigService.updateAccessToken(wxxcxconfig);
+		wxminiappconfig.setAccessToken(accessToken.getAccessToken());
+		wxminiappconfig.setAccessTokenExpiresTime(Long.valueOf(accessToken.getExpiresIn()));
+		// wxMiniappConfigService.updateAccessToken(wxminiappconfig);
 
-		return wxxcxconfig.getAccessToken();
+		return wxminiappconfig.getAccessToken();
 	}
 
 	/**
 	 * 当本Service没有实现某个API的时候，可以用这个，针对所有微信API中的GET请求
 	 */
 	@Override
-	public String get(IWxXcxConfig wxxcxconfig, String url, String queryParam) throws WxErrorException {
-		return execute(wxxcxconfig, new SimpleGetRequestExecutor(), url, queryParam);
+	public String get(IWxMiniappConfig wxminiappconfig, String url, String queryParam) throws WxErrorException {
+		return execute(wxminiappconfig, new SimpleGetRequestExecutor(), url, queryParam);
 	}
 
 	/**
 	 * 当本Service没有实现某个API的时候，可以用这个，针对所有微信API中的POST请求
 	 */
 	@Override
-	public String post(IWxXcxConfig wxxcxconfig, String url, String postData) throws WxErrorException {
-		return execute(wxxcxconfig, new SimplePostRequestExecutor(), url, postData);
+	public String post(IWxMiniappConfig wxminiappconfig, String url, String postData) throws WxErrorException {
+		return execute(wxminiappconfig, new SimplePostRequestExecutor(), url, postData);
 	}
 
 	/**
@@ -169,7 +169,7 @@ public class WxXcxServiceImpl implements IWxXcxService {
 	 * </pre>
 	 */
 	@Override
-	public <T, E> T execute(IWxXcxConfig wxxcxconfig, RequestExecutor<T, E> executor, String uri, E data)
+	public <T, E> T execute(IWxMiniappConfig wxminiappconfig, RequestExecutor<T, E> executor, String uri, E data)
 			throws WxErrorException {
 		int retrySleepMillis = 1000;
 		int maxRetryTimes = 5;
@@ -177,7 +177,7 @@ public class WxXcxServiceImpl implements IWxXcxService {
 
 		do {
 			try {
-				T result = executeInternal(wxxcxconfig, executor, uri, data);
+				T result = executeInternal(wxminiappconfig, executor, uri, data);
 				logger.debug("\n[URL]:  {}\n[PARAMS]: {}\n[RESPONSE]: {}", uri, data, result);
 				return result;
 			} catch (WxErrorException e) {
@@ -201,18 +201,18 @@ public class WxXcxServiceImpl implements IWxXcxService {
 		throw new RuntimeException("微信服务端异常，超出重试次数");
 	}
 
-	protected synchronized <T, E> T executeInternal(IWxXcxConfig wxxcxconfig, RequestExecutor<T, E> executor,
-			String uri, E data) throws WxErrorException {
+	protected synchronized <T, E> T executeInternal(IWxMiniappConfig wxminiappconfig, RequestExecutor<T, E> executor,
+                                                    String uri, E data) throws WxErrorException {
 		if (uri.indexOf("access_token=") != -1) {
 			throw new IllegalArgumentException("uri参数中不允许有access_token: " + uri);
 		}
-		String accessToken = getAccessToken(wxxcxconfig, false);
+		String accessToken = getAccessToken(wxminiappconfig, false);
 
 		String uriWithAccessToken = uri;
 		uriWithAccessToken += uri.indexOf('?') == -1 ? "?access_token=" + accessToken : "&access_token=" + accessToken;
 
 		try {
-			return executor.execute(wxxcxconfig, uriWithAccessToken, data);
+			return executor.execute(wxminiappconfig, uriWithAccessToken, data);
 		} catch (WxErrorException e) {
 			logger.error(e.getMessage(), e);
 			WxError error = e.getError();
@@ -222,10 +222,10 @@ public class WxXcxServiceImpl implements IWxXcxService {
 			 */
 			if (error.getErrorCode() == 42001 || error.getErrorCode() == 40001) {
 				// 强制设置wxMpConfigStorage它的access token过期了，这样在下一次请求里就会刷新access token
-				// wxxcxconfig.expireAccessToken();
-				wxXcxConfigService.expireAccessToken(wxxcxconfig);
-				if (wxxcxconfig.autoRefreshToken()) {
-					return execute(wxxcxconfig, executor, uri, data);
+				// wxminiappconfig.expireAccessToken();
+				wxMiniappConfigService.expireAccessToken(wxminiappconfig);
+				if (wxminiappconfig.autoRefreshToken()) {
+					return execute(wxminiappconfig, executor, uri, data);
 				}
 			}
 
@@ -242,12 +242,12 @@ public class WxXcxServiceImpl implements IWxXcxService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void getXcxCode(String siteId, IWxXcxConfig wxxcxconfig, CodeInfo codeInfo, String fileSrc, String fileName,
-			String fileType) throws Exception {
+	public void getMiniappCode(String siteId, IWxMiniappConfig wxminiappconfig, CodeInfo codeInfo, String fileSrc, String fileName,
+                           String fileType) throws Exception {
 		/**
 		 * 1、先获取tocken 2、调用获取二维码 3、生成二维码图片 4、将图片保存到本地 5、返回图片的url
 		 */
-		String accessToken = getAccessToken(wxxcxconfig);
+		String accessToken = getAccessToken(wxminiappconfig);
 
 		RestTemplate rest = new RestTemplate();
 		InputStream inputStream = null;
