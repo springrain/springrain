@@ -12,43 +12,43 @@ public interface IWxMiniappConfigService {
      * @param id
      * @return
      */
-    IWxMiniappConfig findWxXcxConfigById(String id);
+    IWxMiniappConfig findWxMiniappConfigById(String id);
 
 
     /**
-     * 更新WxXcxConfig,可以进行缓存处理
+     * 更新WxMiniappConfig,可以进行缓存处理
      *
-     * @param wxxcxconfig
+     * @param wxminiappconfig
      * @return
      */
-    IWxMiniappConfig updateWxXcxConfig(IWxMiniappConfig wxxcxconfig);
+    IWxMiniappConfig updateWxMiniappConfig(IWxMiniappConfig wxminiappconfig);
 
 
     /**
      * 更新 expireAccessToken
      *
-     * @param wxMpConfig
+     * @param wxminiappconfig
      * @return
      */
-    IWxMiniappConfig expireAccessToken(IWxMiniappConfig wxxcxconfig);
+    IWxMiniappConfig expireAccessToken(IWxMiniappConfig wxminiappconfig);
 
 
     /**
      * 更新 updateAccessToken
      *
-     * @param wxMpConfig
+     * @param wxminiappconfig
      * @return
      */
-    IWxMiniappConfig updateAccessToken(IWxMiniappConfig wxxcxconfig);
+    IWxMiniappConfig updateAccessToken(IWxMiniappConfig wxminiappconfig);
 
 
     /**
      * 获取自定义的APIAccessToken
      *
-     * @param wxxcxconfig
+     * @param wxminiappconfig
      * @return
      */
-    WxAccessToken getCustomAPIAccessToken(IWxMiniappConfig wxxcxconfig);
+    WxAccessToken getCustomAPIAccessToken(IWxMiniappConfig wxminiappconfig);
 
 
 }

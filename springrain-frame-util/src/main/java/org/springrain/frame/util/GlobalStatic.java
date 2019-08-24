@@ -60,7 +60,7 @@ public class GlobalStatic {
 
 	public static final String cpConfigCacheKey = "cpConfigCacheKey";// 企业号配置缓存Key
 
-	public static final String xcxConfigCacheKey = "xcxConfigCacheKey";// 小程序配置缓存Key
+	public static final String miniappConfigCacheKey = "miniappConfigCacheKey";// 小程序配置缓存Key
 
 	// page对象的缓存后缀key
 	public static final String pageCacheExtKey = "_springrain_page_key";
