@@ -3,7 +3,7 @@ package org.springrain.weixin.sdk.common.bean.result;
 
 import java.io.Serializable;
 
-import org.springrain.weixin.sdk.common.util.json.WxGsonBuilder;
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
 
 public class WxMediaUploadResult implements Serializable {
   private static final long serialVersionUID = 330834334738622341L;
@@ -14,7 +14,7 @@ public class WxMediaUploadResult implements Serializable {
   private long createdAt;
 
   public static WxMediaUploadResult fromJson(String json) {
-    return WxGsonBuilder.create().fromJson(json, WxMediaUploadResult.class);
+    return WxJsonBuilder.fromJson(json, WxMediaUploadResult.class);
   }
 
   public String getType() {

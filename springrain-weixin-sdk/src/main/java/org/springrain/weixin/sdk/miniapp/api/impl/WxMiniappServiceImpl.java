@@ -41,7 +41,7 @@ import org.springrain.weixin.sdk.common.service.WxConsts;
 import org.springrain.weixin.sdk.common.util.http.RequestExecutor;
 import org.springrain.weixin.sdk.common.util.http.SimpleGetRequestExecutor;
 import org.springrain.weixin.sdk.common.util.http.SimplePostRequestExecutor;
-import org.springrain.weixin.sdk.common.util.json.WxGsonBuilder;
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
 import org.springrain.weixin.sdk.miniapp.api.IWxMiniappService;
 import org.springrain.weixin.sdk.miniapp.bean.result.CodeInfo;
 import org.springrain.weixin.sdk.miniapp.bean.result.EncryptedData;
@@ -128,7 +128,7 @@ public class WxMiniappServiceImpl implements IWxMiniappService {
 				throw new WxErrorException(error);
 			}
 			// accessToken = WxAccessToken.fromJson(resultContent);
-			accessToken = WxGsonBuilder.create().fromJson(resultContent, WxAccessToken.class);
+			accessToken = WxJsonBuilder.fromJson(resultContent, WxAccessToken.class);
 		}
 
 		if (accessToken == null) {

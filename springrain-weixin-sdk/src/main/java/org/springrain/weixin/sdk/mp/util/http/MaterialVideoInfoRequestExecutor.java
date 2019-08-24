@@ -13,7 +13,7 @@ import org.springrain.weixin.sdk.common.bean.result.WxError;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
 import org.springrain.weixin.sdk.common.service.IWxConfig;
 import org.springrain.weixin.sdk.common.util.http.RequestExecutor;
-import org.springrain.weixin.sdk.common.util.json.WxGsonBuilder;
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
 import org.springrain.weixin.sdk.mp.bean.material.WxMpMaterialVideoInfoResult;
 
 public class MaterialVideoInfoRequestExecutor implements RequestExecutor<WxMpMaterialVideoInfoResult, String> {
@@ -32,7 +32,7 @@ public class MaterialVideoInfoRequestExecutor implements RequestExecutor<WxMpMat
 
     Map<String, String> params = new HashMap<>();
     params.put("media_id", materialId);
-    httpPost.setEntity(new StringEntity(WxGsonBuilder.create().toJson(params)));
+    httpPost.setEntity(new StringEntity(WxJsonBuilder.toJson(params)));
     
     String responseContent = HttpClientUtils.sendHttpPost(httpPost);
     

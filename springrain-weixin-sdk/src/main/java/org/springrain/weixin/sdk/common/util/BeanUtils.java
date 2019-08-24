@@ -60,7 +60,7 @@ public class BeanUtils {
    * @return map对象
    */
   public static Map<String, String> xmlBean2Map(Object bean) {
-    Map<String, String> result = new HashMap<String, String>();
+    Map<String, String> result = new HashMap<>();
     List<Field> fields = new ArrayList<>( Arrays.asList(bean.getClass().getDeclaredFields()));
     fields.addAll(Arrays.asList(bean.getClass().getSuperclass().getDeclaredFields()));
     for (Field field : fields) {

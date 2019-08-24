@@ -21,7 +21,7 @@ import org.springrain.weixin.sdk.common.exception.WxErrorException;
 import org.springrain.weixin.sdk.common.service.IWxConfig;
 import org.springrain.weixin.sdk.common.util.http.InputStreamResponseHandler;
 import org.springrain.weixin.sdk.common.util.http.RequestExecutor;
-import org.springrain.weixin.sdk.common.util.json.WxGsonBuilder;
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
 
 public class MaterialVoiceAndImageDownloadRequestExecutor implements RequestExecutor<InputStream, String> {
   private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -48,7 +48,7 @@ public class MaterialVoiceAndImageDownloadRequestExecutor implements RequestExec
 
     Map<String, String> params = new HashMap<>();
     params.put("media_id", materialId);
-    httpPost.setEntity(new StringEntity(WxGsonBuilder.create().toJson(params)));
+    httpPost.setEntity(new StringEntity(WxJsonBuilder.toJson(params)));
     try (CloseableHttpResponse response = HttpClientUtils.getHttpClient().execute(httpPost);
         InputStream inputStream = InputStreamResponseHandler.INSTANCE.handleResponse(response);){
       // 下载媒体文件出错
@@ -56,7 +56,7 @@ public class MaterialVoiceAndImageDownloadRequestExecutor implements RequestExec
       String responseContentString = new String(responseContent, "UTF-8");
       if (responseContentString.length() < 100) {
         try {
-          WxError wxError = WxGsonBuilder.create().fromJson(responseContentString, WxError.class);
+          WxError wxError = WxJsonBuilder.fromJson(responseContentString, WxError.class);
           if (wxError.getErrorCode() != 0) {
             throw new WxErrorException(wxError);
           }

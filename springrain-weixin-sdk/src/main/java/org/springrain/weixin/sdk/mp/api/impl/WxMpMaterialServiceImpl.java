@@ -17,7 +17,7 @@ import org.springrain.weixin.sdk.common.service.WxConsts;
 import org.springrain.weixin.sdk.common.util.fs.FileUtils;
 import org.springrain.weixin.sdk.common.util.http.MediaDownloadRequestExecutor;
 import org.springrain.weixin.sdk.common.util.http.MediaUploadRequestExecutor;
-import org.springrain.weixin.sdk.common.util.json.WxGsonBuilder;
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
 import org.springrain.weixin.sdk.mp.api.IWxMpMaterialService;
 import org.springrain.weixin.sdk.mp.api.IWxMpService;
 import org.springrain.weixin.sdk.mp.bean.material.WxMediaImgUploadResult;
@@ -159,7 +159,7 @@ public class WxMpMaterialServiceImpl implements IWxMpMaterialService {
     params.put("type", WxConsts.MATERIAL_NEWS);
     params.put("offset", offset);
     params.put("count", count);
-    String responseText = this.wxMpService.post(wxmpconfig,url, WxGsonBuilder.create().toJson(params));
+    String responseText = this.wxMpService.post(wxmpconfig,url, WxJsonBuilder.toJson(params));
     WxError wxError = WxError.fromJson(responseText);
     if (wxError.getErrorCode() == 0) {
       return WxMpGsonBuilder.create().fromJson(responseText, WxMpMaterialNewsBatchGetResult.class);
@@ -175,7 +175,7 @@ public class WxMpMaterialServiceImpl implements IWxMpMaterialService {
     params.put("type", type);
     params.put("offset", offset);
     params.put("count", count);
-    String responseText = this.wxMpService.post(wxmpconfig,url, WxGsonBuilder.create().toJson(params));
+    String responseText = this.wxMpService.post(wxmpconfig,url, WxJsonBuilder.toJson(params));
     WxError wxError = WxError.fromJson(responseText);
     if (wxError.getErrorCode() == 0) {
       return WxMpGsonBuilder.create().fromJson(responseText, WxMpMaterialFileBatchGetResult.class);

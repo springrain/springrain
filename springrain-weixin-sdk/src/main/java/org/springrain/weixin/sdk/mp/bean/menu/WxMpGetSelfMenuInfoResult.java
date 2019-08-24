@@ -1,7 +1,7 @@
 package org.springrain.weixin.sdk.mp.bean.menu;
 
 import org.springrain.weixin.sdk.common.util.ToStringUtils;
-import org.springrain.weixin.sdk.common.util.json.WxGsonBuilder;
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -19,7 +19,7 @@ public class WxMpGetSelfMenuInfoResult {
   private Integer isMenuOpen;
 
   public static WxMpGetSelfMenuInfoResult fromJson(String json) {
-    return WxGsonBuilder.create().fromJson(json, WxMpGetSelfMenuInfoResult.class);
+    return WxJsonBuilder.fromJson(json, WxMpGetSelfMenuInfoResult.class);
   }
 
   @Override

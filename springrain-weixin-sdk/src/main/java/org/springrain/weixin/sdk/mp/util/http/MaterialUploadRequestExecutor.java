@@ -16,7 +16,7 @@ import org.springrain.weixin.sdk.common.bean.result.WxError;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
 import org.springrain.weixin.sdk.common.service.IWxConfig;
 import org.springrain.weixin.sdk.common.util.http.RequestExecutor;
-import org.springrain.weixin.sdk.common.util.json.WxGsonBuilder;
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
 import org.springrain.weixin.sdk.mp.bean.material.WxMpMaterial;
 import org.springrain.weixin.sdk.mp.bean.material.WxMpMaterialUploadResult;
 
@@ -45,7 +45,7 @@ public class MaterialUploadRequestExecutor implements RequestExecutor<WxMpMateri
         .setMode(HttpMultipartMode.RFC6532);
     Map<String, String> form = material.getForm();
     if (material.getForm() != null) {
-      multipartEntityBuilder.addTextBody("description", WxGsonBuilder.create().toJson(form));
+      multipartEntityBuilder.addTextBody("description", WxJsonBuilder.toJson(form));
     }
 
     httpPost.setEntity(multipartEntityBuilder.build());

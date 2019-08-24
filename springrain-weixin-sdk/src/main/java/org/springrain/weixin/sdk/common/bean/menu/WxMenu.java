@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springrain.weixin.sdk.common.util.ToStringUtils;
-import org.springrain.weixin.sdk.common.util.json.WxGsonBuilder;
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
 
 /**
  * 菜单（公众号和企业号共用的）
@@ -29,7 +29,7 @@ public class WxMenu implements Serializable {
      * 相比 http://mp.weixin.qq.com/wiki/13/43de8269be54a0a6f64413e4dfa94f39.html 的格式，外层多套了一个menu
      */
     public static WxMenu fromJson(String json) {
-        return WxGsonBuilder.create().fromJson(json, WxMenu.class);
+        return WxJsonBuilder.fromJson(json, WxMenu.class);
     }
 
     /**
@@ -37,7 +37,7 @@ public class WxMenu implements Serializable {
      * 相比 http://mp.weixin.qq.com/wiki/13/43de8269be54a0a6f64413e4dfa94f39.html 的格式，外层多套了一个menu
      */
     public static WxMenu fromJson(InputStream is) {
-        return WxGsonBuilder.create().fromJson(new InputStreamReader(is, StandardCharsets.UTF_8), WxMenu.class);
+        return WxJsonBuilder.fromJson(new InputStreamReader(is, StandardCharsets.UTF_8), WxMenu.class);
     }
 
     public List<WxMenuButton> getButtons() {
@@ -57,7 +57,7 @@ public class WxMenu implements Serializable {
     }
 
     public String toJson() {
-        return WxGsonBuilder.create().toJson(this);
+        return WxJsonBuilder.toJson(this);
     }
 
     @Override

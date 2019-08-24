@@ -23,7 +23,7 @@ import org.springrain.weixin.sdk.common.util.http.RequestExecutor;
 import org.springrain.weixin.sdk.common.util.http.SimpleGetRequestExecutor;
 import org.springrain.weixin.sdk.common.util.http.SimplePostRequestExecutor;
 import org.springrain.weixin.sdk.common.util.http.URIUtil;
-import org.springrain.weixin.sdk.common.util.json.WxGsonBuilder;
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
 import org.springrain.weixin.sdk.mp.api.IWxMpService;
 import org.springrain.weixin.sdk.mp.bean.WxMpMassNews;
 import org.springrain.weixin.sdk.mp.bean.WxMpMassOpenIdsMessage;
@@ -167,7 +167,7 @@ public class WxMpServiceImpl implements IWxMpService {
 	              throw new WxErrorException(error);
 	            }
 	            //accessToken = WxAccessToken.fromJson(resultContent);
-	            accessToken= WxGsonBuilder.create().fromJson(resultContent, WxAccessToken.class);
+	            accessToken= WxJsonBuilder.fromJson(resultContent, WxAccessToken.class);
          }
       
       if(accessToken==null){

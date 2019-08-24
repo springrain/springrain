@@ -3,7 +3,7 @@ package org.springrain.weixin.sdk.common.bean.result;
 
 import java.io.Serializable;
 
-import org.springrain.weixin.sdk.common.util.json.WxGsonBuilder;
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
 
 /**
  * 微信错误码说明，请阅读： <a href="http://mp.weixin.qq.com/wiki/10/6380dc743053a91c544ffd2b7c959166.html">全局返回码说明</a>
@@ -21,7 +21,7 @@ public class WxError implements Serializable {
   private String json;
 
   public static WxError fromJson(String json) {
-    WxError error = WxGsonBuilder.create().fromJson(json, WxError.class);
+    WxError error = WxJsonBuilder.fromJson(json, WxError.class);
     return error;
   }
 
