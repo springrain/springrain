@@ -1,15 +1,5 @@
 package org.springrain.frame.util;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.net.ssl.SSLContext;
-
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
@@ -31,6 +21,15 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.net.ssl.SSLContext;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * HttpClient 工具类
@@ -404,6 +403,25 @@ public class HttpClientUtils {
 		}
 		return sendHttpGet(httpGet, null);
 	}
+
+	/**
+	 * 发送 Post请求
+	 *
+	 * @param httpUrl 请求路径
+	 * @param headers 请求头参数
+	 * @return
+	 */
+	public static String sendHttpHeaderPost(String httpUrl, Map<String, String> headers) {
+		HttpPost httpPost = new HttpPost(httpUrl);// 创建get请求
+		for (Map.Entry<String, String> entry : headers.entrySet()) {
+			String key = entry.getKey().toString();
+			String value = entry.getValue().toString();
+			httpPost.setHeader(key, value);
+		}
+		return sendHttpPost(httpPost, null);
+	}
+
+
 
 	/**
 	 * Get 下载文件

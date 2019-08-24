@@ -2,13 +2,11 @@ package org.springrain.weixin.sdk.cp.api;
 
 import com.google.gson.*;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpHost;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.HttpGet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.frame.util.JsonUtils;
+import org.springrain.weixin.sdk.common.WxConsts;
 import org.springrain.weixin.sdk.common.bean.WxAccessToken;
 import org.springrain.weixin.sdk.common.bean.WxJsApiSignature;
 import org.springrain.weixin.sdk.common.bean.menu.WxMenu;
@@ -17,7 +15,6 @@ import org.springrain.weixin.sdk.common.bean.result.WxMediaUploadResult;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
 import org.springrain.weixin.sdk.common.service.IWxCpConfig;
 import org.springrain.weixin.sdk.common.service.IWxCpConfigService;
-import org.springrain.weixin.sdk.common.WxConsts;
 import org.springrain.weixin.sdk.common.util.RandomUtils;
 import org.springrain.weixin.sdk.common.util.crypto.SHA1;
 import org.springrain.weixin.sdk.common.util.fs.FileUtils;
@@ -33,7 +30,6 @@ import org.springrain.weixin.sdk.cp.util.http.CpMediaUploadRequestExecutor;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -91,22 +87,12 @@ public class WxCpServiceImpl implements IWxCpService {
                 + "&corpid=" + wxcpconfig.getCorpId()
                 + "&corpsecret=" + wxcpconfig.getCorpSecret();
         try {
-            HttpGet httpGet = new HttpGet(url);
-            if (wxcpconfig.getHttpProxyHost() != null) {
-                RequestConfig config = RequestConfig.custom().setProxy(new HttpHost(wxcpconfig.getHttpProxyHost(), wxcpconfig.getHttpProxyPort())).build();
-                httpGet.setConfig(config);
-            }
-            String resultContent = HttpClientUtils.sendHttpGet(httpGet);
 
-            WxError error = WxError.fromJson(resultContent);
-            if (error.getErrorCode() != 0) {
-                throw new WxErrorException(error);
-            }
-            //WxAccessToken accessToken = WxAccessToken.fromJson(resultContent);
-            WxAccessToken accessToken = WxJsonBuilder.fromJson(resultContent, WxAccessToken.class);
+            String jsonResult = HttpClientUtils.sendHttpGet(url);
+
+            WxAccessToken accessToken = new WxAccessToken(jsonResult);
             wxcpconfig.setAccessToken(accessToken.getAccessToken());
             wxcpconfig.setAccessTokenExpiresTime(Long.valueOf(accessToken.getExpiresIn()));
-
             wxCpConfigService.updateAccessToken(wxcpconfig);
 
         } catch (RuntimeException e) {
@@ -130,12 +116,13 @@ public class WxCpServiceImpl implements IWxCpService {
             return wxcpconfig.getJsApiTicket();
         }
         String url = WxConsts.qyapiurl + "/cgi-bin/get_jsapi_ticket";
-        String responseContent = execute(wxcpconfig, new SimpleGetRequestExecutor(), url, null);
-        JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
-        JsonObject tmpJsonObject = tmpJsonElement.getAsJsonObject();
-        String jsapiTicket = tmpJsonObject.get("ticket").getAsString();
-        Long expiresInSeconds = tmpJsonObject.get("expires_in").getAsLong();
 
+
+        String jsonResult = HttpClientUtils.sendHttpGet(url);
+
+        Map map=JsonUtils.readValue(jsonResult,Map.class);
+        String jsapiTicket =(String)map.get("ticket");
+        Long expiresInSeconds = Long.valueOf(map.get("expires_in").toString());
         wxcpconfig.setJsApiTicket(jsapiTicket);
         wxcpconfig.setJsApiTicketExpiresTime(expiresInSeconds);
         wxCpConfigService.updateJsApiTicket(wxcpconfig);
@@ -168,8 +155,12 @@ public class WxCpServiceImpl implements IWxCpService {
 
     @Override
     public void messageSend(IWxCpConfig wxcpconfig, WxCpMessage message) throws WxErrorException {
-        String url = WxConsts.qyapiurl + "/cgi-bin/message/send";
-        post(wxcpconfig, url, message.toJson());
+        String url = WxConsts.qyapiurl + "/cgi-bin/message/send?access_token="+wxcpconfig.getAccessToken();
+
+        HttpClientUtils.sendHttpPost(url,JsonUtils.writeValueAsString(message));
+
+1
+        //post(wxcpconfig, url, message.toJson());
     }
 
     @Override
@@ -268,7 +259,7 @@ public class WxCpServiceImpl implements IWxCpService {
          * 查询时返回的是 { groups : [ { id : ..., name : ..., count : ... }, ... ] }
          */
 
-        return (List<WxCpDepart>) WxJsonBuilder.readValues(responseContent, ArrayList.class, WxCpDepart.class);
+        return (List<WxCpDepart>) WxJsonBuilder.readValues(responseContent, WxCpDepart.class);
 
 
    /*
@@ -336,7 +327,7 @@ public class WxCpServiceImpl implements IWxCpService {
 
         String responseContent = get(wxcpconfig, url, params);
 
-        return (List<WxCpUser>) WxJsonBuilder.readValues(responseContent, ArrayList.class, WxCpUser.class);
+        return (List<WxCpUser>) WxJsonBuilder.readValues(responseContent, WxCpUser.class);
 
 
 /*
@@ -365,7 +356,7 @@ public class WxCpServiceImpl implements IWxCpService {
 
         String responseContent = get(wxcpconfig, url, params);
 
-        return (List<WxCpUser>) WxJsonBuilder.readValues(responseContent, ArrayList.class, WxCpUser.class);
+        return (List<WxCpUser>) WxJsonBuilder.readValues(responseContent, WxCpUser.class);
 
 /*
     JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
@@ -409,7 +400,7 @@ public class WxCpServiceImpl implements IWxCpService {
         String url = WxConsts.qyapiurl + "/cgi-bin/tag/list";
         String responseContent = get(wxcpconfig, url, null);
 
-        return (List<WxCpTag>) WxJsonBuilder.readValues(responseContent, ArrayList.class, WxCpTag.class);
+        return (List<WxCpTag>) WxJsonBuilder.readValues(responseContent, WxCpTag.class);
 
 
 
@@ -430,7 +421,7 @@ public class WxCpServiceImpl implements IWxCpService {
         String url = WxConsts.qyapiurl + "/cgi-bin/tag/get?tagid=" + tagId;
         String responseContent = get(wxcpconfig, url, null);
 
-        return (List<WxCpUser>) WxJsonBuilder.readValues(responseContent, ArrayList.class, WxCpUser.class);
+        return (List<WxCpUser>) WxJsonBuilder.readValues(responseContent, WxCpUser.class);
 
 
     /*
