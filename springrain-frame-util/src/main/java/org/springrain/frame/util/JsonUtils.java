@@ -1,6 +1,8 @@
 package org.springrain.frame.util;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,6 +61,49 @@ public class JsonUtils {
 		T t = null;
 		try {
 			t = mapper.readValue(content, clazz);
+		} catch (JsonParseException e) {
+			logger.error(e.getMessage(), e);
+		} catch (JsonMappingException e) {
+			logger.error(e.getMessage(), e);
+		} catch (IOException e) {
+			logger.error(e.getMessage(), e);
+		}
+		return t;
+	}
+
+
+	/**
+	 * 将对象reader(不是List格式),转化成对象.
+	 * @param reader
+	 * @param clazz
+	 * @param <T>
+	 * @return
+	 */
+	public static <T> T readValue(Reader reader, Class<T> clazz) {
+		T t = null;
+		try {
+			t = mapper.readValue(reader, clazz);
+		} catch (JsonParseException e) {
+			logger.error(e.getMessage(), e);
+		} catch (JsonMappingException e) {
+			logger.error(e.getMessage(), e);
+		} catch (IOException e) {
+			logger.error(e.getMessage(), e);
+		}
+		return t;
+	}
+
+	/**
+	 *将对象InputStream(不是List格式),转化成对象.
+	 * @param stream
+	 * @param clazz
+	 * @param <T>
+	 * @return
+	 */
+	public static <T> T readValue(InputStream stream, Class<T> clazz) {
+		T t = null;
+		try {
+			t = mapper.readValue(stream, clazz);
 		} catch (JsonParseException e) {
 			logger.error(e.getMessage(), e);
 		} catch (JsonMappingException e) {
