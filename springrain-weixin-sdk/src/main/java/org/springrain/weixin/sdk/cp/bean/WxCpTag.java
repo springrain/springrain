@@ -1,52 +1,52 @@
 package org.springrain.weixin.sdk.cp.bean;
 
-import java.io.Serializable;
-
 import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
+
+import java.io.Serializable;
 
 /**
  * Created by springrain
  */
 public class WxCpTag implements Serializable {
 
-  private static final long serialVersionUID = -7243320279646928402L;
+    private static final long serialVersionUID = -7243320279646928402L;
 
-  private String id;
+    private String id;
 
-  private String name;
+    private String name;
 
-  public WxCpTag() {
-    super();
-  }
+    public WxCpTag() {
+        super();
+    }
 
-  public WxCpTag(String id, String name) {
-    super();
-    this.id = id;
-    this.name = name;
-  }
+    public WxCpTag(String id, String name) {
+        super();
+        this.id = id;
+        this.name = name;
+    }
 
-  public static WxCpTag fromJson(String json) {
-    return WxJsonBuilder.fromJson(json, WxCpTag.class);
-  }
+    public static WxCpTag fromJson(String json) {
+        return WxJsonBuilder.fromJson(json, WxCpTag.class);
+    }
 
-  public String getName() {
-    return this.name;
-  }
+    public String getName() {
+        return this.name;
+    }
 
-  public void setName(String name) {
-    this.name = name;
-  }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-  public String getId() {
-    return this.id;
-  }
+    public String getId() {
+        return this.id;
+    }
 
-  public void setId(String id) {
-    this.id = id;
-  }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-  public String toJson() {
-    return WxJsonBuilder.toJson(this);
-  }
+    public String toJson() {
+        return WxJsonBuilder.toJson(this);
+    }
 
 }

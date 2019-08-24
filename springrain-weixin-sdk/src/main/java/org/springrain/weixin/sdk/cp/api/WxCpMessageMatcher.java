@@ -7,9 +7,9 @@ import org.springrain.weixin.sdk.cp.bean.WxCpXmlMessage;
  */
 public interface WxCpMessageMatcher {
 
-  /**
-   * 消息是否匹配某种模式
-   */
-  boolean match(WxCpXmlMessage message);
+    /**
+     * 消息是否匹配某种模式
+     */
+    boolean match(WxCpXmlMessage message);
 
 }

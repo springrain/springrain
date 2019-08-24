@@ -8,25 +8,25 @@ import org.springrain.weixin.sdk.mp.bean.kefu.WxMpKefuMessage;
  * <pre>
  * 用法: WxMpKefuMessage m = WxMpKefuMessage.TEXT().content(...).toUser(...).build();
  * </pre>
- * @author springrain
  *
+ * @author springrain
  */
 public final class TextBuilder extends BaseBuilder<TextBuilder> {
-  private String content;
+    private String content;
 
-  public TextBuilder() {
-    this.msgType = WxConsts.CUSTOM_MSG_TEXT;
-  }
+    public TextBuilder() {
+        this.msgType = WxConsts.CUSTOM_MSG_TEXT;
+    }
 
-  public TextBuilder content(String content) {
-    this.content = content;
-    return this;
-  }
+    public TextBuilder content(String content) {
+        this.content = content;
+        return this;
+    }
 
-  @Override
-  public WxMpKefuMessage build() {
-    WxMpKefuMessage m = super.build();
-    m.setContent(this.content);
-    return m;
-  }
+    @Override
+    public WxMpKefuMessage build() {
+        WxMpKefuMessage m = super.build();
+        m.setContent(this.content);
+        return m;
+    }
 }

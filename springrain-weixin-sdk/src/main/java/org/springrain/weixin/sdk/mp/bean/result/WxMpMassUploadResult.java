@@ -9,50 +9,50 @@ import java.io.Serializable;
  * 上传群发用的素材的结果
  * 视频和图文消息需要在群发前上传素材
  * </pre>
- * @author springrain
  *
+ * @author springrain
  */
 public class WxMpMassUploadResult implements Serializable {
 
-  /**
-   * 
-   */
-  private static final long serialVersionUID = 6568157943644994029L;
-  private String type;
-  private String mediaId;
-  private long createdAt;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 6568157943644994029L;
+    private String type;
+    private String mediaId;
+    private long createdAt;
 
-  public String getType() {
-    return this.type;
-  }
+    public String getType() {
+        return this.type;
+    }
 
-  public void setType(String type) {
-    this.type = type;
-  }
+    public void setType(String type) {
+        this.type = type;
+    }
 
-  public String getMediaId() {
-    return this.mediaId;
-  }
+    public String getMediaId() {
+        return this.mediaId;
+    }
 
-  public void setMediaId(String mediaId) {
-    this.mediaId = mediaId;
-  }
+    public void setMediaId(String mediaId) {
+        this.mediaId = mediaId;
+    }
 
-  public long getCreatedAt() {
-    return this.createdAt;
-  }
+    public long getCreatedAt() {
+        return this.createdAt;
+    }
 
-  public void setCreatedAt(long createdAt) {
-    this.createdAt = createdAt;
-  }
+    public void setCreatedAt(long createdAt) {
+        this.createdAt = createdAt;
+    }
 
-  public static WxMpMassUploadResult fromJson(String json) {
-    return WxJsonBuilder.fromJson(json, WxMpMassUploadResult.class);
-  }
+    public static WxMpMassUploadResult fromJson(String json) {
+        return WxJsonBuilder.fromJson(json, WxMpMassUploadResult.class);
+    }
 
-  @Override
-  public String toString() {
-    return "WxUploadResult [type=" + this.type + ", media_id=" + this.mediaId + ", created_at=" + this.createdAt + "]";
-  }
+    @Override
+    public String toString() {
+        return "WxUploadResult [type=" + this.type + ", media_id=" + this.mediaId + ", created_at=" + this.createdAt + "]";
+    }
 
 }

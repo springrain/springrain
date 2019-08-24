@@ -12,95 +12,95 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
  */
 @XStreamAlias("xml")
 public class WxSignResult extends WxSignBaseResult {
-	
-	@XStreamAlias("plan_id")
-	private String planId;
-  
-	@XStreamAlias("contract_code")
-	private String contractCode;
 
-	@XStreamAlias("openid")
-	private String openid;
+    @XStreamAlias("plan_id")
+    private String planId;
 
-	@XStreamAlias("change_type")
-	private String changeType;
+    @XStreamAlias("contract_code")
+    private String contractCode;
 
-	@XStreamAlias("operate_time")
-	private String operateTime;
+    @XStreamAlias("openid")
+    private String openid;
 
-	@XStreamAlias("contract_id")
-	private String contractId;
+    @XStreamAlias("change_type")
+    private String changeType;
 
-	@XStreamAlias("contract_expired_time")
-	private String contractExpiredTime;
+    @XStreamAlias("operate_time")
+    private String operateTime;
 
-	@XStreamAlias("request_serial")
-	private String requestSerial;
-	
+    @XStreamAlias("contract_id")
+    private String contractId;
 
-	public String getPlanId() {
-		return planId;
-	}
+    @XStreamAlias("contract_expired_time")
+    private String contractExpiredTime;
 
-	public void setPlanId(String planId) {
-		this.planId = planId;
-	}
+    @XStreamAlias("request_serial")
+    private String requestSerial;
 
-	public String getContractCode() {
-		return contractCode;
-	}
 
-	public void setContractCode(String contractCode) {
-		this.contractCode = contractCode;
-	}
+    public String getPlanId() {
+        return planId;
+    }
 
-	public String getOpenid() {
-		return openid;
-	}
+    public void setPlanId(String planId) {
+        this.planId = planId;
+    }
 
-	public void setOpenid(String openid) {
-		this.openid = openid;
-	}
+    public String getContractCode() {
+        return contractCode;
+    }
 
-	public String getChangeType() {
-		return changeType;
-	}
+    public void setContractCode(String contractCode) {
+        this.contractCode = contractCode;
+    }
 
-	public void setChangeType(String changeType) {
-		this.changeType = changeType;
-	}
+    public String getOpenid() {
+        return openid;
+    }
 
-	public String getOperateTime() {
-		return operateTime;
-	}
+    public void setOpenid(String openid) {
+        this.openid = openid;
+    }
 
-	public void setOperateTime(String operateTime) {
-		this.operateTime = operateTime;
-	}
+    public String getChangeType() {
+        return changeType;
+    }
 
-	public String getContractId() {
-		return contractId;
-	}
+    public void setChangeType(String changeType) {
+        this.changeType = changeType;
+    }
 
-	public void setContractId(String contractId) {
-		this.contractId = contractId;
-	}
+    public String getOperateTime() {
+        return operateTime;
+    }
 
-	public String getContractExpiredTime() {
-		return contractExpiredTime;
-	}
+    public void setOperateTime(String operateTime) {
+        this.operateTime = operateTime;
+    }
 
-	public void setContractExpiredTime(String contractExpiredTime) {
-		this.contractExpiredTime = contractExpiredTime;
-	}
+    public String getContractId() {
+        return contractId;
+    }
 
-	public String getRequestSerial() {
-		return requestSerial;
-	}
+    public void setContractId(String contractId) {
+        this.contractId = contractId;
+    }
 
-	public void setRequestSerial(String requestSerial) {
-		this.requestSerial = requestSerial;
-	}
-  
+    public String getContractExpiredTime() {
+        return contractExpiredTime;
+    }
+
+    public void setContractExpiredTime(String contractExpiredTime) {
+        this.contractExpiredTime = contractExpiredTime;
+    }
+
+    public String getRequestSerial() {
+        return requestSerial;
+    }
+
+    public void setRequestSerial(String requestSerial) {
+        this.requestSerial = requestSerial;
+    }
+
 
 }

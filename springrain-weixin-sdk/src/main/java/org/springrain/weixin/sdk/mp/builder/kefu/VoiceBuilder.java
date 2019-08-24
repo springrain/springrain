@@ -8,25 +8,25 @@ import org.springrain.weixin.sdk.mp.bean.kefu.WxMpKefuMessage;
  * <pre>
  * 用法: WxMpKefuMessage m = WxMpKefuMessage.VOICE().mediaId(...).toUser(...).build();
  * </pre>
- * @author springrain
  *
+ * @author springrain
  */
 public final class VoiceBuilder extends BaseBuilder<VoiceBuilder> {
-  private String mediaId;
+    private String mediaId;
 
-  public VoiceBuilder() {
-    this.msgType = WxConsts.CUSTOM_MSG_VOICE;
-  }
+    public VoiceBuilder() {
+        this.msgType = WxConsts.CUSTOM_MSG_VOICE;
+    }
 
-  public VoiceBuilder mediaId(String media_id) {
-    this.mediaId = media_id;
-    return this;
-  }
+    public VoiceBuilder mediaId(String media_id) {
+        this.mediaId = media_id;
+        return this;
+    }
 
-  @Override
-  public WxMpKefuMessage build() {
-    WxMpKefuMessage m = super.build();
-    m.setMediaId(this.mediaId);
-    return m;
-  }
+    @Override
+    public WxMpKefuMessage build() {
+        WxMpKefuMessage m = super.build();
+        m.setMediaId(this.mediaId);
+        return m;
+    }
 }

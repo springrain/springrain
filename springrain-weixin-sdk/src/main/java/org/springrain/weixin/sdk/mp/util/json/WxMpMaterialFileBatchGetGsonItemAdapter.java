@@ -8,36 +8,31 @@
  */
 package org.springrain.weixin.sdk.mp.util.json;
 
-import java.lang.reflect.Type;
-import java.util.Date;
-
+import com.google.gson.*;
 import org.springrain.weixin.sdk.common.util.json.GsonHelper;
 import org.springrain.weixin.sdk.mp.bean.material.WxMpMaterialFileBatchGetResult;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
+import java.lang.reflect.Type;
+import java.util.Date;
 
 public class WxMpMaterialFileBatchGetGsonItemAdapter implements JsonDeserializer<WxMpMaterialFileBatchGetResult.WxMaterialFileBatchGetNewsItem> {
 
-  @Override
-  public WxMpMaterialFileBatchGetResult.WxMaterialFileBatchGetNewsItem deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
-    WxMpMaterialFileBatchGetResult.WxMaterialFileBatchGetNewsItem wxMaterialFileBatchGetNewsItem = new WxMpMaterialFileBatchGetResult.WxMaterialFileBatchGetNewsItem();
-    JsonObject json = jsonElement.getAsJsonObject();
-    if (json.get("media_id") != null && !json.get("media_id").isJsonNull()) {
-      wxMaterialFileBatchGetNewsItem.setMediaId(GsonHelper.getAsString(json.get("media_id")));
+    @Override
+    public WxMpMaterialFileBatchGetResult.WxMaterialFileBatchGetNewsItem deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+        WxMpMaterialFileBatchGetResult.WxMaterialFileBatchGetNewsItem wxMaterialFileBatchGetNewsItem = new WxMpMaterialFileBatchGetResult.WxMaterialFileBatchGetNewsItem();
+        JsonObject json = jsonElement.getAsJsonObject();
+        if (json.get("media_id") != null && !json.get("media_id").isJsonNull()) {
+            wxMaterialFileBatchGetNewsItem.setMediaId(GsonHelper.getAsString(json.get("media_id")));
+        }
+        if (json.get("update_time") != null && !json.get("update_time").isJsonNull()) {
+            wxMaterialFileBatchGetNewsItem.setUpdateTime(new Date(1000 * GsonHelper.getAsLong(json.get("update_time"))));
+        }
+        if (json.get("name") != null && !json.get("name").isJsonNull()) {
+            wxMaterialFileBatchGetNewsItem.setName(GsonHelper.getAsString(json.get("name")));
+        }
+        if (json.get("url") != null && !json.get("url").isJsonNull()) {
+            wxMaterialFileBatchGetNewsItem.setUrl(GsonHelper.getAsString(json.get("url")));
+        }
+        return wxMaterialFileBatchGetNewsItem;
     }
-    if (json.get("update_time") != null && !json.get("update_time").isJsonNull()) {
-      wxMaterialFileBatchGetNewsItem.setUpdateTime(new Date(1000 * GsonHelper.getAsLong(json.get("update_time"))));
-    }
-    if (json.get("name") != null && !json.get("name").isJsonNull()) {
-      wxMaterialFileBatchGetNewsItem.setName(GsonHelper.getAsString(json.get("name")));
-    }
-    if (json.get("url") != null && !json.get("url").isJsonNull()) {
-      wxMaterialFileBatchGetNewsItem.setUrl(GsonHelper.getAsString(json.get("url")));
-    }
-    return wxMaterialFileBatchGetNewsItem;
-  }
 }

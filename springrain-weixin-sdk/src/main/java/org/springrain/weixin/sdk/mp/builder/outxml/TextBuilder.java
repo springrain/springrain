@@ -4,22 +4,22 @@ import org.springrain.weixin.sdk.mp.bean.message.WxMpXmlOutTextMessage;
 
 /**
  * 文本消息builder
- * @author springrain
  *
+ * @author springrain
  */
 public final class TextBuilder extends BaseBuilder<TextBuilder, WxMpXmlOutTextMessage> {
-  private String content;
+    private String content;
 
-  public TextBuilder content(String content) {
-    this.content = content;
-    return this;
-  }
+    public TextBuilder content(String content) {
+        this.content = content;
+        return this;
+    }
 
-  @Override
-  public WxMpXmlOutTextMessage build() {
-    WxMpXmlOutTextMessage m = new WxMpXmlOutTextMessage();
-    setCommon(m);
-    m.setContent(this.content);
-    return m;
-  }
+    @Override
+    public WxMpXmlOutTextMessage build() {
+        WxMpXmlOutTextMessage m = new WxMpXmlOutTextMessage();
+        setCommon(m);
+        m.setContent(this.content);
+        return m;
+    }
 }

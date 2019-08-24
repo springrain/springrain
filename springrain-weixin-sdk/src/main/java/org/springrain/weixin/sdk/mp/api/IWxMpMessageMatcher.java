@@ -7,10 +7,11 @@ import org.springrain.weixin.sdk.mp.bean.message.WxMpXmlMessage;
  */
 public interface IWxMpMessageMatcher {
 
-  /**
-   * 消息是否匹配某种模式
-   * @param message
-   */
-  boolean match(WxMpXmlMessage message);
+    /**
+     * 消息是否匹配某种模式
+     *
+     * @param message
+     */
+    boolean match(WxMpXmlMessage message);
 
 }

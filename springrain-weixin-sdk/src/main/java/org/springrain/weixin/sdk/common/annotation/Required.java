@@ -7,10 +7,10 @@ import java.lang.annotation.Target;
 
 /**
  * 标识某个字段是否是必填的
- * 
+ * <p>
  * Created by springrain on 2017/1/25.
- * @author springrain (http://git.oschina.net/chunanyong/springrain)
  *
+ * @author springrain (http://git.oschina.net/chunanyong/springrain)
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)

@@ -6,50 +6,50 @@ import java.io.Serializable;
 
 /**
  * 换取二维码的Ticket
- * 
+ *
  * @author springrain
  */
 public class WxMpQrCodeTicket implements Serializable {
-  
 
-  private static final long serialVersionUID = 5777119669111011584L;
-  protected String ticket;
-  protected int expire_seconds = -1;
-  protected String url;
 
-  public String getTicket() {
-    return this.ticket;
-  }
+    private static final long serialVersionUID = 5777119669111011584L;
+    protected String ticket;
+    protected int expire_seconds = -1;
+    protected String url;
 
-  public void setTicket(String ticket) {
-    this.ticket = ticket;
-  }
+    public String getTicket() {
+        return this.ticket;
+    }
 
-  /**
-   * 如果返回-1说明是永久
-   */
-  public int getExpire_seconds() {
-    return this.expire_seconds;
-  }
+    public void setTicket(String ticket) {
+        this.ticket = ticket;
+    }
 
-  public void setExpire_seconds(int expire_seconds) {
-    this.expire_seconds = expire_seconds;
-  }
+    /**
+     * 如果返回-1说明是永久
+     */
+    public int getExpire_seconds() {
+        return this.expire_seconds;
+    }
 
-  public String getUrl() {
-    return this.url;
-  }
+    public void setExpire_seconds(int expire_seconds) {
+        this.expire_seconds = expire_seconds;
+    }
 
-  public void setUrl(String url) {
-    this.url = url;
-  }
+    public String getUrl() {
+        return this.url;
+    }
 
-  public static WxMpQrCodeTicket fromJson(String json) {
-    return WxJsonBuilder.fromJson(json, WxMpQrCodeTicket.class);
-  }
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
-  @Override
-  public String toString() {
-    return WxJsonBuilder.toJson(this);
-  }
+    public static WxMpQrCodeTicket fromJson(String json) {
+        return WxJsonBuilder.fromJson(json, WxMpQrCodeTicket.class);
+    }
+
+    @Override
+    public String toString() {
+        return WxJsonBuilder.toJson(this);
+    }
 }

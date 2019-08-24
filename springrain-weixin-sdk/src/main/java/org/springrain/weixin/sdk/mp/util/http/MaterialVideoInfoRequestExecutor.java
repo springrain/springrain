@@ -1,9 +1,5 @@
 package org.springrain.weixin.sdk.mp.util.http;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpPost;
@@ -16,32 +12,36 @@ import org.springrain.weixin.sdk.common.util.http.RequestExecutor;
 import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
 import org.springrain.weixin.sdk.mp.bean.material.WxMpMaterialVideoInfoResult;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 public class MaterialVideoInfoRequestExecutor implements RequestExecutor<WxMpMaterialVideoInfoResult, String> {
 
-  public MaterialVideoInfoRequestExecutor() {
-    super();
-  }
+    public MaterialVideoInfoRequestExecutor() {
+        super();
+    }
 
-  @Override
-  public WxMpMaterialVideoInfoResult execute(IWxConfig wxconfig, String uri, String materialId) throws WxErrorException, IOException {
-		 HttpPost httpPost = new HttpPost(uri);
-		 if (wxconfig.getHttpProxyHost()!=null) {
-		        RequestConfig config = RequestConfig.custom().setProxy(new HttpHost(wxconfig.getHttpProxyHost(), wxconfig.getHttpProxyPort())).build();
-		        httpPost.setConfig(config);
-		  }
+    @Override
+    public WxMpMaterialVideoInfoResult execute(IWxConfig wxconfig, String uri, String materialId) throws WxErrorException, IOException {
+        HttpPost httpPost = new HttpPost(uri);
+        if (wxconfig.getHttpProxyHost() != null) {
+            RequestConfig config = RequestConfig.custom().setProxy(new HttpHost(wxconfig.getHttpProxyHost(), wxconfig.getHttpProxyPort())).build();
+            httpPost.setConfig(config);
+        }
 
-    Map<String, String> params = new HashMap<>();
-    params.put("media_id", materialId);
-    httpPost.setEntity(new StringEntity(WxJsonBuilder.toJson(params)));
-    
-    String responseContent = HttpClientUtils.sendHttpPost(httpPost);
-    
-      WxError error = WxError.fromJson(responseContent);
-      if (error.getErrorCode() != 0) {
-        throw new WxErrorException(error);
-      } else {
-        return WxMpMaterialVideoInfoResult.fromJson(responseContent);
-      }
-  }
+        Map<String, String> params = new HashMap<>();
+        params.put("media_id", materialId);
+        httpPost.setEntity(new StringEntity(WxJsonBuilder.toJson(params)));
+
+        String responseContent = HttpClientUtils.sendHttpPost(httpPost);
+
+        WxError error = WxError.fromJson(responseContent);
+        if (error.getErrorCode() != 0) {
+            throw new WxErrorException(error);
+        } else {
+            return WxMpMaterialVideoInfoResult.fromJson(responseContent);
+        }
+    }
 
 }

@@ -1,14 +1,5 @@
 package org.springrain.weixin.sdk.mp.api.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springrain.weixin.sdk.common.service.IWxErrorExceptionHandler;
@@ -16,6 +7,10 @@ import org.springrain.weixin.sdk.common.util.LogExceptionHandler;
 import org.springrain.weixin.sdk.mp.api.IWxMpService;
 import org.springrain.weixin.sdk.mp.bean.message.WxMpXmlMessage;
 import org.springrain.weixin.sdk.mp.bean.message.WxMpXmlOutMessage;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.*;
 
 /**
  * <pre>
@@ -42,147 +37,150 @@ import org.springrain.weixin.sdk.mp.bean.message.WxMpXmlOutMessage;
  * router.route(message);
  *
  * </pre>
- * @author springrain
  *
+ * @author springrain
  */
 public class WxMpMessageRouter {
 
-  private final Logger log = LoggerFactory.getLogger(getClass());
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
-  private static final int DEFAULT_THREAD_POOL_SIZE = 100;
+    private static final int DEFAULT_THREAD_POOL_SIZE = 100;
 
-  private final List<WxMpMessageRouterRule> rules = new ArrayList<>();
+    private final List<WxMpMessageRouterRule> rules = new ArrayList<>();
 
-  private final IWxMpService wxMpService;
+    private final IWxMpService wxMpService;
 
-  private ExecutorService executorService;
+    private ExecutorService executorService;
 
- // private IWxMessageDuplicateChecker messageDuplicateChecker;
+    // private IWxMessageDuplicateChecker messageDuplicateChecker;
 
 
-  private IWxErrorExceptionHandler exceptionHandler;
+    private IWxErrorExceptionHandler exceptionHandler;
 
-  public WxMpMessageRouter(IWxMpService wxMpService) {
-    this.wxMpService = wxMpService;
-   // this.executorService = Executors.newFixedThreadPool(DEFAULT_THREAD_POOL_SIZE);
-    
-    
-    this.executorService = new ThreadPoolExecutor(10, DEFAULT_THREAD_POOL_SIZE, 10L,TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(1000));
-    
-   // this.messageDuplicateChecker = new WxMessageInMemoryDuplicateChecker();
-    this.exceptionHandler = new LogExceptionHandler();
-  }
+    public WxMpMessageRouter(IWxMpService wxMpService) {
+        this.wxMpService = wxMpService;
+        // this.executorService = Executors.newFixedThreadPool(DEFAULT_THREAD_POOL_SIZE);
 
-  /**
-   * <pre>
-   * 设置自定义的 {@link ExecutorService}
-   * 如果不调用该方法，默认使用 Executors.newFixedThreadPool(100)
-   * </pre>
-   * @param executorService
-   */
-  public void setExecutorService(ExecutorService executorService) {
-    this.executorService = executorService;
-  }
 
-  /**
-   * <pre>
-   * 设置自定义的 {@link org.springrain.weixin.sdk.common.api.IWxMessageDuplicateChecker}
-   * 如果不调用该方法，默认使用 {@link org.springrain.weixin.sdk.common.api.WxMessageInMemoryDuplicateChecker}
-   * </pre>
-   * @param messageDuplicateChecker
-   */
+        this.executorService = new ThreadPoolExecutor(10, DEFAULT_THREAD_POOL_SIZE, 10L, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(1000));
+
+        // this.messageDuplicateChecker = new WxMessageInMemoryDuplicateChecker();
+        this.exceptionHandler = new LogExceptionHandler();
+    }
+
+    /**
+     * <pre>
+     * 设置自定义的 {@link ExecutorService}
+     * 如果不调用该方法，默认使用 Executors.newFixedThreadPool(100)
+     * </pre>
+     *
+     * @param executorService
+     */
+    public void setExecutorService(ExecutorService executorService) {
+        this.executorService = executorService;
+    }
+
+    /**
+     * <pre>
+     * 设置自定义的 {@link org.springrain.weixin.sdk.common.api.IWxMessageDuplicateChecker}
+     * 如果不调用该方法，默认使用 {@link org.springrain.weixin.sdk.common.api.WxMessageInMemoryDuplicateChecker}
+     * </pre>
+     * @param messageDuplicateChecker
+     */
   /*
   public void setMessageDuplicateChecker(IWxMessageDuplicateChecker messageDuplicateChecker) {
     this.messageDuplicateChecker = messageDuplicateChecker;
   }
   */
-  
 
-  /**
-   * <pre>
-   * 设置自定义的{@link org.springrain.weixin.sdk.common.service.IWxErrorExceptionHandler}
-   * 如果不调用该方法，默认使用 {@link org.springrain.weixin.sdk.common.util.LogExceptionHandler}
-   * </pre>
-   * @param exceptionHandler
-   */
-  public void setExceptionHandler(IWxErrorExceptionHandler exceptionHandler) {
-    this.exceptionHandler = exceptionHandler;
-  }
 
-  List<WxMpMessageRouterRule> getRules() {
-    return this.rules;
-  }
-
-  /**
-   * 开始一个新的Route规则
-   */
-  public WxMpMessageRouterRule rule() {
-    return new WxMpMessageRouterRule(this);
-  }
-
-  /**
-   * 处理微信消息
-   * @param wxMessage
-   */
-  public WxMpXmlOutMessage route(final WxMpXmlMessage wxMessage) {
-   // if (isDuplicateMessage(wxMessage)) {
-      // 如果是重复消息，那么就不做处理
-   //   return null;
-   // }
-
-    final List<WxMpMessageRouterRule> matchRules = new ArrayList<>();
-    // 收集匹配的规则
-    for (final WxMpMessageRouterRule rule : this.rules) {
-      if (rule.test(wxMessage)) {
-        matchRules.add(rule);
-        if(!rule.isReEnter()) {
-          break;
-        }
-      }
+    /**
+     * <pre>
+     * 设置自定义的{@link org.springrain.weixin.sdk.common.service.IWxErrorExceptionHandler}
+     * 如果不调用该方法，默认使用 {@link org.springrain.weixin.sdk.common.util.LogExceptionHandler}
+     * </pre>
+     *
+     * @param exceptionHandler
+     */
+    public void setExceptionHandler(IWxErrorExceptionHandler exceptionHandler) {
+        this.exceptionHandler = exceptionHandler;
     }
 
-    if (matchRules.size() == 0) {
-      return null;
+    List<WxMpMessageRouterRule> getRules() {
+        return this.rules;
     }
 
-    WxMpXmlOutMessage res = null;
-    final List<Future<?>> futures = new ArrayList<>();
-    for (final WxMpMessageRouterRule rule : matchRules) {
-      // 返回最后一个非异步的rule的执行结果
-      if(rule.isAsync()) {
-        futures.add(
-            this.executorService.submit(new Runnable() {
-              @Override
-              public void run() {
-                rule.service(wxMessage, WxMpMessageRouter.this.wxMpService, WxMpMessageRouter.this.exceptionHandler);
-              }
-            })
-        );
-      } else {
-        res = rule.service(wxMessage, this.wxMpService, this.exceptionHandler);
-      }
+    /**
+     * 开始一个新的Route规则
+     */
+    public WxMpMessageRouterRule rule() {
+        return new WxMpMessageRouterRule(this);
     }
 
-    if (futures.size() > 0) {
-      this.executorService.submit(new Runnable() {
-        @Override
-        public void run() {
-          for (Future<?> future : futures) {
-            try {
-              future.get();
-              WxMpMessageRouter.this.log.debug("End session access: async=true, sessionId={}", wxMessage.getFromUser());
-            } catch (InterruptedException e) {
-              Thread.currentThread().interrupt();
-              WxMpMessageRouter.this.log.error("Error happened when wait task finish", e);
-            } catch (ExecutionException e) {
-              WxMpMessageRouter.this.log.error("Error happened when wait task finish", e);
+    /**
+     * 处理微信消息
+     *
+     * @param wxMessage
+     */
+    public WxMpXmlOutMessage route(final WxMpXmlMessage wxMessage) {
+        // if (isDuplicateMessage(wxMessage)) {
+        // 如果是重复消息，那么就不做处理
+        //   return null;
+        // }
+
+        final List<WxMpMessageRouterRule> matchRules = new ArrayList<>();
+        // 收集匹配的规则
+        for (final WxMpMessageRouterRule rule : this.rules) {
+            if (rule.test(wxMessage)) {
+                matchRules.add(rule);
+                if (!rule.isReEnter()) {
+                    break;
+                }
             }
-          }
         }
-      });
+
+        if (matchRules.size() == 0) {
+            return null;
+        }
+
+        WxMpXmlOutMessage res = null;
+        final List<Future<?>> futures = new ArrayList<>();
+        for (final WxMpMessageRouterRule rule : matchRules) {
+            // 返回最后一个非异步的rule的执行结果
+            if (rule.isAsync()) {
+                futures.add(
+                        this.executorService.submit(new Runnable() {
+                            @Override
+                            public void run() {
+                                rule.service(wxMessage, WxMpMessageRouter.this.wxMpService, WxMpMessageRouter.this.exceptionHandler);
+                            }
+                        })
+                );
+            } else {
+                res = rule.service(wxMessage, this.wxMpService, this.exceptionHandler);
+            }
+        }
+
+        if (futures.size() > 0) {
+            this.executorService.submit(new Runnable() {
+                @Override
+                public void run() {
+                    for (Future<?> future : futures) {
+                        try {
+                            future.get();
+                            WxMpMessageRouter.this.log.debug("End session access: async=true, sessionId={}", wxMessage.getFromUser());
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                            WxMpMessageRouter.this.log.error("Error happened when wait task finish", e);
+                        } catch (ExecutionException e) {
+                            WxMpMessageRouter.this.log.error("Error happened when wait task finish", e);
+                        }
+                    }
+                }
+            });
+        }
+        return res;
     }
-    return res;
-  }
 
   /*
   protected boolean isDuplicateMessage(WxMpXmlMessage wxMessage) {

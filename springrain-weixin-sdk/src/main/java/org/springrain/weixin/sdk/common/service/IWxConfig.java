@@ -1,74 +1,74 @@
 package org.springrain.weixin.sdk.common.service;
 
 public interface IWxConfig {
-	String getId();// 业务Id
+    String getId();// 业务Id
 
-	void setId(String string);
+    void setId(String string);
 
-	String getAppId();
+    String getAppId();
 
-	void setAppId(String string);
+    void setAppId(String string);
 
-	String getToken();
+    String getToken();
 
-	void setToken(String token);
+    void setToken(String token);
 
-	String getAesKey();
+    String getAesKey();
 
-	void setAesKey(String aesKey);
+    void setAesKey(String aesKey);
 
-	String getTmpDirFile();
+    String getTmpDirFile();
 
-	void setTmpDirFile(String string);
+    void setTmpDirFile(String string);
 
-	String getHttpProxyHost();
+    String getHttpProxyHost();
 
-	void setHttpProxyHost(String httpProxyHost);
+    void setHttpProxyHost(String httpProxyHost);
 
-	Integer getHttpProxyPort();
+    Integer getHttpProxyPort();
 
-	void setHttpProxyPort(Integer httpProxyPort);
+    void setHttpProxyPort(Integer httpProxyPort);
 
-	String getHttpProxyUsername();
+    String getHttpProxyUsername();
 
-	void setHttpProxyUsername(String httpProxyUsername);
+    void setHttpProxyUsername(String httpProxyUsername);
 
-	String getHttpProxyPassword();
+    String getHttpProxyPassword();
 
-	void setHttpProxyPassword(String httpProxyPassword);
+    void setHttpProxyPassword(String httpProxyPassword);
 
-	String getAccessToken();
+    String getAccessToken();
 
-	void setAccessToken(String accessToken);
+    void setAccessToken(String accessToken);
 
-	void setAccessTokenExpiresTime(Long l);
+    void setAccessTokenExpiresTime(Long l);
 
-	boolean isAccessTokenExpired();
+    boolean isAccessTokenExpired();
 
-	String getSecret();
+    String getSecret();
 
-	void setSecret(String string);
+    void setSecret(String string);
 
-	String getJsApiTicket();
+    String getJsApiTicket();
 
-	void setJsApiTicket(String jsapiTicket);
+    void setJsApiTicket(String jsapiTicket);
 
-	void setJsApiTicketExpiresTime(Long l);
+    void setJsApiTicketExpiresTime(Long l);
 
-	boolean isJsApiTicketExpired();
+    boolean isJsApiTicketExpired();
 
-	String getCardApiTicket();
+    String getCardApiTicket();
 
-	void setCardApiTicket(String cardApiTicket);
+    void setCardApiTicket(String cardApiTicket);
 
-	void setCardApiTicketExpiresTime(Long l);
+    void setCardApiTicketExpiresTime(Long l);
 
-	boolean isCardApiTicketExpired();
+    boolean isCardApiTicketExpired();
 
-	String getCertificateFile();
+    String getCertificateFile();
 
-	void setCertificateFile(String certificateFile);
+    void setCertificateFile(String certificateFile);
 
-	boolean autoRefreshToken();
+    boolean autoRefreshToken();
 
 }

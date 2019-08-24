@@ -1,15 +1,10 @@
 package org.springrain.weixin.sdk.mp.util.json;
 
-import java.lang.reflect.Type;
-
+import com.google.gson.*;
 import org.springrain.weixin.sdk.common.util.json.GsonHelper;
 import org.springrain.weixin.sdk.mp.bean.WxMpCard;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
+import java.lang.reflect.Type;
 
 /**
  * Created by springrain on 2017/1/8.
@@ -19,17 +14,17 @@ import com.google.gson.JsonParseException;
  */
 public class WxMpCardGsonAdapter implements JsonDeserializer<WxMpCard> {
 
-  @Override
-  public WxMpCard deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext
-      jsonDeserializationContext) throws JsonParseException {
-    WxMpCard card = new WxMpCard();
-    JsonObject jsonObject = jsonElement.getAsJsonObject();
+    @Override
+    public WxMpCard deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext
+            jsonDeserializationContext) throws JsonParseException {
+        WxMpCard card = new WxMpCard();
+        JsonObject jsonObject = jsonElement.getAsJsonObject();
 
-    card.setCardId(GsonHelper.getString(jsonObject, "card_id"));
-    card.setBeginTime(GsonHelper.getLong(jsonObject, "begin_time"));
-    card.setEndTime(GsonHelper.getLong(jsonObject, "end_time"));
+        card.setCardId(GsonHelper.getString(jsonObject, "card_id"));
+        card.setBeginTime(GsonHelper.getLong(jsonObject, "begin_time"));
+        card.setEndTime(GsonHelper.getLong(jsonObject, "end_time"));
 
-    return card;
-  }
+        return card;
+    }
 
 }

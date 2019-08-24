@@ -1,10 +1,10 @@
 package org.springrain.weixin.sdk.cp.bean.messagebuilder;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springrain.weixin.sdk.common.service.WxConsts;
 import org.springrain.weixin.sdk.cp.bean.WxCpMessage;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 图文消息builder
@@ -17,21 +17,21 @@ import org.springrain.weixin.sdk.cp.bean.WxCpMessage;
  */
 public final class NewsBuilder extends BaseBuilder<NewsBuilder> {
 
-  private List<WxCpMessage.WxArticle> articles = new ArrayList<>();
+    private List<WxCpMessage.WxArticle> articles = new ArrayList<>();
 
-  public NewsBuilder() {
-    this.msgType = WxConsts.CUSTOM_MSG_NEWS;
-  }
+    public NewsBuilder() {
+        this.msgType = WxConsts.CUSTOM_MSG_NEWS;
+    }
 
-  public NewsBuilder addArticle(WxCpMessage.WxArticle article) {
-    this.articles.add(article);
-    return this;
-  }
+    public NewsBuilder addArticle(WxCpMessage.WxArticle article) {
+        this.articles.add(article);
+        return this;
+    }
 
-  @Override
-  public WxCpMessage build() {
-    WxCpMessage m = super.build();
-    m.setArticles(this.articles);
-    return m;
-  }
+    @Override
+    public WxCpMessage build() {
+        WxCpMessage m = super.build();
+        m.setArticles(this.articles);
+        return m;
+    }
 }

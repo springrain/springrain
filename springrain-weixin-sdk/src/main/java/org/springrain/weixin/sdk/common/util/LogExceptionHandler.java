@@ -8,13 +8,13 @@ import org.springrain.weixin.sdk.common.service.IWxErrorExceptionHandler;
 
 public class LogExceptionHandler implements IWxErrorExceptionHandler {
 
-  private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
-  @Override
-  public void handle(WxErrorException e) {
+    @Override
+    public void handle(WxErrorException e) {
 
-    this.logger.error("Error happens", e);
+        this.logger.error("Error happens", e);
 
-  }
+    }
 
 }

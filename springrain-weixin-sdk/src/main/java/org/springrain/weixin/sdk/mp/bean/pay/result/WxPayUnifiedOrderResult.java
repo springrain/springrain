@@ -13,36 +13,36 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 @XStreamAlias("xml")
 public class WxPayUnifiedOrderResult extends WxPayBaseResult {
 
-  @XStreamAlias("prepay_id")
-  private String prepayId;
+    @XStreamAlias("prepay_id")
+    private String prepayId;
 
-  @XStreamAlias("trade_type")
-  private String tradeType;
+    @XStreamAlias("trade_type")
+    private String tradeType;
 
-  @XStreamAlias("code_url")
-  private String codeURL;
+    @XStreamAlias("code_url")
+    private String codeURL;
 
-  public String getPrepayId() {
-    return this.prepayId;
-  }
+    public String getPrepayId() {
+        return this.prepayId;
+    }
 
-  public void setPrepayId(String prepayId) {
-    this.prepayId = prepayId;
-  }
+    public void setPrepayId(String prepayId) {
+        this.prepayId = prepayId;
+    }
 
-  public String getTradeType() {
-    return this.tradeType;
-  }
+    public String getTradeType() {
+        return this.tradeType;
+    }
 
-  public void setTradeType(String tradeType) {
-    this.tradeType = tradeType;
-  }
+    public void setTradeType(String tradeType) {
+        this.tradeType = tradeType;
+    }
 
-  public String getCodeURL() {
-    return this.codeURL;
-  }
+    public String getCodeURL() {
+        return this.codeURL;
+    }
 
-  public void setCodeURL(String codeURL) {
-    this.codeURL = codeURL;
-  }
+    public void setCodeURL(String codeURL) {
+        this.codeURL = codeURL;
+    }
 }

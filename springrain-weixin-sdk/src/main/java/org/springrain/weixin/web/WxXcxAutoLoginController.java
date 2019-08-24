@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springrain.frame.util.ReturnDatas;
-
 import org.springrain.weixin.sdk.common.service.IWxMiniappConfigService;
 import org.springrain.weixin.sdk.miniapp.api.IWxMiniappService;
 
@@ -13,9 +12,9 @@ import javax.annotation.Resource;
 
 @Controller
 @RequestMapping(value = "/f/xcx/autologin/{siteId}")
-public class WxXcxAutoLoginController  {
+public class WxXcxAutoLoginController {
 
-   // @Resource
+    // @Resource
     //private IUserService userService;
 
     @Resource
@@ -44,15 +43,15 @@ public class WxXcxAutoLoginController  {
             Bind(request, response, returnDatas, code, siteId, headImgUrl, nickname);
             */
         } catch (Exception e) {
-           // logger.error(e.getMessage(), e);
+            // logger.error(e.getMessage(), e);
             return ReturnDatas.getErrorReturnDatas();
         }
         return returnDatas;
 
     }
 
-    private ReturnDatas Bind( ReturnDatas returnDatas,
-            String code, String siteId, String headImgUrl, String nickname) throws Exception {
+    private ReturnDatas Bind(ReturnDatas returnDatas,
+                             String code, String siteId, String headImgUrl, String nickname) throws Exception {
         /*
         if (StringUtils.isBlank(code) || StringUtils.isBlank(code)) {
             returnDatas.setStatus(ReturnDatas.ERROR);

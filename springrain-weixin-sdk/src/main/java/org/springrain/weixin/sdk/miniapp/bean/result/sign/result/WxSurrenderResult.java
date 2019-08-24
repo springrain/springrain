@@ -12,30 +12,30 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
  */
 @XStreamAlias("xml")
 public class WxSurrenderResult extends WxSignBaseResult {
-  
-	@XStreamAlias("contract_id")
-	private String contractId;
 
-	@XStreamAlias("plan_id")
-	private String planId;
-	
-	@XStreamAlias("contract_code")
-	private String contractCode;
+    @XStreamAlias("contract_id")
+    private String contractId;
 
-	public String getContractCode() {
-		return contractCode;
-	}
+    @XStreamAlias("plan_id")
+    private String planId;
 
-	public void setContractCode(String contractCode) {
-		this.contractCode = contractCode;
-	}
+    @XStreamAlias("contract_code")
+    private String contractCode;
 
-	public String getContractId() {
-		return contractId;
-	}
+    public String getContractCode() {
+        return contractCode;
+    }
 
-	public void setContractId(String contractId) {
-		this.contractId = contractId;
-	}
+    public void setContractCode(String contractCode) {
+        this.contractCode = contractCode;
+    }
+
+    public String getContractId() {
+        return contractId;
+    }
+
+    public void setContractId(String contractId) {
+        this.contractId = contractId;
+    }
 
 }

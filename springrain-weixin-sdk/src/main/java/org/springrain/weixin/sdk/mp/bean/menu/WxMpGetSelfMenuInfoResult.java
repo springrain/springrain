@@ -1,9 +1,8 @@
 package org.springrain.weixin.sdk.mp.bean.menu;
 
+import com.google.gson.annotations.SerializedName;
 import org.springrain.weixin.sdk.common.util.ToStringUtils;
 import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
-
-import com.google.gson.annotations.SerializedName;
 
 /**
  * <pre>
@@ -12,34 +11,34 @@ import com.google.gson.annotations.SerializedName;
  * </pre>
  */
 public class WxMpGetSelfMenuInfoResult {
-  @SerializedName("selfmenu_info")
-  private WxMpSelfMenuInfo selfMenuInfo;
+    @SerializedName("selfmenu_info")
+    private WxMpSelfMenuInfo selfMenuInfo;
 
-  @SerializedName("is_menu_open")
-  private Integer isMenuOpen;
+    @SerializedName("is_menu_open")
+    private Integer isMenuOpen;
 
-  public static WxMpGetSelfMenuInfoResult fromJson(String json) {
-    return WxJsonBuilder.fromJson(json, WxMpGetSelfMenuInfoResult.class);
-  }
+    public static WxMpGetSelfMenuInfoResult fromJson(String json) {
+        return WxJsonBuilder.fromJson(json, WxMpGetSelfMenuInfoResult.class);
+    }
 
-  @Override
-  public String toString() {
-    return ToStringUtils.toSimpleString(this);
-  }
+    @Override
+    public String toString() {
+        return ToStringUtils.toSimpleString(this);
+    }
 
-  public WxMpSelfMenuInfo getSelfMenuInfo() {
-    return selfMenuInfo;
-  }
+    public WxMpSelfMenuInfo getSelfMenuInfo() {
+        return selfMenuInfo;
+    }
 
-  public void setSelfMenuInfo(WxMpSelfMenuInfo selfMenuInfo) {
-    this.selfMenuInfo = selfMenuInfo;
-  }
+    public void setSelfMenuInfo(WxMpSelfMenuInfo selfMenuInfo) {
+        this.selfMenuInfo = selfMenuInfo;
+    }
 
-  public Integer getIsMenuOpen() {
-    return isMenuOpen;
-  }
+    public Integer getIsMenuOpen() {
+        return isMenuOpen;
+    }
 
-  public void setIsMenuOpen(Integer isMenuOpen) {
-    this.isMenuOpen = isMenuOpen;
-  }
+    public void setIsMenuOpen(Integer isMenuOpen) {
+        this.isMenuOpen = isMenuOpen;
+    }
 }

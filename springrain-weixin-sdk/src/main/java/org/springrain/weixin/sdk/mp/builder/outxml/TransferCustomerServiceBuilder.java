@@ -12,22 +12,22 @@ import org.springrain.weixin.sdk.mp.bean.message.WxMpXmlOutTransferKefuMessage;
  * @author springrain
  */
 public final class TransferCustomerServiceBuilder extends BaseBuilder<TransferCustomerServiceBuilder, WxMpXmlOutTransferKefuMessage> {
-  private String kfAccount;
+    private String kfAccount;
 
-  public TransferCustomerServiceBuilder kfAccount(String kf) {
-    this.kfAccount = kf;
-    return this;
-  }
-
-  @Override
-  public WxMpXmlOutTransferKefuMessage build() {
-    WxMpXmlOutTransferKefuMessage m = new WxMpXmlOutTransferKefuMessage();
-    setCommon(m);
-    if(StringUtils.isNotBlank(this.kfAccount)){
-      WxMpXmlOutTransferKefuMessage.TransInfo transInfo = new WxMpXmlOutTransferKefuMessage.TransInfo();
-      transInfo.setKfAccount(this.kfAccount);
-      m.setTransInfo(transInfo);
+    public TransferCustomerServiceBuilder kfAccount(String kf) {
+        this.kfAccount = kf;
+        return this;
     }
-    return m;
-  }
+
+    @Override
+    public WxMpXmlOutTransferKefuMessage build() {
+        WxMpXmlOutTransferKefuMessage m = new WxMpXmlOutTransferKefuMessage();
+        setCommon(m);
+        if (StringUtils.isNotBlank(this.kfAccount)) {
+            WxMpXmlOutTransferKefuMessage.TransInfo transInfo = new WxMpXmlOutTransferKefuMessage.TransInfo();
+            transInfo.setKfAccount(this.kfAccount);
+            m.setTransInfo(transInfo);
+        }
+        return m;
+    }
 }

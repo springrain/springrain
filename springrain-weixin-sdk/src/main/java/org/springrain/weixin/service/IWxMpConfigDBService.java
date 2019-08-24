@@ -7,8 +7,8 @@ import org.springrain.weixin.entity.WxMpConfig;
 @RpcServiceAnnotation
 public interface IWxMpConfigDBService extends IBaseService {
 
-	void saveWxMpConfig(WxMpConfig wxMpConfig) throws Exception;
+    void saveWxMpConfig(WxMpConfig wxMpConfig) throws Exception;
 
-	void updateWxMpConfig(WxMpConfig wxMpConfig) throws Exception;
+    void updateWxMpConfig(WxMpConfig wxMpConfig) throws Exception;
 
 }

@@ -3,24 +3,24 @@ package org.springrain.weixin.sdk.common.util.crypto;
 import java.util.ArrayList;
 
 public class ByteGroup {
-  ArrayList<Byte> byteContainer = new ArrayList<>();
+    ArrayList<Byte> byteContainer = new ArrayList<>();
 
-  public byte[] toBytes() {
-    byte[] bytes = new byte[this.byteContainer.size()];
-    for (int i = 0; i < this.byteContainer.size(); i++) {
-      bytes[i] = this.byteContainer.get(i);
+    public byte[] toBytes() {
+        byte[] bytes = new byte[this.byteContainer.size()];
+        for (int i = 0; i < this.byteContainer.size(); i++) {
+            bytes[i] = this.byteContainer.get(i);
+        }
+        return bytes;
     }
-    return bytes;
-  }
 
-  public ByteGroup addBytes(byte[] bytes) {
-    for (byte b : bytes) {
-      this.byteContainer.add(b);
+    public ByteGroup addBytes(byte[] bytes) {
+        for (byte b : bytes) {
+            this.byteContainer.add(b);
+        }
+        return this;
     }
-    return this;
-  }
 
-  public int size() {
-    return this.byteContainer.size();
-  }
+    public int size() {
+        return this.byteContainer.size();
+    }
 }

@@ -16,24 +16,24 @@ import java.lang.reflect.Type;
  * @version 2017/1/8
  */
 public class WxMpCardResultGsonAdapter implements JsonDeserializer<WxMpCardResult> {
-  @Override
-  public WxMpCardResult deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
-    WxMpCardResult cardResult = new WxMpCardResult();
-    JsonObject jsonObject = jsonElement.getAsJsonObject();
+    @Override
+    public WxMpCardResult deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+        WxMpCardResult cardResult = new WxMpCardResult();
+        JsonObject jsonObject = jsonElement.getAsJsonObject();
 
-    cardResult.setOpenId(GsonHelper.getString(jsonObject, "openid"));
-    cardResult.setErrorCode(GsonHelper.getString(jsonObject, "errcode"));
-    cardResult.setErrorMsg(GsonHelper.getString(jsonObject, "errmsg"));
-    cardResult.setCanConsume(GsonHelper.getBoolean(jsonObject, "can_consume"));
-    cardResult.setUserCardStatus(GsonHelper.getString(jsonObject, "user_card_status"));
+        cardResult.setOpenId(GsonHelper.getString(jsonObject, "openid"));
+        cardResult.setErrorCode(GsonHelper.getString(jsonObject, "errcode"));
+        cardResult.setErrorMsg(GsonHelper.getString(jsonObject, "errmsg"));
+        cardResult.setCanConsume(GsonHelper.getBoolean(jsonObject, "can_consume"));
+        cardResult.setUserCardStatus(GsonHelper.getString(jsonObject, "user_card_status"));
 
 
-    WxMpCard card = WxJsonBuilder.fromJson(jsonObject.get("card"),
-        new TypeToken<WxMpCard>() {
-        }.getType());
+        WxMpCard card = WxJsonBuilder.fromJson(jsonObject.get("card"),
+                new TypeToken<WxMpCard>() {
+                }.getType());
 
-    cardResult.setCard(card);
+        cardResult.setCard(card);
 
-    return cardResult;
-  }
+        return cardResult;
+    }
 }

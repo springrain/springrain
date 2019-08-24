@@ -10,97 +10,97 @@ import java.io.Serializable;
  * @author springrain
  */
 public class WxMpTemplateIndustry implements Serializable {
-  private static final long serialVersionUID = -7700398224795914722L;
-  private Industry primaryIndustry;
-  private Industry secondIndustry;
+    private static final long serialVersionUID = -7700398224795914722L;
+    private Industry primaryIndustry;
+    private Industry secondIndustry;
 
-  public WxMpTemplateIndustry() {
-  }
-
-  public WxMpTemplateIndustry(Industry primaryIndustry, Industry secondIndustry) {
-    this.primaryIndustry = primaryIndustry;
-    this.secondIndustry = secondIndustry;
-  }
-
-  /**
-   * @author springrain
-   *         官方文档中，创建和获取的数据结构不一样。所以采用冗余字段的方式，实现相应的接口
-   */
-  public static class Industry implements Serializable {
-    private static final long serialVersionUID = -1707184885588012142L;
-    private String id;
-    private String firstClass;
-    private String secondClass;
-
-    public Industry() {
+    public WxMpTemplateIndustry() {
     }
 
-    public Industry(String id) {
-      this.id = id;
+    public WxMpTemplateIndustry(Industry primaryIndustry, Industry secondIndustry) {
+        this.primaryIndustry = primaryIndustry;
+        this.secondIndustry = secondIndustry;
     }
 
-    public Industry(String id, String firstClass, String secondClass) {
-      this.id = id;
-      this.firstClass = firstClass;
-      this.secondClass = secondClass;
+    /**
+     * @author springrain
+     * 官方文档中，创建和获取的数据结构不一样。所以采用冗余字段的方式，实现相应的接口
+     */
+    public static class Industry implements Serializable {
+        private static final long serialVersionUID = -1707184885588012142L;
+        private String id;
+        private String firstClass;
+        private String secondClass;
+
+        public Industry() {
+        }
+
+        public Industry(String id) {
+            this.id = id;
+        }
+
+        public Industry(String id, String firstClass, String secondClass) {
+            this.id = id;
+            this.firstClass = firstClass;
+            this.secondClass = secondClass;
+        }
+
+        @Override
+        public String toString() {
+            return ToStringUtils.toSimpleString(this);
+        }
+
+        public String getId() {
+            return this.id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getFirstClass() {
+            return this.firstClass;
+        }
+
+        public void setFirstClass(String firstClass) {
+            this.firstClass = firstClass;
+        }
+
+        public String getSecondClass() {
+            return this.secondClass;
+        }
+
+        public void setSecondClass(String secondClass) {
+            this.secondClass = secondClass;
+        }
     }
 
     @Override
     public String toString() {
-      return ToStringUtils.toSimpleString(this);
+        return ToStringUtils.toSimpleString(this);
     }
 
-    public String getId() {
-      return this.id;
+    public static WxMpTemplateIndustry fromJson(String json) {
+        return WxJsonBuilder.fromJson(json, WxMpTemplateIndustry.class);
     }
 
-    public void setId(String id) {
-      this.id = id;
+    public String toJson() {
+        return WxJsonBuilder.toJson(this);
     }
 
-    public String getFirstClass() {
-      return this.firstClass;
+    public Industry getPrimaryIndustry() {
+        return this.primaryIndustry;
     }
 
-    public void setFirstClass(String firstClass) {
-      this.firstClass = firstClass;
+    public void setPrimaryIndustry(Industry primaryIndustry) {
+        this.primaryIndustry = primaryIndustry;
     }
 
-    public String getSecondClass() {
-      return this.secondClass;
+    public Industry getSecondIndustry() {
+        return this.secondIndustry;
     }
 
-    public void setSecondClass(String secondClass) {
-      this.secondClass = secondClass;
+    public void setSecondIndustry(Industry secondIndustry) {
+        this.secondIndustry = secondIndustry;
     }
-  }
-
-  @Override
-  public String toString() {
-    return ToStringUtils.toSimpleString(this);
-  }
-
-  public static WxMpTemplateIndustry fromJson(String json) {
-    return WxJsonBuilder.fromJson(json, WxMpTemplateIndustry.class);
-  }
-
-  public String toJson() {
-    return WxJsonBuilder.toJson(this);
-  }
-
-  public Industry getPrimaryIndustry() {
-    return this.primaryIndustry;
-  }
-
-  public void setPrimaryIndustry(Industry primaryIndustry) {
-    this.primaryIndustry = primaryIndustry;
-  }
-
-  public Industry getSecondIndustry() {
-    return this.secondIndustry;
-  }
-
-  public void setSecondIndustry(Industry secondIndustry) {
-    this.secondIndustry = secondIndustry;
-  }
 }

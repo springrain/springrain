@@ -9,25 +9,25 @@ import org.springrain.weixin.sdk.mp.bean.kefu.WxMpKefuMessage;
  * 用法:
  * WxMpKefuMessage m = WxMpKefuMessage.NEWS().mediaId("xxxxx").toUser(...).build();
  * </pre>
- * @author springrain
  *
+ * @author springrain
  */
 public final class MpNewsBuilder extends BaseBuilder<MpNewsBuilder> {
-  private String mediaId;
+    private String mediaId;
 
-  public MpNewsBuilder() {
-    this.msgType = WxConsts.CUSTOM_MSG_MPNEWS;
-  }
+    public MpNewsBuilder() {
+        this.msgType = WxConsts.CUSTOM_MSG_MPNEWS;
+    }
 
-  public MpNewsBuilder mediaId(String mediaId) {
-    this.mediaId = mediaId;
-    return this;
-  }
+    public MpNewsBuilder mediaId(String mediaId) {
+        this.mediaId = mediaId;
+        return this;
+    }
 
-  @Override
-  public WxMpKefuMessage build() {
-    WxMpKefuMessage m = super.build();
-    m.setMpNewsMediaId(this.mediaId);
-    return m;
-  }
+    @Override
+    public WxMpKefuMessage build() {
+        WxMpKefuMessage m = super.build();
+        m.setMpNewsMediaId(this.mediaId);
+        return m;
+    }
 }

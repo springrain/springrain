@@ -100,10 +100,6 @@ public class WxJsonBuilder {
  */
 
 
-
-
-
-
     }
 
     //public static Gson create() {
@@ -201,7 +197,6 @@ public class WxJsonBuilder {
     public static <T> List<T> readValues(String content, Class<T> clazz) {
         return (List<T>) readValues(content, ArrayList.class, clazz);
     }
-
 
 
     private static JavaType getCollectionType(Class<?> collectionClass, Class<?>... elementClasses) {

@@ -23,25 +23,25 @@ import java.util.HashMap;
  * @author springrain
  */
 public class WxErrorAdapter extends JsonDeserializer<WxError> {
-  @Override
-  public WxError deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
-    WxError wxError = new WxError();
-    HashMap map= jsonParser.readValueAs(HashMap.class);
+    @Override
+    public WxError deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
+        WxError wxError = new WxError();
+        HashMap map = jsonParser.readValueAs(HashMap.class);
 
 
-    String errmsg=(String)map.get("errmsg");
-    if (StringUtils.isNotBlank(errmsg)){
-      wxError.setErrorMsg(errmsg);
+        String errmsg = (String) map.get("errmsg");
+        if (StringUtils.isNotBlank(errmsg)) {
+            wxError.setErrorMsg(errmsg);
+        }
+
+        Integer errcode = (Integer) map.get("errcode");
+
+        if (errcode != null) {
+            wxError.setErrorCode(errcode);
+        }
+
+        return wxError;
     }
-
-    Integer errcode=(Integer) map.get("errcode");
-
-    if (errcode!=null){
-      wxError.setErrorCode(errcode);
-    }
-
-    return wxError;
-  }
 
 /*
   public WxError deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {

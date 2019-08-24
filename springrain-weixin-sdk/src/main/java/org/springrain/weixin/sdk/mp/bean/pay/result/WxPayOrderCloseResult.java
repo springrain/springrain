@@ -12,17 +12,17 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 @XStreamAlias("xml")
 public class WxPayOrderCloseResult extends WxPayBaseResult {
 
-  /**
-   * 业务结果描述
-   */
-  @XStreamAlias("result_msg")
-  private String resultMsg;
+    /**
+     * 业务结果描述
+     */
+    @XStreamAlias("result_msg")
+    private String resultMsg;
 
-  public String getResultMsg() {
-    return this.resultMsg;
-  }
+    public String getResultMsg() {
+        return this.resultMsg;
+    }
 
-  public void setResultMsg(String resultMsg) {
-    this.resultMsg = resultMsg;
-  }
+    public void setResultMsg(String resultMsg) {
+        this.resultMsg = resultMsg;
+    }
 }

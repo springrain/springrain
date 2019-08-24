@@ -13,115 +13,116 @@ import javax.annotation.Resource;
 
 @Service("wxCpConfigService")
 public class WxCpConfigServiceImpl extends BaseServiceImpl implements IWxCpConfigService {
-	@Resource
-	IBaseJdbcDao baseSpringrainDao;
+    @Resource
+    IBaseJdbcDao baseSpringrainDao;
 
-	public WxCpConfigServiceImpl() {
-	}
+    public WxCpConfigServiceImpl() {
+    }
 
-	@Override
-	public IBaseJdbcDao getBaseDao() {
-		return baseSpringrainDao;
-	}
-	@Override
-	public IWxCpConfig expireAccessToken(IWxCpConfig wxcpconfig) {
-		wxcpconfig.setAccessTokenExpiresTime(0L);
+    @Override
+    public IBaseJdbcDao getBaseDao() {
+        return baseSpringrainDao;
+    }
 
-		// 缓存操作
-		updateWxCpConfig(wxcpconfig);
+    @Override
+    public IWxCpConfig expireAccessToken(IWxCpConfig wxcpconfig) {
+        wxcpconfig.setAccessTokenExpiresTime(0L);
 
-		return wxcpconfig;
-	}
+        // 缓存操作
+        updateWxCpConfig(wxcpconfig);
 
-	@Override
-	public IWxCpConfig updateAccessToken(IWxCpConfig wxcpconfig) {
+        return wxcpconfig;
+    }
 
-		// 缓存操作
-		updateWxCpConfig(wxcpconfig);
+    @Override
+    public IWxCpConfig updateAccessToken(IWxCpConfig wxcpconfig) {
 
-		return wxcpconfig;
-	}
+        // 缓存操作
+        updateWxCpConfig(wxcpconfig);
 
-	@Override
-	public IWxCpConfig expireJsApiTicket(IWxCpConfig wxcpconfig) {
-		wxcpconfig.setJsApiTicketExpiresTime(0L);
+        return wxcpconfig;
+    }
 
-		// 缓存操作
-		updateWxCpConfig(wxcpconfig);
+    @Override
+    public IWxCpConfig expireJsApiTicket(IWxCpConfig wxcpconfig) {
+        wxcpconfig.setJsApiTicketExpiresTime(0L);
 
-		return wxcpconfig;
-	}
+        // 缓存操作
+        updateWxCpConfig(wxcpconfig);
 
-	@Override
-	public IWxCpConfig updateJsApiTicket(IWxCpConfig wxcpconfig) {
+        return wxcpconfig;
+    }
 
-		// 缓存操作
-		updateWxCpConfig(wxcpconfig);
+    @Override
+    public IWxCpConfig updateJsApiTicket(IWxCpConfig wxcpconfig) {
 
-		return wxcpconfig;
-	}
+        // 缓存操作
+        updateWxCpConfig(wxcpconfig);
 
-	@Override
-	public IWxCpConfig expireCardapiTicket(IWxCpConfig wxcpconfig) {
+        return wxcpconfig;
+    }
 
-		wxcpconfig.setCardApiTicketExpiresTime(0L);
-		// 缓存操作
-		updateWxCpConfig(wxcpconfig);
+    @Override
+    public IWxCpConfig expireCardapiTicket(IWxCpConfig wxcpconfig) {
 
-		return wxcpconfig;
-	}
+        wxcpconfig.setCardApiTicketExpiresTime(0L);
+        // 缓存操作
+        updateWxCpConfig(wxcpconfig);
 
-	@Override
-	public IWxCpConfig updateCardapiTicket(IWxCpConfig wxcpconfig) {
-		// 缓存操作
-		updateWxCpConfig(wxcpconfig);
-		return wxcpconfig;
+        return wxcpconfig;
+    }
 
-	}
+    @Override
+    public IWxCpConfig updateCardapiTicket(IWxCpConfig wxcpconfig) {
+        // 缓存操作
+        updateWxCpConfig(wxcpconfig);
+        return wxcpconfig;
 
-	@Override
-	public IWxCpConfig findWxCpConfigById(String id) throws Exception {
-		if (StringUtils.isBlank(id)) {
-			return null;
-		}
+    }
 
-		IWxCpConfig wxcpConfig = null;
-		try {
-			wxcpConfig = super.getByCache(id, GlobalStatic.cpConfigCacheKey, WxCpConfig.class);
-		} catch (Exception e) {
-			wxcpConfig = null;
-			logger.error(e.getMessage(), e);
-		}
-		if (wxcpConfig != null) {
-			return wxcpConfig;
-		}
+    @Override
+    public IWxCpConfig findWxCpConfigById(String id) throws Exception {
+        if (StringUtils.isBlank(id)) {
+            return null;
+        }
 
-		// 从数据库查询
-		wxcpConfig = super.findById(id, WxCpConfig.class);
+        IWxCpConfig wxcpConfig = null;
+        try {
+            wxcpConfig = super.getByCache(id, GlobalStatic.cpConfigCacheKey, WxCpConfig.class);
+        } catch (Exception e) {
+            wxcpConfig = null;
+            logger.error(e.getMessage(), e);
+        }
+        if (wxcpConfig != null) {
+            return wxcpConfig;
+        }
 
-		super.putByCache(id, GlobalStatic.cpConfigCacheKey, wxcpConfig);
+        // 从数据库查询
+        wxcpConfig = super.findById(id, WxCpConfig.class);
 
-		return wxcpConfig;
-	}
+        super.putByCache(id, GlobalStatic.cpConfigCacheKey, wxcpConfig);
 
-	/**
-	 * 缓存处理,可以把配置进行缓存更新
-	 */
-	@Override
-	public IWxCpConfig updateWxCpConfig(IWxCpConfig wxcpconfig) {
+        return wxcpConfig;
+    }
 
-		String id = wxcpconfig.getId();
-		if (StringUtils.isBlank(id)) {
-			return null;
-		}
+    /**
+     * 缓存处理,可以把配置进行缓存更新
+     */
+    @Override
+    public IWxCpConfig updateWxCpConfig(IWxCpConfig wxcpconfig) {
 
-		try {
-			super.putByCache(id, GlobalStatic.cpConfigCacheKey, wxcpconfig);
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-		}
+        String id = wxcpconfig.getId();
+        if (StringUtils.isBlank(id)) {
+            return null;
+        }
 
-		return wxcpconfig;
-	}
+        try {
+            super.putByCache(id, GlobalStatic.cpConfigCacheKey, wxcpconfig);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
+
+        return wxcpconfig;
+    }
 
 }

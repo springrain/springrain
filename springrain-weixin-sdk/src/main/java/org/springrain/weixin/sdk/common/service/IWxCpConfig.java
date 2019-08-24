@@ -2,20 +2,20 @@ package org.springrain.weixin.sdk.common.service;
 
 public interface IWxCpConfig extends IWxConfig {
 
-	String getCorpId();
+    String getCorpId();
 
-	void setCorpId(String corpId);
+    void setCorpId(String corpId);
 
-	Integer getAgentId();
+    Integer getAgentId();
 
-	void setAgentId(Integer agentId);
+    void setAgentId(Integer agentId);
 
-	String getCorpSecret();
+    String getCorpSecret();
 
-	void setCorpSecret(String secret);
+    void setCorpSecret(String secret);
 
-	String getOauth2redirectUri();
+    String getOauth2redirectUri();
 
-	void setOauth2redirectUri(String oauth2redirectUri);
+    void setOauth2redirectUri(String oauth2redirectUri);
 
 }

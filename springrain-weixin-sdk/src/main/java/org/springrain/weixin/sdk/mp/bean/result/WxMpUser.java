@@ -9,166 +9,166 @@ import java.util.List;
 
 /**
  * 微信用户信息
- * @author springrain
  *
+ * @author springrain
  */
 public class WxMpUser implements Serializable {
 
-  private static final long serialVersionUID = 5788154322646488738L;
-  private Boolean subscribe;
-  private String openId;
-  private String nickname;
-  private String sex;
-  private String language;
-  private String city;
-  private String province;
-  private String country;
-  private String headImgUrl;
-  private Long subscribeTime;
-  private String unionId;
-  private Integer sexId;
-  private String remark;
-  private Integer groupId;
-  private Integer[] tagIds;
+    private static final long serialVersionUID = 5788154322646488738L;
+    private Boolean subscribe;
+    private String openId;
+    private String nickname;
+    private String sex;
+    private String language;
+    private String city;
+    private String province;
+    private String country;
+    private String headImgUrl;
+    private Long subscribeTime;
+    private String unionId;
+    private Integer sexId;
+    private String remark;
+    private Integer groupId;
+    private Integer[] tagIds;
 
-  public Boolean getSubscribe() {
-    return this.subscribe;
-  }
+    public Boolean getSubscribe() {
+        return this.subscribe;
+    }
 
-  public void setSubscribe(Boolean subscribe) {
-    this.subscribe = subscribe;
-  }
+    public void setSubscribe(Boolean subscribe) {
+        this.subscribe = subscribe;
+    }
 
-  public String getOpenId() {
-    return this.openId;
-  }
+    public String getOpenId() {
+        return this.openId;
+    }
 
-  public void setOpenId(String openId) {
-    this.openId = openId;
-  }
+    public void setOpenId(String openId) {
+        this.openId = openId;
+    }
 
-  public String getNickname() {
-    return this.nickname;
-  }
+    public String getNickname() {
+        return this.nickname;
+    }
 
-  public void setNickname(String nickname) {
-    this.nickname = nickname;
-  }
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
 
-  public String getSex() {
-    return this.sex;
-  }
+    public String getSex() {
+        return this.sex;
+    }
 
-  public void setSex(String sex) {
-    this.sex = sex;
-  }
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
 
-  public String getLanguage() {
-    return this.language;
-  }
+    public String getLanguage() {
+        return this.language;
+    }
 
-  public void setLanguage(String language) {
-    this.language = language;
-  }
+    public void setLanguage(String language) {
+        this.language = language;
+    }
 
-  public String getCity() {
-    return this.city;
-  }
+    public String getCity() {
+        return this.city;
+    }
 
-  public void setCity(String city) {
-    this.city = city;
-  }
+    public void setCity(String city) {
+        this.city = city;
+    }
 
-  public String getProvince() {
-    return this.province;
-  }
+    public String getProvince() {
+        return this.province;
+    }
 
-  public void setProvince(String province) {
-    this.province = province;
-  }
+    public void setProvince(String province) {
+        this.province = province;
+    }
 
-  public String getCountry() {
-    return this.country;
-  }
+    public String getCountry() {
+        return this.country;
+    }
 
-  public void setCountry(String country) {
-    this.country = country;
-  }
+    public void setCountry(String country) {
+        this.country = country;
+    }
 
-  public String getHeadImgUrl() {
-    return this.headImgUrl;
-  }
+    public String getHeadImgUrl() {
+        return this.headImgUrl;
+    }
 
-  public void setHeadImgUrl(String headImgUrl) {
-    this.headImgUrl = headImgUrl;
-  }
+    public void setHeadImgUrl(String headImgUrl) {
+        this.headImgUrl = headImgUrl;
+    }
 
-  public Long getSubscribeTime() {
-    return this.subscribeTime;
-  }
+    public Long getSubscribeTime() {
+        return this.subscribeTime;
+    }
 
-  public void setSubscribeTime(Long subscribeTime) {
-    this.subscribeTime = subscribeTime;
-  }
+    public void setSubscribeTime(Long subscribeTime) {
+        this.subscribeTime = subscribeTime;
+    }
 
-  /**
-   *只有在将公众号绑定到微信开放平台帐号后，才会出现该字段。
-   */
-  public String getUnionId() {
-    return this.unionId;
-  }
+    /**
+     * 只有在将公众号绑定到微信开放平台帐号后，才会出现该字段。
+     */
+    public String getUnionId() {
+        return this.unionId;
+    }
 
-  public void setUnionId(String unionId) {
-    this.unionId = unionId;
-  }
+    public void setUnionId(String unionId) {
+        this.unionId = unionId;
+    }
 
-  public Integer getSexId() {
+    public Integer getSexId() {
 
-    return this.sexId;
-  }
+        return this.sexId;
+    }
 
-  public void setSexId(Integer sexId) {
-    this.sexId = sexId;
-  }
+    public void setSexId(Integer sexId) {
+        this.sexId = sexId;
+    }
 
-  public String getRemark() {
-    return this.remark;
-  }
+    public String getRemark() {
+        return this.remark;
+    }
 
-  public void setRemark(String remark) {
-    this.remark = remark;
-  }
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 
-  public Integer getGroupId() {
-    return this.groupId;
-  }
+    public Integer getGroupId() {
+        return this.groupId;
+    }
 
-  public void setGroupId(Integer groupId) {
-    this.groupId = groupId;
-  }
+    public void setGroupId(Integer groupId) {
+        this.groupId = groupId;
+    }
 
-  public Integer[] getTagIds() {
-    return this.tagIds;
-  }
+    public Integer[] getTagIds() {
+        return this.tagIds;
+    }
 
-  public void setTagIds(Integer[] tagIds) {
-    this.tagIds = tagIds;
-  }
+    public void setTagIds(Integer[] tagIds) {
+        this.tagIds = tagIds;
+    }
 
 
-  public static WxMpUser fromJson(String json) {
-    return WxJsonBuilder.fromJson(json, WxMpUser.class);
-  }
+    public static WxMpUser fromJson(String json) {
+        return WxJsonBuilder.fromJson(json, WxMpUser.class);
+    }
 
-  public static List<WxMpUser> fromJsonList(String json) {
+    public static List<WxMpUser> fromJsonList(String json) {
 
-    HashMap map= WxJsonBuilder.fromJson(json, HashMap.class);
+        HashMap map = WxJsonBuilder.fromJson(json, HashMap.class);
 
-    List list=(List)map.get("list");
+        List list = (List) map.get("list");
 
-    String content=WxJsonBuilder.toJson(list);
+        String content = WxJsonBuilder.toJson(list);
 
-    return WxJsonBuilder.readValues(content, WxMpUser.class);
+        return WxJsonBuilder.readValues(content, WxMpUser.class);
 
     /*
     Type collectionType = new TypeToken<List<WxMpUser>>() {
@@ -179,11 +179,11 @@ public class WxMpUser implements Serializable {
      */
 
 
-  }
+    }
 
-  @Override
-  public String toString() {
-    return ToStringUtils.toSimpleString(this);
-  }
+    @Override
+    public String toString() {
+        return ToStringUtils.toSimpleString(this);
+    }
 
 }

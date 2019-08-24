@@ -1,16 +1,14 @@
 package org.springrain.weixin.sdk.mp.bean.datacube;
 
+import com.google.gson.JsonParser;
+import org.springrain.weixin.sdk.common.util.ToStringUtils;
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.springrain.weixin.sdk.common.util.ToStringUtils;
-
-import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
-import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
 
 /**
  * <pre>
@@ -20,40 +18,40 @@ import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
  */
 public class WxDataCubeUserCumulate implements Serializable {
 
-  private static final JsonParser JSON_PARSER = new JsonParser();
+    private static final JsonParser JSON_PARSER = new JsonParser();
 
-  private static final long serialVersionUID = -3570981300225093657L;
+    private static final long serialVersionUID = -3570981300225093657L;
 
-  private Date refDate;
+    private Date refDate;
 
-  private Integer cumulateUser;
+    private Integer cumulateUser;
 
-  public Date getRefDate() {
-    return this.refDate;
-  }
+    public Date getRefDate() {
+        return this.refDate;
+    }
 
-  public void setRefDate(Date refDate) {
-    this.refDate = refDate;
-  }
+    public void setRefDate(Date refDate) {
+        this.refDate = refDate;
+    }
 
-  public Integer getCumulateUser() {
-    return this.cumulateUser;
-  }
+    public Integer getCumulateUser() {
+        return this.cumulateUser;
+    }
 
-  public void setCumulateUser(Integer cumulateUser) {
-    this.cumulateUser = cumulateUser;
-  }
+    public void setCumulateUser(Integer cumulateUser) {
+        this.cumulateUser = cumulateUser;
+    }
 
-  @Override
-  public String toString() {
-    return ToStringUtils.toSimpleString(this);
-  }
+    @Override
+    public String toString() {
+        return ToStringUtils.toSimpleString(this);
+    }
 
-  public static List<WxDataCubeUserCumulate> fromJson(String json) {
-    Map map= WxJsonBuilder.fromJson(json, HashMap.class);
-    List list=(List)map.get("list");
-    String str=WxJsonBuilder.toJson(list);
-    return WxJsonBuilder.readValues(str,WxDataCubeUserCumulate.class);
+    public static List<WxDataCubeUserCumulate> fromJson(String json) {
+        Map map = WxJsonBuilder.fromJson(json, HashMap.class);
+        List list = (List) map.get("list");
+        String str = WxJsonBuilder.toJson(list);
+        return WxJsonBuilder.readValues(str, WxDataCubeUserCumulate.class);
 
 /*
     return WxJsonBuilder.fromJson(
@@ -62,5 +60,5 @@ public class WxDataCubeUserCumulate implements Serializable {
         }.getType());
 
  */
-  }
+    }
 }

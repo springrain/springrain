@@ -8,74 +8,74 @@ import java.util.List;
 
 /**
  * 门店列表结果类
- * @author <a href="http://git.oschina.net/chunanyong/springrain">springrain(springrain)</a>
- *         Created by springrain on 2016-09-27.
  *
+ * @author <a href="http://git.oschina.net/chunanyong/springrain">springrain(springrain)</a>
+ * Created by springrain on 2016-09-27.
  */
 public class WxMpStoreListResult {
-  @Override
-  public String toString() {
-    return ToStringUtils.toSimpleString(this);
-  }
+    @Override
+    public String toString() {
+        return ToStringUtils.toSimpleString(this);
+    }
 
-  public static WxMpStoreListResult fromJson(String json) {
-    return WxJsonBuilder.fromJson(json, WxMpStoreListResult.class);
-  }
+    public static WxMpStoreListResult fromJson(String json) {
+        return WxJsonBuilder.fromJson(json, WxMpStoreListResult.class);
+    }
 
-  /**
-   * 错误码，0为正常
-   */
-  @SerializedName("errcode")
-  private Integer errCode;
+    /**
+     * 错误码，0为正常
+     */
+    @SerializedName("errcode")
+    private Integer errCode;
 
-  /**
-   * 错误信息
-   */
-  @SerializedName("errmsg")
-  private String errMsg;
+    /**
+     * 错误信息
+     */
+    @SerializedName("errmsg")
+    private String errMsg;
 
-  /**
-   * 门店信息列表
-   */
-  @SerializedName("business_list")
-  private List<WxMpStoreInfo> businessList;
+    /**
+     * 门店信息列表
+     */
+    @SerializedName("business_list")
+    private List<WxMpStoreInfo> businessList;
 
-  /**
-   * 门店信息总数
-   */
-  @SerializedName("total_count")
-  private Integer totalCount;
+    /**
+     * 门店信息总数
+     */
+    @SerializedName("total_count")
+    private Integer totalCount;
 
-  public Integer getTotalCount() {
-    return this.totalCount;
-  }
+    public Integer getTotalCount() {
+        return this.totalCount;
+    }
 
-  public void setTotalCount(Integer totalCount) {
-    this.totalCount = totalCount;
-  }
+    public void setTotalCount(Integer totalCount) {
+        this.totalCount = totalCount;
+    }
 
-  public Integer getErrCode() {
-    return this.errCode;
-  }
+    public Integer getErrCode() {
+        return this.errCode;
+    }
 
-  public void setErrCode(Integer errCode) {
-    this.errCode = errCode;
-  }
+    public void setErrCode(Integer errCode) {
+        this.errCode = errCode;
+    }
 
-  public String getErrMsg() {
-    return this.errMsg;
-  }
+    public String getErrMsg() {
+        return this.errMsg;
+    }
 
-  public void setErrMsg(String errMsg) {
-    this.errMsg = errMsg;
-  }
+    public void setErrMsg(String errMsg) {
+        this.errMsg = errMsg;
+    }
 
-  public List<WxMpStoreInfo> getBusinessList() {
-    return this.businessList;
-  }
+    public List<WxMpStoreInfo> getBusinessList() {
+        return this.businessList;
+    }
 
-  public void setBusinessList(List<WxMpStoreInfo> businessList) {
-    this.businessList = businessList;
-  }
+    public void setBusinessList(List<WxMpStoreInfo> businessList) {
+        this.businessList = businessList;
+    }
 
 }

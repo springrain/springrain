@@ -1,16 +1,14 @@
 package org.springrain.weixin.sdk.mp.bean.datacube;
 
+import com.google.gson.JsonParser;
+import org.springrain.weixin.sdk.common.util.ToStringUtils;
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.springrain.weixin.sdk.common.util.ToStringUtils;
-
-import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
-import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
 
 /**
  * <pre>
@@ -19,61 +17,61 @@ import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
  * </pre>
  */
 public class WxDataCubeUserSummary implements Serializable {
-  private static final long serialVersionUID = -2336654489906694173L;
+    private static final long serialVersionUID = -2336654489906694173L;
 
-  private static final JsonParser JSON_PARSER = new JsonParser();
+    private static final JsonParser JSON_PARSER = new JsonParser();
 
-  private Date refDate;
+    private Date refDate;
 
-  private Integer userSource;
+    private Integer userSource;
 
-  private Integer newUser;
+    private Integer newUser;
 
-  private Integer cancelUser;
+    private Integer cancelUser;
 
-  public Date getRefDate() {
-    return this.refDate;
-  }
+    public Date getRefDate() {
+        return this.refDate;
+    }
 
-  public void setRefDate(Date refDate) {
-    this.refDate = refDate;
-  }
+    public void setRefDate(Date refDate) {
+        this.refDate = refDate;
+    }
 
-  public Integer getUserSource() {
-    return this.userSource;
-  }
+    public Integer getUserSource() {
+        return this.userSource;
+    }
 
-  public void setUserSource(Integer userSource) {
-    this.userSource = userSource;
-  }
+    public void setUserSource(Integer userSource) {
+        this.userSource = userSource;
+    }
 
-  public Integer getNewUser() {
-    return this.newUser;
-  }
+    public Integer getNewUser() {
+        return this.newUser;
+    }
 
-  public void setNewUser(Integer newUser) {
-    this.newUser = newUser;
-  }
+    public void setNewUser(Integer newUser) {
+        this.newUser = newUser;
+    }
 
-  public Integer getCancelUser() {
-    return this.cancelUser;
-  }
+    public Integer getCancelUser() {
+        return this.cancelUser;
+    }
 
-  public void setCancelUser(Integer cancelUser) {
-    this.cancelUser = cancelUser;
-  }
+    public void setCancelUser(Integer cancelUser) {
+        this.cancelUser = cancelUser;
+    }
 
-  @Override
-  public String toString() {
-    return ToStringUtils.toSimpleString(this);
-  }
+    @Override
+    public String toString() {
+        return ToStringUtils.toSimpleString(this);
+    }
 
-  public static List<WxDataCubeUserSummary> fromJson(String json) {
+    public static List<WxDataCubeUserSummary> fromJson(String json) {
 
-    Map map= WxJsonBuilder.fromJson(json, HashMap.class);
-    List list=(List)map.get("list");
-    String str=WxJsonBuilder.toJson(list);
-    return WxJsonBuilder.readValues(str,WxDataCubeUserSummary.class);
+        Map map = WxJsonBuilder.fromJson(json, HashMap.class);
+        List list = (List) map.get("list");
+        String str = WxJsonBuilder.toJson(list);
+        return WxJsonBuilder.readValues(str, WxDataCubeUserSummary.class);
 
     /*
     return WxJsonBuilder.fromJson(
@@ -82,5 +80,5 @@ public class WxDataCubeUserSummary implements Serializable {
         }.getType());
 
      */
-  }
+    }
 }

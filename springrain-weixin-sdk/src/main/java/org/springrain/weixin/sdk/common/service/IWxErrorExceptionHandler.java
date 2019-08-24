@@ -8,6 +8,6 @@ import org.springrain.weixin.sdk.common.exception.WxErrorException;
  */
 public interface IWxErrorExceptionHandler {
 
-  void handle(WxErrorException e);
+    void handle(WxErrorException e);
 
 }

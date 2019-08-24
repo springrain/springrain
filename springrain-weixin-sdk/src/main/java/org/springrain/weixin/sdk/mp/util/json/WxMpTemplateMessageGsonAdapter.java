@@ -8,47 +8,46 @@
  */
 package org.springrain.weixin.sdk.mp.util.json;
 
-import java.lang.reflect.Type;
-
-import org.springrain.weixin.sdk.mp.bean.template.WxMpTemplateData;
-import org.springrain.weixin.sdk.mp.bean.template.WxMpTemplateMessage;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+import org.springrain.weixin.sdk.mp.bean.template.WxMpTemplateData;
+import org.springrain.weixin.sdk.mp.bean.template.WxMpTemplateMessage;
+
+import java.lang.reflect.Type;
 
 public class WxMpTemplateMessageGsonAdapter implements JsonSerializer<WxMpTemplateMessage> {
 
-  @Override
-  public JsonElement serialize(WxMpTemplateMessage message, Type typeOfSrc, JsonSerializationContext context) {
-    JsonObject messageJson = new JsonObject();
-    messageJson.addProperty("touser", message.getToUser());
-    messageJson.addProperty("template_id", message.getTemplateId());
-    if (message.getUrl() != null) {
-      messageJson.addProperty("url", message.getUrl());
-    }
-    
-    if(message.getFormId()!=null){
-       messageJson.addProperty("form_id", message.getFormId());
-    }
-    if(message.getPage()!=null){
-        messageJson.addProperty("page", message.getPage());
-     }
+    @Override
+    public JsonElement serialize(WxMpTemplateMessage message, Type typeOfSrc, JsonSerializationContext context) {
+        JsonObject messageJson = new JsonObject();
+        messageJson.addProperty("touser", message.getToUser());
+        messageJson.addProperty("template_id", message.getTemplateId());
+        if (message.getUrl() != null) {
+            messageJson.addProperty("url", message.getUrl());
+        }
 
-    JsonObject data = new JsonObject();
-    messageJson.add("data", data);
+        if (message.getFormId() != null) {
+            messageJson.addProperty("form_id", message.getFormId());
+        }
+        if (message.getPage() != null) {
+            messageJson.addProperty("page", message.getPage());
+        }
 
-    for (WxMpTemplateData datum : message.getData()) {
-      JsonObject dataJson = new JsonObject();
-      dataJson.addProperty("value", datum.getValue());
-      if (datum.getColor() != null) {
-        dataJson.addProperty("color", datum.getColor());
-      }
-      data.add(datum.getName(), dataJson);
+        JsonObject data = new JsonObject();
+        messageJson.add("data", data);
+
+        for (WxMpTemplateData datum : message.getData()) {
+            JsonObject dataJson = new JsonObject();
+            dataJson.addProperty("value", datum.getValue());
+            if (datum.getColor() != null) {
+                dataJson.addProperty("color", datum.getColor());
+            }
+            data.add(datum.getName(), dataJson);
+        }
+
+        return messageJson;
     }
-
-    return messageJson;
-  }
 
 }

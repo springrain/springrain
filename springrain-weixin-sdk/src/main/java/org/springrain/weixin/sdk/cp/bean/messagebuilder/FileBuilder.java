@@ -12,21 +12,21 @@ import org.springrain.weixin.sdk.cp.bean.WxCpMessage;
  * @author springrain
  */
 public final class FileBuilder extends BaseBuilder<FileBuilder> {
-  private String mediaId;
+    private String mediaId;
 
-  public FileBuilder() {
-    this.msgType = WxConsts.CUSTOM_MSG_FILE;
-  }
+    public FileBuilder() {
+        this.msgType = WxConsts.CUSTOM_MSG_FILE;
+    }
 
-  public FileBuilder mediaId(String media_id) {
-    this.mediaId = media_id;
-    return this;
-  }
+    public FileBuilder mediaId(String media_id) {
+        this.mediaId = media_id;
+        return this;
+    }
 
-  @Override
-  public WxCpMessage build() {
-    WxCpMessage m = super.build();
-    m.setMediaId(this.mediaId);
-    return m;
-  }
+    @Override
+    public WxCpMessage build() {
+        WxCpMessage m = super.build();
+        m.setMediaId(this.mediaId);
+        return m;
+    }
 }

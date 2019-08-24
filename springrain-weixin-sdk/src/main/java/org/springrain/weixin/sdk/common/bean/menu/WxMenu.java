@@ -1,15 +1,15 @@
 package org.springrain.weixin.sdk.common.bean.menu;
 
 
+import org.springrain.weixin.sdk.common.util.ToStringUtils;
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
+
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.springrain.weixin.sdk.common.util.ToStringUtils;
-import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
 
 /**
  * 菜单（公众号和企业号共用的）

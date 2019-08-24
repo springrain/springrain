@@ -6,45 +6,45 @@ import java.io.Serializable;
 
 public class WxMpMaterialVideoInfoResult implements Serializable {
 
-  /**
-   *
-   */
-  private static final long serialVersionUID = 1269131745333792202L;
-  private String title;
-  private String description;
-  private String downUrl;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1269131745333792202L;
+    private String title;
+    private String description;
+    private String downUrl;
 
-  public String getTitle() {
-    return this.title;
-  }
+    public String getTitle() {
+        return this.title;
+    }
 
-  public void setTitle(String title) {
-    this.title = title;
-  }
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-  public String getDescription() {
-    return this.description;
-  }
+    public String getDescription() {
+        return this.description;
+    }
 
-  public void setDescription(String description) {
-    this.description = description;
-  }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-  public String getDownUrl() {
-    return this.downUrl;
-  }
+    public String getDownUrl() {
+        return this.downUrl;
+    }
 
-  public void setDownUrl(String downUrl) {
-    this.downUrl = downUrl;
-  }
+    public void setDownUrl(String downUrl) {
+        this.downUrl = downUrl;
+    }
 
-  public static WxMpMaterialVideoInfoResult fromJson(String json) {
-    return WxJsonBuilder.fromJson(json, WxMpMaterialVideoInfoResult.class);
-  }
+    public static WxMpMaterialVideoInfoResult fromJson(String json) {
+        return WxJsonBuilder.fromJson(json, WxMpMaterialVideoInfoResult.class);
+    }
 
-  @Override
-  public String toString() {
-    return "WxMpMaterialVideoInfoResult [title=" + this.title + ", description=" + this.description + ", downUrl=" + this.downUrl + "]";
-  }
+    @Override
+    public String toString() {
+        return "WxMpMaterialVideoInfoResult [title=" + this.title + ", description=" + this.description + ", downUrl=" + this.downUrl + "]";
+    }
 
 }

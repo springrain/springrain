@@ -9,19 +9,19 @@ import org.springrain.weixin.sdk.cp.bean.WxCpXmlOutVoiceMessage;
  */
 public final class VoiceBuilder extends BaseBuilder<VoiceBuilder, WxCpXmlOutVoiceMessage> {
 
-  private String mediaId;
+    private String mediaId;
 
-  public VoiceBuilder mediaId(String mediaId) {
-    this.mediaId = mediaId;
-    return this;
-  }
+    public VoiceBuilder mediaId(String mediaId) {
+        this.mediaId = mediaId;
+        return this;
+    }
 
-  @Override
-  public WxCpXmlOutVoiceMessage build() {
-    WxCpXmlOutVoiceMessage m = new WxCpXmlOutVoiceMessage();
-    setCommon(m);
-    m.setMediaId(this.mediaId);
-    return m;
-  }
+    @Override
+    public WxCpXmlOutVoiceMessage build() {
+        WxCpXmlOutVoiceMessage m = new WxCpXmlOutVoiceMessage();
+        setCommon(m);
+        m.setMediaId(this.mediaId);
+        return m;
+    }
 
 }

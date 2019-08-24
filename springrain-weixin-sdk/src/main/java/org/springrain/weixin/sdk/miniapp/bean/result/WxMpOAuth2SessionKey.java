@@ -1,54 +1,54 @@
 package org.springrain.weixin.sdk.miniapp.bean.result;
 
-import java.io.Serializable;
-
 import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
 
+import java.io.Serializable;
+
 public class WxMpOAuth2SessionKey implements Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	private String openId;
+    private String openId;
 
-	private String sessionKey;
+    private String sessionKey;
 
-	private String unionId;
+    private String unionId;
 
-	public String getOpenId() {
-		return this.openId;
-	}
+    public String getOpenId() {
+        return this.openId;
+    }
 
-	public void setOpenId(String openId) {
-		this.openId = openId;
-	}
+    public void setOpenId(String openId) {
+        this.openId = openId;
+    }
 
-	public String getSessionKey() {
-		return sessionKey;
-	}
+    public String getSessionKey() {
+        return sessionKey;
+    }
 
-	public void setSessionKey(String sessionKey) {
-		this.sessionKey = sessionKey;
-	}
+    public void setSessionKey(String sessionKey) {
+        this.sessionKey = sessionKey;
+    }
 
-	public String getUnionId() {
-		return unionId;
-	}
+    public String getUnionId() {
+        return unionId;
+    }
 
-	public void setUnionId(String unionId) {
-		this.unionId = unionId;
-	}
+    public void setUnionId(String unionId) {
+        this.unionId = unionId;
+    }
 
-	public static WxMpOAuth2SessionKey fromJson(String json) {
-		return WxJsonBuilder.fromJson(json, WxMpOAuth2SessionKey.class);
-	}
+    public static WxMpOAuth2SessionKey fromJson(String json) {
+        return WxJsonBuilder.fromJson(json, WxMpOAuth2SessionKey.class);
+    }
 
-	@Override
-	public String toString() {
-		return "WxMpOAuth2AccessToken{" +
+    @Override
+    public String toString() {
+        return "WxMpOAuth2AccessToken{" +
 
-				" openId='" + this.openId + '\'' + ", sessionKey='" + this.sessionKey + '\'' + ", unionId='"
-				+ this.unionId + '\'' + '}';
-	}
+                " openId='" + this.openId + '\'' + ", sessionKey='" + this.sessionKey + '\'' + ", unionId='"
+                + this.unionId + '\'' + '}';
+    }
 }

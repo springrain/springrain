@@ -23,36 +23,34 @@ import java.util.HashMap;
  * @author springrain
  */
 public class WxMediaUploadResultAdapter extends JsonDeserializer<WxMediaUploadResult> {
-  @Override
-  public WxMediaUploadResult deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
+    @Override
+    public WxMediaUploadResult deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
 
 
-    WxMediaUploadResult uploadResult = new WxMediaUploadResult();
-    HashMap map= jsonParser.readValueAs(HashMap.class);
+        WxMediaUploadResult uploadResult = new WxMediaUploadResult();
+        HashMap map = jsonParser.readValueAs(HashMap.class);
 
-    String type=(String)map.get("type");
-    String media_id=(String)map.get("media_id");
-    String thumb_media_id=(String)map.get("thumb_media_id");
-    Long created_at=(Long)map.get("created_at");
+        String type = (String) map.get("type");
+        String media_id = (String) map.get("media_id");
+        String thumb_media_id = (String) map.get("thumb_media_id");
+        Long created_at = (Long) map.get("created_at");
 
-    if (StringUtils.isNotBlank(type)){
-      uploadResult.setType(type);
+        if (StringUtils.isNotBlank(type)) {
+            uploadResult.setType(type);
+        }
+        if (StringUtils.isNotBlank(media_id)) {
+            uploadResult.setMediaId(media_id);
+        }
+        if (StringUtils.isNotBlank(thumb_media_id)) {
+            uploadResult.setThumbMediaId(thumb_media_id);
+        }
+        if (created_at != null) {
+            uploadResult.setCreatedAt(created_at);
+        }
+
+
+        return uploadResult;
     }
-    if (StringUtils.isNotBlank(media_id)){
-      uploadResult.setMediaId(media_id);
-    }
-    if (StringUtils.isNotBlank(thumb_media_id)){
-      uploadResult.setThumbMediaId(thumb_media_id);
-    }
-    if (created_at!=null){
-      uploadResult.setCreatedAt(created_at);
-    }
-
-
-
-
-    return uploadResult;
-  }
 
 /*
   public WxMediaUploadResult deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {

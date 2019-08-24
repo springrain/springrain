@@ -1,75 +1,74 @@
 package org.springrain.weixin.sdk.mp.bean.datacube;
 
-import java.util.ArrayList;
+import com.google.gson.JsonParser;
+import com.google.gson.annotations.SerializedName;
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.gson.JsonParser;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.reflect.TypeToken;
-import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
-
 /**
  * 图文分析数据接口返回结果对象
+ *
  * @author <a href="http://git.oschina.net/chunanyong/springrain">springrain(springrain)</a>
- *         Created by springrain on 2017/1/8.
+ * Created by springrain on 2017/1/8.
  */
 public class WxDataCubeArticleTotal extends WxDataCubeBaseResult {
 
-  private static final JsonParser JSON_PARSER = new JsonParser();
+    private static final JsonParser JSON_PARSER = new JsonParser();
 
-  /**
-   * msgid
-   * 请注意：这里的msgid实际上是由msgid（图文消息id，这也就是群发接口调用后返回的msg_data_id）和index（消息次序索引）组成， 例如12003_3， 其中12003是msgid，即一次群发的消息的id； 3为index，假设该次群发的图文消息共5个文章（因为可能为多图文），3表示5个中的第3个
-   */
-  @SerializedName("msgid")
-  private String msgId;
+    /**
+     * msgid
+     * 请注意：这里的msgid实际上是由msgid（图文消息id，这也就是群发接口调用后返回的msg_data_id）和index（消息次序索引）组成， 例如12003_3， 其中12003是msgid，即一次群发的消息的id； 3为index，假设该次群发的图文消息共5个文章（因为可能为多图文），3表示5个中的第3个
+     */
+    @SerializedName("msgid")
+    private String msgId;
 
-  /**
-   * title
-   * 图文消息的标题
-   */
-  @SerializedName("title")
-  private String title;
+    /**
+     * title
+     * 图文消息的标题
+     */
+    @SerializedName("title")
+    private String title;
 
-  /**
-   * details
-   * 详细信息
-   */
-  @SerializedName("details")
-  private List<WxDataCubeArticleTotalDetail> details;
+    /**
+     * details
+     * 详细信息
+     */
+    @SerializedName("details")
+    private List<WxDataCubeArticleTotalDetail> details;
 
-  public String getMsgId() {
-    return this.msgId;
-  }
+    public String getMsgId() {
+        return this.msgId;
+    }
 
-  public void setMsgId(String msgId) {
-    this.msgId = msgId;
-  }
+    public void setMsgId(String msgId) {
+        this.msgId = msgId;
+    }
 
-  public String getTitle() {
-    return this.title;
-  }
+    public String getTitle() {
+        return this.title;
+    }
 
-  public void setTitle(String title) {
-    this.title = title;
-  }
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-  public List<WxDataCubeArticleTotalDetail> getDetails() {
-    return this.details;
-  }
+    public List<WxDataCubeArticleTotalDetail> getDetails() {
+        return this.details;
+    }
 
-  public void setDetails(List<WxDataCubeArticleTotalDetail> details) {
-    this.details = details;
-  }
+    public void setDetails(List<WxDataCubeArticleTotalDetail> details) {
+        this.details = details;
+    }
 
-  public static List<WxDataCubeArticleTotal> fromJson(String json) {
+    public static List<WxDataCubeArticleTotal> fromJson(String json) {
 
-    Map map= WxJsonBuilder.fromJson(json, HashMap.class);
-    List list=(List)map.get("list");
-    String str=WxJsonBuilder.toJson(list);
-    return WxJsonBuilder.readValues(str,WxDataCubeArticleTotal.class);
+        Map map = WxJsonBuilder.fromJson(json, HashMap.class);
+        List list = (List) map.get("list");
+        String str = WxJsonBuilder.toJson(list);
+        return WxJsonBuilder.readValues(str, WxDataCubeArticleTotal.class);
 
 
     /*
@@ -79,5 +78,5 @@ public class WxDataCubeArticleTotal extends WxDataCubeBaseResult {
         }.getType());
 
      */
-  }
+    }
 }
