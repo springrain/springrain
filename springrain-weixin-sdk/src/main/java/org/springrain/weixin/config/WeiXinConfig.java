@@ -29,14 +29,14 @@ import org.springrain.weixin.sdk.mp.api.impl.WxMpQrcodeServiceImpl;
 import org.springrain.weixin.sdk.mp.api.impl.WxMpServiceImpl;
 import org.springrain.weixin.sdk.mp.api.impl.WxMpTemplateMsgServiceImpl;
 import org.springrain.weixin.sdk.mp.api.impl.WxMpUserServiceImpl;
-import org.springrain.weixin.sdk.xcx.api.IWxXcxMaterialService;
-import org.springrain.weixin.sdk.xcx.api.IWxXcxPayService;
-import org.springrain.weixin.sdk.xcx.api.IWxXcxService;
-import org.springrain.weixin.sdk.xcx.api.IWxXcxTemplateMsgService;
-import org.springrain.weixin.sdk.xcx.api.impl.WxXcxMaterialServiceImpl;
-import org.springrain.weixin.sdk.xcx.api.impl.WxXcxPayServiceImpl;
-import org.springrain.weixin.sdk.xcx.api.impl.WxXcxServiceImpl;
-import org.springrain.weixin.sdk.xcx.api.impl.WxXcxTemplateMsgServiceImpl;
+import org.springrain.weixin.sdk.miniapp.api.IWxXcxMaterialService;
+import org.springrain.weixin.sdk.miniapp.api.IWxXcxPayService;
+import org.springrain.weixin.sdk.miniapp.api.IWxXcxService;
+import org.springrain.weixin.sdk.miniapp.api.IWxXcxTemplateMsgService;
+import org.springrain.weixin.sdk.miniapp.api.impl.WxXcxMaterialServiceImpl;
+import org.springrain.weixin.sdk.miniapp.api.impl.WxXcxPayServiceImpl;
+import org.springrain.weixin.sdk.miniapp.api.impl.WxXcxServiceImpl;
+import org.springrain.weixin.sdk.miniapp.api.impl.WxXcxTemplateMsgServiceImpl;
 
 @Configuration("configuration-WeiXinConfig")
 public class WeiXinConfig {

@@ -1,22 +1,15 @@
 package org.springrain.weixin.web;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.ReturnDatas;
 
-import org.springrain.weixin.sdk.common.service.IWxXcxConfig;
 import org.springrain.weixin.sdk.common.service.IWxXcxConfigService;
-import org.springrain.weixin.sdk.xcx.api.IWxXcxService;
-import org.springrain.weixin.sdk.xcx.bean.result.WxMpOAuth2SessionKey;
+import org.springrain.weixin.sdk.miniapp.api.IWxXcxService;
 
 import javax.annotation.Resource;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/f/xcx/autologin/{siteId}")
