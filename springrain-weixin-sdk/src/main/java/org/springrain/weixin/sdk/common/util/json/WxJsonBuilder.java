@@ -1,50 +1,111 @@
 package org.springrain.weixin.sdk.common.util.json;
 
-import org.springrain.frame.util.JsonUtils;
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springrain.weixin.sdk.common.bean.WxAccessToken;
-import org.springrain.weixin.sdk.common.bean.menu.WxMenu;
 import org.springrain.weixin.sdk.common.bean.result.WxError;
 import org.springrain.weixin.sdk.common.bean.result.WxMediaUploadResult;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 
 public class WxJsonBuilder {
 
-  public static final GsonBuilder INSTANCE = new GsonBuilder();
+    // public static final GsonBuilder INSTANCE = new GsonBuilder();
 
-  static {
-    INSTANCE.disableHtmlEscaping();
-    INSTANCE.registerTypeAdapter(WxAccessToken.class, new WxAccessTokenAdapter());
-    INSTANCE.registerTypeAdapter(WxError.class, new WxErrorAdapter());
-    INSTANCE.registerTypeAdapter(WxMenu.class, new WxMenuGsonAdapter());
-    INSTANCE.registerTypeAdapter(WxMediaUploadResult.class, new WxMediaUploadResultAdapter());
-  }
+    private WxJsonBuilder() {
+        throw new IllegalAccessError("工具类不能实例化");
+    }
 
-  //public static Gson create() {
-   // return INSTANCE.create();
-  //}
+    private static final Logger logger = LoggerFactory.getLogger(WxJsonBuilder.class);
 
-  public static <T> T fromJson(String json, Class<T> clazz){
-    return JsonUtils.readValue(json,clazz);
-  }
-
-  public static <T> T fromJson(Reader reader, Class<T> clazz){
-    return JsonUtils.readValue(reader,clazz);
-  }
+    private final static ObjectMapper mapper = new ObjectMapper();
 
 
-  public static <T> T fromJson(InputStream stream, Class<T> clazz){
-    return JsonUtils.readValue(stream,clazz);
-  }
+    static {
 
-  public static String toJson(Object object){
-    return JsonUtils.writeValueAsString(object);
-  }
+        SimpleModule module = new SimpleModule();
+        module.addDeserializer(WxAccessToken.class, new WxAccessTokenAdapter());
+        module.addDeserializer(WxError.class, new WxErrorAdapter());
+        //module.addDeserializer(WxMenu.class, new WxMenuGsonAdapter());
+        module.addDeserializer(WxMediaUploadResult.class, new WxMediaUploadResultAdapter());
 
+
+        mapper.registerModule(module);
+
+        //INSTANCE.disableHtmlEscaping();
+        //INSTANCE.registerTypeAdapter(WxAccessToken.class, new WxAccessTokenAdapter());
+        // INSTANCE.registerTypeAdapter(WxError.class, new WxErrorAdapter());
+        // INSTANCE.registerTypeAdapter(WxMenu.class, new WxMenuGsonAdapter());
+        // INSTANCE.registerTypeAdapter(WxMediaUploadResult.class, new WxMediaUploadResultAdapter());
+    }
+
+    //public static Gson create() {
+    // return INSTANCE.create();
+    //}
+
+    public static <T> T fromJson(String content, Class<T> clazz) {
+        T t = null;
+        try {
+            t = mapper.readValue(content, clazz);
+        } catch (JsonParseException e) {
+            logger.error(e.getMessage(), e);
+        } catch (JsonMappingException e) {
+            logger.error(e.getMessage(), e);
+        } catch (IOException e) {
+            logger.error(e.getMessage(), e);
+        }
+        return t;
+    }
+
+    public static <T> T fromJson(Reader reader, Class<T> clazz) {
+        T t = null;
+        try {
+            t = mapper.readValue(reader, clazz);
+        } catch (JsonParseException e) {
+            logger.error(e.getMessage(), e);
+        } catch (JsonMappingException e) {
+            logger.error(e.getMessage(), e);
+        } catch (IOException e) {
+            logger.error(e.getMessage(), e);
+        }
+        return t;
+    }
+
+
+    public static <T> T fromJson(InputStream stream, Class<T> clazz) {
+        T t = null;
+        try {
+            t = mapper.readValue(stream, clazz);
+        } catch (JsonParseException e) {
+            logger.error(e.getMessage(), e);
+        } catch (JsonMappingException e) {
+            logger.error(e.getMessage(), e);
+        } catch (IOException e) {
+            logger.error(e.getMessage(), e);
+        }
+        return t;
+    }
+
+    public static String toJson(Object object) {
+        String str = null;
+        try {
+            str = mapper.writeValueAsString(object);
+        } catch (JsonGenerationException e) {
+            logger.error(e.getMessage(), e);
+        } catch (JsonMappingException e) {
+            logger.error(e.getMessage(), e);
+        } catch (IOException e) {
+            logger.error(e.getMessage(), e);
+        }
+        return str;
+    }
 
 
 }

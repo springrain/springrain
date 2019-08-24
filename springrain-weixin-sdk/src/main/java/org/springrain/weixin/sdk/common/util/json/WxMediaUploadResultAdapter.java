@@ -8,18 +8,53 @@
  */
 package org.springrain.weixin.sdk.common.util.json;
 
-import com.google.gson.*;
 
-import java.lang.reflect.Type;
-
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import org.apache.commons.lang3.StringUtils;
 import org.springrain.weixin.sdk.common.bean.result.WxMediaUploadResult;
+
+import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * @author springrain
  */
-public class WxMediaUploadResultAdapter implements JsonDeserializer<WxMediaUploadResult> {
-
+public class WxMediaUploadResultAdapter extends JsonDeserializer<WxMediaUploadResult> {
   @Override
+  public WxMediaUploadResult deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
+
+
+    WxMediaUploadResult uploadResult = new WxMediaUploadResult();
+    HashMap map= jsonParser.readValueAs(HashMap.class);
+
+    String type=(String)map.get("type");
+    String media_id=(String)map.get("media_id");
+    String thumb_media_id=(String)map.get("thumb_media_id");
+    Long created_at=(Long)map.get("created_at");
+
+    if (StringUtils.isNotBlank(type)){
+      uploadResult.setType(type);
+    }
+    if (StringUtils.isNotBlank(media_id)){
+      uploadResult.setMediaId(media_id);
+    }
+    if (StringUtils.isNotBlank(thumb_media_id)){
+      uploadResult.setThumbMediaId(thumb_media_id);
+    }
+    if (created_at!=null){
+      uploadResult.setCreatedAt(created_at);
+    }
+
+
+
+
+    return uploadResult;
+  }
+
+/*
   public WxMediaUploadResult deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
     WxMediaUploadResult uploadResult = new WxMediaUploadResult();
     JsonObject uploadResultJsonObject = json.getAsJsonObject();
@@ -38,5 +73,7 @@ public class WxMediaUploadResultAdapter implements JsonDeserializer<WxMediaUploa
     }
     return uploadResult;
   }
+
+ */
 
 }
