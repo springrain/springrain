@@ -2,7 +2,7 @@ package org.springrain.weixin.sdk.mp.bean.message;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamConverter;
-import org.springrain.weixin.sdk.common.service.WxConsts;
+import org.springrain.weixin.sdk.common.WxConsts;
 import org.springrain.weixin.sdk.common.util.xml.XStreamCDataConverter;
 
 @XStreamAlias("xml")

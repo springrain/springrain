@@ -12,7 +12,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import org.springrain.weixin.sdk.common.service.WxConsts;
+import org.springrain.weixin.sdk.common.WxConsts;
 import org.springrain.weixin.sdk.mp.bean.WxMpMassTagMessage;
 
 import java.lang.reflect.Type;

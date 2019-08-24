@@ -3,7 +3,7 @@ package org.springrain.weixin.sdk.mp.api.impl;
 import com.google.gson.JsonObject;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
 import org.springrain.weixin.sdk.common.service.IWxMpConfig;
-import org.springrain.weixin.sdk.common.service.WxConsts;
+import org.springrain.weixin.sdk.common.WxConsts;
 import org.springrain.weixin.sdk.mp.api.IWxMpService;
 import org.springrain.weixin.sdk.mp.api.IWxMpUserService;
 import org.springrain.weixin.sdk.mp.bean.WxMpUserQuery;

@@ -9,7 +9,7 @@
 package org.springrain.weixin.sdk.mp.util.json;
 
 import com.google.gson.*;
-import org.springrain.weixin.sdk.common.service.WxConsts;
+import org.springrain.weixin.sdk.common.WxConsts;
 import org.springrain.weixin.sdk.mp.bean.WxMpMassOpenIdsMessage;
 
 import java.lang.reflect.Type;

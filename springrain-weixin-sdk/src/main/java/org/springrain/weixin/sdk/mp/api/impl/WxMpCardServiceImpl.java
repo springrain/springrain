@@ -11,7 +11,7 @@ import org.springrain.weixin.sdk.common.bean.result.WxError;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
 import org.springrain.weixin.sdk.common.service.IWxMpConfig;
 import org.springrain.weixin.sdk.common.service.IWxMpConfigService;
-import org.springrain.weixin.sdk.common.service.WxConsts;
+import org.springrain.weixin.sdk.common.WxConsts;
 import org.springrain.weixin.sdk.common.util.RandomUtils;
 import org.springrain.weixin.sdk.common.util.crypto.SHA1;
 import org.springrain.weixin.sdk.common.util.http.SimpleGetRequestExecutor;

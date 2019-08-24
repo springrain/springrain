@@ -1,5 +1,6 @@
 package org.springrain.weixin.sdk.mp.bean.kefu;
 
+import org.springrain.weixin.sdk.common.WxConsts;
 import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
 import org.springrain.weixin.sdk.mp.builder.kefu.*;
 
@@ -108,14 +109,14 @@ public class WxMpKefuMessage implements Serializable {
     /**
      * <pre>
      * 请使用
-     * {@link org.springrain.weixin.sdk.common.service.WxConsts#CUSTOM_MSG_TEXT}
-     * {@link org.springrain.weixin.sdk.common.service.WxConsts#CUSTOM_MSG_IMAGE}
-     * {@link org.springrain.weixin.sdk.common.service.WxConsts#CUSTOM_MSG_VOICE}
-     * {@link org.springrain.weixin.sdk.common.service.WxConsts#CUSTOM_MSG_MUSIC}
-     * {@link org.springrain.weixin.sdk.common.service.WxConsts#CUSTOM_MSG_VIDEO}
-     * {@link org.springrain.weixin.sdk.common.service.WxConsts#CUSTOM_MSG_NEWS}
-     * {@link org.springrain.weixin.sdk.common.service.WxConsts#CUSTOM_MSG_MPNEWS}
-     * {@link org.springrain.weixin.sdk.common.service.WxConsts#CUSTOM_MSG_WXCARD}
+     * {@link WxConsts#CUSTOM_MSG_TEXT}
+     * {@link WxConsts#CUSTOM_MSG_IMAGE}
+     * {@link WxConsts#CUSTOM_MSG_VOICE}
+     * {@link WxConsts#CUSTOM_MSG_MUSIC}
+     * {@link WxConsts#CUSTOM_MSG_VIDEO}
+     * {@link WxConsts#CUSTOM_MSG_NEWS}
+     * {@link WxConsts#CUSTOM_MSG_MPNEWS}
+     * {@link WxConsts#CUSTOM_MSG_WXCARD}
      * </pre>
      *
      * @param msgType

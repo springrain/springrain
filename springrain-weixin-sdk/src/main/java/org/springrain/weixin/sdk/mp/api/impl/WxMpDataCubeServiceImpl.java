@@ -4,7 +4,7 @@ import com.google.gson.JsonObject;
 import org.apache.commons.lang3.time.FastDateFormat;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
 import org.springrain.weixin.sdk.common.service.IWxMpConfig;
-import org.springrain.weixin.sdk.common.service.WxConsts;
+import org.springrain.weixin.sdk.common.WxConsts;
 import org.springrain.weixin.sdk.mp.api.IWxMpDataCubeService;
 import org.springrain.weixin.sdk.mp.api.IWxMpService;
 import org.springrain.weixin.sdk.mp.bean.datacube.*;

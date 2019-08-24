@@ -1,5 +1,6 @@
 package org.springrain.weixin.sdk.cp.api;
 
+import org.springrain.weixin.sdk.common.WxConsts;
 import org.springrain.weixin.sdk.common.bean.WxJsApiSignature;
 import org.springrain.weixin.sdk.common.bean.menu.WxMenu;
 import org.springrain.weixin.sdk.common.bean.result.WxMediaUploadResult;
@@ -110,8 +111,8 @@ public interface IWxCpService {
      * 详情请见: http://mp.weixin.qq.com/wiki/index.php?title=上传下载多媒体文件
      * </pre>
      *
-     * @param mediaType   媒体类型, 请看{@link org.springrain.weixin.sdk.common.service.WxConsts}
-     * @param fileType    文件类型，请看{@link org.springrain.weixin.sdk.common.service.WxConsts}
+     * @param mediaType   媒体类型, 请看{@link WxConsts}
+     * @param fileType    文件类型，请看{@link WxConsts}
      * @param inputStream 输入流
      * @throws WxErrorException
      */

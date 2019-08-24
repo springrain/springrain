@@ -1,6 +1,6 @@
 package org.springrain.weixin.sdk.mp.builder.kefu;
 
-import org.springrain.weixin.sdk.common.service.WxConsts;
+import org.springrain.weixin.sdk.common.WxConsts;
 import org.springrain.weixin.sdk.mp.bean.kefu.WxMpKefuMessage;
 
 /**

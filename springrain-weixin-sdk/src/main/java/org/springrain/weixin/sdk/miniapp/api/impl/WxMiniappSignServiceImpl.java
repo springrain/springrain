@@ -17,7 +17,7 @@ import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.weixin.sdk.common.bean.result.WxError;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
 import org.springrain.weixin.sdk.common.service.IWxMiniappConfig;
-import org.springrain.weixin.sdk.common.service.WxConsts;
+import org.springrain.weixin.sdk.common.WxConsts;
 import org.springrain.weixin.sdk.common.util.BeanUtils;
 import org.springrain.weixin.sdk.common.util.xml.XStreamInitializer;
 import org.springrain.weixin.sdk.miniapp.api.IWxMiniappSignService;

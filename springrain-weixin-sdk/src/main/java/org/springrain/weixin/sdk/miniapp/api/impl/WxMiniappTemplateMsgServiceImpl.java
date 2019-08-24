@@ -5,7 +5,7 @@ import com.google.gson.JsonParser;
 import org.springrain.weixin.sdk.common.bean.result.WxError;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
 import org.springrain.weixin.sdk.common.service.IWxMiniappConfig;
-import org.springrain.weixin.sdk.common.service.WxConsts;
+import org.springrain.weixin.sdk.common.WxConsts;
 import org.springrain.weixin.sdk.miniapp.api.IWxMiniappService;
 import org.springrain.weixin.sdk.miniapp.api.IWxMiniappTemplateMsgService;
 import org.springrain.weixin.sdk.mp.bean.template.WxMpTemplate;

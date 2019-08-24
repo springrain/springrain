@@ -10,7 +10,7 @@ package org.springrain.weixin.sdk.mp.util.json;
 
 import com.google.gson.*;
 import org.apache.commons.lang3.StringUtils;
-import org.springrain.weixin.sdk.common.service.WxConsts;
+import org.springrain.weixin.sdk.common.WxConsts;
 import org.springrain.weixin.sdk.mp.bean.kefu.WxMpKefuMessage;
 
 import java.lang.reflect.Type;
