@@ -1,19 +1,18 @@
 package org.springrain.frame.util;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Reader;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Json工具类
@@ -133,7 +132,7 @@ public class JsonUtils {
 	 * @param clazz           对象类型 例如 User.class
 	 * @return
 	 */
-	public static Object readValues(String content, Class collectionClass, Class clazz) {
+	private static Object readValues(String content, Class collectionClass, Class clazz) {
 		Object o = null;
 
 		try {
