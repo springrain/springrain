@@ -3,7 +3,6 @@ package org.springrain.weixin.sdk.mp.bean.template;
 import java.util.List;
 
 import org.springrain.weixin.sdk.common.util.ToStringUtils;
-import org.springrain.weixin.sdk.mp.util.json.WxMpGsonBuilder;
 
 import com.google.gson.JsonParser;
 import com.google.gson.annotations.SerializedName;
@@ -21,7 +20,7 @@ public class WxMpTemplate {
   private static final JsonParser JSON_PARSER = new JsonParser();
 
   public static List<WxMpTemplate> fromJson(String json) {
-    return WxMpGsonBuilder.create().fromJson(JSON_PARSER.parse(json).getAsJsonObject().get("template_list"),
+    return WxJsonBuilder.fromJson(JSON_PARSER.parse(json).getAsJsonObject().get("template_list"),
         new TypeToken<List<WxMpTemplate>>() {
         }.getType());
   }

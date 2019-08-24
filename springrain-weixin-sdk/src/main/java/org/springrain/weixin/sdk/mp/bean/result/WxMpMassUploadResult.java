@@ -2,8 +2,6 @@ package org.springrain.weixin.sdk.mp.bean.result;
 
 import java.io.Serializable;
 
-import org.springrain.weixin.sdk.mp.util.json.WxMpGsonBuilder;
-
 /**
  * <pre>
  * 上传群发用的素材的结果
@@ -47,7 +45,7 @@ public class WxMpMassUploadResult implements Serializable {
   }
 
   public static WxMpMassUploadResult fromJson(String json) {
-    return WxMpGsonBuilder.create().fromJson(json, WxMpMassUploadResult.class);
+    return WxJsonBuilder.fromJson(json, WxMpMassUploadResult.class);
   }
 
   @Override

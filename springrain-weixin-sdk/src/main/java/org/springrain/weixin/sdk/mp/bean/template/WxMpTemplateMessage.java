@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springrain.weixin.sdk.mp.util.json.WxMpGsonBuilder;
-
 /**
  * 参考 http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1433751277&token=&lang=zh_CN 发送模板消息接口部分
  */
@@ -73,7 +71,7 @@ public class WxMpTemplateMessage implements Serializable {
 	}
 
 public String toJson() {
-    return WxMpGsonBuilder.INSTANCE.create().toJson(this);
+    return WxJsonBuilder.toJson(this);
   }
 
   public static WxMpTemplateMessageBuilder builder() {

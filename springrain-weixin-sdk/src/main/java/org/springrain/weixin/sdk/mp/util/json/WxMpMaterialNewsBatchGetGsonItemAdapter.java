@@ -35,7 +35,7 @@ public class WxMpMaterialNewsBatchGetGsonItemAdapter implements JsonDeserializer
     }
     if (json.get("content") != null && !json.get("content").isJsonNull()) {
       JsonObject newsItem = json.getAsJsonObject("content");
-      wxMaterialNewsBatchGetNewsItem.setContent(WxMpGsonBuilder.create().fromJson(newsItem, WxMpMaterialNews.class));
+      wxMaterialNewsBatchGetNewsItem.setContent(WxJsonBuilder.fromJson(newsItem, WxMpMaterialNews.class));
     }
     return wxMaterialNewsBatchGetNewsItem;
   }

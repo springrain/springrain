@@ -2,8 +2,6 @@ package org.springrain.weixin.sdk.mp.bean;
 
 import java.io.Serializable;
 
-import org.springrain.weixin.sdk.mp.util.json.WxMpGsonBuilder;
-
 /**
  * 群发时用到的视频素材
  * 
@@ -44,6 +42,6 @@ public class WxMpMassVideo implements Serializable {
   }
 
   public String toJson() {
-    return WxMpGsonBuilder.INSTANCE.create().toJson(this);
+    return WxJsonBuilder.toJson(this);
   }
 }

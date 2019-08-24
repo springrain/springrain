@@ -2,8 +2,6 @@ package org.springrain.weixin.sdk.mp.bean;
 
 import java.io.Serializable;
 
-import org.springrain.weixin.sdk.mp.util.json.WxMpGsonBuilder;
-
 /**
  * 语义理解查询用对象
  *
@@ -91,7 +89,7 @@ public class WxMpSemanticQuery implements Serializable {
   }
 
   public String toJson() {
-    return WxMpGsonBuilder.create().toJson(this);
+    return WxJsonBuilder.toJson(this);
   }
 
 }

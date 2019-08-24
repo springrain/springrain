@@ -2,8 +2,6 @@ package org.springrain.weixin.sdk.mp.bean.result;
 
 import java.io.Serializable;
 
-import org.springrain.weixin.sdk.mp.util.json.WxMpGsonBuilder;
-
 public class WxMpOAuth2AccessToken implements Serializable {
 
   /**
@@ -72,7 +70,7 @@ public class WxMpOAuth2AccessToken implements Serializable {
   }
 
   public static WxMpOAuth2AccessToken fromJson(String json) {
-    return WxMpGsonBuilder.create().fromJson(json, WxMpOAuth2AccessToken.class);
+    return WxJsonBuilder.fromJson(json, WxMpOAuth2AccessToken.class);
   }
 
   @Override

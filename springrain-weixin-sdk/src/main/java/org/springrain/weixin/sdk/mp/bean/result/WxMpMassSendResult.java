@@ -2,8 +2,6 @@ package org.springrain.weixin.sdk.mp.bean.result;
 
 import java.io.Serializable;
 
-import org.springrain.weixin.sdk.mp.util.json.WxMpGsonBuilder;
-
 /**
  * <pre>
  * 群发消息一发送就返回的结果
@@ -59,7 +57,7 @@ public class WxMpMassSendResult implements Serializable {
   }
 
   public static WxMpMassSendResult fromJson(String json) {
-    return WxMpGsonBuilder.create().fromJson(json, WxMpMassSendResult.class);
+    return WxJsonBuilder.fromJson(json, WxMpMassSendResult.class);
   }
 
   @Override

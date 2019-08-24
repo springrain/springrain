@@ -3,7 +3,6 @@ package org.springrain.weixin.sdk.mp.bean.tag;
 import java.util.List;
 
 import org.springrain.weixin.sdk.common.util.ToStringUtils;
-import org.springrain.weixin.sdk.mp.util.json.WxMpGsonBuilder;
 
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
@@ -54,19 +53,19 @@ public class WxUserTag {
   }
 
   public static WxUserTag fromJson(String json) {
-    return WxMpGsonBuilder.create().fromJson(
+    return WxJsonBuilder.fromJson(
         new JsonParser().parse(json).getAsJsonObject().get("tag"),
         WxUserTag.class);
   }
 
   public static List<WxUserTag> listFromJson(String json) {
-    return WxMpGsonBuilder.create().fromJson(
+    return WxJsonBuilder.fromJson(
         new JsonParser().parse(json).getAsJsonObject().get("tags"),
         new TypeToken<List<WxUserTag>>(){}.getType());
   }
 
   public String toJson() {
-    return WxMpGsonBuilder.create().toJson(this);
+    return WxJsonBuilder.toJson(this);
   }
 
   @Override

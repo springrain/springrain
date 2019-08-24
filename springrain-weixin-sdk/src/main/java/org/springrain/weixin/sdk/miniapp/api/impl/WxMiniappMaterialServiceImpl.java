@@ -33,7 +33,6 @@ import org.springrain.weixin.sdk.mp.util.http.MaterialUploadRequestExecutor;
 import org.springrain.weixin.sdk.mp.util.http.MaterialVideoInfoRequestExecutor;
 import org.springrain.weixin.sdk.mp.util.http.MaterialVoiceAndImageDownloadRequestExecutor;
 import org.springrain.weixin.sdk.mp.util.http.MediaImgUploadRequestExecutor;
-import org.springrain.weixin.sdk.mp.util.json.WxMpGsonBuilder;
 import org.springrain.weixin.sdk.miniapp.api.IWxMiniappMaterialService;
 import org.springrain.weixin.sdk.miniapp.api.IWxMiniappService;
 
@@ -151,7 +150,7 @@ public class WxMiniappMaterialServiceImpl implements IWxMiniappMaterialService {
     String responseText = this.wxMiniappService.get(wxminiappconfig,url, null);
     WxError wxError = WxError.fromJson(responseText);
     if (wxError.getErrorCode() == 0) {
-      return WxMpGsonBuilder.create().fromJson(responseText, WxMpMaterialCountResult.class);
+      return WxJsonBuilder.fromJson(responseText, WxMpMaterialCountResult.class);
     } else {
       throw new WxErrorException(wxError);
     }
@@ -167,7 +166,7 @@ public class WxMiniappMaterialServiceImpl implements IWxMiniappMaterialService {
     String responseText = this.wxMiniappService.post(wxminiappconfig,url, WxJsonBuilder.toJson(params));
     WxError wxError = WxError.fromJson(responseText);
     if (wxError.getErrorCode() == 0) {
-      return WxMpGsonBuilder.create().fromJson(responseText, WxMpMaterialNewsBatchGetResult.class);
+      return WxJsonBuilder.fromJson(responseText, WxMpMaterialNewsBatchGetResult.class);
     } else {
       throw new WxErrorException(wxError);
     }
@@ -183,7 +182,7 @@ public class WxMiniappMaterialServiceImpl implements IWxMiniappMaterialService {
     String responseText = wxMiniappService.post(wxminiappconfig,url, WxJsonBuilder.toJson(params));
     WxError wxError = WxError.fromJson(responseText);
     if (wxError.getErrorCode() == 0) {
-      return WxMpGsonBuilder.create().fromJson(responseText, WxMpMaterialFileBatchGetResult.class);
+      return WxJsonBuilder.fromJson(responseText, WxMpMaterialFileBatchGetResult.class);
     } else {
       throw new WxErrorException(wxError);
     }

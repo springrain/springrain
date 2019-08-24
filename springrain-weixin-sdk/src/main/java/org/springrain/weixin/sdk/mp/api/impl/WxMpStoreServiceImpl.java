@@ -14,7 +14,6 @@ import org.springrain.weixin.sdk.mp.api.IWxMpStoreService;
 import org.springrain.weixin.sdk.mp.bean.store.WxMpStoreBaseInfo;
 import org.springrain.weixin.sdk.mp.bean.store.WxMpStoreInfo;
 import org.springrain.weixin.sdk.mp.bean.store.WxMpStoreListResult;
-import org.springrain.weixin.sdk.mp.util.json.WxMpGsonBuilder;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -136,7 +135,7 @@ public class WxMpStoreServiceImpl implements IWxMpStoreService {
       throw new WxErrorException(wxError);
     }
 
-    return WxMpGsonBuilder.create().fromJson(
+    return WxJsonBuilder.fromJson(
         new JsonParser().parse(response).getAsJsonObject().get("category_list"),
         new TypeToken<List<String>>(){}.getType());
   }

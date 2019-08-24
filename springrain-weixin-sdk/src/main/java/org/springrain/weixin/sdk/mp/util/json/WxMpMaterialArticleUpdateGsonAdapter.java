@@ -25,7 +25,7 @@ public class WxMpMaterialArticleUpdateGsonAdapter implements JsonSerializer<WxMp
     JsonObject articleUpdateJson = new JsonObject();
     articleUpdateJson.addProperty("media_id", wxMpMaterialArticleUpdate.getMediaId());
     articleUpdateJson.addProperty("index", wxMpMaterialArticleUpdate.getIndex());
-    articleUpdateJson.add("articles", WxMpGsonBuilder.create().toJsonTree(wxMpMaterialArticleUpdate.getArticles(), WxMpMaterialNews.WxMpMaterialNewsArticle.class));
+    articleUpdateJson.add("articles", WxJsonBuilder.toJsonTree(wxMpMaterialArticleUpdate.getArticles(), WxMpMaterialNews.WxMpMaterialNewsArticle.class));
     return articleUpdateJson;
   }
 

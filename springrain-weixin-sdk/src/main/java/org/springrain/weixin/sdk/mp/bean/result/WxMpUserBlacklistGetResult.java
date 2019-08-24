@@ -3,7 +3,7 @@ package org.springrain.weixin.sdk.mp.bean.result;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springrain.weixin.sdk.mp.util.json.WxMpGsonBuilder;
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
 
 /**
  * @author springrain
@@ -15,7 +15,7 @@ public class WxMpUserBlacklistGetResult {
   protected String nextOpenid;
 
   public static WxMpUserBlacklistGetResult fromJson(String json) {
-    return WxMpGsonBuilder.INSTANCE.create().fromJson(json, WxMpUserBlacklistGetResult.class);
+    return WxJsonBuilder.fromJson(json, WxMpUserBlacklistGetResult.class);
   }
 
   public int getTotal() {
@@ -52,6 +52,6 @@ public class WxMpUserBlacklistGetResult {
 
   @Override
   public String toString() {
-    return WxMpGsonBuilder.INSTANCE.create().toJson(this);
+    return WxJsonBuilder.toJson(this);
   }
 }

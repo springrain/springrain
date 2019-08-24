@@ -3,8 +3,6 @@ package org.springrain.weixin.sdk.mp.bean.result;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springrain.weixin.sdk.mp.util.json.WxMpGsonBuilder;
-
 /**
  * 关注者列表
  * @author springrain
@@ -42,11 +40,11 @@ public class WxMpUserList {
   }
   
   public static WxMpUserList fromJson(String json) {
-    return WxMpGsonBuilder.INSTANCE.create().fromJson(json, WxMpUserList.class);
+    return WxJsonBuilder.fromJson(json, WxMpUserList.class);
   }
 
   @Override
   public String toString() {
-    return  WxMpGsonBuilder.INSTANCE.create().toJson(this);
+    return  WxJsonBuilder.toJson(this);
   }
 }

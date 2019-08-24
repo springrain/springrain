@@ -39,7 +39,7 @@ public class WxMpMaterialNewsBatchGetGsonAdapter implements JsonDeserializer<WxM
       List<WxMpMaterialNewsBatchGetResult.WxMaterialNewsBatchGetNewsItem> items = new ArrayList<>();
       for (JsonElement anItem : item) {
         JsonObject articleInfo = anItem.getAsJsonObject();
-        items.add(WxMpGsonBuilder.create().fromJson(articleInfo, WxMpMaterialNewsBatchGetResult.WxMaterialNewsBatchGetNewsItem.class));
+        items.add(WxJsonBuilder.fromJson(articleInfo, WxMpMaterialNewsBatchGetResult.WxMaterialNewsBatchGetNewsItem.class));
       }
       wxMpMaterialNewsBatchGetResult.setItems(items);
     }

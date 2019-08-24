@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springrain.weixin.sdk.mp.util.json.WxMpGsonBuilder;
-
 /**
  * openid列表群发的消息
  * 
@@ -60,7 +58,7 @@ public class WxMpMassOpenIdsMessage implements Serializable {
   }
 
   public String toJson() {
-    return WxMpGsonBuilder.INSTANCE.create().toJson(this);
+    return WxJsonBuilder.toJson(this);
   }
 
   /**

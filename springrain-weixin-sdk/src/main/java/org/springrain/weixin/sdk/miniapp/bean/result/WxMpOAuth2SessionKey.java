@@ -2,7 +2,7 @@ package org.springrain.weixin.sdk.miniapp.bean.result;
 
 import java.io.Serializable;
 
-import org.springrain.weixin.sdk.miniapp.util.json.WxMiniappGsonBuilder;
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
 
 public class WxMpOAuth2SessionKey implements Serializable {
 	/**
@@ -41,7 +41,7 @@ public class WxMpOAuth2SessionKey implements Serializable {
 	}
 
 	public static WxMpOAuth2SessionKey fromJson(String json) {
-		return WxMiniappGsonBuilder.create().fromJson(json, WxMpOAuth2SessionKey.class);
+		return WxJsonBuilder.fromJson(json, WxMpOAuth2SessionKey.class);
 	}
 
 	@Override

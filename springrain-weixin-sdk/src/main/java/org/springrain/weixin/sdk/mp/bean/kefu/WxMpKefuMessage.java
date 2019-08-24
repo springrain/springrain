@@ -12,7 +12,6 @@ import org.springrain.weixin.sdk.mp.builder.kefu.TextBuilder;
 import org.springrain.weixin.sdk.mp.builder.kefu.VideoBuilder;
 import org.springrain.weixin.sdk.mp.builder.kefu.VoiceBuilder;
 import org.springrain.weixin.sdk.mp.builder.kefu.WxCardBuilder;
-import org.springrain.weixin.sdk.mp.util.json.WxMpGsonBuilder;
 
 /**
  * 客服消息
@@ -204,7 +203,7 @@ public class WxMpKefuMessage implements Serializable {
   }
 
   public String toJson() {
-    return WxMpGsonBuilder.INSTANCE.create().toJson(this);
+    return WxJsonBuilder.toJson(this);
   }
 
   public String getKfAccount() {

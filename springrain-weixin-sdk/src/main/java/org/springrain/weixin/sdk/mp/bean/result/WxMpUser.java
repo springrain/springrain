@@ -5,7 +5,6 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 import org.springrain.weixin.sdk.common.util.ToStringUtils;
-import org.springrain.weixin.sdk.mp.util.json.WxMpGsonBuilder;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -160,13 +159,13 @@ public class WxMpUser implements Serializable {
   }
 
   public static WxMpUser fromJson(String json) {
-    return WxMpGsonBuilder.INSTANCE.create().fromJson(json, WxMpUser.class);
+    return WxJsonBuilder.fromJson(json, WxMpUser.class);
   }
 
   public static List<WxMpUser> fromJsonList(String json) {
     Type collectionType = new TypeToken<List<WxMpUser>>() {
     }.getType();
-    Gson gson = WxMpGsonBuilder.INSTANCE.create();
+    Gson gson = WxJsonBuilder;
     JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
     return gson.fromJson(jsonObject.get("user_info_list"), collectionType);
   }

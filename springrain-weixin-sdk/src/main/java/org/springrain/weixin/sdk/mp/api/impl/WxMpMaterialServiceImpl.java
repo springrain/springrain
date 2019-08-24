@@ -35,7 +35,6 @@ import org.springrain.weixin.sdk.mp.util.http.MaterialUploadRequestExecutor;
 import org.springrain.weixin.sdk.mp.util.http.MaterialVideoInfoRequestExecutor;
 import org.springrain.weixin.sdk.mp.util.http.MaterialVoiceAndImageDownloadRequestExecutor;
 import org.springrain.weixin.sdk.mp.util.http.MediaImgUploadRequestExecutor;
-import org.springrain.weixin.sdk.mp.util.json.WxMpGsonBuilder;
 
 /**
  * Created by springrain on 2017/1/8.
@@ -146,7 +145,7 @@ public class WxMpMaterialServiceImpl implements IWxMpMaterialService {
     String responseText = this.wxMpService.get(wxmpconfig,url, null);
     WxError wxError = WxError.fromJson(responseText);
     if (wxError.getErrorCode() == 0) {
-      return WxMpGsonBuilder.create().fromJson(responseText, WxMpMaterialCountResult.class);
+      return WxJsonBuilder.fromJson(responseText, WxMpMaterialCountResult.class);
     } else {
       throw new WxErrorException(wxError);
     }
@@ -162,7 +161,7 @@ public class WxMpMaterialServiceImpl implements IWxMpMaterialService {
     String responseText = this.wxMpService.post(wxmpconfig,url, WxJsonBuilder.toJson(params));
     WxError wxError = WxError.fromJson(responseText);
     if (wxError.getErrorCode() == 0) {
-      return WxMpGsonBuilder.create().fromJson(responseText, WxMpMaterialNewsBatchGetResult.class);
+      return WxJsonBuilder.fromJson(responseText, WxMpMaterialNewsBatchGetResult.class);
     } else {
       throw new WxErrorException(wxError);
     }
@@ -178,7 +177,7 @@ public class WxMpMaterialServiceImpl implements IWxMpMaterialService {
     String responseText = this.wxMpService.post(wxmpconfig,url, WxJsonBuilder.toJson(params));
     WxError wxError = WxError.fromJson(responseText);
     if (wxError.getErrorCode() == 0) {
-      return WxMpGsonBuilder.create().fromJson(responseText, WxMpMaterialFileBatchGetResult.class);
+      return WxJsonBuilder.fromJson(responseText, WxMpMaterialFileBatchGetResult.class);
     } else {
       throw new WxErrorException(wxError);
     }

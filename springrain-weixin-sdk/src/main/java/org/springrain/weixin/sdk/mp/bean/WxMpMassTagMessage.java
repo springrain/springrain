@@ -2,8 +2,6 @@ package org.springrain.weixin.sdk.mp.bean;
 
 import java.io.Serializable;
 
-import org.springrain.weixin.sdk.mp.util.json.WxMpGsonBuilder;
-
 /**
  * 按标签群发的消息
  * 
@@ -58,7 +56,7 @@ public class WxMpMassTagMessage implements Serializable {
   }
 
   public String toJson() {
-    return WxMpGsonBuilder.INSTANCE.create().toJson(this);
+    return WxJsonBuilder.toJson(this);
   }
 
   public Long getTagId() {

@@ -3,6 +3,7 @@ package org.springrain.weixin.sdk.cp.api;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -39,7 +40,7 @@ import org.springrain.weixin.sdk.cp.bean.WxCpMessage;
 import org.springrain.weixin.sdk.cp.bean.WxCpTag;
 import org.springrain.weixin.sdk.cp.bean.WxCpUser;
 import org.springrain.weixin.sdk.cp.util.http.CpMediaUploadRequestExecutor;
-import org.springrain.weixin.sdk.cp.util.json.WxCpGsonBuilder;
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -277,13 +278,21 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
      * 操蛋的微信API，创建时返回的是 { group : { id : ..., name : ...} }
      * 查询时返回的是 { groups : [ { id : ..., name : ..., count : ... }, ... ] }
      */
+
+   return (List<WxCpDepart>) WxJsonBuilder.readValues(responseContent, ArrayList.class,WxCpDepart.class);
+
+
+   /*
     JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
-    return WxCpGsonBuilder.INSTANCE.create()
+    return WxJsonBuilder
       .fromJson(
         tmpJsonElement.getAsJsonObject().get("department"),
         new TypeToken<List<WxCpDepart>>() {
         }.getType()
       );
+    */
+
+
   }
 
   @Override
@@ -337,13 +346,19 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
     }
 
     String responseContent = get(wxcpconfig,url, params);
+
+    return (List<WxCpUser>) WxJsonBuilder.readValues(responseContent, ArrayList.class,WxCpUser.class);
+
+
+/*
     JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
-    return WxCpGsonBuilder.INSTANCE.create()
+    return WxJsonBuilder
       .fromJson(
         tmpJsonElement.getAsJsonObject().get("userlist"),
         new TypeToken<List<WxCpUser>>() {
         }.getType()
       );
+ */
   }
 
   @Override
@@ -360,13 +375,19 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
     }
 
     String responseContent = get(wxcpconfig,url, params);
+
+    return (List<WxCpUser>) WxJsonBuilder.readValues(responseContent, ArrayList.class,WxCpUser.class);
+
+/*
     JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
-    return WxCpGsonBuilder.INSTANCE.create()
+    return WxJsonBuilder
       .fromJson(
         tmpJsonElement.getAsJsonObject().get("userlist"),
         new TypeToken<List<WxCpUser>>() {
         }.getType()
       );
+
+ */
   }
 
   @Override
@@ -398,26 +419,41 @@ public WxCpServiceImpl(IWxCpConfigService wxCpConfigService){
   public List<WxCpTag> tagGet(IWxCpConfig wxcpconfig) throws WxErrorException {
     String url = WxConsts.qyapiurl+"/cgi-bin/tag/list";
     String responseContent = get(wxcpconfig,url, null);
+
+    return (List<WxCpTag>) WxJsonBuilder.readValues(responseContent, ArrayList.class,WxCpTag.class);
+
+
+
+    /*
     JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
-    return WxCpGsonBuilder.INSTANCE.create()
+    return WxJsonBuilder
       .fromJson(
         tmpJsonElement.getAsJsonObject().get("taglist"),
         new TypeToken<List<WxCpTag>>() {
         }.getType()
       );
+
+     */
   }
 
   @Override
   public List<WxCpUser> tagGetUsers(IWxCpConfig wxcpconfig,String tagId) throws WxErrorException {
     String url = WxConsts.qyapiurl+"/cgi-bin/tag/get?tagid=" + tagId;
     String responseContent = get(wxcpconfig,url, null);
+
+    return (List<WxCpUser>) WxJsonBuilder.readValues(responseContent, ArrayList.class,WxCpUser.class);
+
+
+    /*
     JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
-    return WxCpGsonBuilder.INSTANCE.create()
+    return WxJsonBuilder
       .fromJson(
         tmpJsonElement.getAsJsonObject().get("userlist"),
         new TypeToken<List<WxCpUser>>() {
         }.getType()
       );
+
+     */
   }
 
   @Override

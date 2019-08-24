@@ -2,8 +2,6 @@ package org.springrain.weixin.sdk.mp.bean.material;
 
 import java.io.Serializable;
 
-import org.springrain.weixin.sdk.mp.util.json.WxMpGsonBuilder;
-
 public class WxMpMaterialArticleUpdate implements Serializable {
 
   /**
@@ -39,7 +37,7 @@ public class WxMpMaterialArticleUpdate implements Serializable {
   }
 
   public String toJson() {
-    return WxMpGsonBuilder.create().toJson(this);
+    return WxJsonBuilder.toJson(this);
   }
 
   @Override

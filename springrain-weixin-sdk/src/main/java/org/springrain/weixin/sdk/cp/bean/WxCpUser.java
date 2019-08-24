@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springrain.weixin.sdk.cp.util.json.WxCpGsonBuilder;
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
 
 /**
  * 微信用户信息
@@ -29,7 +29,7 @@ public class WxCpUser implements Serializable {
   private Integer enable;
 
   public static WxCpUser fromJson(String json) {
-    return WxCpGsonBuilder.INSTANCE.create().fromJson(json, WxCpUser.class);
+    return WxJsonBuilder.fromJson(json, WxCpUser.class);
   }
 
   public String getUserId() {
@@ -137,7 +137,7 @@ public class WxCpUser implements Serializable {
   }
 
   public String toJson() {
-    return WxCpGsonBuilder.INSTANCE.create().toJson(this);
+    return WxJsonBuilder.toJson(this);
   }
 
   public static class Attr {

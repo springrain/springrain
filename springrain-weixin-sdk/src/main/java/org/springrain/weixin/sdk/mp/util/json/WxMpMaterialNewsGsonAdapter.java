@@ -29,7 +29,7 @@ public class WxMpMaterialNewsGsonAdapter implements JsonSerializer<WxMpMaterialN
 
     JsonArray articleJsonArray = new JsonArray();
     for (WxMpMaterialNews.WxMpMaterialNewsArticle article : wxMpMaterialNews.getArticles()) {
-      JsonObject articleJson = WxMpGsonBuilder.create().toJsonTree(article, WxMpMaterialNews.WxMpMaterialNewsArticle.class).getAsJsonObject();
+      JsonObject articleJson = WxJsonBuilder.toJsonTree(article, WxMpMaterialNews.WxMpMaterialNewsArticle.class).getAsJsonObject();
       articleJsonArray.add(articleJson);
     }
     newsJson.add("articles", articleJsonArray);
@@ -45,7 +45,7 @@ public class WxMpMaterialNewsGsonAdapter implements JsonSerializer<WxMpMaterialN
       JsonArray articles = json.getAsJsonArray("news_item");
       for (JsonElement article1 : articles) {
         JsonObject articleInfo = article1.getAsJsonObject();
-        WxMpMaterialNews.WxMpMaterialNewsArticle article = WxMpGsonBuilder.create().fromJson(articleInfo, WxMpMaterialNews.WxMpMaterialNewsArticle.class);
+        WxMpMaterialNews.WxMpMaterialNewsArticle article = WxJsonBuilder.fromJson(articleInfo, WxMpMaterialNews.WxMpMaterialNewsArticle.class);
         wxMpMaterialNews.addArticle(article);
       }
     }

@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.springrain.weixin.sdk.common.util.ToStringUtils;
-import org.springrain.weixin.sdk.mp.util.json.WxMpGsonBuilder;
 
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
@@ -67,7 +66,7 @@ public class WxDataCubeUserSummary implements Serializable {
   }
 
   public static List<WxDataCubeUserSummary> fromJson(String json) {
-    return WxMpGsonBuilder.INSTANCE.create().fromJson(
+    return WxJsonBuilder.fromJson(
         JSON_PARSER.parse(json).getAsJsonObject().get("list"),
         new TypeToken<List<WxDataCubeUserSummary>>() {
         }.getType());

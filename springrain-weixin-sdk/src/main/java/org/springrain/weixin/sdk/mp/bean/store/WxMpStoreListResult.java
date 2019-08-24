@@ -3,7 +3,6 @@ package org.springrain.weixin.sdk.mp.bean.store;
 import java.util.List;
 
 import org.springrain.weixin.sdk.common.util.ToStringUtils;
-import org.springrain.weixin.sdk.mp.util.json.WxMpGsonBuilder;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -20,7 +19,7 @@ public class WxMpStoreListResult {
   }
 
   public static WxMpStoreListResult fromJson(String json) {
-    return WxMpGsonBuilder.create().fromJson(json, WxMpStoreListResult.class);
+    return WxJsonBuilder.fromJson(json, WxMpStoreListResult.class);
   }
 
   /**

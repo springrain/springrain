@@ -4,7 +4,6 @@ package org.springrain.weixin.sdk.mp.bean.template;
 import java.io.Serializable;
 
 import org.springrain.weixin.sdk.common.util.ToStringUtils;
-import org.springrain.weixin.sdk.mp.util.json.WxMpGsonBuilder;
 
 /**
  * @author springrain
@@ -81,11 +80,11 @@ public class WxMpTemplateIndustry implements Serializable {
   }
 
   public static WxMpTemplateIndustry fromJson(String json) {
-    return WxMpGsonBuilder.create().fromJson(json, WxMpTemplateIndustry.class);
+    return WxJsonBuilder.fromJson(json, WxMpTemplateIndustry.class);
   }
 
   public String toJson() {
-    return WxMpGsonBuilder.create().toJson(this);
+    return WxJsonBuilder.toJson(this);
   }
 
   public Industry getPrimaryIndustry() {

@@ -15,7 +15,6 @@ import org.springrain.weixin.sdk.common.service.IWxConfig;
 import org.springrain.weixin.sdk.common.util.http.RequestExecutor;
 import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
 import org.springrain.weixin.sdk.mp.bean.material.WxMpMaterialNews;
-import org.springrain.weixin.sdk.mp.util.json.WxMpGsonBuilder;
 
 public class MaterialNewsInfoRequestExecutor implements RequestExecutor<WxMpMaterialNews, String> {
 
@@ -40,7 +39,7 @@ public class MaterialNewsInfoRequestExecutor implements RequestExecutor<WxMpMate
       if (error.getErrorCode() != 0) {
         throw new WxErrorException(error);
       } else {
-        return WxMpGsonBuilder.create().fromJson(responseContent, WxMpMaterialNews.class);
+        return WxJsonBuilder.fromJson(responseContent, WxMpMaterialNews.class);
       }
    
 

@@ -2,7 +2,7 @@ package org.springrain.weixin.sdk.cp.bean;
 
 import java.io.Serializable;
 
-import org.springrain.weixin.sdk.cp.util.json.WxCpGsonBuilder;
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
 
 /**
  * 微信部门
@@ -18,7 +18,7 @@ public class WxCpDepart implements Serializable {
   private Integer order;
 
   public static WxCpDepart fromJson(String json) {
-    return WxCpGsonBuilder.create().fromJson(json, WxCpDepart.class);
+    return WxJsonBuilder.fromJson(json, WxCpDepart.class);
   }
 
   public Integer getId() {
@@ -54,7 +54,7 @@ public class WxCpDepart implements Serializable {
   }
 
   public String toJson() {
-    return WxCpGsonBuilder.create().toJson(this);
+    return WxJsonBuilder.toJson(this);
   }
 
   @Override

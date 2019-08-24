@@ -3,7 +3,6 @@ package org.springrain.weixin.sdk.mp.bean.kefu.request;
 import java.io.Serializable;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.springrain.weixin.sdk.mp.util.json.WxMpGsonBuilder;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -34,7 +33,7 @@ public class WxMpKfAccountRequest implements Serializable {
   }
   
   public String toJson() {
-    return WxMpGsonBuilder.INSTANCE.create().toJson(this);
+    return WxJsonBuilder.toJson(this);
   }
 
   public String getKfAccount() {

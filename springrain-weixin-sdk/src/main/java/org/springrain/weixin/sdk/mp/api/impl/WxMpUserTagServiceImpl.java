@@ -14,7 +14,6 @@ import org.springrain.weixin.sdk.mp.api.IWxMpService;
 import org.springrain.weixin.sdk.mp.api.IWxMpUserTagService;
 import org.springrain.weixin.sdk.mp.bean.tag.WxTagListUser;
 import org.springrain.weixin.sdk.mp.bean.tag.WxUserTag;
-import org.springrain.weixin.sdk.mp.util.json.WxMpGsonBuilder;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -164,7 +163,7 @@ public class WxMpUserTagServiceImpl implements IWxMpUserTagService {
 
     String responseContent = wxMpService.post(wxmpconfig,url, json.toString());
 
-    return WxMpGsonBuilder.create().fromJson(
+    return WxJsonBuilder.fromJson(
         new JsonParser().parse(responseContent).getAsJsonObject().get("tagid_list"),
         new TypeToken<List<Long>>() {
     }.getType());

@@ -2,8 +2,6 @@ package org.springrain.weixin.sdk.mp.bean.result;
 
 import java.io.Serializable;
 
-import org.springrain.weixin.sdk.mp.util.json.WxMpGsonBuilder;
-
 /**
  * 换取二维码的Ticket
  * 
@@ -47,11 +45,11 @@ public class WxMpQrCodeTicket implements Serializable {
   }
 
   public static WxMpQrCodeTicket fromJson(String json) {
-    return WxMpGsonBuilder.INSTANCE.create().fromJson(json, WxMpQrCodeTicket.class);
+    return WxJsonBuilder.fromJson(json, WxMpQrCodeTicket.class);
   }
 
   @Override
   public String toString() {
-    return WxMpGsonBuilder.INSTANCE.create().toJson(this);
+    return WxJsonBuilder.toJson(this);
   }
 }

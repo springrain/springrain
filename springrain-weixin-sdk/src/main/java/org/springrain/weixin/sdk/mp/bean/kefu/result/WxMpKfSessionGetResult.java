@@ -1,7 +1,6 @@
 package org.springrain.weixin.sdk.mp.bean.kefu.result;
 
 import org.springrain.weixin.sdk.common.util.ToStringUtils;
-import org.springrain.weixin.sdk.mp.util.json.WxMpGsonBuilder;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -29,7 +28,7 @@ public class WxMpKfSessionGetResult {
   }
 
   public static WxMpKfSessionGetResult fromJson(String json) {
-    return WxMpGsonBuilder.INSTANCE.create().fromJson(json, WxMpKfSessionGetResult.class);
+    return WxJsonBuilder.fromJson(json, WxMpKfSessionGetResult.class);
   }
 
   public String getKfAccount() {

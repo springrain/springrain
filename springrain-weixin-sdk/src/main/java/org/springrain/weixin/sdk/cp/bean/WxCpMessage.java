@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springrain.weixin.sdk.cp.bean.messagebuilder.*;
-import org.springrain.weixin.sdk.cp.util.json.WxCpGsonBuilder;
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
 
 /**
  * 消息
@@ -198,7 +198,7 @@ public class WxCpMessage implements Serializable {
   }
 
   public String toJson() {
-    return WxCpGsonBuilder.INSTANCE.create().toJson(this);
+    return WxJsonBuilder.toJson(this);
   }
 
   public static class WxArticle {

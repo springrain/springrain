@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springrain.weixin.sdk.common.annotation.Required;
 import org.springrain.weixin.sdk.common.util.ToStringUtils;
-import org.springrain.weixin.sdk.mp.util.json.WxMpGsonBuilder;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -23,11 +22,11 @@ public class WxMpStoreBaseInfo {
   }
 
   public static WxMpStoreBaseInfo fromJson(String json) {
-    return WxMpGsonBuilder.create().fromJson(json, WxMpStoreBaseInfo.class);
+    return WxJsonBuilder.fromJson(json, WxMpStoreBaseInfo.class);
   }
 
   public String toJson() {
-    JsonElement base_info = WxMpGsonBuilder.create().toJsonTree(this);
+    JsonElement base_info = WxJsonBuilder.toJsonTree(this);
     JsonObject jsonObject = new JsonObject();
     jsonObject.add("base_info", base_info);
     JsonObject business = new JsonObject();

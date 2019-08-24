@@ -2,7 +2,7 @@ package org.springrain.weixin.sdk.cp.bean;
 
 import java.io.Serializable;
 
-import org.springrain.weixin.sdk.cp.util.json.WxCpGsonBuilder;
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
 
 /**
  * Created by springrain
@@ -26,7 +26,7 @@ public class WxCpTag implements Serializable {
   }
 
   public static WxCpTag fromJson(String json) {
-    return WxCpGsonBuilder.create().fromJson(json, WxCpTag.class);
+    return WxJsonBuilder.fromJson(json, WxCpTag.class);
   }
 
   public String getName() {
@@ -46,7 +46,7 @@ public class WxCpTag implements Serializable {
   }
 
   public String toJson() {
-    return WxCpGsonBuilder.create().toJson(this);
+    return WxJsonBuilder.toJson(this);
   }
 
 }

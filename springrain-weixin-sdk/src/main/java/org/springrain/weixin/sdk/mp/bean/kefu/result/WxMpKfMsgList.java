@@ -3,7 +3,6 @@ package org.springrain.weixin.sdk.mp.bean.kefu.result;
 import java.util.List;
 
 import org.springrain.weixin.sdk.common.util.ToStringUtils;
-import org.springrain.weixin.sdk.mp.util.json.WxMpGsonBuilder;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -50,6 +49,6 @@ public class WxMpKfMsgList {
   }
 
   public static WxMpKfMsgList fromJson(String responseContent) {
-    return WxMpGsonBuilder.INSTANCE.create().fromJson(responseContent, WxMpKfMsgList.class);
+    return WxJsonBuilder.fromJson(responseContent, WxMpKfMsgList.class);
   }
 }

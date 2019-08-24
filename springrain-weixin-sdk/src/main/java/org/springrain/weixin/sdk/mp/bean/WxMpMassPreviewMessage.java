@@ -2,8 +2,6 @@ package org.springrain.weixin.sdk.mp.bean;
 
 import java.io.Serializable;
 
-import org.springrain.weixin.sdk.mp.util.json.WxMpGsonBuilder;
-
 /**
  * @author springrain
  */
@@ -64,6 +62,6 @@ public class WxMpMassPreviewMessage implements Serializable {
   }
 
   public String toJson() {
-    return WxMpGsonBuilder.INSTANCE.create().toJson(this);
+    return WxJsonBuilder.toJson(this);
   }
 }

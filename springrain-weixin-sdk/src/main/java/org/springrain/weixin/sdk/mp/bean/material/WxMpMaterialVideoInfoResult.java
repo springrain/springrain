@@ -2,8 +2,6 @@ package org.springrain.weixin.sdk.mp.bean.material;
 
 import java.io.Serializable;
 
-import org.springrain.weixin.sdk.mp.util.json.WxMpGsonBuilder;
-
 public class WxMpMaterialVideoInfoResult implements Serializable {
 
   /**
@@ -39,7 +37,7 @@ public class WxMpMaterialVideoInfoResult implements Serializable {
   }
 
   public static WxMpMaterialVideoInfoResult fromJson(String json) {
-    return WxMpGsonBuilder.create().fromJson(json, WxMpMaterialVideoInfoResult.class);
+    return WxJsonBuilder.fromJson(json, WxMpMaterialVideoInfoResult.class);
   }
 
   @Override
