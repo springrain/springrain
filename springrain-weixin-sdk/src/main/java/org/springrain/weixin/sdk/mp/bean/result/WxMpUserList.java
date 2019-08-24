@@ -1,5 +1,7 @@
 package org.springrain.weixin.sdk.mp.bean.result;
 
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +44,7 @@ public class WxMpUserList {
   public static WxMpUserList fromJson(String json) {
     return WxJsonBuilder.fromJson(json, WxMpUserList.class);
   }
+
 
   @Override
   public String toString() {

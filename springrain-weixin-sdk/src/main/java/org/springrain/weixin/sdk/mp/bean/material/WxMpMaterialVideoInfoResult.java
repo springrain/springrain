@@ -1,5 +1,7 @@
 package org.springrain.weixin.sdk.mp.bean.material;
 
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
+
 import java.io.Serializable;
 
 public class WxMpMaterialVideoInfoResult implements Serializable {

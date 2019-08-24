@@ -1,11 +1,14 @@
 package org.springrain.weixin.sdk.mp.bean;
 
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
+
 import java.io.Serializable;
 
 /**
  * @author springrain
  */
 public class WxMpMassPreviewMessage implements Serializable {
+
   private static final long serialVersionUID = 9095211638358424020L;
   private String toWxUsername;
   private String msgType;

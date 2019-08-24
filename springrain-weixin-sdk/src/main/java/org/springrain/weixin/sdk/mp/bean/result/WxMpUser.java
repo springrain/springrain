@@ -1,14 +1,11 @@
 package org.springrain.weixin.sdk.mp.bean.result;
 
-import java.io.Serializable;
-import java.lang.reflect.Type;
-import java.util.List;
-
 import org.springrain.weixin.sdk.common.util.ToStringUtils;
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * 微信用户信息
@@ -158,16 +155,30 @@ public class WxMpUser implements Serializable {
     this.tagIds = tagIds;
   }
 
+
   public static WxMpUser fromJson(String json) {
     return WxJsonBuilder.fromJson(json, WxMpUser.class);
   }
 
   public static List<WxMpUser> fromJsonList(String json) {
+
+    HashMap map= WxJsonBuilder.fromJson(json, HashMap.class);
+
+    List list=(List)map.get("list");
+
+    String content=WxJsonBuilder.toJson(list);
+
+    return WxJsonBuilder.readValues(content, WxMpUser.class);
+
+    /*
     Type collectionType = new TypeToken<List<WxMpUser>>() {
     }.getType();
     Gson gson = WxJsonBuilder;
     JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
     return gson.fromJson(jsonObject.get("user_info_list"), collectionType);
+     */
+
+
   }
 
   @Override

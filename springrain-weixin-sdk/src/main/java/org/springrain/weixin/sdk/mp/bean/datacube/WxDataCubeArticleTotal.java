@@ -1,10 +1,14 @@
 package org.springrain.weixin.sdk.mp.bean.datacube;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gson.JsonParser;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
 
 /**
  * 图文分析数据接口返回结果对象
@@ -61,9 +65,19 @@ public class WxDataCubeArticleTotal extends WxDataCubeBaseResult {
   }
 
   public static List<WxDataCubeArticleTotal> fromJson(String json) {
+
+    Map map= WxJsonBuilder.fromJson(json, HashMap.class);
+    List list=(List)map.get("list");
+    String str=WxJsonBuilder.toJson(list);
+    return WxJsonBuilder.readValues(str,WxDataCubeArticleTotal.class);
+
+
+    /*
     return WxJsonBuilder.fromJson(
         JSON_PARSER.parse(json).getAsJsonObject().get("list"),
         new TypeToken<List<WxDataCubeArticleTotal>>() {
         }.getType());
+
+     */
   }
 }

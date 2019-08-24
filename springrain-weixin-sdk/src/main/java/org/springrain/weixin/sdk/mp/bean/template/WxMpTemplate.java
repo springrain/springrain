@@ -1,12 +1,13 @@
 package org.springrain.weixin.sdk.mp.bean.template;
 
-import java.util.List;
-
-import org.springrain.weixin.sdk.common.util.ToStringUtils;
-
 import com.google.gson.JsonParser;
 import com.google.gson.annotations.SerializedName;
-import com.google.gson.reflect.TypeToken;
+import org.springrain.weixin.sdk.common.util.ToStringUtils;
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <pre>
@@ -20,9 +21,18 @@ public class WxMpTemplate {
   private static final JsonParser JSON_PARSER = new JsonParser();
 
   public static List<WxMpTemplate> fromJson(String json) {
+
+    Map map=WxJsonBuilder.fromJson(json, HashMap.class);
+    Object tag=map.get("template_list");
+    String str=WxJsonBuilder.toJson(tag);
+    return WxJsonBuilder.readValues(str, WxMpTemplate.class);
+
+/*
     return WxJsonBuilder.fromJson(JSON_PARSER.parse(json).getAsJsonObject().get("template_list"),
         new TypeToken<List<WxMpTemplate>>() {
         }.getType());
+
+ */
   }
 
   @Override

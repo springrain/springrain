@@ -1,5 +1,7 @@
 package org.springrain.weixin.sdk.mp.bean;
 
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +13,8 @@ import java.util.List;
  */
 public class WxMpMassOpenIdsMessage implements Serializable {
   private static final long serialVersionUID = -8022910911104788999L;
-  
+
+
   private List<String> toUsers = new ArrayList<>();
   private String msgType;
   private String content;

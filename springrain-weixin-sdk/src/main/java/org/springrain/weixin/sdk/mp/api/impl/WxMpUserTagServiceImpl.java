@@ -1,24 +1,24 @@
 package org.springrain.weixin.sdk.mp.api.impl;
 
-import java.util.List;
-
-import javax.annotation.Resource;
-
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springrain.weixin.sdk.common.bean.result.WxError;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
 import org.springrain.weixin.sdk.common.service.IWxMpConfig;
 import org.springrain.weixin.sdk.common.service.WxConsts;
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
 import org.springrain.weixin.sdk.mp.api.IWxMpService;
 import org.springrain.weixin.sdk.mp.api.IWxMpUserTagService;
 import org.springrain.weixin.sdk.mp.bean.tag.WxTagListUser;
 import org.springrain.weixin.sdk.mp.bean.tag.WxUserTag;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
+import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -158,14 +158,30 @@ public class WxMpUserTagServiceImpl implements IWxMpUserTagService {
   public List<Long> userTagList(IWxMpConfig wxmpconfig,String openid) throws WxErrorException {
     String url = API_URL_PREFIX + "/getidlist";
 
-    JsonObject json = new JsonObject();
-    json.addProperty("openid", openid);
+    //JsonObject json = new JsonObject();
+    //json.addProperty("openid", openid);
 
-    String responseContent = wxMpService.post(wxmpconfig,url, json.toString());
+    Map<String,String> jsonMap=new HashMap<>();
+    jsonMap.put("openid",openid);
 
+
+    String responseContent = wxMpService.post(wxmpconfig,url, WxJsonBuilder.toJson(jsonMap));
+
+    Map map=WxJsonBuilder.fromJson(responseContent,HashMap.class);
+    List<Long> list=(List)map.get("tagid_list");
+
+
+    return list;
+
+
+/*
     return WxJsonBuilder.fromJson(
         new JsonParser().parse(responseContent).getAsJsonObject().get("tagid_list"),
         new TypeToken<List<Long>>() {
     }.getType());
+
+ */
+
+
   }
 }

@@ -1,14 +1,14 @@
 package org.springrain.weixin.sdk.mp.bean.store;
 
-import java.math.BigDecimal;
-import java.util.List;
-
+import com.google.gson.annotations.SerializedName;
 import org.springrain.weixin.sdk.common.annotation.Required;
 import org.springrain.weixin.sdk.common.util.ToStringUtils;
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.annotations.SerializedName;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 门店基础信息
@@ -23,15 +23,28 @@ public class WxMpStoreBaseInfo {
 
   public static WxMpStoreBaseInfo fromJson(String json) {
     return WxJsonBuilder.fromJson(json, WxMpStoreBaseInfo.class);
+
   }
 
   public String toJson() {
+    Map map=new HashMap();
+    map.put("base_info",this);
+
+    Map business=new HashMap();
+    business.put("business",map);
+
+    return WxJsonBuilder.toJson(business);
+
+
+/*
     JsonElement base_info = WxJsonBuilder.toJsonTree(this);
     JsonObject jsonObject = new JsonObject();
     jsonObject.add("base_info", base_info);
     JsonObject business = new JsonObject();
     business.add("business", jsonObject);
     return business.toString();
+
+ */
   }
 
   public static class WxMpStorePhoto {

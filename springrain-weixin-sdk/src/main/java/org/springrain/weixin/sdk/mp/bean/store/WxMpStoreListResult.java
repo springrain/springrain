@@ -1,10 +1,10 @@
 package org.springrain.weixin.sdk.mp.bean.store;
 
-import java.util.List;
-
-import org.springrain.weixin.sdk.common.util.ToStringUtils;
-
 import com.google.gson.annotations.SerializedName;
+import org.springrain.weixin.sdk.common.util.ToStringUtils;
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
+
+import java.util.List;
 
 /**
  * 门店列表结果类

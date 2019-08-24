@@ -1,5 +1,7 @@
 package org.springrain.weixin.sdk.mp.bean.result;
 
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
+
 import java.io.Serializable;
 
 /**
@@ -72,6 +74,7 @@ public class WxMpSemanticQueryResult implements Serializable {
 
   public static WxMpSemanticQueryResult fromJson(String json) {
     return WxJsonBuilder.fromJson(json, WxMpSemanticQueryResult.class);
+
   }
 
 }

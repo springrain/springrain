@@ -1,10 +1,10 @@
 package org.springrain.weixin.sdk.mp.bean.tag;
 
-import java.util.List;
-
-import org.springrain.weixin.sdk.common.util.ToStringUtils;
-
 import com.google.gson.annotations.SerializedName;
+import org.springrain.weixin.sdk.common.util.ToStringUtils;
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
+
+import java.util.List;
 
 /**
  * 获取标签下粉丝列表的结果对象

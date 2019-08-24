@@ -1,10 +1,13 @@
 package org.springrain.weixin.sdk.mp.bean.datacube;
 
-import java.util.List;
-
 import com.google.gson.JsonParser;
 import com.google.gson.annotations.SerializedName;
-import com.google.gson.reflect.TypeToken;
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 消息分析数据接口返回结果对象
@@ -121,10 +124,19 @@ public class WxDataCubeMsgResult extends WxDataCubeBaseResult {
   }
 
   public static List<WxDataCubeMsgResult> fromJson(String json) {
+
+    Map map= WxJsonBuilder.fromJson(json, HashMap.class);
+    List list=(List)map.get("list");
+    String str=WxJsonBuilder.toJson(list);
+    return WxJsonBuilder.readValues(str,WxDataCubeMsgResult.class);
+
+
+    /*
     return WxJsonBuilder.fromJson(
         JSON_PARSER.parse(json).getAsJsonObject().get("list"),
         new TypeToken<List<WxDataCubeMsgResult>>() {
         }.getType());
+     */
   }
 
 }

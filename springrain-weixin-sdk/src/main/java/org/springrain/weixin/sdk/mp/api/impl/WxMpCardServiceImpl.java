@@ -1,7 +1,9 @@
 package org.springrain.weixin.sdk.mp.api.impl;
 
-import java.util.Arrays;
-
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springrain.weixin.sdk.common.bean.WxCardApiSignature;
@@ -13,15 +15,12 @@ import org.springrain.weixin.sdk.common.service.WxConsts;
 import org.springrain.weixin.sdk.common.util.RandomUtils;
 import org.springrain.weixin.sdk.common.util.crypto.SHA1;
 import org.springrain.weixin.sdk.common.util.http.SimpleGetRequestExecutor;
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
 import org.springrain.weixin.sdk.mp.api.IWxMpCardService;
 import org.springrain.weixin.sdk.mp.api.IWxMpService;
 import org.springrain.weixin.sdk.mp.bean.result.WxMpCardResult;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.reflect.TypeToken;
+import java.util.Arrays;
 
 /**
  * Created by springrain on 2017/1/8.
@@ -158,10 +157,19 @@ public class WxMpCardServiceImpl implements IWxMpCardService {
     param.addProperty("code", code);
     param.addProperty("check_consume", checkConsume);
     String responseContent = wxMpService.post(wxmpconfig,url, param.toString());
+
+    return WxJsonBuilder.fromJson(responseContent,WxMpCardResult.class);
+
+
+    /*
     JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
     return WxJsonBuilder.fromJson(tmpJsonElement,
             new TypeToken<WxMpCardResult>() {
             }.getType());
+
+     */
+
+
   }
 
   /**
@@ -217,9 +225,16 @@ public class WxMpCardServiceImpl implements IWxMpCardService {
     param.addProperty("openid", openId);
     param.addProperty("is_mark", isMark);
     String responseContent = wxMpService.post(wxmpconfig,url, param.toString());
+
+    WxMpCardResult cardResult = WxJsonBuilder.fromJson(responseContent,WxMpCardResult.class);
+    /*
     JsonElement tmpJsonElement = new JsonParser().parse(responseContent);
     WxMpCardResult cardResult = WxJsonBuilder.fromJson(tmpJsonElement,
             new TypeToken<WxMpCardResult>() { }.getType());
+
+     */
+
+
     if (!cardResult.getErrorCode().equals("0")) {
       log.warn("朋友的券mark失败：{}", cardResult.getErrorMsg());
     }

@@ -11,27 +11,12 @@ import org.slf4j.LoggerFactory;
 import org.springrain.weixin.sdk.common.bean.WxAccessToken;
 import org.springrain.weixin.sdk.common.bean.result.WxError;
 import org.springrain.weixin.sdk.common.bean.result.WxMediaUploadResult;
-import org.springrain.weixin.sdk.cp.bean.WxCpDepart;
-import org.springrain.weixin.sdk.cp.bean.WxCpMessage;
-import org.springrain.weixin.sdk.cp.bean.WxCpTag;
-import org.springrain.weixin.sdk.cp.bean.WxCpUser;
-import org.springrain.weixin.sdk.cp.util.json.WxCpDepartGsonAdapter;
-import org.springrain.weixin.sdk.cp.util.json.WxCpMessageGsonAdapter;
-import org.springrain.weixin.sdk.cp.util.json.WxCpTagGsonAdapter;
-import org.springrain.weixin.sdk.cp.util.json.WxCpUserGsonAdapter;
-import org.springrain.weixin.sdk.mp.bean.*;
-import org.springrain.weixin.sdk.mp.bean.datacube.WxDataCubeUserCumulate;
-import org.springrain.weixin.sdk.mp.bean.datacube.WxDataCubeUserSummary;
-import org.springrain.weixin.sdk.mp.bean.kefu.WxMpKefuMessage;
-import org.springrain.weixin.sdk.mp.bean.material.*;
-import org.springrain.weixin.sdk.mp.bean.result.*;
-import org.springrain.weixin.sdk.mp.bean.template.WxMpTemplateIndustry;
-import org.springrain.weixin.sdk.mp.bean.template.WxMpTemplateMessage;
-import org.springrain.weixin.sdk.mp.util.json.*;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
+import java.util.ArrayList;
+import java.util.List;
 
 public class WxJsonBuilder {
 
@@ -190,7 +175,7 @@ public class WxJsonBuilder {
      * @param clazz           对象类型 例如 User.class
      * @return
      */
-    public static Object readValues(String content, Class collectionClass, Class clazz) {
+    private static Object readValues(String content, Class collectionClass, Class clazz) {
         Object o = null;
 
         try {
@@ -205,6 +190,19 @@ public class WxJsonBuilder {
 
         return o;
     }
+
+    /**
+     * 将List对象字符串,转化成List对象.
+     *
+     * @param content 字符串内容
+     * @param clazz   对象类型 例如 User.class
+     * @return
+     */
+    public static <T> List<T> readValues(String content, Class<T> clazz) {
+        return (List<T>) readValues(content, ArrayList.class, clazz);
+    }
+
+
 
     private static JavaType getCollectionType(Class<?> collectionClass, Class<?>... elementClasses) {
         return mapper.getTypeFactory().constructParametricType(collectionClass, elementClasses);

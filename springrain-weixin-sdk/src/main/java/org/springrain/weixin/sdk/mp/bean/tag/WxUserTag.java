@@ -1,11 +1,11 @@
 package org.springrain.weixin.sdk.mp.bean.tag;
 
-import java.util.List;
-
 import org.springrain.weixin.sdk.common.util.ToStringUtils;
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
 
-import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 用户标签对象
@@ -53,15 +53,34 @@ public class WxUserTag {
   }
 
   public static WxUserTag fromJson(String json) {
+
+    Map map=WxJsonBuilder.fromJson(json, HashMap.class);
+
+    Object tag=map.get("tag");
+
+    String str=WxJsonBuilder.toJson(tag);
+    return WxJsonBuilder.fromJson(str,WxUserTag.class);
+/*
     return WxJsonBuilder.fromJson(
         new JsonParser().parse(json).getAsJsonObject().get("tag"),
         WxUserTag.class);
+
+ */
   }
 
   public static List<WxUserTag> listFromJson(String json) {
+
+    Map map=WxJsonBuilder.fromJson(json, HashMap.class);
+    Object tag=map.get("tags");
+    String str=WxJsonBuilder.toJson(tag);
+    return WxJsonBuilder.readValues(str,WxUserTag.class);
+
+/*
     return WxJsonBuilder.fromJson(
         new JsonParser().parse(json).getAsJsonObject().get("tags"),
         new TypeToken<List<WxUserTag>>(){}.getType());
+
+ */
   }
 
   public String toJson() {

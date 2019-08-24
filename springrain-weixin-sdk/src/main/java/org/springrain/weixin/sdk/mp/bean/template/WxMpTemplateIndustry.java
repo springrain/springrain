@@ -1,9 +1,10 @@
 package org.springrain.weixin.sdk.mp.bean.template;
 
 
-import java.io.Serializable;
-
 import org.springrain.weixin.sdk.common.util.ToStringUtils;
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
+
+import java.io.Serializable;
 
 /**
  * @author springrain

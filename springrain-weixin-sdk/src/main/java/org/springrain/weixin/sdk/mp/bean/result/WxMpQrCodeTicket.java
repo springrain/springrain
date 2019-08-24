@@ -1,5 +1,7 @@
 package org.springrain.weixin.sdk.mp.bean.result;
 
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
+
 import java.io.Serializable;
 
 /**
@@ -9,9 +11,7 @@ import java.io.Serializable;
  */
 public class WxMpQrCodeTicket implements Serializable {
   
-  /**
-   * 
-   */
+
   private static final long serialVersionUID = 5777119669111011584L;
   protected String ticket;
   protected int expire_seconds = -1;

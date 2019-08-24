@@ -5,6 +5,7 @@ import java.io.Serializable;
 import org.springrain.weixin.sdk.common.util.ToStringUtils;
 
 import com.google.gson.annotations.SerializedName;
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
 
 public class WxMpKfSessionRequest implements Serializable {
   private static final long serialVersionUID = -5451863610674856927L;

@@ -1,5 +1,7 @@
 package org.springrain.weixin.sdk.mp.bean;
 
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
+
 import java.io.Serializable;
 
 /**
@@ -10,6 +12,7 @@ import java.io.Serializable;
  * @author springrain
  */
 public class WxMpSemanticQuery implements Serializable {
+
 
   /**
    * 

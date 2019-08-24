@@ -1,10 +1,11 @@
 package org.springrain.weixin.sdk.mp.bean;
 
+import org.springrain.weixin.sdk.common.util.ToStringUtils;
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.springrain.weixin.sdk.common.util.ToStringUtils;
 
 /**
  * 群发时用到的图文消息素材

@@ -1,5 +1,7 @@
 package org.springrain.weixin.sdk.mp.bean.template;
 
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

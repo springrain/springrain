@@ -1,5 +1,7 @@
 package org.springrain.weixin.sdk.mp.bean;
 
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
+
 import java.io.Serializable;
 
 /**
@@ -8,6 +10,7 @@ import java.io.Serializable;
  * @author springrain
  */
 public class WxMpMassTagMessage implements Serializable {
+
   
   private static final long serialVersionUID = -6625914040986749286L;
   private Long tagId;

@@ -2,12 +2,15 @@ package org.springrain.weixin.sdk.mp.bean.datacube;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springrain.weixin.sdk.common.util.ToStringUtils;
 
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
 
 /**
  * <pre>
@@ -47,9 +50,17 @@ public class WxDataCubeUserCumulate implements Serializable {
   }
 
   public static List<WxDataCubeUserCumulate> fromJson(String json) {
+    Map map= WxJsonBuilder.fromJson(json, HashMap.class);
+    List list=(List)map.get("list");
+    String str=WxJsonBuilder.toJson(list);
+    return WxJsonBuilder.readValues(str,WxDataCubeUserCumulate.class);
+
+/*
     return WxJsonBuilder.fromJson(
         JSON_PARSER.parse(json).getAsJsonObject().get("list"),
         new TypeToken<List<WxDataCubeUserCumulate>>() {
         }.getType());
+
+ */
   }
 }

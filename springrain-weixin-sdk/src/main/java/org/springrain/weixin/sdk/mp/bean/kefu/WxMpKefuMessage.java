@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
 import org.springrain.weixin.sdk.mp.builder.kefu.ImageBuilder;
 import org.springrain.weixin.sdk.mp.builder.kefu.MpNewsBuilder;
 import org.springrain.weixin.sdk.mp.builder.kefu.MusicBuilder;

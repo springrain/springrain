@@ -1,5 +1,7 @@
 package org.springrain.weixin.sdk.mp.api.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -9,6 +11,7 @@ import org.springrain.weixin.sdk.common.bean.result.WxError;
 import org.springrain.weixin.sdk.common.exception.WxErrorException;
 import org.springrain.weixin.sdk.common.service.IWxMpConfig;
 import org.springrain.weixin.sdk.common.util.BeanUtils;
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
 import org.springrain.weixin.sdk.mp.api.IWxMpService;
 import org.springrain.weixin.sdk.mp.api.IWxMpStoreService;
 import org.springrain.weixin.sdk.mp.bean.store.WxMpStoreBaseInfo;
@@ -135,9 +138,16 @@ public class WxMpStoreServiceImpl implements IWxMpStoreService {
       throw new WxErrorException(wxError);
     }
 
+    HashMap map=WxJsonBuilder.fromJson(response, HashMap.class);
+
+    return ( List<String> )map.get("category_list");
+
+/*
     return WxJsonBuilder.fromJson(
         new JsonParser().parse(response).getAsJsonObject().get("category_list"),
         new TypeToken<List<String>>(){}.getType());
+
+ */
   }
 
 }

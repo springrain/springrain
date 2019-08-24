@@ -5,6 +5,7 @@ import java.util.List;
 import org.springrain.weixin.sdk.common.util.ToStringUtils;
 
 import com.google.gson.annotations.SerializedName;
+import org.springrain.weixin.sdk.common.util.json.WxJsonBuilder;
 
 /**
  * Created by springrain on 2017/1/8.
