@@ -20,9 +20,10 @@ public class WxAccessToken implements Serializable {
     private String json;
 
 
-    public WxAccessToken(){}
+    public WxAccessToken() {
+    }
 
-    public WxAccessToken(String jsonStr){
+    public WxAccessToken(String jsonStr) {
 
         this.json = jsonStr;
 
@@ -62,8 +63,6 @@ public class WxAccessToken implements Serializable {
     public void setJson(String json) {
         this.json = json;
     }
-
-
 
 
     public String getAccessToken() {

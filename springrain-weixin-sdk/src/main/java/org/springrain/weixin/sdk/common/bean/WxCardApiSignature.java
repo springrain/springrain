@@ -1,8 +1,6 @@
 package org.springrain.weixin.sdk.common.bean;
 
 
-import org.springrain.weixin.sdk.common.util.ToStringUtils;
-
 import java.io.Serializable;
 
 /**

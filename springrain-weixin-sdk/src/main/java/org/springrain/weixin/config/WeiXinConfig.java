@@ -5,8 +5,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springrain.weixin.sdk.common.service.IWxCpConfigService;
 import org.springrain.weixin.sdk.common.service.IWxMiniappConfigService;
 import org.springrain.weixin.sdk.common.service.IWxMpConfigService;
-import org.springrain.weixin.sdk.cp.api.IWxCpService;
-import org.springrain.weixin.sdk.cp.api.WxCpServiceImpl;
 import org.springrain.weixin.sdk.miniapp.api.IWxMiniappMaterialService;
 import org.springrain.weixin.sdk.miniapp.api.IWxMiniappPayService;
 import org.springrain.weixin.sdk.miniapp.api.IWxMiniappService;

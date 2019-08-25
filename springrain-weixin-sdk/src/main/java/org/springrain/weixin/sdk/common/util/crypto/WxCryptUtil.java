@@ -10,6 +10,10 @@
  * 针对org.apache.commons.codec.binary.Base64，
  * 需要导入架包commons-codec-1.9（或commons-codec-1.8等其他版本）
  * 官方下载地址：http://commons.apache.org/proper/commons-codec/download_codec.cgi
+ * <p>
+ * 针对org.apache.commons.codec.binary.Base64，
+ * 需要导入架包commons-codec-1.9（或commons-codec-1.8等其他版本）
+ * 官方下载地址：http://commons.apache.org/proper/commons-codec/download_codec.cgi
  */
 
 // ------------------------------------------------------------------------
@@ -35,13 +39,14 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.StringReader;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Random;
 
 public class WxCryptUtil {
 
     private static final Base64 base64 = new Base64();
-    private static final Charset CHARSET = Charset.forName("utf-8");
+    private static final Charset CHARSET = StandardCharsets.UTF_8;
 
     private static final ThreadLocal<DocumentBuilder> builderLocal = new ThreadLocal<DocumentBuilder>() {
         @Override
@@ -95,6 +100,66 @@ public class WxCryptUtil {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * 将一个数字转换成生成4个字节的网络字节序bytes数组
+     *
+     * @param number
+     */
+    private static byte[] number2BytesInNetworkOrder(int number) {
+        byte[] orderBytes = new byte[4];
+        orderBytes[3] = (byte) (number & 0xFF);
+        orderBytes[2] = (byte) (number >> 8 & 0xFF);
+        orderBytes[1] = (byte) (number >> 16 & 0xFF);
+        orderBytes[0] = (byte) (number >> 24 & 0xFF);
+        return orderBytes;
+    }
+
+    /**
+     * 4个字节的网络字节序bytes数组还原成一个数字
+     *
+     * @param bytesInNetworkOrder
+     */
+    private static int bytesNetworkOrder2Number(byte[] bytesInNetworkOrder) {
+        int sourceNumber = 0;
+        for (int i = 0; i < 4; i++) {
+            sourceNumber <<= 8;
+            sourceNumber |= bytesInNetworkOrder[i] & 0xff;
+        }
+        return sourceNumber;
+    }
+
+    /**
+     * 随机生成16位字符串
+     */
+    private static String genRandomStr() {
+        String base = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 16; i++) {
+            int number = random.nextInt(base.length());
+            sb.append(base.charAt(number));
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 生成xml消息
+     *
+     * @param encrypt   加密后的消息密文
+     * @param signature 安全签名
+     * @param timestamp 时间戳
+     * @param nonce     随机字符串
+     * @return 生成的xml字符串
+     */
+    private static String generateXml(String encrypt, String signature,
+                                      String timestamp, String nonce) {
+        String format = "<xml>\n" + "<Encrypt><![CDATA[%1$s]]></Encrypt>\n"
+                + "<MsgSignature><![CDATA[%2$s]]></MsgSignature>\n"
+                + "<TimeStamp>%3$s</TimeStamp>\n" + "<Nonce><![CDATA[%4$s]]></Nonce>\n"
+                + "</xml>";
+        return String.format(format, encrypt, signature, timestamp, nonce);
     }
 
     /**
@@ -248,66 +313,6 @@ public class WxCryptUtil {
 
         return xmlContent;
 
-    }
-
-    /**
-     * 将一个数字转换成生成4个字节的网络字节序bytes数组
-     *
-     * @param number
-     */
-    private static byte[] number2BytesInNetworkOrder(int number) {
-        byte[] orderBytes = new byte[4];
-        orderBytes[3] = (byte) (number & 0xFF);
-        orderBytes[2] = (byte) (number >> 8 & 0xFF);
-        orderBytes[1] = (byte) (number >> 16 & 0xFF);
-        orderBytes[0] = (byte) (number >> 24 & 0xFF);
-        return orderBytes;
-    }
-
-    /**
-     * 4个字节的网络字节序bytes数组还原成一个数字
-     *
-     * @param bytesInNetworkOrder
-     */
-    private static int bytesNetworkOrder2Number(byte[] bytesInNetworkOrder) {
-        int sourceNumber = 0;
-        for (int i = 0; i < 4; i++) {
-            sourceNumber <<= 8;
-            sourceNumber |= bytesInNetworkOrder[i] & 0xff;
-        }
-        return sourceNumber;
-    }
-
-    /**
-     * 随机生成16位字符串
-     */
-    private static String genRandomStr() {
-        String base = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        Random random = new Random();
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < 16; i++) {
-            int number = random.nextInt(base.length());
-            sb.append(base.charAt(number));
-        }
-        return sb.toString();
-    }
-
-    /**
-     * 生成xml消息
-     *
-     * @param encrypt   加密后的消息密文
-     * @param signature 安全签名
-     * @param timestamp 时间戳
-     * @param nonce     随机字符串
-     * @return 生成的xml字符串
-     */
-    private static String generateXml(String encrypt, String signature,
-                                      String timestamp, String nonce) {
-        String format = "<xml>\n" + "<Encrypt><![CDATA[%1$s]]></Encrypt>\n"
-                + "<MsgSignature><![CDATA[%2$s]]></MsgSignature>\n"
-                + "<TimeStamp>%3$s</TimeStamp>\n" + "<Nonce><![CDATA[%4$s]]></Nonce>\n"
-                + "</xml>";
-        return String.format(format, encrypt, signature, timestamp, nonce);
     }
 
 }

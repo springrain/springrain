@@ -9,6 +9,7 @@
 package org.springrain.weixin.sdk.common.util.crypto;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 /**
@@ -16,7 +17,7 @@ import java.util.Arrays;
  */
 public class PKCS7Encoder {
 
-    private static final Charset CHARSET = Charset.forName("utf-8");
+    private static final Charset CHARSET = StandardCharsets.UTF_8;
     private static final int BLOCK_SIZE = 32;
 
     /**
@@ -33,7 +34,7 @@ public class PKCS7Encoder {
         }
         // 获得补位所用的字符
         char padChr = chr(amountToPad);
-        String tmp = new String();
+        String tmp = "";
         for (int index = 0; index < amountToPad; index++) {
             tmp += padChr;
         }

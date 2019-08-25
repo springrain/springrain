@@ -113,9 +113,9 @@ public class HttpClientUtils {
 	 * @param sslContext ssl证书信息
 	 * @return
 	 */
-	public static String sendHttpPost(String httpUrl, SSLContext sslContext) {
+	public static String sendPostUploadFiles(String httpUrl, SSLContext sslContext) {
 		HttpPost httpPost = new HttpPost(httpUrl);// 创建httpPost
-		return sendHttpPost(httpPost, sslContext);
+		return sendPostUploadFiles(httpPost, sslContext);
 	}
 
 	/**
@@ -123,9 +123,9 @@ public class HttpClientUtils {
 	 * 
 	 * @param httpUrl 地址
 	 */
-	public static String sendHttpPost(String httpUrl) {
+	public static String sendPostUploadFiles(String httpUrl) {
 		HttpPost httpPost = new HttpPost(httpUrl);// 创建httpPost
-		return sendHttpPost(httpPost, null);
+		return sendPostUploadFiles(httpPost, null);
 	}
 
 	/**
@@ -134,8 +134,8 @@ public class HttpClientUtils {
 	 * @param httpUrl 地址
 	 * @param params  参数(格式:key1=value1&key2=value2)
 	 */
-	public static String sendHttpPost(String httpUrl, String params) {
-		return sendHttpPost(httpUrl, params, null);
+	public static String sendPostUploadFiles(String httpUrl, String params) {
+		return sendPostUploadFiles(httpUrl, params, null);
 	}
 
 	/**
@@ -145,7 +145,7 @@ public class HttpClientUtils {
 	 * @param params     参数(格式:key1=value1&key2=value2)
 	 * @param sslContext ssl证书信息
 	 */
-	public static String sendHttpPost(String httpUrl, String params, SSLContext sslContext) {
+	public static String sendPostUploadFiles(String httpUrl, String params, SSLContext sslContext) {
 		HttpPost httpPost = new HttpPost(httpUrl);// 创建httpPost
 		try {
 			// 设置参数
@@ -155,7 +155,7 @@ public class HttpClientUtils {
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 		}
-		return sendHttpPost(httpPost, sslContext);
+		return sendPostUploadFiles(httpPost, sslContext);
 	}
 
 	/**
@@ -164,8 +164,8 @@ public class HttpClientUtils {
 	 * @param httpUrl 地址
 	 * @param maps    参数
 	 */
-	public static String sendHttpPost(String httpUrl, Map<String, String> maps) {
-		return sendHttpPost(httpUrl, maps, null);
+	public static String sendPostUploadFiles(String httpUrl, Map<String, String> maps) {
+		return sendPostUploadFiles(httpUrl, maps, null);
 	}
 
 	/**
@@ -175,9 +175,9 @@ public class HttpClientUtils {
 	 * @param maps       参数
 	 * @param sslContext ssl证书信息
 	 */
-	public static String sendHttpPost(String httpUrl, Map<String, String> maps, SSLContext sslContext) {
+	public static String sendPostUploadFiles(String httpUrl, Map<String, String> maps, SSLContext sslContext) {
 		HttpPost httpPost = wrapHttpPost(httpUrl, maps);
-		return sendHttpPost(httpPost, null);
+		return sendPostUploadFiles(httpPost, null);
 	}
 
 	/**
@@ -210,8 +210,8 @@ public class HttpClientUtils {
 	 * @param fileLists 附件
 	 * @param maps      参数
 	 */
-	public static String sendHttpPost(String httpUrl, List<File> fileLists, Map<String, String> maps) {
-		return sendHttpPost(httpUrl, fileLists, maps, null);
+	public static String sendPostUploadFiles(String httpUrl, List<File> fileLists, Map<String, String> maps) {
+		return sendPostUploadFiles(httpUrl, fileLists, maps, null);
 	}
 
 	/**
@@ -221,8 +221,8 @@ public class HttpClientUtils {
 	 * @param fileMap 附件,名称和File对应
 	 * @param maps    参数
 	 */
-	public static String sendHttpPost(String httpUrl, Map<String, File> fileMap, Map<String, String> maps) {
-		return sendHttpPost(httpUrl, fileMap, maps, null);
+	public static String sendPostUploadFiles(String httpUrl, Map<String, File> fileMap, Map<String, String> maps) {
+		return sendPostUploadFiles(httpUrl, fileMap, maps, null);
 	}
 
 	/**
@@ -233,8 +233,8 @@ public class HttpClientUtils {
 	 * @param maps       参数
 	 * @param sslContext ssl证书信息
 	 */
-	public static String sendHttpPost(String httpUrl, List<File> fileLists, Map<String, String> maps,
-			SSLContext sslContext) {
+	public static String sendPostUploadFiles(String httpUrl, List<File> fileLists, Map<String, String> maps,
+											 SSLContext sslContext) {
 
 		Map<String, File> fileMap = new HashMap<>();
 
@@ -244,7 +244,7 @@ public class HttpClientUtils {
 			}
 		}
 
-		return sendHttpPost(httpUrl, fileMap, maps, sslContext);
+		return sendPostUploadFiles(httpUrl, fileMap, maps, sslContext);
 	}
 
 	/**
@@ -255,8 +255,8 @@ public class HttpClientUtils {
 	 * @param maps       参数
 	 * @param sslContext ssl证书信息
 	 */
-	public static String sendHttpPost(String httpUrl, Map<String, File> fileMap, Map<String, String> maps,
-			SSLContext sslContext) {
+	public static String sendPostUploadFiles(String httpUrl, Map<String, File> fileMap, Map<String, String> maps,
+											 SSLContext sslContext) {
 		HttpPost httpPost = new HttpPost(httpUrl);// 创建httpPost
 		MultipartEntityBuilder meBuilder = MultipartEntityBuilder.create();
 		for (Map.Entry<String, String> m : maps.entrySet()) {
@@ -268,7 +268,7 @@ public class HttpClientUtils {
 		}
 		HttpEntity reqEntity = meBuilder.build();
 		httpPost.setEntity(reqEntity);
-		return sendHttpPost(httpPost, sslContext);
+		return sendPostUploadFiles(httpPost, sslContext);
 	}
 
 	/**
@@ -277,8 +277,8 @@ public class HttpClientUtils {
 	 * @param httpPost
 	 * @return
 	 */
-	public static String sendHttpPost(HttpPost httpPost) {
-		return sendHttpPost(httpPost, null);
+	public static String sendPostUploadFiles(HttpPost httpPost) {
+		return sendPostUploadFiles(httpPost, null);
 	}
 
 	/**
@@ -288,7 +288,7 @@ public class HttpClientUtils {
 	 * @param sslContext ssl证书信息
 	 * @return
 	 */
-	public static String sendHttpPost(HttpPost httpPost, SSLContext sslConext) {
+	public static String sendPostUploadFiles(HttpPost httpPost, SSLContext sslConext) {
 		CloseableHttpClient httpClient = getHttpClient(sslConext);
 		CloseableHttpResponse response = null;
 		HttpEntity entity = null;
@@ -418,7 +418,7 @@ public class HttpClientUtils {
 			String value = entry.getValue().toString();
 			httpPost.setHeader(key, value);
 		}
-		return sendHttpPost(httpPost, null);
+		return sendPostUploadFiles(httpPost, null);
 	}
 
 
@@ -430,7 +430,7 @@ public class HttpClientUtils {
 	 * @param file
 	 * @return
 	 */
-	public static File sendHttpGetFile(String httpUrl, File file) {
+	public static File sendGetDownLoadFile(String httpUrl, File file) {
 
 		if (file == null) {
 			return null;
@@ -494,7 +494,7 @@ public class HttpClientUtils {
 	 * @param file
 	 * @return
 	 */
-	public static File sendHttpPostFile(String httpUrl, Map<String, String> maps, File file) {
+	public static File sendPostDownLoadFile(String httpUrl, Map<String, String> maps, File file) {
 
 		if (file == null) {
 			return null;
