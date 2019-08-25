@@ -51,8 +51,8 @@ public class CustomServiceApi {
      * @param jsonStr json字符串
      * @return {ApiResult}
      */
-    public static ApiResult getRecord(IWxMpConfig wxmpconfig,String jsonStr) {
-        String jsonResult = HttpClientUtils.sendPostUploadFiles(getRecordUrl + wxmpconfig.getAccessToken(), jsonStr);
+    public static ApiResult getRecord(IWxMpConfig wxmpconfig, String jsonStr) {
+        String jsonResult = HttpClientUtils.sendHttpPost(getRecordUrl + wxmpconfig.getAccessToken(), jsonStr);
         return new ApiResult(jsonResult);
     }
 
@@ -65,7 +65,7 @@ public class CustomServiceApi {
      * @param endtime   查询结束时间，UNIX时间戳，每次查询不能跨日查询
      * @return ApiResult
      */
-    public static ApiResult getRecord(IWxMpConfig wxmpconfig,int pageindex, int pagesize, long starttime, long endtime) {
+    public static ApiResult getRecord(IWxMpConfig wxmpconfig, int pageindex, int pagesize, long starttime, long endtime) {
         if (pageindex < 1) {
             pageindex = 1;
         }
@@ -78,7 +78,7 @@ public class CustomServiceApi {
         params.put("pagesize", pagesize);
         params.put("starttime", starttime);
         params.put("endtime", endtime);
-        return getRecord(wxmpconfig,JsonUtils.writeValueAsString(params));
+        return getRecord(wxmpconfig, JsonUtils.writeValueAsString(params));
     }
 
     /**
@@ -89,7 +89,7 @@ public class CustomServiceApi {
      * @param password   客服账号登录密码，格式为密码明文的32位加密MD5值。该密码仅用于在公众平台官网的多客服功能中使用，若不使用多客服功能，则不必设置密码
      * @return ApiResult
      */
-    public static ApiResult addKfAccount(IWxMpConfig wxmpconfig,String kf_account, String nickname, String password) {
+    public static ApiResult addKfAccount(IWxMpConfig wxmpconfig, String kf_account, String nickname, String password) {
         String accessToken = wxmpconfig.getAccessToken();
 
         Map<String, Object> params = new HashMap<String, Object>();
@@ -97,7 +97,7 @@ public class CustomServiceApi {
         params.put("nickname", nickname);
         params.put("password", password);
 
-        String jsonResult = HttpClientUtils.sendPostUploadFiles(addKfAccountUrl + accessToken, JsonUtils.writeValueAsString(params));
+        String jsonResult = HttpClientUtils.sendHttpPost(addKfAccountUrl + accessToken, JsonUtils.writeValueAsString(params));
         return new ApiResult(jsonResult);
     }
 
@@ -109,7 +109,7 @@ public class CustomServiceApi {
      * @param password   客服账号登录密码，格式为密码明文的32位加密MD5值。该密码仅用于在公众平台官网的多客服功能中使用，若不使用多客服功能，则不必设置密码
      * @return ApiResult
      */
-    public static ApiResult updateKfAccount(IWxMpConfig wxmpconfig,String kf_account, String nickname, String password) {
+    public static ApiResult updateKfAccount(IWxMpConfig wxmpconfig, String kf_account, String nickname, String password) {
         String accessToken = wxmpconfig.getAccessToken();
 
         Map<String, Object> params = new HashMap<String, Object>();
@@ -117,7 +117,7 @@ public class CustomServiceApi {
         params.put("nickname", nickname);
         params.put("password", password);
 
-        String jsonResult = HttpClientUtils.sendPostUploadFiles(updateKfAccountUrl + accessToken, JsonUtils.writeValueAsString(params));
+        String jsonResult = HttpClientUtils.sendHttpPost(updateKfAccountUrl + accessToken, JsonUtils.writeValueAsString(params));
         return new ApiResult(jsonResult);
     }
 
@@ -127,10 +127,10 @@ public class CustomServiceApi {
      * @param kf_account 完整客服账号，格式为：账号前缀@公众号微信号
      * @return ApiResult
      */
-    public static ApiResult delKfAccount(IWxMpConfig wxmpconfig,String kf_account) {
+    public static ApiResult delKfAccount(IWxMpConfig wxmpconfig, String kf_account) {
         String accessToken = wxmpconfig.getAccessToken();
 
-        String apiurl=delKfAccountUrl+accessToken+"&kf_account="+kf_account;
+        String apiurl = delKfAccountUrl + accessToken + "&kf_account=" + kf_account;
 
 
         String jsonResult = HttpClientUtils.sendHttpGet(delKfAccountUrl);
@@ -145,13 +145,13 @@ public class CustomServiceApi {
      * @param headImg    客服人员的头像，头像图片文件必须是jpg格式，推荐使用640*640大小的图片以达到最佳效果
      * @return ApiResult
      */
-    public static ApiResult uploadKfAccountHeadImg(IWxMpConfig wxmpconfig,String kf_account, File headImg) {
+    public static ApiResult uploadKfAccountHeadImg(IWxMpConfig wxmpconfig, String kf_account, File headImg) {
         String accessToken = wxmpconfig.getAccessToken();
         String apiurl = uploadKfAccountHeadImgUrl + accessToken + "&kf_account=" + kf_account;
         // media
-        Map<String,File> files=new HashMap<>();
-        files.put("media",headImg);
-        String jsonResult = HttpClientUtils.sendPostUploadFiles(apiurl,files,null);
+        Map<String, File> files = new HashMap<>();
+        files.put("media", headImg);
+        String jsonResult = HttpClientUtils.sendPostUploadFiles(apiurl, files, null);
         return new ApiResult(jsonResult);
     }
 
@@ -183,9 +183,9 @@ public class CustomServiceApi {
      * @param message 消息封装
      * @return ApiResult
      */
-    private static ApiResult sendMsg(IWxMpConfig wxmpconfig,Map<String, Object> message) {
+    private static ApiResult sendMsg(IWxMpConfig wxmpconfig, Map<String, Object> message) {
         String accessToken = wxmpconfig.getAccessToken();
-        String jsonResult = HttpClientUtils.sendPostUploadFiles(customMessageUrl + accessToken, JsonUtils.writeValueAsString(message));
+        String jsonResult = HttpClientUtils.sendHttpPost(customMessageUrl + accessToken, JsonUtils.writeValueAsString(message));
         return new ApiResult(jsonResult);
     }
 
@@ -196,7 +196,7 @@ public class CustomServiceApi {
      * @param text   文本消息
      * @return ApiResult
      */
-    public static ApiResult sendText(IWxMpConfig wxmpconfig,String openId, String text) {
+    public static ApiResult sendText(IWxMpConfig wxmpconfig, String openId, String text) {
         Map<String, Object> json = new HashMap<>();
         json.put("touser", openId);
         json.put("msgtype", "text");
@@ -205,7 +205,7 @@ public class CustomServiceApi {
         textObj.put("content", text);
 
         json.put("text", textObj);
-        return sendMsg(wxmpconfig,json);
+        return sendMsg(wxmpconfig, json);
     }
 
     /**
@@ -215,7 +215,7 @@ public class CustomServiceApi {
      * @param media_id 图片媒体id
      * @return ApiResult
      */
-    public static ApiResult sendImage(IWxMpConfig wxmpconfig,String openId, String media_id) {
+    public static ApiResult sendImage(IWxMpConfig wxmpconfig, String openId, String media_id) {
         Map<String, Object> json = new HashMap<>();
         json.put("touser", openId);
         json.put("msgtype", "image");
@@ -224,7 +224,7 @@ public class CustomServiceApi {
         image.put("media_id", media_id);
 
         json.put("image", image);
-        return sendMsg(wxmpconfig,json);
+        return sendMsg(wxmpconfig, json);
     }
 
     /**
@@ -234,7 +234,7 @@ public class CustomServiceApi {
      * @param media_id 媒体id
      * @return ApiResult
      */
-    public static ApiResult sendVoice(IWxMpConfig wxmpconfig,String openId, String media_id) {
+    public static ApiResult sendVoice(IWxMpConfig wxmpconfig, String openId, String media_id) {
         Map<String, Object> json = new HashMap<>();
         json.put("touser", openId);
         json.put("msgtype", "voice");
@@ -243,7 +243,7 @@ public class CustomServiceApi {
         voice.put("media_id", media_id);
 
         json.put("voice", voice);
-        return sendMsg(wxmpconfig,json);
+        return sendMsg(wxmpconfig, json);
     }
 
     /**
@@ -255,7 +255,7 @@ public class CustomServiceApi {
      * @param description 视频描述
      * @return {ApiResult}
      */
-    public static ApiResult sendVideo(IWxMpConfig wxmpconfig,String openId, String media_id, String title, String description) {
+    public static ApiResult sendVideo(IWxMpConfig wxmpconfig, String openId, String media_id, String title, String description) {
         Map<String, Object> json = new HashMap<>();
         json.put("touser", openId);
         json.put("msgtype", "video");
@@ -266,7 +266,7 @@ public class CustomServiceApi {
         video.put("description", description);
 
         json.put("video", video);
-        return sendMsg(wxmpconfig,json);
+        return sendMsg(wxmpconfig, json);
     }
 
     /**
@@ -280,7 +280,7 @@ public class CustomServiceApi {
      * @param description    音乐描述
      * @return {ApiResult}
      */
-    public static ApiResult sendMusic(IWxMpConfig wxmpconfig,String openId, String musicurl, String hqmusicurl, String thumb_media_id, String title, String description) {
+    public static ApiResult sendMusic(IWxMpConfig wxmpconfig, String openId, String musicurl, String hqmusicurl, String thumb_media_id, String title, String description) {
         Map<String, Object> json = new HashMap<>();
         json.put("touser", openId);
         json.put("msgtype", "music");
@@ -293,7 +293,7 @@ public class CustomServiceApi {
         music.put("description", description);
 
         json.put("music", music);
-        return sendMsg(wxmpconfig,json);
+        return sendMsg(wxmpconfig, json);
     }
 
     /**
@@ -303,7 +303,7 @@ public class CustomServiceApi {
      * @param articles 图文信息封装
      * @return {ApiResult}
      */
-    public static ApiResult sendNews(IWxMpConfig wxmpconfig,String openId, List<Articles> articles) {
+    public static ApiResult sendNews(IWxMpConfig wxmpconfig, String openId, List<Articles> articles) {
         Map<String, Object> json = new HashMap<>();
         json.put("touser", openId);
         json.put("msgtype", "news");
@@ -312,7 +312,7 @@ public class CustomServiceApi {
         news.put("articles", articles);
 
         json.put("news", news);
-        return sendMsg(wxmpconfig,json);
+        return sendMsg(wxmpconfig, json);
     }
 
     /**
@@ -322,7 +322,7 @@ public class CustomServiceApi {
      * @param mediaId 素材id
      * @return ApiResult
      */
-    public static ApiResult sendMpNews(IWxMpConfig wxmpconfig,String openId, String mediaId) {
+    public static ApiResult sendMpNews(IWxMpConfig wxmpconfig, String openId, String mediaId) {
         Map<String, Object> json = new HashMap<>();
         json.put("touser", openId);
         json.put("msgtype", "mpnews");
@@ -331,7 +331,7 @@ public class CustomServiceApi {
         news.put("media_id", mediaId);
 
         json.put("mpnews", news);
-        return sendMsg(wxmpconfig,json);
+        return sendMsg(wxmpconfig, json);
     }
 
     /**
@@ -342,7 +342,7 @@ public class CustomServiceApi {
      * @param card_ext 详情及签名规则: http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html#.E9.99.84.E5.BD.954-.E5.8D.A1.E5.88.B8.E6.89.A9.E5.B1.95.E5.AD.97.E6.AE.B5.E5.8F.8A.E7.AD.BE.E5.90.8D.E7.94.9F.E6.88.90.E7.AE.97.E6.B3.95
      * @return ApiResult
      */
-    public static ApiResult sendCoupon(IWxMpConfig wxmpconfig,String openId, String card_id, String card_ext) {
+    public static ApiResult sendCoupon(IWxMpConfig wxmpconfig, String openId, String card_id, String card_ext) {
         Map<String, Object> json = new HashMap<>();
         json.put("touser", openId);
         json.put("msgtype", "wxcard");
@@ -352,7 +352,7 @@ public class CustomServiceApi {
         wxcard.put("card_ext", card_ext);
 
         json.put("wxcard", wxcard);
-        return sendMsg(wxmpconfig,json);
+        return sendMsg(wxmpconfig, json);
     }
 
     /**
@@ -366,14 +366,14 @@ public class CustomServiceApi {
      * @param invite_wx  接收绑定邀请的客服微信号
      * @return ApiResult
      */
-    public static ApiResult inviteWorker(IWxMpConfig wxmpconfig,String kf_account, String invite_wx) {
+    public static ApiResult inviteWorker(IWxMpConfig wxmpconfig, String kf_account, String invite_wx) {
         String accessToken = wxmpconfig.getAccessToken();
 
         Map<String, Object> params = new HashMap<>();
         params.put("kf_account", kf_account);
         params.put("invite_wx", invite_wx);
 
-        String jsonResult = HttpClientUtils.sendPostUploadFiles(inviteWorkerUrl + accessToken, JsonUtils.writeValueAsString(params));
+        String jsonResult = HttpClientUtils.sendHttpPost(inviteWorkerUrl + accessToken, JsonUtils.writeValueAsString(params));
         return new ApiResult(jsonResult);
     }
 
@@ -386,14 +386,14 @@ public class CustomServiceApi {
      * @param openid     粉丝的openid
      * @return ApiResult
      */
-    public static ApiResult createSession(IWxMpConfig wxmpconfig,String kf_account, String openid) {
+    public static ApiResult createSession(IWxMpConfig wxmpconfig, String kf_account, String openid) {
         String url = createSession + wxmpconfig.getAccessToken();
 
         Map<String, Object> params = new HashMap<>();
         params.put("kf_account", kf_account);
         params.put("openid", openid);
 
-        String jsonResult = HttpClientUtils.sendPostUploadFiles(url, JsonUtils.writeValueAsString(params));
+        String jsonResult = HttpClientUtils.sendHttpPost(url, JsonUtils.writeValueAsString(params));
         return new ApiResult(jsonResult);
     }
 
@@ -406,14 +406,14 @@ public class CustomServiceApi {
      * @param openid     粉丝的openid
      * @return ApiResult
      */
-    public static ApiResult closeSession(IWxMpConfig wxmpconfig,String kf_account, String openid) {
+    public static ApiResult closeSession(IWxMpConfig wxmpconfig, String kf_account, String openid) {
         String url = closeSession + wxmpconfig.getAccessToken();
 
         Map<String, Object> params = new HashMap<>();
         params.put("kf_account", kf_account);
         params.put("openid", openid);
 
-        String jsonResult = HttpClientUtils.sendPostUploadFiles(url, JsonUtils.writeValueAsString(params));
+        String jsonResult = HttpClientUtils.sendHttpPost(url, JsonUtils.writeValueAsString(params));
         return new ApiResult(jsonResult);
     }
 
@@ -433,9 +433,9 @@ public class CustomServiceApi {
      * "kf_account" : "test1@test"      //正在接待的客服，为空表示没有人在接待
      * }
      */
-    public static ApiResult getSession(IWxMpConfig wxmpconfig,String openid) {
+    public static ApiResult getSession(IWxMpConfig wxmpconfig, String openid) {
         String accessToken = wxmpconfig.getAccessToken();
-        String apiurl=getSession+accessToken+"&openid="+openid;
+        String apiurl = getSession + accessToken + "&openid=" + openid;
         String jsonResult = HttpClientUtils.sendHttpGet(apiurl);
         return new ApiResult(jsonResult);
     }
@@ -464,10 +464,10 @@ public class CustomServiceApi {
      * ]
      * }
      */
-    public static ApiResult getSessionList(IWxMpConfig wxmpconfig,String kf_account) {
+    public static ApiResult getSessionList(IWxMpConfig wxmpconfig, String kf_account) {
         String accessToken = wxmpconfig.getAccessToken();
 
-        String apiurl=getSessionList+accessToken+"&kf_account="+kf_account;
+        String apiurl = getSessionList + accessToken + "&kf_account=" + kf_account;
         String jsonResult = HttpClientUtils.sendHttpGet(apiurl);
         return new ApiResult(jsonResult);
     }
@@ -494,7 +494,7 @@ public class CustomServiceApi {
      */
     public static ApiResult getWaitCase(IWxMpConfig wxmpconfig) {
         String accessToken = wxmpconfig.getAccessToken();
-        String apiurl=getWaitCase+accessToken;
+        String apiurl = getWaitCase + accessToken;
         String jsonResult = HttpClientUtils.sendHttpGet(apiurl);
 
         return new ApiResult(jsonResult);
@@ -526,7 +526,7 @@ public class CustomServiceApi {
      * ]
      * }
      */
-    public static ApiResult getMsgList(IWxMpConfig wxmpconfig,int starttime, int endtime, int msgid, int number) {
+    public static ApiResult getMsgList(IWxMpConfig wxmpconfig, int starttime, int endtime, int msgid, int number) {
         String url = getMsgList + wxmpconfig.getAccessToken();
 
         Map<String, Object> params = new HashMap<String, Object>();
@@ -535,7 +535,7 @@ public class CustomServiceApi {
         params.put("msgid", msgid);
         params.put("number", number);
 
-        String jsonResult = HttpClientUtils.sendPostUploadFiles(url, JsonUtils.writeValueAsString(params));
+        String jsonResult = HttpClientUtils.sendHttpPost(url, JsonUtils.writeValueAsString(params));
         return new ApiResult(jsonResult);
     }
 

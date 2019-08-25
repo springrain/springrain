@@ -7,7 +7,7 @@ import org.springrain.weixin.sdk.common.service.IWxMpConfig;
 
 /**
  * 特殊卡券接口-特殊票券
- *
+ * <p>
  * https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Special_ticket.html
  */
 public class CardExtApi {
@@ -18,12 +18,12 @@ public class CardExtApi {
     /**
      * 更新会议门票
      *
-     *  @param wxmpconfig
-     * @param jsonStr JSON数据
+     * @param wxmpconfig
+     * @param jsonStr    JSON数据
      * @return {ApiResult}
      */
     public static ApiResult UpdateMeetingTicketUser(IWxMpConfig wxmpconfig, String jsonStr) {
-        String jsonResult = HttpClientUtils.sendPostUploadFiles(meetingTicketUpdateUserUrl + wxmpconfig.getAccessToken(), jsonStr);
+        String jsonResult = HttpClientUtils.sendHttpPost(meetingTicketUpdateUserUrl + wxmpconfig.getAccessToken(), jsonStr);
         return new ApiResult(jsonResult);
     }
 
@@ -31,11 +31,11 @@ public class CardExtApi {
      * 更新电影票
      *
      * @param wxmpconfig
-     * @param jsonStr JSON数据
+     * @param jsonStr    JSON数据
      * @return {ApiResult}
      */
     public static ApiResult UpdateMovieTicketUser(IWxMpConfig wxmpconfig, String jsonStr) {
-        String jsonResult = HttpClientUtils.sendPostUploadFiles(movieTicketUpdateUserUrl + wxmpconfig.getAccessToken(), jsonStr);
+        String jsonResult = HttpClientUtils.sendHttpPost(movieTicketUpdateUserUrl + wxmpconfig.getAccessToken(), jsonStr);
         return new ApiResult(jsonResult);
     }
 
@@ -43,11 +43,11 @@ public class CardExtApi {
      * 更新飞机票信息接口
      *
      * @param wxmpconfig
-     * @param jsonStr JSON数据
+     * @param jsonStr    JSON数据
      * @return {ApiResult}
      */
     public static ApiResult checkinBoardingpass(IWxMpConfig wxmpconfig, String jsonStr) {
-        String jsonResult = HttpClientUtils.sendPostUploadFiles(checkinBoardingpassUrl + wxmpconfig.getAccessToken(), jsonStr);
+        String jsonResult = HttpClientUtils.sendHttpPost(checkinBoardingpassUrl + wxmpconfig.getAccessToken(), jsonStr);
         return new ApiResult(jsonResult);
     }
 }

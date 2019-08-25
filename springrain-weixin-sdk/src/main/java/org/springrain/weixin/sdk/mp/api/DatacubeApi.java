@@ -1,18 +1,19 @@
 package org.springrain.weixin.sdk.mp.api;
 
-import com.jfinal.weixin.sdk.utils.HttpClientUtils;
-import com.jfinal.weixin.sdk.utils.JsonUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springrain.frame.util.HttpClientUtils;
+import org.springrain.frame.util.JsonUtils;
 import org.springrain.weixin.sdk.common.WxConsts;
 import org.springrain.weixin.sdk.common.bean.ApiResult;
+import org.springrain.weixin.sdk.common.service.IWxMpConfig;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * 数据统计接口
- *
- * @author L.cm
- * 文档地址：http://mp.weixin.qq.com/wiki/3/ecfed6e1a0a03b5f35e5efac98e864b7.html
+ * <p>
+ * 文档地址：https://developers.weixin.qq.com/doc/offiaccount/Shake_Nearby/Analytics/Using_devices_as_a_dimension_for_the_data_statistics_interface.html
  */
 public class DatacubeApi {
 
@@ -47,12 +48,12 @@ public class DatacubeApi {
      * @param end_date   获取数据的结束日期，end_date允许设置的最大值为昨日
      * @return ApiResult
      */
-    private static ApiResult getData(String url, String begin_date, String end_date) {
-        Map<String, String> mapData = new HashMap<String, String>();
+    private static ApiResult getData(IWxMpConfig wxmpconfig, String url, String begin_date, String end_date) {
+        Map<String, String> mapData = new HashMap<>();
         mapData.put("begin_date", begin_date);
         mapData.put("end_date", end_date);
 
-        String jsonResult = HttpClientUtils.sendHttpPost(url, JsonUtils.writeValueAsString(mapData));
+        String jsonResult = HttpClientUtils.sendHttpPost(url, mapData);
         return new ApiResult(jsonResult);
     }
 
@@ -63,9 +64,9 @@ public class DatacubeApi {
      * @param end_date   获取数据的结束日期
      * @return ApiResult
      */
-    public static ApiResult getUserSummary(String begin_date, String end_date) {
+    public static ApiResult getUserSummary(IWxMpConfig wxmpconfig, String begin_date, String end_date) {
         String url = getUserSummaryUrl + wxmpconfig.getAccessToken();
-        return getData(url, begin_date, end_date);
+        return getData(wxmpconfig, url, begin_date, end_date);
     }
 
     /**
@@ -75,9 +76,9 @@ public class DatacubeApi {
      * @param end_date   获取数据的结束日期
      * @return ApiResult
      */
-    public static ApiResult getUserCumulate(String begin_date, String end_date) {
+    public static ApiResult getUserCumulate(IWxMpConfig wxmpconfig, String begin_date, String end_date) {
         String url = getUserCumulateUrl + wxmpconfig.getAccessToken();
-        return getData(url, begin_date, end_date);
+        return getData(wxmpconfig, url, begin_date, end_date);
     }
 
     /**
@@ -87,9 +88,9 @@ public class DatacubeApi {
      * @param end_date   获取数据的结束日期
      * @return ApiResult
      */
-    public static ApiResult getArticleSummary(String begin_date, String end_date) {
+    public static ApiResult getArticleSummary(IWxMpConfig wxmpconfig, String begin_date, String end_date) {
         String url = getArticleSummaryUrl + wxmpconfig.getAccessToken();
-        return getData(url, begin_date, end_date);
+        return getData(wxmpconfig, url, begin_date, end_date);
     }
 
     /**
@@ -99,9 +100,9 @@ public class DatacubeApi {
      * @param end_date   获取数据的结束日期
      * @return ApiResult
      */
-    public static ApiResult getArticlEtotal(String begin_date, String end_date) {
+    public static ApiResult getArticlEtotal(IWxMpConfig wxmpconfig, String begin_date, String end_date) {
         String url = getArticlEtotalURL + wxmpconfig.getAccessToken();
-        return getData(url, begin_date, end_date);
+        return getData(wxmpconfig, url, begin_date, end_date);
     }
 
     /**
@@ -111,9 +112,9 @@ public class DatacubeApi {
      * @param end_date   获取数据的结束日期
      * @return ApiResult
      */
-    public static ApiResult getUserRead(String begin_date, String end_date) {
+    public static ApiResult getUserRead(IWxMpConfig wxmpconfig, String begin_date, String end_date) {
         String url = getUserReadURL + wxmpconfig.getAccessToken();
-        return getData(url, begin_date, end_date);
+        return getData(wxmpconfig, url, begin_date, end_date);
     }
 
     /**
@@ -123,9 +124,9 @@ public class DatacubeApi {
      * @param end_date   获取数据的结束日期
      * @return ApiResult
      */
-    public static ApiResult getUserReadHour(String begin_date, String end_date) {
+    public static ApiResult getUserReadHour(IWxMpConfig wxmpconfig, String begin_date, String end_date) {
         String url = getUserReadHourURL + wxmpconfig.getAccessToken();
-        return getData(url, begin_date, end_date);
+        return getData(wxmpconfig, url, begin_date, end_date);
     }
 
     /**
@@ -135,9 +136,9 @@ public class DatacubeApi {
      * @param end_date   获取数据的结束日期
      * @return ApiResult
      */
-    public static ApiResult getUserShare(String begin_date, String end_date) {
+    public static ApiResult getUserShare(IWxMpConfig wxmpconfig, String begin_date, String end_date) {
         String url = getUserShareURL + wxmpconfig.getAccessToken();
-        return getData(url, begin_date, end_date);
+        return getData(wxmpconfig, url, begin_date, end_date);
     }
 
     /**
@@ -147,9 +148,9 @@ public class DatacubeApi {
      * @param end_date   获取数据的结束日期
      * @return ApiResult
      */
-    public static ApiResult getUserShareHour(String begin_date, String end_date) {
+    public static ApiResult getUserShareHour(IWxMpConfig wxmpconfig, String begin_date, String end_date) {
         String url = getUserShareHourURL + wxmpconfig.getAccessToken();
-        return getData(url, begin_date, end_date);
+        return getData(wxmpconfig, url, begin_date, end_date);
     }
 
     /**
@@ -159,9 +160,9 @@ public class DatacubeApi {
      * @param end_date   获取数据的结束日期
      * @return ApiResult
      */
-    public static ApiResult getUpStreamMsg(String begin_date, String end_date) {
+    public static ApiResult getUpStreamMsg(IWxMpConfig wxmpconfig, String begin_date, String end_date) {
         String url = getUpStreamMsgURL + wxmpconfig.getAccessToken();
-        return getData(url, begin_date, end_date);
+        return getData(wxmpconfig, url, begin_date, end_date);
     }
 
     /**
@@ -171,9 +172,9 @@ public class DatacubeApi {
      * @param end_date   获取数据的结束日期
      * @return ApiResult
      */
-    public static ApiResult getUpStreamMsgHour(String begin_date, String end_date) {
+    public static ApiResult getUpStreamMsgHour(IWxMpConfig wxmpconfig, String begin_date, String end_date) {
         String url = getUpStreamMsgHourURL + wxmpconfig.getAccessToken();
-        return getData(url, begin_date, end_date);
+        return getData(wxmpconfig, url, begin_date, end_date);
     }
 
     /**
@@ -183,9 +184,9 @@ public class DatacubeApi {
      * @param end_date   获取数据的结束日期
      * @return ApiResult
      */
-    public static ApiResult getUpStreamMsgWeekMsg(String begin_date, String end_date) {
+    public static ApiResult getUpStreamMsgWeekMsg(IWxMpConfig wxmpconfig, String begin_date, String end_date) {
         String url = getUpStreamMsgWeekMsgURL + wxmpconfig.getAccessToken();
-        return getData(url, begin_date, end_date);
+        return getData(wxmpconfig, url, begin_date, end_date);
     }
 
     /**
@@ -195,9 +196,9 @@ public class DatacubeApi {
      * @param end_date   获取数据的结束日期
      * @return ApiResult
      */
-    public static ApiResult getUpStreamMsgMonth(String begin_date, String end_date) {
+    public static ApiResult getUpStreamMsgMonth(IWxMpConfig wxmpconfig, String begin_date, String end_date) {
         String url = getUpStreamMsgMonthURL + wxmpconfig.getAccessToken();
-        return getData(url, begin_date, end_date);
+        return getData(wxmpconfig, url, begin_date, end_date);
     }
 
     /**
@@ -207,9 +208,9 @@ public class DatacubeApi {
      * @param end_date   获取数据的结束日期
      * @return ApiResult
      */
-    public static ApiResult getUpStreamMsgDist(String begin_date, String end_date) {
+    public static ApiResult getUpStreamMsgDist(IWxMpConfig wxmpconfig, String begin_date, String end_date) {
         String url = getUpStreamMsgDistURL + wxmpconfig.getAccessToken();
-        return getData(url, begin_date, end_date);
+        return getData(wxmpconfig, url, begin_date, end_date);
     }
 
     /**
@@ -219,9 +220,9 @@ public class DatacubeApi {
      * @param end_date   获取数据的结束日期
      * @return ApiResult
      */
-    public static ApiResult getUpStreamMsgDistWeek(String begin_date, String end_date) {
+    public static ApiResult getUpStreamMsgDistWeek(IWxMpConfig wxmpconfig, String begin_date, String end_date) {
         String url = getUpStreamMsgDistWeekURL + wxmpconfig.getAccessToken();
-        return getData(url, begin_date, end_date);
+        return getData(wxmpconfig, url, begin_date, end_date);
     }
 
     /**
@@ -231,9 +232,9 @@ public class DatacubeApi {
      * @param end_date   获取数据的结束日期
      * @return ApiResult
      */
-    public static ApiResult getUpStreamMsgDistMonth(String begin_date, String end_date) {
+    public static ApiResult getUpStreamMsgDistMonth(IWxMpConfig wxmpconfig, String begin_date, String end_date) {
         String url = getUpStreamMsgDistMonthURL + wxmpconfig.getAccessToken();
-        return getData(url, begin_date, end_date);
+        return getData(wxmpconfig, url, begin_date, end_date);
     }
 
     /**
@@ -243,9 +244,9 @@ public class DatacubeApi {
      * @param end_date   获取数据的结束日期
      * @return ApiResult
      */
-    public static ApiResult getInterFaceSummary(String begin_date, String end_date) {
+    public static ApiResult getInterFaceSummary(IWxMpConfig wxmpconfig, String begin_date, String end_date) {
         String url = getInterFaceSummaryURL + wxmpconfig.getAccessToken();
-        return getData(url, begin_date, end_date);
+        return getData(wxmpconfig, url, begin_date, end_date);
     }
 
     /**
@@ -255,9 +256,9 @@ public class DatacubeApi {
      * @param end_date   获取数据的结束日期
      * @return ApiResult
      */
-    public static ApiResult getInterFaceSummaryHour(String begin_date, String end_date) {
+    public static ApiResult getInterFaceSummaryHour(IWxMpConfig wxmpconfig, String begin_date, String end_date) {
         String url = getInterFaceSummaryHourURL + wxmpconfig.getAccessToken();
-        return getData(url, begin_date, end_date);
+        return getData(wxmpconfig, url, begin_date, end_date);
     }
 
     /**
@@ -268,11 +269,12 @@ public class DatacubeApi {
      * @param condSource 卡券来源，0为公众平台创建的卡券数据、1是API创建的卡券数据
      * @return ApiResult
      */
-    public static ApiResult getCardBizuinInfo(String beginDate, String endDate, int condSource) {
+    public static ApiResult getCardBizuinInfo(IWxMpConfig wxmpconfig, String beginDate, String endDate, int condSource) {
         String url = getCardBizuinInfo + wxmpconfig.getAccessToken();
         Map<String, Object> data = new HashMap<>();
-        data.put("begin_date", beginDate).set("end_date", endDate)
-                .set("cond_source", condSource);
+        data.put("begin_date", beginDate);
+        data.put("end_date", endDate);
+        data.put("cond_source", condSource);
         String jsonResult = HttpClientUtils.sendHttpPost(url, JsonUtils.writeValueAsString(data));
         return new ApiResult(jsonResult);
     }
@@ -285,8 +287,8 @@ public class DatacubeApi {
      * @param condSource 卡券来源，0为公众平台创建的卡券数据、1是API创建的卡券数据
      * @return ApiResult
      */
-    public static ApiResult getCardInfo(String beginDate, String endDate, int condSource) {
-        return getCardInfo(beginDate, endDate, condSource, null);
+    public static ApiResult getCardInfo(IWxMpConfig wxmpconfig, String beginDate, String endDate, int condSource) {
+        return getCardInfo(wxmpconfig, beginDate, endDate, condSource, null);
     }
 
     /**
@@ -298,11 +300,13 @@ public class DatacubeApi {
      * @param cardId     卡券ID。填写后，指定拉出该卡券的相关数据。
      * @return ApiResult
      */
-    public static ApiResult getCardInfo(String beginDate, String endDate, int condSource, String cardId) {
+    public static ApiResult getCardInfo(IWxMpConfig wxmpconfig, String beginDate, String endDate, int condSource, String cardId) {
         String url = getCardInfo + wxmpconfig.getAccessToken();
         Map<String, Object> data = new HashMap<>();
-        data.put("begin_date", beginDate).set("end_date", endDate)
-                .set("cond_source", condSource);
+        data.put("begin_date", beginDate);
+        data.put("end_date", endDate)
+        ;
+        data.put("cond_source", condSource);
         if (StringUtils.isNotBlank(cardId)) {
             data.put("card_id", cardId);
         }
@@ -318,11 +322,13 @@ public class DatacubeApi {
      * @param condSource 卡券来源，0为公众平台创建的卡券数据、1是API创建的卡券数据
      * @return ApiResult
      */
-    public static ApiResult getMemberCardInfo(String beginDate, String endDate, int condSource) {
+    public static ApiResult getMemberCardInfo(IWxMpConfig wxmpconfig, String beginDate, String endDate, int condSource) {
         String url = getMemberCardInfo + wxmpconfig.getAccessToken();
         Map<String, Object> data = new HashMap<>();
-        data.put("begin_date", beginDate).set("end_date", endDate)
-                .set("cond_source", condSource);
+        data.put("begin_date", beginDate);
+        data.put("end_date", endDate)
+        ;
+        data.put("cond_source", condSource);
         String jsonResult = HttpClientUtils.sendHttpPost(url, JsonUtils.writeValueAsString(data));
         return new ApiResult(jsonResult);
     }
@@ -335,11 +341,13 @@ public class DatacubeApi {
      * @param cardId    "card_id":"xxxxxxxxxxxxxxxx" 卡券id
      * @return ApiResult
      */
-    public static ApiResult getMemberCardDetail(String beginDate, String endDate, String cardId) {
+    public static ApiResult getMemberCardDetail(IWxMpConfig wxmpconfig, String beginDate, String endDate, String cardId) {
         String url = getMemberCardDetail + wxmpconfig.getAccessToken();
         Map<String, Object> data = new HashMap<>();
-        data.put("begin_date", beginDate).set("end_date", endDate)
-                .set("card_id", cardId);
+        data.put("begin_date", beginDate);
+        data.put("end_date", endDate)
+        ;
+        data.put("card_id", cardId);
         String jsonResult = HttpClientUtils.sendHttpPost(url, JsonUtils.writeValueAsString(data));
         return new ApiResult(jsonResult);
     }

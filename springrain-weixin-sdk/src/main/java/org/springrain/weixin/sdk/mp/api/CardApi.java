@@ -44,7 +44,7 @@ public class CardApi {
      */
 
     public static ApiResult create(IWxMpConfig wxmpconfig, String jsonStr) {
-        String jsonResult = HttpClientUtils.sendPostUploadFiles(cardCreateUrl + wxmpconfig.getAccessToken(), jsonStr);
+        String jsonResult = HttpClientUtils.sendHttpPost(cardCreateUrl + wxmpconfig.getAccessToken(), jsonStr);
         return new ApiResult(jsonResult);
     }
 
@@ -56,7 +56,7 @@ public class CardApi {
      * @return {ApiResult}
      */
     public static ApiResult createQrcode(IWxMpConfig wxmpconfig, String jsonStr) {
-        String jsonResult = HttpClientUtils.sendPostUploadFiles(createQrcodeCard + wxmpconfig.getAccessToken(), jsonStr);
+        String jsonResult = HttpClientUtils.sendHttpPost(createQrcodeCard + wxmpconfig.getAccessToken(), jsonStr);
         return new ApiResult(jsonResult);
     }
 
@@ -68,7 +68,7 @@ public class CardApi {
      * @return {ApiResult}
      */
     public static ApiResult createLandingPage(IWxMpConfig wxmpconfig, String jsonStr) {
-        String jsonResult = HttpClientUtils.sendPostUploadFiles(createLandingPageCard + wxmpconfig.getAccessToken(), jsonStr);
+        String jsonResult = HttpClientUtils.sendHttpPost(createLandingPageCard + wxmpconfig.getAccessToken(), jsonStr);
         return new ApiResult(jsonResult);
     }
 
@@ -85,7 +85,7 @@ public class CardApi {
         if (StringUtils.isNotBlank(cardId)) {
             data.put("card_id", cardId);
         }
-        String jsonResult = HttpClientUtils.sendPostUploadFiles(gethtmlMpnews + wxmpconfig.getAccessToken(), JsonUtils.writeValueAsString(data));
+        String jsonResult = HttpClientUtils.sendHttpPost(gethtmlMpnews + wxmpconfig.getAccessToken(), JsonUtils.writeValueAsString(data));
         return new ApiResult(jsonResult);
     }
 
@@ -97,7 +97,7 @@ public class CardApi {
      * @return {ApiResult}
      */
     public static ApiResult setTestWhiteList(IWxMpConfig wxmpconfig, String jsonStr) {
-        String jsonResult = HttpClientUtils.sendPostUploadFiles(setTestWhiteList + wxmpconfig.getAccessToken(), jsonStr);
+        String jsonResult = HttpClientUtils.sendHttpPost(setTestWhiteList + wxmpconfig.getAccessToken(), jsonStr);
         return new ApiResult(jsonResult);
     }
 
@@ -114,7 +114,7 @@ public class CardApi {
         Map<String, Object> data = new HashMap<>();
         data.put("card_id", cardId);
         data.put("is_open", isOpen);
-        String jsonResult = HttpClientUtils.sendPostUploadFiles(setPaycell + wxmpconfig.getAccessToken(), JsonUtils.writeValueAsString(data));
+        String jsonResult = HttpClientUtils.sendHttpPost(setPaycell + wxmpconfig.getAccessToken(), JsonUtils.writeValueAsString(data));
         return new ApiResult(jsonResult);
     }
 
@@ -146,7 +146,7 @@ public class CardApi {
         data.put("is_open", isOpen);
         data.put("need_verify_cod", needVerifyCod);
         data.put("need_remark_amount", needRemarkAmount);
-        String jsonResult = HttpClientUtils.sendPostUploadFiles(setSelfconsumecell + wxmpconfig.getAccessToken(), JsonUtils.writeValueAsString(data));
+        String jsonResult = HttpClientUtils.sendHttpPost(setSelfconsumecell + wxmpconfig.getAccessToken(), JsonUtils.writeValueAsString(data));
         return new ApiResult(jsonResult);
     }
 
@@ -175,7 +175,7 @@ public class CardApi {
         if (StringUtils.isNotBlank(cardId)) {
             data.put("card_id", cardId);
         }
-        String jsonResult = HttpClientUtils.sendPostUploadFiles(getUserCardList + wxmpconfig.getAccessToken(), JsonUtils.writeValueAsString(data));
+        String jsonResult = HttpClientUtils.sendHttpPost(getUserCardList + wxmpconfig.getAccessToken(), JsonUtils.writeValueAsString(data));
         return new ApiResult(jsonResult);
     }
 
@@ -189,7 +189,7 @@ public class CardApi {
     public static ApiResult get(IWxMpConfig wxmpconfig, String cardId) {
         Map<String, Object> data = new HashMap<>();
         data.put("card_id", cardId);
-        String jsonResult = HttpClientUtils.sendPostUploadFiles(getCard + wxmpconfig.getAccessToken(), JsonUtils.writeValueAsString(data));
+        String jsonResult = HttpClientUtils.sendHttpPost(getCard + wxmpconfig.getAccessToken(), JsonUtils.writeValueAsString(data));
         return new ApiResult(jsonResult);
     }
 
@@ -221,7 +221,7 @@ public class CardApi {
         if (CollectionUtils.isNotEmpty(statusList)) {
             data.put("status_list", statusList);
         }
-        String jsonResult = HttpClientUtils.sendPostUploadFiles(getBatch + wxmpconfig.getAccessToken(), JsonUtils.writeValueAsString(data));
+        String jsonResult = HttpClientUtils.sendHttpPost(getBatch + wxmpconfig.getAccessToken(), JsonUtils.writeValueAsString(data));
         return new ApiResult(jsonResult);
     }
 
@@ -233,7 +233,7 @@ public class CardApi {
      * @return {ApiResult}
      */
     public static ApiResult update(IWxMpConfig wxmpconfig, String jsonStr) {
-        String jsonResult = HttpClientUtils.sendPostUploadFiles(update + wxmpconfig.getAccessToken(), jsonStr);
+        String jsonResult = HttpClientUtils.sendHttpPost(update + wxmpconfig.getAccessToken(), jsonStr);
         return new ApiResult(jsonResult);
     }
 
@@ -255,7 +255,7 @@ public class CardApi {
         if (reduceStockValue >= 0) {
             data.put("reduce_stock_value", reduceStockValue);
         }
-        String jsonResult = HttpClientUtils.sendPostUploadFiles(modifystock + wxmpconfig.getAccessToken(), JsonUtils.writeValueAsString(data));
+        String jsonResult = HttpClientUtils.sendHttpPost(modifystock + wxmpconfig.getAccessToken(), JsonUtils.writeValueAsString(data));
         return new ApiResult(jsonResult);
     }
 
@@ -269,7 +269,7 @@ public class CardApi {
     public static ApiResult delete(IWxMpConfig wxmpconfig, String cardId) {
         Map<String, Object> data = new HashMap<>();
         data.put("card_id", cardId);
-        String jsonResult = HttpClientUtils.sendPostUploadFiles(delete + wxmpconfig.getAccessToken(), JsonUtils.writeValueAsString(data));
+        String jsonResult = HttpClientUtils.sendHttpPost(delete + wxmpconfig.getAccessToken(), JsonUtils.writeValueAsString(data));
         return new ApiResult(jsonResult);
     }
 
@@ -285,7 +285,7 @@ public class CardApi {
         Map<String, Object> data = new HashMap<>();
         data.put("code", code);
         data.put("reason", reason);
-        String jsonResult = HttpClientUtils.sendPostUploadFiles(unavailable + wxmpconfig.getAccessToken(), JsonUtils.writeValueAsString(data));
+        String jsonResult = HttpClientUtils.sendHttpPost(unavailable + wxmpconfig.getAccessToken(), JsonUtils.writeValueAsString(data));
         return new ApiResult(jsonResult);
     }
 
@@ -301,7 +301,7 @@ public class CardApi {
         Map<String, Object> data = new HashMap<>();
         data.put("card_id", cardId);
         data.put("reason", reason);
-        String jsonResult = HttpClientUtils.sendPostUploadFiles(unavailable + wxmpconfig.getAccessToken(), JsonUtils.writeValueAsString(data));
+        String jsonResult = HttpClientUtils.sendHttpPost(unavailable + wxmpconfig.getAccessToken(), JsonUtils.writeValueAsString(data));
         return new ApiResult(jsonResult);
     }
 }

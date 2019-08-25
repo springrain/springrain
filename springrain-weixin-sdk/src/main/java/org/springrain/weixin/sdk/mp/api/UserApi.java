@@ -78,7 +78,7 @@ public class UserApi {
      * @return ApiResult
      */
     public static ApiResult batchGetUserInfo(IWxMpConfig wxmpconfig, String jsonStr) {
-        String jsonResult = HttpClientUtils.sendPostUploadFiles(batchGetUserInfo + wxmpconfig.getAccessToken(), jsonStr);
+        String jsonResult = HttpClientUtils.sendHttpPost(batchGetUserInfo + wxmpconfig.getAccessToken(), jsonStr);
         return new ApiResult(jsonResult);
     }
 
@@ -118,7 +118,7 @@ public class UserApi {
         Map<String, String> mapData = new HashMap<>();
         mapData.put("openid", openid);
         mapData.put("remark", remark);
-        String jsonResult = HttpClientUtils.sendPostUploadFiles(url, JsonUtils.writeValueAsString(mapData));
+        String jsonResult = HttpClientUtils.sendHttpPost(url, JsonUtils.writeValueAsString(mapData));
 
         return new ApiResult(jsonResult);
     }

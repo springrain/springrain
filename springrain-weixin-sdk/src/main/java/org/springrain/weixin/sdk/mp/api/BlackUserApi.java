@@ -44,7 +44,7 @@ public class BlackUserApi {
         if (StringUtils.isNotBlank(beginOpenid)) {
             mapData.put("begin_openid", beginOpenid);
         }
-        String jsonResult = HttpClientUtils.sendPostUploadFiles(url, JsonUtils.writeValueAsString(mapData));
+        String jsonResult = HttpClientUtils.sendHttpPost(url, JsonUtils.writeValueAsString(mapData));
         return new ApiResult(jsonResult);
     }
 
@@ -64,7 +64,7 @@ public class BlackUserApi {
      * @return ApiResult
      */
     public static ApiResult batchBlackUsers(IWxMpConfig wxmpconfig, String jsonStr) {
-        String jsonResult = HttpClientUtils.sendPostUploadFiles(batchBlackList + wxmpconfig.getAccessToken(), jsonStr);
+        String jsonResult = HttpClientUtils.sendHttpPost(batchBlackList + wxmpconfig.getAccessToken(), jsonStr);
         return new ApiResult(jsonResult);
     }
 
@@ -98,7 +98,7 @@ public class BlackUserApi {
      * @return ApiResult
      */
     public static ApiResult batchUnblackUsers(IWxMpConfig wxmpconfig, String jsonStr) {
-        String jsonResult = HttpClientUtils.sendPostUploadFiles(batchUnblackList + wxmpconfig.getAccessToken(), jsonStr);
+        String jsonResult = HttpClientUtils.sendHttpPost(batchUnblackList + wxmpconfig.getAccessToken(), jsonStr);
         return new ApiResult(jsonResult);
     }
 

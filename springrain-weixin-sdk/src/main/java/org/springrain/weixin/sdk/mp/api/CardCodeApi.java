@@ -43,7 +43,7 @@ public class CardCodeApi {
             data.put("card_id", cardId);
         }
         data.put("check_consume", checkConsume);
-        String jsonResult = HttpClientUtils.sendPostUploadFiles(getCodeUrl + wxmpconfig.getAccessToken(), JsonUtils.writeValueAsString(data));
+        String jsonResult = HttpClientUtils.sendHttpPost(getCodeUrl + wxmpconfig.getAccessToken(), JsonUtils.writeValueAsString(data));
         return new ApiResult(jsonResult);
     }
 
@@ -72,7 +72,7 @@ public class CardCodeApi {
         if (StringUtils.isNotBlank(cardId)) {
             data.put("card_id", cardId);
         }
-        String jsonResult = HttpClientUtils.sendPostUploadFiles(consumeCode + wxmpconfig.getAccessToken(), JsonUtils.writeValueAsString(data));
+        String jsonResult = HttpClientUtils.sendHttpPost(consumeCode + wxmpconfig.getAccessToken(), JsonUtils.writeValueAsString(data));
         return new ApiResult(jsonResult);
     }
 
@@ -88,7 +88,7 @@ public class CardCodeApi {
         Map<String, Object> data = new HashMap<>();
         data.put("code", code);
         data.put("openid", openid);
-        String jsonResult = HttpClientUtils.sendPostUploadFiles(consumeCode + wxmpconfig.getAccessToken(), JsonUtils.writeValueAsString(data));
+        String jsonResult = HttpClientUtils.sendHttpPost(consumeCode + wxmpconfig.getAccessToken(), JsonUtils.writeValueAsString(data));
         return new ApiResult(jsonResult);
     }
 
@@ -102,7 +102,7 @@ public class CardCodeApi {
     public static ApiResult decrypt(IWxMpConfig wxmpconfig, String encryptCode) {
         Map<String, Object> data = new HashMap<>();
         data.put("encrypt_code", encryptCode);
-        String jsonResult = HttpClientUtils.sendPostUploadFiles(decryptCode + wxmpconfig.getAccessToken(), JsonUtils.writeValueAsString(data));
+        String jsonResult = HttpClientUtils.sendHttpPost(decryptCode + wxmpconfig.getAccessToken(), JsonUtils.writeValueAsString(data));
         return new ApiResult(jsonResult);
     }
 
@@ -118,7 +118,7 @@ public class CardCodeApi {
         Map<String, Object> data = new HashMap<>();
         data.put("card_id", cardId);
         data.put("code", codeList);
-        String jsonResult = HttpClientUtils.sendPostUploadFiles(setDeposit + wxmpconfig.getAccessToken(), JsonUtils.writeValueAsString(data));
+        String jsonResult = HttpClientUtils.sendHttpPost(setDeposit + wxmpconfig.getAccessToken(), JsonUtils.writeValueAsString(data));
         return new ApiResult(jsonResult);
     }
 
@@ -132,7 +132,7 @@ public class CardCodeApi {
     public static ApiResult getDepositCount(IWxMpConfig wxmpconfig, String cardId) {
         Map<String, Object> data = new HashMap<>();
         data.put("card_id", cardId);
-        String jsonResult = HttpClientUtils.sendPostUploadFiles(getDepositCount + wxmpconfig.getAccessToken(), JsonUtils.writeValueAsString(data));
+        String jsonResult = HttpClientUtils.sendHttpPost(getDepositCount + wxmpconfig.getAccessToken(), JsonUtils.writeValueAsString(data));
         return new ApiResult(jsonResult);
     }
 
@@ -148,7 +148,7 @@ public class CardCodeApi {
         Map<String, Object> data = new HashMap<>();
         data.put("card_id", cardId);
         data.put("code", codeList);
-        String jsonResult = HttpClientUtils.sendPostUploadFiles(checkCode + wxmpconfig.getAccessToken(), JsonUtils.writeValueAsString(data));
+        String jsonResult = HttpClientUtils.sendHttpPost(checkCode + wxmpconfig.getAccessToken(), JsonUtils.writeValueAsString(data));
         return new ApiResult(jsonResult);
     }
 
@@ -180,7 +180,7 @@ public class CardCodeApi {
         if (StringUtils.isNotBlank(cardId)) {
             data.put("card_id", cardId);
         }
-        String jsonResult = HttpClientUtils.sendPostUploadFiles(update + wxmpconfig.getAccessToken(), JsonUtils.writeValueAsString(data));
+        String jsonResult = HttpClientUtils.sendHttpPost(update + wxmpconfig.getAccessToken(), JsonUtils.writeValueAsString(data));
         return new ApiResult(jsonResult);
     }
 
@@ -200,7 +200,7 @@ public class CardCodeApi {
         data.put("card_id", cardId);
         data.put("openid", openid);
         data.put("is_mark", isMark);
-        String jsonResult = HttpClientUtils.sendPostUploadFiles(mark + wxmpconfig.getAccessToken(), JsonUtils.writeValueAsString(data));
+        String jsonResult = HttpClientUtils.sendHttpPost(mark + wxmpconfig.getAccessToken(), JsonUtils.writeValueAsString(data));
         return new ApiResult(jsonResult);
     }
 
