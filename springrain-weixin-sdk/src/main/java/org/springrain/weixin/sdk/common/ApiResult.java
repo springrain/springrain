@@ -4,12 +4,11 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  */
 
-package org.springrain.weixin.sdk.common.bean;
+package org.springrain.weixin.sdk.common;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springrain.frame.util.JsonUtils;
-import org.springrain.weixin.sdk.common.WxConsts;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

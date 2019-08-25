@@ -1,7 +1,6 @@
 package org.springrain.weixin.sdk.common.service;
 
 import org.springrain.rpc.annotation.RpcServiceAnnotation;
-import org.springrain.weixin.sdk.common.bean.WxAccessToken;
 
 @RpcServiceAnnotation(implpackage = "weixin.service.impl")
 public interface IWxMiniappConfigService {

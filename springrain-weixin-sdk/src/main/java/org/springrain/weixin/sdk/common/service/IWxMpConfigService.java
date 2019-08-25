@@ -1,8 +1,6 @@
 package org.springrain.weixin.sdk.common.service;
 
 import org.springrain.rpc.annotation.RpcServiceAnnotation;
-import org.springrain.weixin.sdk.common.bean.WxAccessToken;
-import org.springrain.weixin.sdk.common.exception.WxErrorException;
 
 import java.util.Map;
 
@@ -79,16 +77,10 @@ public interface IWxMpConfigService {
      * @param siteId
      * @param request
      * @return
-     * @throws WxErrorException
+     * @throws Exception
      */
-    Map<String, String> findMpJsApiParam(IWxMpConfig wxMpConfig, String url) throws WxErrorException;
+    Map<String, String> findMpJsApiParam(IWxMpConfig wxMpConfig, String url) throws Exception;
 
-    /**
-     * 获取自定义的APIAccessToken
-     *
-     * @param wxmpconfig
-     * @return
-     */
-    WxAccessToken getCustomAPIAccessToken(IWxMpConfig wxmpconfig);
+
 
 }

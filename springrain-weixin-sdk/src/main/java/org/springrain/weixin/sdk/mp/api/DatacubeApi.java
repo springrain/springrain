@@ -4,7 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.frame.util.JsonUtils;
 import org.springrain.weixin.sdk.common.WxConsts;
-import org.springrain.weixin.sdk.common.bean.ApiResult;
+import org.springrain.weixin.sdk.common.ApiResult;
 import org.springrain.weixin.sdk.common.service.IWxMpConfig;
 
 import java.util.HashMap;

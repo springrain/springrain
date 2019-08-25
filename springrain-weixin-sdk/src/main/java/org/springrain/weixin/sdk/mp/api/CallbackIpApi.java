@@ -8,7 +8,7 @@ package org.springrain.weixin.sdk.mp.api;
 
 import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.weixin.sdk.common.WxConsts;
-import org.springrain.weixin.sdk.common.bean.ApiResult;
+import org.springrain.weixin.sdk.common.ApiResult;
 import org.springrain.weixin.sdk.common.service.IWxMpConfig;
 
 /**
