@@ -82,7 +82,7 @@ public class WxMpConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl imple
         IWxMpConfig wxMpConfig = null;
         try {
             wxMpConfig = super.getByCache(id, GlobalStatic.mpConfigCacheKey, WxMpConfig.class);
-            if (wxMpConfig == null) {
+            if (wxMpConfig == null||wxMpConfig.isAccessTokenExpired()) {
                 wxMpConfig = super.findById(id, WxMpConfig.class);
                 AccessTokenApi.getAccessToken(wxMpConfig);
                 TicketApi.getCardApiTicket(wxMpConfig);
