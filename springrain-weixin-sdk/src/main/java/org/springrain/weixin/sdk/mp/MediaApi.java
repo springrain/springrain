@@ -1,10 +1,12 @@
 package org.springrain.weixin.sdk.mp;
 
-import com.jfinal.weixin.sdk.utils.HttpClientUtils;
-import com.jfinal.weixin.sdk.utils.JsonUtils;
+import org.springrain.frame.util.HttpClientUtils;
+import org.springrain.frame.util.JsonUtils;
+import org.springrain.weixin.sdk.common.ApiResult;
+import org.springrain.weixin.sdk.common.WxConsts;
+import org.springrain.weixin.sdk.common.service.IWxMpConfig;
 
 import java.io.File;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,8 +14,7 @@ import java.util.Map;
 /**
  * 素材管理
  *
- * @author l.cm
- * 文档：http://mp.weixin.qq.com/wiki/5/963fc70b80dc75483a271298a76a8d59.html
+ * 文档：https://developers.weixin.qq.com/doc/offiaccount/Asset_Management/New_temporary_materials.html
  */
 public class MediaApi {
 
@@ -44,9 +45,11 @@ public class MediaApi {
      * @param file      需要上传的文件
      * @return ApiResult
      */
-    public static ApiResult uploadMedia(MediaType mediaType, File file) {
+    public static ApiResult uploadMedia(IWxMpConfig wxmpconfig, MediaType mediaType, File file) {
         String url = upload_url + wxmpconfig.getAccessToken() + "&type=" + mediaType.get();
-        String jsonStr = HttpClientUtils.upload(url, file, null);
+        Map<String,File> fileMap=new HashMap<>();
+        fileMap.put("media",file);
+        String jsonStr =  HttpClientUtils.sendPostUploadFiles(url,fileMap,null);
         return new ApiResult(jsonStr);
     }
 
@@ -58,15 +61,14 @@ public class MediaApi {
      * @param description 消息的描述
      * @return {ApiResult}
      */
-    public static ApiResult uploadVideo(String mediaId, String title, String description) {
+    public static ApiResult uploadVideo(IWxMpConfig wxmpconfig,String mediaId, String title, String description) {
         String url = uploadVideoUrl + wxmpconfig.getAccessToken();
 
-        Map<String, String> mapData = new HashMap<String, String>();
+        Map<String, String> mapData = new HashMap<>();
         mapData.put("media_id", mediaId);
         mapData.put("title", title);
         mapData.put("description", description);
-
-        String jsonResult = HttpClientUtils.sendHttpPost(url, JsonUtils.writeValueAsString(mapData));
+        String jsonResult = HttpClientUtils.sendHttpPost(url, mapData);
         return new ApiResult(jsonResult);
     }
 
@@ -76,10 +78,10 @@ public class MediaApi {
      * @param mediaArticles 素材实体
      * @return {ApiResult}
      */
-    public static ApiResult uploadNews(List<MediaArticles> mediaArticles) {
+    public static ApiResult uploadNews(IWxMpConfig wxmpconfig,List<MediaArticles> mediaArticles) {
         String url = uploadNews + wxmpconfig.getAccessToken();
 
-        Map<String, Object> dataMap = new HashMap<String, Object>();
+        Map<String, Object> dataMap = new HashMap<>();
         dataMap.put("articles", mediaArticles);
 
         String jsonResult = HttpClientUtils.sendHttpPost(url, JsonUtils.writeValueAsString(dataMap));
@@ -92,9 +94,10 @@ public class MediaApi {
      * @param media_id 素材Id
      * @return MediaFile
      */
-    public static MediaFile getMedia(String media_id) {
+    public static ApiResult getMedia(IWxMpConfig wxmpconfig,String media_id) {
         String url = get_url + wxmpconfig.getAccessToken() + "&media_id=" + media_id;
-        return HttpClientUtils.download(url);
+        String jsonResult = HttpClientUtils.sendHttpPost(url);
+        return new ApiResult(jsonResult);
     }
 
     /**
@@ -106,9 +109,10 @@ public class MediaApi {
      * @param media_id 素材Id
      * @return MediaFile
      */
-    public static MediaFile getJssdkMedia(String media_id) {
+    public static MediaFile getJssdkMedia(IWxMpConfig wxmpconfig,String media_id) {
         String url = get_jssdk_media + wxmpconfig.getAccessToken() + "&media_id=" + media_id;
-        return HttpClientUtils.download(url);
+        return null;
+       // return HttpClientUtils.download(url);
     }
 
     /**
@@ -117,7 +121,7 @@ public class MediaApi {
      * @param mediaArticles 图文列表
      * @return ApiResult
      */
-    public static ApiResult addNews(List<MediaArticles> mediaArticles) {
+    public static ApiResult addNews(IWxMpConfig wxmpconfig,List<MediaArticles> mediaArticles) {
         String url = add_news_url + wxmpconfig.getAccessToken();
 
         Map<String, Object> dataMap = new HashMap<String, Object>();
@@ -135,10 +139,13 @@ public class MediaApi {
      * @param imgFile 图片文件
      * @return ApiResult
      */
-    public static ApiResult uploadImg(File imgFile) {
+    public static ApiResult uploadImg(IWxMpConfig wxmpconfig,File imgFile) {
         String url = uploadImgUrl + wxmpconfig.getAccessToken();
 
-        String jsonResult = HttpClientUtils.upload(url, imgFile, null);
+        Map<String,File> fileMap=new HashMap<>();
+        fileMap.put("media",imgFile);
+
+        String jsonResult = HttpClientUtils.sendPostUploadFiles(url,fileMap,null);
         return new ApiResult(jsonResult);
     }
 
@@ -149,10 +156,13 @@ public class MediaApi {
      * @param mediaType 素材类型
      * @return ApiResult
      */
-    public static ApiResult addMaterial(File file, MediaType mediaType) {
+    public static ApiResult addMaterial(IWxMpConfig wxmpconfig,File file, MediaType mediaType) {
         String url = addMaterialUrl + wxmpconfig.getAccessToken() + "&type=" + mediaType.get();
 
-        String jsonResult = HttpClientUtils.upload(url, file, null);
+        Map<String,File> fileMap=new HashMap<>();
+        fileMap.put("media",file);
+        String jsonResult = HttpClientUtils.sendPostUploadFiles(url,fileMap,null);
+
         return new ApiResult(jsonResult);
     }
 
@@ -166,14 +176,17 @@ public class MediaApi {
      * @param introduction 介绍
      * @return ApiResult
      */
-    public static ApiResult addMaterial(File file, String title, String introduction) {
+    public static ApiResult addMaterial(IWxMpConfig wxmpconfig,File file, String title, String introduction) {
         String url = addMaterialUrl + wxmpconfig.getAccessToken();
 
-        Map<String, String> dataMap = new HashMap<String, String>();
+        Map<String, String> dataMap = new HashMap<>();
         dataMap.put("title", title);
         dataMap.put("introduction", introduction);
 
-        String jsonResult = HttpClientUtils.upload(url, file, JsonUtils.writeValueAsString(dataMap));
+        Map<String,File> fileMap=new HashMap<>();
+        fileMap.put("media",file);
+        String jsonResult = HttpClientUtils.sendPostUploadFiles(url,fileMap,dataMap);
+
         return new ApiResult(jsonResult);
     }
 
@@ -183,13 +196,10 @@ public class MediaApi {
      * @param media_id 要获取的素材的media_id
      * @return InputStream 流，考虑到这里可能返回json或file请自行使用IOUtils转换
      */
-    public static InputStream getMaterial(String media_id) {
-        String url = get_material_url + wxmpconfig.getAccessToken();
-
-        Map<String, Object> dataMap = new HashMap<String, Object>();
-        dataMap.put("media_id", media_id);
-
-        return HttpClientUtils.download(url, JsonUtils.writeValueAsString(dataMap));
+    public static ApiResult getMaterial(IWxMpConfig wxmpconfig,String media_id) {
+        String apiurl = get_material_url + wxmpconfig.getAccessToken()+"&media_id="+media_id;
+        String jsonResult = HttpClientUtils.sendHttpGet(apiurl);
+        return new ApiResult(jsonResult);
     }
 
     /**
@@ -198,7 +208,7 @@ public class MediaApi {
      * @param media_id 要获取的素材的media_id
      * @return ApiResult 返回信息
      */
-    public static ApiResult delMaterial(String media_id) {
+    public static ApiResult delMaterial(IWxMpConfig wxmpconfig,String media_id) {
         String url = del_material_url + wxmpconfig.getAccessToken();
 
         Map<String, Object> dataMap = new HashMap<String, Object>();
@@ -216,7 +226,7 @@ public class MediaApi {
      * @param mediaArticles 图文素材
      * @return ApiResult 返回信息
      */
-    public static ApiResult updateNews(String media_id, int index, MediaArticles mediaArticles) {
+    public static ApiResult updateNews(IWxMpConfig wxmpconfig,String media_id, int index, MediaArticles mediaArticles) {
         String url = update_news_url + wxmpconfig.getAccessToken();
 
         Map<String, Object> dataMap = new HashMap<String, Object>();
@@ -233,7 +243,7 @@ public class MediaApi {
      *
      * @return ApiResult 返回信息
      */
-    public static ApiResult getMaterialCount() {
+    public static ApiResult getMaterialCount(IWxMpConfig wxmpconfig) {
         String url = get_materialcount_url + wxmpconfig.getAccessToken();
         String jsonResult = HttpClientUtils.sendHttpGet(url);
         return new ApiResult(jsonResult);
@@ -247,8 +257,8 @@ public class MediaApi {
      * @param count     返回素材的数量，取值在1到20之间
      * @return ApiResult 返回信息
      */
-    public static ApiResult batchGetMaterial(MediaType mediaType, int offset, int count) {
-        return batchGetMaterial(mediaType.get(), offset, count);
+    public static ApiResult batchGetMaterial(IWxMpConfig wxmpconfig,MediaType mediaType, int offset, int count) {
+        return batchGetMaterial(wxmpconfig,mediaType.get(), offset, count);
     }
 
     /**
@@ -258,8 +268,8 @@ public class MediaApi {
      * @param count  返回素材的数量，取值在1到20之间
      * @return ApiResult 返回信息
      */
-    public static ApiResult batchGetMaterialNews(int offset, int count) {
-        return batchGetMaterial("news", offset, count);
+    public static ApiResult batchGetMaterialNews(IWxMpConfig wxmpconfig,int offset, int count) {
+        return batchGetMaterial(wxmpconfig,"news", offset, count);
     }
 
     /**
@@ -270,7 +280,7 @@ public class MediaApi {
      * @param count     返回素材的数量，取值在1到20之间
      * @return ApiResult 返回信息
      */
-    public static ApiResult batchGetMaterial(String mediaType, int offset, int count) {
+    public static ApiResult batchGetMaterial(IWxMpConfig wxmpconfig,String mediaType, int offset, int count) {
         String url = batchget_material_url + wxmpconfig.getAccessToken();
 
         if (offset < 0) offset = 0;
