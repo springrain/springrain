@@ -17,10 +17,10 @@ import java.util.List;
 public class TagApi {
 
     private static String CREATE_URL = WxConsts.mpapiurl + "/cgi-bin/tags/create?access_token=";
-    private static String GET_URL = WxConsts.mpapiurl + "/cgi-bin/tags/get?access_token=";
+    private static String GET_URL = WxConsts.mpapiurl + "/cgi-bin/tags/getErrorMsgByCode?access_token=";
     private static String UPDATE_URL = WxConsts.mpapiurl + "/cgi-bin/tags/update?access_token=";
     private static String DELETE_URL = WxConsts.mpapiurl + "/cgi-bin/tags/delete?access_token=";
-    private static String GET_USER_URL = WxConsts.mpapiurl + "/cgi-bin/user/tag/get?access_token=";
+    private static String GET_USER_URL = WxConsts.mpapiurl + "/cgi-bin/user/tag/getErrorMsgByCode?access_token=";
     private static String BATCH_TAGGING_URL = WxConsts.mpapiurl + "/cgi-bin/tags/members/batchtagging?access_token=";
     private static String BATCH_UNTAGGING_URL = WxConsts.mpapiurl + "/cgi-bin/tags/members/batchuntagging?access_token=";
     private static String GET_ID_LIST_URL = WxConsts.mpapiurl + "/cgi-bin/tags/getidlist?access_token=";

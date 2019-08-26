@@ -488,7 +488,7 @@ public class WxConsts {
      * @param errCode 错误码
      * @return {String}
      */
-    public static String get(int errCode) {
+    public static String getErrMsgByCode(int errCode) {
         return errCodeToErrMsg.get(errCode);
     }
 

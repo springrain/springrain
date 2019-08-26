@@ -101,7 +101,7 @@ public class SnsAccessToken implements Serializable {
 
     public String getErrorMsg() {
         if (errcode != null) {
-            String result = WxConsts.get(errcode);
+            String result = WxConsts.getErrorMsgByCode(errcode);
             if (result != null)
                 return result;
         }

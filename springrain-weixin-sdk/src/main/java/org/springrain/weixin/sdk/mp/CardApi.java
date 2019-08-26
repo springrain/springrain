@@ -28,7 +28,7 @@ public class CardApi {
     private static String setPaycell = WxConsts.mpapiurl + "/card/testwhitelist/set?access_token=";
     private static String setSelfconsumecell = WxConsts.mpapiurl + "/card/selfconsumecell/set?access_token=";
     private static String getUserCardList = WxConsts.mpapiurl + "/card/user/getcardlist?access_token=";
-    private static String getCard = WxConsts.mpapiurl + "/card/get?access_token=";
+    private static String getCard = WxConsts.mpapiurl + "/card/getErrorMsgByCode?access_token=";
     private static String getBatch = WxConsts.mpapiurl + "/card/batchget?access_token=";
     private static String update = WxConsts.mpapiurl + "/card/update?access_token=";
     private static String modifystock = WxConsts.mpapiurl + "/card/modifystock?access_token=";

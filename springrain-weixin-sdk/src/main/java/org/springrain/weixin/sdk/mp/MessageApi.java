@@ -19,7 +19,7 @@ public class MessageApi {
     private static String sendAllUrl = WxConsts.mpapiurl + "/cgi-bin/message/mass/sendall?access_token=";
     private static String sendUrl = WxConsts.mpapiurl + "/cgi-bin/message/mass/send?access_token=";
     private static String previewUrl = WxConsts.mpapiurl + "/cgi-bin/message/mass/preview?access_token=";
-    private static String getUrl = WxConsts.mpapiurl + "/cgi-bin/message/mass/get?access_token=";
+    private static String getUrl = WxConsts.mpapiurl + "/cgi-bin/message/mass/getErrorMsgByCode?access_token=";
     private static String deleteUrl = WxConsts.mpapiurl + "/cgi-bin/message/mass/delete?access_token=";
 
     private static ApiResult post(IWxMpConfig wxmpconfig, String baseUrl, String jsonStr) {

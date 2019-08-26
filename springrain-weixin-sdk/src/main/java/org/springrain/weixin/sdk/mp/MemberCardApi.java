@@ -17,8 +17,8 @@ import java.util.Map;
 public class MemberCardApi {
     private static String activateUrl = WxConsts.mpapiurl + "/card/membercard/activate?access_token=";
     private static String setActivateUserFormUrl = WxConsts.mpapiurl + "/card/membercard/activateuserform/set?access_token=";
-    private static String getUserInfoUrl = WxConsts.mpapiurl + "/card/membercard/userinfo/get?access_token=";
-    private static String getActivateTempInfoUrl = WxConsts.mpapiurl + "/card/membercard/activatetempinfo/get?access_token=";
+    private static String getUserInfoUrl = WxConsts.mpapiurl + "/card/membercard/userinfo/getErrorMsgByCode?access_token=";
+    private static String getActivateTempInfoUrl = WxConsts.mpapiurl + "/card/membercard/activatetempinfo/getErrorMsgByCode?access_token=";
     private static String updateUserUrl = WxConsts.mpapiurl + "/card/membercard/updateuser?access_token=";
 
     /**

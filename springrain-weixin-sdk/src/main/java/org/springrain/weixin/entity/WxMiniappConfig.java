@@ -136,7 +136,7 @@ public class WxMiniappConfig extends BaseEntity implements IWxMiniappConfig {
         this.id = id;
     }
 
-    //get and set
+    //getErrorMsgByCode and set
     @Override
     public void setId(java.lang.String value) {
         if (StringUtils.isNotBlank(value)) {

@@ -21,7 +21,7 @@ import java.util.Map;
 public class GroupsApi {
 
     private static String createUrl = WxConsts.mpapiurl + "/cgi-bin/groups/create?access_token=";
-    private static String getUrl = WxConsts.mpapiurl + "/cgi-bin/groups/get?access_token=";
+    private static String getUrl = WxConsts.mpapiurl + "/cgi-bin/groups/getErrorMsgByCode?access_token=";
     private static String getIdUrl = WxConsts.mpapiurl + "/cgi-bin/groups/getid?access_token=";
     private static String updateUrl = WxConsts.mpapiurl + "/cgi-bin/groups/update?access_token=";
     private static String membersUpdateUrl = WxConsts.mpapiurl + "/cgi-bin/groups/members/update?access_token=";

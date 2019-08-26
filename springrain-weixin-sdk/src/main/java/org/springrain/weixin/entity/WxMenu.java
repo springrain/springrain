@@ -83,7 +83,7 @@ public class WxMenu extends BaseEntity {
         this.id = id;
     }
 
-    //get and set
+    //getErrorMsgByCode and set
     public void setId(java.lang.String value) {
         if (StringUtils.isNotBlank(value)) {
             value = value.trim();

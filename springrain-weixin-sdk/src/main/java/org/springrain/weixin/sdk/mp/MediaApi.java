@@ -23,8 +23,8 @@ public class MediaApi {
     // 文档中是需要用https，实际采用https会报错
     private static String uploadVideoUrl = "http://file.api.weixin.qq.com/cgi-bin/media/uploadvideo?access_token=";
     private static String uploadNews = WxConsts.mpapiurl + "/cgi-bin/media/uploadnews?access_token=";
-    private static String get_url = WxConsts.mpapiurl + "/cgi-bin/media/get?access_token=";
-    private static String get_jssdk_media = WxConsts.mpapiurl + "/cgi-bin/media/get/jssdk?access_token=";
+    private static String get_url = WxConsts.mpapiurl + "/cgi-bin/media/getErrorMsgByCode?access_token=";
+    private static String get_jssdk_media = WxConsts.mpapiurl + "/cgi-bin/media/getErrorMsgByCode/jssdk?access_token=";
     private static String add_news_url = WxConsts.mpapiurl + "/cgi-bin/material/add_news?access_token=";
     private static String uploadImgUrl = WxConsts.mpapiurl + "/cgi-bin/media/uploadimg?access_token=";
     private static String addMaterialUrl = WxConsts.mpapiurl + "/cgi-bin/material/add_material?access_token=";

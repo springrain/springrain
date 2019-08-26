@@ -17,7 +17,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.BasicHttpClientConnectionManager;
-import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
@@ -430,18 +429,43 @@ public class HttpClientUtils {
 		if (headers==null){
 			return sendHttpPost(httpPost, sslContext);
 		}
-
 		for (Map.Entry<String, String> entry : headers.entrySet()) {
 			String key = entry.getKey().toString();
 			String value = entry.getValue().toString();
 			httpPost.setHeader(key, value);
 		}
 
-
 		return sendHttpPost(httpPost, sslContext);
 	}
 
+	/**
+	 * 发送 Post请求
+	 *
+	 * @param httpUrl 请求路径
+	 * @param headers 请求头参数
+	 * @return
+	 */
+	public static String sendHttpHeaderPost(String httpUrl, Map<String, String> headers,  String params, SSLContext sslContext) {
+		HttpPost httpPost = new HttpPost(httpUrl);// 创建httpPost
+		try {
+			// 设置参数
+			StringEntity stringEntity = new StringEntity(params, "UTF-8");
+			stringEntity.setContentType("application/x-www-form-urlencoded");
+			httpPost.setEntity(stringEntity);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
+		if (headers==null){
+			return sendHttpPost(httpPost, sslContext);
+		}
+		for (Map.Entry<String, String> entry : headers.entrySet()) {
+			String key = entry.getKey().toString();
+			String value = entry.getValue().toString();
+			httpPost.setHeader(key, value);
+		}
 
+		return sendHttpPost(httpPost, sslContext);
+	}
 
 	/**
 	 * Get 下载文件

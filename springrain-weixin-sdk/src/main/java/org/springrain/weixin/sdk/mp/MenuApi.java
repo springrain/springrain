@@ -20,7 +20,7 @@ import java.util.Map;
  */
 public class MenuApi {
 
-    private static String getMenu = WxConsts.mpapiurl + "/cgi-bin/menu/get?access_token=";
+    private static String getMenu = WxConsts.mpapiurl + "/cgi-bin/menu/getErrorMsgByCode?access_token=";
     private static String createMenu = WxConsts.mpapiurl + "/cgi-bin/menu/create?access_token=";
     private static String deleteMenuUrl = WxConsts.mpapiurl + "/cgi-bin/menu/delete?access_token=";
     private static String addConditionalUrl = WxConsts.mpapiurl + "/cgi-bin/menu/addconditional?access_token=";

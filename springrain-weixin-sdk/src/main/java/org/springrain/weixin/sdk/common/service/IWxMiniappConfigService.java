@@ -41,13 +41,7 @@ public interface IWxMiniappConfigService {
     IWxMiniappConfig updateAccessToken(IWxMiniappConfig wxminiappconfig);
 
 
-    /**
-     * 获取自定义的APIAccessToken
-     *
-     * @param wxminiappconfig
-     * @return
-     */
-    WxAccessToken getCustomAPIAccessToken(IWxMiniappConfig wxminiappconfig);
+
 
 
 }

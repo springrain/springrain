@@ -91,7 +91,7 @@ public class ApiResult implements Serializable {
     public String getErrorMsg() {
         Integer errorCode = getErrorCode();
         if (errorCode != null) {
-            String result = WxConsts.get(errorCode);
+            String result = WxConsts.getErrorMsgByCode(errorCode);
             if (result != null) {
                 return result;
             }

@@ -18,7 +18,7 @@ import java.util.Map;
  */
 public class CardCodeApi {
     // https://mp.weixin.qq.com/wiki?action=doc&id=mp1451025239&t=0.5997588644623877#1.1
-    private static String getCodeUrl = WxConsts.mpapiurl + "/card/code/get?access_token=";
+    private static String getCodeUrl = WxConsts.mpapiurl + "/card/code/getErrorMsgByCode?access_token=";
     private static String consumeCode = WxConsts.mpapiurl + "/card/code/consume?access_token=";
     private static String decryptCode = WxConsts.mpapiurl + "/card/code/decrypt?access_token=";
     private static String setDeposit = WxConsts.mpapiurl + "/card/code/deposit?access_token=";

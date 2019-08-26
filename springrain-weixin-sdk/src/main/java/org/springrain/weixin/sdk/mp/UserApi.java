@@ -24,7 +24,7 @@ import java.util.Map;
 public class UserApi {
 
     private static String getUserInfo = WxConsts.mpapiurl + "/cgi-bin/user/info?access_token=";
-    private static String getFollowers = WxConsts.mpapiurl + "/cgi-bin/user/get?access_token=";
+    private static String getFollowers = WxConsts.mpapiurl + "/cgi-bin/user/getErrorMsgByCode?access_token=";
     private static String batchGetUserInfo = WxConsts.mpapiurl + "/cgi-bin/user/info/batchget?access_token=";
     private static String updateRemarkUrl = WxConsts.mpapiurl + "/cgi-bin/user/info/updateremark?access_token=";
 
