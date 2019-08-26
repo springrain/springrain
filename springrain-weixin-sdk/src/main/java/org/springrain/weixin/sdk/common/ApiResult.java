@@ -19,9 +19,9 @@ import java.util.Map;
 
 /**
  * 封装 API 响应结果，将 json 字符串转换成 java 数据类型
- *
+ * <p>
  * jackson 中 json 类型与 java 类型对应关系如下：
- *  <pre>
+ * <pre>
  *  http://wiki.fasterxml.com/JacksonInFiveMinutes
  *  JSON TYPE                JAVA TYPE
  *  object                    LinkedHashMap&lt;String,Object&gt;
@@ -43,6 +43,7 @@ public class ApiResult implements Serializable {
 
     /**
      * 通过 json 构造 ApiResult，注意返回结果不为 json 的 api（如果有的话）
+     *
      * @param jsonStr json字符串
      */
     @SuppressWarnings("unchecked")
@@ -59,6 +60,7 @@ public class ApiResult implements Serializable {
 
     /**
      * 通过 json 创建 ApiResult 对象，等价于 new ApiResult(jsonStr)
+     *
      * @param jsonStr json字符串
      * @return {ApiResult}
      */
@@ -76,6 +78,7 @@ public class ApiResult implements Serializable {
 
     /**
      * APi 请求是否成功返回
+     *
      * @return {boolean}
      */
     public boolean isSucceed() {
@@ -156,6 +159,7 @@ public class ApiResult implements Serializable {
      * 42001 = access_token超时
      * 42002 = refresh_token超时
      * 40014 = 不合法的access_token
+     *
      * @return {boolean}
      */
     public boolean isAccessTokenInvalid() {

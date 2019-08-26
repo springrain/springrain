@@ -22,7 +22,7 @@ import java.util.Map;
  */
 public class QrcodeApi {
     private static String apiUrl = WxConsts.mpapiurl + "/cgi-bin/qrcode/create?access_token=";
-    private static String showQrcodeUrl = WxConsts.mpweixinurl+"/cgi-bin/showqrcode?ticket=";
+    private static String showQrcodeUrl = WxConsts.mpweixinurl + "/cgi-bin/showqrcode?ticket=";
 
     public static ApiResult create(IWxMpConfig wxmpconfig, String jsonStr) {
         String jsonResult = HttpClientUtils.sendHttpPost(apiUrl + wxmpconfig.getAccessToken(), jsonStr);
@@ -36,7 +36,7 @@ public class QrcodeApi {
      * @param sceneId       场景值ID，临时二维码时为32位非0整型
      * @return ApiResult 二维码信息
      */
-    public static ApiResult createTemporary(IWxMpConfig wxmpconfig,int expireSeconds, int sceneId) {
+    public static ApiResult createTemporary(IWxMpConfig wxmpconfig, int expireSeconds, int sceneId) {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("expire_seconds", expireSeconds);
         params.put("action_name", "QR_SCENE");
@@ -47,7 +47,7 @@ public class QrcodeApi {
 
         actionInfo.put("scene", scene);
         params.put("action_info", actionInfo);
-        return create(wxmpconfig,JsonUtils.writeValueAsString(params));
+        return create(wxmpconfig, JsonUtils.writeValueAsString(params));
     }
 
     /**
@@ -56,7 +56,7 @@ public class QrcodeApi {
      * @param sceneId 场景值ID，永久二维码时最大值为100000（目前参数只支持1--100000）
      * @return ApiResult 二维码信息
      */
-    public static ApiResult createPermanent(IWxMpConfig wxmpconfig,int sceneId) {
+    public static ApiResult createPermanent(IWxMpConfig wxmpconfig, int sceneId) {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("action_name", "QR_LIMIT_SCENE");
 
@@ -66,7 +66,7 @@ public class QrcodeApi {
 
         actionInfo.put("scene", scene);
         params.put("action_info", actionInfo);
-        return create(wxmpconfig,JsonUtils.writeValueAsString(params));
+        return create(wxmpconfig, JsonUtils.writeValueAsString(params));
     }
 
     /**
@@ -75,7 +75,7 @@ public class QrcodeApi {
      * @param sceneStr 场景值ID（字符串形式的ID），字符串类型，长度限制为1到64，仅永久二维码支持此字段
      * @return ApiResult 二维码信息
      */
-    public static ApiResult createPermanent(IWxMpConfig wxmpconfig,String sceneStr) {
+    public static ApiResult createPermanent(IWxMpConfig wxmpconfig, String sceneStr) {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("action_name", "QR_LIMIT_STR_SCENE");
 
@@ -85,7 +85,7 @@ public class QrcodeApi {
 
         actionInfo.put("scene", scene);
         params.put("action_info", actionInfo);
-        return create(wxmpconfig,JsonUtils.writeValueAsString(params));
+        return create(wxmpconfig, JsonUtils.writeValueAsString(params));
     }
 
     /**
@@ -94,7 +94,7 @@ public class QrcodeApi {
      * @param ticket 换取二维码参数
      * @return String url
      */
-    public static String getShowQrcodeUrl(IWxMpConfig wxmpconfig,String ticket) {
+    public static String getShowQrcodeUrl(IWxMpConfig wxmpconfig, String ticket) {
         return showQrcodeUrl + ticket;
     }
 }

@@ -1,7 +1,6 @@
 package org.springrain.weixin.sdk.pay;
 
 import com.jfinal.weixin.sdk.kit.PaymentKit;
-import com.jfinal.weixin.sdk.utils.HttpClientUtils;
 import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.weixin.sdk.common.WxConsts;
 import org.springrain.weixin.sdk.common.service.IWxMpConfig;
@@ -18,16 +17,16 @@ import java.util.Map;
 public class PaymentApi {
 
     // 申请退款文档地址：https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_4
-    public static String refundUrl = WxConsts.mppaybaseurl+"/secapi/pay/refund";
+    public static String refundUrl = WxConsts.mppaybaseurl + "/secapi/pay/refund";
     // 文档地址：https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1
-    private static String unifiedOrderUrl = WxConsts.mppaybaseurl+"/pay/unifiedorder";
+    private static String unifiedOrderUrl = WxConsts.mppaybaseurl + "/pay/unifiedorder";
     // 文档地址：https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_2
-    private static String orderQueryUrl = WxConsts.mppaybaseurl+"/pay/orderquery";
+    private static String orderQueryUrl = WxConsts.mppaybaseurl + "/pay/orderquery";
     // 文档地址：https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_3
-    private static String closeOrderUrl = WxConsts.mppaybaseurl+"/pay/closeorder";
+    private static String closeOrderUrl = WxConsts.mppaybaseurl + "/pay/closeorder";
     // 查询退款文档地址：https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_5
-    private static String refundQueryUrl = WxConsts.mppaybaseurl+"/pay/refundquery";
-    private static String downloadBillUrl = WxConsts.mppaybaseurl+"/pay/downloadbill";
+    private static String refundQueryUrl = WxConsts.mppaybaseurl + "/pay/refundquery";
+    private static String downloadBillUrl = WxConsts.mppaybaseurl + "/pay/downloadbill";
 
     private PaymentApi() {
     }
@@ -39,8 +38,6 @@ public class PaymentApi {
      * @return String
      */
     public static String pushOrder(IWxMpConfig wxmpconfig, Map<String, String> params) {
-
-
 
 
         return HttpClientUtils.sendHttpPost(unifiedOrderUrl, PaymentKit.toXml(params));
@@ -68,7 +65,7 @@ public class PaymentApi {
      *
      * @return {String}
      */
-    public static String getDeepLink(IWxMpConfig wxmpconfig,String appId, String prepayId, String paternerKey) {
+    public static String getDeepLink(IWxMpConfig wxmpconfig, String appId, String prepayId, String paternerKey) {
         Map<String, String> params = new HashMap<String, String>();
         params.put("appid", appId);
         params.put("noncestr", System.currentTimeMillis() + "");
@@ -98,7 +95,7 @@ public class PaymentApi {
      * @param transaction_id 微信订单号
      * @return 回调信息
      */
-    public static Map<String, String> queryByTransactionId(IWxMpConfig wxmpconfig,String appid, String mch_id, String paternerKey, String transaction_id) {
+    public static Map<String, String> queryByTransactionId(IWxMpConfig wxmpconfig, String appid, String mch_id, String paternerKey, String transaction_id) {
         Map<String, String> params = new HashMap<String, String>();
         params.put("appid", appid);
         params.put("mch_id", mch_id);
@@ -115,7 +112,7 @@ public class PaymentApi {
      * @param out_trade_no 商户订单号
      * @return 回调信息
      */
-    public static Map<String, String> queryByOutTradeNo(IWxMpConfig wxmpconfig,String appid, String mch_id, String paternerKey, String out_trade_no) {
+    public static Map<String, String> queryByOutTradeNo(IWxMpConfig wxmpconfig, String appid, String mch_id, String paternerKey, String out_trade_no) {
         Map<String, String> params = new HashMap<String, String>();
         params.put("appid", appid);
         params.put("mch_id", mch_id);
@@ -132,7 +129,7 @@ public class PaymentApi {
      * @param out_trade_no 商户订单号
      * @return 回调信息
      */
-    public static Map<String, String> closeOrder(IWxMpConfig wxmpconfig,String appid, String mch_id, String paternerKey, String out_trade_no) {
+    public static Map<String, String> closeOrder(IWxMpConfig wxmpconfig, String appid, String mch_id, String paternerKey, String out_trade_no) {
         Map<String, String> params = new HashMap<String, String>();
         params.put("appid", appid);
         params.put("mch_id", mch_id);
@@ -148,7 +145,7 @@ public class PaymentApi {
      * @param certPath    证书文件目录
      * @return map
      */
-    public static Map<String, String> refund(IWxMpConfig wxmpconfig,Map<String, String> params, String paternerKey, String certPath) {
+    public static Map<String, String> refund(IWxMpConfig wxmpconfig, Map<String, String> params, String paternerKey, String certPath) {
         params.put("nonce_str", System.currentTimeMillis() + "");
         String sign = PaymentKit.createSign(params, paternerKey);
         params.put("sign", sign);
@@ -157,7 +154,7 @@ public class PaymentApi {
         return PaymentKit.xmlToMap(xmlStr);
     }
 
-    private static Map<String, String> baseRefundQuery(IWxMpConfig wxmpconfig,Map<String, String> params, String appid, String mch_id, String paternerKey) {
+    private static Map<String, String> baseRefundQuery(IWxMpConfig wxmpconfig, Map<String, String> params, String appid, String mch_id, String paternerKey) {
         params.put("appid", appid);
         params.put("mch_id", mch_id);
         return request(refundQueryUrl, params, paternerKey);
@@ -172,7 +169,7 @@ public class PaymentApi {
      * @param transaction_id 微信订单号
      * @return map
      */
-    public static Map<String, String> refundQueryByTransactionId(IWxMpConfig wxmpconfig,String appid, String mch_id, String paternerKey, String transaction_id) {
+    public static Map<String, String> refundQueryByTransactionId(IWxMpConfig wxmpconfig, String appid, String mch_id, String paternerKey, String transaction_id) {
         Map<String, String> params = new HashMap<String, String>();
         params.put("transaction_id", transaction_id);
         return baseRefundQuery(params, appid, mch_id, paternerKey);
@@ -187,7 +184,7 @@ public class PaymentApi {
      * @param out_trade_no 商户订单号
      * @return map
      */
-    public static Map<String, String> refundQueryByOutTradeNo(IWxMpConfig wxmpconfig,String appid, String mch_id, String paternerKey, String out_trade_no) {
+    public static Map<String, String> refundQueryByOutTradeNo(IWxMpConfig wxmpconfig, String appid, String mch_id, String paternerKey, String out_trade_no) {
         Map<String, String> params = new HashMap<String, String>();
         params.put("out_trade_no", out_trade_no);
         return baseRefundQuery(params, appid, mch_id, paternerKey);
@@ -202,7 +199,7 @@ public class PaymentApi {
      * @param out_refund_no 商户退款单号
      * @return map
      */
-    public static Map<String, String> refundQueryByOutRefundNo(IWxMpConfig wxmpconfig,String appid, String mch_id, String paternerKey, String out_refund_no) {
+    public static Map<String, String> refundQueryByOutRefundNo(IWxMpConfig wxmpconfig, String appid, String mch_id, String paternerKey, String out_refund_no) {
         Map<String, String> params = new HashMap<String, String>();
         params.put("out_refund_no", out_refund_no);
         return baseRefundQuery(params, appid, mch_id, paternerKey);
@@ -217,7 +214,7 @@ public class PaymentApi {
      * @param refund_id   微信退款单号
      * @return map
      */
-    public static Map<String, String> refundQueryByRefundId(IWxMpConfig wxmpconfig,String appid, String mch_id, String paternerKey, String refund_id) {
+    public static Map<String, String> refundQueryByRefundId(IWxMpConfig wxmpconfig, String appid, String mch_id, String paternerKey, String refund_id) {
         Map<String, String> params = new HashMap<String, String>();
         params.put("refund_id", refund_id);
         return baseRefundQuery(params, appid, mch_id, paternerKey);
@@ -241,7 +238,7 @@ public class PaymentApi {
      * @param billDate    对账单日期
      * @return String
      */
-    public static String downloadBill(IWxMpConfig wxmpconfig,String appid, String mch_id, String paternerKey, String billDate) {
+    public static String downloadBill(IWxMpConfig wxmpconfig, String appid, String mch_id, String paternerKey, String billDate) {
         return downloadBill(appid, mch_id, paternerKey, billDate, null);
     }
 
@@ -264,7 +261,7 @@ public class PaymentApi {
      * @param billType    账单类型
      * @return String
      */
-    public static String downloadBill(IWxMpConfig wxmpconfig,String appid, String mch_id, String paternerKey, String billDate, BillType billType) {
+    public static String downloadBill(IWxMpConfig wxmpconfig, String appid, String mch_id, String paternerKey, String billDate, BillType billType) {
         Map<String, String> params = new HashMap<String, String>();
         params.put("appid", appid);
         params.put("mch_id", mch_id);

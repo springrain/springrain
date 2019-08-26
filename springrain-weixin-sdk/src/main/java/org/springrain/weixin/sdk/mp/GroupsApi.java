@@ -2,8 +2,8 @@ package org.springrain.weixin.sdk.mp;
 
 import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.frame.util.JsonUtils;
-import org.springrain.weixin.sdk.common.WxConsts;
 import org.springrain.weixin.sdk.common.ApiResult;
+import org.springrain.weixin.sdk.common.WxConsts;
 import org.springrain.weixin.sdk.common.service.IWxMpConfig;
 
 import java.util.HashMap;
@@ -12,9 +12,9 @@ import java.util.Map;
 
 /**
  * 分组Api
- *
+ * <p>
  * 这个API估计微信去掉了,未找到对应的文档
- *
+ * <p>
  * 文档地址：http://mp.weixin.qq.com/wiki/5/0d8acdd6d4433c877fbea938a2f133cd.html
  */
 @Deprecated
@@ -64,7 +64,7 @@ public class GroupsApi {
      * @param openid 普通用户的标识，对当前开发者帐号唯一
      * @return ApiResult
      */
-    public static ApiResult getId(IWxMpConfig wxmpconfig,String openid) {
+    public static ApiResult getId(IWxMpConfig wxmpconfig, String openid) {
         String url = getIdUrl + wxmpconfig.getAccessToken();
 
         Map<String, String> mapData = new HashMap<String, String>();
@@ -81,7 +81,7 @@ public class GroupsApi {
      * @param name 分组名字（30个字符以内）
      * @return ApiResult
      */
-    public static ApiResult update(IWxMpConfig wxmpconfig,int id, String name) {
+    public static ApiResult update(IWxMpConfig wxmpconfig, int id, String name) {
         String url = updateUrl + wxmpconfig.getAccessToken();
 
         Map<String, Map<String, Object>> groupData = new HashMap<String, Map<String, Object>>();
@@ -101,7 +101,7 @@ public class GroupsApi {
      * @param to_groupid 分组id
      * @return ApiResult
      */
-    public static ApiResult membersUpdate(IWxMpConfig wxmpconfig,String openid, int to_groupid) {
+    public static ApiResult membersUpdate(IWxMpConfig wxmpconfig, String openid, int to_groupid) {
         String url = membersUpdateUrl + wxmpconfig.getAccessToken();
 
         Map<String, Object> mapData = new HashMap<String, Object>();
@@ -119,7 +119,7 @@ public class GroupsApi {
      * @param to_groupid 分组id
      * @return ApiResult
      */
-    public static ApiResult membersBatchUpdate(IWxMpConfig wxmpconfig,List<String> openidList, int to_groupid) {
+    public static ApiResult membersBatchUpdate(IWxMpConfig wxmpconfig, List<String> openidList, int to_groupid) {
         String url = membersBatchUpdateUrl + wxmpconfig.getAccessToken();
 
         Map<String, Object> mapData = new HashMap<String, Object>();
@@ -136,7 +136,7 @@ public class GroupsApi {
      * @param id 分组的id
      * @return ApiResult
      */
-    public static ApiResult delete(IWxMpConfig wxmpconfig,int id) {
+    public static ApiResult delete(IWxMpConfig wxmpconfig, int id) {
         String url = deleteUrl + wxmpconfig.getAccessToken();
 
         Map<String, Map<String, Object>> groupData = new HashMap<String, Map<String, Object>>();

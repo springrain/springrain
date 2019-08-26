@@ -82,5 +82,4 @@ public interface IWxMpConfigService {
     Map<String, String> findMpJsApiParam(IWxMpConfig wxMpConfig, String url) throws Exception;
 
 
-
 }

@@ -83,6 +83,12 @@ public class WxMenu extends BaseEntity {
         this.id = id;
     }
 
+    @Id
+    @WhereSQL(sql = "id=:CmsWxMenu_id")
+    public java.lang.String getId() {
+        return this.id;
+    }
+
     //getErrorMsgByCode and set
     public void setId(java.lang.String value) {
         if (StringUtils.isNotBlank(value)) {
@@ -91,10 +97,9 @@ public class WxMenu extends BaseEntity {
         this.id = value;
     }
 
-    @Id
-    @WhereSQL(sql = "id=:CmsWxMenu_id")
-    public java.lang.String getId() {
-        return this.id;
+    @WhereSQL(sql = "name=:CmsWxMenu_name")
+    public java.lang.String getName() {
+        return this.name;
     }
 
     public void setName(java.lang.String value) {
@@ -104,9 +109,9 @@ public class WxMenu extends BaseEntity {
         this.name = value;
     }
 
-    @WhereSQL(sql = "name=:CmsWxMenu_name")
-    public java.lang.String getName() {
-        return this.name;
+    @WhereSQL(sql = "type=:CmsWxMenu_type")
+    public java.lang.String getType() {
+        return this.type;
     }
 
     public void setType(java.lang.String value) {
@@ -116,9 +121,9 @@ public class WxMenu extends BaseEntity {
         this.type = value;
     }
 
-    @WhereSQL(sql = "type=:CmsWxMenu_type")
-    public java.lang.String getType() {
-        return this.type;
+    @WhereSQL(sql = "keyword=:CmsWxMenu_keyword")
+    public java.lang.String getKeyword() {
+        return this.keyword;
     }
 
     public void setKeyword(java.lang.String value) {
@@ -128,9 +133,9 @@ public class WxMenu extends BaseEntity {
         this.keyword = value;
     }
 
-    @WhereSQL(sql = "keyword=:CmsWxMenu_keyword")
-    public java.lang.String getKeyword() {
-        return this.keyword;
+    @WhereSQL(sql = "url=:CmsWxMenu_url")
+    public java.lang.String getUrl() {
+        return this.url;
     }
 
     public void setUrl(java.lang.String value) {
@@ -140,9 +145,9 @@ public class WxMenu extends BaseEntity {
         this.url = value;
     }
 
-    @WhereSQL(sql = "url=:CmsWxMenu_url")
-    public java.lang.String getUrl() {
-        return this.url;
+    @WhereSQL(sql = "pid=:CmsWxMenu_pid")
+    public java.lang.String getPid() {
+        return this.pid;
     }
 
     public void setPid(java.lang.String value) {
@@ -150,11 +155,6 @@ public class WxMenu extends BaseEntity {
             value = value.trim();
         }
         this.pid = value;
-    }
-
-    @WhereSQL(sql = "pid=:CmsWxMenu_pid")
-    public java.lang.String getPid() {
-        return this.pid;
     }
 		/*
 	public String getcreateDateString() {
@@ -164,13 +164,13 @@ public class WxMenu extends BaseEntity {
 		setcreateDate(DateUtils.convertString2Date(FORMAT_CREATEDATE,value));
 	}*/
 
-    public void setCreateDate(java.util.Date value) {
-        this.createDate = value;
-    }
-
     @WhereSQL(sql = "createDate=:CmsWxMenu_createDate")
     public java.util.Date getCreateDate() {
         return this.createDate;
+    }
+
+    public void setCreateDate(java.util.Date value) {
+        this.createDate = value;
     }
 
     @WhereSQL(sql = "siteId=:CmsWxMenu_siteId")

@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 /**
  * 模板消息数据对象
- *
+ * <p>
  * https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Template_Message_Interface.html
  * #description 模板消息数据对象
  */

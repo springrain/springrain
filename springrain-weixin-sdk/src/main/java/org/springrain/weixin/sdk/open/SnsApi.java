@@ -6,8 +6,6 @@
 
 package org.springrain.weixin.sdk.open;
 
-import com.jfinal.weixin.sdk.kit.ParaMap;
-import com.jfinal.weixin.sdk.utils.HttpClientUtils;
 import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.weixin.sdk.common.ApiResult;
 import org.springrain.weixin.sdk.common.WxConsts;
@@ -25,12 +23,12 @@ public class SnsApi {
      * 获取用户个人信
      *
      * @param wxmpconfig 调用凭证access_token
-     * @param openId      普通用户的标识，对当前开发者帐号唯一
+     * @param openId     普通用户的标识，对当前开发者帐号唯一
      * @return ApiResult
      */
     public static ApiResult getUserInfo(IWxMpConfig wxmpconfig, String openId) {
 
-        String apiurl=getUserInfo+wxmpconfig.getAccessToken()+"&openId="+openId+"&lang=zh_CN";
+        String apiurl = getUserInfo + wxmpconfig.getAccessToken() + "&openId=" + openId + "&lang=zh_CN";
 
         return new ApiResult(HttpClientUtils.sendHttpGet(getUserInfo));
     }

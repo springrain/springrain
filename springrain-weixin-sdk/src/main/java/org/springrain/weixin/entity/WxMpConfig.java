@@ -128,6 +128,13 @@ public class WxMpConfig extends BaseEntity implements IWxMpConfig {
         this.id = id;
     }
 
+    @Override
+    @Id
+    @WhereSQL(sql = "id=:WxMpconfig_id")
+    public java.lang.String getId() {
+        return this.id;
+    }
+
     //getErrorMsgByCode and set
     @Override
     public void setId(java.lang.String value) {
@@ -137,11 +144,9 @@ public class WxMpConfig extends BaseEntity implements IWxMpConfig {
         this.id = value;
     }
 
-    @Override
-    @Id
-    @WhereSQL(sql = "id=:WxMpconfig_id")
-    public java.lang.String getId() {
-        return this.id;
+    @WhereSQL(sql = "siteId=:WxMpconfig_siteId")
+    public java.lang.String getSiteId() {
+        return this.siteId;
     }
 
     public void setSiteId(java.lang.String value) {
@@ -151,9 +156,10 @@ public class WxMpConfig extends BaseEntity implements IWxMpConfig {
         this.siteId = value;
     }
 
-    @WhereSQL(sql = "siteId=:WxMpconfig_siteId")
-    public java.lang.String getSiteId() {
-        return this.siteId;
+    @Override
+    @WhereSQL(sql = "appId=:WxMpconfig_appId")
+    public java.lang.String getAppId() {
+        return this.appId;
     }
 
     @Override
@@ -165,9 +171,9 @@ public class WxMpConfig extends BaseEntity implements IWxMpConfig {
     }
 
     @Override
-    @WhereSQL(sql = "appId=:WxMpconfig_appId")
-    public java.lang.String getAppId() {
-        return this.appId;
+    @WhereSQL(sql = "secret=:WxMpconfig_secret")
+    public java.lang.String getSecret() {
+        return this.secret;
     }
 
     @Override
@@ -179,9 +185,9 @@ public class WxMpConfig extends BaseEntity implements IWxMpConfig {
     }
 
     @Override
-    @WhereSQL(sql = "secret=:WxMpconfig_secret")
-    public java.lang.String getSecret() {
-        return this.secret;
+    @WhereSQL(sql = "token=:WxMpconfig_token")
+    public java.lang.String getToken() {
+        return this.token;
     }
 
     @Override
@@ -193,9 +199,9 @@ public class WxMpConfig extends BaseEntity implements IWxMpConfig {
     }
 
     @Override
-    @WhereSQL(sql = "token=:WxMpconfig_token")
-    public java.lang.String getToken() {
-        return this.token;
+    @WhereSQL(sql = "aesKey=:WxMpconfig_aesKey")
+    public java.lang.String getAesKey() {
+        return this.aesKey;
     }
 
     @Override
@@ -206,10 +212,9 @@ public class WxMpConfig extends BaseEntity implements IWxMpConfig {
         this.aesKey = value;
     }
 
-    @Override
-    @WhereSQL(sql = "aesKey=:WxMpconfig_aesKey")
-    public java.lang.String getAesKey() {
-        return this.aesKey;
+    @WhereSQL(sql = "wxId=:WxMpconfig_wxId")
+    public java.lang.String getWxId() {
+        return this.wxId;
     }
 
     public void setWxId(java.lang.String value) {
@@ -219,18 +224,19 @@ public class WxMpConfig extends BaseEntity implements IWxMpConfig {
         this.wxId = value;
     }
 
-    @WhereSQL(sql = "wxId=:WxMpconfig_wxId")
-    public java.lang.String getWxId() {
-        return this.wxId;
+    @WhereSQL(sql = "active=:WxMpconfig_active")
+    public java.lang.Integer getActive() {
+        return this.active;
     }
 
     public void setActive(java.lang.Integer value) {
         this.active = value;
     }
 
-    @WhereSQL(sql = "active=:WxMpconfig_active")
-    public java.lang.Integer getActive() {
-        return this.active;
+    @Override
+    @WhereSQL(sql = "partnerId=:WxMpconfig_partnerId")
+    public java.lang.String getPartnerId() {
+        return this.partnerId;
     }
 
     @Override
@@ -242,9 +248,9 @@ public class WxMpConfig extends BaseEntity implements IWxMpConfig {
     }
 
     @Override
-    @WhereSQL(sql = "partnerId=:WxMpconfig_partnerId")
-    public java.lang.String getPartnerId() {
-        return this.partnerId;
+    @WhereSQL(sql = "partnerKey=:WxMpconfig_partnerKey")
+    public java.lang.String getPartnerKey() {
+        return this.partnerKey;
     }
 
     @Override
@@ -255,10 +261,10 @@ public class WxMpConfig extends BaseEntity implements IWxMpConfig {
         this.partnerKey = value;
     }
 
+    @WhereSQL(sql = "oauth2=:WxMpconfig_oauth2")
     @Override
-    @WhereSQL(sql = "partnerKey=:WxMpconfig_partnerKey")
-    public java.lang.String getPartnerKey() {
-        return this.partnerKey;
+    public java.lang.Integer getOauth2() {
+        return this.oauth2;
     }
 
     @Override
@@ -267,10 +273,10 @@ public class WxMpConfig extends BaseEntity implements IWxMpConfig {
         this.oauth2 = value;
     }
 
-    @WhereSQL(sql = "oauth2=:WxMpconfig_oauth2")
     @Override
-    public java.lang.Integer getOauth2() {
-        return this.oauth2;
+    @WhereSQL(sql = "httpProxyHost=:WxMpconfig_httpProxyHost")
+    public java.lang.String getHttpProxyHost() {
+        return this.httpProxyHost;
     }
 
     @Override
@@ -282,9 +288,9 @@ public class WxMpConfig extends BaseEntity implements IWxMpConfig {
     }
 
     @Override
-    @WhereSQL(sql = "httpProxyHost=:WxMpconfig_httpProxyHost")
-    public java.lang.String getHttpProxyHost() {
-        return this.httpProxyHost;
+    @WhereSQL(sql = "httpProxyPort=:WxMpconfig_httpProxyPort")
+    public java.lang.Integer getHttpProxyPort() {
+        return this.httpProxyPort;
     }
 
     @Override
@@ -293,9 +299,9 @@ public class WxMpConfig extends BaseEntity implements IWxMpConfig {
     }
 
     @Override
-    @WhereSQL(sql = "httpProxyPort=:WxMpconfig_httpProxyPort")
-    public java.lang.Integer getHttpProxyPort() {
-        return this.httpProxyPort;
+    @WhereSQL(sql = "httpProxyUsername=:WxMpconfig_httpProxyUsername")
+    public java.lang.String getHttpProxyUsername() {
+        return this.httpProxyUsername;
     }
 
     @Override
@@ -307,9 +313,9 @@ public class WxMpConfig extends BaseEntity implements IWxMpConfig {
     }
 
     @Override
-    @WhereSQL(sql = "httpProxyUsername=:WxMpconfig_httpProxyUsername")
-    public java.lang.String getHttpProxyUsername() {
-        return this.httpProxyUsername;
+    @WhereSQL(sql = "httpProxyPassword=:WxMpconfig_httpProxyPassword")
+    public java.lang.String getHttpProxyPassword() {
+        return this.httpProxyPassword;
     }
 
     @Override
@@ -321,9 +327,9 @@ public class WxMpConfig extends BaseEntity implements IWxMpConfig {
     }
 
     @Override
-    @WhereSQL(sql = "httpProxyPassword=:WxMpconfig_httpProxyPassword")
-    public java.lang.String getHttpProxyPassword() {
-        return this.httpProxyPassword;
+    @WhereSQL(sql = "certificateFile=:WxMpconfig_certificateFile")
+    public java.lang.String getCertificateFile() {
+        return this.certificateFile;
     }
 
     @Override
@@ -332,12 +338,6 @@ public class WxMpConfig extends BaseEntity implements IWxMpConfig {
             value = value.trim();
         }
         this.certificateFile = value;
-    }
-
-    @Override
-    @WhereSQL(sql = "certificateFile=:WxMpconfig_certificateFile")
-    public java.lang.String getCertificateFile() {
-        return this.certificateFile;
     }
 
     @Override

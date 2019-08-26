@@ -44,7 +44,7 @@ public class MenuApi {
      * @param jsonStr json字符串
      * @return {ApiResult}
      */
-    public static ApiResult createMenu(IWxMpConfig wxmpconfig,String jsonStr) {
+    public static ApiResult createMenu(IWxMpConfig wxmpconfig, String jsonStr) {
         String jsonResult = HttpClientUtils.sendHttpPost(createMenu + wxmpconfig.getAccessToken(), jsonStr);
         return new ApiResult(jsonResult);
     }
@@ -65,7 +65,7 @@ public class MenuApi {
      * @param jsonStr json字符串
      * @return {ApiResult}
      */
-    public static ApiResult addConditional(IWxMpConfig wxmpconfig,String jsonStr) {
+    public static ApiResult addConditional(IWxMpConfig wxmpconfig, String jsonStr) {
         String jsonResult = HttpClientUtils.sendHttpPost(addConditionalUrl + wxmpconfig.getAccessToken(), jsonStr);
         return new ApiResult(jsonResult);
     }
@@ -76,7 +76,7 @@ public class MenuApi {
      * @param menuid menuid为菜单id，可以通过自定义菜单查询接口获取。
      * @return ApiResult
      */
-    public static ApiResult delConditional(IWxMpConfig wxmpconfig,String menuid) {
+    public static ApiResult delConditional(IWxMpConfig wxmpconfig, String menuid) {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("menuid", menuid);
 
@@ -92,7 +92,7 @@ public class MenuApi {
      * @param userId user_id可以是粉丝的OpenID，也可以是粉丝的微信号。
      * @return ApiResult
      */
-    public static ApiResult tryMatch(IWxMpConfig wxmpconfig,String userId) {
+    public static ApiResult tryMatch(IWxMpConfig wxmpconfig, String userId) {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("user_id", userId);
 

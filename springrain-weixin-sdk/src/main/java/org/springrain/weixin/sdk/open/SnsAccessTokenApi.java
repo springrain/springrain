@@ -6,10 +6,7 @@
 
 package org.springrain.weixin.sdk.open;
 
-import com.jfinal.kit.StrKit;
 import com.jfinal.weixin.sdk.kit.PaymentKit;
-import com.jfinal.weixin.sdk.utils.HttpClientUtils;
-import com.jfinal.weixin.sdk.utils.RetryUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.weixin.sdk.common.WxConsts;
@@ -35,7 +32,7 @@ public class SnsAccessTokenApi {
      * @return url
      */
     public static String getAuthorizeURL(IWxMpConfig wxmpconfig, String appId, String redirect_uri, boolean snsapiBase) {
-        return getAuthorizeURL(wxmpconfig,appId, redirect_uri, null, snsapiBase);
+        return getAuthorizeURL(wxmpconfig, appId, redirect_uri, null, snsapiBase);
     }
 
     /**
@@ -47,7 +44,7 @@ public class SnsAccessTokenApi {
      * @param snsapiBase  snsapi_base（不弹出授权页面，只能拿到用户openid）snsapi_userinfo（弹出授权页面，这个可以通过 openid 拿到昵称、性别、所在地）
      * @return url
      */
-    public static String getAuthorizeURL(IWxMpConfig wxmpconfig,String appId, String redirectUri, String state, boolean snsapiBase) {
+    public static String getAuthorizeURL(IWxMpConfig wxmpconfig, String appId, String redirectUri, String state, boolean snsapiBase) {
         Map<String, String> params = new HashMap<String, String>();
         params.put("appid", appId);
         params.put("response_type", "code");
@@ -76,8 +73,8 @@ public class SnsAccessTokenApi {
      * @param redirect_uri 回跳地址
      * @return url
      */
-    public static String getQrConnectURL(IWxMpConfig wxmpconfig,String appId, String redirect_uri) {
-        return getQrConnectURL(wxmpconfig,appId, redirect_uri, null);
+    public static String getQrConnectURL(IWxMpConfig wxmpconfig, String appId, String redirect_uri) {
+        return getQrConnectURL(wxmpconfig, appId, redirect_uri, null);
     }
 
     /**
@@ -88,7 +85,7 @@ public class SnsAccessTokenApi {
      * @param state        重定向后会带上state参数，开发者可以填写a-zA-Z0-9的参数值，最多128字节
      * @return url
      */
-    public static String getQrConnectURL(IWxMpConfig wxmpconfig,String appId, String redirect_uri, String state) {
+    public static String getQrConnectURL(IWxMpConfig wxmpconfig, String appId, String redirect_uri, String state) {
         Map<String, String> params = new HashMap<String, String>();
         params.put("appid", appId);
         params.put("response_type", "code");
@@ -111,7 +108,7 @@ public class SnsAccessTokenApi {
      * @param secret 应用密钥AppSecret
      * @return SnsAccessToken
      */
-    public static SnsAccessToken getSnsAccessToken(IWxMpConfig wxmpconfig,String appId, String secret, String code) {
+    public static SnsAccessToken getSnsAccessToken(IWxMpConfig wxmpconfig, String appId, String secret, String code) {
         final String accessTokenUrl = url.replace("{appid}", appId).replace("{secret}", secret).replace("{code}", code);
         String json = HttpClientUtils.sendHttpGet(accessTokenUrl);
         return new SnsAccessToken(json);

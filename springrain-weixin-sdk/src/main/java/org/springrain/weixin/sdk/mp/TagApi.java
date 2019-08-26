@@ -57,7 +57,7 @@ public class TagApi {
      * @param name 标签名
      * @return {ApiResult}
      */
-    public static ApiResult update(IWxMpConfig wxmpconfig,int id, String name) {
+    public static ApiResult update(IWxMpConfig wxmpconfig, int id, String name) {
         String url = UPDATE_URL + wxmpconfig.getAccessToken();
         HashMap<String, Object> data = new HashMap<String, Object>();
         HashMap<String, Object> tags = new HashMap<String, Object>();
@@ -75,7 +75,7 @@ public class TagApi {
      * @param id 标签id
      * @return {ApiResult}
      */
-    public static ApiResult delete(IWxMpConfig wxmpconfig,int id) {
+    public static ApiResult delete(IWxMpConfig wxmpconfig, int id) {
         String url = DELETE_URL + wxmpconfig.getAccessToken();
         HashMap<String, Object> data = new HashMap<String, Object>();
         HashMap<String, Object> tags = new HashMap<String, Object>();
@@ -92,8 +92,8 @@ public class TagApi {
      * @param tagId 标签id
      * @return {ApiResult}
      */
-    public static ApiResult getUser(IWxMpConfig wxmpconfig,int tagId) {
-        return getUser(wxmpconfig,tagId, null);
+    public static ApiResult getUser(IWxMpConfig wxmpconfig, int tagId) {
+        return getUser(wxmpconfig, tagId, null);
     }
 
     /**
@@ -103,7 +103,7 @@ public class TagApi {
      * @param nextOpenId 第一个拉取的OPENID，不填默认从头开始拉取
      * @return {ApiResult}
      */
-    public static ApiResult getUser(IWxMpConfig wxmpconfig,int tagId, String nextOpenId) {
+    public static ApiResult getUser(IWxMpConfig wxmpconfig, int tagId, String nextOpenId) {
         String url = GET_USER_URL + wxmpconfig.getAccessToken();
         HashMap<String, Object> data = new HashMap<String, Object>();
         data.put("tagid", tagId);
@@ -121,7 +121,7 @@ public class TagApi {
      * @param openIdList openid列表
      * @return {ApiResult}
      */
-    public static ApiResult batchAddTag(IWxMpConfig wxmpconfig,int tagId, List<String> openIdList) {
+    public static ApiResult batchAddTag(IWxMpConfig wxmpconfig, int tagId, List<String> openIdList) {
         String url = BATCH_TAGGING_URL + wxmpconfig.getAccessToken();
         HashMap<String, Object> data = new HashMap<String, Object>();
         data.put("tagid", tagId);
@@ -138,7 +138,7 @@ public class TagApi {
      * @param openIdList openid列表
      * @return {ApiResult}
      */
-    public static ApiResult batchDelTag(IWxMpConfig wxmpconfig,int tagId, List<String> openIdList) {
+    public static ApiResult batchDelTag(IWxMpConfig wxmpconfig, int tagId, List<String> openIdList) {
         String url = BATCH_UNTAGGING_URL + wxmpconfig.getAccessToken();
         HashMap<String, Object> data = new HashMap<String, Object>();
         data.put("tagid", tagId);
@@ -154,7 +154,7 @@ public class TagApi {
      * @param openId openid
      * @return {ApiResult}
      */
-    public static ApiResult getUser(IWxMpConfig wxmpconfig,String openId) {
+    public static ApiResult getUser(IWxMpConfig wxmpconfig, String openId) {
         String url = GET_ID_LIST_URL + wxmpconfig.getAccessToken();
         HashMap<String, Object> data = new HashMap<String, Object>();
         data.put("openid", openId);

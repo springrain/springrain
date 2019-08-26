@@ -33,34 +33,31 @@ public class TicketApi {
      */
     public static String getJsApiTicket(IWxMpConfig wxmpconfig) {
         String access_token = wxmpconfig.getAccessToken();
-        String jsonResult = HttpClientUtils.sendHttpPost(apiUrl+access_token+"&type=jsapi");
+        String jsonResult = HttpClientUtils.sendHttpPost(apiUrl + access_token + "&type=jsapi");
 
-        Map map= JsonUtils.readValue(jsonResult, Map.class);
+        Map map = JsonUtils.readValue(jsonResult, Map.class);
 
-        String ticket=(String)map.get("ticket");
+        String ticket = (String) map.get("ticket");
 
         wxmpconfig.setJsApiTicket(ticket);
-        wxmpconfig.setJsApiTicketExpiresTime(Long.valueOf((int)map.get("expires_in")));
+        wxmpconfig.setJsApiTicketExpiresTime(Long.valueOf((int) map.get("expires_in")));
 
         return ticket;
     }
+
     public static String getCardApiTicket(IWxMpConfig wxmpconfig) {
         String access_token = wxmpconfig.getAccessToken();
-        String jsonResult = HttpClientUtils.sendHttpPost(apiUrl+access_token+"&type=wx_card");
+        String jsonResult = HttpClientUtils.sendHttpPost(apiUrl + access_token + "&type=wx_card");
 
-        Map map= JsonUtils.readValue(jsonResult, Map.class);
+        Map map = JsonUtils.readValue(jsonResult, Map.class);
 
-        String ticket=(String)map.get("ticket");
+        String ticket = (String) map.get("ticket");
 
         wxmpconfig.setCardApiTicket(ticket);
-        wxmpconfig.setCardApiTicketExpiresTime(Long.valueOf((int)map.get("expires_in")));
+        wxmpconfig.setCardApiTicketExpiresTime(Long.valueOf((int) map.get("expires_in")));
 
         return ticket;
     }
-
-
-
-
 
 
 }

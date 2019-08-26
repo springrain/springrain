@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 /**
  * 图文素材
- *
  */
 public class MediaArticles implements Serializable {
     private static final long serialVersionUID = -4053285499598013940L;

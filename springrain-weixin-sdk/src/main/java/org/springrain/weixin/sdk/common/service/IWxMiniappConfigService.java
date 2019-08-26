@@ -41,7 +41,4 @@ public interface IWxMiniappConfigService {
     IWxMiniappConfig updateAccessToken(IWxMiniappConfig wxminiappconfig);
 
 
-
-
-
 }

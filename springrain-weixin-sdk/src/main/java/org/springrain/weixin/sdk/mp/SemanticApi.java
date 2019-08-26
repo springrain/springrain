@@ -7,7 +7,7 @@ import org.springrain.weixin.sdk.common.service.IWxMpConfig;
 
 /**
  * 语义理解接口
- *
+ * <p>
  * 文档地址：https://developers.weixin.qq.com/doc/offiaccount/Intelligent_Interface/Natural_Language_Processing.html
  */
 public class SemanticApi {

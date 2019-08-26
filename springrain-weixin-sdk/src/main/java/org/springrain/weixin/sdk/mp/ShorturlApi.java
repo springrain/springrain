@@ -37,6 +37,6 @@ public class ShorturlApi {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("action", "long2short");
         params.put("long_url", longUrl);
-        return getShorturl(wxmpconfig,JsonUtils.writeValueAsString(params));
+        return getShorturl(wxmpconfig, JsonUtils.writeValueAsString(params));
     }
 }

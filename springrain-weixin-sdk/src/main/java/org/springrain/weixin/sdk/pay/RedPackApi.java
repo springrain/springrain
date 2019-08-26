@@ -1,7 +1,6 @@
 package org.springrain.weixin.sdk.pay;
 
 import com.jfinal.weixin.sdk.kit.PaymentKit;
-import com.jfinal.weixin.sdk.utils.HttpClientUtils;
 import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.weixin.sdk.common.WxConsts;
 import org.springrain.weixin.sdk.common.service.IWxMpConfig;
@@ -42,7 +41,7 @@ public class RedPackApi {
      * @param partner  证书密码
      * @return {String}
      */
-    public static String getHbInfo(IWxMpConfig wxmpconfig,Map<String, String> params, String certPath, String partner) {
+    public static String getHbInfo(IWxMpConfig wxmpconfig, Map<String, String> params, String certPath, String partner) {
         return HttpClientUtils.sendHttpPostSSL(getHBInfo, PaymentKit.toXml(params), certPath, partner);
     }
 
@@ -54,7 +53,7 @@ public class RedPackApi {
      * @param partner  证书密码
      * @return {String}
      */
-    public static String sendGroupRedPack(IWxMpConfig wxmpconfig,Map<String, String> params, String certPath, String partner) {
+    public static String sendGroupRedPack(IWxMpConfig wxmpconfig, Map<String, String> params, String certPath, String partner) {
         return HttpClientUtils.sendHttpPostSSL(sendGroupRedPackUrl, PaymentKit.toXml(params), certPath, partner);
     }
 }

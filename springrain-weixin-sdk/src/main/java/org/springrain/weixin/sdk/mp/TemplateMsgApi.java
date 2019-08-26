@@ -45,7 +45,7 @@ public class TemplateMsgApi {
      * @param industry_id2 公众号模板消息所属行业编号
      * @return {ApiResult}
      */
-    public static ApiResult setIndustry(IWxMpConfig wxmpconfig,String industry_id1, String industry_id2) {
+    public static ApiResult setIndustry(IWxMpConfig wxmpconfig, String industry_id1, String industry_id2) {
         String url = setIndustryUrl + wxmpconfig.getAccessToken();
 
         Map<String, Object> params = new HashMap<String, Object>();
@@ -71,7 +71,7 @@ public class TemplateMsgApi {
      * @param templateIdShort 模板库中模板的编号，有“TM**”和“OPENTMTM**”等形式
      * @return {ApiResult}
      */
-    public static ApiResult getTemplateId(IWxMpConfig wxmpconfig,String templateIdShort) {
+    public static ApiResult getTemplateId(IWxMpConfig wxmpconfig, String templateIdShort) {
         String url = getTemplateIdUrl + wxmpconfig.getAccessToken();
 
         Map<String, Object> params = new HashMap<String, Object>();
@@ -96,7 +96,7 @@ public class TemplateMsgApi {
      * @param templateId 公众帐号下模板消息ID
      * @return {ApiResult}
      */
-    public static ApiResult delTemplateById(IWxMpConfig wxmpconfig,String templateId) {
+    public static ApiResult delTemplateById(IWxMpConfig wxmpconfig, String templateId) {
         String url = delTemplateUrl + wxmpconfig.getAccessToken();
 
         Map<String, Object> params = new HashMap<String, Object>();

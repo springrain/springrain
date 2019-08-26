@@ -18,7 +18,7 @@ import java.util.Map;
 /**
  * 微信门店接口
  * 门店poiid体系已做改造，poiid自创建后立刻分配，不再受审核影响发生变化。
- *
+ * <p>
  * https://developers.weixin.qq.com/doc/offiaccount/WeChat_Stores/WeChat_Store_Interface.html
  */
 public class PoiApi {
@@ -78,14 +78,14 @@ public class PoiApi {
      * @param poi 门店数据实体
      * @return ApiResult
      */
-    public static ApiResult addPoi(IWxMpConfig wxmpconfig,Poi poi) {
+    public static ApiResult addPoi(IWxMpConfig wxmpconfig, Poi poi) {
         Map<String, Map<String, Poi>> business = new HashMap<String, Map<String, Poi>>();
         Map<String, Poi> base_info = new HashMap<String, Poi>();
 
         base_info.put("base_info", poi);
         business.put("business", base_info);
 
-        return addPoi(wxmpconfig,JsonUtils.writeValueAsString(business));
+        return addPoi(wxmpconfig, JsonUtils.writeValueAsString(business));
     }
 
     /**
@@ -94,7 +94,7 @@ public class PoiApi {
      * @param poiId 门店poi_id
      * @return ApiResult
      */
-    public static ApiResult getPoi(IWxMpConfig wxmpconfig,String poiId) {
+    public static ApiResult getPoi(IWxMpConfig wxmpconfig, String poiId) {
         String url = getPoi + wxmpconfig.getAccessToken();
 
         Map<String, String> poi_id = new HashMap<String, String>();
@@ -206,7 +206,7 @@ public class PoiApi {
      * "total_count" : "3"
      * }
      */
-    public static ApiResult getPoiList(IWxMpConfig wxmpconfig,int begin, int limit) {
+    public static ApiResult getPoiList(IWxMpConfig wxmpconfig, int begin, int limit) {
         String url = getPoiList + wxmpconfig.getAccessToken();
 
         Map<String, Integer> poiListPara = new HashMap<String, Integer>();
@@ -252,7 +252,7 @@ public class PoiApi {
      * }
      * }
      */
-    public static ApiResult updatePoi(IWxMpConfig wxmpconfig,String jsonStr) {
+    public static ApiResult updatePoi(IWxMpConfig wxmpconfig, String jsonStr) {
         String jsonResult = HttpClientUtils.sendHttpPost(updatePoi + wxmpconfig.getAccessToken(), jsonStr);
         return new ApiResult(jsonResult);
     }
@@ -264,14 +264,14 @@ public class PoiApi {
      * @param poi 门店数据实体
      * @return ApiResult
      */
-    public static ApiResult updatePoi(IWxMpConfig wxmpconfig,Poi poi) {
+    public static ApiResult updatePoi(IWxMpConfig wxmpconfig, Poi poi) {
         Map<String, Map<String, Poi>> business = new HashMap<String, Map<String, Poi>>();
         Map<String, Poi> base_info = new HashMap<String, Poi>();
 
         base_info.put("base_info", poi);
         business.put("business", base_info);
 
-        return addPoi(wxmpconfig,JsonUtils.writeValueAsString(business));
+        return addPoi(wxmpconfig, JsonUtils.writeValueAsString(business));
     }
 
     /**
@@ -280,7 +280,7 @@ public class PoiApi {
      * @param poiId 门店poi_id
      * @return ApiResult
      */
-    public static ApiResult delPoi(IWxMpConfig wxmpconfig,String poiId) {
+    public static ApiResult delPoi(IWxMpConfig wxmpconfig, String poiId) {
         String url = delPoi + wxmpconfig.getAccessToken();
 
         Map<String, String> poi_id = new HashMap<String, String>();
@@ -297,7 +297,7 @@ public class PoiApi {
      * @return ApiResult
      */
     public static ApiResult getCategory(IWxMpConfig wxmpconfig) {
-        String apiurl=getWxCategory+wxmpconfig.getAccessToken();
+        String apiurl = getWxCategory + wxmpconfig.getAccessToken();
         return new ApiResult(HttpClientUtils.sendHttpGet(apiurl));
     }
 }

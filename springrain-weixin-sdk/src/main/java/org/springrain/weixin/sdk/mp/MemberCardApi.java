@@ -11,7 +11,7 @@ import java.util.Map;
 
 /**
  * 会员卡接口
- *
+ * <p>
  * https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Membership_Cards/Manage_Member_Card.html
  */
 public class MemberCardApi {
@@ -38,7 +38,7 @@ public class MemberCardApi {
      * @param jsonStr JSON数据
      * @return {ApiResult}
      */
-    public static ApiResult setActivateUserForm(IWxMpConfig wxmpconfig,String jsonStr) {
+    public static ApiResult setActivateUserForm(IWxMpConfig wxmpconfig, String jsonStr) {
         String jsonResult = HttpClientUtils.sendHttpPost(setActivateUserFormUrl + wxmpconfig.getAccessToken(), jsonStr);
         return new ApiResult(jsonResult);
     }
@@ -50,7 +50,7 @@ public class MemberCardApi {
      * @param code   卡券code。
      * @return {ApiResult}
      */
-    public static ApiResult getUserInfo(IWxMpConfig wxmpconfig,String cardId, String code) {
+    public static ApiResult getUserInfo(IWxMpConfig wxmpconfig, String cardId, String code) {
         Map<String, Object> data = new HashMap<>();
         data.put("card_id", cardId);
         data.put("code", code);
@@ -64,7 +64,7 @@ public class MemberCardApi {
      * @param activaTeicket 用户填写信息的参数
      * @return {ApiResult}
      */
-    public static ApiResult getActivateTempInfo(IWxMpConfig wxmpconfig,String activaTeicket) {
+    public static ApiResult getActivateTempInfo(IWxMpConfig wxmpconfig, String activaTeicket) {
         Map<String, Object> data = new HashMap<>();
         data.put("activate_ticket", activaTeicket);
         String jsonResult = HttpClientUtils.sendHttpPost(getActivateTempInfoUrl + wxmpconfig.getAccessToken(), JsonUtils.writeValueAsString(data));
@@ -77,7 +77,7 @@ public class MemberCardApi {
      * @param jsonStr JSON数据
      * @return {ApiResult}
      */
-    public static ApiResult updateUser(IWxMpConfig wxmpconfig,String jsonStr) {
+    public static ApiResult updateUser(IWxMpConfig wxmpconfig, String jsonStr) {
         String jsonResult = HttpClientUtils.sendHttpPost(updateUserUrl + wxmpconfig.getAccessToken(), jsonStr);
         return new ApiResult(jsonResult);
     }

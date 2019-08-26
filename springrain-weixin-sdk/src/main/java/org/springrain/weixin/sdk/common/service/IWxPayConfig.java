@@ -2,7 +2,7 @@ package org.springrain.weixin.sdk.common.service;
 
 import org.springrain.weixin.sdk.pay.WXPayConstants;
 
-public interface IWxPayConfig  {
+public interface IWxPayConfig {
 
     String getId();// 业务Id
 
@@ -20,12 +20,13 @@ public interface IWxPayConfig  {
     String getCertificateFile();
 
     void setCertificateFile(String certificateFile);
+
     /**
      * 获取 Mch ID
      *
      * @return Mch ID
      */
-     String getMchId();
+    String getMchId();
 
 
     /**
@@ -33,25 +34,23 @@ public interface IWxPayConfig  {
      *
      * @return API密钥
      */
-     String getKey();
+    String getKey();
 
-     String getNotifyUrl();
-
-
-     Boolean getUseSandbox();
+    String getNotifyUrl();
 
 
-
+    Boolean getUseSandbox();
 
 
     WXPayConstants.SignType getSignType();
+
     /**
      * HTTP(S) 连接超时时间，单位毫秒
      *
      * @return
      */
     default int getHttpConnectTimeoutMs() {
-        return 6*1000;
+        return 6 * 1000;
     }
 
     /**
@@ -60,14 +59,15 @@ public interface IWxPayConfig  {
      * @return
      */
     default int getHttpReadTimeoutMs() {
-        return 8*1000;
+        return 8 * 1000;
     }
 
     /**
      * 获取WXPayDomain, 用于多域名容灾自动切换
+     *
      * @return
      */
-     IWXPayDomain getWXPayDomain();
+    IWXPayDomain getWXPayDomain();
 
     /**
      * 是否自动上报。

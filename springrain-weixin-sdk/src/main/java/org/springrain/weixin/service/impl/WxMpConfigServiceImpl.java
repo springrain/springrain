@@ -82,7 +82,7 @@ public class WxMpConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl imple
         IWxMpConfig wxMpConfig = null;
         try {
             wxMpConfig = super.getByCache(id, GlobalStatic.mpConfigCacheKey, WxMpConfig.class);
-            if (wxMpConfig == null||wxMpConfig.isAccessTokenExpired()) {
+            if (wxMpConfig == null || wxMpConfig.isAccessTokenExpired()) {
                 wxMpConfig = super.findById(id, WxMpConfig.class);
                 AccessTokenApi.getAccessToken(wxMpConfig);
                 TicketApi.getCardApiTicket(wxMpConfig);
@@ -118,7 +118,7 @@ public class WxMpConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl imple
     }
 
     @Override
-    public Map<String, String> findMpJsApiParam(IWxMpConfig wxMpConfig, String url)  {
+    public Map<String, String> findMpJsApiParam(IWxMpConfig wxMpConfig, String url) {
 
         if (wxMpConfig == null || StringUtils.isBlank(url)) {
             return null;
@@ -126,7 +126,7 @@ public class WxMpConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl imple
 
         Map<String, String> params = new HashMap<>();
 
-        String jsapiTicket =wxMpConfig.getJsApiTicket();
+        String jsapiTicket = wxMpConfig.getJsApiTicket();
         String nonceStr = RandomStringUtils.random(32, "123456789"); // 8位随机数
         String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
         String jsApiSignature = this.getSignature(nonceStr, jsapiTicket, timestamp, url);
@@ -147,7 +147,6 @@ public class WxMpConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl imple
         return SHA1.gen(sb.toString());
 
     }
-
 
 
 }

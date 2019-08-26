@@ -11,7 +11,7 @@ import java.util.Map;
 
 /**
  * 高级群发相关接口
- *
+ * <p>
  * https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Batch_Sends_and_Originality_Checks.html
  */
 public class MessageApi {
@@ -34,8 +34,8 @@ public class MessageApi {
      * @param jsonStr json字符串
      * @return {ApiResult}
      */
-    public static ApiResult sendAll(IWxMpConfig wxmpconfig,String jsonStr) {
-        return post(wxmpconfig,sendAllUrl, jsonStr);
+    public static ApiResult sendAll(IWxMpConfig wxmpconfig, String jsonStr) {
+        return post(wxmpconfig, sendAllUrl, jsonStr);
     }
 
     /**
@@ -44,8 +44,8 @@ public class MessageApi {
      * @param jsonStr json字符串
      * @return {ApiResult}
      */
-    public static ApiResult send(IWxMpConfig wxmpconfig,String jsonStr) {
-        return post(wxmpconfig,sendUrl, jsonStr);
+    public static ApiResult send(IWxMpConfig wxmpconfig, String jsonStr) {
+        return post(wxmpconfig, sendUrl, jsonStr);
     }
 
     /**
@@ -54,8 +54,8 @@ public class MessageApi {
      * @param jsonStr json字符串
      * @return {ApiResult}
      */
-    public static ApiResult preview(IWxMpConfig wxmpconfig,String jsonStr) {
-        return post(wxmpconfig,previewUrl, jsonStr);
+    public static ApiResult preview(IWxMpConfig wxmpconfig, String jsonStr) {
+        return post(wxmpconfig, previewUrl, jsonStr);
     }
 
     /**
@@ -64,11 +64,11 @@ public class MessageApi {
      * @param msgId 群发消息后返回的消息id
      * @return ApiResult
      */
-    public static ApiResult get(IWxMpConfig wxmpconfig,String msgId) {
+    public static ApiResult get(IWxMpConfig wxmpconfig, String msgId) {
         Map<String, String> mapData = new HashMap<String, String>();
         mapData.put("msg_id", msgId);
 
-        return post(wxmpconfig,getUrl, JsonUtils.writeValueAsString(mapData));
+        return post(wxmpconfig, getUrl, JsonUtils.writeValueAsString(mapData));
     }
 
     /**
@@ -78,11 +78,11 @@ public class MessageApi {
      * @param msgId 群发消息后返回的消息id
      * @return ApiResult
      */
-    public static ApiResult delete(IWxMpConfig wxmpconfig,String msgId) {
+    public static ApiResult delete(IWxMpConfig wxmpconfig, String msgId) {
         Map<String, String> mapData = new HashMap<String, String>();
         mapData.put("msg_id", msgId);
 
-        return post(wxmpconfig,deleteUrl, JsonUtils.writeValueAsString(mapData));
+        return post(wxmpconfig, deleteUrl, JsonUtils.writeValueAsString(mapData));
     }
 
 }
