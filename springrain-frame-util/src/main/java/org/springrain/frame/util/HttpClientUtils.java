@@ -16,6 +16,7 @@ import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.conn.BasicHttpClientConnectionManager;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
@@ -43,8 +44,8 @@ public class HttpClientUtils {
 		throw new IllegalAccessError("工具类不能实例化");
 	}
 
-	// private static BasicHttpClientConnectionManager connectionManager = null;
-	private static PoolingHttpClientConnectionManager connectionManager = null;
+	 private static BasicHttpClientConnectionManager connectionManager = null;
+	// private static PoolingHttpClientConnectionManager connectionManager = null;
 
 	// private static HttpClientBuilder httpClientBuilder=null;
 
@@ -73,9 +74,12 @@ public class HttpClientUtils {
 
 		// connectionManager = new
 		// PoolingHttpClientConnectionManager(socketFactoryRegistry);
-		connectionManager = new PoolingHttpClientConnectionManager();
-		connectionManager.setMaxTotal(1000);
-		connectionManager.setDefaultMaxPerRoute(200);// 每个路由最大的请求数量
+		// connectionManager = new PoolingHttpClientConnectionManager();
+		// connectionManager.setMaxTotal(1000);
+		// connectionManager.setDefaultMaxPerRoute(200);// 每个路由最大的请求数量
+
+		connectionManager = new BasicHttpClientConnectionManager();
+
 
 		// httpClientBuilder =
 		// HttpClients.custom().setConnectionManager(connectionManager).setDefaultRequestConfig(requestConfig);
@@ -188,7 +192,12 @@ public class HttpClientUtils {
 	 * @return
 	 */
 	public static HttpPost wrapHttpPost(String httpUrl, Map<String, String> maps) {
-		HttpPost httpPost = new HttpPost(httpUrl);// 创建httpPost
+		HttpPost httpPost = new HttpPost(httpUrl);//
+
+		if (maps==null){
+			return httpPost;
+		}
+
 		// 创建参数队列
 		List<NameValuePair> nameValuePairs = new ArrayList<>();
 		for (Map.Entry<String, String> m : maps.entrySet()) {
@@ -288,8 +297,8 @@ public class HttpClientUtils {
 	 * @param sslContext ssl证书信息
 	 * @return
 	 */
-	public static String sendHttpPost(HttpPost httpPost, SSLContext sslConext) {
-		CloseableHttpClient httpClient = getHttpClient(sslConext);
+	public static String sendHttpPost(HttpPost httpPost, SSLContext sslContext) {
+		CloseableHttpClient httpClient = getHttpClient(sslContext);
 		CloseableHttpResponse response = null;
 		HttpEntity entity = null;
 		String responseContent = null;
@@ -306,6 +315,7 @@ public class HttpClientUtils {
 				// 关闭连接,释放资源
 				if (entity != null) {
 					EntityUtils.consumeQuietly(entity); // 会自动释放连接
+
 				}
 				if (response != null) {
 					response.close();
@@ -334,15 +344,15 @@ public class HttpClientUtils {
 	 * @param httpUrl
 	 * @param sslContext ssl证书信息
 	 */
-	public static String sendHttpGet(String httpUrl, SSLContext sslConext) {
+	public static String sendHttpGet(String httpUrl, SSLContext sslContext) {
 		HttpGet httpGet = new HttpGet(httpUrl);// 创建get请求
-		return sendHttpGet(httpGet, sslConext);
+		return sendHttpGet(httpGet, sslContext);
 	}
 
 	/**
 	 * 发送Get请求
 	 * 
-	 * @param httpPost
+	 * @param httpGet
 	 * @return
 	 */
 	public static String sendHttpGet(HttpGet httpGet) {
@@ -352,12 +362,12 @@ public class HttpClientUtils {
 	/**
 	 * 发送Get请求
 	 * 
-	 * @param httpPost
+	 * @param httpGet
 	 * @param sslContext ssl证书信息
 	 * @return
 	 */
-	public static String sendHttpGet(HttpGet httpGet, SSLContext sslConext) {
-		CloseableHttpClient httpClient = getHttpClient(sslConext);
+	public static String sendHttpGet(HttpGet httpGet, SSLContext sslContext) {
+		CloseableHttpClient httpClient = getHttpClient(sslContext);
 		CloseableHttpResponse response = null;
 		HttpEntity entity = null;
 		String responseContent = null;
@@ -394,7 +404,7 @@ public class HttpClientUtils {
 	 * @param headers 请求头参数
 	 * @return
 	 */
-	public static String sendHttpHeaderGet(String httpUrl, Map<String, String> headers) {
+	public static String sendHttpHeaderGet(String httpUrl, Map<String, String> headers, SSLContext sslContext) {
 		HttpGet httpGet = new HttpGet(httpUrl);// 创建get请求
 		for (Map.Entry<String, String> entry : headers.entrySet()) {
 			String key = entry.getKey().toString();
@@ -404,6 +414,8 @@ public class HttpClientUtils {
 		return sendHttpGet(httpGet, null);
 	}
 
+
+
 	/**
 	 * 发送 Post请求
 	 *
@@ -411,14 +423,22 @@ public class HttpClientUtils {
 	 * @param headers 请求头参数
 	 * @return
 	 */
-	public static String sendHttpHeaderPost(String httpUrl, Map<String, String> headers) {
-		HttpPost httpPost = new HttpPost(httpUrl);// 创建get请求
+	public static String sendHttpHeaderPost(String httpUrl, Map<String, String> headers,Map<String, String> maps, SSLContext sslContext) {
+
+		HttpPost httpPost = wrapHttpPost(httpUrl,maps);
+
+		if (headers==null){
+			return sendHttpPost(httpPost, sslContext);
+		}
+
 		for (Map.Entry<String, String> entry : headers.entrySet()) {
 			String key = entry.getKey().toString();
 			String value = entry.getValue().toString();
 			httpPost.setHeader(key, value);
 		}
-		return sendHttpPost(httpPost, null);
+
+
+		return sendHttpPost(httpPost, sslContext);
 	}
 
 
