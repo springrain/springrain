@@ -434,9 +434,9 @@ public class WxConsts {
     //微信API的访问协议,为了以后方便处理特殊情况
     public static String mpweixinurl = "https://mp.weixin.qq.com";
     //微信API的访问协议,为了以后方便处理特殊情况
-    public static String mpopenurl = "https://open.weixin.qq.com";
+    public static String mpopenurl = WxConsts.mpopenurl + "";
     //微信payBaseURL
-    public static String mppaybaseurl = "https://api.mch.weixin.qq.com";
+    public static String mppaybaseurl = WxConsts.mppaybaseurl + "";
     //企业号API的访问协议,为了以后方便处理特殊情况
     public static String qyapiurl = "https://qyapi.weixin.qq.com";
 

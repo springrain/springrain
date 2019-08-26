@@ -8,8 +8,8 @@ import org.springrain.weixin.entity.WxMpConfig;
 import org.springrain.weixin.sdk.common.service.IWxMpConfig;
 import org.springrain.weixin.sdk.common.service.IWxMpConfigService;
 import org.springrain.weixin.sdk.common.util.crypto.SHA1;
-import org.springrain.weixin.sdk.mp.api.AccessTokenApi;
-import org.springrain.weixin.sdk.mp.api.TicketApi;
+import org.springrain.weixin.sdk.mp.AccessTokenApi;
+import org.springrain.weixin.sdk.mp.TicketApi;
 
 import java.util.HashMap;
 import java.util.Map;
