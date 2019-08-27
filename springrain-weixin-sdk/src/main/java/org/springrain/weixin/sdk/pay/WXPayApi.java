@@ -1,5 +1,7 @@
 package org.springrain.weixin.sdk.pay;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.weixin.sdk.common.WxConsts;
 import org.springrain.weixin.sdk.common.service.IWxPayConfig;
@@ -22,6 +24,14 @@ import static org.springrain.weixin.sdk.pay.WXPayConstants.USER_AGENT;
  * https://pay.weixin.qq.com/wiki/doc/api/index.html
  */
 public class WXPayApi {
+
+    private WXPayApi() {
+        throw new IllegalAccessError("工具类不能实例化");
+    }
+
+    private static final Logger logger = LoggerFactory.getLogger(WXPayApi.class);
+
+
     /**
      * 向 Map 中添加 appid、mch_id、nonce_str、sign_type、sign <br>
      * 该函数适用于商户适用于统一下单等接口，不适用于红包、代金券接口
@@ -427,34 +437,41 @@ public class WXPayApi {
      * @return
      * @throws Exception
      */
-    public static String payRequest(IWxPayConfig config, String urlSuffix, Map<String, String> reqData, boolean useCert) throws Exception {
+    public static String payRequest(IWxPayConfig config, String urlSuffix, Map<String, String> reqData, boolean useCert)  {
         //String msgUUID = reqData.get("nonce_str");
-        String data = WXPayUtil.mapToXml(reqData);
-        SSLContext sslContext = null;
 
-        if (useCert) {
-            try (FileInputStream inputStream = new FileInputStream(config.getCertificateFile())) {
-                // 证书
-                char[] password = config.getMchId().toCharArray();
-                KeyStore ks = KeyStore.getInstance("PKCS12");
-                ks.load(inputStream, password);
-                // 实例化密钥库 & 初始化密钥工厂
-                KeyManagerFactory kmf = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
-                kmf.init(ks, password);
-                // 创建 SSLContext
-                sslContext = SSLContext.getInstance("TLS");
-                sslContext.init(kmf.getKeyManagers(), null, new SecureRandom());
+        try {
+            String data = WXPayUtil.mapToXml(reqData);
+            SSLContext sslContext = null;
+
+            if (useCert) {
+                try (FileInputStream inputStream = new FileInputStream(config.getCertificateFile())) {
+                    // 证书
+                    char[] password = config.getMchId().toCharArray();
+                    KeyStore ks = KeyStore.getInstance("PKCS12");
+                    ks.load(inputStream, password);
+                    // 实例化密钥库 & 初始化密钥工厂
+                    KeyManagerFactory kmf = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+                    kmf.init(ks, password);
+                    // 创建 SSLContext
+                    sslContext = SSLContext.getInstance("TLS");
+                    sslContext.init(kmf.getKeyManagers(), null, new SecureRandom());
+                }
+
             }
 
+
+
+            Map<String, String> header = new HashMap<>();
+            header.put("Content-Type", "text/xml");
+            header.put("User-Agent", USER_AGENT + " " + config.getMchId());
+
+            String httpHeaderPost = HttpClientUtils.sendHttpHeaderPost(WxConsts.mppaybaseurl + urlSuffix, header, data, sslContext);
+            return httpHeaderPost;
+        }catch (Exception e){
+            logger.error(e.getMessage(),e);
+            return null;
         }
-        String url = WxConsts.mppaybaseurl + urlSuffix;
-
-        Map<String, String> header = new HashMap<>();
-        header.put("Content-Type", "text/xml");
-        header.put("User-Agent", USER_AGENT + " " + config.getMchId());
-
-        String httpHeaderPost = HttpClientUtils.sendHttpHeaderPost(url, header, data, sslContext);
-        return httpHeaderPost;
 
     }
 
