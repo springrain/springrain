@@ -5,21 +5,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springrain.weixin.sdk.common.service.IWxMpConfig;
 import org.springrain.weixin.sdk.common.service.IWxMpConfigService;
-import org.springrain.weixin.sdk.mp.api.IWxMpService;
-import org.springrain.weixin.sdk.mp.api.IWxMpUserService;
 
 import javax.annotation.Resource;
 
 @Controller
 @RequestMapping(value = "/mp/mpautologin/{siteId}")
 public class WxMpAutoLoginController {
-    @Resource
-    IWxMpService wxMpService;
+   // @Resource
+   // IWxMpService wxMpService;
     @Resource
     IWxMpConfigService wxMpConfigService;
 
-    @Resource
-    IWxMpUserService wxMpUserService;
+   // @Resource
+   // IWxMpUserService wxMpUserService;
 
 
     /**
