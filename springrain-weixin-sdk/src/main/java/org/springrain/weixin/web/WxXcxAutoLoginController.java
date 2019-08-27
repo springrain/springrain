@@ -37,10 +37,10 @@ public class WxXcxAutoLoginController {
         try {
             returnDatas.setMessage("登录成功");
             /*
-            String code = request.getParameter("code");
-            String headImgUrl = request.getParameter("avatarUrl");
-            String nickname = request.getParameter("nickname");
-            Bind(request, response, returnDatas, code, siteId, headImgUrl, nickname);
+            String code = payRequest.getParameter("code");
+            String headImgUrl = payRequest.getParameter("avatarUrl");
+            String nickname = payRequest.getParameter("nickname");
+            Bind(payRequest, response, returnDatas, code, siteId, headImgUrl, nickname);
             */
         } catch (Exception e) {
             // logger.error(e.getMessage(), e);
@@ -59,12 +59,12 @@ public class WxXcxAutoLoginController {
             return returnDatas;
         }
 
-        Object openIdObj = request.getSession().getAttribute(GlobalStatic.jwtTokenKey);
+        Object openIdObj = payRequest.getSession().getAttribute(GlobalStatic.jwtTokenKey);
 
         if (openIdObj != null) {// 没有登录
             Map<String, String> maps = new HashMap<String, String>();
-            maps.put("springraintoken", request.getSession().getAttribute(GlobalStatic.jwtTokenKey).toString());
-            maps.put("sessionId", request.getSession().getId());
+            maps.put("springraintoken", payRequest.getSession().getAttribute(GlobalStatic.jwtTokenKey).toString());
+            maps.put("sessionId", payRequest.getSession().getId());
             returnDatas.setResult(maps);
             return returnDatas;
         }
@@ -89,19 +89,19 @@ public class WxXcxAutoLoginController {
 
         ShiroUser shiroUser = new ShiroUser();
 
-        request.getSession().setAttribute(GlobalStatic.jwtTokenKey, "uc_" + SecUtils.getUUID());
+        payRequest.getSession().setAttribute(GlobalStatic.jwtTokenKey, "uc_" + SecUtils.getUUID());
 
-        request.getSession().setAttribute("openId", openId);
-        request.getSession().setAttribute("session_key", session_key);
+        payRequest.getSession().setAttribute("openId", openId);
+        payRequest.getSession().setAttribute("session_key", session_key);
 
         Map<String, String> maps = new HashMap<String, String>();
-        maps.put("springraintoken", request.getSession().getAttribute(GlobalStatic.jwtTokenKey).toString());
-        maps.put("sessionId", request.getSession().getId());
+        maps.put("springraintoken", payRequest.getSession().getAttribute(GlobalStatic.jwtTokenKey).toString());
+        maps.put("sessionId", payRequest.getSession().getId());
         returnDatas.setResult(maps);
 */
 
         // EncryptedData enData =
-        // wxXcxService.getEncryptedDataInfo(request.getParameter("encryptedData"),session_key,request.getParameter("iv"));
+        // wxXcxService.getEncryptedDataInfo(payRequest.getParameter("encryptedData"),session_key,payRequest.getParameter("iv"));
 
 
         return returnDatas;

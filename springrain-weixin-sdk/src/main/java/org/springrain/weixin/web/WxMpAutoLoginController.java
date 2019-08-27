@@ -30,7 +30,7 @@ public class WxMpAutoLoginController {
      */
     @RequestMapping("/oauth2")
     public String oauth2(@PathVariable String siteId) throws Exception {
-        //String url = request.getParameter("url");
+        //String url = payRequest.getParameter("url");
         //if(StringUtils.isBlank(url)||StringUtils.isBlank(siteId)){
         //	return null;
         //}
@@ -39,7 +39,7 @@ public class WxMpAutoLoginController {
         IWxMpConfig wxmpconfig = wxMpConfigService.findWxMpConfigById(siteId);
 
 
-        //String _url=RequestURLUtils.getBaseURL(request)+"/mp/mpautologin/"+siteId+"/callback?url=" + url;
+        //String _url=RequestURLUtils.getBaseURL(payRequest)+"/mp/mpautologin/"+siteId+"/callback?url=" + url;
 
         //String oauthUrl = wxMpService.oauth2buildAuthorizationUrl(wxmpconfig,_url, WxConsts.OAUTH2_SCOPE_BASE, null);
 
@@ -56,8 +56,8 @@ public class WxMpAutoLoginController {
     @RequestMapping("/callback")
     public String callback(@PathVariable String siteId) throws Exception {
         //WxMpUser wxMpUser = new WxMpUser();
-        //String url = request.getParameter("url");
-        //String code = request.getParameter("code");
+        //String url = payRequest.getParameter("url");
+        //String code = payRequest.getParameter("code");
 
         //if(StringUtils.isBlank(url)||StringUtils.isBlank(code)||StringUtils.isBlank(siteId)){
         //	return null;
@@ -70,8 +70,8 @@ public class WxMpAutoLoginController {
         //WxMpOAuth2AccessToken accessToken = wxMpService.oauth2getAccessToken(wxmpconfig, code);
 //			 wxMpUser=wxMpService.oauth2getUserInfo(wxmpconfig,accessToken,"zh_CN");
 //			WxMpUser wxMpUser = wxMpUserService.userInfo(wxmpconfig, accessToken.getOpenId());
-        //request.getSession().setAttribute("openId", accessToken.getOpenId());
-        //request.getSession().setAttribute("unionId", accessToken.getUnionId());
+        //payRequest.getSession().setAttribute("openId", accessToken.getOpenId());
+        //payRequest.getSession().setAttribute("unionId", accessToken.getUnionId());
 
         //} catch (WxErrorException e) {
         //logger.error(e.getMessage(),e);
