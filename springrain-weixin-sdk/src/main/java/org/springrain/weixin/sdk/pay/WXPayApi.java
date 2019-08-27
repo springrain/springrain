@@ -130,7 +130,7 @@ public class WXPayApi {
         } else {
             url = WXPayConstants.MICROPAY_URL_SUFFIX;
         }
-        String respXml = request(config, url, fillRequestData(config, reqData),true);
+        String respXml = payRequest(config, url, fillRequestData(config, reqData),true);
         return processResponseXml(config, respXml);
     }
 
@@ -218,7 +218,7 @@ public class WXPayApi {
         if (config.getNotifyUrl() != null) {
             reqData.put("notify_url", config.getNotifyUrl());
         }
-        String respXml = request(config, url, fillRequestData(config, reqData),false);
+        String respXml = payRequest(config, url, fillRequestData(config, reqData),false);
         return processResponseXml(config, respXml);
     }
 
@@ -238,7 +238,7 @@ public class WXPayApi {
         } else {
             url = WXPayConstants.ORDERQUERY_URL_SUFFIX;
         }
-        String respXml = request(config, url, fillRequestData(config, reqData),false);
+        String respXml = payRequest(config, url, fillRequestData(config, reqData),false);
         return processResponseXml(config, respXml);
     }
 
@@ -259,7 +259,7 @@ public class WXPayApi {
         } else {
             url = WXPayConstants.REVERSE_URL_SUFFIX;
         }
-        String respXml = request(config, url, fillRequestData(config, reqData),true);
+        String respXml = payRequest(config, url, fillRequestData(config, reqData),true);
         return processResponseXml(config, respXml);
     }
 
@@ -279,7 +279,7 @@ public class WXPayApi {
         } else {
             url = WXPayConstants.CLOSEORDER_URL_SUFFIX;
         }
-        String respXml =request(config, url, fillRequestData(config, reqData),false);
+        String respXml = payRequest(config, url, fillRequestData(config, reqData),false);
         return processResponseXml(config, respXml);
     }
 
@@ -300,7 +300,7 @@ public class WXPayApi {
         } else {
             url = WXPayConstants.REFUND_URL_SUFFIX;
         }
-        String respXml = request(config, url, fillRequestData(config, reqData),true);
+        String respXml = payRequest(config, url, fillRequestData(config, reqData),true);
         return processResponseXml(config, respXml);
     }
 
@@ -320,7 +320,7 @@ public class WXPayApi {
         } else {
             url = WXPayConstants.REFUNDQUERY_URL_SUFFIX;
         }
-        String respXml = request(config, url, fillRequestData(config, reqData),false);
+        String respXml = payRequest(config, url, fillRequestData(config, reqData),false);
         return processResponseXml(config, respXml);
     }
 
@@ -342,7 +342,7 @@ public class WXPayApi {
         } else {
             url = WXPayConstants.DOWNLOADBILL_URL_SUFFIX;
         }
-        String respStr = request(config, url, fillRequestData(config, reqData),false).trim();
+        String respStr = payRequest(config, url, fillRequestData(config, reqData),false).trim();
         Map<String, String> ret;
         // 出现错误，返回XML数据
         if (respStr.indexOf("<") == 0) {
@@ -373,7 +373,7 @@ public class WXPayApi {
         } else {
             url = WXPayConstants.REPORT_URL_SUFFIX;
         }
-        String respXml = request(config, url, fillRequestData(config, reqData),false);
+        String respXml = payRequest(config, url, fillRequestData(config, reqData),false);
         return WXPayUtil.xmlToMap(respXml);
     }
 
@@ -393,7 +393,7 @@ public class WXPayApi {
         } else {
             url = WXPayConstants.SHORTURL_URL_SUFFIX;
         }
-        String respXml = request(config, url, fillRequestData(config, reqData),false);
+        String respXml = payRequest(config, url, fillRequestData(config, reqData),false);
         return processResponseXml(config, respXml);
     }
 
@@ -413,7 +413,7 @@ public class WXPayApi {
         } else {
             url = WXPayConstants.AUTHCODETOOPENID_URL_SUFFIX;
         }
-        String respXml =request(config, url, fillRequestData(config, reqData),true);
+        String respXml = payRequest(config, url, fillRequestData(config, reqData),true);
         return processResponseXml(config, respXml);
     }
 
@@ -427,7 +427,7 @@ public class WXPayApi {
      * @return
      * @throws Exception
      */
-    public static String request(IWxPayConfig config, String urlSuffix, Map<String, String> reqData, boolean useCert) throws Exception {
+    public static String payRequest(IWxPayConfig config, String urlSuffix, Map<String, String> reqData, boolean useCert) throws Exception {
         //String msgUUID = reqData.get("nonce_str");
         String data = WXPayUtil.mapToXml(reqData);
         SSLContext sslContext = null;
