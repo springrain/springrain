@@ -1,5 +1,6 @@
 package org.springrain.frame.util;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,10 +16,7 @@ import java.security.PublicKey;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.text.SimpleDateFormat;
-import java.util.Base64;
-import java.util.Date;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * 加密的工具类
@@ -337,6 +335,33 @@ public class SecUtils {
 	}
 
 
+	/**
+	 * 串接arr参数，生成sha1 digest
+	 */
+	public static String genSHA1(String... arr) {
+		Arrays.sort(arr);
+		StringBuilder sb = new StringBuilder();
+		for (String a : arr) {
+			sb.append(a);
+		}
+		return DigestUtils.sha1Hex(sb.toString());
+	}
+
+	/**
+	 * 用&串接arr参数，生成sha1 digest
+	 */
+	public static String genWithAmpleSHA1(String... arr) {
+		Arrays.sort(arr);
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < arr.length; i++) {
+			String a = arr[i];
+			sb.append(a);
+			if (i != arr.length - 1) {
+				sb.append('&');
+			}
+		}
+		return DigestUtils.sha1Hex(sb.toString());
+	}
 
 
 /*
