@@ -27,51 +27,7 @@ public class WxMpConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl imple
         return wxmpconfig;
     }
 
-    @Override
-    public IWxMpConfig updateAccessToken(IWxMpConfig wxmpconfig) {
 
-        // 缓存操作
-        updateWxMpConfig(wxmpconfig);
-
-        return wxmpconfig;
-    }
-
-    @Override
-    public IWxMpConfig expireJsApiTicket(IWxMpConfig wxmpconfig) {
-        wxmpconfig.setJsApiTicketExpiresTime(0L);
-
-        // 缓存操作
-        updateWxMpConfig(wxmpconfig);
-
-        return wxmpconfig;
-    }
-
-    @Override
-    public IWxMpConfig updateJsApiTicket(IWxMpConfig wxmpconfig) {
-
-        // 缓存操作
-        updateWxMpConfig(wxmpconfig);
-
-        return wxmpconfig;
-    }
-
-    @Override
-    public IWxMpConfig expireCardApiTicket(IWxMpConfig wxmpconfig) {
-
-        wxmpconfig.setCardApiTicketExpiresTime(0L);
-        // 缓存操作
-        updateWxMpConfig(wxmpconfig);
-
-        return wxmpconfig;
-    }
-
-    @Override
-    public IWxMpConfig updateCardApiTicket(IWxMpConfig wxmpconfig) {
-        // 缓存操作
-        updateWxMpConfig(wxmpconfig);
-        return wxmpconfig;
-
-    }
 
     @Override
     public IWxMpConfig findWxMpConfigById(String id) {
@@ -100,8 +56,7 @@ public class WxMpConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl imple
     /**
      * 缓存处理,可以把配置进行缓存更新 @
      */
-    @Override
-    public IWxMpConfig updateWxMpConfig(IWxMpConfig wxmpconfig) {
+    private IWxMpConfig updateWxMpConfig(IWxMpConfig wxmpconfig)  {
 
         String id = wxmpconfig.getId();
         if (StringUtils.isBlank(id)) {
@@ -109,10 +64,12 @@ public class WxMpConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl imple
         }
 
         try {
-            super.putByCache(id, GlobalStatic.mpConfigCacheKey, wxmpconfig);
+            super.evictByKey(GlobalStatic.mpConfigCacheKey,id);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
+            return null;
         }
+
 
         return wxmpconfig;
     }
