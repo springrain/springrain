@@ -83,37 +83,6 @@ public class WXPayApi {
     }
 
 
-    /**
-     * 不需要证书的请求
-     *
-     * @param urlSuffix String
-     * @param reqData   向wxpay post的请求数据
-     * @return API返回数据
-     * @throws Exception
-     */
-    public static String requestWithoutCert(IWxPayConfig config, String urlSuffix, Map<String, String> reqData) throws Exception {
-        String msgUUID = reqData.get("nonce_str");
-        String reqBody = WXPayUtil.mapToXml(reqData);
-
-        String resp = request(config, urlSuffix, msgUUID, reqBody, false);
-        return resp;
-    }
-
-
-    /**
-     * 需要证书的请求
-     *
-     * @param urlSuffix String
-     * @param reqData   向wxpay post的请求数据  Map
-     * @return API返回数据
-     * @throws Exception
-     */
-    public static String requestWithCert(IWxPayConfig config, String urlSuffix, Map<String, String> reqData) throws Exception {
-        String msgUUID = reqData.get("nonce_str");
-        String reqBody = WXPayUtil.mapToXml(reqData);
-        String resp = request(config, urlSuffix, msgUUID, reqBody, true);
-        return resp;
-    }
 
     /**
      * 处理 HTTPS API返回数据，转换成Map对象。return_code为SUCCESS时，验证签名。
@@ -161,7 +130,7 @@ public class WXPayApi {
         } else {
             url = WXPayConstants.MICROPAY_URL_SUFFIX;
         }
-        String respXml = requestWithoutCert(config, url, fillRequestData(config, reqData));
+        String respXml = request(config, url, fillRequestData(config, reqData),true);
         return processResponseXml(config, respXml);
     }
 
@@ -249,7 +218,7 @@ public class WXPayApi {
         if (config.getNotifyUrl() != null) {
             reqData.put("notify_url", config.getNotifyUrl());
         }
-        String respXml = requestWithoutCert(config, url, fillRequestData(config, reqData));
+        String respXml = request(config, url, fillRequestData(config, reqData),false);
         return processResponseXml(config, respXml);
     }
 
@@ -269,7 +238,7 @@ public class WXPayApi {
         } else {
             url = WXPayConstants.ORDERQUERY_URL_SUFFIX;
         }
-        String respXml = requestWithoutCert(config, url, fillRequestData(config, reqData));
+        String respXml = request(config, url, fillRequestData(config, reqData),false);
         return processResponseXml(config, respXml);
     }
 
@@ -290,7 +259,7 @@ public class WXPayApi {
         } else {
             url = WXPayConstants.REVERSE_URL_SUFFIX;
         }
-        String respXml = requestWithCert(config, url, fillRequestData(config, reqData));
+        String respXml = request(config, url, fillRequestData(config, reqData),true);
         return processResponseXml(config, respXml);
     }
 
@@ -310,7 +279,7 @@ public class WXPayApi {
         } else {
             url = WXPayConstants.CLOSEORDER_URL_SUFFIX;
         }
-        String respXml = requestWithoutCert(config, url, fillRequestData(config, reqData));
+        String respXml =request(config, url, fillRequestData(config, reqData),false);
         return processResponseXml(config, respXml);
     }
 
@@ -331,7 +300,7 @@ public class WXPayApi {
         } else {
             url = WXPayConstants.REFUND_URL_SUFFIX;
         }
-        String respXml = requestWithCert(config, url, fillRequestData(config, reqData));
+        String respXml = request(config, url, fillRequestData(config, reqData),true);
         return processResponseXml(config, respXml);
     }
 
@@ -351,7 +320,7 @@ public class WXPayApi {
         } else {
             url = WXPayConstants.REFUNDQUERY_URL_SUFFIX;
         }
-        String respXml = requestWithoutCert(config, url, fillRequestData(config, reqData));
+        String respXml = request(config, url, fillRequestData(config, reqData),false);
         return processResponseXml(config, respXml);
     }
 
@@ -373,7 +342,7 @@ public class WXPayApi {
         } else {
             url = WXPayConstants.DOWNLOADBILL_URL_SUFFIX;
         }
-        String respStr = requestWithoutCert(config, url, fillRequestData(config, reqData)).trim();
+        String respStr = request(config, url, fillRequestData(config, reqData),false).trim();
         Map<String, String> ret;
         // 出现错误，返回XML数据
         if (respStr.indexOf("<") == 0) {
@@ -404,7 +373,7 @@ public class WXPayApi {
         } else {
             url = WXPayConstants.REPORT_URL_SUFFIX;
         }
-        String respXml = requestWithoutCert(config, url, fillRequestData(config, reqData));
+        String respXml = request(config, url, fillRequestData(config, reqData),false);
         return WXPayUtil.xmlToMap(respXml);
     }
 
@@ -424,7 +393,7 @@ public class WXPayApi {
         } else {
             url = WXPayConstants.SHORTURL_URL_SUFFIX;
         }
-        String respXml = requestWithoutCert(config, url, fillRequestData(config, reqData));
+        String respXml = request(config, url, fillRequestData(config, reqData),false);
         return processResponseXml(config, respXml);
     }
 
@@ -444,7 +413,7 @@ public class WXPayApi {
         } else {
             url = WXPayConstants.AUTHCODETOOPENID_URL_SUFFIX;
         }
-        String respXml = requestWithoutCert(config, url, fillRequestData(config, reqData));
+        String respXml =request(config, url, fillRequestData(config, reqData),true);
         return processResponseXml(config, respXml);
     }
 
@@ -453,14 +422,14 @@ public class WXPayApi {
      * 请求，只请求一次，不做重试
      *
      * @param urlSuffix
-     * @param uuid
-     * @param data
+     * @param reqData
      * @param useCert   是否使用证书，针对退款、撤销等操作
      * @return
      * @throws Exception
      */
-    private static String request(IWxPayConfig config, String urlSuffix, String uuid, String data, boolean useCert) throws Exception {
-
+    public static String request(IWxPayConfig config, String urlSuffix, Map<String, String> reqData, boolean useCert) throws Exception {
+        //String msgUUID = reqData.get("nonce_str");
+        String data = WXPayUtil.mapToXml(reqData);
         SSLContext sslContext = null;
 
         if (useCert) {
