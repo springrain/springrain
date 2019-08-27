@@ -16,7 +16,6 @@ import java.util.Map;
 /**
  * 认证并获取 access_token API
  * https://developers.weixin.qq.com/doc/offiaccount/WeChat_Invoice/Nontax_Bill/API_list.html
- *
  */
 public class AccessTokenApi {
 
@@ -25,6 +24,7 @@ public class AccessTokenApi {
 
     /**
      * 从缓存中获取 access token，如果未取到或者 access token 不可用则先更新再获取
+     *
      * @return AccessToken accessToken
      */
     public static String getAccessToken(IWxMpConfig wxmpconfig) {

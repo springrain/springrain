@@ -26,8 +26,8 @@ public class SnsAccessTokenApi {
      * @param snsapiBase   snsapi_base（不弹出授权页面，只能拿到用户openid）snsapi_userinfo（弹出授权页面，这个可以通过 openid 拿到昵称、性别、所在地）
      * @return url
      */
-    public static String getAuthorizeURL(IWxMpConfig wxmpconfig,  String redirect_uri, boolean snsapiBase) {
-        return getAuthorizeURL(wxmpconfig,  redirect_uri, null, snsapiBase);
+    public static String getAuthorizeURL(IWxMpConfig wxmpconfig, String redirect_uri, boolean snsapiBase) {
+        return getAuthorizeURL(wxmpconfig, redirect_uri, null, snsapiBase);
     }
 
     /**
@@ -38,25 +38,24 @@ public class SnsAccessTokenApi {
      * @param snsapiBase  snsapi_base（不弹出授权页面，只能拿到用户openid）snsapi_userinfo（弹出授权页面，这个可以通过 openid 拿到昵称、性别、所在地）
      * @return url
      */
-    public static String getAuthorizeURL(IWxMpConfig wxmpconfig,  String redirectUri, String state, boolean snsapiBase) {
+    public static String getAuthorizeURL(IWxMpConfig wxmpconfig, String redirectUri, String state, boolean snsapiBase) {
 
 
-        String apiurl=authorize_uri + "?appid="+wxmpconfig.getAppId()+"&response_type=code&redirect_uri="+redirectUri;
-
+        String apiurl = authorize_uri + "?appid=" + wxmpconfig.getAppId() + "&response_type=code&redirect_uri=" + redirectUri;
 
 
         // snsapi_base（不弹出授权页面，只能拿到用户openid）
         // snsapi_userinfo（弹出授权页面，这个可以通过 openid 拿到昵称、性别、所在地）
         if (snsapiBase) {
-            apiurl=apiurl+"&scope=snsapi_base";
+            apiurl = apiurl + "&scope=snsapi_base";
         } else {
-            apiurl=apiurl+"&scope=snsapi_userinfo";
+            apiurl = apiurl + "&scope=snsapi_userinfo";
         }
 
         if (StringUtils.isBlank(state)) {
-            apiurl=apiurl+"&state=wx#wechat_redirect";
+            apiurl = apiurl + "&state=wx#wechat_redirect";
         } else {
-            apiurl=apiurl+"&state="+state.concat("#wechat_redirect");
+            apiurl = apiurl + "&state=" + state.concat("#wechat_redirect");
         }
 
         return apiurl;
@@ -69,8 +68,8 @@ public class SnsAccessTokenApi {
      * @param redirect_uri 回跳地址
      * @return url
      */
-    public static String getQrConnectURL(IWxMpConfig wxmpconfig,  String redirect_uri) {
-        return getQrConnectURL(wxmpconfig,  redirect_uri, null);
+    public static String getQrConnectURL(IWxMpConfig wxmpconfig, String redirect_uri) {
+        return getQrConnectURL(wxmpconfig, redirect_uri, null);
     }
 
     /**
@@ -81,11 +80,11 @@ public class SnsAccessTokenApi {
      * @return url
      */
     public static String getQrConnectURL(IWxMpConfig wxmpconfig, String redirect_uri, String state) {
-        String apiurl=qrconnect_url+"?appid"+wxmpconfig.getAppId()+"&response_type=code&redirect_uri="+redirect_uri+"&scope=snsapi_login";
+        String apiurl = qrconnect_url + "?appid" + wxmpconfig.getAppId() + "&response_type=code&redirect_uri=" + redirect_uri + "&scope=snsapi_login";
         if (StringUtils.isBlank(state)) {
-            apiurl=apiurl+"&state=wx#wechat_redirect";
+            apiurl = apiurl + "&state=wx#wechat_redirect";
         } else {
-            apiurl=apiurl+"&state="+state.concat("#wechat_redirect");
+            apiurl = apiurl + "&state=" + state.concat("#wechat_redirect");
         }
         return apiurl;
     }
@@ -93,12 +92,12 @@ public class SnsAccessTokenApi {
     /**
      * 通过code获取access_token
      *
-     * @param code   第一步获取的code参数
+     * @param code 第一步获取的code参数
      * @return SnsAccessToken
      */
     public static SnsAccessToken getSnsAccessToken(IWxMpConfig wxmpconfig, String code) {
-            //?appid={appid}&secret={secret}&code={code}&grant_type=authorization_code
-        final String accessTokenUrl = snsAccessTokenUrl+"?appid="+wxmpconfig.getAppId()+"&secret="+wxmpconfig.getSecret()+"&code="+code+"&grant_type=authorization_code";
+        //?appid={appid}&secret={secret}&code={code}&grant_type=authorization_code
+        final String accessTokenUrl = snsAccessTokenUrl + "?appid=" + wxmpconfig.getAppId() + "&secret=" + wxmpconfig.getSecret() + "&code=" + code + "&grant_type=authorization_code";
         String json = HttpClientUtils.sendHttpGet(accessTokenUrl);
         return new SnsAccessToken(json);
     }

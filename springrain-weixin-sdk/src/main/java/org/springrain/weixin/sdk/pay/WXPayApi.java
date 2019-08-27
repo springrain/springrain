@@ -25,12 +25,11 @@ import static org.springrain.weixin.sdk.pay.WXPayConstants.USER_AGENT;
  */
 public class WXPayApi {
 
+    private static final Logger logger = LoggerFactory.getLogger(WXPayApi.class);
+
     private WXPayApi() {
         throw new IllegalAccessError("工具类不能实例化");
     }
-
-    private static final Logger logger = LoggerFactory.getLogger(WXPayApi.class);
-
 
     /**
      * 判断支付结果通知中的sign是否有效
@@ -58,7 +57,6 @@ public class WXPayApi {
         }
         return WXPayUtil.isSignatureValid(reqData, config.getKey(), signType);
     }
-
 
 
     /**
@@ -107,7 +105,7 @@ public class WXPayApi {
         } else {
             url = WXPayConstants.MICROPAY_URL_SUFFIX;
         }
-        String respXml = payRequest(config, url, fillRequestData(config, reqData),true);
+        String respXml = payRequest(config, url, fillRequestData(config, reqData), true);
         return processResponseXml(config, respXml);
     }
 
@@ -195,7 +193,7 @@ public class WXPayApi {
         if (config.getNotifyUrl() != null) {
             reqData.put("notify_url", config.getNotifyUrl());
         }
-        String respXml = payRequest(config, url, fillRequestData(config, reqData),false);
+        String respXml = payRequest(config, url, fillRequestData(config, reqData), false);
         return processResponseXml(config, respXml);
     }
 
@@ -215,7 +213,7 @@ public class WXPayApi {
         } else {
             url = WXPayConstants.ORDERQUERY_URL_SUFFIX;
         }
-        String respXml = payRequest(config, url, fillRequestData(config, reqData),false);
+        String respXml = payRequest(config, url, fillRequestData(config, reqData), false);
         return processResponseXml(config, respXml);
     }
 
@@ -236,7 +234,7 @@ public class WXPayApi {
         } else {
             url = WXPayConstants.REVERSE_URL_SUFFIX;
         }
-        String respXml = payRequest(config, url, fillRequestData(config, reqData),true);
+        String respXml = payRequest(config, url, fillRequestData(config, reqData), true);
         return processResponseXml(config, respXml);
     }
 
@@ -256,7 +254,7 @@ public class WXPayApi {
         } else {
             url = WXPayConstants.CLOSEORDER_URL_SUFFIX;
         }
-        String respXml = payRequest(config, url, fillRequestData(config, reqData),false);
+        String respXml = payRequest(config, url, fillRequestData(config, reqData), false);
         return processResponseXml(config, respXml);
     }
 
@@ -277,7 +275,7 @@ public class WXPayApi {
         } else {
             url = WXPayConstants.REFUND_URL_SUFFIX;
         }
-        String respXml = payRequest(config, url, fillRequestData(config, reqData),true);
+        String respXml = payRequest(config, url, fillRequestData(config, reqData), true);
         return processResponseXml(config, respXml);
     }
 
@@ -297,7 +295,7 @@ public class WXPayApi {
         } else {
             url = WXPayConstants.REFUNDQUERY_URL_SUFFIX;
         }
-        String respXml = payRequest(config, url, fillRequestData(config, reqData),false);
+        String respXml = payRequest(config, url, fillRequestData(config, reqData), false);
         return processResponseXml(config, respXml);
     }
 
@@ -319,7 +317,7 @@ public class WXPayApi {
         } else {
             url = WXPayConstants.DOWNLOADBILL_URL_SUFFIX;
         }
-        String respStr = payRequest(config, url, fillRequestData(config, reqData),false).trim();
+        String respStr = payRequest(config, url, fillRequestData(config, reqData), false).trim();
         Map<String, String> ret;
         // 出现错误，返回XML数据
         if (respStr.indexOf("<") == 0) {
@@ -350,7 +348,7 @@ public class WXPayApi {
         } else {
             url = WXPayConstants.REPORT_URL_SUFFIX;
         }
-        String respXml = payRequest(config, url, fillRequestData(config, reqData),false);
+        String respXml = payRequest(config, url, fillRequestData(config, reqData), false);
         return WXPayUtil.xmlToMap(respXml);
     }
 
@@ -370,7 +368,7 @@ public class WXPayApi {
         } else {
             url = WXPayConstants.SHORTURL_URL_SUFFIX;
         }
-        String respXml = payRequest(config, url, fillRequestData(config, reqData),false);
+        String respXml = payRequest(config, url, fillRequestData(config, reqData), false);
         return processResponseXml(config, respXml);
     }
 
@@ -390,7 +388,7 @@ public class WXPayApi {
         } else {
             url = WXPayConstants.AUTHCODETOOPENID_URL_SUFFIX;
         }
-        String respXml = payRequest(config, url, fillRequestData(config, reqData),true);
+        String respXml = payRequest(config, url, fillRequestData(config, reqData), true);
         return processResponseXml(config, respXml);
     }
 
@@ -404,7 +402,7 @@ public class WXPayApi {
      * @return
      * @throws Exception
      */
-    public static String payRequest(IWxPayConfig config, String urlSuffix, Map<String, String> reqData, boolean useCert)  {
+    public static String payRequest(IWxPayConfig config, String urlSuffix, Map<String, String> reqData, boolean useCert) {
         //String msgUUID = reqData.get("nonce_str");
 
         try {
@@ -428,20 +426,18 @@ public class WXPayApi {
             }
 
 
-
             Map<String, String> header = new HashMap<>();
             header.put("Content-Type", "text/xml");
             header.put("User-Agent", USER_AGENT + " " + config.getMchId());
 
             String httpHeaderPost = HttpClientUtils.sendHttpHeaderPost(WxConsts.mppaybaseurl + urlSuffix, header, data, sslContext);
             return httpHeaderPost;
-        }catch (Exception e){
-            logger.error(e.getMessage(),e);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
             return null;
         }
 
     }
-
 
 
     /**
@@ -476,7 +472,6 @@ public class WXPayApi {
         // 返回数据的签名方式和请求中给定的签名方式是一致的
         return WXPayUtil.isSignatureValid(reqData, config.getKey(), config.getSignType());
     }
-
 
 
 } // end class

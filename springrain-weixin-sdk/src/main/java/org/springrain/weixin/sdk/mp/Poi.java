@@ -11,39 +11,40 @@ import java.util.List;
 
 /**
  * 门店数据对象
+ *
  * @author fuyong
-json数据示例:
-{
-"business" : {
-"base_info" : {
-"address" : "门店所在的详细街道地址（不要填写省市信息）：不超过80个字",
-"avg_price" : 35,
-"branch_name" : "不超过10个字，不能含有括号和特殊字符",
-"business_name" : "15个汉字或30个英文字符内",
-"categories" : [ "美食,小吃快餐" ],
-"city" : "不超过30个字",
-"district" : "不超过10个字",
-"introduction" : "不超过300字。麦当劳是全球大型跨国连锁餐厅，1940 年创立于美国，在世界上大约拥有3 万间分店。\n\n主要售卖汉堡包，以及薯条、炸鸡、汽水、冰品、沙拉、 水果等快餐食品",
-"latitude" : 25.0974860,
-"longitude" : 115.323750,
-"offset_type" : 1,
-"open_time" : "8:00-20:00",
-"photo_list" : [
-{
-"photo_url" : "https:// 不超过20张.com"
-},
-{
-"photo_url" : "https://XXX.com"
-}
-],
-"province" : "不超过10个字",
-"recommend" : "不超过200字。麦辣鸡腿堡套餐，麦乐鸡，全家桶",
-"sid" : "33788392",
-"special" : "不超过200字。免费wifi，外卖服务",
-"telephone" : "不超53个字符（不可以出现文字）"
-}
-}
-}
+ * json数据示例:
+ * {
+ * "business" : {
+ * "base_info" : {
+ * "address" : "门店所在的详细街道地址（不要填写省市信息）：不超过80个字",
+ * "avg_price" : 35,
+ * "branch_name" : "不超过10个字，不能含有括号和特殊字符",
+ * "business_name" : "15个汉字或30个英文字符内",
+ * "categories" : [ "美食,小吃快餐" ],
+ * "city" : "不超过30个字",
+ * "district" : "不超过10个字",
+ * "introduction" : "不超过300字。麦当劳是全球大型跨国连锁餐厅，1940 年创立于美国，在世界上大约拥有3 万间分店。\n\n主要售卖汉堡包，以及薯条、炸鸡、汽水、冰品、沙拉、 水果等快餐食品",
+ * "latitude" : 25.0974860,
+ * "longitude" : 115.323750,
+ * "offset_type" : 1,
+ * "open_time" : "8:00-20:00",
+ * "photo_list" : [
+ * {
+ * "photo_url" : "https:// 不超过20张.com"
+ * },
+ * {
+ * "photo_url" : "https://XXX.com"
+ * }
+ * ],
+ * "province" : "不超过10个字",
+ * "recommend" : "不超过200字。麦辣鸡腿堡套餐，麦乐鸡，全家桶",
+ * "sid" : "33788392",
+ * "special" : "不超过200字。免费wifi，外卖服务",
+ * "telephone" : "不超53个字符（不可以出现文字）"
+ * }
+ * }
+ * }
  */
 public class Poi implements Serializable {
     private static final long serialVersionUID = 4899154126408515026L;
@@ -70,12 +71,12 @@ public class Poi implements Serializable {
     private List<String> categories;
     /**
      * 坐标类型：必填
-     1 为火星坐标
-     2 为sogou经纬度
-     3 为百度经纬度
-     4 为mapbar经纬度
-     5 为GPS坐标
-     6 为sogou墨卡托坐标
+     * 1 为火星坐标
+     * 2 为sogou经纬度
+     * 3 为百度经纬度
+     * 4 为mapbar经纬度
+     * 5 为GPS坐标
+     * 6 为sogou墨卡托坐标
      */
     private Integer offset_type;
     //门店所在地理位置的经度, 必填
@@ -285,6 +286,7 @@ public class Poi implements Serializable {
 
     /**
      * 图片列表
+     *
      * @author fuyong
      */
     public static class PhotoUrl {
