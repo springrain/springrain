@@ -33,39 +33,6 @@ public class WXPayApi {
 
 
     /**
-     * 向 Map 中添加 appid、mch_id、nonce_str、sign_type、sign <br>
-     * 该函数适用于商户适用于统一下单等接口，不适用于红包、代金券接口
-     *
-     * @param reqData
-     * @return
-     * @throws Exception
-     */
-    public static Map<String, String> fillRequestData(IWxPayConfig config, Map<String, String> reqData) throws Exception {
-        reqData.put("appid", config.getAppId());
-        reqData.put("mch_id", config.getMchId());
-        reqData.put("nonce_str", WXPayUtil.generateNonceStr());
-        if (SignType.MD5.equals(config.getSignType())) {
-            reqData.put("sign_type", WXPayConstants.MD5);
-        } else if (SignType.HMACSHA256.equals(config.getSignType())) {
-            reqData.put("sign_type", WXPayConstants.HMACSHA256);
-        }
-        reqData.put("sign", WXPayUtil.generateSignature(reqData, config.getKey(), config.getSignType()));
-        return reqData;
-    }
-
-    /**
-     * 判断xml数据的sign是否有效，必须包含sign字段，否则返回false。
-     *
-     * @param reqData 向wxpay post的请求数据
-     * @return 签名是否有效
-     * @throws Exception
-     */
-    public static boolean isResponseSignatureValid(IWxPayConfig config, Map<String, String> reqData) throws Exception {
-        // 返回数据的签名方式和请求中给定的签名方式是一致的
-        return WXPayUtil.isSignatureValid(reqData, config.getKey(), config.getSignType());
-    }
-
-    /**
      * 判断支付结果通知中的sign是否有效
      *
      * @param reqData 向wxpay post的请求数据
@@ -474,6 +441,42 @@ public class WXPayApi {
         }
 
     }
+
+
+
+    /**
+     * 向 Map 中添加 appid、mch_id、nonce_str、sign_type、sign <br>
+     * 该函数适用于商户适用于统一下单等接口，不适用于红包、代金券接口
+     *
+     * @param reqData
+     * @return
+     * @throws Exception
+     */
+    private static Map<String, String> fillRequestData(IWxPayConfig config, Map<String, String> reqData) throws Exception {
+        reqData.put("appid", config.getAppId());
+        reqData.put("mch_id", config.getMchId());
+        reqData.put("nonce_str", WXPayUtil.generateNonceStr());
+        if (SignType.MD5.equals(config.getSignType())) {
+            reqData.put("sign_type", WXPayConstants.MD5);
+        } else if (SignType.HMACSHA256.equals(config.getSignType())) {
+            reqData.put("sign_type", WXPayConstants.HMACSHA256);
+        }
+        reqData.put("sign", WXPayUtil.generateSignature(reqData, config.getKey(), config.getSignType()));
+        return reqData;
+    }
+
+    /**
+     * 判断xml数据的sign是否有效，必须包含sign字段，否则返回false。
+     *
+     * @param reqData 向wxpay post的请求数据
+     * @return 签名是否有效
+     * @throws Exception
+     */
+    private static boolean isResponseSignatureValid(IWxPayConfig config, Map<String, String> reqData) throws Exception {
+        // 返回数据的签名方式和请求中给定的签名方式是一致的
+        return WXPayUtil.isSignatureValid(reqData, config.getKey(), config.getSignType());
+    }
+
 
 
 } // end class
