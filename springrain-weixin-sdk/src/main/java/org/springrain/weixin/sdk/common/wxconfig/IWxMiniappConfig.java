@@ -1,32 +1,32 @@
 package org.springrain.weixin.sdk.common.wxconfig;
 
-public interface IWxMiniappConfig extends IWxConfig {
+public interface IWxMiniappConfig  {
+    String getId();// 业务Id
+    void setId(String string);
+
+    String getAppId();
+
+    void setAppId(String appId);
+
+    String getSecret();
+
+    void setSecret(String secret);
+
+    String getJsCode();
+    void setJsCode(String jsCode);
 
     String getSessionKey();
 
     void setSessionKey(String sessionKey);
 
-    String getPartnerId();
+    String getAccessToken();
 
-    void setPartnerId(String partnerId);
+    void setAccessToken(String accessToken);
 
-    String getPartnerKey();
+    void setAccessTokenExpiresTime(Long l);
 
-    void setPartnerKey(String partnerKey);
+    boolean isAccessTokenExpired();
 
-    // 开启oauth2.0认证,是否能够获取openId,0是关闭,1是开启
-    Integer getOauth2();
 
-    void setOauth2(Integer oauth2);
-
-    //用户模板id
-    String getPlanId();
-
-    void setPlanId(String planId);
-
-    // 用户请求序列号
-    Integer getRequestSerial();
-
-    void setRequestSerial(Integer requestSerial);
 
 }

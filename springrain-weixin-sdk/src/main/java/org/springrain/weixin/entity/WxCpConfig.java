@@ -5,7 +5,6 @@ import org.springrain.weixin.sdk.common.wxconfig.IWxCpConfig;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 @Table(name = "wx_cpconfig")
 public class WxCpConfig extends BaseEntity implements IWxCpConfig {
@@ -52,234 +51,44 @@ public class WxCpConfig extends BaseEntity implements IWxCpConfig {
     }
 
     @Override
-    public String getAppId() {
-        return appId;
-    }
-
-    @Override
-    public void setAppId(String appId) {
-        this.appId = appId;
-    }
-
-    @Override
-    @Transient
-    public String getSecret() {
-        return secret;
-    }
-
-    @Override
-    public void setSecret(String secret) {
-        this.secret = secret;
-    }
-
-    @Transient
-    public String getPartnerId() {
-        return partnerId;
-    }
-
-    public void setPartnerId(String partnerId) {
-        this.partnerId = partnerId;
-    }
-
-    @Transient
-    public String getPartnerKey() {
-        return partnerKey;
-    }
-
-    public void setPartnerKey(String partnerKey) {
-        this.partnerKey = partnerKey;
-    }
-
-    @Override
-    public String getToken() {
-        return token;
-    }
-
-    @Override
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    @Override
-    @Transient
-    public String getAccessToken() {
-        return accessToken;
-    }
-
-    @Override
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
-    }
-
-    @Override
-    @Transient
-    public String getAesKey() {
-        return aesKey;
-    }
-
-    @Override
-    public void setAesKey(String aesKey) {
-        this.aesKey = aesKey;
-    }
-
-    @Override
-    @Transient
-    public String getOauth2redirectUri() {
-        return oauth2redirectUri;
-    }
-
-    @Override
-    public void setOauth2redirectUri(String oauth2redirectUri) {
-        this.oauth2redirectUri = oauth2redirectUri;
-    }
-
-
-    @Override
-    @Transient
-    public String getJsApiTicket() {
-        return jsApiTicket;
-    }
-
-    @Override
-    public void setJsApiTicket(String jsApiTicket) {
-        this.jsApiTicket = jsApiTicket;
-    }
-
-    @Override
-    @Transient
-    public String getCardApiTicket() {
-        return cardApiTicket;
-    }
-
-    @Override
-    public void setCardApiTicket(String cardApiTicket) {
-        this.cardApiTicket = cardApiTicket;
-    }
-
-    @Override
-    @Transient
-    public String getCertificateFile() {
-        return certificateFile;
-    }
-
-    @Override
-    public void setCertificateFile(String certificateFile) {
-        this.certificateFile = certificateFile;
-    }
-
-    @Override
-    @Transient
-    public String getTmpDirFile() {
-        return tmpDirFile;
-    }
-
-    @Override
-    public void setTmpDirFile(String tmpDirFile) {
-        this.tmpDirFile = tmpDirFile;
-    }
-
-    @Transient
-    public Long getAccessTokenExpiresTime() {
-        return accessTokenExpiresTime;
-    }
-
-    @Override
-    public void setAccessTokenExpiresTime(Long accessTokenExpiresTime) {
-        this.accessTokenExpiresTime = System.currentTimeMillis() + (accessTokenExpiresTime - 600) * 1000L;// 预留10分钟
-    }
-
-    @Transient
-    public Long getCardApiTicketExpiresTime() {
-        return cardApiTicketExpiresTime;
-    }
-
-    @Override
-    public void setCardApiTicketExpiresTime(Long cardApiTicketExpiresTime) {
-        // 预留10分钟
-        this.cardApiTicketExpiresTime = System.currentTimeMillis() + (cardApiTicketExpiresTime - 600) * 1000L;// 预留10分钟
-    }
-
-    @Transient
-    public Long getJsApiTicketExpiresTime() {
-        return jsApiTicketExpiresTime;
-    }
-
-    @Override
-    public void setJsApiTicketExpiresTime(Long jsApiTicketExpiresTime) {
-        this.jsApiTicketExpiresTime = System.currentTimeMillis() + (jsApiTicketExpiresTime - 600) * 1000L;// 预留10分钟
-    }
-
-    @Override
-    @Transient
-    public boolean isAccessTokenExpired() {
-        return System.currentTimeMillis() > this.accessTokenExpiresTime;
-    }
-
-    @Override
-    @Transient
-    public boolean isJsApiTicketExpired() {
-        return System.currentTimeMillis() > this.jsApiTicketExpiresTime;
-    }
-
-    @Override
-    @Transient
-    public boolean isCardApiTicketExpired() {
-        return System.currentTimeMillis() > this.cardApiTicketExpiresTime;
-    }
-
-    @Override
-    @Transient
-    public boolean autoRefreshToken() {
-        return true;
-    }
-
-    @Override
-    @Transient
     public String getCorpId() {
-        return corpId;
+        return null;
     }
 
     @Override
     public void setCorpId(String corpId) {
-        this.corpId = corpId;
+
     }
 
     @Override
-    @Transient
-    public String getCorpSecret() {
-        return corpSecret;
-    }
-
-    @Override
-    public void setCorpSecret(String corpSecret) {
-        this.corpSecret = corpSecret;
-    }
-
-    @Override
-    @Transient
     public Integer getAgentId() {
-        return agentId;
+        return null;
     }
 
     @Override
     public void setAgentId(Integer agentId) {
-        this.agentId = agentId;
+
     }
 
-    public Integer getActive() {
-        return active;
+    @Override
+    public String getCorpSecret() {
+        return null;
     }
 
-    public void setActive(Integer active) {
-        this.active = active;
+    @Override
+    public void setCorpSecret(String secret) {
+
     }
 
-    public String getSiteId() {
-        return siteId;
+    @Override
+    public String getOauth2redirectUri() {
+        return null;
     }
 
-    public void setSiteId(String siteId) {
-        this.siteId = siteId;
+    @Override
+    public void setOauth2redirectUri(String oauth2redirectUri) {
+
     }
+
 
 }

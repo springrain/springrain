@@ -7,7 +7,7 @@ public interface IWxMpConfig  {
 
     String getAppId();
 
-    void setAppId(String string);
+    void setAppId(String appId);
 
     String getToken();
 
@@ -35,7 +35,7 @@ public interface IWxMpConfig  {
 
     String getSecret();
 
-    void setSecret(String string);
+    void setSecret(String secret);
 
     String getJsApiTicket();
 

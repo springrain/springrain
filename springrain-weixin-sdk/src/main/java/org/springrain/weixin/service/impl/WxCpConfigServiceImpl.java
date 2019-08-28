@@ -26,7 +26,7 @@ public class WxCpConfigServiceImpl extends BaseServiceImpl implements IWxCpConfi
 
     @Override
     public IWxCpConfig expireAccessToken(IWxCpConfig wxcpconfig) {
-        wxcpconfig.setAccessTokenExpiresTime(0L);
+       // wxcpconfig.setAccessTokenExpiresTime(0L);
 
         // 缓存操作
         updateWxCpConfig(wxcpconfig);
@@ -45,7 +45,7 @@ public class WxCpConfigServiceImpl extends BaseServiceImpl implements IWxCpConfi
 
     @Override
     public IWxCpConfig expireJsApiTicket(IWxCpConfig wxcpconfig) {
-        wxcpconfig.setJsApiTicketExpiresTime(0L);
+      //  wxcpconfig.setJsApiTicketExpiresTime(0L);
 
         // 缓存操作
         updateWxCpConfig(wxcpconfig);
@@ -65,7 +65,7 @@ public class WxCpConfigServiceImpl extends BaseServiceImpl implements IWxCpConfi
     @Override
     public IWxCpConfig expireCardapiTicket(IWxCpConfig wxcpconfig) {
 
-        wxcpconfig.setCardApiTicketExpiresTime(0L);
+       // wxcpconfig.setCardApiTicketExpiresTime(0L);
         // 缓存操作
         updateWxCpConfig(wxcpconfig);
 
