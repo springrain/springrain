@@ -23,6 +23,11 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.Map;
 
+/**
+ * 小程序码的接口
+ * https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/qr-code/wxacode.getUnlimited.html
+ */
+
 public class MiniappQrcodeApi {
     private static final Logger logger = LoggerFactory.getLogger(MiniappQrcodeApi.class);
 
