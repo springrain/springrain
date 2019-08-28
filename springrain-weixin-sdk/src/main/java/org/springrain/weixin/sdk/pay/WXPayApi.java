@@ -41,15 +41,15 @@ public class WXPayApi {
         String signTypeInData = reqData.get(WXPayConstants.FIELD_SIGN_TYPE);
         String signType;
         if (signTypeInData == null) {
-            signType = "MD5";
+            signType = WXPayConstants.MD5;
         } else {
             signTypeInData = signTypeInData.trim();
             if (signTypeInData.length() == 0) {
-                signType = "MD5";
+                signType = WXPayConstants.MD5;
             } else if (WXPayConstants.MD5.equals(signTypeInData)) {
-                signType = "MD5";
+                signType = WXPayConstants.MD5;
             } else if (WXPayConstants.HMACSHA256.equals(signTypeInData)) {
-                signType = "HMACSHA256";
+                signType = WXPayConstants.HMACSHA256;
             } else {
                 throw new Exception(String.format("Unsupported sign_type: %s", signTypeInData));
             }
@@ -452,9 +452,9 @@ public class WXPayApi {
         reqData.put("appid", config.getAppId());
         reqData.put("mch_id", config.getMchId());
         reqData.put("nonce_str", WXPayUtil.generateNonceStr());
-        if ("MD5".equals(config.getSignType())) {
+        if (WXPayConstants.MD5.equals(config.getSignType())) {
             reqData.put("sign_type", WXPayConstants.MD5);
-        } else if ("HMACSHA256".equals(config.getSignType())) {
+        } else if (WXPayConstants.HMACSHA256.equals(config.getSignType())) {
             reqData.put("sign_type", WXPayConstants.HMACSHA256);
         }
         reqData.put("sign", WXPayUtil.generateSignature(reqData, config.getKey(), config.getSignType()));
