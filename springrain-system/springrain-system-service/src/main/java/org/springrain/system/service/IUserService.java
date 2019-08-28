@@ -31,6 +31,15 @@ public interface IUserService extends IBaseSpringrainService {
      */
     UserVO findUserVOByUserId(String userId) throws Exception;
 
+    /**
+     * 根据OpenId查找UserVO
+     *
+     * @param openId
+     * @return
+     * @throws Exception
+     */
+    String findUserIdByOpenId(String openId) throws Exception;
+
 
     /**
      * 根据账号密码 验证是否能够登录,userType用于区分用户类型

@@ -96,6 +96,16 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
         return userVO;
     }
 
+    @Override
+    public String findUserIdByOpenId(String openId) throws Exception {
+
+        if (StringUtils.isBlank(openId)){
+            return null;
+        }
+        Finder finder=Finder.getSelectFinder(User.class," id ").append(" WHERE openId=:openId ").setParam("openId",openId);
+        return super.queryForObject(finder,String.class);
+    }
+
 
     @Override
     public User findLoginUser(String account, String password, Integer userType) throws Exception {

@@ -1,6 +1,8 @@
 package org.springrain.frame.util;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 全局的静态变量,用于全局变量的存放
@@ -165,5 +167,11 @@ public class GlobalStatic {
 		staticHtmlDir = rootDir + "/statichtml/";
 
 	}
+
+
+	public static final Map<Integer, String> sexMap = new HashMap<Integer, String>() {{
+		put(1, "男");
+		put(2, "女");
+	}};
 
 }
