@@ -22,8 +22,8 @@ public class MiniappAuthApi {
     private static String code2SessionUrl = WxConsts.mpapiurl+"/sns/jscode2session";
     private static  String getPaidUnionIdUrl=WxConsts.mpapiurl+"/wxa/getpaidunionid?access_token=";
 
-    public static ApiResult code2Session(IWxMiniappConfig config) {
-        String apiurl=code2SessionUrl+"?appid="+config.getAppId()+"&secret="+config.getSecret()+"&js_code="+config.getJsCode()+"&grant_type=authorization_code";
+    public static ApiResult code2Session(IWxMiniappConfig config,String jsCode) {
+        String apiurl=code2SessionUrl+"?appid="+config.getAppId()+"&secret="+config.getSecret()+"&js_code="+jsCode+"&grant_type=authorization_code";
         String jsonResult = HttpClientUtils.sendHttpGet(apiurl);
         return new ApiResult(jsonResult);
     }

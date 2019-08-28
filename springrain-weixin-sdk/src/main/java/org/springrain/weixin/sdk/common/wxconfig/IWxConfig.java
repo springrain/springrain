@@ -1,6 +1,6 @@
 package org.springrain.weixin.sdk.common.wxconfig;
 
-public interface IWxConfig {
+public interface IWxConfig  {
     String getId();// 业务Id
     void setId(String string);
 

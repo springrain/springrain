@@ -1,6 +1,7 @@
 package org.springrain.weixin.service;
 
 import org.springrain.rpc.annotation.RpcServiceAnnotation;
+import org.springrain.weixin.entity.WxMiniappConfig;
 import org.springrain.weixin.sdk.common.wxconfig.IWxMiniappConfig;
 
 //@RpcServiceAnnotation(implpackage = "weixin.wxconfig.impl")
@@ -22,25 +23,9 @@ public interface IWxMiniappConfigService {
      * @param wxminiappconfig
      * @return
      */
-    IWxMiniappConfig updateWxMiniappConfig(IWxMiniappConfig wxminiappconfig);
+    IWxMiniappConfig updateWxMiniappConfig(WxMiniappConfig wxminiappconfig);
 
 
-    /**
-     * 更新 expireAccessToken
-     *
-     * @param wxminiappconfig
-     * @return
-     */
-    IWxMiniappConfig expireAccessToken(IWxMiniappConfig wxminiappconfig);
-
-
-    /**
-     * 更新 updateAccessToken
-     *
-     * @param wxminiappconfig
-     * @return
-     */
-    IWxMiniappConfig updateAccessToken(IWxMiniappConfig wxminiappconfig);
 
 
 }
