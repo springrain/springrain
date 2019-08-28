@@ -70,42 +70,14 @@ public class WxMpConfig extends BaseEntity implements IWxMpConfig {
      * 状态 0不可用,1可用
      */
     private java.lang.Integer active;
-    /**
-     * partnerId
-     */
-    private java.lang.String partnerId;
-    /**
-     * partnerKey
-     */
-    private java.lang.String partnerKey;
+
     /**
      * 是否支持微信oauth2.0协议,0是不支持,1是支持
      */
     private java.lang.Integer oauth2;
-    /**
-     * http代理地址
-     */
-    private java.lang.String httpProxyHost;
-    /**
-     * http代理端口
-     */
-    private java.lang.Integer httpProxyPort;
-    /**
-     * http代理账号
-     */
-    private java.lang.String httpProxyUsername;
-    /**
-     * http代理密码
-     */
-    private java.lang.String httpProxyPassword;
-    /**
-     * 证书地址
-     */
-    private java.lang.String certificateFile;
+
+
     //columns END 数据库字段结束
-
-
-    private String tmpDirFile;
 
     private String accessToken;
     private Long accessTokenExpiresTime = 0L;
@@ -233,33 +205,6 @@ public class WxMpConfig extends BaseEntity implements IWxMpConfig {
         this.active = value;
     }
 
-    @Override
-    @WhereSQL(sql = "partnerId=:WxMpconfig_partnerId")
-    public java.lang.String getPartnerId() {
-        return this.partnerId;
-    }
-
-    @Override
-    public void setPartnerId(java.lang.String value) {
-        if (StringUtils.isNotBlank(value)) {
-            value = value.trim();
-        }
-        this.partnerId = value;
-    }
-
-    @Override
-    @WhereSQL(sql = "partnerKey=:WxMpconfig_partnerKey")
-    public java.lang.String getPartnerKey() {
-        return this.partnerKey;
-    }
-
-    @Override
-    public void setPartnerKey(java.lang.String value) {
-        if (StringUtils.isNotBlank(value)) {
-            value = value.trim();
-        }
-        this.partnerKey = value;
-    }
 
     @WhereSQL(sql = "oauth2=:WxMpconfig_oauth2")
     @Override
@@ -274,19 +219,6 @@ public class WxMpConfig extends BaseEntity implements IWxMpConfig {
     }
 
 
-    @Override
-    @WhereSQL(sql = "certificateFile=:WxMpconfig_certificateFile")
-    public java.lang.String getCertificateFile() {
-        return this.certificateFile;
-    }
-
-    @Override
-    public void setCertificateFile(java.lang.String value) {
-        if (StringUtils.isNotBlank(value)) {
-            value = value.trim();
-        }
-        this.certificateFile = value;
-    }
 
     @Override
     public String toString() {
@@ -299,10 +231,7 @@ public class WxMpConfig extends BaseEntity implements IWxMpConfig {
                 .append("消息加解密密钥[").append(getAesKey()).append("],")
                 .append("原始ID[").append(getWxId()).append("],")
                 .append("状态 0不可用,1可用[").append(getActive()).append("],")
-                .append("partnerId[").append(getPartnerId()).append("],")
-                .append("partnerKey[").append(getPartnerKey()).append("],")
                 .append("是否支持微信oauth2.0协议,0是不支持,1是支持[").append(getOauth2()).append("],")
-                .append("证书地址[").append(getCertificateFile()).append("],")
                 .toString();
     }
 
@@ -360,16 +289,6 @@ public class WxMpConfig extends BaseEntity implements IWxMpConfig {
         this.cardApiTicket = cardApiTicket;
     }
 
-    @Override
-    @Transient
-    public String getTmpDirFile() {
-        return tmpDirFile;
-    }
-
-    @Override
-    public void setTmpDirFile(String tmpDirFile) {
-        this.tmpDirFile = tmpDirFile;
-    }
 
 
     @Transient
@@ -422,11 +341,6 @@ public class WxMpConfig extends BaseEntity implements IWxMpConfig {
         return System.currentTimeMillis() > this.cardApiTicketExpiresTime;
     }
 
-    @Override
-    @Transient
-    public boolean autoRefreshToken() {
-        return true;
-    }
 
 
 }
