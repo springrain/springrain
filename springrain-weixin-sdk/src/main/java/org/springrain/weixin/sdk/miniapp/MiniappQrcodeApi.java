@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.frame.util.JsonUtils;
-import org.springrain.frame.util.SecUtils;
 import org.springrain.weixin.sdk.common.ApiResult;
 import org.springrain.weixin.sdk.common.WxConsts;
 import org.springrain.weixin.sdk.common.wxconfig.IWxMiniappConfig;
@@ -22,6 +21,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * 小程序码的接口
@@ -59,7 +59,7 @@ public class MiniappQrcodeApi {
                 if (!dir.exists()){
                     dir.mkdirs();
                 }
-                String filePath=dirpath+"/"+ SecUtils.getUUID()+".jpg";
+                String filePath=dirpath+"/"+ UUID.randomUUID().toString()+".jpg";
                 File file=new File(filePath);
                 os = new BufferedOutputStream(new FileOutputStream(file));
                 os.write(byteArray);
