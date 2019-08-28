@@ -70,5 +70,4 @@ public class WxMiniappConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl 
     }
 
 
-
 }

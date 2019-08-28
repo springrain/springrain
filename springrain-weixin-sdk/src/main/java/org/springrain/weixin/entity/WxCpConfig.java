@@ -24,11 +24,6 @@ public class WxCpConfig extends BaseEntity implements IWxCpConfig {
 
     private volatile String oauth2redirectUri;
 
-    private volatile String httpProxyHost;
-    private volatile Integer httpProxyPort;
-    private volatile String httpProxyUsername;
-    private volatile String httpProxyPassword;
-
     private volatile String certificateFile;
     private volatile String tmpDirFile;
 

@@ -11,13 +11,13 @@ import javax.annotation.Resource;
 @Controller
 @RequestMapping(value = "/mp/mpautologin/{siteId}")
 public class WxMpAutoLoginController {
-   // @Resource
-   // IWxMpService wxMpService;
+    // @Resource
+    // IWxMpService wxMpService;
     @Resource
     IWxMpConfigService wxMpConfigService;
 
-   // @Resource
-   // IWxMpUserService wxMpUserService;
+    // @Resource
+    // IWxMpUserService wxMpUserService;
 
 
     /**

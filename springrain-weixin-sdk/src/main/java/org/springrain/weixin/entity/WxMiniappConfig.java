@@ -269,58 +269,6 @@ public class WxMiniappConfig extends BaseEntity implements IWxMiniappConfig {
         this.partnerKey = value;
     }
 
-    @Override
-    @WhereSQL(sql = "httpProxyHost=:WxMpconfig_httpProxyHost")
-    public java.lang.String getHttpProxyHost() {
-        return this.httpProxyHost;
-    }
-
-    @Override
-    public void setHttpProxyHost(java.lang.String value) {
-        if (StringUtils.isNotBlank(value)) {
-            value = value.trim();
-        }
-        this.httpProxyHost = value;
-    }
-
-    @Override
-    @WhereSQL(sql = "httpProxyPort=:WxMpconfig_httpProxyPort")
-    public java.lang.Integer getHttpProxyPort() {
-        return this.httpProxyPort;
-    }
-
-    @Override
-    public void setHttpProxyPort(java.lang.Integer value) {
-        this.httpProxyPort = value;
-    }
-
-    @Override
-    @WhereSQL(sql = "httpProxyUsername=:WxMpconfig_httpProxyUsername")
-    public java.lang.String getHttpProxyUsername() {
-        return this.httpProxyUsername;
-    }
-
-    @Override
-    public void setHttpProxyUsername(java.lang.String value) {
-        if (StringUtils.isNotBlank(value)) {
-            value = value.trim();
-        }
-        this.httpProxyUsername = value;
-    }
-
-    @Override
-    @WhereSQL(sql = "httpProxyPassword=:WxMpconfig_httpProxyPassword")
-    public java.lang.String getHttpProxyPassword() {
-        return this.httpProxyPassword;
-    }
-
-    @Override
-    public void setHttpProxyPassword(java.lang.String value) {
-        if (StringUtils.isNotBlank(value)) {
-            value = value.trim();
-        }
-        this.httpProxyPassword = value;
-    }
 
     @Override
     @WhereSQL(sql = "certificateFile=:WxMpconfig_certificateFile")
@@ -372,10 +320,6 @@ public class WxMiniappConfig extends BaseEntity implements IWxMiniappConfig {
                 .append("状态 0不可用,1可用[").append(getActive()).append("],")
                 .append("partnerId[").append(getPartnerId()).append("],")
                 .append("partnerKey[").append(getPartnerKey()).append("],")
-                .append("http代理地址[").append(getHttpProxyHost()).append("],")
-                .append("http代理端口[").append(getHttpProxyPort()).append("],")
-                .append("http代理账号[").append(getHttpProxyUsername()).append("],")
-                .append("http代理密码[").append(getHttpProxyPassword()).append("],")
                 .append("证书地址[").append(getCertificateFile()).append("],")
                 .toString();
     }

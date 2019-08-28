@@ -121,7 +121,7 @@ public class WXPayApi {
     public static Map<String, String> microPayWithPos(IWxPayConfig config, Map<String, String> reqData) throws Exception {
         int remainingTimeMs = 60 * 1000;
         long startTimestampMs = 0;
-        int httpConnectTimeoutMs=6*1000;
+        int httpConnectTimeoutMs = 6 * 1000;
         Map<String, String> lastResult = null;
         Exception lastException = null;
 
