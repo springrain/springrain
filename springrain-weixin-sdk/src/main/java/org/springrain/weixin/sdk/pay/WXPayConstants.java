@@ -46,9 +46,6 @@ public class WXPayConstants {
     public static final String SANDBOX_SHORTURL_URL_SUFFIX = "/sandboxnew/tools/shorturl";
     public static final String SANDBOX_AUTHCODETOOPENID_URL_SUFFIX = "/sandboxnew/tools/authcodetoopenid";
 
-    public enum SignType {
-        MD5, HMACSHA256
-    }
 
 }
 

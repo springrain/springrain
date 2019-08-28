@@ -1,6 +1,5 @@
 package org.springrain.weixin.sdk.common.wxconfig;
 
-import org.springrain.weixin.sdk.pay.WXPayConstants.SignType;
 
 public interface IWxPayConfig {
 
@@ -41,8 +40,7 @@ public interface IWxPayConfig {
 
     Boolean getUseSandbox();
 
-
-    SignType getSignType();
+    String getSignType();
 
 
 }
