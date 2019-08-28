@@ -1,6 +1,7 @@
 package org.springrain.weixin.service;
 
 import org.springrain.rpc.annotation.RpcServiceAnnotation;
+import org.springrain.weixin.entity.WxMpConfig;
 import org.springrain.weixin.sdk.common.wxconfig.IWxMpConfig;
 
 import java.util.Map;
@@ -23,55 +24,9 @@ public interface IWxMpConfigService {
      * @param wxmpconfig
      * @return
      */
-    IWxMpConfig updateWxMpConfig(IWxMpConfig wxmpconfig);
+    IWxMpConfig updateWxMpConfig(WxMpConfig wxmpconfig);
 
-    /**
-     * 更新 expireAccessToken
-     *
-     * @param wxmpconfig
-     * @return
-     */
-    IWxMpConfig expireAccessToken(IWxMpConfig wxmpconfig);
 
-    /**
-     * 更新 updateAccessToken
-     *
-     * @param wxmpconfig
-     * @return
-     */
-    IWxMpConfig updateAccessToken(IWxMpConfig wxmpconfig);
-
-    /**
-     * 更新 expireJsApiTicket
-     *
-     * @param wxmpconfig
-     * @return
-     */
-    IWxMpConfig expireJsApiTicket(IWxMpConfig wxmpconfig);
-
-    /**
-     * 更新 updateJsApiTicket
-     *
-     * @param wxmpconfig
-     * @return
-     */
-    IWxMpConfig updateJsApiTicket(IWxMpConfig wxmpconfig);
-
-    /**
-     * 更新 expireCardApiTicket
-     *
-     * @param wxmpconfig
-     * @return
-     */
-    IWxMpConfig expireCardApiTicket(IWxMpConfig wxmpconfig);
-
-    /**
-     * 更新 updateCardApiTicket
-     *
-     * @param wxmpconfig
-     * @return
-     */
-    IWxMpConfig updateCardApiTicket(IWxMpConfig wxmpconfig);
 
     /**
      * 根据siteid和request查询jsapi配置信息
