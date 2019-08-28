@@ -51,6 +51,8 @@ public class WxCryptUtils {
      * @param ivStr         iv字符串
      */
     public static String decrypt(String sessionKey, String encryptedData, String ivStr) {
+
+
         byte[] keyBytes = Base64.decodeBase64(sessionKey.getBytes(UTF_8));
 
         int base = 16;
@@ -71,6 +73,19 @@ public class WxCryptUtils {
         } catch (Exception e) {
             throw new RuntimeException("AES解密失败！", e);
         }
+    }
+
+    /**
+     * 验证用户信息完整性.
+     *
+     * @param sessionKey 会话密钥
+     * @param rawData    微信用户基本信息
+     * @param signature  数据签名
+     * @return .
+     */
+    public boolean checkUserInfo(String sessionKey, String rawData, String signature) {
+        final String generatedSignature = DigestUtils.sha1Hex(rawData + sessionKey);
+        return generatedSignature.equals(signature);
     }
 
 
