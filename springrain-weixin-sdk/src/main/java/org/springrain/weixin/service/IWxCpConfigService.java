@@ -3,7 +3,8 @@ package org.springrain.weixin.service;
 import org.springrain.rpc.annotation.RpcServiceAnnotation;
 import org.springrain.weixin.sdk.common.wxconfig.IWxCpConfig;
 
-@RpcServiceAnnotation(implpackage = "weixin.wxconfig.impl")
+//@RpcServiceAnnotation(implpackage = "weixin.wxconfig.impl")
+@RpcServiceAnnotation
 public interface IWxCpConfigService {
 
     /**

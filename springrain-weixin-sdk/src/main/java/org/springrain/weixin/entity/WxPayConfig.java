@@ -39,6 +39,36 @@ public class WxPayConfig implements IWxPayConfig {
     }
 
     @Override
+    public String getAccessToken() {
+        return null;
+    }
+
+    @Override
+    public void setAccessToken(String accessToken) {
+
+    }
+
+    @Override
+    public void setAccessTokenExpiresTime(Long l) {
+
+    }
+
+    @Override
+    public boolean isAccessTokenExpired() {
+        return false;
+    }
+
+    @Override
+    public String getSecret() {
+        return null;
+    }
+
+    @Override
+    public void setSecret(String secret) {
+
+    }
+
+    @Override
     public String getCertificateFile() {
         return certificateFile;
     }

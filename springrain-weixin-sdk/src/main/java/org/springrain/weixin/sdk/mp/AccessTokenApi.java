@@ -9,6 +9,7 @@ package org.springrain.weixin.sdk.mp;
 import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.frame.util.JsonUtils;
 import org.springrain.weixin.sdk.common.WxConsts;
+import org.springrain.weixin.sdk.common.wxconfig.IWxConfig;
 import org.springrain.weixin.sdk.common.wxconfig.IWxMpConfig;
 
 import java.util.Map;
@@ -27,15 +28,15 @@ public class AccessTokenApi {
      *
      * @return AccessToken accessToken
      */
-    public static String getAccessToken(IWxMpConfig wxmpconfig) {
-        String apiurl = accessTokenUrl + "&appid=" + wxmpconfig.getAppId() + "&secret=" + wxmpconfig.getSecret();
+    public static String getAccessToken(IWxConfig config) {
+        String apiurl = accessTokenUrl + "&appid=" + config.getAppId() + "&secret=" + config.getSecret();
         String jsonResult = HttpClientUtils.sendHttpGet(apiurl);
         Map map = JsonUtils.readValue(jsonResult, Map.class);
 
         String accessToken = (String) map.get("access_token");
 
-        wxmpconfig.setAccessToken(accessToken);
-        wxmpconfig.setAccessTokenExpiresTime(Long.valueOf((int) map.get("expires_in")));
+        config.setAccessToken(accessToken);
+        config.setAccessTokenExpiresTime(Long.valueOf((int) map.get("expires_in")));
 
         return accessToken;
     }

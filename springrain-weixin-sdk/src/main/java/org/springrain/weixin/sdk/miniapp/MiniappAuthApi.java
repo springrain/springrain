@@ -1,0 +1,39 @@
+package org.springrain.weixin.sdk.miniapp;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springrain.frame.util.HttpClientUtils;
+import org.springrain.weixin.sdk.common.ApiResult;
+import org.springrain.weixin.sdk.common.WxConsts;
+import org.springrain.weixin.sdk.common.wxconfig.IWxMiniappConfig;
+
+/**
+ * 小城的API接口
+ *
+ * https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/login/auth.code2Session.html
+ * https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/user-info/auth.getPaidUnionId.html
+ */
+public class MiniappAuthApi {
+    private static final Logger logger = LoggerFactory.getLogger(MiniappAuthApi.class);
+
+    private MiniappAuthApi() {
+        throw new IllegalAccessError("工具类不能实例化");
+    }
+    private static String code2SessionUrl = WxConsts.mpapiurl+"/sns/jscode2session";
+    private static  String getPaidUnionIdUrl=WxConsts.mpapiurl+"/wxa/getpaidunionid?access_token=";
+
+    public static ApiResult code2Session(IWxMiniappConfig config) {
+        String apiurl=code2SessionUrl+"?appid="+config.getAppId()+"&secret="+config.getSecret()+"&js_code="+config.getJsCode()+"&grant_type=authorization_code";
+        String jsonResult = HttpClientUtils.sendHttpGet(apiurl);
+        return new ApiResult(jsonResult);
+    }
+
+    public static ApiResult getPaidUnionId(IWxMiniappConfig config,String openId) {
+        String apiurl=getPaidUnionIdUrl+config.getAccessToken()+"&openid="+openId;
+        String jsonResult = HttpClientUtils.sendHttpGet(apiurl);
+        return new ApiResult(jsonResult);
+    }
+
+
+
+}

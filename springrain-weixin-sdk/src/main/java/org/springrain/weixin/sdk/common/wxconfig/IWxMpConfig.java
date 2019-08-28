@@ -1,13 +1,6 @@
 package org.springrain.weixin.sdk.common.wxconfig;
 
-public interface IWxMpConfig  {
-    String getId();// 业务Id
-
-    void setId(String string);
-
-    String getAppId();
-
-    void setAppId(String appId);
+public interface IWxMpConfig extends IWxConfig  {
 
     String getToken();
 
@@ -18,24 +11,10 @@ public interface IWxMpConfig  {
     void setAesKey(String aesKey);
 
 
-
     //开启oauth2.0认证,是否能够获取openId,0是关闭,1是开启
     Integer getOauth2();
 
     void setOauth2(Integer oauth2);
-
-
-    String getAccessToken();
-
-    void setAccessToken(String accessToken);
-
-    void setAccessTokenExpiresTime(Long l);
-
-    boolean isAccessTokenExpired();
-
-    String getSecret();
-
-    void setSecret(String secret);
 
     String getJsApiTicket();
 

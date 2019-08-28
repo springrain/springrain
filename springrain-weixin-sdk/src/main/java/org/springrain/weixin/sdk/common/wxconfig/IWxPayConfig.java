@@ -1,15 +1,8 @@
 package org.springrain.weixin.sdk.common.wxconfig;
 
 
-public interface IWxPayConfig {
+public interface IWxPayConfig extends IWxConfig {
 
-    String getId();// 业务Id
-
-    void setId(String string);
-
-    String getAppId();
-
-    void setAppId(String string);
 
     /**
      * 获取商户证路径

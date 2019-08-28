@@ -5,7 +5,8 @@ import org.springrain.weixin.sdk.common.wxconfig.IWxMpConfig;
 
 import java.util.Map;
 
-@RpcServiceAnnotation(implpackage = "weixin.wxconfig.impl")
+//@RpcServiceAnnotation(implpackage = "weixin.wxconfig.impl")
+@RpcServiceAnnotation
 public interface IWxMpConfigService {
 
     /**
@@ -27,7 +28,7 @@ public interface IWxMpConfigService {
     /**
      * 更新 expireAccessToken
      *
-     * @param wxMpConfig
+     * @param wxmpconfig
      * @return
      */
     IWxMpConfig expireAccessToken(IWxMpConfig wxmpconfig);
@@ -35,7 +36,7 @@ public interface IWxMpConfigService {
     /**
      * 更新 updateAccessToken
      *
-     * @param wxMpConfig
+     * @param wxmpconfig
      * @return
      */
     IWxMpConfig updateAccessToken(IWxMpConfig wxmpconfig);
@@ -43,7 +44,7 @@ public interface IWxMpConfigService {
     /**
      * 更新 expireJsApiTicket
      *
-     * @param wxMpConfig
+     * @param wxmpconfig
      * @return
      */
     IWxMpConfig expireJsApiTicket(IWxMpConfig wxmpconfig);
@@ -51,7 +52,7 @@ public interface IWxMpConfigService {
     /**
      * 更新 updateJsApiTicket
      *
-     * @param wxMpConfig
+     * @param wxmpconfig
      * @return
      */
     IWxMpConfig updateJsApiTicket(IWxMpConfig wxmpconfig);
@@ -59,7 +60,7 @@ public interface IWxMpConfigService {
     /**
      * 更新 expireCardApiTicket
      *
-     * @param wxMpConfig
+     * @param wxmpconfig
      * @return
      */
     IWxMpConfig expireCardApiTicket(IWxMpConfig wxmpconfig);
@@ -67,7 +68,7 @@ public interface IWxMpConfigService {
     /**
      * 更新 updateCardApiTicket
      *
-     * @param wxMpConfig
+     * @param wxmpconfig
      * @return
      */
     IWxMpConfig updateCardApiTicket(IWxMpConfig wxmpconfig);
@@ -75,12 +76,12 @@ public interface IWxMpConfigService {
     /**
      * 根据siteid和request查询jsapi配置信息
      *
-     * @param siteId
-     * @param request
+     * @param wxmpconfig
+     * @param url
      * @return
      * @throws Exception
      */
-    Map<String, String> findMpJsApiParam(IWxMpConfig wxMpConfig, String url) throws Exception;
+    Map<String, String> findMpJsApiParam(IWxMpConfig wxmpconfig, String url) throws Exception;
 
 
 }
