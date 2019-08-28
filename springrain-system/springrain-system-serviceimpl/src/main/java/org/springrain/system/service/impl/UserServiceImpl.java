@@ -38,6 +38,15 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
     }
 
     @Override
+    public Integer update(IBaseEntity entity, boolean onlyupdatenotnull) throws Exception {
+        User user = (User) entity;
+        //清理缓存
+        super.evictByKey(GlobalStatic.userOrgRoleMenuInfoCacheKey,"findUserById_"+user.getId());
+        return super.update(entity,onlyupdatenotnull);
+    }
+
+
+    @Override
     public User findUserById(String id) throws Exception {
 
         if (StringUtils.isBlank(id)) {
