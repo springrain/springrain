@@ -2,6 +2,9 @@ package org.springrain.weixin.entity;
 
 import org.springrain.weixin.sdk.common.wxconfig.IWxPayConfig;
 
+import javax.persistence.Table;
+
+@Table(name = "wx_payconfig")
 public class WxPayConfig implements IWxPayConfig {
 
 
