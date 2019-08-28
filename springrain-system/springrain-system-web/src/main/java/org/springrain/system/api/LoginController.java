@@ -2,8 +2,6 @@ package org.springrain.system.api;
 
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.cache.Cache;
-import org.springframework.cache.CacheManager;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -36,8 +34,6 @@ public class LoginController extends BaseController {
     @Resource
     private IUserRoleMenuService userRoleMenuService;
 
-    @Resource
-    private CacheManager cacheManager;
 
     /**
      * 健康检查
@@ -57,7 +53,7 @@ public class LoginController extends BaseController {
      * @throws IOException
      */
     @RequestMapping(value = "/getCaptcha", method = RequestMethod.POST)
-    public ReturnDatas getCaptcha(String captchaKey) throws IOException {
+    public ReturnDatas getCaptcha(String captchaKey) throws Exception {
 
         // HttpHeaders headers = new HttpHeaders();
         // headers.setContentType(MediaType.IMAGE_JPEG);
@@ -66,13 +62,12 @@ public class LoginController extends BaseController {
             StringBuilder code = new StringBuilder();
             BufferedImage image = CaptchaUtils.genRandomCodeImage(code);
 
-            Cache cache = cacheManager.getCache(GlobalStatic.springranloginCaptchaKey);
             if (StringUtils.isNotBlank(captchaKey)) {
-                cache.evict(captchaKey);
+                userService.evictByKey(GlobalStatic.springranloginCaptchaKey,captchaKey);
             } else {
                 captchaKey = SecUtils.getUUID();
             }
-            cache.put(captchaKey, code.toString());
+            userService.putByCache(GlobalStatic.springranloginCaptchaKey,captchaKey, code.toString());
 
             ImageIO.write(image, "JPEG", os);
             String imageBase64 = String.format("data:image/jpeg;base64,%s", SecUtils.encoderByBase64(os.toByteArray()));
@@ -136,24 +131,22 @@ public class LoginController extends BaseController {
 
         ConcurrentMap resutltMap = Maps.newConcurrentMap();
         // 处理密码错误缓存
-        Cache cache = cacheManager.getCache(GlobalStatic.springrainloginCacheKey);
         String errorLogincountKey = userVO.getAccount() + "_errorlogincount";
-        Integer errorLogincount = cache.get(errorLogincountKey, Integer.class);
+        Integer errorLogincount = userService.getByCache(GlobalStatic.springrainloginCacheKey,errorLogincountKey, Integer.class);
 
         if (errorLogincount != null && errorLogincount >= GlobalStatic.ERROR_LOGIN_COUNT) {// 密码连续错误10次以上
 
             String errorMessage = "密码连续错误超过" + GlobalStatic.ERROR_LOGIN_COUNT + "次,账号被锁定,请"
                     + GlobalStatic.ERROR_LOGIN_LOCK_MINUTE + "分钟之后再尝试登录!";
-
-            Long endDateLong = cache.get(userVO.getAccount() + "_endDateLong", Long.class);
+            Long endDateLong = userService.getByCache(GlobalStatic.springrainloginCacheKey,userVO.getAccount() + "_endDateLong", Long.class);
             Long now = System.currentTimeMillis() / 1000;// 秒
             if (endDateLong == null) {
                 endDateLong = now + GlobalStatic.ERROR_LOGIN_LOCK_MINUTE * 60;// 秒
-                cache.put(userVO.getAccount() + "_endDateLong", endDateLong);
+                userService.putByCache(GlobalStatic.springrainloginCacheKey,userVO.getAccount() + "_endDateLong",endDateLong);
                 return ReturnDatas.getErrorReturnDatas(errorMessage);
             } else if (now > endDateLong) {// 过了失效时间
-                cache.evict(errorLogincountKey);
-                cache.evict(userVO.getAccount() + "_endDateLong");
+                userService.evictByKey(GlobalStatic.springrainloginCacheKey,errorLogincountKey);
+                userService.evictByKey(GlobalStatic.springrainloginCacheKey,userVO.getAccount() + "_endDateLong");
 
             } else {
                 return ReturnDatas.getErrorReturnDatas(errorMessage);
@@ -168,7 +161,7 @@ public class LoginController extends BaseController {
                 errorLogincount = 0;
             }
             errorLogincount = errorLogincount + 1;
-            cache.put(errorLogincountKey, errorLogincount);
+            userService.putByCache(GlobalStatic.springrainloginCacheKey,errorLogincountKey, errorLogincount);
 
             return ReturnDatas.getErrorReturnDatas("账号或密码错误");
         }
@@ -205,9 +198,8 @@ public class LoginController extends BaseController {
         returnDatas.setResult(resutltMap);
 
         //登录成功,清空错误次数
-        cache.evict(errorLogincountKey);
-        cache.evict(userVO.getAccount() + "_endDateLong");
-
+        userService.evictByKey(GlobalStatic.springrainloginCacheKey,errorLogincountKey);
+        userService.evictByKey(GlobalStatic.springrainloginCacheKey,userVO.getAccount() + "_endDateLong");
 
         return returnDatas;
     }
