@@ -138,49 +138,6 @@ public class WxCpConfig extends BaseEntity implements IWxCpConfig {
         this.oauth2redirectUri = oauth2redirectUri;
     }
 
-    @Override
-    @Transient
-    public String getHttpProxyHost() {
-        return httpProxyHost;
-    }
-
-    @Override
-    public void setHttpProxyHost(String httpProxyHost) {
-        this.httpProxyHost = httpProxyHost;
-    }
-
-    @Override
-    @Transient
-    public Integer getHttpProxyPort() {
-        return httpProxyPort;
-    }
-
-    @Override
-    public void setHttpProxyPort(Integer httpProxyPort) {
-        this.httpProxyPort = httpProxyPort;
-    }
-
-    @Override
-    @Transient
-    public String getHttpProxyUsername() {
-        return httpProxyUsername;
-    }
-
-    @Override
-    public void setHttpProxyUsername(String httpProxyUsername) {
-        this.httpProxyUsername = httpProxyUsername;
-    }
-
-    @Override
-    @Transient
-    public String getHttpProxyPassword() {
-        return httpProxyPassword;
-    }
-
-    @Override
-    public void setHttpProxyPassword(String httpProxyPassword) {
-        this.httpProxyPassword = httpProxyPassword;
-    }
 
     @Override
     @Transient
