@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springrain.frame.util.JsonUtils;
 
+import java.io.File;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -41,6 +42,9 @@ public class ApiResult implements Serializable {
     private Map<String, Object> attrs;
     private String json;
 
+
+    private File file;
+    public ApiResult() {}
     /**
      * 通过 json 构造 ApiResult，注意返回结果不为 json 的 api（如果有的话）
      *
@@ -171,6 +175,15 @@ public class ApiResult implements Serializable {
     public boolean isAccessTokenInvalid() {
         Integer ec = getErrorCode();
         return ec != null && (ec == 40001 || ec == 42001 || ec == 42002 || ec == 40014);
+    }
+
+
+    public File getFile() {
+        return file;
+    }
+
+    public void setFile(File file) {
+        this.file = file;
     }
 }
 
