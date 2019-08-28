@@ -34,7 +34,7 @@ public class WxMenuServiceImpl extends BaseSpringrainWeiXinServiceImpl implement
     }
 
     @Override
-    public WxMenu findCmsWxMenuById(Object id) throws Exception {
+    public WxMenu findWxMenuById(String id) throws Exception {
         return super.findById(id, WxMenu.class);
     }
 
@@ -56,7 +56,7 @@ public class WxMenuServiceImpl extends BaseSpringrainWeiXinServiceImpl implement
     @Override
     public List<WxMenu> findParentMenuList(String siteId) throws Exception {
         Finder finder = Finder.getSelectFinder(WxMenu.class);
-        finder.append(" where siteId=:siteId and pid is null ");
+        finder.append(" where siteId=:siteId and pid is '' ");
         finder.setParam("siteId", siteId);
         return super.queryForList(finder, WxMenu.class);
     }

@@ -22,7 +22,7 @@ public interface IWxMenuService extends IBaseService {
      * @return
      * @throws Exception
      */
-    WxMenu findCmsWxMenuById(Object id) throws Exception;
+    WxMenu findWxMenuById(String id) throws Exception;
 
     /**
      * 查找所有的顶级菜单
