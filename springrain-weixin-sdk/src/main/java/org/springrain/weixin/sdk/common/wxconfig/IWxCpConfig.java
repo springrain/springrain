@@ -3,20 +3,6 @@ package org.springrain.weixin.sdk.common.wxconfig;
 public interface IWxCpConfig  {
     String getId();// 业务Id
     void setId(String string);
-    String getCorpId();
 
-    void setCorpId(String corpId);
-
-    Integer getAgentId();
-
-    void setAgentId(Integer agentId);
-
-    String getCorpSecret();
-
-    void setCorpSecret(String secret);
-
-    String getOauth2redirectUri();
-
-    void setOauth2redirectUri(String oauth2redirectUri);
 
 }
