@@ -3,14 +3,14 @@ package org.springrain.system.service.impl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springrain.frame.entity.IBaseEntity;
-import org.springrain.frame.util.Finder;
-import org.springrain.frame.util.GlobalStatic;
-import org.springrain.frame.util.Page;
+import org.springrain.frame.util.*;
 import org.springrain.rpc.sessionuser.UserVO;
 import org.springrain.system.entity.User;
 import org.springrain.system.service.IUserService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * TODO 在此加入类描述
@@ -113,6 +113,20 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
         }
         Finder finder=Finder.getSelectFinder(User.class," id ").append(" WHERE openId=:openId ").setParam("openId",openId);
         return super.queryForObject(finder,String.class);
+    }
+
+    @Override
+    public String wrapJwtTokenByUser(User user) throws Exception {
+        Map<String, Object> jwtSignMap = new HashMap<>();
+        jwtSignMap.put("userId", user.getId());
+        jwtSignMap.put("account", user.getAccount());
+        jwtSignMap.put("userName", user.getUserName());
+        jwtSignMap.put("userType", user.getUserType());
+
+        String jwtToken = JwtUtils.sign(jwtSignMap);
+        // RSA 私钥加密
+        jwtToken = SecUtils.encoderByRSAPrivateKey(jwtToken);
+        return jwtToken;
     }
 
 

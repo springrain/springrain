@@ -8,7 +8,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springrain.frame.util.*;
+import org.springrain.frame.util.CaptchaUtils;
+import org.springrain.frame.util.GlobalStatic;
+import org.springrain.frame.util.ReturnDatas;
+import org.springrain.frame.util.SecUtils;
 import org.springrain.rpc.sessionuser.SessionUser;
 import org.springrain.rpc.sessionuser.UserVO;
 import org.springrain.system.base.BaseController;
@@ -21,8 +24,6 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 
 @RestController
@@ -172,15 +173,10 @@ public class LoginController extends BaseController {
             return ReturnDatas.getErrorReturnDatas("账号或密码错误");
         }
 
-        Map<String, Object> jwtSignMap = new HashMap<>();
-        jwtSignMap.put("userId", user.getId());
-        jwtSignMap.put("account", user.getAccount());
-        jwtSignMap.put("userName", user.getUserName());
-        jwtSignMap.put("userType", user.getUserType());
 
-        String jwtToken = JwtUtils.sign(jwtSignMap);
-        // RSA 私钥加密
-        jwtToken = SecUtils.encoderByRSAPrivateKey(jwtToken);
+
+        String jwtToken = userService.wrapJwtTokenByUser(user);
+
 
 
         resutltMap.put(GlobalStatic.jwtTokenKey, jwtToken);

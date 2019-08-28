@@ -6,7 +6,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springrain.frame.util.*;
+import org.springrain.frame.util.GlobalStatic;
+import org.springrain.frame.util.JsonUtils;
+import org.springrain.frame.util.ReturnDatas;
+import org.springrain.frame.util.SecUtils;
 import org.springrain.rpc.sessionuser.SessionUser;
 import org.springrain.system.base.BaseController;
 import org.springrain.system.entity.User;
@@ -18,7 +21,6 @@ import org.springrain.weixin.sdk.miniapp.MiniappAuthApi;
 import org.springrain.weixin.service.IWxMiniappConfigService;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 
@@ -76,15 +78,8 @@ public class AuthController extends BaseController {
        }
 
         ConcurrentMap resutltMap = Maps.newConcurrentMap();
-        Map<String, Object> jwtSignMap = new HashMap<>();
-        jwtSignMap.put("userId", user.getId());
-        jwtSignMap.put("account", user.getAccount());
-        jwtSignMap.put("userName", user.getUserName());
-        jwtSignMap.put("userType", user.getUserType());
-        String jwtToken = JwtUtils.sign(jwtSignMap);
-        // RSA 私钥加密
-        jwtToken = SecUtils.encoderByRSAPrivateKey(jwtToken);
 
+        String jwtToken = userService.wrapJwtTokenByUser(user);
         resutltMap.put(GlobalStatic.jwtTokenKey, jwtToken);
         returnObject.setResult(resutltMap);
 
