@@ -4,12 +4,12 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springrain.frame.util.GlobalStatic;
-import org.springrain.frame.util.SecUtils;
 import org.springrain.weixin.entity.WxMpConfig;
-import org.springrain.weixin.sdk.common.service.IWxMpConfig;
-import org.springrain.weixin.sdk.common.service.IWxMpConfigService;
+import org.springrain.weixin.sdk.common.WxCryptUtils;
+import org.springrain.weixin.sdk.common.wxconfig.IWxMpConfig;
 import org.springrain.weixin.sdk.mp.AccessTokenApi;
 import org.springrain.weixin.sdk.mp.TicketApi;
+import org.springrain.weixin.service.IWxMpConfigService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,17 +17,7 @@ import java.util.Map;
 @Service("wxMpConfigService")
 public class WxMpConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl implements IWxMpConfigService {
 
-
-    @Override
-    public IWxMpConfig expireAccessToken(IWxMpConfig wxmpconfig) {
-        wxmpconfig.setAccessTokenExpiresTime(0L);
-        // 缓存操作
-        updateWxMpConfig(wxmpconfig);
-
-        return wxmpconfig;
-    }
-
-
+    private String cacheKeyPrefix="wxmp_config_";
 
     @Override
     public IWxMpConfig findWxMpConfigById(String id) {
@@ -37,14 +27,21 @@ public class WxMpConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl imple
 
         IWxMpConfig wxMpConfig = null;
         try {
-            wxMpConfig = super.getByCache(id, GlobalStatic.mpConfigCacheKey, WxMpConfig.class);
-            if (wxMpConfig == null || wxMpConfig.isAccessTokenExpired()) {
+            wxMpConfig = super.getByCache(cacheKeyPrefix+id, GlobalStatic.wxConfigCacheKey, WxMpConfig.class);
+            if (wxMpConfig == null) {
                 wxMpConfig = super.findById(id, WxMpConfig.class);
+            }
+            if (wxMpConfig == null) {
+                return null;
+            }
+
+            if(!wxMpConfig.isAccessTokenExpired()){
                 AccessTokenApi.getAccessToken(wxMpConfig);
                 TicketApi.getCardApiTicket(wxMpConfig);
                 TicketApi.getJsApiTicket(wxMpConfig);
-                super.putByCache(id, GlobalStatic.mpConfigCacheKey, wxMpConfig);
             }
+            super.putByCache(cacheKeyPrefix+id, GlobalStatic.wxConfigCacheKey, wxMpConfig);
+
         } catch (Exception e) {
             wxMpConfig = null;
             logger.error(e.getMessage(), e);
@@ -56,7 +53,8 @@ public class WxMpConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl imple
     /**
      * 缓存处理,可以把配置进行缓存更新 @
      */
-    private IWxMpConfig updateWxMpConfig(IWxMpConfig wxmpconfig)  {
+    @Override
+    public IWxMpConfig updateWxMpConfig(WxMpConfig wxmpconfig) {
 
         String id = wxmpconfig.getId();
         if (StringUtils.isBlank(id)) {
@@ -64,12 +62,11 @@ public class WxMpConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl imple
         }
 
         try {
-            super.evictByKey(GlobalStatic.mpConfigCacheKey,id);
+            super.update(wxmpconfig);
+            super.putByCache(cacheKeyPrefix+id, GlobalStatic.wxConfigCacheKey, wxmpconfig);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return null;
         }
-
 
         return wxmpconfig;
     }
@@ -100,7 +97,7 @@ public class WxMpConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl imple
         StringBuilder sb = new StringBuilder();
         sb.append("jsapi_ticket=").append(jsapiTicket).append("&noncestr=").append(nonceStr).append("&timestamp=")
                 .append(timestamp).append("&url=").append(url);
-        return SecUtils.genSHA1(sb.toString());
+        return WxCryptUtils.genSHA1(sb.toString());
 
     }
 

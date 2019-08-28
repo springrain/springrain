@@ -10,7 +10,7 @@ import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.frame.util.JsonUtils;
 import org.springrain.weixin.sdk.common.ApiResult;
 import org.springrain.weixin.sdk.common.WxConsts;
-import org.springrain.weixin.sdk.common.service.IWxMpConfig;
+import org.springrain.weixin.sdk.common.wxconfig.IWxMpConfig;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -40,25 +40,24 @@ public class SubscribeMsgApi {
     /**
      * 发送一次性订阅消息
      *
-     * @param jsonStr
-     *            json字符串
+     * @param jsonStr json字符串
      * @return ApiResult 发送json数据示例:
-    {
-    "touser" : "OPENID",
-    "template_id" :
-    "TEMPLATE_ID",
-    "url" : "URL",
-    "scene" : "SCENE",
-    "title" :
-    "TITLE",
-    "data" : {
-    "content" : {
-    "value" : "VALUE",
-    "color" :
-    "COLOR"
-    }
-    }
-    }
+     * {
+     * "touser" : "OPENID",
+     * "template_id" :
+     * "TEMPLATE_ID",
+     * "url" : "URL",
+     * "scene" : "SCENE",
+     * "title" :
+     * "TITLE",
+     * "data" : {
+     * "content" : {
+     * "value" : "VALUE",
+     * "color" :
+     * "COLOR"
+     * }
+     * }
+     * }
      */
     public static ApiResult subscribe(IWxMpConfig wxmpconfig, String jsonStr) {
         String jsonResult = HttpClientUtils.sendHttpPost(subscribe + wxmpconfig.getAccessToken(), jsonStr);

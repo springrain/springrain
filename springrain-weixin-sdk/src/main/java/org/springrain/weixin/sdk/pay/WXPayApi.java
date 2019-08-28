@@ -4,8 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.weixin.sdk.common.WxConsts;
-import org.springrain.weixin.sdk.common.service.IWxPayConfig;
-import org.springrain.weixin.sdk.pay.WXPayConstants.SignType;
+import org.springrain.weixin.sdk.common.wxconfig.IWxPayConfig;
 
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
@@ -40,17 +39,17 @@ public class WXPayApi {
      */
     public static boolean isPayResultNotifySignatureValid(IWxPayConfig config, Map<String, String> reqData) throws Exception {
         String signTypeInData = reqData.get(WXPayConstants.FIELD_SIGN_TYPE);
-        SignType signType;
+        String signType;
         if (signTypeInData == null) {
-            signType = SignType.MD5;
+            signType = WXPayConstants.MD5;
         } else {
             signTypeInData = signTypeInData.trim();
             if (signTypeInData.length() == 0) {
-                signType = SignType.MD5;
+                signType = WXPayConstants.MD5;
             } else if (WXPayConstants.MD5.equals(signTypeInData)) {
-                signType = SignType.MD5;
+                signType = WXPayConstants.MD5;
             } else if (WXPayConstants.HMACSHA256.equals(signTypeInData)) {
-                signType = SignType.HMACSHA256;
+                signType = WXPayConstants.HMACSHA256;
             } else {
                 throw new Exception(String.format("Unsupported sign_type: %s", signTypeInData));
             }
@@ -121,7 +120,7 @@ public class WXPayApi {
     public static Map<String, String> microPayWithPos(IWxPayConfig config, Map<String, String> reqData) throws Exception {
         int remainingTimeMs = 60 * 1000;
         long startTimestampMs = 0;
-        int httpConnectTimeoutMs=6*1000;
+        int httpConnectTimeoutMs = 6 * 1000;
         Map<String, String> lastResult = null;
         Exception lastException = null;
 
@@ -453,9 +452,9 @@ public class WXPayApi {
         reqData.put("appid", config.getAppId());
         reqData.put("mch_id", config.getMchId());
         reqData.put("nonce_str", WXPayUtil.generateNonceStr());
-        if (SignType.MD5.equals(config.getSignType())) {
+        if (WXPayConstants.MD5.equals(config.getSignType())) {
             reqData.put("sign_type", WXPayConstants.MD5);
-        } else if (SignType.HMACSHA256.equals(config.getSignType())) {
+        } else if (WXPayConstants.HMACSHA256.equals(config.getSignType())) {
             reqData.put("sign_type", WXPayConstants.HMACSHA256);
         }
         reqData.put("sign", WXPayUtil.generateSignature(reqData, config.getKey(), config.getSignType()));

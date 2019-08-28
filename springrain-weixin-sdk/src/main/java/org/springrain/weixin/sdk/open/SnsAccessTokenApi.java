@@ -9,7 +9,7 @@ package org.springrain.weixin.sdk.open;
 import org.apache.commons.lang3.StringUtils;
 import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.weixin.sdk.common.WxConsts;
-import org.springrain.weixin.sdk.common.service.IWxMpConfig;
+import org.springrain.weixin.sdk.common.wxconfig.IWxMpConfig;
 
 /**
  * 网页授权获取 access_token API

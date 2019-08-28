@@ -1,30 +1,35 @@
 package org.springrain.weixin.entity;
 
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.springrain.frame.annotation.WhereSQL;
 import org.springrain.frame.entity.BaseEntity;
-import org.springrain.weixin.sdk.common.wxconfig.IWxMiniappConfig;
+import org.springrain.weixin.sdk.common.wxconfig.IWxPayConfig;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-@Table(name = "wx_miniappconfig")
-public class WxMiniappConfig extends BaseEntity implements IWxMiniappConfig {
+@Table(name = "wx_payconfig")
+public class WxPayConfig extends BaseEntity implements IWxPayConfig {
+
 
     private static final long serialVersionUID = 1L;
 
     //alias
 	/*
-	public static final String TABLE_ALIAS = "小程序配置表";
-	public static final String ALIAS_ID = "主键id";
+	public static final String TABLE_ALIAS = "微信号需要的配置信息";
+	public static final String ALIAS_ID = "id";
 	public static final String ALIAS_ORGID = "站点Id";
 	public static final String ALIAS_APPID = "开发者Id";
 	public static final String ALIAS_SECRET = "应用密钥";
-	public static final String ALIAS_PLANID = "签约模板Id";
-	public static final String ALIAS_REQUESTSERIAL = "签约请求序列号";
+	public static final String ALIAS_MCHID = "微信支付商户号";
+	public static final String ALIAS_KEY = "交易过程生成签名的密钥，仅保留在商户系统和微信支付后台，不会在网络中传播";
+	public static final String ALIAS_CERTIFICATEFILE = "证书地址";
+	public static final String ALIAS_NOTIFYURL = "通知地址";
+	public static final String ALIAS_SIGNTYPE = "加密方式,MD5和HMAC-SHA256";
 	public static final String ALIAS_ACTIVE = "状态 0不可用,1可用";
 	public static final String ALIAS_BAK1 = "bak1";
 	public static final String ALIAS_BAK2 = "bak2";
@@ -36,7 +41,7 @@ public class WxMiniappConfig extends BaseEntity implements IWxMiniappConfig {
 
     //columns START
 
-    // 主键id
+    // id
     private java.lang.String id;
 
     // 站点Id
@@ -48,11 +53,20 @@ public class WxMiniappConfig extends BaseEntity implements IWxMiniappConfig {
     // 应用密钥
     private java.lang.String secret;
 
-    // 签约模板Id
-    private java.lang.String planId;
+    // 微信支付商户号
+    private java.lang.String mchId;
 
-    // 签约请求序列号
-    private java.lang.String requestSerial;
+    // 交易过程生成签名的密钥，仅保留在商户系统和微信支付后台，不会在网络中传播
+    private java.lang.String key;
+
+    // 证书地址
+    private java.lang.String certificateFile;
+
+    // 通知地址
+    private java.lang.String notifyUrl;
+
+    // 加密方式,MD5和HMAC-SHA256
+    private java.lang.String signType;
 
     // 状态 0不可用,1可用
     private java.lang.Integer active;
@@ -73,19 +87,19 @@ public class WxMiniappConfig extends BaseEntity implements IWxMiniappConfig {
     private java.lang.String bak5;
     //columns END 数据库字段结束
 
-
     private String accessToken;
     private Long accessTokenExpiresTime = 0L;
+    private Boolean useSandbox;
 
     //concstructor
-    public WxMiniappConfig(){
+    public WxPayConfig(){
     }
 
 
     //get and set
 
     /**
-     * 主键id
+     * id
      * @param value
      */
     public void setId(java.lang.String value) {
@@ -98,10 +112,10 @@ public class WxMiniappConfig extends BaseEntity implements IWxMiniappConfig {
 
 
     /**
-     * 主键id
+     * id
      */
     @Id
-    @WhereSQL(sql="id=:WxMiniappconfig_id")
+    @WhereSQL(sql="id=:WxPayconfig_id")
     public java.lang.String getId() {
         return this.id;
     }
@@ -122,7 +136,7 @@ public class WxMiniappConfig extends BaseEntity implements IWxMiniappConfig {
     /**
      * 站点Id
      */
-    @WhereSQL(sql="orgId=:WxMiniappconfig_orgId")
+    @WhereSQL(sql="orgId=:WxPayconfig_orgId")
     public java.lang.String getOrgId() {
         return this.orgId;
     }
@@ -143,7 +157,7 @@ public class WxMiniappConfig extends BaseEntity implements IWxMiniappConfig {
     /**
      * 开发者Id
      */
-    @WhereSQL(sql="appId=:WxMiniappconfig_appId")
+    @WhereSQL(sql="appId=:WxPayconfig_appId")
     public java.lang.String getAppId() {
         return this.appId;
     }
@@ -164,51 +178,116 @@ public class WxMiniappConfig extends BaseEntity implements IWxMiniappConfig {
     /**
      * 应用密钥
      */
-    @WhereSQL(sql="secret=:WxMiniappconfig_secret")
+    @WhereSQL(sql="secret=:WxPayconfig_secret")
     public java.lang.String getSecret() {
         return this.secret;
     }
 
     /**
-     * 签约模板Id
+     * 微信支付商户号
      * @param value
      */
-    public void setPlanId(java.lang.String value) {
+    public void setMchId(java.lang.String value) {
         if(StringUtils.isNotBlank(value)){
             value=value.trim();
         }
-        this.planId = value;
+        this.mchId = value;
     }
 
 
 
     /**
-     * 签约模板Id
+     * 微信支付商户号
      */
-    @WhereSQL(sql="planId=:WxMiniappconfig_planId")
-    public java.lang.String getPlanId() {
-        return this.planId;
+    @WhereSQL(sql="mchId=:WxPayconfig_mchId")
+    public java.lang.String getMchId() {
+        return this.mchId;
     }
 
     /**
-     * 签约请求序列号
+     * 交易过程生成签名的密钥，仅保留在商户系统和微信支付后台，不会在网络中传播
      * @param value
      */
-    public void setRequestSerial(java.lang.String value) {
+    public void setKey(java.lang.String value) {
         if(StringUtils.isNotBlank(value)){
             value=value.trim();
         }
-        this.requestSerial = value;
+        this.key = value;
     }
 
 
 
     /**
-     * 签约请求序列号
+     * 交易过程生成签名的密钥，仅保留在商户系统和微信支付后台，不会在网络中传播
      */
-    @WhereSQL(sql="requestSerial=:WxMiniappconfig_requestSerial")
-    public java.lang.String getRequestSerial() {
-        return this.requestSerial;
+    @WhereSQL(sql="key=:WxPayconfig_key")
+    public java.lang.String getKey() {
+        return this.key;
+    }
+
+    /**
+     * 证书地址
+     * @param value
+     */
+    public void setCertificateFile(java.lang.String value) {
+        if(StringUtils.isNotBlank(value)){
+            value=value.trim();
+        }
+        this.certificateFile = value;
+    }
+
+
+
+    /**
+     * 证书地址
+     */
+    @WhereSQL(sql="certificateFile=:WxPayconfig_certificateFile")
+    public java.lang.String getCertificateFile() {
+        return this.certificateFile;
+    }
+
+    /**
+     * 通知地址
+     * @param value
+     */
+    public void setNotifyUrl(java.lang.String value) {
+        if(StringUtils.isNotBlank(value)){
+            value=value.trim();
+        }
+        this.notifyUrl = value;
+    }
+
+
+
+    /**
+     * 通知地址
+     */
+    @WhereSQL(sql="notifyUrl=:WxPayconfig_notifyUrl")
+    public java.lang.String getNotifyUrl() {
+        return this.notifyUrl;
+    }
+
+
+
+    /**
+     * 加密方式,MD5和HMAC-SHA256
+     * @param value
+     */
+    public void setSignType(java.lang.String value) {
+        if(StringUtils.isNotBlank(value)){
+            value=value.trim();
+        }
+        this.signType = value;
+    }
+
+
+
+    /**
+     * 加密方式,MD5和HMAC-SHA256
+     */
+    @WhereSQL(sql="signType=:WxPayconfig_signType")
+    public java.lang.String getSignType() {
+        return this.signType;
     }
 
     /**
@@ -224,7 +303,7 @@ public class WxMiniappConfig extends BaseEntity implements IWxMiniappConfig {
     /**
      * 状态 0不可用,1可用
      */
-    @WhereSQL(sql="active=:WxMiniappconfig_active")
+    @WhereSQL(sql="active=:WxPayconfig_active")
     public java.lang.Integer getActive() {
         return this.active;
     }
@@ -245,7 +324,7 @@ public class WxMiniappConfig extends BaseEntity implements IWxMiniappConfig {
     /**
      * bak1
      */
-    @WhereSQL(sql="bak1=:WxMiniappconfig_bak1")
+    @WhereSQL(sql="bak1=:WxPayconfig_bak1")
     public java.lang.String getBak1() {
         return this.bak1;
     }
@@ -266,7 +345,7 @@ public class WxMiniappConfig extends BaseEntity implements IWxMiniappConfig {
     /**
      * bak2
      */
-    @WhereSQL(sql="bak2=:WxMiniappconfig_bak2")
+    @WhereSQL(sql="bak2=:WxPayconfig_bak2")
     public java.lang.String getBak2() {
         return this.bak2;
     }
@@ -287,7 +366,7 @@ public class WxMiniappConfig extends BaseEntity implements IWxMiniappConfig {
     /**
      * bak3
      */
-    @WhereSQL(sql="bak3=:WxMiniappconfig_bak3")
+    @WhereSQL(sql="bak3=:WxPayconfig_bak3")
     public java.lang.String getBak3() {
         return this.bak3;
     }
@@ -308,7 +387,7 @@ public class WxMiniappConfig extends BaseEntity implements IWxMiniappConfig {
     /**
      * bak4
      */
-    @WhereSQL(sql="bak4=:WxMiniappconfig_bak4")
+    @WhereSQL(sql="bak4=:WxPayconfig_bak4")
     public java.lang.String getBak4() {
         return this.bak4;
     }
@@ -329,19 +408,22 @@ public class WxMiniappConfig extends BaseEntity implements IWxMiniappConfig {
     /**
      * bak5
      */
-    @WhereSQL(sql="bak5=:WxMiniappconfig_bak5")
+    @WhereSQL(sql="bak5=:WxPayconfig_bak5")
     public java.lang.String getBak5() {
         return this.bak5;
     }
     @Override
     public String toString() {
         return new StringBuilder()
-                .append("主键id[").append(getId()).append("],")
+                .append("id[").append(getId()).append("],")
                 .append("站点Id[").append(getOrgId()).append("],")
                 .append("开发者Id[").append(getAppId()).append("],")
                 .append("应用密钥[").append(getSecret()).append("],")
-                .append("签约模板Id[").append(getPlanId()).append("],")
-                .append("签约请求序列号[").append(getRequestSerial()).append("],")
+                .append("微信支付商户号[").append(getMchId()).append("],")
+                .append("交易过程生成签名的密钥，仅保留在商户系统和微信支付后台，不会在网络中传播[").append(getKey()).append("],")
+                .append("证书地址[").append(getCertificateFile()).append("],")
+                .append("通知地址[").append(getNotifyUrl()).append("],")
+                .append("加密方式,MD5和HMAC-SHA256[").append(getSignType()).append("],")
                 .append("状态 0不可用,1可用[").append(getActive()).append("],")
                 .append("bak1[").append(getBak1()).append("],")
                 .append("bak2[").append(getBak2()).append("],")
@@ -363,7 +445,7 @@ public class WxMiniappConfig extends BaseEntity implements IWxMiniappConfig {
             return false;
         }
 
-        if (obj instanceof WxMiniappConfig == false){
+        if (obj instanceof WxPayConfig == false){
             return false;
         }
 
@@ -371,12 +453,11 @@ public class WxMiniappConfig extends BaseEntity implements IWxMiniappConfig {
             return true;
         }
 
-        WxMiniappConfig other = (WxMiniappConfig)obj;
+        WxPayConfig other = (WxPayConfig)obj;
         return new EqualsBuilder()
                 .append(getId(),other.getId())
                 .isEquals();
     }
-
 
 
     @Override
@@ -405,6 +486,12 @@ public class WxMiniappConfig extends BaseEntity implements IWxMiniappConfig {
         return System.currentTimeMillis() > this.accessTokenExpiresTime;
     }
 
-
-
+    public void setUseSandbox(Boolean useSandbox) {
+        this.useSandbox = useSandbox;
+    }
+    @Override
+    @Transient
+    public Boolean getUseSandbox() {
+        return useSandbox;
+    }
 }

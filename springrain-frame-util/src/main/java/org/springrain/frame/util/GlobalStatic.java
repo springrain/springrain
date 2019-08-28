@@ -1,6 +1,8 @@
 package org.springrain.frame.util;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 全局的静态变量,用于全局变量的存放
@@ -56,11 +58,8 @@ public class GlobalStatic {
 	public static final ThreadLocal<Boolean> seataTransactionBegin = new ThreadLocal<>();
 
 	// 微信缓存配置
-	public static final String mpConfigCacheKey = "mpConfigCacheKey";// 订阅号配置缓存Key
+	public static final String wxConfigCacheKey = "wxConfigCacheKey";// 订阅号配置缓存Key
 
-	public static final String cpConfigCacheKey = "cpConfigCacheKey";// 企业号配置缓存Key
-
-	public static final String miniappConfigCacheKey = "miniappConfigCacheKey";// 小程序配置缓存Key
 
 	// page对象的缓存后缀key
 	public static final String pageCacheExtKey = "_springrain_page_key";
@@ -168,5 +167,11 @@ public class GlobalStatic {
 		staticHtmlDir = rootDir + "/statichtml/";
 
 	}
+
+
+	public static final Map<Integer, String> sexMap = new HashMap<Integer, String>() {{
+		put(1, "男");
+		put(2, "女");
+	}};
 
 }

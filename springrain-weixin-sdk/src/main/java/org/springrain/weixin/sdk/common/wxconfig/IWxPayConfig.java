@@ -1,16 +1,8 @@
-package org.springrain.weixin.sdk.common.service;
+package org.springrain.weixin.sdk.common.wxconfig;
 
-import org.springrain.weixin.sdk.pay.WXPayConstants.SignType;
 
-public interface IWxPayConfig {
+public interface IWxPayConfig extends IWxConfig {
 
-    String getId();// 业务Id
-
-    void setId(String string);
-
-    String getAppId();
-
-    void setAppId(String string);
 
     /**
      * 获取商户证路径
@@ -41,8 +33,7 @@ public interface IWxPayConfig {
 
     Boolean getUseSandbox();
 
-
-    SignType getSignType();
+    String getSignType();
 
 
 }

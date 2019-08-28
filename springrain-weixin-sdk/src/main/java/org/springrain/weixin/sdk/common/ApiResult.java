@@ -58,19 +58,12 @@ public class ApiResult implements Serializable {
         }
     }
 
-    /**
-     * 通过 json 创建 ApiResult 对象，等价于 new ApiResult(jsonStr)
-     *
-     * @param jsonStr json字符串
-     * @return {ApiResult}
-     */
-    public static ApiResult create(String jsonStr) {
-        return new ApiResult(jsonStr);
-    }
+
 
     public String getJson() {
         return json;
     }
+
 
     public String toString() {
         return getJson();
@@ -102,6 +95,19 @@ public class ApiResult implements Serializable {
         }
         return (String) attrs.get("errmsg");
     }
+
+
+    public String getOpenId(){
+        return get("openid");
+    }
+    public String getUnionid(){
+        return get("unionid");
+    }
+
+    public String getSessionKey(){
+        return get("session_key");
+    }
+
 
     @SuppressWarnings("unchecked")
     public <T> T get(String name) {

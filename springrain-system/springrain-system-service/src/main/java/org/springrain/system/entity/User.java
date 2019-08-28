@@ -215,7 +215,7 @@ public class User extends BaseEntity {
     /**
      * 性别
      */
-    @WhereSQL(sql = "sex=:User_sex")
+    @WhereSQL(sql = "sexMap=:User_sex")
     public String getSex() {
         return this.sex;
     }

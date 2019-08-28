@@ -221,10 +221,10 @@ CREATE TABLE `t_menu`  (
   `permission` varchar(500)  NULL DEFAULT NULL COMMENT 'vue组件使用',
   `redirect` varchar(500)  NULL DEFAULT NULL COMMENT 'vue组件使用',
   `icon` varchar(100)  NULL DEFAULT NULL,
-  `createTime` datetime(0)  NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `createUserId` varchar(50)  NULL,
+  `createTime` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `createUserId` varchar(50)  NULL DEFAULT NULL,
   `updateTime` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updateUserId` varchar(50)  NULL,
+  `updateUserId` varchar(50)  NULL DEFAULT NULL,
   `sortno` int(11) NOT NULL DEFAULT 0 COMMENT '排序,查询时倒叙排列',
   `active` int(11) NOT NULL DEFAULT 1 COMMENT '是否有效(0否,1是)',
   `bak1` varchar(100)  NULL DEFAULT NULL,
@@ -331,9 +331,9 @@ CREATE TABLE `t_org`  (
   `sortno` int(11) NOT NULL COMMENT '排序,查询时倒叙排列',
   `remark` varchar(2000)  NULL DEFAULT NULL COMMENT '备注',
   `createTime` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `createUserId` varchar(50)  NULL,
+  `createUserId` varchar(50)  NULL DEFAULT NULL,
   `updateTime` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updateUserId` varchar(50)  NULL,
+  `updateUserId` varchar(50)  NULL DEFAULT NULL,
   `active` int(11) NOT NULL DEFAULT 1 COMMENT '是否有效(0否,1是)',
   `bak1` varchar(100)  NULL DEFAULT NULL,
   `bak2` varchar(100)  NULL DEFAULT NULL,
@@ -366,7 +366,7 @@ CREATE TABLE `t_permissions_log`  (
   `operatorObjectName` varchar(200)  NULL DEFAULT NULL COMMENT '操作对象当时的名称',
   `actionContent` longtext  NULL COMMENT '操作内容详情',
   `createUserId` varchar(50)  NULL DEFAULT NULL COMMENT '记录创建人',
-  `createTime` datetime(0)  NULL DEFAULT NULL COMMENT '记录创建时间',
+  `createTime` datetime(0) NULL DEFAULT NULL COMMENT '记录创建时间',
   `bak1` varchar(200)  NULL DEFAULT NULL COMMENT '备用字段',
   `bak2` varchar(200)  NULL DEFAULT NULL COMMENT '备用字段',
   `bak3` varchar(200)  NULL DEFAULT NULL COMMENT '备用字段',
@@ -389,9 +389,9 @@ CREATE TABLE `t_role`  (
   `orgId` varchar(50)  NOT NULL COMMENT '角色的归属部门,只有归属部门的主管和上级主管才可以管理角色,其他人员只能增加归属到角色的人员.不能选择部门或则其他操作,只能添加人员,不然存在提权风险,例如 员工角色下有1000人, 如果给 角色 设置了部门,那这1000人都起效了.',
   `shareRole` int(11) NOT NULL DEFAULT 0 COMMENT '角色是否共享,0否 1是,默认0,共享的角色可以被下级部门直接使用,但是下级只能添加人员,不能设置其他属性.共享的角色一般只设置roleOrgType,并不设定部门.',
   `createTime` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `createUserId` varchar(50)  NULL,
+  `createUserId` varchar(50)  NULL DEFAULT NULL,
   `updateTime` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updateUserId` varchar(50)  NULL,
+  `updateUserId` varchar(50)  NULL DEFAULT NULL,
   `sortno` int(11) NOT NULL DEFAULT 0 COMMENT '排序,查询时倒叙排列',
   `remark` varchar(255)  NULL DEFAULT NULL COMMENT '备注',
   `active` int(11) NOT NULL DEFAULT 1 COMMENT '是否有效(0否,1是)',
@@ -423,7 +423,7 @@ CREATE TABLE `t_role_menu`  (
   `bak4` varchar(100)  NULL DEFAULT NULL,
   `bak5` varchar(100)  NULL DEFAULT NULL,
   `createTime` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `createUserId` varchar(50)  NULL,
+  `createUserId` varchar(50)  NULL DEFAULT NULL,
   `updateTime` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updateUserId` varchar(50)  NULL DEFAULT NULL,
   PRIMARY KEY (`id`) ,
@@ -538,9 +538,9 @@ CREATE TABLE `t_role_org`  (
   `roleId` varchar(50)  NOT NULL COMMENT '角色编号',
   `children` int(11) NOT NULL DEFAULT 0 COMMENT '0不包含子部门,1包含.用于表示角色和部门的权限关系',
   `createTime` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `createUserId` varchar(50)  NULL,
+  `createUserId` varchar(50)  NULL DEFAULT NULL,
   `updateTime` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updateUserId` varchar(50)  NULL,
+  `updateUserId` varchar(50)  NULL DEFAULT NULL,
   `bak1` varchar(100)  NULL DEFAULT NULL,
   `bak2` varchar(100)  NULL DEFAULT NULL,
   `bak3` varchar(100)  NULL DEFAULT NULL,
@@ -583,22 +583,6 @@ INSERT INTO `t_tableindex` VALUES ('cms_site', 10001, 's_', NULL, NULL, NULL, NU
 INSERT INTO `t_tableindex` VALUES ('t_org', 10003, 'o_', NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `t_tableindex` VALUES ('t_user', 10001, 'u_', NULL, NULL, NULL, NULL, NULL);
 
-
-
--- ----------------------------
--- Table structure for t_stock
--- ----------------------------
-DROP TABLE IF EXISTS `t_stock`;
-CREATE TABLE `t_stock`  (
-    `id` varchar(50)   NOT NULL COMMENT ' ',
-    `good_id` int(11)   NOT NULL COMMENT '商品id',
-    `num` int(11) NOT NULL  COMMENT '数量',
-    PRIMARY KEY (`id`)
-) ENGINE = InnoDB CHARACTER SET = utf8mb4  COMMENT = '库存' ;
-
-
-
-insert into t_stock (id ,good_id,num) values ( 1,1,200);
 -- ----------------------------
 -- Table structure for t_user
 -- ----------------------------
@@ -616,9 +600,9 @@ CREATE TABLE `t_user`  (
   `avatar` varchar(2000)  NULL DEFAULT NULL COMMENT '头像地址',
   `userType` int(11) NOT NULL COMMENT '0会员,1员工,2店长收银,9系统管理员',
   `createTime` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `createUserId` varchar(50)  NULL,
+  `createUserId` varchar(50)  NULL DEFAULT NULL,
   `updateTime` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updateUserId` varchar(50)  NULL,
+  `updateUserId` varchar(50)  NULL DEFAULT NULL,
   `active` int(11) NOT NULL DEFAULT 1 COMMENT '是否有效(0否,1是)',
   `bak1` varchar(100)  NULL DEFAULT NULL,
   `bak2` varchar(100)  NULL DEFAULT NULL,
@@ -649,9 +633,9 @@ CREATE TABLE `t_user_org`  (
   `bak4` varchar(100)  NULL DEFAULT NULL,
   `bak5` varchar(100)  NULL DEFAULT NULL,
   `createTime` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `createUserId` varchar(50)  NULL,
+  `createUserId` varchar(50)  NULL DEFAULT NULL,
   `updateTime` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updateUserId` varchar(50)  NULL,
+  `updateUserId` varchar(50)  NULL DEFAULT NULL,
   PRIMARY KEY (`id`) ,
   INDEX `fk_t_user_org_userId_t_user_id`(`userId`) ,
   INDEX `fk_t_user_org_orgId_t_org_id`(`orgId`) ,
@@ -691,9 +675,9 @@ CREATE TABLE `t_user_role`  (
   `userId` varchar(50)  NOT NULL COMMENT '用户编号',
   `roleId` varchar(50)  NOT NULL COMMENT '角色编号',
   `createTime` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `createUserId` varchar(50)  NULL,
+  `createUserId` varchar(50)  NULL DEFAULT NULL,
   `updateTime` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updateUserId` varchar(50)  NULL,
+  `updateUserId` varchar(50)  NULL DEFAULT NULL,
   `bak1` varchar(100)  NULL DEFAULT NULL,
   `bak2` varchar(100)  NULL DEFAULT NULL,
   `bak3` varchar(100)  NULL DEFAULT NULL,
@@ -728,7 +712,7 @@ CREATE TABLE `undo_log`  (
   `ext` varchar(100)  NULL DEFAULT NULL,
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `ux_undo_log`(`xid`, `branch_id`) 
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 ;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 ;
 
 -- ----------------------------
 -- Table structure for wx_cpconfig
@@ -736,19 +720,15 @@ CREATE TABLE `undo_log`  (
 DROP TABLE IF EXISTS `wx_cpconfig`;
 CREATE TABLE `wx_cpconfig`  (
   `id` varchar(50)  NOT NULL,
-  `siteId` varchar(50)  NOT NULL COMMENT '站点Id',
-  `appId` varchar(500)  NULL DEFAULT NULL COMMENT '开发者Id',
-  `appSecret` varchar(500)  NULL DEFAULT NULL COMMENT '应用密钥',
-  `token` varchar(500)  NULL DEFAULT NULL COMMENT '开发者Id',
-  `encodingAESKey` varchar(500)  NULL DEFAULT NULL COMMENT '消息加解密密钥',
-  `wxId` varchar(500)  NULL DEFAULT NULL COMMENT '原始ID',
-  `oauth2redirectUri` varchar(500)  NULL DEFAULT NULL COMMENT '微信重定向地址',
-  `httpProxyHost` varchar(500)  NULL DEFAULT NULL COMMENT 'http代理地址',
-  `httpProxyPort` int(11) NULL DEFAULT NULL COMMENT 'http代理端口',
-  `httpProxyUsername` varchar(500)  NULL DEFAULT NULL COMMENT 'http代理账号',
-  `httpProxyPassword` varchar(500)  NULL DEFAULT NULL COMMENT 'http代理密码',
-  `certificateFile` varchar(500)  NULL DEFAULT NULL COMMENT '证书地址',
+  `orgId` varchar(50)  NOT NULL COMMENT '站点Id',
+  `appId` varchar(500)  NOT NULL COMMENT '开发者Id',
+  `secret` varchar(500)  NOT NULL COMMENT '应用密钥',
   `active` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
+  `bak1` varchar(100)  NULL DEFAULT NULL,
+  `bak2` varchar(100)  NULL DEFAULT NULL,
+  `bak3` varchar(100)  NULL DEFAULT NULL,
+  `bak4` varchar(100)  NULL DEFAULT NULL,
+  `bak5` varchar(100)  NULL DEFAULT NULL,
   PRIMARY KEY (`id`) 
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4  COMMENT = '微信号需要的配置信息' ;
 
@@ -765,8 +745,33 @@ CREATE TABLE `wx_menu`  (
   `pid` varchar(50)  NULL DEFAULT NULL COMMENT '上级菜单id',
   `createDate` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `siteId` varchar(50)  NULL DEFAULT NULL COMMENT '站点id',
+  `bak1` varchar(100)  NULL DEFAULT NULL,
+  `bak2` varchar(100)  NULL DEFAULT NULL,
+  `bak3` varchar(100)  NULL DEFAULT NULL,
+  `bak4` varchar(100)  NULL DEFAULT NULL,
+  `bak5` varchar(100)  NULL DEFAULT NULL,
   PRIMARY KEY (`id`) 
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 ;
+
+-- ----------------------------
+-- Table structure for wx_miniappconfig
+-- ----------------------------
+DROP TABLE IF EXISTS `wx_miniappconfig`;
+CREATE TABLE `wx_miniappconfig`  (
+  `id` varchar(50)  NOT NULL COMMENT '主键id',
+  `orgId` varchar(50)  NOT NULL COMMENT '站点Id',
+  `appId` varchar(500)  NOT NULL COMMENT '开发者Id',
+  `secret` varchar(500)  NOT NULL COMMENT '应用密钥',
+  `planId` varchar(500)  NULL DEFAULT NULL COMMENT '签约模板Id',
+  `requestSerial` varchar(5000)  NULL DEFAULT NULL COMMENT '签约请求序列号',
+  `active` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
+  `bak1` varchar(100)  NULL DEFAULT NULL,
+  `bak2` varchar(100)  NULL DEFAULT NULL,
+  `bak3` varchar(100)  NULL DEFAULT NULL,
+  `bak4` varchar(100)  NULL DEFAULT NULL,
+  `bak5` varchar(100)  NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) 
+) ENGINE = InnoDB CHARACTER SET = utf8mb4  COMMENT = '小程序配置表' ;
 
 -- ----------------------------
 -- Table structure for wx_mpconfig
@@ -774,53 +779,43 @@ CREATE TABLE `wx_menu`  (
 DROP TABLE IF EXISTS `wx_mpconfig`;
 CREATE TABLE `wx_mpconfig`  (
   `id` varchar(50)  NOT NULL,
-  `siteId` varchar(50)  NOT NULL COMMENT '站点Id',
-  `appId` varchar(500)  NULL DEFAULT NULL COMMENT '开发者Id',
-  `secret` varchar(500)  NULL DEFAULT NULL COMMENT '应用密钥',
-  `token` varchar(500)  NULL DEFAULT NULL COMMENT '开发者Id',
+  `orgId` varchar(50)  NOT NULL COMMENT '站点Id',
+  `appId` varchar(500)  NOT NULL COMMENT '开发者Id',
+  `secret` varchar(500)  NOT NULL COMMENT '应用密钥',
+  `token` varchar(500)  NULL DEFAULT NULL COMMENT '开发者令牌',
   `aesKey` varchar(500)  NULL DEFAULT NULL COMMENT '消息加解密密钥',
-  `wxId` varchar(500)  NULL DEFAULT NULL COMMENT '原始ID',
-  `active` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
-  `partnerId` varchar(500)  NULL DEFAULT NULL,
-  `partnerKey` varchar(500)  NULL DEFAULT NULL,
+  `wxOriginalId` varchar(500)  NULL DEFAULT NULL COMMENT '微信原始ID',
   `oauth2` int(11) NULL DEFAULT 1 COMMENT '是否支持微信oauth2.0协议,0是不支持,1是支持',
-  `httpProxyHost` varchar(500)  NULL DEFAULT NULL COMMENT 'http代理地址',
-  `httpProxyPort` int(11) NULL DEFAULT NULL COMMENT 'http代理端口',
-  `httpProxyUsername` varchar(500)  NULL DEFAULT NULL COMMENT 'http代理账号',
-  `httpProxyPassword` varchar(500)  NULL DEFAULT NULL COMMENT 'http代理密码',
-  `certificateFile` varchar(500)  NULL DEFAULT NULL COMMENT '证书地址',
+  `active` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
+  `bak1` varchar(100)  NULL DEFAULT NULL,
+  `bak2` varchar(100)  NULL DEFAULT NULL,
+  `bak3` varchar(100)  NULL DEFAULT NULL,
+  `bak4` varchar(100)  NULL DEFAULT NULL,
+  `bak5` varchar(100)  NULL DEFAULT NULL,
   PRIMARY KEY (`id`) 
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4  COMMENT = '微信号需要的配置信息' ;
 
 -- ----------------------------
--- Records of wx_mpconfig
+-- Table structure for wx_payconfig
 -- ----------------------------
-INSERT INTO `wx_mpconfig` VALUES ('s_10006', 's_10006', 'wx', 'abc', 'abc', '1', 'gh', 1, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL);
-
--- ----------------------------
--- Table structure for wx_xcxconfig
--- ----------------------------
-DROP TABLE IF EXISTS `wx_xcxconfig`;
-CREATE TABLE `wx_xcxconfig`  (
-  `id` varchar(50)  NOT NULL COMMENT '主键id',
-  `siteId` varchar(50)  NOT NULL COMMENT '站点Id',
-  `appId` varchar(500)  NULL DEFAULT NULL COMMENT '开发者Id',
-  `secret` varchar(500)  NULL DEFAULT NULL COMMENT '应用密钥',
-  `token` varchar(500)  NULL DEFAULT NULL COMMENT '开发者Id',
-  `aesKey` varchar(500)  NULL DEFAULT NULL COMMENT '消息加解密密钥',
-  `wxId` varchar(500)  NULL DEFAULT NULL COMMENT '原始ID',
+DROP TABLE IF EXISTS `wx_payconfig`;
+CREATE TABLE `wx_payconfig`  (
+  `id` varchar(50)  NOT NULL,
+  `orgId` varchar(50)  NOT NULL COMMENT '站点Id',
+  `appId` varchar(500)  NOT NULL COMMENT '开发者Id',
+  `secret` varchar(500)  NOT NULL COMMENT '应用密钥',
+  `mchId` varchar(500)  NOT NULL COMMENT '微信支付商户号',
+  `key` varchar(500)  NOT NULL COMMENT '交易过程生成签名的密钥，仅保留在商户系统和微信支付后台，不会在网络中传播',
+  `certificateFile` varchar(500)  NOT NULL COMMENT '证书地址',
+  `notifyUrl` varchar(1000)  NULL DEFAULT NULL COMMENT '通知地址',
+  `signType` varchar(255)  NULL DEFAULT NULL COMMENT '加密方式,MD5和HMAC-SHA256',
   `active` int(11) NOT NULL DEFAULT 1 COMMENT '状态 0不可用,1可用',
-  `partnerId` varchar(500)  NULL DEFAULT NULL COMMENT '商户号id',
-  `partnerKey` varchar(500)  NULL DEFAULT NULL COMMENT '商户秘钥',
-  `oauth2` int(11) NULL DEFAULT 1 COMMENT '是否支持微信oauth2.0协议,0是不支持,1是支持',
-  `httpProxyHost` varchar(500)  NULL DEFAULT NULL COMMENT 'http代理地址',
-  `httpProxyPort` int(11) NULL DEFAULT NULL COMMENT 'http代理端口',
-  `httpProxyUsername` varchar(500)  NULL DEFAULT NULL COMMENT 'http代理账号',
-  `httpProxyPassword` varchar(500)  NULL DEFAULT NULL COMMENT 'http代理密码',
-  `certificateFile` varchar(500)  NULL DEFAULT NULL COMMENT '证书地址',
-  `planId` varchar(500)  NULL DEFAULT NULL COMMENT '签约模板Id',
-  `requestSerial` varchar(5000)  NULL DEFAULT NULL COMMENT '签约请求序列号',
+  `bak1` varchar(100)  NULL DEFAULT NULL,
+  `bak2` varchar(100)  NULL DEFAULT NULL,
+  `bak3` varchar(100)  NULL DEFAULT NULL,
+  `bak4` varchar(100)  NULL DEFAULT NULL,
+  `bak5` varchar(100)  NULL DEFAULT NULL,
   PRIMARY KEY (`id`) 
-) ENGINE = InnoDB CHARACTER SET = utf8mb4  COMMENT = '小程序配置表' ;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4  COMMENT = '微信号需要的配置信息' ;
 
 SET FOREIGN_KEY_CHECKS = 1;

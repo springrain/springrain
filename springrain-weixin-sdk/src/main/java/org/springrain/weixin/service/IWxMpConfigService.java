@@ -1,10 +1,13 @@
-package org.springrain.weixin.sdk.common.service;
+package org.springrain.weixin.service;
 
 import org.springrain.rpc.annotation.RpcServiceAnnotation;
+import org.springrain.weixin.entity.WxMpConfig;
+import org.springrain.weixin.sdk.common.wxconfig.IWxMpConfig;
 
 import java.util.Map;
 
-@RpcServiceAnnotation(implpackage = "weixin.service.impl")
+//@RpcServiceAnnotation(implpackage = "weixin.wxconfig.impl")
+@RpcServiceAnnotation
 public interface IWxMpConfigService {
 
     /**
@@ -15,15 +18,14 @@ public interface IWxMpConfigService {
      */
     IWxMpConfig findWxMpConfigById(String id);
 
-
-
     /**
-     * 更新 expireAccessToken
+     * 更新WxMpConfig,可以进行缓存处理
      *
      * @param wxmpconfig
      * @return
      */
-    IWxMpConfig expireAccessToken(IWxMpConfig wxmpconfig);
+    IWxMpConfig updateWxMpConfig(WxMpConfig wxmpconfig);
+
 
 
     /**
