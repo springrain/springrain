@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.SecUtils;
 import org.springrain.weixin.entity.WxMpConfig;
-import org.springrain.weixin.sdk.common.service.IWxMpConfig;
-import org.springrain.weixin.sdk.common.service.IWxMpConfigService;
+import org.springrain.weixin.sdk.common.wxconfig.IWxMpConfig;
+import org.springrain.weixin.service.IWxMpConfigService;
 import org.springrain.weixin.sdk.mp.AccessTokenApi;
 import org.springrain.weixin.sdk.mp.TicketApi;
 

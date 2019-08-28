@@ -1,8 +1,9 @@
-package org.springrain.weixin.sdk.common.service;
+package org.springrain.weixin.service;
 
 import org.springrain.rpc.annotation.RpcServiceAnnotation;
+import org.springrain.weixin.sdk.common.wxconfig.IWxMiniappConfig;
 
-@RpcServiceAnnotation(implpackage = "weixin.service.impl")
+@RpcServiceAnnotation(implpackage = "weixin.wxconfig.impl")
 public interface IWxMiniappConfigService {
 
     /**

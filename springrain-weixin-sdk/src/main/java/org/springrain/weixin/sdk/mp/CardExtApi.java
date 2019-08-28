@@ -3,7 +3,7 @@ package org.springrain.weixin.sdk.mp;
 import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.weixin.sdk.common.ApiResult;
 import org.springrain.weixin.sdk.common.WxConsts;
-import org.springrain.weixin.sdk.common.service.IWxMpConfig;
+import org.springrain.weixin.sdk.common.wxconfig.IWxMpConfig;
 
 /**
  * 特殊卡券接口-特殊票券

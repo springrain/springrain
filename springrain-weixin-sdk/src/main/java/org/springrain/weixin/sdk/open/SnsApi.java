@@ -9,7 +9,7 @@ package org.springrain.weixin.sdk.open;
 import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.weixin.sdk.common.ApiResult;
 import org.springrain.weixin.sdk.common.WxConsts;
-import org.springrain.weixin.sdk.common.service.IWxMpConfig;
+import org.springrain.weixin.sdk.common.wxconfig.IWxMpConfig;
 
 /**
  * 获取用户基本信息(UnionID机制)

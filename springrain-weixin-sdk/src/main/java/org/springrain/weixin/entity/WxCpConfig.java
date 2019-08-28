@@ -1,7 +1,7 @@
 package org.springrain.weixin.entity;
 
 import org.springrain.frame.entity.BaseEntity;
-import org.springrain.weixin.sdk.common.service.IWxCpConfig;
+import org.springrain.weixin.sdk.common.wxconfig.IWxCpConfig;
 
 import javax.persistence.Id;
 import javax.persistence.Table;

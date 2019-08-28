@@ -3,8 +3,8 @@ package org.springrain.weixin.web;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springrain.weixin.sdk.common.service.IWxMpConfig;
-import org.springrain.weixin.sdk.common.service.IWxMpConfigService;
+import org.springrain.weixin.sdk.common.wxconfig.IWxMpConfig;
+import org.springrain.weixin.service.IWxMpConfigService;
 
 import javax.annotation.Resource;
 

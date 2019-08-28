@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.weixin.sdk.common.WxConsts;
-import org.springrain.weixin.sdk.common.service.IWxPayConfig;
+import org.springrain.weixin.sdk.common.wxconfig.IWxPayConfig;
 import org.springrain.weixin.sdk.pay.WXPayConstants.SignType;
 
 import javax.net.ssl.KeyManagerFactory;

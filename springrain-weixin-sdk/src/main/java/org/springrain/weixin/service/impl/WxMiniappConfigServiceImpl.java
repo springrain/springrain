@@ -4,8 +4,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.weixin.entity.WxMiniappConfig;
-import org.springrain.weixin.sdk.common.service.IWxMiniappConfig;
-import org.springrain.weixin.sdk.common.service.IWxMiniappConfigService;
+import org.springrain.weixin.sdk.common.wxconfig.IWxMiniappConfig;
+import org.springrain.weixin.service.IWxMiniappConfigService;
 
 @Service("wxMiniappConfigService")
 public class WxMiniappConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl implements IWxMiniappConfigService {

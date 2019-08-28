@@ -1,6 +1,6 @@
 package org.springrain.weixin.sdk.pay;
 
-import org.springrain.weixin.sdk.common.service.IWxPayConfig;
+import org.springrain.weixin.sdk.common.wxconfig.IWxPayConfig;
 
 import java.util.Map;
 

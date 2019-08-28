@@ -6,8 +6,8 @@ import org.springrain.frame.dao.IBaseJdbcDao;
 import org.springrain.frame.service.BaseServiceImpl;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.weixin.entity.WxCpConfig;
-import org.springrain.weixin.sdk.common.service.IWxCpConfig;
-import org.springrain.weixin.sdk.common.service.IWxCpConfigService;
+import org.springrain.weixin.sdk.common.wxconfig.IWxCpConfig;
+import org.springrain.weixin.service.IWxCpConfigService;
 
 import javax.annotation.Resource;
 

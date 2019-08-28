@@ -1,4 +1,4 @@
-package org.springrain.weixin.sdk.common.service;
+package org.springrain.weixin.sdk.common.wxconfig;
 
 public interface IWxConfig {
     String getId();// 业务Id
@@ -21,21 +21,6 @@ public interface IWxConfig {
 
     void setTmpDirFile(String string);
 
-    String getHttpProxyHost();
-
-    void setHttpProxyHost(String httpProxyHost);
-
-    Integer getHttpProxyPort();
-
-    void setHttpProxyPort(Integer httpProxyPort);
-
-    String getHttpProxyUsername();
-
-    void setHttpProxyUsername(String httpProxyUsername);
-
-    String getHttpProxyPassword();
-
-    void setHttpProxyPassword(String httpProxyPassword);
 
     String getAccessToken();
 

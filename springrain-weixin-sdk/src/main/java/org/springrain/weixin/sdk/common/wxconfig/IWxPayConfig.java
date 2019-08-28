@@ -1,4 +1,4 @@
-package org.springrain.weixin.sdk.common.service;
+package org.springrain.weixin.sdk.common.wxconfig;
 
 import org.springrain.weixin.sdk.pay.WXPayConstants.SignType;
 
