@@ -4,8 +4,8 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springrain.frame.util.GlobalStatic;
-import org.springrain.frame.util.SecUtils;
 import org.springrain.weixin.entity.WxMpConfig;
+import org.springrain.weixin.sdk.common.WxCryptUtils;
 import org.springrain.weixin.sdk.common.wxconfig.IWxMpConfig;
 import org.springrain.weixin.sdk.mp.AccessTokenApi;
 import org.springrain.weixin.sdk.mp.TicketApi;
@@ -97,7 +97,7 @@ public class WxMpConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl imple
         StringBuilder sb = new StringBuilder();
         sb.append("jsapi_ticket=").append(jsapiTicket).append("&noncestr=").append(nonceStr).append("&timestamp=")
                 .append(timestamp).append("&url=").append(url);
-        return SecUtils.genSHA1(sb.toString());
+        return WxCryptUtils.genSHA1(sb.toString());
 
     }
 
