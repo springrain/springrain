@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MiniappQrcode implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private Map<String,Object> qrCodeMap =new HashMap<>();
     private Map<String,Integer> lineColorMap=null;
