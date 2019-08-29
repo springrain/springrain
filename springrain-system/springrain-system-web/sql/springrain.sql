@@ -773,6 +773,10 @@ CREATE TABLE `wx_miniappconfig`  (
   PRIMARY KEY (`id`) 
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4  COMMENT = '小程序配置表' ;
 
+
+
+INSERT INTO `wx_miniappconfig` (`id`,`orgId`,`appId`,`secret`,`planId`,`requestSerial`,`active`,`bak1`,`bak2`,`bak3`,`bak4`,`bak5`) VALUES ('wx95217af982ed4f53','1','wx95217af982ed4f53','8a4fe0d1b47d46282774d9fe77f6bb19','1','1',1,NULL,NULL,NULL,NULL,NULL);
+
 -- ----------------------------
 -- Table structure for wx_mpconfig
 -- ----------------------------

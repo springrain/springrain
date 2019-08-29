@@ -86,6 +86,7 @@ public class AuthController extends BaseController {
         String jwtToken = userService.wrapJwtTokenByUser(user);
         resutltMap.put(GlobalStatic.jwtTokenKey, jwtToken);
         returnObject.setResult(resutltMap);
+        returnObject.setResult(user);
 
         userService.putByCache(GlobalStatic.wxConfigCacheKey,"sessionKey_"+user.getId(),apiResult.getSessionKey());
         return returnObject;
