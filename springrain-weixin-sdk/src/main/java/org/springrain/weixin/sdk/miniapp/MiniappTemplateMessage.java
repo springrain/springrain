@@ -11,6 +11,9 @@ public class MiniappTemplateMessage implements Serializable {
     private Map<String,Object> templateMessageMap =new HashMap<>();
     private Map<String,Object> dataMap =null;
 
+
+    public MiniappTemplateMessage(){}
+
     public Map<String, Object> getTemplateMessageMap() {
         if (dataMap!=null){
             templateMessageMap.put("data",dataMap);
