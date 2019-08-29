@@ -73,7 +73,11 @@ public class AuthController extends BaseController {
            user.setSex(GlobalStatic.sexMap.get(map.get("gender")));
            user.setUserType(0);
            user.setActive(1);
-           user.setUserName((String)map.get("avatarUrl"));
+           user.setUserName((String)map.get("nickName"));
+           user.setAvatar((String)map.get("avatarUrl"));
+
+           user.setBak1((String)map.get("country") + ","+ (String)map.get("province") + ","+(String)map.get("city"));
+
            userService.save(user);
        }
 

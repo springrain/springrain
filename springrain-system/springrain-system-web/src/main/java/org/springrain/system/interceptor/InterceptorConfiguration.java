@@ -24,7 +24,7 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
 
         //JWT全局拦截认证
-     //   registry.addInterceptor(jwtInterceptor).addPathPatterns("/**").excludePathPatterns("/api/system/login","/api/miniapp/auth/getOpenid","/api/work/login","/api/user/login","/api/getCaptcha","/api/checkHealth");
+        registry.addInterceptor(jwtInterceptor).addPathPatterns("/**").excludePathPatterns("/api/system/login","/api/miniapp/auth/login","/api/work/login","/api/user/login","/api/getCaptcha","/api/checkHealth");
 
         //  其他的跳转到 500错误
 
