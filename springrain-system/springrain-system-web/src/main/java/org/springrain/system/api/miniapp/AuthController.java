@@ -101,7 +101,7 @@ public class AuthController extends BaseController {
           String sessionKey=userService.getByCache(GlobalStatic.wxConfigCacheKey,"sessionKey_"+userId,String.class);
           String json=WxCryptUtils.decrypt(sessionKey,encryptedData,iv);
           Map m= JsonUtils.readValue(json,Map.class);
-          String phone=(String)map.get("phoneNumber");
+          String phone=(String)m.get("phoneNumber");
           if (StringUtils.isBlank(phone)){
               return ReturnDatas.getErrorReturnDatas("数据错误");
           }
