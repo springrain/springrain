@@ -11,7 +11,7 @@ import org.springrain.weixin.service.IWxMiniappConfigService;
 @Service("wxMiniappConfigService")
 public class WxMiniappConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl implements IWxMiniappConfigService {
 
-    private String cacheKeyPrefix="wxminiapp_config_";
+    private String cacheKeyPrefix = "wxminiapp_config_";
 
     @Override
     public IWxMiniappConfig findWxMiniappConfigById(String id) {
@@ -21,7 +21,7 @@ public class WxMiniappConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl 
 
         IWxMiniappConfig wxMiniappConfig = null;
         try {
-            wxMiniappConfig = super.getByCache(cacheKeyPrefix+id, GlobalStatic.wxConfigCacheKey, WxMiniappConfig.class);
+            wxMiniappConfig = super.getByCache(cacheKeyPrefix + id, GlobalStatic.wxConfigCacheKey, WxMiniappConfig.class);
             if (wxMiniappConfig == null) {
                 wxMiniappConfig = super.findById(id, WxMiniappConfig.class);
 
@@ -30,11 +30,11 @@ public class WxMiniappConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl 
                 return null;
             }
 
-            if(!wxMiniappConfig.isAccessTokenExpired()){
+            if (!wxMiniappConfig.isAccessTokenExpired()) {
                 AccessTokenApi.getAccessToken(wxMiniappConfig);
             }
 
-            super.putByCache(cacheKeyPrefix+id, GlobalStatic.wxConfigCacheKey, wxMiniappConfig);
+            super.putByCache(cacheKeyPrefix + id, GlobalStatic.wxConfigCacheKey, wxMiniappConfig);
 
         } catch (Exception e) {
             wxMiniappConfig = null;

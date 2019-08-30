@@ -16,6 +16,7 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.util.*;
@@ -38,7 +39,7 @@ public class WXPayUtil {
         try {
             Map<String, String> data = new HashMap<String, String>();
             DocumentBuilder documentBuilder = WXPayXmlUtil.newDocumentBuilder();
-            InputStream stream = new ByteArrayInputStream(strXML.getBytes("UTF-8"));
+            InputStream stream = new ByteArrayInputStream(strXML.getBytes(StandardCharsets.UTF_8));
             org.w3c.dom.Document doc = documentBuilder.parse(stream);
             doc.getDocumentElement().normalize();
             NodeList nodeList = doc.getDocumentElement().getChildNodes();
@@ -236,10 +237,10 @@ public class WXPayUtil {
      */
     public static String MD5(String data) throws Exception {
         MessageDigest md = MessageDigest.getInstance("MD5");
-        byte[] array = md.digest(data.getBytes("UTF-8"));
+        byte[] array = md.digest(data.getBytes(StandardCharsets.UTF_8));
         StringBuilder sb = new StringBuilder();
         for (byte item : array) {
-            sb.append(Integer.toHexString((item & 0xFF) | 0x100).substring(1, 3));
+            sb.append(Integer.toHexString((item & 0xFF) | 0x100), 1, 3);
         }
         return sb.toString().toUpperCase();
     }
@@ -254,12 +255,12 @@ public class WXPayUtil {
      */
     public static String HMACSHA256(String data, String key) throws Exception {
         Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
-        SecretKeySpec secret_key = new SecretKeySpec(key.getBytes("UTF-8"), "HmacSHA256");
+        SecretKeySpec secret_key = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), "HmacSHA256");
         sha256_HMAC.init(secret_key);
-        byte[] array = sha256_HMAC.doFinal(data.getBytes("UTF-8"));
+        byte[] array = sha256_HMAC.doFinal(data.getBytes(StandardCharsets.UTF_8));
         StringBuilder sb = new StringBuilder();
         for (byte item : array) {
-            sb.append(Integer.toHexString((item & 0xFF) | 0x100).substring(1, 3));
+            sb.append(Integer.toHexString((item & 0xFF) | 0x100), 1, 3);
         }
         return sb.toString().toUpperCase();
     }

@@ -1,6 +1,6 @@
 package org.springrain.weixin.sdk.common.wxconfig;
 
-public interface IWxMpConfig extends IWxConfig  {
+public interface IWxMpConfig extends IWxConfig {
 
     String getToken();
 
@@ -31,8 +31,6 @@ public interface IWxMpConfig extends IWxConfig  {
     void setCardApiTicketExpiresTime(Long l);
 
     boolean isCardApiTicketExpired();
-
-
 
 
 }

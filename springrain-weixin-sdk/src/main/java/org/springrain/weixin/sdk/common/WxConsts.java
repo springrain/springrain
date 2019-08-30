@@ -10,73 +10,6 @@ import java.util.Map;
 public class WxConsts {
 
     private static final Logger logger = LoggerFactory.getLogger(WxConsts.class);
-    private WxConsts() {
-        throw new IllegalAccessError("工具类不能实例化");
-    }
-    ///////////////////////
-    // oauth2网页授权的scope
-    ///////////////////////
-    //微信API的访问协议,为了以后方便处理特殊情况
-    public static String mpapiurl = "https://api.weixin.qq.com";
-    //微信API的访问协议,为了以后方便处理特殊情况
-    public static String mpweixinurl = "https://mp.weixin.qq.com";
-    //微信API的访问协议,为了以后方便处理特殊情况
-    public static String mpopenurl = "https://open.weixin.qq.com" ;
-    //微信payBaseURL
-    public static String mppaybaseurl = "https://api.mch.weixin.qq.com";
-    //企业号API的访问协议,为了以后方便处理特殊情况
-    public static String qyapiurl = "https://qyapi.weixin.qq.com";
-
-    static {
-
-
-        try {
-            //处理配置文件默认值
-            PropertyFile wechat = new PropertyFile("wechat");
-
-            String _mpapiurl = wechat.getString("mpapiurl");
-            if (_mpapiurl != null) {
-                mpapiurl = _mpapiurl;
-            }
-
-            String _mpweixinurl = wechat.getString("mpweixinurl");
-            if (_mpweixinurl != null) {
-                mpweixinurl = _mpweixinurl;
-            }
-
-            String _mpopenurl = wechat.getString("mpopenurl");
-            if (_mpopenurl != null) {
-                mpopenurl = _mpopenurl;
-            }
-
-            String _mppaybaseurl = wechat.getString("mppaybaseurl");
-            if (_mppaybaseurl != null) {
-                mppaybaseurl = _mppaybaseurl;
-            }
-
-            String _qyapiurl = wechat.getString("qyapiurl");
-            if (_qyapiurl != null) {
-                qyapiurl = _qyapiurl;
-            }
-
-
-        } catch (Exception e) {
-            logger.error("wechat配置文件加载失败:", e);
-        }
-    }
-
-
-
-    /**
-     * 通过返回码获取返回信息
-     *
-     * @param errCode 错误码
-     * @return {String}
-     */
-    public static String getErrMsgByCode(int errCode) {
-        return errCodeToErrMsg.get(errCode);
-    }
-
     private static final Map<Integer, String> errCodeToErrMsg = new HashMap<Integer, String>() {{
         put(-1, "系统繁忙");
         put(0, "请求成功");
@@ -298,9 +231,72 @@ public class WxConsts {
         put(9001035, "设备申请参数不合法");
         put(9001036, "查询起始值begin不合法");
     }};
+    ///////////////////////
+    // oauth2网页授权的scope
+    ///////////////////////
+    //微信API的访问协议,为了以后方便处理特殊情况
+    public static String mpapiurl = "https://api.weixin.qq.com";
+    //微信API的访问协议,为了以后方便处理特殊情况
+    public static String mpweixinurl = "https://mp.weixin.qq.com";
+    //微信API的访问协议,为了以后方便处理特殊情况
+    public static String mpopenurl = "https://open.weixin.qq.com";
+    //微信payBaseURL
+    public static String mppaybaseurl = "https://api.mch.weixin.qq.com";
+    //企业号API的访问协议,为了以后方便处理特殊情况
+    public static String qyapiurl = "https://qyapi.weixin.qq.com";
+
+    static {
 
 
+        try {
+            //处理配置文件默认值
+            PropertyFile wechat = new PropertyFile("wechat");
 
+            String _mpapiurl = wechat.getString("mpapiurl");
+            if (_mpapiurl != null) {
+                mpapiurl = _mpapiurl;
+            }
+
+            String _mpweixinurl = wechat.getString("mpweixinurl");
+            if (_mpweixinurl != null) {
+                mpweixinurl = _mpweixinurl;
+            }
+
+            String _mpopenurl = wechat.getString("mpopenurl");
+            if (_mpopenurl != null) {
+                mpopenurl = _mpopenurl;
+            }
+
+            String _mppaybaseurl = wechat.getString("mppaybaseurl");
+            if (_mppaybaseurl != null) {
+                mppaybaseurl = _mppaybaseurl;
+            }
+
+            String _qyapiurl = wechat.getString("qyapiurl");
+            if (_qyapiurl != null) {
+                qyapiurl = _qyapiurl;
+            }
+
+
+        } catch (Exception e) {
+            logger.error("wechat配置文件加载失败:", e);
+        }
+    }
+
+
+    private WxConsts() {
+        throw new IllegalAccessError("工具类不能实例化");
+    }
+
+    /**
+     * 通过返回码获取返回信息
+     *
+     * @param errCode 错误码
+     * @return {String}
+     */
+    public static String getErrMsgByCode(int errCode) {
+        return errCodeToErrMsg.get(errCode);
+    }
 
 
 }

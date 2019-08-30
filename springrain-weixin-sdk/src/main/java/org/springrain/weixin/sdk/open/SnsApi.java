@@ -13,9 +13,7 @@ import org.springrain.weixin.sdk.common.ApiResult;
 import org.springrain.weixin.sdk.common.WxConsts;
 import org.springrain.weixin.sdk.common.wxconfig.IWxMpConfig;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.Map;
 
 /**
  * 网页授权获取 access_token API
@@ -24,7 +22,7 @@ public class SnsApi {
     private static String snsAccessTokenUrl = WxConsts.mpapiurl + "/sns/oauth2";
     private static String authorizeUrL = WxConsts.mpopenurl + "/connect/oauth2/authorize";
     private static String qrconnectUrl = WxConsts.mpopenurl + "/connect/qrconnect";
-    private static String userinfoUrl=WxConsts.mpopenurl + "/sns/userinfo?access_token=";
+    private static String userinfoUrl = WxConsts.mpopenurl + "/sns/userinfo?access_token=";
 
 
     /**
@@ -86,13 +84,13 @@ public class SnsApi {
      * @param state        重定向后会带上state参数，开发者可以填写a-zA-Z0-9的参数值，最多128字节
      * @return url
      */
-    public static String getQrConnectURL(IWxMpConfig wxmpconfig, String redirect_uri, String state)  {
+    public static String getQrConnectURL(IWxMpConfig wxmpconfig, String redirect_uri, String state) {
 
         try {
             if (StringUtils.isNotBlank(redirect_uri)) {
                 redirect_uri = URLEncoder.encode(redirect_uri, "UTF-8");
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
 
@@ -108,6 +106,7 @@ public class SnsApi {
 
     /**
      * 用code换取accessToken
+     *
      * @param wxmpconfig
      * @param code
      * @return
@@ -116,29 +115,31 @@ public class SnsApi {
         //?appid={appid}&secret={secret}&code={code}&grant_type=authorization_code
         final String accessTokenUrl = snsAccessTokenUrl + "?appid=" + wxmpconfig.getAppId() + "&secret=" + wxmpconfig.getSecret() + "&code=" + code + "&grant_type=authorization_code";
         String json = HttpClientUtils.sendHttpGet(accessTokenUrl);
-        ApiResult apiResult=new ApiResult(json);
-        wxmpconfig.setAccessToken(apiResult.getAccessToken());
-        wxmpconfig.setAccessTokenExpiresTime(Long.valueOf(apiResult.getExpiresIn()));
+        ApiResult apiResult = new ApiResult(json);
+        // 认证的accessToken 和API的不一样
+        //  wxmpconfig.setAccessToken(apiResult.getAccessToken());
+        //  wxmpconfig.setAccessTokenExpiresTime(Long.valueOf(apiResult.getExpiresIn()));
         return apiResult;
     }
 
 
     /**
      * 获取用的信息,包括unionid
+     *
      * @param wxmpconfig
      * @param code
      * @return
      */
     public static WxUserInfo getWxUserInfo(IWxMpConfig wxmpconfig, String code) {
-        ApiResult apiResult=getAccessToken(wxmpconfig,code);
+        ApiResult apiResult = getAccessToken(wxmpconfig, code);
 
-        if (!apiResult.isSucceed()){
+        if (!apiResult.isSucceed()) {
             return null;
         }
 
-        String apiUrl=userinfoUrl+apiResult.getAccessToken()+"&openid="+apiResult.getOpenId()+"&lang=zh_CN";
-        String userInfoJson= HttpClientUtils.sendHttpGet(apiUrl);
-        WxUserInfo wxUserInfo=  JsonUtils.readValue(userInfoJson,WxUserInfo.class);
+        String apiUrl = userinfoUrl + apiResult.getAccessToken() + "&openid=" + apiResult.getOpenId() + "&lang=zh_CN";
+        String userInfoJson = HttpClientUtils.sendHttpGet(apiUrl);
+        WxUserInfo wxUserInfo = JsonUtils.readValue(userInfoJson, WxUserInfo.class);
         return wxUserInfo;
     }
 

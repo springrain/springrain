@@ -14,21 +14,17 @@ import org.springrain.weixin.sdk.common.wxconfig.IWxMiniappConfig;
  */
 public class MiniappTemplateMessageApi {
     private static final Logger logger = LoggerFactory.getLogger(MiniappTemplateMessageApi.class);
+    private static String sendUrl = WxConsts.mpapiurl + "/cgi-bin/message/wxopen/template/send?access_token=";
 
     private MiniappTemplateMessageApi() {
         throw new IllegalAccessError("工具类不能实例化");
     }
 
-    private static String sendUrl = WxConsts.mpapiurl+"/cgi-bin/message/wxopen/template/send?access_token=";
-
     public static ApiResult send(IWxMiniappConfig config, MiniappTemplateMessage miniappTemplateMessage) throws Exception {
-        String apiurl=sendUrl+config.getAccessToken();
+        String apiurl = sendUrl + config.getAccessToken();
         String jsonResult = HttpClientUtils.sendHttpPost(apiurl, JsonUtils.writeValueAsString(miniappTemplateMessage.getTemplateMessageMap()));
         return new ApiResult(jsonResult);
     }
-
-
-
 
 
 }

@@ -26,6 +26,4 @@ public interface IWxMiniappConfigService {
     IWxMiniappConfig updateWxMiniappConfig(WxMiniappConfig wxminiappconfig);
 
 
-
-
 }

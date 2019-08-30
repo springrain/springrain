@@ -25,8 +25,4 @@ public class WxCpConfig extends BaseEntity implements IWxCpConfig {
     }
 
 
-
-
-
-
 }

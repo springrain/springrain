@@ -27,7 +27,6 @@ public interface IWxMpConfigService {
     IWxMpConfig updateWxMpConfig(WxMpConfig wxmpconfig);
 
 
-
     /**
      * 根据siteid和request查询jsapi配置信息
      *

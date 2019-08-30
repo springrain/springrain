@@ -78,7 +78,7 @@ public class WxMiniappConfig extends BaseEntity implements IWxMiniappConfig {
     private Long accessTokenExpiresTime = 0L;
 
     //concstructor
-    public WxMiniappConfig(){
+    public WxMiniappConfig() {
     }
 
 
@@ -86,253 +86,242 @@ public class WxMiniappConfig extends BaseEntity implements IWxMiniappConfig {
 
     /**
      * 主键id
-     * @param value
-     */
-    public void setId(java.lang.String value) {
-        if(StringUtils.isNotBlank(value)){
-            value=value.trim();
-        }
-        this.id = value;
-    }
-
-
-
-    /**
-     * 主键id
      */
     @Id
-    @WhereSQL(sql="id=:WxMiniappconfig_id")
+    @WhereSQL(sql = "id=:WxMiniappconfig_id")
     public java.lang.String getId() {
         return this.id;
     }
 
     /**
-     * 站点Id
+     * 主键id
+     *
      * @param value
      */
-    public void setOrgId(java.lang.String value) {
-        if(StringUtils.isNotBlank(value)){
-            value=value.trim();
+    public void setId(java.lang.String value) {
+        if (StringUtils.isNotBlank(value)) {
+            value = value.trim();
         }
-        this.orgId = value;
+        this.id = value;
     }
-
-
 
     /**
      * 站点Id
      */
-    @WhereSQL(sql="orgId=:WxMiniappconfig_orgId")
+    @WhereSQL(sql = "orgId=:WxMiniappconfig_orgId")
     public java.lang.String getOrgId() {
         return this.orgId;
     }
 
     /**
-     * 开发者Id
+     * 站点Id
+     *
      * @param value
      */
-    public void setAppId(java.lang.String value) {
-        if(StringUtils.isNotBlank(value)){
-            value=value.trim();
+    public void setOrgId(java.lang.String value) {
+        if (StringUtils.isNotBlank(value)) {
+            value = value.trim();
         }
-        this.appId = value;
+        this.orgId = value;
     }
-
-
 
     /**
      * 开发者Id
      */
-    @WhereSQL(sql="appId=:WxMiniappconfig_appId")
+    @WhereSQL(sql = "appId=:WxMiniappconfig_appId")
     public java.lang.String getAppId() {
         return this.appId;
     }
 
     /**
-     * 应用密钥
+     * 开发者Id
+     *
      * @param value
      */
-    public void setSecret(java.lang.String value) {
-        if(StringUtils.isNotBlank(value)){
-            value=value.trim();
+    public void setAppId(java.lang.String value) {
+        if (StringUtils.isNotBlank(value)) {
+            value = value.trim();
         }
-        this.secret = value;
+        this.appId = value;
     }
-
-
 
     /**
      * 应用密钥
      */
-    @WhereSQL(sql="secret=:WxMiniappconfig_secret")
+    @WhereSQL(sql = "secret=:WxMiniappconfig_secret")
     public java.lang.String getSecret() {
         return this.secret;
     }
 
     /**
-     * 签约模板Id
+     * 应用密钥
+     *
      * @param value
      */
-    public void setPlanId(java.lang.String value) {
-        if(StringUtils.isNotBlank(value)){
-            value=value.trim();
+    public void setSecret(java.lang.String value) {
+        if (StringUtils.isNotBlank(value)) {
+            value = value.trim();
         }
-        this.planId = value;
+        this.secret = value;
     }
-
-
 
     /**
      * 签约模板Id
      */
-    @WhereSQL(sql="planId=:WxMiniappconfig_planId")
+    @WhereSQL(sql = "planId=:WxMiniappconfig_planId")
     public java.lang.String getPlanId() {
         return this.planId;
     }
 
     /**
-     * 签约请求序列号
+     * 签约模板Id
+     *
      * @param value
      */
-    public void setRequestSerial(java.lang.String value) {
-        if(StringUtils.isNotBlank(value)){
-            value=value.trim();
+    public void setPlanId(java.lang.String value) {
+        if (StringUtils.isNotBlank(value)) {
+            value = value.trim();
         }
-        this.requestSerial = value;
+        this.planId = value;
     }
-
-
 
     /**
      * 签约请求序列号
      */
-    @WhereSQL(sql="requestSerial=:WxMiniappconfig_requestSerial")
+    @WhereSQL(sql = "requestSerial=:WxMiniappconfig_requestSerial")
     public java.lang.String getRequestSerial() {
         return this.requestSerial;
     }
 
     /**
+     * 签约请求序列号
+     *
+     * @param value
+     */
+    public void setRequestSerial(java.lang.String value) {
+        if (StringUtils.isNotBlank(value)) {
+            value = value.trim();
+        }
+        this.requestSerial = value;
+    }
+
+    /**
      * 状态 0不可用,1可用
+     */
+    @WhereSQL(sql = "active=:WxMiniappconfig_active")
+    public java.lang.Integer getActive() {
+        return this.active;
+    }
+
+    /**
+     * 状态 0不可用,1可用
+     *
      * @param value
      */
     public void setActive(java.lang.Integer value) {
         this.active = value;
     }
 
-
-
-    /**
-     * 状态 0不可用,1可用
-     */
-    @WhereSQL(sql="active=:WxMiniappconfig_active")
-    public java.lang.Integer getActive() {
-        return this.active;
-    }
-
-    /**
-     * bak1
-     * @param value
-     */
-    public void setBak1(java.lang.String value) {
-        if(StringUtils.isNotBlank(value)){
-            value=value.trim();
-        }
-        this.bak1 = value;
-    }
-
-
-
     /**
      * bak1
      */
-    @WhereSQL(sql="bak1=:WxMiniappconfig_bak1")
+    @WhereSQL(sql = "bak1=:WxMiniappconfig_bak1")
     public java.lang.String getBak1() {
         return this.bak1;
     }
 
     /**
-     * bak2
+     * bak1
+     *
      * @param value
      */
-    public void setBak2(java.lang.String value) {
-        if(StringUtils.isNotBlank(value)){
-            value=value.trim();
+    public void setBak1(java.lang.String value) {
+        if (StringUtils.isNotBlank(value)) {
+            value = value.trim();
         }
-        this.bak2 = value;
+        this.bak1 = value;
     }
-
-
 
     /**
      * bak2
      */
-    @WhereSQL(sql="bak2=:WxMiniappconfig_bak2")
+    @WhereSQL(sql = "bak2=:WxMiniappconfig_bak2")
     public java.lang.String getBak2() {
         return this.bak2;
     }
 
     /**
-     * bak3
+     * bak2
+     *
      * @param value
      */
-    public void setBak3(java.lang.String value) {
-        if(StringUtils.isNotBlank(value)){
-            value=value.trim();
+    public void setBak2(java.lang.String value) {
+        if (StringUtils.isNotBlank(value)) {
+            value = value.trim();
         }
-        this.bak3 = value;
+        this.bak2 = value;
     }
-
-
 
     /**
      * bak3
      */
-    @WhereSQL(sql="bak3=:WxMiniappconfig_bak3")
+    @WhereSQL(sql = "bak3=:WxMiniappconfig_bak3")
     public java.lang.String getBak3() {
         return this.bak3;
     }
 
     /**
-     * bak4
+     * bak3
+     *
      * @param value
      */
-    public void setBak4(java.lang.String value) {
-        if(StringUtils.isNotBlank(value)){
-            value=value.trim();
+    public void setBak3(java.lang.String value) {
+        if (StringUtils.isNotBlank(value)) {
+            value = value.trim();
         }
-        this.bak4 = value;
+        this.bak3 = value;
     }
-
-
 
     /**
      * bak4
      */
-    @WhereSQL(sql="bak4=:WxMiniappconfig_bak4")
+    @WhereSQL(sql = "bak4=:WxMiniappconfig_bak4")
     public java.lang.String getBak4() {
         return this.bak4;
     }
 
     /**
-     * bak5
+     * bak4
+     *
      * @param value
      */
-    public void setBak5(java.lang.String value) {
-        if(StringUtils.isNotBlank(value)){
-            value=value.trim();
+    public void setBak4(java.lang.String value) {
+        if (StringUtils.isNotBlank(value)) {
+            value = value.trim();
         }
-        this.bak5 = value;
+        this.bak4 = value;
     }
-
-
 
     /**
      * bak5
      */
-    @WhereSQL(sql="bak5=:WxMiniappconfig_bak5")
+    @WhereSQL(sql = "bak5=:WxMiniappconfig_bak5")
     public java.lang.String getBak5() {
         return this.bak5;
     }
+
+    /**
+     * bak5
+     *
+     * @param value
+     */
+    public void setBak5(java.lang.String value) {
+        if (StringUtils.isNotBlank(value)) {
+            value = value.trim();
+        }
+        this.bak5 = value;
+    }
+
     @Override
     public String toString() {
         return new StringBuilder()
@@ -350,33 +339,34 @@ public class WxMiniappConfig extends BaseEntity implements IWxMiniappConfig {
                 .append("bak5[").append(getBak5()).append("],")
                 .toString();
     }
+
     @Override
     public int hashCode() {
         return new HashCodeBuilder()
                 .append(getId())
                 .toHashCode();
     }
+
     @Override
     public boolean equals(Object obj) {
 
-        if (obj == null){
+        if (obj == null) {
             return false;
         }
 
-        if (obj instanceof WxMiniappConfig == false){
+        if (obj instanceof WxMiniappConfig == false) {
             return false;
         }
 
-        if (this == obj){
+        if (this == obj) {
             return true;
         }
 
-        WxMiniappConfig other = (WxMiniappConfig)obj;
+        WxMiniappConfig other = (WxMiniappConfig) obj;
         return new EqualsBuilder()
-                .append(getId(),other.getId())
+                .append(getId(), other.getId())
                 .isEquals();
     }
-
 
 
     @Override
@@ -399,12 +389,12 @@ public class WxMiniappConfig extends BaseEntity implements IWxMiniappConfig {
     public void setAccessTokenExpiresTime(Long accessTokenExpiresTime) {
         this.accessTokenExpiresTime = System.currentTimeMillis() + (accessTokenExpiresTime - 600) * 1000L;//预留10分钟
     }
+
     @Override
     @Transient
     public boolean isAccessTokenExpired() {
         return System.currentTimeMillis() > this.accessTokenExpiresTime;
     }
-
 
 
 }

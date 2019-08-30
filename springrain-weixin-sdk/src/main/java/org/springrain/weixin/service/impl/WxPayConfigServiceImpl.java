@@ -11,7 +11,7 @@ import org.springrain.weixin.service.IWxPayConfigService;
 @Service("wxPayConfigService")
 public class WxPayConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl implements IWxPayConfigService {
 
-    private String cacheKeyPrefix="wxpay_config_";
+    private String cacheKeyPrefix = "wxpay_config_";
 
     @Override
     public IWxPayConfig findWxPayConfigById(String id) {
@@ -21,7 +21,7 @@ public class WxPayConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl impl
 
         IWxPayConfig wxPayConfig = null;
         try {
-            wxPayConfig = super.getByCache(cacheKeyPrefix+id, GlobalStatic.wxConfigCacheKey, WxPayConfig.class);
+            wxPayConfig = super.getByCache(cacheKeyPrefix + id, GlobalStatic.wxConfigCacheKey, WxPayConfig.class);
             if (wxPayConfig == null) {
                 wxPayConfig = super.findById(id, WxPayConfig.class);
 
@@ -30,11 +30,11 @@ public class WxPayConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl impl
                 return null;
             }
 
-            if(!wxPayConfig.isAccessTokenExpired()){
+            if (!wxPayConfig.isAccessTokenExpired()) {
                 AccessTokenApi.getAccessToken(wxPayConfig);
             }
 
-            super.putByCache(cacheKeyPrefix+id, GlobalStatic.wxConfigCacheKey, wxPayConfig);
+            super.putByCache(cacheKeyPrefix + id, GlobalStatic.wxConfigCacheKey, wxPayConfig);
 
         } catch (Exception e) {
             wxPayConfig = null;
@@ -56,7 +56,7 @@ public class WxPayConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl impl
         }
         try {
             super.update(wxpayappconfig);
-            super.putByCache(cacheKeyPrefix+id, GlobalStatic.wxConfigCacheKey, wxpayappconfig);
+            super.putByCache(cacheKeyPrefix + id, GlobalStatic.wxConfigCacheKey, wxpayappconfig);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }

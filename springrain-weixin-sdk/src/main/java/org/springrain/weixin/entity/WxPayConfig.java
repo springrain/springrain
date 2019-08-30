@@ -92,7 +92,7 @@ public class WxPayConfig extends BaseEntity implements IWxPayConfig {
     private Boolean useSandbox;
 
     //concstructor
-    public WxPayConfig(){
+    public WxPayConfig() {
     }
 
 
@@ -100,318 +100,302 @@ public class WxPayConfig extends BaseEntity implements IWxPayConfig {
 
     /**
      * id
-     * @param value
-     */
-    public void setId(java.lang.String value) {
-        if(StringUtils.isNotBlank(value)){
-            value=value.trim();
-        }
-        this.id = value;
-    }
-
-
-
-    /**
-     * id
      */
     @Id
-    @WhereSQL(sql="id=:WxPayconfig_id")
+    @WhereSQL(sql = "id=:WxPayconfig_id")
     public java.lang.String getId() {
         return this.id;
     }
 
     /**
-     * 站点Id
+     * id
+     *
      * @param value
      */
-    public void setOrgId(java.lang.String value) {
-        if(StringUtils.isNotBlank(value)){
-            value=value.trim();
+    public void setId(java.lang.String value) {
+        if (StringUtils.isNotBlank(value)) {
+            value = value.trim();
         }
-        this.orgId = value;
+        this.id = value;
     }
-
-
 
     /**
      * 站点Id
      */
-    @WhereSQL(sql="orgId=:WxPayconfig_orgId")
+    @WhereSQL(sql = "orgId=:WxPayconfig_orgId")
     public java.lang.String getOrgId() {
         return this.orgId;
     }
 
     /**
-     * 开发者Id
+     * 站点Id
+     *
      * @param value
      */
-    public void setAppId(java.lang.String value) {
-        if(StringUtils.isNotBlank(value)){
-            value=value.trim();
+    public void setOrgId(java.lang.String value) {
+        if (StringUtils.isNotBlank(value)) {
+            value = value.trim();
         }
-        this.appId = value;
+        this.orgId = value;
     }
-
-
 
     /**
      * 开发者Id
      */
-    @WhereSQL(sql="appId=:WxPayconfig_appId")
+    @WhereSQL(sql = "appId=:WxPayconfig_appId")
     public java.lang.String getAppId() {
         return this.appId;
     }
 
     /**
-     * 应用密钥
+     * 开发者Id
+     *
      * @param value
      */
-    public void setSecret(java.lang.String value) {
-        if(StringUtils.isNotBlank(value)){
-            value=value.trim();
+    public void setAppId(java.lang.String value) {
+        if (StringUtils.isNotBlank(value)) {
+            value = value.trim();
         }
-        this.secret = value;
+        this.appId = value;
     }
-
-
 
     /**
      * 应用密钥
      */
-    @WhereSQL(sql="secret=:WxPayconfig_secret")
+    @WhereSQL(sql = "secret=:WxPayconfig_secret")
     public java.lang.String getSecret() {
         return this.secret;
     }
 
     /**
-     * 微信支付商户号
+     * 应用密钥
+     *
      * @param value
      */
-    public void setMchId(java.lang.String value) {
-        if(StringUtils.isNotBlank(value)){
-            value=value.trim();
+    public void setSecret(java.lang.String value) {
+        if (StringUtils.isNotBlank(value)) {
+            value = value.trim();
         }
-        this.mchId = value;
+        this.secret = value;
     }
-
-
 
     /**
      * 微信支付商户号
      */
-    @WhereSQL(sql="mchId=:WxPayconfig_mchId")
+    @WhereSQL(sql = "mchId=:WxPayconfig_mchId")
     public java.lang.String getMchId() {
         return this.mchId;
     }
 
     /**
-     * 交易过程生成签名的密钥，仅保留在商户系统和微信支付后台，不会在网络中传播
+     * 微信支付商户号
+     *
      * @param value
      */
-    public void setKey(java.lang.String value) {
-        if(StringUtils.isNotBlank(value)){
-            value=value.trim();
+    public void setMchId(java.lang.String value) {
+        if (StringUtils.isNotBlank(value)) {
+            value = value.trim();
         }
-        this.key = value;
+        this.mchId = value;
     }
-
-
 
     /**
      * 交易过程生成签名的密钥，仅保留在商户系统和微信支付后台，不会在网络中传播
      */
-    @WhereSQL(sql="key=:WxPayconfig_key")
+    @WhereSQL(sql = "key=:WxPayconfig_key")
     public java.lang.String getKey() {
         return this.key;
     }
 
     /**
-     * 证书地址
+     * 交易过程生成签名的密钥，仅保留在商户系统和微信支付后台，不会在网络中传播
+     *
      * @param value
      */
-    public void setCertificateFile(java.lang.String value) {
-        if(StringUtils.isNotBlank(value)){
-            value=value.trim();
+    public void setKey(java.lang.String value) {
+        if (StringUtils.isNotBlank(value)) {
+            value = value.trim();
         }
-        this.certificateFile = value;
+        this.key = value;
     }
-
-
 
     /**
      * 证书地址
      */
-    @WhereSQL(sql="certificateFile=:WxPayconfig_certificateFile")
+    @WhereSQL(sql = "certificateFile=:WxPayconfig_certificateFile")
     public java.lang.String getCertificateFile() {
         return this.certificateFile;
     }
 
     /**
-     * 通知地址
+     * 证书地址
+     *
      * @param value
      */
-    public void setNotifyUrl(java.lang.String value) {
-        if(StringUtils.isNotBlank(value)){
-            value=value.trim();
+    public void setCertificateFile(java.lang.String value) {
+        if (StringUtils.isNotBlank(value)) {
+            value = value.trim();
         }
-        this.notifyUrl = value;
+        this.certificateFile = value;
     }
-
-
 
     /**
      * 通知地址
      */
-    @WhereSQL(sql="notifyUrl=:WxPayconfig_notifyUrl")
+    @WhereSQL(sql = "notifyUrl=:WxPayconfig_notifyUrl")
     public java.lang.String getNotifyUrl() {
         return this.notifyUrl;
     }
 
-
-
     /**
-     * 加密方式,MD5和HMAC-SHA256
+     * 通知地址
+     *
      * @param value
      */
-    public void setSignType(java.lang.String value) {
-        if(StringUtils.isNotBlank(value)){
-            value=value.trim();
+    public void setNotifyUrl(java.lang.String value) {
+        if (StringUtils.isNotBlank(value)) {
+            value = value.trim();
         }
-        this.signType = value;
+        this.notifyUrl = value;
     }
-
-
 
     /**
      * 加密方式,MD5和HMAC-SHA256
      */
-    @WhereSQL(sql="signType=:WxPayconfig_signType")
+    @WhereSQL(sql = "signType=:WxPayconfig_signType")
     public java.lang.String getSignType() {
         return this.signType;
     }
 
     /**
+     * 加密方式,MD5和HMAC-SHA256
+     *
+     * @param value
+     */
+    public void setSignType(java.lang.String value) {
+        if (StringUtils.isNotBlank(value)) {
+            value = value.trim();
+        }
+        this.signType = value;
+    }
+
+    /**
      * 状态 0不可用,1可用
+     */
+    @WhereSQL(sql = "active=:WxPayconfig_active")
+    public java.lang.Integer getActive() {
+        return this.active;
+    }
+
+    /**
+     * 状态 0不可用,1可用
+     *
      * @param value
      */
     public void setActive(java.lang.Integer value) {
         this.active = value;
     }
 
-
-
-    /**
-     * 状态 0不可用,1可用
-     */
-    @WhereSQL(sql="active=:WxPayconfig_active")
-    public java.lang.Integer getActive() {
-        return this.active;
-    }
-
-    /**
-     * bak1
-     * @param value
-     */
-    public void setBak1(java.lang.String value) {
-        if(StringUtils.isNotBlank(value)){
-            value=value.trim();
-        }
-        this.bak1 = value;
-    }
-
-
-
     /**
      * bak1
      */
-    @WhereSQL(sql="bak1=:WxPayconfig_bak1")
+    @WhereSQL(sql = "bak1=:WxPayconfig_bak1")
     public java.lang.String getBak1() {
         return this.bak1;
     }
 
     /**
-     * bak2
+     * bak1
+     *
      * @param value
      */
-    public void setBak2(java.lang.String value) {
-        if(StringUtils.isNotBlank(value)){
-            value=value.trim();
+    public void setBak1(java.lang.String value) {
+        if (StringUtils.isNotBlank(value)) {
+            value = value.trim();
         }
-        this.bak2 = value;
+        this.bak1 = value;
     }
-
-
 
     /**
      * bak2
      */
-    @WhereSQL(sql="bak2=:WxPayconfig_bak2")
+    @WhereSQL(sql = "bak2=:WxPayconfig_bak2")
     public java.lang.String getBak2() {
         return this.bak2;
     }
 
     /**
-     * bak3
+     * bak2
+     *
      * @param value
      */
-    public void setBak3(java.lang.String value) {
-        if(StringUtils.isNotBlank(value)){
-            value=value.trim();
+    public void setBak2(java.lang.String value) {
+        if (StringUtils.isNotBlank(value)) {
+            value = value.trim();
         }
-        this.bak3 = value;
+        this.bak2 = value;
     }
-
-
 
     /**
      * bak3
      */
-    @WhereSQL(sql="bak3=:WxPayconfig_bak3")
+    @WhereSQL(sql = "bak3=:WxPayconfig_bak3")
     public java.lang.String getBak3() {
         return this.bak3;
     }
 
     /**
-     * bak4
+     * bak3
+     *
      * @param value
      */
-    public void setBak4(java.lang.String value) {
-        if(StringUtils.isNotBlank(value)){
-            value=value.trim();
+    public void setBak3(java.lang.String value) {
+        if (StringUtils.isNotBlank(value)) {
+            value = value.trim();
         }
-        this.bak4 = value;
+        this.bak3 = value;
     }
-
-
 
     /**
      * bak4
      */
-    @WhereSQL(sql="bak4=:WxPayconfig_bak4")
+    @WhereSQL(sql = "bak4=:WxPayconfig_bak4")
     public java.lang.String getBak4() {
         return this.bak4;
     }
 
     /**
-     * bak5
+     * bak4
+     *
      * @param value
      */
-    public void setBak5(java.lang.String value) {
-        if(StringUtils.isNotBlank(value)){
-            value=value.trim();
+    public void setBak4(java.lang.String value) {
+        if (StringUtils.isNotBlank(value)) {
+            value = value.trim();
         }
-        this.bak5 = value;
+        this.bak4 = value;
     }
-
-
 
     /**
      * bak5
      */
-    @WhereSQL(sql="bak5=:WxPayconfig_bak5")
+    @WhereSQL(sql = "bak5=:WxPayconfig_bak5")
     public java.lang.String getBak5() {
         return this.bak5;
     }
+
+    /**
+     * bak5
+     *
+     * @param value
+     */
+    public void setBak5(java.lang.String value) {
+        if (StringUtils.isNotBlank(value)) {
+            value = value.trim();
+        }
+        this.bak5 = value;
+    }
+
     @Override
     public String toString() {
         return new StringBuilder()
@@ -432,30 +416,32 @@ public class WxPayConfig extends BaseEntity implements IWxPayConfig {
                 .append("bak5[").append(getBak5()).append("],")
                 .toString();
     }
+
     @Override
     public int hashCode() {
         return new HashCodeBuilder()
                 .append(getId())
                 .toHashCode();
     }
+
     @Override
     public boolean equals(Object obj) {
 
-        if (obj == null){
+        if (obj == null) {
             return false;
         }
 
-        if (obj instanceof WxPayConfig == false){
+        if (obj instanceof WxPayConfig == false) {
             return false;
         }
 
-        if (this == obj){
+        if (this == obj) {
             return true;
         }
 
-        WxPayConfig other = (WxPayConfig)obj;
+        WxPayConfig other = (WxPayConfig) obj;
         return new EqualsBuilder()
-                .append(getId(),other.getId())
+                .append(getId(), other.getId())
                 .isEquals();
     }
 
@@ -480,18 +466,20 @@ public class WxPayConfig extends BaseEntity implements IWxPayConfig {
     public void setAccessTokenExpiresTime(Long accessTokenExpiresTime) {
         this.accessTokenExpiresTime = System.currentTimeMillis() + (accessTokenExpiresTime - 600) * 1000L;//预留10分钟
     }
+
     @Override
     @Transient
     public boolean isAccessTokenExpired() {
         return System.currentTimeMillis() > this.accessTokenExpiresTime;
     }
 
-    public void setUseSandbox(Boolean useSandbox) {
-        this.useSandbox = useSandbox;
-    }
     @Override
     @Transient
     public Boolean getUseSandbox() {
         return useSandbox;
+    }
+
+    public void setUseSandbox(Boolean useSandbox) {
+        this.useSandbox = useSandbox;
     }
 }

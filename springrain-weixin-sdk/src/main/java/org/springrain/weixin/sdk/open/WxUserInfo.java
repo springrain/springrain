@@ -6,16 +6,16 @@ import java.util.List;
 public class WxUserInfo implements Serializable {
     private static final long serialVersionUID = 1L;
     private String openid;
-    private String  unionid;
+    private String unionid;
     private Integer sex;
     private String province;
     private String city;
     private String country;
     private String headimgurl;
+    private List<String> privilege;
 
-
-
-    public WxUserInfo(){}
+    public WxUserInfo() {
+    }
 
     public String getOpenid() {
         return openid;
@@ -80,8 +80,6 @@ public class WxUserInfo implements Serializable {
     public void setPrivilege(List<String> privilege) {
         this.privilege = privilege;
     }
-
-    private List<String> privilege;
 
 
 }

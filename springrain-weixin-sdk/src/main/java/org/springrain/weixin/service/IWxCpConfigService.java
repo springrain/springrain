@@ -25,5 +25,4 @@ public interface IWxCpConfigService {
     IWxCpConfig updateWxCpConfig(WxCpConfig wxcpconfig);
 
 
-
 }

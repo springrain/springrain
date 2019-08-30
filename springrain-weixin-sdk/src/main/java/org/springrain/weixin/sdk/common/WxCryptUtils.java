@@ -15,6 +15,7 @@ import java.util.Arrays;
 
 public class WxCryptUtils {
     private static final Charset UTF_8 = StandardCharsets.UTF_8;
+
     /**
      * 串接arr参数，生成sha1 digest
      */
@@ -87,8 +88,6 @@ public class WxCryptUtils {
         final String generatedSignature = DigestUtils.sha1Hex(rawData + sessionKey);
         return generatedSignature.equals(signature);
     }
-
-
 
 
 }

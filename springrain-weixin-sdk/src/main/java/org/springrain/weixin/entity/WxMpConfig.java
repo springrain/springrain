@@ -39,7 +39,6 @@ public class WxMpConfig extends BaseEntity implements IWxMpConfig {
     //columns START
 
 
-
     // id
     private java.lang.String id;
     // 站点Id
@@ -254,6 +253,7 @@ public class WxMpConfig extends BaseEntity implements IWxMpConfig {
                 .append("bak5[").append(getBak5()).append("],")
                 .toString();
     }
+
     @Override
     public int hashCode() {
         return new HashCodeBuilder()
@@ -309,7 +309,6 @@ public class WxMpConfig extends BaseEntity implements IWxMpConfig {
     }
 
 
-
     @Transient
     public Long getAccessTokenExpiresTime() {
         return accessTokenExpiresTime;
@@ -359,7 +358,6 @@ public class WxMpConfig extends BaseEntity implements IWxMpConfig {
     public boolean isCardApiTicketExpired() {
         return System.currentTimeMillis() > this.cardApiTicketExpiresTime;
     }
-
 
 
 }

@@ -20,7 +20,6 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -30,16 +29,14 @@ import java.util.UUID;
 
 public class MiniappQrcodeApi {
     private static final Logger logger = LoggerFactory.getLogger(MiniappQrcodeApi.class);
+    private static String getUnlimitedUrl = WxConsts.mpapiurl + "/wxa/getwxacodeunlimit?access_token=";
 
     private MiniappQrcodeApi() {
         throw new IllegalAccessError("工具类不能实例化");
     }
 
-    private static String getUnlimitedUrl = WxConsts.mpapiurl+"/wxa/getwxacodeunlimit?access_token=";
-
-
     public static ApiResult getUnlimited(IWxMiniappConfig config, MiniappQrcode miniappQrcode) throws Exception {
-        String apiurl=getUnlimitedUrl+config.getAccessToken();
+        String apiurl = getUnlimitedUrl + config.getAccessToken();
 
         HttpPost httpPost = new HttpPost(apiurl);
         httpPost.setEntity(new StringEntity(JsonUtils.writeValueAsString(miniappQrcode.getQrCodeMap())));
@@ -50,21 +47,21 @@ public class MiniappQrcodeApi {
             if (contentTypeHeader != null && contentTypeHeader.length > 0
                     && ContentType.APPLICATION_JSON.getMimeType()
                     .equals(ContentType.parse(contentTypeHeader[0].getValue()).getMimeType())) { //如果是json格式
-               String responseContent = EntityUtils.toString(entity, "UTF-8");
-               return new ApiResult(responseContent);
-            }else{
+                String responseContent = EntityUtils.toString(entity, "UTF-8");
+                return new ApiResult(responseContent);
+            } else {
                 byte[] byteArray = EntityUtils.toByteArray(entity);
-                String dirpath=GlobalStatic.rootDir+"/upload/miniappqrcode";
-                File dir=new File(GlobalStatic.rootDir+"/upload/miniappqrcode");
-                if (!dir.exists()){
+                String dirpath = GlobalStatic.rootDir + "/upload/miniappqrcode";
+                File dir = new File(GlobalStatic.rootDir + "/upload/miniappqrcode");
+                if (!dir.exists()) {
                     dir.mkdirs();
                 }
-                String filePath=dirpath+"/"+ UUID.randomUUID().toString()+".jpg";
-                File file=new File(filePath);
+                String filePath = dirpath + "/" + UUID.randomUUID().toString() + ".jpg";
+                File file = new File(filePath);
                 os = new BufferedOutputStream(new FileOutputStream(file));
                 os.write(byteArray);
                 os.flush();
-                ApiResult apiResult=new ApiResult();
+                ApiResult apiResult = new ApiResult();
                 apiResult.setFile(file);
                 return apiResult;
             }
@@ -72,16 +69,12 @@ public class MiniappQrcodeApi {
 
         } finally {
             httpPost.releaseConnection();
-            if (os!=null){
+            if (os != null) {
                 os.close();
             }
         }
 
     }
-
-
-
-
 
 
 }

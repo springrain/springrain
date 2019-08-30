@@ -44,7 +44,10 @@ public class ApiResult implements Serializable {
 
 
     private File file;
-    public ApiResult() {}
+
+    public ApiResult() {
+    }
+
     /**
      * 通过 json 构造 ApiResult，注意返回结果不为 json 的 api（如果有的话）
      *
@@ -61,7 +64,6 @@ public class ApiResult implements Serializable {
             throw new RuntimeException(e);
         }
     }
-
 
 
     public String getJson() {
@@ -101,25 +103,27 @@ public class ApiResult implements Serializable {
     }
 
 
-    public String getOpenId(){
+    public String getOpenId() {
         return get("openid");
     }
-    public String getUnionid(){
+
+    public String getUnionid() {
         return get("unionid");
     }
 
-    public String getSessionKey(){
+    public String getSessionKey() {
         return get("session_key");
     }
 
-    public String getScope(){
+    public String getScope() {
         return get("scope");
     }
-    public String getAccessToken(){
+
+    public String getAccessToken() {
         return get("access_token");
     }
 
-    public Integer getExpiresIn(){
+    public Integer getExpiresIn() {
         return getInt("expires_in");
     }
 

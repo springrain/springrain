@@ -17,7 +17,7 @@ import java.util.Map;
 @Service("wxMpConfigService")
 public class WxMpConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl implements IWxMpConfigService {
 
-    private String cacheKeyPrefix="wxmp_config_";
+    private String cacheKeyPrefix = "wxmp_config_";
 
     @Override
     public IWxMpConfig findWxMpConfigById(String id) {
@@ -27,7 +27,7 @@ public class WxMpConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl imple
 
         IWxMpConfig wxMpConfig = null;
         try {
-            wxMpConfig = super.getByCache(cacheKeyPrefix+id, GlobalStatic.wxConfigCacheKey, WxMpConfig.class);
+            wxMpConfig = super.getByCache(cacheKeyPrefix + id, GlobalStatic.wxConfigCacheKey, WxMpConfig.class);
             if (wxMpConfig == null) {
                 wxMpConfig = super.findById(id, WxMpConfig.class);
             }
@@ -35,12 +35,12 @@ public class WxMpConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl imple
                 return null;
             }
 
-            if(!wxMpConfig.isAccessTokenExpired()){
+            if (!wxMpConfig.isAccessTokenExpired()) {
                 AccessTokenApi.getAccessToken(wxMpConfig);
                 TicketApi.getCardApiTicket(wxMpConfig);
                 TicketApi.getJsApiTicket(wxMpConfig);
             }
-            super.putByCache(cacheKeyPrefix+id, GlobalStatic.wxConfigCacheKey, wxMpConfig);
+            super.putByCache(cacheKeyPrefix + id, GlobalStatic.wxConfigCacheKey, wxMpConfig);
 
         } catch (Exception e) {
             wxMpConfig = null;
@@ -63,7 +63,7 @@ public class WxMpConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl imple
 
         try {
             super.update(wxmpconfig);
-            super.putByCache(cacheKeyPrefix+id, GlobalStatic.wxConfigCacheKey, wxmpconfig);
+            super.putByCache(cacheKeyPrefix + id, GlobalStatic.wxConfigCacheKey, wxmpconfig);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }

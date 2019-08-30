@@ -2,25 +2,19 @@ package org.springrain.weixin.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
-import org.springrain.frame.dao.IBaseJdbcDao;
-import org.springrain.frame.service.BaseServiceImpl;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.weixin.entity.WxCpConfig;
 import org.springrain.weixin.sdk.common.wxconfig.IWxCpConfig;
 import org.springrain.weixin.service.IWxCpConfigService;
 
-import javax.annotation.Resource;
-
 @Service("wxCpConfigService")
 public class WxCpConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl implements IWxCpConfigService {
 
-    private String cacheKeyPrefix="wxminiapp_config_";
-
+    private String cacheKeyPrefix = "wxminiapp_config_";
 
 
     public WxCpConfigServiceImpl() {
     }
-
 
 
     @Override
@@ -31,7 +25,7 @@ public class WxCpConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl imple
 
         IWxCpConfig wxcpConfig = null;
         try {
-            wxcpConfig = super.getByCache(cacheKeyPrefix+id, GlobalStatic.wxConfigCacheKey, WxCpConfig.class);
+            wxcpConfig = super.getByCache(cacheKeyPrefix + id, GlobalStatic.wxConfigCacheKey, WxCpConfig.class);
         } catch (Exception e) {
             wxcpConfig = null;
             logger.error(e.getMessage(), e);
@@ -60,7 +54,7 @@ public class WxCpConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl imple
         }
 
         try {
-            super.putByCache(cacheKeyPrefix+id, GlobalStatic.wxConfigCacheKey, wxcpconfig);
+            super.putByCache(cacheKeyPrefix + id, GlobalStatic.wxConfigCacheKey, wxcpconfig);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }

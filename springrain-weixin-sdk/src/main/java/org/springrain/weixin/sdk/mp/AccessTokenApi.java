@@ -10,7 +10,6 @@ import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.frame.util.JsonUtils;
 import org.springrain.weixin.sdk.common.WxConsts;
 import org.springrain.weixin.sdk.common.wxconfig.IWxConfig;
-import org.springrain.weixin.sdk.common.wxconfig.IWxMpConfig;
 
 import java.util.Map;
 

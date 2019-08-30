@@ -1,13 +1,8 @@
 package org.springrain.weixin.service;
 
 import org.springrain.rpc.annotation.RpcServiceAnnotation;
-import org.springrain.weixin.entity.WxMpConfig;
 import org.springrain.weixin.entity.WxPayConfig;
-import org.springrain.weixin.sdk.common.wxconfig.IWxConfig;
-import org.springrain.weixin.sdk.common.wxconfig.IWxMpConfig;
 import org.springrain.weixin.sdk.common.wxconfig.IWxPayConfig;
-
-import java.util.Map;
 
 //@RpcServiceAnnotation(implpackage = "weixin.wxconfig.impl")
 @RpcServiceAnnotation
@@ -28,9 +23,6 @@ public interface IWxPayConfigService {
      * @return
      */
     IWxPayConfig updateWxPayConfig(WxPayConfig wxpayconfig);
-
-
-
 
 
 }
