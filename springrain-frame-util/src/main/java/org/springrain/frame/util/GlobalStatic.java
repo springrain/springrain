@@ -94,6 +94,10 @@ public class GlobalStatic {
 	public static String jwtSecret="dev";
 	// 前后台传递的tokenKey
 	public static  String jwtTokenKey = "abltoken";
+
+	public static  String  USER_SPECICAL_INFO = "USER_SPECICAL_INFO";
+
+
 	// jwt token的超时时间
 	public static  long jwtTimeout = 10*60*60*1000;
 	// 如果token错误,跳转地址的key

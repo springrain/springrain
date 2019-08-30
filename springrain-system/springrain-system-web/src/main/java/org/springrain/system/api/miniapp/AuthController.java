@@ -21,6 +21,7 @@ import org.springrain.weixin.sdk.miniapp.MiniappAuthApi;
 import org.springrain.weixin.service.IWxMiniappConfigService;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 
@@ -76,6 +77,13 @@ public class AuthController extends BaseController {
            user.setUserName((String)map.get("nickName"));
            user.setAvatar((String)map.get("avatarUrl"));
 
+           user.setCreateTime(new Date());
+           user.setUpdateTime(new Date());
+           user.setUpdateUserId("0");
+           user.setCreateUserId("0");
+
+
+
            user.setBak1((String)map.get("country") + ","+ (String)map.get("province") + ","+(String)map.get("city"));
 
            userService.save(user);
@@ -85,8 +93,9 @@ public class AuthController extends BaseController {
 
         String jwtToken = userService.wrapJwtTokenByUser(user);
         resutltMap.put(GlobalStatic.jwtTokenKey, jwtToken);
+
+        resutltMap.put(GlobalStatic.USER_SPECICAL_INFO,user);
         returnObject.setResult(resutltMap);
-        returnObject.setResult(user);
 
         userService.putByCache(GlobalStatic.wxConfigCacheKey,"sessionKey_"+user.getId(),apiResult.getSessionKey());
         return returnObject;
@@ -101,7 +110,7 @@ public class AuthController extends BaseController {
           String sessionKey=userService.getByCache(GlobalStatic.wxConfigCacheKey,"sessionKey_"+userId,String.class);
           String json=WxCryptUtils.decrypt(sessionKey,encryptedData,iv);
           Map m= JsonUtils.readValue(json,Map.class);
-          String phone=(String)map.get("phoneNumber");
+          String phone=(String)m.get("phoneNumber");
           if (StringUtils.isBlank(phone)){
               return ReturnDatas.getErrorReturnDatas("数据错误");
           }
