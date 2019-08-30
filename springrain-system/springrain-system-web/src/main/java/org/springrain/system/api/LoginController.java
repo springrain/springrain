@@ -1,7 +1,9 @@
 package org.springrain.system.api;
 
 import com.google.common.collect.Maps;
+import io.protostuff.Request;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,12 +18,18 @@ import org.springrain.system.base.BaseController;
 import org.springrain.system.entity.User;
 import org.springrain.system.service.IUserRoleMenuService;
 import org.springrain.system.service.IUserService;
+import org.springrain.weixin.sdk.common.wxconfig.IWxMiniappConfig;
+import org.springrain.weixin.sdk.common.wxconfig.IWxMpConfig;
+import org.springrain.weixin.sdk.open.SnsApi;
+import org.springrain.weixin.service.IWxMiniappConfigService;
+import org.springrain.weixin.service.IWxMpConfigService;
 
 import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 
 @RestController
@@ -32,7 +40,12 @@ public class LoginController extends BaseController {
     private IUserService userService;
 
     @Resource
+    private IWxMpConfigService wxMpConfigService;
+
+    @Resource
     private IUserRoleMenuService userRoleMenuService;
+
+    private static final String redirect_uri = "";
 
 
     /**
@@ -107,6 +120,40 @@ public class LoginController extends BaseController {
         return returnDatas;
 
     }
+
+    /**
+     * 获取登陆二维码
+     * @param map
+     * @return
+     */
+    @RequestMapping(value="/system/qrcode",method = RequestMethod.POST)
+    public ReturnDatas qrcode(@RequestBody Map map){
+        ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
+        String appId=(String)map.get("appId");
+        final IWxMpConfig config = wxMpConfigService.findWxMpConfigById(appId);
+        String url = SnsApi.getQrConnectURL(config, redirect_uri);
+        returnObject.setResult(url);
+        return returnObject;
+    }
+//
+//    {
+//        "access_token":"ACCESS_TOKEN",
+//            "expires_in":7200,
+//            "refresh_token":"REFRESH_TOKEN",
+//            "openid":"OPENID",
+//            "scope":"SCOPE",
+//            "unionid": "o6_bmasdasdsad6_2sgVt7hMZOPfL"
+//    }
+
+
+    @RequestMapping(value = "/system/qrcodeback",method = RequestMethod.POST)
+    public ReturnDatas qrcodeback(@RequestBody Map map){
+        ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
+
+        return returnObject;
+    }
+
+
 
 
     /**
