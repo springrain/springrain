@@ -38,11 +38,11 @@ public class MiniappQrcodeApi {
     private static String getUnlimitedUrl = WxConsts.mpapiurl+"/wxa/getwxacodeunlimit?access_token=";
 
 
-    public static ApiResult getUnlimited(IWxMiniappConfig config, Map parameters) throws Exception {
+    public static ApiResult getUnlimited(IWxMiniappConfig config, MiniappQrcode miniappQrcode) throws Exception {
         String apiurl=getUnlimitedUrl+config.getAccessToken();
 
         HttpPost httpPost = new HttpPost(apiurl);
-        httpPost.setEntity(new StringEntity(JsonUtils.writeValueAsString(parameters)));
+        httpPost.setEntity(new StringEntity(JsonUtils.writeValueAsString(miniappQrcode.getQrCodeMap())));
         OutputStream os = null;
         try (final CloseableHttpResponse response = HttpClientUtils.getHttpClient().execute(httpPost)) {
             HttpEntity entity = response.getEntity();
