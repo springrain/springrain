@@ -112,6 +112,16 @@ public class ApiResult implements Serializable {
         return get("session_key");
     }
 
+    public String getScope(){
+        return get("scope");
+    }
+    public String getAccessToken(){
+        return get("access_token");
+    }
+
+    public Integer getExpiresIn(){
+        return getInt("expires_in");
+    }
 
     @SuppressWarnings("unchecked")
     public <T> T get(String name) {

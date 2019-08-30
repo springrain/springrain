@@ -6,31 +6,140 @@
 
 package org.springrain.weixin.sdk.open;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springrain.frame.util.HttpClientUtils;
+import org.springrain.frame.util.JsonUtils;
 import org.springrain.weixin.sdk.common.ApiResult;
 import org.springrain.weixin.sdk.common.WxConsts;
 import org.springrain.weixin.sdk.common.wxconfig.IWxMpConfig;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.Map;
+
 /**
- * 获取用户基本信息(UnionID机制)
- * <p>
- * http://mp.weixin.qq.com/wiki/1/8a5ce6257f1d3b2afb20f83e72b72ce9.html
+ * 网页授权获取 access_token API
  */
 public class SnsApi {
-    private static String getUserInfo = WxConsts.mpapiurl + "/sns/userinfo?access_token=";
+    private static String snsAccessTokenUrl = WxConsts.mpapiurl + "/sns/oauth2";
+    private static String authorizeUrL = WxConsts.mpopenurl + "/connect/oauth2/authorize";
+    private static String qrconnectUrl = WxConsts.mpopenurl + "/connect/qrconnect";
+    private static String userinfoUrl=WxConsts.mpopenurl + "/sns/userinfo?access_token=";
+
 
     /**
-     * 获取用户个人信
+     * 生成Authorize链接
      *
-     * @param wxmpconfig 调用凭证access_token
-     * @param openId     普通用户的标识，对当前开发者帐号唯一
-     * @return ApiResult
+     * @param redirect_uri 回跳地址
+     * @param snsapiBase   snsapi_base（不弹出授权页面，只能拿到用户openid）snsapi_userinfo（弹出授权页面，这个可以通过 openid 拿到昵称、性别、所在地）
+     * @return url
      */
-    public static ApiResult getUserInfo(IWxMpConfig wxmpconfig, String openId) {
+    public static String getAuthorizeURL(IWxMpConfig wxmpconfig, String redirect_uri, boolean snsapiBase) {
+        return getAuthorizeURL(wxmpconfig, redirect_uri, null, snsapiBase);
+    }
 
-        String apiurl = getUserInfo + wxmpconfig.getAccessToken() + "&openId=" + openId + "&lang=zh_CN";
+    /**
+     * 生成Authorize链接
+     *
+     * @param redirectUri 回跳地址
+     * @param state       重定向后会带上state参数，开发者可以填写a-zA-Z0-9的参数值，最多128字节
+     * @param snsapiBase  snsapi_base（不弹出授权页面，只能拿到用户openid）snsapi_userinfo（弹出授权页面，这个可以通过 openid 拿到昵称、性别、所在地）
+     * @return url
+     */
+    public static String getAuthorizeURL(IWxMpConfig wxmpconfig, String redirectUri, String state, boolean snsapiBase) {
 
-        return new ApiResult(HttpClientUtils.sendHttpGet(getUserInfo));
+
+        String apiurl = authorizeUrL + "?appid=" + wxmpconfig.getAppId() + "&response_type=code&redirect_uri=" + redirectUri;
+
+        // snsapi_base（不弹出授权页面，只能拿到用户openid）
+        // snsapi_userinfo（弹出授权页面，这个可以通过 openid 拿到昵称、性别、所在地）
+        if (snsapiBase) {
+            apiurl = apiurl + "&scope=snsapi_base";
+        } else {
+            apiurl = apiurl + "&scope=snsapi_userinfo";
+        }
+
+        if (StringUtils.isBlank(state)) {
+            apiurl = apiurl + "&state=wx#wechat_redirect";
+        } else {
+            apiurl = apiurl + "&state=" + state.concat("#wechat_redirect");
+        }
+
+        return apiurl;
+    }
+
+
+    /**
+     * 生成网页二维码授权链接
+     *
+     * @param redirect_uri 回跳地址
+     * @return url
+     */
+    public static String getQrConnectURL(IWxMpConfig wxmpconfig, String redirect_uri) {
+        return getQrConnectURL(wxmpconfig, redirect_uri, null);
+    }
+
+    /**
+     * 生成网页二维码授权链接
+     *
+     * @param redirect_uri 回跳地址
+     * @param state        重定向后会带上state参数，开发者可以填写a-zA-Z0-9的参数值，最多128字节
+     * @return url
+     */
+    public static String getQrConnectURL(IWxMpConfig wxmpconfig, String redirect_uri, String state)  {
+
+        try {
+            if (StringUtils.isNotBlank(redirect_uri)) {
+                redirect_uri = URLEncoder.encode(redirect_uri, "UTF-8");
+            }
+        }catch (Exception e){
+            return null;
+        }
+
+
+        String apiurl = qrconnectUrl + "?appid" + wxmpconfig.getAppId() + "&response_type=code&redirect_uri=" + redirect_uri + "&scope=snsapi_login";
+        if (StringUtils.isBlank(state)) {
+            apiurl = apiurl + "&state=wx#wechat_redirect";
+        } else {
+            apiurl = apiurl + "&state=" + state.concat("#wechat_redirect");
+        }
+        return apiurl;
+    }
+
+    /**
+     * 用code换取accessToken
+     * @param wxmpconfig
+     * @param code
+     * @return
+     */
+    public static ApiResult getAccessToken(IWxMpConfig wxmpconfig, String code) {
+        //?appid={appid}&secret={secret}&code={code}&grant_type=authorization_code
+        final String accessTokenUrl = snsAccessTokenUrl + "?appid=" + wxmpconfig.getAppId() + "&secret=" + wxmpconfig.getSecret() + "&code=" + code + "&grant_type=authorization_code";
+        String json = HttpClientUtils.sendHttpGet(accessTokenUrl);
+        ApiResult apiResult=new ApiResult(json);
+        wxmpconfig.setAccessToken(apiResult.getAccessToken());
+        wxmpconfig.setAccessTokenExpiresTime(Long.valueOf(apiResult.getExpiresIn()));
+        return apiResult;
+    }
+
+
+    /**
+     * 获取用的信息,包括unionid
+     * @param wxmpconfig
+     * @param code
+     * @return
+     */
+    public static WxUserInfo getWxUserInfo(IWxMpConfig wxmpconfig, String code) {
+        ApiResult apiResult=getAccessToken(wxmpconfig,code);
+
+        if (!apiResult.isSucceed()){
+            return null;
+        }
+
+        String apiUrl=userinfoUrl+apiResult.getAccessToken()+"&openid="+apiResult.getOpenId()+"&lang=zh_CN";
+        String userInfoJson= HttpClientUtils.sendHttpGet(apiUrl);
+        WxUserInfo wxUserInfo=  JsonUtils.readValue(userInfoJson,WxUserInfo.class);
+        return wxUserInfo;
     }
 
 }

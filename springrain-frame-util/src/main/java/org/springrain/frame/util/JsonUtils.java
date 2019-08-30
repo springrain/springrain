@@ -120,8 +120,8 @@ public class JsonUtils {
 	 * @param clazz   对象类型 例如 User.class
 	 * @return
 	 */
-	public static <T> List<T> readValues(String content, Class<T> clazz) {
-		return (List<T>) readValues(content, ArrayList.class, clazz);
+	public static <T> List<T> readValueList(String content, Class<T> clazz) {
+		return (List<T>) readValueList(content, ArrayList.class, clazz);
 	}
 
 	/**
@@ -132,7 +132,7 @@ public class JsonUtils {
 	 * @param clazz           对象类型 例如 User.class
 	 * @return
 	 */
-	private static Object readValues(String content, Class collectionClass, Class clazz) {
+	private static Object readValueList(String content, Class collectionClass, Class clazz) {
 		Object o = null;
 
 		try {
