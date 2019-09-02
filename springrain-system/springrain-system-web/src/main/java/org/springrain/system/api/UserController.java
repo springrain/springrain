@@ -118,7 +118,7 @@ public class UserController extends BaseController {
             if(StringUtils.isBlank(id)){
                 return ReturnDatas.getErrorReturnDatas(MessageUtils.UPDATE_NULL_ERROR);
             }
-            userService.update(user);
+            userService.update(user,false);
 
             returnObject.setResult(user);
         } catch (Exception e) {
