@@ -10,6 +10,7 @@ import org.springframework.cache.CacheManager;
 import org.springframework.jdbc.core.CallableStatementCreator;
 import org.springframework.jdbc.core.SqlParameter;
 import org.springrain.frame.dao.IBaseJdbcDao;
+import org.springrain.frame.entity.BaseMapEntity;
 import org.springrain.frame.entity.IBaseEntity;
 import org.springrain.frame.util.*;
 
@@ -248,9 +249,23 @@ public abstract class BaseServiceImpl implements IBaseService {
 	}
 
 	@Override
+	public Object saveMapEntity(BaseMapEntity mapEntity) throws Exception {
+		return getBaseDao().saveMapEntity(mapEntity);
+	}
+
+
+
+	@Override
 	public List<Integer> save(List list) throws Exception {
 		return getBaseDao().save(list);
 	}
+
+	@Override
+	public List<Integer> saveMapEntity(List<BaseMapEntity> list) throws Exception {
+		return getBaseDao().saveMapEntity(list);
+	}
+
+
 
 	@Override
 	public Integer update(IBaseEntity entity) throws Exception {

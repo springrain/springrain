@@ -3,6 +3,7 @@ package org.springrain.frame.service;
 import org.springframework.cache.Cache;
 import org.springframework.jdbc.core.CallableStatementCreator;
 import org.springframework.jdbc.core.SqlParameter;
+import org.springrain.frame.entity.BaseMapEntity;
 import org.springrain.frame.entity.IBaseEntity;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.Page;
@@ -306,7 +307,13 @@ public interface IBaseService {
 	 * @throws Exception
 	 */
 	public Object save(IBaseEntity entity) throws Exception;
-
+	/**
+	 * 保存一个BaseMapEntity对象
+	 * @param mapEntity
+	 * @return
+	 * @throws Exception
+	 */
+	public Object saveMapEntity(BaseMapEntity mapEntity) throws Exception;
 	/**
 	 * 批量保存对象
 	 * 
@@ -316,6 +323,15 @@ public interface IBaseService {
 	 */
 	public List<Integer> save(List list) throws Exception;
 
+	/**
+	 * 批量更新BaseMapEntity
+	 *
+	 * @param list
+	 * @return List
+	 * @throws Exception
+	 */
+
+	public List<Integer> saveMapEntity(List<BaseMapEntity> list) throws Exception;
 	/**
 	 * 更新一个对象,id必须有值
 	 * @param entity

@@ -2,6 +2,7 @@ package org.springrain.frame.dao;
 
 import org.springframework.jdbc.core.CallableStatementCreator;
 import org.springframework.jdbc.core.SqlParameter;
+import org.springrain.frame.entity.BaseMapEntity;
 import org.springrain.frame.entity.IBaseEntity;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.Page;
@@ -203,6 +204,15 @@ public interface IBaseJdbcDao {
 	public Object save(IBaseEntity entity) throws Exception;
 
 	/**
+	 * 保存一个BaseMapEntity对象
+	 * @param mapEntity
+	 * @return
+	 * @throws Exception
+	 */
+	public Object saveMapEntity(BaseMapEntity mapEntity) throws Exception;
+
+
+	/**
 	 * 批量更新
 	 * 
 	 * @param list
@@ -211,6 +221,19 @@ public interface IBaseJdbcDao {
 	 */
 
 	public List<Integer> save(List<IBaseEntity> list) throws Exception;
+
+
+	/**
+	 * 批量更新BaseMapEntity
+	 *
+	 * @param list
+	 * @return List
+	 * @throws Exception
+	 */
+
+	public List<Integer> saveMapEntity(List<BaseMapEntity> list) throws Exception;
+
+
 
 	/**
 	 * 更新一个对象,更新对象映射的所有字段
@@ -238,6 +261,7 @@ public interface IBaseJdbcDao {
 	 */
 
 	public List<Integer> update(List<IBaseEntity> list) throws Exception;
+
 
 	/**
 	 * 批量更新对象,id必须有值,updatenotnull=true 不更新为null的字段,false更新所有字段

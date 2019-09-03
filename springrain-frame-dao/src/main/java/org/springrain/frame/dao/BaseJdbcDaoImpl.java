@@ -3,6 +3,7 @@ package org.springrain.frame.dao;
 import io.seata.core.context.RootContext;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.message.BasicNameValuePair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -20,6 +21,7 @@ import org.springframework.transaction.NoTransactionException;
 import org.springframework.transaction.interceptor.TransactionInterceptor;
 import org.springrain.frame.dao.dialect.IDialect;
 import org.springrain.frame.entity.AuditLog;
+import org.springrain.frame.entity.BaseMapEntity;
 import org.springrain.frame.entity.IBaseEntity;
 import org.springrain.frame.task.LuceneTask;
 import org.springrain.frame.util.*;
@@ -38,7 +40,7 @@ import java.util.*;
  * @version 2013-03-19 11:08:15
  * @see org.springrain.frame.dao.BaseJdbcDaoImpl
  */
-public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
+public abstract   class BaseJdbcDaoImpl implements IBaseJdbcDao {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -722,9 +724,35 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
 	}
 
 	@Override
+	public Object saveMapEntity(BaseMapEntity mapEntity) throws Exception {
+		if (mapEntity==null||StringUtils.isBlank(mapEntity.getTableName())){
+			return null;
+		}
+
+		Map<String, Object> dbField = mapEntity.getDbField();
+		if (dbField.size()<1){
+			return null;
+		}
+
+		checkMethodName();
+		String sql=wrapSaveMapEntitySQl(mapEntity);
+		if (StringUtils.isBlank(sql)){
+			return null;
+		}
+		// 打印sql
+		logInfoSql(sql);
+		return getWriteJdbc().update(sql, dbField);
+	}
+
+
+
+
+	@Override
 	public List<Integer> update(List<IBaseEntity> list) throws Exception {
 		return update(list, false);
 	}
+
+
 
 	@Override
 	public List<Integer> update(List<IBaseEntity> list, boolean onlyupdatenotnull) throws Exception {
@@ -810,6 +838,51 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
 		} else {
 			return saveForLocalTx(list);
 		}
+	}
+
+	@Override
+	public List<Integer> saveMapEntity(List<BaseMapEntity> list) throws Exception {
+
+		if (CollectionUtils.isEmpty(list)){
+			return null;
+		}
+
+		BaseMapEntity mapEntity=list.get(0);
+		if (mapEntity==null||StringUtils.isBlank(mapEntity.getTableName())){
+			return null;
+		}
+
+		Map<String, Object> dbField = mapEntity.getDbField();
+		if (dbField.size()<1){
+			return null;
+		}
+
+		checkMethodName();
+		String sql=wrapSaveMapEntitySQl(mapEntity);
+		if (StringUtils.isBlank(sql)){
+			return null;
+		}
+
+		List<Map<String,Object>> maps =new ArrayList<>();
+
+		for (BaseMapEntity bme:list){
+			maps.add(bme.getDbField());
+		}
+
+		// 打印sql
+		logInfoSql(sql);
+		int[] batchUpdate = getWriteJdbc().batchUpdate(sql, SqlParameterSourceUtils.createBatch(maps));
+
+		List<Integer> updateList=new ArrayList<>();
+
+		if (batchUpdate.length < 1) {
+			return updateList;
+		}
+
+		for (int i : batchUpdate) {
+			updateList.add(i);
+		}
+		return updateList;
 	}
 
 	/**
@@ -923,11 +996,39 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
 		return str + whereSQL;
 	}
 
+	/**
+	 * 构造mapEntity sql
+	 * @param mapEntity
+	 * @return
+	 */
+	private String wrapSaveMapEntitySQl(BaseMapEntity mapEntity){
+		StringBuffer sqlBuffer=new StringBuffer();
+		StringBuffer values=new StringBuffer(" VALUES (");
+		sqlBuffer.append("INSERT INTO ").append(mapEntity.getTableName()).append(" (");
+
+		Map<String, Object> dbField = mapEntity.getDbField();
+		if (dbField.size()<1){
+			return null;
+		}
+
+
+		for (Map.Entry<String, Object> m : dbField.entrySet()) {
+			sqlBuffer.append(m.getKey()).append(",");
+			values.append(":"+m.getKey()).append(",");
+		}
+
+		String sql= sqlBuffer.substring(0,sqlBuffer.length()-1)+") "+values.substring(0,sqlBuffer.length()-1)+");";
+		return sql;
+	}
+
+
 	@Override
 	public Integer update(IBaseEntity entity) throws Exception {
 		return update(entity, false);
 
 	}
+
+
 
 	@Override
 	public Integer update(IBaseEntity entity, boolean onlyupdatenotnull) throws Exception {
