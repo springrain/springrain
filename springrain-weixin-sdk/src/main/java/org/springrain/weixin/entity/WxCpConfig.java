@@ -5,6 +5,7 @@ import org.springrain.weixin.sdk.common.wxconfig.IWxCpConfig;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Table(name = "wx_cpconfig")
 public class WxCpConfig extends BaseEntity implements IWxCpConfig {
@@ -12,6 +13,13 @@ public class WxCpConfig extends BaseEntity implements IWxCpConfig {
 
     private volatile String id;
 
+    // 应用密钥
+    private java.lang.String secret;
+    // 开发者Id
+    private java.lang.String appId;
+
+    private String accessToken;
+    private Long accessTokenExpiresTime = 0L;
 
     @Override
     @Id
@@ -22,6 +30,54 @@ public class WxCpConfig extends BaseEntity implements IWxCpConfig {
     @Override
     public void setId(String id) {
         this.id = id;
+    }
+
+    @Override
+    public String getAppId() {
+        return appId;
+    }
+
+    @Override
+    public void setAppId(String appId) {
+        this.appId = appId;
+    }
+
+
+    @Override
+    @Transient
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    @Override
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
+
+    @Transient
+    public Long getAccessTokenExpiresTime() {
+        return accessTokenExpiresTime;
+    }
+
+    @Override
+    public void setAccessTokenExpiresTime(Long accessTokenExpiresTime) {
+        this.accessTokenExpiresTime = System.currentTimeMillis() + (accessTokenExpiresTime - 600) * 1000L;//预留10分钟
+    }
+
+    @Override
+    @Transient
+    public boolean isAccessTokenExpired() {
+        return System.currentTimeMillis() > this.accessTokenExpiresTime;
+    }
+
+    @Override
+    public String getSecret() {
+        return null;
+    }
+
+    @Override
+    public void setSecret(String secret) {
+
     }
 
 

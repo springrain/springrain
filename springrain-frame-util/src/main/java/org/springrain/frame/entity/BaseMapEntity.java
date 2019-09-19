@@ -1,59 +1,109 @@
 package org.springrain.frame.entity;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 使用Map作为实体类的积累,set方法用于设置数据库字段,put方法用于自定义属性
  */
-public  class BaseMapEntity implements Serializable {
+public class BaseMapEntity implements Serializable {
 
     private String tableName;
 
+    private String pkName = "id";
 
 
+    private Map<String, Object> dbFieldValue = new HashMap<>();
 
-    private Map<String,Object> dbField=new ConcurrentHashMap<>() ;
-
-    private Map<String,Object> all=new ConcurrentHashMap<>();
+    private Map<String, Object> allValue = new HashMap<>();
 
 
-    public BaseMapEntity set(String key,Object object){
-        dbField.put(key,object);
-        all.put(key,object);
-        return this;
-    }
-    public BaseMapEntity put(String key,Object object){
-        all.put(key,object);
+    public BaseMapEntity set(String key, Object object) {
+        dbFieldValue.put(key, object);
+        allValue.put(key, object);
         return this;
     }
 
-    public Object get(String key,Object object){
-        return all.get(key);
+    public BaseMapEntity put(String key, Object object) {
+        allValue.put(key, object);
+        return this;
     }
 
-
-
-    public void setTableName(String tableName) {
-        this.tableName = tableName;
+    public Object get(String key) {
+        return allValue.get(key);
     }
 
-    public  String  getTableName(){
+    public String getTableName() {
         return tableName;
     }
 
-    public Map<String, Object> getDbField() {
-        return dbField;
+    public void setTableName(String tableName) {
+        if (StringUtils.isBlank(tableName)) {
+            return;
+        }
+
+        // 如果包含特殊字符
+        if (tableName.contains(" ") || tableName.contains(";") || tableName.contains("'") || tableName.contains("\\") || tableName.contains("(")) {
+            return;
+        }
+
+
+
+        this.tableName = tableName;
     }
 
-    public void setDbField(Map<String, Object> dbField) {
-        this.dbField = dbField;
-        all.putAll(dbField);
+    public Object getPkValue() {
+
+        return get(getPkName());
     }
 
-    public Map<String, Object> getAll() {
-        return all;
+    public void setPkValue(Object pkValue) {
+        set(getPkName(), getPkName());
+    }
+
+    public String getPkName() {
+        return pkName;
+    }
+
+    public void setPkName(String pkName) {
+        this.pkName = pkName;
+    }
+
+
+    public Map<String, Object> getDbFieldValue() {
+        return dbFieldValue;
+    }
+
+    public void setDbFieldValue(Map<String, Object> dbFieldValue) {
+
+        if (dbFieldValue == null || dbFieldValue.size() < 1) {
+            return;
+        }
+
+        /*
+        for (Map.Entry<String, Object> m : dbField.entrySet()) {
+
+            if (m.getKey() == null || m.getValue() == null) {
+            //if (m.getKey() == null) {
+                this.dbField.put(m.getKey(), null);
+                this.all.put(m.getKey(), null);
+                continue;
+            }
+            this.dbField.put(m.getKey(), m.getValue());
+            this.all.put(m.getKey(), m.getValue());
+        }
+
+         */
+
+        this.dbFieldValue = dbFieldValue;
+        this.allValue.putAll(dbFieldValue);
+    }
+
+    public Map<String, Object> getAllValue() {
+        return allValue;
     }
 
 }

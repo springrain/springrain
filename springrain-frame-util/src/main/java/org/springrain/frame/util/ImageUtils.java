@@ -1,11 +1,13 @@
 package org.springrain.frame.util;
 
-import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Rectangle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReadParam;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.ImageInputStream;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -14,41 +16,27 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Iterator;
 
-import javax.imageio.ImageIO;
-import javax.imageio.ImageReadParam;
-import javax.imageio.ImageReader;
-import javax.imageio.stream.ImageInputStream;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * 图片工具类
- * 
- * @author caomei
  *
+ * @author caomei
  */
 public final class ImageUtils {
+
+    private static final Logger logger = LoggerFactory.getLogger(ImageUtils.class);
 
     private ImageUtils() {
         throw new IllegalAccessError("工具类不能实例化");
     }
 
-    private static final Logger logger = LoggerFactory.getLogger(ImageUtils.class);
-
     /**
      * 图片水印
-     * 
-     * @param pressImg
-     *            水印图片
-     * @param targetImg
-     *            目标图片
-     * @param x
-     *            修正值 默认在中间
-     * @param y
-     *            修正值 默认在中间
-     * @param alpha
-     *            透明度
+     *
+     * @param pressImg  水印图片
+     * @param targetImg 目标图片
+     * @param x         修正值 默认在中间
+     * @param y         修正值 默认在中间
+     * @param alpha     透明度
      */
     public final static void pressImage(String pressImg, String targetImg, int x, int y, float alpha) {
         try {
@@ -76,28 +64,19 @@ public final class ImageUtils {
 
     /**
      * 文字水印
-     * 
-     * @param pressText
-     *            水印文字
-     * @param targetImg
-     *            目标图片
-     * @param fontName
-     *            字体名称
-     * @param fontStyle
-     *            字体样式
-     * @param color
-     *            字体颜色
-     * @param fontSize
-     *            字体大小
-     * @param x
-     *            修正值
-     * @param y
-     *            修正值
-     * @param alpha
-     *            透明度
+     *
+     * @param pressText 水印文字
+     * @param targetImg 目标图片
+     * @param fontName  字体名称
+     * @param fontStyle 字体样式
+     * @param color     字体颜色
+     * @param fontSize  字体大小
+     * @param x         修正值
+     * @param y         修正值
+     * @param alpha     透明度
      */
     public static void pressText(String pressText, String targetImg, String fontName, int fontStyle, Color color,
-            int fontSize, int x, int y, float alpha) {
+                                 int fontSize, int x, int y, float alpha) {
         try {
             File img = new File(targetImg);
             Image src = ImageIO.read(img);
@@ -119,106 +98,102 @@ public final class ImageUtils {
 
     /**
      * 缩放
-     * 
-     * @param filePath
-     *            图片路径
-     * @param height
-     *            高度
-     * @param width
-     *            宽度
-     * @param bb
-     *            比例不对时是否需要补白
+     *
+     * @param filePath 图片路径
+     * @param height   高度
+     * @param width    宽度
+     * @param bb       比例不对时是否需要补白
      */
     @SuppressWarnings("static-access")
     public static void resize(String filePath, int height, int width, boolean bb) {
-		File f = new File(filePath);
-		resize(f, height, width, bb);
+        File f = new File(filePath);
+        resize(f, height, width, bb);
     }
 
-	/**
-	 * 根据图片宽度压缩等比压缩图片
-	 * 
-	 * @param f     图片文件
-	 * @param width 图片宽度
-	 * @param bb    比例不对时是否需要补白
-	 */
-	public static void resize(File f, int width, boolean bb) {
+    /**
+     * 根据图片宽度压缩等比压缩图片
+     *
+     * @param f     图片文件
+     * @param width 图片宽度
+     * @param bb    比例不对时是否需要补白
+     */
+    public static void resize(File f, int width, boolean bb) {
 
-		try {
-			BufferedImage bi = ImageIO.read(f);
+        try {
+            BufferedImage bi = ImageIO.read(f);
 
-			int w = bi.getWidth();
-			int h = bi.getHeight();
-			int height = width;
-			// 如果图片的宽度大于等于1000像素,就按宽度1000,高度是根据图片宽度比例计算出来进行压缩
-			if (w >= width) {
-				height = (width * h) / w;
-			} else {
-				// 如果图片宽度小于1000像素,就按图片的宽度和高度进行压缩(防止图片变形)
-				width = w;
-				height = h;
-			}
+            int w = bi.getWidth();
+            int h = bi.getHeight();
+            int height = width;
+            // 如果图片的宽度大于等于1000像素,就按宽度1000,高度是根据图片宽度比例计算出来进行压缩
+            if (w >= width) {
+                height = (width * h) / w;
+            } else {
+                // 如果图片宽度小于1000像素,就按图片的宽度和高度进行压缩(防止图片变形)
+                width = w;
+                height = h;
+            }
 
-			if (height <= 0) {
-				return;
-			}
+            if (height <= 0) {
+                return;
+            }
 
-			ImageUtils.resize(f, height, width, true);
-		} catch (IOException e) {
-			logger.error(e.getMessage(), e);
-		}
+            ImageUtils.resize(f, height, width, true);
+        } catch (IOException e) {
+            logger.error(e.getMessage(), e);
+        }
 
-	}
+    }
 
-	/**
-	 * 缩放
-	 * 
-	 * @param filePath 图片路径
-	 * @param height   高度
-	 * @param width    宽度
-	 * @param bb       比例不对时是否需要补白
-	 */
-	@SuppressWarnings("static-access")
-	public static void resize(File f, int height, int width, boolean bb) {
-		try {
-			double ratio = 0.0; // 缩放比例
-			// 获取图片后缀
-			String fileName = f.getName();
-			String prefix = f.getName().substring(fileName.lastIndexOf(".") + 1);
+    /**
+     * 缩放
+     *
+     * @param filePath 图片路径
+     * @param height   高度
+     * @param width    宽度
+     * @param bb       比例不对时是否需要补白
+     */
+    @SuppressWarnings("static-access")
+    public static void resize(File f, int height, int width, boolean bb) {
+        try {
+            double ratio = 0.0; // 缩放比例
+            // 获取图片后缀
+            String fileName = f.getName();
+            String prefix = f.getName().substring(fileName.lastIndexOf(".") + 1);
 
-			BufferedImage bi = ImageIO.read(f);
-			Image itemp = bi.getScaledInstance(width, height, bi.SCALE_SMOOTH);
-			// 计算比例
-			if ((bi.getHeight() > height) || (bi.getWidth() > width)) {
-				if (bi.getHeight() > bi.getWidth()) {
-					ratio = (new Integer(height)).doubleValue() / bi.getHeight();
-				} else {
-					ratio = (new Integer(width)).doubleValue() / bi.getWidth();
-				}
-				AffineTransformOp op = new AffineTransformOp(AffineTransform.getScaleInstance(ratio, ratio), null);
-				itemp = op.filter(bi, null);
-			}
-			if (bb) {
-				BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_USHORT_555_RGB);
-				Graphics2D g = image.createGraphics();
-				g.setColor(Color.white);
-				g.fillRect(0, 0, width, height);
-				if (width == itemp.getWidth(null))
-					g.drawImage(itemp, 0, (height - itemp.getHeight(null)) / 2, itemp.getWidth(null),
-							itemp.getHeight(null), Color.white, null);
-				else
-					g.drawImage(itemp, (width - itemp.getWidth(null)) / 2, 0, itemp.getWidth(null),
-							itemp.getHeight(null), Color.white, null);
-				g.dispose();
-				itemp = image;
-			}
-			// ImageIO.write((BufferedImage) itemp, "jpg", f);
-			ImageIO.write((BufferedImage) itemp, prefix, f);
-		} catch (IOException e) {
-			logger.error(e.getMessage(), e);
-		}
+            BufferedImage bi = ImageIO.read(f);
+            Image itemp = bi.getScaledInstance(width, height, bi.SCALE_SMOOTH);
+            // 计算比例
+            if ((bi.getHeight() > height) || (bi.getWidth() > width)) {
+                if (bi.getHeight() > bi.getWidth()) {
+                    ratio = (new Integer(height)).doubleValue() / bi.getHeight();
+                } else {
+                    ratio = (new Integer(width)).doubleValue() / bi.getWidth();
+                }
+                AffineTransformOp op = new AffineTransformOp(AffineTransform.getScaleInstance(ratio, ratio), null);
+                itemp = op.filter(bi, null);
+            }
+            if (bb) {
+                BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_USHORT_555_RGB);
+                Graphics2D g = image.createGraphics();
+                g.setColor(Color.white);
+                g.fillRect(0, 0, width, height);
+                if (width == itemp.getWidth(null))
+                    g.drawImage(itemp, 0, (height - itemp.getHeight(null)) / 2, itemp.getWidth(null),
+                            itemp.getHeight(null), Color.white, null);
+                else
+                    g.drawImage(itemp, (width - itemp.getWidth(null)) / 2, 0, itemp.getWidth(null),
+                            itemp.getHeight(null), Color.white, null);
+                g.dispose();
+                itemp = image;
+            }
+            // ImageIO.write((BufferedImage) itemp, "jpg", f);
+            ImageIO.write((BufferedImage) itemp, prefix, f);
+        } catch (IOException e) {
+            logger.error(e.getMessage(), e);
+        }
 
-	}
+    }
 
 
     public static int getLength(String text) {
@@ -235,19 +210,13 @@ public final class ImageUtils {
 
     /**
      * 图片裁切
-     * 
-     * @param x1
-     *            选择区域左上角的x坐标
-     * @param y1
-     *            选择区域左上角的y坐标
-     * @param width
-     *            选择区域的宽度
-     * @param height
-     *            选择区域的高度
-     * @param sourcePath
-     *            源图片路径
-     * @param descpath
-     *            裁切后图片的保存路径
+     *
+     * @param x1         选择区域左上角的x坐标
+     * @param y1         选择区域左上角的y坐标
+     * @param width      选择区域的宽度
+     * @param height     选择区域的高度
+     * @param sourcePath 源图片路径
+     * @param descpath   裁切后图片的保存路径
      */
     public static void cut(int x1, int y1, int width, int height, String sourcePath, String descpath) {
         FileInputStream is = null;
@@ -299,5 +268,5 @@ public final class ImageUtils {
 
     }
    */
-    
+
 }

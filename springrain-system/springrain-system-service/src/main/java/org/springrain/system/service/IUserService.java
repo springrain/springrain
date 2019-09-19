@@ -1,8 +1,8 @@
 package org.springrain.system.service;
 
+import org.springrain.system.entity.User;
 import org.springrain.rpc.annotation.RpcServiceAnnotation;
 import org.springrain.rpc.sessionuser.UserVO;
-import org.springrain.system.entity.User;
 
 /**
  * 用户管理查询的基础Servcie

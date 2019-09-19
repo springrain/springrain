@@ -24,178 +24,171 @@ import java.net.URI;
  * 在spring初始化之前,通过beanFactory先注入需要代理的bean,不然springbean初始化会异常.
  * 需要实现EnvironmentAware,setEnvironment
  * 这样才能正常获取到Environment变量,参考:https://blog.csdn.net/xiejx618/article/details/50413412
- * 
- * @author caomei
  *
+ * @author caomei
  */
 @Component("grpcBeanFactoryPostProcessor")
 public class GrpcBeanFactoryPostProcessor implements BeanFactoryPostProcessor, EnvironmentAware {
-	private static final Logger logger = LoggerFactory.getLogger(GrpcBeanFactoryPostProcessor.class);
+    private static final Logger logger = LoggerFactory.getLogger(GrpcBeanFactoryPostProcessor.class);
 
 
-	private Environment environment;
+    private Environment environment;
 
 
-	@Override
-	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-		try {
-			// 初始化代理bean,必须在bean加载前处理好,因为spring初始化找不到实现会报错,提前把接口的实现注册上去就可以了.
-			initRpcServiceImpl(beanFactory);
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-		}
-	}
+    @Override
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+        try {
+            // 初始化代理bean,必须在bean加载前处理好,因为spring初始化找不到实现会报错,提前把接口的实现注册上去就可以了.
+            initRpcServiceImpl(beanFactory);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
+    }
 
-	/**
-	 * 扫描RpcServiceAnnotation的注解接口,找到默认实现,如果没有,就启动RPC代理
-	 * 
-	 * @throws Exception
-	 */
-	private void initRpcServiceImpl(ConfigurableListableBeanFactory beanFactory) throws Exception {
-		
-		//基础包名
-		String basepackagepath = environment.getProperty("springrain.basepackagepath");
+    /**
+     * 扫描RpcServiceAnnotation的注解接口,找到默认实现,如果没有,就启动RPC代理
+     *
+     * @throws Exception
+     */
+    private void initRpcServiceImpl(ConfigurableListableBeanFactory beanFactory) throws Exception {
 
-
-		String basepackagepathStr = basepackagepath.replaceAll("\\.", "/");
-
-		String classPath = basepackagepathStr + "/**/service/*.class";
+        //基础包名
+        String basepackagepath = environment.getProperty("springrain.basepackagepath");
 
 
-		PathMatchingResourcePatternResolver pmrpr = new PathMatchingResourcePatternResolver();
-		Resource[] resources = pmrpr
-				.getResources(PathMatchingResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + classPath);
+        String basepackagepathStr = basepackagepath.replaceAll("\\.", "/");
 
-		for (Resource resource : resources) {
-
-			URI uri = resource.getURI();
-			String rpcServiceClassName = uri.toString();
-
-			rpcServiceClassName = rpcServiceClassName.substring(rpcServiceClassName.lastIndexOf(basepackagepathStr),
-					rpcServiceClassName.lastIndexOf(".class"));
-			rpcServiceClassName = rpcServiceClassName.replaceAll("/", ".");
-
-			Class<?> clazz = Class.forName(rpcServiceClassName);
-
-			if ((!clazz.isInterface()) || (!clazz.isAnnotationPresent(RpcServiceAnnotation.class))) {// 只处理有@RpcService注解的					// 接口
-				continue;
-			}
+        String classPath = basepackagepathStr + "/**/service/*.class";
 
 
-			// 获取实现类名
-			String classSimpleName = clazz.getSimpleName();
-			String classImplSimpleName = classSimpleName.substring(1, classSimpleName.length()) + "Impl";
+        PathMatchingResourcePatternResolver pmrpr = new PathMatchingResourcePatternResolver();
+        Resource[] resources = pmrpr
+                .getResources(PathMatchingResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + classPath);
 
-			// 实现类的全路径
-			String rpcServiceImplPath=null;
+        for (Resource resource : resources) {
 
+            URI uri = resource.getURI();
+            String rpcServiceClassName = uri.toString();
 
-			RpcServiceAnnotation rpcServiceAnnotation = clazz.getAnnotation(RpcServiceAnnotation.class);
-			String implpackage = rpcServiceAnnotation.implpackage();
+            rpcServiceClassName = rpcServiceClassName.substring(rpcServiceClassName.lastIndexOf(basepackagepathStr),
+                    rpcServiceClassName.lastIndexOf(".class"));
+            rpcServiceClassName = rpcServiceClassName.replaceAll("/", ".");
 
-			if(StringUtils.isBlank(implpackage)){//没有指定包路径
-				// 根据包名规则,组装接口默认实现的class路径,如果类存在,就认为是本机加载,找不到就启用RPC
-				String rpcServiceImplClassName = rpcServiceClassName.replace(".service.", ".service.impl.");
-				rpcServiceImplPath = rpcServiceImplClassName.substring(0, rpcServiceImplClassName.lastIndexOf("."))
-						+ "." + classImplSimpleName;
-			}else{
-				rpcServiceImplPath=basepackagepath+"."+implpackage+"."+classImplSimpleName;
-			}
+            Class<?> clazz = Class.forName(rpcServiceClassName);
 
+            if ((!clazz.isInterface()) || (!clazz.isAnnotationPresent(RpcServiceAnnotation.class))) {// 只处理有@RpcService注解的					// 接口
+                continue;
+            }
 
 
+            // 获取实现类名
+            String classSimpleName = clazz.getSimpleName();
+            String classImplSimpleName = classSimpleName.substring(1, classSimpleName.length()) + "Impl";
 
-			try {
-				Class rpcServiceImplClass = Class.forName(rpcServiceImplPath);
-				if (rpcServiceImplClass != null) {
-					continue;
-				}
-
-			} catch (Exception e) {
-				logger.error("未找到接口" + clazz.getName() + "的实现类" + rpcServiceImplPath + ",开始RPC调用远程实现");
-			}
-			
-			// 因为有远程调用的service,设置seata为启用状态.
-			if (org.springrain.frame.util.GlobalStatic.seataGlobalEnable) {
-				if (!org.springrain.frame.util.GlobalStatic.seataEnable) {
-					org.springrain.frame.util.GlobalStatic.seataEnable = true;
-				}
-			} else {// 如果全局禁用seata,就设置为false
-				org.springrain.frame.util.GlobalStatic.seataEnable = false;
-			}
-			
-			
+            // 实现类的全路径
+            String rpcServiceImplPath = null;
 
 
+            RpcServiceAnnotation rpcServiceAnnotation = clazz.getAnnotation(RpcServiceAnnotation.class);
+            String implpackage = rpcServiceAnnotation.implpackage();
 
-			String rpcHost = rpcServiceAnnotation.rpcHost();
-			Integer rpcPort = rpcServiceAnnotation.rpcPort();
-			String beanName = rpcServiceAnnotation.beanName();
-
-			if (rpcHost == null || rpcHost.equals("")) {
-				rpcHost = GlobalStatic.rpcHost;
-			}
-
-			if (rpcPort == null || rpcPort <= 0) {
-				rpcPort = GlobalStatic.rpcPort;
-			}
-
-			if (beanName == null || beanName.equals("")) {
-				beanName = clazz.getName();
-			}
-			// 开始GRPC请求调用
-			GrpcCommonRequest grpcRequest = new GrpcCommonRequest();
-			grpcRequest.setClazz(clazz.getName());
-			grpcRequest.setBeanName(beanName);
-			grpcRequest.setTimeout(rpcServiceAnnotation.timeout());
-			grpcRequest.setVersionCode(rpcServiceAnnotation.versionCode());
-			grpcRequest.setAutocommit(rpcServiceAnnotation.autocommit());
-
-			// 创建接口实现的GRPC代理类
-			// Object invoker = new Object();
-			InvocationHandler invocationHandler = new GrpcServiceProxy<>(rpcHost, rpcPort, grpcRequest);
-			Object proxy = Proxy.newProxyInstance(RpcServiceAnnotation.class.getClassLoader(), new Class[] { clazz },
-					invocationHandler);
-			// 手动注册 springbean
-			beanFactory.registerSingleton(beanName, proxy);
-
-		}
+            if (StringUtils.isBlank(implpackage)) {//没有指定包路径
+                // 根据包名规则,组装接口默认实现的class路径,如果类存在,就认为是本机加载,找不到就启用RPC
+                String rpcServiceImplClassName = rpcServiceClassName.replace(".service.", ".service.impl.");
+                rpcServiceImplPath = rpcServiceImplClassName.substring(0, rpcServiceImplClassName.lastIndexOf("."))
+                        + "." + classImplSimpleName;
+            } else {
+                rpcServiceImplPath = basepackagepath + "." + implpackage + "." + classImplSimpleName;
+            }
 
 
-		// jwtSecret
-		String jwtSecret= environment.getProperty("springrain.jwt.secret");
-		GlobalStatic.jwtSecret=jwtSecret;
+            try {
+                Class rpcServiceImplClass = Class.forName(rpcServiceImplPath);
+                if (rpcServiceImplClass != null) {
+                    continue;
+                }
 
-		//JWT token的超时时间
-		Long jwtTimeout= environment.getProperty("springrain.jwt.timeout",Long.class);
-		GlobalStatic.jwtTimeout=jwtTimeout;
+            } catch (Exception e) {
+                logger.error("未找到接口" + clazz.getName() + "的实现类" + rpcServiceImplPath + ",开始RPC调用远程实现");
+            }
 
-		//JWT token key
-		String jwtTokenKey= environment.getProperty("springrain.jwt.tokenkey");
-		GlobalStatic.jwtTokenKey=jwtTokenKey;
-
-		//rsa私钥
-		String rsaPrivateKey=environment.getProperty("springrain.rsa.privatekey","");
-		//rsa公钥
-		String rsaPublicKey=environment.getProperty("springrain.rsa.publickey","");
-
-		if(StringUtils.isBlank(rsaPrivateKey)||StringUtils.isBlank(rsaPublicKey)){//使用默认的公钥私钥
-			return;
-		}
-
-		//初始化 rsa 证书
-		GlobalStatic.rsaPublicKeyPem =rsaPublicKey;
-		GlobalStatic.rsaPrivateKeyPem =rsaPrivateKey;
-		SecUtils.initRSA();
+            // 因为有远程调用的service,设置seata为启用状态.
+            if (org.springrain.frame.util.GlobalStatic.seataGlobalEnable) {
+                if (!org.springrain.frame.util.GlobalStatic.seataEnable) {
+                    org.springrain.frame.util.GlobalStatic.seataEnable = true;
+                }
+            } else {// 如果全局禁用seata,就设置为false
+                org.springrain.frame.util.GlobalStatic.seataEnable = false;
+            }
 
 
+            String rpcHost = rpcServiceAnnotation.rpcHost();
+            Integer rpcPort = rpcServiceAnnotation.rpcPort();
+            String beanName = rpcServiceAnnotation.beanName();
 
-	}
+            if (rpcHost == null || rpcHost.equals("")) {
+                rpcHost = GlobalStatic.rpcHost;
+            }
+
+            if (rpcPort == null || rpcPort <= 0) {
+                rpcPort = GlobalStatic.rpcPort;
+            }
+
+            if (beanName == null || beanName.equals("")) {
+                beanName = clazz.getName();
+            }
+            // 开始GRPC请求调用
+            GrpcCommonRequest grpcRequest = new GrpcCommonRequest();
+            grpcRequest.setClazz(clazz.getName());
+            grpcRequest.setBeanName(beanName);
+            grpcRequest.setTimeout(rpcServiceAnnotation.timeout());
+            grpcRequest.setVersionCode(rpcServiceAnnotation.versionCode());
+            grpcRequest.setAutocommit(rpcServiceAnnotation.autocommit());
+
+            // 创建接口实现的GRPC代理类
+            // Object invoker = new Object();
+            InvocationHandler invocationHandler = new GrpcServiceProxy<>(rpcHost, rpcPort, grpcRequest);
+            Object proxy = Proxy.newProxyInstance(RpcServiceAnnotation.class.getClassLoader(), new Class[]{clazz},
+                    invocationHandler);
+            // 手动注册 springbean
+            beanFactory.registerSingleton(beanName, proxy);
+
+        }
 
 
-	@Override
-	public void setEnvironment(Environment environment) {
-		this.environment = environment;
-	}
+        // jwtSecret
+        String jwtSecret = environment.getProperty("springrain.jwt.secret");
+        GlobalStatic.jwtSecret = jwtSecret;
+
+        //JWT token的超时时间
+        Long jwtTimeout = environment.getProperty("springrain.jwt.timeout", Long.class);
+        GlobalStatic.jwtTimeout = jwtTimeout;
+
+        //JWT token key
+        String jwtTokenKey = environment.getProperty("springrain.jwt.tokenkey");
+        GlobalStatic.jwtTokenKey = jwtTokenKey;
+
+        //rsa私钥
+        String rsaPrivateKey = environment.getProperty("springrain.rsa.privatekey", "");
+        //rsa公钥
+        String rsaPublicKey = environment.getProperty("springrain.rsa.publickey", "");
+
+        if (StringUtils.isBlank(rsaPrivateKey) || StringUtils.isBlank(rsaPublicKey)) {//使用默认的公钥私钥
+            return;
+        }
+
+        //初始化 rsa 证书
+        GlobalStatic.rsaPublicKeyPem = rsaPublicKey;
+        GlobalStatic.rsaPrivateKeyPem = rsaPrivateKey;
+        SecUtils.initRSA();
+
+
+    }
+
+
+    @Override
+    public void setEnvironment(Environment environment) {
+        this.environment = environment;
+    }
 
 }

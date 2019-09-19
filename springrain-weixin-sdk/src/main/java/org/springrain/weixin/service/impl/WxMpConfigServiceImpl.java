@@ -35,7 +35,7 @@ public class WxMpConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl imple
                 return null;
             }
 
-            if (!wxMpConfig.isAccessTokenExpired()) {
+            if (wxMpConfig.isAccessTokenExpired()) {
                 AccessTokenApi.getAccessToken(wxMpConfig);
                 TicketApi.getCardApiTicket(wxMpConfig);
                 TicketApi.getJsApiTicket(wxMpConfig);

@@ -1,9 +1,7 @@
 <#assign className = table.className>
 <#assign tableName = table.tableAlias>
 <#assign classNameLowerCase = className?lower_case>
-import {
-    request
-} from '@/utils/request'
+import request from '@/utils/request'
 
 /**
  *
@@ -66,7 +64,7 @@ export function update${className}(data) {
  */
 export function del${className}(id) {
     return request({
-        url: '/system/${classNameLowerCase}/del',
+        url: '/system/${classNameLowerCase}/delete',
         method: 'post',
         data: {id:id}
     })

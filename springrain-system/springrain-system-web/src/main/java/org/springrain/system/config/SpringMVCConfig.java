@@ -17,6 +17,7 @@ import org.springrain.frame.util.FrameObjectMapper;
 import org.springrain.system.base.SpringMVCAnnotationBeanNameGenerator;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 /**
@@ -32,7 +33,7 @@ import java.util.List;
 		@Filter(type = FilterType.ANNOTATION, value = Controller.class) })
 public class SpringMVCConfig implements WebMvcConfigurer {
 
-	Charset charset = Charset.forName("UTF-8");
+	Charset charset = StandardCharsets.UTF_8;
 
 	/*
 	 * @Bean public RequestMappingHandlerMapping customMappingHandlerMapping() {

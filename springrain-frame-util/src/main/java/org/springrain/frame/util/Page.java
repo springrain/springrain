@@ -11,284 +11,304 @@ import java.io.Serializable;
  */
 public class Page<T> implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private static final Integer DEFAULT_PAGE_SIZE = 20;
-	/** 页码,从1开始 */
-	private Integer pageNo = 1;
+    private static final Integer DEFAULT_PAGE_SIZE = 20;
+    /**
+     * 页码,从1开始
+     */
+    private Integer pageNo = 1;
 
-	/** 每页多少行 */
-	private Integer pageSize = 20;
-	/** 数据总行数 */
-	private Integer totalCount = 0;
-	/** 总共可以分多少页 */
-	private Integer pageCount = 1;
-	/** 排序方式 desc asc */
-	private String sort;
-	/** 排序字段 */
-	private String order;
-	/** 第一页 */
-	private Boolean firstPage = false;
-	/** 上一页 */
-	private Boolean hasPrev = false;
-	/** 下一页 */
-	private Boolean hasNext = false;
-	/** 最末页 */
-	private Boolean lastPage = false;
+    /**
+     * 每页多少行
+     */
+    private Integer pageSize = 20;
+    /**
+     * 数据总行数
+     */
+    private Integer totalCount = 0;
+    /**
+     * 总共可以分多少页
+     */
+    private Integer pageCount = 1;
+    /**
+     * 排序方式 desc asc
+     */
+    private String sort;
+    /**
+     * 排序字段
+     */
+    private String order;
+    /**
+     * 第一页
+     */
+    private Boolean firstPage = false;
+    /**
+     * 上一页
+     */
+    private Boolean hasPrev = false;
+    /**
+     * 下一页
+     */
+    private Boolean hasNext = false;
+    /**
+     * 最末页
+     */
+    private Boolean lastPage = false;
 
-	// 是否查询 分页的总条数,默认进行查询
-	private Boolean selectpagecount = true;
+    // 是否查询 分页的总条数,默认进行查询
+    private Boolean selectpagecount = true;
 
-	private T data = null;
+    private T data = null;
 
-	public T getData() {
-		return data;
-	}
+    /**
+     * 分页信息,默认每页20行数据
+     *
+     * @param pageNo 页码,从1开始
+     */
+    public Page(Integer pageNo) {
+        this(pageNo, DEFAULT_PAGE_SIZE);
+    }
 
-	public void setData(T data) {
-		this.data = data;
-	}
+    public Page() {
 
-	/**
-	 * 分页信息,默认每页20行数据
-	 * 
-	 * @param pageNo 页码,从1开始
-	 */
-	public Page(Integer pageNo) {
-		this(pageNo, DEFAULT_PAGE_SIZE);
-	}
+    }
 
-	public Page() {
+    /**
+     * 分页信息
+     *
+     * @param pageNo   页码,从1开始
+     * @param pageSize 每页多少行,默认为 20
+     */
+    public Page(Integer pageNo, Integer pageSize) {
+        if (pageNo < 1) {
+            pageNo = 1;
+        }
 
-	}
+        if (pageSize < 1) {
+            pageSize = DEFAULT_PAGE_SIZE;
+        }
 
-	public void setPageNo(Integer pageNo) {
-		this.pageNo = pageNo;
-	}
+        this.pageNo = pageNo;
+        this.pageSize = pageSize;
+    }
 
-	/**
-	 * 分页信息
-	 * 
-	 * @param pageNo 页码,从1开始
-	 * @param pageSize  每页多少行,默认为 20
-	 */
-	public Page(Integer pageNo, Integer pageSize) {
-		if (pageNo < 1) {
-			pageNo = 1;
-		}
+    public T getData() {
+        return data;
+    }
 
-		if (pageSize < 1) {
-			pageSize = DEFAULT_PAGE_SIZE;
-		}
+    public void setData(T data) {
+        this.data = data;
+    }
 
-		this.pageNo = pageNo;
-		this.pageSize = pageSize;
-	}
+    /**
+     * 获取当前页页码
+     *
+     * @return
+     */
+    public Integer getPageNo() {
+        if (pageNo < 1) {
+            pageNo = 1;
+        }
 
-	/**
-	 * 获取当前页页码
-	 * 
-	 * @return
-	 */
-	public Integer getPageNo() {
-		if (pageNo < 1) {
-			pageNo = 1;
-		}
+        if (pageSize < 1) {
+            pageSize = DEFAULT_PAGE_SIZE;
+        }
 
-		if (pageSize < 1) {
-			pageSize = DEFAULT_PAGE_SIZE;
-		}
+        return pageNo;
+    }
 
-		return pageNo;
-	}
+    public void setPageNo(Integer pageNo) {
+        this.pageNo = pageNo;
+    }
 
-	/**
-	 * 获取每页多少行
-	 * 
-	 * @return
-	 */
-	public Integer getPageSize() {
-		if (pageSize < 1) {
-			pageSize = DEFAULT_PAGE_SIZE;
-		}
+    /**
+     * 获取每页多少行
+     *
+     * @return
+     */
+    public Integer getPageSize() {
+        if (pageSize < 1) {
+            pageSize = DEFAULT_PAGE_SIZE;
+        }
 
-		return pageSize;
-	}
+        return pageSize;
+    }
 
-	/**
-	 * 获取总共有多少页
-	 * 
-	 * @return
-	 */
-	public Integer getPageCount() {
+    /**
+     * 设置页面大小
+     *
+     * @param pageSize
+     */
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
+    }
 
-		return pageCount;
-	}
+    /**
+     * 获取总共有多少页
+     *
+     * @return
+     */
+    public Integer getPageCount() {
 
-	/**
-	 * 获取起始行数
-	 * 
-	 * @return
-	 */
-	public Integer getFirstResult() {
-		return (pageNo - 1) * pageSize;
-	}
+        return pageCount;
+    }
 
-	/**
-	 * 获取总记录数
-	 * 
-	 * @return
-	 */
-	public Integer getTotalCount() {
-		return totalCount;
-	}
+    /**
+     * 获取起始行数
+     *
+     * @return
+     */
+    public Integer getFirstResult() {
+        return (pageNo - 1) * pageSize;
+    }
 
-	/**
-	 * 设置总记录数
-	 * 
-	 * @param totalCount
-	 */
-	public void setTotalCount(Integer totalCount) {
-		this.totalCount = totalCount;
-		this.pageCount = (totalCount + pageSize - 1) / pageSize;
+    /**
+     * 获取总记录数
+     *
+     * @return
+     */
+    public Integer getTotalCount() {
+        return totalCount;
+    }
 
-		if (pageNo >= pageCount) {
-			this.lastPage = true;
-		} else {
-			this.hasNext = true;
-		}
+    /**
+     * 设置总记录数
+     *
+     * @param totalCount
+     */
+    public void setTotalCount(Integer totalCount) {
+        this.totalCount = totalCount;
+        this.pageCount = (totalCount + pageSize - 1) / pageSize;
 
-		if (getPageNo() > 1) {
-			this.hasPrev = true;
-		} else {
-			this.firstPage = true;
-		}
+        if (pageNo >= pageCount) {
+            this.lastPage = true;
+        } else {
+            this.hasNext = true;
+        }
 
-		/*
-		 * // 调整页码信息,防止出界 if (totalCount == 0) { if (pageNo != 1) pageNo = 1; }
-		 * else { if (pageNo > pageCount) pageNo = pageCount; }
-		 */
-	}
+        if (getPageNo() > 1) {
+            this.hasPrev = true;
+        } else {
+            this.firstPage = true;
+        }
 
-	/**
-	 * 是否有数据
-	 * 
-	 * @return
-	 */
-	public Boolean isEmpty() {
-		return totalCount < 1;
-	}
+        /*
+         * // 调整页码信息,防止出界 if (totalCount == 0) { if (pageNo != 1) pageNo = 1; }
+         * else { if (pageNo > pageCount) pageNo = pageCount; }
+         */
+    }
 
-	/**
-	 * 设置页面大小
-	 * 
-	 * @param pageSize
-	 */
-	public void setPageSize(Integer pageSize) {
-		this.pageSize = pageSize;
-	}
+    /**
+     * 是否有数据
+     *
+     * @return
+     */
+    public Boolean isEmpty() {
+        return totalCount < 1;
+    }
 
-	/**
-	 * 排序方式 desc asc
-	 * 
-	 * @return String
-	 */
-	public String getSort() {
-		return sort;
-	}
+    /**
+     * 排序方式 desc asc
+     *
+     * @return String
+     */
+    public String getSort() {
+        return sort;
+    }
 
-	public void setSort(String sort) {
-		this.sort = sort;
-	}
+    public void setSort(String sort) {
+        this.sort = sort;
+    }
 
-	/**
-	 * 排序字段 例如 id
-	 * 
-	 * @return String
-	 */
-	public String getOrder() {
-		return order;
-	}
+    /**
+     * 排序字段 例如 id
+     *
+     * @return String
+     */
+    public String getOrder() {
+        return order;
+    }
 
-	public void setOrder(String order) {
-		this.order = order;
-	}
+    public void setOrder(String order) {
+        this.order = order;
+    }
 
-	/**
-	 * 是否是第一页
-	 * 
-	 * @return boolean
-	 */
-	public Boolean getFirstPage() {
-		return firstPage;
+    /**
+     * 是否是第一页
+     *
+     * @return boolean
+     */
+    public Boolean getFirstPage() {
+        return firstPage;
 
-	}
+    }
 
-	/**
-	 * 是否有上一页
-	 * 
-	 * @return boolean
-	 */
-	public Boolean getHasPrev() {
-		return hasPrev;
-	}
+    public void setFirstPage(boolean firstPage) {
+        this.firstPage = firstPage;
+    }
 
-	/**
-	 * 是否是最后一页
-	 * 
-	 * @return boolean
-	 */
-	public Boolean getLastPage() {
+    /**
+     * 是否有上一页
+     *
+     * @return boolean
+     */
+    public Boolean getHasPrev() {
+        return hasPrev;
+    }
 
-		return lastPage;
-	}
+    /**
+     * 是否是最后一页
+     *
+     * @return boolean
+     */
+    public Boolean getLastPage() {
 
-	/**
-	 * 是否有下一页
-	 * 
-	 * @return boolean
-	 */
-	public Boolean getHasNext() {
+        return lastPage;
+    }
 
-		return hasNext;
-	}
+    public void setLastPage(boolean lastPage) {
+        this.lastPage = lastPage;
+    }
 
-	public Boolean getSelectpagecount() {
-		return selectpagecount;
-	}
+    /**
+     * 是否有下一页
+     *
+     * @return boolean
+     */
+    public Boolean getHasNext() {
 
-	public void setSelectpagecount(boolean selectpagecount) {
-		this.selectpagecount = selectpagecount;
-	}
+        return hasNext;
+    }
 
-	public Boolean isFirstPage() {
-		return firstPage;
-	}
+    public void setHasNext(boolean hasNext) {
+        this.hasNext = hasNext;
+    }
 
-	public void setFirstPage(boolean firstPage) {
-		this.firstPage = firstPage;
-	}
+    public Boolean getSelectpagecount() {
+        return selectpagecount;
+    }
 
-	public Boolean isHasNext() {
-		return hasNext;
-	}
+    public void setSelectpagecount(boolean selectpagecount) {
+        this.selectpagecount = selectpagecount;
+    }
 
-	public void setHasNext(boolean hasNext) {
-		this.hasNext = hasNext;
-	}
+    public Boolean isFirstPage() {
+        return firstPage;
+    }
 
-	public Boolean isLastPage() {
-		return lastPage;
-	}
+    public Boolean isHasNext() {
+        return hasNext;
+    }
 
-	public void setLastPage(boolean lastPage) {
-		this.lastPage = lastPage;
-	}
+    public Boolean isLastPage() {
+        return lastPage;
+    }
 
-	@Override
-	public String toString() {
-		return new StringBuilder().append("pageNo[").append(getPageNo()).append("],").append("sort[")
-				.append(getSort()).append("],").append("order[").append(getOrder()).append("]").toString();
-	}
+    @Override
+    public String toString() {
+        return new StringBuilder().append("pageNo[").append(getPageNo()).append("],").append("sort[")
+                .append(getSort()).append("],").append("order[").append(getOrder()).append("]").toString();
+    }
 
 }

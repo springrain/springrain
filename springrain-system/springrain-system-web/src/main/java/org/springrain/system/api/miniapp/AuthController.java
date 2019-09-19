@@ -10,23 +10,26 @@ import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.JsonUtils;
 import org.springrain.frame.util.ReturnDatas;
 import org.springrain.frame.util.SecUtils;
-import org.springrain.rpc.sessionuser.SessionUser;
 import org.springrain.system.base.BaseController;
 import org.springrain.system.entity.User;
 import org.springrain.system.service.IUserService;
+import org.springrain.rpc.sessionuser.SessionUser;
 import org.springrain.weixin.sdk.common.ApiResult;
 import org.springrain.weixin.sdk.common.WxCryptUtils;
 import org.springrain.weixin.sdk.common.wxconfig.IWxMiniappConfig;
 import org.springrain.weixin.sdk.miniapp.MiniappAuthApi;
+import org.springrain.weixin.sdk.miniapp.MiniappQrcode;
+import org.springrain.weixin.sdk.miniapp.MiniappQrcodeApi;
 import org.springrain.weixin.service.IWxMiniappConfigService;
 
 import javax.annotation.Resource;
+import java.io.File;
 import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 
 @RestController
-@RequestMapping(value="/api/miniapp/auth", method = RequestMethod.POST)
+@RequestMapping(value="/api/system/auth", method = RequestMethod.POST)
 public class AuthController extends BaseController {
 
 
@@ -72,19 +75,23 @@ public class AuthController extends BaseController {
            user.setAccount(id);
            user.setPassword(SecUtils.encoderByMd5With32Bit(id+openId));
            user.setSex(GlobalStatic.sexMap.get(map.get("gender")));
-           user.setUserType(0);
+           // 小程序端 店长注册
+           user.setUserType(2);
+
            user.setActive(1);
            user.setUserName((String)map.get("nickName"));
            user.setAvatar((String)map.get("avatarUrl"));
 
+           user.setNickName((String)map.get("nickName"));
+
            user.setCreateTime(new Date());
            user.setUpdateTime(new Date());
+
            user.setUpdateUserId("0");
            user.setCreateUserId("0");
 
 
-
-           user.setBak1((String)map.get("country") + ","+ (String)map.get("province") + ","+(String)map.get("city"));
+           user.setBak1(map.get("country") + "," + map.get("province") + "," + map.get("city"));
 
            userService.save(user);
        }
@@ -102,12 +109,48 @@ public class AuthController extends BaseController {
     }
 
 
+    @RequestMapping(value = "/getRegQrcode", method = RequestMethod.POST)
+    public ReturnDatas getRegQrcode(@RequestBody Map map) throws Exception {
+
+        ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
+
+        String mcode = map.get("mcode").toString();
+
+        String appId="wx95217af982ed4f53";
+        IWxMiniappConfig config = wxMiniappConfigService.findWxMiniappConfigById(appId);
+
+        MiniappQrcode miniappQrcode = new MiniappQrcode();
+        miniappQrcode.setPage("");
+        miniappQrcode.setScene(mcode);
+
+        ApiResult apiResult = MiniappQrcodeApi.getUnlimited(config, miniappQrcode);
+        if(apiResult.isSucceed()){
+            File file = apiResult.getFile();
+            file.getName();
+            returnObject.setResult("/upload/miniappqrcode/"+file.getName());
+            return returnObject;
+        }else{
+            returnObject.setStatus("error");
+            returnObject.setMessage("二维码生成失败");
+            return returnObject;
+        }
+
+
+
+    }
+
+
+
+
     @RequestMapping(value = "/getPhone", method = RequestMethod.POST)
     public ReturnDatas getPhone(@RequestBody Map<String,String> map) throws Exception {
           String encryptedData=map.get("encryptedData");
           String iv=map.get("iv");
           String userId= SessionUser.getUserId();
           String sessionKey=userService.getByCache(GlobalStatic.wxConfigCacheKey,"sessionKey_"+userId,String.class);
+          if(StringUtils.isBlank(sessionKey)){
+              return ReturnDatas.getErrorReturnDatas("数据错误");
+          }
           String json=WxCryptUtils.decrypt(sessionKey,encryptedData,iv);
           Map m= JsonUtils.readValue(json,Map.class);
           String phone=(String)m.get("phoneNumber");

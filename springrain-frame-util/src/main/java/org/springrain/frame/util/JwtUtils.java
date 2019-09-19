@@ -48,6 +48,7 @@ public class JwtUtils {
             return false;
         }
     }
+
     /**
      * 获得token中的userId
      *
@@ -55,7 +56,7 @@ public class JwtUtils {
      * @return
      */
     public static String getUserId(String token) {
-        return getClaim(token,"userId");
+        return getClaim(token, "userId");
     }
 
     /**
@@ -64,7 +65,7 @@ public class JwtUtils {
      * @param token
      * @return
      */
-    public static String getClaim(String token,String claimName) {
+    public static String getClaim(String token, String claimName) {
         try {
 
             if (StringUtils.isBlank(token)) {
@@ -82,7 +83,7 @@ public class JwtUtils {
                 return null;
             }
 
-            String claim=jwt.getClaim(claimName).asString();
+            String claim = jwt.getClaim(claimName).asString();
             return claim;
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
@@ -102,12 +103,13 @@ public class JwtUtils {
 
     /**
      * 根据user对象生成加密字符串,主要是位了兼容第三方使用jwt,所以需要放到util包下,使用map封装参数
+     *
      * @param jwtSignMap
      * @return
      */
-    public static String sign(Map<String,Object> jwtSignMap) {
+    public static String sign(Map<String, Object> jwtSignMap) {
 
-        if (jwtSignMap==null) {
+        if (jwtSignMap == null) {
             return null;
         }
 
@@ -116,7 +118,7 @@ public class JwtUtils {
 
             long expires = System.currentTimeMillis() + GlobalStatic.jwtTimeout;
             Date date = new Date(expires);
-            String userId=(String) jwtSignMap.get("userId");
+            String userId = (String) jwtSignMap.get("userId");
 
             Algorithm algorithm = Algorithm.HMAC512(getSecret(userId));
 
@@ -135,10 +137,10 @@ public class JwtUtils {
 
 
     public static String getSecret(String userId) throws Exception {
-        if(StringUtils.isBlank(userId)){
+        if (StringUtils.isBlank(userId)) {
             return null;
         }
-        String secret=SecUtils.encoderByMd5With32Bit(userId+GlobalStatic.jwtSecret);
+        String secret = SecUtils.encoderByMd5With32Bit(userId + GlobalStatic.jwtSecret);
         return secret;
     }
 

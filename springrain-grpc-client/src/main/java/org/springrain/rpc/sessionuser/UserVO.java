@@ -10,7 +10,6 @@ package org.springrain.rpc.sessionuser;
  */
 
 
-
 public class UserVO {
 
     private String userId;
@@ -21,21 +20,17 @@ public class UserVO {
 
     private String userName;
     private String password;
-    private  String captchaKey;
+    private String captchaKey;
 
 
-
-    private  String imgcaptcha;
+    private String imgcaptcha;
     private Integer userType;
     private Integer active;
 
 
-
     // 私有的部门权限,用于处理单独url的特殊权限,调用 IUserRoleOrgService.wrapOrgIdFinderByPrivateOrgRoleId(String userId) 获取权限的finder;
     private String privateOrgRoleId;
-
-
-
+    private String captcha;
 
     public String getUserId() {
         return userId;
@@ -69,8 +64,6 @@ public class UserVO {
         this.userType = userType;
     }
 
-
-
     public String getCaptchaKey() {
         return captchaKey;
     }
@@ -87,8 +80,6 @@ public class UserVO {
         this.captcha = captcha;
     }
 
-    private String captcha;
-
     public String getAccount() {
         return account;
     }
@@ -104,6 +95,7 @@ public class UserVO {
     public void setPassword(String password) {
         this.password = password;
     }
+
     public Integer getActive() {
         return active;
     }

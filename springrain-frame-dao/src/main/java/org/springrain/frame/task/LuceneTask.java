@@ -1,76 +1,72 @@
 package org.springrain.frame.task;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.LuceneUtils;
 
+import java.util.List;
+
 public class LuceneTask implements Runnable {
 
-	private final Logger logger = LoggerFactory.getLogger(getClass());
+    public final static String deleteDocument = "delete";
+    public final static String updateDocument = "update";
+    public final static String saveDocument = "save";
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+    @SuppressWarnings("rawtypes")
+    public Class clazz;
+    String rootdir = null;
+    private Object entity;
+    private String oper;
 
-	public final static String deleteDocument = "delete";
-	public final static String updateDocument = "update";
-	public final static String saveDocument = "save";
+    public LuceneTask() {
+        rootdir = GlobalStatic.rootDir + "/lucene/index";
+    }
 
-	private Object entity;
+    public LuceneTask(Object entity, String oper) {
+        this();
+        this.oper = oper;
+        this.entity = entity;
+    }
 
-	private String oper;
+    // 删除专用
+    @SuppressWarnings("rawtypes")
+    public LuceneTask(Object id, Class clazz) {
+        this.entity = id;
+        this.clazz = clazz;
+        this.oper = "delete";
+    }
 
-	@SuppressWarnings("rawtypes")
-	public Class clazz;
-	String rootdir = null;
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    @Override
+    public void run() {
+        try {
 
-	public LuceneTask() {
-		rootdir = GlobalStatic.rootDir + "/lucene/index";
-	}
+            if (deleteDocument.equals(oper)) {
+                if (entity instanceof List) {
+                    LuceneUtils.deleteListDocument(rootdir, clazz, (List) entity);
+                } else {
+                    LuceneUtils.deleteDocumentById(rootdir, clazz, entity.toString());
+                }
 
-	public LuceneTask(Object entity, String oper) {
-		this();
-		this.oper = oper;
-		this.entity = entity;
-	}
+            } else if (updateDocument.equals(oper)) {
+                if (entity instanceof List) {
+                    LuceneUtils.updateListDocument(rootdir, (List) entity);
+                } else {
+                    LuceneUtils.updateDocument(rootdir, entity);
+                }
+            } else if (saveDocument.equals(oper)) {
+                if (entity instanceof List) {
+                    LuceneUtils.saveListDocument(rootdir, (List) entity);
+                } else {
+                    LuceneUtils.saveDocument(rootdir, entity);
+                }
 
-	// 删除专用
-	@SuppressWarnings("rawtypes")
-	public LuceneTask(Object id, Class clazz) {
-		this.entity = id;
-		this.clazz = clazz;
-		this.oper = "delete";
-	}
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@Override
-	public void run() {
-		try {
-
-			if (deleteDocument.equals(oper)) {
-				if (entity instanceof List) {
-					LuceneUtils.deleteListDocument(rootdir, clazz, (List) entity);
-				} else {
-					LuceneUtils.deleteDocumentById(rootdir, clazz, entity.toString());
-				}
-
-			} else if (updateDocument.equals(oper)) {
-				if (entity instanceof List) {
-					LuceneUtils.updateListDocument(rootdir, (List) entity);
-				} else {
-					LuceneUtils.updateDocument(rootdir, entity);
-				}
-			} else if (saveDocument.equals(oper)) {
-				if (entity instanceof List) {
-					LuceneUtils.saveListDocument(rootdir, (List) entity);
-				} else {
-					LuceneUtils.saveDocument(rootdir, entity);
-				}
-
-			}
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-		}
-
-	}
+    }
 
 }

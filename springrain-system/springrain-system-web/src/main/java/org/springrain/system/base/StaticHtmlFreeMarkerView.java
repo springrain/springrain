@@ -44,7 +44,7 @@ public class StaticHtmlFreeMarkerView extends FreeMarkerView {
 	protected void doRender(Map<String, Object> model, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 
-		HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletRequest req = request;
 		String uri = req.getRequestURI();
 		String contextPath = req.getContextPath();
 		int i = uri.indexOf(contextPath);

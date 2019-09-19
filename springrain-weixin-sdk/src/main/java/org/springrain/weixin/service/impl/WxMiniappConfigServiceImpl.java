@@ -30,7 +30,7 @@ public class WxMiniappConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl 
                 return null;
             }
 
-            if (!wxMiniappConfig.isAccessTokenExpired()) {
+            if (wxMiniappConfig.isAccessTokenExpired()) {
                 AccessTokenApi.getAccessToken(wxMiniappConfig);
             }
 

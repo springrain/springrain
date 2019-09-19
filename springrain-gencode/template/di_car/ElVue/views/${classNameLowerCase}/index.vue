@@ -118,7 +118,7 @@
 </template>
 
 <script>
-import { get${className}s, create${className}, update${className}, del${className} } from '@/api/article'
+import { get${className}s, create${className}, update${className}, del${className} } from '@/api/${classNameLower}'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import waves from '@/directive/waves' // waves directive
 
@@ -146,7 +146,6 @@ export default {
         '审核通过'
       ],
       list: [],
-      total: 0,
       form: {
 
       <#list table.columns as column>
@@ -208,17 +207,27 @@ export default {
   created() {
     this.getList()
   },
+   computed: {
+      total: vue => {
+        if (vue.list) {
+          return vue.list.length
+        } else {
+          return 0
+        }
+      }
+    },
   methods: {
     getList() {
       this.listLoading = true
       get${className}s(this.listQuery).then(response => {
         console.log(response)
 
-        // response || { pageNO: 1, pageSize: 1, data: [] }
-        this.list = response.result
-        console.log(this.list)
-        this.total = response.page.totalCount
-        this.listLoading = false
+             if (response.statusCode === 0) {
+                  // response || { pageNO: 1, pageSize: 1, data: [] }
+                  this.list = response.result
+
+                  this.listLoading = false
+                }
       })
     },
     handleReset() {

@@ -36,6 +36,7 @@ public class MiniappQrcodeApi {
     }
 
     public static ApiResult getUnlimited(IWxMiniappConfig config, MiniappQrcode miniappQrcode) throws Exception {
+
         String apiurl = getUnlimitedUrl + config.getAccessToken();
 
         HttpPost httpPost = new HttpPost(apiurl);

@@ -30,7 +30,7 @@ public class WxPayConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl impl
                 return null;
             }
 
-            if (!wxPayConfig.isAccessTokenExpired()) {
+            if (wxPayConfig.isAccessTokenExpired()) {
                 AccessTokenApi.getAccessToken(wxPayConfig);
             }
 

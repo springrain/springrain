@@ -3,6 +3,7 @@ package org.springrain.system.interceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springrain.frame.util.GlobalStatic;
 
 import javax.annotation.Resource;
 
@@ -24,7 +25,7 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
 
         //JWT全局拦截认证
-        registry.addInterceptor(jwtInterceptor).addPathPatterns("/**").excludePathPatterns("/api/system/login","/api/miniapp/auth/login","/api/work/login","/api/user/login","/api/getCaptcha","/api/checkHealth");
+        registry.addInterceptor(jwtInterceptor).addPathPatterns("/**").excludePathPatterns(GlobalStatic.excludePathPatterns);
 
         //  其他的跳转到 500错误
 

@@ -4,16 +4,16 @@
 package org.springrain.rpc.grpcauto;
 
 public interface CommonRequestOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:CommonRequest)
-    com.google.protobuf.MessageOrBuilder {
+        // @@protoc_insertion_point(interface_extends:CommonRequest)
+        com.google.protobuf.MessageOrBuilder {
 
-  /**
-   * <code>int32 serialize = 1;</code>
-   */
-  int getSerialize();
+    /**
+     * <code>int32 serialize = 1;</code>
+     */
+    int getSerialize();
 
-  /**
-   * <code>bytes request = 2;</code>
-   */
-  com.google.protobuf.ByteString getRequest();
+    /**
+     * <code>bytes request = 2;</code>
+     */
+    com.google.protobuf.ByteString getRequest();
 }

@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 /**
@@ -125,7 +126,7 @@ public class BaseController {
 		OutputStream out = null;
 		InputStream in = null;
 		// 下面一步不可少
-		fileName = new String(fileName.getBytes("GBK"), "ISO-8859-1");
+		fileName = new String(fileName.getBytes("GBK"), StandardCharsets.ISO_8859_1);
 		response.addHeader("Content-disposition", "attachment;filename=" + fileName);// 设定输出文件头
 
 		try {

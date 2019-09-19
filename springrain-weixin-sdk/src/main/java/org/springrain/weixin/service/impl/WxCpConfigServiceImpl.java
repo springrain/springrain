@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.weixin.entity.WxCpConfig;
 import org.springrain.weixin.sdk.common.wxconfig.IWxCpConfig;
+import org.springrain.weixin.sdk.mp.AccessTokenApi;
 import org.springrain.weixin.service.IWxCpConfigService;
 
 @Service("wxCpConfigService")
@@ -26,18 +27,24 @@ public class WxCpConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl imple
         IWxCpConfig wxcpConfig = null;
         try {
             wxcpConfig = super.getByCache(cacheKeyPrefix + id, GlobalStatic.wxConfigCacheKey, WxCpConfig.class);
+            if (wxcpConfig == null) {
+                wxcpConfig = super.findById(id, WxCpConfig.class);
+
+            }
+            if (wxcpConfig == null) {
+                return null;
+            }
+
+            if (wxcpConfig.isAccessTokenExpired()) {
+                AccessTokenApi.getAccessToken(wxcpConfig);
+            }
+
+            super.putByCache(cacheKeyPrefix + id, GlobalStatic.wxConfigCacheKey, wxcpConfig);
+
         } catch (Exception e) {
             wxcpConfig = null;
             logger.error(e.getMessage(), e);
         }
-        if (wxcpConfig != null) {
-            return wxcpConfig;
-        }
-
-        // 从数据库查询
-        wxcpConfig = super.findById(id, WxCpConfig.class);
-
-        super.putByCache(id, GlobalStatic.wxConfigCacheKey, wxcpConfig);
 
         return wxcpConfig;
     }

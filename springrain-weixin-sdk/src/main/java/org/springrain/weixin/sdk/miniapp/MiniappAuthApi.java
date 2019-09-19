@@ -17,6 +17,7 @@ public class MiniappAuthApi {
     private static final Logger logger = LoggerFactory.getLogger(MiniappAuthApi.class);
     private static String code2SessionUrl = WxConsts.mpapiurl + "/sns/jscode2session";
     private static String getPaidUnionIdUrl = WxConsts.mpapiurl + "/wxa/getpaidunionid?access_token=";
+
     private MiniappAuthApi() {
         throw new IllegalAccessError("工具类不能实例化");
     }

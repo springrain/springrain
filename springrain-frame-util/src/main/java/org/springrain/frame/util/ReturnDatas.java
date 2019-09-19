@@ -5,121 +5,119 @@ import java.util.Map;
 
 /**
  * 返回对象的封装
- * 
- * @author caomei
  *
+ * @author caomei
  */
 
 public class ReturnDatas<T> implements Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    public static final String SUCCESS = "success";
+    public static final String ERROR = "error";
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+    //public static final String WARNING = "warning";
+    // 异常 1, 成功 0,默认成功0
+    private Integer statusCode = 0;
+    private String status;
+    private String message;
+    private T result;
 
-	public static final String SUCCESS = "success";
-	public static final String ERROR = "error";
-	//public static final String WARNING = "warning";
-	// 异常 1, 成功 0,默认成功0
-	private Integer statusCode = 0;
-	private String status;
-	private String message;
-	private T result;
+    private Map map;
+    private Page page;
+    private Object queryBean;
 
-	private Map map;
-	private Page page;
-	private Object queryBean;
+    public ReturnDatas() {
 
-	public ReturnDatas() {
+    }
 
-	}
+    public ReturnDatas(String status) {
+        setStatus(status);
+    }
 
-	public static ReturnDatas getSuccessReturnDatas() {
-		return new ReturnDatas(ReturnDatas.SUCCESS);
-	}
-
-	public static ReturnDatas getErrorReturnDatas() {
-		return new ReturnDatas(ReturnDatas.ERROR);
-	}
-	public static ReturnDatas getErrorReturnDatas(String message) {
-		return new ReturnDatas(ReturnDatas.ERROR,message);
-	}
-
-
-	public ReturnDatas(String status) {
-		setStatus(status);
-	}
-
-	public ReturnDatas(String status, String message) {
-		setStatus(status);
+    public ReturnDatas(String status, String message) {
+        setStatus(status);
         setMessage(message);
-	}
+    }
 
-	public ReturnDatas(String status, String message, T data) {
-		setStatus(status);
-		setMessage(message);
-		setResult(data);
-	}
+    public ReturnDatas(String status, String message, T data) {
+        setStatus(status);
+        setMessage(message);
+        setResult(data);
+    }
 
-	public String getStatus() {
-		return status;
-	}
+    public static ReturnDatas getSuccessReturnDatas() {
+        return new ReturnDatas(ReturnDatas.SUCCESS);
+    }
 
-	public void setStatus(String status) {
-		this.status = status;
-		if(SUCCESS.equalsIgnoreCase(status)){
-			setStatusCode(0);
-		}else{
-			setStatusCode(1);
-		}
-	}
+    public static ReturnDatas getErrorReturnDatas() {
+        return new ReturnDatas(ReturnDatas.ERROR);
+    }
 
-	public String getMessage() {
-		return message;
-	}
+    public static ReturnDatas getErrorReturnDatas(String message) {
+        return new ReturnDatas(ReturnDatas.ERROR, message);
+    }
 
-	public void setMessage(String message) {
-		this.message = message;
-	}
+    public String getStatus() {
+        return status;
+    }
 
-	public Object getResult() {
-		return result;
-	}
+    public void setStatus(String status) {
+        this.status = status;
+        if (SUCCESS.equalsIgnoreCase(status)) {
+            setStatusCode(0);
+        } else {
+            setStatusCode(1);
+        }
+    }
 
-	public void setResult(T obj) {
-		this.result = obj;
-	}
+    public String getMessage() {
+        return message;
+    }
 
-	public Page getPage() {
-		return page;
-	}
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
-	public void setPage(Page page) {
-		this.page = page;
-	}
+    public Object getResult() {
+        return result;
+    }
 
-	@SuppressWarnings("rawtypes")
-	public Map getMap() {
-		return map;
-	}
+    public void setResult(T obj) {
+        this.result = obj;
+    }
 
-	@SuppressWarnings("rawtypes")
-	public void setMap(Map map) {
-		this.map = map;
-	}
+    public Page getPage() {
+        return page;
+    }
 
-	public Object getQueryBean() {
-		return queryBean;
-	}
+    public void setPage(Page page) {
+        this.page = page;
+    }
 
-	public void setQueryBean(Object queryBean) {
-		this.queryBean = queryBean;
-	}
+    @SuppressWarnings("rawtypes")
+    public Map getMap() {
+        return map;
+    }
 
-	public Integer getStatusCode() {
-		return statusCode;
-	}
+    @SuppressWarnings("rawtypes")
+    public void setMap(Map map) {
+        this.map = map;
+    }
 
-	public void setStatusCode(Integer statusCode) {
-		this.statusCode = statusCode;
-	}
+    public Object getQueryBean() {
+        return queryBean;
+    }
+
+    public void setQueryBean(Object queryBean) {
+        this.queryBean = queryBean;
+    }
+
+    public Integer getStatusCode() {
+        return statusCode;
+    }
+
+    public void setStatusCode(Integer statusCode) {
+        this.statusCode = statusCode;
+    }
 }

@@ -101,6 +101,20 @@ public class User extends BaseEntity {
     // updateUserId
     private String updateUserId;
 
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String value) {
+
+        if (StringUtils.isNotBlank(value)) {
+            value = value.trim();
+        }
+        this.nickName = value;
+    }
+
+    private String nickName;
+
     // 是否有效(0否,1是)
     private Integer active;
 

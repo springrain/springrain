@@ -1,7 +1,5 @@
 package org.springrain.system.dao;
 
-import javax.annotation.Resource;
-
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
@@ -10,6 +8,8 @@ import org.springrain.frame.dao.IBaseJdbcDao;
 import org.springrain.frame.dao.dialect.IDialect;
 import org.springrain.frame.entity.AuditLog;
 import org.springrain.rpc.sessionuser.SessionUser;
+
+import javax.annotation.Resource;
 
 /**
  * springrain项目的基础Dao,代理demo数据库

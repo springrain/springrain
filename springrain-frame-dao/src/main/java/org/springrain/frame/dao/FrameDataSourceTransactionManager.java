@@ -6,50 +6,49 @@ import org.springframework.transaction.TransactionDefinition;
 
 /**
  * Spring 没有提供获取当前县城的事务状态,自定义ThreadLocal实现,在事务开始前记录.
- * 
- * @author caomei
  *
+ * @author caomei
  */
 
 public class FrameDataSourceTransactionManager extends DataSourceTransactionManager {
-	private static final long serialVersionUID = 1L;
-	private static final ThreadLocal<Boolean> currentTransactionIsExist = new NamedThreadLocal<Boolean>(
-			"Current transaction is exist");
+    private static final long serialVersionUID = 1L;
+    private static final ThreadLocal<Boolean> currentTransactionIsExist = new NamedThreadLocal<Boolean>(
+            "Current transaction is exist");
 
-	@Override
-	protected void doBegin(Object transaction, TransactionDefinition definition) {
+    /**
+     * 判断是否存在数据库事务
+     *
+     * @return
+     */
+    public static Boolean isExistTransaction() {
+        Boolean existTransaction = currentTransactionIsExist.get();
+        if (existTransaction == null || existTransaction == false) {
+            return false;
+        }
+        return existTransaction;
+    }
 
-		/*
-		 * Integer transactionIsolationLevel=definition.getIsolationLevel() !=
-		 * TransactionDefinition.ISOLATION_DEFAULT ? definition.getIsolationLevel() :
-		 * null;
-		 * 
-		 * if(transactionIsolationLevel!=null) {
-		 * TransactionSynchronizationManager.setCurrentTransactionIsolationLevel(
-		 * transactionIsolationLevel); }
-		 */
+    @Override
+    protected void doBegin(Object transaction, TransactionDefinition definition) {
 
-		currentTransactionIsExist.set(true);
-		super.doBegin(transaction, definition);
-	}
+        /*
+         * Integer transactionIsolationLevel=definition.getIsolationLevel() !=
+         * TransactionDefinition.ISOLATION_DEFAULT ? definition.getIsolationLevel() :
+         * null;
+         *
+         * if(transactionIsolationLevel!=null) {
+         * TransactionSynchronizationManager.setCurrentTransactionIsolationLevel(
+         * transactionIsolationLevel); }
+         */
 
-	@Override
-	protected void doCleanupAfterCompletion(Object transaction) {
-		super.doCleanupAfterCompletion(transaction);
-		currentTransactionIsExist.set(false);
-	}
+        currentTransactionIsExist.set(true);
+        super.doBegin(transaction, definition);
+    }
 
-	/**
-	 * 判断是否存在数据库事务
-	 * 
-	 * @return
-	 */
-	public static Boolean isExistTransaction() {
-		Boolean existTransaction = currentTransactionIsExist.get();
-		if (existTransaction == null || existTransaction == false) {
-			return false;
-		}
-		return existTransaction;
-	}
+    @Override
+    protected void doCleanupAfterCompletion(Object transaction) {
+        super.doCleanupAfterCompletion(transaction);
+        currentTransactionIsExist.set(false);
+    }
 
 }

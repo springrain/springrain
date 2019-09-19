@@ -2,6 +2,7 @@ package org.springrain.system.service.impl;
 
 import org.springframework.stereotype.Service;
 import org.springrain.frame.dao.IBaseJdbcDao;
+import org.springrain.frame.entity.BaseMapEntity;
 import org.springrain.frame.entity.IBaseEntity;
 import org.springrain.frame.service.BaseServiceImpl;
 import org.springrain.frame.util.Finder;
@@ -47,6 +48,26 @@ public class BaseSpringrainServiceImpl extends BaseServiceImpl implements IBaseS
     @Override
     public Object save(IBaseEntity entity) throws Exception {
         return super.save(entity);
+    }
+
+    @Override
+    public Object saveMapEntity(BaseMapEntity mapEntity) throws Exception {
+        return super.saveMapEntity(mapEntity);
+    }
+
+    @Override
+    public List<Integer> saveMapEntity(List<BaseMapEntity> list) throws Exception {
+        return super.saveMapEntity(list);
+    }
+
+    @Override
+    public Integer updateMapEntity(BaseMapEntity mapEntity) throws Exception {
+        return super.updateMapEntity(mapEntity);
+    }
+
+    @Override
+    public List<Integer> updateMapEntity(List<BaseMapEntity> list) throws Exception {
+        return super.updateMapEntity(list);
     }
 
     @Override

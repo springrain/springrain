@@ -6,140 +6,135 @@ import java.io.Serializable;
 
 /**
  * 接受请求,所有的请求都封装成springbean的调用. 序列化成二进制,然后再经过grpc传输
- * 
- * @author caomei
  *
+ * @author caomei
  */
 public class GrpcCommonRequest implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * 接口
-	 */
-	private String clazz;
+    /**
+     * 接口
+     */
+    private String clazz;
 
-	/**
-	 * spring 的bean Name
-	 */
-	private String beanName;
+    /**
+     * spring 的bean Name
+     */
+    private String beanName;
 
-	/**
-	 * 方法
-	 */
-	private String method;
+    /**
+     * 方法
+     */
+    private String method;
 
-	/**
-	 * service 方法参数
-	 */
-	private Object[] args;
-	/**
-	 * 方法参数类型
-	 */
-	private Class[] argTypes;
-
-
+    /**
+     * service 方法参数
+     */
+    private Object[] args;
+    /**
+     * 方法参数类型
+     */
+    private Class[] argTypes;
 
 
-	// 事务组Id,一次完整的请求链,groupId是唯一的.
-	private String txGroupId = null;
+    // 事务组Id,一次完整的请求链,groupId是唯一的.
+    private String txGroupId = null;
 
-	// 版本的编号,用于处理不同的版本
-	private Integer versionCode;
+    // 版本的编号,用于处理不同的版本
+    private Integer versionCode;
 
-	// 超时时间,超时之后,事务回滚
-	private Integer timeout;
+    // 超时时间,超时之后,事务回滚
+    private Integer timeout;
 
-	// 事务自动提交,默认true,如果是false就需要等待入口通知提交.
-	private Boolean autocommit;
+    // 事务自动提交,默认true,如果是false就需要等待入口通知提交.
+    private Boolean autocommit;
 
-	// 当前登录用户UserVO
-	private UserVO userVO;
+    // 当前登录用户UserVO
+    private UserVO userVO;
 
-	public String getClazz() {
-		return clazz;
-	}
+    public static long getSerialversionuid() {
+        return serialVersionUID;
+    }
 
-	public String getBeanName() {
-		return beanName;
-	}
+    public String getClazz() {
+        return clazz;
+    }
 
-	public void setBeanName(String beanName) {
-		this.beanName = beanName;
-	}
+    public void setClazz(String clazz) {
+        this.clazz = clazz;
+    }
 
-	public String getMethod() {
-		return method;
-	}
+    public String getBeanName() {
+        return beanName;
+    }
 
-	public Object[] getArgs() {
-		return args;
-	}
+    public void setBeanName(String beanName) {
+        this.beanName = beanName;
+    }
 
-	public void setClazz(String clazz) {
-		this.clazz = clazz;
-	}
+    public String getMethod() {
+        return method;
+    }
 
-	public void setMethod(String method) {
-		this.method = method;
-	}
+    public void setMethod(String method) {
+        this.method = method;
+    }
 
-	public void setArgs(Object[] args) {
-		this.args = args;
-	}
+    public Object[] getArgs() {
+        return args;
+    }
 
+    public void setArgs(Object[] args) {
+        this.args = args;
+    }
 
+    public String getTxGroupId() {
+        return txGroupId;
+    }
 
-	public String getTxGroupId() {
-		return txGroupId;
-	}
+    public void setTxGroupId(String txGroupId) {
+        this.txGroupId = txGroupId;
+    }
 
-	public void setTxGroupId(String txGroupId) {
-		this.txGroupId = txGroupId;
-	}
+    public Integer getTimeout() {
+        return timeout;
+    }
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
+    public void setTimeout(Integer timeout) {
+        this.timeout = timeout;
+    }
 
-	public Integer getTimeout() {
-		return timeout;
-	}
+    public Integer getVersionCode() {
+        return versionCode;
+    }
 
-	public void setTimeout(Integer timeout) {
-		this.timeout = timeout;
-	}
+    public void setVersionCode(Integer versionCode) {
+        this.versionCode = versionCode;
+    }
 
-	public Integer getVersionCode() {
-		return versionCode;
-	}
+    public Boolean getAutocommit() {
+        return autocommit;
+    }
 
-	public void setVersionCode(Integer versionCode) {
-		this.versionCode = versionCode;
-	}
+    public void setAutocommit(Boolean autocommit) {
+        this.autocommit = autocommit;
+    }
 
-	public Boolean getAutocommit() {
-		return autocommit;
-	}
+    public Class[] getArgTypes() {
+        return argTypes;
+    }
 
-	public void setAutocommit(Boolean autocommit) {
-		this.autocommit = autocommit;
-	}
+    public void setArgTypes(Class[] argTypes) {
+        this.argTypes = argTypes;
+    }
 
-	public Class[] getArgTypes() {
-		return argTypes;
-	}
+    public UserVO getUserVO() {
+        return userVO;
+    }
 
-	public void setArgTypes(Class[] argTypes) {
-		this.argTypes = argTypes;
-	}
-
-	public UserVO getUserVO() {
-		return userVO;
-	}
-
-	public void setUserVO(UserVO userVO) {
-		this.userVO = userVO;
-	}
+    public void setUserVO(UserVO userVO) {
+        this.userVO = userVO;
+    }
 
 }

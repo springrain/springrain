@@ -153,7 +153,7 @@ public class UserOrg extends BaseEntity {
     }
 
     /**
-     * 0会员,1员工,2主管
+     * 0会员,1员工,2主管,3店主
      */
     @WhereSQL(sql = "managerType=:UserOrg_userType")
     public Integer getManagerType() {

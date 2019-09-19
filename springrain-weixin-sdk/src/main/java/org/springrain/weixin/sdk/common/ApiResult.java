@@ -35,7 +35,7 @@ import java.util.Map;
  *  </pre>
  */
 public class ApiResult implements Serializable {
-    private static final long serialVersionUID = 722417391137943513L;
+    private static final long serialVersionUID = 1L;
 
     private static final Logger logger = LoggerFactory.getLogger(ApiResult.class);
 
@@ -129,50 +129,85 @@ public class ApiResult implements Serializable {
 
     @SuppressWarnings("unchecked")
     public <T> T get(String name) {
+        if (attrs == null) {
+            return null;
+        }
         return (T) attrs.get(name);
     }
 
     public String getStr(String name) {
+        if (attrs == null) {
+            return null;
+        }
+
         return (String) attrs.get(name);
     }
 
     public Integer getInt(String name) {
+        if (attrs == null) {
+            return null;
+        }
+
         Number number = (Number) attrs.get(name);
         return number == null ? null : number.intValue();
     }
 
     public Long getLong(String name) {
+        if (attrs == null) {
+            return null;
+        }
         Number number = (Number) attrs.get(name);
         return number == null ? null : number.longValue();
     }
 
     public BigInteger getBigInteger(String name) {
+        if (attrs == null) {
+            return null;
+        }
         return (BigInteger) attrs.get(name);
     }
 
     public Double getDouble(String name) {
+        if (attrs == null) {
+            return null;
+        }
         return (Double) attrs.get(name);
     }
 
     public BigDecimal getBigDecimal(String name) {
+        if (attrs == null) {
+            return null;
+        }
+
         return (BigDecimal) attrs.get(name);
     }
 
     public Boolean getBoolean(String name) {
+        if (attrs == null) {
+            return null;
+        }
         return (Boolean) attrs.get(name);
     }
 
     @SuppressWarnings("rawtypes")
     public List getList(String name) {
+        if (attrs == null) {
+            return null;
+        }
         return (List) attrs.get(name);
     }
 
     @SuppressWarnings("rawtypes")
     public Map getMap(String name) {
+        if (attrs == null) {
+            return null;
+        }
+
         return (Map) attrs.get(name);
     }
 
     public Map<String, Object> getAttrs() {
+
         return this.attrs;
     }
 

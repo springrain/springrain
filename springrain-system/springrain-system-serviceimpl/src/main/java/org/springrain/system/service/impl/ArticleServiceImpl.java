@@ -1,11 +1,9 @@
 package org.springrain.system.service.impl;
 
-import com.mysql.cj.Session;
 import org.springframework.stereotype.Service;
 import org.springrain.frame.entity.IBaseEntity;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.Page;
-import org.springrain.rpc.sessionuser.SessionUser;
 import org.springrain.system.entity.Article;
 import org.springrain.system.service.IArticleService;
 import org.springrain.system.service.IUserRoleOrgService;

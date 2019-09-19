@@ -19,10 +19,7 @@ import org.springrain.system.service.IUserService;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 
 @Component("jwtInterceptor")
@@ -38,9 +35,6 @@ public class JwtInterceptor implements HandlerInterceptor {
     @Resource
     private IRoleService roleService;
 
-
-    // 只要是登录用户,都有权限访问的URL
-    List<String> userURL = new ArrayList<>(Arrays.asList("/api/user/menu","/api/user/info"));
 
 
 
@@ -70,7 +64,7 @@ public class JwtInterceptor implements HandlerInterceptor {
 
         //超时判断
         Date expireTime = JwtUtils.getExpireDate(jwtToken);
-        if (expireTime.getTime() < System.currentTimeMillis()) {
+        if (expireTime == null || expireTime.getTime() < System.currentTimeMillis()) {
             response.setStatus(HttpStatus.FORBIDDEN.value());
             return false;
         }
@@ -93,7 +87,7 @@ public class JwtInterceptor implements HandlerInterceptor {
             return false;
         }
 
-        if(userURL.contains(uri)){//有权限
+        if (GlobalStatic.userDefaultUrl.contains(uri)) {//有权限
             UserVO userVO = userService.findUserVOByUserId(userId);
             SessionUser.sessionUserLocal.set(userVO);
             return true;

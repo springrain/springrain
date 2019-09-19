@@ -1,9 +1,7 @@
 package org.springrain.system.api;
 
 import com.google.common.collect.Maps;
-import io.protostuff.Request;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -12,16 +10,14 @@ import org.springrain.frame.util.CaptchaUtils;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.ReturnDatas;
 import org.springrain.frame.util.SecUtils;
-import org.springrain.rpc.sessionuser.SessionUser;
-import org.springrain.rpc.sessionuser.UserVO;
 import org.springrain.system.base.BaseController;
 import org.springrain.system.entity.User;
 import org.springrain.system.service.IUserRoleMenuService;
 import org.springrain.system.service.IUserService;
-import org.springrain.weixin.sdk.common.wxconfig.IWxMiniappConfig;
+import org.springrain.rpc.sessionuser.SessionUser;
+import org.springrain.rpc.sessionuser.UserVO;
 import org.springrain.weixin.sdk.common.wxconfig.IWxMpConfig;
 import org.springrain.weixin.sdk.open.SnsApi;
-import org.springrain.weixin.service.IWxMiniappConfigService;
 import org.springrain.weixin.service.IWxMpConfigService;
 
 import javax.annotation.Resource;

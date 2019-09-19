@@ -1,7 +1,7 @@
 package org.springrain.system.service;
 
-import org.springrain.rpc.annotation.RpcServiceAnnotation;
 import org.springrain.system.entity.Menu;
+import org.springrain.rpc.annotation.RpcServiceAnnotation;
 
 import java.util.List;
 

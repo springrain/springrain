@@ -1,9 +1,4 @@
-
 package org.springrain.frame.util;
-
-import java.net.URI;
-
-import javax.persistence.Table;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -18,6 +13,9 @@ import org.springframework.stereotype.Component;
 import org.springrain.frame.annotation.LuceneSearch;
 import org.springrain.frame.annotation.NotLog;
 
+import javax.persistence.Table;
+import java.net.URI;
+
 /**
  * Spring 工具类
  *
@@ -28,111 +26,110 @@ import org.springrain.frame.annotation.NotLog;
 @Component("springUtils")
 public class SpringUtils implements ApplicationContextAware {
 
-	private Logger logger = LoggerFactory.getLogger(getClass());
-	private static ApplicationContext applicationContext;
+    private static ApplicationContext applicationContext;
+    private Logger logger = LoggerFactory.getLogger(getClass());
+    @Value("${springrain.basepackagepath}")
+    private String basepackagepath;
 
-	@Value("${springrain.basepackagepath}")
-	private String basepackagepath;
+    public SpringUtils() {
 
-	public SpringUtils() {
+    }
 
-	}
+    /**
+     * 根据beanName 获取 spring bean
+     *
+     * @param beanName
+     * @return Object
+     */
+    public static Object getBean(String beanName) {
+        if (StringUtils.isEmpty(beanName)) {
+            return null;
+        }
+        return applicationContext.getBean(beanName);
+    }
 
-	@Override
-	public void setApplicationContext(ApplicationContext context) throws BeansException {
-		this.applicationContext = context;
+    /**
+     * 根据bean type 获取springBean
+     *
+     * @param clazz
+     * @return
+     */
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    public static Object getBeanByType(Class clazz) {
+        return applicationContext.getBean(clazz);
+    }
 
-		try {
+    /**
+     * 获取 Spring applicationContext
+     *
+     * @return
+     */
+    public static ApplicationContext getContext() {
+        return applicationContext;
+    }
 
-			new Thread() {
+    @Override
+    public void setApplicationContext(ApplicationContext context) throws BeansException {
+        this.applicationContext = context;
 
-				@Override
-				public void run() {
+        try {
 
-					try {
-						initEntityInfo();
-						// 初始化添加自定义的Lucene词语
-						// LuceneUtils.addDictWord(words);
-					} catch (Exception e) {
-						logger.error(e.getMessage(), e);
-					}
+            new Thread() {
 
-				}
+                @Override
+                public void run() {
 
-			}.start();
+                    try {
+                        initEntityInfo();
+                        // 初始化添加自定义的Lucene词语
+                        // LuceneUtils.addDictWord(words);
+                    } catch (Exception e) {
+                        logger.error(e.getMessage(), e);
+                    }
 
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-		}
+                }
 
-		System.out.println("----------------------started----------------------");
+            }.start();
 
-	}
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
 
-	/**
-	 * 根据beanName 获取 spring bean
-	 * 
-	 * @param beanName
-	 * @return Object
-	 */
-	public static Object getBean(String beanName) {
-		if (StringUtils.isEmpty(beanName)) {
-			return null;
-		}
-		return applicationContext.getBean(beanName);
-	}
+        System.out.println("----------------------started----------------------");
 
-	/**
-	 * 根据bean type 获取springBean
-	 * 
-	 * @param clazz
-	 * @return
-	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static Object getBeanByType(Class clazz) {
-		return applicationContext.getBean(clazz);
-	}
+    }
 
-	/**
-	 * 获取 Spring applicationContext
-	 * 
-	 * @return
-	 */
-	public static ApplicationContext getContext() {
-		return applicationContext;
-	}
+    private void initEntityInfo() throws Exception {
 
-	private void initEntityInfo() throws Exception {
+        String basePathName = basepackagepath;
 
-		String basePathName = basepackagepath;
+        String classPath = "/**/entity/*.class";
 
-		String classPath = "/**/entity/*.class";
+        String packagePath = basePathName.replaceAll("\\.", "/");
+        classPath = packagePath + classPath;
 
-		String packagePath = basePathName.replaceAll("\\.", "/");
-		classPath = packagePath + classPath;
+        PathMatchingResourcePatternResolver pmrpr = new PathMatchingResourcePatternResolver();
+        Resource[] resources = pmrpr
+                .getResources(PathMatchingResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + classPath);
 
-		PathMatchingResourcePatternResolver pmrpr = new PathMatchingResourcePatternResolver();
-		Resource[] resources = pmrpr
-				.getResources(PathMatchingResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + classPath);
+        for (Resource resource : resources) {
 
-		for (Resource resource : resources) {
+            URI uri = resource.getURI();
+            String entityClassName = uri.toString();
 
-			URI uri = resource.getURI();
-			String entityClassName = uri.toString();
+            entityClassName = entityClassName.substring(entityClassName.lastIndexOf(packagePath),
+                    entityClassName.lastIndexOf(".class"));
+            entityClassName = entityClassName.replaceAll("/", ".");
 
-			entityClassName = entityClassName.substring(entityClassName.lastIndexOf(packagePath),
-					entityClassName.lastIndexOf(".class"));
-			entityClassName = entityClassName.replaceAll("/", ".");
+            Class<?> clazz = Class.forName(entityClassName);
 
-			Class<?> clazz = Class.forName(entityClassName);
+            if (clazz.isAnnotationPresent(Table.class) || clazz.isAnnotationPresent(LuceneSearch.class)
+                    || clazz.isAnnotationPresent(NotLog.class)) {// 如果有Table注解或者LuceneSearch注解,缓存实体类
+                ClassUtils.getEntityInfoByClass(clazz);
+            }
 
-			if (clazz.isAnnotationPresent(Table.class) || clazz.isAnnotationPresent(LuceneSearch.class)
-					|| clazz.isAnnotationPresent(NotLog.class)) {// 如果有Table注解或者LuceneSearch注解,缓存实体类
-				ClassUtils.getEntityInfoByClass(clazz);
-			}
+        }
 
-		}
-
-	}
+    }
 
 }

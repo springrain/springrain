@@ -1,20 +1,17 @@
 package org.springrain.system.api;
 
 import com.alibaba.fastjson.JSONObject;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.web.bind.annotation.*;
-import org.springrain.frame.util.Finder;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import org.springrain.frame.util.Page;
 import org.springrain.frame.util.ReturnDatas;
 import org.springrain.frame.util.property.MessageUtils;
-import org.springrain.rpc.sessionuser.SessionUser;
 import org.springrain.system.base.BaseController;
-
 import org.springrain.system.entity.Article;
-import org.springrain.system.entity.Menu;
 import org.springrain.system.service.IArticleService;
-import org.springrain.system.base.BaseController;
 import org.springrain.system.service.IUserRoleMenuService;
 
 import javax.annotation.Resource;

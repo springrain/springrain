@@ -10,7 +10,7 @@
   <artifactId>springrain-system-web</artifactId>
   <name>springrain-system-web</name>
   <url>http://www.weicms.net</url>
-  <packaging>war</packaging>
+    <packaging>jar</packaging>
   <description>系统管理的web端</description>
     
     
@@ -24,7 +24,7 @@
 
   
   
-       <!-- 单体项目依赖springrain-system-serviceimpl,如果是分体依赖 springrain-system-service 接口即可 -->  
+       <!-- 单体项目依赖springrain-system-serviceimpl,如果是分体依赖 springrain-system-service 接口即可 -->
        
         <dependency>
 			<groupId>org.springrain</groupId>
@@ -47,10 +47,6 @@
 			<artifactId>springrain-frame-cache-memory</artifactId>
 			<version>6.0.0-SNAPSHOT</version>
 		</dependency>
-      <dependency>
-          <groupId>org.springrain</groupId>
-          <artifactId>springrain-weixin-sdk</artifactId>
-      </dependency>
 
 		
 		<dependency>
@@ -98,30 +94,33 @@
         
         
    <!-- 导出war模式,tomcat的scope设置成provided,测试可用,打包时排除-->
+      <!--
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
             <scope>provided</scope>
         </dependency>
-        
-   <!-- 生产环境暂时不包含actuator -->     
+      <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-web</artifactId>
+          <exclusions>
+              <exclusion>
+                  <groupId>org.springframework.boot</groupId>
+                  <artifactId>spring-boot-starter-tomcat</artifactId>
+              </exclusion>
+          </exclusions>
+      </dependency>
+      -->
+
+
+      <!-- 生产环境暂时不包含actuator -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
             <scope>provided</scope>
         </dependency>
-        
-	<!-- 导出war模式,排除tomcat的包 -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-			 <exclusions>
-                   <exclusion>
-	                   <groupId>org.springframework.boot</groupId>
-	                   <artifactId>spring-boot-starter-tomcat</artifactId>
-		           </exclusion>
-		      </exclusions> 
-		</dependency>
+
+
       <dependency>
           <groupId>org.springrain</groupId>
           <artifactId>springrain-weixin-sdk</artifactId>
@@ -139,6 +138,8 @@
 		
 			
 			<!-- 忽略测试类 -->
+            <!-- 纯java类的jar包时,不设置,用于其他项目依赖 -->
+ 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -146,9 +147,10 @@
                     <skipTests>true</skipTests>
                 </configuration>
             </plugin>
-            
-                
-           <!-- 使用maven package命令进行,代码混淆 ,项目类型必须是jar,如果是war有时会报错.-->
+         
+
+
+            <!-- 使用maven package命令进行,代码混淆 ,项目类型必须是jar,如果是war有时会报错.-->
            
            <!-- 
             <plugin>
@@ -189,9 +191,11 @@
             </plugin>
             
             -->
-             
-             
-             
+
+
+      
+            <!-- 纯java类的jar包时,不设置,用于其他项目依赖 -->
+            
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -203,8 +207,10 @@
                     </execution>
                 </executions>
             </plugin>
-			
-		</plugins>
+           
+
+
+        </plugins>
 		
   </build>
   

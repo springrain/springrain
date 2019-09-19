@@ -13,50 +13,49 @@ import org.springrain.rpc.grpcimpl.GrpcServer;
 
 /**
  * 获取applicationContext,启动grpcServer
- * 
- * @author caomei
  *
+ * @author caomei
  */
 @Component
 public class GrpcApplicationContextAware implements ApplicationContextAware {
 
-	private ApplicationContext applicationContext;
-	private static final Logger logger = LoggerFactory.getLogger(GrpcApplicationContextAware.class);
+    private static final Logger logger = LoggerFactory.getLogger(GrpcApplicationContextAware.class);
+    private ApplicationContext applicationContext;
 
-	/**
-	 * PRC 服务调用
-	 */
-	@Bean("commonGrpcService")
-	public CommonGrpcService commonGrpcService() {
-		return new CommonGrpcService(applicationContext);
-	}
+    /**
+     * PRC 服务调用
+     */
+    @Bean("commonGrpcService")
+    public CommonGrpcService commonGrpcService() {
+        return new CommonGrpcService(applicationContext);
+    }
 
 
-	/**
-	 * RPC 服务端,启动rpc服务
-	 */
-	// @Bean
-	// @ConditionalOnMissingBean(GrpcServer.class)
-	public GrpcServer grpcServer() throws Exception {
-		GrpcServer server = new GrpcServer();
-		server.addService(commonGrpcService());
-		server.start();
-		return server;
-	}
+    /**
+     * RPC 服务端,启动rpc服务
+     */
+    // @Bean
+    // @ConditionalOnMissingBean(GrpcServer.class)
+    public GrpcServer grpcServer() throws Exception {
+        GrpcServer server = new GrpcServer();
+        server.addService(commonGrpcService());
+        server.start();
+        return server;
+    }
 
-	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 
-		this.applicationContext = applicationContext;
+        this.applicationContext = applicationContext;
 
-		if (GlobalStatic.isRpcServer) {
-			try {
-				grpcServer();
-			} catch (Exception e) {
-				logger.error(e.getMessage(), e);
-			}
-		}
+        if (GlobalStatic.isRpcServer) {
+            try {
+                grpcServer();
+            } catch (Exception e) {
+                logger.error(e.getMessage(), e);
+            }
+        }
 
-	}
+    }
 
 }

@@ -148,6 +148,8 @@ public class OrgController  extends BaseController {
 			String id = (String) map.get("id");
 		    if(StringUtils.isNotBlank(id)){
 			    orgService.deleteOrgById(id);
+
+
 				return new ReturnDatas(ReturnDatas.SUCCESS,MessageUtils.DELETE_SUCCESS);
 			} else {
 				return new ReturnDatas(ReturnDatas.ERROR,MessageUtils.DELETE_NULL_ERROR);

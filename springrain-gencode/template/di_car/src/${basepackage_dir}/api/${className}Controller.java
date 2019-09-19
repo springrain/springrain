@@ -10,10 +10,20 @@ package ${basepackage}.${myParentDir};
 import ${basepackage}.entity.${className};
 import ${basepackage}.service.I${className}Service;
 import ${basepackage}.base.BaseController;
+import com.alibaba.fastjson.JSONObject;
+
+import org.springrain.frame.util.Page;
+import org.springrain.frame.util.ReturnDatas;
+import org.springrain.frame.util.property.MessageUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.apache.commons.lang3.StringUtils;
+
+import javax.annotation.Resource;
+import java.util.List;
+import java.util.Arrays;
 
 <#include "/copyright_class.include" >
 @RestController
@@ -118,10 +128,10 @@ public class ${className}Controller  extends BaseController {
 	 * 删除操作
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)   
-	public  ReturnDatas<${className}> delete( ${pkJavaType} id) throws Exception {
+	public  ReturnDatas<${className}> delete(@RequestBody JSONObject jsonObject ) throws Exception {
 			// 执行删除
 		try {
-			
+			String id=jsonObject.get("id").toString();
 		    if(StringUtils.isNotBlank(id)){
 			    ${classNameLower}Service.deleteById(id,${className}.class);
 				return new ReturnDatas(ReturnDatas.SUCCESS,MessageUtils.DELETE_SUCCESS);
