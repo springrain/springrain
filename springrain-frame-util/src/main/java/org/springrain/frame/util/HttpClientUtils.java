@@ -16,7 +16,7 @@ import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.impl.conn.BasicHttpClientConnectionManager;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
@@ -39,8 +39,8 @@ import java.util.Map;
 public class HttpClientUtils {
 
     private static final Logger logger = LoggerFactory.getLogger(HttpClientUtils.class);
-    private static BasicHttpClientConnectionManager connectionManager = null;
-    // private static PoolingHttpClientConnectionManager connectionManager = null;
+    // private static BasicHttpClientConnectionManager connectionManager = null;
+    private static PoolingHttpClientConnectionManager connectionManager = null;
 
     // private static HttpClientBuilder httpClientBuilder=null;
     private static RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(5000).setConnectTimeout(5000)
@@ -65,13 +65,12 @@ public class HttpClientUtils {
         // connectionManager=new
         // BasicHttpClientConnectionManager(socketFactoryRegistry);
 
-        // connectionManager = new
-        // PoolingHttpClientConnectionManager(socketFactoryRegistry);
-        // connectionManager = new PoolingHttpClientConnectionManager();
-        // connectionManager.setMaxTotal(1000);
-        // connectionManager.setDefaultMaxPerRoute(200);// 每个路由最大的请求数量
+        // connectionManager = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
+        connectionManager = new PoolingHttpClientConnectionManager();
+        connectionManager.setMaxTotal(1000);
+        connectionManager.setDefaultMaxPerRoute(200);// 每个路由最大的请求数量
 
-        connectionManager = new BasicHttpClientConnectionManager();
+        // connectionManager = new BasicHttpClientConnectionManager();
 
 
         // httpClientBuilder =
@@ -314,6 +313,7 @@ public class HttpClientUtils {
                     EntityUtils.consumeQuietly(entity); // 会自动释放连接
 
                 }
+
                 if (response != null) {
                     response.close();
                 }
@@ -404,8 +404,8 @@ public class HttpClientUtils {
     public static String sendHttpHeaderGet(String httpUrl, Map<String, String> headers, SSLContext sslContext) {
         HttpGet httpGet = new HttpGet(httpUrl);// 创建get请求
         for (Map.Entry<String, String> entry : headers.entrySet()) {
-            String key = entry.getKey().toString();
-            String value = entry.getValue().toString();
+            String key = entry.getKey();
+            String value = entry.getValue();
             httpGet.setHeader(key, value);
         }
         return sendHttpGet(httpGet, null);
@@ -427,8 +427,8 @@ public class HttpClientUtils {
             return sendHttpPost(httpPost, sslContext);
         }
         for (Map.Entry<String, String> entry : headers.entrySet()) {
-            String key = entry.getKey().toString();
-            String value = entry.getValue().toString();
+            String key = entry.getKey();
+            String value = entry.getValue();
             httpPost.setHeader(key, value);
         }
 
@@ -456,8 +456,8 @@ public class HttpClientUtils {
             return sendHttpPost(httpPost, sslContext);
         }
         for (Map.Entry<String, String> entry : headers.entrySet()) {
-            String key = entry.getKey().toString();
-            String value = entry.getValue().toString();
+            String key = entry.getKey();
+            String value = entry.getValue();
             httpPost.setHeader(key, value);
         }
 
