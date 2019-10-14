@@ -39,11 +39,17 @@ public class MiniappQrcodeApi {
 
         String apiurl = getUnlimitedUrl + config.getAccessToken();
 
-        HttpPost httpPost = new HttpPost(apiurl);
-        httpPost.setEntity(new StringEntity(JsonUtils.writeValueAsString(miniappQrcode.getQrCodeMap())));
+
         OutputStream os = null;
-        try (final CloseableHttpResponse response = HttpClientUtils.getHttpClient().execute(httpPost)) {
-            HttpEntity entity = response.getEntity();
+        HttpEntity entity = null;
+        CloseableHttpResponse response = null;
+
+        try {
+
+            HttpPost httpPost = new HttpPost(apiurl);
+            httpPost.setEntity(new StringEntity(JsonUtils.writeValueAsString(miniappQrcode.getQrCodeMap())));
+            response = HttpClientUtils.getHttpClient().execute(httpPost);
+            entity = response.getEntity();
             Header[] contentTypeHeader = response.getHeaders("Content-Type");
             if (contentTypeHeader != null && contentTypeHeader.length > 0
                     && ContentType.APPLICATION_JSON.getMimeType()
@@ -72,10 +78,20 @@ public class MiniappQrcodeApi {
             logger.error(e.getMessage(), e);
             return new ApiResult();
         } finally {
-            httpPost.releaseConnection();
+
             if (os != null) {
                 os.close();
             }
+
+            // 关闭连接,释放资源
+            if (entity != null) {
+                EntityUtils.consumeQuietly(entity); // 会自动释放连接
+            }
+
+            if (response != null) {
+                response.close();
+            }
+
         }
 
     }
