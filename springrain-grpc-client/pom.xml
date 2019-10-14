@@ -12,12 +12,6 @@
     <description>grpc的客户端模块</description>
 
 
-    <properties>
-        <io.grpc.version>1.24.0</io.grpc.version>
-        <kr.motd.maven.version>1.5.0.Final</kr.motd.maven.version>
-        <io.protostuff.version>1.6.0</io.protostuff.version>
-    </properties>
-
     <dependencies>
 
 
@@ -29,17 +23,14 @@
         <dependency>
             <groupId>io.grpc</groupId>
             <artifactId>grpc-netty-shaded</artifactId>
-            <version>${io.grpc.version}</version>
         </dependency>
         <dependency>
             <groupId>io.grpc</groupId>
             <artifactId>grpc-protobuf</artifactId>
-            <version>${io.grpc.version}</version>
         </dependency>
         <dependency>
             <groupId>io.grpc</groupId>
             <artifactId>grpc-stub</artifactId>
-            <version>${io.grpc.version}</version>
         </dependency>
 
 
