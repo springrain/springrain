@@ -403,8 +403,9 @@ public class WXPayApi {
      * @throws Exception
      */
     public static String payRequest(IWxPayConfig config, String urlSuffix, Map<String, String> reqData, boolean useCert) {
-        //String msgUUID = reqData.get("nonce_str");
-
+        long elapsedTimeMillis = 0;
+        long startTimestampMs = WXPayUtil.getCurrentTimestampMs();
+        String msgUUID = reqData.get("nonce_str");
         try {
             String data = WXPayUtil.mapToXml(reqData);
             SSLContext sslContext = null;
@@ -431,9 +432,16 @@ public class WXPayApi {
             header.put("User-Agent", USER_AGENT + " " + config.getMchId());
 
             String httpHeaderPost = HttpClientUtils.sendHttpHeaderPost(WxConsts.mppaybaseurl + urlSuffix, header, data, sslContext);
+            elapsedTimeMillis = WXPayUtil.getCurrentTimestampMs() - startTimestampMs;
+            WXPayReportApi.report(config, msgUUID, elapsedTimeMillis);
+
             return httpHeaderPost;
         } catch (Exception e) {
+            elapsedTimeMillis = WXPayUtil.getCurrentTimestampMs() - startTimestampMs;
             logger.error(e.getMessage(), e);
+            WXPayReportApi.report(config, msgUUID, elapsedTimeMillis);
+            // todo
+            // config.getWXPayDomain().report(domainInfo.domain, elapsedTimeMillis, exception);
             return null;
         }
 

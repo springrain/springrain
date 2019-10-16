@@ -244,6 +244,11 @@ public class WxConsts {
     public static String mppaybaseurl = "https://api.mch.weixin.qq.com";
     //企业号API的访问协议,为了以后方便处理特殊情况
     public static String qyapiurl = "https://qyapi.weixin.qq.com";
+    //支付交易上报
+    public static String reporturl = "http://report.mch.weixin.qq.com";
+
+
+
 
     static {
 
