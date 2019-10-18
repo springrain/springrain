@@ -76,7 +76,8 @@ public class MiniappQrcodeApi {
 
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return new ApiResult();
+            //return new ApiResult();
+            return null;
         } finally {
 
             if (os != null) {

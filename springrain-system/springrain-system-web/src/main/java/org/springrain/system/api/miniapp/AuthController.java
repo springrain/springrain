@@ -116,7 +116,7 @@ public class AuthController extends BaseController {
 
         String mcode = map.get("mcode").toString();
 
-        String appId="wx95217af982ed4f53";
+        String appId="123";
         IWxMiniappConfig config = wxMiniappConfigService.findWxMiniappConfigById(appId);
 
         MiniappQrcode miniappQrcode = new MiniappQrcode();
@@ -124,7 +124,7 @@ public class AuthController extends BaseController {
         miniappQrcode.setScene(mcode);
 
         ApiResult apiResult = MiniappQrcodeApi.getUnlimited(config, miniappQrcode);
-        if(apiResult.isSucceed()){
+        if(apiResult!=null&&apiResult.isSucceed()){
             File file = apiResult.getFile();
             file.getName();
             returnObject.setResult("/upload/miniappqrcode/"+file.getName());

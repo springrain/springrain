@@ -534,7 +534,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
                         FrameBeanPropertyRowMapper.newInstance(clazz));
             }
         } catch (EmptyResultDataAccessException e) {
-            logger.error(e.getMessage(), e);
+            // logger.error(e.getMessage(), e);
             t = null;
         }
 
