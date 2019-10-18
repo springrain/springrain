@@ -16,7 +16,7 @@
 	<entry key="outRoot">generator-output</entry>
 	<!-- 需要移除的表名前缀,使用逗号进行分隔多个前缀,示例值: t_,v_ -->
 	<entry key="tableRemovePrefixes">t_,tc_,pos_</entry>
-	<!-- oracle,MSSQL需要指定jdbc.schema,其它数据库忽略此项配置  -->
+	<!-- oracle,MSSQL需要指定jdbc.schema,MySQL8.0.18也需要指定,其它数据库忽略此项配置  -->
 	<entry key="jdbc.schema"></entry>
 	<entry key="jdbc.catalog"></entry>
 	<!-- 数据库类型映射  -->
@@ -27,11 +27,11 @@
 	<entry key="java_typemapping.java.lang.Short">Integer</entry>
 	<entry key="java_typemapping.java.math.BigDecimal">java.math.BigDecimal</entry>
 		<!-- 数据库 账号密码  -->
-	<entry key="jdbc.username">meilin</entry>
-	<entry key="jdbc.password">meilin</entry>
+	<entry key="jdbc.username">root</entry>
+	<entry key="jdbc.password">root</entry>
 
 	<!-- Mysql -->
-	<entry key="jdbc.url">jdbc:mysql://192.168.0.201:30306/meilin?characterEncoding=utf8&amp;useUnicode=true&amp;useSSL=false&amp;serverTimezone=Hongkong</entry>
+	<entry key="jdbc.url">jdbc:mysql://127.0.0.1:3306/springrain?characterEncoding=utf8&amp;useUnicode=true&amp;useSSL=false&amp;serverTimezone=Hongkong</entry>
 	<entry key="jdbc.driver">com.mysql.cj.jdbc.Driver</entry>
 	
 	<!-- H2
