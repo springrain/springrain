@@ -1,7 +1,7 @@
 package org.springrain.weixin.sdk.pay;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import org.apache.http.conn.ConnectTimeoutException;
 import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.weixin.sdk.common.WxConsts;
 import org.springrain.weixin.sdk.common.wxconfig.IWxPayConfig;
@@ -9,6 +9,8 @@ import org.springrain.weixin.sdk.common.wxconfig.IWxPayConfig;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import java.io.FileInputStream;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.security.KeyStore;
 import java.security.SecureRandom;
 import java.util.HashMap;
@@ -24,7 +26,6 @@ import static org.springrain.weixin.sdk.pay.WXPayConstants.USER_AGENT;
  */
 public class WXPayApi {
 
-    private static final Logger logger = LoggerFactory.getLogger(WXPayApi.class);
 
     private WXPayApi() {
         throw new IllegalAccessError("工具类不能实例化");
@@ -394,6 +395,47 @@ public class WXPayApi {
 
 
     /**
+     *
+     * @param config
+     * @param reqData
+     * @return
+     * @throws Exception
+     */
+    public static Map<String, String> facePayOrder(IWxPayConfig config, Map<String, String> reqData) throws Exception {
+        String  url = WXPayConstants.FACEPAYORDER_URL_SUFFIX;
+
+        String respXml = payRequest(config, url, fillRequestData(config, reqData), false);
+        return processResponseXml(config, respXml);
+    }
+
+
+    public static Map<String, String> getWxpayfaceAuthinfo(IWxPayConfig config,  Map<String, String> reqData) throws Exception {
+
+        String url = WXPayConstants.WXPAYFACE_AUTHINFO;
+
+        String respXml = payRequest(config, url, fillRequestData(config, reqData), false);
+        return processResponseXml(config, respXml);
+    }
+
+    /**
+     *
+     * @param config
+     * @param reqData
+     * @return
+     * @throws Exception
+     */
+    public static Map<String, String> facePayOrderQuery(IWxPayConfig config, Map<String, String> reqData) throws Exception {
+        String url = WXPayConstants.FACEPAYQUERY_URL_SUFFIX;
+
+        String respXml = payRequest(config, url, fillRequestData(config, reqData), true);
+        return processResponseXml(config, respXml);
+    }
+
+
+
+
+
+    /**
      * 请求，只请求一次，不做重试
      *
      * @param urlSuffix
@@ -405,6 +447,7 @@ public class WXPayApi {
     public static String payRequest(IWxPayConfig config, String urlSuffix, Map<String, String> reqData, boolean useCert) {
         long elapsedTimeMillis = 0;
         long startTimestampMs = WXPayUtil.getCurrentTimestampMs();
+        Exception exception = null;
         String msgUUID = reqData.get("nonce_str");
         try {
             String data = WXPayUtil.mapToXml(reqData);
@@ -430,20 +473,68 @@ public class WXPayApi {
             Map<String, String> header = new HashMap<>();
             header.put("Content-Type", "text/xml");
             header.put("User-Agent", USER_AGENT + " " + config.getMchId());
+            String httpUrl = WxConsts.mppaybaseurl;
 
-            String httpHeaderPost = HttpClientUtils.sendHttpHeaderPost(WxConsts.mppaybaseurl + urlSuffix, header, data, sslContext);
+            if(urlSuffix.indexOf(WXPayConstants.WXPAYFACE_AUTHINFO) > -1){
+                httpUrl = WxConsts.payappbaseurl;
+            }
+
+            String httpHeaderPost = HttpClientUtils.sendHttpHeaderPost(httpUrl + urlSuffix, header, data, sslContext);
             elapsedTimeMillis = WXPayUtil.getCurrentTimestampMs() - startTimestampMs;
-            WXPayReportApi.report(config, msgUUID, elapsedTimeMillis);
-
+            WXPayReport reportInfo = new WXPayReport();
+            reportInfo.setUuid(msgUUID);
+            reportInfo.setElapsedTimeMillis(elapsedTimeMillis);
+            WXPayReportApi.report(config, reportInfo);
             return httpHeaderPost;
-        } catch (Exception e) {
+        } catch (UnknownHostException ex) {
+            exception = ex;
+
             elapsedTimeMillis = WXPayUtil.getCurrentTimestampMs() - startTimestampMs;
-            logger.error(e.getMessage(), e);
-            WXPayReportApi.report(config, msgUUID, elapsedTimeMillis);
-            // todo
-            // config.getWXPayDomain().report(domainInfo.domain, elapsedTimeMillis, exception);
-            return null;
+            WXPayReport reportInfo = new WXPayReport();
+            reportInfo.setUuid(msgUUID);
+            reportInfo.setElapsedTimeMillis(elapsedTimeMillis);
+            reportInfo.setFirstHasDnsError(true);
+
+            WXPayUtil.getLogger().warn("UnknownHostException for reportInfo {}", reportInfo);
+
+            WXPayReportApi.report(config, reportInfo);
+
+        } catch (ConnectTimeoutException ex) {
+            exception = ex;
+            elapsedTimeMillis = WXPayUtil.getCurrentTimestampMs() - startTimestampMs;
+            WXPayReport reportInfo = new WXPayReport();
+            reportInfo.setUuid(msgUUID);
+            reportInfo.setElapsedTimeMillis(elapsedTimeMillis);
+            reportInfo.setFirstHasConnectTimeout(true);
+
+            WXPayUtil.getLogger().warn("UnknownHostException for reportInfo {}", reportInfo);
+
+            WXPayReportApi.report(config, reportInfo);
+
+        } catch (SocketTimeoutException ex) {
+            exception = ex;
+            elapsedTimeMillis = WXPayUtil.getCurrentTimestampMs() - startTimestampMs;
+            WXPayReport reportInfo = new WXPayReport();
+            reportInfo.setUuid(msgUUID);
+            reportInfo.setElapsedTimeMillis(elapsedTimeMillis);
+            reportInfo.setFirstHasReadTimeout(true);
+            WXPayUtil.getLogger().warn("UnknownHostException for reportInfo {}", reportInfo);
+
+            WXPayReportApi.report(config, reportInfo);
+
+        } catch (Exception ex) {
+            exception = ex;
+            elapsedTimeMillis = WXPayUtil.getCurrentTimestampMs() - startTimestampMs;
+            WXPayReport reportInfo = new WXPayReport();
+            reportInfo.setUuid(msgUUID);
+            reportInfo.setElapsedTimeMillis(elapsedTimeMillis);
+            WXPayUtil.getLogger().warn("UnknownHostException for reportInfo {}", reportInfo);
+            WXPayReportApi.report(config, reportInfo);
         }
+
+
+        // WXPayReportApi.getWXPayDomain().report(domainInfo.domain, elapsedTimeMillis, exception);
+        return null;
 
     }
 

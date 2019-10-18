@@ -1,7 +1,6 @@
 package org.springrain.weixin.sdk.pay;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.weixin.sdk.common.WxConsts;
 import org.springrain.weixin.sdk.common.wxconfig.IWxPayConfig;
@@ -16,7 +15,6 @@ import java.util.concurrent.ThreadFactory;
 
 public class WXPayReportApi {
 
-    private static final Logger logger = LoggerFactory.getLogger(WXPayReportApi.class);
 
     private static LinkedBlockingQueue<String> reportMsgQueue = null;
     private static ExecutorService executorService = null;
@@ -51,7 +49,7 @@ public class WXPayReportApi {
             }
         });
 
-        logger.info("report worker num: {}", reportWorkerNum);
+        WXPayUtil.getLogger().info("report worker num: {}", reportWorkerNum);
         for (int i = 0; i < reportWorkerNum; ++i) {
             executorService.execute(new Runnable() {
                 public void run() {
@@ -92,41 +90,19 @@ public class WXPayReportApi {
 
     }
 
-    public static void report(IWxPayConfig config, String uuid, long elapsedTimeMillis) {
-        report(config, uuid, elapsedTimeMillis, "api.mch.weixin.qq.com", true, 5000, 5000, false, false, false);
-    }
 
     /**
-     * 上报数据
      *
      * @param config
-     * @param uuid
-     * @param elapsedTimeMillis
-     * @param firstDomain
-     * @param primaryDomain
-     * @param firstConnectTimeoutMillis
-     * @param firstReadTimeoutMillis
-     * @param firstHasDnsError
-     * @param firstHasConnectTimeout
-     * @param firstHasReadTimeout
+     * @param reportInfo
      */
-
-    public static void report(IWxPayConfig config, String uuid, long elapsedTimeMillis,
-                              String firstDomain, boolean primaryDomain, int firstConnectTimeoutMillis, int firstReadTimeoutMillis,
-                              boolean firstHasDnsError, boolean firstHasConnectTimeout, boolean firstHasReadTimeout) {
-        long currentTimestamp = WXPayUtil.getCurrentTimestamp();
-        WXPayReport reportInfo = new WXPayReport(uuid, currentTimestamp, elapsedTimeMillis,
-                firstDomain, primaryDomain, firstConnectTimeoutMillis, firstReadTimeoutMillis,
-                firstHasDnsError, firstHasConnectTimeout, firstHasReadTimeout);
+    public static void report(IWxPayConfig config, WXPayReport reportInfo) {
         String data = reportInfo.toLineString(config.getKey());
         WXPayUtil.getLogger().info("report {}", data);
         if (data != null) {
             reportMsgQueue.offer(data);
         }
     }
-
-
-
 
 
 }
