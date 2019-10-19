@@ -1,5 +1,6 @@
 package org.springrain.weixin.sdk.pay;
 
+import org.springrain.weixin.sdk.common.WxConsts;
 import org.springrain.weixin.sdk.common.wxconfig.IWxPayConfig;
 
 import java.util.Map;
@@ -11,11 +12,11 @@ import java.util.Map;
 public class RedPackApi {
 
     // 文档地址：https://pay.weixin.qq.com/wiki/doc/api/cash_coupon.php?chapter=13_5#
-    private static String sendRedPackUrl = "/mmpaymkttransfers/sendredpack";
+    private static String sendRedPackUrl = WxConsts.mppaybaseurl + "/mmpaymkttransfers/sendredpack";
     // 文档地址：https://pay.weixin.qq.com/wiki/doc/api/cash_coupon.php?chapter=13_7&index=6
-    private static String getRedPackInfo = "/mmpaymkttransfers/gethbinfo ";
+    private static String getRedPackInfo = WxConsts.mppaybaseurl + "/mmpaymkttransfers/gethbinfo ";
     // 裂变红包：https://pay.weixin.qq.com/wiki/doc/api/cash_coupon.php?chapter=16_5
-    private static String sendGroupRedPackUrl = "/mmpaymkttransfers/sendgroupredpack";
+    private static String sendGroupRedPackUrl = WxConsts.mppaybaseurl + "/mmpaymkttransfers/sendgroupredpack";
 
     /**
      * 发送红包

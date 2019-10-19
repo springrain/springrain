@@ -3,7 +3,6 @@ package org.springrain.weixin.sdk.pay;
 
 import org.apache.http.conn.ConnectTimeoutException;
 import org.springrain.frame.util.HttpClientUtils;
-import org.springrain.weixin.sdk.common.WxConsts;
 import org.springrain.weixin.sdk.common.wxconfig.IWxPayConfig;
 
 import javax.net.ssl.KeyManagerFactory;
@@ -101,9 +100,9 @@ public class WXPayApi {
     public static Map<String, String> microPay(IWxPayConfig config, Map<String, String> reqData) throws Exception {
         String url;
         if (config.getUseSandbox()) {
-            url = WXPayConstants.SANDBOX_MICROPAY_URL_SUFFIX;
+            url = WXPayConstants.SANDBOX_MICROPAY_URL;
         } else {
-            url = WXPayConstants.MICROPAY_URL_SUFFIX;
+            url = WXPayConstants.MICROPAY_URL;
         }
         String respXml = payRequest(config, url, fillRequestData(config, reqData), true);
         return processResponseXml(config, respXml);
@@ -187,9 +186,9 @@ public class WXPayApi {
     public static Map<String, String> unifiedOrder(IWxPayConfig config, Map<String, String> reqData) throws Exception {
         String url;
         if (config.getUseSandbox()) {
-            url = WXPayConstants.SANDBOX_UNIFIEDORDER_URL_SUFFIX;
+            url = WXPayConstants.SANDBOX_UNIFIEDORDER_URL;
         } else {
-            url = WXPayConstants.UNIFIEDORDER_URL_SUFFIX;
+            url = WXPayConstants.UNIFIEDORDER_URL;
         }
         if (config.getNotifyUrl() != null) {
             reqData.put("notify_url", config.getNotifyUrl());
@@ -210,9 +209,9 @@ public class WXPayApi {
     public static Map<String, String> orderQuery(IWxPayConfig config, Map<String, String> reqData) throws Exception {
         String url;
         if (config.getUseSandbox()) {
-            url = WXPayConstants.SANDBOX_ORDERQUERY_URL_SUFFIX;
+            url = WXPayConstants.SANDBOX_ORDERQUERY_URL;
         } else {
-            url = WXPayConstants.ORDERQUERY_URL_SUFFIX;
+            url = WXPayConstants.ORDERQUERY_URL;
         }
         String respXml = payRequest(config, url, fillRequestData(config, reqData), false);
         return processResponseXml(config, respXml);
@@ -231,9 +230,9 @@ public class WXPayApi {
     public static Map<String, String> reverse(IWxPayConfig config, Map<String, String> reqData) throws Exception {
         String url;
         if (config.getUseSandbox()) {
-            url = WXPayConstants.SANDBOX_REVERSE_URL_SUFFIX;
+            url = WXPayConstants.SANDBOX_REVERSE_URL;
         } else {
-            url = WXPayConstants.REVERSE_URL_SUFFIX;
+            url = WXPayConstants.REVERSE_URL;
         }
         String respXml = payRequest(config, url, fillRequestData(config, reqData), true);
         return processResponseXml(config, respXml);
@@ -251,9 +250,9 @@ public class WXPayApi {
     public static Map<String, String> closeOrder(IWxPayConfig config, Map<String, String> reqData) throws Exception {
         String url;
         if (config.getUseSandbox()) {
-            url = WXPayConstants.SANDBOX_CLOSEORDER_URL_SUFFIX;
+            url = WXPayConstants.SANDBOX_CLOSEORDER_URL;
         } else {
-            url = WXPayConstants.CLOSEORDER_URL_SUFFIX;
+            url = WXPayConstants.CLOSEORDER_URL;
         }
         String respXml = payRequest(config, url, fillRequestData(config, reqData), false);
         return processResponseXml(config, respXml);
@@ -272,9 +271,9 @@ public class WXPayApi {
     public static Map<String, String> refund(IWxPayConfig config, Map<String, String> reqData) throws Exception {
         String url;
         if (config.getUseSandbox()) {
-            url = WXPayConstants.SANDBOX_REFUND_URL_SUFFIX;
+            url = WXPayConstants.SANDBOX_REFUND_URL;
         } else {
-            url = WXPayConstants.REFUND_URL_SUFFIX;
+            url = WXPayConstants.REFUND_URL;
         }
         String respXml = payRequest(config, url, fillRequestData(config, reqData), true);
         return processResponseXml(config, respXml);
@@ -292,9 +291,9 @@ public class WXPayApi {
     public static Map<String, String> refundQuery(IWxPayConfig config, Map<String, String> reqData) throws Exception {
         String url;
         if (config.getUseSandbox()) {
-            url = WXPayConstants.SANDBOX_REFUNDQUERY_URL_SUFFIX;
+            url = WXPayConstants.SANDBOX_REFUNDQUERY_URL;
         } else {
-            url = WXPayConstants.REFUNDQUERY_URL_SUFFIX;
+            url = WXPayConstants.REFUNDQUERY_URL;
         }
         String respXml = payRequest(config, url, fillRequestData(config, reqData), false);
         return processResponseXml(config, respXml);
@@ -314,9 +313,9 @@ public class WXPayApi {
     public static Map<String, String> downloadBill(IWxPayConfig config, Map<String, String> reqData) throws Exception {
         String url;
         if (config.getUseSandbox()) {
-            url = WXPayConstants.SANDBOX_DOWNLOADBILL_URL_SUFFIX;
+            url = WXPayConstants.SANDBOX_DOWNLOADBILL_URL;
         } else {
-            url = WXPayConstants.DOWNLOADBILL_URL_SUFFIX;
+            url = WXPayConstants.DOWNLOADBILL_URL;
         }
         String respStr = payRequest(config, url, fillRequestData(config, reqData), false).trim();
         Map<String, String> ret;
@@ -345,9 +344,9 @@ public class WXPayApi {
     public static Map<String, String> report(IWxPayConfig config, Map<String, String> reqData) throws Exception {
         String url;
         if (config.getUseSandbox()) {
-            url = WXPayConstants.SANDBOX_REPORT_URL_SUFFIX;
+            url = WXPayConstants.SANDBOX_REPORT_URL;
         } else {
-            url = WXPayConstants.REPORT_URL_SUFFIX;
+            url = WXPayConstants.REPORT_URL;
         }
         String respXml = payRequest(config, url, fillRequestData(config, reqData), false);
         return WXPayUtil.xmlToMap(respXml);
@@ -365,9 +364,9 @@ public class WXPayApi {
     public static Map<String, String> shortUrl(IWxPayConfig config, Map<String, String> reqData) throws Exception {
         String url;
         if (config.getUseSandbox()) {
-            url = WXPayConstants.SANDBOX_SHORTURL_URL_SUFFIX;
+            url = WXPayConstants.SANDBOX_SHORTURL_URL;
         } else {
-            url = WXPayConstants.SHORTURL_URL_SUFFIX;
+            url = WXPayConstants.SHORTURL_URL;
         }
         String respXml = payRequest(config, url, fillRequestData(config, reqData), false);
         return processResponseXml(config, respXml);
@@ -385,9 +384,9 @@ public class WXPayApi {
     public static Map<String, String> authCodeToOpenid(IWxPayConfig config, Map<String, String> reqData) throws Exception {
         String url;
         if (config.getUseSandbox()) {
-            url = WXPayConstants.SANDBOX_AUTHCODETOOPENID_URL_SUFFIX;
+            url = WXPayConstants.SANDBOX_AUTHCODETOOPENID_URL;
         } else {
-            url = WXPayConstants.AUTHCODETOOPENID_URL_SUFFIX;
+            url = WXPayConstants.AUTHCODETOOPENID_URL;
         }
         String respXml = payRequest(config, url, fillRequestData(config, reqData), true);
         return processResponseXml(config, respXml);
@@ -402,18 +401,16 @@ public class WXPayApi {
      * @throws Exception
      */
     public static Map<String, String> facePayOrder(IWxPayConfig config, Map<String, String> reqData) throws Exception {
-        String  url = WXPayConstants.FACEPAYORDER_URL_SUFFIX;
 
-        String respXml = payRequest(config, url, fillRequestData(config, reqData), false);
+
+        String respXml = payRequest(config, WXPayConstants.FACEPAYORDER_URL, fillRequestData(config, reqData), false);
         return processResponseXml(config, respXml);
     }
 
 
     public static Map<String, String> getWxpayfaceAuthinfo(IWxPayConfig config,  Map<String, String> reqData) throws Exception {
 
-        String url = WXPayConstants.WXPAYFACE_AUTHINFO;
-
-        String respXml = payRequest(config, url, fillRequestData(config, reqData), false);
+        String respXml = payRequest(config, WXPayConstants.WXPAYFACE_AUTHINFO, fillRequestData(config, reqData), false);
         return processResponseXml(config, respXml);
     }
 
@@ -425,9 +422,7 @@ public class WXPayApi {
      * @throws Exception
      */
     public static Map<String, String> facePayOrderQuery(IWxPayConfig config, Map<String, String> reqData) throws Exception {
-        String url = WXPayConstants.FACEPAYQUERY_URL_SUFFIX;
-
-        String respXml = payRequest(config, url, fillRequestData(config, reqData), true);
+        String respXml = payRequest(config, WXPayConstants.FACEPAYQUERY_URL, fillRequestData(config, reqData), true);
         return processResponseXml(config, respXml);
     }
 
@@ -438,13 +433,13 @@ public class WXPayApi {
     /**
      * 请求，只请求一次，不做重试
      *
-     * @param urlSuffix
+     * @param apiUrl
      * @param reqData
      * @param useCert   是否使用证书，针对退款、撤销等操作
      * @return
      * @throws Exception
      */
-    public static String payRequest(IWxPayConfig config, String urlSuffix, Map<String, String> reqData, boolean useCert) {
+    public static String payRequest(IWxPayConfig config, String apiUrl, Map<String, String> reqData, boolean useCert) {
         long elapsedTimeMillis = 0;
         long startTimestampMs = WXPayUtil.getCurrentTimestampMs();
         Exception exception = null;
@@ -473,13 +468,8 @@ public class WXPayApi {
             Map<String, String> header = new HashMap<>();
             header.put("Content-Type", "text/xml");
             header.put("User-Agent", USER_AGENT + " " + config.getMchId());
-            String httpUrl = WxConsts.mppaybaseurl;
 
-            if(urlSuffix.indexOf(WXPayConstants.WXPAYFACE_AUTHINFO) > -1){
-                httpUrl = WxConsts.payappbaseurl;
-            }
-
-            String httpHeaderPost = HttpClientUtils.sendHttpHeaderPost(httpUrl + urlSuffix, header, data, sslContext);
+            String httpHeaderPost = HttpClientUtils.sendHttpHeaderPost(apiUrl, header, data, sslContext);
             elapsedTimeMillis = WXPayUtil.getCurrentTimestampMs() - startTimestampMs;
             WXPayReport reportInfo = new WXPayReport();
             reportInfo.setUuid(msgUUID);
