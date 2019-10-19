@@ -246,7 +246,8 @@ public class WxConsts {
     public static String qyapiurl = "https://qyapi.weixin.qq.com";
     //支付交易上报
     public static String reporturl = "http://report.mch.weixin.qq.com";
-
+    //微信app pay
+    public static String payappbaseurl = "https://payapp.weixin.qq.com";
 
 
 
