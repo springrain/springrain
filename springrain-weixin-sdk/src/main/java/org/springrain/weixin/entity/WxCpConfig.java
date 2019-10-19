@@ -61,7 +61,11 @@ public class WxCpConfig extends BaseEntity implements IWxCpConfig {
 
     @Override
     public void setAccessTokenExpiresTime(Long accessTokenExpiresTime) {
-        this.accessTokenExpiresTime = System.currentTimeMillis() + (accessTokenExpiresTime - 600) * 1000L;//预留10分钟
+        this.accessTokenExpiresTime = accessTokenExpiresTime;
+    }
+    @Override
+    public void setExpiresIn(Integer expiresIn) {
+        this.accessTokenExpiresTime = System.currentTimeMillis() + (expiresIn - 600) * 1000L;//预留10分钟
     }
 
     @Override
@@ -69,6 +73,8 @@ public class WxCpConfig extends BaseEntity implements IWxCpConfig {
     public boolean isAccessTokenExpired() {
         return System.currentTimeMillis() > this.accessTokenExpiresTime;
     }
+
+
 
     @Override
     public String getSecret() {

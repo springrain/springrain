@@ -13,7 +13,9 @@ public interface IWxConfig {
 
     void setAccessToken(String accessToken);
 
-    void setAccessTokenExpiresTime(Long l);
+    void setAccessTokenExpiresTime(Long accessTokenExpiresTime);
+
+    void setExpiresIn(Integer expiresIn);
 
     boolean isAccessTokenExpired();
 

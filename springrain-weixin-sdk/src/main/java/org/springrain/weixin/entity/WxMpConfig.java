@@ -316,7 +316,11 @@ public class WxMpConfig extends BaseEntity implements IWxMpConfig {
 
     @Override
     public void setAccessTokenExpiresTime(Long accessTokenExpiresTime) {
-        this.accessTokenExpiresTime = System.currentTimeMillis() + (accessTokenExpiresTime - 600) * 1000L;//预留10分钟
+        this.accessTokenExpiresTime = accessTokenExpiresTime;
+    }
+    @Override
+    public void setExpiresIn(Integer expiresIn) {
+        this.accessTokenExpiresTime = System.currentTimeMillis() + (expiresIn - 600) * 1000L;//预留10分钟
     }
 
 
@@ -327,8 +331,13 @@ public class WxMpConfig extends BaseEntity implements IWxMpConfig {
 
     @Override
     public void setCardApiTicketExpiresTime(Long cardApiTicketExpiresTime) {
-        //预留10分钟
-        this.cardApiTicketExpiresTime = System.currentTimeMillis() + (cardApiTicketExpiresTime - 600) * 1000L;//预留10分钟
+        this.cardApiTicketExpiresTime = cardApiTicketExpiresTime;
+    }
+
+    @Override
+    public void setCardApiTicketExpiresIn(Integer cardApiTicketExpiresIn) {
+        this.cardApiTicketExpiresTime = System.currentTimeMillis() + (cardApiTicketExpiresIn - 600) * 1000L;//预留10分钟
+
     }
 
     @Transient
@@ -338,7 +347,13 @@ public class WxMpConfig extends BaseEntity implements IWxMpConfig {
 
     @Override
     public void setJsApiTicketExpiresTime(Long jsApiTicketExpiresTime) {
-        this.jsApiTicketExpiresTime = System.currentTimeMillis() + (jsApiTicketExpiresTime - 600) * 1000L;//预留10分钟
+        this.jsApiTicketExpiresTime = jsApiTicketExpiresTime;
+    }
+
+
+    @Override
+    public void setJsApiTicketExpiresIn(Integer jsApiTicketExpiresIn) {
+        this.jsApiTicketExpiresTime = System.currentTimeMillis() + (jsApiTicketExpiresIn - 600) * 1000L;//预留10分钟
     }
 
     @Override

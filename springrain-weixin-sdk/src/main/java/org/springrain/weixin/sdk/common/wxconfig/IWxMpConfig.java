@@ -20,7 +20,9 @@ public interface IWxMpConfig extends IWxConfig {
 
     void setJsApiTicket(String jsapiTicket);
 
-    void setJsApiTicketExpiresTime(Long l);
+    void setJsApiTicketExpiresTime(Long jsApiTicketExpiresTime);
+
+    void setJsApiTicketExpiresIn(Integer jsApiTicketExpiresIn);
 
     boolean isJsApiTicketExpired();
 
@@ -28,7 +30,9 @@ public interface IWxMpConfig extends IWxConfig {
 
     void setCardApiTicket(String cardApiTicket);
 
-    void setCardApiTicketExpiresTime(Long l);
+    void setCardApiTicketExpiresTime(Long cardApiTicketExpiresTime);
+
+    void setCardApiTicketExpiresIn(Integer cardApiTicketExpiresIn);
 
     boolean isCardApiTicketExpired();
 

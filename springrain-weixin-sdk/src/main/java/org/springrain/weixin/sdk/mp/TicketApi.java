@@ -54,7 +54,7 @@ public class TicketApi {
         String ticket = (String) map.get("ticket");
 
         wxmpconfig.setCardApiTicket(ticket);
-        wxmpconfig.setCardApiTicketExpiresTime(Long.valueOf((int) map.get("expires_in")));
+        wxmpconfig.setJsApiTicketExpiresIn((Integer)map.get("expires_in"));
 
         return ticket;
     }

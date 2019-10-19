@@ -35,7 +35,7 @@ public class AccessTokenApi {
         String accessToken = (String) map.get("access_token");
 
         config.setAccessToken(accessToken);
-        config.setAccessTokenExpiresTime(Long.valueOf((int) map.get("expires_in")));
+        config.setExpiresIn( (Integer) map.get("expires_in"));
 
         return accessToken;
     }

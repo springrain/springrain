@@ -387,7 +387,11 @@ public class WxMiniappConfig extends BaseEntity implements IWxMiniappConfig {
 
     @Override
     public void setAccessTokenExpiresTime(Long accessTokenExpiresTime) {
-        this.accessTokenExpiresTime = System.currentTimeMillis() + (accessTokenExpiresTime - 600) * 1000L;//预留10分钟
+        this.accessTokenExpiresTime = accessTokenExpiresTime;
+    }
+    @Override
+    public void setExpiresIn(Integer expiresIn) {
+        this.accessTokenExpiresTime = System.currentTimeMillis() + (expiresIn - 600) * 1000L;//预留10分钟
     }
 
     @Override
