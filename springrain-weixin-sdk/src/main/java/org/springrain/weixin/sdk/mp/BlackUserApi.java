@@ -86,9 +86,9 @@ public class BlackUserApi {
                 userList.add(openId);
             }
         }
-        userListMap.put("opened_list", userList);
+        userListMap.put("openid_list", userList);
         */
-        userListMap.put("opened_list", openIdList);
+        userListMap.put("openid_list", openIdList);
         return batchBlackUsers(wxmpconfig, JsonUtils.writeValueAsString(userListMap));
     }
 
@@ -122,10 +122,10 @@ public class BlackUserApi {
                 userList.add(openId);
             }
         }
-        userListMap.put("opened_list", userList);
+        userListMap.put("openid_list", userList);
         */
 
-        userListMap.put("opened_list", openIdList);
+        userListMap.put("openid_list", openIdList);
 
         return batchUnblackUsers(wxmpconfig, JsonUtils.writeValueAsString(userListMap));
     }
