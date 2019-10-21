@@ -401,21 +401,25 @@ public class WXPayApi {
      * @throws Exception
      */
     public static Map<String, String> facePayOrder(IWxPayConfig config, Map<String, String> reqData) throws Exception {
-
-
         String respXml = payRequest(config, WXPayConstants.FACEPAYORDER_URL, fillRequestData(config, reqData), false);
         return processResponseXml(config, respXml);
     }
 
 
+    /**
+     * 获取微信人脸识别信息
+     * @param config
+     * @param reqData
+     * @return
+     * @throws Exception
+     */
     public static Map<String, String> getWxpayfaceAuthinfo(IWxPayConfig config,  Map<String, String> reqData) throws Exception {
-
         String respXml = payRequest(config, WXPayConstants.WXPAYFACE_AUTHINFO, fillRequestData(config, reqData), false);
         return processResponseXml(config, respXml);
     }
 
     /**
-     *
+     * 人脸识别订单查询
      * @param config
      * @param reqData
      * @return
@@ -497,7 +501,7 @@ public class WXPayApi {
             reportInfo.setElapsedTimeMillis(elapsedTimeMillis);
             reportInfo.setFirstHasConnectTimeout(true);
 
-            WXPayUtil.getLogger().warn("UnknownHostException for reportInfo {}", reportInfo);
+            WXPayUtil.getLogger().warn("ConnectTimeoutException for reportInfo {}", reportInfo);
 
             WXPayReportApi.report(config, reportInfo);
 
@@ -508,7 +512,7 @@ public class WXPayApi {
             reportInfo.setUuid(msgUUID);
             reportInfo.setElapsedTimeMillis(elapsedTimeMillis);
             reportInfo.setFirstHasReadTimeout(true);
-            WXPayUtil.getLogger().warn("UnknownHostException for reportInfo {}", reportInfo);
+            WXPayUtil.getLogger().warn("SocketTimeoutException for reportInfo {}", reportInfo);
 
             WXPayReportApi.report(config, reportInfo);
 
@@ -518,7 +522,7 @@ public class WXPayApi {
             WXPayReport reportInfo = new WXPayReport();
             reportInfo.setUuid(msgUUID);
             reportInfo.setElapsedTimeMillis(elapsedTimeMillis);
-            WXPayUtil.getLogger().warn("UnknownHostException for reportInfo {}", reportInfo);
+            WXPayUtil.getLogger().warn("Exception for reportInfo {}", reportInfo);
             WXPayReportApi.report(config, reportInfo);
         }
 
