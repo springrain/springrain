@@ -24,6 +24,9 @@ public class GlobalStatic {
     public static final String dataDelete = "删除";
     public static final String SQLCutSeparator = "___";// SQL复合对象查询的分隔符,三个 下划线
     public static  String projectKeyPrefix = "springrain_";// ES和redis的固定前缀,用于多个项目使用同一个ES和redis集群
+
+    public static boolean showsql=true;//是否显示sql
+
     // seata的全局变量
     // 建议和项目标识符保持一致
     public static final String seataApplicationId = projectKeyPrefix;

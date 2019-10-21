@@ -80,14 +80,14 @@ public class BaseSpringrainDaoImpl extends BaseJdbcDaoImpl implements IBaseJdbcD
 	}
 
 	/**
-	 * 是否打印sql语句,默认false
-	 * 
+	 * 是否打印sql语句,使用GlobalStatic.showsql
+	 *
 	 * @return
 	 */
-	@Override
-	public boolean showsql() {
-		return true;
-	}
+	//@Override
+	//public boolean showsql() {
+	//	return true;
+	//}
 
 	@Override
 	public String getUserName() {

@@ -106,13 +106,13 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
     }
 
     /**
-     * 是否打印sql语句,默认false
+     * 是否打印sql语句,默认GlobalStatic.showsql
      *
      * @return
      */
 
     public boolean showsql() {
-        return false;
+        return GlobalStatic.showsql;
     }
 
     @Override
