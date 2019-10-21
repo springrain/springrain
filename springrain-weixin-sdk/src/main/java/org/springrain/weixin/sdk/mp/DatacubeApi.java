@@ -304,8 +304,7 @@ public class DatacubeApi {
         String url = getCardInfo + wxmpconfig.getAccessToken();
         Map<String, Object> data = new HashMap<>();
         data.put("begin_date", beginDate);
-        data.put("end_date", endDate)
-        ;
+        data.put("end_date", endDate);
         data.put("cond_source", condSource);
         if (StringUtils.isNotBlank(cardId)) {
             data.put("card_id", cardId);
@@ -326,8 +325,7 @@ public class DatacubeApi {
         String url = getMemberCardInfo + wxmpconfig.getAccessToken();
         Map<String, Object> data = new HashMap<>();
         data.put("begin_date", beginDate);
-        data.put("end_date", endDate)
-        ;
+        data.put("end_date", endDate);
         data.put("cond_source", condSource);
         String jsonResult = HttpClientUtils.sendHttpPost(url, JsonUtils.writeValueAsString(data));
         return new ApiResult(jsonResult);
@@ -345,8 +343,7 @@ public class DatacubeApi {
         String url = getMemberCardDetail + wxmpconfig.getAccessToken();
         Map<String, Object> data = new HashMap<>();
         data.put("begin_date", beginDate);
-        data.put("end_date", endDate)
-        ;
+        data.put("end_date", endDate);
         data.put("card_id", cardId);
         String jsonResult = HttpClientUtils.sendHttpPost(url, JsonUtils.writeValueAsString(data));
         return new ApiResult(jsonResult);
