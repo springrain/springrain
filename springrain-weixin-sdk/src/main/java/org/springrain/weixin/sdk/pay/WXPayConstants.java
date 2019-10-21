@@ -35,9 +35,9 @@ public class WXPayConstants {
     public static final String SHORTURL_URL = WxConsts.mppaybaseurl + "/tools/shorturl";
     public static final String AUTHCODETOOPENID_URL = WxConsts.mppaybaseurl + "/tools/authcodetoopenid";
 
-    public static final String FACEPAYORDER_URL = WxConsts.payappbaseurl + "";
-    public static final String WXPAYFACE_AUTHINFO = WxConsts.payappbaseurl + "";
-    public static final String FACEPAYQUERY_URL = WxConsts.payappbaseurl + "";
+    public static final String FACEPAYORDER_URL = WxConsts.payappbaseurl + "/pay/facepay";
+    public static final String WXPAYFACE_AUTHINFO = WxConsts.payappbaseurl + "/face/get_wxpayface_authinfo";
+    public static final String FACEPAYQUERY_URL = WxConsts.payappbaseurl + "/pay/facepayquery";
 
 
 
