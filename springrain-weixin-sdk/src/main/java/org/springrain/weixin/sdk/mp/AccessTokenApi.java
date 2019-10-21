@@ -20,7 +20,7 @@ import java.util.Map;
 public class AccessTokenApi {
 
     // "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
-    private static String accessTokenUrl = WxConsts.mpapiurl + "/cgi-bin/token?grant_type=client_credential";
+    private static String accessTokenUrl = WxConsts.mpapiurl + "/cgi-bin/token";
 
     /**
      * 从缓存中获取 access token，如果未取到或者 access token 不可用则先更新再获取
@@ -28,7 +28,7 @@ public class AccessTokenApi {
      * @return AccessToken accessToken
      */
     public static String getAccessToken(IWxConfig config) {
-        String apiurl = accessTokenUrl + "&appid=" + config.getAppId() + "&secret=" + config.getSecret();
+        String apiurl = accessTokenUrl + "?grant_type=client_credential&appid=" + config.getAppId() + "&secret=" + config.getSecret();
         String jsonResult = HttpClientUtils.sendHttpGet(apiurl);
         Map map = JsonUtils.readValue(jsonResult, Map.class);
 
