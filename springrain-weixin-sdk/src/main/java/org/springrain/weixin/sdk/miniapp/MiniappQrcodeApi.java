@@ -55,6 +55,7 @@ public class MiniappQrcodeApi {
                     && ContentType.APPLICATION_JSON.getMimeType()
                     .equals(ContentType.parse(contentTypeHeader[0].getValue()).getMimeType())) { //如果是json格式
                 String responseContent = EntityUtils.toString(entity, "UTF-8");
+                logger.error("getUnlimited 返回错误:" + responseContent + ",config是:" + JsonUtils.writeValueAsString(config));
                 return new ApiResult(responseContent);
             } else {
                 byte[] byteArray = EntityUtils.toByteArray(entity);
