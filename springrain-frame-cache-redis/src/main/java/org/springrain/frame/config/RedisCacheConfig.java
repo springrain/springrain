@@ -68,7 +68,7 @@ public class RedisCacheConfig {
         // 连接超时时间
         int connectTimeOut = 10000;
         // 重试次数
-        int retryAttempts = 6;
+        int retryAttempts = 3;
 
         if (StringUtils.isBlank(redisHostPort)) {
             return null;
@@ -85,6 +85,10 @@ public class RedisCacheConfig {
             useSingleServer.setAddress(redisHostPort).setConnectTimeout(connectTimeOut).setRetryAttempts(retryAttempts)
                     .setConnectionPoolSize(maxActive).setConnectionMinimumIdleSize(minIdle);
 
+            // 定义每个与Redis的连接的PING命令发送间隔.设置0为禁用.在NAT网络下(K8S),需要保持连接正常
+            // 参考:https://github.com/redisson/redisson/issues/946
+            useSingleServer.setPingConnectionInterval(1000);
+
             if (StringUtils.isNotBlank(password)) {
                 useSingleServer.setPassword(password);
             }
@@ -95,6 +99,10 @@ public class RedisCacheConfig {
                     .setMasterConnectionPoolSize(maxActive).setSlaveConnectionPoolSize(maxActive)
                     .setMasterConnectionMinimumIdleSize(minIdle).setSlaveConnectionMinimumIdleSize(minIdle)
                     .setReadMode(ReadMode.SLAVE).setScanInterval(3000);
+
+            // 定义每个与Redis的连接的PING命令发送间隔.设置0为禁用.在NAT网络下(K8S),需要保持连接正常
+            // 参考:https://github.com/redisson/redisson/issues/946
+            useClusterServers.setPingConnectionInterval(1000);
 
             if (StringUtils.isNotBlank(password)) {
                 useClusterServers.setPassword(password);
