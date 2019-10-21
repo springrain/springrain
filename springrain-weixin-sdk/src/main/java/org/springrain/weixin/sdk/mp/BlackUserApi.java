@@ -15,7 +15,6 @@ import org.springrain.weixin.sdk.common.ApiResult;
 import org.springrain.weixin.sdk.common.WxConsts;
 import org.springrain.weixin.sdk.common.wxconfig.IWxMpConfig;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,19 +74,21 @@ public class BlackUserApi {
      * @return ApiResult
      */
     public static ApiResult batchBlackUsers(IWxMpConfig wxmpconfig, List<String> openIdList) throws IllegalArgumentException {
-        if (openIdList == null) {
+        if (CollectionUtils.isEmpty(openIdList)) {
             throw new IllegalArgumentException();
         }
 
-        Map<String, List<String>> userListMap = new HashMap<String, List<String>>();
-        List<String> userList = new ArrayList<String>();
+        Map<String, List<String>> userListMap = new HashMap<>();
+        /*
+        List<String> userList = new ArrayList<>();
         if (openIdList != null && openIdList.size() > 0) {
             for (String openId : openIdList) {
                 userList.add(openId);
             }
         }
         userListMap.put("opened_list", userList);
-
+        */
+        userListMap.put("opened_list", openIdList);
         return batchBlackUsers(wxmpconfig, JsonUtils.writeValueAsString(userListMap));
     }
 
@@ -109,11 +110,12 @@ public class BlackUserApi {
      * @return ApiResult
      */
     public static ApiResult batchUnblackUsers(IWxMpConfig wxmpconfig, List<String> openIdList) throws IllegalArgumentException {
-        if (openIdList == null) {
+        if (CollectionUtils.isEmpty(openIdList)) {
             throw new IllegalArgumentException();
         }
 
         Map<String, List<String>> userListMap = new HashMap<>();
+        /*
         List<String> userList = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(userList)) {
             for (String openId : openIdList) {
@@ -121,6 +123,9 @@ public class BlackUserApi {
             }
         }
         userListMap.put("opened_list", userList);
+        */
+
+        userListMap.put("opened_list", openIdList);
 
         return batchUnblackUsers(wxmpconfig, JsonUtils.writeValueAsString(userListMap));
     }
