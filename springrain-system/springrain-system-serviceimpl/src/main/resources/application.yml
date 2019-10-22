@@ -70,7 +70,6 @@ spring:
 #        default-transaction-isolation: ISOLATION_READ_UNCOMMITTED
 
             
-            
 
         
 ###actuator的默认路径/actuator/ 开头,已经在shiro配置,只有system有权限###        
