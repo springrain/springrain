@@ -250,7 +250,6 @@ public class WxConsts {
     public static String payappbaseurl = "https://payapp.weixin.qq.com";
 
 
-
     static {
 
 

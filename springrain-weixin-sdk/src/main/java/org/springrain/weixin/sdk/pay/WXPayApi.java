@@ -394,7 +394,6 @@ public class WXPayApi {
 
 
     /**
-     *
      * @param config
      * @param reqData
      * @return
@@ -408,18 +407,20 @@ public class WXPayApi {
 
     /**
      * 获取微信人脸识别信息
+     *
      * @param config
      * @param reqData
      * @return
      * @throws Exception
      */
-    public static Map<String, String> getWxpayfaceAuthinfo(IWxPayConfig config,  Map<String, String> reqData) throws Exception {
+    public static Map<String, String> getWxpayfaceAuthinfo(IWxPayConfig config, Map<String, String> reqData) throws Exception {
         String respXml = payRequest(config, WXPayConstants.WXPAYFACE_AUTHINFO, fillRequestData(config, reqData), false);
         return processResponseXml(config, respXml);
     }
 
     /**
      * 人脸识别订单查询
+     *
      * @param config
      * @param reqData
      * @return
@@ -431,15 +432,12 @@ public class WXPayApi {
     }
 
 
-
-
-
     /**
      * 请求，只请求一次，不做重试
      *
      * @param apiUrl
      * @param reqData
-     * @param useCert   是否使用证书，针对退款、撤销等操作
+     * @param useCert 是否使用证书，针对退款、撤销等操作
      * @return
      * @throws Exception
      */

@@ -318,10 +318,12 @@ public class WxMpConfig extends BaseEntity implements IWxMpConfig {
     public void setAccessTokenExpiresTime(Long accessTokenExpiresTime) {
         this.accessTokenExpiresTime = accessTokenExpiresTime;
     }
+
     @Override
     public void setExpiresIn(Integer expiresIn) {
-        // 生产遇到接近过期时间时,access_token在某些服务器上会提前失效,设置只有一半的时间
-        this.accessTokenExpiresTime = System.currentTimeMillis() + ((expiresIn / 2) * 1000L);
+        // 生产遇到接近过期时间时,access_token在某些服务器上会提前失效,设置时间短一些
+        // https://developers.weixin.qq.com/community/develop/doc/0008cc492503e8e04dc7d619754c00
+        this.accessTokenExpiresTime = System.currentTimeMillis() + ((expiresIn / 12) * 1000L);
     }
 
 
@@ -337,8 +339,9 @@ public class WxMpConfig extends BaseEntity implements IWxMpConfig {
 
     @Override
     public void setCardApiTicketExpiresIn(Integer cardApiTicketExpiresIn) {
-        // 生产遇到接近过期时间时,access_token在某些服务器上会提前失效,设置只有一半的时间
-        this.cardApiTicketExpiresTime = System.currentTimeMillis() + ((cardApiTicketExpiresIn / 2) * 1000L);
+        // 生产遇到接近过期时间时,access_token在某些服务器上会提前失效,设置时间短一些
+        // https://developers.weixin.qq.com/community/develop/doc/0008cc492503e8e04dc7d619754c00
+        this.cardApiTicketExpiresTime = System.currentTimeMillis() + ((cardApiTicketExpiresIn / 12) * 1000L);
 
     }
 
@@ -355,8 +358,9 @@ public class WxMpConfig extends BaseEntity implements IWxMpConfig {
 
     @Override
     public void setJsApiTicketExpiresIn(Integer jsApiTicketExpiresIn) {
-        // 生产遇到接近过期时间时,access_token在某些服务器上会提前失效,设置只有一半的时间
-        this.jsApiTicketExpiresTime = System.currentTimeMillis() + ((jsApiTicketExpiresIn / 2) * 1000L);
+        // 生产遇到接近过期时间时,access_token在某些服务器上会提前失效,设置时间短一些
+        // https://developers.weixin.qq.com/community/develop/doc/0008cc492503e8e04dc7d619754c00
+        this.jsApiTicketExpiresTime = System.currentTimeMillis() + ((jsApiTicketExpiresIn / 12) * 1000L);
     }
 
     @Override

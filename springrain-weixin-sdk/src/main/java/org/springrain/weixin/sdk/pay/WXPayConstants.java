@@ -40,11 +40,6 @@ public class WXPayConstants {
     public static final String WXPAYFACE_AUTHINFO = WxConsts.payappbaseurl + "/face/get_wxpayface_authinfo";
 
 
-
-
-
-
-
     // sandbox
     public static final String SANDBOX_MICROPAY_URL = WxConsts.mppaybaseurl + "/sandboxnew/pay/micropay";
     public static final String SANDBOX_UNIFIEDORDER_URL = WxConsts.mppaybaseurl + "/sandboxnew/pay/unifiedorder";

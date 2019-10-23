@@ -31,11 +31,6 @@ public class WXPayReportApi {
 
     private static String REPORT_URL = WxConsts.reporturl + "/wxpay/report/default";
 
-
-    private WXPayReportApi() {
-        throw new IllegalAccessError("工具类不能实例化");
-    }
-
     // 初始化变量,设置线程池.
     static {
         reportMsgQueue = new LinkedBlockingQueue<>(reportQueueMaxSize);
@@ -90,9 +85,11 @@ public class WXPayReportApi {
 
     }
 
+    private WXPayReportApi() {
+        throw new IllegalAccessError("工具类不能实例化");
+    }
 
     /**
-     *
      * @param config
      * @param reportInfo
      */

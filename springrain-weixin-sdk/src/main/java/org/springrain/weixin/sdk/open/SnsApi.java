@@ -14,6 +14,7 @@ import org.springrain.weixin.sdk.common.WxConsts;
 import org.springrain.weixin.sdk.common.wxconfig.IWxMpConfig;
 
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 /**
  * 网页授权获取 access_token API
@@ -88,7 +89,7 @@ public class SnsApi {
 
         try {
             if (StringUtils.isNotBlank(redirect_uri)) {
-                redirect_uri = URLEncoder.encode(redirect_uri, "UTF-8");
+                redirect_uri = URLEncoder.encode(redirect_uri, StandardCharsets.UTF_8);
             }
         } catch (Exception e) {
             return null;
