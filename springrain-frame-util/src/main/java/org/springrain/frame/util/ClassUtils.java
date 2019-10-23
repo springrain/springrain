@@ -79,7 +79,7 @@ public class ClassUtils {
             if (entityInfo != null) {
                 EntityInfo newInfo = new EntityInfo();
                 // 浅克隆
-                BeanUtils.copyProperties(entityInfo, newInfo);
+                BeanUtils.copyProperties(newInfo, entityInfo);
                 return newInfo;
             }
         }
@@ -649,5 +649,4 @@ public class ClassUtils {
         }
 
     }
-
 }
