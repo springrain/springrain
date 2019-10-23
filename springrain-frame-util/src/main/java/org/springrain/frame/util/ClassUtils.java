@@ -74,7 +74,7 @@ public class ClassUtils {
         boolean isContains = staticEntitymap.containsKey(className);
         if (isContains) {
             // 需要把EntityInfo clone一个对象,不然多线程会争抢这一个内存对象.
-            EntityInfo entityInfo= staticEntitymap.get(className);
+            EntityInfo entityInfo = staticEntitymap.get(className);
             if (entityInfo != null) {
                 return (EntityInfo) BeanUtils.cloneBean(entityInfo);
             }
@@ -188,10 +188,6 @@ public class ClassUtils {
             }
         }
 
-        if (tableName == null) {
-            return null;
-        }
-
         return tableName;
 
     }
@@ -215,9 +211,6 @@ public class ClassUtils {
         Table table = (Table) clazz.getAnnotation(Table.class);
 
         String tableName = table.name();
-        if (tableName == null) {
-            return null;
-        }
 
         return tableName;
 
@@ -299,7 +292,7 @@ public class ClassUtils {
 
             if (getMethod.isAnnotationPresent(LuceneField.class)) {// 如果有LuceneField注解
                 finfo.setLuceneField(true);
-                LuceneField luceneField = (LuceneField) getMethod.getAnnotation(LuceneField.class);
+                LuceneField luceneField = getMethod.getAnnotation(LuceneField.class);
 
                 finfo.setLuceneStored(luceneField.luceneStored());
                 finfo.setLuceneIndex(luceneField.luceneIndex());
@@ -322,11 +315,11 @@ public class ClassUtils {
                 finfo.setDb(false);
             }
             if (getMethod.isAnnotationPresent(WhereSQL.class)) {// 如果有WhereSQL注解
-                WhereSQL ws = (WhereSQL) getMethod.getAnnotation(WhereSQL.class);
+                WhereSQL ws = getMethod.getAnnotation(WhereSQL.class);
                 finfo.setWhereSQL(ws.sql());
             }
             if (getMethod.isAnnotationPresent(PKSequence.class)) {// 如果有PKSequence注解
-                PKSequence pkSequence = (PKSequence) getMethod.getAnnotation(PKSequence.class);
+                PKSequence pkSequence = getMethod.getAnnotation(PKSequence.class);
                 finfo.setPkSequence(pkSequence.name());
                 info.setPksequence(pkSequence.name());
             }
@@ -472,11 +465,7 @@ public class ClassUtils {
             return false;
         }
         String className = clazz.getName().toLowerCase();
-        if (className.startsWith("java.") || className.startsWith("javax.")) {
-            return true;
-        } else {
-            return false;
-        }
+        return className.startsWith("java.") || className.startsWith("javax.");
     }
 
     /**
