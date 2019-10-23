@@ -27,7 +27,6 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * 处理类的工具类. 例如反射
  *
- * @copyright {@link weicms.net}
  * @author springrain<Auto generate>
  * @version 2013-03-19 11:08:15
  * @see org.springrain.frame.util.ClassUtils
@@ -62,8 +61,7 @@ public class ClassUtils {
 
     /**
      * 根据ClassName获取 EntityInfo
-     *
-     * @param className
+     * @param clazz
      * @return
      * @throws Exception
      */
@@ -73,9 +71,13 @@ public class ClassUtils {
         }
         String className = clazz.getName();
 
-        boolean iskey = staticEntitymap.containsKey(className);
-        if (iskey) {
-            return staticEntitymap.get(className);
+        boolean isContains = staticEntitymap.containsKey(className);
+        if (isContains) {
+            // 需要把EntityInfo clone一个对象,不然多线程会争抢这一个内存对象.
+            EntityInfo entityInfo= staticEntitymap.get(className);
+            if (entityInfo != null) {
+                return (EntityInfo) BeanUtils.cloneBean(entityInfo);
+            }
         }
 
         EntityInfo info = new EntityInfo();
@@ -153,7 +155,7 @@ public class ClassUtils {
     /**
      * 获取 Class 的@Table注解 name 属性,没有属性则返回 null
      *
-     * @param clazz
+     * @param object
      * @return
      * @throws Exception
      */
@@ -248,9 +250,9 @@ public class ClassUtils {
 
     /**
      * 递归查询父类的所有属性,set 去掉重复的属性
-     *
      * @param clazz
-     * @param fdNameSet
+     * @param info
+     * @param fields
      * @return
      * @throws Exception
      */
@@ -341,7 +343,7 @@ public class ClassUtils {
     /**
      * 获得主键的值
      *
-     * @param clazz
+     * @param o
      * @return
      * @throws Exception
      */
@@ -427,9 +429,8 @@ public class ClassUtils {
 
     /**
      * 获取字段的返回类型
-     *
      * @param p
-     * @param o
+     * @param clazz
      * @return
      * @throws Exception
      */
