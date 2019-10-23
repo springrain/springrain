@@ -73,7 +73,7 @@ public class ClassUtils {
 
         boolean isContains = staticEntitymap.containsKey(className);
         if (isContains) {
-            // 需要把EntityInfo clone一个对象,不然多线程会争抢这一个内存对象.
+            // 需要把EntityInfo 浅拷贝一个对象,不然多线程会争抢这一个内存对象.
             EntityInfo entityInfo = staticEntitymap.get(className);
 
             if (entityInfo != null) {
