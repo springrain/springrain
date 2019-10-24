@@ -53,7 +53,6 @@ public class ApiResult implements Serializable {
      *
      * @param jsonStr json字符串
      */
-    @SuppressWarnings("unchecked")
     public ApiResult(String jsonStr) {
         this.json = jsonStr;
 
@@ -82,7 +81,7 @@ public class ApiResult implements Serializable {
      */
     public boolean isSucceed() {
         Integer errorCode = getErrorCode();
-        // errorCode 为 0 时也可以表示为成功，详见：http://mp.weixin.qq.com/wiki/index.php?title=%E5%85%A8%E5%B1%80%E8%BF%94%E5%9B%9E%E7%A0%81%E8%AF%B4%E6%98%8E
+        // errorCode 为 0 时也可以表示为成功,详见: https://developers.weixin.qq.com/doc/offiaccount/Getting_Started/Global_Return_Code.html
         return (errorCode == null || errorCode == 0);
     }
 
@@ -127,7 +126,6 @@ public class ApiResult implements Serializable {
         return getInt("expires_in");
     }
 
-    @SuppressWarnings("unchecked")
     public <T> T get(String name) {
         if (attrs == null) {
             return null;
@@ -197,17 +195,14 @@ public class ApiResult implements Serializable {
         return (List) attrs.get(name);
     }
 
-    @SuppressWarnings("rawtypes")
     public Map getMap(String name) {
         if (attrs == null) {
             return null;
         }
-
         return (Map) attrs.get(name);
     }
 
     public Map<String, Object> getAttrs() {
-
         return this.attrs;
     }
 
