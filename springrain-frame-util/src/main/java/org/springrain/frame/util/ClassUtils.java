@@ -93,7 +93,7 @@ public class ClassUtils {
         if (clazz.isAnnotationPresent(TableSuffix.class)) {
             info.setTableSuffixAnnotation(true);
             TableSuffix tableSuffix = (TableSuffix) clazz.getAnnotation(TableSuffix.class);
-            info.setTableSuffixField(tableSuffix.name());
+            info.setTableSuffixFieldName(tableSuffix.name());
         }
         if (clazz.isAnnotationPresent(NotLog.class)) {
             info.setNotLog(true);

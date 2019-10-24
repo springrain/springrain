@@ -152,7 +152,7 @@ public class EntityInfo {
         return tableSuffixFieldName;
     }
 
-    public void setTableSuffixField(String tableSuffixFieldName) {
+    public void setTableSuffixFieldName(String tableSuffixFieldName) {
         this.tableSuffixFieldName = tableSuffixFieldName;
     }
 
