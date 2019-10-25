@@ -4,11 +4,20 @@ public class WxAccessToken implements java.io.Serializable {
     private static final long serialVersionUID = 1L;
 
 
+    // 方便日志调试记录
+    private String appId;
+
     private String accessToken;
     private Long accessTokenExpiresTime = 0L;
     private Integer expiresIn;
 
+    public String getAppId() {
+        return appId;
+    }
 
+    public void setAppId(String appId) {
+        this.appId = appId;
+    }
     public String getAccessToken() {
         return accessToken;
     }
@@ -20,7 +29,6 @@ public class WxAccessToken implements java.io.Serializable {
     public Long getAccessTokenExpiresTime() {
         return accessTokenExpiresTime;
     }
-
 
     public void setAccessTokenExpiresTime(Long accessTokenExpiresTime) {
         this.accessTokenExpiresTime = accessTokenExpiresTime;

@@ -52,6 +52,7 @@ public class AccessTokenApi {
         }
 
         WxAccessToken wxAccessToken = new WxAccessToken();
+        wxAccessToken.setAppId(config.getAppId());
         wxAccessToken.setAccessToken(accessToken);
         wxAccessToken.setExpiresIn((Integer) map.get("expires_in"));
 
