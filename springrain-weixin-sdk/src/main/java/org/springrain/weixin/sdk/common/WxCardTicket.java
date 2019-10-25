@@ -3,12 +3,20 @@ package org.springrain.weixin.sdk.common;
 public class WxCardTicket implements java.io.Serializable {
     private static final long serialVersionUID = 1L;
 
+    // 方便日志调试记录
+    private String appId;
 
     private String cardTicket;
     private Long cardTicketExpiresTime = 0L;
     private Integer expiresIn;
 
+    public String getAppId() {
+        return appId;
+    }
 
+    public void setAppId(String appId) {
+        this.appId = appId;
+    }
     public String getCardTicket() {
         return cardTicket;
     }

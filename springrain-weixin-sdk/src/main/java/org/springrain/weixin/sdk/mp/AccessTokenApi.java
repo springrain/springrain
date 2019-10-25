@@ -79,7 +79,7 @@ public class AccessTokenApi {
         }
 
         WxJsTicket wxJsTicket = new WxJsTicket();
-
+        wxJsTicket.setAppId(config.getAppId());
         wxJsTicket.setJsTicket(ticket);
         wxJsTicket.setExpiresIn((Integer) map.get("expires_in"));
         return wxJsTicket;
@@ -98,6 +98,7 @@ public class AccessTokenApi {
         }
 
         WxCardTicket wxCardTicket = new WxCardTicket();
+        wxCardTicket.setAppId(config.getAppId());
         wxCardTicket.setCardTicket(ticket);
         wxCardTicket.setExpiresIn((Integer) map.get("expires_in"));
 
