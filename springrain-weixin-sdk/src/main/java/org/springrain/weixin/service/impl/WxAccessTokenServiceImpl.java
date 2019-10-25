@@ -41,11 +41,12 @@ public class WxAccessTokenServiceImpl extends BaseSpringrainWeiXinServiceImpl im
         WxCardTicket wxCardTicket = super.getByCache(GlobalStatic.wxConfigCacheKey, cacheKeyPrefix + "wxcardticket_" + wxConfig.getAppId(), WxCardTicket.class);
         if (wxCardTicket == null || wxCardTicket.isCardTicketExpired()) {
             wxCardTicket = AccessTokenApi.getCardTicket(wxConfig);
+            if (wxCardTicket == null) {
+                return null;
+            }
+            super.putByCache(GlobalStatic.wxConfigCacheKey, cacheKeyPrefix + "wxcardticket_" + wxConfig.getAppId(), wxCardTicket);
         }
-        if (wxCardTicket == null) {
-            return null;
-        }
-        super.putByCache(GlobalStatic.wxConfigCacheKey, cacheKeyPrefix + "wxcardticket_" + wxConfig.getAppId(), wxCardTicket);
+
         return wxCardTicket;
     }
 
@@ -58,11 +59,12 @@ public class WxAccessTokenServiceImpl extends BaseSpringrainWeiXinServiceImpl im
         WxJsTicket wxJsTicket = super.getByCache(GlobalStatic.wxConfigCacheKey, cacheKeyPrefix + "wxjsticket_" + wxConfig.getAppId(), WxJsTicket.class);
         if (wxJsTicket == null || wxJsTicket.isJsTicketExpired()) {
             wxJsTicket = AccessTokenApi.getJsTicket(wxConfig);
+            if (wxJsTicket == null) {
+                return null;
+            }
+            super.putByCache(GlobalStatic.wxConfigCacheKey, cacheKeyPrefix + "wxjsticket_" + wxConfig.getAppId(), wxJsTicket);
         }
-        if (wxJsTicket == null) {
-            return null;
-        }
-        super.putByCache(GlobalStatic.wxConfigCacheKey, cacheKeyPrefix + "wxjsticket_" + wxConfig.getAppId(), wxJsTicket);
+
         return wxJsTicket;
     }
 }
