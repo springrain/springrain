@@ -4,14 +4,19 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.weixin.entity.WxPayConfig;
+import org.springrain.weixin.sdk.common.WxAccessToken;
 import org.springrain.weixin.sdk.common.wxconfig.IWxPayConfig;
-import org.springrain.weixin.sdk.mp.AccessTokenApi;
+import org.springrain.weixin.service.IWxAccessTokenService;
 import org.springrain.weixin.service.IWxPayConfigService;
+
+import javax.annotation.Resource;
 
 @Service("wxPayConfigService")
 public class WxPayConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl implements IWxPayConfigService {
 
     private String cacheKeyPrefix = "wxpay_config_";
+    @Resource
+    private IWxAccessTokenService wxAccessTokenService;
 
     @Override
     public IWxPayConfig findWxPayConfigById(String id) {
@@ -21,20 +26,18 @@ public class WxPayConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl impl
 
         IWxPayConfig wxPayConfig = null;
         try {
-            wxPayConfig = super.getByCache(cacheKeyPrefix + id, GlobalStatic.wxConfigCacheKey, WxPayConfig.class);
+            wxPayConfig = super.getByCache(GlobalStatic.wxConfigCacheKey, cacheKeyPrefix + id, WxPayConfig.class);
             if (wxPayConfig == null) {
                 wxPayConfig = super.findById(id, WxPayConfig.class);
-
-            }
-            if (wxPayConfig == null) {
-                return null;
-            }
-
-            if (wxPayConfig.isAccessTokenExpired()) {
-                AccessTokenApi.getAccessToken(wxPayConfig);
+                if (wxPayConfig == null) {
+                    return null;
+                }
+                super.putByCache(GlobalStatic.wxConfigCacheKey, cacheKeyPrefix + id, wxPayConfig);
             }
 
-            super.putByCache(cacheKeyPrefix + id, GlobalStatic.wxConfigCacheKey, wxPayConfig);
+            WxAccessToken wxAccessToken = wxAccessTokenService.findWxAccessToken(wxPayConfig);
+            wxPayConfig.setAccessToken(wxAccessToken.getAccessToken());
+
 
         } catch (Exception e) {
             wxPayConfig = null;

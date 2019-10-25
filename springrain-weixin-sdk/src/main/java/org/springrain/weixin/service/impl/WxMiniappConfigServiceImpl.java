@@ -4,14 +4,20 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.weixin.entity.WxMiniappConfig;
+import org.springrain.weixin.sdk.common.WxAccessToken;
 import org.springrain.weixin.sdk.common.wxconfig.IWxMiniappConfig;
-import org.springrain.weixin.sdk.mp.AccessTokenApi;
+import org.springrain.weixin.service.IWxAccessTokenService;
 import org.springrain.weixin.service.IWxMiniappConfigService;
+
+import javax.annotation.Resource;
 
 @Service("wxMiniappConfigService")
 public class WxMiniappConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl implements IWxMiniappConfigService {
 
     private String cacheKeyPrefix = "wxminiapp_config_";
+
+    @Resource
+    private IWxAccessTokenService wxAccessTokenService;
 
     @Override
     public IWxMiniappConfig findWxMiniappConfigById(String id) {
@@ -21,20 +27,19 @@ public class WxMiniappConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl 
 
         IWxMiniappConfig wxMiniappConfig = null;
         try {
-            wxMiniappConfig = super.getByCache(cacheKeyPrefix + id, GlobalStatic.wxConfigCacheKey, WxMiniappConfig.class);
+            wxMiniappConfig = super.getByCache(GlobalStatic.wxConfigCacheKey, cacheKeyPrefix + id, WxMiniappConfig.class);
             if (wxMiniappConfig == null) {
                 wxMiniappConfig = super.findById(id, WxMiniappConfig.class);
+                if (wxMiniappConfig == null) {
+                    return null;
+                }
+                super.putByCache(GlobalStatic.wxConfigCacheKey, cacheKeyPrefix + id, wxMiniappConfig);
 
             }
-            if (wxMiniappConfig == null) {
-                return null;
-            }
 
-            if (wxMiniappConfig.isAccessTokenExpired()) {
-                AccessTokenApi.getAccessToken(wxMiniappConfig);
-            }
+            WxAccessToken wxAccessToken = wxAccessTokenService.findWxAccessToken(wxMiniappConfig);
+            wxMiniappConfig.setAccessToken(wxAccessToken.getAccessToken());
 
-            super.putByCache(cacheKeyPrefix + id, GlobalStatic.wxConfigCacheKey, wxMiniappConfig);
 
         } catch (Exception e) {
             wxMiniappConfig = null;

@@ -4,14 +4,20 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.weixin.entity.WxCpConfig;
+import org.springrain.weixin.sdk.common.WxAccessToken;
 import org.springrain.weixin.sdk.common.wxconfig.IWxCpConfig;
-import org.springrain.weixin.sdk.mp.AccessTokenApi;
+import org.springrain.weixin.service.IWxAccessTokenService;
 import org.springrain.weixin.service.IWxCpConfigService;
+
+import javax.annotation.Resource;
 
 @Service("wxCpConfigService")
 public class WxCpConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl implements IWxCpConfigService {
 
     private String cacheKeyPrefix = "wxminiapp_config_";
+
+    @Resource
+    private IWxAccessTokenService wxAccessTokenService;
 
 
     public WxCpConfigServiceImpl() {
@@ -26,20 +32,17 @@ public class WxCpConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl imple
 
         IWxCpConfig wxcpConfig = null;
         try {
-            wxcpConfig = super.getByCache(cacheKeyPrefix + id, GlobalStatic.wxConfigCacheKey, WxCpConfig.class);
+            wxcpConfig = super.getByCache(GlobalStatic.wxConfigCacheKey, cacheKeyPrefix + id, WxCpConfig.class);
             if (wxcpConfig == null) {
                 wxcpConfig = super.findById(id, WxCpConfig.class);
-
-            }
-            if (wxcpConfig == null) {
-                return null;
-            }
-
-            if (wxcpConfig.isAccessTokenExpired()) {
-                AccessTokenApi.getAccessToken(wxcpConfig);
+                if (wxcpConfig == null) {
+                    return null;
+                }
+                super.putByCache(GlobalStatic.wxConfigCacheKey, cacheKeyPrefix + id, wxcpConfig);
             }
 
-            super.putByCache(cacheKeyPrefix + id, GlobalStatic.wxConfigCacheKey, wxcpConfig);
+            WxAccessToken wxAccessToken = wxAccessTokenService.findWxAccessToken(wxcpConfig);
+            wxcpConfig.setAccessToken(wxAccessToken.getAccessToken());
 
         } catch (Exception e) {
             wxcpConfig = null;

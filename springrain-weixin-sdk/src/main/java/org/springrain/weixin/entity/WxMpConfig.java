@@ -83,13 +83,12 @@ public class WxMpConfig extends BaseEntity implements IWxMpConfig {
     //columns END 数据库字段结束
 
     private String accessToken;
-    private Long accessTokenExpiresTime = 0L;
 
-    private String jsApiTicket;
-    private Long jsApiTicketExpiresTime = 0L;
+    // private String jsApiTicket;
+    // private Long jsApiTicketExpiresTime = 0L;
 
-    private String cardApiTicket;
-    private Long cardApiTicketExpiresTime = 0L;
+    // private String cardApiTicket;
+    // private Long cardApiTicketExpiresTime = 0L;
 
 
     //concstructor
@@ -284,101 +283,6 @@ public class WxMpConfig extends BaseEntity implements IWxMpConfig {
     @Override
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
-    }
-
-    @Override
-    @Transient
-    public String getJsApiTicket() {
-        return jsApiTicket;
-    }
-
-    @Override
-    public void setJsApiTicket(String jsApiTicket) {
-        this.jsApiTicket = jsApiTicket;
-    }
-
-    @Override
-    @Transient
-    public String getCardApiTicket() {
-        return cardApiTicket;
-    }
-
-    @Override
-    public void setCardApiTicket(String cardApiTicket) {
-        this.cardApiTicket = cardApiTicket;
-    }
-
-
-    @Transient
-    public Long getAccessTokenExpiresTime() {
-        return accessTokenExpiresTime;
-    }
-
-    @Override
-    public void setAccessTokenExpiresTime(Long accessTokenExpiresTime) {
-        this.accessTokenExpiresTime = accessTokenExpiresTime;
-    }
-
-    @Override
-    public void setExpiresIn(Integer expiresIn) {
-        // 生产遇到接近过期时间时,access_token在某些服务器上会提前失效,设置时间短一些
-        // https://developers.weixin.qq.com/community/develop/doc/0008cc492503e8e04dc7d619754c00
-        this.accessTokenExpiresTime = System.currentTimeMillis() + ((expiresIn / 12) * 1000L);
-    }
-
-
-    @Transient
-    public Long getCardApiTicketExpiresTime() {
-        return cardApiTicketExpiresTime;
-    }
-
-    @Override
-    public void setCardApiTicketExpiresTime(Long cardApiTicketExpiresTime) {
-        this.cardApiTicketExpiresTime = cardApiTicketExpiresTime;
-    }
-
-    @Override
-    public void setCardApiTicketExpiresIn(Integer cardApiTicketExpiresIn) {
-        // 生产遇到接近过期时间时,access_token在某些服务器上会提前失效,设置时间短一些
-        // https://developers.weixin.qq.com/community/develop/doc/0008cc492503e8e04dc7d619754c00
-        this.cardApiTicketExpiresTime = System.currentTimeMillis() + ((cardApiTicketExpiresIn / 12) * 1000L);
-
-    }
-
-    @Transient
-    public Long getJsApiTicketExpiresTime() {
-        return jsApiTicketExpiresTime;
-    }
-
-    @Override
-    public void setJsApiTicketExpiresTime(Long jsApiTicketExpiresTime) {
-        this.jsApiTicketExpiresTime = jsApiTicketExpiresTime;
-    }
-
-
-    @Override
-    public void setJsApiTicketExpiresIn(Integer jsApiTicketExpiresIn) {
-        // 生产遇到接近过期时间时,access_token在某些服务器上会提前失效,设置时间短一些
-        // https://developers.weixin.qq.com/community/develop/doc/0008cc492503e8e04dc7d619754c00
-        this.jsApiTicketExpiresTime = System.currentTimeMillis() + ((jsApiTicketExpiresIn / 12) * 1000L);
-    }
-
-    @Override
-    @Transient
-    public boolean isAccessTokenExpired() {
-        return System.currentTimeMillis() > this.accessTokenExpiresTime;
-    }
-
-    @Override
-    @Transient
-    public boolean isJsApiTicketExpired() {
-        return System.currentTimeMillis() > this.jsApiTicketExpiresTime;
-    }
-
-    @Override
-    @Transient
-    public boolean isCardApiTicketExpired() {
-        return System.currentTimeMillis() > this.cardApiTicketExpiresTime;
     }
 
 

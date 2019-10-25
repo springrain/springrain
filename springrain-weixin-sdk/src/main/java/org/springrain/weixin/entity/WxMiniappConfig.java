@@ -75,7 +75,7 @@ public class WxMiniappConfig extends BaseEntity implements IWxMiniappConfig {
 
 
     private String accessToken;
-    private Long accessTokenExpiresTime = 0L;
+
 
     //concstructor
     public WxMiniappConfig() {
@@ -378,29 +378,6 @@ public class WxMiniappConfig extends BaseEntity implements IWxMiniappConfig {
     @Override
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
-    }
-
-    @Transient
-    public Long getAccessTokenExpiresTime() {
-        return accessTokenExpiresTime;
-    }
-
-    @Override
-    public void setAccessTokenExpiresTime(Long accessTokenExpiresTime) {
-        this.accessTokenExpiresTime = accessTokenExpiresTime;
-    }
-
-    @Override
-    public void setExpiresIn(Integer expiresIn) {
-        // 生产遇到接近过期时间时,access_token在某些服务器上会提前失效,设置时间短一些
-        // https://developers.weixin.qq.com/community/develop/doc/0008cc492503e8e04dc7d619754c00
-        this.accessTokenExpiresTime = System.currentTimeMillis() + ((expiresIn / 12) * 1000L);
-    }
-
-    @Override
-    @Transient
-    public boolean isAccessTokenExpired() {
-        return System.currentTimeMillis() > this.accessTokenExpiresTime;
     }
 
 

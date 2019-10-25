@@ -5,12 +5,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.weixin.entity.WxMpConfig;
+import org.springrain.weixin.sdk.common.WxAccessToken;
 import org.springrain.weixin.sdk.common.WxCryptUtils;
+import org.springrain.weixin.sdk.common.WxJsTicket;
 import org.springrain.weixin.sdk.common.wxconfig.IWxMpConfig;
-import org.springrain.weixin.sdk.mp.AccessTokenApi;
-import org.springrain.weixin.sdk.mp.TicketApi;
+import org.springrain.weixin.service.IWxAccessTokenService;
 import org.springrain.weixin.service.IWxMpConfigService;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,6 +20,9 @@ import java.util.Map;
 public class WxMpConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl implements IWxMpConfigService {
 
     private String cacheKeyPrefix = "wxmp_config_";
+
+    @Resource
+    private IWxAccessTokenService wxAccessTokenService;
 
     @Override
     public IWxMpConfig findWxMpConfigById(String id) {
@@ -27,20 +32,21 @@ public class WxMpConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl imple
 
         IWxMpConfig wxMpConfig = null;
         try {
-            wxMpConfig = super.getByCache(cacheKeyPrefix + id, GlobalStatic.wxConfigCacheKey, WxMpConfig.class);
+            wxMpConfig = super.getByCache(GlobalStatic.wxConfigCacheKey, cacheKeyPrefix + id, WxMpConfig.class);
             if (wxMpConfig == null) {
                 wxMpConfig = super.findById(id, WxMpConfig.class);
-            }
-            if (wxMpConfig == null) {
-                return null;
+                if (wxMpConfig == null) {
+                    return null;
+                }
+                super.putByCache(GlobalStatic.wxConfigCacheKey, cacheKeyPrefix + id, wxMpConfig);
             }
 
-            if (wxMpConfig.isAccessTokenExpired()) {
-                AccessTokenApi.getAccessToken(wxMpConfig);
-                TicketApi.getCardApiTicket(wxMpConfig);
-                TicketApi.getJsApiTicket(wxMpConfig);
-            }
-            super.putByCache(cacheKeyPrefix + id, GlobalStatic.wxConfigCacheKey, wxMpConfig);
+
+            WxAccessToken wxAccessToken = wxAccessTokenService.findWxAccessToken(wxMpConfig);
+            wxMpConfig.setAccessToken(wxAccessToken.getAccessToken());
+
+            // WxCardTicket wxCardTicket = wxAccessTokenService.findWxCardTicket(wxMpConfig);
+            // wxMpConfig.setCardApiTicket(wxCardTicket.getCardTicket());
 
         } catch (Exception e) {
             wxMpConfig = null;
@@ -72,15 +78,18 @@ public class WxMpConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl imple
     }
 
     @Override
-    public Map<String, String> findMpJsApiParam(IWxMpConfig wxMpConfig, String url) {
+    public Map<String, String> findMpJsApiParam(IWxMpConfig wxMpConfig, String url) throws Exception {
 
         if (wxMpConfig == null || StringUtils.isBlank(url)) {
             return null;
         }
 
+
+        WxJsTicket wxJsTicket = wxAccessTokenService.findWxJsTicket(wxMpConfig);
+
         Map<String, String> params = new HashMap<>();
 
-        String jsapiTicket = wxMpConfig.getJsApiTicket();
+        String jsapiTicket = wxJsTicket.getJsTicket();
         String nonceStr = RandomStringUtils.random(32, "123456789"); // 8位随机数
         String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
         String jsApiSignature = this.getSignature(nonceStr, jsapiTicket, timestamp, url);

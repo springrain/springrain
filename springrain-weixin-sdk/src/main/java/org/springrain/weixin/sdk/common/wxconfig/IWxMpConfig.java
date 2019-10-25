@@ -16,25 +16,14 @@ public interface IWxMpConfig extends IWxConfig {
 
     void setOauth2(Integer oauth2);
 
-    String getJsApiTicket();
+    // String getJsApiTicket();
 
-    void setJsApiTicket(String jsapiTicket);
+    // void setJsApiTicket(String jsapiTicket);
 
-    void setJsApiTicketExpiresTime(Long jsApiTicketExpiresTime);
 
-    void setJsApiTicketExpiresIn(Integer jsApiTicketExpiresIn);
+    //String getCardApiTicket();
 
-    boolean isJsApiTicketExpired();
-
-    String getCardApiTicket();
-
-    void setCardApiTicket(String cardApiTicket);
-
-    void setCardApiTicketExpiresTime(Long cardApiTicketExpiresTime);
-
-    void setCardApiTicketExpiresIn(Integer cardApiTicketExpiresIn);
-
-    boolean isCardApiTicketExpired();
+    // void setCardApiTicket(String cardApiTicket);
 
 
 }

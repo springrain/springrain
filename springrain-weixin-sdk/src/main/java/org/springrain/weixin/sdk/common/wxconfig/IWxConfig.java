@@ -13,11 +13,11 @@ public interface IWxConfig {
 
     void setAccessToken(String accessToken);
 
-    void setAccessTokenExpiresTime(Long accessTokenExpiresTime);
+    // void setAccessTokenExpiresTime(Long accessTokenExpiresTime);
 
-    void setExpiresIn(Integer expiresIn);
+    // void setExpiresIn(Integer expiresIn);
 
-    boolean isAccessTokenExpired();
+    // boolean isAccessTokenExpired();
 
     String getSecret();
 
