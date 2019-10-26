@@ -7,6 +7,8 @@
 package org.springrain.weixin.sdk.mp;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.frame.util.JsonUtils;
 import org.springrain.weixin.sdk.common.WxAccessToken;
@@ -30,6 +32,8 @@ import java.util.Map;
  */
 public class AccessTokenApi {
 
+    private static Logger logger = LoggerFactory.getLogger(AccessTokenApi.class);
+
     // "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
     private static String accessTokenUrl = WxConsts.mpapiurl + "/cgi-bin/token";
 
@@ -48,6 +52,7 @@ public class AccessTokenApi {
         String accessToken = (String) map.get("access_token");
 
         if (StringUtils.isBlank(accessToken)) {
+            logger.error("get accessToken error,config:" + JsonUtils.writeValueAsString(config) + ",apiurl:" + apiurl + ",jsonResult:" + jsonResult);
             return null;
         }
 
