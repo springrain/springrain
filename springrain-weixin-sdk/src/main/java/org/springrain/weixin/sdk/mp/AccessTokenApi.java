@@ -73,13 +73,15 @@ public class AccessTokenApi {
      */
     public static WxJsTicket getJsTicket(IWxConfig config) {
         String access_token = config.getAccessToken();
-        String jsonResult = HttpClientUtils.sendHttpPost(apiUrl + access_token + "&type=jsapi");
+        String apiurl = apiUrl + access_token + "&type=jsapi";
+        String jsonResult = HttpClientUtils.sendHttpPost(apiurl);
 
         Map map = JsonUtils.readValue(jsonResult, Map.class);
 
         String ticket = (String) map.get("ticket");
 
         if (StringUtils.isBlank(ticket)) {
+            logger.error("get jsticket error,config:" + JsonUtils.writeValueAsString(config) + ",apiurl:" + apiurl + ",jsonResult:" + jsonResult);
             return null;
         }
 
@@ -92,13 +94,15 @@ public class AccessTokenApi {
 
     public static WxCardTicket getCardTicket(IWxConfig config) {
         String access_token = config.getAccessToken();
-        String jsonResult = HttpClientUtils.sendHttpPost(apiUrl + access_token + "&type=wx_card");
+        String apiurl = apiUrl + access_token + "&type=wx_card";
+        String jsonResult = HttpClientUtils.sendHttpPost(apiurl);
 
         Map map = JsonUtils.readValue(jsonResult, Map.class);
 
         String ticket = (String) map.get("ticket");
 
         if (StringUtils.isBlank(ticket)) {
+            logger.error("get cardticket error,config:" + JsonUtils.writeValueAsString(config) + ",apiurl:" + apiurl + ",jsonResult:" + jsonResult);
             return null;
         }
 
