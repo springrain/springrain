@@ -2,6 +2,8 @@ package org.springrain.weixin.sdk.pay;
 
 
 import org.apache.http.conn.ConnectTimeoutException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.weixin.sdk.common.wxconfig.IWxPayConfig;
 
@@ -24,7 +26,7 @@ import static org.springrain.weixin.sdk.pay.WXPayConstants.USER_AGENT;
  * https://pay.weixin.qq.com/wiki/doc/api/index.html
  */
 public class WXPayApi {
-
+    private static Logger logger = LoggerFactory.getLogger(WXPayApi.class);
 
     private WXPayApi() {
         throw new IllegalAccessError("工具类不能实例化");
@@ -143,7 +145,7 @@ public class WXPayApi {
                                 if (remainingTimeMs <= 100) {
                                     break;
                                 } else {
-                                    WXPayUtil.getLogger().info("microPayWithPos: try micropay again");
+                                    logger.info("microPayWithPos: try micropay again");
                                     if (remainingTimeMs > 5 * 1000) {
                                         Thread.sleep(5 * 1000);
                                     } else {
@@ -487,7 +489,7 @@ public class WXPayApi {
             reportInfo.setElapsedTimeMillis(elapsedTimeMillis);
             reportInfo.setFirstHasDnsError(true);
 
-            WXPayUtil.getLogger().warn("UnknownHostException for reportInfo {}", reportInfo);
+            logger.error("UnknownHostException for reportInfo {}", reportInfo);
 
             WXPayReportApi.report(config, reportInfo);
 
@@ -499,7 +501,7 @@ public class WXPayApi {
             reportInfo.setElapsedTimeMillis(elapsedTimeMillis);
             reportInfo.setFirstHasConnectTimeout(true);
 
-            WXPayUtil.getLogger().warn("ConnectTimeoutException for reportInfo {}", reportInfo);
+            logger.error("ConnectTimeoutException for reportInfo {}", reportInfo);
 
             WXPayReportApi.report(config, reportInfo);
 
@@ -510,7 +512,7 @@ public class WXPayApi {
             reportInfo.setUuid(msgUUID);
             reportInfo.setElapsedTimeMillis(elapsedTimeMillis);
             reportInfo.setFirstHasReadTimeout(true);
-            WXPayUtil.getLogger().warn("SocketTimeoutException for reportInfo {}", reportInfo);
+            logger.error("SocketTimeoutException for reportInfo {}", reportInfo);
 
             WXPayReportApi.report(config, reportInfo);
 
@@ -520,7 +522,7 @@ public class WXPayApi {
             WXPayReport reportInfo = new WXPayReport();
             reportInfo.setUuid(msgUUID);
             reportInfo.setElapsedTimeMillis(elapsedTimeMillis);
-            WXPayUtil.getLogger().warn("Exception for reportInfo {}", reportInfo);
+            logger.error("Exception for reportInfo {}", reportInfo);
             WXPayReportApi.report(config, reportInfo);
         }
 

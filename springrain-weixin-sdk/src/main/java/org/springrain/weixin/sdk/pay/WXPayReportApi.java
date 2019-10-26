@@ -1,6 +1,8 @@
 package org.springrain.weixin.sdk.pay;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.weixin.sdk.common.WxConsts;
 import org.springrain.weixin.sdk.common.wxconfig.IWxPayConfig;
@@ -15,6 +17,7 @@ import java.util.concurrent.ThreadFactory;
 
 public class WXPayReportApi {
 
+    private static Logger logger = LoggerFactory.getLogger(WXPayReportApi.class);
 
     private static LinkedBlockingQueue<String> reportMsgQueue = null;
     private static ExecutorService executorService = null;
@@ -44,7 +47,7 @@ public class WXPayReportApi {
             }
         });
 
-        WXPayUtil.getLogger().info("report worker num: {}", reportWorkerNum);
+        logger.info("report worker num: {}", reportWorkerNum);
         for (int i = 0; i < reportWorkerNum; ++i) {
             executorService.execute(new Runnable() {
                 public void run() {
@@ -53,15 +56,15 @@ public class WXPayReportApi {
                         try {
                             StringBuffer sb = new StringBuffer();
                             String firstMsg = reportMsgQueue.take();
-                            WXPayUtil.getLogger().info("get first report msg: {}", firstMsg);
+                            logger.info("get first report msg: {}", firstMsg);
                             String msg = null;
                             sb.append(firstMsg); //会阻塞至有消息
                             int remainNum = reportBatchSize - 1;
                             for (int j = 0; j < remainNum; ++j) {
-                                WXPayUtil.getLogger().info("try get remain report msg");
+                                logger.info("try get remain report msg");
                                 // msg = reportMsgQueue.poll();  // 不阻塞了
                                 msg = reportMsgQueue.take();
-                                WXPayUtil.getLogger().info("get remain report msg: {}", msg);
+                                logger.info("get remain report msg: {}", msg);
                                 if (msg == null) {
                                     break;
                                 } else {
@@ -76,7 +79,7 @@ public class WXPayReportApi {
                             String httpHeaderPost = HttpClientUtils.sendHttpHeaderPost(REPORT_URL, header, sb.toString(), null);
                             //WXPayReport.httpRequest(sb.toString(), DEFAULT_CONNECT_TIMEOUT_MS, DEFAULT_READ_TIMEOUT_MS);
                         } catch (Exception ex) {
-                            WXPayUtil.getLogger().warn("report fail. reason: {}", ex.getMessage());
+                            logger.error("report fail. reason: {}", ex.getMessage());
                         }
                     }
                 }
@@ -84,7 +87,6 @@ public class WXPayReportApi {
         }
 
     }
-
     private WXPayReportApi() {
         throw new IllegalAccessError("工具类不能实例化");
     }
@@ -95,7 +97,7 @@ public class WXPayReportApi {
      */
     public static void report(IWxPayConfig config, WXPayReport reportInfo) {
         String data = reportInfo.toLineString(config.getKey());
-        WXPayUtil.getLogger().info("report {}", data);
+        logger.info("report {}", data);
         if (data != null) {
             reportMsgQueue.offer(data);
         }

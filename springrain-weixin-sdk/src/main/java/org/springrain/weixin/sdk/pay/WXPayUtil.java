@@ -24,6 +24,8 @@ import java.util.*;
 
 public class WXPayUtil {
 
+    private static Logger logger = LoggerFactory.getLogger(WXPayUtil.class);
+
     private static final String SYMBOLS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     private static final Random RANDOM = new SecureRandom();
@@ -37,7 +39,7 @@ public class WXPayUtil {
      */
     public static Map<String, String> xmlToMap(String strXML) throws Exception {
         try {
-            Map<String, String> data = new HashMap<String, String>();
+            Map<String, String> data = new HashMap<>();
             DocumentBuilder documentBuilder = WXPayXmlUtil.newDocumentBuilder();
             InputStream stream = new ByteArrayInputStream(strXML.getBytes(StandardCharsets.UTF_8));
             org.w3c.dom.Document doc = documentBuilder.parse(stream);
@@ -53,11 +55,11 @@ public class WXPayUtil {
             try {
                 stream.close();
             } catch (Exception ex) {
-                // do nothing
+                logger.error(ex.getMessage(), ex);
             }
             return data;
         } catch (Exception ex) {
-            WXPayUtil.getLogger().warn("Invalid XML, can not convert to map. Error message: {}. XML content: {}", ex.getMessage(), strXML);
+            logger.error("Invalid XML, can not convert to map. Error message: {}. XML content: {}", ex.getMessage(), strXML);
             throw ex;
         }
 
@@ -96,6 +98,7 @@ public class WXPayUtil {
         try {
             writer.close();
         } catch (Exception ex) {
+            logger.error(ex.getMessage(), ex);
         }
         return output;
     }
@@ -265,15 +268,6 @@ public class WXPayUtil {
         return sb.toString().toUpperCase();
     }
 
-    /**
-     * 日志
-     *
-     * @return
-     */
-    public static Logger getLogger() {
-        Logger logger = LoggerFactory.getLogger("wxpay java sdk");
-        return logger;
-    }
 
     /**
      * 获取当前时间戳，单位秒
