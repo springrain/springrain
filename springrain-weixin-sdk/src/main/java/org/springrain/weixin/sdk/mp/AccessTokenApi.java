@@ -37,7 +37,7 @@ public class AccessTokenApi {
     // "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
     private static String accessTokenUrl = WxConsts.mpapiurl + "/cgi-bin/token";
 
-    private static String apiUrl = WxConsts.mpapiurl + "/cgi-bin/ticket/getticket?access_token=";
+    private static String ticketUrl = WxConsts.mpapiurl + "/cgi-bin/ticket/getticket?access_token=";
 
     /**
      * 从缓存中获取 access token，如果未取到或者 access token 不可用则先更新再获取
@@ -73,7 +73,7 @@ public class AccessTokenApi {
      */
     public static WxJsTicket getJsTicket(IWxConfig config) {
         String access_token = config.getAccessToken();
-        String apiurl = apiUrl + access_token + "&type=jsapi";
+        String apiurl = ticketUrl + access_token + "&type=jsapi";
         String jsonResult = HttpClientUtils.sendHttpPost(apiurl);
 
         Map map = JsonUtils.readValue(jsonResult, Map.class);
@@ -94,7 +94,7 @@ public class AccessTokenApi {
 
     public static WxCardTicket getCardTicket(IWxConfig config) {
         String access_token = config.getAccessToken();
-        String apiurl = apiUrl + access_token + "&type=wx_card";
+        String apiurl = ticketUrl + access_token + "&type=wx_card";
         String jsonResult = HttpClientUtils.sendHttpPost(apiurl);
 
         Map map = JsonUtils.readValue(jsonResult, Map.class);
