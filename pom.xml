@@ -65,7 +65,7 @@
 
 		<jwt.version>3.8.3</jwt.version>
 
-		<redisson.version>3.11.4</redisson.version>
+		<redisson.version>3.11.5</redisson.version>
 		<fst.version>2.57</fst.version>
 		<bcprov.version>1.62</bcprov.version>
 		
