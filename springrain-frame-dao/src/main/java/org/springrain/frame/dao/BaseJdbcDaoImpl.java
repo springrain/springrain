@@ -237,7 +237,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
             logInfoSql(finder.getSql());
             map = getReadJdbc().queryForMap(finder.getSql(), finder.getParams());
         } catch (EmptyResultDataAccessException e) {
-            logger.error(e.getMessage(), e);
+            logger.info(e.getMessage(), e);
             map = null;
         }
 
@@ -534,7 +534,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
                         FrameBeanPropertyRowMapper.newInstance(clazz));
             }
         } catch (EmptyResultDataAccessException e) {
-            // logger.error(e.getMessage(), e);
+            logger.info(e.getMessage(), e);
             t = null;
         }
 
@@ -1076,7 +1076,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
             }
             m = simpleJdbcCall.execute(params);
         } catch (EmptyResultDataAccessException e) {
-            // logger.error(e.getMessage(), e);
+            logger.info(e.getMessage(), e);
             m = null;
         }
         return m;
@@ -1102,7 +1102,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
             t = getJdbcCall().withProcedureName(procName).executeObject(clazz, params);
 
         } catch (EmptyResultDataAccessException e) {
-            // logger.error(e.getMessage(), e);
+            logger.info(e.getMessage(), e);
             t = null;
         }
 
@@ -1124,7 +1124,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
             t = getJdbcCall().withFunctionName(funName).executeFunction(clazz, params);
 
         } catch (EmptyResultDataAccessException e) {
-            // logger.error(e.getMessage(), e);
+            logger.info(e.getMessage(), e);
             t = null;
         }
         return t;
