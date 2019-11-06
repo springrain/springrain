@@ -463,7 +463,7 @@ public class WxPayConfig extends BaseEntity implements IWxPayConfig {
         return useSandbox;
     }
 
-    public void setUseSandbox(Boolean useSandbox) {
-        this.useSandbox = useSandbox;
-    }
+    //public void setUseSandbox(Boolean useSandbox) {
+    //   this.useSandbox = useSandbox;
+    //}
 }
