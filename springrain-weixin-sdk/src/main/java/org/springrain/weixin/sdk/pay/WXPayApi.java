@@ -101,7 +101,7 @@ public class WXPayApi {
      */
     public static Map<String, String> microPay(IWxPayConfig config, Map<String, String> reqData) throws Exception {
         String url;
-        if (config.getUseSandbox()) {
+        if (WXPayConstants.useSandbox) {
             url = WXPayConstants.SANDBOX_MICROPAY_URL;
         } else {
             url = WXPayConstants.MICROPAY_URL;
@@ -187,7 +187,7 @@ public class WXPayApi {
      */
     public static Map<String, String> unifiedOrder(IWxPayConfig config, Map<String, String> reqData) throws Exception {
         String url;
-        if (config.getUseSandbox()) {
+        if (WXPayConstants.useSandbox) {
             url = WXPayConstants.SANDBOX_UNIFIEDORDER_URL;
         } else {
             url = WXPayConstants.UNIFIEDORDER_URL;
@@ -210,7 +210,7 @@ public class WXPayApi {
      */
     public static Map<String, String> orderQuery(IWxPayConfig config, Map<String, String> reqData) throws Exception {
         String url;
-        if (config.getUseSandbox()) {
+        if (WXPayConstants.useSandbox) {
             url = WXPayConstants.SANDBOX_ORDERQUERY_URL;
         } else {
             url = WXPayConstants.ORDERQUERY_URL;
@@ -231,7 +231,7 @@ public class WXPayApi {
      */
     public static Map<String, String> reverse(IWxPayConfig config, Map<String, String> reqData) throws Exception {
         String url;
-        if (config.getUseSandbox()) {
+        if (WXPayConstants.useSandbox) {
             url = WXPayConstants.SANDBOX_REVERSE_URL;
         } else {
             url = WXPayConstants.REVERSE_URL;
@@ -251,7 +251,7 @@ public class WXPayApi {
      */
     public static Map<String, String> closeOrder(IWxPayConfig config, Map<String, String> reqData) throws Exception {
         String url;
-        if (config.getUseSandbox()) {
+        if (WXPayConstants.useSandbox) {
             url = WXPayConstants.SANDBOX_CLOSEORDER_URL;
         } else {
             url = WXPayConstants.CLOSEORDER_URL;
@@ -272,7 +272,7 @@ public class WXPayApi {
      */
     public static Map<String, String> refund(IWxPayConfig config, Map<String, String> reqData) throws Exception {
         String url;
-        if (config.getUseSandbox()) {
+        if (WXPayConstants.useSandbox) {
             url = WXPayConstants.SANDBOX_REFUND_URL;
         } else {
             url = WXPayConstants.REFUND_URL;
@@ -292,7 +292,7 @@ public class WXPayApi {
      */
     public static Map<String, String> refundQuery(IWxPayConfig config, Map<String, String> reqData) throws Exception {
         String url;
-        if (config.getUseSandbox()) {
+        if (WXPayConstants.useSandbox) {
             url = WXPayConstants.SANDBOX_REFUNDQUERY_URL;
         } else {
             url = WXPayConstants.REFUNDQUERY_URL;
@@ -314,7 +314,7 @@ public class WXPayApi {
      */
     public static Map<String, String> downloadBill(IWxPayConfig config, Map<String, String> reqData) throws Exception {
         String url;
-        if (config.getUseSandbox()) {
+        if (WXPayConstants.useSandbox) {
             url = WXPayConstants.SANDBOX_DOWNLOADBILL_URL;
         } else {
             url = WXPayConstants.DOWNLOADBILL_URL;
@@ -345,7 +345,7 @@ public class WXPayApi {
      */
     public static Map<String, String> report(IWxPayConfig config, Map<String, String> reqData) throws Exception {
         String url;
-        if (config.getUseSandbox()) {
+        if (WXPayConstants.useSandbox) {
             url = WXPayConstants.SANDBOX_REPORT_URL;
         } else {
             url = WXPayConstants.REPORT_URL;
@@ -365,7 +365,7 @@ public class WXPayApi {
      */
     public static Map<String, String> shortUrl(IWxPayConfig config, Map<String, String> reqData) throws Exception {
         String url;
-        if (config.getUseSandbox()) {
+        if (WXPayConstants.useSandbox) {
             url = WXPayConstants.SANDBOX_SHORTURL_URL;
         } else {
             url = WXPayConstants.SHORTURL_URL;
@@ -385,7 +385,7 @@ public class WXPayApi {
      */
     public static Map<String, String> authCodeToOpenid(IWxPayConfig config, Map<String, String> reqData) throws Exception {
         String url;
-        if (config.getUseSandbox()) {
+        if (WXPayConstants.useSandbox) {
             url = WXPayConstants.SANDBOX_AUTHCODETOOPENID_URL;
         } else {
             url = WXPayConstants.AUTHCODETOOPENID_URL;

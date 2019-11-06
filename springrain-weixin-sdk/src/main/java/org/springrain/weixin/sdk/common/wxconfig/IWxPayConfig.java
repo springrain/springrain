@@ -30,9 +30,6 @@ public interface IWxPayConfig extends IWxConfig {
 
     String getNotifyUrl();
 
-
-    Boolean getUseSandbox();
-
     String getSignType();
 
 

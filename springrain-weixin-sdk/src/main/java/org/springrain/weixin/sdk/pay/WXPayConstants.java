@@ -41,6 +41,7 @@ public class WXPayConstants {
 
 
     // sandbox
+    public static final boolean useSandbox = false;
     public static final String SANDBOX_MICROPAY_URL = WxConsts.mppaybaseurl + "/sandboxnew/pay/micropay";
     public static final String SANDBOX_UNIFIEDORDER_URL = WxConsts.mppaybaseurl + "/sandboxnew/pay/unifiedorder";
     public static final String SANDBOX_ORDERQUERY_URL = WxConsts.mppaybaseurl + "/sandboxnew/pay/orderquery";

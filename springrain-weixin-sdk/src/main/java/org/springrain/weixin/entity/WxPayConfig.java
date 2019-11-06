@@ -88,7 +88,6 @@ public class WxPayConfig extends BaseEntity implements IWxPayConfig {
     //columns END 数据库字段结束
 
     private String accessToken;
-    // private Boolean useSandbox = false;
 
     //concstructor
     public WxPayConfig() {
@@ -455,15 +454,4 @@ public class WxPayConfig extends BaseEntity implements IWxPayConfig {
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
     }
-
-
-    @Override
-    @Transient
-    public Boolean getUseSandbox() {
-        return false;
-    }
-
-    //public void setUseSandbox(Boolean useSandbox) {
-    //   this.useSandbox = useSandbox;
-    //}
 }
