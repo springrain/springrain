@@ -88,7 +88,7 @@ public class WxPayConfig extends BaseEntity implements IWxPayConfig {
     //columns END 数据库字段结束
 
     private String accessToken;
-    private Boolean useSandbox;
+    private Boolean useSandbox = false;
 
     //concstructor
     public WxPayConfig() {
