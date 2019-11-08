@@ -87,7 +87,7 @@ private static final long serialVersionUID = 0L;
       internalGetFieldAccessorTable() {
     return GrpcAutoCreateService.internal_static_CommonResponse_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            CommonResponse.class, CommonResponse.Builder.class);
+                CommonResponse.class, Builder.class);
   }
 
   public static final int RESPONSE_FIELD_NUMBER = 1;
@@ -147,8 +147,7 @@ private static final long serialVersionUID = 0L;
 
     if (!getResponse()
         .equals(other.getResponse())) return false;
-    if (!unknownFields.equals(other.unknownFields)) return false;
-    return true;
+      return unknownFields.equals(other.unknownFields);
   }
 
   @Override
@@ -276,7 +275,7 @@ private static final long serialVersionUID = 0L;
         internalGetFieldAccessorTable() {
       return GrpcAutoCreateService.internal_static_CommonResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              CommonResponse.class, CommonResponse.Builder.class);
+                  CommonResponse.class, Builder.class);
     }
 
     // Construct using org.springrain.rpc.grpcauto.CommonResponse.newBuilder()
@@ -424,7 +423,7 @@ private static final long serialVersionUID = 0L;
     throw new NullPointerException();
   }
 
-      response_ = value;
+        response_ = value;
       onChanged();
       return this;
     }
@@ -434,7 +433,7 @@ private static final long serialVersionUID = 0L;
      */
     public Builder clearResponse() {
 
-      response_ = getDefaultInstance().getResponse();
+        response_ = getDefaultInstance().getResponse();
       onChanged();
       return this;
     }

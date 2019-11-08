@@ -92,7 +92,7 @@ private static final long serialVersionUID = 0L;
       internalGetFieldAccessorTable() {
     return GrpcAutoCreateService.internal_static_CommonRequest_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            CommonRequest.class, CommonRequest.Builder.class);
+                CommonRequest.class, Builder.class);
   }
 
   public static final int SERIALIZE_FIELD_NUMBER = 1;
@@ -171,8 +171,7 @@ private static final long serialVersionUID = 0L;
         != other.getSerialize()) return false;
     if (!getRequest()
         .equals(other.getRequest())) return false;
-    if (!unknownFields.equals(other.unknownFields)) return false;
-    return true;
+      return unknownFields.equals(other.unknownFields);
   }
 
   @Override
@@ -302,7 +301,7 @@ private static final long serialVersionUID = 0L;
         internalGetFieldAccessorTable() {
       return GrpcAutoCreateService.internal_static_CommonRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              CommonRequest.class, CommonRequest.Builder.class);
+                  CommonRequest.class, Builder.class);
     }
 
     // Construct using org.springrain.rpc.grpcauto.CommonRequest.newBuilder()
@@ -453,7 +452,7 @@ private static final long serialVersionUID = 0L;
      */
     public Builder setSerialize(int value) {
 
-      serialize_ = value;
+        serialize_ = value;
       onChanged();
       return this;
     }
@@ -463,7 +462,7 @@ private static final long serialVersionUID = 0L;
      */
     public Builder clearSerialize() {
 
-      serialize_ = 0;
+        serialize_ = 0;
       onChanged();
       return this;
     }
@@ -486,7 +485,7 @@ private static final long serialVersionUID = 0L;
     throw new NullPointerException();
   }
 
-      request_ = value;
+        request_ = value;
       onChanged();
       return this;
     }
@@ -496,7 +495,7 @@ private static final long serialVersionUID = 0L;
      */
     public Builder clearRequest() {
 
-      request_ = getDefaultInstance().getRequest();
+        request_ = getDefaultInstance().getRequest();
       onChanged();
       return this;
     }
