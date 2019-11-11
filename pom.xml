@@ -350,7 +350,10 @@
 		<!-- 微信的SDK模块 -->
 		<module>springrain-weixin-sdk</module>
 
-		<!-- 自带的系统管理web项目 -->
+        <!-- 支付宝SDK -->
+        <module>springrain-alipay-sdk</module>
+
+        <!-- 自带的系统管理web项目 -->
 		<module>springrain-system</module>
 
 		<!-- grpc的客户端模块 -->
