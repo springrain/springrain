@@ -2,6 +2,8 @@ package org.springrain.alipay.sdk.common.aliconfig;
 
 public interface IAliPayConfig {
 
+    String getId();
+
     String getPrivateKey();
 
     String getAliPayPublicKey();
@@ -16,11 +18,11 @@ public interface IAliPayConfig {
 
     String getFormat();
 
-    String getAppCertPath();
+    String getCertPath();
 
-    String getAliPayCertPath();
+    String getAlipayPublicCertPath();
 
-    String getAliPayRootCertPath();
+    String getRootCertPath();
 
 
 }

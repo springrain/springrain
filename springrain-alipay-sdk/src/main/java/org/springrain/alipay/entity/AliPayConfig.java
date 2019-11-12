@@ -1,11 +1,20 @@
 package org.springrain.alipay.entity;
 
 import org.springrain.alipay.sdk.common.aliconfig.IAliPayConfig;
+import org.springrain.frame.entity.BaseEntity;
 
-import java.io.Serializable;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-public class AliPayConfig implements IAliPayConfig, Serializable {
+/**
+ * 支付宝的配置,
+ */
+@Table(name = "ali_payconfig")
+public class AliPayConfig extends BaseEntity implements IAliPayConfig {
+    private static final long serialVersionUID = 1L;
 
+
+    private String id;
     private String privateKey;
     private String aliPayPublicKey;
     private String appId;
@@ -13,11 +22,30 @@ public class AliPayConfig implements IAliPayConfig, Serializable {
     private String charset = "UTF-8";
     private String signType = "RSA2";
     private String format = "json";
-    private String appCertPath;
-    private String aliPayCertPath;
-    private String aliPayRootCertPath;
+    //应用公钥证书路径
+    private String certPath;
+    //支付宝公钥证书文件路径
+    private String alipayPublicCertPath;
+    //支付宝CA根证书文件路径
+    private String rootCertPath;
 
 
+    public AliPayConfig() {
+
+    }
+
+
+    @Override
+    @Id
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @Override
     public String getPrivateKey() {
         return privateKey;
     }
@@ -26,6 +54,7 @@ public class AliPayConfig implements IAliPayConfig, Serializable {
         this.privateKey = privateKey;
     }
 
+    @Override
     public String getAliPayPublicKey() {
         return aliPayPublicKey;
     }
@@ -34,6 +63,7 @@ public class AliPayConfig implements IAliPayConfig, Serializable {
         this.aliPayPublicKey = aliPayPublicKey;
     }
 
+    @Override
     public String getAppId() {
         return appId;
     }
@@ -42,6 +72,7 @@ public class AliPayConfig implements IAliPayConfig, Serializable {
         this.appId = appId;
     }
 
+    @Override
     public String getServiceUrl() {
         return serviceUrl;
     }
@@ -50,6 +81,7 @@ public class AliPayConfig implements IAliPayConfig, Serializable {
         this.serviceUrl = serviceUrl;
     }
 
+    @Override
     public String getCharset() {
         return charset;
     }
@@ -58,6 +90,7 @@ public class AliPayConfig implements IAliPayConfig, Serializable {
         this.charset = charset;
     }
 
+    @Override
     public String getSignType() {
         return signType;
     }
@@ -66,6 +99,7 @@ public class AliPayConfig implements IAliPayConfig, Serializable {
         this.signType = signType;
     }
 
+    @Override
     public String getFormat() {
         return format;
     }
@@ -74,28 +108,31 @@ public class AliPayConfig implements IAliPayConfig, Serializable {
         this.format = format;
     }
 
-    public String getAppCertPath() {
-        return appCertPath;
+    @Override
+    public String getCertPath() {
+        return certPath;
     }
 
-    public void setAppCertPath(String appCertPath) {
-        this.appCertPath = appCertPath;
+    public void setCertPath(String certPath) {
+        this.certPath = certPath;
     }
 
-    public String getAliPayCertPath() {
-        return aliPayCertPath;
+    @Override
+    public String getAlipayPublicCertPath() {
+        return alipayPublicCertPath;
     }
 
-    public void setAliPayCertPath(String aliPayCertPath) {
-        this.aliPayCertPath = aliPayCertPath;
+    public void setAlipayPublicCertPath(String alipayPublicCertPath) {
+        this.alipayPublicCertPath = alipayPublicCertPath;
     }
 
-    public String getAliPayRootCertPath() {
-        return aliPayRootCertPath;
+    @Override
+    public String getRootCertPath() {
+        return rootCertPath;
     }
 
-    public void setAliPayRootCertPath(String aliPayRootCertPath) {
-        this.aliPayRootCertPath = aliPayRootCertPath;
+    public void setRootCertPath(String rootCertPath) {
+        this.rootCertPath = rootCertPath;
     }
 
 
