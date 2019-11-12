@@ -15,7 +15,6 @@ import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 public class AliPayApi {
@@ -766,29 +765,6 @@ public class AliPayApi {
         return GATEWAY_NEW.concat(AliPayUtils.createLinkString(param));
     }
 
-    /**
-     * 将异步通知的参数转化为Map
-     *
-     * @param aliPayConfig
-     * @param aliPayConfig
-     * @param requestParams
-     * @return
-     */
-    public static Map<String, String> toMap(IAliPayConfig aliPayConfig, Map<String, String[]> requestParams) {
-        Map<String, String> params = new HashMap<String, String>();
-        for (Iterator<String> iter = requestParams.keySet().iterator(); iter.hasNext(); ) {
-            String name = iter.next();
-            String[] values = requestParams.get(name);
-            String valueStr = "";
-            for (int i = 0; i < values.length; i++) {
-                valueStr = (i == values.length - 1) ? valueStr + values[i] : valueStr + values[i] + ",";
-            }
-            // 乱码解决，这段代码在出现乱码时使用
-            // valueStr = new String(valueStr.getBytes("ISO-8859-1"), "utf-8");
-            params.put(name, valueStr);
-        }
-        return params;
-    }
 
     /**
      * 生活缴费查询账单

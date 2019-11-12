@@ -94,6 +94,29 @@ public class AliPayUtils {
     }
 
 
+    /**
+     * 将异步通知的参数转化为Map
+     *
+     * @param requestParams
+     * @return
+     */
+    public static Map<String, String> toMap(Map<String, String[]> requestParams) {
+        Map<String, String> params = new HashMap<String, String>();
+        for (Iterator<String> iter = requestParams.keySet().iterator(); iter.hasNext(); ) {
+            String name = iter.next();
+            String[] values = requestParams.get(name);
+            String valueStr = "";
+            for (int i = 0; i < values.length; i++) {
+                valueStr = (i == values.length - 1) ? valueStr + values[i] : valueStr + values[i] + ",";
+            }
+            // 乱码解决，这段代码在出现乱码时使用
+            // valueStr = new String(valueStr.getBytes("ISO-8859-1"), "utf-8");
+            params.put(name, valueStr);
+        }
+        return params;
+    }
+
+
     public static AlipayClient getAliPayClient(IAliPayConfig aliPayConfig) {
         AlipayClient alipayClient = new DefaultAlipayClient(aliPayConfig.getServiceUrl(), aliPayConfig.getAppId(), aliPayConfig.getPrivateKey(), aliPayConfig.getFormat(),
                 aliPayConfig.getCharset(), aliPayConfig.getAliPayPublicKey(), aliPayConfig.getSignType());
