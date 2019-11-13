@@ -1,9 +1,11 @@
 package org.springrain.weixin.sdk.pay;
 
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.conn.ConnectTimeoutException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.weixin.sdk.common.wxconfig.IWxPayConfig;
 
@@ -453,7 +455,18 @@ public class WXPayApi {
             SSLContext sslContext = null;
 
             if (useCert) {
-                try (FileInputStream inputStream = new FileInputStream(config.getCertificateFile())) {
+
+                String certificateFile = config.getCertificateFile();
+                if (StringUtils.isBlank(certificateFile)) {
+                    return null;
+                }
+
+                String certFilePath = certificateFile;
+                if (!(certificateFile.startsWith("file:/") || certificateFile.startsWith("/"))) {
+                    certFilePath = GlobalStatic.rootDir + "/" + certificateFile;
+                }
+
+                try (FileInputStream inputStream = new FileInputStream(certFilePath)) {
                     // 证书
                     char[] password = config.getMchId().toCharArray();
                     KeyStore ks = KeyStore.getInstance("PKCS12");
