@@ -2,11 +2,24 @@ package org.springrain.weixin.sdk.pay;
 
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.config.RegistryBuilder;
 import org.apache.http.conn.ConnectTimeoutException;
+import org.apache.http.conn.socket.ConnectionSocketFactory;
+import org.apache.http.conn.socket.PlainConnectionSocketFactory;
+import org.apache.http.conn.ssl.DefaultHostnameVerifier;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.conn.BasicHttpClientConnectionManager;
+import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springrain.frame.util.GlobalStatic;
-import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.weixin.sdk.common.wxconfig.IWxPayConfig;
 
 import javax.net.ssl.KeyManagerFactory;
@@ -108,7 +121,7 @@ public class WXPayApi {
         } else {
             url = WXPayConstants.MICROPAY_URL;
         }
-        String respXml = payRequest(config, url, fillRequestData(config, reqData), true);
+        String respXml = payRequest(config, url, fillRequestData(config, reqData), false);
         return processResponseXml(config, respXml);
     }
 
@@ -279,7 +292,7 @@ public class WXPayApi {
         } else {
             url = WXPayConstants.REFUND_URL;
         }
-        String respXml = payRequest(config, url, fillRequestData(config, reqData), true);
+        String respXml = payRequest(config, url, fillRequestData(config, reqData), false);
         return processResponseXml(config, respXml);
     }
 
@@ -392,7 +405,7 @@ public class WXPayApi {
         } else {
             url = WXPayConstants.AUTHCODETOOPENID_URL;
         }
-        String respXml = payRequest(config, url, fillRequestData(config, reqData), true);
+        String respXml = payRequest(config, url, fillRequestData(config, reqData), false);
         return processResponseXml(config, respXml);
     }
 
@@ -446,6 +459,9 @@ public class WXPayApi {
      * @throws Exception
      */
     public static String payRequest(IWxPayConfig config, String apiUrl, Map<String, String> reqData, boolean useCert) {
+
+        BasicHttpClientConnectionManager connManager;
+
         long elapsedTimeMillis = 0;
         long startTimestampMs = WXPayUtil.getCurrentTimestampMs();
         Exception exception = null;
@@ -477,16 +493,52 @@ public class WXPayApi {
                     // 创建 SSLContext
                     sslContext = SSLContext.getInstance("TLS");
                     sslContext.init(kmf.getKeyManagers(), null, new SecureRandom());
+
+                    SSLConnectionSocketFactory sslConnectionSocketFactory = new SSLConnectionSocketFactory(
+                            sslContext,
+                            new String[]{"TLSv1"},
+                            null,
+                            new DefaultHostnameVerifier());
+
+                    connManager = new BasicHttpClientConnectionManager(
+                            RegistryBuilder.<ConnectionSocketFactory>create()
+                                    .register("http", PlainConnectionSocketFactory.getSocketFactory())
+                                    .register("https", sslConnectionSocketFactory)
+                                    .build(),
+                            null,
+                            null,
+                            null
+                    );
+
+
                 }
 
+            } else {
+                connManager = new BasicHttpClientConnectionManager(
+                        RegistryBuilder.<ConnectionSocketFactory>create()
+                                .register("http", PlainConnectionSocketFactory.getSocketFactory())
+                                .register("https", SSLConnectionSocketFactory.getSocketFactory())
+                                .build(),
+                        null,
+                        null,
+                        null
+                );
             }
+            HttpClient httpClient = HttpClientBuilder.create().setConnectionManager(connManager).build();
+            HttpPost httpPost = new HttpPost(apiUrl);
 
+            RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(5000).setConnectTimeout(5000).build();
+            httpPost.setConfig(requestConfig);
 
-            Map<String, String> header = new HashMap<>();
-            header.put("Content-Type", "text/xml");
-            header.put("User-Agent", USER_AGENT + " " + config.getMchId());
+            StringEntity postEntity = new StringEntity(data, "UTF-8");
+            httpPost.addHeader("Content-Type", "text/xml");
+            httpPost.addHeader("User-Agent", USER_AGENT + " " + config.getMchId());
+            httpPost.setEntity(postEntity);
 
-            String httpHeaderPost = HttpClientUtils.sendHttpHeaderPost(apiUrl, header, data, sslContext);
+            HttpResponse httpResponse = httpClient.execute(httpPost);
+            HttpEntity httpEntity = httpResponse.getEntity();
+
+            String httpHeaderPost = EntityUtils.toString(httpEntity, "UTF-8");
             elapsedTimeMillis = WXPayUtil.getCurrentTimestampMs() - startTimestampMs;
             WXPayReport reportInfo = new WXPayReport();
             reportInfo.setUuid(msgUUID);
