@@ -49,7 +49,7 @@ public class AliPayConfigServiceImpl extends BaseSpringrainAliPayServiceImpl imp
         }
         try {
             super.update(aliPayConfig);
-            super.putByCache(cacheKeyPrefix + id, GlobalStatic.aliPayConfigCacheKey, aliPayConfig);
+            super.putByCache(GlobalStatic.aliPayConfigCacheKey, cacheKeyPrefix + id, aliPayConfig);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
