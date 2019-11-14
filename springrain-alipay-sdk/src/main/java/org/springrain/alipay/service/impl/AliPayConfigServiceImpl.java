@@ -22,13 +22,13 @@ public class AliPayConfigServiceImpl extends BaseSpringrainAliPayServiceImpl imp
 
         IAliPayConfig aliPayConfig = null;
         try {
-            aliPayConfig = super.getByCache(GlobalStatic.aliConfigCacheKey, cacheKeyPrefix + id, AliPayConfig.class);
+            aliPayConfig = super.getByCache(GlobalStatic.aliPayConfigCacheKey, cacheKeyPrefix + id, AliPayConfig.class);
             if (aliPayConfig == null) {
                 aliPayConfig = super.findById(id, AliPayConfig.class);
                 if (aliPayConfig == null) {
                     return null;
                 }
-                super.putByCache(GlobalStatic.aliConfigCacheKey, cacheKeyPrefix + id, aliPayConfig);
+                super.putByCache(GlobalStatic.aliPayConfigCacheKey, cacheKeyPrefix + id, aliPayConfig);
             }
 
         } catch (Exception e) {
@@ -49,7 +49,7 @@ public class AliPayConfigServiceImpl extends BaseSpringrainAliPayServiceImpl imp
         }
         try {
             super.update(aliPayConfig);
-            super.putByCache(cacheKeyPrefix + id, GlobalStatic.aliConfigCacheKey, aliPayConfig);
+            super.putByCache(cacheKeyPrefix + id, GlobalStatic.aliPayConfigCacheKey, aliPayConfig);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }

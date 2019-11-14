@@ -39,7 +39,7 @@ public class GlobalStatic {
     // 微信缓存配置
     public static final String wxConfigCacheKey = "wxConfigCacheKey";
     // 支付宝缓存配置
-    public static final String aliConfigCacheKey = "aliConfigCacheKey";
+    public static final String aliPayConfigCacheKey = "aliPayConfigCacheKey";
 
     // page对象的缓存后缀key
     public static final String pageCacheExtKey = "_springrain_page_key";
