@@ -37,7 +37,10 @@ public class GlobalStatic {
     // 记录是否是分布事务的开始线程
     public static final ThreadLocal<Boolean> seataTransactionBegin = new ThreadLocal<>();
     // 微信缓存配置
-    public static final String wxConfigCacheKey = "wxConfigCacheKey";// 订阅号配置缓存Key
+    public static final String wxConfigCacheKey = "wxConfigCacheKey";
+    // 支付宝缓存配置
+    public static final String aliConfigCacheKey = "aliConfigCacheKey";
+
     // page对象的缓存后缀key
     public static final String pageCacheExtKey = "_springrain_page_key";
     // 主业务缓存
