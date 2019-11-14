@@ -33,7 +33,7 @@ import java.util.List;
 		@Filter(type = FilterType.ANNOTATION, value = Controller.class) })
 public class SpringMVCConfig implements WebMvcConfigurer {
 
-	Charset charset = StandardCharsets.UTF_8;
+	Charset charset = Charset.forName("UTF-8");
 
 	/*
 	 * @Bean public RequestMappingHandlerMapping customMappingHandlerMapping() {

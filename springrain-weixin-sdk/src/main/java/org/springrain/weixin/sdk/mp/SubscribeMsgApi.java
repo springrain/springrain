@@ -29,7 +29,7 @@ public class SubscribeMsgApi {
         sbf.append(authorize_uri).append("&appid=").append(wxmpconfig.getAppId())
                 .append("&scene=").append(scene)
                 .append("&template_id=").append(template_id)
-                .append("&redirect_uri=").append(URLEncoder.encode(redirectUri, StandardCharsets.UTF_8).replace("+", "%20"));
+                .append("&redirect_uri=").append(URLEncoder.encode(redirectUri, "UTF-8").replace("+", "%20"));
         if (StringUtils.isNotBlank(reserved)) {
             sbf.append("&reserved=").append(reserved);
         }

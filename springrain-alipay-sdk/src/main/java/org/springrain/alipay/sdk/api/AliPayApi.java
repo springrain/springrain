@@ -324,7 +324,7 @@ public class AliPayApi {
      * @throws UnsupportedEncodingException 编码异常
      */
     public static String getOauth2Url(IAliPayConfig aliPayConfig, String appId, String redirectUri) throws UnsupportedEncodingException {
-        return new StringBuffer().append("https://openauth.alipay.com/oauth2/appToAppAuth.htm?app_id=").append(appId).append("&redirect_uri=").append(URLEncoder.encode(redirectUri, StandardCharsets.UTF_8)).toString();
+        return new StringBuffer().append("https://openauth.alipay.com/oauth2/appToAppAuth.htm?app_id=").append(appId).append("&redirect_uri=").append(URLEncoder.encode(redirectUri, "UTF-8")).toString();
     }
 
     /**

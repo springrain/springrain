@@ -14,7 +14,7 @@ import java.security.Security;
 import java.util.Arrays;
 
 public class WxCryptUtils {
-    private static final Charset UTF_8 = StandardCharsets.UTF_8;
+    private static final Charset UTF_8 = Charset.forName("UTF-8");
 
     /**
      * 串接arr参数，生成sha1 digest

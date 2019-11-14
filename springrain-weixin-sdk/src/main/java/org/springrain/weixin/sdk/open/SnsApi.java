@@ -89,7 +89,7 @@ public class SnsApi {
 
         try {
             if (StringUtils.isNotBlank(redirect_uri)) {
-                redirect_uri = URLEncoder.encode(redirect_uri, StandardCharsets.UTF_8);
+                redirect_uri = URLEncoder.encode(redirect_uri, "UTF-8");
             }
         } catch (Exception e) {
             return null;
