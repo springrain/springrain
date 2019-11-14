@@ -63,20 +63,6 @@ public class AliPayApi {
         return AliPayUtils.getAliPayClient(aliPayConfig).pageExecute(aliPayRequest).getBody();
     }
 
-    /**
-     * 统一收单交易支付接口 <br>
-     * 适用于:条形码支付、声波支付等 <br>
-     * https://docs.open.alipay.com/api_1/alipay.trade.pay
-     *
-     * @param aliPayConfig
-     * @param model        {@link AlipayTradePayModel}
-     * @param notifyUrl    异步通知URL
-     * @return {@link AlipayTradePayResponse}
-     * @throws AlipayApiException 支付宝 Api 异常
-     */
-    public static AlipayTradePayResponse tradePayToResponse(IAliPayConfig aliPayConfig, AlipayTradePayModel model, String notifyUrl) throws AlipayApiException {
-        return tradePayToResponse(aliPayConfig, model, notifyUrl, null);
-    }
 
     /**
      * 统一收单交易支付接口<br>
@@ -102,20 +88,6 @@ public class AliPayApi {
         return AliPayUtils.getAliPayClient(aliPayConfig).execute(request, null, appAuthToken);
     }
 
-    /**
-     * 统一收单线下交易预创建 <br>
-     * 适用于：扫码支付等 <br>
-     * https://docs.open.alipay.com/api_1/alipay.trade.precreate
-     *
-     * @param aliPayConfig
-     * @param model        {@link AlipayTradePrecreateModel}
-     * @param notifyUrl    异步通知URL
-     * @return {@link AlipayTradePrecreateResponse}
-     * @throws AlipayApiException 支付宝 Api 异常
-     */
-    public static AlipayTradePrecreateResponse tradePrecreatePayToResponse(IAliPayConfig aliPayConfig, AlipayTradePrecreateModel model, String notifyUrl) throws AlipayApiException {
-        return tradePrecreatePayToResponse(aliPayConfig, model, notifyUrl, null);
-    }
 
     /**
      * 统一收单线下交易预创建 <br>
