@@ -17,7 +17,6 @@ import org.springrain.frame.util.FrameObjectMapper;
 import org.springrain.system.base.SpringMVCAnnotationBeanNameGenerator;
 
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 /**

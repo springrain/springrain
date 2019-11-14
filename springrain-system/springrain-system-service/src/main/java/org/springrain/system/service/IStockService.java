@@ -1,7 +1,7 @@
 package org.springrain.system.service;
 
-import org.springrain.system.entity.Stock;
 import org.springrain.rpc.annotation.RpcServiceAnnotation;
+import org.springrain.system.entity.Stock;
 /**
  * TODO 在此加入类描述
  * @author springrain<Auto generate>

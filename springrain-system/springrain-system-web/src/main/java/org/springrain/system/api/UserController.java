@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springrain.frame.util.Page;
 import org.springrain.frame.util.ReturnDatas;
 import org.springrain.frame.util.property.MessageUtils;
+import org.springrain.rpc.sessionuser.SessionUser;
 import org.springrain.system.base.BaseController;
 import org.springrain.system.entity.*;
 import org.springrain.system.service.IUserRoleMenuService;
 import org.springrain.system.service.IUserRoleOrgService;
 import org.springrain.system.service.IUserService;
-import org.springrain.rpc.sessionuser.SessionUser;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;

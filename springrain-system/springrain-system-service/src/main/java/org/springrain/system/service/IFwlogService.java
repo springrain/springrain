@@ -1,7 +1,7 @@
 package org.springrain.system.service;
 
-import org.springrain.system.entity.Fwlog;
 import org.springrain.rpc.annotation.RpcServiceAnnotation;
+import org.springrain.system.entity.Fwlog;
 
 /**
  * TODO 在此加入类描述

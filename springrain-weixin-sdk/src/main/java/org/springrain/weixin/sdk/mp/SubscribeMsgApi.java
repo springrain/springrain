@@ -14,7 +14,6 @@ import org.springrain.weixin.sdk.common.wxconfig.IWxMpConfig;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 
 /**
  * 一次性订阅消息 API

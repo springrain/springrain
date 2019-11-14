@@ -14,7 +14,6 @@ import org.springrain.weixin.sdk.common.WxConsts;
 import org.springrain.weixin.sdk.common.wxconfig.IWxMpConfig;
 
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 
 /**
  * 网页授权获取 access_token API
