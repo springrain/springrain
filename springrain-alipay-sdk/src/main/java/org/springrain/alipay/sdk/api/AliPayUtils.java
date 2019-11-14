@@ -1,4 +1,4 @@
-package org.springrain.alipay.sdk.pay;
+package org.springrain.alipay.sdk.api;
 
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
