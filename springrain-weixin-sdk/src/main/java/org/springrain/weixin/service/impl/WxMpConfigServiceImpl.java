@@ -69,7 +69,7 @@ public class WxMpConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl imple
 
         try {
             super.update(wxmpconfig);
-            super.putByCache(cacheKeyPrefix + id, GlobalStatic.wxConfigCacheKey, wxmpconfig);
+            super.putByCache(GlobalStatic.wxConfigCacheKey, cacheKeyPrefix + id, wxmpconfig);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }

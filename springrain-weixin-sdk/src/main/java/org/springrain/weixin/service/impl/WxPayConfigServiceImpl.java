@@ -59,7 +59,7 @@ public class WxPayConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl impl
         }
         try {
             super.update(wxpayappconfig);
-            super.putByCache(cacheKeyPrefix + id, GlobalStatic.wxConfigCacheKey, wxpayappconfig);
+            super.putByCache(GlobalStatic.wxConfigCacheKey, cacheKeyPrefix + id, wxpayappconfig);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }

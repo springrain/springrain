@@ -62,7 +62,7 @@ public class WxMiniappConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl 
 
         try {
             super.update(wxminiappconfig);
-            super.putByCache(id, GlobalStatic.wxConfigCacheKey, wxminiappconfig);
+            super.putByCache(GlobalStatic.wxConfigCacheKey, id, wxminiappconfig);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
