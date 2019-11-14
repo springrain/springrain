@@ -7,7 +7,9 @@ import org.springrain.frame.util.SecUtils;
 
 import java.util.*;
 
-
+/**
+ * 支付宝SDK工具类
+ */
 public class AliPayUtils {
 
     /**
@@ -19,7 +21,7 @@ public class AliPayUtils {
      * @return 签名结果字符串
      */
     public static String buildRequestMySign(Map<String, String> params, String key, String signType) {
-        // 把数组所有元素，按照“参数=参数值”的模式用“&”字符拼接成字符串
+        // 把数组所有元素，按照"参数=参数值"的模式用"&"字符拼接成字符串
         String preStr = createLinkString(params);
         if ("md5".equalsIgnoreCase(signType)) {
             return SecUtils.encoderByMd5With32Bit(preStr.concat(key));
@@ -55,7 +57,7 @@ public class AliPayUtils {
      * @return 去掉空值与签名参数后的新签名参数组
      */
     public static Map<String, String> paraFilter(Map<String, String> sArray) {
-        Map<String, String> result = new HashMap<String, String>(sArray.size());
+        Map<String, String> result = new HashMap<>(sArray.size());
         if (sArray == null || sArray.size() <= 0) {
             return result;
         }
@@ -77,7 +79,7 @@ public class AliPayUtils {
      * @return 拼接后字符串
      */
     public static String createLinkString(Map<String, String> params) {
-        List<String> keys = new ArrayList<String>(params.keySet());
+        List<String> keys = new ArrayList<>(params.keySet());
         Collections.sort(keys);
         StringBuffer content = new StringBuffer();
         for (int i = 0; i < keys.size(); i++) {
@@ -101,7 +103,7 @@ public class AliPayUtils {
      * @return
      */
     public static Map<String, String> toMap(Map<String, String[]> requestParams) {
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         for (Iterator<String> iter = requestParams.keySet().iterator(); iter.hasNext(); ) {
             String name = iter.next();
             String[] values = requestParams.get(name);
