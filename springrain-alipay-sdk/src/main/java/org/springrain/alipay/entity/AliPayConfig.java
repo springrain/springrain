@@ -18,7 +18,7 @@ public class AliPayConfig extends BaseEntity implements IAliPayConfig {
     private String privateKey;
     private String aliPayPublicKey;
     private String appId;
-    private String serviceUrl;
+    private String serviceUrl = "https://openapi.alipay.com/gateway.do";
     private String charset = "UTF-8";
     private String signType = "RSA2";
     private String format = "json";
