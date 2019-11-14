@@ -1,6 +1,8 @@
 package org.springrain.alipay.sdk.api;
 
+import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
+import com.alipay.api.CertAlipayRequest;
 import com.alipay.api.DefaultAlipayClient;
 import org.springrain.alipay.sdk.common.aliconfig.IAliPayConfig;
 import org.springrain.frame.util.SecUtils;
@@ -119,9 +121,37 @@ public class AliPayUtils {
     }
 
 
+    /**
+     * 获取返回请求的 AlipayClient
+     *
+     * @param aliPayConfig
+     * @return
+     */
     public static AlipayClient getAliPayClient(IAliPayConfig aliPayConfig) {
         AlipayClient alipayClient = new DefaultAlipayClient(aliPayConfig.getServiceUrl(), aliPayConfig.getAppId(), aliPayConfig.getPrivateKey(), aliPayConfig.getFormat(),
                 aliPayConfig.getCharset(), aliPayConfig.getAliPayPublicKey(), aliPayConfig.getSignType());
+        return alipayClient;
+    }
+
+    /**
+     * 返回带证书的 AlipayClient
+     *
+     * @param aliPayConfig
+     * @return
+     * @throws AlipayApiException
+     */
+    public static AlipayClient getAliPayCertClient(IAliPayConfig aliPayConfig) throws AlipayApiException {
+        CertAlipayRequest certAlipayRequest = new CertAlipayRequest();
+        certAlipayRequest.setServerUrl(aliPayConfig.getServiceUrl());
+        certAlipayRequest.setAppId(aliPayConfig.getAppId());
+        certAlipayRequest.setPrivateKey(aliPayConfig.getPrivateKey());
+        certAlipayRequest.setFormat(aliPayConfig.getFormat());
+        certAlipayRequest.setCharset(aliPayConfig.getCharset());
+        certAlipayRequest.setSignType(aliPayConfig.getSignType());
+        certAlipayRequest.setCertPath(aliPayConfig.getCertPath());
+        certAlipayRequest.setAlipayPublicCertPath(aliPayConfig.getAlipayPublicCertPath());
+        certAlipayRequest.setRootCertPath(aliPayConfig.getRootCertPath());
+        AlipayClient alipayClient = new DefaultAlipayClient(certAlipayRequest);
         return alipayClient;
     }
 
