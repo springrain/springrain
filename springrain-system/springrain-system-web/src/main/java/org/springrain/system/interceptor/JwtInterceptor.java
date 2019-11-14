@@ -1,5 +1,6 @@
 package org.springrain.system.interceptor;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -11,6 +12,8 @@ import org.springrain.frame.util.JwtUtils;
 import org.springrain.frame.util.SecUtils;
 import org.springrain.rpc.sessionuser.SessionUser;
 import org.springrain.rpc.sessionuser.UserVO;
+import org.springrain.system.entity.Menu;
+import org.springrain.system.entity.Role;
 import org.springrain.system.service.IMenuService;
 import org.springrain.system.service.IRoleService;
 import org.springrain.system.service.IUserRoleMenuService;
@@ -20,6 +23,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
+import java.util.List;
 
 
 @Component("jwtInterceptor")
@@ -36,8 +40,6 @@ public class JwtInterceptor implements HandlerInterceptor {
     private IRoleService roleService;
 
 
-
-
     /**
      * 预处理回调方法，实现处理器的预处理（如检查登陆），第三个参数为响应的处理器，自定义Controller
      * 返回值：true表示继续流程（如调用下一个拦截器或处理器）；false表示流程中断（如登录检查失败），不会继续调用其他的拦截器或处理器，此时我们需要通过response来产生响应；
@@ -50,29 +52,27 @@ public class JwtInterceptor implements HandlerInterceptor {
         // 开发环境,暂时允许跨域
         response.setHeader("Access-control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods", "*");
-        response.setHeader("Access-Control-Allow-Headers","*");
+        response.setHeader("Access-Control-Allow-Headers", "*");
         if (request.getMethod().equals(RequestMethod.OPTIONS.name())) {
             response.setStatus(HttpStatus.OK.value());
             return false;
         }
-
+        response.setStatus(HttpStatus.FORBIDDEN.value());
         // 获取jwtToken
         String jwtToken = request.getHeader(GlobalStatic.jwtTokenKey);
 
         // RSA 公钥解密
-        jwtToken= SecUtils.decoderByRSAPublicKey(jwtToken);
+        jwtToken = SecUtils.decoderByRSAPublicKey(jwtToken);
 
         //超时判断
         Date expireTime = JwtUtils.getExpireDate(jwtToken);
         if (expireTime == null || expireTime.getTime() < System.currentTimeMillis()) {
-            response.setStatus(HttpStatus.FORBIDDEN.value());
             return false;
         }
 
         //用户信息判断
         String userId = JwtUtils.getUserId(jwtToken);
         if (StringUtils.isBlank(userId)) {
-            response.setStatus(HttpStatus.FORBIDDEN.value());
             return false;
         }
 
@@ -83,51 +83,45 @@ public class JwtInterceptor implements HandlerInterceptor {
             uri = uri.substring(i + contextPath.length());
         }
         if (StringUtils.isBlank(uri)) {
-            response.setStatus(HttpStatus.FORBIDDEN.value());
+
             return false;
         }
 
         if (GlobalStatic.userDefaultUrl.contains(uri)) {//有权限
             UserVO userVO = userService.findUserVOByUserId(userId);
             SessionUser.sessionUserLocal.set(userVO);
+            response.setStatus(HttpStatus.OK.value());
             return true;
 
         }
 
 
-          // 建议不再传递menuId和roleId,权限的URL不能重复即可,通过访问的url,查到menuId和roleId.
-          // 前后端分离之后,后台的菜单实际只管理了数据,并不管理前端的菜单层次结构.
+        // 建议不再传递menuId和roleId,权限的URL不能重复即可,通过访问的url,查到menuId和roleId.
+        // 前后端分离之后,后台的菜单实际只管理了数据,并不管理前端的菜单层次结构.
 
-//        // 请求的菜单Id,可以通过url地址反查menuId或者根据/api/user/menu返回的数据再遍历一次,获取menuId
-//        String menuId = request.getHeader("menuId");
-//        // 请求的角色Id,可以通过url地址反查menuId或者根据/api/user/menu返回的数据再遍历一次,获取menuId
-//        String roleId = request.getHeader("roleId");
-//
-//
-//
-//        if (StringUtils.isBlank(jwtToken)||StringUtils.isBlank(menuId)||StringUtils.isBlank(roleId)) {
-//            return false;
-//        }
-//
-//        Menu menu = menuService.findMenuById(menuId);
-//
-//        if(menu == null||(!uri.equalsIgnoreCase(menu.getPageurl()))){
+        // 请求的菜单Id,可以通过url地址反查menuId或者根据/api/user/menu返回的数据再遍历一次,获取menuId
+        // String menuId = request.getHeader("menuId");
+        // 请求的角色Id,可以通过url地址反查menuId或者根据/api/user/menu返回的数据再遍历一次,获取roleId
+        // String roleId = request.getHeader("roleId");
 
 
+        if (StringUtils.isBlank(jwtToken)) {
+            return false;
+        }
+
+        // Menu menu = menuService.findMenuById(menuId);
+
+        /*
+        if(menu == null||(!uri.equalsIgnoreCase(menu.getPageurl()))){
+            return false;
+        }
 
 
-
-
-//            return false;
-//        }
-//
-//
-//        Role role = roleService.findRoleById(roleId);
-//        if(role==null||(!(roleId.equalsIgnoreCase(role.getId())))){
-//            return false;
-//        }
-
-
+        Role role = roleService.findRoleById(roleId);
+        if(role==null||(!(roleId.equalsIgnoreCase(role.getId())))){
+            return false;
+        }
+        */
 
 
         // 角色关联部门实现数据权限,角色指定 roleOrgType <0自己的数据,1所在部门,2所在部门及子部门数据,3.自定义部门数据>.
@@ -155,46 +149,52 @@ public class JwtInterceptor implements HandlerInterceptor {
         // 注意:缓存的清理,使用缓存java组装用户权限的树形结构.
 
 
-//        List<Menu> menus = userRoleMenuService.findMenuByUserId(userId);
-//
-//        if (CollectionUtils.isEmpty(menus)){
-//            return false;
-//        }
-//
-//        //用户是否有uri的权限.需要循环判断 roleId 和 menuId,用于获取用户此次访问的部门权限.
-//        //boolean qx=menus.contains(uri);
-//
-//        boolean qx=false;
-//
-//        for (Menu m:menus){
-//            if(!(uri.equalsIgnoreCase(m.getPageurl())&&roleId.equalsIgnoreCase(m.getRoleId()))){
-//               continue;
-//            }
-//            qx=true;
-//            break;
-//        }
+        List<Menu> menus = userRoleMenuService.findMenuByUserId(userId);
 
+        if (CollectionUtils.isEmpty(menus)) {
+            return false;
+        }
 
-//        if(qx){
-//
-//            //设置userVO
-//            UserVO userVO = userService.findUserVOByUserId(userId);
-//            // 如果是私有的部门权限,setPrivateOrgRoleId,业务调用SessionUser.getPrivateOrgRoleId,如果不是NULL,就调用IUserRoleOrgService.wrapOrgIdFinderByPrivateOrgRoleId(String roleId,String userId) 获取权限的 Finder
-//            if(role.getPrivateOrg()==1){
-//                userVO.setPrivateOrgRoleId(role.getId());
-//            }
-//
-//            SessionUser.sessionUserLocal.set(userVO);
-//        }
+        //用户是否有uri的权限.循环遍历用户有权限的菜单URL,因为pageUrl是唯一的,可以取出menuId和roleId
 
+        boolean qx = false;
+        String roleId = null;
+        for (Menu m : menus) {
+            //如果有访问菜单的权限,赋值roleId
+            if (uri.equalsIgnoreCase(m.getPageurl())) {
+                roleId = m.getRoleId();
+                qx = true;
+                break;
+            }
+
+        }
+
+        if (!qx) {
+            return false;
+        }
+        Role role = roleService.findRoleById(roleId);
+        if (role == null) {
+            return false;
+        }
+        //设置userVO
         UserVO userVO = userService.findUserVOByUserId(userId);
+        // 如果是私有的部门权限,setPrivateOrgRoleId,业务调用SessionUser.getPrivateOrgRoleId,如果不是NULL,就调用IUserRoleOrgService.wrapOrgIdFinderByPrivateOrgRoleId(String roleId,String userId) 获取权限的 Finder
+        if (role.getPrivateOrg() == 1) {
+            userVO.setPrivateOrgRoleId(role.getId());
+        }
 
         SessionUser.sessionUserLocal.set(userVO);
 
 
+        // UserVO userVO = userService.findUserVOByUserId(userId);
+
+        //  SessionUser.sessionUserLocal.set(userVO);
+
+        response.setStatus(HttpStatus.OK.value());
         return true;
 
     }
+
     /**
      * 后处理回调方法，实现处理器的后处理（但在渲染视图之前），此时我们可以通过modelAndView（模型和视图对象）对模型数据进行处理或对视图进行处理，modelAndView也可能为null。
      */
