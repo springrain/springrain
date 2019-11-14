@@ -11,6 +11,7 @@ import org.springrain.frame.util.DateUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.Map;
@@ -323,7 +324,7 @@ public class AliPayApi {
      * @throws UnsupportedEncodingException 编码异常
      */
     public static String getOauth2Url(IAliPayConfig aliPayConfig, String appId, String redirectUri) throws UnsupportedEncodingException {
-        return new StringBuffer().append("https://openauth.alipay.com/oauth2/appToAppAuth.htm?app_id=").append(appId).append("&redirect_uri=").append(URLEncoder.encode(redirectUri, "UTF-8")).toString();
+        return new StringBuffer().append("https://openauth.alipay.com/oauth2/appToAppAuth.htm?app_id=").append(appId).append("&redirect_uri=").append(URLEncoder.encode(redirectUri, StandardCharsets.UTF_8)).toString();
     }
 
     /**
@@ -359,6 +360,7 @@ public class AliPayApi {
 
     /**
      * 批量付款到支付宝账户
+     * https://docs.open.alipay.com/64/104804
      *
      * @param aliPayConfig
      * @param params
