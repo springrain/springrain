@@ -29,6 +29,10 @@ public class AliPayConfig extends BaseEntity implements IAliPayConfig {
     //支付宝CA根证书文件路径
     private String rootCertPath;
 
+    private String encryptType = "AES";
+
+    private String aesKey;
+
 
     public AliPayConfig() {
 
@@ -135,5 +139,22 @@ public class AliPayConfig extends BaseEntity implements IAliPayConfig {
         this.rootCertPath = rootCertPath;
     }
 
+    @Override
+    public String getEncryptType() {
+        return encryptType;
+    }
+
+    public void setEncryptType(String encryptType) {
+        this.encryptType = encryptType;
+    }
+
+    @Override
+    public String getAesKey() {
+        return aesKey;
+    }
+
+    public void setAesKey(String aesKey) {
+        this.aesKey = aesKey;
+    }
 
 }

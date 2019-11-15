@@ -4,6 +4,7 @@ import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.CertAlipayRequest;
 import com.alipay.api.DefaultAlipayClient;
+import org.apache.commons.lang3.StringUtils;
 import org.springrain.alipay.sdk.common.aliconfig.IAliPayConfig;
 import org.springrain.frame.util.SecUtils;
 
@@ -122,16 +123,18 @@ public class AliPayUtils {
 
 
     /**
-     * 获取返回请求的 AlipayClient
+     * 获取返回请求的 AlipayClient,没有证书安全,资金类的接口是强制要求使用证书的.
      *
      * @param aliPayConfig
      * @return
      */
+    /*
     public static AlipayClient getAliPayClient(IAliPayConfig aliPayConfig) {
         AlipayClient alipayClient = new DefaultAlipayClient(aliPayConfig.getServiceUrl(), aliPayConfig.getAppId(), aliPayConfig.getPrivateKey(), aliPayConfig.getFormat(),
                 aliPayConfig.getCharset(), aliPayConfig.getAliPayPublicKey(), aliPayConfig.getSignType());
         return alipayClient;
     }
+    */
 
     /**
      * 返回带证书的 AlipayClient
@@ -151,6 +154,14 @@ public class AliPayUtils {
         certAlipayRequest.setCertPath(aliPayConfig.getCertPath());
         certAlipayRequest.setAlipayPublicCertPath(aliPayConfig.getAlipayPublicCertPath());
         certAlipayRequest.setRootCertPath(aliPayConfig.getRootCertPath());
+        //设置加密类型AES
+        certAlipayRequest.setEncryptType(aliPayConfig.getEncryptType());
+
+        //设置加密key
+        if (StringUtils.isNotBlank(aliPayConfig.getAesKey())) {
+            certAlipayRequest.setEncryptor(aliPayConfig.getAesKey());
+        }
+
         AlipayClient alipayClient = new DefaultAlipayClient(certAlipayRequest);
         return alipayClient;
     }

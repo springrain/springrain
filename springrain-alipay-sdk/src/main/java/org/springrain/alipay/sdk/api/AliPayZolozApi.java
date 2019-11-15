@@ -25,7 +25,7 @@ public class AliPayZolozApi {
     public static ZolozIdentificationUserWebInitializeResponse zolozIdentificationUserWebInitialize(IAliPayConfig aliPayConfig, ZolozIdentificationUserWebInitializeModel model) throws AlipayApiException {
         ZolozIdentificationUserWebInitializeRequest request = new ZolozIdentificationUserWebInitializeRequest();
         request.setBizModel(model);
-        return AliPayUtils.getAliPayClient(aliPayConfig).execute(request);
+        return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request);
     }
 
     /**
@@ -41,7 +41,7 @@ public class AliPayZolozApi {
     public static ZolozIdentificationUserWebQueryResponse zolozIdentificationUserWebQuery(IAliPayConfig aliPayConfig, ZolozIdentificationUserWebQueryModel model) throws AlipayApiException {
         ZolozIdentificationUserWebQueryRequest request = new ZolozIdentificationUserWebQueryRequest();
         request.setBizModel(model);
-        return AliPayUtils.getAliPayClient(aliPayConfig).execute(request);
+        return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request);
     }
 
     /**
@@ -57,7 +57,7 @@ public class AliPayZolozApi {
     public static ZolozAuthenticationCustomerFacemanageCreateResponse zolozAuthenticationCustomerFaceManageCreate(IAliPayConfig aliPayConfig, ZolozAuthenticationCustomerFacemanageCreateModel model) throws AlipayApiException {
         ZolozAuthenticationCustomerFacemanageCreateRequest request = new ZolozAuthenticationCustomerFacemanageCreateRequest();
         request.setBizModel(model);
-        return AliPayUtils.getAliPayClient(aliPayConfig).execute(request);
+        return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request);
     }
 
     /**
@@ -73,7 +73,7 @@ public class AliPayZolozApi {
     public static ZolozAuthenticationCustomerFacemanageDeleteResponse zolozAuthenticationCustomerFaceManageDelete(IAliPayConfig aliPayConfig, ZolozAuthenticationCustomerFacemanageDeleteModel model) throws AlipayApiException {
         ZolozAuthenticationCustomerFacemanageDeleteRequest request = new ZolozAuthenticationCustomerFacemanageDeleteRequest();
         request.setBizModel(model);
-        return AliPayUtils.getAliPayClient(aliPayConfig).execute(request);
+        return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request);
     }
 
     /**
@@ -89,7 +89,7 @@ public class AliPayZolozApi {
     public static ZolozAuthenticationCustomerFtokenQueryResponse zolozAuthenticationCustomerFTokenQuery(IAliPayConfig aliPayConfig, ZolozAuthenticationCustomerFtokenQueryModel model) throws AlipayApiException {
         ZolozAuthenticationCustomerFtokenQueryRequest request = new ZolozAuthenticationCustomerFtokenQueryRequest();
         request.setBizModel(model);
-        return AliPayUtils.getAliPayClient(aliPayConfig).execute(request);
+        return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request);
     }
 
     /**
@@ -104,7 +104,7 @@ public class AliPayZolozApi {
     public static ZolozAuthenticationSmilepayInitializeResponse zolozAuthenticationSmilePayInitialize(IAliPayConfig aliPayConfig, ZolozAuthenticationSmilepayInitializeModel model) throws AlipayApiException {
         ZolozAuthenticationSmilepayInitializeRequest request = new ZolozAuthenticationSmilepayInitializeRequest();
         request.setBizModel(model);
-        return AliPayUtils.getAliPayClient(aliPayConfig).execute(request);
+        return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request);
     }
 
     /**
@@ -120,7 +120,7 @@ public class AliPayZolozApi {
     public static ZolozAuthenticationCustomerSmilepayInitializeResponse zolozAuthenticationCustomerSmilePayInitialize(IAliPayConfig aliPayConfig, ZolozAuthenticationCustomerSmilepayInitializeModel model) throws AlipayApiException {
         ZolozAuthenticationCustomerSmilepayInitializeRequest request = new ZolozAuthenticationCustomerSmilepayInitializeRequest();
         request.setBizModel(model);
-        return AliPayUtils.getAliPayClient(aliPayConfig).execute(request);
+        return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request);
     }
 
     /**
@@ -136,7 +136,7 @@ public class AliPayZolozApi {
     public static ZolozIdentificationCustomerCertifyzhubQueryResponse zolozIdentificationCustomerCertifyzhubQuery(IAliPayConfig aliPayConfig, ZolozIdentificationCustomerCertifyzhubQueryModel model) throws AlipayApiException {
         ZolozIdentificationCustomerCertifyzhubQueryRequest request = new ZolozIdentificationCustomerCertifyzhubQueryRequest();
         request.setBizModel(model);
-        return AliPayUtils.getAliPayClient(aliPayConfig).execute(request);
+        return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request);
     }
 
 

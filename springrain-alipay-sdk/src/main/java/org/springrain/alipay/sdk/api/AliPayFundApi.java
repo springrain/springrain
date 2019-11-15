@@ -54,7 +54,7 @@ public class AliPayFundApi {
     private static AlipayFundTransToaccountTransferResponse transferToResponse(IAliPayConfig aliPayConfig, AlipayFundTransToaccountTransferModel model) throws AlipayApiException {
         AlipayFundTransToaccountTransferRequest request = new AlipayFundTransToaccountTransferRequest();
         request.setBizModel(model);
-        return AliPayUtils.getAliPayClient(aliPayConfig).execute(request);
+        return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request);
     }
 
     /**
@@ -83,7 +83,7 @@ public class AliPayFundApi {
     public static AlipayFundTransOrderQueryResponse transferQueryToResponse(IAliPayConfig aliPayConfig, AlipayFundTransOrderQueryModel model) throws AlipayApiException {
         AlipayFundTransOrderQueryRequest request = new AlipayFundTransOrderQueryRequest();
         request.setBizModel(model);
-        return AliPayUtils.getAliPayClient(aliPayConfig).execute(request);
+        return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request);
     }
 
 
@@ -99,7 +99,7 @@ public class AliPayFundApi {
     public static AlipayFundAuthOrderFreezeResponse authOrderFreezeToResponse(IAliPayConfig aliPayConfig, AlipayFundAuthOrderFreezeModel model) throws AlipayApiException {
         AlipayFundAuthOrderFreezeRequest request = new AlipayFundAuthOrderFreezeRequest();
         request.setBizModel(model);
-        return AliPayUtils.getAliPayClient(aliPayConfig).execute(request);
+        return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request);
     }
 
     /**
@@ -115,7 +115,7 @@ public class AliPayFundApi {
     public static AlipayFundAuthOrderUnfreezeResponse authOrderUnfreezeToResponse(IAliPayConfig aliPayConfig, AlipayFundAuthOrderUnfreezeModel model) throws AlipayApiException {
         AlipayFundAuthOrderUnfreezeRequest request = new AlipayFundAuthOrderUnfreezeRequest();
         request.setBizModel(model);
-        return AliPayUtils.getAliPayClient(aliPayConfig).execute(request);
+        return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request);
     }
 
     /**
@@ -130,7 +130,7 @@ public class AliPayFundApi {
     public static AlipayFundAuthOrderVoucherCreateResponse authOrderVoucherCreateToResponse(IAliPayConfig aliPayConfig, AlipayFundAuthOrderVoucherCreateModel model) throws AlipayApiException {
         AlipayFundAuthOrderVoucherCreateRequest request = new AlipayFundAuthOrderVoucherCreateRequest();
         request.setBizModel(model);
-        return AliPayUtils.getAliPayClient(aliPayConfig).execute(request);
+        return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request);
     }
 
     /**
@@ -145,7 +145,7 @@ public class AliPayFundApi {
     public static AlipayFundAuthOperationCancelResponse authOperationCancelToResponse(IAliPayConfig aliPayConfig, AlipayFundAuthOperationCancelModel model) throws AlipayApiException {
         AlipayFundAuthOperationCancelRequest request = new AlipayFundAuthOperationCancelRequest();
         request.setBizModel(model);
-        return AliPayUtils.getAliPayClient(aliPayConfig).execute(request);
+        return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request);
     }
 
     /**
@@ -160,7 +160,7 @@ public class AliPayFundApi {
     public static AlipayFundAuthOperationDetailQueryResponse authOperationDetailQueryToResponse(IAliPayConfig aliPayConfig, AlipayFundAuthOperationDetailQueryModel model) throws AlipayApiException {
         AlipayFundAuthOperationDetailQueryRequest request = new AlipayFundAuthOperationDetailQueryRequest();
         request.setBizModel(model);
-        return AliPayUtils.getAliPayClient(aliPayConfig).execute(request);
+        return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request);
     }
 
     /**
@@ -175,7 +175,7 @@ public class AliPayFundApi {
     public static AlipayFundCouponOrderAppPayResponse fundCouponOrderAppPayToResponse(IAliPayConfig aliPayConfig, AlipayFundCouponOrderAppPayModel model) throws AlipayApiException {
         AlipayFundCouponOrderAppPayRequest request = new AlipayFundCouponOrderAppPayRequest();
         request.setBizModel(model);
-        return AliPayUtils.getAliPayClient(aliPayConfig).execute(request);
+        return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request);
     }
 
     /**
@@ -190,7 +190,7 @@ public class AliPayFundApi {
     public static AlipayFundCouponOrderPagePayResponse fundCouponOrderPagePayToResponse(IAliPayConfig aliPayConfig, AlipayFundCouponOrderPagePayModel model) throws AlipayApiException {
         AlipayFundCouponOrderPagePayRequest request = new AlipayFundCouponOrderPagePayRequest();
         request.setBizModel(model);
-        return AliPayUtils.getAliPayClient(aliPayConfig).execute(request);
+        return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request);
     }
 
     /**
@@ -206,7 +206,7 @@ public class AliPayFundApi {
     public static AlipayFundCouponOrderAgreementPayResponse fundCouponOrderAgreementPayToResponse(IAliPayConfig aliPayConfig, AlipayFundCouponOrderAgreementPayModel model) throws AlipayApiException {
         AlipayFundCouponOrderAgreementPayRequest request = new AlipayFundCouponOrderAgreementPayRequest();
         request.setBizModel(model);
-        return AliPayUtils.getAliPayClient(aliPayConfig).execute(request);
+        return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request);
     }
 
     /**
@@ -222,7 +222,7 @@ public class AliPayFundApi {
     public static AlipayFundCouponOrderDisburseResponse fundCouponOrderDisburseToResponse(IAliPayConfig aliPayConfig, AlipayFundCouponOrderDisburseModel model) throws AlipayApiException {
         AlipayFundCouponOrderDisburseRequest request = new AlipayFundCouponOrderDisburseRequest();
         request.setBizModel(model);
-        return AliPayUtils.getAliPayClient(aliPayConfig).execute(request);
+        return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request);
     }
 
     /**
@@ -238,7 +238,7 @@ public class AliPayFundApi {
     public static AlipayFundCouponOrderRefundResponse fundCouponOrderRefundToResponse(IAliPayConfig aliPayConfig, AlipayFundCouponOrderRefundModel model) throws AlipayApiException {
         AlipayFundCouponOrderRefundRequest request = new AlipayFundCouponOrderRefundRequest();
         request.setBizModel(model);
-        return AliPayUtils.getAliPayClient(aliPayConfig).execute(request);
+        return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request);
     }
 
     /**
@@ -252,7 +252,7 @@ public class AliPayFundApi {
     public static AlipayFundCouponOperationQueryResponse fundCouponOperationQueryToResponse(IAliPayConfig aliPayConfig, AlipayFundCouponOperationQueryModel model) throws AlipayApiException {
         AlipayFundCouponOperationQueryRequest request = new AlipayFundCouponOperationQueryRequest();
         request.setBizModel(model);
-        return AliPayUtils.getAliPayClient(aliPayConfig).execute(request);
+        return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request);
     }
 
 }

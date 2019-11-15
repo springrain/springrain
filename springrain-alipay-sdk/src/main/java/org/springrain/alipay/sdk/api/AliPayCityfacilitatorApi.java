@@ -33,7 +33,7 @@ public class AliPayCityfacilitatorApi {
     public static AlipayCommerceCityfacilitatorVoucherGenerateResponse voucherGenerateToResponse(IAliPayConfig aliPayConfig, AlipayCommerceCityfacilitatorVoucherGenerateModel model) throws AlipayApiException {
         AlipayCommerceCityfacilitatorVoucherGenerateRequest request = new AlipayCommerceCityfacilitatorVoucherGenerateRequest();
         request.setBizModel(model);
-        return AliPayUtils.getAliPayClient(aliPayConfig).execute(request);
+        return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request);
     }
 
     /**
@@ -49,7 +49,7 @@ public class AliPayCityfacilitatorApi {
     public static AlipayCommerceCityfacilitatorVoucherRefundResponse metroRefundToResponse(IAliPayConfig aliPayConfig, AlipayCommerceCityfacilitatorVoucherRefundModel model) throws AlipayApiException {
         AlipayCommerceCityfacilitatorVoucherRefundRequest request = new AlipayCommerceCityfacilitatorVoucherRefundRequest();
         request.setBizModel(model);
-        return AliPayUtils.getAliPayClient(aliPayConfig).execute(request);
+        return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request);
     }
 
     /**
@@ -65,7 +65,7 @@ public class AliPayCityfacilitatorApi {
     public static AlipayCommerceCityfacilitatorStationQueryResponse stationQueryToResponse(IAliPayConfig aliPayConfig, AlipayCommerceCityfacilitatorStationQueryModel model) throws AlipayApiException {
         AlipayCommerceCityfacilitatorStationQueryRequest request = new AlipayCommerceCityfacilitatorStationQueryRequest();
         request.setBizModel(model);
-        return AliPayUtils.getAliPayClient(aliPayConfig).execute(request);
+        return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request);
     }
 
     /**
@@ -81,7 +81,7 @@ public class AliPayCityfacilitatorApi {
     public static AlipayCommerceCityfacilitatorVoucherBatchqueryResponse voucherBatchqueryToResponse(IAliPayConfig aliPayConfig, AlipayCommerceCityfacilitatorVoucherBatchqueryModel model) throws AlipayApiException {
         AlipayCommerceCityfacilitatorVoucherBatchqueryRequest request = new AlipayCommerceCityfacilitatorVoucherBatchqueryRequest();
         request.setBizModel(model);
-        return AliPayUtils.getAliPayClient(aliPayConfig).execute(request);
+        return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request);
     }
 
 }

@@ -24,5 +24,9 @@ public interface IAliPayConfig {
 
     String getRootCertPath();
 
+    String getEncryptType();
+
+    String getAesKey();
+
 
 }

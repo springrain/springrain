@@ -39,7 +39,7 @@ public class AliPayBillApi {
     private static AlipayDataDataserviceBillDownloadurlQueryResponse billDownloadUrlQueryToResponse(IAliPayConfig aliPayConfig, AlipayDataDataserviceBillDownloadurlQueryModel model) throws AlipayApiException {
         AlipayDataDataserviceBillDownloadurlQueryRequest request = new AlipayDataDataserviceBillDownloadurlQueryRequest();
         request.setBizModel(model);
-        return AliPayUtils.getAliPayClient(aliPayConfig).execute(request);
+        return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request);
     }
 
 

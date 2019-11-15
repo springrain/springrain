@@ -40,7 +40,7 @@ public class AliPayApi {
         AlipayTradeAppPayRequest request = new AlipayTradeAppPayRequest();
         request.setBizModel(model);
         request.setNotifyUrl(notifyUrl);
-        return AliPayUtils.getAliPayClient(aliPayConfig).sdkExecute(request);
+        return AliPayUtils.getAliPayCertClient(aliPayConfig).sdkExecute(request);
     }
 
 
@@ -60,7 +60,7 @@ public class AliPayApi {
         aliPayRequest.setReturnUrl(returnUrl);
         aliPayRequest.setNotifyUrl(notifyUrl);
         aliPayRequest.setBizModel(model);
-        return AliPayUtils.getAliPayClient(aliPayConfig).pageExecute(aliPayRequest).getBody();
+        return AliPayUtils.getAliPayCertClient(aliPayConfig).pageExecute(aliPayRequest).getBody();
     }
 
 
@@ -82,10 +82,10 @@ public class AliPayApi {
         request.setNotifyUrl(notifyUrl);
 
         if (StringUtils.isBlank(appAuthToken)) {
-            return AliPayUtils.getAliPayClient(aliPayConfig).execute(request);
+            return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request);
         }
 
-        return AliPayUtils.getAliPayClient(aliPayConfig).execute(request, null, appAuthToken);
+        return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request, null, appAuthToken);
     }
 
 
@@ -108,9 +108,9 @@ public class AliPayApi {
         request.setNotifyUrl(notifyUrl);
 
         if (StringUtils.isBlank(appAuthToken)) {
-            return AliPayUtils.getAliPayClient(aliPayConfig).execute(request);
+            return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request);
         }
-        return AliPayUtils.getAliPayClient(aliPayConfig).execute(request, null, appAuthToken);
+        return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request, null, appAuthToken);
     }
 
     /**
@@ -129,9 +129,9 @@ public class AliPayApi {
         request.setBizModel(model);
 
         if (StringUtils.isBlank(appAuthToken)) {
-            return AliPayUtils.getAliPayClient(aliPayConfig).execute(request);
+            return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request);
         }
-        return AliPayUtils.getAliPayClient(aliPayConfig).execute(request, null, appAuthToken);
+        return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request, null, appAuthToken);
     }
 
     /**
@@ -149,9 +149,9 @@ public class AliPayApi {
         AlipayTradeCancelRequest request = new AlipayTradeCancelRequest();
         request.setBizModel(model);
         if (StringUtils.isBlank(appAuthToken)) {
-            return AliPayUtils.getAliPayClient(aliPayConfig).execute(request);
+            return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request);
         }
-        return AliPayUtils.getAliPayClient(aliPayConfig).execute(request, null, appAuthToken);
+        return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request, null, appAuthToken);
     }
 
 
@@ -170,9 +170,9 @@ public class AliPayApi {
         AlipayTradeCloseRequest request = new AlipayTradeCloseRequest();
         request.setBizModel(model);
         if (StringUtils.isBlank(appAuthToken)) {
-            return AliPayUtils.getAliPayClient(aliPayConfig).execute(request);
+            return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request);
         }
-        return AliPayUtils.getAliPayClient(aliPayConfig).execute(request, null, appAuthToken);
+        return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request, null, appAuthToken);
 
     }
 
@@ -194,9 +194,9 @@ public class AliPayApi {
         request.setBizModel(model);
         request.setNotifyUrl(notifyUrl);
         if (StringUtils.isBlank(appAuthToken)) {
-            return AliPayUtils.getAliPayClient(aliPayConfig).execute(request);
+            return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request);
         }
-        return AliPayUtils.getAliPayClient(aliPayConfig).execute(request, null, appAuthToken);
+        return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request, null, appAuthToken);
     }
 
 
@@ -215,9 +215,9 @@ public class AliPayApi {
         AlipayTradeRefundRequest request = new AlipayTradeRefundRequest();
         request.setBizModel(model);
         if (StringUtils.isBlank(appAuthToken)) {
-            return AliPayUtils.getAliPayClient(aliPayConfig).execute(request);
+            return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request);
         }
-        return AliPayUtils.getAliPayClient(aliPayConfig).execute(request, null, appAuthToken);
+        return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request, null, appAuthToken);
     }
 
     /**
@@ -236,9 +236,9 @@ public class AliPayApi {
         request.setBizModel(model);
 
         if (StringUtils.isBlank(appAuthToken)) {
-            return AliPayUtils.getAliPayClient(aliPayConfig).execute(request);
+            return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request);
         }
-        return AliPayUtils.getAliPayClient(aliPayConfig).execute(request, null, appAuthToken);
+        return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request, null, appAuthToken);
     }
 
 
@@ -257,9 +257,9 @@ public class AliPayApi {
         AlipayTradeOrderSettleRequest request = new AlipayTradeOrderSettleRequest();
         request.setBizModel(model);
         if (StringUtils.isBlank(appAuthToken)) {
-            return AliPayUtils.getAliPayClient(aliPayConfig).execute(request);
+            return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request);
         }
-        return AliPayUtils.getAliPayClient(aliPayConfig).execute(request, null, appAuthToken);
+        return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request, null, appAuthToken);
     }
 
 
@@ -280,7 +280,7 @@ public class AliPayApi {
         request.setBizModel(model);
         request.setNotifyUrl(notifyUrl);
         request.setReturnUrl(returnUrl);
-        String form = AliPayUtils.getAliPayClient(aliPayConfig).pageExecute(request).getBody();// 调用SDK生成表单
+        String form = AliPayUtils.getAliPayCertClient(aliPayConfig).pageExecute(request).getBody();// 调用SDK生成表单
         return form;
     }
 
@@ -309,7 +309,7 @@ public class AliPayApi {
     public static AlipayOpenAuthTokenAppResponse openAuthTokenAppToResponse(IAliPayConfig aliPayConfig, AlipayOpenAuthTokenAppModel model) throws AlipayApiException {
         AlipayOpenAuthTokenAppRequest request = new AlipayOpenAuthTokenAppRequest();
         request.setBizModel(model);
-        return AliPayUtils.getAliPayClient(aliPayConfig).execute(request);
+        return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request);
     }
 
     /**
@@ -325,7 +325,7 @@ public class AliPayApi {
     public static AlipayOpenAuthTokenAppQueryResponse openAuthTokenAppQueryToResponse(IAliPayConfig aliPayConfig, AlipayOpenAuthTokenAppQueryModel model) throws AlipayApiException {
         AlipayOpenAuthTokenAppQueryRequest request = new AlipayOpenAuthTokenAppQueryRequest();
         request.setBizModel(model);
-        return AliPayUtils.getAliPayClient(aliPayConfig).execute(request);
+        return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request);
     }
 
 
@@ -364,7 +364,7 @@ public class AliPayApi {
         AlipayEbppBillGetRequest request = new AlipayEbppBillGetRequest();
         request.setOrderType(orderType);
         request.setMerchantOrderNo(merchantOrderNo);
-        return AliPayUtils.getAliPayClient(aliPayConfig).execute(request);
+        return AliPayUtils.getAliPayCertClient(aliPayConfig).certificateExecute(request);
     }
 
 }
