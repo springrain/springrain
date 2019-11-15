@@ -822,4 +822,25 @@ CREATE TABLE `wx_payconfig`  (
   PRIMARY KEY (`id`) 
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4  COMMENT = '微信号需要的配置信息' ;
 
+DROP TABLE IF EXISTS `ali_payconfig`;
+CREATE TABLE `ali_payconfig`  (
+  `id` varchar(50)    NOT NULL,
+  `privateKey` varchar(2000)    NULL DEFAULT NULL,
+  `aliPayPublicKey` varchar(1000)    NULL DEFAULT NULL,
+  `appId` varchar(50)    NULL DEFAULT NULL,
+  `serviceUrl` varchar(200)    NOT NULL,
+  `charset` varchar(20)    NOT NULL,
+  `signType` varchar(10)    NOT NULL,
+  `format` varchar(10)   NOT NULL,
+  `certPath` varchar(200)    NULL DEFAULT NULL,
+  `alipayPublicCertPath` varchar(200)    NULL DEFAULT NULL,
+  `rootCertPath` varchar(200)    NULL DEFAULT NULL,
+  `encryptType` varchar(50)   NULL DEFAULT NULL,
+  `aesKey` varchar(50)    NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB CHARACTER SET = utf8mb4  COMMENT = '支付宝的配置信息' ;
+
+
+
+
 SET FOREIGN_KEY_CHECKS = 1;
