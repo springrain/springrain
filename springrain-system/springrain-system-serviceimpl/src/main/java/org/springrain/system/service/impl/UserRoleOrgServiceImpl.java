@@ -563,5 +563,21 @@ public class UserRoleOrgServiceImpl extends BaseSpringrainServiceImpl implements
         return null;
     }
 
+    @Override
+    public boolean isUserInOrg(String userId, String orgId) throws Exception {
+
+        if (StringUtils.isBlank(userId) || StringUtils.isBlank(orgId)) {
+            return false;
+        }
+        Finder finder = Finder.getSelectFinder(UserOrg.class, " 1 ").append(" WHERE userId=:userId and orgId=:orgId ");
+        finder.setParam("userId", userId).setParam("orgId", orgId);
+        Integer isUserInOrg = super.queryForObject(finder, Integer.class);
+
+        if (isUserInOrg == null) {
+            return false;
+        }
+        return true;
+    }
+
 
 }

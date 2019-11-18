@@ -200,4 +200,15 @@ public interface IUserRoleOrgService extends IBaseSpringrainService {
      */
     String updateRoleOrg(RoleOrg roleOrg) throws Exception;
 
+
+    /**
+     * 用户是否在指定的组织下,校验组织结构关系
+     *
+     * @param userId
+     * @param orgId
+     * @return
+     * @throws Exception
+     */
+    boolean isUserInOrg(String userId, String orgId) throws Exception;
+
 }
