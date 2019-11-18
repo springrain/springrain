@@ -16,7 +16,6 @@ import org.springrain.rpc.sessionuser.SessionUser;
 import org.springrain.rpc.sessionuser.UserVO;
 import org.springrain.system.entity.Menu;
 import org.springrain.system.entity.Role;
-import org.springrain.system.service.IMenuService;
 import org.springrain.system.service.IRoleService;
 import org.springrain.system.service.IUserRoleMenuService;
 import org.springrain.system.service.IUserService;
@@ -36,8 +35,8 @@ public class JwtInterceptor implements HandlerInterceptor {
 
     @Resource
     private IUserService userService;
-    @Resource
-    private IMenuService menuService;
+    // @Resource
+    //private IMenuService menuService;
     @Resource
     private IRoleService roleService;
 
