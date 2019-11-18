@@ -4,6 +4,8 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
+import org.springframework.util.PathMatcher;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -39,6 +41,7 @@ public class JwtInterceptor implements HandlerInterceptor {
     @Resource
     private IRoleService roleService;
 
+    PathMatcher matcher = new AntPathMatcher();
 
     /**
      * 预处理回调方法，实现处理器的预处理（如检查登陆），第三个参数为响应的处理器，自定义Controller
@@ -87,12 +90,22 @@ public class JwtInterceptor implements HandlerInterceptor {
             return false;
         }
 
-        if (GlobalStatic.userDefaultUrl.contains(uri)) {//有权限
+
+        boolean isUserDefaultUrl = false;
+
+        for (String patternPath : GlobalStatic.userDefaultUrl) {
+            if (matcher.match(patternPath, uri)) { //符合正则表达式
+                isUserDefaultUrl = true;
+                break;
+            }
+
+        }
+
+        if (isUserDefaultUrl) {//登录用户 有权限
             UserVO userVO = userService.findUserVOByUserId(userId);
             SessionUser.sessionUserLocal.set(userVO);
             response.setStatus(HttpStatus.OK.value());
             return true;
-
         }
 
 
