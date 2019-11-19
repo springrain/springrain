@@ -22,12 +22,18 @@ public class BaseMapEntity implements Serializable {
 
 
     public BaseMapEntity set(String key, Object object) {
+        if (!checkSqlStr(key)) {
+            return this;
+        }
         dbFieldValue.put(key, object);
         allValue.put(key, object);
         return this;
     }
 
     public BaseMapEntity put(String key, Object object) {
+        if (!checkSqlStr(key)) {
+            return this;
+        }
         allValue.put(key, object);
         return this;
     }
@@ -41,15 +47,9 @@ public class BaseMapEntity implements Serializable {
     }
 
     public void setTableName(String tableName) {
-        if (StringUtils.isBlank(tableName)) {
+        if (!checkSqlStr(tableName)) {
             return;
         }
-
-        // 如果包含特殊字符
-        if (tableName.contains(" ") || tableName.contains(";") || tableName.contains("'") || tableName.contains("\\") || tableName.contains("(")) {
-            return;
-        }
-
 
 
         this.tableName = tableName;
@@ -105,5 +105,20 @@ public class BaseMapEntity implements Serializable {
     public Map<String, Object> getAllValue() {
         return allValue;
     }
+
+    private boolean checkSqlStr(String sqlStr) {
+
+        if (StringUtils.isBlank(sqlStr)) {
+            return false;
+        }
+
+
+        // 如果包含特殊字符
+        if (sqlStr.contains(" ") || sqlStr.contains(";") || sqlStr.contains("'") || sqlStr.contains("\\") || sqlStr.contains("(")) {
+            return false;
+        }
+        return true;
+    }
+
 
 }
