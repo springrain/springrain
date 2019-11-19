@@ -20,7 +20,13 @@ public class BaseMapEntity implements Serializable {
 
     private Map<String, Object> allValue = new HashMap<>();
 
-
+    /**
+     * 设置数据库的字段
+     *
+     * @param key
+     * @param object
+     * @return
+     */
     public BaseMapEntity set(String key, Object object) {
         if (!checkSqlStr(key)) {
             return this;
@@ -30,6 +36,12 @@ public class BaseMapEntity implements Serializable {
         return this;
     }
 
+    /**
+     * 设置自定义的字段,非数据库字段
+     * @param key
+     * @param object
+     * @return
+     */
     public BaseMapEntity put(String key, Object object) {
         if (!checkSqlStr(key)) {
             return this;
@@ -38,6 +50,11 @@ public class BaseMapEntity implements Serializable {
         return this;
     }
 
+    /**
+     * 获取数据库和自定义的所有字段值
+     * @param key
+     * @return
+     */
     public Object get(String key) {
         return allValue.get(key);
     }
@@ -50,13 +67,10 @@ public class BaseMapEntity implements Serializable {
         if (!checkSqlStr(tableName)) {
             return;
         }
-
-
         this.tableName = tableName;
     }
 
     public Object getPkValue() {
-
         return get(getPkName());
     }
 
@@ -106,6 +120,11 @@ public class BaseMapEntity implements Serializable {
         return allValue;
     }
 
+    /**
+     * 检查是否是合法的sql字段
+     * @param sqlStr
+     * @return
+     */
     private boolean checkSqlStr(String sqlStr) {
 
         if (StringUtils.isBlank(sqlStr)) {
