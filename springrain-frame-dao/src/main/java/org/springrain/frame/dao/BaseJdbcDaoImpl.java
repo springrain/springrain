@@ -123,11 +123,32 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
      *
      * @param sql
      */
-    private void logInfoSql(String sql) {
+    private void logInfoSql(String sql, Map map) {
         if (showsql()) {
-            System.out.println(sql);
+            String params = null;
+            if (map != null) {
+                params = JsonUtils.writeValueAsString(map);
+            }
+            System.out.println(sql + ";参数:" + params);
         }
     }
+
+    /**
+     * 打印sql
+     *
+     * @param sql
+     */
+    private void logInfoSql(String sql, List maps) {
+        if (showsql()) {
+            String params = null;
+            if (maps != null) {
+                params = JsonUtils.writeValueAsString(maps);
+            }
+            System.out.println(sql + ";参数:" + params);
+        }
+    }
+
+
 
     @Override
     public <T> List<T> queryForList(Finder finder, Class<T> clazz) throws Exception {
@@ -225,7 +246,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
     @Override
     public List<Map<String, Object>> queryForList(Finder finder) throws Exception {
         // 打印sql
-        logInfoSql(finder.getSql());
+        logInfoSql(finder.getSql(), finder.getParams());
         return getReadJdbc().queryForList(finder.getSql(), finder.getParams());
     }
 
@@ -234,7 +255,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
         Map<String, Object> map = null;
         try {
             // 打印sql
-            logInfoSql(finder.getSql());
+            logInfoSql(finder.getSql(), finder.getParams());
             map = getReadJdbc().queryForMap(finder.getSql(), finder.getParams());
         } catch (EmptyResultDataAccessException e) {
             logger.info(e.getMessage(), e);
@@ -253,7 +274,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
         finder.setPageSql(pageSql);
 
         // 打印sql
-        logInfoSql(pageSql);
+        logInfoSql(pageSql, finder.getParams());
 
         return getReadJdbc().queryForList(pageSql, finder.getParams());
 
@@ -264,7 +285,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
         checkMethodName();
 
         // 打印sql
-        logInfoSql(finder.getSql());
+        logInfoSql(finder.getSql(), finder.getParams());
         return getWriteJdbc().update(finder.getSql(), finder.getParams());
     }
 
@@ -278,7 +299,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
         finder.setPageSql(pageSql);
 
         // 打印sql
-        logInfoSql(pageSql);
+        logInfoSql(pageSql, finder.getParams());
 
         if (ClassUtils.isBaseType(clazz)) {
             if (getDialect().isRowNumber()) {
@@ -523,7 +544,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
     @Override
     public <T> T queryForObject(Finder finder, Class<T> clazz) throws Exception {
         // 打印sql
-        logInfoSql(finder.getSql());
+        logInfoSql(finder.getSql(), finder.getParams());
         T t = null;
         try {
             if (ClassUtils.isBaseType(clazz)) {
@@ -564,7 +585,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
         Boolean isSequence = StringUtils.isNotBlank(entityInfo.getPksequence());
         String sql = wrapsavesql(entity, paramMap, isSequence);
         // 打印sql
-        logInfoSql(sql);
+        logInfoSql(sql, paramMap);
 
         // 增加如果表没有主键的判断
         if (returnType == null) {
@@ -656,7 +677,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
             return null;
         }
         // 打印sql
-        logInfoSql(sql);
+        logInfoSql(sql, dbField);
         return getWriteJdbc().update(sql, dbField);
     }
 
@@ -696,7 +717,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
         }
 
         // 打印sql
-        logInfoSql(sql);
+        logInfoSql(sql, maps);
         int[] batchUpdate = getWriteJdbc().batchUpdate(sql, SqlParameterSourceUtils.createBatch(maps));
 
         List<Integer> updateList = new ArrayList<>();
@@ -837,7 +858,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
         }
 
         // 打印sql
-        logInfoSql(sql);
+        logInfoSql(sql, maps);
         int[] batchUpdate = getWriteJdbc().batchUpdate(sql, SqlParameterSourceUtils.createBatch(maps));
 
         List<Integer> updateList = new ArrayList<>();
@@ -876,7 +897,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
             return null;
         }
         // 打印sql
-        logInfoSql(sql);
+        logInfoSql(sql, dbField);
         return getWriteJdbc().update(sql, dbField);
     }
 
@@ -893,7 +914,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
         String sql = wrapupdatesql(entity, paramMap, onlyupdatenotnull);
         Object id = ClassUtils.getPKValue(entity);
         // 打印sql
-        logInfoSql(sql);
+        logInfoSql(sql, paramMap);
 
         Object old_entity = null;
         AuditLog auditLog = getAuditLog();
@@ -955,7 +976,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
         Finder finder = new Finder(sql);
         finder.setParam("id", id);
         // 打印sql
-        logInfoSql(finder.getSql());
+        logInfoSql(finder.getSql(), finder.getParams());
         return queryForObject(finder, clazz);
     }
 
@@ -985,7 +1006,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
             }
         }
         // 打印sql
-        logInfoSql(finder.getSql());
+        logInfoSql(finder.getSql(), finder.getParams());
         update(finder);
 
         if (auditLog == null) {
@@ -1145,7 +1166,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
         finder.append(tableName).append("  WHERE 1=1 ");
         getFinderWhereByQueryBean(finder, entity);
         // 打印sql
-        logInfoSql(finder.getSql());
+        logInfoSql(finder.getSql(), finder.getParams());
         return (T) queryForObject(finder, entity.getClass());
 
     }
@@ -1166,7 +1187,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
         finder.append(tableName).append("  WHERE 1=1 ");
         getFinderWhereByQueryBean(finder, entity);
         // 打印sql
-        logInfoSql(finder.getSql());
+        logInfoSql(finder.getSql(), finder.getParams());
         return (List<T>) queryForList(finder, entity.getClass(), page);
 
     }
