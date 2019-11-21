@@ -20,39 +20,27 @@ public class CmdUtils {
         throw new IllegalAccessError("工具类不能实例化");
     }
 
+    /**
+     * 执行命令行
+     *
+     * @param commandStr
+     * @return
+     */
     public static StringBuilder execCmd(String commandStr) {
-        final String os = System.getProperty("os.name");
-        if (os.startsWith("Windows")) {
+        final String os = System.getProperty("os.name").toLowerCase();
+        if (os.contains("windows")) {
             return execWindowsCmd(commandStr);
-        } else if (os.startsWith("Linux")) {
+        } else if (os.contains("linux")) {
             return execLinuxCmd(commandStr);
         } else {
             return null;
         }
     }
 
-    private static StringBuilder execWindowsCmd(String commandStr) {
-        List<String> cmds = new ArrayList<>();
-        cmds.add("cmd.exe");
-        cmds.add("/c");
-        cmds.add(commandStr);
-        ProcessBuilder pb = new ProcessBuilder(cmds);
-        return execCmd(pb);
-    }
-
-    private static StringBuilder execLinuxCmd(String commandStr) {
-        List<String> cmds = new ArrayList<>();
-        cmds.add("sh");
-        cmds.add("-c");
-        cmds.add(commandStr);
-        ProcessBuilder pb = new ProcessBuilder(cmds);
-        return execCmd(pb);
-    }
-
     /**
      * 执行命令行
      *
-     * @param cmds
+     * @param pb
      * @return
      */
     public static StringBuilder execCmd(ProcessBuilder pb) {
@@ -82,6 +70,36 @@ public class CmdUtils {
                 }
             }
         }
+    }
+
+    /**
+     * 执行Windows命令
+     *
+     * @param commandStr
+     * @return
+     */
+    private static StringBuilder execWindowsCmd(String commandStr) {
+        List<String> cmds = new ArrayList<>();
+        cmds.add("cmd.exe");
+        cmds.add("/c");
+        cmds.add(commandStr);
+        ProcessBuilder pb = new ProcessBuilder(cmds);
+        return execCmd(pb);
+    }
+
+    /**
+     * 执行Linux命令
+     *
+     * @param commandStr
+     * @return
+     */
+    private static StringBuilder execLinuxCmd(String commandStr) {
+        List<String> cmds = new ArrayList<>();
+        cmds.add("sh");
+        cmds.add("-c");
+        cmds.add(commandStr);
+        ProcessBuilder pb = new ProcessBuilder(cmds);
+        return execCmd(pb);
     }
 
     /**
