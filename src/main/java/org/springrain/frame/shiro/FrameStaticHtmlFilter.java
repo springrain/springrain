@@ -15,13 +15,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.web.servlet.OncePerRequestFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
 import org.springrain.frame.util.CookieUtils;
 import org.springrain.frame.util.FileUtils;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.InputSafeUtils;
+import org.springrain.frame.util.SpringUtils;
 import org.springrain.system.service.IStaticHtmlService;
 
 /**
@@ -31,13 +29,15 @@ import org.springrain.system.service.IStaticHtmlService;
  *
  */
 
-@Component("statichtml")
 public class FrameStaticHtmlFilter extends OncePerRequestFilter {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	@Resource
 	private IStaticHtmlService staticHtmlService;
-
+	
+	public FrameStaticHtmlFilter() {
+		staticHtmlService = (IStaticHtmlService) SpringUtils.getBean("staticHtmlService");
+	}
+	
 	@Override
 	protected void doFilterInternal(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws ServletException, IOException {
@@ -82,20 +82,4 @@ public class FrameStaticHtmlFilter extends OncePerRequestFilter {
 		FileUtils.readIOFromFile(writer, htmlFile);
 
 	}
-
-	/**
-	 * springboot会把所有的filter列为平级,造成shiro的子拦截器和shiroFilter同级,造成访问异常,所以shiro的子Filter需要手动disable
-	 * 
-	 * @param filter
-	 * @return
-	 */
-
-	@Bean("disableFrameStaticHtmlFilter")
-	public FilterRegistrationBean<FrameStaticHtmlFilter> disableFrameStaticHtmlFilter(FrameStaticHtmlFilter filter) {
-		FilterRegistrationBean<FrameStaticHtmlFilter> registration = new FilterRegistrationBean<FrameStaticHtmlFilter>(
-				filter);
-		registration.setEnabled(false);
-		return registration;
-	}
-
 }

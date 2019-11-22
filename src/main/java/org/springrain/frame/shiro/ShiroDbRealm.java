@@ -19,7 +19,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
-import org.springframework.stereotype.Component;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.system.entity.User;
 import org.springrain.system.service.IUserRoleMenuService;
@@ -30,7 +29,6 @@ import org.springrain.system.service.IUserRoleMenuService;
  * @author caomei
  *
  */
-@Component("shiroDbRealm")
 public class ShiroDbRealm extends AuthorizingRealm {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	@Resource

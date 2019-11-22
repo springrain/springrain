@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -13,13 +12,11 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.web.servlet.OncePerRequestFilter;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.IPUtils;
+import org.springrain.frame.util.SpringUtils;
 
 /**
  * 简单的防火墙策略,一般是专业防火墙实现的功能
@@ -28,12 +25,14 @@ import org.springrain.frame.util.IPUtils;
  *
  */
 
-@Component("firewall")
 public class FrameFireWallFilter extends OncePerRequestFilter {
 	// private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	@Resource
 	private CacheManager cacheManager;
+	
+	public FrameFireWallFilter() {
+		cacheManager = (CacheManager) SpringUtils.getBean("cacheManager");
+	}
 
 	// 同一IP防火墙阀值,如果值小于0 例如 -1,认为不限制,黑名单依然有效
 	private Integer firewallLockCheckCount = GlobalStatic.FRIEWALL_LOCK_CHECK_COUNT;
@@ -135,20 +134,4 @@ public class FrameFireWallFilter extends OncePerRequestFilter {
 		return;
 
 	}
-
-	/**
-	 * springboot会把所有的filter列为平级,造成shiro的子拦截器和shiroFilter同级,造成访问异常,所以shiro的子Filter需要手动disable
-	 * 
-	 * @param filter
-	 * @return
-	 */
-
-	@Bean("disableFrameFireWallFilter")
-	public FilterRegistrationBean<FrameFireWallFilter> disableFrameFireWallFilter(FrameFireWallFilter filter) {
-		FilterRegistrationBean<FrameFireWallFilter> registration = new FilterRegistrationBean<FrameFireWallFilter>(
-				filter);
-		registration.setEnabled(false);
-		return registration;
-	}
-
 }

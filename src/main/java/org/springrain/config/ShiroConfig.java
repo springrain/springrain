@@ -6,7 +6,6 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.Resource;
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 
@@ -27,6 +26,17 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springrain.frame.shiro.FrameFWLogFilter;
+import org.springrain.frame.shiro.FrameFireWallFilter;
+import org.springrain.frame.shiro.FramePermissionsAuthorizationFilter;
+import org.springrain.frame.shiro.FrameStaticHtmlFilter;
+import org.springrain.frame.shiro.FrontUserFilter;
+import org.springrain.frame.shiro.KeepOneSessionControlFilter;
+import org.springrain.frame.shiro.ShiroDbRealm;
+import org.springrain.frame.shiro.SiteUserFilter;
+import org.springrain.frame.shiro.SystemUserFilter;
+import org.springrain.frame.shiro.UserCenterFilter;
+import org.springrain.weixin.shirofilter.WxMpAutoLoginFilter;
 
 /**
  * 配置 shiro<br>
@@ -42,30 +52,6 @@ public class ShiroConfig {
 
 	@Value("${springrain.session.timeout}")
 	private Long sessionTimeout = 1800000L;
-
-	@Resource
-	private Realm shiroDbRealm;
-
-	@Resource
-	private Filter framefwlog;
-	@Resource
-	private Filter frameperms;
-	@Resource
-	private Filter frontuser;
-	@Resource
-	private Filter usercenter;
-	@Resource
-	private Filter siteuser;
-	@Resource
-	private Filter systemuser;
-	@Resource
-	private Filter keepone;
-	@Resource
-	private Filter statichtml;
-	@Resource
-	private Filter firewall;
-	@Resource
-	private Filter wxmpautologin;
 
 	private static final String shiroFilterName = "shiroFilter";
 
@@ -102,12 +88,18 @@ public class ShiroConfig {
 	public org.apache.shiro.mgt.SecurityManager securityManager() {
 		DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
 		// 数据库认证的实现
-		securityManager.setRealm(shiroDbRealm);
+		securityManager.setRealm(shiroDbRealm());
 		// session 管理器
 		securityManager.setSessionManager(sessionManager());
 		// 缓存管理器
 		securityManager.setCacheManager(shiroCacheManager());
 		return securityManager;
+	}
+	
+	@Bean
+	public Realm shiroDbRealm() {
+		ShiroDbRealm shiroDbRealm = new ShiroDbRealm();
+		return shiroDbRealm;
 	}
 
 	/**
@@ -202,29 +194,29 @@ public class ShiroConfig {
 	private Map<String, Filter> getFilters() {
 		Map<String, Filter> filters = new HashMap<>();
 		// 访问日志记录的过滤器
-		filters.put("framefwlog", framefwlog);
+		filters.put("framefwlog", new FrameFWLogFilter());
 		// 权限校验的过滤器
-		filters.put("frameperms", frameperms);
+		filters.put("frameperms", new FramePermissionsAuthorizationFilter());
 		// 前台未登录用户过滤器
-		filters.put("frontuser", frontuser);
+		filters.put("frontuser", new FrontUserFilter());
 		// 前台登录用户过滤器
-		filters.put("usercenter", usercenter);
+		filters.put("usercenter", new UserCenterFilter());
 		// 网站后台用户过滤器
-		filters.put("siteuser", siteuser);
+		filters.put("siteuser", new SiteUserFilter());
 		// 后台用户过滤器
-		filters.put("systemuser", systemuser);
+		filters.put("systemuser", new SystemUserFilter());
 		// 踢出上个账户的过滤器
-		filters.put("keepone", keepone);
+		filters.put("keepone", new KeepOneSessionControlFilter());
 		// 静态化过滤器
-		filters.put("statichtml", statichtml);
+		filters.put("statichtml", new FrameStaticHtmlFilter());
 		// 防火墙过滤器
-		filters.put("firewall", firewall);
+		filters.put("firewall", new  FrameFireWallFilter());
 		// 微信登录验证过滤器
-		filters.put("wxmpautologin", wxmpautologin);
+		filters.put("wxmpautologin", new WxMpAutoLoginFilter());
 
 		return filters;
 	}
-
+	
 	/**
 	 * url拦截规则,访问地址的过滤规则,从上至下,从左至右的优先级,如果有匹配的规则,就会返回,不会再进行匹配
 	 * 

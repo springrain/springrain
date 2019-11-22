@@ -5,9 +5,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
 import org.springrain.frame.util.CookieUtils;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.InputSafeUtils;
@@ -19,7 +16,6 @@ import org.springrain.frame.util.InputSafeUtils;
  *
  */
 
-@Component("frontuser")
 public class FrontUserFilter extends BaseUserFilter {
 
 	public FrontUserFilter() {
@@ -57,19 +53,4 @@ public class FrontUserFilter extends BaseUserFilter {
 
 		return false;
 	}
-
-	/**
-	 * springboot会把所有的filter列为平级,造成shiro的子拦截器和shiroFilter同级,造成访问异常,所以shiro的子Filter需要手动disable
-	 * 
-	 * @param filter
-	 * @return
-	 */
-
-	@Bean("disableFrontUserFilter")
-	public FilterRegistrationBean<FrontUserFilter> disableFrontUserFilter(FrontUserFilter filter) {
-		FilterRegistrationBean<FrontUserFilter> registration = new FilterRegistrationBean<FrontUserFilter>(filter);
-		registration.setEnabled(false);
-		return registration;
-	}
-
 }

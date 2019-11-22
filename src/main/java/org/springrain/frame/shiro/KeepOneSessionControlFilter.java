@@ -2,7 +2,6 @@ package org.springrain.frame.shiro;
 
 import java.io.Serializable;
 
-import javax.annotation.Resource;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
@@ -16,13 +15,11 @@ import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
 import org.springrain.frame.common.SessionUser;
 import org.springrain.frame.util.GlobalStatic;
+import org.springrain.frame.util.SpringUtils;
 
 /**
  * 保存最新的用户在线，踢出上一个用户
@@ -31,14 +28,16 @@ import org.springrain.frame.util.GlobalStatic;
  *
  */
 
-@Component("keepone")
 public class KeepOneSessionControlFilter extends AccessControlFilter {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
-	@Resource
 	private SessionManager sessionManager;
-	@Resource
 	private CacheManager cacheManager;
-
+	
+	public KeepOneSessionControlFilter() {
+		sessionManager = (SessionManager) SpringUtils.getBean("sessionManager");
+		cacheManager = (CacheManager) SpringUtils.getBean("cacheManager");
+	}
+	
 	@Override
 	protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue)
 			throws Exception {
@@ -92,21 +91,4 @@ public class KeepOneSessionControlFilter extends AccessControlFilter {
 		}
 
 	}
-
-	/**
-	 * springboot会把所有的filter列为平级,造成shiro的子拦截器和shiroFilter同级,造成访问异常,所以shiro的子Filter需要手动disable
-	 * 
-	 * @param filter
-	 * @return
-	 */
-
-	@Bean("disableKeepOneSessionControlFilter")
-	public FilterRegistrationBean<KeepOneSessionControlFilter> disableKeepOneSessionControlFilter(
-			KeepOneSessionControlFilter filter) {
-		FilterRegistrationBean<KeepOneSessionControlFilter> registration = new FilterRegistrationBean<KeepOneSessionControlFilter>(
-				filter);
-		registration.setEnabled(false);
-		return registration;
-	}
-
 }

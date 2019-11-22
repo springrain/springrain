@@ -5,9 +5,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
 import org.springrain.frame.util.CookieUtils;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.InputSafeUtils;
@@ -18,7 +15,6 @@ import org.springrain.frame.util.InputSafeUtils;
  * @author caomei
  */
 
-@Component("usercenter")
 public class UserCenterFilter extends BaseUserFilter {
 	public UserCenterFilter() {
 		// 跳转到登录界面
@@ -75,12 +71,4 @@ public class UserCenterFilter extends BaseUserFilter {
 		return false;
 
 	}
-
-	@Bean("disableUserCenterFilter")
-	public FilterRegistrationBean<UserCenterFilter> disableUserCenterFilter(UserCenterFilter filter) {
-		FilterRegistrationBean<UserCenterFilter> registration = new FilterRegistrationBean<UserCenterFilter>(filter);
-		registration.setEnabled(false);
-		return registration;
-	}
-
 }

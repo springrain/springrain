@@ -9,9 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authz.PermissionsAuthorizationFilter;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
 
 /**
  * 权限访问的过滤器
@@ -20,7 +17,6 @@ import org.springframework.stereotype.Component;
  *
  */
 
-@Component("frameperms")
 public class FramePermissionsAuthorizationFilter extends PermissionsAuthorizationFilter {
 	// private final Logger logger = LoggerFactory.getLogger(getClass());
 	// @Resource
@@ -71,21 +67,4 @@ public class FramePermissionsAuthorizationFilter extends PermissionsAuthorizatio
 		return permitted;
 
 	}
-
-	/**
-	 * springboot会把所有的filter列为平级,造成shiro的子拦截器和shiroFilter同级,造成访问异常,所以shiro的子Filter需要手动disable
-	 * 
-	 * @param filter
-	 * @return
-	 */
-
-	@Bean("disableFramePermissionsAuthorizationFilter")
-	public FilterRegistrationBean<FramePermissionsAuthorizationFilter> disableFramePermissionsAuthorizationFilter(
-			FramePermissionsAuthorizationFilter filter) {
-		FilterRegistrationBean<FramePermissionsAuthorizationFilter> registration = new FilterRegistrationBean<FramePermissionsAuthorizationFilter>(
-				filter);
-		registration.setEnabled(false);
-		return registration;
-	}
-
 }

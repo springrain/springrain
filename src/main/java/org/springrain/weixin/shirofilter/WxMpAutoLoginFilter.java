@@ -2,7 +2,6 @@ package org.springrain.weixin.shirofilter;
 
 import java.io.IOException;
 
-import javax.annotation.Resource;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -14,26 +13,18 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.web.servlet.OncePerRequestFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
 import org.springrain.frame.util.InputSafeUtils;
-import org.springrain.system.service.IUserService;
+import org.springrain.frame.util.SpringUtils;
 import org.springrain.weixin.sdk.common.api.IWxMpConfig;
 import org.springrain.weixin.sdk.common.api.IWxMpConfigService;
 
-@Component("wxmpautologin")
 public class WxMpAutoLoginFilter extends OncePerRequestFilter {
 	private final   Logger logger = LoggerFactory.getLogger(getClass());
 	
-	
-	@Resource
 	private IWxMpConfigService wxMpConfigService;
-
-	@Resource
-	private IUserService userService;
-	
-	
+	public WxMpAutoLoginFilter() {
+		wxMpConfigService = (IWxMpConfigService) SpringUtils.getBean("wxMpConfigService");
+	}
 
 	@Override
 	protected void doFilterInternal(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -108,24 +99,4 @@ public class WxMpAutoLoginFilter extends OncePerRequestFilter {
 		}
 		
 	}
-	
-	
-
-    /**
-     *  springboot会把所有的filter列为平级,造成shiro的子拦截器和shiroFilter同级,造成访问异常,所以shiro的子Filter需要手动disable
-     * @param filter
-     * @return
-     */
-
-    @Bean("disableWxMpAutoLoginFilter")
-    public FilterRegistrationBean<WxMpAutoLoginFilter> disableWxMpAutoLoginFilter(WxMpAutoLoginFilter filter) {
-        FilterRegistrationBean<WxMpAutoLoginFilter> registration = new FilterRegistrationBean<WxMpAutoLoginFilter>(filter);
-        registration.setEnabled(false);
-        return registration;
-    }
-    
-   
-	
-	
-	
 }
