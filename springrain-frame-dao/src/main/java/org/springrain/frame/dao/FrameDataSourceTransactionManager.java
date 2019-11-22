@@ -5,7 +5,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 
 /**
- * Spring 没有提供获取当前县城的事务状态,自定义ThreadLocal实现,在事务开始前记录.
+ * Spring 没有提供获取当前线程的事务状态,自定义ThreadLocal实现,在事务开始前记录.
  *
  * @author caomei
  */

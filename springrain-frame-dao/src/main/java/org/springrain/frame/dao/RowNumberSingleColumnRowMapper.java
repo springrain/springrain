@@ -13,7 +13,6 @@ import java.sql.SQLException;
  * @param <T>
  * @author springrain<Auto generate>
  * @version 2013-03-19 11:08:15
- * @copyright {@link weicms.net}
  */
 public class RowNumberSingleColumnRowMapper<T> extends SingleColumnRowMapper<T> {
     private Class<T> requiredType;
