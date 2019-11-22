@@ -1,7 +1,7 @@
 package org.springrain.rpc.sessionuser;
 
 /**
- * TODO 在此加入类描述
+ * 用户信息的VO,用于记录和RPC传递当前登陆用户的基础信息
  *
  * @author zyf
  * @version 2019-07-16 18:04

@@ -38,6 +38,8 @@ public class GrpcBeanFactoryPostProcessor implements BeanFactoryPostProcessor, E
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
         try {
+            // 初始化全局变量
+            initGlobalProperty();
             // 初始化代理bean,必须在bean加载前处理好,因为spring初始化找不到实现会报错,提前把接口的实现注册上去就可以了.
             initRpcServiceImpl(beanFactory);
         } catch (Exception e) {
@@ -156,6 +158,14 @@ public class GrpcBeanFactoryPostProcessor implements BeanFactoryPostProcessor, E
         }
 
 
+    }
+
+    /**
+     * 初始化全局变量
+     *
+     * @throws Exception
+     */
+    private void initGlobalProperty() throws Exception {
         // jwtSecret
         String jwtSecret = environment.getProperty("springrain.jwt.secret");
         GlobalStatic.jwtSecret = jwtSecret;
@@ -173,17 +183,17 @@ public class GrpcBeanFactoryPostProcessor implements BeanFactoryPostProcessor, E
         //rsa公钥
         String rsaPublicKey = environment.getProperty("springrain.rsa.publickey", "");
 
-        if (StringUtils.isBlank(rsaPrivateKey) || StringUtils.isBlank(rsaPublicKey)) {//使用默认的公钥私钥
-            return;
+        //初始化 rsa 证书
+        if (StringUtils.isNotBlank(rsaPrivateKey)) {
+            GlobalStatic.rsaPrivateKeyPem = rsaPrivateKey;
+        }
+        if (StringUtils.isNotBlank(rsaPublicKey)) {
+            GlobalStatic.rsaPublicKeyPem = rsaPublicKey;
         }
 
-        //初始化 rsa 证书
-        GlobalStatic.rsaPublicKeyPem = rsaPublicKey;
-        GlobalStatic.rsaPrivateKeyPem = rsaPrivateKey;
         SecUtils.initRSA();
-
-
     }
+
 
 
     @Override
