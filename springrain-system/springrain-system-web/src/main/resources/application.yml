@@ -16,7 +16,7 @@ springrain:
   ###jwt 的默认配置,secret 在生产环境一定要配置正确!!!!!!###
   jwt:
     secret: dev
-    timeout: 3600000
+    timeout: 36000000
     tokenkey: springraintoken
 
   #openoffice:
@@ -81,8 +81,8 @@ spring:
 
 
 ###actuator的默认路径/actuator/ 开头,已经在shiro配置,只有system有权限###        
-management:
-  endpoints:
-    web:
-      exposure:
-        include: '*'
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: '*'
