@@ -16,6 +16,7 @@
 * 一个RPC接口只能有一个实现.
 * 分布式事务,一定要避免A服务update表t,RPC调用B服务,B服务也update表t.这样A等待B结果,B等待A释放锁,造成死锁.
 * 分布式无注解比较方便,理论上有不同步风险,个人感觉做好日志,风险不大
+* Service层不可以使用Servlet API,例如 HttpRequest
 
 ## 体验单体到分层切换
 * 修改springrain-system-web依赖springrain-system-service,不再依赖springrain-system-serviceimpl.
