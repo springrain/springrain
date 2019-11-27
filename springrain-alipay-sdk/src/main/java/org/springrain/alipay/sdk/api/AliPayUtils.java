@@ -6,6 +6,7 @@ import com.alipay.api.CertAlipayRequest;
 import com.alipay.api.DefaultAlipayClient;
 import org.apache.commons.lang3.StringUtils;
 import org.springrain.alipay.sdk.common.aliconfig.IAliPayConfig;
+import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.SecUtils;
 
 import java.util.*;
@@ -151,9 +152,26 @@ public class AliPayUtils {
         certAlipayRequest.setFormat(aliPayConfig.getFormat());
         certAlipayRequest.setCharset(aliPayConfig.getCharset());
         certAlipayRequest.setSignType(aliPayConfig.getSignType());
-        certAlipayRequest.setCertPath(aliPayConfig.getCertPath());
-        certAlipayRequest.setAlipayPublicCertPath(aliPayConfig.getAlipayPublicCertPath());
-        certAlipayRequest.setRootCertPath(aliPayConfig.getRootCertPath());
+
+        String certPath = aliPayConfig.getCertPath();
+        if (!(certPath.startsWith("file:/") || certPath.startsWith("/"))) {
+            certPath = GlobalStatic.rootDir + "/" + certPath;
+        }
+        certAlipayRequest.setCertPath(certPath);
+
+        String alipayPublicCertPath = aliPayConfig.getAlipayPublicCertPath();
+        if (!(alipayPublicCertPath.startsWith("file:/") || alipayPublicCertPath.startsWith("/"))) {
+            alipayPublicCertPath = GlobalStatic.rootDir + "/" + alipayPublicCertPath;
+        }
+        certAlipayRequest.setAlipayPublicCertPath(alipayPublicCertPath);
+
+        String rootCertPath = aliPayConfig.getRootCertPath();
+        if (!(rootCertPath.startsWith("file:/") || rootCertPath.startsWith("/"))) {
+            rootCertPath = GlobalStatic.rootDir + "/" + rootCertPath;
+        }
+        certAlipayRequest.setRootCertPath(rootCertPath);
+
+
         //设置加密类型AES
         certAlipayRequest.setEncryptType(aliPayConfig.getEncryptType());
 
