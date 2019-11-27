@@ -42,7 +42,7 @@ public class WxAccessToken implements java.io.Serializable {
         this.expiresIn = expiresIn;
         // 生产遇到接近过期时间时,access_token在某些服务器上会提前失效,设置时间短一些
         // https://developers.weixin.qq.com/community/develop/doc/0008cc492503e8e04dc7d619754c00
-        this.accessTokenExpiresTime = System.currentTimeMillis() + ((expiresIn / 12) * 1000L);
+        this.accessTokenExpiresTime = System.currentTimeMillis() + ((expiresIn / 2) * 1000L);
     }
 
 
