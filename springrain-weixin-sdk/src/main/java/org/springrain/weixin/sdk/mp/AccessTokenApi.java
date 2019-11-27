@@ -54,8 +54,12 @@ public class AccessTokenApi {
         WxAccessToken wxAccessToken = new WxAccessToken();
         wxAccessToken.setAppId(config.getAppId());
         wxAccessToken.setAccessToken(accessToken);
-        wxAccessToken.setExpiresIn((Integer) map.get("expires_in"));
 
+        Integer expiresIn = (Integer) map.get("expires_in");
+        wxAccessToken.setExpiresIn(expiresIn);
+        // 生产遇到接近过期时间时,access_token在某些服务器上会提前失效,设置时间短一些
+        // https://developers.weixin.qq.com/community/develop/doc/0008cc492503e8e04dc7d619754c00
+        wxAccessToken.setAccessTokenExpiresTime(System.currentTimeMillis() + ((expiresIn / 2) * 1000L));
         return wxAccessToken;
     }
 
@@ -83,7 +87,11 @@ public class AccessTokenApi {
         WxJsTicket wxJsTicket = new WxJsTicket();
         wxJsTicket.setAppId(config.getAppId());
         wxJsTicket.setJsTicket(ticket);
-        wxJsTicket.setExpiresIn((Integer) map.get("expires_in"));
+        Integer expiresIn = (Integer) map.get("expires_in");
+        wxJsTicket.setExpiresIn(expiresIn);
+        // 生产遇到接近过期时间时,access_token在某些服务器上会提前失效,设置时间短一些
+        // https://developers.weixin.qq.com/community/develop/doc/0008cc492503e8e04dc7d619754c00
+        wxJsTicket.setJsTicketExpiresTime(System.currentTimeMillis() + ((expiresIn / 2) * 1000L));
         return wxJsTicket;
     }
 
@@ -104,8 +112,11 @@ public class AccessTokenApi {
         WxCardTicket wxCardTicket = new WxCardTicket();
         wxCardTicket.setAppId(config.getAppId());
         wxCardTicket.setCardTicket(ticket);
-        wxCardTicket.setExpiresIn((Integer) map.get("expires_in"));
-
+        Integer expiresIn = (Integer) map.get("expires_in");
+        wxCardTicket.setExpiresIn(expiresIn);
+        // 生产遇到接近过期时间时,access_token在某些服务器上会提前失效,设置时间短一些
+        // https://developers.weixin.qq.com/community/develop/doc/0008cc492503e8e04dc7d619754c00
+        wxCardTicket.setCardTicketExpiresTime(System.currentTimeMillis() + ((expiresIn / 2) * 1000L));
         return wxCardTicket;
     }
 
