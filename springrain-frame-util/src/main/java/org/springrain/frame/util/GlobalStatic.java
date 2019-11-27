@@ -11,7 +11,7 @@ import java.util.Map;
  *
  * @author springrain<Auto generate>
  * @version 2013-03-19 11:08:15
- * @see org.springrain.frame.util.GlobalStatic
+ * @see GlobalStatic
  */
 public class GlobalStatic {
 
@@ -23,10 +23,9 @@ public class GlobalStatic {
     public static final String dataSave = "保存";
     public static final String dataDelete = "删除";
     public static final String SQLCutSeparator = "___";// SQL复合对象查询的分隔符,三个 下划线
-    public static  String projectKeyPrefix = "springrain_";// ES和redis的固定前缀,用于多个项目使用同一个ES和redis集群
+    public static String projectKeyPrefix = "springrain_";// ES和redis的固定前缀,用于多个项目使用同一个ES和redis集群
 
-    public static boolean showsql=false;//是否显示sql
-
+    public static boolean showsql = false;//是否显示sql
     // seata的全局变量
     // 建议和项目标识符保持一致
     public static final String seataApplicationId = projectKeyPrefix;
@@ -40,6 +39,7 @@ public class GlobalStatic {
     public static final String wxConfigCacheKey = "wxConfigCacheKey";
     // 支付宝缓存配置
     public static final String aliPayConfigCacheKey = "aliPayConfigCacheKey";
+
 
     // page对象的缓存后缀key
     public static final String pageCacheExtKey = "_springrain_page_key";
@@ -116,7 +116,7 @@ public class GlobalStatic {
     // 默认验证码参数名称
     //public static final String DEFAULT_CAPTCHA_PARAM = "captchaKey";
     // 前后台传递的tokenKey
-    public static String jwtTokenKey = "abltoken";
+    public static String jwtTokenKey = "springraintoken";
     public static String USER_SPECICAL_INFO = "USER_SPECICAL_INFO";
 
     // 同一IP防火墙阀值
@@ -163,16 +163,25 @@ public class GlobalStatic {
         // 设置默认不拦截的URL
         excludePathPatterns.add("/api/system/login");
         excludePathPatterns.add("/api/system/auth/login");
+        excludePathPatterns.add("/api/system/logout");
+
         excludePathPatterns.add("/api/work/login");
         excludePathPatterns.add("/api/user/login");
+
         excludePathPatterns.add("/api/getCaptcha");
         excludePathPatterns.add("/api/checkHealth");
         excludePathPatterns.add("/api/error/*");
 
+        // 微信支付
+        excludePathPatterns.add("/api/mp/pay/getWxpayfaceAuthinfo");
+        excludePathPatterns.add("/api/mp/pay/facePayOrder");
+        excludePathPatterns.add("/api/mp/pay/facePayOrderQuery");
 
         // 默认能够访问的URL
-        userDefaultUrl.add("/api/user/menu");
-        userDefaultUrl.add("/api/user/info");
+        userDefaultUrl.add("/api/system/user/menu");
+        userDefaultUrl.add("/api/system/user/info");
+
+
 
 
     }
