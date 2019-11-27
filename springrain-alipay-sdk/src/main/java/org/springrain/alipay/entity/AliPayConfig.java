@@ -114,7 +114,7 @@ public class AliPayConfig extends BaseEntity implements IAliPayConfig {
 
     @Override
     public String getCertPath() {
-        return certPath;
+        return this.certPath;
     }
 
     public void setCertPath(String certPath) {
@@ -123,7 +123,7 @@ public class AliPayConfig extends BaseEntity implements IAliPayConfig {
 
     @Override
     public String getAlipayPublicCertPath() {
-        return alipayPublicCertPath;
+        return this.alipayPublicCertPath;
     }
 
     public void setAlipayPublicCertPath(String alipayPublicCertPath) {
@@ -132,7 +132,7 @@ public class AliPayConfig extends BaseEntity implements IAliPayConfig {
 
     @Override
     public String getRootCertPath() {
-        return rootCertPath;
+        return this.rootCertPath;
     }
 
     public void setRootCertPath(String rootCertPath) {
