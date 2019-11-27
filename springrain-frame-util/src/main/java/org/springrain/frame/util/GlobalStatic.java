@@ -116,7 +116,7 @@ public class GlobalStatic {
     // 默认验证码参数名称
     //public static final String DEFAULT_CAPTCHA_PARAM = "captchaKey";
     // 前后台传递的tokenKey
-    public static String jwtTokenKey = "jwttoken";
+    public static String jwtTokenKey = "springraintoken";
     public static String USER_SPECICAL_INFO = "USER_SPECICAL_INFO";
 
     // 同一IP防火墙阀值
