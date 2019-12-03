@@ -74,6 +74,10 @@ public class MenuServiceImpl extends BaseSpringrainServiceImpl implements IMenuS
             return null;
         }
 
+        // 清除缓存
+        super.evictByKey(GlobalStatic.userOrgRoleMenuInfoCacheKey, "findMenuById_" + id);
+        super.evictByKey(GlobalStatic.qxCacheKey, "findAllMenuTree");
+
         String old_c = old_menu.getComcode();
 
         String new_c = findMenuNewComcode(id, pid);
@@ -98,13 +102,13 @@ public class MenuServiceImpl extends BaseSpringrainServiceImpl implements IMenuS
             String _c = findMenuNewComcode(_id, id);
             menu.setComcode(_c);
             menu.setPid(id);
-            //清理缓存
-            super.evictByKey(GlobalStatic.userOrgRoleMenuInfoCacheKey, "findMenuById_" + _id);
+            // 清理缓存
+            // super.evictByKey(GlobalStatic.userOrgRoleMenuInfoCacheKey, "findMenuById_" + _id);
         }
 
         super.update(list, true);
         // 清除缓存
-        super.evictByKey(GlobalStatic.qxCacheKey,"findAllMenuTree");
+        // super.evictByKey(GlobalStatic.qxCacheKey,"findAllMenuTree");
         return update;
     }
 
