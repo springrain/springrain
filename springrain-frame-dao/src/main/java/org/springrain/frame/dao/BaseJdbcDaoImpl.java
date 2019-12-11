@@ -21,7 +21,6 @@ import org.springrain.frame.dao.dialect.IDialect;
 import org.springrain.frame.entity.AuditLog;
 import org.springrain.frame.entity.BaseMapEntity;
 import org.springrain.frame.entity.IBaseEntity;
-import org.springrain.frame.task.LuceneTask;
 import org.springrain.frame.util.*;
 
 import java.util.*;
@@ -36,7 +35,7 @@ import java.util.*;
  *
  * @author springrain<Auto generate>
  * @version 2013-03-19 11:08:15
- * @see org.springrain.frame.dao.BaseJdbcDaoImpl
+ * @see BaseJdbcDaoImpl
  */
 public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
 
@@ -622,12 +621,12 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
         if (entityInfo == null) {
             return null;
         }
-
-        if (entityInfo.getLuceneSearchAnnotation()) {
-            // 保存到索引文件
-            LuceneTask luceneTask = new LuceneTask(entity, LuceneTask.saveDocument);
-            ThreadPoolManager.addThread(luceneTask);
-        }
+        // 不再自动处理Lucene逻辑,业务手动调用LuceneUtils实现,主要是如果使用ES,这段代码会对业务造成影响.
+        //if (entityInfo.getLuceneSearchAnnotation()) {
+        // 保存到索引文件
+        //    LuceneTask luceneTask = new LuceneTask(entity, LuceneTask.saveDocument);
+        //    ThreadPoolManager.addThread(luceneTask);
+        //}
 
         // 记录日志
         AuditLog auditLog = getAuditLog();
@@ -801,13 +800,15 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
             updateList.add(i);
         }
 
-        EntityInfo entityInfo = ClassUtils.getEntityInfoByClass(list.get(0).getClass());
 
-        if (entityInfo.getLuceneSearchAnnotation()) {
-            // 更新到索引文件
-            LuceneTask luceneTask = new LuceneTask(list, LuceneTask.updateDocument);
-            ThreadPoolManager.addThread(luceneTask);
-        }
+        // 不再自动处理Lucene逻辑,业务手动调用LuceneUtils实现,主要是如果使用ES,这段代码会对业务造成影响.
+        // EntityInfo entityInfo = ClassUtils.getEntityInfoByClass(list.get(0).getClass());
+
+        // if (entityInfo.getLuceneSearchAnnotation()) {
+        // 更新到索引文件
+        //    LuceneTask luceneTask = new LuceneTask(list, LuceneTask.updateDocument);
+        //    ThreadPoolManager.addThread(luceneTask);
+        //}
 
         return updateList;
     }
@@ -924,11 +925,12 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
         // 更新entity
         Integer hang = getWriteJdbc().update(sql, paramMap);
 
-        if (entityInfo.getLuceneSearchAnnotation()) {
-            // 更新到索引文件
-            LuceneTask luceneTask = new LuceneTask(entity, LuceneTask.updateDocument);
-            ThreadPoolManager.addThread(luceneTask);
-        }
+        // 不再自动处理Lucene逻辑,业务手动调用LuceneUtils实现,主要是如果使用ES,这段代码会对业务造成影响.
+        //if (entityInfo.getLuceneSearchAnnotation()) {
+        // 更新到索引文件
+        //    LuceneTask luceneTask = new LuceneTask(entity, LuceneTask.updateDocument);
+        //    ThreadPoolManager.addThread(luceneTask);
+        //}
 
         if (auditLog == null) {
             return hang;
@@ -1035,12 +1037,12 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
         saveNoLog(auditLog);
 
         // if(CollectionUtils.isNotEmpty(ClassUtils.getLuceneFields(clazz))){
-
-        if (entityInfo.getLuceneSearchAnnotation()) {
-            // 更新到索引文件
-            LuceneTask luceneTask = new LuceneTask(id, clazz);
-            ThreadPoolManager.addThread(luceneTask);
-        }
+        // 不再自动处理Lucene逻辑,业务手动调用LuceneUtils实现,主要是如果使用ES,这段代码会对业务造成影响.
+        //if (entityInfo.getLuceneSearchAnnotation()) {
+        // 更新到索引文件
+        //    LuceneTask luceneTask = new LuceneTask(id, clazz);
+        //    ThreadPoolManager.addThread(luceneTask);
+        //}
 
     }
 
@@ -1061,12 +1063,13 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
         finder.setParam("ids", ids);
         update(finder);
 
+        // 不再自动处理Lucene逻辑,业务手动调用LuceneUtils实现,主要是如果使用ES,这段代码会对业务造成影响.
         // if(CollectionUtils.isNotEmpty(ClassUtils.getLuceneFields(clazz))){
-        if (entityInfo.getLuceneSearchAnnotation()) {
-            // 更新到索引文件
-            LuceneTask luceneTask = new LuceneTask(ids, clazz);
-            ThreadPoolManager.addThread(luceneTask);
-        }
+        // if (entityInfo.getLuceneSearchAnnotation()) {
+        // 更新到索引文件
+        //    LuceneTask luceneTask = new LuceneTask(ids, clazz);
+        //    ThreadPoolManager.addThread(luceneTask);
+        //}
     }
 
     @Override
@@ -1265,12 +1268,13 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
             updateList.add(i);
         }
 
-        EntityInfo entityInfo = ClassUtils.getEntityInfoByClass(list.get(0).getClass());
-        if (entityInfo.getLuceneSearchAnnotation()) {
-            // 更新到索引文件
-            LuceneTask luceneTask = new LuceneTask(list, LuceneTask.saveDocument);
-            ThreadPoolManager.addThread(luceneTask);
-        }
+        // 不再自动处理Lucene逻辑,业务手动调用LuceneUtils实现,主要是如果使用ES,这段代码会对业务造成影响.
+        //EntityInfo entityInfo = ClassUtils.getEntityInfoByClass(list.get(0).getClass());
+        //if (entityInfo.getLuceneSearchAnnotation()) {
+        // 更新到索引文件
+        //    LuceneTask luceneTask = new LuceneTask(list, LuceneTask.saveDocument);
+        //    ThreadPoolManager.addThread(luceneTask);
+        //}
 
         return updateList;
     }
