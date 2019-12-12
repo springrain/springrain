@@ -354,18 +354,19 @@
         <module>springrain-alipay-sdk</module>
 
         <!-- 自带的系统管理web项目 -->
-		<module>springrain-system</module>
+        <module>springrain-system</module>
 
-		<!-- grpc的客户端模块 -->
-		<module>springrain-grpc-client</module>
+        <!-- grpc的客户端模块 -->
+        <module>springrain-grpc-client</module>
 
-		<!-- grpc的服务端模块 -->
-		<module>springrain-grpc-server</module>
+        <!-- grpc的服务端模块 -->
+        <module>springrain-grpc-server</module>
+
+        <!-- es集成模块 -->
+        <module>springrain-es</module>
 
 
-
-
-	</modules>
+    </modules>
 
 
 

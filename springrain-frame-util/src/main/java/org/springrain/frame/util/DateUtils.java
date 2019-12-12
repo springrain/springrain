@@ -31,6 +31,10 @@ public class DateUtils {
      * 日期时间
      */
     public final static String DATETIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+
+    // 带时区的时间格式
+    public final static String DATETIME_FORMAT_ZONE = "yyyy-MM-dd HH:mm:ssZ";
+
     /**
      * 时间
      */
