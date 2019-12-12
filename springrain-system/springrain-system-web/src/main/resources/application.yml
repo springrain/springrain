@@ -23,9 +23,9 @@ springrain:
   #  home: D:/Program Files (x86)/OpenOffice 4/program/soffice.exe
   #  host: 127.0.0.1
   #  port: 8100
-
-
-
+  
+  
+  
   #redis:
   #  hostport: redis://127.0.0.1:6379    ###如果是redis集群,使用逗号隔开,例如 redis://127.0.0.1:6379,redis://127.0.0.1:6378 ###
   #  password:   ###密码,可以不设置####
@@ -33,6 +33,10 @@ springrain:
   #  pool:
   #    max-active: 1024
   #    min-idle: 200
+  
+  ####ES的配置###
+  #es:
+  #  hostport: 127.0.0.1:9300    ###es的IP和端口,如果是集群,使用逗号隔开,例如 192.168.0.2:9300,192.168.0.3:9300 ###
 
 
 
@@ -42,7 +46,7 @@ springrain:
 #    org: INFO ### 配置spring web日志级别###
 
 spring:
-
+  
   ###代码实现:org.springrain.config.SpringMVCConfig.addResourceHandlers(ResourceHandlerRegistry)###
   #resources:
   #  static-locations: /images/,/img/,/js/,/css/,/layui/,/upload/,/u/
