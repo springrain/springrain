@@ -16,7 +16,7 @@ import java.net.InetAddress;
 /**
  * ElasticSearch的配置类
  */
-@Configuration("configuration-RedisCacheConfig")
+@Configuration("configuration-ElasticSearchConfig")
 public class ElasticSearchConfig {
     private Logger logger = LoggerFactory.getLogger(getClass());
     // es的IP和端口,如果是集群,使用逗号隔开,例如 192.168.0.201:9300,192.168.0.202:9300,192.168.0.203:9300
