@@ -362,9 +362,11 @@
         <!-- grpc的服务端模块 -->
         <module>springrain-grpc-server</module>
 
-        <!-- es集成模块 -->
+        <!-- es模块集成 -->
         <module>springrain-es</module>
 
+        <!-- rocketmq模块集成 -->
+        <module>springrain-rocketmq</module>
 
     </modules>
 
