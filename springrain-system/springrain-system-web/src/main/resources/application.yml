@@ -12,27 +12,20 @@ springrain:
   rsa:
     privatekey: ''
     publickey: ''
-
+  
   ###jwt 的默认配置,secret 在生产环境一定要配置正确!!!!!!###
   jwt:
     secret: dev
     timeout: 36000000
     tokenkey: springraintoken
 
-  #openoffice:
-  #  home: D:/Program Files (x86)/OpenOffice 4/program/soffice.exe
-  #  host: 127.0.0.1
-  #  port: 8100
-  
-  
-  
-  #redis:
-  #  hostport: redis://127.0.0.1:6379    ###如果是redis集群,使用逗号隔开,例如 redis://127.0.0.1:6379,redis://127.0.0.1:6378 ###
-  #  password:   ###密码,可以不设置####
-  #  timeout: 7200000
-  #  pool:
-  #    max-active: 1024
-  #    min-idle: 200
+  redis:
+    hostport: redis://127.0.0.1:6379    ###如果是redis集群,使用逗号隔开,例如 redis://127.0.0.1:6379,redis://127.0.0.1:6378 ###
+    password:   ###密码,可以不设置####
+    timeout: 7200000
+    pool:
+      max-active: 1024
+      min-idle: 200
   
   ####ES的配置###
   es:
