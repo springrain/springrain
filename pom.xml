@@ -25,54 +25,54 @@
 	<!-- 声明引用组件的版本 -->
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<jdk.version>1.8</jdk.version>
+        <jdk.version>1.8</jdk.version>
 
-		<proguard-maven-plugin.version>2.0.14</proguard-maven-plugin.version>
-		<proguard.version>6.0.3</proguard.version>
+        <proguard-maven-plugin.version>2.0.14</proguard-maven-plugin.version>
+        <proguard.version>6.0.3</proguard.version>
 
-		<!--
-		<servlet-api.version>4.0.1</servlet-api.version>
-		-->
+        <!--
+        <servlet-api.version>4.0.1</servlet-api.version>
+        -->
 
-		<commons-lang3.version>3.9</commons-lang3.version>
-		<commons-pool2.version>2.6.2</commons-pool2.version>
-		<commons-collections4.version>4.4</commons-collections4.version>
-		<commons-io.version>2.6</commons-io.version>
-		<commons-codec.version>1.12</commons-codec.version>
-		<commons-beanutils.version>1.9.3</commons-beanutils.version>
-		<commons-fileupload.version>1.4</commons-fileupload.version>
-		<commons-text.version>1.7</commons-text.version>
+        <commons-lang3.version>3.9</commons-lang3.version>
+        <commons-pool2.version>2.8.0</commons-pool2.version>
+        <commons-collections4.version>4.4</commons-collections4.version>
+        <commons-io.version>2.6</commons-io.version>
+        <commons-codec.version>1.13</commons-codec.version>
+        <commons-beanutils.version>1.9.4</commons-beanutils.version>
+        <commons-fileupload.version>1.4</commons-fileupload.version>
+        <commons-text.version>1.8</commons-text.version>
 
-		<javax.persistence.version>2.2.1</javax.persistence.version>
-        <lucene.version>8.3.0</lucene.version>
-		<jxl.version>2.6.12</jxl.version>
+        <javax.persistence.version>2.2.1</javax.persistence.version>
+        <lucene.version>8.3.1</lucene.version>
+        <jxl.version>2.6.12</jxl.version>
 
-		<!-- GRPC -->
+        <!-- GRPC -->
         <io.grpc.version>1.26.0</io.grpc.version>
         <kr.motd.maven.version>1.6.2</kr.motd.maven.version>
         <io.protostuff.version>1.6.2</io.protostuff.version>
 
-		<!--
-		<jodconverter.version>2.2.1</jodconverter.version>
-		<gson.version>2.8.5</gson.version>
-		-->
+        <!--
+        <jodconverter.version>2.2.1</jodconverter.version>
+        <gson.version>2.8.5</gson.version>
+        -->
 
-		<zxing.version>3.4.0</zxing.version>
+        <zxing.version>3.4.0</zxing.version>
 
-		<jsoup.version>1.12.1</jsoup.version>
-		<xstream.version>1.4.11.1</xstream.version>
-		<druid-spring-boot-starter.version>1.1.20</druid-spring-boot-starter.version>
+        <jsoup.version>1.12.1</jsoup.version>
+        <xstream.version>1.4.11.1</xstream.version>
+        <druid-spring-boot-starter.version>1.1.20</druid-spring-boot-starter.version>
 
-		<jwt.version>3.8.3</jwt.version>
+        <jwt.version>3.8.3</jwt.version>
 
-		<redisson.version>3.11.5</redisson.version>
-		<fst.version>2.57</fst.version>
-		<bcprov.version>1.62</bcprov.version>
-		
-		<!-- seata分布式事务 -->
-		<seata.version>1.0.0</seata.version>
+        <redisson.version>3.11.6</redisson.version>
+        <fst.version>2.57</fst.version>
+        <bcprov.version>1.64</bcprov.version>
 
-	</properties>
+        <!-- seata分布式事务 -->
+        <seata.version>1.0.0</seata.version>
+
+    </properties>
 
 
 	<!-- 统一组件版本 -->
