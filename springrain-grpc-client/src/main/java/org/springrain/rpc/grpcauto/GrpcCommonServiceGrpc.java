@@ -13,8 +13,8 @@ import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
  * </pre>
  */
 @javax.annotation.Generated(
-        value = "by gRPC proto compiler (version 1.25.0)",
-    comments = "Source: grpcCommonService.proto")
+        value = "by gRPC proto compiler (version 1.26.0)",
+        comments = "Source: grpcCommonService.proto")
 public final class GrpcCommonServiceGrpc {
 
   private GrpcCommonServiceGrpc() {}
@@ -57,7 +57,14 @@ public final class GrpcCommonServiceGrpc {
    * Creates a new async stub that supports all call types for the service
    */
   public static GrpcCommonServiceStub newStub(io.grpc.Channel channel) {
-    return new GrpcCommonServiceStub(channel);
+      io.grpc.stub.AbstractStub.StubFactory<GrpcCommonServiceStub> factory =
+              new io.grpc.stub.AbstractStub.StubFactory<GrpcCommonServiceStub>() {
+                  @Override
+                  public GrpcCommonServiceStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+                      return new GrpcCommonServiceStub(channel, callOptions);
+                  }
+              };
+      return GrpcCommonServiceStub.newStub(factory, channel);
   }
 
   /**
@@ -65,7 +72,14 @@ public final class GrpcCommonServiceGrpc {
    */
   public static GrpcCommonServiceBlockingStub newBlockingStub(
       io.grpc.Channel channel) {
-    return new GrpcCommonServiceBlockingStub(channel);
+      io.grpc.stub.AbstractStub.StubFactory<GrpcCommonServiceBlockingStub> factory =
+              new io.grpc.stub.AbstractStub.StubFactory<GrpcCommonServiceBlockingStub>() {
+                  @Override
+                  public GrpcCommonServiceBlockingStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+                      return new GrpcCommonServiceBlockingStub(channel, callOptions);
+                  }
+              };
+      return GrpcCommonServiceBlockingStub.newStub(factory, channel);
   }
 
   /**
@@ -73,7 +87,14 @@ public final class GrpcCommonServiceGrpc {
    */
   public static GrpcCommonServiceFutureStub newFutureStub(
       io.grpc.Channel channel) {
-    return new GrpcCommonServiceFutureStub(channel);
+      io.grpc.stub.AbstractStub.StubFactory<GrpcCommonServiceFutureStub> factory =
+              new io.grpc.stub.AbstractStub.StubFactory<GrpcCommonServiceFutureStub>() {
+                  @Override
+                  public GrpcCommonServiceFutureStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+                      return new GrpcCommonServiceFutureStub(channel, callOptions);
+                  }
+              };
+      return GrpcCommonServiceFutureStub.newStub(factory, channel);
   }
 
   /**
@@ -106,28 +127,24 @@ public final class GrpcCommonServiceGrpc {
     }
   }
 
-  /**
-   * <pre>
-   * 定义通用的 Grpc 服务
-   * </pre>
-   */
-  public static final class GrpcCommonServiceStub extends io.grpc.stub.AbstractStub<GrpcCommonServiceStub> {
-    private GrpcCommonServiceStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private GrpcCommonServiceStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
-      super(channel, callOptions);
-    }
-
-    @Override
-    protected GrpcCommonServiceStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
-      return new GrpcCommonServiceStub(channel, callOptions);
-    }
-
     /**
+     * <pre>
+     * 定义通用的 Grpc 服务
+     * </pre>
+     */
+    public static final class GrpcCommonServiceStub extends io.grpc.stub.AbstractAsyncStub<GrpcCommonServiceStub> {
+        private GrpcCommonServiceStub(
+                io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+            super(channel, callOptions);
+        }
+
+        @Override
+        protected GrpcCommonServiceStub build(
+                io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+            return new GrpcCommonServiceStub(channel, callOptions);
+        }
+
+        /**
      * <pre>
      * 处理请求
      * </pre>
@@ -137,30 +154,26 @@ public final class GrpcCommonServiceGrpc {
       asyncUnaryCall(
           getChannel().newCall(getCommonHandleMethod(), getCallOptions()), request, responseObserver);
     }
-  }
-
-  /**
-   * <pre>
-   * 定义通用的 Grpc 服务
-   * </pre>
-   */
-  public static final class GrpcCommonServiceBlockingStub extends io.grpc.stub.AbstractStub<GrpcCommonServiceBlockingStub> {
-    private GrpcCommonServiceBlockingStub(io.grpc.Channel channel) {
-      super(channel);
-    }
-
-    private GrpcCommonServiceBlockingStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
-      super(channel, callOptions);
-    }
-
-    @Override
-    protected GrpcCommonServiceBlockingStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
-      return new GrpcCommonServiceBlockingStub(channel, callOptions);
     }
 
     /**
+     * <pre>
+     * 定义通用的 Grpc 服务
+     * </pre>
+     */
+    public static final class GrpcCommonServiceBlockingStub extends io.grpc.stub.AbstractBlockingStub<GrpcCommonServiceBlockingStub> {
+        private GrpcCommonServiceBlockingStub(
+                io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+            super(channel, callOptions);
+        }
+
+        @Override
+        protected GrpcCommonServiceBlockingStub build(
+                io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+            return new GrpcCommonServiceBlockingStub(channel, callOptions);
+        }
+
+        /**
      * <pre>
      * 处理请求
      * </pre>
@@ -169,27 +182,23 @@ public final class GrpcCommonServiceGrpc {
       return blockingUnaryCall(
           getChannel(), getCommonHandleMethod(), getCallOptions(), request);
     }
-  }
-
-  /**
-   * <pre>
-   * 定义通用的 Grpc 服务
-   * </pre>
-   */
-  public static final class GrpcCommonServiceFutureStub extends io.grpc.stub.AbstractStub<GrpcCommonServiceFutureStub> {
-    private GrpcCommonServiceFutureStub(io.grpc.Channel channel) {
-      super(channel);
     }
 
-    private GrpcCommonServiceFutureStub(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
-      super(channel, callOptions);
-    }
+    /**
+     * <pre>
+     * 定义通用的 Grpc 服务
+     * </pre>
+     */
+    public static final class GrpcCommonServiceFutureStub extends io.grpc.stub.AbstractFutureStub<GrpcCommonServiceFutureStub> {
+        private GrpcCommonServiceFutureStub(
+                io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+            super(channel, callOptions);
+        }
 
-    @Override
-    protected GrpcCommonServiceFutureStub build(io.grpc.Channel channel,
-        io.grpc.CallOptions callOptions) {
-      return new GrpcCommonServiceFutureStub(channel, callOptions);
+        @Override
+        protected GrpcCommonServiceFutureStub build(
+                io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+            return new GrpcCommonServiceFutureStub(channel, callOptions);
     }
 
     /**

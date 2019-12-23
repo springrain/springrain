@@ -86,8 +86,8 @@ private static final long serialVersionUID = 0L;
   protected FieldAccessorTable
       internalGetFieldAccessorTable() {
     return GrpcAutoCreateService.internal_static_CommonResponse_fieldAccessorTable
-        .ensureFieldAccessorsInitialized(
-                CommonResponse.class, Builder.class);
+            .ensureFieldAccessorsInitialized(
+                    CommonResponse.class, CommonResponse.Builder.class);
   }
 
   public static final int RESPONSE_FIELD_NUMBER = 1;
@@ -137,17 +137,18 @@ private static final long serialVersionUID = 0L;
 
   @Override
   public boolean equals(final Object obj) {
-    if (obj == this) {
-     return true;
-    }
-    if (!(obj instanceof CommonResponse)) {
-      return super.equals(obj);
-    }
-    CommonResponse other = (CommonResponse) obj;
+      if (obj == this) {
+          return true;
+      }
+      if (!(obj instanceof CommonResponse)) {
+          return super.equals(obj);
+      }
+      CommonResponse other = (CommonResponse) obj;
 
-    if (!getResponse()
-        .equals(other.getResponse())) return false;
-      return unknownFields.equals(other.unknownFields);
+      if (!getResponse()
+              .equals(other.getResponse())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
   }
 
   @Override
@@ -273,9 +274,9 @@ private static final long serialVersionUID = 0L;
     @Override
     protected FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return GrpcAutoCreateService.internal_static_CommonResponse_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-                  CommonResponse.class, Builder.class);
+        return GrpcAutoCreateService.internal_static_CommonResponse_fieldAccessorTable
+                .ensureFieldAccessorsInitialized(
+                        CommonResponse.class, CommonResponse.Builder.class);
     }
 
     // Construct using org.springrain.rpc.grpcauto.CommonResponse.newBuilder()
@@ -424,7 +425,7 @@ private static final long serialVersionUID = 0L;
   }
 
         response_ = value;
-      onChanged();
+        onChanged();
       return this;
     }
     /**
@@ -434,7 +435,7 @@ private static final long serialVersionUID = 0L;
     public Builder clearResponse() {
 
         response_ = getDefaultInstance().getResponse();
-      onChanged();
+        onChanged();
       return this;
     }
     @Override

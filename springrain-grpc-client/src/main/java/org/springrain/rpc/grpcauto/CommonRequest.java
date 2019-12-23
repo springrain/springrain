@@ -91,8 +91,8 @@ private static final long serialVersionUID = 0L;
   protected FieldAccessorTable
       internalGetFieldAccessorTable() {
     return GrpcAutoCreateService.internal_static_CommonRequest_fieldAccessorTable
-        .ensureFieldAccessorsInitialized(
-                CommonRequest.class, Builder.class);
+            .ensureFieldAccessorsInitialized(
+                    CommonRequest.class, CommonRequest.Builder.class);
   }
 
   public static final int SERIALIZE_FIELD_NUMBER = 1;
@@ -162,16 +162,17 @@ private static final long serialVersionUID = 0L;
     if (obj == this) {
      return true;
     }
-    if (!(obj instanceof CommonRequest)) {
-      return super.equals(obj);
-    }
-    CommonRequest other = (CommonRequest) obj;
+      if (!(obj instanceof CommonRequest)) {
+          return super.equals(obj);
+      }
+      CommonRequest other = (CommonRequest) obj;
 
-    if (getSerialize()
-        != other.getSerialize()) return false;
-    if (!getRequest()
-        .equals(other.getRequest())) return false;
-      return unknownFields.equals(other.unknownFields);
+      if (getSerialize()
+              != other.getSerialize()) return false;
+      if (!getRequest()
+              .equals(other.getRequest())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
   }
 
   @Override
@@ -299,9 +300,9 @@ private static final long serialVersionUID = 0L;
     @Override
     protected FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return GrpcAutoCreateService.internal_static_CommonRequest_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-                  CommonRequest.class, Builder.class);
+        return GrpcAutoCreateService.internal_static_CommonRequest_fieldAccessorTable
+                .ensureFieldAccessorsInitialized(
+                        CommonRequest.class, CommonRequest.Builder.class);
     }
 
     // Construct using org.springrain.rpc.grpcauto.CommonRequest.newBuilder()
@@ -453,7 +454,7 @@ private static final long serialVersionUID = 0L;
     public Builder setSerialize(int value) {
 
         serialize_ = value;
-      onChanged();
+        onChanged();
       return this;
     }
     /**
@@ -463,7 +464,7 @@ private static final long serialVersionUID = 0L;
     public Builder clearSerialize() {
 
         serialize_ = 0;
-      onChanged();
+        onChanged();
       return this;
     }
 
@@ -486,7 +487,7 @@ private static final long serialVersionUID = 0L;
   }
 
         request_ = value;
-      onChanged();
+        onChanged();
       return this;
     }
     /**
@@ -496,7 +497,7 @@ private static final long serialVersionUID = 0L;
     public Builder clearRequest() {
 
         request_ = getDefaultInstance().getRequest();
-      onChanged();
+        onChanged();
       return this;
     }
     @Override
