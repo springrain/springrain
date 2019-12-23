@@ -159,9 +159,9 @@ private static final long serialVersionUID = 0L;
 
   @Override
   public boolean equals(final Object obj) {
-    if (obj == this) {
-     return true;
-    }
+      if (obj == this) {
+          return true;
+      }
       if (!(obj instanceof CommonRequest)) {
           return super.equals(obj);
       }
@@ -455,7 +455,7 @@ private static final long serialVersionUID = 0L;
 
         serialize_ = value;
         onChanged();
-      return this;
+        return this;
     }
     /**
      * <code>int32 serialize = 1;</code>
@@ -465,7 +465,7 @@ private static final long serialVersionUID = 0L;
 
         serialize_ = 0;
         onChanged();
-      return this;
+        return this;
     }
 
     private com.google.protobuf.ByteString request_ = com.google.protobuf.ByteString.EMPTY;
@@ -482,13 +482,13 @@ private static final long serialVersionUID = 0L;
      * @return This builder for chaining.
      */
     public Builder setRequest(com.google.protobuf.ByteString value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
+        if (value == null) {
+            throw new NullPointerException();
+        }
 
         request_ = value;
         onChanged();
-      return this;
+        return this;
     }
     /**
      * <code>bytes request = 2;</code>
@@ -498,7 +498,7 @@ private static final long serialVersionUID = 0L;
 
         request_ = getDefaultInstance().getRequest();
         onChanged();
-      return this;
+        return this;
     }
     @Override
     public final Builder setUnknownFields(

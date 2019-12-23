@@ -117,13 +117,13 @@ public final class GrpcCommonServiceGrpc {
     @Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
-            getCommonHandleMethod(),
-            asyncUnaryCall(
-              new MethodHandlers<
-                CommonRequest,
-                CommonResponse>(
-                  this, METHODID_COMMON_HANDLE)))
-          .build();
+                  getCommonHandleMethod(),
+                  asyncUnaryCall(
+                          new MethodHandlers<
+                                  CommonRequest,
+                                  CommonResponse>(
+                                  this, METHODID_COMMON_HANDLE)))
+              .build();
     }
   }
 
@@ -145,15 +145,15 @@ public final class GrpcCommonServiceGrpc {
         }
 
         /**
-     * <pre>
-     * 处理请求
-     * </pre>
-     */
-    public void commonHandle(CommonRequest request,
-                             io.grpc.stub.StreamObserver<CommonResponse> responseObserver) {
-      asyncUnaryCall(
-          getChannel().newCall(getCommonHandleMethod(), getCallOptions()), request, responseObserver);
-    }
+         * <pre>
+         * 处理请求
+         * </pre>
+         */
+        public void commonHandle(CommonRequest request,
+                                 io.grpc.stub.StreamObserver<CommonResponse> responseObserver) {
+            asyncUnaryCall(
+                    getChannel().newCall(getCommonHandleMethod(), getCallOptions()), request, responseObserver);
+        }
     }
 
     /**
@@ -174,14 +174,14 @@ public final class GrpcCommonServiceGrpc {
         }
 
         /**
-     * <pre>
-     * 处理请求
-     * </pre>
-     */
-    public CommonResponse commonHandle(CommonRequest request) {
-      return blockingUnaryCall(
-          getChannel(), getCommonHandleMethod(), getCallOptions(), request);
-    }
+         * <pre>
+         * 处理请求
+         * </pre>
+         */
+        public CommonResponse commonHandle(CommonRequest request) {
+            return blockingUnaryCall(
+                    getChannel(), getCommonHandleMethod(), getCallOptions(), request);
+        }
     }
 
     /**
@@ -199,16 +199,16 @@ public final class GrpcCommonServiceGrpc {
         protected GrpcCommonServiceFutureStub build(
                 io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
             return new GrpcCommonServiceFutureStub(channel, callOptions);
-    }
+        }
 
-    /**
-     * <pre>
-     * 处理请求
-     * </pre>
-     */
-    public com.google.common.util.concurrent.ListenableFuture<CommonResponse> commonHandle(
-        CommonRequest request) {
-      return futureUnaryCall(
+        /**
+         * <pre>
+         * 处理请求
+         * </pre>
+         */
+        public com.google.common.util.concurrent.ListenableFuture<CommonResponse> commonHandle(
+                CommonRequest request) {
+            return futureUnaryCall(
           getChannel().newCall(getCommonHandleMethod(), getCallOptions()), request);
     }
   }

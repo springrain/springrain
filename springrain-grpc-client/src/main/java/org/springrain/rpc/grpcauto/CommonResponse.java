@@ -420,13 +420,13 @@ private static final long serialVersionUID = 0L;
      * @return This builder for chaining.
      */
     public Builder setResponse(com.google.protobuf.ByteString value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
+        if (value == null) {
+            throw new NullPointerException();
+        }
 
         response_ = value;
         onChanged();
-      return this;
+        return this;
     }
     /**
      * <code>bytes response = 1;</code>
@@ -436,7 +436,7 @@ private static final long serialVersionUID = 0L;
 
         response_ = getDefaultInstance().getResponse();
         onChanged();
-      return this;
+        return this;
     }
     @Override
     public final Builder setUnknownFields(
