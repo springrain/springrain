@@ -136,15 +136,16 @@ public class RocketMqClient {
         consumer.setNamesrvAddr(rocketmqProperties.getNamesrvAddr());
         // VipChannel阿里内部使用版本才用,开源版本没有,可以直接设置为false
         consumer.setVipChannelEnabled(false);
-        // 有CLUSTERING和BROADCASTING模式,CLUSTERING一条消息只有一个消费者,生产者-消费者模式.
+        // 有 CLUSTERING 和 BROADCASTING 模式,CLUSTERING一条消息只有一个消费者,生产者-消费者模式.
         // BROADCASTING广播模式,订阅发布模式,一条消息会被所有的订阅者消费.
+        // CLUSTERING 有重试机制,BROADCASTING没有重试机制,建议CLUSTERING模式
         consumer.setMessageModel(MessageModel.CLUSTERING);
 
         // 从消息队列头开始消费,默认是CONSUME_FROM_LAST_OFFSET
         // consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
 
-        //重复消费次数,用于失败后重试
-        consumer.setMaxReconsumeTimes(5);
+        //重复消费次数,用于失败后重试,默认16次
+        // consumer.setMaxReconsumeTimes(5);
 
         List<String> subscribeList = rocketmqProperties.getSubscribe();
         // 订阅多个主题
