@@ -64,7 +64,7 @@ public class FrameMessageListenerConcurrently implements MessageListenerConcurre
             }
 
         } catch (Exception ex) {
-            logger.error("获取bean:{}失败", "rmq_topic_consumer_" + topic, ex);
+            logger.error("获取bean:{}失败", RocketmqProperties.TopicHandlerPrefix + topic, ex);
             return ConsumeConcurrentlyStatus.RECONSUME_LATER;
         }
         return ConsumeConcurrentlyStatus.RECONSUME_LATER;//.CONSUME_SUCCESS;

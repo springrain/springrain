@@ -65,7 +65,7 @@ public class FrameMessageListenerOrderly implements MessageListenerOrderly {
             }
 
         } catch (Exception ex) {
-            logger.error("获取bean:{}失败", "rmq_topic_consumer_" + topic, ex);
+            logger.error("获取bean:{}失败", RocketmqProperties.TopicHandlerPrefix + topic, ex);
             return ConsumeOrderlyStatus.SUSPEND_CURRENT_QUEUE_A_MOMENT;
         }
         return ConsumeOrderlyStatus.SUSPEND_CURRENT_QUEUE_A_MOMENT;//.CONSUME_SUCCESS;
