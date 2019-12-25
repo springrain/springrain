@@ -45,6 +45,7 @@
 
         <javax.persistence.version>2.2.1</javax.persistence.version>
         <lucene.version>8.3.1</lucene.version>
+        <elasticsearch.client.version>7.5.0</elasticsearch.client.version>
         <jxl.version>2.6.12</jxl.version>
 
         <!-- GRPC -->
@@ -70,6 +71,8 @@
 
         <!-- seata分布式事务 -->
         <seata.version>1.0.0</seata.version>
+
+
 
     </properties>
 
@@ -187,6 +190,12 @@
 				<artifactId>lucene-queryparser</artifactId>
 				<version>${lucene.version}</version>
 			</dependency>
+
+            <dependency>
+                <groupId>org.elasticsearch.client</groupId>
+                <artifactId>elasticsearch-rest-high-level-client</artifactId>
+                <version>${elasticsearch.client.version}</version>
+            </dependency>
 
 
 			<!-- openoffice连接组件 -->
