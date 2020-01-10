@@ -19,7 +19,7 @@
  * <p>
  * 源代码由林良益(linliangyi2005@gmail.com)提供
  */
-package org.springrain.frame.util.IK.dic;
+package org.springrain.lucene.IK.dic;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 
 /**
@@ -235,7 +236,7 @@ public class Dictionary {
         // 如果找不到扩展的字典，则忽略
         try {
             is = Dictionary.class.getClassLoader().getResourceAsStream(file);
-            br = new BufferedReader(new InputStreamReader(is, "UTF-8"), 512);
+            br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8), 512);
             String theWord = null;
             do {
                 theWord = br.readLine();

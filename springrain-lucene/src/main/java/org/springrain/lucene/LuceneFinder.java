@@ -1,4 +1,4 @@
-package org.springrain.frame.util;
+package org.springrain.lucene;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;

@@ -19,7 +19,7 @@
  * <p>
  * 源代码由林良益(linliangyi2005@gmail.com)提供
  */
-package org.springrain.frame.util.IK.core;
+package org.springrain.lucene.IK.core;
 
 import java.util.Arrays;
 
@@ -157,12 +157,8 @@ class LetterSegmenter implements ISegmenter {
         }
 
         // 判断是否锁定缓冲区
-        if (this.start == -1 && this.end == -1) {
-            // 对缓冲区解锁
-            needLock = false;
-        } else {
-            needLock = true;
-        }
+        // 对缓冲区解锁
+        needLock = this.start != -1 || this.end != -1;
         return needLock;
     }
 
@@ -208,12 +204,8 @@ class LetterSegmenter implements ISegmenter {
         }
 
         // 判断是否锁定缓冲区
-        if (this.englishStart == -1 && this.englishEnd == -1) {
-            // 对缓冲区解锁
-            needLock = false;
-        } else {
-            needLock = true;
-        }
+        // 对缓冲区解锁
+        needLock = this.englishStart != -1 || this.englishEnd != -1;
         return needLock;
     }
 
@@ -262,12 +254,8 @@ class LetterSegmenter implements ISegmenter {
         }
 
         // 判断是否锁定缓冲区
-        if (this.arabicStart == -1 && this.arabicEnd == -1) {
-            // 对缓冲区解锁
-            needLock = false;
-        } else {
-            needLock = true;
-        }
+        // 对缓冲区解锁
+        needLock = this.arabicStart != -1 || this.arabicEnd != -1;
         return needLock;
     }
 

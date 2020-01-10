@@ -17,7 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springrain.frame.util.IK.lucene;
+package org.springrain.lucene.IK.lucene;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.util.IOUtils;

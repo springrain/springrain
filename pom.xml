@@ -34,25 +34,28 @@
         <servlet-api.version>4.0.1</servlet-api.version>
         -->
 
-        <commons-lang3.version>3.9</commons-lang3.version>
-        <commons-pool2.version>2.8.0</commons-pool2.version>
-        <commons-collections4.version>4.4</commons-collections4.version>
-        <commons-io.version>2.6</commons-io.version>
-        <commons-codec.version>1.13</commons-codec.version>
-        <commons-beanutils.version>1.9.4</commons-beanutils.version>
-        <commons-fileupload.version>1.4</commons-fileupload.version>
-        <commons-text.version>1.8</commons-text.version>
+		<commons-lang3.version>3.9</commons-lang3.version>
+		<commons-pool2.version>2.8.0</commons-pool2.version>
+		<commons-collections4.version>4.4</commons-collections4.version>
+		<commons-io.version>2.6</commons-io.version>
+		<commons-codec.version>1.13</commons-codec.version>
+		<commons-beanutils.version>1.9.4</commons-beanutils.version>
+		<commons-fileupload.version>1.4</commons-fileupload.version>
+		<commons-text.version>1.8</commons-text.version>
 
-        <javax.persistence.version>2.2.1</javax.persistence.version>
-        <lucene.version>8.3.0</lucene.version>
-        <elasticsearch.client.version>7.5.1</elasticsearch.client.version>
-        <rocketmq.client.version>4.6.0</rocketmq.client.version>
-        <jxl.version>2.6.12</jxl.version>
+		<javax.persistence.version>2.2.1</javax.persistence.version>
 
-        <!-- GRPC -->
-        <io.grpc.version>1.26.0</io.grpc.version>
-        <kr.motd.maven.version>1.6.2</kr.motd.maven.version>
-        <io.protostuff.version>1.6.2</io.protostuff.version>
+		<!-- lucene版本和es的依赖版本最好保持一致,避免冲突 -->
+		<lucene.version>8.3.0</lucene.version>
+		<elasticsearch.client.version>7.5.1</elasticsearch.client.version>
+
+		<rocketmq.client.version>4.6.0</rocketmq.client.version>
+		<jxl.version>2.6.12</jxl.version>
+
+		<!-- GRPC -->
+		<io.grpc.version>1.26.0</io.grpc.version>
+		<kr.motd.maven.version>1.6.2</kr.motd.maven.version>
+		<io.protostuff.version>1.6.2</io.protostuff.version>
 
         <!--
         <jodconverter.version>2.2.1</jodconverter.version>
@@ -188,7 +191,6 @@
 				<artifactId>lucene-queryparser</artifactId>
 				<version>${lucene.version}</version>
 			</dependency>
-
 
 			<!-- elasticsearch -->
 			<dependency>
@@ -382,22 +384,25 @@
         <!-- 支付宝SDK -->
         <module>springrain-alipay-sdk</module>
 
-        <!-- 自带的系统管理web项目 -->
-        <module>springrain-system</module>
+		<!-- 自带的系统管理web项目 -->
+		<module>springrain-system</module>
 
-        <!-- grpc的客户端模块 -->
-        <module>springrain-grpc-client</module>
+		<!-- grpc的客户端模块 -->
+		<module>springrain-grpc-client</module>
 
-        <!-- grpc的服务端模块 -->
-        <module>springrain-grpc-server</module>
+		<!-- grpc的服务端模块 -->
+		<module>springrain-grpc-server</module>
 
-        <!-- es模块集成 -->
-        <module>springrain-es</module>
+		<!-- lucene集成,和springrain-es模块冲突,es模块已经包含了lucene -->
+		<module>springrain-lucene</module>
 
-        <!-- rocketmq模块集成 -->
-        <module>springrain-rocketmq</module>
+		<!-- es模块集成,和springrain-lucene模块冲突,包含lucene -->
+		<module>springrain-es</module>
 
-    </modules>
+		<!-- rocketmq模块集成 -->
+		<module>springrain-rocketmq</module>
+
+	</modules>
 
 
 

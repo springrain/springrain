@@ -21,7 +21,7 @@
  * <p>
  * 字符集识别工具类
  */
-package org.springrain.frame.util.IK.core;
+package org.springrain.lucene.IK.core;
 
 /**
  *

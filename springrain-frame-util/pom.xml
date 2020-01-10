@@ -93,16 +93,7 @@
         </dependency>
 
 
-        <!-- lucene -->
 
-        <dependency>
-            <groupId>org.apache.lucene</groupId>
-            <artifactId>lucene-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.lucene</groupId>
-            <artifactId>lucene-queryparser</artifactId>
-        </dependency>
 
         <!-- httpclient组件 -->
         <dependency>

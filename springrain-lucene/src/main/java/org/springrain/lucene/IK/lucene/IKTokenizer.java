@@ -17,14 +17,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springrain.frame.util.IK.lucene;
+package org.springrain.lucene.IK.lucene;
 
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
 import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
-import org.springrain.frame.util.IK.core.IKSegmenter;
-import org.springrain.frame.util.IK.core.Lexeme;
+import org.springrain.lucene.IK.core.IKSegmenter;
+import org.springrain.lucene.IK.core.Lexeme;
 
 import java.io.IOException;
 import java.io.Reader;

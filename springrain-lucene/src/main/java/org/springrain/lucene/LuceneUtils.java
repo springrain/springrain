@@ -1,4 +1,4 @@
-package org.springrain.frame.util;
+package org.springrain.lucene;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.map.HashedMap;
@@ -16,8 +16,10 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springrain.frame.util.IK.dic.Dictionary;
-import org.springrain.frame.util.IK.lucene.IKAnalyzer;
+import org.springrain.frame.util.FieldInfo;
+import org.springrain.frame.util.*;
+import org.springrain.lucene.IK.dic.Dictionary;
+import org.springrain.lucene.IK.lucene.IKAnalyzer;
 
 import java.io.File;
 import java.io.IOException;
@@ -147,7 +149,8 @@ public class LuceneUtils {
     /**
      * 根据实体类批量保存到索引,结合 LuceneSearch和LuceneField注解
      *
-     * @param entity
+     * @param rootdir
+     * @param list
      * @return
      * @throws Exception
      */
@@ -186,7 +189,9 @@ public class LuceneUtils {
     /**
      * 根据Id删除索引
      *
-     * @param entity
+     * @param rootdir
+     * @param clazz
+     * @param id
      * @return
      * @throws Exception
      */
@@ -207,7 +212,7 @@ public class LuceneUtils {
         IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);
 
         // 需要查询的关键字
-        Term term = new Term(pkName, id.toString());
+        Term term = new Term(pkName, id);
         TermQuery luceneQuery = new TermQuery(term);
         try {
             indexWriter.deleteDocuments(luceneQuery);
@@ -251,7 +256,9 @@ public class LuceneUtils {
     /**
      * 根据LuceneFinder,批量删除索引
      *
-     * @param entity
+     * @param rootdir
+     * @param clazz
+     * @param luceneFinder
      * @return
      * @throws Exception
      */
@@ -288,8 +295,9 @@ public class LuceneUtils {
 
     /**
      * 根据Id列表,批量删除索引
-     *
-     * @param entity
+     * @param rootdir
+     * @param clazz
+     * @param ids
      * @return
      * @throws Exception
      */
@@ -334,8 +342,7 @@ public class LuceneUtils {
 
     /**
      * 删除一个实体类的所有索引
-     *
-     * @param ids
+     * @param rootdir
      * @param clazz
      * @return
      * @throws Exception
@@ -407,8 +414,9 @@ public class LuceneUtils {
 
     /**
      * 批量修改索引
-     *
-     * @param entity
+     * @param rootdir
+     * @param list
+     * @param <T>
      * @return
      * @throws Exception
      */
@@ -680,9 +688,9 @@ public class LuceneUtils {
 
     /**
      * 索引文档转化为bean
-     *
      * @param document
-     * @param t
+     * @param clazz
+     * @param <T>
      * @return
      * @throws Exception
      */

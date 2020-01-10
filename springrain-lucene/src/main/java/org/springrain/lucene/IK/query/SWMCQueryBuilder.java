@@ -19,14 +19,14 @@
  * <p>
  * 源代码由林良益(linliangyi2005@gmail.com)提供
  */
-package org.springrain.frame.util.IK.query;
+package org.springrain.lucene.IK.query;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.Query;
-import org.springrain.frame.util.IK.core.IKSegmenter;
-import org.springrain.frame.util.IK.core.Lexeme;
+import org.springrain.lucene.IK.core.IKSegmenter;
+import org.springrain.lucene.IK.core.Lexeme;
 
 import java.io.IOException;
 import java.io.StringReader;

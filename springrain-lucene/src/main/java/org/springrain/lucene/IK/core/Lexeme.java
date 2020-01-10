@@ -19,7 +19,7 @@
  * <p>
  * 源代码由林良益(linliangyi2005@gmail.com)提供
  */
-package org.springrain.frame.util.IK.core;
+package org.springrain.lucene.IK.core;
 
 /**
  * IK词元对象
@@ -85,12 +85,8 @@ public class Lexeme implements Comparable<Lexeme> {
 
         if (o instanceof Lexeme) {
             Lexeme other = (Lexeme) o;
-            if (this.offset == other.getOffset() && this.begin == other.getBegin()
-                    && this.length == other.getLength()) {
-                return true;
-            } else {
-                return false;
-            }
+            return this.offset == other.getOffset() && this.begin == other.getBegin()
+                    && this.length == other.getLength();
         } else {
             return false;
         }

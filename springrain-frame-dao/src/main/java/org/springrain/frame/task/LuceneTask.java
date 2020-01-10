@@ -3,7 +3,6 @@ package org.springrain.frame.task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springrain.frame.util.GlobalStatic;
-import org.springrain.frame.util.LuceneUtils;
 
 import java.util.List;
 

@@ -17,7 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springrain.frame.util.IK.query;
+package org.springrain.lucene.IK.query;
 
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.*;

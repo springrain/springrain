@@ -34,7 +34,7 @@ import org.elasticsearch.search.sort.SortOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springrain.frame.util.*;
-import org.springrain.frame.util.IK.lucene.IKAnalyzer;
+import org.springrain.lucene.IK.lucene.IKAnalyzer;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

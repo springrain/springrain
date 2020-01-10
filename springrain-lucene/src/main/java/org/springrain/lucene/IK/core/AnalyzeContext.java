@@ -17,9 +17,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springrain.frame.util.IK.core;
+package org.springrain.lucene.IK.core;
 
-import org.springrain.frame.util.IK.dic.Dictionary;
+import org.springrain.lucene.IK.dic.Dictionary;
 
 import java.io.IOException;
 import java.io.Reader;

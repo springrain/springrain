@@ -19,7 +19,7 @@
  * <p>
  * 源代码由林良益(linliangyi2005@gmail.com)提供
  */
-package org.springrain.frame.util.IK.core;
+package org.springrain.lucene.IK.core;
 
 import java.util.Stack;
 import java.util.TreeSet;
