@@ -607,8 +607,8 @@ public class ElasticSearchOperation {
 
         // 查询数据
         SearchResponse scrollResp = client.search(searchRequest, RequestOptions.DEFAULT);
-        // Long totalCount = scrollResp.getHits().getTotalHits().value;
-        Long totalCount = scrollResp.getHits().getTotalHits();
+        Long totalCount = scrollResp.getHits().getTotalHits().value;
+        //Long totalCount = scrollResp.getHits().getTotalHits();
         if (DEBUGGER) {
             System.out.println(totalCount);
         }
