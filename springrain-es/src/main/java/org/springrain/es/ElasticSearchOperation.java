@@ -57,7 +57,7 @@ public class ElasticSearchOperation {
     private RestHighLevelClient client = null;
     private ObjectMapper mapper = null;
 
-    private final String type = "_doc";
+    // private final String type = "_doc";
 
 
     // 分词器,使用IK的精确匹配
@@ -431,7 +431,7 @@ public class ElasticSearchOperation {
             EntityInfo entityInfo = ClassUtils.getEntityInfoByEntity(entity);
             String id = (String) ClassUtils.getPropertieValue(entityInfo.getPkName(), entity);// 获取主键ID
 
-            UpdateRequest updateRequest = new UpdateRequest(rootdir, type, id).doc(builder);
+            UpdateRequest updateRequest = new UpdateRequest(rootdir, id).doc(builder);
             UpdateResponse updateResponse = client.update(updateRequest, RequestOptions.DEFAULT);
             RestStatus status = updateResponse.status();
             if (DEBUGGER) {
@@ -477,7 +477,7 @@ public class ElasticSearchOperation {
             id = (String) ClassUtils.getPropertieValue(entityInfo.getPkName(), entity);// 获取主键ID
 
             hasData = true;
-            bulkRequest.add(new UpdateRequest(rootdir, type, id).doc(builder));
+            bulkRequest.add(new UpdateRequest(rootdir, id).doc(builder));
         }
         if (hasData) {
             BulkResponse bulkResponse = client.bulk(bulkRequest, RequestOptions.DEFAULT);
