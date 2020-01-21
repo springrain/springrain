@@ -393,7 +393,7 @@
         <!-- grpc的服务端模块 -->
         <module>springrain-grpc-server</module>
 
-        <!-- lucene集成,和springrain-es模块冲突,es模块已经包含了lucene -->
+        <!-- lucene集成,和springrain-es模块lucene冲突,es模块已经包含了lucene -->
         <module>springrain-lucene</module>
 
         <!-- es模块集成,依赖springrain-lucene模块 -->
