@@ -69,12 +69,12 @@
 
         <jwt.version>3.8.3</jwt.version>
 
-        <redisson.version>3.12.1</redisson.version>
+        <redisson.version>3.12.2</redisson.version>
         <fst.version>2.57</fst.version>
         <bcprov.version>1.64</bcprov.version>
 
         <!-- seata分布式事务 -->
-        <seata.version>1.0.0</seata.version>
+        <seata.version>1.1.0</seata.version>
 
 
 
