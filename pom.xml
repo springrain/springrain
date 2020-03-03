@@ -63,13 +63,13 @@
         -->
 
         <zxing.version>3.4.0</zxing.version>
-        <jsoup.version>1.12.1</jsoup.version>
+        <jsoup.version>1.13.1</jsoup.version>
         <xstream.version>1.4.11.1</xstream.version>
         <druid-spring-boot-starter.version>1.1.21</druid-spring-boot-starter.version>
 
         <jwt.version>3.8.3</jwt.version>
 
-        <redisson.version>3.12.2</redisson.version>
+        <redisson.version>3.12.3</redisson.version>
         <fst.version>2.57</fst.version>
         <bcprov.version>1.64</bcprov.version>
 
