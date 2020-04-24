@@ -8,6 +8,13 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.config.Registry;
+import org.apache.http.config.RegistryBuilder;
+import org.apache.http.conn.socket.ConnectionSocketFactory;
+import org.apache.http.conn.socket.PlainConnectionSocketFactory;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
@@ -18,14 +25,19 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,18 +60,29 @@ public class HttpClientUtils {
 
     static {
 
-        /*
-         * SSLContext sslcontext = SSLContexts.createSystemDefault();
-         *
-         * // Create a registry of custom connection socket factories for supported //
-         * protocol schemes.
-         *
-         *
-         * Registry<ConnectionSocketFactory> socketFactoryRegistry =
-         * RegistryBuilder.<ConnectionSocketFactory>create() .register("http",
-         * PlainConnectionSocketFactory.INSTANCE) .register("https", new
-         * SSLConnectionSocketFactory(sslcontext)) .build();
-         */
+
+        // 使用 TrustSelfSignedStrategy 允许自签名证书
+        SSLContext sslContext = null;
+        try {
+            sslContext = SSLContextBuilder
+                    .create()
+                    .loadTrustMaterial(new TrustSelfSignedStrategy())
+                    .build();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (KeyManagementException e) {
+            e.printStackTrace();
+        } catch (KeyStoreException e) {
+            e.printStackTrace();
+        }
+
+        // 禁用主机验证.安全性较低,兼容性较好
+        HostnameVerifier allowAllHosts = new NoopHostnameVerifier();
+        Registry<ConnectionSocketFactory> socketFactoryRegistry =
+                RegistryBuilder.<ConnectionSocketFactory>create().register("http",
+                        PlainConnectionSocketFactory.INSTANCE).register("https", new
+                        SSLConnectionSocketFactory(sslContext, allowAllHosts)).build();
+
 
         // 使用基本的Httpclient链接器
         // connectionManager=new
