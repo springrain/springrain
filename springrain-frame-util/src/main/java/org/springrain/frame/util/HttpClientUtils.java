@@ -76,8 +76,10 @@ public class HttpClientUtils {
             e.printStackTrace();
         }
 
-        // 禁用主机验证.安全性较低,兼容性较好
+        // 禁用主机验证.安全性较低,兼容性较好,自签证书需要用到.
         HostnameVerifier allowAllHosts = new NoopHostnameVerifier();
+
+
         Registry<ConnectionSocketFactory> socketFactoryRegistry =
                 RegistryBuilder.<ConnectionSocketFactory>create().register("http",
                         PlainConnectionSocketFactory.INSTANCE).register("https", new
