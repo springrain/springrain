@@ -1,6 +1,7 @@
 package org.springrain.frame.util;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.config.RequestConfig;
@@ -15,6 +16,7 @@ import org.apache.http.conn.socket.PlainConnectionSocketFactory;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
+import org.apache.http.conn.ssl.TrustStrategy;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
@@ -38,6 +40,8 @@ import java.io.InputStream;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -66,7 +70,12 @@ public class HttpClientUtils {
         try {
             sslContext = SSLContextBuilder
                     .create()
-                    .loadTrustMaterial(new TrustSelfSignedStrategy())
+                    .loadTrustMaterial(new TrustStrategy(){
+                        @Override
+                        public boolean isTrusted(X509Certificate[] x509Certificates, String s) throws CertificateException {
+                            return true;
+                        }
+                    })
                     .build();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
@@ -174,9 +183,12 @@ public class HttpClientUtils {
         HttpPost httpPost = new HttpPost(httpUrl);// 创建httpPost
         try {
             // 设置参数
-            StringEntity stringEntity = new StringEntity(params, "UTF-8");
-            stringEntity.setContentType("application/x-www-form-urlencoded");
-            httpPost.setEntity(stringEntity);
+            if (StringUtils.isNotBlank(params)){
+                StringEntity stringEntity = new StringEntity(params, "UTF-8");
+                // stringEntity.setContentType("application/x-www-form-urlencoded");
+                httpPost.setEntity(stringEntity);
+            }
+
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
@@ -219,13 +231,16 @@ public class HttpClientUtils {
             return httpPost;
         }
 
-        // 创建参数队列
+        // 创建参数
         List<NameValuePair> nameValuePairs = new ArrayList<>();
         for (Map.Entry<String, String> m : maps.entrySet()) {
             nameValuePairs.add(new BasicNameValuePair(m.getKey(), m.getValue()));
         }
         try {
-            httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+            if (nameValuePairs.size()>0){
+                httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+            }
+
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
@@ -289,13 +304,18 @@ public class HttpClientUtils {
                                              SSLContext sslContext) {
         HttpPost httpPost = new HttpPost(httpUrl);// 创建httpPost
         MultipartEntityBuilder meBuilder = MultipartEntityBuilder.create();
-        for (Map.Entry<String, String> m : maps.entrySet()) {
-            meBuilder.addPart(m.getKey(), new StringBody(m.getValue(), ContentType.TEXT_PLAIN));
+        if (maps!=null){
+            for (Map.Entry<String, String> m : maps.entrySet()) {
+                meBuilder.addPart(m.getKey(), new StringBody(m.getValue(), ContentType.TEXT_PLAIN));
+            }
         }
-        for (Map.Entry<String, File> m : fileMap.entrySet()) {
-            FileBody fileBody = new FileBody(m.getValue());
-            meBuilder.addPart(m.getKey(), fileBody);
+        if (fileMap!=null){
+            for (Map.Entry<String, File> m : fileMap.entrySet()) {
+                FileBody fileBody = new FileBody(m.getValue());
+                meBuilder.addPart(m.getKey(), fileBody);
+            }
         }
+
         HttpEntity reqEntity = meBuilder.build();
         httpPost.setEntity(reqEntity);
         return sendHttpPost(httpPost, sslContext);
