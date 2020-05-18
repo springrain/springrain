@@ -448,6 +448,11 @@ public class HttpClientUtils {
      */
     public static String sendHttpHeaderGet(String httpUrl, Map<String, String> headers, SSLContext sslContext) {
         HttpGet httpGet = new HttpGet(httpUrl);// 创建get请求
+
+        if(headers==null){
+            return sendHttpGet(httpGet, null);
+        }
+
         for (Map.Entry<String, String> entry : headers.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
