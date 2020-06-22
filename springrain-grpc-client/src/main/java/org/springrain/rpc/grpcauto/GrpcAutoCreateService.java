@@ -32,7 +32,7 @@ public final class GrpcAutoCreateService {
   private static  com.google.protobuf.Descriptors.FileDescriptor
       descriptor;
   static {
-    String[] descriptorData = {
+    java.lang.String[] descriptorData = {
       "\n\027grpcCommonService.proto\"3\n\rCommonReque" +
       "st\022\021\n\tserialize\030\001 \001(\005\022\017\n\007request\030\002 \001(\014\"\"" +
       "\n\016CommonResponse\022\020\n\010response\030\001 \001(\0142F\n\021Gr" +
@@ -50,13 +50,13 @@ public final class GrpcAutoCreateService {
     internal_static_CommonRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_CommonRequest_descriptor,
-        new String[] { "Serialize", "Request", });
+        new java.lang.String[] { "Serialize", "Request", });
     internal_static_CommonResponse_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_CommonResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_CommonResponse_descriptor,
-        new String[] { "Response", });
+        new java.lang.String[] { "Response", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
