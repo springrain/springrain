@@ -26,7 +26,7 @@ public class CmdUtils {
      * @param commandStr
      * @return
      */
-    public static StringBuilder execCmd(String commandStr) {
+    public static List<String> execCmd(String commandStr) {
         final String os = System.getProperty("os.name").toLowerCase();
         if (os.contains("windows")) {
             return execWindowsCmd(commandStr);
@@ -43,7 +43,7 @@ public class CmdUtils {
      * @param pb
      * @return
      */
-    public static StringBuilder execCmd(ProcessBuilder pb) {
+    public static  List<String> execCmd(ProcessBuilder pb) {
 
         BufferedReader br = null;
         try {
@@ -51,12 +51,12 @@ public class CmdUtils {
             Process p = pb.start();
             br = new BufferedReader(new InputStreamReader(p.getInputStream()));
             String line = null;
-            StringBuilder sb = new StringBuilder();
+            List<String> list = new ArrayList<>();
             while ((line = br.readLine()) != null) {
-                sb.append(line);
+                list.add(line);
             }
 
-            return sb;
+            return list;
 
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
@@ -78,7 +78,7 @@ public class CmdUtils {
      * @param commandStr
      * @return
      */
-    private static StringBuilder execWindowsCmd(String commandStr) {
+    private static List<String> execWindowsCmd(String commandStr) {
         List<String> cmds = new ArrayList<>();
         cmds.add("cmd.exe");
         cmds.add("/c");
@@ -93,7 +93,7 @@ public class CmdUtils {
      * @param commandStr
      * @return
      */
-    private static StringBuilder execLinuxCmd(String commandStr) {
+    private static  List<String> execLinuxCmd(String commandStr) {
         List<String> cmds = new ArrayList<>();
         cmds.add("sh");
         cmds.add("-c");
