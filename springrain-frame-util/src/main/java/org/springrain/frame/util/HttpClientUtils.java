@@ -497,7 +497,7 @@ public class HttpClientUtils {
         try {
             // 设置参数
             StringEntity stringEntity = new StringEntity(params, "UTF-8");
-            stringEntity.setContentType("application/x-www-form-urlencoded");
+            //stringEntity.setContentType("application/x-www-form-urlencoded");
             httpPost.setEntity(stringEntity);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
