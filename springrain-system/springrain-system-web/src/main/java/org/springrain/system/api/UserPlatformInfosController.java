@@ -37,7 +37,7 @@ public class UserPlatformInfosController  extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.POST)
-	public ReturnDatas<UserPlatformInfos> list(@RequestBody UserPlatformInfos userPlatformInfos , @RequestBody Page page)
+	public ReturnDatas<UserPlatformInfos> list( UserPlatformInfos userPlatformInfos , Page page)
 			throws Exception {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		// ==构造分页请求

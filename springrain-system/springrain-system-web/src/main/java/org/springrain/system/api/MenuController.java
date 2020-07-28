@@ -42,7 +42,7 @@ public class MenuController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/list", method = RequestMethod.POST)
-    public ReturnDatas<Menu> list(@RequestBody Menu menu, @RequestBody Page page)
+    public ReturnDatas<Menu> list( Menu menu, Page page)
             throws Exception {
         ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
         // ==构造分页请求
