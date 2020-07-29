@@ -1,8 +1,12 @@
-###使用默认配置就可以了,不需要修改###
-#server:
-#    port: 8080
-#    sevlet: 
-#        context-path: /
+
+server:
+  port: 8080
+  sevlet:
+    context-path: /
+    encoding:
+      enabled: true
+      charset: UTF-8
+      force: true
 
 
 springrain:
@@ -61,11 +65,6 @@ spring:
     proxy-target-class: false  #强制使用接口代理,不使用cglib,RPC一般是基于接口代理的###
 
 
-  http:
-    encoding:
-      charset: UTF-8
-      enabled: true
-      force: true
 
   servlet:
     multipart:
@@ -93,3 +92,6 @@ spring:
 #    web:
 #      exposure:
 #        include: '*'
+
+
+
