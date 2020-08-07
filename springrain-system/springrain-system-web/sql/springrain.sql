@@ -550,7 +550,7 @@ CREATE TABLE `t_role_org`  (
   `id` varchar(50)  NOT NULL COMMENT '编号',
   `orgId` varchar(50)  NOT NULL COMMENT '部门编号',
   `roleId` varchar(50)  NOT NULL COMMENT '角色编号',
-  `children` int(11) NOT NULL DEFAULT 0 COMMENT '0不包含子部门,1包含.用于表示角色和部门的权限关系',
+  `children` int(11) NOT NULL DEFAULT 0 COMMENT '0不包含子部门,1包含.用于表示角色和部门的权限关系.用于记录roleOrgType的结果,缓存值',
   `createTime` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `createUserId` varchar(50)  NULL DEFAULT NULL,
   `updateTime` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
