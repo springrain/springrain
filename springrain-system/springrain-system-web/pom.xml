@@ -194,6 +194,7 @@
 
             <!-- 纯java类的jar包时不要设置-->
             <!-- 例如 springrain-mytest-web 模块引用了 springrain-system-web ,springrain-system-web就不需要使用spring boot模式打包了,注释掉这个插件,打包成普通的jar文件  -->
+            <!-- 需要注意:只能有一个@SpringBootApplication入口文件,需要把 springrain-system-web 中的 @SpringBootApplication 注释掉 -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
