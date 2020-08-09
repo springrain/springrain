@@ -5,8 +5,10 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * 扩展实现jackson的ObjectMapper
@@ -48,5 +50,10 @@ public class FrameObjectMapper extends ObjectMapper {
         // HH:mm:ss",timezone = "GMT+8")
         // @JsonFormat(shape = JsonFormat.Shape.STRING,
         // pattern=DateUtils.DATETIME_FORMAT,timezone = DateUtils.DATE_TIMEZONE)
+
+        //全局设置日期值的序列化,从字符串到Date对象
+        SimpleModule customDateDeserializerModule = new SimpleModule();
+        customDateDeserializerModule.addDeserializer(Date.class, new JacksonDateDeserializer());
+        this.registerModule(customDateDeserializerModule);
     }
 }
