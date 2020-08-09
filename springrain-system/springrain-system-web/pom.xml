@@ -89,8 +89,7 @@
         </dependency>
         -->
 
-        <!-- 导出war模式,tomcat的scope设置成provided,测试可用,打包时排除-->
-
+        <!-- 导出war模式,tomcat的scope设置成provided,测试可用,打包时排除.不推荐war包,推荐使用jar-->
         <!--
           <dependency>
               <groupId>org.springframework.boot</groupId>
