@@ -375,13 +375,17 @@
         <module>springrain-frame-cache-memory</module>
 
         <!-- redis类型的缓存,和memory内存缓存互斥,只能使用一个 - -->
+        <!--
         <module>springrain-frame-cache-redis</module>
+        -->
 
         <!-- 微信的SDK模块 -->
         <module>springrain-weixin-sdk</module>
 
         <!-- 支付宝SDK -->
+        <!--
         <module>springrain-alipay-sdk</module>
+        -->
 
         <!-- 自带的系统管理web项目 -->
         <module>springrain-system</module>
@@ -393,13 +397,19 @@
         <module>springrain-grpc-server</module>
 
         <!-- lucene集成,和springrain-es模块lucene冲突,es模块已经包含了lucene -->
+        <!--
         <module>springrain-lucene</module>
+        -->
 
         <!-- es模块集成,依赖springrain-lucene模块 -->
+        <!--
         <module>springrain-es</module>
+        -->
 
         <!-- rocketmq模块集成 -->
+        <!--
         <module>springrain-rocketmq</module>
+        -->
 
     </modules>
 
