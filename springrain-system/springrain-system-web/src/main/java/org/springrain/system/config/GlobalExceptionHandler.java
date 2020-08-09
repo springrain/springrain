@@ -9,6 +9,8 @@ import org.springrain.frame.util.ReturnDatas;
 
 /**
  * 全局异常处理
+ * 按照 ReturnDatas.statusCode 判断是否成功.异常 1, 成功 0,默认成功0
+ * 其他异常的信息 通过 http状态码进行判断.
  */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
