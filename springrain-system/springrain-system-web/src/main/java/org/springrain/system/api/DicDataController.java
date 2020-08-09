@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springrain.frame.util.GlobalStatic;
+import org.springrain.frame.util.JsonUtils;
 import org.springrain.frame.util.Page;
 import org.springrain.frame.util.ReturnDatas;
 import org.springrain.frame.util.property.MessageUtils;
@@ -64,7 +65,7 @@ public class DicDataController extends BaseController {
 	 */
 	@RequestMapping("/list/json")
 	@ResponseBody
-	public ReturnDatas listjson(@PathVariable String pathtypekey, HttpServletRequest request, Model model,
+	public ReturnDatas<List<DicData>> listjson(@PathVariable String pathtypekey, HttpServletRequest request, Model model,
 			DicData dicData) throws Exception {
 		dicData.setTypekey(pathtypekey);
 		String nopage = request.getParameter("page");// 树结构不能分页
@@ -76,13 +77,14 @@ public class DicDataController extends BaseController {
 		dicData.setTypekey(pathtypekey);
 		List<DicData> datas = dicDataService.findListDataByFinder(null, page, DicData.class, dicData);
 		// boolean hasNext = page.getHasNext();
-		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
+		ReturnDatas<List<DicData>> returnObject = ReturnDatas.getSuccessReturnDatas();
 		returnObject.setResult(datas);
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("typekey", pathtypekey);
 		returnObject.setQueryBean(dicData);// 正式如果 ，加了缓存此处删除
 		returnObject.setPage(page);
 		returnObject.setMap(map);
+		System.out.println(JsonUtils.writeValueAsString(returnObject));
 		return returnObject;
 	}
 
