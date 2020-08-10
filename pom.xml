@@ -393,8 +393,10 @@
         <!-- grpc的客户端模块 -->
         <module>springrain-grpc-client</module>
 
-        <!-- grpc的服务端模块 -->
+        <!-- grpc的服务端模块,serviceimpl单独做服务时,需要引用 -->
+        <!--
         <module>springrain-grpc-server</module>
+        -->
 
         <!-- lucene集成,和springrain-es模块lucene冲突,es模块已经包含了lucene -->
         <!--
