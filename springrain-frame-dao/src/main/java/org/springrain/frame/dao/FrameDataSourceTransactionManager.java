@@ -6,6 +6,7 @@ import org.springframework.transaction.TransactionDefinition;
 
 /**
  * Spring 没有提供获取当前线程的事务状态,自定义ThreadLocal实现,在事务开始前记录.
+ * 可以使用 TransactionSynchronizationManager.isActualTransactionActive(); 方法,待测试
  *
  * @author caomei
  */

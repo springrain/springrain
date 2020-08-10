@@ -1486,6 +1486,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
     private void checkMethodName() throws NoTransactionException {
         if (isCheckMethodName()) {// 方法是否具有事务
             try {
+                //  TransactionSynchronizationManager.isActualTransactionActive(); 方法,待测试
                 TransactionInterceptor.currentTransactionStatus();
             } catch (NoTransactionException e) {
                 logger.error(e.getMessage(), e);
