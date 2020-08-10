@@ -52,7 +52,7 @@ public class RoleOrg  extends BaseEntity {
 	 // 角色编号
 	private String roleId;
 	
-	 // 0不包含子部门,1包含.用于表示角色和部门的权限关系
+	 // 0不包含子部门,1包含.用于表示角色和部门的权限关系.用于记录roleOrgType的结果,缓存值
 	private Integer children;
 	
 	 // createTime
