@@ -122,6 +122,7 @@
         -->
 
 
+        <!-- 登录代码中集成了微信openId的功能,依赖了微信API,如果未使用微信相关功能, scope设置成 compile -->
         <dependency>
             <groupId>org.springrain</groupId>
             <artifactId>springrain-weixin-sdk</artifactId>
