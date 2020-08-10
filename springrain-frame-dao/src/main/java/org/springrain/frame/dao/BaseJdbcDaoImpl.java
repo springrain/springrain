@@ -17,6 +17,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.transaction.NoTransactionException;
 import org.springframework.transaction.interceptor.TransactionInterceptor;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springrain.frame.dao.dialect.IDialect;
 import org.springrain.frame.entity.AuditLog;
 import org.springrain.frame.entity.BaseMapEntity;
@@ -1218,10 +1219,13 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
     /**
      * seata暂时不支持batchUpdate,循环进行单个对象操作了.
      *
+     * 已经支持了
+     *
      * @param list
      * @return
      * @throws Exception
      */
+    /*
     private List<Integer> saveForSeataTx(List<IBaseEntity> list) throws Exception {
         checkMethodName();
 
@@ -1235,7 +1239,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
         }
         return saveList;
 
-    }
+    }*/
 
     /**
      * 使用本地事务批量保存
@@ -1485,6 +1489,10 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
      */
     private void checkMethodName() throws NoTransactionException {
         if (isCheckMethodName()) {// 方法是否具有事务
+            if (TransactionSynchronizationManager.isActualTransactionActive()){
+                throw new NoTransactionException("save,update,delete方法,请按照事务拦截方法名书写规范!具体参见:applicationContext-tx.xml");
+            }
+/**
             try {
                 //  TransactionSynchronizationManager.isActualTransactionActive(); 方法,待测试
                 TransactionInterceptor.currentTransactionStatus();
@@ -1492,6 +1500,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
                 logger.error(e.getMessage(), e);
                 throw new NoTransactionException("save,update,delete方法,请按照事务拦截方法名书写规范!具体参见:applicationContext-tx.xml");
             }
+*/
 
         }
     }
