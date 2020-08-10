@@ -14,8 +14,7 @@ import org.springframework.stereotype.Controller;
  *
  */
 @SpringBootApplication
-@ComponentScan(basePackages = { "${springrain.basepackagepath}" },
-        excludeFilters = { @ComponentScan.Filter(type = FilterType.ANNOTATION, value = Controller.class) })
+@ComponentScan(basePackages = { "${springrain.basepackagepath}" }, excludeFilters = { @ComponentScan.Filter(type = FilterType.ANNOTATION, value = Controller.class) })
 public class SpringrainApplication {
 
     public static void main(String[] args) {

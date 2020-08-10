@@ -19,7 +19,7 @@
 		<!-- 系统管理的service实现 -->
 		<module>springrain-system-serviceimpl</module>
 		
-		<!-- 系统管理的shiro过滤器和controller -->
+		<!-- 系统管理的web拦截器和controller -->
 		<module>springrain-system-web</module>
 		
 	</modules>
