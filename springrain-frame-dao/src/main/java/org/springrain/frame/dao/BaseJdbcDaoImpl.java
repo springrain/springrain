@@ -16,7 +16,6 @@ import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.transaction.NoTransactionException;
-import org.springframework.transaction.interceptor.TransactionInterceptor;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springrain.frame.dao.dialect.IDialect;
 import org.springrain.frame.entity.AuditLog;
@@ -282,7 +281,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
 
     @Override
     public Integer update(Finder finder) throws Exception {
-        checkMethodName();
+        checkTransactionMethodName();
 
         // 打印sql
         logInfoSql(finder.getSql(), finder.getParams());
@@ -613,7 +612,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
 
     @Override
     public Object save(IBaseEntity entity) throws Exception {
-        checkMethodName();
+        checkTransactionMethodName();
 
         // 保存到数据库
         Object id = saveNoLog(entity);
@@ -671,7 +670,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
             return null;
         }
 
-        checkMethodName();
+        checkTransactionMethodName();
         String sql = wrapSaveMapEntitySQL(mapEntity);
         if (StringUtils.isBlank(sql)) {
             return null;
@@ -704,7 +703,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
             return null;
         }
 
-        checkMethodName();
+        checkTransactionMethodName();
         String sql = wrapUpdateMapEntitySQL(mapEntity);
         if (StringUtils.isBlank(sql)) {
             return null;
@@ -756,7 +755,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
      * @throws Exception
      */
     private List<Integer> updateForSeataTx(List<IBaseEntity> list, boolean onlyupdatenotnull) throws Exception {
-        checkMethodName();
+        checkTransactionMethodName();
 
         if (CollectionUtils.isEmpty(list)) {
             return null;
@@ -779,7 +778,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
      * @throws Exception
      */
     private List<Integer> updateForLocalTx(List<IBaseEntity> list, boolean onlyupdatenotnull) throws Exception {
-        checkMethodName();
+        checkTransactionMethodName();
 
         if (CollectionUtils.isEmpty(list)) {
             return null;
@@ -847,7 +846,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
             return null;
         }
 
-        checkMethodName();
+        checkTransactionMethodName();
         String sql = wrapSaveMapEntitySQL(mapEntity);
         if (StringUtils.isBlank(sql)) {
             return null;
@@ -893,7 +892,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
             return null;
         }
 
-        checkMethodName();
+        checkTransactionMethodName();
         String sql = wrapUpdateMapEntitySQL(mapEntity);
         if (StringUtils.isBlank(sql)) {
             return null;
@@ -906,7 +905,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
 
     @Override
     public Integer update(IBaseEntity entity, boolean onlyupdatenotnull) throws Exception {
-        checkMethodName();
+        checkTransactionMethodName();
         Class clazz = entity.getClass();
         // entity的信息
         EntityInfo entityInfo = ClassUtils.getEntityInfoByEntity(entity);
@@ -986,7 +985,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
 
     @Override
     public void deleteById(Object id, Class clazz) throws Exception {
-        checkMethodName();
+        checkTransactionMethodName();
 
         if (id == null) {
             return;
@@ -1050,7 +1049,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
     @SuppressWarnings({"rawtypes"})
     @Override
     public void deleteByIds(List ids, Class clazz) throws Exception {
-        checkMethodName();
+        checkTransactionMethodName();
 
         if (CollectionUtils.isEmpty(ids)) {
             return;
@@ -1212,7 +1211,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
     }
 
     @Override
-    public boolean isCheckMethodName() {
+    public boolean isCheckTransactionMethodName() {
         return true;
     }
 
@@ -1249,7 +1248,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
      * @throws Exception
      */
     private List<Integer> saveForLocalTx(List<IBaseEntity> list) throws Exception {
-        checkMethodName();
+        checkTransactionMethodName();
 
         if (CollectionUtils.isEmpty(list)) {
             return null;
@@ -1487,9 +1486,9 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
      *
      * @throws Exception
      */
-    private void checkMethodName() throws NoTransactionException {
-        if (isCheckMethodName()) {// 方法是否具有事务
-            if (TransactionSynchronizationManager.isActualTransactionActive()){
+    private void checkTransactionMethodName() throws NoTransactionException {
+        if (isCheckTransactionMethodName()) {// 方法是否具有事务
+            if (!TransactionSynchronizationManager.isActualTransactionActive()){//如果没有事务
                 throw new NoTransactionException("save,update,delete方法,请按照事务拦截方法名书写规范!具体参见:applicationContext-tx.xml");
             }
 /**

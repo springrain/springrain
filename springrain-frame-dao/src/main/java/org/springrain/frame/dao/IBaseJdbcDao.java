@@ -378,7 +378,7 @@ public interface IBaseJdbcDao {
      *
      * @return
      */
-    boolean isCheckMethodName();
+    boolean isCheckTransactionMethodName();
 
     public String getUserName();
 
