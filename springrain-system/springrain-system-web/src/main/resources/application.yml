@@ -56,7 +56,7 @@ spring:
   
   ###代码实现:org.springrain.config.SpringMVCConfig.addResourceHandlers(ResourceHandlerRegistry)###
   resources:
-    ###静态文件默认放到 resources/static目录下,也可以指定磁盘路径file:d/static/###
+    ###静态文件默认放到 resources/static目录下,也可以指定磁盘路径file:D:/static/###
     static-locations: classpath:static/
 
   mvc:
