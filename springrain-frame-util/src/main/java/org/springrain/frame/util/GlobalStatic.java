@@ -180,6 +180,7 @@ public class GlobalStatic {
         // 默认能够访问的URL
         userDefaultUrl.add("/api/system/user/menu");
         userDefaultUrl.add("/api/system/user/info");
+        userDefaultUrl.add("/upload");//上传的目录
 
 
 
