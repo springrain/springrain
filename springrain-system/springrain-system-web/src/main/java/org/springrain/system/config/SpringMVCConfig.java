@@ -112,6 +112,7 @@ public class SpringMVCConfig implements WebMvcConfigurer {
 	/**
 	 * 配置静态文件
 	 */
+	/*
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		// registry.addResourceHandler("/images/**").addResourceLocations("/images/");
@@ -124,6 +125,7 @@ public class SpringMVCConfig implements WebMvcConfigurer {
 		registry.addResourceHandler("/upload/**").addResourceLocations("/upload/");
 
 	}
+	 */
 
 	/**
 	 * 使用Bean的方式,用于替换默认的实现

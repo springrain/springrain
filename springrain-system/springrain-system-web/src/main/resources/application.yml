@@ -55,8 +55,9 @@ springrain:
 spring:
   
   ###代码实现:org.springrain.config.SpringMVCConfig.addResourceHandlers(ResourceHandlerRegistry)###
-  #resources:
-  #  static-locations: /images/,/img/,/js/,/css/,/layui/,/upload/,/u/
+  resources:
+    ###静态文件默认放到 resource/static目录下,也可以指定磁盘路径file:d/static/###
+    static-locations: classpath:static/
 
   mvc:
     ignore-default-model-on-redirect: false #在重定向时是否忽略默认model的内容，默认为true###
