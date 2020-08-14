@@ -52,12 +52,14 @@ springrain:
 #  level:
 #    org: INFO ### 配置spring web日志级别###
 
+  ###静态文件默认放到 resources/static目录下,也可以指定磁盘路径 file:D:/static/,这样方便程序读取上传upload的目录###
+#staticdir: D:/static/
+staticdir: static/
 spring:
-  
   ###代码实现:org.springrain.config.SpringMVCConfig.addResourceHandlers(ResourceHandlerRegistry)###
   resources:
-    ###静态文件默认放到 resources/static目录下,也可以指定磁盘路径file:D:/static/###
-    static-locations: classpath:static/
+    ###静态文件默认放到 resources/static目录下,也可以指定磁盘路径 file:D:/static/###
+    static-locations: classpath:${staticdir}
 
   mvc:
     ignore-default-model-on-redirect: false #在重定向时是否忽略默认model的内容，默认为true###
