@@ -328,14 +328,14 @@ public class SecUtils {
 
 
     /**
-     * 产生 yyyyMMddHHmmssSSS+三位随机数的字符串
+     * 产生 yyyyMMddHHmmssSSS+四位位随机数的字符串
      *
      * @return
      */
     public static String getTimeNO() {
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmssSSS");
         String result = format.format(new Date());
-        return result + randomIntegr(1000);
+        return result + String.format("%04d",randomIntegr(10000));
     }
 
 
