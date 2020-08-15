@@ -15,9 +15,6 @@
     <description>系统管理的web端</description>
 
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
 
     <dependencies>
 

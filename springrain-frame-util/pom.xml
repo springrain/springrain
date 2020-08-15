@@ -14,9 +14,7 @@
     <url>http://www.weicms.net</url>
     <description>frame的基础工具类模块</description>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+
 
     <dependencies>
 
@@ -144,6 +142,7 @@
 
 
     </dependencies>
+
 
 
 </project>

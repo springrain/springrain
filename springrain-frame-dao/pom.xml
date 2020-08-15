@@ -12,6 +12,9 @@
     <url>http://www.weicms.net</url>
     <description>frame的dao层的操作</description>
 
+
+
+
     <dependencies>
 
 
@@ -64,5 +67,7 @@
 
 
     </dependencies>
+
+
 
 </project>

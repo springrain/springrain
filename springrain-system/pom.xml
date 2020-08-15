@@ -11,6 +11,10 @@
 	<url>http://www.weicms.net</url>
 	<packaging>pom</packaging>
 	<description>系统管理</description>
+
+
+
+
 	<modules>
 		
 		<!-- 系统管理的service接口 -->
@@ -23,4 +27,14 @@
 		<module>springrain-system-web</module>
 		
 	</modules>
+
+
+
+
+
+
+
+
+
+
 </project>

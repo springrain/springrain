@@ -11,6 +11,8 @@
     <url>http://www.weicms.net</url>
     <description>es的集成模块</description>
 
+
+
     <dependencies>
         <dependency>
             <groupId>org.springrain</groupId>
@@ -30,6 +32,9 @@
 
 
     </dependencies>
+
+
+
 
 
 </project>

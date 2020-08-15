@@ -11,6 +11,7 @@
     <url>http://www.weicms.net</url>
     <description>rocketmq的集成模块</description>
 
+
     <dependencies>
 
 
@@ -27,6 +28,7 @@
 
 
     </dependencies>
+
 
 
 </project>

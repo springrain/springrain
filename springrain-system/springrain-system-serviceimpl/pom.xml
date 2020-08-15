@@ -12,6 +12,7 @@
 	<packaging>jar</packaging>
 	<description>系统管理的service实现</description>
 
+
 	<dependencies>
 	
 	<!-- 作为RPC实现时,需要依赖  springrain-grpc-server,作为单体就不需要依赖.-->
@@ -87,14 +88,10 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<compilerVersion>${jdk.version}</compilerVersion>
-					<source>${jdk.version}</source>
-					<target>${jdk.version}</target>
-					<encoding>${project.build.sourceEncoding}</encoding>
-				</configuration>
 			</plugin>
  -->
+
+
 
 		</plugins>
 

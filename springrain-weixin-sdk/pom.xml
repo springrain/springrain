@@ -13,9 +13,8 @@
     <packaging>jar</packaging>
     <url>http://www.weicms.net</url>
     <description>微信的SDK模块</description>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+
+
     <dependencies>
 
 

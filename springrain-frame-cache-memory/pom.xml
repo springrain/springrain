@@ -13,15 +13,17 @@
     <packaging>jar</packaging>
     <url>http://www.weicms.net</url>
     <description>memory内存类型的缓存,和redis缓存互斥,只能使用一个</description>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
-
-
     </dependencies>
+
+
+
+
+
 </project>

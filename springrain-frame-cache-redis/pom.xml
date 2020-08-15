@@ -13,9 +13,7 @@
     <packaging>jar</packaging>
     <url>http://www.weicms.net</url>
     <description>redis类型的缓存,和memory内存缓存互斥,只能使用一个</description>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+
 
 
     <dependencies>
@@ -45,6 +43,7 @@
 
 
     </dependencies>
+
 
 
 </project>

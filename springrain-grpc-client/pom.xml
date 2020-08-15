@@ -12,6 +12,7 @@
     <description>grpc的客户端模块</description>
 
 
+
     <dependencies>
 
 
@@ -96,12 +97,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <compilerVersion>${jdk.version}</compilerVersion>
-                    <source>${jdk.version}</source>
-                    <target>${jdk.version}</target>
-                    <encoding>${project.build.sourceEncoding}</encoding>
-                </configuration>
             </plugin>
 
 

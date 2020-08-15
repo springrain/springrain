@@ -11,6 +11,7 @@
     <url>http://www.weicms.net</url>
     <description>grpc的服务端模块</description>
 
+
     <dependencies>
         <dependency>
             <groupId>org.springrain</groupId>
@@ -49,14 +50,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <compilerVersion>${jdk.version}</compilerVersion>
-                    <source>${jdk.version}</source>
-                    <target>${jdk.version}</target>
-                    <encoding>${project.build.sourceEncoding}</encoding>
-                </configuration>
             </plugin>
-
 
         </plugins>
     </build>
