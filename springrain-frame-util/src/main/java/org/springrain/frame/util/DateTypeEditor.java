@@ -30,7 +30,7 @@ public class DateTypeEditor extends PropertyEditorSupport {
             setValue(null);
             return;
         }
-        Date date=DateUtils.convertString2DateAutoFormat(text);
+        Date date=DateUtils.convertString2Date(text);
         if (date!=null){
             setValue(date);
         }

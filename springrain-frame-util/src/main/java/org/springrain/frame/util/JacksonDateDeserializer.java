@@ -23,7 +23,7 @@ public class JacksonDateDeserializer extends DateDeserializers.DateDeserializer 
         if (StringUtils.isBlank(text)) {
             return super.deserialize(p, context);
         }
-        Date date=DateUtils.convertString2DateAutoFormat(text);
+        Date date=DateUtils.convertString2Date(text);
         if (date!=null){
             return date;
         }
