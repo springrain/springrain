@@ -1060,9 +1060,13 @@ public class DateUtils {
                 date=new SimpleDateFormat("yyyy-MM").parse(text);
             } else if (text.length() <= 10) {
                 date=new SimpleDateFormat("yyyy-MM-dd").parse(text);
-            } else if (text.length() <= 19){
+            } else if (text.length() <= 19&&text.contains("T")){
+                date=new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(text);
+            }else if (text.length() <= 19){
                 date=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(text);
-            } else if (text.length() <= 23){
+            } else if (text.length() <= 23&&text.contains("T")){
+                date=new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss").parse(text);
+            }else if (text.length() <= 23){
                 date=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.sss").parse(text);
             }else if (text.length() <= 24){//2020-08-09T06:57:20.078Z
                 date=new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss'Z'").parse(text);
