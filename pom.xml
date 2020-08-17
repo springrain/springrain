@@ -47,7 +47,7 @@
 
         <!-- lucene版本和es的依赖版本最好保持一致,避免冲突 -->
         <lucene.version>8.5.1</lucene.version>
-        <elasticsearch.client.version>7.8.0</elasticsearch.client.version>
+        <elasticsearch.client.version>7.8.1</elasticsearch.client.version>
 
         <rocketmq.client.version>4.6.0</rocketmq.client.version>
         <jxl.version>2.6.12</jxl.version>
