@@ -43,7 +43,7 @@ public class OrgController  extends BaseController {
 		// Page page = newPage(request);
 		// ==执行分页查询
 		List<Org> datas=orgService.findListDataByFinder(null,page,Org.class,page.getData());
-			returnObject.setQueryBean(page.getData());
+			//returnObject.setQueryBean(page.getData());
 		returnObject.setPage(page);
 		returnObject.setResult(datas);
 		return returnObject;

@@ -44,7 +44,7 @@ public class UserPlatformInfosController  extends BaseController {
 		// Page page = newPage(request);
 		// ==执行分页查询
 		List<UserPlatformInfos> datas=userPlatformInfosService.findListDataByFinder(null,page,UserPlatformInfos.class,userPlatformInfos);
-			returnObject.setQueryBean(userPlatformInfos);
+			//returnObject.setQueryBean(userPlatformInfos);
 		returnObject.setPage(page);
 		returnObject.setResult(datas);
 		return returnObject;

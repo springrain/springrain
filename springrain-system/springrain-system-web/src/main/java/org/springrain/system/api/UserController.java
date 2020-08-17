@@ -54,7 +54,7 @@ public class UserController extends BaseController {
         // Page page = newPage(request);
         // ==执行分页查询
         List<User> datas=userService.findListDataByFinder(null,page,User.class,page.getData());
-        returnObject.setQueryBean(page.getData());
+        //returnObject.setQueryBean(page.getData());
         returnObject.setPage(page);
         returnObject.setResult(datas);
         return returnObject;

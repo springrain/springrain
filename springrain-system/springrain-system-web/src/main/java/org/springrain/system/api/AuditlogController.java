@@ -68,7 +68,7 @@ public class AuditlogController extends BaseController {
 		page.setSort("desc");
 
 		List<AuditLog> datas = auditlogService.findListDataByFinder(null, page, AuditLog.class, auditlog);
-		returnObject.setQueryBean(auditlog);
+		//returnObject.setQueryBean(auditlog);
 		returnObject.setPage(page);
 		returnObject.setResult(datas);
 		return returnObject;

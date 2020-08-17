@@ -56,7 +56,7 @@ public class RoleController  extends BaseController {
 		// Page page = newPage(request);
 		// ==执行分页查询
 		List<Role> datas=roleService.findListDataByFinder(null,page,Role.class,page.getData());
-			returnObject.setQueryBean(page.getData());
+			//returnObject.setQueryBean(page.getData());
 		returnObject.setPage(page);
 		returnObject.setResult(datas);
 		return returnObject;

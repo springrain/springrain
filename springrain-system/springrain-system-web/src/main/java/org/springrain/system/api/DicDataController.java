@@ -81,7 +81,7 @@ public class DicDataController extends BaseController {
 		returnObject.setResult(datas);
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("typekey", pathtypekey);
-		returnObject.setQueryBean(dicData);// 正式如果 ，加了缓存此处删除
+		//returnObject.setQueryBean(dicData);// 正式如果 ，加了缓存此处删除
 		returnObject.setPage(page);
 		returnObject.setMap(map);
 		System.out.println(JsonUtils.writeValueAsString(returnObject));
