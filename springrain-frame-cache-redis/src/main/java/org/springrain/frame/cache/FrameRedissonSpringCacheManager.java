@@ -9,31 +9,32 @@ import org.redisson.spring.cache.RedissonSpringCacheManager;
  *
  * @author caomei
  */
-//@Deprecated
+@Deprecated
 public class FrameRedissonSpringCacheManager extends RedissonSpringCacheManager {
 
+    //全局的超时时间
     private long cacheTimeOut = 0L;
 
-    public FrameRedissonSpringCacheManager(RedissonClient redisson) {
+
+    public FrameRedissonSpringCacheManager(RedissonClient redisson, long cacheTimeOut) {
         super(redisson);
+        this.cacheTimeOut = cacheTimeOut;
     }
 
+    /**
+     * 用于设置全局的超时时间,复写父类的createDefaultConfig方法
+     *
+     * @return CacheConfig
+     */
     @Override
     protected CacheConfig createDefaultConfig() {
 
-        CacheConfig _config = new CacheConfig();
-        _config.setMaxIdleTime(cacheTimeOut);
+        CacheConfig config = new CacheConfig();
+        config.setMaxIdleTime(cacheTimeOut);
 
-        return _config;
+        return config;
 
     }
 
-    public long getCacheTimeOut() {
-        return cacheTimeOut;
-    }
-
-    public void setCacheTimeOut(long cacheTimeOut) {
-        this.cacheTimeOut = cacheTimeOut;
-    }
 
 }

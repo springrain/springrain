@@ -8,11 +8,11 @@ import org.redisson.config.ClusterServersConfig;
 import org.redisson.config.Config;
 import org.redisson.config.ReadMode;
 import org.redisson.config.SingleServerConfig;
+import org.redisson.spring.cache.RedissonSpringCacheManager;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springrain.frame.cache.FrameRedissonSpringCacheManager;
 import org.springrain.frame.cache.RedisOperation;
 
 import java.io.IOException;
@@ -55,9 +55,10 @@ public class RedisCacheConfig {
      */
     @Bean("cacheManager")
     public CacheManager cacheManager() {
+        //redisson的SpringCache 用于扩展实现Cache超时, 加上超时,吞吐量下降非常厉害,原因待查,暂时废弃
+        //FrameRedissonSpringCacheManager cacheManager = new FrameRedissonSpringCacheManager(redissonClient(),cacheTimeOut);
 
-        FrameRedissonSpringCacheManager cacheManager = new FrameRedissonSpringCacheManager(redissonClient());
-        cacheManager.setCacheTimeOut(cacheTimeOut);
+        RedissonSpringCacheManager cacheManager = new RedissonSpringCacheManager(redissonClient());
 
         return cacheManager;
     }
