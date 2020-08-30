@@ -49,7 +49,7 @@
         <lucene.version>8.6.0</lucene.version>
         <elasticsearch.client.version>7.9.0</elasticsearch.client.version>
 
-        <rocketmq.client.version>4.6.0</rocketmq.client.version>
+        <rocketmq.client.version>4.7.1</rocketmq.client.version>
         <jxl.version>2.6.12</jxl.version>
 
         <!-- GRPC -->
@@ -65,12 +65,12 @@
         <zxing.version>3.4.0</zxing.version>
         <jsoup.version>1.13.1</jsoup.version>
         <xstream.version>1.4.11.1</xstream.version>
-        <druid-spring-boot-starter.version>1.1.22</druid-spring-boot-starter.version>
+        <druid-spring-boot-starter.version>1.1.23</druid-spring-boot-starter.version>
 
         <jwt.version>3.8.3</jwt.version>
 
-        <redisson.version>3.13.2</redisson.version>
-        <fst.version>2.57</fst.version>
+        <redisson.version>3.13.3</redisson.version>
+        <fst.version>3.0.1</fst.version>
         <bcprov.version>1.64</bcprov.version>
 
         <!-- seata分布式事务 -->
