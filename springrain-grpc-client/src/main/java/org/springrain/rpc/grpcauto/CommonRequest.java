@@ -23,14 +23,14 @@ private static final long serialVersionUID = 0L;
     request_ = com.google.protobuf.ByteString.EMPTY;
   }
 
-  @java.lang.Override
+  @Override
   @SuppressWarnings({"unused"})
-  protected java.lang.Object newInstance(
+  protected Object newInstance(
       UnusedPrivateParameter unused) {
     return new CommonRequest();
   }
 
-  @java.lang.Override
+  @Override
   public final com.google.protobuf.UnknownFieldSet
   getUnknownFields() {
     return this.unknownFields;
@@ -41,7 +41,7 @@ private static final long serialVersionUID = 0L;
       throws com.google.protobuf.InvalidProtocolBufferException {
     this();
     if (extensionRegistry == null) {
-      throw new java.lang.NullPointerException();
+      throw new NullPointerException();
     }
     com.google.protobuf.UnknownFieldSet.Builder unknownFields =
         com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -84,15 +84,15 @@ private static final long serialVersionUID = 0L;
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return org.springrain.rpc.grpcauto.GrpcAutoCreateService.internal_static_CommonRequest_descriptor;
+    return GrpcAutoCreateService.internal_static_CommonRequest_descriptor;
   }
 
-  @java.lang.Override
-  protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+  @Override
+  protected FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return org.springrain.rpc.grpcauto.GrpcAutoCreateService.internal_static_CommonRequest_fieldAccessorTable
+    return GrpcAutoCreateService.internal_static_CommonRequest_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            org.springrain.rpc.grpcauto.CommonRequest.class, org.springrain.rpc.grpcauto.CommonRequest.Builder.class);
+            CommonRequest.class, Builder.class);
   }
 
   public static final int SERIALIZE_FIELD_NUMBER = 1;
@@ -101,7 +101,7 @@ private static final long serialVersionUID = 0L;
    * <code>int32 serialize = 1;</code>
    * @return The serialize.
    */
-  @java.lang.Override
+  @Override
   public int getSerialize() {
     return serialize_;
   }
@@ -112,13 +112,13 @@ private static final long serialVersionUID = 0L;
    * <code>bytes request = 2;</code>
    * @return The request.
    */
-  @java.lang.Override
+  @Override
   public com.google.protobuf.ByteString getRequest() {
     return request_;
   }
 
   private byte memoizedIsInitialized = -1;
-  @java.lang.Override
+  @Override
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
     if (isInitialized == 1) return true;
@@ -128,7 +128,7 @@ private static final long serialVersionUID = 0L;
     return true;
   }
 
-  @java.lang.Override
+  @Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
     if (serialize_ != 0) {
@@ -140,7 +140,7 @@ private static final long serialVersionUID = 0L;
     unknownFields.writeTo(output);
   }
 
-  @java.lang.Override
+  @Override
   public int getSerializedSize() {
     int size = memoizedSize;
     if (size != -1) return size;
@@ -159,15 +159,15 @@ private static final long serialVersionUID = 0L;
     return size;
   }
 
-  @java.lang.Override
-  public boolean equals(final java.lang.Object obj) {
+  @Override
+  public boolean equals(final Object obj) {
     if (obj == this) {
      return true;
     }
-    if (!(obj instanceof org.springrain.rpc.grpcauto.CommonRequest)) {
+    if (!(obj instanceof CommonRequest)) {
       return super.equals(obj);
     }
-    org.springrain.rpc.grpcauto.CommonRequest other = (org.springrain.rpc.grpcauto.CommonRequest) obj;
+    CommonRequest other = (CommonRequest) obj;
 
     if (getSerialize()
         != other.getSerialize()) return false;
@@ -177,7 +177,7 @@ private static final long serialVersionUID = 0L;
     return true;
   }
 
-  @java.lang.Override
+  @Override
   public int hashCode() {
     if (memoizedHashCode != 0) {
       return memoizedHashCode;
@@ -193,69 +193,69 @@ private static final long serialVersionUID = 0L;
     return hash;
   }
 
-  public static org.springrain.rpc.grpcauto.CommonRequest parseFrom(
+  public static CommonRequest parseFrom(
       java.nio.ByteBuffer data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static org.springrain.rpc.grpcauto.CommonRequest parseFrom(
+  public static CommonRequest parseFrom(
       java.nio.ByteBuffer data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static org.springrain.rpc.grpcauto.CommonRequest parseFrom(
+  public static CommonRequest parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static org.springrain.rpc.grpcauto.CommonRequest parseFrom(
+  public static CommonRequest parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static org.springrain.rpc.grpcauto.CommonRequest parseFrom(byte[] data)
+  public static CommonRequest parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static org.springrain.rpc.grpcauto.CommonRequest parseFrom(
+  public static CommonRequest parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static org.springrain.rpc.grpcauto.CommonRequest parseFrom(java.io.InputStream input)
+  public static CommonRequest parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static org.springrain.rpc.grpcauto.CommonRequest parseFrom(
+  public static CommonRequest parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
-  public static org.springrain.rpc.grpcauto.CommonRequest parseDelimitedFrom(java.io.InputStream input)
+  public static CommonRequest parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
-  public static org.springrain.rpc.grpcauto.CommonRequest parseDelimitedFrom(
+  public static CommonRequest parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-  public static org.springrain.rpc.grpcauto.CommonRequest parseFrom(
+  public static CommonRequest parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static org.springrain.rpc.grpcauto.CommonRequest parseFrom(
+  public static CommonRequest parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -263,23 +263,23 @@ private static final long serialVersionUID = 0L;
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
-  @java.lang.Override
+  @Override
   public Builder newBuilderForType() { return newBuilder(); }
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(org.springrain.rpc.grpcauto.CommonRequest prototype) {
+  public static Builder newBuilder(CommonRequest prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
-  @java.lang.Override
+  @Override
   public Builder toBuilder() {
     return this == DEFAULT_INSTANCE
         ? new Builder() : new Builder().mergeFrom(this);
   }
 
-  @java.lang.Override
+  @Override
   protected Builder newBuilderForType(
-      com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      BuilderParent parent) {
     Builder builder = new Builder(parent);
     return builder;
   }
@@ -293,18 +293,18 @@ private static final long serialVersionUID = 0L;
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
       // @@protoc_insertion_point(builder_implements:CommonRequest)
-      org.springrain.rpc.grpcauto.CommonRequestOrBuilder {
+      CommonRequestOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return org.springrain.rpc.grpcauto.GrpcAutoCreateService.internal_static_CommonRequest_descriptor;
+      return GrpcAutoCreateService.internal_static_CommonRequest_descriptor;
     }
 
-    @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+    @Override
+    protected FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return org.springrain.rpc.grpcauto.GrpcAutoCreateService.internal_static_CommonRequest_fieldAccessorTable
+      return GrpcAutoCreateService.internal_static_CommonRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              org.springrain.rpc.grpcauto.CommonRequest.class, org.springrain.rpc.grpcauto.CommonRequest.Builder.class);
+              CommonRequest.class, Builder.class);
     }
 
     // Construct using org.springrain.rpc.grpcauto.CommonRequest.newBuilder()
@@ -313,7 +313,7 @@ private static final long serialVersionUID = 0L;
     }
 
     private Builder(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        BuilderParent parent) {
       super(parent);
       maybeForceBuilderInitialization();
     }
@@ -322,7 +322,7 @@ private static final long serialVersionUID = 0L;
               .alwaysUseFieldBuilders) {
       }
     }
-    @java.lang.Override
+    @Override
     public Builder clear() {
       super.clear();
       serialize_ = 0;
@@ -332,79 +332,79 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    @java.lang.Override
+    @Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return org.springrain.rpc.grpcauto.GrpcAutoCreateService.internal_static_CommonRequest_descriptor;
+      return GrpcAutoCreateService.internal_static_CommonRequest_descriptor;
     }
 
-    @java.lang.Override
-    public org.springrain.rpc.grpcauto.CommonRequest getDefaultInstanceForType() {
-      return org.springrain.rpc.grpcauto.CommonRequest.getDefaultInstance();
+    @Override
+    public CommonRequest getDefaultInstanceForType() {
+      return CommonRequest.getDefaultInstance();
     }
 
-    @java.lang.Override
-    public org.springrain.rpc.grpcauto.CommonRequest build() {
-      org.springrain.rpc.grpcauto.CommonRequest result = buildPartial();
+    @Override
+    public CommonRequest build() {
+      CommonRequest result = buildPartial();
       if (!result.isInitialized()) {
         throw newUninitializedMessageException(result);
       }
       return result;
     }
 
-    @java.lang.Override
-    public org.springrain.rpc.grpcauto.CommonRequest buildPartial() {
-      org.springrain.rpc.grpcauto.CommonRequest result = new org.springrain.rpc.grpcauto.CommonRequest(this);
+    @Override
+    public CommonRequest buildPartial() {
+      CommonRequest result = new CommonRequest(this);
       result.serialize_ = serialize_;
       result.request_ = request_;
       onBuilt();
       return result;
     }
 
-    @java.lang.Override
+    @Override
     public Builder clone() {
       return super.clone();
     }
-    @java.lang.Override
+    @Override
     public Builder setField(
         com.google.protobuf.Descriptors.FieldDescriptor field,
-        java.lang.Object value) {
+        Object value) {
       return super.setField(field, value);
     }
-    @java.lang.Override
+    @Override
     public Builder clearField(
         com.google.protobuf.Descriptors.FieldDescriptor field) {
       return super.clearField(field);
     }
-    @java.lang.Override
+    @Override
     public Builder clearOneof(
         com.google.protobuf.Descriptors.OneofDescriptor oneof) {
       return super.clearOneof(oneof);
     }
-    @java.lang.Override
+    @Override
     public Builder setRepeatedField(
         com.google.protobuf.Descriptors.FieldDescriptor field,
-        int index, java.lang.Object value) {
+        int index, Object value) {
       return super.setRepeatedField(field, index, value);
     }
-    @java.lang.Override
+    @Override
     public Builder addRepeatedField(
         com.google.protobuf.Descriptors.FieldDescriptor field,
-        java.lang.Object value) {
+        Object value) {
       return super.addRepeatedField(field, value);
     }
-    @java.lang.Override
+    @Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof org.springrain.rpc.grpcauto.CommonRequest) {
-        return mergeFrom((org.springrain.rpc.grpcauto.CommonRequest)other);
+      if (other instanceof CommonRequest) {
+        return mergeFrom((CommonRequest)other);
       } else {
         super.mergeFrom(other);
         return this;
       }
     }
 
-    public Builder mergeFrom(org.springrain.rpc.grpcauto.CommonRequest other) {
-      if (other == org.springrain.rpc.grpcauto.CommonRequest.getDefaultInstance()) return this;
+    public Builder mergeFrom(CommonRequest other) {
+      if (other == CommonRequest.getDefaultInstance()) return this;
       if (other.getSerialize() != 0) {
         setSerialize(other.getSerialize());
       }
@@ -416,21 +416,21 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    @java.lang.Override
+    @Override
     public final boolean isInitialized() {
       return true;
     }
 
-    @java.lang.Override
+    @Override
     public Builder mergeFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      org.springrain.rpc.grpcauto.CommonRequest parsedMessage = null;
+      CommonRequest parsedMessage = null;
       try {
         parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        parsedMessage = (org.springrain.rpc.grpcauto.CommonRequest) e.getUnfinishedMessage();
+        parsedMessage = (CommonRequest) e.getUnfinishedMessage();
         throw e.unwrapIOException();
       } finally {
         if (parsedMessage != null) {
@@ -445,7 +445,7 @@ private static final long serialVersionUID = 0L;
      * <code>int32 serialize = 1;</code>
      * @return The serialize.
      */
-    @java.lang.Override
+    @Override
     public int getSerialize() {
       return serialize_;
     }
@@ -476,7 +476,7 @@ private static final long serialVersionUID = 0L;
      * <code>bytes request = 2;</code>
      * @return The request.
      */
-    @java.lang.Override
+    @Override
     public com.google.protobuf.ByteString getRequest() {
       return request_;
     }
@@ -504,13 +504,13 @@ private static final long serialVersionUID = 0L;
       onChanged();
       return this;
     }
-    @java.lang.Override
+    @Override
     public final Builder setUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {
       return super.setUnknownFields(unknownFields);
     }
 
-    @java.lang.Override
+    @Override
     public final Builder mergeUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {
       return super.mergeUnknownFields(unknownFields);
@@ -521,18 +521,18 @@ private static final long serialVersionUID = 0L;
   }
 
   // @@protoc_insertion_point(class_scope:CommonRequest)
-  private static final org.springrain.rpc.grpcauto.CommonRequest DEFAULT_INSTANCE;
+  private static final CommonRequest DEFAULT_INSTANCE;
   static {
-    DEFAULT_INSTANCE = new org.springrain.rpc.grpcauto.CommonRequest();
+    DEFAULT_INSTANCE = new CommonRequest();
   }
 
-  public static org.springrain.rpc.grpcauto.CommonRequest getDefaultInstance() {
+  public static CommonRequest getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
   private static final com.google.protobuf.Parser<CommonRequest>
       PARSER = new com.google.protobuf.AbstractParser<CommonRequest>() {
-    @java.lang.Override
+    @Override
     public CommonRequest parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -545,13 +545,13 @@ private static final long serialVersionUID = 0L;
     return PARSER;
   }
 
-  @java.lang.Override
+  @Override
   public com.google.protobuf.Parser<CommonRequest> getParserForType() {
     return PARSER;
   }
 
-  @java.lang.Override
-  public org.springrain.rpc.grpcauto.CommonRequest getDefaultInstanceForType() {
+  @Override
+  public CommonRequest getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
 
