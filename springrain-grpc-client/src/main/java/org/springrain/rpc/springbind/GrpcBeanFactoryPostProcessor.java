@@ -195,7 +195,6 @@ public class GrpcBeanFactoryPostProcessor implements BeanFactoryPostProcessor, E
     }
 
 
-
     @Override
     public void setEnvironment(Environment environment) {
         this.environment = environment;
