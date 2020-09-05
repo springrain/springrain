@@ -47,8 +47,8 @@
         <javax.persistence.version>2.2.1</javax.persistence.version>
 
         <!-- lucene版本和es的依赖版本最好保持一致,避免冲突 -->
-        <lucene.version>8.6.0</lucene.version>
-        <elasticsearch.client.version>7.9.0</elasticsearch.client.version>
+        <lucene.version>8.6.2</lucene.version>
+        <elasticsearch.client.version>7.9.1</elasticsearch.client.version>
 
         <rocketmq.client.version>4.7.1</rocketmq.client.version>
         <jxl.version>2.6.12</jxl.version>
@@ -70,7 +70,7 @@
 
         <jwt.version>3.8.3</jwt.version>
 
-        <redisson.version>3.13.3</redisson.version>
+        <redisson.version>3.13.4</redisson.version>
         <!--3.x版本依赖jdk 14 -->
         <fst.version>2.57</fst.version>
         <bcprov.version>1.64</bcprov.version>
