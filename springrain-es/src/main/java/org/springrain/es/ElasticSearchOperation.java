@@ -676,14 +676,4 @@ public class ElasticSearchOperation {
         this.client = client;
     }
 
-
-    /*
-    public void main(String[] args) {
-		String json="{\"id\":\"2222222\",\"businessId\":\"c_101342-s_10020\",\"commentContent\":\"还挺好的，比药店便宜，就是快递比较慢，急用的话不太方便\",\"pictureUrl\":\"http://youde.oss-cn-beijing.aliyuncs.com/4661d804a29548459f7a913680b65048.jpg?Expires=1822125829&OSSAccessKeyId=LTAI5oSs4Ylanj0m&Signature=zPaNMGTXD41hllsHZMVWxVlgB%2Bs%3D,http://youde.oss-cn-beijing.aliyuncs.com/4661d804a29548459f7a913680b65048.jpg?Expires=1822125829&OSSAccessKeyId=LTAI5oSs4Ylanj0m&Signature=zPaNMGTXD41hllsHZMVWxVlgB%2Bs%3D,http://youde.oss-cn-beijing.aliyuncs.com/4661d804a29548459f7a913680b65048.jpg?Expires=1822125829&OSSAccessKeyId=LTAI5oSs4Ylanj0m&Signature=zPaNMGTXD41hllsHZMVWxVlgB%2Bs%3D,http://youde.oss-cn-beijing.aliyuncs.com/4661d804a29548459f7a913680b65048.jpg?Expires=1822125829&OSSAccessKeyId=LTAI5oSs4Ylanj0m&Signature=zPaNMGTXD41hllsHZMVWxVlgB%2Bs%3D\",\"commentAccount\":\"yaoyakun\",\"commnentUserId\":\"u_11157\",\"createTime\":\"2017-10-14 10:04:10+0800\",\"doUserId\":null,\"siteId\":\"s_10020\",\"descgrade\":5,\"servegrade\":5,\"respograde\":2,\"reviewComment\":null,\"orderId\":\"201710111033346350\",\"commentType\":1,\"anonymous\":1,\"reCommentContent\":null,\"rePictureUrl\":null,\"state\":1,\"avgGrade\":5,\"ctype\":1,\"commentUserHeadImg\":null,\"productCode\":\"1029\",\"goodsTitle\":\"双花草珊瑚含片5\",\"goodsThumbnail\":\"http://youde.oss-cn-beijing.aliyuncs.com/c2f4c1ce3ac04d54b33e8dcaff4c2733.jpg?Expires=1822127525&OSSAccessKeyId=LTAI5oSs4Ylanj0m&Signature=2wOqpOftTM1AUyTl2HzyCkIJaAY%3D\",\"goodsSpecValue\":\"黑色  xl  \",\"userMobile\":\"15093303996\"}";
-		SpComment readValue = JsonUtils.readValue(json, SpComment.class);
-		System.out.println(readValue);
-			
-	}
-	*/
-
 }
