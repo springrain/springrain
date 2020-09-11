@@ -1,5 +1,7 @@
-## 6.0.0 项目入口是springrain-system-web,基于Istio实现微服务,正在整理文档.
-## 6.0.0 基于VUE前后端分离,使用JWT认证.前端项目是[springrain-vue](https://gitee.com/chunanyong/springrain-vue)
+## 微服务
+ 6.0.0 项目入口是springrain-system-web,基于Istio实现微服务,正在整理文档.
+## 前后分离
+ 6.0.0 基于VUE前后端分离,使用JWT认证.前端项目是[springrain-vue](https://gitee.com/chunanyong/springrain-vue)
 
 ## 实现了什么?
 * 不增加学习成本,像单体一样开发分布式微服务.
@@ -26,12 +28,13 @@
 * 启动springrain-system-web
 * 访问http://127.0.0.1:8080/api/checkHealth
 
-### 项目名为springrain[春雨]我的个人博客是 http://www.weicms.net </br>
-### 文档
+## 博客
+项目名为springrain[春雨]我的个人博客是 http://www.jiagou.com </br>
+## 文档
 https://gitee.com/chunanyong/springrain/tree/master/springrain-system/springrain-system-web/doc  </br>
-### 代码生成器
+## 代码生成器
 https://gitee.com/chunanyong/springrain/tree/master/springrain-gencode  </br>
-### sql脚本
+## sql脚本
 https://gitee.com/chunanyong/springrain/tree/master/springrain-system/springrain-system-web/sql  </br>
 
 
@@ -47,7 +50,7 @@ springrain自带代码生成器,能够生成对表的增删改查的逻辑代码
 
 数据库调优可以使用druid输出慢sql,比分析xml中的语句更直观,springrain所有的sql语句都使用Finder封装管理,只要查看Finder的引用即可.
 
-一些测试案例：
+## 案例
 
 ```java
 //就极简而言,一个数据库只需要一个Service,就可以管理这个数据库的任意一张表 
