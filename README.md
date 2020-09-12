@@ -30,6 +30,8 @@
 
 ## 博客
 项目名为springrain[春雨]我的个人博客是 http://www.jiagou.com </br>
+![架构经验公众号](https://images.gitee.com/uploads/images/2020/0912/130042_dbfb1e7d_686.jpeg "qrcode_300x300.jpg")
+
 ## 文档
 https://gitee.com/chunanyong/springrain/tree/master/springrain-system/springrain-system-web/doc  </br>
 ## 代码生成器
