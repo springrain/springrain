@@ -29,7 +29,7 @@
 * 访问http://127.0.0.1:8080/api/checkHealth
 
 ## 博客/微信公众号
-项目名为springrain[春雨]博客 http://www.jiagou.com  
+**博客 [https://www.jiagou.com](https://www.jiagou.com)**  
 ![架构经验公众号](https://images.gitee.com/uploads/images/2020/0912/130042_dbfb1e7d_686.jpeg "qrcode_300x300.jpg")  
 ## 文档
 https://gitee.com/chunanyong/springrain/tree/master/springrain-system/springrain-system-web/doc  </br>
