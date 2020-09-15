@@ -83,7 +83,7 @@ public class DataSourceConfig {
         // 如果使用了globalTransactionScanner,就一定要使用DataSourceProxy
         // return new DataSourceProxy(dataSource);
 
-        // 如果没有使用globalTransactionScanner
+        // 如果使用Seata
         if (GlobalStatic.seataEnable) {
             // 设置seata的datasource代理
             DataSourceProxy proxy = new DataSourceProxy(dataSource);

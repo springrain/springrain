@@ -78,7 +78,7 @@ public class GrpcBeanFactoryPostProcessor implements BeanFactoryPostProcessor, E
 
             Class<?> clazz = Class.forName(rpcServiceClassName);
 
-            if ((!clazz.isInterface()) || (!clazz.isAnnotationPresent(RpcServiceAnnotation.class))) {// 只处理有@RpcService注解的					// 接口
+            if ((!clazz.isInterface()) || (!clazz.isAnnotationPresent(RpcServiceAnnotation.class))) {// 只处理有@RpcService注解的接口
                 continue;
             }
 
