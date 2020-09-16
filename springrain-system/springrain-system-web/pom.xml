@@ -19,8 +19,7 @@
     <dependencies>
 
 
-        <!-- 单体项目依赖springrain-system-serviceimpl,如果是分体依赖 springrain-system-service 接口即可 -->
-
+        <!-- 单体项目依赖springrain-system-serviceimpl,如果是微服务依赖 springrain-system-service 接口即可 -->
         <dependency>
             <groupId>org.springrain</groupId>
             <artifactId>springrain-system-serviceimpl</artifactId>
