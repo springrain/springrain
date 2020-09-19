@@ -7,6 +7,7 @@ import org.springrain.frame.dao.BaseJdbcDaoImpl;
 import org.springrain.frame.dao.IBaseJdbcDao;
 import org.springrain.frame.dao.dialect.IDialect;
 import org.springrain.frame.entity.AuditLog;
+import org.springrain.frame.util.SpringUtils;
 import org.springrain.rpc.sessionuser.SessionUser;
 
 import javax.annotation.Resource;
@@ -14,7 +15,6 @@ import javax.annotation.Resource;
 /**
  * springrain项目的基础Dao,代理demo数据库
  * 
- * @copyright {@link weicms.net}
  * @author springrain<Auto generate>
  * @version 2013-03-19 11:08:15
  * @see BaseSpringrainDaoImpl
@@ -32,9 +32,11 @@ public class BaseSpringrainDaoImpl extends BaseJdbcDaoImpl implements IBaseJdbcD
 	NamedParameterJdbcTemplate jdbc;
 	/**
 	 * demo 数据库的jdbcCall,对应 spring配置的 jdbcCall bean
+	 * @Resource 这样注入 jdbcCall 还是单例,原因待查......
 	 */
-	@Resource
-	public SimpleJdbcCall jdbcCall;
+	//@Resource
+	//public SimpleJdbcCall jdbcCall;
+
 	/**
 	 * mysqlDialect 是mysql的方言,springBean的name,可以参考 IDialect的实现
 	 */
@@ -51,7 +53,11 @@ public class BaseSpringrainDaoImpl extends BaseJdbcDaoImpl implements IBaseJdbcD
 	 */
 	@Override
 	public SimpleJdbcCall getJdbcCall() {
-		return this.jdbcCall;
+
+		//return this.jdbcCall;
+		//直接@Resource注入还是一个单例,手动获取新的bean对象
+		SimpleJdbcCall simpleJdbcCall=(SimpleJdbcCall)SpringUtils.getBean("jdbcCall");
+		return simpleJdbcCall;
 	}
 
 	/**
