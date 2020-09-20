@@ -84,6 +84,8 @@ public class CmdUtils {
         cmds.add("/c");
         cmds.add(commandStr);
         ProcessBuilder pb = new ProcessBuilder(cmds);
+        //正常信息和错误信息合并输出,有些情况信息会在错误信息里,例如ffmpeg
+        pb.redirectErrorStream(true);
         return execCmd(pb);
     }
 
@@ -99,6 +101,8 @@ public class CmdUtils {
         cmds.add("-c");
         cmds.add(commandStr);
         ProcessBuilder pb = new ProcessBuilder(cmds);
+        //正常信息和错误信息合并输出,有些情况信息会在错误信息里,例如ffmpeg
+        pb.redirectErrorStream(true);
         return execCmd(pb);
     }
 
