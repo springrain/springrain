@@ -30,7 +30,7 @@
 
 ## 头条号
 **博客 [https://www.jiagou.com](https://www.jiagou.com)**  
-![架构头条号](https://images.gitee.com/uploads/images/2020/0920/213826_38708bb4_686.jpeg "toutiao_300x300.jpg")  
+![架构头条号](https://images.gitee.com/uploads/images/2020/0920/215246_9bd9f87d_686.jpeg "toutiao_300x300.jpg") 
 ## 文档
 https://gitee.com/chunanyong/springrain/tree/master/springrain-system/springrain-system-web/doc  </br>
 ## 代码生成器
