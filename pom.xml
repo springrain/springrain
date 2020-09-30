@@ -70,7 +70,7 @@
 
         <jwt.version>3.8.3</jwt.version>
 
-        <redisson.version>3.13.4</redisson.version>
+        <redisson.version>3.13.5</redisson.version>
         <!--3.x版本依赖jdk 14 -->
         <fst.version>2.57</fst.version>
         <bcprov.version>1.64</bcprov.version>
