@@ -43,10 +43,8 @@ public class LoginController extends BaseController {
 
     private static final String redirect_uri = "";
 
-
     /**
      * 健康检查
-     *
      * @return
      */
     @RequestMapping(value = "/checkHealth", method = RequestMethod.GET)
@@ -57,65 +55,60 @@ public class LoginController extends BaseController {
 
     /**
      * 生成验证码
-     *
-     * @return
-     * @throws IOException
-     */
-    @RequestMapping(value = "/getCaptcha", method = RequestMethod.POST)
-    public ReturnDatas getCaptcha(String captchaKey) throws Exception {
-
-        // HttpHeaders headers = new HttpHeaders();
-        // headers.setContentType(MediaType.IMAGE_JPEG);
-        ReturnDatas returnDatas = ReturnDatas.getSuccessReturnDatas();
-        try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
-            StringBuilder code = new StringBuilder();
-            BufferedImage image = CaptchaUtils.genRandomCodeImage(code);
-
-            if (StringUtils.isNotBlank(captchaKey)) {
-                userService.evictByKey(GlobalStatic.springranloginCaptchaKey,captchaKey);
-            } else {
-                captchaKey = SecUtils.getUUID();
-            }
-            userService.putByCache(GlobalStatic.springranloginCaptchaKey,captchaKey, code.toString());
-
-            ImageIO.write(image, "JPEG", os);
-            String imageBase64 = String.format("data:image/jpeg;base64,%s", SecUtils.encoderByBase64(os.toByteArray()));
-
-            ConcurrentMap<String, String> concurrentMap = Maps.newConcurrentMap();
-            concurrentMap.put("captchaKey", captchaKey);
-            concurrentMap.put("imageBase64", imageBase64);
-            returnDatas.setResult(concurrentMap);
-
-        } catch (IOException e) {
-            logger.error(e.getMessage(), e);
-            throw e;
-        }
-
-        return returnDatas;
-    }
-
-    /**
-     * 处理后台用户登录
-     *
+     * @param captchaKey
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "/system/logout", method = RequestMethod.POST)
-    public ReturnDatas systemLogout() throws Exception {
+	@RequestMapping(value = "/getCaptcha", method = RequestMethod.POST)
+	public ReturnDatas getCaptcha(String captchaKey) throws Exception {
+		// HttpHeaders headers = new HttpHeaders();
+		// headers.setContentType(MediaType.IMAGE_JPEG);
+		
+		ReturnDatas returnDatas = ReturnDatas.getSuccessReturnDatas();
+		
+		try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
+			StringBuilder code = new StringBuilder();
+			BufferedImage image = CaptchaUtils.genRandomCodeImage(code);
 
+			if (StringUtils.isNotBlank(captchaKey)) {
+				userService.evictByKey(GlobalStatic.springranloginCaptchaKey, captchaKey);
+			} else {
+				captchaKey = SecUtils.getUUID();
+			}
+			userService.putByCache(GlobalStatic.springranloginCaptchaKey, captchaKey, code.toString());
 
-        // 获取当前登录人
-        String userId = SessionUser.getUserId();
-        if (StringUtils.isBlank(userId)) {
-            return ReturnDatas.getErrorReturnDatas("用户不存在");
-        }
+			ImageIO.write(image, "JPEG", os);
+			String imageBase64 = String.format("data:image/jpeg;base64,%s", SecUtils.encoderByBase64(os.toByteArray()));
 
+			ConcurrentMap<String, String> concurrentMap = Maps.newConcurrentMap();
+			concurrentMap.put("captchaKey", captchaKey);
+			concurrentMap.put("imageBase64", imageBase64);
+			returnDatas.setResult(concurrentMap);
 
-        ReturnDatas returnDatas = ReturnDatas.getSuccessReturnDatas();
+		} catch (IOException e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
 
-        return returnDatas;
+		return returnDatas;
+	}
 
-    }
+    /**
+     * 退出后台登录用户
+     * @return
+     * @throws Exception
+     */
+	@RequestMapping(value = "/system/logout", method = RequestMethod.POST)
+	public ReturnDatas systemLogout() throws Exception {
+
+		// 获取当前登录人
+		String userId = SessionUser.getUserId();
+		if (StringUtils.isBlank(userId)) {
+			return ReturnDatas.getErrorReturnDatas("用户不存在");
+		}
+
+		return ReturnDatas.getSuccessReturnDatas();
+	}
 
     /**
      * 获取登陆二维码
@@ -131,7 +124,7 @@ public class LoginController extends BaseController {
         returnObject.setResult(url);
         return returnObject;
     }
-//
+
 //    {
 //        "access_token":"ACCESS_TOKEN",
 //            "expires_in":7200,
@@ -150,12 +143,11 @@ public class LoginController extends BaseController {
     }
 
 
-
-
     /**
      * 处理后台用户登录
      *
-     * @param userVO
+     * @param account
+     * @param password
      * @return
      * @throws Exception
      */
@@ -168,9 +160,7 @@ public class LoginController extends BaseController {
 
         if (StringUtils.isBlank(userVO.getPassword())) {
             return ReturnDatas.getErrorReturnDatas("密码不能为空");
-
         }
-
 
         ConcurrentMap resutltMap = Maps.newConcurrentMap();
         // 处理密码错误缓存
@@ -183,6 +173,7 @@ public class LoginController extends BaseController {
                     + GlobalStatic.ERROR_LOGIN_LOCK_MINUTE + "分钟之后再尝试登录!";
             Long endDateLong = userService.getByCache(GlobalStatic.springrainloginCacheKey,userVO.getAccount() + "_endDateLong", Long.class);
             Long now = System.currentTimeMillis() / 1000;// 秒
+            
             if (endDateLong == null) {
                 endDateLong = now + GlobalStatic.ERROR_LOGIN_LOCK_MINUTE * 60;// 秒
                 userService.putByCache(GlobalStatic.springrainloginCacheKey,userVO.getAccount() + "_endDateLong",endDateLong);
@@ -194,32 +185,23 @@ public class LoginController extends BaseController {
             } else {
                 return ReturnDatas.getErrorReturnDatas(errorMessage);
             }
-
         }
 
+		User user = userService.findLoginUser(userVO.getAccount(), SecUtils.encoderByMd5With32Bit(userVO.getPassword()),
+				userVO.getUserType());
+		
+		if (user == null) {// 登录失败
+			if (errorLogincount == null) {
+				errorLogincount = 0;
+			}
+			errorLogincount = errorLogincount + 1;
+			userService.putByCache(GlobalStatic.springrainloginCacheKey, errorLogincountKey, errorLogincount);
 
-        User user = userService.findLoginUser(userVO.getAccount(), userVO.getPassword(), userVO.getUserType());
-        if (user == null) {//登录失败
-            if (errorLogincount == null) {
-                errorLogincount = 0;
-            }
-            errorLogincount = errorLogincount + 1;
-            userService.putByCache(GlobalStatic.springrainloginCacheKey,errorLogincountKey, errorLogincount);
+			return ReturnDatas.getErrorReturnDatas("账号或密码错误");
+		}
 
-            return ReturnDatas.getErrorReturnDatas("账号或密码错误");
-        }
-
-
-
-        String jwtToken = userService.wrapJwtTokenByUser(user);
-
-
-
-        resutltMap.put(GlobalStatic.jwtTokenKey, jwtToken);
-
-
-        ReturnDatas returnDatas = ReturnDatas.getSuccessReturnDatas();
-
+		String jwtToken = userService.wrapJwtTokenByUser(user);
+		resutltMap.put(GlobalStatic.jwtTokenKey, jwtToken);
 
         //设置  权限菜单数据
         // List<Menu> listMenu = userRoleMenuService.findMenuTreeByUsreId(user.getId());
@@ -237,7 +219,7 @@ public class LoginController extends BaseController {
         //  resutltMap.put("menus",listMap);
         // resutltMap.put("roles",roles);
 
-
+		ReturnDatas returnDatas = ReturnDatas.getSuccessReturnDatas();
         returnDatas.setResult(resutltMap);
 
         //登录成功,清空错误次数
@@ -272,6 +254,5 @@ public class LoginController extends BaseController {
     public ReturnDatas workLoginPost(@RequestBody UserVO userVO) throws Exception {
         return systemLoginPost(userVO);
     }
-
-
+    
 }
