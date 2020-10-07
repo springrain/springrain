@@ -19,7 +19,7 @@ import java.util.Map;
 
 
 /**
- * TODO 在此加入类描述
+ * TODO 菜单列表
  *
  * @author springrain<Auto generate>
  * @version 2019-07-26 17:52:10
@@ -34,8 +34,7 @@ public class MenuController extends BaseController {
     private IUserRoleMenuService userRoleMenuServiceImpl;
 
     /**
-     * 列表数据
-     *
+     * 菜单列表数据
      * @param menu
      * @param page
      * @return

@@ -29,19 +29,15 @@ public class UserController extends BaseController {
     @Resource
     private IUserRoleMenuService userRoleMenuService;
 
-
     @Resource
     private IUserRoleOrgService userRoleOrgService;
 
     @Resource
     private IUserService userService;
 
-
-
-
     /**
-     * 列表数据
-     *
+     * 后台用户列表
+     * 
      * @param page
      * @return
      * @throws Exception
@@ -49,14 +45,15 @@ public class UserController extends BaseController {
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     public ReturnDatas<User> list(@RequestBody Page<User> page)
             throws Exception {
-        ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
+        @SuppressWarnings("rawtypes")
+		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
         // ==构造分页请求
         // Page page = newPage(request);
         // ==执行分页查询
         List<User> datas=userService.findListDataByFinder(null,page,User.class,page.getData());
         //returnObject.setQueryBean(page.getData());
-        returnObject.setPage(page);
         returnObject.setResult(datas);
+        returnObject.setPage(page);
         return returnObject;
     }
 
