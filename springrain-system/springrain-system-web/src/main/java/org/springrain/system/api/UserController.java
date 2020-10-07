@@ -35,44 +35,40 @@ public class UserController extends BaseController {
     @Resource
     private IUserService userService;
 
-    /**
-     * 后台用户列表
-     * 
-     * @param page
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value = "/list", method = RequestMethod.POST)
-    public ReturnDatas<User> list(@RequestBody Page<User> page)
-            throws Exception {
-        @SuppressWarnings("rawtypes")
+	/**
+	 * 后台用户列表
+	 * 
+	 * @param page
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/list", method = RequestMethod.POST)
+	public ReturnDatas<User> list(@RequestBody Page<User> page) throws Exception {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
-        // ==构造分页请求
-        // Page page = newPage(request);
-        // ==执行分页查询
-        List<User> datas=userService.findListDataByFinder(null,page,User.class,page.getData());
-        //returnObject.setQueryBean(page.getData());
-        returnObject.setResult(datas);
-        returnObject.setPage(page);
-        return returnObject;
-    }
 
-    /**
-     * 查看的Json格式数据
-     */
-    @RequestMapping(value = "/look", method = RequestMethod.POST)
-    public ReturnDatas<User> look(java.lang.String id) throws Exception {
-        ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
+		List<User> datas = userService.findListDataByFinder(null, page, User.class, page.getData());
 
-        if(StringUtils.isNotBlank(id)){
-            User user = userService.findUserById(id);
-            returnObject.setResult(user);
-        }else{
-            returnObject.setStatus(ReturnDatas.ERROR);
-        }
-        return returnObject;
+		returnObject.setResult(datas);
+		returnObject.setPage(page);
+		return returnObject;
+	}
 
-    }
+	/**
+	 * 查看的Json格式数据
+	 */
+	@RequestMapping(value = "/look", method = RequestMethod.POST)
+	public ReturnDatas<User> look(java.lang.String id) throws Exception {
+		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
+
+		if (StringUtils.isNotBlank(id)) {
+			User user = userService.findUserById(id);
+			returnObject.setResult(user);
+		} else {
+			returnObject.setStatus(ReturnDatas.ERROR);
+		}
+		return returnObject;
+
+	}
 
     /**
      * 保存 操作,返回json格式数据
@@ -124,7 +120,6 @@ public class UserController extends BaseController {
             returnObject.setMessage(MessageUtils.UPDATE_ERROR);
         }
         return returnObject;
-
     }
 
 
@@ -146,100 +141,102 @@ public class UserController extends BaseController {
         }
     }
 
-    /**
-     *  用户获取部门
-     * @param map  userId,userOrgs
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value = "/findOrgByUserId", method = RequestMethod.POST)
-    public  ReturnDatas<List<Org>> findOrgByUserId(@RequestBody Map map) throws Exception {
-        String userId= (String) map.get("id");
-        List<UserOrg> orgs = userRoleOrgService.findUserOrgByUserId(userId, null);
-        ReturnDatas returnDatas = ReturnDatas.getSuccessReturnDatas();
-         returnDatas.setResult(orgs);
-         return  returnDatas;
-
-    }
-
-
-    /**
-     *  用户根据角色获取部门
-     * @param map  userId,userOrgs
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value = "/findOrgByRoleId", method = RequestMethod.POST)
-    public  ReturnDatas<List<Org>> findOrgByRoleId(@RequestBody Map map) throws Exception {
-        String roleId= (String) map.get("roleid");
-        List<RoleOrg> orgs = userRoleOrgService.findOrgByRoleId(roleId, null);
-        ReturnDatas returnDatas = ReturnDatas.getSuccessReturnDatas();
-        returnDatas.setResult(orgs);
-        return  returnDatas;
-
-    }
+	/**
+	 * 用户获取部门
+	 * 
+	 * @param map
+	 *            userId,userOrgs
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/findOrgByUserId", method = RequestMethod.POST)
+	public ReturnDatas<List<Org>> findOrgByUserId(@RequestBody Map map) throws Exception {
+		String userId = (String) map.get("id");
+		List<UserOrg> orgs = userRoleOrgService.findUserOrgByUserId(userId, null);
+		
+		ReturnDatas returnDatas = ReturnDatas.getSuccessReturnDatas();
+		returnDatas.setResult(orgs);
+		return returnDatas;
+	}
 
 
-    /**
-     * 更新用户部门关系
-     * @param userOrg
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value = "/updateuserorg", method = RequestMethod.POST)
-    public  ReturnDatas<String> updateuserorg(@RequestBody  UserOrg userOrg) throws Exception {
+	/**
+	 * 用户根据角色获取部门
+	 * 
+	 * @param map userId,userOrgs
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/findOrgByRoleId", method = RequestMethod.POST)
+	public ReturnDatas<List<Org>> findOrgByRoleId(@RequestBody Map map) throws Exception {
+		String roleId = (String) map.get("roleid");
+		List<RoleOrg> orgs = userRoleOrgService.findOrgByRoleId(roleId, null);
+		
+		ReturnDatas returnDatas = ReturnDatas.getSuccessReturnDatas();
+		returnDatas.setResult(orgs);
+		return returnDatas;
+	}
 
-        String str= userRoleOrgService.updateUserOrg(userOrg);
-        if(StringUtils.isBlank(str)){
-            return ReturnDatas.getSuccessReturnDatas();
-        }else{
-            return ReturnDatas.getErrorReturnDatas(str);
-        }
-    }
+
+	/**
+	 * 更新用户部门关系
+	 * 
+	 * @param userOrg
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/updateuserorg", method = RequestMethod.POST)
+	public ReturnDatas<String> updateuserorg(@RequestBody UserOrg userOrg) throws Exception {
+		String str = userRoleOrgService.updateUserOrg(userOrg);
+		if (StringUtils.isBlank(str)) {
+			return ReturnDatas.getSuccessReturnDatas();
+		} else {
+			return ReturnDatas.getErrorReturnDatas(str);
+		}
+	}
 
 
+	/**
+	 * 删除操作
+	 */
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	public ReturnDatas<User> delete(java.lang.String id) throws Exception {
+		try {
 
-    /**
-     * 删除操作
-     */
-    @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public  ReturnDatas<User> delete( java.lang.String id) throws Exception {
-        // 执行删除
-        try {
+			if (StringUtils.isNotBlank(id)) {
+				userService.deleteById(id, User.class);
+				return new ReturnDatas(ReturnDatas.SUCCESS, MessageUtils.DELETE_SUCCESS);
+			} else {
+				return new ReturnDatas(ReturnDatas.ERROR, MessageUtils.DELETE_NULL_ERROR);
+			}
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
+		return new ReturnDatas(ReturnDatas.ERROR, MessageUtils.DELETE_ERROR);
+	}
 
-            if(StringUtils.isNotBlank(id)){
-                userService.deleteById(id,User.class);
-                return new ReturnDatas(ReturnDatas.SUCCESS,MessageUtils.DELETE_SUCCESS);
-            } else {
-                return new ReturnDatas(ReturnDatas.ERROR,MessageUtils.DELETE_NULL_ERROR);
-            }
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-        }
-        return new ReturnDatas(ReturnDatas.ERROR, MessageUtils.DELETE_ERROR);
-    }
+	/**
+	 * 删除多条记录
+	 * 
+	 * @param ids
+	 * @return
+	 */
+	@RequestMapping(value = "/delete/more", method = RequestMethod.POST)
+	public ReturnDatas deleteMore(@RequestBody java.lang.String[] ids) {
 
-    /**
-     * 删除多条记录
-     *
-     */
-    @RequestMapping(value = "/delete/more", method = RequestMethod.POST)
-    public ReturnDatas deleteMore(@RequestBody java.lang.String[] ids) {
+		if (ids == null || ids.length < 1) {
+			return new ReturnDatas(ReturnDatas.ERROR, MessageUtils.DELETE_NULL_ERROR);
+		}
+		try {
+			List<String> listIds = Arrays.asList(ids);
+			userService.deleteByIds(listIds, User.class);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			return new ReturnDatas(ReturnDatas.ERROR, MessageUtils.DELETE_ALL_ERROR);
+		}
+		return new ReturnDatas(ReturnDatas.SUCCESS, MessageUtils.DELETE_ALL_SUCCESS);
 
-        if (ids == null || ids.length < 1) {
-            return new ReturnDatas(ReturnDatas.ERROR,MessageUtils.DELETE_NULL_ERROR);
-        }
-        try {
-            List<String> listIds = Arrays.asList(ids);
-            userService.deleteByIds(listIds,User.class);
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-            return new ReturnDatas(ReturnDatas.ERROR,MessageUtils.DELETE_ALL_ERROR);
-        }
-        return new ReturnDatas(ReturnDatas.SUCCESS,MessageUtils.DELETE_ALL_SUCCESS);
-
-    }
-
+	}
 
 
     /**
@@ -281,8 +278,6 @@ public class UserController extends BaseController {
     }
 
 
-
-
     /**
      * 获取用户的角色
      * @return
@@ -304,30 +299,31 @@ public class UserController extends BaseController {
     }
 
 
-    /**
-     * 获取用户的 部门
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value="/info", method = RequestMethod.POST)
-    public ReturnDatas<Menu> getinfo() throws Exception {
-        // 获取当前登录人
-        String userId = SessionUser.getUserId();
-        if (StringUtils.isBlank(userId)) {
-            return ReturnDatas.getErrorReturnDatas("用户不存在");
-        }
-        ReturnDatas successReturnDatas = ReturnDatas.getSuccessReturnDatas();
+	/**
+	 * 获取用户的 部门
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/info", method = RequestMethod.POST)
+	public ReturnDatas<Menu> getinfo() throws Exception {
+		// 获取当前登录人
+		String userId = SessionUser.getUserId();
+		if (StringUtils.isBlank(userId)) {
+			return ReturnDatas.getErrorReturnDatas("用户不存在");
+		}
+		ReturnDatas successReturnDatas = ReturnDatas.getSuccessReturnDatas();
 
-        User user = userService.findUserById(userId);
+		User user = userService.findUserById(userId);
 
-        List<Role> roles = userRoleMenuService.findRoleByUserId(userId);
+		List<Role> roles = userRoleMenuService.findRoleByUserId(userId);
 
-        user.setRoles( roles);
+		user.setRoles(roles);
 
-        successReturnDatas.setResult(user);
+		successReturnDatas.setResult(user);
 
-        return successReturnDatas;
-    }
+		return successReturnDatas;
+	}
 
 
 }

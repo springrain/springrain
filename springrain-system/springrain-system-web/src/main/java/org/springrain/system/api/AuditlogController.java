@@ -19,7 +19,7 @@ import java.io.File;
 import java.util.List;
 
 /**
- * TODO 在此加入类描述
+ * TODO 日志管理
  *
  * @author weicms.net<Auto generate>
  * @version 2013-08-02 12:14:50

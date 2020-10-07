@@ -24,13 +24,15 @@ import java.util.*;
 import java.util.concurrent.ConcurrentMap;
 
 /**
- * TODO 在此加入类描述
+ * 角色模块
+ * 
  * @author springrain<Auto generate>
- * @version  2019-07-27 16:10:16
+ * @version 2019-07-27 16:10:16
  */
 @RestController
-@RequestMapping(value="/api/system/role", method = RequestMethod.POST)
-public class RoleController  extends BaseController {
+@RequestMapping(value = "/api/system/role", method = RequestMethod.POST)
+public class RoleController extends BaseController {
+
 	@Resource
 	private IRoleService roleService;
 
@@ -40,78 +42,77 @@ public class RoleController  extends BaseController {
 	@Resource
 	private IUserRoleOrgService userRoleOrgService;
 
-
-
 	/**
-	 * 列表数据
+	 * 角色列表数据
+	 * 
 	 * @param page
+	 *            分页对象 page.pageIndex 第几页
 	 * @return
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/lists", method = RequestMethod.POST)
-	public ReturnDatas<Role> lists(@RequestBody Page<Role> page)
-			throws Exception {
+	public ReturnDatas<Role> lists(@RequestBody Page<Role> page) throws Exception {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
-		// ==构造分页请求
-		// Page page = newPage(request);
 		// ==执行分页查询
-		List<Role> datas=roleService.findListDataByFinder(null,page,Role.class,page.getData());
-			//returnObject.setQueryBean(page.getData());
-		returnObject.setPage(page);
+		List<Role> datas = roleService.findListDataByFinder(null, page, Role.class, page.getData());
+
 		returnObject.setResult(datas);
+		returnObject.setPage(page);
 		return returnObject;
 	}
 
-
 	/**
-	 * 列表数据
+	 * 查询所有角色列表
 	 *
 	 * @return
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.POST)
-	public ReturnDatas<Role> list()
-			throws Exception {
+	public ReturnDatas<Role> list() throws Exception {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		// ==构造分页请求
-		// Page page = newPage(request);
- 		List<Role> roleList = roleService.findListDataByFinder(null,null,Role.class,null);
+		List<Role> roleList = roleService.findListDataByFinder(null, null, Role.class, null);
 		returnObject.setResult(roleList);
 		return returnObject;
 	}
 
-
-
 	/**
-	 * 查看的Json格式数据
+	 * 查看的角色信息
+	 * 
+	 * @param id
+	 *            角色id
+	 * @return
+	 * @throws Exception
 	 */
-	@RequestMapping(value = "/look", method = RequestMethod.POST)   
+	@RequestMapping(value = "/look", method = RequestMethod.POST)
 	public ReturnDatas<Role> look(String id) throws Exception {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
-		
-		if(StringUtils.isNotBlank(id)){
-		  Role role = roleService.findRoleById(id);
-		   returnObject.setResult(role);
-		}else{
-		   returnObject.setStatus(ReturnDatas.ERROR);
+
+		if (StringUtils.isNotBlank(id)) {
+			Role role = roleService.findRoleById(id);
+			returnObject.setResult(role);
+		} else {
+			returnObject.setStatus(ReturnDatas.ERROR);
 		}
 		return returnObject;
-		
 	}
-	
+
 	/**
-	 * 保存 操作,返回json格式数据
+	 * 保存新增角色操作
 	 * 
+	 * @param role
+	 *            角色信息
+	 * @return
 	 */
-	@RequestMapping(value = "/save", method = RequestMethod.POST)    
+	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public ReturnDatas<Role> save(@RequestBody Role role) {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		returnObject.setMessage(MessageUtils.SAVE_SUCCESS);
 		try {
-		
-			String id =role.getId();
-			if(StringUtils.isBlank(id)){
-			  role.setId(null);
+
+			String id = role.getId();
+			if (StringUtils.isBlank(id)) {
+				role.setId(null);
 			}
 
 			role.setCreateUserId(SessionUser.getUserId());
@@ -127,68 +128,76 @@ public class RoleController  extends BaseController {
 
 			returnObject.setResult(role);
 		} catch (Exception e) {
-			logger.error(e.getMessage(),e);
+			logger.error(e.getMessage(), e);
 			returnObject.setStatus(ReturnDatas.ERROR);
 			returnObject.setMessage(MessageUtils.SAVE_ERROR);
 		}
 		return returnObject;
-	
+
 	}
 
+	/**
+	 * 根据角色id获取角色菜单
+	 * 
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/getMenusByRoleId", method = RequestMethod.POST)
-	public ReturnDatas  findMenuByRoleId(@RequestBody Map map) throws Exception {
+	public ReturnDatas findMenuByRoleId(@RequestBody Map map) throws Exception {
 		String roleid = map.get("roleid").toString();
-		ReturnDatas returnDatas=ReturnDatas.getSuccessReturnDatas();
-		  List<Menu> menus = userRoleMenuService.findMenuByRoleId(roleid);
+		ReturnDatas returnDatas = ReturnDatas.getSuccessReturnDatas();
+		List<Menu> menus = userRoleMenuService.findMenuByRoleId(roleid);
 		ConcurrentMap resutltMap = Maps.newConcurrentMap();
-		List<Map<String,Object>> listMap=new ArrayList<>();
-		userRoleMenuService.wrapVueMenu(menus,listMap);
-		resutltMap.put("menus",listMap);
+		List<Map<String, Object>> listMap = new ArrayList<>();
+		userRoleMenuService.wrapVueMenu(menus, listMap);
+		resutltMap.put("menus", listMap);
 		returnDatas.setResult(resutltMap);
 		return returnDatas;
 	}
-		
-	
+
 	/**
-	 * 修改 操作,返回json格式数据
-	 * 
+	 * 修改更新角色
+	 * @param role 角色信息
+	 * @return
 	 */
-	@RequestMapping(value = "/update", method = RequestMethod.POST)    
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public ReturnDatas<Role> update(@RequestBody Role role) {
 		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
 		returnObject.setMessage(MessageUtils.UPDATE_SUCCESS);
 		try {
-		
-			String id =role.getId();
-			if(StringUtils.isBlank(id)){
-			   return ReturnDatas.getErrorReturnDatas(MessageUtils.UPDATE_NULL_ERROR);
+
+			String id = role.getId();
+			if (StringUtils.isBlank(id)) {
+				return ReturnDatas.getErrorReturnDatas(MessageUtils.UPDATE_NULL_ERROR);
 			}
 			roleService.update(role);
 
 			returnObject.setResult(role);
 		} catch (Exception e) {
-			logger.error(e.getMessage(),e);
+			logger.error(e.getMessage(), e);
 			returnObject.setStatus(ReturnDatas.ERROR);
 			returnObject.setMessage(MessageUtils.UPDATE_ERROR);
 		}
 		return returnObject;
-	
+
 	}
-	
-	
+
 	/**
 	 * 删除操作
+	 * @param id 角色id
+	 * @return
+	 * @throws Exception
 	 */
-	@RequestMapping(value = "/delete", method = RequestMethod.POST)   
-	public  ReturnDatas<Role> delete(@RequestBody String id) throws Exception {
-			// 执行删除
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	public ReturnDatas<Role> delete(@RequestBody String id) throws Exception {
 		try {
-			
-		    if(StringUtils.isNotBlank(id)){
-			    roleService.deleteById(id,Role.class);
-				return new ReturnDatas(ReturnDatas.SUCCESS,MessageUtils.DELETE_SUCCESS);
+
+			if (StringUtils.isNotBlank(id)) {
+				roleService.deleteById(id, Role.class);
+				return new ReturnDatas(ReturnDatas.SUCCESS, MessageUtils.DELETE_SUCCESS);
 			} else {
-				return new ReturnDatas(ReturnDatas.ERROR,MessageUtils.DELETE_NULL_ERROR);
+				return new ReturnDatas(ReturnDatas.ERROR, MessageUtils.DELETE_NULL_ERROR);
 			}
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
@@ -200,11 +209,11 @@ public class RoleController  extends BaseController {
 	 * 更新 角色 菜单
 	 */
 	@RequestMapping(value = "/updaterolemenu", method = RequestMethod.POST)
-	public  ReturnDatas<String> updaterolemenu(@RequestBody RoleMenu roleMenu) throws Exception {
-		String str= userRoleMenuService.updateRoleMenu(roleMenu);
-		if(StringUtils.isBlank(str)){
+	public ReturnDatas<String> updaterolemenu(@RequestBody RoleMenu roleMenu) throws Exception {
+		String str = userRoleMenuService.updateRoleMenu(roleMenu);
+		if (StringUtils.isBlank(str)) {
 			return ReturnDatas.getSuccessReturnDatas();
-		}else{
+		} else {
 			return ReturnDatas.getErrorReturnDatas(str);
 		}
 	}
@@ -213,17 +222,15 @@ public class RoleController  extends BaseController {
 	 * 更新 角色 部门
 	 */
 	@RequestMapping(value = "/updateRoleOrg", method = RequestMethod.POST)
-	public  ReturnDatas<String> updateRoleOrg(@RequestBody RoleOrg roleOrg) throws Exception {
-		String str= userRoleOrgService.updateRoleOrg(roleOrg);
-		if(StringUtils.isBlank(str)){
+	public ReturnDatas<String> updateRoleOrg(@RequestBody RoleOrg roleOrg) throws Exception {
+		String str = userRoleOrgService.updateRoleOrg(roleOrg);
+		if (StringUtils.isBlank(str)) {
 			return ReturnDatas.getSuccessReturnDatas();
-		}else{
+		} else {
 			return ReturnDatas.getErrorReturnDatas(str);
 		}
 	}
 
-
-	
 	/**
 	 * 删除多条记录
 	 * 
@@ -232,17 +239,17 @@ public class RoleController  extends BaseController {
 	public ReturnDatas deleteMore(@RequestBody String[] ids) {
 
 		if (ids == null || ids.length < 1) {
-			return new ReturnDatas(ReturnDatas.ERROR,MessageUtils.DELETE_NULL_ERROR);
+			return new ReturnDatas(ReturnDatas.ERROR, MessageUtils.DELETE_NULL_ERROR);
 		}
 		try {
 			List<String> listIds = Arrays.asList(ids);
-			roleService.deleteByIds(listIds,Role.class);
+			roleService.deleteByIds(listIds, Role.class);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
-			return new ReturnDatas(ReturnDatas.ERROR,MessageUtils.DELETE_ALL_ERROR);
+			return new ReturnDatas(ReturnDatas.ERROR, MessageUtils.DELETE_ALL_ERROR);
 		}
-		return new ReturnDatas(ReturnDatas.SUCCESS,MessageUtils.DELETE_ALL_SUCCESS);
-			
+		return new ReturnDatas(ReturnDatas.SUCCESS, MessageUtils.DELETE_ALL_SUCCESS);
+
 	}
 
 }
