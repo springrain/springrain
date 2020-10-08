@@ -10,6 +10,8 @@ import org.springrain.frame.util.Page;
 import org.springrain.frame.util.ReturnDatas;
 import org.springrain.frame.util.property.MessageUtils;
 import org.springrain.rpc.sessionuser.SessionUser;
+import org.springrain.system.api.dto.MenuDto;
+import org.springrain.system.api.dto.MetaDto;
 import org.springrain.system.base.BaseController;
 import org.springrain.system.entity.*;
 import org.springrain.system.service.IUserRoleMenuService;
@@ -361,8 +363,79 @@ public class UserController extends BaseController {
 		}
 
 		List<Menu> listMenu = userRoleMenuService.findMenuTreeByUsreId(userId);
+		
+		List<MenuDto> menuDto = new ArrayList<MenuDto>();
+		MenuDto menu = new MenuDto();
+		
+		MetaDto meta = new MetaDto();
+		meta.setTitle("系统管理");
+		meta.setIcon("system");
+		meta.setNoCache(false);
+		menu.setMeta(meta);
+		
+		menu.setName("System");
+		menu.setPath("/system");
+		menu.setComponent("Layout");
+		menu.setAlwaysShow(true);
+		menu.setHidden(false);
+		menu.setRedirect("noRedirect");
+		
+		List<MenuDto> children = new ArrayList<MenuDto>();
+		
+		MenuDto menu1 = new MenuDto();
+		MetaDto meta1 = new MetaDto();
+		meta1.setTitle("用户管理");
+		meta1.setIcon("user");
+		meta1.setNoCache(false);
+		menu1.setMeta(meta1);
+		menu1.setName("User");
+		menu1.setPath("user");
+		menu1.setHidden(false);
+		menu1.setComponent("/api/system/user/list");
+		children.add(menu1);
+		
+		MetaDto meta2 = new MetaDto();
+		meta2.setTitle("角色管理");
+		meta2.setIcon("role");
+		meta2.setNoCache(false);
+		MenuDto menu2 = new MenuDto();
+		menu2.setName("Role");
+		menu2.setPath("role");
+		menu2.setHidden(false);
+		menu2.setComponent("system/role/index");
+		menu2.setMeta(meta2);
+		children.add(menu2);
+		
+		MetaDto meta3 = new MetaDto();
+		meta3.setTitle("菜单管理");
+		meta3.setIcon("menu");
+		meta3.setNoCache(false);
+		MenuDto menu3 = new MenuDto();
+		menu3.setName("Menu");
+		menu3.setPath("menu");
+		menu3.setHidden(false);
+		menu3.setComponent("system/menu/index");
+		menu3.setMeta(meta3);
+		children.add(menu3);
+		
+		
+		MenuDto menu4 = new MenuDto();
+		MetaDto meta4 = new MetaDto();
+		meta4.setTitle("部门管理");
+		meta4.setIcon("dept");
+		meta4.setNoCache(false);
+		menu4.setName("Dept");
+		menu4.setPath("dept");
+		menu4.setHidden(false);
+		menu4.setComponent("system/post/index");
+		menu4.setMeta(meta4);
+		children.add(menu4);
+
+		menu.setChildren(children);
+		menuDto.add(menu);
+		
 		ReturnDatas retrunObject = ReturnDatas.getSuccessReturnDatas();
-		retrunObject.setResult(listMenu);
+		retrunObject.setResult(menuDto);
 		return retrunObject;
 	}
 
