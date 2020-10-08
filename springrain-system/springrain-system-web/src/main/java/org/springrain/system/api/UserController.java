@@ -391,30 +391,30 @@ public class UserController extends BaseController {
 		menu1.setName("User");
 		menu1.setPath("user");
 		menu1.setHidden(false);
-		menu1.setComponent("/api/system/user/list");
+		menu1.setComponent("system/user/index");
 		children.add(menu1);
 		
 		MetaDto meta2 = new MetaDto();
 		meta2.setTitle("角色管理");
-		meta2.setIcon("role");
+		meta2.setIcon("peoples");
 		meta2.setNoCache(false);
 		MenuDto menu2 = new MenuDto();
 		menu2.setName("Role");
 		menu2.setPath("role");
 		menu2.setHidden(false);
-		menu2.setComponent("/api/system/role/lists");
+		menu2.setComponent("system/role/index");
 		menu2.setMeta(meta2);
 		children.add(menu2);
 		
 		MetaDto meta3 = new MetaDto();
 		meta3.setTitle("菜单管理");
-		meta3.setIcon("menu");
+		meta3.setIcon("tree-table");
 		meta3.setNoCache(false);
 		MenuDto menu3 = new MenuDto();
 		menu3.setName("Menu");
 		menu3.setPath("menu");
 		menu3.setHidden(false);
-		menu3.setComponent("/api/system/menu/list");
+		menu3.setComponent("system/menu/index");
 		menu3.setMeta(meta3);
 		children.add(menu3);
 		
@@ -422,12 +422,12 @@ public class UserController extends BaseController {
 		MenuDto menu4 = new MenuDto();
 		MetaDto meta4 = new MetaDto();
 		meta4.setTitle("部门管理");
-		meta4.setIcon("dept");
+		meta4.setIcon("tree");
 		meta4.setNoCache(false);
 		menu4.setName("Dept");
 		menu4.setPath("dept");
 		menu4.setHidden(false);
-		menu4.setComponent("/api/system/org/lists");
+		menu4.setComponent("system/dept/index");
 		menu4.setMeta(meta4);
 		children.add(menu4);
 
