@@ -402,7 +402,7 @@ public class UserController extends BaseController {
 		menu2.setName("Role");
 		menu2.setPath("role");
 		menu2.setHidden(false);
-		menu2.setComponent("system/role/index");
+		menu2.setComponent("/api/system/role/lists");
 		menu2.setMeta(meta2);
 		children.add(menu2);
 		
@@ -414,7 +414,7 @@ public class UserController extends BaseController {
 		menu3.setName("Menu");
 		menu3.setPath("menu");
 		menu3.setHidden(false);
-		menu3.setComponent("system/menu/index");
+		menu3.setComponent("/api/system/menu/list");
 		menu3.setMeta(meta3);
 		children.add(menu3);
 		
@@ -427,7 +427,7 @@ public class UserController extends BaseController {
 		menu4.setName("Dept");
 		menu4.setPath("dept");
 		menu4.setHidden(false);
-		menu4.setComponent("system/post/index");
+		menu4.setComponent("/api/system/org/lists");
 		menu4.setMeta(meta4);
 		children.add(menu4);
 
