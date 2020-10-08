@@ -146,8 +146,7 @@ public class LoginController extends BaseController {
     /**
      * 处理后台用户登录
      *
-     * @param account
-     * @param password
+     * @param userVO 请求的参数
      * @return
      * @throws Exception
      */
