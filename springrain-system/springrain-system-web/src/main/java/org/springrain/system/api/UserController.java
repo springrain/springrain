@@ -244,7 +244,7 @@ public class UserController extends BaseController {
      * @return
      * @throws Exception
      */
-	@RequestMapping(value="/menu", method = RequestMethod.POST)
+	@RequestMapping(value="/getRouters", method = RequestMethod.POST)
 	public ReturnDatas menuIds() throws Exception {
        // 获取当前登录人
         String userId = SessionUser.getUserId();
@@ -300,30 +300,70 @@ public class UserController extends BaseController {
 
 
 	/**
-	 * 获取用户的 部门
-	 * 
+	 * 获取用户的 信息
 	 * @return
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/info", method = RequestMethod.POST)
-	public ReturnDatas<Menu> getinfo() throws Exception {
-		// 获取当前登录人
+	public ReturnDatas<Menu> info() throws Exception {
 		String userId = SessionUser.getUserId();
 		if (StringUtils.isBlank(userId)) {
 			return ReturnDatas.getErrorReturnDatas("用户不存在");
 		}
-		ReturnDatas successReturnDatas = ReturnDatas.getSuccessReturnDatas();
 
 		User user = userService.findUserById(userId);
-
 		List<Role> roles = userRoleMenuService.findRoleByUserId(userId);
-
-		user.setRoles(roles);
-
-		successReturnDatas.setResult(user);
-
-		return successReturnDatas;
+		if (user != null) {
+			user.setRoles(roles);
+		}
+		
+		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
+		returnObject.setResult(user);
+		return returnObject;
 	}
+	
+	
+	/**
+	 * 获取用户的信息
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/getInfo", method = RequestMethod.POST)
+	public ReturnDatas<User> getInfo() throws Exception {
+		String userId = SessionUser.getUserId();
+		if (StringUtils.isBlank(userId)) {
+			return ReturnDatas.getErrorReturnDatas("用户不存在");
+		}
 
+		User user = userService.findUserById(userId);
+		List<Role> roles = userRoleMenuService.findRoleByUserId(userId);
+		if (user != null) {
+			user.setRoles(roles);
+		}
+		
+		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
+		returnObject.setResult(user);
+		return returnObject;
+	}
+	
+	
+	/**
+	 * 获取用户的 路由权限菜单
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/menu", method = RequestMethod.POST)
+	public ReturnDatas getRouters() throws Exception {
+		String userId = SessionUser.getUserId();
+		if (StringUtils.isBlank(userId)) {
+			return ReturnDatas.getErrorReturnDatas("用户不存在");
+		}
+
+		List<Menu> listMenu = userRoleMenuService.findMenuTreeByUsreId(userId);
+		ReturnDatas retrunObject = ReturnDatas.getSuccessReturnDatas();
+		retrunObject.setResult(listMenu);
+		return retrunObject;
+	}
 
 }
