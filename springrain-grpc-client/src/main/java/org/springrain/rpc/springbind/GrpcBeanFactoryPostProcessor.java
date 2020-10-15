@@ -115,12 +115,12 @@ public class GrpcBeanFactoryPostProcessor implements BeanFactoryPostProcessor, E
             }
 
             // 因为有远程调用的service,设置seata为启用状态.
-            if (org.springrain.frame.util.GlobalStatic.seataGlobalEnable) {
-                if (!org.springrain.frame.util.GlobalStatic.seataEnable) {
-                    org.springrain.frame.util.GlobalStatic.seataEnable = true;
+            if (GlobalStatic.seataGlobalEnable) {
+                if (!GlobalStatic.seataEnable) {
+                    GlobalStatic.seataEnable = true;
                 }
             } else {// 如果全局禁用seata,就设置为false
-                org.springrain.frame.util.GlobalStatic.seataEnable = false;
+                GlobalStatic.seataEnable = false;
             }
 
 

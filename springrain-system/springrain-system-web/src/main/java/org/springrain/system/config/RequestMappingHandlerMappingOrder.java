@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 处理Controller映射的排序,一个url映射可以有多个实现
+ * 实现一个URI映射多个业务实现,通过@Order注解标识优先级,目前强制一个URI只能有一个@Order起效.
  */
 public class RequestMappingHandlerMappingOrder extends RequestMappingHandlerMapping {
 
