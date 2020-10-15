@@ -23,17 +23,23 @@ public class RequestMappingHandlerMappingOrder extends RequestMappingHandlerMapp
      */
     @Override
     protected void registerHandlerMethod(Object handler, Method method, RequestMappingInfo mapping) {
+
+        //普通mapping key
         String key=mapping.getMethodsCondition().toString()+" "+mapping.getPatternsCondition();
-        RequestMappingInfo oldMapping= requestMappingInfoMap.get(key);
-        if (method.getDeclaringClass().isAnnotationPresent(Order.class)||method.isAnnotationPresent(Order.class)){//如果存在order,就删除掉已经注册的 mapping
-            if (oldMapping!=null) {
+        // order mapping key
+        String orderKey=key+" order";
+        if (method.getDeclaringClass().isAnnotationPresent(Order.class)||method.isAnnotationPresent(Order.class)){//如果存在order,就删除掉已经注册的 普通mapping
+            RequestMappingInfo oldMapping= requestMappingInfoMap.get(key);
+            if (oldMapping!=null&&requestMappingInfoMap.get(orderKey)==null) {//如果没有order mapping映射,就删除这个普通映射
                 super.unregisterMapping(oldMapping);
             }
-        }else if(oldMapping!=null){//已经注册过了,不能重复注册
+            //放入 order
+            requestMappingInfoMap.put(orderKey,mapping);
+        }else if(requestMappingInfoMap.get(orderKey)!=null){//已经存在 order 排序的映射了,就不再处理 普通mapping了
             return;
+        }else{//其他情况 作为 普通mapping
+            requestMappingInfoMap.put(key,mapping);
         }
-        requestMappingInfoMap.put(key,mapping);
-
         super.registerHandlerMethod(handler, method, mapping);
     }
 
