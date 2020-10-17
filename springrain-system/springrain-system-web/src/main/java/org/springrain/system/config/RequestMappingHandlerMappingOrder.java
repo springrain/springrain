@@ -11,6 +11,7 @@ import java.util.Map;
 /**
  * 实现一个URI映射多个业务实现,通过@Order注解标识优先级,目前强制一个URI只能有一个@Order起效.
  * 风险:复写请求A和未复写的B存在逻辑关联关系,如果产品更新逻辑,复写的A和产品的B会存在逻辑兼容风险.需要规范的版本依赖管理体系,补丁包里的请求需要回归测试......
+ * 注意要保留普通mapping的重复报错检查
  */
 public class RequestMappingHandlerMappingOrder extends RequestMappingHandlerMapping {
 
