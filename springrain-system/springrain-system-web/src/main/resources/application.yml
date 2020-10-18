@@ -1,13 +1,44 @@
 
+#启动命令:java -server -Xms512m -Xmx2048m  -jar springboot-1.0.jar
 server:
+  #服务http端口
   port: 8080
-  sevlet:
+
+  servlet:
+    #访问根路径
     context-path: /
+    #编码
     encoding:
       enabled: true
       charset: UTF-8
       force: true
 
+    #上传附件大小
+    multipart:
+      enabled: true
+      file-size-threshold: 0
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+  #Tomcat优化配置
+  tomcat:
+    #请求编码
+    uri-encoding: UTF-8
+    #链接建立超时毫秒
+    connection-timeout: 12000
+    #最大链接数
+    max-connections: 5000
+    #最大等待队列长度
+    accept-count: 1000
+    #请求头最大长度b 1M=1*1024*1024
+    max-http-header-size: 1048576
+    #请请求体最大长度b 2M=2*1024*1024
+    max-http-form-post-size: 2097152
+    threads:
+      #最小线程数
+      min-spare: 500
+      #最大线程数
+      max: 2500
 
 springrain:
   ###基本的包路径,因为事务xml需要配置路径,程序中也需要使用,抽出来了,记得和包名一块修改###
@@ -68,13 +99,6 @@ spring:
     proxy-target-class: false  #强制使用接口代理,不使用cglib,RPC一般是基于接口代理的###
 
 
-
-  servlet:
-    multipart:
-      enabled: true
-      file-size-threshold: 0
-      max-file-size: 100MB
-      max-request-size: 100MB
 
 
   datasource:
