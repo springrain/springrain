@@ -133,7 +133,10 @@ public class User extends BaseEntity {
     // bak5
     private String bak5;
     //columns END 数据库字段结束
-
+    /**
+     * 部门id 作为搜索关键字使用
+     */
+    private String deptId;
 
 
 
@@ -631,6 +634,17 @@ public class User extends BaseEntity {
     public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
+    
+    @Transient
+	public String getDeptId() {
+		return deptId;
+	}
+
+	public void setDeptId(String deptId) {
+		this.deptId = deptId;
+	}
+    
+    
 }
 
 	

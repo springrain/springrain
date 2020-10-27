@@ -45,8 +45,8 @@ public class UserController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.POST)
-	public ReturnDatas<User> list(@RequestBody Page<User> page) throws Exception {
-		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
+	public ReturnDatas<List<User>> list(@RequestBody Page<User> page) throws Exception {
+		ReturnDatas<List<User>> returnObject = ReturnDatas.getSuccessReturnDatas();
 
 		List<User> datas = userService.findListDataByFinder(null, page, User.class, page.getData());
 
