@@ -23,8 +23,8 @@ public class ReturnDatas<T> implements Serializable {
     private String message;
     private T result;
 
-    private Map map;
-    private Page page;
+    private Map<String, Object> map;
+    private Page<T> page;
     //private Object queryBean;
 
     public ReturnDatas() {
@@ -46,16 +46,16 @@ public class ReturnDatas<T> implements Serializable {
         setResult(data);
     }
 
-    public static ReturnDatas getSuccessReturnDatas() {
-        return new ReturnDatas(ReturnDatas.SUCCESS);
+    public static<T> ReturnDatas<T> getSuccessReturnDatas() {
+    	return new ReturnDatas<>(ReturnDatas.SUCCESS);
     }
 
-    public static ReturnDatas getErrorReturnDatas() {
-        return new ReturnDatas(ReturnDatas.ERROR);
+    public static<T> ReturnDatas<T> getErrorReturnDatas() {
+        return new ReturnDatas<>(ReturnDatas.ERROR);
     }
 
-    public static ReturnDatas getErrorReturnDatas(String message) {
-        return new ReturnDatas(ReturnDatas.ERROR, message);
+    public static<T> ReturnDatas<T> getErrorReturnDatas(String message) {
+        return new ReturnDatas<>(ReturnDatas.ERROR, message);
     }
 
     public String getStatus() {
@@ -87,21 +87,19 @@ public class ReturnDatas<T> implements Serializable {
         this.result = obj;
     }
 
-    public Page getPage() {
+    public Page<T> getPage() {
         return page;
     }
 
-    public void setPage(Page page) {
+    public void setPage(Page<T> page) {
         this.page = page;
     }
 
-    @SuppressWarnings("rawtypes")
-    public Map getMap() {
+    public Map<String, Object> getMap() {
         return map;
     }
 
-    @SuppressWarnings("rawtypes")
-    public void setMap(Map map) {
+    public void setMap(Map<String, Object> map) {
         this.map = map;
     }
 
