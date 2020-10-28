@@ -24,7 +24,7 @@ public class ReturnDatas<T> implements Serializable {
     private T result;
 
     private Map<String, Object> map;
-    private Page<T> page;
+    private Page<?> page;
     //private Object queryBean;
 
     public ReturnDatas() {
@@ -87,11 +87,11 @@ public class ReturnDatas<T> implements Serializable {
         this.result = obj;
     }
 
-    public Page<T> getPage() {
+    public Page<?> getPage() {
         return page;
     }
 
-    public void setPage(Page<T> page) {
+    public void setPage(Page<?> page) {
         this.page = page;
     }
 

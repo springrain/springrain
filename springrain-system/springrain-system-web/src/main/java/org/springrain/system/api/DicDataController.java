@@ -79,7 +79,7 @@ public class DicDataController extends BaseController {
 		// boolean hasNext = page.getHasNext();
 		ReturnDatas<List<DicData>> returnObject = ReturnDatas.getSuccessReturnDatas();
 		returnObject.setResult(datas);
-		Map<String, String> map = new HashMap<String, String>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("typekey", pathtypekey);
 		//returnObject.setQueryBean(dicData);// 正式如果 ，加了缓存此处删除
 		returnObject.setPage(page);
