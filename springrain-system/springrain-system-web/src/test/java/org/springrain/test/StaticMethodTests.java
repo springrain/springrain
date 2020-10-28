@@ -9,7 +9,7 @@ public class StaticMethodTests {
 
     @Test
     public void randomIntegrTest() {
-        System.out.println(SecUtils.randomIntegr(1000));
+        System.out.println(SecUtils.randomInteger(1000));
     }
 
     @Test

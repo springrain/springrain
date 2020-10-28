@@ -49,8 +49,8 @@ public class SecUtils {
      * @param instr 要加密的字符串
      * @return 返回加密后的字符串
      */
-    public final static String encoderByMd5With32Bit(String instr) {
-        char hexDigits[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+    public  static String encoderByMd5With32Bit(String instr) {
+        char[] hexDigits = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
         try {
             if (instr != null && !"".equals(instr)) {
                 byte[] strTemp = instr.getBytes();
@@ -59,7 +59,7 @@ public class SecUtils {
                 mdTemp.update(strTemp);
                 byte[] md = mdTemp.digest();
                 int j = md.length;
-                char str[] = new char[j * 2];
+                char[] str = new char[j * 2];
                 int k = 0;
                 for (int i = 0; i < j; i++) {
                     byte byte0 = md[i];
@@ -91,7 +91,7 @@ public class SecUtils {
      * @param str 要加密的字符串
      * @return 返回加密后的字符串
      */
-    public final static String encoderByBase64(String str) {
+    public  static String encoderByBase64(String str) {
         return encoderByBase64(str.getBytes());
     }
 
@@ -101,11 +101,10 @@ public class SecUtils {
      * @param data 要加密的字符串
      * @return 返回加密后的字符串
      */
-    public final static String encoderByBase64(byte[] data) {
+    public  static String encoderByBase64(byte[] data) {
         try {
             Base64.Encoder encoder = Base64.getEncoder();
-            String encode = encoder.encodeToString(data);
-            return encode;
+            return encoder.encodeToString(data);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             return null;
@@ -118,11 +117,10 @@ public class SecUtils {
      * @param str 要解密的字符串
      * @return 返回解密后的字符串
      */
-    public final static byte[] decoderByteByBase64(String str) {
+    public  static byte[] decoderByteByBase64(String str) {
         try {
             Base64.Decoder decoder = Base64.getDecoder();
-            byte[] decode = decoder.decode(str);
-            return decode;
+            return decoder.decode(str);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             return null;
@@ -135,14 +133,13 @@ public class SecUtils {
      * @param str 要解密的字符串
      * @return 返回解密后的字符串
      */
-    public final static String decoderByBase64(String str) {
+    public  static String decoderByBase64(String str) {
         try {
             byte[] decoderByBase64 = decoderByteByBase64(str);
             if (decoderByBase64 == null) {
                 return null;
             }
-            String decode = new String(decoderByBase64);
-            return decode;
+            return new String(decoderByBase64);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             return null;
@@ -152,8 +149,8 @@ public class SecUtils {
     /**
      * RSA私钥加密,公钥解密.---加密,返回BASE64的字符串
      *
-     * @param message
-     * @return
+     * @param message 加密的字符串
+     * @return 返回BASE64的字符串
      */
     public static String encoderByRSAPrivateKey(String message) {
         if (StringUtils.isBlank(message)) {
@@ -188,8 +185,8 @@ public class SecUtils {
     /**
      * RSA私钥加密,公钥解密.---解密,返回原始字符串,message是BASE64的字符串
      *
-     * @param message
-     * @return
+     * @param message BASE64的字符串
+     * @return 解密好的字符串
      */
     public static String decoderByRSAPublicKey(String message) {
         if (StringUtils.isBlank(message)) {
@@ -320,7 +317,7 @@ public class SecUtils {
      * @param bound
      * @return
      */
-    public static Integer randomIntegr(Integer bound) {
+    public static Integer randomInteger(Integer bound) {
         Random r = new Random();
         int random = r.nextInt(bound);
         return Integer.valueOf(random);
@@ -335,16 +332,16 @@ public class SecUtils {
     public static String getTimeNO() {
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmssSSS");
         String result = format.format(new Date());
-        return result + String.format("%04d", randomIntegr(10000));
+        return result + String.format("%04d", randomInteger(10000));
     }
 
 
 
 /*
 	public static void main(String[] args) {
-		String aibianli = encoderByRSAPrivateKey("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c");
-		System.out.println(aibianli);
-		System.out.println(decoderByRSAPublicKey(aibianli));
+		String abc = encoderByRSAPrivateKey("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c");
+		System.out.println(abc);
+		System.out.println(decoderByRSAPublicKey(abc));
 	}
 */
 
