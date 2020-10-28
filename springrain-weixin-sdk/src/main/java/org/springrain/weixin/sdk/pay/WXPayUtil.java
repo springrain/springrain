@@ -23,11 +23,9 @@ import java.util.*;
 
 public class WXPayUtil {
 
-    private static Logger logger = LoggerFactory.getLogger(WXPayUtil.class);
-
     private static final String SYMBOLS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
     private static final Random RANDOM = new SecureRandom();
+    private static Logger logger = LoggerFactory.getLogger(WXPayUtil.class);
 
     /**
      * XML格式字符串转换为Map

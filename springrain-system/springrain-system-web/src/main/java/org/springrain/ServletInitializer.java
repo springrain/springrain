@@ -6,9 +6,8 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 /**
  * 打成独立war包,就不能用main方法了,使用这种方式注册Application
  * jar包比较方便,不推荐这种方式
- * 
- * @author caomei
  *
+ * @author caomei
  */
 
 @Deprecated

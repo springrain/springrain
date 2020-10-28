@@ -1,6 +1,5 @@
 package org.springrain.frame.dao;
 
-import org.springframework.core.NamedThreadLocal;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
@@ -19,22 +18,18 @@ public class FrameDataSourceTransactionManager extends DataSourceTransactionMana
     /**
      * 判断是否存在数据库事务
      *
-     * @return
-
-    public static Boolean isExistTransaction() {
-        Boolean existTransaction = currentTransactionIsExist.get();
-        if (existTransaction == null || existTransaction == false) {
-            return false;
-        }
-        return existTransaction;
-    }
+     * @return public static Boolean isExistTransaction() {
+     * Boolean existTransaction = currentTransactionIsExist.get();
+     * if (existTransaction == null || existTransaction == false) {
+     * return false;
+     * }
+     * return existTransaction;
+     * }
      */
 
     public static boolean isExistTransaction() {
         return TransactionSynchronizationManager.isActualTransactionActive();
     }
-
-
 
 
     @Override

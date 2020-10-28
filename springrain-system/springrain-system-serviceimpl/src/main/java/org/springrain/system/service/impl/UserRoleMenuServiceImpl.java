@@ -174,13 +174,13 @@ public class UserRoleMenuServiceImpl extends BaseSpringrainServiceImpl implement
         }
 
         List<Menu> listMenu = findMenuByUserId(userId);
-        List<Menu>  list = menuList2Tree(listMenu);
+        List<Menu> list = menuList2Tree(listMenu);
         return list;
     }
 
     @Override
     public List<Menu> findAllMenuTree() throws Exception {
-        String cacheKey = "findAllMenuTree" ;
+        String cacheKey = "findAllMenuTree";
         List<Menu> list = super.getByCache(GlobalStatic.qxCacheKey, cacheKey, List.class);
         if (list != null) {
             if (list.size() == 0) {
@@ -190,8 +190,8 @@ public class UserRoleMenuServiceImpl extends BaseSpringrainServiceImpl implement
         }
 
 
-        Finder finder=Finder.getSelectFinder(Menu.class).append(" WHERE active=1 order by sortno desc ");
-        List<Menu> listMenu = super.queryForList(finder,Menu.class);
+        Finder finder = Finder.getSelectFinder(Menu.class).append(" WHERE active=1 order by sortno desc ");
+        List<Menu> listMenu = super.queryForList(finder, Menu.class);
         if (CollectionUtils.isEmpty(listMenu)) {
             list = new ArrayList<>();
             // 加上缓存
@@ -267,7 +267,7 @@ public class UserRoleMenuServiceImpl extends BaseSpringrainServiceImpl implement
             map.put("menuType", menu.getMenuType());
             map.put("roleId", menu.getRoleId());
             map.put("menuId", menu.getId());
-            map.put("pageurl",menu.getPageurl());
+            map.put("pageurl", menu.getPageurl());
 
             // meta
             Map<String, Object> meta = new HashMap<>();
@@ -293,28 +293,28 @@ public class UserRoleMenuServiceImpl extends BaseSpringrainServiceImpl implement
     @Override
     public String updateRoleMenu(RoleMenu roleMenu) throws Exception {
 
-        if(roleMenu==null||StringUtils.isBlank(roleMenu.getRoleId())||StringUtils.isBlank(roleMenu.getMenuId())||roleMenu.getCheck()==null){
+        if (roleMenu == null || StringUtils.isBlank(roleMenu.getRoleId()) || StringUtils.isBlank(roleMenu.getMenuId()) || roleMenu.getCheck() == null) {
             return "数据不完整";
         }
 
-       List<String> menuIds= menuService.findMenuBypid(roleMenu.getMenuId());
+        List<String> menuIds = menuService.findMenuBypid(roleMenu.getMenuId());
 
-        Finder f_delete=Finder.getDeleteFinder(RoleMenu.class).append(" WHERE roleId=:roleId and menuId in (:menuId) ");
-        f_delete.setParam("roleId",roleMenu.getRoleId()).setParam("menuId",menuIds);
+        Finder f_delete = Finder.getDeleteFinder(RoleMenu.class).append(" WHERE roleId=:roleId and menuId in (:menuId) ");
+        f_delete.setParam("roleId", roleMenu.getRoleId()).setParam("menuId", menuIds);
         super.update(f_delete);
 
         String cacheKey = "findMenuByRoleId_" + roleMenu.getRoleId();
         super.evictByKey(GlobalStatic.qxCacheKey, cacheKey);
 
-        if(!roleMenu.getCheck()){ //  清理关系
+        if (!roleMenu.getCheck()) { //  清理关系
             return null;
         }
 
-        List<RoleMenu> rmList=new ArrayList<>();
-        Date now=new Date();
-        String userId=SessionUser.getUserId();
-        for (String menuId:menuIds){
-            RoleMenu rm=new RoleMenu();
+        List<RoleMenu> rmList = new ArrayList<>();
+        Date now = new Date();
+        String userId = SessionUser.getUserId();
+        for (String menuId : menuIds) {
+            RoleMenu rm = new RoleMenu();
             rm.setId(SecUtils.getUUID());
             rm.setRoleId(roleMenu.getRoleId());
             rm.setMenuId(menuId);
@@ -325,7 +325,7 @@ public class UserRoleMenuServiceImpl extends BaseSpringrainServiceImpl implement
             rmList.add(rm);
         }
 
-        if(CollectionUtils.isNotEmpty(rmList)){
+        if (CollectionUtils.isNotEmpty(rmList)) {
             super.save(rmList);
         }
 
@@ -333,38 +333,38 @@ public class UserRoleMenuServiceImpl extends BaseSpringrainServiceImpl implement
     }
 
     @Override
-    public String updateUserRoles( String userId,List<String> roleIds)throws Exception {
+    public String updateUserRoles(String userId, List<String> roleIds) throws Exception {
 
-        if (StringUtils.isBlank(userId)){
-            return  null;
+        if (StringUtils.isBlank(userId)) {
+            return null;
         }
 
-        Finder f_select_old=Finder.getSelectFinder(UserRole.class," roleId ").append(" WHERE userId=:userId ").setParam("userId",userId);
+        Finder f_select_old = Finder.getSelectFinder(UserRole.class, " roleId ").append(" WHERE userId=:userId ").setParam("userId", userId);
         List<String> listOld = super.queryForList(f_select_old, String.class);
-        if (CollectionUtils.isNotEmpty(listOld)){
-            for (String roleId:listOld){
-                super.evictByKey(GlobalStatic.qxCacheKey,  "findUserByRoleId_" + roleId);
+        if (CollectionUtils.isNotEmpty(listOld)) {
+            for (String roleId : listOld) {
+                super.evictByKey(GlobalStatic.qxCacheKey, "findUserByRoleId_" + roleId);
             }
         }
 
 
-        Finder f_del=Finder.getDeleteFinder(UserRole.class).append(" WHERE userId=:userId ").setParam("userId",userId);
+        Finder f_del = Finder.getDeleteFinder(UserRole.class).append(" WHERE userId=:userId ").setParam("userId", userId);
         super.update(f_del);
 
-        super.evictByKey(GlobalStatic.qxCacheKey,  "findRoleByUserId_" + userId);
-        super.evictByKey(GlobalStatic.qxCacheKey,  "findMenuByUserId_" + userId);
+        super.evictByKey(GlobalStatic.qxCacheKey, "findRoleByUserId_" + userId);
+        super.evictByKey(GlobalStatic.qxCacheKey, "findMenuByUserId_" + userId);
 
 
-        if (CollectionUtils.isEmpty(roleIds)){
+        if (CollectionUtils.isEmpty(roleIds)) {
             return null;
         }
 
-        List<UserRole> list=new ArrayList<>();
-        Date now=new Date();
+        List<UserRole> list = new ArrayList<>();
+        Date now = new Date();
 
-        for (String roleId:roleIds){
-            super.evictByKey(GlobalStatic.qxCacheKey,  "findUserByRoleId_" + roleId);
-            UserRole ur=new UserRole();
+        for (String roleId : roleIds) {
+            super.evictByKey(GlobalStatic.qxCacheKey, "findUserByRoleId_" + roleId);
+            UserRole ur = new UserRole();
             ur.setId(SecUtils.getUUID());
             ur.setUserId(userId);
             ur.setRoleId(roleId);

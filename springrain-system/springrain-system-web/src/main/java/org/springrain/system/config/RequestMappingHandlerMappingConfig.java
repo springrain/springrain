@@ -12,7 +12,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 public class RequestMappingHandlerMappingConfig implements WebMvcRegistrations {
 
     @Override
-    public RequestMappingHandlerMapping getRequestMappingHandlerMapping(){
+    public RequestMappingHandlerMapping getRequestMappingHandlerMapping() {
         return new RequestMappingHandlerMappingOrder();
     }
 }

@@ -48,12 +48,10 @@ import java.util.concurrent.TimeUnit;
  * @author caomei
  */
 public class ElasticSearchOperation {
-    private Logger logger = LoggerFactory.getLogger(getClass());
     public String IK_ANALYER_TOKENIZER = "ik_max_word";
     public String ANALYER_NAME = "ik";
     public boolean DEBUGGER = false;
-
-
+    private Logger logger = LoggerFactory.getLogger(getClass());
     private RestHighLevelClient client = null;
     private ObjectMapper mapper = null;
 

@@ -45,7 +45,6 @@ public class RoleMenu extends BaseEntity {
     //columns START
 
 
-
     // 编号
     private String id;
 
@@ -379,7 +378,7 @@ public class RoleMenu extends BaseEntity {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null){
+        if (obj == null) {
             return false;
         }
 

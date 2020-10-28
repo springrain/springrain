@@ -15,7 +15,6 @@ import org.apache.http.conn.socket.ConnectionSocketFactory;
 import org.apache.http.conn.socket.PlainConnectionSocketFactory;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.conn.ssl.TrustStrategy;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
@@ -70,7 +69,7 @@ public class HttpClientUtils {
         try {
             sslContext = SSLContextBuilder
                     .create()
-                    .loadTrustMaterial(new TrustStrategy(){
+                    .loadTrustMaterial(new TrustStrategy() {
                         @Override
                         public boolean isTrusted(X509Certificate[] x509Certificates, String s) throws CertificateException {
                             return true;
@@ -183,7 +182,7 @@ public class HttpClientUtils {
         HttpPost httpPost = new HttpPost(httpUrl);// 创建httpPost
         try {
             // 设置参数
-            if (StringUtils.isNotBlank(params)){
+            if (StringUtils.isNotBlank(params)) {
                 StringEntity stringEntity = new StringEntity(params, "UTF-8");
                 // stringEntity.setContentType("application/x-www-form-urlencoded");
                 httpPost.setEntity(stringEntity);
@@ -237,7 +236,7 @@ public class HttpClientUtils {
             nameValuePairs.add(new BasicNameValuePair(m.getKey(), m.getValue()));
         }
         try {
-            if (nameValuePairs.size()>0){
+            if (nameValuePairs.size() > 0) {
                 httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
             }
 
@@ -304,12 +303,12 @@ public class HttpClientUtils {
                                              SSLContext sslContext) {
         HttpPost httpPost = new HttpPost(httpUrl);// 创建httpPost
         MultipartEntityBuilder meBuilder = MultipartEntityBuilder.create();
-        if (maps!=null){
+        if (maps != null) {
             for (Map.Entry<String, String> m : maps.entrySet()) {
                 meBuilder.addPart(m.getKey(), new StringBody(m.getValue(), ContentType.TEXT_PLAIN));
             }
         }
-        if (fileMap!=null){
+        if (fileMap != null) {
             for (Map.Entry<String, File> m : fileMap.entrySet()) {
                 FileBody fileBody = new FileBody(m.getValue());
                 meBuilder.addPart(m.getKey(), fileBody);
@@ -449,7 +448,7 @@ public class HttpClientUtils {
     public static String sendHttpHeaderGet(String httpUrl, Map<String, String> headers, SSLContext sslContext) {
         HttpGet httpGet = new HttpGet(httpUrl);// 创建get请求
 
-        if(headers==null){
+        if (headers == null) {
             return sendHttpGet(httpGet, null);
         }
 

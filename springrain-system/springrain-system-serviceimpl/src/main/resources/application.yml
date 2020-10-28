@@ -12,20 +12,20 @@ springrain:
   rsa:
     privatekey: ''
     publickey: ''
-  
+
   ###jwt 的默认配置,secret 在生产环境一定要配置正确!!!!!!###
   jwt:
     secret: dev
     timeout: 3600000
     tokenkey: springraintoken
-  
+
   #openoffice:
   #  home: D:/Program Files (x86)/OpenOffice 4/program/soffice.exe
   #  host: 127.0.0.1
   #  port: 8100
-  
-  
-  
+
+
+
   #redis:
   #  hostport: redis://127.0.0.1:6379    ###如果是redis集群,使用逗号隔开,例如 redis://127.0.0.1:6379,redis://127.0.0.1:6378 ###
   #  password:   ###密码,可以不设置####
@@ -42,32 +42,32 @@ springrain:
 #    org: INFO ### 配置spring web日志级别###
 
 spring:
-  
+
   ###代码实现:org.springrain.config.SpringMVCConfig.addResourceHandlers(ResourceHandlerRegistry)###
   #resources:
   #  static-locations: /images/,/img/,/js/,/css/,/layui/,/upload/,/u/
-  
+
   mvc:
     ignore-default-model-on-redirect: false #在重定向时是否忽略默认model的内容，默认为true###
-  
+
   aop:
     proxy-target-class: false  #强制使用接口代理,不使用cglib,RPC一般是基于接口代理的###
-  
-  
+
+
   http:
     encoding:
       charset: UTF-8
       enabled: true
       force: true
-  
+
   servlet:
     multipart:
       enabled: true
       file-size-threshold: 0
       max-file-size: 100MB
       max-request-size: 100MB
-  
-  
+
+
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/springrain?characterEncoding=utf8&useUnicode=true&useSSL=false&serverTimezone=Hongkong
     username: root

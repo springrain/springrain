@@ -8,6 +8,7 @@ public class GradientBackgroundFactory implements BackgroundFactory {
     private Color startColor;
     private Color endColor;
     private Direction direction;
+
     public GradientBackgroundFactory() {
         this(new Color(192, 192, 0), new Color(192, 128, 128), Direction.Horizontal);
     }

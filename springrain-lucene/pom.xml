@@ -12,7 +12,6 @@
     <description>es的集成模块</description>
 
 
-
     <dependencies>
 
         <dependency>
@@ -33,7 +32,6 @@
 
 
     </dependencies>
-
 
 
 </project>

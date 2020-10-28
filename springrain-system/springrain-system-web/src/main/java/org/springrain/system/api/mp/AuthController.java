@@ -14,15 +14,14 @@ import javax.annotation.Resource;
 import java.util.Map;
 
 @RestController
-@RequestMapping(value="/api/mp/auth", method = RequestMethod.POST)
-public class AuthController  extends BaseController {
+@RequestMapping(value = "/api/mp/auth", method = RequestMethod.POST)
+public class AuthController extends BaseController {
 
     @Resource
     private IWxMpConfigService wxMpConfigService;
 
     @Resource
     private IUserService userService;
-
 
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)

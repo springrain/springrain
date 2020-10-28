@@ -36,34 +36,34 @@ public class UserRoleOrgServiceImpl extends BaseSpringrainServiceImpl implements
                 .append(" re where  re.orgId=:orgId and re.managerType>0 order by re.managerType desc ");
         finder.setParam("orgId", orgId);
 
-        return  super.queryForList(finder, String.class,page);
+        return super.queryForList(finder, String.class, page);
     }
 
     @Override
-    public List<User> findUserByOrgId(String orgId,Page page) throws Exception {
+    public List<User> findUserByOrgId(String orgId, Page page) throws Exception {
         if (StringUtils.isBlank(orgId)) {
             return null;
         }
-        List<String> userIdByOrgId = findUserIdByOrgId(orgId,page);
+        List<String> userIdByOrgId = findUserIdByOrgId(orgId, page);
         return listUserId2ListUser(userIdByOrgId);
     }
 
 
     @Override
-    public List<User> findAllUserByOrgId(String orgId,Page page) throws Exception {
+    public List<User> findAllUserByOrgId(String orgId, Page page) throws Exception {
 
         if (StringUtils.isBlank(orgId)) {
             return null;
         }
 
-        List<String> userIdByOrgId = findAllUserIdByOrgId(orgId,page);
+        List<String> userIdByOrgId = findAllUserIdByOrgId(orgId, page);
 
         return listUserId2ListUser(userIdByOrgId);
 
     }
 
     @Override
-    public List<String> findAllUserIdByOrgId(String orgId,Page page) throws Exception {
+    public List<String> findAllUserIdByOrgId(String orgId, Page page) throws Exception {
 
         if (StringUtils.isBlank(orgId)) {
             return null;
@@ -79,17 +79,17 @@ public class UserRoleOrgServiceImpl extends BaseSpringrainServiceImpl implements
                 .append(" org WHERE org.id=re.orgId and org.comcode like :comcode and re.managerType>0   order by re.userId asc ");
         finder.setParam("comcode", comcode + "%");
 
-        return super.queryForList(finder,String.class,page);
+        return super.queryForList(finder, String.class, page);
 
     }
 
     @Override
-    public List<Org> findOrgByUserId(String userId,Page page) throws Exception {
+    public List<Org> findOrgByUserId(String userId, Page page) throws Exception {
         if (StringUtils.isBlank(userId)) {
             return null;
         }
 
-        List<String> orgIdByUserId = findOrgIdByUserId(userId,page);
+        List<String> orgIdByUserId = findOrgIdByUserId(userId, page);
 
         return listOrgId2ListOrg(orgIdByUserId);
     }
@@ -100,12 +100,12 @@ public class UserRoleOrgServiceImpl extends BaseSpringrainServiceImpl implements
                 .append("   WHERE re.userId=:userId    order by re.managerType desc   ");
         finder.setParam("userId", userId);
 
-        return super.queryForList(finder,UserOrg.class,page);
+        return super.queryForList(finder, UserOrg.class, page);
     }
 
 
     @Override
-    public List<String> findOrgIdByUserId(String userId,Page page) throws Exception {
+    public List<String> findOrgIdByUserId(String userId, Page page) throws Exception {
         if (StringUtils.isBlank(userId)) {
             return null;
         }
@@ -113,13 +113,13 @@ public class UserRoleOrgServiceImpl extends BaseSpringrainServiceImpl implements
                 .append("   WHERE re.userId=:userId    order by re.managerType desc   ");
         finder.setParam("userId", userId);
 
-        return super.queryForList(finder,String.class,page);
+        return super.queryForList(finder, String.class, page);
 
     }
 
 
     @Override
-    public List<String> findManagerOrgIdByUserId(String userId,Page page) throws Exception {
+    public List<String> findManagerOrgIdByUserId(String userId, Page page) throws Exception {
         if (StringUtils.isBlank(userId)) {
             return null;
         }
@@ -128,19 +128,19 @@ public class UserRoleOrgServiceImpl extends BaseSpringrainServiceImpl implements
                 .append(" re  WHERE re.userId=:userId  and re.managerType=2  order by re.orgId desc   ");
         finder.setParam("userId", userId);
 
-        return super.queryForList(finder,String.class,page);
+        return super.queryForList(finder, String.class, page);
 
 
     }
 
     @Override
-    public List<Org> findManagerOrgByUserId(String userId,Page page) throws Exception {
+    public List<Org> findManagerOrgByUserId(String userId, Page page) throws Exception {
 
         if (StringUtils.isBlank(userId)) {
             return null;
         }
 
-        List<String> orgIds = findManagerOrgIdByUserId(userId,page);
+        List<String> orgIds = findManagerOrgIdByUserId(userId, page);
 
         return listOrgId2ListOrg(orgIds);
 
@@ -153,14 +153,13 @@ public class UserRoleOrgServiceImpl extends BaseSpringrainServiceImpl implements
         }
 
 
-
         Finder finder = new Finder("SELECT re.userId FROM ")
                 .append(Finder.getTableName(UserOrg.class))
                 .append(" re  WHERE   re.orgId=:orgId and  re.managerType=2   order by re.userId desc   ");
         finder.setParam("orgId", orgId);
 
 
-      String  managerUserId = super.queryForObject(finder, String.class);
+        String managerUserId = super.queryForObject(finder, String.class);
 
         if (StringUtils.isBlank(managerUserId)) {
             managerUserId = "";
@@ -207,15 +206,14 @@ public class UserRoleOrgServiceImpl extends BaseSpringrainServiceImpl implements
     }
 
     @Override
-    public List<RoleOrg> findOrgByRoleId(String roleId,Page page) throws Exception {
+    public List<RoleOrg> findOrgByRoleId(String roleId, Page page) throws Exception {
         if (StringUtils.isBlank(roleId)) {
             return null;
         }
         Finder finder = new Finder("SELECT re.* FROM ").append(Finder.getTableName(RoleOrg.class)).append(" re WHERE re.roleId=:roleId order by re.id desc ");
         finder.setParam("roleId", roleId);
-        return super.queryForList(finder,RoleOrg.class,page);
+        return super.queryForList(finder, RoleOrg.class, page);
     }
-
 
 
     @Override
@@ -240,12 +238,12 @@ public class UserRoleOrgServiceImpl extends BaseSpringrainServiceImpl implements
     }
 
     @Override
-    public Finder wrapOrgIdFinderByPrivateOrgRoleId(String roleId,String userId) throws Exception {
+    public Finder wrapOrgIdFinderByPrivateOrgRoleId(String roleId, String userId) throws Exception {
 
-        if(StringUtils.isBlank(roleId)||StringUtils.isBlank(userId)){
+        if (StringUtils.isBlank(roleId) || StringUtils.isBlank(userId)) {
             return null;
         }
-        Role role=roleService.findRoleById(roleId);
+        Role role = roleService.findRoleById(roleId);
         if (role == null || role.getPrivateOrg() == 0) {//只处理 私有部门 类型的角色.
             return null;
         }
@@ -254,25 +252,26 @@ public class UserRoleOrgServiceImpl extends BaseSpringrainServiceImpl implements
         //  List<RoleOrg> list = wrapManagerRoleOrgByUserId(userId);
         List<RoleOrg> list = new ArrayList<>();
         //角色分配的 私有部门
-        List<RoleOrg> findRoleOrgIdByRole = findRoleOrgIdByRole(role,userId,null);
+        List<RoleOrg> findRoleOrgIdByRole = findRoleOrgIdByRole(role, userId, null);
         // 把主管部门
-        if(CollectionUtils.isNotEmpty(findRoleOrgIdByRole)){
+        if (CollectionUtils.isNotEmpty(findRoleOrgIdByRole)) {
             list.addAll(findRoleOrgIdByRole);
         }
-      return wrapOrgIdFinderByUserRole(list);
+        return wrapOrgIdFinderByUserRole(list);
     }
 
     /**
      * 根据role 对象 查询 Role的关联部门.  roleOrgType 0自己的数据,1所在部门,2所在部门及子部门数据,3.自定义部门数据.部门主管有所管理部门的数据全权限,无论角色是否分配
-     *  外围需要单独判断是否启用私有角色,不然很容易造成群贤扩大
-     *  这里只处理角色产生的权限,不考虑用户如果是主管派生的下级部门权限,这种情况有业务自己处理
+     * 外围需要单独判断是否启用私有角色,不然很容易造成群贤扩大
+     * 这里只处理角色产生的权限,不考虑用户如果是主管派生的下级部门权限,这种情况有业务自己处理
+     *
      * @param role
      * @return
      * @throws Exception
      */
-    private List<RoleOrg> findRoleOrgIdByRole(Role role,String userId,Page page) throws Exception {
+    private List<RoleOrg> findRoleOrgIdByRole(Role role, String userId, Page page) throws Exception {
 
-        if(role==null){
+        if (role == null) {
             return null;
         }
 
@@ -283,37 +282,36 @@ public class UserRoleOrgServiceImpl extends BaseSpringrainServiceImpl implements
             return null;
         } else if (roleOrgType == 1 || roleOrgType == 2) { //用户所在的部门
 
-         if(StringUtils.isBlank(userId)){
-             return null;
-         }
-         //用户所在的部门,这里只处理角色产生的权限,不考虑用户如果是主管派生的下级部门权限,这种情况有业务自己处理
-         List<String> orgIdByUserId = findOrgIdByUserId(userId,page);
-         if(CollectionUtils.isEmpty(orgIdByUserId)){
-             return null;
-         }
-         List<RoleOrg> list=new ArrayList<>();
-          for (String orgId:orgIdByUserId){
-              RoleOrg re = new RoleOrg();
-              // 如果是包含子部门权限
-              if(roleOrgType==2){
-                  re.setChildren(1);
-              }else{ // 不包含子部门的权限
-                  re.setChildren(0);
-              }
-              re.setOrgId(orgId);
-              list.add(re);
-          }
-          return list;
-        }else if (roleOrgType==3){ // 自定义权限
-            return findOrgByRoleId(role.getId(),page);
+            if (StringUtils.isBlank(userId)) {
+                return null;
+            }
+            //用户所在的部门,这里只处理角色产生的权限,不考虑用户如果是主管派生的下级部门权限,这种情况有业务自己处理
+            List<String> orgIdByUserId = findOrgIdByUserId(userId, page);
+            if (CollectionUtils.isEmpty(orgIdByUserId)) {
+                return null;
+            }
+            List<RoleOrg> list = new ArrayList<>();
+            for (String orgId : orgIdByUserId) {
+                RoleOrg re = new RoleOrg();
+                // 如果是包含子部门权限
+                if (roleOrgType == 2) {
+                    re.setChildren(1);
+                } else { // 不包含子部门的权限
+                    re.setChildren(0);
+                }
+                re.setOrgId(orgId);
+                list.add(re);
+            }
+            return list;
+        } else if (roleOrgType == 3) { // 自定义权限
+            return findOrgByRoleId(role.getId(), page);
         }
-        return  null;
+        return null;
     }
 
 
     /**
      * 查询用户根据角色派生和自身主管的所有部门.
-     *
      *
      * @param userId
      * @return
@@ -338,10 +336,10 @@ public class UserRoleOrgServiceImpl extends BaseSpringrainServiceImpl implements
         // 查询角色被分配到部门权限,不处理私有部门类型的角色
         for (Role role : listRole) {
             if (role.getPrivateOrg() == 1) { // 不处理 私有部门 类型的角色
-                 continue;
-             }
+                continue;
+            }
             //角色管理的部门
-            List<RoleOrg> findRoleOrgIdByRole = findRoleOrgIdByRole(role,userId,null);
+            List<RoleOrg> findRoleOrgIdByRole = findRoleOrgIdByRole(role, userId, null);
             //添加到List
             if (CollectionUtils.isNotEmpty(findRoleOrgIdByRole)) {
                 list.addAll(findRoleOrgIdByRole);
@@ -354,17 +352,18 @@ public class UserRoleOrgServiceImpl extends BaseSpringrainServiceImpl implements
 
 
     /**
-     *  查询用户作为主管时所有的管理部门,封装成 List<UserRole> 格式
+     * 查询用户作为主管时所有的管理部门,封装成 List<UserRole> 格式
+     *
      * @param userId
      * @return List 对象,不能是 NULL
      */
-    private List<RoleOrg> wrapManagerRoleOrgByUserId(String userId)throws Exception {
+    private List<RoleOrg> wrapManagerRoleOrgByUserId(String userId) throws Exception {
         List<RoleOrg> list = new ArrayList<>();
 
         // 查询用户直接管理的部门
-        List<String> managerOrgIdByUserId = findManagerOrgIdByUserId(userId,null);
+        List<String> managerOrgIdByUserId = findManagerOrgIdByUserId(userId, null);
         if (CollectionUtils.isEmpty(managerOrgIdByUserId)) {
-           return list;
+            return list;
         }
         // 构造List<RoleOrg>
         for (String orgId : managerOrgIdByUserId) {
@@ -378,9 +377,9 @@ public class UserRoleOrgServiceImpl extends BaseSpringrainServiceImpl implements
     }
 
 
-
     /**
      * 基于 List<UserRole> 生成 Finder 对象,并不是完整的语句,只是 WHERE 后面的部门条件语句 类似 and ( 1=2 or ....
+     *
      * @param list
      * @return
      * @throws Exception
@@ -390,18 +389,17 @@ public class UserRoleOrgServiceImpl extends BaseSpringrainServiceImpl implements
             return null;
         }
         //去掉重复的对象,对象是使用 id 作为对比字段的,需要把id设置好进行去重
-        Set<RoleOrg> set=new HashSet<>();
+        Set<RoleOrg> set = new HashSet<>();
 
         // 使用set去重
         // set.addAll(list);
-        for (RoleOrg re:list){
-            RoleOrg r=new RoleOrg();
-            r.setId(re.getOrgId()+"_"+re.getChildren());
+        for (RoleOrg re : list) {
+            RoleOrg r = new RoleOrg();
+            r.setId(re.getOrgId() + "_" + re.getChildren());
             r.setOrgId(re.getOrgId());
             r.setChildren(re.getChildren());
             set.add(r);
         }
-
 
 
         // 不包含子部门的 部门Id List
@@ -508,23 +506,24 @@ public class UserRoleOrgServiceImpl extends BaseSpringrainServiceImpl implements
         return list;
 
     }
+
     @Override
-   public String updateUserOrg( UserOrg userOrg) throws Exception {
+    public String updateUserOrg(UserOrg userOrg) throws Exception {
         Integer managerType = userOrg.getManagerType();
 
-        if (userOrg==null||StringUtils.isBlank(userOrg.getOrgId())||managerType==null){
-                return  "数据不能为空";
-            }
-
-        Finder finder=Finder.getDeleteFinder(UserOrg.class).append(" WHERE userId=:userId and orgId=:orgId ");
-        finder.setParam("userId",userOrg.getUserId()).setParam("orgId",userOrg.getOrgId());
-        super.update(finder);
-
-        if(managerType<0){// 删除关系
-           return null;
+        if (userOrg == null || StringUtils.isBlank(userOrg.getOrgId()) || managerType == null) {
+            return "数据不能为空";
         }
 
-        Date now=new Date();
+        Finder finder = Finder.getDeleteFinder(UserOrg.class).append(" WHERE userId=:userId and orgId=:orgId ");
+        finder.setParam("userId", userOrg.getUserId()).setParam("orgId", userOrg.getOrgId());
+        super.update(finder);
+
+        if (managerType < 0) {// 删除关系
+            return null;
+        }
+
+        Date now = new Date();
         userOrg.setId(SecUtils.getUUID());
         userOrg.setCreateTime(now);
         userOrg.setUpdateTime(now);
@@ -537,23 +536,22 @@ public class UserRoleOrgServiceImpl extends BaseSpringrainServiceImpl implements
     }
 
 
-
     @Override
     public String updateRoleOrg(RoleOrg roleOrg) throws Exception {
 
-        if(roleOrg==null||StringUtils.isBlank(roleOrg.getOrgId())||StringUtils.isBlank(roleOrg.getRoleId())||roleOrg.getCheck()==null){
-            return  "数据不能为空";
+        if (roleOrg == null || StringUtils.isBlank(roleOrg.getOrgId()) || StringUtils.isBlank(roleOrg.getRoleId()) || roleOrg.getCheck() == null) {
+            return "数据不能为空";
         }
 
-        Finder finder=Finder.getDeleteFinder(RoleOrg.class).append(" WHERE roleId=:roleId and orgId=:orgId ");
-        finder.setParam("roleId",roleOrg.getRoleId()).setParam("orgId",roleOrg.getOrgId());
+        Finder finder = Finder.getDeleteFinder(RoleOrg.class).append(" WHERE roleId=:roleId and orgId=:orgId ");
+        finder.setParam("roleId", roleOrg.getRoleId()).setParam("orgId", roleOrg.getOrgId());
         super.update(finder);
 
-        if(roleOrg.getCheck()==false){// 删除关系
+        if (roleOrg.getCheck() == false) {// 删除关系
             return null;
         }
 
-        Date now=new Date();
+        Date now = new Date();
         roleOrg.setId(SecUtils.getUUID());
         roleOrg.setCreateTime(now);
         roleOrg.setUpdateTime(now);

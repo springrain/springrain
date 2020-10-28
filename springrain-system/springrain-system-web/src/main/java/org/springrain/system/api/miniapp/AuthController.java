@@ -29,7 +29,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 
 @RestController
-@RequestMapping(value="/api/system/auth", method = RequestMethod.POST)
+@RequestMapping(value = "/api/system/auth", method = RequestMethod.POST)
 public class AuthController extends BaseController {
 
 
@@ -37,74 +37,75 @@ public class AuthController extends BaseController {
     private IWxMiniappConfigService wxMiniappConfigService;
     @Resource
     private IUserService userService;
+
     /**
      * 查看的Json格式数据,为APP端提供数据
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ReturnDatas login(@RequestBody Map map) throws Exception {
         ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
-       String appId=(String)map.get("appId");
-       String jsCode=(String)map.get("jsCode");
-       IWxMiniappConfig config = wxMiniappConfigService.findWxMiniappConfigById(appId);
+        String appId = (String) map.get("appId");
+        String jsCode = (String) map.get("jsCode");
+        IWxMiniappConfig config = wxMiniappConfigService.findWxMiniappConfigById(appId);
 
-       if (config==null){
-           return ReturnDatas.getErrorReturnDatas("appId不存在");
-       }
+        if (config == null) {
+            return ReturnDatas.getErrorReturnDatas("appId不存在");
+        }
 
-       ApiResult apiResult = MiniappAuthApi.code2Session(config, jsCode);
+        ApiResult apiResult = MiniappAuthApi.code2Session(config, jsCode);
 
-       if (apiResult.isSucceed()==false){
-           return ReturnDatas.getErrorReturnDatas("数据错误");
-       }
+        if (apiResult.isSucceed() == false) {
+            return ReturnDatas.getErrorReturnDatas("数据错误");
+        }
 
-       String openId=apiResult.getOpenId();
+        String openId = apiResult.getOpenId();
 
-       if(StringUtils.isBlank(openId)){
-           return ReturnDatas.getErrorReturnDatas("数据错误");
-       }
-       String userId=userService.findUserIdByOpenId(openId);
-        User user=null;
-       if (StringUtils.isNotBlank(userId)){
-            user=userService.findUserById(userId);
-        }else{
-           user=new User();
-           String id=SecUtils.getTimeNO();
-           user.setId(id);
-           user.setOpenId(openId);
-           user.setUnionID(apiResult.getUnionid());
-           user.setAccount(id);
-           user.setPassword(SecUtils.encoderByMd5With32Bit(id+openId));
-           user.setSex(GlobalStatic.sexMap.get(map.get("gender")));
-           // 小程序端 店长注册
-           user.setUserType(2);
+        if (StringUtils.isBlank(openId)) {
+            return ReturnDatas.getErrorReturnDatas("数据错误");
+        }
+        String userId = userService.findUserIdByOpenId(openId);
+        User user = null;
+        if (StringUtils.isNotBlank(userId)) {
+            user = userService.findUserById(userId);
+        } else {
+            user = new User();
+            String id = SecUtils.getTimeNO();
+            user.setId(id);
+            user.setOpenId(openId);
+            user.setUnionID(apiResult.getUnionid());
+            user.setAccount(id);
+            user.setPassword(SecUtils.encoderByMd5With32Bit(id + openId));
+            user.setSex(GlobalStatic.sexMap.get(map.get("gender")));
+            // 小程序端 店长注册
+            user.setUserType(2);
 
-           user.setActive(1);
-           user.setUserName((String)map.get("nickName"));
-           user.setAvatar((String)map.get("avatarUrl"));
+            user.setActive(1);
+            user.setUserName((String) map.get("nickName"));
+            user.setAvatar((String) map.get("avatarUrl"));
 
-           user.setNickName((String)map.get("nickName"));
+            user.setNickName((String) map.get("nickName"));
 
-           user.setCreateTime(new Date());
-           user.setUpdateTime(new Date());
+            user.setCreateTime(new Date());
+            user.setUpdateTime(new Date());
 
-           user.setUpdateUserId("0");
-           user.setCreateUserId("0");
+            user.setUpdateUserId("0");
+            user.setCreateUserId("0");
 
 
-           user.setBak1(map.get("country") + "," + map.get("province") + "," + map.get("city"));
+            user.setBak1(map.get("country") + "," + map.get("province") + "," + map.get("city"));
 
-           userService.save(user);
-       }
+            userService.save(user);
+        }
 
         ConcurrentMap resutltMap = Maps.newConcurrentMap();
 
         String jwtToken = userService.wrapJwtTokenByUser(user);
         resutltMap.put(GlobalStatic.jwtTokenKey, jwtToken);
 
-        resutltMap.put(GlobalStatic.USER_SPECICAL_INFO,user);
+        resutltMap.put(GlobalStatic.USER_SPECICAL_INFO, user);
         returnObject.setResult(resutltMap);
 
-        userService.putByCache(GlobalStatic.wxConfigCacheKey,"sessionKey_"+user.getId(),apiResult.getSessionKey());
+        userService.putByCache(GlobalStatic.wxConfigCacheKey, "sessionKey_" + user.getId(), apiResult.getSessionKey());
         return returnObject;
     }
 
@@ -116,7 +117,7 @@ public class AuthController extends BaseController {
 
         String mcode = map.get("mcode").toString();
 
-        String appId="123";
+        String appId = "123";
         IWxMiniappConfig config = wxMiniappConfigService.findWxMiniappConfigById(appId);
 
         MiniappQrcode miniappQrcode = new MiniappQrcode();
@@ -124,50 +125,44 @@ public class AuthController extends BaseController {
         miniappQrcode.setScene(mcode);
 
         ApiResult apiResult = MiniappQrcodeApi.getUnlimited(config, miniappQrcode);
-        if(apiResult!=null&&apiResult.isSucceed()){
+        if (apiResult != null && apiResult.isSucceed()) {
             File file = apiResult.getFile();
             file.getName();
-            returnObject.setResult("/upload/miniappqrcode/"+file.getName());
+            returnObject.setResult("/upload/miniappqrcode/" + file.getName());
             return returnObject;
-        }else{
+        } else {
             returnObject.setStatus("error");
             returnObject.setMessage("二维码生成失败");
             return returnObject;
         }
 
 
-
     }
-
-
 
 
     @RequestMapping(value = "/getPhone", method = RequestMethod.POST)
-    public ReturnDatas getPhone(@RequestBody Map<String,String> map) throws Exception {
-          String encryptedData=map.get("encryptedData");
-          String iv=map.get("iv");
-          String userId= SessionUser.getUserId();
-          String sessionKey=userService.getByCache(GlobalStatic.wxConfigCacheKey,"sessionKey_"+userId,String.class);
-          if(StringUtils.isBlank(sessionKey)){
-              return ReturnDatas.getErrorReturnDatas("数据错误");
-          }
-          String json=WxCryptUtils.decrypt(sessionKey,encryptedData,iv);
-          Map m= JsonUtils.readValue(json,Map.class);
-          String phone=(String)m.get("phoneNumber");
-          if (StringUtils.isBlank(phone)){
-              return ReturnDatas.getErrorReturnDatas("数据错误");
-          }
-          User user=new User();
-          user.setId(userId);
-          user.setMobile(phone);
-        userService.update(user,true);
-        ReturnDatas returnDatas=ReturnDatas.getSuccessReturnDatas();
+    public ReturnDatas getPhone(@RequestBody Map<String, String> map) throws Exception {
+        String encryptedData = map.get("encryptedData");
+        String iv = map.get("iv");
+        String userId = SessionUser.getUserId();
+        String sessionKey = userService.getByCache(GlobalStatic.wxConfigCacheKey, "sessionKey_" + userId, String.class);
+        if (StringUtils.isBlank(sessionKey)) {
+            return ReturnDatas.getErrorReturnDatas("数据错误");
+        }
+        String json = WxCryptUtils.decrypt(sessionKey, encryptedData, iv);
+        Map m = JsonUtils.readValue(json, Map.class);
+        String phone = (String) m.get("phoneNumber");
+        if (StringUtils.isBlank(phone)) {
+            return ReturnDatas.getErrorReturnDatas("数据错误");
+        }
+        User user = new User();
+        user.setId(userId);
+        user.setMobile(phone);
+        userService.update(user, true);
+        ReturnDatas returnDatas = ReturnDatas.getSuccessReturnDatas();
         returnDatas.setResult(phone);
         return returnDatas;
     }
-
-
-
 
 
 }

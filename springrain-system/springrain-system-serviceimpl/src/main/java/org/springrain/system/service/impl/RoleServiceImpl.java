@@ -3,13 +3,9 @@ package org.springrain.system.service.impl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springrain.frame.entity.IBaseEntity;
-import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
-import org.springrain.frame.util.Page;
 import org.springrain.system.entity.Role;
 import org.springrain.system.service.IRoleService;
-
-import java.util.List;
 
 
 /**
@@ -34,7 +30,7 @@ public class RoleServiceImpl extends BaseSpringrainServiceImpl implements IRoleS
     public Integer update(IBaseEntity entity) throws Exception {
         Role role = (Role) entity;
         //清理缓存
-        super.evictByKey(GlobalStatic.userOrgRoleMenuInfoCacheKey,"findRoleById_"+role.getId());
+        super.evictByKey(GlobalStatic.userOrgRoleMenuInfoCacheKey, "findRoleById_" + role.getId());
         return super.update(entity);
     }
 
@@ -58,20 +54,5 @@ public class RoleServiceImpl extends BaseSpringrainServiceImpl implements IRoleS
         return role;
     }
 
-    /**
-     * 列表查询,每个service都会重载,要把sql语句封装到service中,Finder只是最后的方案
-     *
-     * @param finder
-     * @param page
-     * @param clazz
-     * @param o
-     * @return
-     * @throws Exception
-     */
-    @Override
-    public <T> List<T> findListDataByFinder(Finder finder, Page page, Class<T> clazz,
-                                            Object o) throws Exception {
-        return super.findListDataByFinder(finder, page, clazz, o);
-    }
 
 }

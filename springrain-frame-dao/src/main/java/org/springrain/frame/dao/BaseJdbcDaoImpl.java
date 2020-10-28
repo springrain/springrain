@@ -148,7 +148,6 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
     }
 
 
-
     @Override
     public <T> List<T> queryForList(Finder finder, Class<T> clazz) throws Exception {
         return queryForList(finder, clazz, null);
@@ -311,39 +310,6 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
         }
     }
 
-    @Override
-    public <T> List<T> findListDataByFinder(Finder finder, Page page, Class<T> clazz, Object queryBean)
-            throws Exception {
-
-        if (finder == null) {
-            String tableName = null;
-            if (queryBean != null) {
-                tableName = Finder.getTableName(queryBean);
-            } else {
-                tableName = Finder.getTableName(clazz);
-            }
-
-            finder = new Finder("SELECT * FROM " + tableName);
-            finder.append(" WHERE 1=1 ");
-
-        }
-
-        if (queryBean != null) {
-            getFinderWhereByQueryBean(finder, queryBean);
-        }
-
-        if (page == null) {
-            return this.queryForList(finder, clazz, page);
-        }
-        int _index = RegexValidateUtils.getOrderByIndex(finder.getSql());
-        if (_index > 0) {
-            finder.setSql(finder.getSql().substring(0, _index));
-        }
-        // 根据page的参数 添加 order by
-        getFinderOrderBy(finder, page);
-
-        return this.queryForList(finder, clazz, page);
-    }
 
     @Override
     public Finder getFinderOrderBy(Finder finder, Page page) throws Exception {
@@ -1488,18 +1454,18 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
      */
     private void checkTransactionMethodName() throws NoTransactionException {
         if (isCheckTransactionMethodName()) {// 方法是否具有事务
-            if (!TransactionSynchronizationManager.isActualTransactionActive()){//如果没有事务
+            if (!TransactionSynchronizationManager.isActualTransactionActive()) {//如果没有事务
                 throw new NoTransactionException("save,update,delete方法,请按照事务拦截方法名书写规范!具体参见:applicationContext-tx.xml");
             }
 /**
-            try {
-                //  TransactionSynchronizationManager.isActualTransactionActive(); 方法,待测试
-                TransactionInterceptor.currentTransactionStatus();
-            } catch (NoTransactionException e) {
-                logger.error(e.getMessage(), e);
-                throw new NoTransactionException("save,update,delete方法,请按照事务拦截方法名书写规范!具体参见:applicationContext-tx.xml");
-            }
-*/
+ try {
+ //  TransactionSynchronizationManager.isActualTransactionActive(); 方法,待测试
+ TransactionInterceptor.currentTransactionStatus();
+ } catch (NoTransactionException e) {
+ logger.error(e.getMessage(), e);
+ throw new NoTransactionException("save,update,delete方法,请按照事务拦截方法名书写规范!具体参见:applicationContext-tx.xml");
+ }
+ */
 
         }
     }

@@ -64,7 +64,6 @@ public interface IUserRoleMenuService extends IBaseSpringrainService {
     List<Menu> findMenuTreeByUsreId(String userId) throws Exception;
 
 
-
     /**
      * 查询所有的菜单树
      *
@@ -84,6 +83,7 @@ public interface IUserRoleMenuService extends IBaseSpringrainService {
 
     /**
      * ajax更新操作
+     *
      * @param roleMenu
      * @return
      * @throws Exception
@@ -92,11 +92,12 @@ public interface IUserRoleMenuService extends IBaseSpringrainService {
 
     /**
      * 更新用户的角色信息
+     *
      * @param userId
      * @param roleIds
      * @return
      * @throws Exception
      */
-    String updateUserRoles( String userId,List<String> roleIds) throws Exception;
+    String updateUserRoles(String userId, List<String> roleIds) throws Exception;
 
 }

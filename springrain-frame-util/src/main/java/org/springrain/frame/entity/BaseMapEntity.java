@@ -38,6 +38,7 @@ public class BaseMapEntity implements Serializable {
 
     /**
      * 设置自定义的字段,非数据库字段
+     *
      * @param key
      * @param object
      * @return
@@ -52,6 +53,7 @@ public class BaseMapEntity implements Serializable {
 
     /**
      * 获取数据库和自定义的所有字段值
+     *
      * @param key
      * @return
      */
@@ -122,6 +124,7 @@ public class BaseMapEntity implements Serializable {
 
     /**
      * 检查是否是合法的sql字段
+     *
      * @param sqlStr
      * @return
      */

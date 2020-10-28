@@ -58,7 +58,7 @@ public interface IOrgService extends IBaseSpringrainService {
      * @return
      * @throws Exception
      */
-    List<Org>  findTreeOrg() throws Exception;
+    List<Org> findTreeOrg() throws Exception;
 
     /**
      * 根据父类Id 查找Org的树形结构,根为 null

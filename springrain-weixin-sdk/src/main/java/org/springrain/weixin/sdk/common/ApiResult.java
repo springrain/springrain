@@ -1,4 +1,3 @@
-
 package org.springrain.weixin.sdk.common;
 
 import org.slf4j.Logger;

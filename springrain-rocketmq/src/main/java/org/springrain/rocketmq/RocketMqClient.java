@@ -22,12 +22,6 @@ import java.util.concurrent.*;
 
 public class RocketMqClient {
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
-
-    private String logFlag = "rocketMq";
-    private DefaultMQProducer defaultProducer;
-    private TransactionMQProducer defaultTransactionProducer;
-
     RocketmqProperties rocketmqProperties;
     // 声明线程池
     ExecutorService executorService = new ThreadPoolExecutor(2, 5, 100, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(2000), new ThreadFactory() {
@@ -38,6 +32,10 @@ public class RocketMqClient {
             return thread;
         }
     });
+    private Logger logger = LoggerFactory.getLogger(getClass());
+    private String logFlag = "rocketMq";
+    private DefaultMQProducer defaultProducer;
+    private TransactionMQProducer defaultTransactionProducer;
 
 
     public RocketMqClient() {

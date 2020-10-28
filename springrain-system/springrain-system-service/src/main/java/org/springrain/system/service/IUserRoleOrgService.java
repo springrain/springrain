@@ -22,6 +22,7 @@ public interface IUserRoleOrgService extends IBaseSpringrainService {
 
     /**
      * 根据部门Id 查找部门下人员的userId.不包括会员
+     *
      * @param orgId
      * @param page
      * @return
@@ -31,82 +32,90 @@ public interface IUserRoleOrgService extends IBaseSpringrainService {
 
     /**
      * 根据部门Id 查找部门下的User对象.不包括会员
+     *
      * @param orgId
      * @param page
      * @return
      * @throws Exception
      */
-    List<User> findUserByOrgId(String orgId,Page page) throws Exception;
+    List<User> findUserByOrgId(String orgId, Page page) throws Exception;
 
 
     /**
      * 根据部门ID,查找部门下(包括所有子部门)的人员的userId.不包括会员
+     *
      * @param orgId
      * @param page
      * @return
      * @throws Exception
      */
-    List<String> findAllUserIdByOrgId(String orgId,Page page) throws Exception;
+    List<String> findAllUserIdByOrgId(String orgId, Page page) throws Exception;
 
     /**
      * 根据部门ID,查找部门下(包括所有子部门)的User对象.不包括会员
+     *
      * @param orgId
      * @param page
      * @return
      * @throws Exception
      */
-    List<User> findAllUserByOrgId(String orgId,Page page) throws Exception;
+    List<User> findAllUserByOrgId(String orgId, Page page) throws Exception;
 
 
     /**
      * 根据用户ID 查找所在的部门的Id
+     *
      * @param userId
      * @param page
      * @return
      * @throws Exception
      */
-    List<String> findOrgIdByUserId(String userId,Page page) throws Exception;
+    List<String> findOrgIdByUserId(String userId, Page page) throws Exception;
 
     /**
      * 根据用户ID 查找所在的部门.
+     *
      * @param userId
      * @param page
      * @return
      * @throws Exception
      */
-    List<Org> findOrgByUserId(String userId,Page page) throws Exception;
-
+    List<Org> findOrgByUserId(String userId, Page page) throws Exception;
 
 
     /**
      * 根据用户ID 查找所在的UserOrg
+     *
      * @param userId
      * @param page
      * @return
      * @throws Exception
      */
-    List<UserOrg> findUserOrgByUserId(String userId,Page page) throws Exception;
+    List<UserOrg> findUserOrgByUserId(String userId, Page page) throws Exception;
 
     /**
      * 根据用户ID 查找管理的部门Id,不包括角色扩展的部门
+     *
      * @param userId
      * @param page
      * @return
      * @throws Exception
      */
-    List<String> findManagerOrgIdByUserId(String userId,Page page) throws Exception;
+    List<String> findManagerOrgIdByUserId(String userId, Page page) throws Exception;
 
     /**
      * 根据用户ID 查找管理的部门,不包括角色扩展的部门
+     *
      * @param userId
      * @param page
      * @return
      * @throws Exception
      */
-    List<Org> findManagerOrgByUserId(String userId,Page page) throws Exception;
+    List<Org> findManagerOrgByUserId(String userId, Page page) throws Exception;
 
     /**
      * 根据部门ID 查找主管Id.一个部门只有一个主管,其他管理人员可以通过角色进行扩展分配  --有缓存
+     *
      * @param orgId
      * @return
      * @throws Exception
@@ -115,6 +124,7 @@ public interface IUserRoleOrgService extends IBaseSpringrainService {
 
     /**
      * 根据部门ID 查找主管.一个部门只有一个主管,其他管理人员可以通过角色进行扩展分配.调用  findManagerUserIdByOrgId 方法
+     *
      * @param orgId
      * @return
      * @throws Exception
@@ -126,6 +136,7 @@ public interface IUserRoleOrgService extends IBaseSpringrainService {
      * 查询用户有权限管理的所有部门,包括角色关联分配产生的部门权限.分装成Finder的形式用于关联查询的finder实体类
      * 1.获取用户所有的  List<UserRole> list,包含主管的部门和角色分配的部门
      * 2.wrapOrgIdFinderByUserRole(list) 生成完整的Finder对象.
+     *
      * @param userId
      * @return
      * @throws Exception
@@ -134,12 +145,13 @@ public interface IUserRoleOrgService extends IBaseSpringrainService {
 
     /**
      * 查询私有部门角色的部门范围,构造成Finder,用于权限范围限制.
+     *
      * @param roleId
      * @param userId
      * @return
      * @throws Exception
      */
-    Finder wrapOrgIdFinderByPrivateOrgRoleId(String roleId,String userId) throws Exception;
+    Finder wrapOrgIdFinderByPrivateOrgRoleId(String roleId, String userId) throws Exception;
 
     /**
      * 查询用户有权限管理的所有部门,包括角色关联分配产生的部门权限.分装成Finder的形式用于关联查询的finder实体类
@@ -175,25 +187,28 @@ public interface IUserRoleOrgService extends IBaseSpringrainService {
 
     /**
      * 根据roleId,查询role下管理的部门,用于角色自定的部门范围,查询 t_role_org 中间表
+     *
      * @param roleId
      * @param page
      * @return
      * @throws Exception
      */
-    List<RoleOrg> findOrgByRoleId(String roleId,Page page) throws Exception;
+    List<RoleOrg> findOrgByRoleId(String roleId, Page page) throws Exception;
 
 
     /**
      * 更新用户和部门的关系
+     *
      * @param userOrg
      * @return
      * @throws Exception
      */
-   String updateUserOrg(UserOrg userOrg) throws Exception;
+    String updateUserOrg(UserOrg userOrg) throws Exception;
 
 
     /**
      * 更新角色和部门的关系
+     *
      * @param roleOrg
      * @return
      * @throws Exception

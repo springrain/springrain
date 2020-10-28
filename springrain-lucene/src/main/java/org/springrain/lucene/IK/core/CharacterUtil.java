@@ -24,7 +24,6 @@
 package org.springrain.lucene.IK.core;
 
 /**
- *
  * 字符集识别工具类
  */
 class CharacterUtil {

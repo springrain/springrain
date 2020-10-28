@@ -42,11 +42,12 @@ public interface IUserService extends IBaseSpringrainService {
 
     /**
      * 封装JwtToken字符串
+     *
      * @param user
      * @return
      * @throws Exception
      */
-    String wrapJwtTokenByUser(User user)throws Exception;
+    String wrapJwtTokenByUser(User user) throws Exception;
 
 
     /**

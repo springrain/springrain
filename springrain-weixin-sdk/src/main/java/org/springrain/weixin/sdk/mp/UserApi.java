@@ -1,5 +1,3 @@
-
-
 package org.springrain.weixin.sdk.mp;
 
 import org.apache.commons.lang3.StringUtils;

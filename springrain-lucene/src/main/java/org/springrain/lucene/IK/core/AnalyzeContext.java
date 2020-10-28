@@ -26,9 +26,7 @@ import java.io.Reader;
 import java.util.*;
 
 /**
- *
  * 分词器上下文状态
- *
  */
 class AnalyzeContext {
 
@@ -184,7 +182,7 @@ class AnalyzeContext {
 
     /**
      * 判断segmentBuff是否需要读取新数据
-     *
+     * <p>
      * 满足一下条件时， 1.available == BUFF_SIZE 表示buffer满载 2.buffIndex < available - 1 &&
      * buffIndex > available - BUFF_EXHAUST_CRITICAL表示当前指针处于临界区内
      * 3.!context.isBufferLocked()表示没有segmenter在占用buffer
@@ -289,7 +287,7 @@ class AnalyzeContext {
 
     /**
      * 返回lexeme
-     *
+     * <p>
      * 同时处理合并
      *
      * @return

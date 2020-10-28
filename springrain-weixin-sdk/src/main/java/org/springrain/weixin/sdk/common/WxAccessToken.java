@@ -18,6 +18,7 @@ public class WxAccessToken implements java.io.Serializable {
     public void setAppId(String appId) {
         this.appId = appId;
     }
+
     public String getAccessToken() {
         return accessToken;
     }

@@ -23,12 +23,6 @@ public class GlobalStatic {
     public static final String dataSave = "保存";
     public static final String dataDelete = "删除";
     public static final String SQLCutSeparator = "___";// SQL复合对象查询的分隔符,三个 下划线
-    public static String projectKeyPrefix = "springrain_";// ES和redis的固定前缀,用于多个项目使用同一个ES和redis集群
-
-    public static boolean showsql = false;//是否显示sql
-    // seata的全局变量
-    // 建议和项目标识符保持一致
-    public static final String seataApplicationId = projectKeyPrefix;
     // 对应file.conf的vgroup_mapping.seata_tx_group,seata是拼接vgroup_mapping.+seataTransactionServiceGroup###
     public static final String seataTransactionServiceGroup = "seata_tx_group";
     // 是否开启seata分布式事务,默认是开启的,一旦关闭,整个应用就会关闭
@@ -39,8 +33,6 @@ public class GlobalStatic {
     public static final String wxConfigCacheKey = "wxConfigCacheKey";
     // 支付宝缓存配置
     public static final String aliPayConfigCacheKey = "aliPayConfigCacheKey";
-
-
     // page对象的缓存后缀key
     public static final String pageCacheExtKey = "_springrain_page_key";
     // 主业务缓存
@@ -72,6 +64,11 @@ public class GlobalStatic {
         put(1, "男");
         put(2, "女");
     }};
+    public static String projectKeyPrefix = "springrain_";// ES和redis的固定前缀,用于多个项目使用同一个ES和redis集群
+    // seata的全局变量
+    // 建议和项目标识符保持一致
+    public static final String seataApplicationId = projectKeyPrefix;
+    public static boolean showsql = false;//是否显示sql
     public static String rootDir = null;
     public static String webInfoDir = null;
     // 防火墙缓存
@@ -181,8 +178,6 @@ public class GlobalStatic {
         userDefaultUrl.add("/api/system/user/menu");
         userDefaultUrl.add("/api/system/user/info");
         //userDefaultUrl.add("/upload/**");//上传的目录
-
-
 
 
     }

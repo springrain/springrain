@@ -335,7 +335,7 @@ public class SecUtils {
     public static String getTimeNO() {
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmssSSS");
         String result = format.format(new Date());
-        return result + String.format("%04d",randomIntegr(10000));
+        return result + String.format("%04d", randomIntegr(10000));
     }
 
 

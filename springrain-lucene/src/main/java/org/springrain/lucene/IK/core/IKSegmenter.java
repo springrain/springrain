@@ -28,7 +28,6 @@ import java.util.List;
 
 /**
  * IK分词器主类
- *
  */
 public final class IKSegmenter {
 
@@ -46,7 +45,6 @@ public final class IKSegmenter {
      *
      * @param input
      * @param cfg   使用自定义的Configuration构造分词器
-     *
      */
     public IKSegmenter(Reader input) {
         this.input = input;

@@ -5,7 +5,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
-import org.springrain.frame.util.Page;
 import org.springrain.frame.util.SecUtils;
 import org.springrain.system.entity.Menu;
 import org.springrain.system.entity.RoleMenu;
@@ -47,7 +46,7 @@ public class MenuServiceImpl extends BaseSpringrainServiceImpl implements IMenuS
 
         // updateMenuManager(id,entity.getManagerRoleId());
         // 清除缓存
-        super.evictByKey(GlobalStatic.qxCacheKey,"findAllMenuTree");
+        super.evictByKey(GlobalStatic.qxCacheKey, "findAllMenuTree");
 
         return id;
 
@@ -166,36 +165,20 @@ public class MenuServiceImpl extends BaseSpringrainServiceImpl implements IMenuS
         if (StringUtils.isNotBlank(pid)) {// pid 不是根节点
             Menu menu = this.findMenuById(pid);
             if (menu == null) {
-               return null;
-            }
-           String comcode= menu.getComcode();
-            if(StringUtils.isBlank(comcode)){
                 return null;
             }
-            f_select.append(" and comcode like :comcode ").setParam("comcode",comcode+"%");
+            String comcode = menu.getComcode();
+            if (StringUtils.isBlank(comcode)) {
+                return null;
+            }
+            f_select.append(" and comcode like :comcode ").setParam("comcode", comcode + "%");
 
         }
 
         f_select.append(" order by sortno desc ");
-        List<String> menuIds = super.queryForList(f_select,String.class);
+        List<String> menuIds = super.queryForList(f_select, String.class);
 
         return menuIds;
-    }
-
-    /**
-     * 列表查询,每个service都会重载,要把sql语句封装到service中,Finder只是最后的方案
-     *
-     * @param finder
-     * @param page
-     * @param clazz
-     * @param o
-     * @return
-     * @throws Exception
-     */
-    @Override
-    public <T> List<T> findListDataByFinder(Finder finder, Page page, Class<T> clazz,
-                                            Object o) throws Exception {
-        return super.findListDataByFinder(finder, page, clazz, o);
     }
 
 

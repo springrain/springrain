@@ -295,6 +295,7 @@ public class LuceneUtils {
 
     /**
      * 根据Id列表,批量删除索引
+     *
      * @param rootdir
      * @param clazz
      * @param ids
@@ -342,6 +343,7 @@ public class LuceneUtils {
 
     /**
      * 删除一个实体类的所有索引
+     *
      * @param rootdir
      * @param clazz
      * @return
@@ -414,6 +416,7 @@ public class LuceneUtils {
 
     /**
      * 批量修改索引
+     *
      * @param rootdir
      * @param list
      * @param <T>
@@ -688,6 +691,7 @@ public class LuceneUtils {
 
     /**
      * 索引文档转化为bean
+     *
      * @param document
      * @param clazz
      * @param <T>

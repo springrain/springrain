@@ -22,7 +22,6 @@
 package org.springrain.lucene.IK.core;
 
 /**
- *
  * 子分词器接口
  */
 interface ISegmenter {

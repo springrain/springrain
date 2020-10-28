@@ -33,20 +33,15 @@ import java.util.List;
 
 @Component("jwtInterceptor")
 public class JwtInterceptor implements HandlerInterceptor {
+    PathMatcher matcher = new AntPathMatcher();
     @Resource
     private IUserRoleMenuService userRoleMenuService;
-
-
     @Resource
     private IUserService userService;
     // @Resource
     //private IMenuService menuService;
     @Resource
     private IRoleService roleService;
-
-    PathMatcher matcher = new AntPathMatcher();
-
-
 
     //允许跨域,目前拦截 /*
     @Bean("corsFilter")
@@ -58,7 +53,7 @@ public class JwtInterceptor implements HandlerInterceptor {
         corsConfiguration.addAllowedMethod("*"); // 允许任何方法（post、get等）
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**",corsConfiguration); // 对接口配置跨域设置
+        source.registerCorsConfiguration("/**", corsConfiguration); // 对接口配置跨域设置
         return new CorsFilter(source);
     }
 
