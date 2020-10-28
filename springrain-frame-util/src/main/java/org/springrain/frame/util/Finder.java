@@ -12,7 +12,7 @@ import java.util.Map;
  * @version 2013-03-19 11:08:15
  * @see org.springrain.frame.util.Finder
  */
-public class Finder {
+public final class Finder {
     private Map<String, Object> params = null;
     private StringBuilder sql = new StringBuilder();
     // private String countSql=null;
