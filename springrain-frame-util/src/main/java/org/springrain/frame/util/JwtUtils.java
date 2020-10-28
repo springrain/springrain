@@ -3,6 +3,7 @@ package org.springrain.frame.util;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -56,16 +57,28 @@ public class JwtUtils {
      * @return
      */
     public static String getUserId(String token) {
-        return getClaim(token, "userId");
+        return getClaim(token, "userId").asString();
     }
-
+    
+    /**
+    * 获取token中的userType
+    *
+    * @param token
+    * @return
+    * @author 程相羽
+    * @version 2020年10月28日 下午4:39:01
+    */
+    public static Integer getUserType(String token) {
+    	return getClaim(token, "userType").asInt();
+    }
+    
     /**
      * 获得token中的信息,无需secret解密.需要提前verify验证一下token是否正确.
      *
      * @param token
      * @return
      */
-    public static String getClaim(String token, String claimName) {
+    public static Claim getClaim(String token, String claimName) {
         try {
 
             if (StringUtils.isBlank(token)) {
@@ -83,8 +96,7 @@ public class JwtUtils {
                 return null;
             }
 
-            String claim = jwt.getClaim(claimName).asString();
-            return claim;
+            return jwt.getClaim(claimName);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             return null;
