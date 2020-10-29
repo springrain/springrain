@@ -22,9 +22,4 @@ public interface IAuditlogService extends IBaseSpringrainService {
     Integer updateAuditlog(AuditLog entity) throws Exception;
 
     AuditLog findAuditlogById(Object id) throws Exception;
-
-
-	List<AuditLog> findListDataByFinder(Object object, Page<?> page, Class<AuditLog> class1,
-			AuditLog auditlog);
-
 }
