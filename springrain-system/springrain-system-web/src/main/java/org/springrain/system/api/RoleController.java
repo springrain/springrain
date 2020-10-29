@@ -54,7 +54,7 @@ public class RoleController extends BaseController {
 	public ReturnDatas<List<Role>> lists(@RequestBody Page<Role> page) throws Exception {
 		ReturnDatas<List<Role>> returnObject = ReturnDatas.getSuccessReturnDatas();
 		// ==执行分页查询
-		List<Role> datas = roleService.findListDataByFinder(null, page, Role.class, page.getData());
+		List<Role> datas = roleService.queryForListByEntity(null, page);
 
 		returnObject.setResult(datas);
 		returnObject.setPage(page);
@@ -71,7 +71,7 @@ public class RoleController extends BaseController {
 	public ReturnDatas<List<Role>> list() throws Exception {
 		ReturnDatas<List<Role>> returnObject = ReturnDatas.getSuccessReturnDatas();
 		// ==构造分页请求
-		List<Role> roleList = roleService.findListDataByFinder(null, null, Role.class, null);
+		List<Role> roleList = roleService.queryForListByEntity(null, null);
 		returnObject.setResult(roleList);
 		return returnObject;
 	}

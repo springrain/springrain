@@ -163,7 +163,7 @@ public class ClassUtils {
      * @return
      * @throws Exception
      */
-    public static String getTableName(Object object) throws Exception {
+    protected static String getTableName(Object object) throws Exception {
 
         if (object == null) {
             return null;

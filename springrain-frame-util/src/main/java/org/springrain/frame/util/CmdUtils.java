@@ -43,7 +43,7 @@ public class CmdUtils {
      * @param pb
      * @return
      */
-    public static  List<String> execCmd(ProcessBuilder pb) {
+    public static List<String> execCmd(ProcessBuilder pb) {
 
         BufferedReader br = null;
         try {
@@ -95,7 +95,7 @@ public class CmdUtils {
      * @param commandStr
      * @return
      */
-    private static  List<String> execLinuxCmd(String commandStr) {
+    private static List<String> execLinuxCmd(String commandStr) {
         List<String> cmds = new ArrayList<>();
         cmds.add("sh");
         cmds.add("-c");

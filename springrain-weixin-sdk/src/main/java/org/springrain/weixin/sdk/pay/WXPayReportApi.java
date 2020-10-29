@@ -87,6 +87,7 @@ public class WXPayReportApi {
         }
 
     }
+
     private WXPayReportApi() {
         throw new IllegalAccessError("工具类不能实例化");
     }

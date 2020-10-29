@@ -28,18 +28,18 @@ import java.util.Map;
 @RequestMapping(value = "/api/system/user", method = RequestMethod.POST)
 public class UserController extends BaseController {
 
-    @Resource
-    private IUserRoleMenuService userRoleMenuService;
+	@Resource
+	private IUserRoleMenuService userRoleMenuService;
 
-    @Resource
-    private IUserRoleOrgService userRoleOrgService;
+	@Resource
+	private IUserRoleOrgService userRoleOrgService;
 
-    @Resource
-    private IUserService userService;
+	@Resource
+	private IUserService userService;
 
 	/**
 	 * 后台用户列表
-	 * 
+	 *
 	 * @param page
 	 * @return
 	 * @throws Exception
@@ -48,7 +48,7 @@ public class UserController extends BaseController {
 	public ReturnDatas<List<User>> list(@RequestBody Page<User> page) throws Exception {
 		ReturnDatas<List<User>> returnObject = ReturnDatas.getSuccessReturnDatas();
 
-		List<User> datas = userService.findListDataByFinder(null, page, User.class, page.getData());
+		List<User> datas = userService.queryForListByEntity(page.getData(), page);
 
 		returnObject.setResult(datas);
 		returnObject.setPage(page);
@@ -72,77 +72,76 @@ public class UserController extends BaseController {
 
 	}
 
-    /**
-     * 保存 操作,返回json格式数据
-     *
-     */
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public ReturnDatas<User> save(@RequestBody User user) {
-        ReturnDatas<User> returnObject = ReturnDatas.getSuccessReturnDatas();
-        returnObject.setMessage(MessageUtils.SAVE_SUCCESS);
-        try {
+	/**
+	 * 保存 操作,返回json格式数据
+	 */
+	@RequestMapping(value = "/save", method = RequestMethod.POST)
+	public ReturnDatas<User> save(@RequestBody User user) {
+		ReturnDatas<User> returnObject = ReturnDatas.getSuccessReturnDatas();
+		returnObject.setMessage(MessageUtils.SAVE_SUCCESS);
+		try {
 
-            java.lang.String id =user.getId();
-            if(StringUtils.isBlank(id)){
-                user.setId(null);
-            }
-            userService.save(user);
+			java.lang.String id = user.getId();
+			if (StringUtils.isBlank(id)) {
+				user.setId(null);
+			}
+			userService.save(user);
 
-            returnObject.setResult(user);
-        } catch (Exception e) {
-            logger.error(e.getMessage(),e);
-            returnObject.setStatus(ReturnDatas.ERROR);
-            returnObject.setMessage(MessageUtils.SAVE_ERROR);
-        }
-        return returnObject;
+			returnObject.setResult(user);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			returnObject.setStatus(ReturnDatas.ERROR);
+			returnObject.setMessage(MessageUtils.SAVE_ERROR);
+		}
+		return returnObject;
 
-    }
+	}
 
+	/**
+	 * 修改 操作,返回json格式数据
+	 */
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public ReturnDatas<User> update(@RequestBody User user) {
+		ReturnDatas<User> returnObject = ReturnDatas.getSuccessReturnDatas();
+		returnObject.setMessage(MessageUtils.UPDATE_SUCCESS);
+		try {
 
-    /**
-     * 修改 操作,返回json格式数据
-     *
-     */
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public ReturnDatas<User> update(@RequestBody User user) {
-        ReturnDatas<User> returnObject = ReturnDatas.getSuccessReturnDatas();
-        returnObject.setMessage(MessageUtils.UPDATE_SUCCESS);
-        try {
+			java.lang.String id = user.getId();
+			if (StringUtils.isBlank(id)) {
+				return ReturnDatas.getErrorReturnDatas(MessageUtils.UPDATE_NULL_ERROR);
+			}
+			userService.update(user, false);
 
-            java.lang.String id =user.getId();
-            if(StringUtils.isBlank(id)){
-                return ReturnDatas.getErrorReturnDatas(MessageUtils.UPDATE_NULL_ERROR);
-            }
-            userService.update(user,false);
+			returnObject.setResult(user);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			returnObject.setStatus(ReturnDatas.ERROR);
+			returnObject.setMessage(MessageUtils.UPDATE_ERROR);
+		}
+		return returnObject;
+	}
 
-            returnObject.setResult(user);
-        } catch (Exception e) {
-            logger.error(e.getMessage(),e);
-            returnObject.setStatus(ReturnDatas.ERROR);
-            returnObject.setMessage(MessageUtils.UPDATE_ERROR);
-        }
-        return returnObject;
-    }
-
-
-    /**
-     * 更新用户角色关系
-     * @param map  userId,roleIds
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value = "/updateuserrole", method = RequestMethod.POST)
-    public  ReturnDatas<String> updateuserrole(@RequestBody Map<String, Object> map) throws Exception {
-        String userId= (String) map.get("userId");
-        @SuppressWarnings("unchecked")
-		List<String> roleIds = ( List<String>) map.get("roleIds");
-        String str= userRoleMenuService.updateUserRoles(userId,roleIds);
-        if(StringUtils.isBlank(str)){
-            return ReturnDatas.getSuccessReturnDatas();
-        }else{
-            return ReturnDatas.getErrorReturnDatas(str);
-        }
-    }
+	/**
+	 * 更新用户角色关系
+	 *
+	 * @param map
+	 *            userId,roleIds
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/updateuserrole", method = RequestMethod.POST)
+	public ReturnDatas<String> updateuserrole(@RequestBody Map<String, Object> map)
+			throws Exception {
+		String userId = (String) map.get("userId");
+		@SuppressWarnings("unchecked")
+		List<String> roleIds = (List<String>) map.get("roleIds");
+		String str = userRoleMenuService.updateUserRoles(userId, roleIds);
+		if (StringUtils.isBlank(str)) {
+			return ReturnDatas.getSuccessReturnDatas();
+		} else {
+			return ReturnDatas.getErrorReturnDatas(str);
+		}
+	}
 
 	/**
 	 * 用户获取部门
@@ -153,37 +152,38 @@ public class UserController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/findOrgByUserId", method = RequestMethod.POST)
-	public ReturnDatas<List<UserOrg>> findOrgByUserId(@RequestBody Map<String, Object> map) throws Exception {
+	public ReturnDatas<List<UserOrg>> findOrgByUserId(@RequestBody Map<String, Object> map)
+			throws Exception {
 		String userId = (String) map.get("id");
 		List<UserOrg> orgs = userRoleOrgService.findUserOrgByUserId(userId, null);
-		
+
 		ReturnDatas<List<UserOrg>> returnDatas = ReturnDatas.getSuccessReturnDatas();
 		returnDatas.setResult(orgs);
 		return returnDatas;
 	}
 
-
 	/**
 	 * 用户根据角色获取部门
 	 * 
-	 * @param map userId,userOrgs
+	 * @param map
+	 *            userId,userOrgs
 	 * @return
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/findOrgByRoleId", method = RequestMethod.POST)
-	public ReturnDatas<List<RoleOrg>> findOrgByRoleId(@RequestBody Map<String, Object> map) throws Exception {
+	public ReturnDatas<List<RoleOrg>> findOrgByRoleId(@RequestBody Map<String, Object> map)
+			throws Exception {
 		String roleId = (String) map.get("roleid");
 		List<RoleOrg> orgs = userRoleOrgService.findOrgByRoleId(roleId, null);
-		
+
 		ReturnDatas<List<RoleOrg>> returnDatas = ReturnDatas.getSuccessReturnDatas();
 		returnDatas.setResult(orgs);
 		return returnDatas;
 	}
 
-
 	/**
 	 * 更新用户部门关系
-	 * 
+	 *
 	 * @param userOrg
 	 * @return
 	 * @throws Exception
@@ -198,14 +198,12 @@ public class UserController extends BaseController {
 		}
 	}
 
-
 	/**
 	 * 删除操作
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public ReturnDatas<User> delete(java.lang.String id) throws Exception {
 		try {
-
 			if (StringUtils.isNotBlank(id)) {
 				userService.deleteById(id, User.class);
 				return new ReturnDatas<User>(ReturnDatas.SUCCESS, MessageUtils.DELETE_SUCCESS);
@@ -241,69 +239,70 @@ public class UserController extends BaseController {
 
 	}
 
-
-    /**
-     * 获取用户的 权限菜单
-     * @return
-     * @throws Exception
-     */
-	@RequestMapping(value="/getRouters", method = RequestMethod.POST)
+	/**
+	 * 获取用户的 权限菜单
+	 *
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/getRouters", method = RequestMethod.POST)
 	public ReturnDatas<List<String>> menuIds() throws Exception {
-       // 获取当前登录人
-        String userId = SessionUser.getUserId();
-        if (StringUtils.isBlank(userId)) {
-            return ReturnDatas.getErrorReturnDatas("用户不存在");
-        }
-        ReturnDatas<List<String>> successReturnDatas = ReturnDatas.getSuccessReturnDatas();
-        List<Menu> listMenu = userRoleMenuService.findMenuByUserId(userId);
+		// 获取当前登录人
+		String userId = SessionUser.getUserId();
+		if (StringUtils.isBlank(userId)) {
+			return ReturnDatas.getErrorReturnDatas("用户不存在");
+		}
+		ReturnDatas<List<String>> successReturnDatas = ReturnDatas.getSuccessReturnDatas();
+		List<Menu> listMenu = userRoleMenuService.findMenuByUserId(userId);
 
-        List<String> listMenuIds=new ArrayList<>();
-        listMenuIds.add("default");
-        successReturnDatas.setResult(listMenuIds);
+		List<String> listMenuIds = new ArrayList<>();
+		listMenuIds.add("default");
+		successReturnDatas.setResult(listMenuIds);
 
-        if (CollectionUtils.isEmpty(listMenu)){
-            return successReturnDatas;
-        }
+		if (CollectionUtils.isEmpty(listMenu)) {
+			return successReturnDatas;
+		}
 
-        for (Menu menu:listMenu){
-            listMenuIds.add(menu.getId());
-        }
+		for (Menu menu : listMenu) {
+			listMenuIds.add(menu.getId());
+		}
 
-        //List<Menu> listMenu = userRoleMenuService.findMenuTreeByUsreId(userId);
+		// List<Menu> listMenu =
+		// userRoleMenuService.findMenuTreeByUsreId(userId);
 
-       //List<Map<String,Object>> listMap=new ArrayList<>();
-       // 包装成Vue使用的树形结构
-        //userRoleMenuService.wrapVueMenu(listMenu,listMap);
+		// List<Map<String,Object>> listMap=new ArrayList<>();
+		// 包装成Vue使用的树形结构
+		// userRoleMenuService.wrapVueMenu(listMenu,listMap);
 
-       // successReturnDatas.setResult(listMap);
+		// successReturnDatas.setResult(listMap);
 
-        return successReturnDatas;
-    }
+		return successReturnDatas;
+	}
 
+	/**
+	 * 获取用户的角色
+	 *
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/getRolesByUserId", method = RequestMethod.POST)
+	public ReturnDatas<List<Role>> getRolesByUserId() throws Exception {
+		// 获取当前登录人
+		String userId = SessionUser.getUserId();
+		if (StringUtils.isBlank(userId)) {
+			return ReturnDatas.getErrorReturnDatas("用户不存在");
+		}
+		ReturnDatas<List<Role>> successReturnDatas = ReturnDatas.getSuccessReturnDatas();
+		List<Role> roles = userRoleMenuService.findRoleByUserId(userId);
 
-    /**
-     * 获取用户的角色
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value="/getRolesByUserId", method = RequestMethod.POST)
-    public ReturnDatas<List<Role>> getRolesByUserId() throws Exception {
-        // 获取当前登录人
-        String userId = SessionUser.getUserId();
-        if (StringUtils.isBlank(userId)) {
-            return ReturnDatas.getErrorReturnDatas("用户不存在");
-        }
-        ReturnDatas<List<Role>> successReturnDatas = ReturnDatas.getSuccessReturnDatas();
-        List<Role> roles = userRoleMenuService.findRoleByUserId(userId);
+		successReturnDatas.setResult(roles);
 
-        successReturnDatas.setResult(roles);
-
-        return successReturnDatas;
-    }
-
+		return successReturnDatas;
+	}
 
 	/**
 	 * 获取用户的 信息
+	 * 
 	 * @return
 	 * @throws Exception
 	 */
@@ -319,15 +318,15 @@ public class UserController extends BaseController {
 		if (user != null) {
 			user.setRoles(roles);
 		}
-		
+
 		ReturnDatas<User> returnObject = ReturnDatas.getSuccessReturnDatas();
 		returnObject.setResult(user);
 		return returnObject;
 	}
-	
-	
+
 	/**
 	 * 获取用户的信息
+	 * 
 	 * @return
 	 * @throws Exception
 	 */
@@ -343,13 +342,12 @@ public class UserController extends BaseController {
 		if (user != null) {
 			user.setRoles(roles);
 		}
-		
+
 		ReturnDatas<User> returnObject = ReturnDatas.getSuccessReturnDatas();
 		returnObject.setResult(user);
 		return returnObject;
 	}
-	
-	
+
 	/**
 	 * 获取用户的 路由权限菜单
 	 * 
@@ -365,22 +363,22 @@ public class UserController extends BaseController {
 
 		List<MenuDto> menuDto = new ArrayList<MenuDto>();
 		MenuDto menu = new MenuDto();
-		
+
 		MetaDto meta = new MetaDto();
 		meta.setTitle("系统管理");
 		meta.setIcon("system");
 		meta.setNoCache(false);
 		menu.setMeta(meta);
-		
+
 		menu.setName("System");
 		menu.setPath("/system");
 		menu.setComponent("Layout");
 		menu.setAlwaysShow(true);
 		menu.setHidden(false);
 		menu.setRedirect("noRedirect");
-		
+
 		List<MenuDto> children = new ArrayList<MenuDto>();
-		
+
 		MenuDto menu1 = new MenuDto();
 		MetaDto meta1 = new MetaDto();
 		meta1.setTitle("用户管理");
@@ -392,7 +390,7 @@ public class UserController extends BaseController {
 		menu1.setHidden(false);
 		menu1.setComponent("system/user/index");
 		children.add(menu1);
-		
+
 		MetaDto meta2 = new MetaDto();
 		meta2.setTitle("角色管理");
 		meta2.setIcon("peoples");
@@ -404,7 +402,7 @@ public class UserController extends BaseController {
 		menu2.setComponent("system/role/index");
 		menu2.setMeta(meta2);
 		children.add(menu2);
-		
+
 		MetaDto meta3 = new MetaDto();
 		meta3.setTitle("菜单管理");
 		meta3.setIcon("tree-table");
@@ -416,8 +414,7 @@ public class UserController extends BaseController {
 		menu3.setComponent("system/menu/index");
 		menu3.setMeta(meta3);
 		children.add(menu3);
-		
-		
+
 		MenuDto menu4 = new MenuDto();
 		MetaDto meta4 = new MetaDto();
 		meta4.setTitle("部门管理");
@@ -429,13 +426,11 @@ public class UserController extends BaseController {
 		menu4.setComponent("system/dept/index");
 		menu4.setMeta(meta4);
 		children.add(menu4);
-
 		menu.setChildren(children);
 		menuDto.add(menu);
-		
+
 		ReturnDatas<List<MenuDto>> retrunObject = ReturnDatas.getSuccessReturnDatas();
 		retrunObject.setResult(menuDto);
 		return retrunObject;
 	}
-
 }

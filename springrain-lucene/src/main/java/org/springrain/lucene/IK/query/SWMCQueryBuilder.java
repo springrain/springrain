@@ -37,7 +37,6 @@ import java.util.List;
  * Single Word Multi Char Query Builder IK分词算法专用
  *
  * @author linliangyi
- *
  */
 public class SWMCQueryBuilder {
 

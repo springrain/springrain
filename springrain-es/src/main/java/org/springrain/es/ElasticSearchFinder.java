@@ -37,11 +37,10 @@ public class ElasticSearchFinder {
     private List<ScriptSortBuilder> scriptSortBuilderList = new ArrayList<>();
 
     private List<QueryBuilder> listMustCondition = new ArrayList<>();
+    private List<QueryBuilder> listShouldCondition = new ArrayList<>();
 
     public ElasticSearchFinder() {
     }
-
-    private List<QueryBuilder> listShouldCondition = new ArrayList<>();
 
     public ElasticSearchFinder(String keyword) {
         this.keyword = keyword;

@@ -11,10 +11,9 @@ import org.springframework.stereotype.Controller;
  * 注意:只能有一个@SpringBootApplication入口文件,如果其他模块引用了这个模块,就需要把类上的注解都注释掉
  *
  * @author caomei
- *
  */
 @SpringBootApplication
-@ComponentScan(basePackages = { "${springrain.basepackagepath}" }, excludeFilters = { @ComponentScan.Filter(type = FilterType.ANNOTATION, value = Controller.class) })
+@ComponentScan(basePackages = {"${springrain.basepackagepath}"}, excludeFilters = {@ComponentScan.Filter(type = FilterType.ANNOTATION, value = Controller.class)})
 public class SpringrainApplication {
 
     public static void main(String[] args) {

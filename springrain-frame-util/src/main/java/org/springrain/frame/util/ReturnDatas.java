@@ -46,15 +46,15 @@ public class ReturnDatas<T> implements Serializable {
         setResult(data);
     }
 
-    public static<T> ReturnDatas<T> getSuccessReturnDatas() {
-    	return new ReturnDatas<>(ReturnDatas.SUCCESS);
+    public static <T> ReturnDatas<T> getSuccessReturnDatas() {
+        return new ReturnDatas<>(ReturnDatas.SUCCESS);
     }
 
-    public static<T> ReturnDatas<T> getErrorReturnDatas() {
+    public static <T> ReturnDatas<T> getErrorReturnDatas() {
         return new ReturnDatas<>(ReturnDatas.ERROR);
     }
 
-    public static<T> ReturnDatas<T> getErrorReturnDatas(String message) {
+    public static <T> ReturnDatas<T> getErrorReturnDatas(String message) {
         return new ReturnDatas<>(ReturnDatas.ERROR, message);
     }
 

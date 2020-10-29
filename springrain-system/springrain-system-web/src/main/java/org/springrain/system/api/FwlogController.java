@@ -68,7 +68,7 @@ public class FwlogController extends BaseController {
 		Page<?> page = newPage(request);
 		page.setOrder("strDate");
 		page.setSort("desc");
-		List<Fwlog> datas = fwlogService.findListDataByFinder(null, page, Fwlog.class, fwlog);
+		List<Fwlog> datas = fwlogService.queryForListByEntity(fwlog, page);
 		returnObject.setPage(page);
 		returnObject.setResult(datas);
 		return returnObject;

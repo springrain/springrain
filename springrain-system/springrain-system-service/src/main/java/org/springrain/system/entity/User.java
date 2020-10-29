@@ -100,6 +100,29 @@ public class User extends BaseEntity {
 
     // updateUserId
     private String updateUserId;
+    private String nickName;
+    // 是否有效(0否,1是)
+    private Integer active;
+    // bak1
+    private String bak1;
+    // bak2
+    private String bak2;
+    // bak3
+    private String bak3;
+    // bak4
+    private String bak4;
+    // bak5
+    private String bak5;
+    /**
+     * 部门id 作为搜索关键字使用
+     */
+    private String deptId;
+    // 用户的所有角色
+    private List<Role> roles;
+    //columns END 数据库字段结束
+    //concstructor
+    public User() {
+    }
 
     public String getNickName() {
         return nickName;
@@ -111,40 +134,6 @@ public class User extends BaseEntity {
             value = value.trim();
         }
         this.nickName = value;
-    }
-
-    private String nickName;
-
-    // 是否有效(0否,1是)
-    private Integer active;
-
-    // bak1
-    private String bak1;
-
-    // bak2
-    private String bak2;
-
-    // bak3
-    private String bak3;
-
-    // bak4
-    private String bak4;
-
-    // bak5
-    private String bak5;
-    //columns END 数据库字段结束
-    /**
-     * 部门id 作为搜索关键字使用
-     */
-    private String deptId;
-
-
-
-    // 用户的所有角色
-    private List<Role> roles;
-
-    //concstructor
-    public User() {
     }
 
 
@@ -607,7 +596,7 @@ public class User extends BaseEntity {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null){
+        if (obj == null) {
             return false;
         }
 
@@ -634,17 +623,17 @@ public class User extends BaseEntity {
     public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
-    
-    @Transient
-	public String getDeptId() {
-		return deptId;
-	}
 
-	public void setDeptId(String deptId) {
-		this.deptId = deptId;
-	}
-    
-    
+    @Transient
+    public String getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(String deptId) {
+        this.deptId = deptId;
+    }
+
+
 }
 
 	

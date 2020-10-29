@@ -4,7 +4,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springrain.frame.entity.IBaseEntity;
 import org.springrain.frame.util.Finder;
-import org.springrain.frame.util.Page;
 import org.springrain.weixin.entity.WxMenu;
 import org.springrain.weixin.service.IWxMenuService;
 
@@ -38,20 +37,6 @@ public class WxMenuServiceImpl extends BaseSpringrainWeiXinServiceImpl implement
         return super.findById(id, WxMenu.class);
     }
 
-    /**
-     * 列表查询,每个service都会重载,要把sql语句封装到service中,Finder只是最后的方案
-     *
-     * @param finder
-     * @param page
-     * @param clazz
-     * @param o
-     * @return
-     * @throws Exception
-     */
-    @Override
-    public <T> List<T> findListDataByFinder(Finder finder, Page page, Class<T> clazz, Object o) throws Exception {
-        return super.findListDataByFinder(finder, page, clazz, o);
-    }
 
     @Override
     public List<WxMenu> findParentMenuList(String siteId) throws Exception {

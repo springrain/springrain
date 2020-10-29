@@ -22,6 +22,7 @@ import java.util.List;
 public class JsonUtils {
     private final static ObjectMapper mapper = new FrameObjectMapper();
     private static final Logger logger = LoggerFactory.getLogger(JsonUtils.class);
+
     private JsonUtils() {
         throw new IllegalAccessError("工具类不能实例化");
     }

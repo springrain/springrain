@@ -25,17 +25,17 @@ import java.util.Map;
 
 /**
  * TODO 在此加入类描述
- * 
+ *
  * @author 9iu.dicData<Auto generate>
  * @version 2013-07-31 15:56:45
  */
 @Controller
 @RequestMapping(value = "/system/dicdata/{pathtypekey}")
 public class DicDataController extends BaseController {
-	@Resource
-	private IDicDataService dicDataService;
+    @Resource
+    private IDicDataService dicDataService;
 
-	private String listurl = "/system/dicdata/dicdataList";
+    private String listurl = "/system/dicdata/dicdataList";
 
 	/**
 	 * 列表数据,调用listjson方法,保证和app端数据统一
@@ -76,8 +76,7 @@ public class DicDataController extends BaseController {
 		// List<DicData>
 		// datas=dicDataService.findListDicData(pathtypekey,page,dicData);
 		dicData.setTypekey(pathtypekey);
-		List<DicData> datas = dicDataService.findListDataByFinder(null, page, DicData.class,
-				dicData);
+		List<DicData> datas = dicDataService.queryForListByEntity(dicData, page);
 		// boolean hasNext = page.getHasNext();
 		ReturnDatas<List<DicData>> returnObject = ReturnDatas.getSuccessReturnDatas();
 		returnObject.setResult(datas);
@@ -111,18 +110,17 @@ public class DicDataController extends BaseController {
 		return "/system/dicdata/tree";
 	}
 
-	/**
-	 * 查看操作,调用APP端lookjson方法
-	 */
-	@RequestMapping(value = "/look")
-	public String look(@PathVariable String pathtypekey, Model model, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+    /**
+     * 查看操作,调用APP端lookjson方法
+     */
+    @RequestMapping(value = "/look")
+    public String look(@PathVariable String pathtypekey, Model model, HttpServletRequest request,
+                       HttpServletResponse response) throws Exception {
 
 		ReturnDatas<DicData> returnObject = lookjson(pathtypekey, model, request, response);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
 		return "/system/dicdata/dicdataLook";
 	}
-
 	/**
 	 * 查看的Json格式数据,为APP端提供数据
 	 */
@@ -139,8 +137,7 @@ public class DicDataController extends BaseController {
 			returnObject.setStatus(ReturnDatas.ERROR);
 		}
 		return returnObject;
-
-	}
+    }
 
 	/**
 	 * 新增/修改 操作吗,返回json格式数据
@@ -152,7 +149,6 @@ public class DicDataController extends BaseController {
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ReturnDatas<?> returnObject = ReturnDatas.getSuccessReturnDatas();
 		returnObject.setMessage(MessageUtils.UPDATE_SUCCESS);
-
 		try {
 			String id = dicData.getId();
 			String pid = dicData.getPid();
@@ -165,14 +161,14 @@ public class DicDataController extends BaseController {
 			dicData.setTypekey(pathtypekey);
 			// dicDataService.save(dicData, pathtypekey);
 
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			returnObject.setStatus(ReturnDatas.ERROR);
-			returnObject.setMessage(MessageUtils.UPDATE_ERROR);
-		}
-		return returnObject;
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            returnObject.setStatus(ReturnDatas.ERROR);
+            returnObject.setMessage(MessageUtils.UPDATE_ERROR);
+        }
+        return returnObject;
 
-	}
+    }
 
 	/**
 	 * 进入修改页面,APP端可以调用 lookjson 获取json格式数据
@@ -187,7 +183,6 @@ public class DicDataController extends BaseController {
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
 		return "/system/dicdata/dicdataCru";
 	}
-
 	/**
 	 * 删除操作
 	 */
@@ -210,7 +205,6 @@ public class DicDataController extends BaseController {
 		}
 		return new ReturnDatas<Object>(ReturnDatas.ERROR, MessageUtils.DELETE_ERROR);
 	}
-
 	/**
 	 * 删除多条记录
 	 * 
@@ -235,7 +229,6 @@ public class DicDataController extends BaseController {
 			return new ReturnDatas<Object>(ReturnDatas.ERROR, MessageUtils.DELETE_ALL_ERROR);
 		}
 		return new ReturnDatas<Object>(ReturnDatas.SUCCESS, MessageUtils.DELETE_ALL_SUCCESS);
-
-	}
+    }
 
 }

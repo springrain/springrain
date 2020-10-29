@@ -67,7 +67,7 @@ public class AuditlogController extends BaseController {
 		page.setOrder("operationTime");
 		page.setSort("desc");
 
-		List<AuditLog> datas = auditlogService.findListDataByFinder(null, page, AuditLog.class, auditlog);
+		List<AuditLog> datas = auditlogService.queryForListByEntity(auditlog, page);
 		//returnObject.setQueryBean(auditlog);
 		returnObject.setPage(page);
 		returnObject.setResult(datas);

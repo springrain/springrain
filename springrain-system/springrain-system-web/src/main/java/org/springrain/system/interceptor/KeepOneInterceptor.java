@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 
 /**
- *  保持用户只有一个登录,建议在登录的时候处理,不用拦截器了.
+ * 保持用户只有一个登录,建议在登录的时候处理,不用拦截器了.
  */
 
 //@Component("keepOneInterceptor")

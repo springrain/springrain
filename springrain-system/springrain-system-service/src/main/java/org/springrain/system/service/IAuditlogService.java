@@ -1,6 +1,9 @@
 package org.springrain.system.service;
 
+import java.util.List;
+
 import org.springrain.frame.entity.AuditLog;
+import org.springrain.frame.util.Page;
 import org.springrain.rpc.annotation.RpcServiceAnnotation;
 
 /**
@@ -19,5 +22,9 @@ public interface IAuditlogService extends IBaseSpringrainService {
     Integer updateAuditlog(AuditLog entity) throws Exception;
 
     AuditLog findAuditlogById(Object id) throws Exception;
+
+
+	List<AuditLog> findListDataByFinder(Object object, Page<?> page, Class<AuditLog> class1,
+			AuditLog auditlog);
 
 }

@@ -28,28 +28,24 @@ public class RequestMappingHandlerMappingOrder extends RequestMappingHandlerMapp
     protected void registerHandlerMethod(Object handler, Method method, RequestMappingInfo mapping) {
 
         //普通mapping key
-        String key=mapping.getMethodsCondition().toString()+" "+mapping.getPatternsCondition();
+        String key = mapping.getMethodsCondition().toString() + " " + mapping.getPatternsCondition();
         // order mapping key
-        String orderKey=key+" order";
-        if (method.getDeclaringClass().isAnnotationPresent(Order.class)||method.isAnnotationPresent(Order.class)){//如果存在order,就删除掉已经注册的 普通mapping
-            RequestMappingInfo oldMapping= requestMappingInfoMap.get(key);
-            if (oldMapping!=null&&requestMappingInfoMap.get(orderKey)==null) {//如果没有order mapping映射,就删除这个普通映射
+        String orderKey = key + " order";
+        if (method.getDeclaringClass().isAnnotationPresent(Order.class) || method.isAnnotationPresent(Order.class)) {//如果存在order,就删除掉已经注册的 普通mapping
+            RequestMappingInfo oldMapping = requestMappingInfoMap.get(key);
+            if (oldMapping != null && requestMappingInfoMap.get(orderKey) == null) {//如果没有order mapping映射,就删除这个普通映射
                 //删除掉映射
                 super.unregisterMapping(oldMapping);
             }
             //放入 order
-            requestMappingInfoMap.put(orderKey,mapping);
-        }else if(requestMappingInfoMap.get(orderKey)!=null){//已经存在 order mapping 了,就不再处理 普通mapping了
+            requestMappingInfoMap.put(orderKey, mapping);
+        } else if (requestMappingInfoMap.get(orderKey) != null) {//已经存在 order mapping 了,就不再处理 普通mapping了
             return;
-        }else{//其他情况 作为 普通mapping
-            requestMappingInfoMap.put(key,mapping);
+        } else {//其他情况 作为 普通mapping
+            requestMappingInfoMap.put(key, mapping);
         }
         super.registerHandlerMethod(handler, method, mapping);
     }
-
-
-
-
 
 
 }

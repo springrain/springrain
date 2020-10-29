@@ -49,7 +49,8 @@ public class Org extends BaseEntity {
     //public static final String FORMAT_UPDATETIME = DateUtils.DATETIME_FORMAT;
 
     //columns START
-
+    //子部门
+    List<Org> children;
     // 编号
     private String id;
     // 名称
@@ -82,13 +83,9 @@ public class Org extends BaseEntity {
     private String bak3;
     // bak4
     private String bak4;
+    //columns END 数据库字段结束
     // bak5
     private String bak5;
-    //columns END 数据库字段结束
-
-
-    //子部门
-    List<Org> children;
 
 
     //concstructor
@@ -470,7 +467,7 @@ public class Org extends BaseEntity {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null){
+        if (obj == null) {
             return false;
         }
 

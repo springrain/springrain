@@ -43,7 +43,7 @@ public class UserPlatformInfosController  extends BaseController {
 		// ==构造分页请求
 		// Page page = newPage(request);
 		// ==执行分页查询
-		List<UserPlatformInfos> datas=userPlatformInfosService.findListDataByFinder(null,page,UserPlatformInfos.class,userPlatformInfos);
+		List<UserPlatformInfos> datas=userPlatformInfosService.queryForListByEntity(userPlatformInfos, page);
 			//returnObject.setQueryBean(userPlatformInfos);
 		returnObject.setPage(page);
 		returnObject.setResult(datas);

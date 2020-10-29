@@ -47,7 +47,7 @@ public class MenuController extends BaseController {
         // ==构造分页请求
         // Page page = newPage(request);
         // ==执行分页查询
-        List<Menu> datas = menuService.findListDataByFinder(null, page, Menu.class, menu);
+        List<Menu> datas = menuService.queryForListByEntity(menu, page);
         //returnObject.setQueryBean(menu);
         returnObject.setPage(page);
         returnObject.setResult(datas);

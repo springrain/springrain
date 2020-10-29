@@ -2,35 +2,35 @@ package org.springrain.system.api.dto;
 
 public class MetaDto {
 
-	private String title;
-	
-	private String icon;
-	
-	private boolean noCache;
+    private String title;
 
-	public String getTitle() {
-		return title;
-	}
+    private String icon;
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    private boolean noCache;
 
-	public String getIcon() {
-		return icon;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public void setIcon(String icon) {
-		this.icon = icon;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public boolean isNoCache() {
-		return noCache;
-	}
+    public String getIcon() {
+        return icon;
+    }
 
-	public void setNoCache(boolean noCache) {
-		this.noCache = noCache;
-	}
-	
-	
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public boolean isNoCache() {
+        return noCache;
+    }
+
+    public void setNoCache(boolean noCache) {
+        this.noCache = noCache;
+    }
+
+
 }

@@ -12,7 +12,7 @@ import java.util.Date;
  * 全局处理jackson解析日期字符串,不需要在字段上加上日期格式的注解了.
  * 自动分析字符串格式,转化成Date对象
  */
-public class JacksonDateDeserializer extends DateDeserializers.DateDeserializer  {
+public class JacksonDateDeserializer extends DateDeserializers.DateDeserializer {
     @Override
     public Date deserialize(JsonParser p, DeserializationContext context) throws IOException {
         if (p == null) {
@@ -23,8 +23,8 @@ public class JacksonDateDeserializer extends DateDeserializers.DateDeserializer 
         if (StringUtils.isBlank(text)) {
             return super.deserialize(p, context);
         }
-        Date date=DateUtils.convertString2Date(text);
-        if (date!=null){
+        Date date = DateUtils.convertString2Date(text);
+        if (date != null) {
             return date;
         }
 

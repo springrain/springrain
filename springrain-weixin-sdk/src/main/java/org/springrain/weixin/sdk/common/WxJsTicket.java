@@ -16,6 +16,7 @@ public class WxJsTicket implements java.io.Serializable {
     public void setAppId(String appId) {
         this.appId = appId;
     }
+
     public String getJsTicket() {
         return jsTicket;
     }

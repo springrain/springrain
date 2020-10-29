@@ -1,10 +1,10 @@
 package org.springrain.system.service;
 
+import java.util.List;
+
 import org.springrain.frame.util.Page;
 import org.springrain.rpc.annotation.RpcServiceAnnotation;
 import org.springrain.system.entity.DicData;
-
-import java.util.List;
 
 /**
  * TODO 在此加入类描述

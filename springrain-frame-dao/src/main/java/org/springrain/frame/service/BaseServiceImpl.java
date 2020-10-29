@@ -235,12 +235,6 @@ public abstract class BaseServiceImpl implements IBaseService {
 
     }
 
-    @Override
-    public <T> List<T> findListDataByFinder(Finder finder, Page page, Class<T> clazz, Object queryBean)
-            throws Exception {
-        return getBaseDao().findListDataByFinder(finder, page, clazz, queryBean);
-    }
-
 
     @Override
     public Object save(IBaseEntity entity) throws Exception {

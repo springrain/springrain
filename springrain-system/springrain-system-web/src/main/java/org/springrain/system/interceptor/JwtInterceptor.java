@@ -33,20 +33,15 @@ import java.util.List;
 
 @Component("jwtInterceptor")
 public class JwtInterceptor implements HandlerInterceptor {
+    PathMatcher matcher = new AntPathMatcher();
     @Resource
     private IUserRoleMenuService userRoleMenuService;
-
-
     @Resource
     private IUserService userService;
     // @Resource
     //private IMenuService menuService;
     @Resource
     private IRoleService roleService;
-
-    PathMatcher matcher = new AntPathMatcher();
-
-
 
     //允许跨域,目前拦截 /*
     @Bean("corsFilter")
@@ -58,7 +53,7 @@ public class JwtInterceptor implements HandlerInterceptor {
         corsConfiguration.addAllowedMethod("*"); // 允许任何方法（post、get等）
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**",corsConfiguration); // 对接口配置跨域设置
+        source.registerCorsConfiguration("/**", corsConfiguration); // 对接口配置跨域设置
         return new CorsFilter(source);
     }
 
@@ -90,7 +85,6 @@ public class JwtInterceptor implements HandlerInterceptor {
 
         //用户信息判断
         String userId = JwtUtils.getUserId(jwtToken);
-        Integer userType = JwtUtils.getUserType(jwtToken);
         if (StringUtils.isBlank(userId)) {
             return false;
         }
@@ -108,9 +102,9 @@ public class JwtInterceptor implements HandlerInterceptor {
 
 
         boolean isUserDefaultUrl = false;
-        
+
         for (String patternPath : GlobalStatic.userDefaultUrl) {
-            if (matcher.match(patternPath, uri) || StringUtils.equals("0", userType.toString())) { //符合正则表达式
+            if (matcher.match(patternPath, uri)) { //符合正则表达式
                 isUserDefaultUrl = true;
                 break;
             }
@@ -190,7 +184,7 @@ public class JwtInterceptor implements HandlerInterceptor {
         String roleId = null;
         for (Menu m : menus) {
             //如果有访问菜单的权限,赋值roleId
-            if (uri.equalsIgnoreCase(m.getPageurl()) || StringUtils.equals("0", userType.toString())) {
+            if (uri.equalsIgnoreCase(m.getPageurl())) {
                 roleId = m.getRoleId();
                 qx = true;
                 break;
@@ -241,5 +235,4 @@ public class JwtInterceptor implements HandlerInterceptor {
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         SessionUser.sessionUserLocal.remove();
     }
-
 }

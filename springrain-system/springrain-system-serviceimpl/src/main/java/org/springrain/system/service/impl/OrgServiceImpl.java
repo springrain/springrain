@@ -46,12 +46,12 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
     @Override
     public String saveOrg(Org entity) throws Exception {
 
-         //String id= SecUtils.getUUID();
-         String id = null;
+        //String id= SecUtils.getUUID();
+        String id = null;
         if (StringUtils.isNotBlank(entity.getId())) {
             id = entity.getId();
         } else {
-            id= SecUtils.getTimeNO();
+            id = SecUtils.getTimeNO();
             //id = tableindexService.updateNewId(Org.class);
         }
         entity.setId(id);
@@ -62,17 +62,17 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
 
         entity.setActive(1);
 
-        Date now=new Date();
+        Date now = new Date();
         entity.setCreateTime(now);
         entity.setUpdateTime(now);
         entity.setUpdateUserId(SessionUser.getUserId());
         entity.setCreateUserId(SessionUser.getUserId());
         entity.setOrgType(100);
-        if(entity.getPid()==null){
+        if (entity.getPid() == null) {
             entity.setPid("");
         }
 
-        if (entity.getSortno()==null){
+        if (entity.getSortno() == null) {
             entity.setSortno(100);
         }
 
@@ -95,8 +95,8 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
         }
 
 
-        Org old_org=findOrgById(id);
-        if(old_org==null){
+        Org old_org = findOrgById(id);
+        if (old_org == null) {
             return null;
         }
 
@@ -125,7 +125,7 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
             org.setComcode(_c);
             org.setPid(id);
             //清理缓存
-            super.evictByKey(GlobalStatic.userOrgRoleMenuInfoCacheKey,"findOrgById_"+_id);
+            super.evictByKey(GlobalStatic.userOrgRoleMenuInfoCacheKey, "findOrgById_" + _id);
         }
 
         super.update(list, true);
@@ -189,35 +189,6 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
         return org;
     }
 
-    /**
-     * 列表查询,每个service都会重载,要把sql语句封装到service中,Finder只是最后的方案
-     *
-     * @param finder
-     * @param page
-     * @param clazz
-     * @param o
-     * @return
-     * @throws Exception
-     */
-    @Override
-    public <T> List<T> findListDataByFinder(Finder finder, Page page, Class<T> clazz, Object o) throws Exception {
-
-        finder = new Finder("SELECT o.* FROM ").append(Finder.getTableName(Org.class)).append(" o ");
-        finder.append(" WHERE o.active=:active  ");
-        finder.setParam("active", 1);
-//		finder.setEscapeSql(false);
-        Finder qxfinder = null;//userOrgService.wrapOrgIdFinderByUserId(SessionUser.getUserId());
-        if (StringUtils.isNotBlank(qxfinder.getSql())) {
-            // 有权限的时候
-            finder.append(" and id in (").appendFinder(qxfinder).append(")");
-        } else {
-            // 没有权限的时候
-            finder.append(" and 1=2 ");
-        }
-        finder.append(" order by o.sortno asc ");
-
-        return super.queryForList(finder, clazz);
-    }
 
     @Override
     public List<Org> findTreeOrg() throws Exception {
@@ -232,7 +203,7 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
             return null;
         }
         Org org = findOrgById(orgId);
-        if(org==null){
+        if (org == null) {
             return null;
         }
 
@@ -248,11 +219,11 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
 
         if (StringUtils.isNotBlank(pid)) {//不是根目录
             Org porg = findOrgById(pid);
-            if (porg==null){
+            if (porg == null) {
                 return null;
             }
             finder.append(" and comcode like :comcode  ").setParam("comcode", porg.getComcode() + "%");
-                  //  .setParam("pid", pid);
+            //  .setParam("pid", pid);
         }
 
         finder.append(" order by sortno asc ");
@@ -268,11 +239,12 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
 
     /**
      * 把 部门列表 转换成树形结构
+     *
      * @param orgList
      * @return
      */
-    private List<Org> listOrg2Tree( List<Org> orgList){
-        if(CollectionUtils.isEmpty(orgList)){
+    private List<Org> listOrg2Tree(List<Org> orgList) {
+        if (CollectionUtils.isEmpty(orgList)) {
             return null;
         }
         // 先把数据放到map里,方便取值,对象和orgList里的是同一个

@@ -185,18 +185,6 @@ public interface IBaseJdbcDao {
      */
     public Integer update(Finder finder) throws Exception;
 
-    /**
-     * 列表查询,每个service都会重载,要把sql语句封装到service中,Finder只是最后的方案
-     *
-     * @param finder
-     * @param page      分页对象
-     * @param clazz
-     * @param queryBean 是queryBean
-     * @return
-     * @throws Exception
-     */
-    public <T> List<T> findListDataByFinder(Finder finder, Page page, Class<T> clazz, Object queryBean)
-            throws Exception;
 
     /**
      * 保存一个对象

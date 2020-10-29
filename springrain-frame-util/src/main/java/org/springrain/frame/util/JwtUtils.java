@@ -59,19 +59,19 @@ public class JwtUtils {
     public static String getUserId(String token) {
         return getClaim(token, "userId").asString();
     }
-    
+
     /**
-    * 获取token中的userType
-    *
-    * @param token
-    * @return
-    * @author 程相羽
-    * @version 2020年10月28日 下午4:39:01
-    */
+     * 获取token中的userType
+     *
+     * @param token
+     * @return
+     * @author 程相羽
+     * @version 2020年10月28日 下午4:39:01
+     */
     public static Integer getUserType(String token) {
-    	return getClaim(token, "userType").asInt();
+        return getClaim(token, "userType").asInt();
     }
-    
+
     /**
      * 获得token中的信息,无需secret解密.需要提前verify验证一下token是否正确.
      *

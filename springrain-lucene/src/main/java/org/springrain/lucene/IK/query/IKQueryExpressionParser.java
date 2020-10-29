@@ -32,12 +32,11 @@ import java.util.Stack;
 
 /**
  * IK简易查询表达式解析 结合SWMCQuery算法 2017.3.28
- *
+ * <p>
  * 表达式例子 ： (id='1231231' && title:'monkey') || (content:'你好吗' ||
  * ulr='www.ik.com') - name:'helloword'
  *
  * @author linliangyi
- *
  */
 public class IKQueryExpressionParser {
 
@@ -351,7 +350,6 @@ public class IKQueryExpressionParser {
 
     /**
      * 语法解析
-     *
      */
     private void parseSyntax(boolean quickMode) {
         for (int i = 0; i < this.elements.size(); i++) {

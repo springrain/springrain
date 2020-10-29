@@ -3,13 +3,15 @@ package org.springrain.system.service.impl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springrain.frame.entity.IBaseEntity;
-import org.springrain.frame.util.*;
+import org.springrain.frame.util.Finder;
+import org.springrain.frame.util.GlobalStatic;
+import org.springrain.frame.util.JwtUtils;
+import org.springrain.frame.util.SecUtils;
 import org.springrain.rpc.sessionuser.UserVO;
 import org.springrain.system.entity.User;
 import org.springrain.system.service.IUserService;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -33,7 +35,7 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
     public Integer update(IBaseEntity entity) throws Exception {
         User user = (User) entity;
         //清理缓存
-        super.evictByKey(GlobalStatic.userOrgRoleMenuInfoCacheKey,"findUserById_"+user.getId());
+        super.evictByKey(GlobalStatic.userOrgRoleMenuInfoCacheKey, "findUserById_" + user.getId());
         return super.update(entity);
     }
 
@@ -41,8 +43,8 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
     public Integer update(IBaseEntity entity, boolean onlyupdatenotnull) throws Exception {
         User user = (User) entity;
         //清理缓存
-        super.evictByKey(GlobalStatic.userOrgRoleMenuInfoCacheKey,"findUserById_"+user.getId());
-        return super.update(entity,onlyupdatenotnull);
+        super.evictByKey(GlobalStatic.userOrgRoleMenuInfoCacheKey, "findUserById_" + user.getId());
+        return super.update(entity, onlyupdatenotnull);
     }
 
 
@@ -66,21 +68,6 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
         return user;
     }
 
-    /**
-     * 列表查询,每个service都会重载,要把sql语句封装到service中,Finder只是最后的方案
-     *
-     * @param finder
-     * @param page
-     * @param clazz
-     * @param o
-     * @return
-     * @throws Exception
-     */
-    @Override
-    public <T> List<T> findListDataByFinder(Finder finder, Page page, Class<T> clazz,
-                                            Object o) throws Exception {
-        return super.findListDataByFinder(finder, page, clazz, o);
-    }
 
     @Override
     public UserVO findUserVOByUserId(String userId) throws Exception {
@@ -108,11 +95,11 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
     @Override
     public String findUserIdByOpenId(String openId) throws Exception {
 
-        if (StringUtils.isBlank(openId)){
+        if (StringUtils.isBlank(openId)) {
             return null;
         }
-        Finder finder=Finder.getSelectFinder(User.class," id ").append(" WHERE openId=:openId ").setParam("openId",openId);
-        return super.queryForObject(finder,String.class);
+        Finder finder = Finder.getSelectFinder(User.class, " id ").append(" WHERE openId=:openId ").setParam("openId", openId);
+        return super.queryForObject(finder, String.class);
     }
 
     @Override

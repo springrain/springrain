@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.springrain</groupId>
@@ -12,13 +12,12 @@
     <description>springrain总项目</description>
 
 
-
     <!-- 整体依赖 springboot -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.3.4.RELEASE</version>
-        <relativePath />
+        <relativePath/>
     </parent>
 
 
@@ -48,7 +47,7 @@
 
         <!-- lucene版本和es的依赖版本最好保持一致,避免冲突 -->
         <lucene.version>8.6.2</lucene.version>
-        <elasticsearch.client.version>7.9.2</elasticsearch.client.version>
+        <elasticsearch.client.version>7.9.3</elasticsearch.client.version>
 
         <rocketmq.client.version>4.7.1</rocketmq.client.version>
         <jxl.version>2.6.12</jxl.version>
@@ -77,7 +76,6 @@
 
         <!-- seata分布式事务 -->
         <seata.version>1.3.0</seata.version>
-
 
 
     </properties>
@@ -117,8 +115,6 @@
                 <artifactId>fst</artifactId>
                 <version>${fst.version}</version>
             </dependency>
-
-
 
 
             <!--  jwt  -->
@@ -291,9 +287,6 @@
             </dependency>
 
 
-
-
-
             <!-- JDK11需要的jar包 -->
             <!--
              <dependency>
@@ -320,8 +313,6 @@
                 <version>1.3.2</version>
             </dependency>
              -->
-
-
 
 
             <!-- seata组件 -->
@@ -356,14 +347,10 @@
             </dependency>
 
 
-
-
         </dependencies>
 
 
     </dependencyManagement>
-
-
 
 
     <modules>
@@ -440,7 +427,6 @@
         </plugins>
 
     </build>
-
 
 
 </project>

@@ -39,28 +39,6 @@ public class DicDataServiceImpl extends BaseSpringrainServiceImpl implements IDi
         return super.findById(id, DicData.class);
     }
 
-    /**
-     * 列表查询,每个service都会重载,要把sql语句封装到service中,Finder只是最后的方案
-     *
-     * @param finder
-     * @param page
-     * @param clazz
-     * @param o
-     * @return
-     * @throws Exception
-     */
-    @Override
-    public <T> List<T> findListDataByFinder(Finder finder, Page page, Class<T> clazz, Object o) throws Exception {
-        if (finder == null) {
-            finder = Finder.getSelectFinder(DicData.class).append(" WHERE 1=1 ");
-        }
-        if (o != null) {
-            getFinderWhereByQueryBean(finder, o);
-        }
-
-        return super.findListDataByFinder(finder, page, clazz, o);
-    }
-
     @Override
     public DicData findDicDataById(String id, String pathtypekey) throws Exception {
         if (StringUtils.isBlank(id) || StringUtils.isBlank(pathtypekey)) {

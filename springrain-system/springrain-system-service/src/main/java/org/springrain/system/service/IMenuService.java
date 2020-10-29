@@ -16,8 +16,6 @@ import java.util.List;
 public interface IMenuService extends IBaseSpringrainService {
 
 
-
-
     /**
      * 根据ID查找
      *
@@ -26,7 +24,6 @@ public interface IMenuService extends IBaseSpringrainService {
      * @throws Exception
      */
     Menu findMenuById(String id) throws Exception;
-
 
 
     /**
@@ -48,10 +45,9 @@ public interface IMenuService extends IBaseSpringrainService {
     Integer updateMenu(Menu entity) throws Exception;
 
 
-
-
     /**
      * 根据Id删除菜单和子菜单
+     *
      * @param id
      * @return
      * @throws Exception
