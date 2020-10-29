@@ -41,9 +41,9 @@ public class MenuController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/list", method = RequestMethod.POST)
-    public ReturnDatas<Menu> list( Menu menu, Page page)
+    public ReturnDatas<List<Menu>> list( Menu menu, Page<?> page)
             throws Exception {
-        ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
+        ReturnDatas<List<Menu>> returnObject = ReturnDatas.getSuccessReturnDatas();
         // ==构造分页请求
         // Page page = newPage(request);
         // ==执行分页查询
@@ -56,9 +56,9 @@ public class MenuController extends BaseController {
 
 
     @RequestMapping(value = "/lists", method = RequestMethod.POST)
-    public ReturnDatas<Menu> lists()
+    public ReturnDatas<List<Menu>> lists()
             throws Exception {
-        ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
+        ReturnDatas<List<Menu>> returnObject = ReturnDatas.getSuccessReturnDatas();
         // ==构造分页请求
         // Page page = newPage(request);
         // ==执行分页查询
@@ -72,7 +72,7 @@ public class MenuController extends BaseController {
      */
     @RequestMapping(value = "/look", method = RequestMethod.POST)
     public ReturnDatas<Menu> look(String id) throws Exception {
-        ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
+        ReturnDatas<Menu> returnObject = ReturnDatas.getSuccessReturnDatas();
 
         if (StringUtils.isNotBlank(id)) {
             Menu menu = menuService.findMenuById(id);
@@ -89,7 +89,7 @@ public class MenuController extends BaseController {
      */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public ReturnDatas<Menu> save(@RequestBody Menu menu) {
-        ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
+        ReturnDatas<Menu> returnObject = ReturnDatas.getSuccessReturnDatas();
         returnObject.setMessage(MessageUtils.SAVE_SUCCESS);
         try {
 
@@ -113,7 +113,7 @@ public class MenuController extends BaseController {
      */
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public ReturnDatas<Menu> update(@RequestBody Menu menu) {
-        ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
+        ReturnDatas<Menu> returnObject = ReturnDatas.getSuccessReturnDatas();
         returnObject.setMessage(MessageUtils.UPDATE_SUCCESS);
         try {
 
@@ -137,20 +137,20 @@ public class MenuController extends BaseController {
      * 删除操作
      */
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public ReturnDatas<Menu> delete(@RequestBody Map map) throws Exception {
+    public ReturnDatas<Menu> delete(@RequestBody Map<String, Object> map) throws Exception {
         // 执行删除
         try {
             String id = (String) map.get("id");
             if (StringUtils.isNotBlank(id)) {
                 menuService.deleteMenuById(id);
-                return new ReturnDatas(ReturnDatas.SUCCESS, MessageUtils.DELETE_SUCCESS);
+                return new ReturnDatas<Menu>(ReturnDatas.SUCCESS, MessageUtils.DELETE_SUCCESS);
             } else {
-                return new ReturnDatas(ReturnDatas.ERROR, MessageUtils.DELETE_NULL_ERROR);
+                return new ReturnDatas<Menu>(ReturnDatas.ERROR, MessageUtils.DELETE_NULL_ERROR);
             }
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
-        return new ReturnDatas(ReturnDatas.ERROR, MessageUtils.DELETE_ERROR);
+        return new ReturnDatas<Menu>(ReturnDatas.ERROR, MessageUtils.DELETE_ERROR);
     }
 
 

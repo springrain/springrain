@@ -51,8 +51,8 @@ public class RoleController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/lists", method = RequestMethod.POST)
-	public ReturnDatas<Role> lists(@RequestBody Page<Role> page) throws Exception {
-		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
+	public ReturnDatas<List<Role>> lists(@RequestBody Page<Role> page) throws Exception {
+		ReturnDatas<List<Role>> returnObject = ReturnDatas.getSuccessReturnDatas();
 		// ==执行分页查询
 		List<Role> datas = roleService.findListDataByFinder(null, page, Role.class, page.getData());
 
@@ -68,8 +68,8 @@ public class RoleController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.POST)
-	public ReturnDatas<Role> list() throws Exception {
-		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
+	public ReturnDatas<List<Role>> list() throws Exception {
+		ReturnDatas<List<Role>> returnObject = ReturnDatas.getSuccessReturnDatas();
 		// ==构造分页请求
 		List<Role> roleList = roleService.findListDataByFinder(null, null, Role.class, null);
 		returnObject.setResult(roleList);
@@ -86,7 +86,7 @@ public class RoleController extends BaseController {
 	 */
 	@RequestMapping(value = "/look", method = RequestMethod.POST)
 	public ReturnDatas<Role> look(String id) throws Exception {
-		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
+		ReturnDatas<Role> returnObject = ReturnDatas.getSuccessReturnDatas();
 
 		if (StringUtils.isNotBlank(id)) {
 			Role role = roleService.findRoleById(id);
@@ -106,7 +106,7 @@ public class RoleController extends BaseController {
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public ReturnDatas<Role> save(@RequestBody Role role) {
-		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
+		ReturnDatas<Role> returnObject = ReturnDatas.getSuccessReturnDatas();
 		returnObject.setMessage(MessageUtils.SAVE_SUCCESS);
 		try {
 
@@ -144,11 +144,11 @@ public class RoleController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/getMenusByRoleId", method = RequestMethod.POST)
-	public ReturnDatas findMenuByRoleId(@RequestBody Map map) throws Exception {
+	public ReturnDatas<ConcurrentMap<String, List<Map<String, Object>>>> findMenuByRoleId(@RequestBody Map<String, Object> map) throws Exception {
 		String roleid = map.get("roleid").toString();
-		ReturnDatas returnDatas = ReturnDatas.getSuccessReturnDatas();
+		ReturnDatas<ConcurrentMap<String, List<Map<String, Object>>>> returnDatas = ReturnDatas.getSuccessReturnDatas();
 		List<Menu> menus = userRoleMenuService.findMenuByRoleId(roleid);
-		ConcurrentMap resutltMap = Maps.newConcurrentMap();
+		ConcurrentMap<String, List<Map<String, Object>>> resutltMap = Maps.newConcurrentMap();
 		List<Map<String, Object>> listMap = new ArrayList<>();
 		userRoleMenuService.wrapVueMenu(menus, listMap);
 		resutltMap.put("menus", listMap);
@@ -163,7 +163,7 @@ public class RoleController extends BaseController {
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public ReturnDatas<Role> update(@RequestBody Role role) {
-		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
+		ReturnDatas<Role> returnObject = ReturnDatas.getSuccessReturnDatas();
 		returnObject.setMessage(MessageUtils.UPDATE_SUCCESS);
 		try {
 
@@ -195,14 +195,14 @@ public class RoleController extends BaseController {
 
 			if (StringUtils.isNotBlank(id)) {
 				roleService.deleteById(id, Role.class);
-				return new ReturnDatas(ReturnDatas.SUCCESS, MessageUtils.DELETE_SUCCESS);
+				return new ReturnDatas<Role>(ReturnDatas.SUCCESS, MessageUtils.DELETE_SUCCESS);
 			} else {
-				return new ReturnDatas(ReturnDatas.ERROR, MessageUtils.DELETE_NULL_ERROR);
+				return new ReturnDatas<Role>(ReturnDatas.ERROR, MessageUtils.DELETE_NULL_ERROR);
 			}
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 		}
-		return new ReturnDatas(ReturnDatas.ERROR, MessageUtils.DELETE_ERROR);
+		return new ReturnDatas<Role>(ReturnDatas.ERROR, MessageUtils.DELETE_ERROR);
 	}
 
 	/**
@@ -236,19 +236,19 @@ public class RoleController extends BaseController {
 	 * 
 	 */
 	@RequestMapping(value = "/delete/more", method = RequestMethod.POST)
-	public ReturnDatas deleteMore(@RequestBody String[] ids) {
+	public ReturnDatas<Object> deleteMore(@RequestBody String[] ids) {
 
 		if (ids == null || ids.length < 1) {
-			return new ReturnDatas(ReturnDatas.ERROR, MessageUtils.DELETE_NULL_ERROR);
+			return new ReturnDatas<Object>(ReturnDatas.ERROR, MessageUtils.DELETE_NULL_ERROR);
 		}
 		try {
 			List<String> listIds = Arrays.asList(ids);
 			roleService.deleteByIds(listIds, Role.class);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
-			return new ReturnDatas(ReturnDatas.ERROR, MessageUtils.DELETE_ALL_ERROR);
+			return new ReturnDatas<Object>(ReturnDatas.ERROR, MessageUtils.DELETE_ALL_ERROR);
 		}
-		return new ReturnDatas(ReturnDatas.SUCCESS, MessageUtils.DELETE_ALL_SUCCESS);
+		return new ReturnDatas<Object>(ReturnDatas.SUCCESS, MessageUtils.DELETE_ALL_SUCCESS);
 
 	}
 

@@ -158,7 +158,7 @@ public class BaseController {
 	 * @param request
 	 * @return
 	 */
-	public Page newPage(HttpServletRequest request) {
+	public Page<?> newPage(HttpServletRequest request) {
 		// ==获取分页信息
 		return newPage(request, "id", "desc");
 	}
@@ -171,10 +171,10 @@ public class BaseController {
 	 * @param defaultSort
 	 * @return
 	 */
-	public Page newPage(HttpServletRequest request, String defaultOrder, String defaultSort) {
+	public Page<?> newPage(HttpServletRequest request, String defaultOrder, String defaultSort) {
 
 		if (request == null) {
-			Page page = new Page(1);
+			Page<?> page = new Page<>(1);
 			page.setOrder("id");
 			page.setSort("asc");
 			return page;
@@ -205,7 +205,7 @@ public class BaseController {
 			sort = "desc";
 		}
 
-		Page page = new Page(pageIndex);
+		Page<?> page = new Page<>(pageIndex);
 		page.setOrder(order);
 		page.setSort(sort);
 		return page;

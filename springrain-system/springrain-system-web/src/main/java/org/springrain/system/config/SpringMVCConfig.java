@@ -1,5 +1,8 @@
 package org.springrain.system.config;
 
+import java.nio.charset.Charset;
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScan.Filter;
@@ -11,13 +14,9 @@ import org.springframework.http.converter.ResourceHttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springrain.frame.util.FrameObjectMapper;
 import org.springrain.system.base.SpringMVCAnnotationBeanNameGenerator;
-
-import java.nio.charset.Charset;
-import java.util.List;
 
 /**
  * MVC的配置,只扫描@Controller注解,带包名命名,避免混淆同名问题.

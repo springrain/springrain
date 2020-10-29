@@ -1,22 +1,21 @@
 package org.springrain.system.base;
 
+import java.io.File;
+import java.io.PrintWriter;
+import java.util.Map;
+
+import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
-import org.springframework.web.servlet.support.RequestContextUtils;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerView;
 import org.springrain.frame.util.FileUtils;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.InputSafeUtils;
 import org.springrain.frame.util.SpringUtils;
-
-import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.PrintWriter;
-import java.util.Locale;
-import java.util.Map;
 
 //@Component("staticHtmlFreeMarkerView")
 @Deprecated
@@ -70,10 +69,6 @@ public class StaticHtmlFreeMarkerView extends FreeMarkerView {
 		if (logger.isDebugEnabled()) {
 			logger.debug("Rendering FreeMarker template [" + getUrl() + "] in FreeMarkerView '" + getBeanName() + "'");
 		}
-		// Grab the locale-specific version of the template.
-		Locale locale = RequestContextUtils.getLocale(request);
-		//Template template = getTemplate(locale);
-
 		if (StringUtils.isBlank(siteId) || StringUtils.isBlank(uri)) {
 			//processTemplate(template, fmModel, response);
 			return;

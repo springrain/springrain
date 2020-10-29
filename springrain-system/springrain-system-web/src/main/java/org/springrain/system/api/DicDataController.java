@@ -47,9 +47,9 @@ public class DicDataController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/list")
-	public String list(@PathVariable String pathtypekey, HttpServletRequest request, Model model, DicData dicData)
-			throws Exception {
-		ReturnDatas returnObject = listjson(pathtypekey, request, model, dicData);
+	public String list(@PathVariable String pathtypekey, HttpServletRequest request, Model model,
+			DicData dicData) throws Exception {
+		ReturnDatas<?> returnObject = listjson(pathtypekey, request, model, dicData);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
 		return listurl;
 	}
@@ -65,23 +65,25 @@ public class DicDataController extends BaseController {
 	 */
 	@RequestMapping("/list/json")
 	@ResponseBody
-	public ReturnDatas<List<DicData>> listjson(@PathVariable String pathtypekey, HttpServletRequest request, Model model,
-			DicData dicData) throws Exception {
+	public ReturnDatas<List<DicData>> listjson(@PathVariable String pathtypekey,
+			HttpServletRequest request, Model model, DicData dicData) throws Exception {
 		dicData.setTypekey(pathtypekey);
 		String nopage = request.getParameter("page");// 树结构不能分页
-		Page page = null;
+		Page<?> page = null;
 		if (!"false".equals(nopage)) {
 			page = newPage(request);
 		}
-		// List<DicData> datas=dicDataService.findListDicData(pathtypekey,page,dicData);
+		// List<DicData>
+		// datas=dicDataService.findListDicData(pathtypekey,page,dicData);
 		dicData.setTypekey(pathtypekey);
-		List<DicData> datas = dicDataService.findListDataByFinder(null, page, DicData.class, dicData);
+		List<DicData> datas = dicDataService.findListDataByFinder(null, page, DicData.class,
+				dicData);
 		// boolean hasNext = page.getHasNext();
 		ReturnDatas<List<DicData>> returnObject = ReturnDatas.getSuccessReturnDatas();
 		returnObject.setResult(datas);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("typekey", pathtypekey);
-		//returnObject.setQueryBean(dicData);// 正式如果 ，加了缓存此处删除
+		// returnObject.setQueryBean(dicData);// 正式如果 ，加了缓存此处删除
 		returnObject.setPage(page);
 		returnObject.setMap(map);
 		System.out.println(JsonUtils.writeValueAsString(returnObject));
@@ -98,12 +100,12 @@ public class DicDataController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/tree")
-	public String tree(@PathVariable String pathtypekey, HttpServletRequest request, Model model, DicData dicData)
-			throws Exception {
+	public String tree(@PathVariable String pathtypekey, HttpServletRequest request, Model model,
+			DicData dicData) throws Exception {
 		if (dicData != null) {
 			dicData.setTypekey(pathtypekey);
 		}
-		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
+		ReturnDatas<DicData> returnObject = ReturnDatas.getSuccessReturnDatas();
 		returnObject.setResult(dicData);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
 		return "/system/dicdata/tree";
@@ -116,7 +118,7 @@ public class DicDataController extends BaseController {
 	public String look(@PathVariable String pathtypekey, Model model, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 
-		ReturnDatas returnObject = lookjson(pathtypekey, model, request, response);
+		ReturnDatas<DicData> returnObject = lookjson(pathtypekey, model, request, response);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
 		return "/system/dicdata/dicdataLook";
 	}
@@ -126,9 +128,9 @@ public class DicDataController extends BaseController {
 	 */
 	@RequestMapping(value = "/look/json")
 	@ResponseBody
-	public ReturnDatas lookjson(@PathVariable String pathtypekey, Model model, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
+	public ReturnDatas<DicData> lookjson(@PathVariable String pathtypekey, Model model,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ReturnDatas<DicData> returnObject = ReturnDatas.getSuccessReturnDatas();
 		java.lang.String id = request.getParameter("id");
 		if (StringUtils.isNotBlank(id)) {
 			DicData dicData = dicDataService.findDicDataById(id, pathtypekey);
@@ -146,9 +148,9 @@ public class DicDataController extends BaseController {
 	 */
 	@RequestMapping("/update")
 	@ResponseBody
-	public ReturnDatas saveorupdate(@PathVariable String pathtypekey, Model model, DicData dicData,
+	public ReturnDatas<?> saveorupdate(@PathVariable String pathtypekey, Model model, DicData dicData,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
+		ReturnDatas<?> returnObject = ReturnDatas.getSuccessReturnDatas();
 		returnObject.setMessage(MessageUtils.UPDATE_SUCCESS);
 
 		try {
@@ -161,7 +163,7 @@ public class DicDataController extends BaseController {
 				dicData.setPid(null);
 			}
 			dicData.setTypekey(pathtypekey);
-			//dicDataService.save(dicData, pathtypekey);
+			// dicDataService.save(dicData, pathtypekey);
 
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
@@ -178,8 +180,8 @@ public class DicDataController extends BaseController {
 	@RequestMapping(value = "/update/pre")
 	public String edit(@PathVariable String pathtypekey, Model model, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		ReturnDatas returnObject = lookjson(pathtypekey, model, request, response);
-		Map<String, String> map = new HashMap<String, String>();
+		ReturnDatas<?> returnObject = lookjson(pathtypekey, model, request, response);
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("typekey", pathtypekey);
 		returnObject.setMap(map);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
@@ -191,21 +193,22 @@ public class DicDataController extends BaseController {
 	 */
 	@RequestMapping(value = "/delete")
 	@ResponseBody
-	public ReturnDatas destroy(@PathVariable String pathtypekey, HttpServletRequest request) throws Exception {
+	public ReturnDatas<?> destroy(@PathVariable String pathtypekey, HttpServletRequest request)
+			throws Exception {
 
 		// 执行删除
 		try {
 			java.lang.String id = request.getParameter("id");
 			if (StringUtils.isNotBlank(id)) {
 				dicDataService.deleteDicDataById(id, pathtypekey);
-				return new ReturnDatas(ReturnDatas.SUCCESS, MessageUtils.DELETE_SUCCESS);
+				return new ReturnDatas<Object>(ReturnDatas.SUCCESS, MessageUtils.DELETE_SUCCESS);
 			} else {
-				return new ReturnDatas(ReturnDatas.ERROR, MessageUtils.DELETE_ERROR);
+				return new ReturnDatas<Object>(ReturnDatas.ERROR, MessageUtils.DELETE_ERROR);
 			}
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 		}
-		return new ReturnDatas(ReturnDatas.ERROR, MessageUtils.DELETE_ERROR);
+		return new ReturnDatas<Object>(ReturnDatas.ERROR, MessageUtils.DELETE_ERROR);
 	}
 
 	/**
@@ -214,23 +217,24 @@ public class DicDataController extends BaseController {
 	 */
 	@RequestMapping("/delete/more")
 	@ResponseBody
-	public ReturnDatas delMultiRecords(@PathVariable String pathtypekey, HttpServletRequest request, Model model) {
+	public ReturnDatas<?> delMultiRecords(@PathVariable String pathtypekey, HttpServletRequest request,
+			Model model) {
 		String records = request.getParameter("records");
 		if (StringUtils.isBlank(records)) {
-			return new ReturnDatas(ReturnDatas.ERROR, MessageUtils.DELETE_ALL_ERROR);
+			return new ReturnDatas<Object>(ReturnDatas.ERROR, MessageUtils.DELETE_ALL_ERROR);
 		}
 		String[] rs = records.split(",");
 		if (rs == null || rs.length < 1) {
-			return new ReturnDatas(ReturnDatas.ERROR, MessageUtils.DELETE_ERROR);
+			return new ReturnDatas<Object>(ReturnDatas.ERROR, MessageUtils.DELETE_ERROR);
 		}
 		try {
 			List<String> ids = Arrays.asList(rs);
 			dicDataService.deleteDicDataByIds(ids, pathtypekey);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
-			return new ReturnDatas(ReturnDatas.ERROR, MessageUtils.DELETE_ALL_ERROR);
+			return new ReturnDatas<Object>(ReturnDatas.ERROR, MessageUtils.DELETE_ALL_ERROR);
 		}
-		return new ReturnDatas(ReturnDatas.SUCCESS, MessageUtils.DELETE_ALL_SUCCESS);
+		return new ReturnDatas<Object>(ReturnDatas.SUCCESS, MessageUtils.DELETE_ALL_SUCCESS);
 
 	}
 

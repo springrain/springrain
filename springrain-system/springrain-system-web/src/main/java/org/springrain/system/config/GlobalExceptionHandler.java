@@ -16,8 +16,8 @@ import org.springrain.frame.util.ReturnDatas;
 public class GlobalExceptionHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR) // Http Status Code 500
-    public ReturnDatas handleException(Exception e) {
-        ReturnDatas returnDatas = ReturnDatas.getErrorReturnDatas(e.getMessage());
+    public ReturnDatas<?> handleException(Exception e) {
+        ReturnDatas<?> returnDatas = ReturnDatas.getErrorReturnDatas(e.getMessage());
         return returnDatas;
     }
 

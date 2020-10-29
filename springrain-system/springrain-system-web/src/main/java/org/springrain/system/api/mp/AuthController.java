@@ -26,8 +26,8 @@ public class AuthController  extends BaseController {
 
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ReturnDatas login(@RequestBody Map map) throws Exception {
-        ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
+    public ReturnDatas<?> login(@RequestBody Map<?, ?> map) throws Exception {
+        ReturnDatas<?> returnObject = ReturnDatas.getSuccessReturnDatas();
 
         return returnObject;
     }

@@ -37,9 +37,9 @@ public class UserPlatformInfosController  extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.POST)
-	public ReturnDatas<UserPlatformInfos> list( UserPlatformInfos userPlatformInfos , Page page)
+	public ReturnDatas<List<UserPlatformInfos>> list( UserPlatformInfos userPlatformInfos , Page<?> page)
 			throws Exception {
-		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
+		ReturnDatas<List<UserPlatformInfos>> returnObject = ReturnDatas.getSuccessReturnDatas();
 		// ==构造分页请求
 		// Page page = newPage(request);
 		// ==执行分页查询
@@ -55,7 +55,7 @@ public class UserPlatformInfosController  extends BaseController {
 	 */
 	@RequestMapping(value = "/look", method = RequestMethod.POST)   
 	public ReturnDatas<UserPlatformInfos> look(String id) throws Exception {
-		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
+		ReturnDatas<UserPlatformInfos> returnObject = ReturnDatas.getSuccessReturnDatas();
 		
 		if(StringUtils.isNotBlank(id)){
 		  UserPlatformInfos userPlatformInfos = userPlatformInfosService.findUserPlatformInfosById(id);
@@ -73,7 +73,7 @@ public class UserPlatformInfosController  extends BaseController {
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)    
 	public ReturnDatas<UserPlatformInfos> save(@RequestBody UserPlatformInfos userPlatformInfos) {
-		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
+		ReturnDatas<UserPlatformInfos> returnObject = ReturnDatas.getSuccessReturnDatas();
 		returnObject.setMessage(MessageUtils.SAVE_SUCCESS);
 		try {
 		
@@ -98,7 +98,7 @@ public class UserPlatformInfosController  extends BaseController {
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)    
 	public ReturnDatas<UserPlatformInfos> update(@RequestBody UserPlatformInfos userPlatformInfos) {
-		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
+		ReturnDatas<UserPlatformInfos> returnObject = ReturnDatas.getSuccessReturnDatas();
 		returnObject.setMessage(MessageUtils.UPDATE_SUCCESS);
 		try {
 		
@@ -129,14 +129,14 @@ public class UserPlatformInfosController  extends BaseController {
 			
 		    if(StringUtils.isNotBlank(id)){
 			    userPlatformInfosService.deleteById(id,UserPlatformInfos.class);
-				return new ReturnDatas(ReturnDatas.SUCCESS,MessageUtils.DELETE_SUCCESS);
+				return new ReturnDatas<UserPlatformInfos>(ReturnDatas.SUCCESS,MessageUtils.DELETE_SUCCESS);
 			} else {
-				return new ReturnDatas(ReturnDatas.ERROR,MessageUtils.DELETE_NULL_ERROR);
+				return new ReturnDatas<UserPlatformInfos>(ReturnDatas.ERROR,MessageUtils.DELETE_NULL_ERROR);
 			}
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 		}
-		return new ReturnDatas(ReturnDatas.ERROR, MessageUtils.DELETE_ERROR);
+		return new ReturnDatas<UserPlatformInfos>(ReturnDatas.ERROR, MessageUtils.DELETE_ERROR);
 	}
 	
 	/**
@@ -144,19 +144,19 @@ public class UserPlatformInfosController  extends BaseController {
 	 * 
 	 */
 	@RequestMapping(value = "/delete/more", method = RequestMethod.POST)
-	public ReturnDatas deleteMore(@RequestBody String[] ids) {
+	public ReturnDatas<Object> deleteMore(@RequestBody String[] ids) {
 
 		if (ids == null || ids.length < 1) {
-			return new ReturnDatas(ReturnDatas.ERROR,MessageUtils.DELETE_NULL_ERROR);
+			return new ReturnDatas<Object>(ReturnDatas.ERROR,MessageUtils.DELETE_NULL_ERROR);
 		}
 		try {
 			List<String> listIds = Arrays.asList(ids);
 			userPlatformInfosService.deleteByIds(listIds,UserPlatformInfos.class);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
-			return new ReturnDatas(ReturnDatas.ERROR,MessageUtils.DELETE_ALL_ERROR);
+			return new ReturnDatas<Object>(ReturnDatas.ERROR,MessageUtils.DELETE_ALL_ERROR);
 		}
-		return new ReturnDatas(ReturnDatas.SUCCESS,MessageUtils.DELETE_ALL_SUCCESS);
+		return new ReturnDatas<Object>(ReturnDatas.SUCCESS,MessageUtils.DELETE_ALL_SUCCESS);
 			
 	}
 

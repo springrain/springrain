@@ -90,6 +90,7 @@ public class JwtInterceptor implements HandlerInterceptor {
 
         //用户信息判断
         String userId = JwtUtils.getUserId(jwtToken);
+        Integer userType = JwtUtils.getUserType(jwtToken);
         if (StringUtils.isBlank(userId)) {
             return false;
         }
@@ -107,9 +108,9 @@ public class JwtInterceptor implements HandlerInterceptor {
 
 
         boolean isUserDefaultUrl = false;
-
+        
         for (String patternPath : GlobalStatic.userDefaultUrl) {
-            if (matcher.match(patternPath, uri)) { //符合正则表达式
+            if (matcher.match(patternPath, uri) || StringUtils.equals("0", userType.toString())) { //符合正则表达式
                 isUserDefaultUrl = true;
                 break;
             }
@@ -189,7 +190,7 @@ public class JwtInterceptor implements HandlerInterceptor {
         String roleId = null;
         for (Menu m : menus) {
             //如果有访问菜单的权限,赋值roleId
-            if (uri.equalsIgnoreCase(m.getPageurl())) {
+            if (uri.equalsIgnoreCase(m.getPageurl()) || StringUtils.equals("0", userType.toString())) {
                 roleId = m.getRoleId();
                 qx = true;
                 break;

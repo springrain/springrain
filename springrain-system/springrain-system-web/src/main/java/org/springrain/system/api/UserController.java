@@ -60,7 +60,7 @@ public class UserController extends BaseController {
 	 */
 	@RequestMapping(value = "/look", method = RequestMethod.POST)
 	public ReturnDatas<User> look(java.lang.String id) throws Exception {
-		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
+		ReturnDatas<User> returnObject = ReturnDatas.getSuccessReturnDatas();
 
 		if (StringUtils.isNotBlank(id)) {
 			User user = userService.findUserById(id);
@@ -78,7 +78,7 @@ public class UserController extends BaseController {
      */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public ReturnDatas<User> save(@RequestBody User user) {
-        ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
+        ReturnDatas<User> returnObject = ReturnDatas.getSuccessReturnDatas();
         returnObject.setMessage(MessageUtils.SAVE_SUCCESS);
         try {
 
@@ -105,7 +105,7 @@ public class UserController extends BaseController {
      */
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public ReturnDatas<User> update(@RequestBody User user) {
-        ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
+        ReturnDatas<User> returnObject = ReturnDatas.getSuccessReturnDatas();
         returnObject.setMessage(MessageUtils.UPDATE_SUCCESS);
         try {
 
@@ -132,9 +132,10 @@ public class UserController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/updateuserrole", method = RequestMethod.POST)
-    public  ReturnDatas<String> updateuserrole(@RequestBody Map map) throws Exception {
+    public  ReturnDatas<String> updateuserrole(@RequestBody Map<String, Object> map) throws Exception {
         String userId= (String) map.get("userId");
-        List<String> roleIds=( List<String>) map.get("roleIds");
+        @SuppressWarnings("unchecked")
+		List<String> roleIds = ( List<String>) map.get("roleIds");
         String str= userRoleMenuService.updateUserRoles(userId,roleIds);
         if(StringUtils.isBlank(str)){
             return ReturnDatas.getSuccessReturnDatas();
@@ -152,11 +153,11 @@ public class UserController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/findOrgByUserId", method = RequestMethod.POST)
-	public ReturnDatas<List<Org>> findOrgByUserId(@RequestBody Map map) throws Exception {
+	public ReturnDatas<List<UserOrg>> findOrgByUserId(@RequestBody Map<String, Object> map) throws Exception {
 		String userId = (String) map.get("id");
 		List<UserOrg> orgs = userRoleOrgService.findUserOrgByUserId(userId, null);
 		
-		ReturnDatas returnDatas = ReturnDatas.getSuccessReturnDatas();
+		ReturnDatas<List<UserOrg>> returnDatas = ReturnDatas.getSuccessReturnDatas();
 		returnDatas.setResult(orgs);
 		return returnDatas;
 	}
@@ -170,11 +171,11 @@ public class UserController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/findOrgByRoleId", method = RequestMethod.POST)
-	public ReturnDatas<List<Org>> findOrgByRoleId(@RequestBody Map map) throws Exception {
+	public ReturnDatas<List<RoleOrg>> findOrgByRoleId(@RequestBody Map<String, Object> map) throws Exception {
 		String roleId = (String) map.get("roleid");
 		List<RoleOrg> orgs = userRoleOrgService.findOrgByRoleId(roleId, null);
 		
-		ReturnDatas returnDatas = ReturnDatas.getSuccessReturnDatas();
+		ReturnDatas<List<RoleOrg>> returnDatas = ReturnDatas.getSuccessReturnDatas();
 		returnDatas.setResult(orgs);
 		return returnDatas;
 	}
@@ -207,14 +208,14 @@ public class UserController extends BaseController {
 
 			if (StringUtils.isNotBlank(id)) {
 				userService.deleteById(id, User.class);
-				return new ReturnDatas(ReturnDatas.SUCCESS, MessageUtils.DELETE_SUCCESS);
+				return new ReturnDatas<User>(ReturnDatas.SUCCESS, MessageUtils.DELETE_SUCCESS);
 			} else {
-				return new ReturnDatas(ReturnDatas.ERROR, MessageUtils.DELETE_NULL_ERROR);
+				return new ReturnDatas<User>(ReturnDatas.ERROR, MessageUtils.DELETE_NULL_ERROR);
 			}
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 		}
-		return new ReturnDatas(ReturnDatas.ERROR, MessageUtils.DELETE_ERROR);
+		return new ReturnDatas<User>(ReturnDatas.ERROR, MessageUtils.DELETE_ERROR);
 	}
 
 	/**
@@ -224,19 +225,19 @@ public class UserController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/delete/more", method = RequestMethod.POST)
-	public ReturnDatas deleteMore(@RequestBody java.lang.String[] ids) {
+	public ReturnDatas<Object> deleteMore(@RequestBody java.lang.String[] ids) {
 
 		if (ids == null || ids.length < 1) {
-			return new ReturnDatas(ReturnDatas.ERROR, MessageUtils.DELETE_NULL_ERROR);
+			return new ReturnDatas<Object>(ReturnDatas.ERROR, MessageUtils.DELETE_NULL_ERROR);
 		}
 		try {
 			List<String> listIds = Arrays.asList(ids);
 			userService.deleteByIds(listIds, User.class);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
-			return new ReturnDatas(ReturnDatas.ERROR, MessageUtils.DELETE_ALL_ERROR);
+			return new ReturnDatas<Object>(ReturnDatas.ERROR, MessageUtils.DELETE_ALL_ERROR);
 		}
-		return new ReturnDatas(ReturnDatas.SUCCESS, MessageUtils.DELETE_ALL_SUCCESS);
+		return new ReturnDatas<Object>(ReturnDatas.SUCCESS, MessageUtils.DELETE_ALL_SUCCESS);
 
 	}
 
@@ -247,13 +248,13 @@ public class UserController extends BaseController {
      * @throws Exception
      */
 	@RequestMapping(value="/getRouters", method = RequestMethod.POST)
-	public ReturnDatas menuIds() throws Exception {
+	public ReturnDatas<List<String>> menuIds() throws Exception {
        // 获取当前登录人
         String userId = SessionUser.getUserId();
         if (StringUtils.isBlank(userId)) {
             return ReturnDatas.getErrorReturnDatas("用户不存在");
         }
-        ReturnDatas successReturnDatas = ReturnDatas.getSuccessReturnDatas();
+        ReturnDatas<List<String>> successReturnDatas = ReturnDatas.getSuccessReturnDatas();
         List<Menu> listMenu = userRoleMenuService.findMenuByUserId(userId);
 
         List<String> listMenuIds=new ArrayList<>();
@@ -286,13 +287,13 @@ public class UserController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value="/getRolesByUserId", method = RequestMethod.POST)
-    public ReturnDatas<Menu> getRolesByUserId() throws Exception {
+    public ReturnDatas<List<Role>> getRolesByUserId() throws Exception {
         // 获取当前登录人
         String userId = SessionUser.getUserId();
         if (StringUtils.isBlank(userId)) {
             return ReturnDatas.getErrorReturnDatas("用户不存在");
         }
-        ReturnDatas successReturnDatas = ReturnDatas.getSuccessReturnDatas();
+        ReturnDatas<List<Role>> successReturnDatas = ReturnDatas.getSuccessReturnDatas();
         List<Role> roles = userRoleMenuService.findRoleByUserId(userId);
 
         successReturnDatas.setResult(roles);
@@ -307,7 +308,7 @@ public class UserController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/info", method = RequestMethod.POST)
-	public ReturnDatas<Menu> info() throws Exception {
+	public ReturnDatas<User> info() throws Exception {
 		String userId = SessionUser.getUserId();
 		if (StringUtils.isBlank(userId)) {
 			return ReturnDatas.getErrorReturnDatas("用户不存在");
@@ -319,7 +320,7 @@ public class UserController extends BaseController {
 			user.setRoles(roles);
 		}
 		
-		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
+		ReturnDatas<User> returnObject = ReturnDatas.getSuccessReturnDatas();
 		returnObject.setResult(user);
 		return returnObject;
 	}
@@ -343,7 +344,7 @@ public class UserController extends BaseController {
 			user.setRoles(roles);
 		}
 		
-		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
+		ReturnDatas<User> returnObject = ReturnDatas.getSuccessReturnDatas();
 		returnObject.setResult(user);
 		return returnObject;
 	}
@@ -356,14 +357,12 @@ public class UserController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/menu", method = RequestMethod.POST)
-	public ReturnDatas getRouters() throws Exception {
+	public ReturnDatas<List<MenuDto>> getRouters() throws Exception {
 		String userId = SessionUser.getUserId();
 		if (StringUtils.isBlank(userId)) {
 			return ReturnDatas.getErrorReturnDatas("用户不存在");
 		}
 
-		List<Menu> listMenu = userRoleMenuService.findMenuTreeByUsreId(userId);
-		
 		List<MenuDto> menuDto = new ArrayList<MenuDto>();
 		MenuDto menu = new MenuDto();
 		
@@ -434,7 +433,7 @@ public class UserController extends BaseController {
 		menu.setChildren(children);
 		menuDto.add(menu);
 		
-		ReturnDatas retrunObject = ReturnDatas.getSuccessReturnDatas();
+		ReturnDatas<List<MenuDto>> retrunObject = ReturnDatas.getSuccessReturnDatas();
 		retrunObject.setResult(menuDto);
 		return retrunObject;
 	}

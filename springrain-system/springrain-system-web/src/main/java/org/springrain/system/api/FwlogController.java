@@ -45,7 +45,7 @@ public class FwlogController extends BaseController {
 	 */
 	@RequestMapping("/list")
 	public String list(HttpServletRequest request, Model model, Fwlog fwlog) throws Exception {
-		ReturnDatas returnObject = listjson(request, model, fwlog);
+		ReturnDatas<List<Fwlog>> returnObject = listjson(request, model, fwlog);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
 		return listurl;
 	}
@@ -61,14 +61,14 @@ public class FwlogController extends BaseController {
 	 */
 	@RequestMapping("/list/json")
 	@ResponseBody
-	public ReturnDatas listjson(HttpServletRequest request, Model model, Fwlog fwlog) throws Exception {
-		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
+	public ReturnDatas<List<Fwlog>> listjson(HttpServletRequest request, Model model, Fwlog fwlog)
+			throws Exception {
+		ReturnDatas<List<Fwlog>> returnObject = ReturnDatas.getSuccessReturnDatas();
 
-		Page page = newPage(request);
+		Page<?> page = newPage(request);
 		page.setOrder("strDate");
 		page.setSort("desc");
 		List<Fwlog> datas = fwlogService.findListDataByFinder(null, page, Fwlog.class, fwlog);
-		//returnObject.setQueryBean(fwlog);
 		returnObject.setPage(page);
 		returnObject.setResult(datas);
 		return returnObject;
@@ -84,11 +84,10 @@ public class FwlogController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/list/export")
-	public void listexport(HttpServletRequest request, HttpServletResponse response, Model model, Fwlog fwlog)
-			throws Exception {
-		// ==构造分页请求
-		Page page = newPage(request);
-		File file = null; //(null, listurl, page, Fwlog.class, fwlog, GlobalStatic.excelext,fwlogService);
+	public void listexport(HttpServletRequest request, HttpServletResponse response, Model model,
+			Fwlog fwlog) throws Exception {
+		File file = null; // (null, listurl, page, Fwlog.class, fwlog,
+							// GlobalStatic.excelext,fwlogService);
 
 		String fileName = "fwlog" + GlobalStatic.excelext;
 		downFile(response, file, fileName, true);
@@ -99,8 +98,9 @@ public class FwlogController extends BaseController {
 	 * 查看操作,调用APP端lookjson方法
 	 */
 	@RequestMapping(value = "/look")
-	public String look(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ReturnDatas returnObject = lookjson(model, request, response);
+	public String look(Model model, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		ReturnDatas<Fwlog> returnObject = lookjson(model, request, response);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
 		return "/system/fwlog/fwlogLook";
 	}
@@ -110,9 +110,9 @@ public class FwlogController extends BaseController {
 	 */
 	@RequestMapping(value = "/look/json")
 	@ResponseBody
-	public ReturnDatas lookjson(Model model, HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
+	public ReturnDatas<Fwlog> lookjson(Model model, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		ReturnDatas<Fwlog> returnObject = ReturnDatas.getSuccessReturnDatas();
 		String id = request.getParameter("id");
 		if (StringUtils.isNotBlank(id)) {
 			Fwlog fwlog = fwlogService.findFwlogById(id);
@@ -151,11 +151,11 @@ public class FwlogController extends BaseController {
 	/*
 	 * @RequestMapping("/download/txtfile")
 	 * 
-	 * @ResponseBody public ResponseEntity<byte[]> downloadtxtfile()throws Exception
-	 * {
+	 * @ResponseBody public ResponseEntity<byte[]> downloadtxtfile()throws
+	 * Exception {
 	 * 
-	 * byte[] bb = IOUtils.toByteArray(new FileInputStream(new File("txtfile")));
-	 * HttpHeaders headers = new HttpHeaders();
+	 * byte[] bb = IOUtils.toByteArray(new FileInputStream(new
+	 * File("txtfile"))); HttpHeaders headers = new HttpHeaders();
 	 * headers.setContentType(MediaType.TEXT_PLAIN); return new
 	 * ResponseEntity<byte[]>(bb, headers, HttpStatus.OK); }
 	 */

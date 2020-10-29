@@ -44,7 +44,7 @@ public class AuditlogController extends BaseController {
 	 */
 	@RequestMapping("/list")
 	public String list(HttpServletRequest request, Model model, AuditLog auditlog) throws Exception {
-		ReturnDatas returnObject = listjson(request, model, auditlog);
+		ReturnDatas<List<AuditLog>> returnObject = listjson(request, model, auditlog);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
 		return listurl;
 	}
@@ -60,10 +60,10 @@ public class AuditlogController extends BaseController {
 	 */
 	@RequestMapping("/list/json")
 	@ResponseBody
-	public ReturnDatas listjson(HttpServletRequest request, Model model, AuditLog auditlog) throws Exception {
-		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
+	public ReturnDatas<List<AuditLog>> listjson(HttpServletRequest request, Model model, AuditLog auditlog) throws Exception {
+		ReturnDatas<List<AuditLog>> returnObject = ReturnDatas.getSuccessReturnDatas();
 
-		Page page = newPage(request);
+		Page<?> page = newPage(request);
 		page.setOrder("operationTime");
 		page.setSort("desc");
 
@@ -86,8 +86,6 @@ public class AuditlogController extends BaseController {
 	@RequestMapping("/list/export")
 	public void listexport(HttpServletRequest request, HttpServletResponse response, Model model, AuditLog auditlog)
 			throws Exception {
-		// ==构造分页请求
-		Page page = newPage(request);
 		File file = null; //(null, listurl, page, AuditLog.class, auditlog, GlobalStatic.excelext,auditlogService);
 
 		String fileName = "auditlog" + GlobalStatic.excelext;
@@ -100,7 +98,7 @@ public class AuditlogController extends BaseController {
 	 */
 	@RequestMapping(value = "/look")
 	public String look(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ReturnDatas returnObject = lookjson(model, request, response);
+		ReturnDatas<AuditLog> returnObject = lookjson(model, request, response);
 		model.addAttribute(GlobalStatic.returnDatas, returnObject);
 		return "/system/auditlog/auditlogLook";
 	}
@@ -110,9 +108,9 @@ public class AuditlogController extends BaseController {
 	 */
 	@RequestMapping(value = "/look/json")
 	@ResponseBody
-	public ReturnDatas lookjson(Model model, HttpServletRequest request, HttpServletResponse response)
+	public ReturnDatas<AuditLog> lookjson(Model model, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
-		ReturnDatas returnObject = ReturnDatas.getSuccessReturnDatas();
+		ReturnDatas<AuditLog> returnObject = ReturnDatas.getSuccessReturnDatas();
 		String id = request.getParameter("id");
 		if (StringUtils.isNotBlank(id)) {
 			AuditLog auditlog = auditlogService.findAuditlogById(id);
