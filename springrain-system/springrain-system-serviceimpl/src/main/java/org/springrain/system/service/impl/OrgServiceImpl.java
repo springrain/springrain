@@ -14,6 +14,7 @@ import org.springrain.system.entity.UserOrg;
 import org.springrain.system.service.IOrgService;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -302,4 +303,49 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
     }
 
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Map<String, Object>> findOrgTreeVoList() throws Exception {
+		Finder finder = Finder.getSelectFinder(Org.class).append(" WHERE active=:active");
+		finder.setParam("active", 1);
+		List<Org> orgList = this.queryForList(finder, Org.class);
+		if(CollectionUtils.isNotEmpty(orgList)) {
+			Map<String, Object> idOrgMap = new HashMap<String, Object>();
+			Map<String, Object> orgMap = new HashMap<String, Object>();
+			// 按层级排序  让循环从父到子循环
+			orgList = orgList.stream().sorted(Comparator.comparingInt(t->{
+				return StringUtils.split(t.getComcode(),";").length;
+			})).collect(Collectors.toList());
+			for (Org org : orgList) {
+				String pid = org.getPid();
+				
+				Map<String, Object> orgInfo = new HashMap<String, Object>();
+				orgInfo.put("id", org.getId());
+				orgInfo.put("label", org.getName());
+				idOrgMap.put(org.getId(), orgInfo);
+				
+				if(StringUtils.isBlank(org.getPid())) {
+					// 顶级部门
+					orgMap.put(org.getId(), orgInfo);
+				}else {
+					// 子级部门
+					Map<String, Object> parentOrg = (Map<String, Object>) idOrgMap.get(pid);
+					List<Map<String, Object>> children = null;
+					if(parentOrg.containsKey("children")) {
+						children = (List<Map<String, Object>>) parentOrg.get("children");
+					}else {
+						children = new ArrayList<Map<String,Object>>();
+					}
+					children.add(orgInfo);
+					parentOrg.put("children", children);
+				}
+			}
+			List<Map<String, Object>> orgInfoList = new ArrayList<Map<String,Object>>();
+			for (String orgIdKey : orgMap.keySet()) {
+				orgInfoList.add((Map<String, Object>) orgMap.get(orgIdKey));
+			}
+			return orgInfoList;
+		}
+		return null;
+	}
 }

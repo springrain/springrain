@@ -13,17 +13,19 @@ import org.springrain.system.entity.Org;
 import org.springrain.system.service.IOrgService;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
 import java.util.List;
 import java.util.Map;
 
 /**
- * TODO 在此加入类描述
+ * 部门信息管理controller
  *
  * @author springrain<Auto generate>
  * @version 2019-07-27 16:10:11
  */
 @RestController
-@RequestMapping(value = "/api/system/org", method = RequestMethod.POST)
+@RequestMapping(value = "/api/system/org")
 public class OrgController extends BaseController {
     @Resource
     private IOrgService orgService;
@@ -150,5 +152,21 @@ public class OrgController extends BaseController {
         }
         return new ReturnDatas<Org>(ReturnDatas.ERROR, MessageUtils.DELETE_ERROR);
     }
+    
+	@RequestMapping(value="treeselect",method=RequestMethod.GET)
+	public ReturnDatas<List<Map<String, Object>>> treeSelect(HttpServletRequest request) {
+		ReturnDatas<List<Map<String, Object>>> returnDatas = ReturnDatas.getSuccessReturnDatas();
+		List<Map<String, Object>> treeList = null;
+		try {
+			treeList = orgService.findOrgTreeVoList();
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			returnDatas.setStatus(ReturnDatas.ERROR);
+			returnDatas.setMessage("查询失败");
+		}
+		returnDatas.setResult(treeList);
+		return returnDatas;
+	}
+    
 
 }

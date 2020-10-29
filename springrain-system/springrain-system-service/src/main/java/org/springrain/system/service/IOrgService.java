@@ -4,6 +4,7 @@ import org.springrain.rpc.annotation.RpcServiceAnnotation;
 import org.springrain.system.entity.Org;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * TODO 在此加入类描述
@@ -86,6 +87,17 @@ public interface IOrgService extends IBaseSpringrainService {
      * @throws Exception
      */
     String findOrgNewComcode(String id, String pid) throws Exception;
+
+
+	/**
+	* 查询部门树形结构
+	*
+	* @return
+	* @author 程相羽
+	* @version 2020年10月29日 下午2:17:34
+	 * @throws Exception 
+	*/
+	List<Map<String, Object>> findOrgTreeVoList() throws Exception;
 
 
 }
