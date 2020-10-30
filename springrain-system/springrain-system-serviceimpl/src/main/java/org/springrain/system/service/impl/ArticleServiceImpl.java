@@ -4,9 +4,6 @@ import org.springframework.stereotype.Service;
 import org.springrain.frame.entity.IBaseEntity;
 import org.springrain.system.entity.Article;
 import org.springrain.system.service.IArticleService;
-import org.springrain.system.service.IUserRoleOrgService;
-
-import javax.annotation.Resource;
 
 /**
  * TODO 在此加入类描述
@@ -17,10 +14,6 @@ import javax.annotation.Resource;
 
 @Service("articleService")
 public class ArticleServiceImpl extends BaseSpringrainServiceImpl implements IArticleService {
-
-
-    @Resource
-    private IUserRoleOrgService iUserRoleOrgService;
 
     @Override
     public String save(IBaseEntity entity) throws Exception {
