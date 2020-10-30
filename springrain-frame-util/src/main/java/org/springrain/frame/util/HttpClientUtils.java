@@ -77,11 +77,11 @@ public class HttpClientUtils {
                     })
                     .build();
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         } catch (KeyManagementException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         } catch (KeyStoreException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         }
 
         // 禁用主机验证.安全性较低,兼容性较好,自签证书需要用到.
@@ -355,7 +355,6 @@ public class HttpClientUtils {
                 // 关闭连接,释放资源
                 if (entity != null) {
                     EntityUtils.consumeQuietly(entity); // 会自动释放连接
-
                 }
 
                 if (response != null) {
