@@ -89,15 +89,15 @@ public interface IOrgService extends IBaseSpringrainService {
     String findOrgNewComcode(String id, String pid) throws Exception;
 
 
-	/**
-	* 查询部门树形结构
-	*
-	* @return
-	* @author 程相羽
-	* @version 2020年10月29日 下午2:17:34
-	 * @throws Exception 
-	*/
-	List<Map<String, Object>> findOrgTreeVoList() throws Exception;
+    /**
+     * 查询部门树形结构
+     *
+     * @return
+     * @throws Exception
+     * @author 程相羽
+     * @version 2020年10月29日 下午2:17:34
+     */
+    List<Map<String, Object>> findOrgTreeVoList() throws Exception;
 
 
 }

@@ -35,13 +35,14 @@ public class MenuController extends BaseController {
 
     /**
      * 菜单列表数据
+     *
      * @param menu
      * @param page
      * @return
      * @throws Exception
      */
     @RequestMapping(value = "/list", method = RequestMethod.POST)
-    public ReturnDatas<List<Menu>> list( Menu menu, Page<?> page)
+    public ReturnDatas<List<Menu>> list(Menu menu, Page<?> page)
             throws Exception {
         ReturnDatas<List<Menu>> returnObject = ReturnDatas.getSuccessReturnDatas();
         // ==构造分页请求

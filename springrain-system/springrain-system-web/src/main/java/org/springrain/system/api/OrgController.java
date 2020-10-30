@@ -14,7 +14,6 @@ import org.springrain.system.service.IOrgService;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-
 import java.util.List;
 import java.util.Map;
 
@@ -152,21 +151,21 @@ public class OrgController extends BaseController {
         }
         return new ReturnDatas<Org>(ReturnDatas.ERROR, MessageUtils.DELETE_ERROR);
     }
-    
-	@RequestMapping(value="treeselect",method=RequestMethod.GET)
-	public ReturnDatas<List<Map<String, Object>>> treeSelect(HttpServletRequest request) {
-		ReturnDatas<List<Map<String, Object>>> returnDatas = ReturnDatas.getSuccessReturnDatas();
-		List<Map<String, Object>> treeList = null;
-		try {
-			treeList = orgService.findOrgTreeVoList();
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			returnDatas.setStatus(ReturnDatas.ERROR);
-			returnDatas.setMessage("查询失败");
-		}
-		returnDatas.setResult(treeList);
-		return returnDatas;
-	}
-    
+
+    @RequestMapping(value = "treeselect", method = RequestMethod.GET)
+    public ReturnDatas<List<Map<String, Object>>> treeSelect(HttpServletRequest request) {
+        ReturnDatas<List<Map<String, Object>>> returnDatas = ReturnDatas.getSuccessReturnDatas();
+        List<Map<String, Object>> treeList = null;
+        try {
+            treeList = orgService.findOrgTreeVoList();
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            returnDatas.setStatus(ReturnDatas.ERROR);
+            returnDatas.setMessage("查询失败");
+        }
+        returnDatas.setResult(treeList);
+        return returnDatas;
+    }
+
 
 }

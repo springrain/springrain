@@ -1,10 +1,7 @@
 package org.springrain.system.service.impl;
 
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 import org.springrain.frame.entity.AuditLog;
-import org.springrain.frame.util.Page;
 import org.springrain.system.service.IAuditlogService;
 
 /**
@@ -13,7 +10,7 @@ import org.springrain.system.service.IAuditlogService;
  * @author springrain<Auto generate>
  * @version 2013-04-02 10:17:31
  * @copyright {@link weicms.net}
- * @see org.springrain.frame.entity.springrain.service.impl.AuditLog
+ * @see org.springrain.system.service.impl.AuditlogServiceImpl
  */
 @Service("auditlogService")
 public class AuditlogServiceImpl extends BaseSpringrainServiceImpl implements IAuditlogService {

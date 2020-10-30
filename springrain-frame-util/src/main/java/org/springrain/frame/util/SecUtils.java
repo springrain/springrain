@@ -49,7 +49,7 @@ public class SecUtils {
      * @param instr 要加密的字符串
      * @return 返回加密后的字符串
      */
-    public  static String encoderByMd5With32Bit(String instr) {
+    public static String encoderByMd5With32Bit(String instr) {
         char[] hexDigits = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
         try {
             if (instr != null && !"".equals(instr)) {
@@ -91,7 +91,7 @@ public class SecUtils {
      * @param str 要加密的字符串
      * @return 返回加密后的字符串
      */
-    public  static String encoderByBase64(String str) {
+    public static String encoderByBase64(String str) {
         return encoderByBase64(str.getBytes());
     }
 
@@ -101,7 +101,7 @@ public class SecUtils {
      * @param data 要加密的字符串
      * @return 返回加密后的字符串
      */
-    public  static String encoderByBase64(byte[] data) {
+    public static String encoderByBase64(byte[] data) {
         try {
             Base64.Encoder encoder = Base64.getEncoder();
             return encoder.encodeToString(data);
@@ -117,7 +117,7 @@ public class SecUtils {
      * @param str 要解密的字符串
      * @return 返回解密后的字符串
      */
-    public  static byte[] decoderByteByBase64(String str) {
+    public static byte[] decoderByteByBase64(String str) {
         try {
             Base64.Decoder decoder = Base64.getDecoder();
             return decoder.decode(str);
@@ -133,7 +133,7 @@ public class SecUtils {
      * @param str 要解密的字符串
      * @return 返回解密后的字符串
      */
-    public  static String decoderByBase64(String str) {
+    public static String decoderByBase64(String str) {
         try {
             byte[] decoderByBase64 = decoderByteByBase64(str);
             if (decoderByBase64 == null) {

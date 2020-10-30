@@ -119,6 +119,7 @@ public class User extends BaseEntity {
     private String deptId;
     // 用户的所有角色
     private List<Role> roles;
+
     //columns END 数据库字段结束
     //concstructor
     public User() {

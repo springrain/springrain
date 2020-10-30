@@ -202,7 +202,7 @@ public class ClassUtils {
      * @param clazz
      * @return
      */
-    public static String getTableNameByClass(Class clazz) {
+    protected static String getTableNameByClass(Class clazz) {
 
         if (clazz == null) {
             return null;

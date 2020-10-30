@@ -1,9 +1,6 @@
 package org.springrain.system.service;
 
-import java.util.List;
-
 import org.springrain.frame.entity.AuditLog;
-import org.springrain.frame.util.Page;
 import org.springrain.rpc.annotation.RpcServiceAnnotation;
 
 /**
@@ -11,8 +8,7 @@ import org.springrain.rpc.annotation.RpcServiceAnnotation;
  *
  * @author springrain<Auto generate>
  * @version 2013-04-02 10:17:31
- * @copyright {@link weicms.net}
- * @see org.springrain.frame.entity.springrain.service.AuditLog
+ * @see org.springrain.system.service.IAuditlogService
  */
 @RpcServiceAnnotation
 public interface IAuditlogService extends IBaseSpringrainService {
