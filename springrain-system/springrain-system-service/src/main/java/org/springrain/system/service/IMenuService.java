@@ -1,5 +1,6 @@
 package org.springrain.system.service;
 
+import org.springrain.frame.util.Page;
 import org.springrain.rpc.annotation.RpcServiceAnnotation;
 import org.springrain.system.entity.Menu;
 
@@ -74,6 +75,19 @@ public interface IMenuService extends IBaseSpringrainService {
      * @throws Exception
      */
     String findMenuNewComcode(String id, String pid) throws Exception;
+
+
+	/**
+	* 根据查询条件查询所有可用菜单
+	*
+	* @param menu
+	* @param page
+	* @return
+	* @author 程相羽
+	* @version 2020年11月2日 下午2:50:23
+	 * @throws Exception 
+	*/
+	List<Menu> findAllMenuListByQueryBean(Menu menu, Page<Menu> page) throws Exception;
 
 
 }

@@ -1,13 +1,22 @@
 package org.springrain.system.api;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springrain.frame.util.GlobalStatic;
-import org.springrain.frame.util.JsonUtils;
 import org.springrain.frame.util.Page;
 import org.springrain.frame.util.ReturnDatas;
 import org.springrain.frame.util.property.MessageUtils;
@@ -15,30 +24,22 @@ import org.springrain.system.base.BaseController;
 import org.springrain.system.entity.DicData;
 import org.springrain.system.service.IDicDataService;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
  * TODO 在此加入类描述
  *
  * @author 9iu.dicData<Auto generate>
  * @version 2013-07-31 15:56:45
  */
-@Controller
-@RequestMapping(value = "/system/dicdata/{pathtypekey}")
+@RestController
+@RequestMapping(value = "/system/dicdata")
 public class DicDataController extends BaseController {
     @Resource
     private IDicDataService dicDataService;
-
-    private String listurl = "/system/dicdata/dicdataList";
-
+    
+    
+    
     /**
-     * 列表数据,调用listjson方法,保证和app端数据统一
+     * 查询所有父级字典信息
      *
      * @param request
      * @param model
@@ -46,46 +47,21 @@ public class DicDataController extends BaseController {
      * @return
      * @throws Exception
      */
-    @RequestMapping("/list")
-    public String list(@PathVariable String pathtypekey, HttpServletRequest request, Model model,
-                       DicData dicData) throws Exception {
-        ReturnDatas<?> returnObject = listjson(pathtypekey, request, model, dicData);
-        model.addAttribute(GlobalStatic.returnDatas, returnObject);
-        return listurl;
-    }
-
-    /**
-     * json数据,为APP提供数据
-     *
-     * @param request
-     * @param model
-     * @param dicData
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping("/list/json")
+    @GetMapping("/type/list/json")
     @ResponseBody
-    public ReturnDatas<List<DicData>> listjson(@PathVariable String pathtypekey,
-                                               HttpServletRequest request, Model model, DicData dicData) throws Exception {
-        dicData.setTypekey(pathtypekey);
+    public ReturnDatas<List<DicData>> listjson(HttpServletRequest request, Model model, DicData dicData) throws Exception {
+        dicData.setTypekey(null);
         String nopage = request.getParameter("page");// 树结构不能分页
         Page<?> page = null;
         if (!"false".equals(nopage)) {
             page = newPage(request);
         }
-        // List<DicData>
-        // datas=dicDataService.findListDicData(pathtypekey,page,dicData);
-        dicData.setTypekey(pathtypekey);
         List<DicData> datas = dicDataService.queryForListByEntity(dicData, page);
-        // boolean hasNext = page.getHasNext();
         ReturnDatas<List<DicData>> returnObject = ReturnDatas.getSuccessReturnDatas();
         returnObject.setResult(datas);
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("typekey", pathtypekey);
-        // returnObject.setQueryBean(dicData);// 正式如果 ，加了缓存此处删除
         returnObject.setPage(page);
         returnObject.setMap(map);
-        System.out.println(JsonUtils.writeValueAsString(returnObject));
         return returnObject;
     }
 

@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
+import org.springrain.frame.util.Page;
 import org.springrain.frame.util.SecUtils;
 import org.springrain.system.entity.Menu;
 import org.springrain.system.entity.RoleMenu;
@@ -201,5 +202,14 @@ public class MenuServiceImpl extends BaseSpringrainServiceImpl implements IMenuS
 
         return comcode;
     }
+
+
+	@Override
+	public List<Menu> findAllMenuListByQueryBean(Menu menu, Page<Menu> page) throws Exception {
+		Finder finder = Finder.getSelectFinder(Menu.class)
+				.append(" WHERE active=:active");
+		finder.setParam("active", 1);
+		return this.queryForList(finder, Menu.class);
+	}
 
 }
