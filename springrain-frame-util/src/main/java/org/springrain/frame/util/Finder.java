@@ -13,7 +13,7 @@ import java.util.Map;
  * @see org.springrain.frame.util.Finder
  */
 public final class Finder {
-    private Map<String, Object> params = null;
+    private Map<String, Object> params = new HashMap<>();
     private StringBuilder sql = new StringBuilder();
     // private String countSql=null;
     private String orderSql = null;
@@ -170,9 +170,6 @@ public final class Finder {
     }
 
     public Map<String, Object> getParams() {
-        if (params == null) {
-            params = new HashMap<String, Object>();
-        }
         return params;
     }
 
