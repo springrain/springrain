@@ -16,7 +16,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.5.RELEASE</version>
+        <version>2.4.0</version>
         <relativePath/>
     </parent>
 
@@ -46,8 +46,8 @@
         <javax.persistence.version>2.2.1</javax.persistence.version>
 
         <!-- lucene版本和es的依赖版本最好保持一致,避免冲突 -->
-        <lucene.version>8.6.2</lucene.version>
-        <elasticsearch.client.version>7.9.3</elasticsearch.client.version>
+        <lucene.version>8.7.0</lucene.version>
+        <elasticsearch.client.version>7.10.0</elasticsearch.client.version>
 
         <rocketmq.client.version>4.7.1</rocketmq.client.version>
         <jxl.version>2.6.12</jxl.version>
