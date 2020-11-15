@@ -1,10 +1,10 @@
 package org.springrain.test;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springrain.SpringrainApplication;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.JsonUtils;
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = SpringrainApplication.class)
 public class SpringTests {
     String userId = "u_10001";
