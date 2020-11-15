@@ -46,7 +46,7 @@ public class ${className}Controller  extends BaseController {
 		// ==构造分页请求
 		// Page page = newPage(request);
 		// ==执行分页查询
-		List<${className}> datas=${classNameLower}Service.findListDataByFinder(null,page,${className}.class,page.getData());
+		List<${className}> datas=${classNameLower}Service.queryForListByEntity(page.getData(),page);
 			//returnObject.setQueryBean(page.getData());
 		returnObject.setPage(page);
 		returnObject.setResult(datas);
