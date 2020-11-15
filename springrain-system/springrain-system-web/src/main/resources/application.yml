@@ -5,7 +5,7 @@ server:
 
   servlet:
     #访问根路径
-    context-path: /
+    context-path: /system
     #编码
     encoding:
       enabled: true
