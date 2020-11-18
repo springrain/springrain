@@ -94,4 +94,22 @@ public interface IDicDataService extends IBaseSpringrainService {
      */
     DicData findByCodeAndTypeKey(String code, String typeKey) throws Exception;
 
+	/**
+	 * 根据typeName查询字典子类
+	 * @param page
+	 * @param typeName
+	 * @return
+	 * @throws Exception 
+	 */
+	List<DicData> findTypeListByTypeName(Page<DicData> page, String typeName) throws Exception;
+
+	/**
+	 * 分页查询所有字典类型
+	 * @param page
+	 * @return
+	 * @throws Exception 
+	 */
+	List<DicData> findAllRootList(Page<DicData> page) throws Exception;
+
+
 }

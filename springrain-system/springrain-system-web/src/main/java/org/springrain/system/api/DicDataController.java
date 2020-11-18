@@ -37,9 +37,8 @@ public class DicDataController extends BaseController {
     private IDicDataService dicDataService;
     
     
-    
     /**
-     * 查询所有父级字典信息
+     * 查询所有字典类型信息
      *
      * @param request
      * @param model
@@ -47,21 +46,45 @@ public class DicDataController extends BaseController {
      * @return
      * @throws Exception
      */
-    @GetMapping("/type/list/json")
-    @ResponseBody
-    public ReturnDatas<List<DicData>> listjson(HttpServletRequest request, Model model, DicData dicData) throws Exception {
-        dicData.setTypekey(null);
-        String nopage = request.getParameter("page");// 树结构不能分页
-        Page<?> page = null;
-        if (!"false".equals(nopage)) {
-            page = newPage(request);
-        }
-        List<DicData> datas = dicDataService.queryForListByEntity(dicData, page);
-        ReturnDatas<List<DicData>> returnObject = ReturnDatas.getSuccessReturnDatas();
+    @GetMapping("/type/list")
+    public ReturnDatas<List<DicData>> list(HttpServletRequest request, Model model, Page<DicData> page) {
+    	ReturnDatas<List<DicData>> returnObject = ReturnDatas.getSuccessReturnDatas();
+    	List<DicData> datas = null;
+		try {
+			datas = dicDataService.findAllRootList(page);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			returnObject.setStatus(ReturnDatas.ERROR);
+			returnObject.setMessage("查询失败");
+		}
         returnObject.setResult(datas);
-        Map<String, Object> map = new HashMap<String, Object>();
         returnObject.setPage(page);
-        returnObject.setMap(map);
+        return returnObject;
+    }
+    
+    /**
+     * 根据类型查询类型下的字典列表
+     *
+     * @param request
+     * @param model
+     * @param dicData
+     * @return
+     * @throws Exception
+     */
+    @GetMapping("/type/{typeName}")
+    @ResponseBody
+    public ReturnDatas<List<DicData>> listjson(HttpServletRequest request, Model model, Page<DicData> page, @PathVariable String typeName) {
+    	ReturnDatas<List<DicData>> returnObject = ReturnDatas.getSuccessReturnDatas();
+    	List<DicData> datas = null;
+		try {
+			datas = dicDataService.findTypeListByTypeName(page, typeName);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			returnObject.setStatus(ReturnDatas.ERROR);
+			returnObject.setMessage("查询失败");
+		}
+        returnObject.setResult(datas);
+        returnObject.setPage(page);
         return returnObject;
     }
 

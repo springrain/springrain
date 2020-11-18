@@ -4,6 +4,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springrain.frame.entity.IBaseEntity;
+import org.springrain.frame.util.CommonEnum.ACTIVE;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.Page;
@@ -21,7 +22,13 @@ import java.util.List;
 @Service("dicDataService")
 public class DicDataServiceImpl extends BaseSpringrainServiceImpl implements IDicDataService {
 
-    @Override
+    /**
+     * 字典顶级父类typeKey
+     */
+    private static final String ROOT_TYPE_KEY = "root";
+
+
+	@Override
     public String save(IBaseEntity entity) throws Exception {
         DicData dicData = (DicData) entity;
         return (String) super.save(dicData);
@@ -139,4 +146,21 @@ public class DicDataServiceImpl extends BaseSpringrainServiceImpl implements IDi
         }
         return null;
     }
+
+
+	@Override
+	public List<DicData> findTypeListByTypeName(Page<DicData> page, String typeName) throws Exception {
+		Finder finder = Finder.getSelectFinder(DicData.class)
+				.append(" WHERE pid=:typeName AND active=:active");
+		finder.setParam("active", ACTIVE.未删除.getState()).setParam("typeName", typeName);
+		return this.queryForList(finder, DicData.class, page);
+	}
+
+
+	@Override
+	public List<DicData> findAllRootList(Page<DicData> page) throws Exception {
+		Finder finder = Finder.getSelectFinder(DicData.class).append(" WHERE typeKey=:root AND active=:active");
+		finder.setParam("root", ROOT_TYPE_KEY).setParam("active", ACTIVE.未删除.getState());
+		return this.queryForList(finder, DicData.class, page);
+	}
 }
