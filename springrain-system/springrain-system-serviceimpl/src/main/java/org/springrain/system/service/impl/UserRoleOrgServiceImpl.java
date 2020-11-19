@@ -3,6 +3,7 @@ package org.springrain.system.service.impl;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springrain.frame.util.CommonEnum.ACTIVE;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.Page;
 import org.springrain.frame.util.SecUtils;
@@ -576,6 +577,16 @@ public class UserRoleOrgServiceImpl extends BaseSpringrainServiceImpl implements
         }
         return true;
     }
+
+	@Override
+	public List<String> findUserIdListByOrgId(String deptId) throws Exception {
+		Finder finder = Finder.getSelectFinder(UserOrg.class, "userId")
+				.append(" WHERE orgId IN (SELECT id from ")
+				.append(Finder.getTableName(Org.class))
+				.append(" WHERE active=:active AND comcode like :deptId) AND active=:active");
+		finder.setParam("deptId", "%" + deptId + "%").setParam("active", ACTIVE.未删除.getState());
+		return this.queryForList(finder, String.class);
+	}
 
 
 }

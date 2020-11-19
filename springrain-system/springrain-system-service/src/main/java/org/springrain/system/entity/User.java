@@ -103,6 +103,8 @@ public class User extends BaseEntity {
     private String nickName;
     // 是否有效(0否,1是)
     private Integer active;
+    // 伪删除状态 0删除 1未删除   
+    private Integer status;
     // bak1
     private String bak1;
     // bak2
@@ -460,8 +462,17 @@ public class User extends BaseEntity {
     public void setActive(Integer value) {
         this.active = value;
     }
+    
+    @WhereSQL(sql = "status=:User_status")
+    public Integer getStatus() {
+		return status;
+	}
 
-    /**
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	/**
      * bak1
      */
     @WhereSQL(sql = "bak1=:User_bak1")

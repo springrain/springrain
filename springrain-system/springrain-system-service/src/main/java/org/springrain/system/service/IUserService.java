@@ -1,5 +1,8 @@
 package org.springrain.system.service;
 
+import java.util.List;
+
+import org.springrain.frame.util.Page;
 import org.springrain.rpc.annotation.RpcServiceAnnotation;
 import org.springrain.rpc.sessionuser.UserVO;
 import org.springrain.system.entity.User;
@@ -59,5 +62,13 @@ public interface IUserService extends IBaseSpringrainService {
      * @throws Exception
      */
     User findLoginUser(String account, String password, Integer userType) throws Exception;
+
+	/**
+	 * 查询用户列表
+	 * @param page
+	 * @return
+	 * @throws Exception 
+	 */
+	List<User> findUserList(Page<User> page) throws Exception;
 
 }

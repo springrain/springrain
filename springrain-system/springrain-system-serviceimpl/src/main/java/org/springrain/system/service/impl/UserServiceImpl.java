@@ -1,18 +1,25 @@
 package org.springrain.system.service.impl;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springrain.frame.entity.IBaseEntity;
+import org.springrain.frame.util.CommonEnum.ACTIVE;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.JwtUtils;
+import org.springrain.frame.util.Page;
 import org.springrain.frame.util.SecUtils;
 import org.springrain.rpc.sessionuser.UserVO;
 import org.springrain.system.entity.User;
+import org.springrain.system.service.IUserRoleOrgService;
 import org.springrain.system.service.IUserService;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import javax.annotation.Resource;
 
 /**
  * TODO 在此加入类描述
@@ -23,10 +30,12 @@ import java.util.Map;
 @Service("userService")
 public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserService {
 
+	@Resource
+    private IUserRoleOrgService IUserRoleOrgService;
 
-    @Override
+
+	@Override
     public String save(IBaseEntity entity) throws Exception {
-        User user = (User) entity;
         return super.save(entity).toString();
     }
 
@@ -128,6 +137,47 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
 
         return super.queryForObject(finder, User.class);
     }
+
+
+	@Override
+	public List<User> findUserList(Page<User> page) throws Exception {
+		Finder finder = Finder.getSelectFinder(User.class)
+				.append(" WHERE active=:active");
+		finder.setParam("active", ACTIVE.未删除.getState());
+		
+		// 处理查询条件
+		User queryBean = page.getData();
+		if(queryBean != null) {
+			if(StringUtils.isNotBlank(queryBean.getDeptId())) {
+				// 按部门查询
+				List<String> userIdList = IUserRoleOrgService.findUserIdListByOrgId(queryBean.getDeptId());
+				if(CollectionUtils.isEmpty(userIdList)) {
+					return null;
+				}
+				finder.append(" AND id in (:userIdList)").setParam("userIdList", userIdList);
+			}
+			
+			if(StringUtils.isNotBlank(queryBean.getUserName())) {
+				// 按姓名查询
+				finder.append(" AND userName like :userName")
+					.setParam("userName", "%" + queryBean.getUserName() + "%");
+			}
+			
+			if(StringUtils.isNotBlank(queryBean.getMobile())) {
+				// 按手机号查询
+				finder.append(" AND mobile like :mobile")
+					.setParam("mobile", "%" + queryBean.getMobile() + "%");
+			}
+			
+			if(queryBean.getStatus() != null) {
+				// 按状态查询
+				finder.append(" AND status=:status")
+					.setParam("status", "%" + queryBean.getStatus() + "%");
+			}
+		}
+		
+		return this.queryForList(finder, User.class, page);
+	}
 
 
 }

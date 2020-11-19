@@ -45,10 +45,17 @@ public class UserController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/list", method = RequestMethod.POST)
-    public ReturnDatas<List<User>> list(@RequestBody Page<User> page) throws Exception {
+    public ReturnDatas<List<User>> list(@RequestBody Page<User> page) {
         ReturnDatas<List<User>> returnObject = ReturnDatas.getSuccessReturnDatas();
 
-        List<User> datas = userService.queryForListByEntity(page.getData(), page);
+        List<User> datas = null;
+		try {
+			datas = userService.findUserList(page);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			returnObject.setStatus(ReturnDatas.ERROR);
+			returnObject.setMessage("查询失败");
+		}
 
         returnObject.setResult(datas);
         returnObject.setPage(page);

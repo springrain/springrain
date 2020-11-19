@@ -226,4 +226,12 @@ public interface IUserRoleOrgService extends IBaseSpringrainService {
      */
     boolean isUserInOrg(String userId, String orgId) throws Exception;
 
+	/**
+	 * 根据部门id查询该部门以及子级部门所包含的用户id
+	 * @param deptId
+	 * @return
+	 * @throws Exception 
+	 */
+	List<String> findUserIdListByOrgId(String deptId) throws Exception;
+
 }
