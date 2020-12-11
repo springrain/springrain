@@ -39,6 +39,10 @@ public class ElasticSearchFinder {
     private List<QueryBuilder> listMustCondition = new ArrayList<>();
     private List<QueryBuilder> listShouldCondition = new ArrayList<>();
 
+
+
+    private   String DATETIME_FORMAT_ZONE = "yyyy-MM-dd HH:mm:ssZ";
+
     public ElasticSearchFinder() {
     }
 
@@ -49,8 +53,9 @@ public class ElasticSearchFinder {
     /**
      * 字段值等于某个值
      *
-     * @param fieldName
-     * @param value
+     * @param fieldName 字段名称
+     * @param fieldType 字段类型
+     * @param value  值
      * @return
      * @throws Exception
      */
@@ -175,7 +180,6 @@ public class ElasticSearchFinder {
      * @param fieldName
      * @param fieldType
      * @param value
-     * @param occur
      * @return
      * @throws Exception
      */
@@ -221,7 +225,6 @@ public class ElasticSearchFinder {
      * @param fieldName
      * @param fieldType
      * @param value
-     * @param occur
      * @return
      * @throws Exception
      */
@@ -270,7 +273,6 @@ public class ElasticSearchFinder {
      * @param maxValue
      * @param includeLower
      * @param includeUpper
-     * @param occur
      * @return
      * @throws Exception
      */
@@ -298,8 +300,8 @@ public class ElasticSearchFinder {
             query = QueryBuilders.rangeQuery(fieldName).gt(Double.valueOf(minValue.toString()))
                     .lt(Double.valueOf(maxValue.toString())).includeLower(includeLower).includeUpper(includeUpper);
         } else if (Date.class == fieldType) {// 日期
-            query = QueryBuilders.rangeQuery(fieldName).format(DateUtils.DATETIME_FORMAT_ZONE)
-                    .gt(DateUtils.formatDateTime((Date) minValue, DateUtils.DATETIME_FORMAT_ZONE)).lt(DateUtils.formatDateTime((Date) maxValue, DateUtils.DATETIME_FORMAT_ZONE))
+            query = QueryBuilders.rangeQuery(fieldName).format(DATETIME_FORMAT_ZONE)
+                    .gt(DateUtils.formatDate( DATETIME_FORMAT_ZONE,(Date) minValue)).lt(DateUtils.formatDate(DATETIME_FORMAT_ZONE,(Date) maxValue))
                     .includeLower(includeLower).includeUpper(includeUpper);
             ;
             //System.out.println(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(minValue));
@@ -318,9 +320,7 @@ public class ElasticSearchFinder {
      * @param fieldName
      * @param fieldType
      * @param minValue
-     * @param maxValue
      * @param includeLower
-     * @param includeUpper
      * @param occur
      * @return
      * @throws Exception
@@ -349,8 +349,8 @@ public class ElasticSearchFinder {
             query = QueryBuilders.rangeQuery(fieldName).gt(Double.valueOf(minValue.toString()))
                     .includeLower(includeLower);
         } else if (Date.class == fieldType) {// 日期
-            query = QueryBuilders.rangeQuery(fieldName).format(DateUtils.DATETIME_FORMAT_ZONE)
-                    .gt(DateUtils.formatDateTime((Date) minValue, DateUtils.DATETIME_FORMAT_ZONE)).includeLower(includeLower);
+            query = QueryBuilders.rangeQuery(fieldName).format(DATETIME_FORMAT_ZONE)
+                    .gt(DateUtils.formatDate(DATETIME_FORMAT_ZONE,(Date) minValue)).includeLower(includeLower);
             //System.out.println(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(minValue));
         } else {
             // 字符串 按道理说 其实是没有 范围一说的，但考虑到拼音和英语 先行加上
@@ -366,7 +366,6 @@ public class ElasticSearchFinder {
      * @param fieldName
      * @param fieldType
      * @param minValue
-     * @param maxValue
      * @param includeUpper
      * @param includeUpper
      * @param occur
@@ -397,8 +396,8 @@ public class ElasticSearchFinder {
             query = QueryBuilders.rangeQuery(fieldName).lt(Double.valueOf(minValue.toString()))
                     .includeUpper(includeUpper);
         } else if (Date.class == fieldType) {// 日期
-            query = QueryBuilders.rangeQuery(fieldName).format(DateUtils.DATETIME_FORMAT_ZONE)
-                    .lt(DateUtils.formatDateTime((Date) minValue, DateUtils.DATETIME_FORMAT_ZONE)).includeUpper(includeUpper);
+            query = QueryBuilders.rangeQuery(fieldName).format(DATETIME_FORMAT_ZONE)
+                    .lt(DateUtils.formatDate(DATETIME_FORMAT_ZONE,(Date) minValue)).includeUpper(includeUpper);
             // System.out.println(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(minValue));
         } else {
             // 字符串 按道理说 其实是没有 范围一说的，但考虑到拼音和英语 先行加上

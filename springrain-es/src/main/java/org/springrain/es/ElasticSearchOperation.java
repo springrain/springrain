@@ -62,10 +62,10 @@ public class ElasticSearchOperation {
     private Analyzer analyzer = new IKAnalyzer();
     // private  Analyzer analyzer = new SmartChineseAnalyzer();
 
-
+    private String DATETIME_FORMAT_ZONE = "yyyy-MM-dd HH:mm:ssZ";
     public ElasticSearchOperation() {
         mapper = new FrameObjectMapper();
-        mapper.setDateFormat(new SimpleDateFormat(DateUtils.DATETIME_FORMAT_ZONE));
+        mapper.setDateFormat(new SimpleDateFormat(DATETIME_FORMAT_ZONE));
     }
 
 
@@ -132,10 +132,10 @@ public class ElasticSearchOperation {
         Page page = new Page(1);
         page.setPageSize(1);
 
-        ElasticSearchFinder LuceneFinder = new ElasticSearchFinder(null);
-        LuceneFinder.addWhereCondition(info.getPkName(), info.getPkReturnType(), value);
+        ElasticSearchFinder esFinder = new ElasticSearchFinder(null);
+        esFinder.addWhereCondition(info.getPkName(), info.getPkReturnType(), value);
 
-        List<T> list = searchDocument(rootdir, clazz, page, LuceneFinder);
+        List<T> list = searchDocument(rootdir, clazz, page, esFinder);
 
         if (CollectionUtils.isEmpty(list)) {
             return null;
@@ -212,7 +212,7 @@ public class ElasticSearchOperation {
             if (finfo.getFieldType() == Date.class) {
                 date = (Date) ClassUtils.getPropertieValue(finfo.getFieldName(), entity);
                 if (date != null) {
-                    builder.field(finfo.getFieldName(), DateUtils.formatDateTime(date, "yyyy-MM-dd HH:mm:ssZ"));
+                    builder.field(finfo.getFieldName(), DateUtils.formatDate(DATETIME_FORMAT_ZONE,date));
                 }
             } else {
                 builder.field(finfo.getFieldName(), ClassUtils.getPropertieValue(finfo.getFieldName(), entity));
