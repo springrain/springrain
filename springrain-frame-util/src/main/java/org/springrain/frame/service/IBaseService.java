@@ -472,7 +472,7 @@ public interface IBaseService {
      * @return
      * @throws Exception
      */
-    public <T> String saveImportExcelFile(File excel, Class<T> clazz, String siteId, String businessId)
+    public <T> String saveImportExcelFile(File excel, Class<T> clazz)
             throws Exception;
 
     /**
@@ -483,7 +483,7 @@ public interface IBaseService {
      * @return
      * @throws Exception
      */
-    public <T> String saveImportExcelFile(File excel, Class<T> clazz, String siteId, String businessId, boolean istest)
+    public <T> String saveImportExcelFile(File excel, Class<T> clazz, boolean istest)
             throws Exception;
 
     /**

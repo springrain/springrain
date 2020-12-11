@@ -326,7 +326,7 @@ public abstract class BaseServiceImpl implements IBaseService {
     }
 
     @Override
-    public <T> String saveImportExcelFile(File excelFile, Class<T> clazz, String siteId, String businessId,
+    public <T> String saveImportExcelFile(File excelFile, Class<T> clazz,
                                           boolean istest) throws Exception {
         StringBuilder message = new StringBuilder();
         List<Cell[]> excel = ExcelUtils.getExcle(excelFile);
@@ -479,18 +479,6 @@ public abstract class BaseServiceImpl implements IBaseService {
 
             }
             try {
-                // 插入siteId、businessId
-                if (StringUtils.isNotBlank(siteId)) {
-                    Field field = r.getClass().getDeclaredField("siteId");
-                    field.setAccessible(true);
-                    field.set(r, siteId);
-                    if (StringUtils.isNotBlank(businessId)) {
-                        field = r.getClass().getDeclaredField("businessId");
-                        field.setAccessible(true);
-                        field.set(r, businessId);
-                    }
-                }
-
                 String s = saveFromExcel(r, (j + 1), istest, listTitle);
                 if (istest && StringUtils.isNotBlank(s)) {
                     message.append(s).append("</br>");
@@ -515,13 +503,13 @@ public abstract class BaseServiceImpl implements IBaseService {
     }
 
     @Override
-    public <T> String saveImportExcelFile(File excelFile, Class<T> clazz, String siteId, String businessId)
+    public <T> String saveImportExcelFile(File excelFile, Class<T> clazz)
             throws Exception {
-        String message = saveImportExcelFile(excelFile, clazz, siteId, businessId, true);
+        String message = saveImportExcelFile(excelFile, clazz, true);
         if (StringUtils.isNotBlank(message)) {
             return message;
         }
-        return saveImportExcelFile(excelFile, clazz, siteId, businessId, false);
+        return saveImportExcelFile(excelFile, clazz, false);
 
     }
 

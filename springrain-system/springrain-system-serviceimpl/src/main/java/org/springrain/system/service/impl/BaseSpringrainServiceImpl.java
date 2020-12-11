@@ -27,9 +27,9 @@ public class BaseSpringrainServiceImpl extends BaseServiceImpl implements IBaseS
     }
 
     @Override
-    public <T> String saveImportExcelFile(File excel, Class<T> clazz, String siteId, String businessId)
+    public <T> String saveImportExcelFile(File excel, Class<T> clazz)
             throws Exception {
-        return super.saveImportExcelFile(excel, clazz, siteId, businessId);
+        return super.saveImportExcelFile(excel, clazz);
     }
 
     @Override
