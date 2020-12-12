@@ -4,13 +4,12 @@
 package org.springrain.rpc.grpcauto;
 
 public interface CommonResponseOrBuilder extends
-        // @@protoc_insertion_point(interface_extends:CommonResponse)
-        com.google.protobuf.MessageOrBuilder {
+    // @@protoc_insertion_point(interface_extends:CommonResponse)
+    com.google.protobuf.MessageOrBuilder {
 
-    /**
-     * <code>bytes response = 1;</code>
-     *
-     * @return The response.
-     */
-    com.google.protobuf.ByteString getResponse();
+  /**
+   * <code>bytes response = 1;</code>
+   * @return The response.
+   */
+  com.google.protobuf.ByteString getResponse();
 }
