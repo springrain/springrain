@@ -16,7 +16,6 @@ public final class Finder {
     private Map<String, Object> params = new HashMap<>();
     private StringBuilder sql = new StringBuilder();
     // private String countSql=null;
-    private String orderSql = null;
     // 存储过程
     private String procName = null;
     // 函数
@@ -193,13 +192,6 @@ public final class Finder {
         this.sql = new StringBuilder(sql);
     }
 
-    public String getOrderSql() {
-        return orderSql;
-    }
-
-    public void setOrderSql(String orderSql) {
-        this.orderSql = orderSql;
-    }
 
     public String getPageSql() {
         return pageSql;

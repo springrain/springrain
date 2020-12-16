@@ -3,7 +3,8 @@ package org.springrain.frame.dao.dialect;
 import org.springframework.stereotype.Component;
 import org.springrain.frame.util.Page;
 
-@Component("db2Dialect")
+//@Component("db2Dialect")
+@Deprecated
 public class Db2Dialect implements IDialect {
 
     @Override

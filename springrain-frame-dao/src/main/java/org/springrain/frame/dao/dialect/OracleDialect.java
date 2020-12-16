@@ -10,6 +10,12 @@ public class OracleDialect implements IDialect {
     @Override
     public String getPageSql(String sql, String orderby, Page page) {
         // 设置分页参数
+        int pageSize = page.getPageSize();
+        int pageNo = page.getPageNo();
+        // 去掉无用的空格
+        sql = sql.trim();
+        /*
+        // 设置分页参数
         int satrt = (page.getPageNo() - 1) * page.getPageSize() + 1;
         int end = page.getPageNo() * page.getPageSize();
 
@@ -22,6 +28,12 @@ public class OracleDialect implements IDialect {
         sb.append(") frame_sql_temp_table1 where rownum <= ").append(end).append(") frame_sql_temp_table2");
         sb.append(" where frame_sql_temp_table2.frame_page_sql_row_number >= ").append(satrt);
 
+        return sb.toString();
+         */
+
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(sql).append(" OFFSET ").append(pageSize*(pageNo-1)).append(" ROWS FETCH NEXT ").append(pageSize).append(" ROWS ONLY ");
         return sb.toString();
     }
 

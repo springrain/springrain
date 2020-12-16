@@ -13,9 +13,11 @@ public class MysqlDialect implements IDialect {
         int pageSize = page.getPageSize();
         int pageNo = page.getPageNo();
         StringBuilder sb = new StringBuilder(sql);
+        /*
         if (StringUtils.isNotBlank(orderby)) {
             sb.append(" ").append(orderby);
         }
+         */
         sb.append(" limit ").append(pageSize * (pageNo - 1)).append(",").append(pageSize);
         return sb.toString();
     }

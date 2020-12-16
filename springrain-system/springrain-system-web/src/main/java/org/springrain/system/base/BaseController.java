@@ -157,7 +157,7 @@ public class BaseController {
      */
     public Page<?> newPage(HttpServletRequest request) {
         // ==获取分页信息
-        return newPage(request, "id", "desc");
+        return newPage(request, null, null);
     }
 
     /**
@@ -172,8 +172,8 @@ public class BaseController {
 
         if (request == null) {
             Page<?> page = new Page<>(1);
-            page.setOrder("id");
-            page.setSort("asc");
+            //page.setOrder("id");
+            //page.setSort("asc");
             return page;
         }
 
@@ -193,13 +193,6 @@ public class BaseController {
         }
         if (StringUtils.isBlank(sort)) {
             sort = defaultSort;
-        }
-
-        if (StringUtils.isBlank(order)) {
-            order = "id";
-        }
-        if (StringUtils.isBlank(sort)) {
-            sort = "desc";
         }
 
         Page<?> page = new Page<>(pageIndex);

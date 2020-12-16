@@ -13,6 +13,8 @@ public class MssqlDialect implements IDialect {
         int pageNo = page.getPageNo();
         // 去掉无用的空格
         sql = sql.trim();
+
+        /*
         // 去掉select
         if (sql.toLowerCase().startsWith("select")) {
             sql = sql.substring(6);
@@ -29,6 +31,11 @@ public class MssqlDialect implements IDialect {
         sb.append(pageSize * (pageNo - 1));
         sb.append(" order by frame_page_sql_row_number ");
         return sb.toString();
+         */
+        StringBuilder sb = new StringBuilder();
+        sb.append(sql).append(" OFFSET ").append(pageSize*(pageNo-1)).append(" ROWS FETCH NEXT ").append(pageSize).append(" ROWS ONLY ");
+        return sb.toString();
+
     }
 
     @Override

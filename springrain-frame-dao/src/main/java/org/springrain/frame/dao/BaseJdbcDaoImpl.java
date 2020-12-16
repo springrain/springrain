@@ -411,60 +411,48 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
      */
     private String getPageSql(Page page, Finder finder) throws Exception {
         String sql = finder.getSql();
-        String orderSql = finder.getOrderSql();
-
-        Map<String, Object> paramMap = finder.getParams();
-
         // 查询sql、统计sql不能为空
         if (StringUtils.isBlank(sql)) {
             return null;
         }
-        if (RegexValidateUtils.getOrderByIndex(sql) > -1) {
-            if (StringUtils.isBlank(orderSql)) {
-                orderSql = sql.substring(RegexValidateUtils.getOrderByIndex(sql));
-                sql = sql.substring(0, RegexValidateUtils.getOrderByIndex(sql));
-            }
-        } else {
-            if (page != null && StringUtils.isNotBlank(page.getOrder())) {// 如果page中包含
-                // 排序属性
-                String _order = page.getOrder().trim();
-                if (_order.contains(" ") || _order.contains(";") || _order.contains(",") || _order.contains("'")
-                        || _order.contains("(") || _order.contains(")")) {// 认为是异常的,主要是防止注入
-                    orderSql = " order by id asc ";
-                } else {
-                    String _sort = page.getSort();
-                    if (_sort == null) {
-                        _sort = "";
-                    }
-                    _sort = _sort.trim().toLowerCase();
 
-                    if ((!"asc".equals(_sort)) && (!"desc".equals(_sort))) {// 如果
-                        // 不是
-                        // asc
-                        // 也不是
-                        // desc
-                        _sort = "";
-                    }
+        Map<String, Object> paramMap = finder.getParams();
 
-                    orderSql = " order by " + page.getOrder() + " " + _sort;
+
+        if (page != null && StringUtils.isNotBlank(page.getOrder()) && RegexValidateUtils.getOrderByIndex(sql) < 0) {// 如果page中包含
+            // 排序属性
+            String _order = page.getOrder().trim();
+            if (_order.contains(" ") || _order.contains(";") || _order.contains(",") || _order.contains("'")
+                    || _order.contains("(") || _order.contains(")")) {// 认为是异常的,主要是防止注入
+
+            } else {
+                String _sort = page.getSort();
+                if (_sort == null) {
+                    _sort = "";
+                }
+                _sort = _sort.trim().toLowerCase();
+
+                if ((!"asc".equals(_sort)) && (!"desc".equals(_sort))) {// 如果
+                    // 不是
+                    // asc
+                    // 也不是
+                    // desc
+                    _sort = "";
                 }
 
-            } else {
-                orderSql = " order by id asc ";
+                sql = sql + " " + _order + " " + _sort;
             }
+
         }
 
+
         if (page == null) {
-            if (StringUtils.isNotBlank(orderSql)) {
-                return sql + " " + orderSql;
-            } else {
-                return sql;
-            }
+            return sql;
         }
 
         // 如果不需要查询总条数
         if (!page.getSelectpagecount()) {
-            return getDialect().getPageSql(sql, orderSql, page);
+            return getDialect().getPageSql(sql, null, page);
         }
 
         Integer count;
@@ -503,7 +491,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
         } else {
             page.setTotalCount(count);
         }
-        return getDialect().getPageSql(sql, orderSql, page);
+        return getDialect().getPageSql(sql, null, page);
     }
 
     @Override
