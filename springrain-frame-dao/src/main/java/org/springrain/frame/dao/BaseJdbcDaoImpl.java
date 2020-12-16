@@ -435,7 +435,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
                 if(orderIndex > 0){
                     sql = sql.substring(0, orderIndex);
                 }
-                sql = sql + " " + _order + " " + _sort;
+                sql = sql + " order by " + _order + " " + _sort;
             }
 
         }
