@@ -416,39 +416,32 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
             return null;
         }
 
+
+        if (page == null) {
+            return sql;
+        }
         Map<String, Object> paramMap = finder.getParams();
-
-
-        if (page != null && StringUtils.isNotBlank(page.getOrder()) && RegexValidateUtils.getOrderByIndex(sql) < 0) {// 如果page中包含
-            // 排序属性
+        if (StringUtils.isNotBlank(page.getOrder()) ) {// 如果page中包含排序属性
             String _order = page.getOrder().trim();
             if (_order.contains(" ") || _order.contains(";") || _order.contains(",") || _order.contains("'")
                     || _order.contains("(") || _order.contains(")")) {// 认为是异常的,主要是防止注入
 
             } else {
                 String _sort = page.getSort();
-                if (_sort == null) {
+                if ((!"asc".equals(_sort)) && (!"desc".equals(_sort))) {// 如果不是asc 也不是desc
                     _sort = "";
                 }
-                _sort = _sort.trim().toLowerCase();
-
-                if ((!"asc".equals(_sort)) && (!"desc".equals(_sort))) {// 如果
-                    // 不是
-                    // asc
-                    // 也不是
-                    // desc
-                    _sort = "";
+               int orderIndex= RegexValidateUtils.getOrderByIndex(sql);
+                if(orderIndex > 0){
+                    sql = sql.substring(0, orderIndex);
                 }
-
                 sql = sql + " " + _order + " " + _sort;
             }
 
         }
 
 
-        if (page == null) {
-            return sql;
-        }
+
 
         // 如果不需要查询总条数
         if (!page.getSelectpagecount()) {
