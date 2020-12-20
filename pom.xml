@@ -64,7 +64,7 @@
 
         <zxing.version>3.4.1</zxing.version>
         <jsoup.version>1.13.1</jsoup.version>
-        <xstream.version>1.4.14</xstream.version>
+        <xstream.version>1.4.15</xstream.version>
         <druid-spring-boot-starter.version>1.2.3</druid-spring-boot-starter.version>
 
         <jwt.version>3.11.0</jwt.version>
