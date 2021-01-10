@@ -111,5 +111,13 @@ public interface IDicDataService extends IBaseSpringrainService {
 	 */
 	List<DicData> findAllRootList(Page<DicData> page) throws Exception;
 
+	/**
+	 * 保存新的字典类型
+	 * @param dicData
+	 * @return
+	 * @throws Exception 
+	 */
+	String saveDicDataType(DicData dicData) throws Exception;
+
 
 }

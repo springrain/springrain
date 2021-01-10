@@ -6,6 +6,8 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.springrain.frame.annotation.WhereSQL;
 import org.springrain.frame.entity.BaseEntity;
 
+import java.util.Date;
+
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -39,6 +41,10 @@ public class DicData extends BaseEntity {
      */
     private java.lang.String id;
     /**
+     * 创建时间
+     */
+    private Date createTime;
+    /**
      * 名称
      */
     private java.lang.String name;
@@ -66,6 +72,10 @@ public class DicData extends BaseEntity {
      * 是否有效
      */
     private java.lang.Integer active;
+    /**
+     * 状态
+     */
+    private java.lang.Integer status;
     /**
      * 类型
      */
@@ -117,8 +127,18 @@ public class DicData extends BaseEntity {
         }
         this.id = value;
     }
+    
+    
+    @WhereSQL(sql = "createTime=:DicData_createTime")
+    public Date getCreateTime() {
+		return createTime;
+	}
 
-    @WhereSQL(sql = "val=:DicData_val")
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	@WhereSQL(sql = "val=:DicData_val")
     public String getVal() {
         return val;
     }
@@ -180,8 +200,18 @@ public class DicData extends BaseEntity {
     public void setActive(java.lang.Integer value) {
         this.active = value;
     }
+    
+    
+    @WhereSQL(sql = "status=:DicData_status")
+    public java.lang.Integer getStatus() {
+		return status;
+	}
 
-    @WhereSQL(sql = "typekey=:DicData_typekey")
+	public void setStatus(java.lang.Integer status) {
+		this.status = status;
+	}
+
+	@WhereSQL(sql = "typekey=:DicData_typekey")
     public java.lang.String getTypekey() {
         return this.typekey;
     }

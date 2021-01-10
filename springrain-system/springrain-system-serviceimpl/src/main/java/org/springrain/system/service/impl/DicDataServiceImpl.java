@@ -25,8 +25,7 @@ public class DicDataServiceImpl extends BaseSpringrainServiceImpl implements IDi
     /**
      * 字典顶级父类typeKey
      */
-    private static final String ROOT_TYPE_KEY = "root";
-
+    private static final String ROOT_PID = "root";
 
 	@Override
     public String save(IBaseEntity entity) throws Exception {
@@ -159,8 +158,19 @@ public class DicDataServiceImpl extends BaseSpringrainServiceImpl implements IDi
 
 	@Override
 	public List<DicData> findAllRootList(Page<DicData> page) throws Exception {
-		Finder finder = Finder.getSelectFinder(DicData.class).append(" WHERE typeKey=:root AND active=:active");
-		finder.setParam("root", ROOT_TYPE_KEY).setParam("active", ACTIVE.未删除.getState());
+		Finder finder = Finder.getSelectFinder(DicData.class).append(" WHERE pid=:root AND active=:active");
+		finder.setParam("root", ROOT_PID).setParam("active", ACTIVE.未删除.getState());
+		page.setOrder("sortno");
 		return this.queryForList(finder, DicData.class, page);
+	}
+
+
+	@Override
+	public String saveDicDataType(DicData dicData) throws Exception {
+		dicData.setActive(ACTIVE.未删除.getState());
+		dicData.setId(dicData.getTypekey());
+		dicData.setPid(ROOT_PID);
+		String id = this.save(dicData).toString();
+		return id;
 	}
 }
