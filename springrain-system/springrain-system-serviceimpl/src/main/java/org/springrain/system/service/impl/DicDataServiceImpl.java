@@ -11,6 +11,7 @@ import org.springrain.frame.util.Page;
 import org.springrain.system.entity.DicData;
 import org.springrain.system.service.IDicDataService;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -160,6 +161,26 @@ public class DicDataServiceImpl extends BaseSpringrainServiceImpl implements IDi
 	public List<DicData> findAllRootList(Page<DicData> page) throws Exception {
 		Finder finder = Finder.getSelectFinder(DicData.class).append(" WHERE pid=:root AND active=:active");
 		finder.setParam("root", ROOT_PID).setParam("active", ACTIVE.未删除.getState());
+		
+		// 查询条件
+		DicData queryBean = page.getData();
+		if(queryBean != null) {
+			if(StringUtils.isNotBlank(queryBean.getName())) {
+				finder.append(" AND name like :name");
+				finder.setParam("name", "%" + queryBean.getName() + "%");
+			}
+			
+			if(StringUtils.isNotBlank(queryBean.getTypekey())) {
+				finder.append(" AND typekey like :typekey");
+				finder.setParam("typekey", "%" + queryBean.getTypekey() + "%");
+			}
+			
+			if(queryBean.getStatus() != null) {
+				finder.append(" AND status=:status");
+				finder.setParam("status", queryBean.getStatus());
+			}
+		}
+		
 		page.setOrder("sortno");
 		return this.queryForList(finder, DicData.class, page);
 	}
@@ -170,6 +191,7 @@ public class DicDataServiceImpl extends BaseSpringrainServiceImpl implements IDi
 		dicData.setActive(ACTIVE.未删除.getState());
 		dicData.setId(dicData.getTypekey());
 		dicData.setPid(ROOT_PID);
+		dicData.setCreateTime(new Date());
 		String id = this.save(dicData).toString();
 		return id;
 	}

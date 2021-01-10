@@ -9,6 +9,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springrain.frame.util.DateTypeEditor;
 import org.springrain.frame.util.Page;
+import org.springrain.system.entity.DicData;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

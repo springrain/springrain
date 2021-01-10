@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springrain.frame.util.GlobalStatic;
+import org.springrain.frame.util.JsonUtils;
 import org.springrain.frame.util.Page;
 import org.springrain.frame.util.ReturnDatas;
 import org.springrain.frame.util.property.MessageUtils;
@@ -48,8 +50,17 @@ public class DicDataController extends BaseController {
 	 * @throws Exception
 	 */
 	@GetMapping("/type/list")
-	public ReturnDatas<List<DicData>> list(HttpServletRequest request, Model model, Page<DicData> page) {
+	public ReturnDatas<List<DicData>> list(HttpServletRequest request, Page<DicData> page) {
 		ReturnDatas<List<DicData>> returnObject = ReturnDatas.getSuccessReturnDatas();
+		
+		String data = request.getParameter("data");
+		if(StringUtils.isNotBlank(data)) {
+			DicData queryBean = JsonUtils.readValue(data, DicData.class);
+			page.setData(queryBean);
+		}else {
+			page.setData(new DicData());
+		}
+		
 		List<DicData> datas = null;
 		try {
 			datas = dicDataService.findAllRootList(page);

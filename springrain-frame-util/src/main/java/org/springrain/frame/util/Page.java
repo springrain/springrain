@@ -1,6 +1,7 @@
 package org.springrain.frame.util;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * page 分页对象
@@ -60,6 +61,15 @@ public class Page<T> implements Serializable {
     private Boolean selectpagecount = true;
 
     private T data = null;
+    
+    /**
+     * 查询-开始时间
+     */
+    private Date beginTime;
+    /**
+     * 查询-结束时间
+     */
+    private Date endDate;
 
     /**
      * 分页信息,默认每页20行数据
@@ -304,8 +314,24 @@ public class Page<T> implements Serializable {
     public Boolean isLastPage() {
         return lastPage;
     }
+    
+	public Date getBeginTime() {
+		return beginTime;
+	}
 
-    @Override
+	public void setBeginTime(Date beginTime) {
+		this.beginTime = beginTime;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
+	@Override
     public String toString() {
         return new StringBuilder().append("pageNo[").append(getPageNo()).append("],").append("sort[")
                 .append(getSort()).append("],").append("order[").append(getOrder()).append("]").toString();
