@@ -2,6 +2,8 @@ package org.springrain.system.api;
 
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.cache.Cache;
+import org.springframework.cache.Cache.ValueWrapper;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -162,7 +164,18 @@ public class LoginController extends BaseController {
         if (StringUtils.isBlank(userVO.getPassword())) {
             return ReturnDatas.getErrorReturnDatas("密码不能为空");
         }
-
+        
+        if(StringUtils.isBlank(userVO.getCaptchaKey())) {
+        	return ReturnDatas.getErrorReturnDatas("验证码不能为空");
+        }
+        
+        Cache captchaCache = userService.getCache(GlobalStatic.springranloginCaptchaKey);
+        ValueWrapper captchaKey = captchaCache.get(GlobalStatic.projectKeyPrefix + userVO.getCaptchaKey());
+        if(!StringUtils.equals(captchaKey.get().toString(), userVO.getCaptcha())) {
+        	return ReturnDatas.getErrorReturnDatas("验证码错误");
+        }
+        
+        
         ConcurrentMap<String, String> resutltMap = Maps.newConcurrentMap();
         // 处理密码错误缓存
         String errorLogincountKey = userVO.getAccount() + "_errorlogincount";
