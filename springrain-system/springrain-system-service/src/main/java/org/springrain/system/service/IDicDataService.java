@@ -119,5 +119,14 @@ public interface IDicDataService extends IBaseSpringrainService {
 	 */
 	String saveDicDataType(DicData dicData) throws Exception;
 
+	/**
+	 * 根据pid分页查询字典信息
+	 * @param pid
+	 * @param page
+	 * @return
+	 * @throws Exception 
+	 */
+	List<DicData> findListByPid(String pid, Page<DicData> page) throws Exception;
+
 
 }

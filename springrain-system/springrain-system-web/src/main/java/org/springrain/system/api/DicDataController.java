@@ -74,32 +74,7 @@ public class DicDataController extends BaseController {
 		return returnObject;
 	}
 
-	/**
-	 * 根据类型查询类型下的字典列表
-	 *
-	 * @param request
-	 * @param model
-	 * @param dicData
-	 * @return
-	 * @throws Exception
-	 */
-	@GetMapping("/type/{typeName}")
-	@ResponseBody
-	public ReturnDatas<List<DicData>> listjson(HttpServletRequest request, Model model, Page<DicData> page,
-			@PathVariable String typeName) {
-		ReturnDatas<List<DicData>> returnObject = ReturnDatas.getSuccessReturnDatas();
-		List<DicData> datas = null;
-		try {
-			datas = dicDataService.findTypeListByTypeName(page, typeName);
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			returnObject.setStatus(ReturnDatas.ERROR);
-			returnObject.setMessage("查询失败");
-		}
-		returnObject.setResult(datas);
-		returnObject.setPage(page);
-		return returnObject;
-	}
+	
 
 	/**
 	 * 查看的Json格式数据,为APP端提供数据
@@ -128,111 +103,50 @@ public class DicDataController extends BaseController {
 	}
 
 	/**
-	 * 查看的Json格式数据,为APP端提供数据
+	 * 根据类型查询类型下的字典列表
+	 *
+	 * @param request
+	 * @param model
+	 * @param dicData
+	 * @return
+	 * @throws Exception
 	 */
-	@RequestMapping(value = "/look/json")
+	@GetMapping("/type/{typeName}")
 	@ResponseBody
-	public ReturnDatas<DicData> lookjson(@PathVariable String pathtypekey, Model model, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	public ReturnDatas<DicData> listjson(@PathVariable String typeName) {
 		ReturnDatas<DicData> returnObject = ReturnDatas.getSuccessReturnDatas();
-		java.lang.String id = request.getParameter("id");
-		if (StringUtils.isNotBlank(id)) {
-			DicData dicData = dicDataService.findDicDataById(id, pathtypekey);
-			returnObject.setResult(dicData);
-		} else {
+		if(StringUtils.isBlank(typeName)) {
 			returnObject.setStatus(ReturnDatas.ERROR);
+			returnObject.setMessage("参数错误");
+			return returnObject;
 		}
+		DicData dicData = null;
+		try {
+			dicData = dicDataService.findDicDataById(typeName);
+		} catch (Exception e) {
+			returnObject.setStatus(ReturnDatas.ERROR);
+			returnObject.setMessage("查询失败");
+		}
+		returnObject.setResult(dicData);
 		return returnObject;
 	}
-
-	/**
-	 * 新增/修改 操作吗,返回json格式数据
-	 */
-	@RequestMapping("/update")
+	
+	@GetMapping("/data/list")
 	@ResponseBody
-	public ReturnDatas<?> saveorupdate(@PathVariable String pathtypekey, Model model, DicData dicData,
-			HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ReturnDatas<?> returnObject = ReturnDatas.getSuccessReturnDatas();
-		returnObject.setMessage(MessageUtils.UPDATE_SUCCESS);
+	public ReturnDatas<List<DicData>> dataList(HttpServletRequest request, Page<DicData> page) {
+		ReturnDatas<List<DicData>> returnObject = ReturnDatas.getSuccessReturnDatas();
+		String pid = request.getParameter("typekey");
+		List<DicData> dicDataList = null;
 		try {
-			String id = dicData.getId();
-			String pid = dicData.getPid();
-			if (StringUtils.isBlank(id)) {
-				dicData.setId(null);
-			}
-			if (StringUtils.isBlank(pid)) {
-				dicData.setPid(null);
-			}
-			dicData.setTypekey(pathtypekey);
-			// dicDataService.save(dicData, pathtypekey);
-
+			dicDataList = dicDataService.findListByPid(pid, page);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			returnObject.setStatus(ReturnDatas.ERROR);
-			returnObject.setMessage(MessageUtils.UPDATE_ERROR);
+			returnObject.setMessage("查询失败");
 		}
+		returnObject.setResult(dicDataList);
+		returnObject.setPage(page);
 		return returnObject;
-
-	}
-
-	/**
-	 * 进入修改页面,APP端可以调用 lookjson 获取json格式数据
-	 */
-	@RequestMapping(value = "/update/pre")
-	public String edit(@PathVariable String pathtypekey, Model model, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		ReturnDatas<?> returnObject = lookjson(pathtypekey, model, request, response);
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("typekey", pathtypekey);
-		returnObject.setMap(map);
-		model.addAttribute(GlobalStatic.returnDatas, returnObject);
-		return "/system/dicdata/dicdataCru";
-	}
-
-	/**
-	 * 删除操作
-	 */
-	@RequestMapping(value = "/delete")
-	@ResponseBody
-	public ReturnDatas<?> destroy(@PathVariable String pathtypekey, HttpServletRequest request) throws Exception {
-
-		// 执行删除
-		try {
-			java.lang.String id = request.getParameter("id");
-			if (StringUtils.isNotBlank(id)) {
-				dicDataService.deleteDicDataById(id, pathtypekey);
-				return new ReturnDatas<Object>(ReturnDatas.SUCCESS, MessageUtils.DELETE_SUCCESS);
-			} else {
-				return new ReturnDatas<Object>(ReturnDatas.ERROR, MessageUtils.DELETE_ERROR);
-			}
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-		}
-		return new ReturnDatas<Object>(ReturnDatas.ERROR, MessageUtils.DELETE_ERROR);
-	}
-
-	/**
-	 * 删除多条记录
-	 */
-	@RequestMapping("/delete/more")
-	@ResponseBody
-	public ReturnDatas<?> delMultiRecords(@PathVariable String pathtypekey, HttpServletRequest request, Model model) {
-		String records = request.getParameter("records");
-		if (StringUtils.isBlank(records)) {
-			return new ReturnDatas<Object>(ReturnDatas.ERROR, MessageUtils.DELETE_ALL_ERROR);
-		}
-		String[] rs = records.split(",");
-		if (rs == null || rs.length < 1) {
-			return new ReturnDatas<Object>(ReturnDatas.ERROR, MessageUtils.DELETE_ERROR);
-		}
-		try {
-			List<String> ids = Arrays.asList(rs);
-			dicDataService.deleteDicDataByIds(ids, pathtypekey);
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			return new ReturnDatas<Object>(ReturnDatas.ERROR, MessageUtils.DELETE_ALL_ERROR);
-		}
-		return new ReturnDatas<Object>(ReturnDatas.SUCCESS, MessageUtils.DELETE_ALL_SUCCESS);
 	}
 
 }
