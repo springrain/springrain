@@ -131,6 +131,26 @@ public class DicDataController extends BaseController {
 		return returnObject;
 	}
 	
+	@GetMapping("/data/type/{typekey}")
+	@ResponseBody
+	public ReturnDatas<List<DicData>> dataTypelistjson(@PathVariable String typekey) {
+		ReturnDatas<List<DicData>> returnObject = ReturnDatas.getSuccessReturnDatas();
+		if(StringUtils.isBlank(typekey)) {
+			returnObject.setStatus(ReturnDatas.ERROR);
+			returnObject.setMessage("参数错误");
+			return returnObject;
+		}
+		List<DicData> dicData = null;
+		try {
+			dicData = dicDataService.findDicDataListByPid(typekey);
+		} catch (Exception e) {
+			returnObject.setStatus(ReturnDatas.ERROR);
+			returnObject.setMessage("查询失败");
+		}
+		returnObject.setResult(dicData);
+		return returnObject;
+	}
+	
 	@GetMapping("/data/list")
 	@ResponseBody
 	public ReturnDatas<List<DicData>> dataList(HttpServletRequest request, Page<DicData> page) {

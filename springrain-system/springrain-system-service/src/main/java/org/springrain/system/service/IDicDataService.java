@@ -128,5 +128,13 @@ public interface IDicDataService extends IBaseSpringrainService {
 	 */
 	List<DicData> findListByPid(String pid, Page<DicData> page) throws Exception;
 
+	/**
+	 * 根据pid查询所有子类
+	 * @param typekey
+	 * @return
+	 * @throws Exception 
+	 */
+	List<DicData> findDicDataListByPid(String typekey) throws Exception;
+
 
 }

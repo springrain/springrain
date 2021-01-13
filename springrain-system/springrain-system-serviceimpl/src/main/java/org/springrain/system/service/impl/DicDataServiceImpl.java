@@ -203,4 +203,12 @@ public class DicDataServiceImpl extends BaseSpringrainServiceImpl implements IDi
 		finder.setParam("pid", pid).setParam("active", ACTIVE.未删除.getState());
 		return this.queryForList(finder, DicData.class, page);
 	}
+
+
+	@Override
+	public List<DicData> findDicDataListByPid(String typekey) throws Exception {
+		Finder finder = Finder.getSelectFinder(DicData.class).append(" WHERE pid=:pid AND active=:active");
+		finder.setParam("pid", typekey).setParam("active", ACTIVE.未删除.getState());
+		return this.queryForList(finder, DicData.class);
+	}
 }
