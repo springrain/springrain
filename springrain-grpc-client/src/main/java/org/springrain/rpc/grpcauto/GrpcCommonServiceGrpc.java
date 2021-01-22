@@ -1,19 +1,6 @@
 package org.springrain.rpc.grpcauto;
 
 import static io.grpc.MethodDescriptor.generateFullMethodName;
-import static io.grpc.stub.ClientCalls.asyncBidiStreamingCall;
-import static io.grpc.stub.ClientCalls.asyncClientStreamingCall;
-import static io.grpc.stub.ClientCalls.asyncServerStreamingCall;
-import static io.grpc.stub.ClientCalls.asyncUnaryCall;
-import static io.grpc.stub.ClientCalls.blockingServerStreamingCall;
-import static io.grpc.stub.ClientCalls.blockingUnaryCall;
-import static io.grpc.stub.ClientCalls.futureUnaryCall;
-import static io.grpc.stub.ServerCalls.asyncBidiStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncClientStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncServerStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncUnaryCall;
-import static io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall;
-import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
 
 /**
  * <pre>
@@ -21,7 +8,7 @@ import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
  * </pre>
  */
 @javax.annotation.Generated(
-    value = "by gRPC proto compiler (version 1.34.0)",
+    value = "by gRPC proto compiler (version 1.35.0)",
     comments = "Source: grpcCommonService.proto")
 public final class GrpcCommonServiceGrpc {
 
@@ -119,14 +106,14 @@ public final class GrpcCommonServiceGrpc {
      */
     public void commonHandle(CommonRequest request,
                              io.grpc.stub.StreamObserver<CommonResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getCommonHandleMethod(), responseObserver);
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getCommonHandleMethod(), responseObserver);
     }
 
     @Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
             getCommonHandleMethod(),
-            asyncUnaryCall(
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 CommonRequest,
                 CommonResponse>(
@@ -159,7 +146,7 @@ public final class GrpcCommonServiceGrpc {
      */
     public void commonHandle(CommonRequest request,
                              io.grpc.stub.StreamObserver<CommonResponse> responseObserver) {
-      asyncUnaryCall(
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getCommonHandleMethod(), getCallOptions()), request, responseObserver);
     }
   }
@@ -187,7 +174,7 @@ public final class GrpcCommonServiceGrpc {
      * </pre>
      */
     public CommonResponse commonHandle(CommonRequest request) {
-      return blockingUnaryCall(
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getCommonHandleMethod(), getCallOptions(), request);
     }
   }
@@ -216,7 +203,7 @@ public final class GrpcCommonServiceGrpc {
      */
     public com.google.common.util.concurrent.ListenableFuture<CommonResponse> commonHandle(
         CommonRequest request) {
-      return futureUnaryCall(
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getCommonHandleMethod(), getCallOptions()), request);
     }
   }
