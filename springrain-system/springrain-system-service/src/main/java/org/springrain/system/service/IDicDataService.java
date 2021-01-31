@@ -136,5 +136,12 @@ public interface IDicDataService extends IBaseSpringrainService {
 	 */
 	List<DicData> findDicDataListByPid(String typekey) throws Exception;
 
+	/**
+	 * 根据id删除父级字典
+	 * @param idList
+	 * @throws Exception 
+	 */
+	void deleteParentDicDataById(List<String> idList) throws Exception;
+
 
 }

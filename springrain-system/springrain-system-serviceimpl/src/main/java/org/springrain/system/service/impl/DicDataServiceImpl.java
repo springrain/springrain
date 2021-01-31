@@ -211,4 +211,17 @@ public class DicDataServiceImpl extends BaseSpringrainServiceImpl implements IDi
 		finder.setParam("pid", typekey).setParam("active", ACTIVE.未删除.getState());
 		return this.queryForList(finder, DicData.class);
 	}
+
+
+	@Override
+	public void deleteParentDicDataById(List<String> idList) throws Exception {
+		Finder finder = Finder.getSelectFinder(DicData.class).append(" WHERE pid in (:pidList)");
+		finder.setParam("pidList", idList);
+		List<DicData> subDicDataList = this.queryForList(finder, DicData.class);
+		if(CollectionUtils.isNotEmpty(subDicDataList)) {
+			throw new Exception("当前字典有子级元素，不能删除");
+		}
+		this.deleteByIds(idList, DicData.class);
+		
+	}
 }

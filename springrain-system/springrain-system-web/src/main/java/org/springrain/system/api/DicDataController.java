@@ -131,6 +131,30 @@ public class DicDataController extends BaseController {
 		return returnObject;
 	}
 	
+	/**
+	 *  删除父类型
+	 *
+	 * @param request
+	 * @param model
+	 * @param dicData
+	 * @return
+	 * @throws Exception
+	 */
+	@PostMapping("/type/delete/{ids}")
+	@ResponseBody
+	public ReturnDatas<DicData> deleteType(@PathVariable String ids) {
+		ReturnDatas<DicData> returnObject = ReturnDatas.getSuccessReturnDatas();
+		try {
+			List<String> idList = Arrays.asList(StringUtils.split(ids, ","));
+			dicDataService.deleteParentDicDataById(idList);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			returnObject.setStatus(ReturnDatas.ERROR);
+			returnObject.setMessage("删除失败,请检查当前字典是否有子级元素");
+		}
+		return returnObject;
+	}
+	
 	@GetMapping("/data/type/{typekey}")
 	@ResponseBody
 	public ReturnDatas<List<DicData>> dataTypelistjson(@PathVariable String typekey) {
