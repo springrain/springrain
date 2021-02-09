@@ -12,7 +12,9 @@
 * 启动加载springbean时,先检查本地是否有实现,如果没有就启动GRPC远程调用.开发人员无感知.
 * 基于seata分布式事务实现.支持有注解和无注解(开发人员无感知,理论上有不同步风险,个人感觉做好日志,风险不大)混合使用.
 * 基于K8S的Service实现服务注册和发现,ConfigMap实现配置中心.开发人员无感知.
-* 基于Istio实现微服务的发现,监控,熔断,限流.开发人员无感知.
+* 基于Istio实现微服务的发现,监控,熔断,限流.开发人员无感知. 
+
+详细架构设计思路:[https://www.jiagou.com/post/58-cloud-native-service-mesh](https://www.jiagou.com/post/58-cloud-native-service-mesh/)
 
 ## 限制
 * 接口和实现的命名强制规范.
@@ -29,9 +31,6 @@
 * 启动springrain-system-web
 * 访问http://127.0.0.1:8080/api/checkHealth
 
-## 头条号
-**博客 [https://www.jiagou.com](https://www.jiagou.com)**  
-![架构头条号](https://images.gitee.com/uploads/images/2020/0920/215246_9bd9f87d_686.jpeg "toutiao_300x300.jpg") 
 ## 文档
 https://gitee.com/chunanyong/springrain/tree/master/springrain-system/springrain-system-web/doc  </br>
 ## 代码生成器
