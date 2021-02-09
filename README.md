@@ -14,7 +14,7 @@
 * 基于K8S的Service实现服务注册和发现,ConfigMap实现配置中心.开发人员无感知.
 * 基于Istio实现微服务的发现,监控,熔断,限流.开发人员无感知. 
 
-详细架构设计思路:[https://www.jiagou.com/post/58-cloud-native-service-mesh](https://www.jiagou.com/post/58-cloud-native-service-mesh/)
+架构设计详细思路:[https://www.jiagou.com/post/58-cloud-native-service-mesh](https://www.jiagou.com/post/58-cloud-native-service-mesh/)
 
 ## 限制
 * 接口和实现的命名强制规范.
@@ -29,7 +29,7 @@
 * seata-server的conf目录下file.conf,修改vgroup_mapping.my_test_tx_group = "default" 为 vgroup_mapping.seata_tx_group = "default",启动seata-server服务.
 * 启动springrain-system-serviceimpl
 * 启动springrain-system-web
-* 访问http://127.0.0.1:8080/api/checkHealth
+* 访问http://127.0.0.1:8080/system/api/checkHealth
 
 ## 文档
 https://gitee.com/chunanyong/springrain/tree/master/springrain-system/springrain-system-web/doc  </br>
