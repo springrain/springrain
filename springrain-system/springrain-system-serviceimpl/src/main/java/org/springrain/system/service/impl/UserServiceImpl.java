@@ -1,15 +1,12 @@
 package org.springrain.system.service.impl;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springrain.frame.entity.IBaseEntity;
+import org.springrain.frame.util.*;
 import org.springrain.frame.util.CommonEnum.ACTIVE;
-import org.springrain.frame.util.Finder;
-import org.springrain.frame.util.GlobalStatic;
-import org.springrain.frame.util.JwtUtils;
-import org.springrain.frame.util.Page;
-import org.springrain.frame.util.SecUtils;
 import org.springrain.rpc.sessionuser.UserVO;
 import org.springrain.system.entity.User;
 import org.springrain.system.service.IUserRoleOrgService;
@@ -174,6 +171,12 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
 				finder.append(" AND status=:status")
 					.setParam("status", "%" + queryBean.getStatus() + "%");
 			}
+
+			if(page.getBeginTime()!=null && page.getEndTime()!=null) {
+                finder.append(" AND createTime>=:beginTime AND createTime<=:endTime ")
+                        .setParam("beginTime", page.getBeginTime())
+                        .setParam("endTime", DateUtils.addDays(page.getEndTime(),1));
+            }
 		}
 		
 		return this.queryForList(finder, User.class, page);

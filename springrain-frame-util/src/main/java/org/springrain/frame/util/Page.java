@@ -1,5 +1,7 @@
 package org.springrain.frame.util;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -65,11 +67,13 @@ public class Page<T> implements Serializable {
     /**
      * 查询-开始时间
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date beginTime;
     /**
      * 查询-结束时间
      */
-    private Date endDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date endTime;
 
     /**
      * 分页信息,默认每页20行数据
@@ -323,12 +327,12 @@ public class Page<T> implements Serializable {
 		this.beginTime = beginTime;
 	}
 
-	public Date getEndDate() {
-		return endDate;
+	public Date getEndTime() {
+		return endTime;
 	}
 
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
 	}
 
 	@Override
