@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springrain.frame.util.GlobalStatic;
 
+import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
@@ -27,7 +28,7 @@ public class RedisOperation {
     private int queueCapacity = 1000;
 
     //是否接收队列,默认是true,如果是false就不再接受消息,用于tomcat重启之前,保证tomcat不再接受队列
-    private boolean receiveQueue = true;
+    private boolean receiveQueue = false;
 
 
     /**
@@ -109,6 +110,97 @@ public class RedisOperation {
         remoteService.register(clazz, t, remoteServiceWorkersAmount);
 
     }
+
+
+    /**
+     * 创建group分组
+     * @param streamName
+     * @param groupName
+     */
+    public void streamCreateGroup(String streamName,String groupName){
+        RStream<String, String> stream = getRedissonClient().getStream(streamName);
+        //读取到所有的消息,包括group创建之前的消息
+        stream.createGroup(groupName,StreamMessageId.ALL);
+        //stream.createGroup(groupName);
+    }
+
+
+/*
+    public void createGroupStream(String groupName,String streamName){
+        RStream<String, String> stream = getRedissonClient().getStream(streamName);
+        stream.removeGroup(groupName);
+        //StreamMessageId sm = stream.add("0", "0");
+        stream.createGroup(groupName,StreamMessageId.ALL);
+        stream = getRedissonClient().getStream(streamName);
+        for (int i=0;i<5;i++) {
+            sendGroupStreamMessage(streamName,"key" + i, "v" + i);
+            //StreamMessageId smId = stream.add( "key" + i, "v" + i);
+        }
+        stream = getRedissonClient().getStream(streamName);
+       // Map<StreamMessageId, Map<String, String>> messageMap= stream.readGroup(groupName,"consumer1");
+
+        Map<StreamMessageId, Map<String, String>> messageMap=readGroup(groupName,streamName,"consumer1");
+
+
+
+        for (Map.Entry<StreamMessageId, Map<String, String>> entry : messageMap.entrySet()) {
+            System.out.println("key= " + entry.getKey() + " and value= " + entry.getValue());
+        }
+
+
+
+    }
+
+ */
+
+    /**
+     * 往stream中添加消息
+     * @param streamName
+     * @param key
+     * @param value
+     * @return
+     */
+    public StreamMessageId streamAddMessage(String streamName,String key,String value){
+        //如果没有就会创建stream
+        RStream<String, String> stream = getRedissonClient().getStream(streamName);
+
+        StreamMessageId smId = stream.add(key, value);
+
+        return smId;
+    }
+
+    /**
+     * 读取group 组中的中的信息
+     * @param streamName
+     * @param groupName
+     * @param consumerName
+     * @param count
+     * @return
+     */
+    public Map<StreamMessageId, Map<String, String>> streamReadGroup( String streamName,String groupName, String consumerName,int count){
+        RStream<String, String> stream = getRedissonClient().getStream(streamName);
+
+        // 目前测试 add message之后,是没有分配的,需要使用 > 符号(StreamMessageId.NEWEST)认领一下,然后才可以通过 0 参数(StreamMessageId.ALL) 获取到message.感觉这样是有问题的,待解决.
+
+        // Map<StreamMessageId, Map<String, String>> messageMap=stream.readGroup(groupName,consumerName,count,StreamMessageId.NEWEST);
+        Map<StreamMessageId, Map<String, String>> messageMap=stream.readGroup(groupName,consumerName,count,StreamMessageId.ALL);
+        return messageMap;
+    }
+
+
+    /**
+     * 应答消息,告知redis,消息已经被消费了.
+     * @param streamName
+     * @param groupName
+     * @param smId
+     * @return
+     */
+    public Long streamAsk(String streamName,String groupName,StreamMessageId smId){
+        RStream<String, String> stream = getRedissonClient().getStream(streamName);
+        return stream.ack(groupName,smId);
+    }
+
+
 
     /**
      * 获取远程的Service(基于redisson实现的RPC)
