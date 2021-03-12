@@ -114,6 +114,31 @@ public class RedisControllerTest {
 
      }
 
+
+     @Test
+     public void TestMQ(){
+
+     String streamName="test";
+     String groupName="testGroup";
+     String consumerName="consumer1";
+
+
+     // redisOperation.streamCreateGroup(streamName,groupName);
+
+     for (int i=0;i<5;i++) {
+     redisOperation.streamAddMessage(streamName,"key"+i,"value"+i);
+     }
+
+     Map<StreamMessageId, Map<String, String>> messageMap=redisOperation.streamReadGroup(streamName,groupName,consumerName,100);
+     for (Map.Entry<StreamMessageId, Map<String, String>> entry : messageMap.entrySet()) {
+     System.out.println("key= " + entry.getKey() + " and value= " + entry.getValue());
+     redisOperation.streamAsk(streamName,groupName,entry.getKey());
+     }
+
+     }
+
+
+
      */
 
 }
