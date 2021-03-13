@@ -362,12 +362,14 @@
         <module>springrain-frame-dao</module>
 
         <!-- memory内存类型的缓存,和redis缓存互斥,只能使用一个 -->
-        <!--
+
         <module>springrain-frame-cache-memory</module>
-        -->
+
 
         <!-- redis类型的缓存,和memory内存缓存互斥,只能使用一个 - -->
+        <!--
         <module>springrain-frame-cache-redis</module>
+        -->
 
         <!-- 微信的SDK模块 -->
         <module>springrain-weixin-sdk</module>
