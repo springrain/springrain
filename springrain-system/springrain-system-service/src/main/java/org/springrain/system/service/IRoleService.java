@@ -1,7 +1,10 @@
 package org.springrain.system.service;
 
+import org.springrain.frame.util.Page;
 import org.springrain.rpc.annotation.RpcServiceAnnotation;
 import org.springrain.system.entity.Role;
+
+import java.util.List;
 
 /**
  * TODO 在此加入类描述
@@ -22,4 +25,11 @@ public interface IRoleService extends IBaseSpringrainService {
     Role findRoleById(String id) throws Exception;
 
 
+    /**
+     * 查角色列表
+     * @param page
+     * @return
+     * @throws Exception
+     */
+    List<Role> findRoleList(Page<Role> page) throws Exception;
 }

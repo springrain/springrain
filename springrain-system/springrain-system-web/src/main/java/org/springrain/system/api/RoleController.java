@@ -11,10 +11,7 @@ import org.springrain.frame.util.ReturnDatas;
 import org.springrain.frame.util.property.MessageUtils;
 import org.springrain.rpc.sessionuser.SessionUser;
 import org.springrain.system.base.BaseController;
-import org.springrain.system.entity.Menu;
-import org.springrain.system.entity.Role;
-import org.springrain.system.entity.RoleMenu;
-import org.springrain.system.entity.RoleOrg;
+import org.springrain.system.entity.*;
 import org.springrain.system.service.IRoleService;
 import org.springrain.system.service.IUserRoleMenuService;
 import org.springrain.system.service.IUserRoleOrgService;
@@ -52,8 +49,15 @@ public class RoleController extends BaseController {
     @RequestMapping(value = "/lists", method = RequestMethod.POST)
     public ReturnDatas<List<Role>> lists(@RequestBody Page<Role> page) throws Exception {
         ReturnDatas<List<Role>> returnObject = ReturnDatas.getSuccessReturnDatas();
-        // ==执行分页查询
-        List<Role> datas = roleService.queryForListByEntity(null, page);
+
+        List<Role> datas = null;
+        try {
+            datas = roleService.findRoleList(page);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            returnObject.setStatus(ReturnDatas.ERROR);
+            returnObject.setMessage("查询失败");
+        }
 
         returnObject.setResult(datas);
         returnObject.setPage(page);
