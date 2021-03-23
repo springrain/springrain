@@ -18,6 +18,7 @@ import java.util.Iterator;
 
 /**
  * 图片工具类
+ * 使用图片水印时需要注意Linux服务器是否有中文字体,不然出现中文乱码.参考: https://blog.csdn.net/liuwenbiao1203/article/details/100096031
  *
  * @author caomei
  */
