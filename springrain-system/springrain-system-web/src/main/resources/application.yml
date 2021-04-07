@@ -53,13 +53,13 @@ springrain:
     timeout: 36000000
     tokenkey: springraintoken
 
-  redis:
-    hostport: redis://127.0.0.1:6379    ###如果是redis集群,使用逗号隔开,例如 redis://127.0.0.1:6379,redis://127.0.0.1:6378 ###
-    password:   ###密码,可以不设置####
-    timeout: 7200000
-    pool:
-      max-active: 1024
-      min-idle: 200
+#  redis:
+#    hostport: redis://127.0.0.1:6379    ###如果是redis集群,使用逗号隔开,例如 redis://127.0.0.1:6379,redis://127.0.0.1:6378 ###
+#    password:   ###密码,可以不设置####
+#    timeout: 7200000
+#    pool:
+#      max-active: 1024
+#      min-idle: 200
 
   ####ES的配置###
   es:
@@ -109,6 +109,14 @@ spring:
     #default-transaction-isolation: ISOLATION_READ_UNCOMMITTED
 
 
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password:   ###密码,可以不设置####
+    timeout: 7200000
+    pool:
+      max-active: 1024
+      min-idle: 200
 
 
 
