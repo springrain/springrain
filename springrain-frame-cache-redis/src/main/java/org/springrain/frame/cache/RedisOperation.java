@@ -1,13 +1,12 @@
 package org.springrain.frame.cache;
 
 import org.apache.commons.lang3.StringUtils;
-import org.redisson.api.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springrain.frame.util.GlobalStatic;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Component;
 
-import java.util.Map;
-import java.util.concurrent.BlockingQueue;
+import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -16,11 +15,12 @@ import java.util.concurrent.TimeUnit;
  * @author caomei
  */
 
-//@Component("redisOperation")
+@Component("redisOperation")
 public class RedisOperation {
     private Logger logger = LoggerFactory.getLogger(getClass());
-    // @Resource
-    private RedissonClient redissonClient;
+
+    @Resource
+    private RedisTemplate redisTemplate;
 
     //远程Service默认的工作并发
     private int remoteServiceWorkersAmount = 1000;
@@ -44,13 +44,10 @@ public class RedisOperation {
         }
 
         try {
-            RLock rLock = redissonClient.getLock(GlobalStatic.projectKeyPrefix + key + "_lock");
-            //不做任何等待,抢不到就返回false
-            if (rLock.tryLock(-1, expire, TimeUnit.MILLISECONDS)) {
-                return true;
-            }
-            return false;
-        } catch (InterruptedException e) {
+
+            Boolean lock = redisTemplate.opsForValue().setIfAbsent(key, "lock", expire, TimeUnit.MILLISECONDS);
+            return lock;
+        } catch (Exception e) {
             logger.error("locking error", e);
             return false;
         }
@@ -69,170 +66,28 @@ public class RedisOperation {
             return;
         }
         try {
-            RLock rLock = redissonClient.getLock(GlobalStatic.projectKeyPrefix + key + "_lock");
-            if (rLock.isLocked()) {
-                rLock.unlock();
-            }
+            redisTemplate.delete(key);
+
         } catch (Throwable e) {
             logger.error("unlock error", e);
         }
     }
 
 
-    public <T> BlockingQueue<T> getBlockingQueue(String queueName, Class<T> clazz) {
-        RBlockingQueue<T> queue = redissonClient.getBlockingQueue(GlobalStatic.projectKeyPrefix + queueName);
-        return queue;
-    }
 
-    public RAtomicLong getAtomicLong(String name) {
-        RAtomicLong atomicLong = redissonClient.getAtomicLong(GlobalStatic.projectKeyPrefix + name);
-        return atomicLong;
-
-    }
-
-    public RAtomicLong getAtomicLong(String name, Long initValue) {
-        RAtomicLong atomicLong = redissonClient.getAtomicLong(GlobalStatic.projectKeyPrefix + name);
-        atomicLong.set(initValue);
-        return atomicLong;
-
-    }
-
-    /**
-     * 注册到远程Service服务(基于redisson实现的RPC)
-     *
-     * @param clazz
-     * @param t
-     */
-    public <T> void registerRemoteService(Class<T> clazz, T t) {
-
-        RRemoteService remoteService = getRedissonClient().getRemoteService();
-        // 注册了1000个服务端工作者实例，可以同时执行1000个并发调用
-        remoteService.register(clazz, t, remoteServiceWorkersAmount);
-
-    }
-
-
-    /**
-     * 创建group分组
-     * @param streamName
-     * @param groupName
-     */
-    public void streamCreateGroup(String streamName,String groupName){
-        RStream<String, String> stream = getRedissonClient().getStream(streamName);
-        //读取到所有的消息,包括group创建之前的消息
-        stream.createGroup(groupName,StreamMessageId.ALL);
-        //stream.createGroup(groupName);
-    }
-
-
-/*
-    public void createGroupStream(String groupName,String streamName){
-        RStream<String, String> stream = getRedissonClient().getStream(streamName);
-        stream.removeGroup(groupName);
-        //StreamMessageId sm = stream.add("0", "0");
-        stream.createGroup(groupName,StreamMessageId.ALL);
-        stream = getRedissonClient().getStream(streamName);
-        for (int i=0;i<5;i++) {
-            sendGroupStreamMessage(streamName,"key" + i, "v" + i);
-            //StreamMessageId smId = stream.add( "key" + i, "v" + i);
-        }
-        stream = getRedissonClient().getStream(streamName);
-       // Map<StreamMessageId, Map<String, String>> messageMap= stream.readGroup(groupName,"consumer1");
-
-        Map<StreamMessageId, Map<String, String>> messageMap=readGroup(groupName,streamName,"consumer1");
-
-
-
-        for (Map.Entry<StreamMessageId, Map<String, String>> entry : messageMap.entrySet()) {
-            System.out.println("key= " + entry.getKey() + " and value= " + entry.getValue());
-        }
-
+    public Long getAtomicLong(String name) {
+        Long increment = redisTemplate.opsForValue().increment(name, 0);
+        return increment;
 
 
     }
 
- */
-
-    /**
-     * 往stream中添加消息
-     * @param streamName
-     * @param key
-     * @param value
-     * @return
-     */
-    public StreamMessageId streamAddMessage(String streamName,String key,String value){
-        //如果没有就会创建stream
-        RStream<String, String> stream = getRedissonClient().getStream(streamName);
-
-        StreamMessageId smId = stream.add(key, value);
-
-        return smId;
-    }
-
-    /**
-     * 读取group 组中的中的信息
-     * @param streamName
-     * @param groupName
-     * @param consumerName
-     * @param count
-     * @return
-     */
-    public Map<StreamMessageId, Map<String, String>> streamReadGroup( String streamName,String groupName, String consumerName,int count){
-        RStream<String, String> stream = getRedissonClient().getStream(streamName);
-
-        // 目前测试 add message之后,是没有分配的,需要使用 > 符号(StreamMessageId.NEWEST)认领一下,然后才可以通过 0 参数(StreamMessageId.ALL) 获取到message.感觉这样是有问题的,待解决.
-
-        // Map<StreamMessageId, Map<String, String>> messageMap=stream.readGroup(groupName,consumerName,count,StreamMessageId.NEWEST);
-        Map<StreamMessageId, Map<String, String>> messageMap=stream.readGroup(groupName,consumerName,count,StreamMessageId.ALL);
-        return messageMap;
-    }
-
-
-    /**
-     * 应答消息,告知redis,消息已经被消费了.
-     * @param streamName
-     * @param groupName
-     * @param smId
-     * @return
-     */
-    public Long streamAsk(String streamName,String groupName,StreamMessageId smId){
-        RStream<String, String> stream = getRedissonClient().getStream(streamName);
-        return stream.ack(groupName,smId);
-    }
-
-
-
-    /**
-     * 获取远程的Service(基于redisson实现的RPC)
-     *
-     * @param clazz
-     * @return
-     */
-
-
-    public <T> T getRemoteService(Class<T> clazz) {
-        RRemoteService remoteService = getRedissonClient().getRemoteService();
-        T t = remoteService.get(clazz);
-        return t;
+    public Long getAtomicLong(String name, Long initValue) {
+        Long increment = redisTemplate.opsForValue().increment(name, initValue);
+        return increment;
 
     }
 
-    public boolean getReceiveQueue() {
-        return receiveQueue;
-    }
-
-    public void setReceiveQueue(boolean receiveQueue) {
-        this.receiveQueue = receiveQueue;
-    }
-
-
-    public RedissonClient getRedissonClient() {
-        return redissonClient;
-    }
-
-    public void setRedissonClient(RedissonClient redissonClient) {
-        this.redissonClient = redissonClient;
-    }
 
 
 }

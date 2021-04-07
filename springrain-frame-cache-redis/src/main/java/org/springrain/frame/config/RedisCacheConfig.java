@@ -1,21 +1,24 @@
 package org.springrain.frame.config;
 
-import org.apache.commons.lang3.StringUtils;
-import org.redisson.Redisson;
-import org.redisson.api.RedissonClient;
-import org.redisson.codec.FstCodec;
-import org.redisson.config.ClusterServersConfig;
-import org.redisson.config.Config;
-import org.redisson.config.ReadMode;
-import org.redisson.config.SingleServerConfig;
-import org.redisson.spring.cache.RedissonSpringCacheManager;
-import org.springframework.beans.factory.annotation.Value;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springrain.frame.cache.RedisOperation;
+import org.springframework.data.redis.cache.RedisCacheConfiguration;
+import org.springframework.data.redis.cache.RedisCacheManager;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializationContext;
+import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springrain.frame.util.FrameObjectMapper;
 
+import javax.annotation.Resource;
 import java.io.IOException;
+import java.time.Duration;
 
 /**
  * 缓存的配置,自定义 cacheManager 用于实现替换.
@@ -25,27 +28,42 @@ import java.io.IOException;
 @Configuration("configuration-RedisCacheConfig")
 public class RedisCacheConfig {
 
-    // reids的IP和端口,如果是集群,使用逗号隔开,例如 redis://127.0.0.1:6379,redis://127.0.0.1:6378
-    @Value("${springrain.redis.hostport:redis://192.168.0.33:6379}")
-    private String redisHostPort;
+    @Resource
+    RedisConnectionFactory factory;
 
-    @Value("${springrain.redis.timeout:0}")
-    private Long cacheTimeOut = 0L;
-
-    // 最大连接数
-    @Value("${springrain.redis.pool.max-active:1024}")
-    private Integer maxActive = 1024;
-
-    // 最小空闲数
-    @Value("${springrain.redis.pool.min-idle:200}")
-    private Integer minIdle = 200;
-
-    // 密码 默认 ""
-    @Value("${springrain.redis.password:}")
-    private String password = null;
+    // 实际使用的redisTemplate,可以直接注入到代码中,直接操作redis
+    @Bean("redisTemplate")
+    public RedisTemplate<String, Object> redisTemplate() {
 
 
-    // --------基于redis的cacheManager 开始--------//
+
+        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+        //连接工厂
+        redisTemplate.setConnectionFactory(factory);
+
+        // 序列化配置 解析任意对象
+        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
+        // json序列化利用ObjectMapper进行转义
+        jackson2JsonRedisSerializer.setObjectMapper(new FrameObjectMapper());
+        // value序列化方式采用jackson
+        redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
+        // hash的value序列化方式采用jackson
+        redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer);
+
+        // 2.序列化String类型
+        StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
+        // key采用String的序列化方式
+        redisTemplate.setKeySerializer(stringRedisSerializer);
+        // hash的key也采用String的序列化方式
+        redisTemplate.setHashKeySerializer(stringRedisSerializer);
+        redisTemplate.afterPropertiesSet();
+
+        return redisTemplate;
+
+
+    }
+
+
 
     /**
      * 基于redis的cacheManager,使用redisson客户端
@@ -53,80 +71,45 @@ public class RedisCacheConfig {
      * @return
      * @throws IOException
      */
+
     @Bean("cacheManager")
     public CacheManager cacheManager() {
-        //redisson的SpringCache 用于扩展实现Cache超时, 加上超时,吞吐量下降非常厉害,原因待查,暂时废弃
-        //FrameRedissonSpringCacheManager cacheManager = new FrameRedissonSpringCacheManager(redissonClient(),cacheTimeOut);
-
-        RedissonSpringCacheManager cacheManager = new RedissonSpringCacheManager(redissonClient());
-
-        return cacheManager;
+        RedisCacheManager redisCacheManager =
+                RedisCacheManager.builder(factory)
+                        .cacheDefaults(defaultCacheConfig(-1))
+                        .transactionAware()
+                        .build();
+        return  redisCacheManager;
     }
 
-    @Bean("redissonClient")
-    public RedissonClient redissonClient() {
+    /**
+     * 默认的配置
+     * @param millis 默认的超时时间,单位毫秒
+     * @return
+     */
+    private RedisCacheConfiguration defaultCacheConfig(long millis) {
+        Jackson2JsonRedisSerializer<Object> serializer = new Jackson2JsonRedisSerializer<>(Object.class);
 
-        // 连接超时时间
-        int connectTimeOut = 10000;
-        // 重试次数
-        int retryAttempts = 3;
+        //设置解析器
+        serializer.setObjectMapper(new FrameObjectMapper());
 
-        if (StringUtils.isBlank(redisHostPort)) {
-            return null;
+        //默认配置
+        RedisCacheConfiguration defaultCacheConfig = RedisCacheConfiguration.defaultCacheConfig();
+
+        //设置默认的失效时间,单位毫秒
+        if (millis>0) {
+            defaultCacheConfig.entryTtl(Duration.ofMillis(millis));
         }
-        redisHostPort = redisHostPort.trim();
-
-        Config config = new Config();
-        String[] ipports = redisHostPort.split(",");
-
-        if (ipports.length <= 1) {// 单机redis模式
-
-            SingleServerConfig useSingleServer = config.useSingleServer();
-
-            useSingleServer.setAddress(redisHostPort).setConnectTimeout(connectTimeOut).setRetryAttempts(retryAttempts)
-                    .setConnectionPoolSize(maxActive).setConnectionMinimumIdleSize(minIdle);
-
-            // 定义每个与Redis的连接的PING命令发送间隔.设置0为禁用.在NAT网络下(K8S),需要保持连接正常
-            // 参考:https://github.com/redisson/redisson/issues/946
-            useSingleServer.setPingConnectionInterval(1000);
-
-            if (StringUtils.isNotBlank(password)) {
-                useSingleServer.setPassword(password);
-            }
-
-        } else {// redis 集群.默认读slave
-            ClusterServersConfig useClusterServers = config.useClusterServers();
-            useClusterServers.addNodeAddress(ipports).setConnectTimeout(connectTimeOut).setRetryAttempts(retryAttempts)
-                    .setMasterConnectionPoolSize(maxActive).setSlaveConnectionPoolSize(maxActive)
-                    .setMasterConnectionMinimumIdleSize(minIdle).setSlaveConnectionMinimumIdleSize(minIdle)
-                    .setReadMode(ReadMode.SLAVE).setScanInterval(3000);
-
-            // 定义每个与Redis的连接的PING命令发送间隔.设置0为禁用.在NAT网络下(K8S),需要保持连接正常
-            // 参考:https://github.com/redisson/redisson/issues/946
-            useClusterServers.setPingConnectionInterval(1000);
-
-            if (StringUtils.isNotBlank(password)) {
-                useClusterServers.setPassword(password);
-            }
-
-        }
-        // JDK的序列化
-        // config.setCodec(new SerializationCodec());
-
-        // fst序列化
-        config.setCodec(new FstCodec());
-        return Redisson.create(config);
+        //设置序列化方式
+        defaultCacheConfig.serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
+                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(serializer))
+                .disableCachingNullValues();
+        return defaultCacheConfig;
     }
 
-    // redis的操作,声明注入,避免出现依赖错误
 
-    @Bean("redisOperation")
-    public RedisOperation redisOperation() {
-        RedisOperation redisOperation = new RedisOperation();
-        redisOperation.setRedissonClient(redissonClient());
-        return redisOperation;
-    }
 
-    // --------基于redis的cacheManager 结束--------//
+
+
 
 }
