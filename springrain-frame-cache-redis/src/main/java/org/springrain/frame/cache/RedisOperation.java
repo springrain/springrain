@@ -45,7 +45,7 @@ public class RedisOperation {
 
         try {
 
-            Boolean lock = redisTemplate.opsForValue().setIfAbsent(key, "lock", expire, TimeUnit.MILLISECONDS);
+            Boolean lock = redisTemplate.opsForValue().setIfAbsent(key, System.currentTimeMillis(), expire, TimeUnit.MILLISECONDS);
             return lock;
         } catch (Exception e) {
             logger.error("locking error", e);
