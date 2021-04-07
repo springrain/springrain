@@ -8,7 +8,7 @@ import static io.grpc.MethodDescriptor.generateFullMethodName;
  * </pre>
  */
 @javax.annotation.Generated(
-    value = "by gRPC proto compiler (version 1.35.0)",
+    value = "by gRPC proto compiler (version 1.36.1)",
     comments = "Source: grpcCommonService.proto")
 public final class GrpcCommonServiceGrpc {
 
@@ -17,29 +17,29 @@ public final class GrpcCommonServiceGrpc {
   public static final String SERVICE_NAME = "GrpcCommonService";
 
   // Static method descriptors that strictly reflect the proto.
-  private static volatile io.grpc.MethodDescriptor<CommonRequest,
-      CommonResponse> getCommonHandleMethod;
+  private static volatile io.grpc.MethodDescriptor<org.springrain.rpc.grpcauto.CommonRequest,
+      org.springrain.rpc.grpcauto.CommonResponse> getCommonHandleMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "commonHandle",
-      requestType = CommonRequest.class,
-      responseType = CommonResponse.class,
+      requestType = org.springrain.rpc.grpcauto.CommonRequest.class,
+      responseType = org.springrain.rpc.grpcauto.CommonResponse.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<CommonRequest,
-      CommonResponse> getCommonHandleMethod() {
-    io.grpc.MethodDescriptor<CommonRequest, CommonResponse> getCommonHandleMethod;
+  public static io.grpc.MethodDescriptor<org.springrain.rpc.grpcauto.CommonRequest,
+      org.springrain.rpc.grpcauto.CommonResponse> getCommonHandleMethod() {
+    io.grpc.MethodDescriptor<org.springrain.rpc.grpcauto.CommonRequest, org.springrain.rpc.grpcauto.CommonResponse> getCommonHandleMethod;
     if ((getCommonHandleMethod = GrpcCommonServiceGrpc.getCommonHandleMethod) == null) {
       synchronized (GrpcCommonServiceGrpc.class) {
         if ((getCommonHandleMethod = GrpcCommonServiceGrpc.getCommonHandleMethod) == null) {
           GrpcCommonServiceGrpc.getCommonHandleMethod = getCommonHandleMethod =
-              io.grpc.MethodDescriptor.<CommonRequest, CommonResponse>newBuilder()
+              io.grpc.MethodDescriptor.<org.springrain.rpc.grpcauto.CommonRequest, org.springrain.rpc.grpcauto.CommonResponse>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(SERVICE_NAME, "commonHandle"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  CommonRequest.getDefaultInstance()))
+                  org.springrain.rpc.grpcauto.CommonRequest.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  CommonResponse.getDefaultInstance()))
+                  org.springrain.rpc.grpcauto.CommonResponse.getDefaultInstance()))
               .setSchemaDescriptor(new GrpcCommonServiceMethodDescriptorSupplier("commonHandle"))
               .build();
         }
@@ -54,7 +54,7 @@ public final class GrpcCommonServiceGrpc {
   public static GrpcCommonServiceStub newStub(io.grpc.Channel channel) {
     io.grpc.stub.AbstractStub.StubFactory<GrpcCommonServiceStub> factory =
       new io.grpc.stub.AbstractStub.StubFactory<GrpcCommonServiceStub>() {
-        @Override
+        @java.lang.Override
         public GrpcCommonServiceStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
           return new GrpcCommonServiceStub(channel, callOptions);
         }
@@ -69,7 +69,7 @@ public final class GrpcCommonServiceGrpc {
       io.grpc.Channel channel) {
     io.grpc.stub.AbstractStub.StubFactory<GrpcCommonServiceBlockingStub> factory =
       new io.grpc.stub.AbstractStub.StubFactory<GrpcCommonServiceBlockingStub>() {
-        @Override
+        @java.lang.Override
         public GrpcCommonServiceBlockingStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
           return new GrpcCommonServiceBlockingStub(channel, callOptions);
         }
@@ -84,7 +84,7 @@ public final class GrpcCommonServiceGrpc {
       io.grpc.Channel channel) {
     io.grpc.stub.AbstractStub.StubFactory<GrpcCommonServiceFutureStub> factory =
       new io.grpc.stub.AbstractStub.StubFactory<GrpcCommonServiceFutureStub>() {
-        @Override
+        @java.lang.Override
         public GrpcCommonServiceFutureStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
           return new GrpcCommonServiceFutureStub(channel, callOptions);
         }
@@ -104,19 +104,19 @@ public final class GrpcCommonServiceGrpc {
      * 处理请求
      * </pre>
      */
-    public void commonHandle(CommonRequest request,
-                             io.grpc.stub.StreamObserver<CommonResponse> responseObserver) {
+    public void commonHandle(org.springrain.rpc.grpcauto.CommonRequest request,
+        io.grpc.stub.StreamObserver<org.springrain.rpc.grpcauto.CommonResponse> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getCommonHandleMethod(), responseObserver);
     }
 
-    @Override public final io.grpc.ServerServiceDefinition bindService() {
+    @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
             getCommonHandleMethod(),
             io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
-                CommonRequest,
-                CommonResponse>(
+                org.springrain.rpc.grpcauto.CommonRequest,
+                org.springrain.rpc.grpcauto.CommonResponse>(
                   this, METHODID_COMMON_HANDLE)))
           .build();
     }
@@ -133,7 +133,7 @@ public final class GrpcCommonServiceGrpc {
       super(channel, callOptions);
     }
 
-    @Override
+    @java.lang.Override
     protected GrpcCommonServiceStub build(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new GrpcCommonServiceStub(channel, callOptions);
@@ -144,8 +144,8 @@ public final class GrpcCommonServiceGrpc {
      * 处理请求
      * </pre>
      */
-    public void commonHandle(CommonRequest request,
-                             io.grpc.stub.StreamObserver<CommonResponse> responseObserver) {
+    public void commonHandle(org.springrain.rpc.grpcauto.CommonRequest request,
+        io.grpc.stub.StreamObserver<org.springrain.rpc.grpcauto.CommonResponse> responseObserver) {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getCommonHandleMethod(), getCallOptions()), request, responseObserver);
     }
@@ -162,7 +162,7 @@ public final class GrpcCommonServiceGrpc {
       super(channel, callOptions);
     }
 
-    @Override
+    @java.lang.Override
     protected GrpcCommonServiceBlockingStub build(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new GrpcCommonServiceBlockingStub(channel, callOptions);
@@ -173,7 +173,7 @@ public final class GrpcCommonServiceGrpc {
      * 处理请求
      * </pre>
      */
-    public CommonResponse commonHandle(CommonRequest request) {
+    public org.springrain.rpc.grpcauto.CommonResponse commonHandle(org.springrain.rpc.grpcauto.CommonRequest request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getCommonHandleMethod(), getCallOptions(), request);
     }
@@ -190,7 +190,7 @@ public final class GrpcCommonServiceGrpc {
       super(channel, callOptions);
     }
 
-    @Override
+    @java.lang.Override
     protected GrpcCommonServiceFutureStub build(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new GrpcCommonServiceFutureStub(channel, callOptions);
@@ -201,8 +201,8 @@ public final class GrpcCommonServiceGrpc {
      * 处理请求
      * </pre>
      */
-    public com.google.common.util.concurrent.ListenableFuture<CommonResponse> commonHandle(
-        CommonRequest request) {
+    public com.google.common.util.concurrent.ListenableFuture<org.springrain.rpc.grpcauto.CommonResponse> commonHandle(
+        org.springrain.rpc.grpcauto.CommonRequest request) {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getCommonHandleMethod(), getCallOptions()), request);
     }
@@ -223,21 +223,21 @@ public final class GrpcCommonServiceGrpc {
       this.methodId = methodId;
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
+    @java.lang.Override
+    @java.lang.SuppressWarnings("unchecked")
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
         case METHODID_COMMON_HANDLE:
-          serviceImpl.commonHandle((CommonRequest) request,
-              (io.grpc.stub.StreamObserver<CommonResponse>) responseObserver);
+          serviceImpl.commonHandle((org.springrain.rpc.grpcauto.CommonRequest) request,
+              (io.grpc.stub.StreamObserver<org.springrain.rpc.grpcauto.CommonResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
       }
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
+    @java.lang.Override
+    @java.lang.SuppressWarnings("unchecked")
     public io.grpc.stub.StreamObserver<Req> invoke(
         io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
@@ -251,12 +251,12 @@ public final class GrpcCommonServiceGrpc {
       implements io.grpc.protobuf.ProtoFileDescriptorSupplier, io.grpc.protobuf.ProtoServiceDescriptorSupplier {
     GrpcCommonServiceBaseDescriptorSupplier() {}
 
-    @Override
+    @java.lang.Override
     public com.google.protobuf.Descriptors.FileDescriptor getFileDescriptor() {
-      return GrpcAutoCreateService.getDescriptor();
+      return org.springrain.rpc.grpcauto.GrpcAutoCreateService.getDescriptor();
     }
 
-    @Override
+    @java.lang.Override
     public com.google.protobuf.Descriptors.ServiceDescriptor getServiceDescriptor() {
       return getFileDescriptor().findServiceByName("GrpcCommonService");
     }
@@ -276,7 +276,7 @@ public final class GrpcCommonServiceGrpc {
       this.methodName = methodName;
     }
 
-    @Override
+    @java.lang.Override
     public com.google.protobuf.Descriptors.MethodDescriptor getMethodDescriptor() {
       return getServiceDescriptor().findMethodByName(methodName);
     }

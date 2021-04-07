@@ -23,14 +23,14 @@ private static final long serialVersionUID = 0L;
     response_ = com.google.protobuf.ByteString.EMPTY;
   }
 
-  @Override
+  @java.lang.Override
   @SuppressWarnings({"unused"})
-  protected Object newInstance(
+  protected java.lang.Object newInstance(
       UnusedPrivateParameter unused) {
     return new CommonResponse();
   }
 
-  @Override
+  @java.lang.Override
   public final com.google.protobuf.UnknownFieldSet
   getUnknownFields() {
     return this.unknownFields;
@@ -41,7 +41,7 @@ private static final long serialVersionUID = 0L;
       throws com.google.protobuf.InvalidProtocolBufferException {
     this();
     if (extensionRegistry == null) {
-      throw new NullPointerException();
+      throw new java.lang.NullPointerException();
     }
     com.google.protobuf.UnknownFieldSet.Builder unknownFields =
         com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -79,15 +79,15 @@ private static final long serialVersionUID = 0L;
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return GrpcAutoCreateService.internal_static_CommonResponse_descriptor;
+    return org.springrain.rpc.grpcauto.GrpcAutoCreateService.internal_static_CommonResponse_descriptor;
   }
 
-  @Override
-  protected FieldAccessorTable
+  @java.lang.Override
+  protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return GrpcAutoCreateService.internal_static_CommonResponse_fieldAccessorTable
+    return org.springrain.rpc.grpcauto.GrpcAutoCreateService.internal_static_CommonResponse_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            CommonResponse.class, Builder.class);
+            org.springrain.rpc.grpcauto.CommonResponse.class, org.springrain.rpc.grpcauto.CommonResponse.Builder.class);
   }
 
   public static final int RESPONSE_FIELD_NUMBER = 1;
@@ -96,13 +96,13 @@ private static final long serialVersionUID = 0L;
    * <code>bytes response = 1;</code>
    * @return The response.
    */
-  @Override
+  @java.lang.Override
   public com.google.protobuf.ByteString getResponse() {
     return response_;
   }
 
   private byte memoizedIsInitialized = -1;
-  @Override
+  @java.lang.Override
   public final boolean isInitialized() {
     byte isInitialized = memoizedIsInitialized;
     if (isInitialized == 1) return true;
@@ -112,7 +112,7 @@ private static final long serialVersionUID = 0L;
     return true;
   }
 
-  @Override
+  @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
     if (!response_.isEmpty()) {
@@ -121,7 +121,7 @@ private static final long serialVersionUID = 0L;
     unknownFields.writeTo(output);
   }
 
-  @Override
+  @java.lang.Override
   public int getSerializedSize() {
     int size = memoizedSize;
     if (size != -1) return size;
@@ -136,15 +136,15 @@ private static final long serialVersionUID = 0L;
     return size;
   }
 
-  @Override
-  public boolean equals(final Object obj) {
+  @java.lang.Override
+  public boolean equals(final java.lang.Object obj) {
     if (obj == this) {
      return true;
     }
-    if (!(obj instanceof CommonResponse)) {
+    if (!(obj instanceof org.springrain.rpc.grpcauto.CommonResponse)) {
       return super.equals(obj);
     }
-    CommonResponse other = (CommonResponse) obj;
+    org.springrain.rpc.grpcauto.CommonResponse other = (org.springrain.rpc.grpcauto.CommonResponse) obj;
 
     if (!getResponse()
         .equals(other.getResponse())) return false;
@@ -152,7 +152,7 @@ private static final long serialVersionUID = 0L;
     return true;
   }
 
-  @Override
+  @java.lang.Override
   public int hashCode() {
     if (memoizedHashCode != 0) {
       return memoizedHashCode;
@@ -166,69 +166,69 @@ private static final long serialVersionUID = 0L;
     return hash;
   }
 
-  public static CommonResponse parseFrom(
+  public static org.springrain.rpc.grpcauto.CommonResponse parseFrom(
       java.nio.ByteBuffer data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static CommonResponse parseFrom(
+  public static org.springrain.rpc.grpcauto.CommonResponse parseFrom(
       java.nio.ByteBuffer data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static CommonResponse parseFrom(
+  public static org.springrain.rpc.grpcauto.CommonResponse parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static CommonResponse parseFrom(
+  public static org.springrain.rpc.grpcauto.CommonResponse parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static CommonResponse parseFrom(byte[] data)
+  public static org.springrain.rpc.grpcauto.CommonResponse parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static CommonResponse parseFrom(
+  public static org.springrain.rpc.grpcauto.CommonResponse parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static CommonResponse parseFrom(java.io.InputStream input)
+  public static org.springrain.rpc.grpcauto.CommonResponse parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static CommonResponse parseFrom(
+  public static org.springrain.rpc.grpcauto.CommonResponse parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
-  public static CommonResponse parseDelimitedFrom(java.io.InputStream input)
+  public static org.springrain.rpc.grpcauto.CommonResponse parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
-  public static CommonResponse parseDelimitedFrom(
+  public static org.springrain.rpc.grpcauto.CommonResponse parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-  public static CommonResponse parseFrom(
+  public static org.springrain.rpc.grpcauto.CommonResponse parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static CommonResponse parseFrom(
+  public static org.springrain.rpc.grpcauto.CommonResponse parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -236,23 +236,23 @@ private static final long serialVersionUID = 0L;
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
-  @Override
+  @java.lang.Override
   public Builder newBuilderForType() { return newBuilder(); }
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(CommonResponse prototype) {
+  public static Builder newBuilder(org.springrain.rpc.grpcauto.CommonResponse prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
-  @Override
+  @java.lang.Override
   public Builder toBuilder() {
     return this == DEFAULT_INSTANCE
         ? new Builder() : new Builder().mergeFrom(this);
   }
 
-  @Override
+  @java.lang.Override
   protected Builder newBuilderForType(
-      BuilderParent parent) {
+      com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
     Builder builder = new Builder(parent);
     return builder;
   }
@@ -266,18 +266,18 @@ private static final long serialVersionUID = 0L;
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
       // @@protoc_insertion_point(builder_implements:CommonResponse)
-      CommonResponseOrBuilder {
+      org.springrain.rpc.grpcauto.CommonResponseOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return GrpcAutoCreateService.internal_static_CommonResponse_descriptor;
+      return org.springrain.rpc.grpcauto.GrpcAutoCreateService.internal_static_CommonResponse_descriptor;
     }
 
-    @Override
-    protected FieldAccessorTable
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return GrpcAutoCreateService.internal_static_CommonResponse_fieldAccessorTable
+      return org.springrain.rpc.grpcauto.GrpcAutoCreateService.internal_static_CommonResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              CommonResponse.class, Builder.class);
+              org.springrain.rpc.grpcauto.CommonResponse.class, org.springrain.rpc.grpcauto.CommonResponse.Builder.class);
     }
 
     // Construct using org.springrain.rpc.grpcauto.CommonResponse.newBuilder()
@@ -286,7 +286,7 @@ private static final long serialVersionUID = 0L;
     }
 
     private Builder(
-        BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       super(parent);
       maybeForceBuilderInitialization();
     }
@@ -295,7 +295,7 @@ private static final long serialVersionUID = 0L;
               .alwaysUseFieldBuilders) {
       }
     }
-    @Override
+    @java.lang.Override
     public Builder clear() {
       super.clear();
       response_ = com.google.protobuf.ByteString.EMPTY;
@@ -303,78 +303,78 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    @Override
+    @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return GrpcAutoCreateService.internal_static_CommonResponse_descriptor;
+      return org.springrain.rpc.grpcauto.GrpcAutoCreateService.internal_static_CommonResponse_descriptor;
     }
 
-    @Override
-    public CommonResponse getDefaultInstanceForType() {
-      return CommonResponse.getDefaultInstance();
+    @java.lang.Override
+    public org.springrain.rpc.grpcauto.CommonResponse getDefaultInstanceForType() {
+      return org.springrain.rpc.grpcauto.CommonResponse.getDefaultInstance();
     }
 
-    @Override
-    public CommonResponse build() {
-      CommonResponse result = buildPartial();
+    @java.lang.Override
+    public org.springrain.rpc.grpcauto.CommonResponse build() {
+      org.springrain.rpc.grpcauto.CommonResponse result = buildPartial();
       if (!result.isInitialized()) {
         throw newUninitializedMessageException(result);
       }
       return result;
     }
 
-    @Override
-    public CommonResponse buildPartial() {
-      CommonResponse result = new CommonResponse(this);
+    @java.lang.Override
+    public org.springrain.rpc.grpcauto.CommonResponse buildPartial() {
+      org.springrain.rpc.grpcauto.CommonResponse result = new org.springrain.rpc.grpcauto.CommonResponse(this);
       result.response_ = response_;
       onBuilt();
       return result;
     }
 
-    @Override
+    @java.lang.Override
     public Builder clone() {
       return super.clone();
     }
-    @Override
+    @java.lang.Override
     public Builder setField(
         com.google.protobuf.Descriptors.FieldDescriptor field,
-        Object value) {
+        java.lang.Object value) {
       return super.setField(field, value);
     }
-    @Override
+    @java.lang.Override
     public Builder clearField(
         com.google.protobuf.Descriptors.FieldDescriptor field) {
       return super.clearField(field);
     }
-    @Override
+    @java.lang.Override
     public Builder clearOneof(
         com.google.protobuf.Descriptors.OneofDescriptor oneof) {
       return super.clearOneof(oneof);
     }
-    @Override
+    @java.lang.Override
     public Builder setRepeatedField(
         com.google.protobuf.Descriptors.FieldDescriptor field,
-        int index, Object value) {
+        int index, java.lang.Object value) {
       return super.setRepeatedField(field, index, value);
     }
-    @Override
+    @java.lang.Override
     public Builder addRepeatedField(
         com.google.protobuf.Descriptors.FieldDescriptor field,
-        Object value) {
+        java.lang.Object value) {
       return super.addRepeatedField(field, value);
     }
-    @Override
+    @java.lang.Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof CommonResponse) {
-        return mergeFrom((CommonResponse)other);
+      if (other instanceof org.springrain.rpc.grpcauto.CommonResponse) {
+        return mergeFrom((org.springrain.rpc.grpcauto.CommonResponse)other);
       } else {
         super.mergeFrom(other);
         return this;
       }
     }
 
-    public Builder mergeFrom(CommonResponse other) {
-      if (other == CommonResponse.getDefaultInstance()) return this;
+    public Builder mergeFrom(org.springrain.rpc.grpcauto.CommonResponse other) {
+      if (other == org.springrain.rpc.grpcauto.CommonResponse.getDefaultInstance()) return this;
       if (other.getResponse() != com.google.protobuf.ByteString.EMPTY) {
         setResponse(other.getResponse());
       }
@@ -383,21 +383,21 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    @Override
+    @java.lang.Override
     public final boolean isInitialized() {
       return true;
     }
 
-    @Override
+    @java.lang.Override
     public Builder mergeFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      CommonResponse parsedMessage = null;
+      org.springrain.rpc.grpcauto.CommonResponse parsedMessage = null;
       try {
         parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        parsedMessage = (CommonResponse) e.getUnfinishedMessage();
+        parsedMessage = (org.springrain.rpc.grpcauto.CommonResponse) e.getUnfinishedMessage();
         throw e.unwrapIOException();
       } finally {
         if (parsedMessage != null) {
@@ -412,7 +412,7 @@ private static final long serialVersionUID = 0L;
      * <code>bytes response = 1;</code>
      * @return The response.
      */
-    @Override
+    @java.lang.Override
     public com.google.protobuf.ByteString getResponse() {
       return response_;
     }
@@ -440,13 +440,13 @@ private static final long serialVersionUID = 0L;
       onChanged();
       return this;
     }
-    @Override
+    @java.lang.Override
     public final Builder setUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {
       return super.setUnknownFields(unknownFields);
     }
 
-    @Override
+    @java.lang.Override
     public final Builder mergeUnknownFields(
         final com.google.protobuf.UnknownFieldSet unknownFields) {
       return super.mergeUnknownFields(unknownFields);
@@ -457,18 +457,18 @@ private static final long serialVersionUID = 0L;
   }
 
   // @@protoc_insertion_point(class_scope:CommonResponse)
-  private static final CommonResponse DEFAULT_INSTANCE;
+  private static final org.springrain.rpc.grpcauto.CommonResponse DEFAULT_INSTANCE;
   static {
-    DEFAULT_INSTANCE = new CommonResponse();
+    DEFAULT_INSTANCE = new org.springrain.rpc.grpcauto.CommonResponse();
   }
 
-  public static CommonResponse getDefaultInstance() {
+  public static org.springrain.rpc.grpcauto.CommonResponse getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
   private static final com.google.protobuf.Parser<CommonResponse>
       PARSER = new com.google.protobuf.AbstractParser<CommonResponse>() {
-    @Override
+    @java.lang.Override
     public CommonResponse parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -481,13 +481,13 @@ private static final long serialVersionUID = 0L;
     return PARSER;
   }
 
-  @Override
+  @java.lang.Override
   public com.google.protobuf.Parser<CommonResponse> getParserForType() {
     return PARSER;
   }
 
-  @Override
-  public CommonResponse getDefaultInstanceForType() {
+  @java.lang.Override
+  public org.springrain.rpc.grpcauto.CommonResponse getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
 
