@@ -66,7 +66,7 @@ public class RedisCacheConfig {
 
 
     /**
-     * 基于redis的cacheManager,使用redisson客户端
+     * 基于redis的cacheManager,使用spring-data-redis的RedisCacheManager
      *
      * @return
      * @throws IOException
