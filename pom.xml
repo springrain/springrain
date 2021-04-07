@@ -46,8 +46,8 @@
         <javax.persistence.version>2.2.1</javax.persistence.version>
 
         <!-- lucene版本和es的依赖版本最好保持一致,避免冲突 -->
-        <lucene.version>8.7.0</lucene.version>
-        <elasticsearch.client.version>7.11.2</elasticsearch.client.version>
+        <lucene.version>8.8.0</lucene.version>
+        <elasticsearch.client.version>7.12.0</elasticsearch.client.version>
 
         <rocketmq.client.version>4.8.0</rocketmq.client.version>
         <jxl.version>2.6.12</jxl.version>
