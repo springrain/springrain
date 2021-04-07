@@ -76,7 +76,7 @@ public class RedisOperation {
 
 
     public Long getAtomicLong(String name) {
-        Long increment = redisTemplate.opsForValue().increment(name, 0);
+        Long increment = redisTemplate.opsForValue().increment(name);
         return increment;
 
 
