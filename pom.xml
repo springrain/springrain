@@ -69,9 +69,14 @@
 
         <jwt.version>3.13.0</jwt.version>
 
+        <!--
         <redisson.version>3.15.3</redisson.version>
+        -->
         <!--3.x版本依赖jdk 14 -->
+        <!--
         <fst.version>2.57</fst.version>
+        -->
+
         <bcprov.version>1.67</bcprov.version>
 
         <!-- seata分布式事务 -->
@@ -103,18 +108,24 @@
                 <artifactId>druid-spring-boot-starter</artifactId>
                 <version>${druid-spring-boot-starter.version}</version>
             </dependency>
-            <!-- redis 客户端,强依赖,不可更换为其他redis客户端 -->
+            <!-- redis 客户端,强依赖,不可更换为其他redis客户端.使用默认的spring-boot-starter-data-redis,不再使用redisson -->
+            <!--
             <dependency>
                 <groupId>org.redisson</groupId>
                 <artifactId>redisson</artifactId>
                 <version>${redisson.version}</version>
             </dependency>
+            -->
+
             <!-- java序列化框架fst -->
+            <!--
             <dependency>
                 <groupId>de.ruedigermoeller</groupId>
                 <artifactId>fst</artifactId>
                 <version>${fst.version}</version>
             </dependency>
+            -->
+
 
 
             <!--  jwt  -->
@@ -362,11 +373,12 @@
         <module>springrain-frame-dao</module>
 
         <!-- memory内存类型的缓存,和redis缓存互斥,只能使用一个 -->
-
+        <!-- 如果更换为redis需要注释这个module,解开springrain-frame-cache-redis的module,并在springrain-system-web的pom中依赖修改为 springrain-frame-cache-redis -->
         <module>springrain-frame-cache-memory</module>
 
 
         <!-- redis类型的缓存,和memory内存缓存互斥,只能使用一个 - -->
+        <!-- 如果更换为memory需要注释这个module,解开springrain-frame-cache-memory的module,并在springrain-system-web的pom中依赖修改为 springrain-frame-cache-memory -->
         <!--
         <module>springrain-frame-cache-redis</module>
         -->
