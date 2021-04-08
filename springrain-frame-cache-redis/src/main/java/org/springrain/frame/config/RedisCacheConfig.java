@@ -24,13 +24,11 @@ import java.time.Duration;
 public class RedisCacheConfig {
 
     @Resource
-    RedisConnectionFactory factory;
+    private RedisConnectionFactory factory;
 
     // 实际使用的redisTemplate,可以直接注入到代码中,直接操作redis
     @Bean("redisTemplate")
     public RedisTemplate<String, Object> redisTemplate() {
-
-
 
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         //连接工厂
@@ -93,6 +91,8 @@ public class RedisCacheConfig {
         //Jackson2JsonRedisSerializer<Object> jacksonSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
         //设置解析器
        // jacksonSerializer.setObjectMapper(new FrameObjectMapper());
+
+        // fst 序列化
         FstSerializer fstSerializer =  new FstSerializer();
         //默认配置
         RedisCacheConfiguration defaultCacheConfig = RedisCacheConfiguration.defaultCacheConfig();
