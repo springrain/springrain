@@ -1,8 +1,5 @@
 package org.springrain.frame.config;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,11 +7,9 @@ import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
-import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-import org.springrain.frame.util.FrameObjectMapper;
+import org.springrain.frame.util.FstSerializer;
 
 import javax.annotation.Resource;
 import java.io.IOException;
@@ -42,13 +37,20 @@ public class RedisCacheConfig {
         redisTemplate.setConnectionFactory(factory);
 
         // 序列化配置 解析任意对象
-        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
+        FstSerializer fstSerializer =  new FstSerializer();
+       // Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
         // json序列化利用ObjectMapper进行转义
-        jackson2JsonRedisSerializer.setObjectMapper(new FrameObjectMapper());
+       // jackson2JsonRedisSerializer.setObjectMapper(new FrameObjectMapper());
         // value序列化方式采用jackson
-        redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
+        //redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
         // hash的value序列化方式采用jackson
-        redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer);
+        //redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer);
+
+
+        // value序列化方式采用fstSerializer
+        redisTemplate.setValueSerializer(fstSerializer);
+        // hash的value序列化方式采用fstSerializer
+        redisTemplate.setHashValueSerializer(fstSerializer);
 
         // 2.序列化String类型
         StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
@@ -88,11 +90,10 @@ public class RedisCacheConfig {
      * @return
      */
     private RedisCacheConfiguration defaultCacheConfig(long millis) {
-        Jackson2JsonRedisSerializer<Object> serializer = new Jackson2JsonRedisSerializer<>(Object.class);
-
+        //Jackson2JsonRedisSerializer<Object> jacksonSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
         //设置解析器
-        serializer.setObjectMapper(new FrameObjectMapper());
-
+       // jacksonSerializer.setObjectMapper(new FrameObjectMapper());
+        FstSerializer fstSerializer =  new FstSerializer();
         //默认配置
         RedisCacheConfiguration defaultCacheConfig = RedisCacheConfiguration.defaultCacheConfig();
 
@@ -102,7 +103,7 @@ public class RedisCacheConfig {
         }
         //设置序列化方式
         defaultCacheConfig.serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
-                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(serializer))
+                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(fstSerializer))
                 .disableCachingNullValues();
         return defaultCacheConfig;
     }
