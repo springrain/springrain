@@ -10,9 +10,10 @@ import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 基于 Redisson的 redis操作,包含lock和queue
+ * 基于 Redisson的 redis操作,包含lock和自增,基于stream的mq <br>
+ * 要求:redis 5.0+ ,springBoot 2.3+
  *
- * @author caomei
+ * @author springrain
  */
 
 @Component("redisOperation")
@@ -90,7 +91,5 @@ public class RedisOperation {
         return increment;
 
     }
-
-
 
 }

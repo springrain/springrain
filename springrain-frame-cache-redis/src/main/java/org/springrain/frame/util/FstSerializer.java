@@ -6,6 +6,7 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 /**
  * Description: Fst 序列化.<br>
  *
+ * @author springrain
  */
 public class FstSerializer implements RedisSerializer<Object> {
 

@@ -18,7 +18,7 @@ import java.time.Duration;
 /**
  * 缓存的配置,自定义 cacheManager 用于实现替换.
  *
- * @author caomei
+ * @author springrain
  */
 @Configuration("configuration-RedisCacheConfig")
 public class RedisCacheConfig {
@@ -26,23 +26,26 @@ public class RedisCacheConfig {
     @Resource
     private RedisConnectionFactory factory;
 
-    // 实际使用的redisTemplate,可以直接注入到代码中,直接操作redis
+    /**
+     * 实际使用的redisTemplate,可以注入到代码中,操作redis
+     * @return
+     */
     @Bean("redisTemplate")
     public RedisTemplate<String, Object> redisTemplate() {
 
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
-        //连接工厂
+        // 连接工厂
         redisTemplate.setConnectionFactory(factory);
 
         // 序列化配置 解析任意对象
         FstSerializer fstSerializer =  new FstSerializer();
-       // Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
+        // Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
         // json序列化利用ObjectMapper进行转义
-       // jackson2JsonRedisSerializer.setObjectMapper(new FrameObjectMapper());
+        // jackson2JsonRedisSerializer.setObjectMapper(new FrameObjectMapper());
         // value序列化方式采用jackson
-        //redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
+        // redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
         // hash的value序列化方式采用jackson
-        //redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer);
+        // redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer);
 
 
         // value序列化方式采用fstSerializer
@@ -56,11 +59,11 @@ public class RedisCacheConfig {
         redisTemplate.setKeySerializer(stringRedisSerializer);
         // hash的key也采用String的序列化方式
         redisTemplate.setHashKeySerializer(stringRedisSerializer);
+
+
         redisTemplate.afterPropertiesSet();
 
         return redisTemplate;
-
-
     }
 
 
@@ -68,8 +71,7 @@ public class RedisCacheConfig {
     /**
      * 基于redis的cacheManager,使用spring-data-redis的RedisCacheManager
      *
-     * @return
-     * @throws IOException
+     * @return CacheManager 缓存管理器
      */
 
     @Bean("cacheManager")
@@ -85,7 +87,7 @@ public class RedisCacheConfig {
     /**
      * 默认的配置
      * @param millis 默认的超时时间,单位毫秒
-     * @return
+     * @return RedisCacheConfiguration 默认的配置
      */
     private RedisCacheConfiguration defaultCacheConfig(long millis) {
         //Jackson2JsonRedisSerializer<Object> jacksonSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
