@@ -13,7 +13,7 @@
     </parent>
     <artifactId>springrain-alipay-sdk</artifactId>
     <packaging>jar</packaging>
-    <url>http://www.weicms.net</url>
+    <url>https://www.jiagou.com</url>
     <description>支付宝支付SDK</description>
     <properties>
         <alipay.sdk.java.version>4.8.10.ALL</alipay.sdk.java.version>

@@ -10,7 +10,7 @@
     </parent>
     <artifactId>springrain-system-web</artifactId>
     <name>springrain-system-web</name>
-    <url>http://www.weicms.net</url>
+    <url>https://www.jiagou.com</url>
     <packaging>jar</packaging>
     <description>系统管理的web端</description>
 

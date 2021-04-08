@@ -11,7 +11,7 @@
     </parent>
     <artifactId>springrain-frame-cache-redis</artifactId>
     <packaging>jar</packaging>
-    <url>http://www.weicms.net</url>
+    <url>https://www.jiagou.com</url>
     <description>redis类型的缓存,和memory内存缓存互斥,只能使用一个</description>
 
 

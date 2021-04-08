@@ -11,7 +11,7 @@
     </parent>
     <artifactId>springrain-weixin-sdk</artifactId>
     <packaging>jar</packaging>
-    <url>http://www.weicms.net</url>
+    <url>https://www.jiagou.com</url>
     <description>微信的SDK模块</description>
 
 

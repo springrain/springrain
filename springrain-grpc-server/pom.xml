@@ -8,7 +8,7 @@
     </parent>
     <artifactId>springrain-grpc-server</artifactId>
     <packaging>jar</packaging>
-    <url>http://www.weicms.net</url>
+    <url>https://www.jiagou.com</url>
     <description>grpc的服务端模块</description>
 
 

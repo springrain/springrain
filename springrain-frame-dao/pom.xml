@@ -9,7 +9,7 @@
     </parent>
     <artifactId>springrain-frame-dao</artifactId>
     <packaging>jar</packaging>
-    <url>http://www.weicms.net</url>
+    <url>https://www.jiagou.com</url>
     <description>frame的dao层的操作</description>
 
 
