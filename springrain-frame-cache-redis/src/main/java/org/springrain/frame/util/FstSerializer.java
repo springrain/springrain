@@ -6,8 +6,6 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 /**
  * Description: Fst 序列化.<br>
  *
- * @author m-xy
- *     Created By 2019/8/20 下午3:36
  */
 public class FstSerializer implements RedisSerializer<Object> {
 
