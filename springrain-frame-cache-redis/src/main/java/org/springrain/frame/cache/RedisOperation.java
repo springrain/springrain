@@ -22,30 +22,21 @@ public class RedisOperation {
     @Resource
     private RedisTemplate redisTemplate;
 
-    //远程Service默认的工作并发
-    private int remoteServiceWorkersAmount = 1000;
-
-    private int queueCapacity = 1000;
-
-    //是否接收队列,默认是true,如果是false就不再接受消息,用于tomcat重启之前,保证tomcat不再接受队列
-    private boolean receiveQueue = false;
-
 
     /**
      * 根据Key 和超时时间加锁
      *
-     * @param key
-     * @param expire
+     * @param key         锁的key
+     * @param expireMilli 超时时间毫秒数
      * @return
      */
-    public boolean lock(String key, long expire) {
+    public boolean lock(String key, long expireMilli) {
         if (StringUtils.isBlank(key)) {
             return false;
         }
 
         try {
-
-            Boolean lock = redisTemplate.opsForValue().setIfAbsent(key, System.currentTimeMillis()+expire, expire, TimeUnit.MILLISECONDS);
+            Boolean lock = redisTemplate.opsForValue().setIfAbsent(key, System.currentTimeMillis() + expireMilli, expireMilli, TimeUnit.MILLISECONDS);
             return lock;
         } catch (Exception e) {
             logger.error("locking error", e);
@@ -58,7 +49,7 @@ public class RedisOperation {
     /**
      * 根据Key解锁
      *
-     * @param key
+     * @param key 锁的key
      */
     public boolean unlock(String key) {
 
@@ -76,14 +67,24 @@ public class RedisOperation {
     }
 
 
-
+    /**
+     * 原子自增
+     *
+     * @param name 自增的名称
+     * @return
+     */
     public Long getAtomicLong(String name) {
         Long increment = redisTemplate.opsForValue().increment(name);
         return increment;
-
-
     }
 
+    /**
+     * 原子自增
+     *
+     * @param name      自增的名称
+     * @param initValue 自增的初始值
+     * @return
+     */
     public Long getAtomicLong(String name, Long initValue) {
         Long increment = redisTemplate.opsForValue().increment(name, initValue);
         return increment;
