@@ -169,7 +169,7 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
 			if(queryBean.getStatus() != null) {
 				// 按状态查询
 				finder.append(" AND status=:status")
-					.setParam("status", "%" + queryBean.getStatus() + "%");
+					.setParam("status", queryBean.getStatus());
 			}
 
 			if(page.getBeginTime()!=null && page.getEndTime()!=null) {
