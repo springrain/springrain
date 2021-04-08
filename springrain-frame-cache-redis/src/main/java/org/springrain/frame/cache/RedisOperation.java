@@ -45,7 +45,7 @@ public class RedisOperation {
 
         try {
 
-            Boolean lock = redisTemplate.opsForValue().setIfAbsent(key, System.currentTimeMillis(), expire, TimeUnit.MILLISECONDS);
+            Boolean lock = redisTemplate.opsForValue().setIfAbsent(key, System.currentTimeMillis()+expire, expire, TimeUnit.MILLISECONDS);
             return lock;
         } catch (Exception e) {
             logger.error("locking error", e);
@@ -60,16 +60,18 @@ public class RedisOperation {
      *
      * @param key
      */
-    public void unlock(String key) {
+    public boolean unlock(String key) {
 
         if (StringUtils.isBlank(key)) {
-            return;
+            return false;
         }
         try {
             redisTemplate.delete(key);
+            return true;
 
         } catch (Throwable e) {
             logger.error("unlock error", e);
+            return false;
         }
     }
 
