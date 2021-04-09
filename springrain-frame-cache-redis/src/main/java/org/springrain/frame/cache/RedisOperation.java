@@ -126,6 +126,20 @@ public class RedisOperation {
     }
 
     /**
+     * 生产者消息队列发送消息
+     * @param queueName
+     * @param message
+     * @return
+     */
+    public  String  sendProducerMessage(String queueName,Object message){
+        ObjectRecord record = Record.of(message).withStreamKey(queueName);
+        RecordId recordId = redisTemplate.opsForStream().add(record);
+        return  recordId.getValue();
+    }
+
+
+
+    /**
      * 在初始化容器时,如果key对应的stream或者group不存在时会抛出异常,所以我们需要提前检查并且初始化.
      * @param ops
      * @param channel
