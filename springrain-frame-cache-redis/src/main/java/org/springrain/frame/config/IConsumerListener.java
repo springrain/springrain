@@ -31,7 +31,7 @@ public interface IConsumerListener<T> extends StreamListener<String, ObjectRecor
      String getConsumerName();
 
     /**
-     * group的名称,如果为空,默认是 getTopicName()+"_defaultGroupName"
+     * group的名称,如果为空,默认是 getQueueName()+"_defaultGroupName"
      * @return
      */
     default String getGroupName(){
