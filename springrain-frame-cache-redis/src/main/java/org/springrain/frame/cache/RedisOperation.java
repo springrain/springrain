@@ -142,26 +142,23 @@ public class RedisOperation {
     /**
      * 在初始化容器时,如果key对应的stream或者group不存在时会抛出异常,所以我们需要提前检查并且初始化.
      * @param ops
-     * @param channel
+     * @param queueName
      * @param group
      */
-    private void prepareChannelAndGroup(StreamOperations<String, ?, ?> ops, String channel, String group) {
+    private void prepareChannelAndGroup(StreamOperations<String, ?, ?> ops, String queueName, String group) {
         String status = "OK";
         try {
-            StreamInfo.XInfoGroups groups = ops.groups(channel);
+            StreamInfo.XInfoGroups groups = ops.groups(queueName);
             if (groups.stream().noneMatch(xInfoGroup -> group.equals(xInfoGroup.groupName()))) {
-                status = ops.createGroup(channel, group);
+                status = ops.createGroup(queueName, group);
             }
         } catch (Exception exception) {
-            RecordId initialRecord = ops.add(ObjectRecord.create(channel, "Initial Record"));
-            Assert.notNull(initialRecord, "Cannot initialize stream with key '" + channel + "'");
-            status = ops.createGroup(channel, ReadOffset.from(initialRecord), group);
+            RecordId initialRecord = ops.add(ObjectRecord.create(queueName, "Initial Record"));
+            Assert.notNull(initialRecord, "Cannot initialize stream with key '" + queueName + "'");
+            status = ops.createGroup(queueName, ReadOffset.from(initialRecord), group);
         } finally {
             Assert.isTrue("OK".equals(status), "Cannot create group with name '" + group + "'");
         }
     }
-
-
-
 
 }
