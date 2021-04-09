@@ -2,7 +2,10 @@ package org.springrain.frame.config;
 
 import org.springframework.data.redis.connection.stream.ObjectRecord;
 import org.springframework.data.redis.stream.StreamListener;
+import org.springrain.frame.cache.RedisOperation;
+import org.springrain.frame.util.SpringUtils;
 
+import javax.annotation.PostConstruct;
 import java.util.concurrent.Executor;
 
 /**
@@ -10,6 +13,7 @@ import java.util.concurrent.Executor;
  * @param <T>
  */
 public interface IConsumerListener<T> extends StreamListener<String, ObjectRecord<String, T>>  {
+
 
 
     /**
@@ -22,7 +26,9 @@ public interface IConsumerListener<T> extends StreamListener<String, ObjectRecor
      * 批量消费的数量
      * @return
      */
-     int getBatchSize();
+    default int getBatchSize() {
+        return 100;
+    };
 
     /**
      * 消费者的名称
@@ -46,6 +52,12 @@ public interface IConsumerListener<T> extends StreamListener<String, ObjectRecor
 
 
 
+    @PostConstruct
+    default void registerConsumerListener(){
+        RedisOperation redisOperation= (RedisOperation) SpringUtils.getBean("redisOperation");
+        redisOperation.receiveAutoAckConsumerListener(this);
+
+    }
 
 
 
