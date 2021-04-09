@@ -3,10 +3,18 @@ package org.springrain.frame.cache;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.stream.*;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StreamOperations;
+import org.springframework.data.redis.stream.StreamMessageListenerContainer;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
+import org.springrain.frame.config.IConsumerListener;
+import org.springrain.frame.util.ClassUtils;
 
 import javax.annotation.Resource;
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -19,6 +27,8 @@ import java.util.concurrent.TimeUnit;
 @Component("redisOperation")
 public class RedisOperation {
     private Logger logger = LoggerFactory.getLogger(getClass());
+    @Resource
+    private RedisConnectionFactory redisConnectionFactory;
 
     @Resource
     private RedisTemplate redisTemplate;
@@ -91,5 +101,53 @@ public class RedisOperation {
         return increment;
 
     }
+
+
+    /**
+     * 注册自动ACK的消费者监听器
+     *
+     * @param redisStreamConsumerListener
+     * @param <T>
+     */
+    public <T> void receiveAutoAckConsumerListener(IConsumerListener<T> redisStreamConsumerListener){
+
+        StreamMessageListenerContainer.StreamMessageListenerContainerOptions<String, ObjectRecord<String, T>> options =
+                StreamMessageListenerContainer.StreamMessageListenerContainerOptions.builder()
+                        .batchSize(redisStreamConsumerListener.getBatchSize()) //一批次拉取的最大count数
+                        .executor(redisStreamConsumerListener.getExecutor())  //线程池
+                        .pollTimeout(Duration.ZERO) //阻塞式轮询
+                        .targetType(ClassUtils.getActualTypeArgument(redisStreamConsumerListener.getClass())) //目标类型(消息内容的类型)
+                        .build();
+        StreamMessageListenerContainer<String, ObjectRecord<String, T>> container = StreamMessageListenerContainer.create(redisConnectionFactory, options);
+        prepareChannelAndGroup(redisTemplate.opsForStream(), redisStreamConsumerListener.getQueueName(), redisStreamConsumerListener.getGroupName());
+        container.receiveAutoAck(Consumer.from(redisStreamConsumerListener.getGroupName(), redisStreamConsumerListener.getConsumerName()), StreamOffset.create(redisStreamConsumerListener.getQueueName(), ReadOffset.lastConsumed()), redisStreamConsumerListener);
+        container.start();
+
+    }
+
+    /**
+     * 在初始化容器时,如果key对应的stream或者group不存在时会抛出异常,所以我们需要提前检查并且初始化.
+     * @param ops
+     * @param channel
+     * @param group
+     */
+    private void prepareChannelAndGroup(StreamOperations<String, ?, ?> ops, String channel, String group) {
+        String status = "OK";
+        try {
+            StreamInfo.XInfoGroups groups = ops.groups(channel);
+            if (groups.stream().noneMatch(xInfoGroup -> group.equals(xInfoGroup.groupName()))) {
+                status = ops.createGroup(channel, group);
+            }
+        } catch (Exception exception) {
+            RecordId initialRecord = ops.add(ObjectRecord.create(channel, "Initial Record"));
+            Assert.notNull(initialRecord, "Cannot initialize stream with key '" + channel + "'");
+            status = ops.createGroup(channel, ReadOffset.from(initialRecord), group);
+        } finally {
+            Assert.isTrue("OK".equals(status), "Cannot create group with name '" + group + "'");
+        }
+    }
+
+
+
 
 }

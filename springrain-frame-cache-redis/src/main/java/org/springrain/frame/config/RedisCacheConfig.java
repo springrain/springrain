@@ -6,13 +6,16 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.stream.*;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StreamOperations;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.data.redis.stream.StreamMessageListenerContainer;
+import org.springframework.util.Assert;
 import org.springrain.frame.util.FstSerializer;
 
 import javax.annotation.Resource;
-import java.io.IOException;
 import java.time.Duration;
 
 /**
@@ -24,7 +27,7 @@ import java.time.Duration;
 public class RedisCacheConfig {
 
     @Resource
-    private RedisConnectionFactory factory;
+    private RedisConnectionFactory redisConnectionFactory;
 
     /**
      * 实际使用的redisTemplate,可以注入到代码中,操作redis
@@ -35,7 +38,7 @@ public class RedisCacheConfig {
 
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         // 连接工厂
-        redisTemplate.setConnectionFactory(factory);
+        redisTemplate.setConnectionFactory(redisConnectionFactory);
 
         // 序列化配置 解析任意对象
         FstSerializer fstSerializer =  new FstSerializer();
@@ -77,7 +80,7 @@ public class RedisCacheConfig {
     @Bean("cacheManager")
     public CacheManager cacheManager() {
         RedisCacheManager redisCacheManager =
-                RedisCacheManager.builder(factory)
+                RedisCacheManager.builder(redisConnectionFactory)
                         .cacheDefaults(defaultCacheConfig(-1))
                         .transactionAware()
                         .build();
@@ -109,7 +112,6 @@ public class RedisCacheConfig {
                 .disableCachingNullValues();
         return defaultCacheConfig;
     }
-
 
 
 

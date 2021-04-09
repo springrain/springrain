@@ -16,9 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import java.beans.PropertyDescriptor;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.lang.reflect.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.*;
@@ -32,7 +30,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * @see org.springrain.frame.util.ClassUtils
  */
 
-public class ClassUtils {
+public class
+ClassUtils {
 
     private static final Logger logger = LoggerFactory.getLogger(ClassUtils.class);
     // 缓存 entity的字段信息
@@ -649,4 +648,25 @@ public class ClassUtils {
         }
 
     }
+
+    /**
+     * 获取类的泛型实际类型
+     * @return
+     */
+    public static Class getActualTypeArgument(Class clazz){
+        //获取子类所属接口的参数化类型,cn.xxx.xxx.BasicAction<cn.xxx.xxx.Standard>
+        Type type = clazz.getGenericSuperclass();
+        //因为type是顶级接口没有定义任何方法，所以需要强转为子接口ParameterizedType
+        ParameterizedType parameterizedType = (ParameterizedType) type;
+
+        //通过子接口定义的getActualTypeArguments方法获取到实际参数类型,<cn.xxx.xxx.Standard>
+        //返回参数为数组，因为Java中接口可以多实现
+        Type[] types = parameterizedType.getActualTypeArguments();
+        //获取数组中的实际参数类型
+        return (Class) types[0];
+
+}
+
+
+
 }
