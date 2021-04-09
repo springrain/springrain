@@ -114,7 +114,7 @@ public class RedisOperation {
         StreamMessageListenerContainer.StreamMessageListenerContainerOptions<String, ObjectRecord<String, T>> options =
                 StreamMessageListenerContainer.StreamMessageListenerContainerOptions.builder()
                         .batchSize(redisStreamConsumerListener.getBatchSize()) //一批次拉取的最大count数
-                        .executor(redisStreamConsumerListener.getExecutor())  //线程池
+                        //.executor(redisStreamConsumerListener.getExecutor())  //线程池
                         .pollTimeout(Duration.ZERO) //阻塞式轮询
                         .targetType(ClassUtils.getActualTypeArgument(redisStreamConsumerListener.getClass())) //目标类型(消息内容的类型)
                         .build();
