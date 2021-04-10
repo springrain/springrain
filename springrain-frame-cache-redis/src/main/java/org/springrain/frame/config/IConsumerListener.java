@@ -48,7 +48,9 @@ public interface IConsumerListener<T> extends StreamListener<String, ObjectRecor
      * 指定监听器的线程池
      * @return
      */
-    Executor getExecutor();
+    default Executor getExecutor(){
+        return null;
+    }
 
 
 
