@@ -10,7 +10,7 @@ import java.util.concurrent.Executor;
 
 /**
  * 消费者的监听器
- * @param <T>
+ * @param <T> 需要接收数据的对象,例如 User
  */
 public interface IConsumerListener<T> extends StreamListener<String, ObjectRecord<String, T>>  {
 
