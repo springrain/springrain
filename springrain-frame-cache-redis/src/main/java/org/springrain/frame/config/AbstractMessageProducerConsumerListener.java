@@ -1,6 +1,8 @@
 package org.springrain.frame.config;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.stream.*;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -30,7 +32,7 @@ import java.util.concurrent.TimeUnit;
  * @param <T> 需要放入队列的对象
  */
 public abstract class AbstractMessageProducerConsumerListener<T> implements StreamListener<String, ObjectRecord<String, T>>, Closeable {
-
+    private Logger logger = LoggerFactory.getLogger(getClass());
     //默认的线程池
     private static final Executor excutor = new ThreadPoolExecutor(1000, 1000,
             10L, TimeUnit.SECONDS,
@@ -140,6 +142,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
         // $表示从最新一条开始但并不是指当前Stream的最后一条记录,是表示下一个xadd添加的那一条记录,所以说$在非消费者组模式的阻塞读取下才有意义!
 
 
+        // 消费者
         Consumer consumer = Consumer.from(getGroupName(), getConsumerName());
 
         // 需要手动回复应答 ACK
@@ -243,10 +246,15 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
         String queueName = message.getStream();
         T value = message.getValue();
 
-        boolean ok = onMessage(value, queueName, messageId, messageTime);
-        if (ok) {
-            return recordId;
-        } else {
+        try {
+            boolean ok = onMessage(value, queueName, messageId, messageTime);
+            if (ok) {
+                return recordId;
+            } else {
+                return null;
+            }
+        }catch (Exception e){
+            logger.error(e.getMessage(),e);
             return null;
         }
     }
