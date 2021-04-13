@@ -4,6 +4,7 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.stream.*;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StreamOperations;
+import org.springframework.data.redis.hash.ObjectHashMapper;
 import org.springframework.data.redis.stream.StreamListener;
 import org.springframework.data.redis.stream.StreamMessageListenerContainer;
 import org.springframework.util.Assert;
@@ -74,8 +75,16 @@ public abstract class ObjectRecordConsumerListener<T> implements StreamListener<
                         .batchSize(getBatchSize()) //一批次拉取的最大count数
                         //.executor(getExecutor())  //线程池
                         .pollTimeout(Duration.ZERO) //阻塞式轮询
-                        // .objectMapper(ObjectHashMapper.getSharedInstance())
-                        .targetType(t) //目标类型(消息内容的类型)
+                        //设置默认的序列化器,要和 redisTemplate 保持一致!!!!!!!!!!!!!!!!!!!!!
+                        //默认 targetType 会设置序列化器是  RedisSerializer.byteArray,这里手动初始化objectMapper,并设置序列化器.
+                        .objectMapper(ObjectHashMapper.getSharedInstance())
+                        .keySerializer(RedisCacheConfig.stringRedisSerializer)
+                        .hashKeySerializer(RedisCacheConfig.stringRedisSerializer)
+                        .hashValueSerializer(RedisCacheConfig.fstSerializer)
+                        //.serializer(RedisCacheConfig.fstSerializer)
+
+
+                        .targetType(t) //目标类型(消息内容的类型),如果objectMapper为空,会设置默认的ObjectHashMapper
                         .build();
         StreamMessageListenerContainer<String, ObjectRecord<String, T>> container = StreamMessageListenerContainer.create(redisConnectionFactory, options);
         prepareChannelAndGroup(redisTemplate.opsForStream(), getQueueName(), getGroupName());
