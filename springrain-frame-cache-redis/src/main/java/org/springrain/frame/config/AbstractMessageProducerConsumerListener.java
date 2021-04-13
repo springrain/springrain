@@ -16,8 +16,19 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.concurrent.Executor;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public abstract class AbstractMessageProducerConsumerListener<T> implements StreamListener<String, ObjectRecord<String, T>>, Closeable {
+
+    //默认的线程池
+    private static final Executor excutor = new ThreadPoolExecutor(1000, 1000,
+            10L, TimeUnit.SECONDS,
+            //使用一个基于FIFO排序的阻塞队列，在所有corePoolSize线程都忙时新任务将在队列中等待
+            new LinkedBlockingQueue<Runnable>());
+
+
     @Resource
     private RedisConnectionFactory redisConnectionFactory;
 
@@ -65,7 +76,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
      * @return
      */
     public Executor getExecutor() {
-        return null;
+        return excutor;
     }
 
 
@@ -103,7 +114,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
         StreamMessageListenerContainer.StreamMessageListenerContainerOptions<String, ObjectRecord<String, T>> options =
                 StreamMessageListenerContainer.StreamMessageListenerContainerOptions.builder()
                         .batchSize(getBatchSize()) //一批次拉取的最大count数
-                        //.executor(getExecutor())  //线程池
+                        .executor(getExecutor())  //线程池
                         .pollTimeout(Duration.ZERO) //阻塞式轮询
                         //设置默认的序列化器,要和 redisTemplate 保持一致!!!!!!!!!!!!!!!!!!!!!
                         //默认 targetType 会设置序列化器是  RedisSerializer.byteArray,这里手动初始化objectMapper,并设置序列化器.
