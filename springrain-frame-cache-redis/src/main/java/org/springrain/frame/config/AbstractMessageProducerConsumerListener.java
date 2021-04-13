@@ -143,13 +143,13 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
         try {
             StreamInfo.XInfoGroups groups = ops.groups(queueName);
             if (groups.stream().noneMatch(xInfoGroup -> group.equals(xInfoGroup.groupName()))) {
-                status = ops.createGroup(queueName, group);
+                //status = ops.createGroup(queueName, group);
+                status = ops.createGroup(queueName, ReadOffset.from("0-0"), group);
             }
         } catch (Exception exception) {
             RecordId initialRecord = ops.add(ObjectRecord.create(queueName, "Initial Record"));
             Assert.notNull(initialRecord, "Cannot initialize stream with key '" + queueName + "'");
-            //status = ops.createGroup(queueName, ReadOffset.from(initialRecord), group);
-            status = ops.createGroup(queueName, ReadOffset.from("0-0"), group);
+            status = ops.createGroup(queueName, ReadOffset.from(initialRecord), group);
         } finally {
             Assert.isTrue("OK".equals(status), "Cannot create group with name '" + group + "'");
         }
