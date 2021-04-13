@@ -94,14 +94,8 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
 
     @Override
     public  void onMessage(ObjectRecord<String, T> message) {
-        RecordId recordId = message.getId();
-        String messageId = recordId.getValue();
-        Long messageTime = recordId.getTimestamp();
-        String queueName = message.getStream();
-        T value = message.getValue();
-
-        boolean ok = onMessage(value, queueName, messageId, messageTime);
-        if (ok) {
+        RecordId recordId = isMessageSuccess(message);
+        if (recordId != null) {
             //消息确认ack
             redisTemplate.opsForStream().acknowledge(getQueueName(), getGroupName(), recordId);
         }
@@ -182,14 +176,8 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
             }
 
             for (ObjectRecord<String, T> message : readList) {
-                RecordId recordId = message.getId();
-                String messageId = recordId.getValue();
-                Long messageTime = recordId.getTimestamp();
-                String queueName = message.getStream();
-                T value = message.getValue();
-
-                boolean ok = onMessage(value, queueName, messageId, messageTime);
-                if (ok) {
+                RecordId recordId = isMessageSuccess(message);
+                if (recordId != null) {
                     //消息确认ack
                     redisTemplate.opsForStream().acknowledge(getQueueName(), getGroupName(), recordId);
                 } else {
@@ -239,9 +227,31 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
         return recordId.getValue();
     }
 
+    /**
+     * 消息消费是否成功
+     *
+     * @param message
+     * @return
+     */
+    private RecordId isMessageSuccess(ObjectRecord<String, T> message) {
+        RecordId recordId = message.getId();
+        String messageId = recordId.getValue();
+        Long messageTime = recordId.getTimestamp();
+        String queueName = message.getStream();
+        T value = message.getValue();
+
+        boolean ok = onMessage(value, queueName, messageId, messageTime);
+        if (ok) {
+            return recordId;
+        } else {
+            return null;
+        }
+    }
+
+
     @Override
     public void close() throws IOException {
-        if (container!=null){
+        if (container != null) {
             container.stop();
         }
 
