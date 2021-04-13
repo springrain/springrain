@@ -148,7 +148,8 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
         } catch (Exception exception) {
             RecordId initialRecord = ops.add(ObjectRecord.create(queueName, "Initial Record"));
             Assert.notNull(initialRecord, "Cannot initialize stream with key '" + queueName + "'");
-            status = ops.createGroup(queueName, ReadOffset.from(initialRecord), group);
+            //status = ops.createGroup(queueName, ReadOffset.from(initialRecord), group);
+            status = ops.createGroup(queueName, ReadOffset.from("0-0"), group);
         } finally {
             Assert.isTrue("OK".equals(status), "Cannot create group with name '" + group + "'");
         }
