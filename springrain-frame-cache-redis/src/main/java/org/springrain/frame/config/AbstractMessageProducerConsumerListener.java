@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit;
 /**
  *
  * 因为接口不能注入springBean,使用抽象类实现,主要用于隔离了Redis Stream API,方便后期更换MQ的实现.
- * 如果未确认消息消费,Redis Stream 暂时没有重试的API,使用 retryFailMessage() 启动重试,业务代码可以自行调度retryFailMessage()方法
+ * 如果未确认消息消费,Redis Stream 暂时没有重试的API,项目启动时使用 retryFailMessage() 重试一次,业务代码可以自行调度retryFailMessage()方法
  * @param <T> 需要放入队列的对象
  */
 public abstract class AbstractMessageProducerConsumerListener<T> implements StreamListener<String, ObjectRecord<String, T>>, Closeable {
@@ -159,8 +159,8 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
 
 
     /**
-     * 重试消息,启动的时候会重试一次,业务代码自行实现根据调度重试
-     * 避免死循环,最多1000次.如果单次返回的所有消息都是异常的,退出循环
+     * 重试消息,项目启动时会重试一次,业务代码自行实现根据调度重试
+     * 避免死循环,最多1000次.如果单次返回的所有消息都是异常的,终止重试,避免死循环.
      */
     public void retryFailMessage() {
         Consumer consumer = Consumer.from(getGroupName(), getConsumerName());
