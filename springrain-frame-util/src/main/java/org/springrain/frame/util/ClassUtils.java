@@ -655,7 +655,7 @@ ClassUtils {
      */
     public static Class getActualTypeArgument(Class clazz){
         //获取子类所属接口的参数化类型,cn.xxx.xxx.BasicAction<cn.xxx.xxx.Standard>
-        Type type = clazz.getGenericInterfaces()[0];
+        Type type = clazz.getGenericSuperclass();
         //因为type是顶级接口没有定义任何方法，所以需要强转为子接口ParameterizedType
         ParameterizedType parameterizedType = (ParameterizedType) type;
 
