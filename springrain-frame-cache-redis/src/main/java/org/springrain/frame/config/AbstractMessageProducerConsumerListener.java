@@ -164,23 +164,26 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
         //设置配置
         StreamReadOptions streamReadOptions = StreamReadOptions.empty().count(getBatchSize()).block(Duration.ofSeconds(5));
         List<ObjectRecord<String, T>> retryFailMessageList = new ArrayList<>();
-
         //避免死循环,最多1000次.如果单次返回的所有消息都是异常的,退出循环
         for (int i = 0; i < 1000; i++) {
             List<ObjectRecord<String, T>> readList = redisTemplate.opsForStream().read(clazz, consumer, streamReadOptions, StreamOffset.fromStart(getQueueName()));
+            //如果已经没有异常的消息,退出循环
             if (CollectionUtils.isEmpty(readList)) {
                 break;
             }
+            //如果返回的消息全部都是异常的,退出循环
             if (retryFailMessageList.containsAll(readList)) {
                 break;
             }
 
+            // 遍历异常的消息
             for (ObjectRecord<String, T> message : readList) {
                 RecordId recordId = isMessageSuccess(message);
+                //处理成功
                 if (recordId != null) {
                     //消息确认ack
                     redisTemplate.opsForStream().acknowledge(getQueueName(), getGroupName(), recordId);
-                } else {
+                } else {//处理失败,记录下来
                     retryFailMessageList.add(message);
                 }
             }
