@@ -94,7 +94,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
 
     @Override
     public  void onMessage(ObjectRecord<String, T> message) {
-        RecordId recordId = isMessageSuccess(message);
+        RecordId recordId = messageSuccessRecordId(message);
         if (recordId != null) {
             //消息确认ack
             redisTemplate.opsForStream().acknowledge(getQueueName(), getGroupName(), recordId);
@@ -178,7 +178,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
 
             // 遍历异常的消息
             for (ObjectRecord<String, T> message : readList) {
-                RecordId recordId = isMessageSuccess(message);
+                RecordId recordId = messageSuccessRecordId(message);
                 //处理成功
                 if (recordId != null) {
                     //消息确认ack
@@ -236,7 +236,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
      * @param message
      * @return
      */
-    private RecordId isMessageSuccess(ObjectRecord<String, T> message) {
+    private RecordId messageSuccessRecordId(ObjectRecord<String, T> message) {
         RecordId recordId = message.getId();
         String messageId = recordId.getValue();
         Long messageTime = recordId.getTimestamp();
