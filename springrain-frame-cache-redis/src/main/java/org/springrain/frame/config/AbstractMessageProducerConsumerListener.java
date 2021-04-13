@@ -95,7 +95,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
 
 
     @Override
-    public  void onMessage(ObjectRecord<String, T> message) {
+    public final void onMessage(ObjectRecord<String, T> message) {
         try {
             RecordId recordId = messageSuccessRecordId(message);
             if (recordId != null) {
