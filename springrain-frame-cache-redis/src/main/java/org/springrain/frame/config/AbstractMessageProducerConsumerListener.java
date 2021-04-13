@@ -171,7 +171,10 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
 
     @Override
     public void close() throws IOException {
-        container.stop();
+        if (container!=null){
+            container.stop();
+        }
+
     }
 
 }
