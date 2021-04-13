@@ -231,7 +231,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
     }
 
     /**
-     * 消息消费是否成功
+     * 消息消费是否成功,成功返回RecordId,失败返回null
      *
      * @param message
      * @return
