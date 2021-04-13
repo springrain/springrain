@@ -15,9 +15,12 @@ import javax.annotation.Resource;
 import java.time.Duration;
 import java.util.concurrent.Executor;
 
-public abstract class ObjectRecordConsumerListener<T> implements StreamListener<String, ObjectRecord<String, T>> {
+public abstract class AbstractConsumerListener<T> implements StreamListener<String, ObjectRecord<String, T>> {
     @Resource
     private RedisConnectionFactory redisConnectionFactory;
+
+    //监听的容器
+    private StreamMessageListenerContainer<String, ObjectRecord<String, T>> container = null;
 
     @Resource
     private RedisTemplate redisTemplate;
@@ -65,18 +68,31 @@ public abstract class ObjectRecordConsumerListener<T> implements StreamListener<
 
 
     @Override
-    public  void onMessage(ObjectRecord<String, T> message){
-       RecordId recordId= message.getId();
-       String messageId=recordId.getValue();
-       Long messageTime=recordId.getTimestamp();
-       String queueName=message.getStream();
-       T value=message.getValue();
+    public  void onMessage(ObjectRecord<String, T> message) {
+        RecordId recordId = message.getId();
+        String messageId = recordId.getValue();
+        Long messageTime = recordId.getTimestamp();
+        String queueName = message.getStream();
+        T value = message.getValue();
 
-        onMessage(value,queueName,messageId,messageTime);
+        boolean ok = onMessage(value, queueName, messageId, messageTime);
+        if (ok) {
+            redisTemplate.opsForStream().acknowledge(getQueueName(), getGroupName(), recordId);
+        }
+
     }
 
 
-    public abstract void onMessage( T value,String queueName,String messageId,Long messageTime);
+    /**
+     * 消费消息,隔离Redis API,如果返回true则自动应答,如果返回false,认为消息处理失败
+     *
+     * @param value
+     * @param queueName
+     * @param messageId
+     * @param messageTime
+     * @return
+     */
+    public abstract boolean onMessage(T value, String queueName, String messageId, Long messageTime);
 
     @PostConstruct
     private void registerConsumerListener() {
@@ -97,9 +113,10 @@ public abstract class ObjectRecordConsumerListener<T> implements StreamListener<
 
                         .targetType(t) //目标类型(消息内容的类型),如果objectMapper为空,会设置默认的ObjectHashMapper
                         .build();
-        StreamMessageListenerContainer<String, ObjectRecord<String, T>> container = StreamMessageListenerContainer.create(redisConnectionFactory, options);
+        container = StreamMessageListenerContainer.create(redisConnectionFactory, options);
         prepareChannelAndGroup(redisTemplate.opsForStream(), getQueueName(), getGroupName());
-        container.receiveAutoAck(Consumer.from(getGroupName(), getConsumerName()), StreamOffset.create(getQueueName(), ReadOffset.lastConsumed()), this);
+        //需要手动回复应答 ACK
+        container.receive(Consumer.from(getGroupName(), getConsumerName()), StreamOffset.create(getQueueName(), ReadOffset.lastConsumed()), this);
         container.start();
     }
 
