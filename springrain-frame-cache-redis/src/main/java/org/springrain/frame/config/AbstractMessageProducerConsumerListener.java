@@ -1,5 +1,6 @@
 package org.springrain.frame.config;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.stream.*;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -15,6 +16,8 @@ import javax.annotation.Resource;
 import java.io.Closeable;
 import java.io.IOException;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -33,6 +36,9 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
             10L, TimeUnit.SECONDS,
             //使用一个基于FIFO排序的阻塞队列，在所有corePoolSize线程都忙时新任务将在队列中等待
             new LinkedBlockingQueue<Runnable>());
+
+    //泛型的类型
+    private final Class<T> clazz = ClassUtils.getActualTypeArgument(getClass());
 
 
     @Resource
@@ -116,7 +122,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
 
     @PostConstruct
     private void registerConsumerListener() {
-        Class<T> t = ClassUtils.getActualTypeArgument(getClass());
+
         StreamMessageListenerContainer.StreamMessageListenerContainerOptions<String, ObjectRecord<String, T>> options =
                 StreamMessageListenerContainer.StreamMessageListenerContainerOptions.builder()
                         .batchSize(getBatchSize()) //一批次拉取的最大count数
@@ -129,9 +135,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
                         .hashKeySerializer(RedisCacheConfig.stringRedisSerializer)
                         .hashValueSerializer(RedisCacheConfig.fstSerializer)
                         //.serializer(RedisCacheConfig.fstSerializer)
-
-
-                        .targetType(t) //目标类型(消息内容的类型),如果objectMapper为空,会设置默认的ObjectHashMapper
+                        .targetType(clazz) //目标类型(消息内容的类型),如果objectMapper为空,会设置默认的ObjectHashMapper
                         .build();
         container = StreamMessageListenerContainer.create(redisConnectionFactory, options);
         prepareChannelAndGroup(redisTemplate.opsForStream(), getQueueName(), getGroupName());
@@ -141,12 +145,60 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
         // 比如创建消费者组时不能使用>表示最后一次未被消费的记录,比如0表示从第一条开始并且包括第一条,
         // $表示从最新一条开始但并不是指当前Stream的最后一条记录,是表示下一个xadd添加的那一条记录,所以说$在非消费者组模式的阻塞读取下才有意义!
 
+
+        Consumer consumer = Consumer.from(getGroupName(), getConsumerName());
+
         // 需要手动回复应答 ACK
-        // container.receive(Consumer.from(getGroupName(), getConsumerName()), StreamOffset.fromStart(getQueueName()), this);
-        // container.receive(Consumer.from(getGroupName(), getConsumerName()), StreamOffset.create(getQueueName(),ReadOffset.latest()), this);
-        container.receive(Consumer.from(getGroupName(), getConsumerName()), StreamOffset.create(getQueueName(),ReadOffset.lastConsumed()), this);
+        // container.receive(consumer, StreamOffset.fromStart(getQueueName()), this);
+        // container.receive(consumer, StreamOffset.create(getQueueName(),ReadOffset.latest()), this);
+        container.receive(consumer, StreamOffset.create(getQueueName(), ReadOffset.lastConsumed()), this);
         container.start();
+
+        //重试失败的消息
+        retryFailMessage();
+
+
     }
+
+
+    /**
+     * 重试消息,启动的时候会重试一次,业务代码自行实现根据调度重试
+     * 避免死循环,最多1000次.如果单次返回的所有消息都是异常的,退出循环
+     */
+    public void retryFailMessage() {
+        Consumer consumer = Consumer.from(getGroupName(), getConsumerName());
+        //设置配置
+        StreamReadOptions streamReadOptions = StreamReadOptions.empty().count(getBatchSize()).block(Duration.ofSeconds(5));
+        List<ObjectRecord<String, T>> retryFailMessageList = new ArrayList<>();
+
+        //避免死循环,最多1000次.如果单次返回的所有消息都是异常的,退出循环
+        for (int i = 0; i < 1000; i++) {
+            List<ObjectRecord<String, T>> readList = redisTemplate.opsForStream().read(clazz, consumer, streamReadOptions, StreamOffset.fromStart(getQueueName()));
+            if (CollectionUtils.isEmpty(readList)) {
+                break;
+            }
+            if (retryFailMessageList.containsAll(readList)) {
+                break;
+            }
+
+            for (ObjectRecord<String, T> message : readList) {
+                RecordId recordId = message.getId();
+                String messageId = recordId.getValue();
+                Long messageTime = recordId.getTimestamp();
+                String queueName = message.getStream();
+                T value = message.getValue();
+
+                boolean ok = onMessage(value, queueName, messageId, messageTime);
+                if (ok) {
+                    //消息确认ack
+                    redisTemplate.opsForStream().acknowledge(getQueueName(), getGroupName(), recordId);
+                } else {
+                    retryFailMessageList.add(message);
+                }
+            }
+        }
+    }
+
 
     /**
      * 在初始化容器时,如果key对应的stream或者group不存在时会抛出异常,所以我们需要提前检查并且初始化.
