@@ -33,7 +33,7 @@ import java.util.concurrent.TimeUnit;
 public abstract class AbstractMessageProducerConsumerListener<T> implements StreamListener<String, ObjectRecord<String, T>>, Closeable {
     private Logger logger = LoggerFactory.getLogger(getClass());
     //默认的线程池
-    public static final Executor defaultMessageListenerExecutor = new ThreadPoolExecutor(1000, 1000,
+    private static final Executor defaultMessageListenerExecutor = new ThreadPoolExecutor(1000, 1000,
             10L, TimeUnit.SECONDS,
             //使用一个基于FIFO排序的阻塞队列，在所有corePoolSize线程都忙时新任务将在队列中等待
             new LinkedBlockingQueue<Runnable>());
@@ -154,8 +154,14 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
             container.receive(consumer, StreamOffset.create(getQueueName(), ReadOffset.lastConsumed()), this);
             container.start();
 
-            //重试失败的消息
-            retryFailMessage();
+
+            //开启线程,重试异常的消息
+            defaultMessageListenerExecutor.execute(() -> {
+                //重试失败的消息
+                retryFailMessage();
+            });
+
+
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
