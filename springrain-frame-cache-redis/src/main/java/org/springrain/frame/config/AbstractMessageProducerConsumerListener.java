@@ -15,7 +15,7 @@ import javax.annotation.Resource;
 import java.time.Duration;
 import java.util.concurrent.Executor;
 
-public abstract class AbstractConsumerListener<T> implements StreamListener<String, ObjectRecord<String, T>> {
+public abstract class AbstractMessageProducerConsumerListener<T> implements StreamListener<String, ObjectRecord<String, T>> {
     @Resource
     private RedisConnectionFactory redisConnectionFactory;
 
@@ -115,8 +115,16 @@ public abstract class AbstractConsumerListener<T> implements StreamListener<Stri
                         .build();
         container = StreamMessageListenerContainer.create(redisConnectionFactory, options);
         prepareChannelAndGroup(redisTemplate.opsForStream(), getQueueName(), getGroupName());
+
+        // 通过xread命令也就是非消费者组模式直接读取,或者使用xreadgroup命令在消费者组中命令一个消费者去消费一条记录,
+        // 我们可以通过0、>、$分别表示第一条记录、最后一次未被消费的记录和最新一条记录,
+        // 比如创建消费者组时不能使用>表示最后一次未被消费的记录,比如0表示从第一条开始并且包括第一条,
+        // $表示从最新一条开始但并不是指当前Stream的最后一条记录,是表示下一个xadd添加的那一条记录,所以说$在非消费者组模式的阻塞读取下才有意义!
+
         //需要手动回复应答 ACK
-        container.receive(Consumer.from(getGroupName(), getConsumerName()), StreamOffset.create(getQueueName(), ReadOffset.lastConsumed()), this);
+        // container.receive(Consumer.from(getGroupName(), getConsumerName()), StreamOffset.fromStart(getQueueName()), this);
+        // container.receive(Consumer.from(getGroupName(), getConsumerName()), StreamOffset.create(getQueueName(),ReadOffset.latest()), this);
+        container.receive(Consumer.from(getGroupName(), getConsumerName()), StreamOffset.create(getQueueName(),ReadOffset.lastConsumed()), this);
         container.start();
     }
 
