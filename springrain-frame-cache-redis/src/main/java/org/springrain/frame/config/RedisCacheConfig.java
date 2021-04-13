@@ -29,6 +29,11 @@ public class RedisCacheConfig {
     @Resource
     private RedisConnectionFactory redisConnectionFactory;
 
+    // 序列化配置 解析任意对象
+    static FstSerializer fstSerializer =  new FstSerializer();
+    // 2.序列化String类型
+    static StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
+
     /**
      * 实际使用的redisTemplate,可以注入到代码中,操作redis
      * @return
@@ -40,8 +45,11 @@ public class RedisCacheConfig {
         // 连接工厂
         redisTemplate.setConnectionFactory(redisConnectionFactory);
 
-        // 序列化配置 解析任意对象
-        FstSerializer fstSerializer =  new FstSerializer();
+
+        //设置默认的序列化器
+        redisTemplate.setDefaultSerializer(fstSerializer);
+
+
         // Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
         // json序列化利用ObjectMapper进行转义
         // jackson2JsonRedisSerializer.setObjectMapper(new FrameObjectMapper());
@@ -56,8 +64,7 @@ public class RedisCacheConfig {
         // hash的value序列化方式采用fstSerializer
         redisTemplate.setHashValueSerializer(fstSerializer);
 
-        // 2.序列化String类型
-        StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
+
         // key采用String的序列化方式
         redisTemplate.setKeySerializer(stringRedisSerializer);
         // hash的key也采用String的序列化方式
@@ -98,7 +105,7 @@ public class RedisCacheConfig {
        // jacksonSerializer.setObjectMapper(new FrameObjectMapper());
 
         // fst 序列化
-        FstSerializer fstSerializer =  new FstSerializer();
+       // FstSerializer fstSerializer =  new FstSerializer();
         //默认配置
         RedisCacheConfiguration defaultCacheConfig = RedisCacheConfiguration.defaultCacheConfig();
 
@@ -107,7 +114,7 @@ public class RedisCacheConfig {
             defaultCacheConfig.entryTtl(Duration.ofMillis(millis));
         }
         //设置序列化方式
-        defaultCacheConfig.serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
+        defaultCacheConfig.serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(stringRedisSerializer))
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(fstSerializer))
                 .disableCachingNullValues();
         return defaultCacheConfig;
