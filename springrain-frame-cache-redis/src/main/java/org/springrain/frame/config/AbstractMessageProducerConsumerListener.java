@@ -35,7 +35,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
     //默认的线程池
     private final Executor defaultMessageListenerExecutor = new ThreadPoolExecutor(1000, 1000,
             10L, TimeUnit.SECONDS,
-            //使用一个基于FIFO排序的阻塞队列，在所有corePoolSize线程都忙时新任务将在队列中等待
+            //使用一个基于FIFO排序的阻塞队列,在所有corePoolSize线程都忙时新任务将在队列中等待
             new LinkedBlockingQueue<Runnable>());
 
     //泛型的类型
