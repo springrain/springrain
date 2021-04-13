@@ -160,7 +160,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
 
     /**
      * 重试消息,项目启动时会重试一次,业务代码自行实现根据调度重试
-     * 避免死循环,最多1000次.如果单次返回的所有消息都是异常的,终止重试,避免死循环.
+     * 避免死循环,最多1000次.如果单次返回的所有消息都是异常的,终止重试.
      */
     public void retryFailMessage() {
         Consumer consumer = Consumer.from(getGroupName(), getConsumerName());
