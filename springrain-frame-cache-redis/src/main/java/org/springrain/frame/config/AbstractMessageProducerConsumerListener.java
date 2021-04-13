@@ -40,7 +40,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
             new LinkedBlockingQueue<Runnable>());
 
     //泛型的类型
-    private final Class<T> clazz = ClassUtils.getActualTypeArgument(getClass());
+    private final Class<T> clazz = ClassUtils.getActualTypeGenericSuperclass(getClass());
 
 
     @Resource
@@ -96,11 +96,16 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
 
     @Override
     public  void onMessage(ObjectRecord<String, T> message) {
-        RecordId recordId = messageSuccessRecordId(message);
-        if (recordId != null) {
-            //消息确认ack
-            redisTemplate.opsForStream().acknowledge(getQueueName(), getGroupName(), recordId);
+        try {
+            RecordId recordId = messageSuccessRecordId(message);
+            if (recordId != null) {
+                //消息确认ack
+                redisTemplate.opsForStream().acknowledge(getQueueName(), getGroupName(), recordId);
+            }
+        }catch (Exception e){
+            logger.error(e.getMessage(),e);
         }
+
 
     }
 
@@ -118,42 +123,44 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
 
     @PostConstruct
     private void registerConsumerListener() {
+        try {
+            StreamMessageListenerContainer.StreamMessageListenerContainerOptions<String, ObjectRecord<String, T>> options =
+                    StreamMessageListenerContainer.StreamMessageListenerContainerOptions.builder()
+                            .batchSize(getBatchSize()) //一批次拉取的最大count数
+                            .executor(getExecutor())  //线程池
+                            .pollTimeout(Duration.ZERO) //阻塞式轮询
+                            //设置默认的序列化器,要和 redisTemplate 保持一致!!!!!!!!!!!!!!!!!!!!!
+                            //默认 targetType 会设置序列化器是  RedisSerializer.byteArray,这里手动初始化objectMapper,并设置序列化器.
+                            .objectMapper(ObjectHashMapper.getSharedInstance())
+                            .keySerializer(RedisCacheConfig.stringRedisSerializer)
+                            .hashKeySerializer(RedisCacheConfig.stringRedisSerializer)
+                            .hashValueSerializer(RedisCacheConfig.fstSerializer)
+                            //.serializer(RedisCacheConfig.fstSerializer)
+                            .targetType(clazz) //目标类型(消息内容的类型),如果objectMapper为空,会设置默认的ObjectHashMapper
+                            .build();
+            container = StreamMessageListenerContainer.create(redisConnectionFactory, options);
+            prepareChannelAndGroup(redisTemplate.opsForStream(), getQueueName(), getGroupName());
 
-        StreamMessageListenerContainer.StreamMessageListenerContainerOptions<String, ObjectRecord<String, T>> options =
-                StreamMessageListenerContainer.StreamMessageListenerContainerOptions.builder()
-                        .batchSize(getBatchSize()) //一批次拉取的最大count数
-                        .executor(getExecutor())  //线程池
-                        .pollTimeout(Duration.ZERO) //阻塞式轮询
-                        //设置默认的序列化器,要和 redisTemplate 保持一致!!!!!!!!!!!!!!!!!!!!!
-                        //默认 targetType 会设置序列化器是  RedisSerializer.byteArray,这里手动初始化objectMapper,并设置序列化器.
-                        .objectMapper(ObjectHashMapper.getSharedInstance())
-                        .keySerializer(RedisCacheConfig.stringRedisSerializer)
-                        .hashKeySerializer(RedisCacheConfig.stringRedisSerializer)
-                        .hashValueSerializer(RedisCacheConfig.fstSerializer)
-                        //.serializer(RedisCacheConfig.fstSerializer)
-                        .targetType(clazz) //目标类型(消息内容的类型),如果objectMapper为空,会设置默认的ObjectHashMapper
-                        .build();
-        container = StreamMessageListenerContainer.create(redisConnectionFactory, options);
-        prepareChannelAndGroup(redisTemplate.opsForStream(), getQueueName(), getGroupName());
-
-        // 通过xread命令也就是非消费者组模式直接读取,或者使用xreadgroup命令在消费者组中命令一个消费者去消费一条记录,
-        // 我们可以通过0、>、$分别表示第一条记录、最后一次未被消费的记录和最新一条记录,
-        // 比如创建消费者组时不能使用>表示最后一次未被消费的记录,比如0表示从第一条开始并且包括第一条,
-        // $表示从最新一条开始但并不是指当前Stream的最后一条记录,是表示下一个xadd添加的那一条记录,所以说$在非消费者组模式的阻塞读取下才有意义!
+            // 通过xread命令也就是非消费者组模式直接读取,或者使用xreadgroup命令在消费者组中命令一个消费者去消费一条记录,
+            // 我们可以通过0、>、$分别表示第一条记录、最后一次未被消费的记录和最新一条记录,
+            // 比如创建消费者组时不能使用>表示最后一次未被消费的记录,比如0表示从第一条开始并且包括第一条,
+            // $表示从最新一条开始但并不是指当前Stream的最后一条记录,是表示下一个xadd添加的那一条记录,所以说$在非消费者组模式的阻塞读取下才有意义!
 
 
-        // 消费者
-        Consumer consumer = Consumer.from(getGroupName(), getConsumerName());
+            // 消费者
+            Consumer consumer = Consumer.from(getGroupName(), getConsumerName());
 
-        // 需要手动回复应答 ACK
-        // container.receive(consumer, StreamOffset.fromStart(getQueueName()), this);
-        // container.receive(consumer, StreamOffset.create(getQueueName(),ReadOffset.latest()), this);
-        container.receive(consumer, StreamOffset.create(getQueueName(), ReadOffset.lastConsumed()), this);
-        container.start();
+            // 需要手动回复应答 ACK
+            // container.receive(consumer, StreamOffset.fromStart(getQueueName()), this);
+            // container.receive(consumer, StreamOffset.create(getQueueName(),ReadOffset.latest()), this);
+            container.receive(consumer, StreamOffset.create(getQueueName(), ReadOffset.lastConsumed()), this);
+            container.start();
 
-        //重试失败的消息
-        retryFailMessage();
-
+            //重试失败的消息
+            retryFailMessage();
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
 
     }
 
@@ -226,11 +233,20 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
      * @return
      */
     public String sendProducerMessage(T message) {
-        ObjectRecord<String, T> record = Record.of(message).withStreamKey(getQueueName());
-        //StreamRecords.newRecord()
-        //ObjectRecord record = Record.of(message).withStreamKey(queueName);
-        RecordId recordId = redisTemplate.opsForStream().add(record);
-        return recordId.getValue();
+        if (message == null) {
+            return null;
+        }
+
+        try {
+            ObjectRecord<String, T> record = Record.of(message).withStreamKey(getQueueName());
+            //StreamRecords.newRecord()
+            //ObjectRecord record = Record.of(message).withStreamKey(queueName);
+            RecordId recordId = redisTemplate.opsForStream().add(record);
+            return recordId.getValue();
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            return null;
+        }
     }
 
     /**
