@@ -12,10 +12,12 @@ import org.springrain.frame.util.ClassUtils;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import java.io.Closeable;
+import java.io.IOException;
 import java.time.Duration;
 import java.util.concurrent.Executor;
 
-public abstract class AbstractMessageProducerConsumerListener<T> implements StreamListener<String, ObjectRecord<String, T>> {
+public abstract class AbstractMessageProducerConsumerListener<T> implements StreamListener<String, ObjectRecord<String, T>>, Closeable {
     @Resource
     private RedisConnectionFactory redisConnectionFactory;
 
@@ -122,7 +124,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
         // 比如创建消费者组时不能使用>表示最后一次未被消费的记录,比如0表示从第一条开始并且包括第一条,
         // $表示从最新一条开始但并不是指当前Stream的最后一条记录,是表示下一个xadd添加的那一条记录,所以说$在非消费者组模式的阻塞读取下才有意义!
 
-        //需要手动回复应答 ACK
+        // 需要手动回复应答 ACK
         // container.receive(Consumer.from(getGroupName(), getConsumerName()), StreamOffset.fromStart(getQueueName()), this);
         // container.receive(Consumer.from(getGroupName(), getConsumerName()), StreamOffset.create(getQueueName(),ReadOffset.latest()), this);
         container.receive(Consumer.from(getGroupName(), getConsumerName()), StreamOffset.create(getQueueName(),ReadOffset.lastConsumed()), this);
@@ -165,6 +167,11 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
         //ObjectRecord record = Record.of(message).withStreamKey(queueName);
         RecordId recordId = redisTemplate.opsForStream().add(record);
         return recordId.getValue();
+    }
+
+    @Override
+    public void close() throws IOException {
+        container.stop();
     }
 
 }
