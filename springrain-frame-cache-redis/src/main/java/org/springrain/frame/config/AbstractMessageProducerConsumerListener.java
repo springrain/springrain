@@ -77,6 +77,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
 
         boolean ok = onMessage(value, queueName, messageId, messageTime);
         if (ok) {
+            //消息确认ack
             redisTemplate.opsForStream().acknowledge(getQueueName(), getGroupName(), recordId);
         }
 
