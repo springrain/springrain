@@ -65,7 +65,18 @@ public abstract class ObjectRecordConsumerListener<T> implements StreamListener<
 
 
     @Override
-    public abstract void onMessage(ObjectRecord<String, T> message);
+    public  void onMessage(ObjectRecord<String, T> message){
+       RecordId recordId= message.getId();
+       String messageId=recordId.getValue();
+       Long messageTime=recordId.getTimestamp();
+       String queueName=message.getStream();
+       T value=message.getValue();
+
+        onMessage(value,queueName,messageId,messageTime);
+    }
+
+
+    public abstract void onMessage( T value,String queueName,String messageId,Long messageTime);
 
     @PostConstruct
     private void registerConsumerListener() {
