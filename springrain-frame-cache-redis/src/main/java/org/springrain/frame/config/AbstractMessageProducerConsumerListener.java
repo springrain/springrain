@@ -91,7 +91,12 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
         return null;
     }
 
-
+    /**
+     * spring-data-redis 实现的 stream 原生消费者回调方法,业务中不要直接调用!!!!!!.
+     * 使用自行实现的onMessage(T value, String queueName, String messageId, Long messageTime) 方法
+     *
+     * @param message 需要消费者处理的消息
+     */
     @Override
     public final void onMessage(ObjectRecord<String, T> message) {
         try {
@@ -100,8 +105,8 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
                 //消息确认ack
                 redisTemplate.opsForStream().acknowledge(getQueueName(), getGroupName(), recordId);
             }
-        }catch (Exception e){
-            logger.error(e.getMessage(),e);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
         }
 
 
@@ -111,21 +116,24 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
     /**
      * 消费消息,隔离Redis API,如果返回true则自动应答,如果返回false,认为消息处理失败
      *
-     * @param value
-     * @param queueName
-     * @param messageId
-     * @param messageTime
+     * @param value       队列中的对象值
+     * @param queueName   队列名称
+     * @param messageId   消息的ID
+     * @param messageTime 消息的时间戳
      * @return
      */
     public abstract boolean onMessage(T value, String queueName, String messageId, Long messageTime);
 
+    /**
+     * 初始化监听器
+     */
     @PostConstruct
     private void registerConsumerListener() {
         try {
 
-            String className=getClass().toString();
-            if (StringUtils.isBlank(getQueueName())){
-                logger.error(className+"的getQueueName()为空,registerConsumerListener()方法执行失败.");
+            String className = getClass().toString();
+            if (StringUtils.isBlank(getQueueName())) {
+                logger.error(className + "的getQueueName()为空,registerConsumerListener()方法执行失败.");
                 return;
             }
             if (StringUtils.isBlank(getGroupName())){
@@ -258,7 +266,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
 
 
     /**
-     * 生产者消息队列发送消息
+     * 生产者向消息队列发送消息
      *
      * @param message
      * @return
