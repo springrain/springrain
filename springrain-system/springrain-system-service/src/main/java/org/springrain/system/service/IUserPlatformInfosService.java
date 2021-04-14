@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author springrain<Auto generate>
  * @version 2017-07-31 16:41:34
- * @copyright {@link weicms.net}
+ * @copyright {@link jiagou.com}
  * @see org.springrain.cms.base.service.UserPlatformInfos
  */
 @RpcServiceAnnotation

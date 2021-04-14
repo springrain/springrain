@@ -7,7 +7,7 @@ import org.springrain.rpc.annotation.RpcServiceAnnotation;
  *
  * @author springrain<Auto generate>
  * @version 2016-11-10 14:16:38
- * @copyright {@link weicms.net}
+ * @copyright {@link jiagou.com}
  * @see org.springrain.demo.service.Tableindex
  */
 @RpcServiceAnnotation

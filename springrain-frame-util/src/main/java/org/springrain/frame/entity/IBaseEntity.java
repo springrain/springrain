@@ -5,7 +5,7 @@ package org.springrain.frame.entity;
  *
  * @author springrain<9 iuorg @ gmail.com>
  * @version 2013-03-19 11:08:15
- * @copyright {@link weicms.net}
+ * @copyright {@link jiagou.com}
  * @see org.springrain.frame.entity.IBaseEntity
  */
 public interface IBaseEntity extends java.io.Serializable {

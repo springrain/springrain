@@ -15,7 +15,7 @@ import java.util.Date;
  *
  * @author springrain<Auto generate>
  * @version 2017-12-15 12:13:15
- * @copyright {@link weicms.net}
+ * @copyright {@link jiagou.com}
  * @see PermissionsLog
  */
 @Table(name = "t_permissions_log")

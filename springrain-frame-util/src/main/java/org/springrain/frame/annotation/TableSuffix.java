@@ -9,7 +9,7 @@ import java.lang.annotation.RetentionPolicy;
 /**
  * 用于Entity的注解,主要是用于映射表名和设置扩展后缀
  *
- * @copyright {@link weicms.net}
+ * @copyright {@link jiagou.com}
  * @author springrain<9 iuorg @ gmail.com>
  * @version 2013-03-19 11:08:15
  * @see org.springrain.frame.annotation.TableSuffix

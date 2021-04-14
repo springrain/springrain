@@ -19,7 +19,7 @@ import java.net.URI;
 /**
  * Spring 工具类
  *
- * @author 9iuorg@gmail.com weicms.net
+ * @author 9iuorg@gmail.com jiagou.com
  * @date 2011-10-13
  */
 

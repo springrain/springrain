@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * TODO 在此加入类描述
  *
- * @author weicms.net<Auto generate>
+ * @author jiagou.com<Auto generate>
  * @version 2013-07-31 15:56:45
  * @copyright {@link springrain}
  * @see org.springrain.springrain.service.DicData

@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * TODO 在此加入类描述
  *
- * @author weicms.net<Auto generate>
+ * @author jiagou.com<Auto generate>
  * @version 2013-07-29 11:36:44
  * @copyright {@link springrain}
  * @see org.springrain.springrain.web.Fwlog
