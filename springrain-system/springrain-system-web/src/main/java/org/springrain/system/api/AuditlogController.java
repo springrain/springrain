@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * TODO 日志管理
  *
- * @author weicms.net<Auto generate>
+ * @author jiagou.com<Auto generate>
  * @version 2013-08-02 12:14:50
  */
 @Controller

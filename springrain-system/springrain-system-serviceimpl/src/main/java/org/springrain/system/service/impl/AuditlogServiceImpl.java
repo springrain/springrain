@@ -9,7 +9,7 @@ import org.springrain.system.service.IAuditlogService;
  *
  * @author springrain<Auto generate>
  * @version 2013-04-02 10:17:31
- * @copyright {@link weicms.net}
+ * @copyright {@link jiagou.com}
  * @see org.springrain.system.service.impl.AuditlogServiceImpl
  */
 @Service("auditlogService")

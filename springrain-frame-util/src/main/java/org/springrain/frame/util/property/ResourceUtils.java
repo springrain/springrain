@@ -56,6 +56,6 @@ public class ResourceUtils {
 
     /*
      * public static void main(String[] args) {
-     * System.out.print(Resource.getString("weicms.net")); }
+     * System.out.print(Resource.getString("jiagou.com")); }
      */
 }

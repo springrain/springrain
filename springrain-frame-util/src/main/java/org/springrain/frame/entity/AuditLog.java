@@ -17,7 +17,7 @@ import java.util.Calendar;
  *
  * @author springrain<Auto generate>
  * @version 2013-04-02 10:17:31
- * @copyright {@link weicms.net}
+ * @copyright {@link jiagou.com}
  * @see org.springrain.frame.entity.AuditLog
  */
 @Table(name = "t_auditlog")

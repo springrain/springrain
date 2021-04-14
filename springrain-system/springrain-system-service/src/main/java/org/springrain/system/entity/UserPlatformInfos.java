@@ -14,7 +14,7 @@ import javax.persistence.Table;
  *
  * @author springrain<Auto generate>
  * @version 2017-07-31 16:41:34
- * @copyright {@link weicms.net}
+ * @copyright {@link jiagou.com}
  * @see org.springrain.cms.base.entity.UserPlatformInfos
  */
 @Table(name = "t_user_platform_infos")

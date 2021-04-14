@@ -7,7 +7,7 @@ import java.util.List;
  *
  * @author springrain<Auto generate>
  * @version 2013-03-19 11:08:15
- * @copyright {@link weicms.net}
+ * @copyright {@link jiagou.com}
  * @see org.springrain.frame.util.EntityInfo
  */
 public class EntityInfo {
