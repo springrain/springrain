@@ -1,3 +1,12 @@
 {
-  "outPath": "src/main/resources/static/docs"
+  "outPath": "src/main/resources/static/docs",
+  "isStrict": false,
+  "projectName": "springrain",
+  "appKey": "torna平台对接appKey",
+  "secret": "torna平台secret",
+  "appToken": "torna平台appToken",
+  "openUrl": "torna平台地址,填写自己的私有化部署地址",
+  "debugEnvName":"测试环境",
+  "debugEnvUrl":"http://127.0.0.1"
+
 }
