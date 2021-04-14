@@ -1,8 +1,10 @@
 package org.springrain.frame.config;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.stream.*;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -21,25 +23,23 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 因为接口不能注入springBean,使用抽象类实现,主要用于隔离了Redis Stream API,方便后期更换MQ的实现.
  * 如果未确认消息消费,Redis Stream 暂时没有重试的API,项目启动时使用 retryFailMessage() 重试一次,业务代码可以自行调度retryFailMessage()方法
+ * 使用生产消费的group模式,用于多个消费者并行消费,使用ObjectRecord作为消息载体.
  * @param <T> 需要放入队列的对象
  */
 public abstract class AbstractMessageProducerConsumerListener<T> implements StreamListener<String, ObjectRecord<String, T>>, Closeable {
     private Logger logger = LoggerFactory.getLogger(getClass());
     //默认的线程池
-    private final Executor defaultMessageListenerExecutor = new ThreadPoolExecutor(1000, 1000,
-            10L, TimeUnit.SECONDS,
-            //使用一个基于FIFO排序的阻塞队列,在所有corePoolSize线程都忙时新任务将在队列中等待
-            new LinkedBlockingQueue<Runnable>());
+    private final Executor defaultExecutor = new SimpleAsyncTaskExecutor();
+
+    // 默认batchSize
+    private final int defaultBatchSize=100;
 
     //泛型的类型
-    private final Class<T> clazz = ClassUtils.getActualTypeGenericSuperclass(getClass());
+    private final Class<T> genericClass = ClassUtils.getActualTypeGenericSuperclass(getClass());
 
     //监听的容器
     private StreamMessageListenerContainer<String, ObjectRecord<String, T>> container = null;
@@ -63,7 +63,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
      * @return
      */
     public int getBatchSize() {
-        return 100;
+        return defaultBatchSize;
     }
 
     /**
@@ -88,7 +88,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
      * @return
      */
     public Executor getExecutor() {
-        return defaultMessageListenerExecutor;
+        return defaultExecutor;
     }
 
 
@@ -122,10 +122,37 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
     @PostConstruct
     private void registerConsumerListener() {
         try {
+
+            String className=getClass().toString();
+            if (StringUtils.isBlank(getQueueName())){
+                logger.error(className+"的getQueueName()为空,registerConsumerListener()方法执行失败.");
+                return;
+            }
+            if (StringUtils.isBlank(getGroupName())){
+                logger.error(className+"的getGroupName()为空,registerConsumerListener()方法执行失败.");
+                return;
+            }
+            if (StringUtils.isBlank(getConsumerName())){
+                logger.error(className+"的getConsumerName()为空,registerConsumerListener()方法执行失败.");
+                return;
+            }
+
+
+            int batchSize=getBatchSize();
+            if (batchSize<1){
+                batchSize=defaultBatchSize;
+            }
+
+            Executor executor = getExecutor();
+            if (executor==null){
+                executor= defaultExecutor;
+            }
+
+
             StreamMessageListenerContainer.StreamMessageListenerContainerOptions<String, ObjectRecord<String, T>> options =
                     StreamMessageListenerContainer.StreamMessageListenerContainerOptions.builder()
-                            .batchSize(getBatchSize()) //一批次拉取的最大count数
-                            .executor(getExecutor())  //线程池
+                            .batchSize(batchSize) //一批次拉取的最大count数
+                            .executor(executor)  //线程池
                             .pollTimeout(Duration.ZERO) //阻塞式轮询
                             //设置默认的序列化器,要和 redisTemplate 保持一致!!!!!!!!!!!!!!!!!!!!!
                             //默认 targetType 会设置序列化器是  RedisSerializer.byteArray,这里手动初始化objectMapper,并设置序列化器.
@@ -134,7 +161,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
                             .hashKeySerializer(RedisCacheConfig.stringRedisSerializer)
                             .hashValueSerializer(RedisCacheConfig.fstSerializer)
                             //.serializer(RedisCacheConfig.fstSerializer)
-                            .targetType(clazz) //目标类型(消息内容的类型),如果objectMapper为空,会设置默认的ObjectHashMapper
+                            .targetType(genericClass) //目标类型(消息内容的类型),如果objectMapper为空,会设置默认的ObjectHashMapper
                             .build();
             container = StreamMessageListenerContainer.create(redisConnectionFactory, options);
             prepareChannelAndGroup(redisTemplate.opsForStream(), getQueueName(), getGroupName());
@@ -156,7 +183,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
 
 
             //开启线程,重试异常的消息
-            defaultMessageListenerExecutor.execute(() -> {
+            defaultExecutor.execute(() -> {
                 //重试失败的消息
                 retryFailMessage();
             });
@@ -180,7 +207,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
         List<ObjectRecord<String, T>> retryFailMessageList = new ArrayList<>();
         //避免死循环,最多1000次.如果单次返回的所有消息都是异常的,退出循环
         for (int i = 0; i < 1000; i++) {
-            List<ObjectRecord<String, T>> readList = redisTemplate.opsForStream().read(clazz, consumer, streamReadOptions, StreamOffset.fromStart(getQueueName()));
+            List<ObjectRecord<String, T>> readList = redisTemplate.opsForStream().read(genericClass, consumer, streamReadOptions, StreamOffset.fromStart(getQueueName()));
             //如果已经没有异常的消息,退出循环
             if (CollectionUtils.isEmpty(readList)) {
                 break;
