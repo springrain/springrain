@@ -8,5 +8,4 @@
   "openUrl": "torna平台地址,填写自己的私有化部署地址",
   "debugEnvName":"测试环境",
   "debugEnvUrl":"http://127.0.0.1"
-
 }
