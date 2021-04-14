@@ -6,6 +6,8 @@
 *.iml
 **/*.iml
 
+**/docs/
+
 .idea/
 **/.idea/
 
