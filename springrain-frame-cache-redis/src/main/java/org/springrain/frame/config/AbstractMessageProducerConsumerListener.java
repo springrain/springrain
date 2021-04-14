@@ -92,7 +92,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
     }
 
     /**
-     * spring-data-redis 实现的 stream 原生消费者回调方法,业务中不要直接调用!!!!!!.
+     * spring-data-redis 实现的 stream 原生消费者回调方法,依赖Redis ObjectRecord API,业务中不要直接调用!!!!!!.
      * 使用自行实现的onMessage(T value, String queueName, String messageId, Long messageTime) 方法
      *
      * @param message 需要消费者处理的消息
