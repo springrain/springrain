@@ -33,7 +33,7 @@ import java.util.concurrent.Executor;
 public abstract class AbstractMessageProducerConsumerListener<T> implements StreamListener<String, ObjectRecord<String, T>>, Closeable {
     private Logger logger = LoggerFactory.getLogger(getClass());
     //默认的线程池
-    private final Executor defaultExecutor = new SimpleAsyncTaskExecutor();
+    //private final Executor defaultExecutor = new SimpleAsyncTaskExecutor();
 
     // 默认batchSize
     private final int defaultBatchSize=100;
@@ -88,7 +88,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
      * @return
      */
     public Executor getExecutor() {
-        return defaultExecutor;
+        return null;
     }
 
 
@@ -145,7 +145,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
 
             Executor executor = getExecutor();
             if (executor==null){
-                executor= defaultExecutor;
+                executor= new SimpleAsyncTaskExecutor();
             }
 
 
@@ -183,7 +183,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
 
 
             //开启线程,重试异常的消息
-            defaultExecutor.execute(() -> {
+            executor.execute(() -> {
                 //重试失败的消息
                 retryFailMessage();
             });
