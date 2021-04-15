@@ -116,13 +116,10 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
     /**
      * 消费消息,隔离Redis API,如果返回true则自动应答,如果返回false,认为消息处理失败
      *
-     * @param value       队列中的对象值
-     * @param queueName   队列名称
-     * @param messageId   消息的ID
-     * @param messageTime 消息的时间戳
+     * @param messageObjectRecord
      * @return
      */
-    public abstract boolean onMessage(T value, String queueName, String messageId, Long messageTime);
+    public abstract boolean onMessage(MessageObjectDto<T> messageObjectRecord);
 
     /**
      * 初始化监听器
@@ -207,12 +204,15 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
     /**
      * 重试消息,项目启动时会重试一次,业务代码自行实现根据调度重试
      * 避免死循环,最多1000次.如果单次返回的所有消息都是异常的,终止重试.
+     * 如果全部重试成功,返回null.如果还有部分失败,就返回失败的消息记录
+     *
+     * @return 返回重试失败的消息记录对象
      */
-    public void retryFailMessage() {
+    public List<MessageObjectDto<T>> retryFailMessage() {
 
-        int batchSize=getBatchSize();
-        if (batchSize<1){
-            batchSize=defaultBatchSize;
+        int batchSize = getBatchSize();
+        if (batchSize < 1) {
+            batchSize = defaultBatchSize;
         }
         //消费者
         Consumer consumer = Consumer.from(getGroupName(), getConsumerName());
@@ -243,6 +243,16 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
                 }
             }
         }
+        // 没有失败的消息记录
+        if (CollectionUtils.isEmpty(retryFailMessageList)) {
+            return null;
+        }
+        //返回处理异常的消息
+        List<MessageObjectDto<T>> retryFailMessageObjectList = new ArrayList<>();
+        for (ObjectRecord<String, T> message : retryFailMessageList) {
+            retryFailMessageObjectList.add(objectRecord2MessageObject(message));
+        }
+        return retryFailMessageObjectList;
     }
 
 
@@ -287,6 +297,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
             //StreamRecords.newRecord()
             //ObjectRecord record = Record.of(message).withStreamKey(queueName);
             RecordId recordId = redisTemplate.opsForStream().add(record);
+
             return recordId.getValue();
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
@@ -302,22 +313,39 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
      */
     private RecordId messageSuccessRecordId(ObjectRecord<String, T> message) {
         RecordId recordId = message.getId();
-        String messageId = recordId.getValue();
-        Long messageTime = recordId.getTimestamp();
-        String queueName = message.getStream();
-        T value = message.getValue();
-
+        MessageObjectDto<T> messageObjectRecord = objectRecord2MessageObject(message);
         try {
-            boolean ok = onMessage(value, queueName, messageId, messageTime);
+            boolean ok = onMessage(messageObjectRecord);
             if (ok) {
                 return recordId;
             } else {
                 return null;
             }
-        }catch (Exception e){
-            logger.error(e.getMessage(),e);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
             return null;
         }
+    }
+
+
+    /**
+     * ObjectRecord2MessageObject 类型转换
+     *
+     * @param message
+     * @return
+     */
+    private MessageObjectDto<T> objectRecord2MessageObject(ObjectRecord<String, T> message) {
+        RecordId recordId = message.getId();
+        String messageId = recordId.getValue();
+        Long messageTime = recordId.getTimestamp();
+        String queueName = message.getStream();
+        T messageObject = message.getValue();
+
+        MessageObjectDto<T> messageObjectRecord = new MessageObjectDto<>(messageObject, queueName, messageId, messageTime);
+
+
+        return messageObjectRecord;
+
     }
 
 
