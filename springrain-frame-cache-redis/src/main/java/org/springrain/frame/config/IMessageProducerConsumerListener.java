@@ -9,7 +9,7 @@ import java.util.List;
  * 例如 </br>
  * <code>
  * @Resource
- * IMessageProducerConsumerListener userMessageProducerConsumerListener;
+ * IMessageProducerConsumerListener<User> userMessageProducerConsumerListener;
  * </code>
  * @param <T> 需要放入队列的对象
  */
