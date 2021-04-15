@@ -3,10 +3,10 @@ package org.springrain.frame.mq;
 import java.util.List;
 
 /**
- * 用于声明注入的监听器接口,使用了JDK动态代理,必须使用这个接口声明注入的实现
+ * 用于声明注入的监听器接口,使用了JDK动态代理,必须使用这个接口声明注入实现
  * AbstractMessageProducerConsumerListener 实现了StreamListener和IMessageProducerConsumerListener两个接口,
  * 注入使用IMessageProducerConsumerListener接口,也就屏蔽了StreamListener原生接口,避免调错方法.
- * 具体的监听器实现 还是要继承 AbstractMessageProducerConsumerListener的.
+ * 具体的监听器实现 还是要继承 AbstractMessageProducerConsumerListener
  * 例如 </br>
  * <code>
  * @Component("userMessageProducerConsumerListener")
@@ -21,6 +21,8 @@ import java.util.List;
  */
 public interface IMessageProducerConsumerListener<T> {
       /**
+       * 不要手动调用这个方法!!!!!!!!!不要手动调用这个方法!!!!!!!!!不要手动调用这个方法!!!!!!!!!
+       *
        * 消费消息,隔离Redis API,如果返回true则自动应答,如果返回false,认为消息处理失败.
        * 暂时注释这个方法,避免手动挡调用,这个方法是 StreamListener的onMessage主动调用的,正常不需要手动调用
        * 还是要留着这个方法,用于增加 类似 @Transactional 事务注解扩展,因为是面向接口注入的
