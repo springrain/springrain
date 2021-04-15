@@ -207,11 +207,19 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
     /**
      * 重试消息,项目启动时会重试一次,业务代码自行实现根据调度重试
      * 避免死循环,最多1000次.如果单次返回的所有消息都是异常的,终止重试.
+     * 如果成功,return null,如果失败,返回失败的原因.
+     * @return errorMessage
      */
     public void retryFailMessage() {
+
+        int batchSize=getBatchSize();
+        if (batchSize<1){
+            batchSize=defaultBatchSize;
+        }
+        //消费者
         Consumer consumer = Consumer.from(getGroupName(), getConsumerName());
         //设置配置
-        StreamReadOptions streamReadOptions = StreamReadOptions.empty().count(getBatchSize()).block(Duration.ofSeconds(5));
+        StreamReadOptions streamReadOptions = StreamReadOptions.empty().count(batchSize).block(Duration.ofSeconds(5));
         List<ObjectRecord<String, T>> retryFailMessageList = new ArrayList<>();
         //避免死循环,最多1000次.如果单次返回的所有消息都是异常的,退出循环
         for (int i = 0; i < 1000; i++) {
