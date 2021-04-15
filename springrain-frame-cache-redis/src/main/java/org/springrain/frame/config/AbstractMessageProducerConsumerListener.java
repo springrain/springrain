@@ -30,7 +30,7 @@ import java.util.concurrent.Executor;
  * 使用生产消费的group模式,用于多个消费者并行消费,使用ObjectRecord作为消息载体.
  * @param <T> 需要放入队列的对象
  */
-public abstract class AbstractMessageProducerConsumerListener<T> implements StreamListener<String, ObjectRecord<String, T>>, Closeable {
+public abstract class AbstractMessageProducerConsumerListener<T> implements StreamListener<String, ObjectRecord<String, T>>, IMessageProducerConsumerListener<T>,Closeable {
     private Logger logger = LoggerFactory.getLogger(getClass());
     //默认的线程池
     //private final Executor defaultExecutor = new SimpleAsyncTaskExecutor();
@@ -119,6 +119,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
      * @param messageObjectDto
      * @return
      */
+    @Override
     public abstract boolean onMessage(MessageObjectDto<T> messageObjectDto);
 
     /**
@@ -208,6 +209,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
      *
      * @return 返回重试失败的消息记录对象
      */
+    @Override
     public List<MessageObjectDto<T>> retryFailMessage() {
 
         int batchSize = getBatchSize();
@@ -287,6 +289,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
      * @param message
      * @return
      */
+    @Override
     public String sendProducerMessage(T message) {
         if (message == null) {
             return null;
