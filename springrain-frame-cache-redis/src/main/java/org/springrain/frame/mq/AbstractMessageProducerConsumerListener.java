@@ -1,4 +1,4 @@
-package org.springrain.frame.config;
+package org.springrain.frame.mq;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -13,6 +13,7 @@ import org.springframework.data.redis.hash.ObjectHashMapper;
 import org.springframework.data.redis.stream.StreamListener;
 import org.springframework.data.redis.stream.StreamMessageListenerContainer;
 import org.springframework.util.Assert;
+import org.springrain.frame.config.RedisCacheConfig;
 import org.springrain.frame.util.ClassUtils;
 
 import javax.annotation.PostConstruct;

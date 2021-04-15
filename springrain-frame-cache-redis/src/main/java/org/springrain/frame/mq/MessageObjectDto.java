@@ -1,4 +1,4 @@
-package org.springrain.frame.config;
+package org.springrain.frame.mq;
 
 /**
  * 消息对象的Dto,屏蔽不同MQ之间的差异.

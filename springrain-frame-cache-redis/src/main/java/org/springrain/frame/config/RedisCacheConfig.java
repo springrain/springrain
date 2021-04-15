@@ -30,9 +30,9 @@ public class RedisCacheConfig {
     private RedisConnectionFactory redisConnectionFactory;
 
     // 序列化配置 解析任意对象
-    static FstSerializer fstSerializer =  new FstSerializer();
+    public static FstSerializer fstSerializer =  new FstSerializer();
     // 2.序列化String类型
-    static StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
+    public static StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
 
     /**
      * 实际使用的redisTemplate,可以注入到代码中,操作redis
