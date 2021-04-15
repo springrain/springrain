@@ -4,6 +4,8 @@ import java.util.List;
 
 /**
  * 用于声明注入的监听器接口,使用了JDK动态代理,必须使用这个接口声明注入的实现
+ * AbstractMessageProducerConsumerListener 实现了StreamListener和IMessageProducerConsumerListener两个接口,
+ * 注入使用IMessageProducerConsumerListener接口,也就屏蔽了StreamListener原生接口,避免调错方法.
  * 例如 </br>
  * <code>
  * @Resource
