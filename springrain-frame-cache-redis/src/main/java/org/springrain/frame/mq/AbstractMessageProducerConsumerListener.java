@@ -29,6 +29,16 @@ import java.util.concurrent.Executor;
  * 因为接口不能注入springBean,使用抽象类实现,主要用于隔离了Redis Stream API,方便后期更换MQ的实现.
  * 如果未确认消息消费,Redis Stream 暂时没有重试的API,项目启动时使用 retryFailMessage() 重试一次,业务代码可以自行调度retryFailMessage()方法
  * 使用生产消费的group模式,用于多个消费者并行消费,使用ObjectRecord作为消息载体.
+ * 子类继承之后注入,需要使用IMessageProducerConsumerListener接口,例如
+ * <code>
+ * @Component("userMessageProducerConsumerListener")
+ * public class UserMessageProducerConsumerListener extends AbstractMessageProducerConsumerListener<User>
+ * </code>
+ *
+ * <code>
+ * @Resource
+ * IMessageProducerConsumerListener<User> userMessageProducerConsumerListener;
+ * </code>
  * @param <T> 需要放入队列的对象
  */
 public abstract class AbstractMessageProducerConsumerListener<T> implements StreamListener<String, ObjectRecord<String, T>>, IMessageProducerConsumerListener<T>,Closeable {
