@@ -1,5 +1,9 @@
 package org.springrain.frame.config;
 
+/**
+ * 消息对象的Dto,屏蔽不同MQ之间的差异.
+ * @param <T>
+ */
 public class MessageObjectDto<T> {
     /**
      * 消息的ID
