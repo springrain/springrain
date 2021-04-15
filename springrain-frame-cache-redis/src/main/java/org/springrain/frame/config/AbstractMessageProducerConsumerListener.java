@@ -116,10 +116,10 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
     /**
      * 消费消息,隔离Redis API,如果返回true则自动应答,如果返回false,认为消息处理失败
      *
-     * @param messageObjectRecord
+     * @param messageObjectDto
      * @return
      */
-    public abstract boolean onMessage(MessageObjectDto<T> messageObjectRecord);
+    public abstract boolean onMessage(MessageObjectDto<T> messageObjectDto);
 
     /**
      * 初始化监听器
