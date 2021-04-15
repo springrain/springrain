@@ -23,9 +23,15 @@
             <artifactId>springrain-frame-util</artifactId>
             <version>6.0.0-SNAPSHOT</version>
         </dependency>
+        <!--
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
         </dependency>
 
 
