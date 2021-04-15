@@ -130,7 +130,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
      * @param messageObjectDto
      * @return
      */
-    @Override
+    //@Override
     public abstract boolean onMessage(MessageObjectDto<T> messageObjectDto);
 
     /**

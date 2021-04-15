@@ -25,7 +25,7 @@ public interface IMessageProducerConsumerListener<T> {
        * @param messageObjectDto
        * @return
        */
-      boolean onMessage(MessageObjectDto<T> messageObjectDto);
+      //boolean onMessage(MessageObjectDto<T> messageObjectDto);
 
       /**
        * 重试消息,项目启动时会重试一次,业务代码自行实现根据调度重试
