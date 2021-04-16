@@ -181,6 +181,8 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
                             .targetType(genericClass) //目标类型(消息内容的类型),如果objectMapper为空,会设置默认的ObjectHashMapper
                             .build();
             container = StreamMessageListenerContainer.create(redisConnectionFactory, options);
+
+            //检查创建group组
             prepareChannelAndGroup(redisTemplate.opsForStream(), getQueueName(), getGroupName());
 
             // 通过xread命令也就是非消费者组模式直接读取,或者使用xreadgroup命令在消费者组中命令一个消费者去消费一条记录,
