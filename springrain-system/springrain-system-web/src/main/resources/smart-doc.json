@@ -7,5 +7,13 @@
   "appToken": "torna平台appToken",
   "openUrl": "torna平台地址,填写自己的私有化部署地址",
   "debugEnvName":"测试环境",
-  "debugEnvUrl":"http://127.0.0.1"
+  "debugEnvUrl":"http://127.0.0.1",
+  "requestHeaders": [{
+    "name": "jwttoken",
+    "type": "string",
+    "desc": "请求头描述信息",
+    "value":"token请求头的值,不设置默认null",
+    "required": true,
+    "since": "-"
+  }]
 }
