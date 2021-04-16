@@ -5,10 +5,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
+import org.springframework.data.convert.CustomConversions;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.stream.*;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StreamOperations;
+import org.springframework.data.redis.core.convert.RedisCustomConversions;
 import org.springframework.data.redis.hash.ObjectHashMapper;
 import org.springframework.data.redis.stream.StreamListener;
 import org.springframework.data.redis.stream.StreamMessageListenerContainer;
@@ -22,6 +24,7 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Executor;
 
@@ -110,7 +113,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
      * @param message 需要消费者处理的消息
      */
     @Override
-    public final void onMessage(ObjectRecord<String, T> message) {
+    public void onMessage(ObjectRecord<String, T> message) {
         try {
             RecordId recordId = messageSuccessRecordId(message);
             if (recordId != null) {
@@ -132,7 +135,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
      * @return
      */
     @Override
-    public abstract boolean onMessage(MessageObjectDto<T> messageObjectDto);
+    public abstract boolean onMessage(MessageObjectDto<T> messageObjectDto) throws Exception;
 
     /**
      * 初始化监听器
@@ -146,35 +149,40 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
                 logger.error(className + "的getQueueName()为空,registerConsumerListener()方法执行失败.");
                 return;
             }
-            if (StringUtils.isBlank(getGroupName())){
-                logger.error(className+"的getGroupName()为空,registerConsumerListener()方法执行失败.");
+            if (StringUtils.isBlank(getGroupName())) {
+                logger.error(className + "的getGroupName()为空,registerConsumerListener()方法执行失败.");
                 return;
             }
-            if (StringUtils.isBlank(getConsumerName())){
-                logger.error(className+"的getConsumerName()为空,registerConsumerListener()方法执行失败.");
+            if (StringUtils.isBlank(getConsumerName())) {
+                logger.error(className + "的getConsumerName()为空,registerConsumerListener()方法执行失败.");
                 return;
             }
 
 
-            int batchSize=getBatchSize();
-            if (batchSize<1){
-                batchSize=defaultBatchSize;
+            int batchSize = getBatchSize();
+            if (batchSize < 1) {
+                batchSize = defaultBatchSize;
             }
 
             Executor executor = getExecutor();
-            if (executor==null){
-                executor= new SimpleAsyncTaskExecutor();
+            if (executor == null) {
+                executor = new SimpleAsyncTaskExecutor();
             }
 
+            // 增加自定义的 BytesToTimestampConverter 类型转换器.
+            // spring jdbc 把 datetime 类型解析成了 java.sql.timestamp,spring-data-redis并没用提供BytesToTimestampConverter,造成无法转换类型
+            // 使用 ObjectHashMapper 构造函数 注册自定义的转换器
+            CustomConversions customConversions = new RedisCustomConversions(Arrays.asList(new BytesToTimestampConverter()));
 
+            //监听器的配置项
             StreamMessageListenerContainer.StreamMessageListenerContainerOptions<String, ObjectRecord<String, T>> options =
                     StreamMessageListenerContainer.StreamMessageListenerContainerOptions.builder()
                             .batchSize(batchSize) //一批次拉取的最大count数
                             .executor(executor)  //线程池
                             .pollTimeout(Duration.ZERO) //阻塞式轮询
                             //设置默认的序列化器,要和 redisTemplate 保持一致!!!!!!!!!!!!!!!!!!!!!
-                            //默认 targetType 会设置序列化器是  RedisSerializer.byteArray,这里手动初始化objectMapper,并设置序列化器.
-                            .objectMapper(ObjectHashMapper.getSharedInstance())
+                            //默认 targetType 会设置序列化器是  RedisSerializer.byteArray,这里手动初始化objectMapper,并设置自定义转换器和序列化器.
+                            .objectMapper(new ObjectHashMapper(customConversions))
                             .keySerializer(RedisCacheConfig.stringRedisSerializer)
                             .hashKeySerializer(RedisCacheConfig.stringRedisSerializer)
                             .hashValueSerializer(RedisCacheConfig.fstSerializer)
@@ -205,7 +213,11 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
             //开启线程,重试异常的消息
             executor.execute(() -> {
                 //重试失败的消息
-                retryFailMessage();
+                try {
+                    retryFailMessage();
+                } catch (Exception e) {
+                    logger.error(e.getMessage(), e);
+                }
             });
 
 
@@ -224,7 +236,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
      * @return 返回重试失败的消息记录对象
      */
     @Override
-    public List<MessageObjectDto<T>> retryFailMessage() {
+    public List<MessageObjectDto<T>> retryFailMessage() throws Exception {
 
         int batchSize = getBatchSize();
         if (batchSize < 1) {
@@ -304,7 +316,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
      * @return
      */
     @Override
-    public MessageObjectDto<T> sendProducerMessage(T message) {
+    public MessageObjectDto<T> sendProducerMessage(T message) throws Exception {
         if (message == null) {
             return null;
         }
@@ -318,7 +330,8 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
             return new MessageObjectDto<T>(message, getQueueName(), recordId.getValue(), recordId.getTimestamp());
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return null;
+            throw e;
+            //return null;
         }
     }
 
