@@ -46,6 +46,6 @@ public interface IMessageProducerConsumerListener<T> {
        * @param message
        * @return
        */
-      String sendProducerMessage(T message);
+      MessageObjectDto<T> sendProducerMessage(T message);
 
 }

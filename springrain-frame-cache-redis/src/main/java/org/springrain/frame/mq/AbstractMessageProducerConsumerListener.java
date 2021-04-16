@@ -301,7 +301,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
      * @return
      */
     @Override
-    public String sendProducerMessage(T message) {
+    public MessageObjectDto<T> sendProducerMessage(T message) {
         if (message == null) {
             return null;
         }
@@ -311,8 +311,8 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
             //StreamRecords.newRecord()
             //ObjectRecord record = Record.of(message).withStreamKey(queueName);
             RecordId recordId = redisTemplate.opsForStream().add(record);
-
-            return recordId.getValue();
+            // return recordId.getValue();
+            return new MessageObjectDto<T>(message, getQueueName(), recordId.getValue(), recordId.getTimestamp());
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             return null;
