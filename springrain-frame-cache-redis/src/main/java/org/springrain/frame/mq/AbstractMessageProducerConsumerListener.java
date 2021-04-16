@@ -171,8 +171,10 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
 
             // 增加自定义的 BytesToTimestampConverter 类型转换器.
             // spring jdbc 把 datetime 类型解析成了 java.sql.timestamp,spring-data-redis并没用提供BytesToTimestampConverter,造成无法转换类型
-            // 使用 ObjectHashMapper 构造函数 注册自定义的转换器
             CustomConversions customConversions = new RedisCustomConversions(Arrays.asList(new BytesToTimestampConverter()));
+            // 使用 ObjectHashMapper 构造函数 注册自定义的转换器
+            ObjectHashMapper objectHashMapper= new ObjectHashMapper(customConversions);
+
 
             //监听器的配置项
             StreamMessageListenerContainer.StreamMessageListenerContainerOptions<String, ObjectRecord<String, T>> options =
@@ -182,7 +184,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
                             .pollTimeout(Duration.ZERO) //阻塞式轮询
                             //设置默认的序列化器,要和 redisTemplate 保持一致!!!!!!!!!!!!!!!!!!!!!
                             //默认 targetType 会设置序列化器是  RedisSerializer.byteArray,这里手动初始化objectMapper,并设置自定义转换器和序列化器.
-                            .objectMapper(new ObjectHashMapper(customConversions))
+                            .objectMapper(objectHashMapper)
                             .keySerializer(RedisCacheConfig.stringRedisSerializer)
                             .hashKeySerializer(RedisCacheConfig.stringRedisSerializer)
                             .hashValueSerializer(RedisCacheConfig.fstSerializer)
