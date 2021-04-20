@@ -28,6 +28,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
+        <!-- 建议使用 https://github.com/core-lib/xjar  混淆代码,使用比较简单 -->
         <proguard-maven-plugin.version>2.3.1</proguard-maven-plugin.version>
         <proguard.version>6.2.2</proguard.version>
 
