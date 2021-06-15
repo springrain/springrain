@@ -1,5 +1,9 @@
 package org.springrain.system.config;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.SearchStrategy;
+import org.springframework.boot.web.servlet.error.ErrorAttributes;
+import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScan.Filter;
@@ -13,6 +17,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springrain.frame.util.FrameObjectMapper;
+import org.springrain.system.base.BaseErrorController;
 import org.springrain.system.base.SpringMVCAnnotationBeanNameGenerator;
 
 import java.nio.charset.Charset;
@@ -154,4 +159,17 @@ public class SpringMVCConfig implements WebMvcConfigurer {
         ByteArrayHttpMessageConverter byteArrayHttpMessageConverter = new ByteArrayHttpMessageConverter();
         return byteArrayHttpMessageConverter;
     }
+
+    /**
+     * 覆盖springboot默认的BaseErrorController,使用自定义的BaseErrorController拦截404等异常信息,返回JSON格式的数据.
+     * 需要和GlobalExceptionHandler配合,才能拦截所有的异常
+     * @param errorAttributes 异常信息属性
+     * @return
+     */
+    @Bean("basicErrorController")
+    @ConditionalOnMissingBean(value = ErrorController.class, search = SearchStrategy.CURRENT)
+    public BaseErrorController basicErrorController(ErrorAttributes errorAttributes) {
+        return new BaseErrorController(errorAttributes);
+    }
+
 }
