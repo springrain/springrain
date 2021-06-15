@@ -8,7 +8,8 @@ import org.springframework.stereotype.Controller;
 
 /**
  * 主入口,排除@Controller注解,主要为了Controller指定命名规则. 这个类所在的包,就是默认扫描的根包.
- * 注意:只能有一个@SpringBootApplication入口文件,如果其他模块引用了这个模块,就需要把类上的注解都注释掉
+ * 注意:只能有一个@SpringBootApplication入口文件,如果其他模块引用了这个模块,就需要把类上的注解都注释掉.
+ * 也可以其他的名称和这个名称保持一致,使用会自动覆盖这个实现,使用InitXXXPermission这个类初始化自定义的权限
  *
  * @author caomei
  */
@@ -17,13 +18,6 @@ import org.springframework.stereotype.Controller;
 public class SpringrainApplication {
 
     public static void main(String[] args) {
-
-
-        //添加用户默认有的路径权限
-        // GlobalStatic.userDefaultUrl.add("/upload/**");
-        //添加不拦截的URL地址
-        // GlobalStatic.excludePathPatterns.add("/upload/**");
-
         SpringApplication.run(SpringrainApplication.class, args);
     }
 
