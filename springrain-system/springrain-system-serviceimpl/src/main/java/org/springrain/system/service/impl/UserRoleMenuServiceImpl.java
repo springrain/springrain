@@ -47,7 +47,7 @@ public class UserRoleMenuServiceImpl extends BaseSpringrainServiceImpl implement
         //按照 r.privateOrg,r.sortno desc 先处理强制部门权限的角色
         Finder finder = new Finder("SELECT r.* from ").append(Finder.getTableName(Role.class)).append(" r,")
                 .append(Finder.getTableName(UserRole.class))
-                .append("  re where re.userId=:userId and re.roleId=r.id and r.active=1 order by r.privateOrg,r.sortno desc");
+                .append("  re where re.userId=:userId and re.roleId=r.id and r.active=1 order by r.privateOrg desc,r.sortno desc");
         finder.setParam("userId", userId);
 
         list = super.queryForList(finder, Role.class);
