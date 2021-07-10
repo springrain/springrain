@@ -27,8 +27,8 @@ public class GlobalStatic {
     public static final String seataTransactionServiceGroup = "seata_tx_group";
     // 是否开启seata分布式事务,默认是开启的,一旦关闭,整个应用就会关闭
     public static final boolean seataGlobalEnable = true;
-    // 记录是否是分布事务的开始线程
-    public static final ThreadLocal<Boolean> seataTransactionBegin = new ThreadLocal<>();
+    // 记录是否是分支事务
+    public static final ThreadLocal<Boolean> seataBranchTransaction = new ThreadLocal<>();
     // 微信缓存配置
     public static final String wxConfigCacheKey = "wxConfigCacheKey";
     // 支付宝缓存配置

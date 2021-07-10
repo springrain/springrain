@@ -2,10 +2,13 @@ package org.springrain.rpc.grpcimpl;
 
 import com.google.protobuf.ByteString;
 import io.seata.core.context.RootContext;
-import io.seata.core.exception.TransactionException;
-import io.seata.tm.api.GlobalTransaction;
-import io.seata.tm.api.GlobalTransactionContext;
-import io.seata.tm.api.TransactionalExecutor;
+import org.springrain.frame.util.GlobalStatic;
+import org.springrain.rpc.grpcauto.CommonRequest;
+import org.springrain.rpc.grpcauto.CommonResponse;
+import org.springrain.rpc.grpcauto.GrpcCommonServiceGrpc;
+import org.springrain.rpc.sessionuser.SessionUser;
+import org.springrain.rpc.sessionuser.UserVO;
+import org.springrain.rpc.util.FstSerializeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,14 +16,8 @@ import org.springframework.beans.BeansException;
 import org.springframework.cglib.reflect.FastClass;
 import org.springframework.cglib.reflect.FastMethod;
 import org.springframework.context.ApplicationContext;
-import org.springrain.rpc.grpcauto.CommonResponse;
-import org.springrain.rpc.grpcauto.GrpcCommonServiceGrpc;
-import org.springrain.rpc.sessionuser.SessionUser;
-import org.springrain.rpc.sessionuser.UserVO;
-import org.springrain.rpc.util.FstSerializeUtils;
 
 import java.lang.reflect.Method;
-import java.util.regex.Pattern;
 
 /**
  * 集成自动产生的java类,自定义自己的实现.总体思路是
@@ -34,9 +31,9 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 
     private static final Logger logger = LoggerFactory.getLogger(CommonGrpcService.class);
     // 事务匹配的规则
-    String pattern = ".*Service.(save|update|delete)(.*)";
+    // String pattern = ".*Service.(save|update|delete)(.*)";
     // 创建 Pattern 对象
-    Pattern r = Pattern.compile(pattern);
+    // Pattern r = Pattern.compile(pattern);
     private ApplicationContext applicationContext = null;
 
     public CommonGrpcService(ApplicationContext applicationContext) {
@@ -50,8 +47,8 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
      * </pre>
      */
     @Override
-    public void commonHandle(org.springrain.rpc.grpcauto.CommonRequest commonRequest,
-                             io.grpc.stub.StreamObserver<org.springrain.rpc.grpcauto.CommonResponse> responseObserver) {
+    public void commonHandle(CommonRequest commonRequest,
+                             io.grpc.stub.StreamObserver<CommonResponse> responseObserver) {
 
         // 把请求反序列化成正常对象,GrpcRequest
         GrpcCommonRequest grpcRequest = FstSerializeUtils.deserialize(commonRequest);
@@ -86,26 +83,19 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
         }
 
 
-        // 需要考虑是调用链入口还是中间节点
-        // 先判断是否有参数传递进来
-        String txGroupId = grpcRequest.getTxGroupId();
-        boolean bind = false;
-        // 是否是全局事务入口
-        GlobalTransaction tx = null;
-
+        // 分布式事务的XID
+        String seataXID = grpcRequest.getTxGroupId();
         try {
 
-            String xid = RootContext.getXID();
-
-            if (StringUtils.isBlank(xid) && StringUtils.isNotBlank(txGroupId)) {
-                RootContext.bind(txGroupId);
-                bind = true;
+            if (GlobalStatic.seataEnable&&StringUtils.isNotBlank(seataXID)) {
+                RootContext.bind(seataXID);
+                //分支事务
+                GlobalStatic.seataBranchTransaction.set(true);
             }
 
             // 调用的方法
             Method method = bean.getClass().getMethod(grpcRequest.getMethod(), grpcRequest.getArgTypes());
 
-            boolean isSpringTxMethod = isSpringTxMethod(methodPath);
 
             // 如果启用seata-spring注解@GlobalTransactional方法,和grpcserver的切面存在冲突,会重复提交,grpc就不再负责seata事务管理了.
             // 代码先注释了,不想引入seata-spring的jar,用到了再解开.
@@ -118,23 +108,7 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
              * Exception("有@GlobalTransactional注解,却没有Spring本地事务,认为异常"); } }
              **/
 
-            if (StringUtils.isBlank(xid) && StringUtils.isBlank(txGroupId) && isSpringTxMethod) {// 需要产生事务,创建分布式事务.
-                // 1. 获取当前全局事务实例或创建新的实例
-                tx = GlobalTransactionContext.getCurrentOrCreate();
 
-                // 2. 开启全局事务
-                try {
-                    tx.begin(grpcRequest.getTimeout(), methodPath);
-                    txGroupId = tx.getXid();
-                    // 如果是入口开启,就做TM使用了,不再依赖事务管理器
-                    // GlobalStatic.seataTransactionBegin.set(true);
-                    bind = true;
-                } catch (TransactionException txe) {
-                    // 2.1 开启失败
-                    throw new TransactionalExecutor.ExecutionException(tx, txe,
-                            TransactionalExecutor.Code.BeginFailure);
-                }
-            }
 
             if (userVO != null) {
                 SessionUser.sessionUserLocal.set(userVO);
@@ -154,61 +128,12 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
             responseObserver.onCompleted();
 
 
-            // 提交事务
-            if (tx != null) {
-                tx.commit();
-            }
-
-            // 异常,回滚事务
-            if (grpcResponse.getStatus() >= 400) {
-                // 全局回滚
-                // 业务调用本身的异常
-                try {
-                    // 全局回滚
-                    if (tx != null) { // 3.1 全局回滚成功：抛出原始业务异常
-                        tx.rollback();
-                    }
-
-                } catch (TransactionException txe) {// 3.2 全局回滚失败：
-                    // 3.2 全局回滚失败：
-                    logger.error(txe.getMessage(), txe);
-                }
-            }
-
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            // String message = e.getClass().getName() + ": " + e.getMessage();
-            // grpcResponse.error(message, e, e.getStackTrace());
-
-
-            // 全局回滚
-            // 业务调用本身的异常
-            try {
-                // 全局回滚
-                if (tx != null) { // 3.1 全局回滚成功：抛出原始业务异常
-                    tx.rollback();
-                }
-
-            } catch (TransactionException txe) {// 3.2 全局回滚失败：
-                // 3.2 全局回滚失败：
-                logger.error(txe.getMessage(), txe);
-            }
-
         } finally {
 
             SessionUser.sessionUserLocal.remove();
-
-            if (bind) {
-                String unbindXid = RootContext.unbind();
-
-                if (!txGroupId.equalsIgnoreCase(unbindXid)) {
-                    if (unbindXid != null) {
-                        RootContext.bind(unbindXid);
-                    }
-                }
-
-            }
-
+            GlobalStatic.seataBranchTransaction.remove();
         }
 
     }
@@ -266,20 +191,7 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 
     }
 
-    /**
-     * 如果已经存在spring事务,说明是中间节点,需要在rpc客户端产生全局事务,和当前事务绑定.如果没有事务,在服务端创建分布式事务.判断方法是否会产生spring事务.
-     *
-     * @param methodPath
-     * @return
-     */
-    private boolean isSpringTxMethod(String methodPath) {
 
-        if (methodPath == null) {
-            return false;
-        }
-
-        boolean matches = r.matcher(methodPath).matches();
-        return matches;
-    }
 
 }
+

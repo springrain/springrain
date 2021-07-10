@@ -36,15 +36,16 @@ public class SeataDataSourceTransactionManager extends DataSourceTransactionMana
         // 先提交spring事务.
         super.doCommit(status);
 
-        // 当前线程是否是seata的创建者,和spring事务存在同步风险,需要记录好日志.敏感操作建议使用@GlobalTransactional注解
-        Boolean begin = GlobalStatic.seataTransactionBegin.get();
-        if (begin == null) {
-            begin = false;
+        // 当前线程是否是seata的分支事务,和spring事务存在同步风险,需要记录好日志.敏感操作建议使用@GlobalTransactional注解
+        Boolean branch = GlobalStatic.seataBranchTransaction.get();
+        if (branch == null) {
+            branch = false;
         }
-        if (begin && RootContext.inGlobalTransaction()) {
+        if (GlobalStatic.seataEnable&&!branch && RootContext.inGlobalTransaction()) {
             try {
                 // 分支事务执行时把事务角色修改成了GlobalTransactionRole.Participant,reload重新设置成GlobalTransactionRole.Launcher
-                GlobalTransaction tx = GlobalTransactionContext.reload(RootContext.getXID());
+                //GlobalTransaction tx = GlobalTransactionContext.reload(RootContext.getXID());
+                GlobalTransaction tx =GlobalTransactionContext.getCurrent();
                 tx.commit();
 
             } catch (TransactionException txe) {
@@ -62,10 +63,20 @@ public class SeataDataSourceTransactionManager extends DataSourceTransactionMana
         super.doRollback(status);
 
         // 回滚seata事务.
-        if (RootContext.inGlobalTransaction()) {
+        if (GlobalStatic.seataEnable&&RootContext.inGlobalTransaction()) {
             try {
                 // 分支事务执行把,把事务角色修改成了GlobalTransactionRole.Participant,reload重新设置成GlobalTransactionRole.Launcher
-                GlobalTransaction tx = GlobalTransactionContext.reload(RootContext.getXID());
+                Boolean branch = GlobalStatic.seataBranchTransaction.get();
+                GlobalTransaction tx =null;
+                if (branch == null) {
+                    branch = false;
+                }
+                if (branch){
+                    tx = GlobalTransactionContext.reload(RootContext.getXID());
+                }else{
+                    tx=GlobalTransactionContext.getCurrent();
+                }
+
                 tx.rollback();
             } catch (TransactionException txe) {
                 logger.error(txe.getMessage(), txe);
@@ -78,12 +89,26 @@ public class SeataDataSourceTransactionManager extends DataSourceTransactionMana
     @Override
     protected void doCleanupAfterCompletion(Object transaction) {
         super.doCleanupAfterCompletion(transaction);
-        GlobalStatic.seataTransactionBegin.remove();
+        GlobalStatic.seataBranchTransaction.remove();
     }
 
     @Override
     protected void doBegin(Object transaction, TransactionDefinition definition) {
-        super.doBegin(transaction, definition);
+        // 如果禁用了分布式事务或者已经在分布事务中
+        if ((!GlobalStatic.seataEnable)||RootContext.inGlobalTransaction()) {
+            //开启spring事务
+            super.doBegin(transaction, definition);
+            return;
+        }
+        //新建分布式事务
+        GlobalTransaction tx=  GlobalTransactionContext.createNew();
+        try {
+            //开启分布式事务
+            tx.begin();
+            super.doBegin(transaction, definition);
+        } catch (TransactionException e) {
+            logger.error(e.getMessage(), e);
+        }
     }
 
     @Override
