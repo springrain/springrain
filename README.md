@@ -1,7 +1,7 @@
 ## 微服务
  6.0.0 项目入口是springrain-system-web,基于Istio实现微服务,正在整理文档.
 ## 前后分离
- 6.0.0 基于VUE前后端分离,使用JWT认证.前端项目是[springrain-vue](https://gitee.com/chunanyong/springrain-vue)
+ 6.0.0 基于VUE前后端分离,使用JWT认证.前端项目是[front-springrain](https://gitee.com/chunanyong/front-springrain)
 
 ## 实现了什么?
 * 不增加学习成本,像单体一样开发分布式微服务.

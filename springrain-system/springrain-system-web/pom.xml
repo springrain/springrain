@@ -211,7 +211,7 @@
                         <phase>compile</phase>
                         <goals>
                             <!--smart-doc提供了html、openapi、markdown、torna-rest等goal，可按需配置-->
-                            <goal>torna-rest</goal>
+                            <goal>html</goal>
                         </goals>
                     </execution>
                 </executions>
