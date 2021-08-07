@@ -1,16 +1,27 @@
 package org.springrain.weixin.web;
 
+import org.springrain.weixin.sdk.common.ApiResult;
+import org.springrain.weixin.sdk.common.wxconfig.IWxMpConfig;
+import org.springrain.weixin.sdk.open.SnsApi;
+import org.springrain.weixin.service.IWxMpConfigService;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springrain.weixin.sdk.common.wxconfig.IWxMpConfig;
-import org.springrain.weixin.service.IWxMpConfigService;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping(value = "/mp/mpautologin/{siteId}")
 public class WxMpAutoLoginController {
+
+    private static final Logger logger = LoggerFactory.getLogger(WxMpAutoLoginController.class);
+
+
     // @Resource
     // IWxMpService wxMpService;
     @Resource
@@ -27,22 +38,22 @@ public class WxMpAutoLoginController {
      * @throws Exception
      */
     @RequestMapping("/oauth2")
-    public String oauth2(@PathVariable String siteId) throws Exception {
-        //String url = payRequest.getParameter("url");
-        //if(StringUtils.isBlank(url)||StringUtils.isBlank(siteId)){
-        //	return null;
-        //}
-
+    public String oauth2(@PathVariable String siteId, @RequestParam String url, HttpServletRequest request) throws Exception {
+        if (StringUtils.isBlank(url) || StringUtils.isBlank(siteId)) {
+            return null;
+        }
 
         IWxMpConfig wxmpconfig = wxMpConfigService.findWxMpConfigById(siteId);
-
-
-        //String _url=RequestURLUtils.getBaseURL(payRequest)+"/mp/mpautologin/"+siteId+"/callback?url=" + url;
+        String ctxpath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+        String _url = ctxpath + "/mp/mpautologin/" + siteId + "/callback?url=" + url;
 
         //String oauthUrl = wxMpService.oauth2buildAuthorizationUrl(wxmpconfig,_url, WxConsts.OAUTH2_SCOPE_BASE, null);
 
-        //return BaseController.redirect + oauthUrl;
-        return "";
+        String oauthUrl = SnsApi.getAuthorizeURL(wxmpconfig, _url, true);
+
+
+        return "redirect:" + oauthUrl;
+        // return "";
     }
 
     /**
@@ -52,31 +63,40 @@ public class WxMpAutoLoginController {
      * @throws Exception
      */
     @RequestMapping("/callback")
-    public String callback(@PathVariable String siteId) throws Exception {
+    public String callback(@PathVariable String siteId, @RequestParam String url, @RequestParam String code) throws Exception {
         //WxMpUser wxMpUser = new WxMpUser();
         //String url = payRequest.getParameter("url");
         //String code = payRequest.getParameter("code");
 
-        //if(StringUtils.isBlank(url)||StringUtils.isBlank(code)||StringUtils.isBlank(siteId)){
-        //	return null;
-        //}
+        if (StringUtils.isBlank(url) || StringUtils.isBlank(code) || StringUtils.isBlank(siteId)) {
+            return null;
+        }
 
 
         IWxMpConfig wxmpconfig = wxMpConfigService.findWxMpConfigById(siteId);
-        //try {
-        // 获取OpenId
-        //WxMpOAuth2AccessToken accessToken = wxMpService.oauth2getAccessToken(wxmpconfig, code);
+        try {
+            // 获取OpenId
+            //WxMpOAuth2AccessToken accessToken = wxMpService.oauth2getAccessToken(wxmpconfig, code);
 //			 wxMpUser=wxMpService.oauth2getUserInfo(wxmpconfig,accessToken,"zh_CN");
 //			WxMpUser wxMpUser = wxMpUserService.userInfo(wxmpconfig, accessToken.getOpenId());
-        //payRequest.getSession().setAttribute("openId", accessToken.getOpenId());
-        //payRequest.getSession().setAttribute("unionId", accessToken.getUnionId());
+            //payRequest.getSession().setAttribute("openId", accessToken.getOpenId());
+            //payRequest.getSession().setAttribute("unionId", accessToken.getUnionId());
 
-        //} catch (WxErrorException e) {
-        //logger.error(e.getMessage(),e);
-        //}
-        //url = StringUtils.replace(url, "---", "&");
+            ApiResult accessTokenResult = SnsApi.getAccessToken(wxmpconfig, code);
+            String openId = accessTokenResult.getOpenId();
+            url = StringUtils.replace(url, "---", "&");
+            if (url.contains("?")) {
+                url = url + "&openId=" + openId;
+            } else {
+                url = url + "?openId=" + openId;
+            }
+
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
+
         //return BaseController.redirect + url;
-        return "";
+        return "redirect:" + url;
     }
 
     /**

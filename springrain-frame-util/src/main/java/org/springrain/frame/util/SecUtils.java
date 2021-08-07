@@ -8,10 +8,8 @@ import javax.crypto.Cipher;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.FileReader;
-import java.security.KeyFactory;
-import java.security.MessageDigest;
-import java.security.PrivateKey;
-import java.security.PublicKey;
+import java.io.UnsupportedEncodingException;
+import java.security.*;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.text.SimpleDateFormat;
@@ -332,7 +330,19 @@ public class SecUtils {
     public static String getTimeNO() {
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmssSSS");
         String result = format.format(new Date());
-        return result + String.format("%04d", randomInteger(10000));
+        return result + String.format("%09d", randomInteger(1000000000));
+    }
+
+
+    public static String String2Hash256(String s) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+
+        MessageDigest object = MessageDigest.getInstance("SHA-256");
+        byte[] encrypted = object.digest(s.getBytes("UTF-8"));
+        StringBuilder sb = new StringBuilder();
+        for (byte b : encrypted) {
+            sb.append(String.format("%02x", b));
+        }
+        return sb.toString();
     }
 
 

@@ -36,20 +36,5 @@ public class ${className}ServiceImpl extends BaseSpringrainServiceImpl implement
 	public ${className} find${className}ById(String id) throws Exception{
 		return super.findById(id,${className}.class);
 	}
-	
-	/**
-	 * 列表查询,每个service都会重载,要把sql语句封装到service中,Finder只是最后的方案
-	 * @param finder
-	 * @param page
-	 * @param clazz
-	 * @param o
-	 * @return
-	 * @throws Exception
-	 */
-    @Override
-    public <T> List<T> findListDataByFinder(Finder finder, Page page, Class<T> clazz,
-			Object o) throws Exception{
-			 return super.findListDataByFinder(finder,page,clazz,o);
-	}
 
 }

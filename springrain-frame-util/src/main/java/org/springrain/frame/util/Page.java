@@ -10,7 +10,7 @@ import java.util.Date;
  *
  * @author springrain<Auto generate>
  * @version 2013-03-19 11:08:15
- * @see org.springrain.frame.util.Page
+ * @see Page
  */
 public class Page<T> implements Serializable {
 
@@ -63,7 +63,7 @@ public class Page<T> implements Serializable {
     private Boolean selectpagecount = true;
 
     private T data = null;
-    
+
     /**
      * 查询-开始时间
      */
@@ -318,24 +318,24 @@ public class Page<T> implements Serializable {
     public Boolean isLastPage() {
         return lastPage;
     }
-    
-	public Date getBeginTime() {
-		return beginTime;
-	}
 
-	public void setBeginTime(Date beginTime) {
-		this.beginTime = beginTime;
-	}
+    public Date getBeginTime() {
+        return beginTime;
+    }
 
-	public Date getEndTime() {
-		return endTime;
-	}
+    public void setBeginTime(Date beginTime) {
+        this.beginTime = beginTime;
+    }
 
-	public void setEndTime(Date endTime) {
-		this.endTime = endTime;
-	}
+    public Date getEndTime() {
+        return endTime;
+    }
 
-	@Override
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
+    @Override
     public String toString() {
         return new StringBuilder().append("pageNo[").append(getPageNo()).append("],").append("sort[")
                 .append(getSort()).append("],").append("order[").append(getOrder()).append("]").toString();

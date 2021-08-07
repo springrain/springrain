@@ -15,7 +15,7 @@ import org.apache.http.conn.socket.ConnectionSocketFactory;
 import org.apache.http.conn.socket.PlainConnectionSocketFactory;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.conn.ssl.TrustStrategy;
+import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
@@ -58,8 +58,8 @@ public class HttpClientUtils {
     private static PoolingHttpClientConnectionManager connectionManager = null;
 
     // private static HttpClientBuilder httpClientBuilder=null;
-    private static RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(5000).setConnectTimeout(5000)
-            .setConnectionRequestTimeout(3000).build();
+    private static RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(15000).setConnectTimeout(15000)
+            .setConnectionRequestTimeout(10000).build();
 
     static {
 
@@ -67,14 +67,12 @@ public class HttpClientUtils {
         // 使用 TrustSelfSignedStrategy 允许自签名证书
         SSLContext sslContext = null;
         try {
-            sslContext = SSLContextBuilder
-                    .create()
-                    .loadTrustMaterial(new TrustStrategy() {
-                        @Override
-                        public boolean isTrusted(X509Certificate[] x509Certificates, String s) throws CertificateException {
-                            return true;
-                        }
-                    })
+            sslContext = SSLContextBuilder.create().loadTrustMaterial(new TrustSelfSignedStrategy() {
+                @Override
+                public boolean isTrusted(X509Certificate[] x509Certificates, String s) throws CertificateException {
+                    return true;
+                }
+            })
                     .build();
         } catch (NoSuchAlgorithmException e) {
             logger.error(e.getMessage(), e);

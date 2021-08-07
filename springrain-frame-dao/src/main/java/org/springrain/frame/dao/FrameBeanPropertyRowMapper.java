@@ -16,6 +16,7 @@
 
 package org.springrain.frame.dao;
 
+import org.springrain.frame.util.GlobalStatic;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.*;
@@ -28,7 +29,6 @@ import org.springframework.jdbc.support.JdbcUtils;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
-import org.springrain.frame.util.GlobalStatic;
 
 import java.beans.PropertyDescriptor;
 import java.sql.ResultSet;

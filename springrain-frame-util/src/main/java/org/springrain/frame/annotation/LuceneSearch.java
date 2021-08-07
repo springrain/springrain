@@ -12,7 +12,7 @@ import java.lang.annotation.RetentionPolicy;
  * @copyright {@link jiagou.com}
  * @author springrain<9 iuorg @ gmail.com>
  * @version 2013-03-19 11:08:15
- * @see org.springrain.frame.annotation.LuceneSearch
+ * @see LuceneSearch
  */
 @Retention(RetentionPolicy.RUNTIME)
 public @interface LuceneSearch {

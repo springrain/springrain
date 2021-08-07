@@ -1,10 +1,10 @@
 package org.springrain.system.entity;
 
+import org.springrain.frame.annotation.WhereSQL;
+import org.springrain.frame.entity.BaseEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.springrain.frame.annotation.WhereSQL;
-import org.springrain.frame.entity.BaseEntity;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -15,7 +15,6 @@ import javax.persistence.Table;
  * @author springrain<Auto generate>
  * @version 2017-07-31 16:41:34
  * @copyright {@link jiagou.com}
- * @see org.springrain.cms.base.entity.UserPlatformInfos
  */
 @Table(name = "t_user_platform_infos")
 public class UserPlatformInfos extends BaseEntity {

@@ -27,7 +27,7 @@ public class GlobalStatic {
     public static final String seataTransactionServiceGroup = "seata_tx_group";
     // 是否开启seata分布式事务,默认是开启的,一旦关闭,整个应用就会关闭
     public static final boolean seataGlobalEnable = true;
-    // 记录是否是分支事务
+    // 记录是否是 分支事务
     public static final ThreadLocal<Boolean> seataBranchTransaction = new ThreadLocal<>();
     // 微信缓存配置
     public static final String wxConfigCacheKey = "wxConfigCacheKey";
@@ -113,7 +113,7 @@ public class GlobalStatic {
     // 默认验证码参数名称
     //public static final String DEFAULT_CAPTCHA_PARAM = "captchaKey";
     // 前后台传递的tokenKey
-    public static String jwtTokenKey = "springraintoken";
+    public static String jwtTokenKey = "jwttoken";
     public static String USER_SPECICAL_INFO = "USER_SPECICAL_INFO";
 
     // 同一IP防火墙阀值
@@ -157,10 +157,11 @@ public class GlobalStatic {
         tempRootpath = rootDir + "/temp/";
         staticHtmlDir = rootDir + "/statichtml/";
 
+
         // 设置默认不拦截的URL
         excludePathPatterns.add("/api/system/login");
         excludePathPatterns.add("/api/system/auth/login");
-        excludePathPatterns.add("/api/system/logout");
+        //excludePathPatterns.add("/api/system/logout");
 
         excludePathPatterns.add("/api/work/login");
         excludePathPatterns.add("/api/user/login");
@@ -168,6 +169,7 @@ public class GlobalStatic {
         excludePathPatterns.add("/api/getCaptcha");
         excludePathPatterns.add("/api/checkHealth");
         excludePathPatterns.add("/api/error/*");
+        excludePathPatterns.add("/error");
 
         // 微信支付
         excludePathPatterns.add("/api/mp/pay/getWxpayfaceAuthinfo");
@@ -177,6 +179,10 @@ public class GlobalStatic {
         // 默认能够访问的URL
         userDefaultUrl.add("/api/system/user/menu");
         userDefaultUrl.add("/api/system/user/info");
+        userDefaultUrl.add("/api/system/user/getRouters");
+        userDefaultUrl.add("/api/system/logout");
+
+
         //userDefaultUrl.add("/upload/**");//上传的目录
 
 

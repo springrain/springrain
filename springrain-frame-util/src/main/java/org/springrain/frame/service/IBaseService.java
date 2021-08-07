@@ -1,13 +1,13 @@
 package org.springrain.frame.service;
 
-import org.springframework.cache.Cache;
-import org.springframework.jdbc.core.CallableStatementCreator;
-import org.springframework.jdbc.core.SqlParameter;
 import org.springrain.frame.entity.BaseMapEntity;
 import org.springrain.frame.entity.IBaseEntity;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.Page;
 import org.springrain.frame.util.SpringUtils;
+import org.springframework.cache.Cache;
+import org.springframework.jdbc.core.CallableStatementCreator;
+import org.springframework.jdbc.core.SqlParameter;
 
 import java.io.File;
 import java.util.List;
@@ -20,7 +20,7 @@ import java.util.Map;
  *
  * @author springrain<Auto generate>
  * @version 2013-03-19 11:08:15
- * @see org.springrain.frame.service.IBaseService
+ * @see IBaseService
  */
 public interface IBaseService {
     /**

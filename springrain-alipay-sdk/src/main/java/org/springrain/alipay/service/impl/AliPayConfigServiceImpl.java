@@ -1,9 +1,9 @@
 package org.springrain.alipay.service.impl;
 
+import org.springrain.alipay.sdk.common.aliconfig.IAliPayConfig;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springrain.alipay.entity.AliPayConfig;
-import org.springrain.alipay.sdk.common.aliconfig.IAliPayConfig;
 import org.springrain.alipay.service.IAliPayConfigService;
 import org.springrain.frame.util.GlobalStatic;
 

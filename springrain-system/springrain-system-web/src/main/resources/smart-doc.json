@@ -2,18 +2,34 @@
   "outPath": "src/main/resources/static/docs",
   "isStrict": false,
   "projectName": "springrain",
-  "appKey": "torna平台对接appKey",
-  "secret": "torna平台secret",
-  "appToken": "torna平台appToken",
-  "openUrl": "torna平台地址,填写自己的私有化部署地址",
-  "debugEnvName":"测试环境",
-  "debugEnvUrl":"http://127.0.0.1",
-  "requestHeaders": [{
-    "name": "jwttoken",
-    "type": "string",
-    "desc": "请求头描述信息",
-    "value":"token请求头的值,不设置默认null",
-    "required": true,
-    "since": "-"
-  }]
+  "appKey": "torna上的appKey",
+  "secret": "torna上的secret",
+  "appToken": "torna上的appToken",
+  "openUrl": "http://torna的地址/api",
+  "debugEnvName": "测试环境",
+  "debugEnvUrl": "http://192.168.0.2:8080/system",
+  "requestHeaders": [
+    {
+      "name": "jwttoken",
+      "type": "string",
+      "desc": "jwt Token请求头",
+      "value": "token请求头的值,不设置默认null",
+      "required": true,
+      "since": "-"
+    }
+  ],
+  "customResponseFields": [
+    {
+      "name": "statusCode",
+      "desc": "响应代码",
+      "ownerClassName": "org.springrain.frame.util.ReturnDatas",
+      "value": "200"
+    },
+    {
+      "name": "status",
+      "desc": "状态信息",
+      "ownerClassName": "org.springrain.frame.util.ReturnDatas",
+      "value": "success"
+    }
+  ]
 }

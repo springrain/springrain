@@ -14,7 +14,7 @@ public class FstSerializer implements RedisSerializer<Object> {
 
     @Override
     public byte[] serialize(Object obj) {
-        if (obj==null) {
+        if (obj == null) {
             return null;
         }
         return fstConfiguration.asByteArray(obj);
@@ -22,7 +22,7 @@ public class FstSerializer implements RedisSerializer<Object> {
 
     @Override
     public Object deserialize(byte[] bytes) {
-        if (bytes==null) {
+        if (bytes == null) {
             return null;
         }
         return fstConfiguration.asObject(bytes);

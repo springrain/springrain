@@ -1,8 +1,5 @@
 package org.springrain.weixin.service.impl;
 
-import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.weixin.entity.WxMpConfig;
 import org.springrain.weixin.sdk.common.WxAccessToken;
@@ -11,6 +8,9 @@ import org.springrain.weixin.sdk.common.WxJsTicket;
 import org.springrain.weixin.sdk.common.wxconfig.IWxMpConfig;
 import org.springrain.weixin.service.IWxAccessTokenService;
 import org.springrain.weixin.service.IWxMpConfigService;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.HashMap;

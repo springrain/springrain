@@ -1,7 +1,7 @@
 package org.springrain;
 
-import org.springframework.boot.SpringApplication;
 import org.springrain.frame.util.GlobalStatic;
+import org.springframework.boot.SpringApplication;
 
 /**
  * 作为单体运行时,需要注释 @SpringBootApplication 注解,会冲突,一个项目只能有一个@SpringBootApplication

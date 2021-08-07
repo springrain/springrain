@@ -8,7 +8,7 @@ import javax.persistence.Transient;
  * @author springrain<9 iuorg @ gmail.com>
  * @version 2013-03-19 11:08:15
  * @copyright {@link jiagou.com}
- * @see org.springrain.frame.entity.BaseEntity
+ * @see BaseEntity
  */
 public class BaseEntity implements IBaseEntity {
 

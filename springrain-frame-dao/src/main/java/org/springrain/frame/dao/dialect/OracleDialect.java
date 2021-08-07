@@ -1,14 +1,13 @@
 package org.springrain.frame.dao.dialect;
 
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Component;
 import org.springrain.frame.util.Page;
+import org.springframework.stereotype.Component;
 
 @Component("oracleDialect")
 public class OracleDialect implements IDialect {
 
     @Override
-    public String getPageSql(String sql, String orderby, Page page) {
+    public String getPageSql(String sql, Page page) {
         // 设置分页参数
         int pageSize = page.getPageSize();
         int pageNo = page.getPageNo();
@@ -33,12 +32,12 @@ public class OracleDialect implements IDialect {
 
 
         StringBuilder sb = new StringBuilder();
-        sb.append(sql).append(" OFFSET ").append(pageSize*(pageNo-1)).append(" ROWS FETCH NEXT ").append(pageSize).append(" ROWS ONLY ");
+        sb.append(sql).append(" OFFSET ").append(pageSize * (pageNo - 1)).append(" ROWS FETCH NEXT ").append(pageSize).append(" ROWS ONLY ");
         return sb.toString();
     }
 
     @Override
-    public String getDataDaseType() {
+    public String getDataBaseType() {
         return "oracle";
     }
 

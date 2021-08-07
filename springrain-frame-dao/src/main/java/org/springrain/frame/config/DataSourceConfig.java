@@ -4,6 +4,7 @@ import com.alibaba.druid.pool.DruidDataSource;
 import io.seata.rm.RMClient;
 import io.seata.rm.datasource.DataSourceProxy;
 import io.seata.tm.TMClient;
+import org.springrain.frame.util.GlobalStatic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,7 +13,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
-import org.springrain.frame.util.GlobalStatic;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
@@ -51,7 +51,7 @@ public class DataSourceConfig {
     // private String filters="stat,wall,slf4j";
     // private String
     // connectionProperties="druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000";
-    private String filters = "stat,wall";
+    private String filters = "stat";
     private String connectionProperties = "druid.stat.slowSqlMillis=1000;druid.stat.logSlowSql=true";
 
     /**

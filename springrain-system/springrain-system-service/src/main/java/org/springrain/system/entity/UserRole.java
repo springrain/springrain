@@ -1,10 +1,10 @@
 package org.springrain.system.entity;
 
+import org.springrain.frame.annotation.WhereSQL;
+import org.springrain.frame.entity.BaseEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.springrain.frame.annotation.WhereSQL;
-import org.springrain.frame.entity.BaseEntity;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -43,40 +43,54 @@ public class UserRole extends BaseEntity {
 
     //columns START
 
-    // 编号
+    /**
+     * 编号
+     */
     private String id;
 
-    // 用户编号
+    /**
+     * 用户编号
+     */
     private String userId;
-
-    // 角色编号
+    /**
+     * 角色编号
+     */
     private String roleId;
-
-    // createTime
+    /**
+     * 创建时间
+     */
     private java.util.Date createTime;
-
-    // createUserId
+    /**
+     * 创建者
+     */
     private String createUserId;
-
-    // updateTime
+    /**
+     * 更新时间
+     */
     private java.util.Date updateTime;
-
-    // updateUserId
+    /**
+     * 更新者
+     */
     private String updateUserId;
-
-    // bak1
+    /**
+     * bak1
+     */
     private String bak1;
-
-    // bak2
+    /**
+     * bak2
+     */
     private String bak2;
-
-    // bak3
+    /**
+     * bak3
+     */
     private String bak3;
-
-    // bak4
+    /**
+     * bak4
+     */
     private String bak4;
-
-    // bak5
+    /**
+     * bak5
+     */
     private String bak5;
     //columns END 数据库字段结束
 

@@ -1,10 +1,10 @@
 package org.springrain.system.entity;
 
+import org.springrain.frame.annotation.WhereSQL;
+import org.springrain.frame.entity.BaseEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.springrain.frame.annotation.WhereSQL;
-import org.springrain.frame.entity.BaseEntity;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -51,64 +51,91 @@ public class Role extends BaseEntity {
 
     //columns START
 
-    // 角色ID
+    /**
+     * 角色ID
+     *
+     * @required
+     */
     private String id;
-
-    // 角色名称
+    /**
+     * 角色名称
+     *
+     * @required
+     */
     private String name;
-
-    // 权限编码
+    /**
+     * 权限编码
+     *
+     * @required
+     */
     private String code;
-
-    // 上级角色ID,暂时不实现
+    /**
+     * 上级角色ID,暂时不实现
+     */
     private String pid;
-
-    // 角色的部门是否私有,0否,1是,默认0.当角色私有时,菜单只使用此角色的部门权限,不再扩散到全局角色权限,用于设置特殊的菜单权限.公共权限时部门主管有所管理部门的数据全权限,无论角色是否分配. 私有部门权限时,严格按照配置的数据执行,部门主管可能没有部门权限.
+    /**
+     * 角色的部门是否私有,0否,1是,默认0.当角色私有时,菜单只使用此角色的部门权限,不再扩散到全局角色权限,用于设置特殊的菜单权限.公共权限时部门主管有所管理部门的数据全权限,无论角色是否分配. 私有部门权限时,严格按照配置的数据执行,部门主管可能没有部门权限.
+     */
     private Integer privateOrg;
-
-    // 0自己的数据,1所在部门,2所在部门及子部门数据,3.自定义部门数据.
+    /**
+     * 0自己的数据,1所在部门,2所在部门及子部门数据,3.自定义部门数据,4.全部数据权限
+     */
     private Integer roleOrgType;
-
-    // 角色的归属部门,只有归属部门的主管和上级主管才可以管理角色,其他人员只能增加归属到角色的人员.不能选择部门或则其他操作,只能添加人员,不然存在提权风险,例如 员工角色下有1000人, 如果给 角色 设置了部门,那这1000人都起效了.
+    /**
+     * 角色的归属部门,只有归属部门的主管和上级主管才可以管理角色,其他人员只能增加归属到角色的人员.不能选择部门或则其他操作,只能添加人员,不然存在提权风险,例如 员工角色下有1000人, 如果给 角色 设置了部门,那这1000人都起效了.
+     */
     private String orgId;
-
-    // 角色是否共享,0否 1是,默认0,共享的角色可以被下级部门直接使用,但是下级只能添加人员,不能设置其他属性.共享的角色一般只设置roleOrgType,并不设定部门.
+    /**
+     * 角色是否共享,0否 1是,默认0,共享的角色可以被下级部门直接使用,但是下级只能添加人员,不能设置其他属性.共享的角色一般只设置roleOrgType,并不设定部门.
+     */
     private Integer shareRole;
-
-    // createTime
+    /**
+     * 创建时间
+     */
     private java.util.Date createTime;
-
-    // createUserId
+    /**
+     * 创建者
+     */
     private String createUserId;
-
-    // updateTime
+    /**
+     * 更新时间
+     */
     private java.util.Date updateTime;
-
-    // updateUserId
+    /**
+     * 更新者
+     */
     private String updateUserId;
-
-    // 排序,查询时倒叙排列
+    /**
+     * 排序,查询时倒叙排列
+     */
     private Integer sortno;
-
-    // 备注
+    /**
+     * 备注
+     */
     private String remark;
-
-    // 是否有效(0否,1是)
+    /**
+     * 是否有效(0否,1是)
+     */
     private Integer active;
-
-    // bak1
+    /**
+     * bak1
+     */
     private String bak1;
-
-    // bak2
+    /**
+     * bak2
+     */
     private String bak2;
-
-    // bak3
+    /**
+     * bak3
+     */
     private String bak3;
-
-    // bak4
+    /**
+     * bak4
+     */
     private String bak4;
-
-    // bak5
+    /**
+     * bak5
+     */
     private String bak5;
     //columns END 数据库字段结束
 
@@ -218,7 +245,7 @@ public class Role extends BaseEntity {
     }
 
     /**
-     * 0自己的数据,1所在部门,2所在部门及子部门数据,3.自定义部门数据.
+     * 0自己的数据,1所在部门,2所在部门及子部门数据,3.自定义部门数据,4.全部数据权限
      */
     @WhereSQL(sql = "roleOrgType=:Role_roleOrgType")
     public Integer getRoleOrgType() {

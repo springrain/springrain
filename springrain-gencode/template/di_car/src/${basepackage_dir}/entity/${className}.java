@@ -42,9 +42,10 @@ public class ${className}  extends BaseEntity {
 	
 	//columns START
 	<#list table.columns as column>
-	
-	 // ${column.columnAlias}
-	private ${column.javaType} ${column.columnNameFirstLower};
+    /**
+     * ${column.columnAlias}
+     */
+    private ${column.javaType} ${column.columnNameFirstLower};
 	</#list>
 	//columns END 数据库字段结束
 	

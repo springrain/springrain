@@ -1,11 +1,11 @@
 package org.springrain.frame.entity;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.springrain.frame.annotation.TableSuffix;
 import org.springrain.frame.annotation.WhereSQL;
 import org.springrain.frame.util.GlobalStatic;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -18,7 +18,7 @@ import java.util.Calendar;
  * @author springrain<Auto generate>
  * @version 2013-04-02 10:17:31
  * @copyright {@link jiagou.com}
- * @see org.springrain.frame.entity.AuditLog
+ * @see AuditLog
  */
 @Table(name = "t_auditlog")
 @TableSuffix(name = "suffix")

@@ -165,8 +165,22 @@ public interface IUserRoleOrgService extends IBaseSpringrainService {
      */
     Finder wrapOrgIdFinderByUserRole(List<RoleOrg> list) throws Exception;
 
+
     /**
-     * 查询用户根据角色派生和自身主管的所有部门. 不处理私有部门类型的角色
+     * 拼接当前登录人的权限Finder对象,查询的表中必须有 orgId,createUserId
+     * 查询当前登录人,访问菜单时的部门数据权限,并封装到现有的Finder里.
+     *
+     * @param finder
+     * @param orgIdColumn
+     * @param createUserIdColumn
+     * @return
+     * @throws Exception
+     */
+    Finder wrapOrgIdFinderByFinder(Finder finder, String orgIdColumn, String createUserIdColumn) throws Exception;
+
+
+    /**
+     * 查询用户根据角色派生和自身主管的部门(不包含部门下的子部门). 不处理私有部门类型的角色
      *
      * @param userId
      * @return
@@ -226,12 +240,20 @@ public interface IUserRoleOrgService extends IBaseSpringrainService {
      */
     boolean isUserInOrg(String userId, String orgId) throws Exception;
 
-	/**
-	 * 根据部门id查询该部门以及子级部门所包含的用户id
-	 * @param deptId
-	 * @return
-	 * @throws Exception 
-	 */
-	List<String> findUserIdListByOrgId(String deptId) throws Exception;
+    /**
+     * 根据部门id查询该部门以及子级部门所包含的用户id
+     *
+     * @param deptId
+     * @return
+     * @throws Exception
+     */
+    List<String> findUserIdListByOrgId(String deptId) throws Exception;
 
+    /**
+     * 删除角色的部门
+     *
+     * @param roleId
+     * @throws Exception
+     */
+    void deleteByRoleId(String roleId) throws Exception;
 }

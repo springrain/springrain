@@ -94,54 +94,81 @@ public interface IDicDataService extends IBaseSpringrainService {
      */
     DicData findByCodeAndTypeKey(String code, String typeKey) throws Exception;
 
-	/**
-	 * 根据typeName查询字典子类
-	 * @param page
-	 * @param typeName
-	 * @return
-	 * @throws Exception 
-	 */
-	List<DicData> findTypeListByTypeName(Page<DicData> page, String typeName) throws Exception;
+    /**
+     * 根据typeName查询字典子类
+     *
+     * @param page
+     * @param typeName
+     * @return
+     * @throws Exception
+     */
+    List<DicData> findTypeListByTypeName(Page<DicData> page, String typeName) throws Exception;
 
-	/**
-	 * 分页查询所有字典类型
-	 * @param page
-	 * @return
-	 * @throws Exception 
-	 */
-	List<DicData> findAllRootList(Page<DicData> page) throws Exception;
+    /**
+     * 分页查询所有字典类型
+     *
+     * @param page
+     * @return
+     * @throws Exception
+     */
+    List<DicData> findAllRootList(Page<DicData> page) throws Exception;
 
-	/**
-	 * 保存新的字典类型
-	 * @param dicData
-	 * @return
-	 * @throws Exception 
-	 */
-	String saveDicDataType(DicData dicData) throws Exception;
+    /**
+     * 保存新的字典类型
+     *
+     * @param dicData
+     * @return
+     * @throws Exception
+     */
+    String saveDicDataType(DicData dicData) throws Exception;
 
-	/**
-	 * 根据pid分页查询字典信息
-	 * @param pid
-	 * @param page
-	 * @return
-	 * @throws Exception 
-	 */
-	List<DicData> findListByPid(String pid, Page<DicData> page) throws Exception;
+    /**
+     * 根据pid分页查询字典信息
+     *
+     * @param pid
+     * @param page
+     * @return
+     * @throws Exception
+     */
+    List<DicData> findListByPid(String pid, Page<DicData> page) throws Exception;
 
-	/**
-	 * 根据pid查询所有子类
-	 * @param typekey
-	 * @return
-	 * @throws Exception 
-	 */
-	List<DicData> findDicDataListByPid(String typekey) throws Exception;
+    /**
+     * 根据pid查询所有子类
+     *
+     * @param typekey
+     * @return
+     * @throws Exception
+     */
+    List<DicData> findDicDataListByPid(String typekey) throws Exception;
 
-	/**
-	 * 根据id删除父级字典
-	 * @param idList
-	 * @throws Exception 
-	 */
-	void deleteParentDicDataById(List<String> idList) throws Exception;
+    /**
+     * 根据id删除父级字典
+     *
+     * @param idList
+     * @throws Exception
+     */
+    void deleteParentDicDataById(List<String> idList) throws Exception;
 
 
+    void saveDic(DicData dicData) throws Exception;
+
+    void updateDic(DicData dicData) throws Exception;
+
+    /**
+     * 查询字典列表所有数据
+     *
+     * @param page
+     * @return
+     * @throws Exception
+     */
+    List<DicData> findTree(Page<DicData> page) throws Exception;
+
+    /**
+     * list装tree
+     *
+     * @param list
+     * @return
+     * @throws Exception
+     */
+    List<DicData> listConvertTree(List<DicData> list) throws Exception;
 }

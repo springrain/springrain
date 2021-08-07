@@ -3,13 +3,13 @@ package org.springrain.rpc.grpcimpl;
 import com.google.protobuf.ByteString;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springrain.rpc.grpcauto.CommonRequest;
 import org.springrain.rpc.grpcauto.CommonResponse;
 import org.springrain.rpc.grpcauto.GrpcCommonServiceGrpc;
 import org.springrain.rpc.grpcauto.GrpcCommonServiceGrpc.GrpcCommonServiceBlockingStub;
 import org.springrain.rpc.util.FstSerializeUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Grpc的客户端

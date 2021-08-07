@@ -1,11 +1,22 @@
 package org.springrain.system.api.dto;
 
+/**
+ * 菜单信息
+ */
 public class MetaDto {
 
+    /**
+     * 标题
+     */
     private String title;
-
+    /**
+     * 图标
+     */
     private String icon;
 
+    /**
+     * 是否缓存
+     */
     private boolean noCache;
 
     public String getTitle() {

@@ -1,10 +1,10 @@
 package org.springrain.system.entity;
 
+import org.springrain.frame.annotation.WhereSQL;
+import org.springrain.frame.entity.BaseEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.springrain.frame.annotation.WhereSQL;
-import org.springrain.frame.entity.BaseEntity;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -57,87 +57,143 @@ public class Menu extends BaseEntity {
 
     //columns START
 
-    // id
+    /**
+     * id
+     *
+     * @required
+     */
     private String id;
-
-    // 菜单名称
+    /**
+     * 菜单名称
+     *
+     * @required
+     */
     private String name;
-
-    // 代码
+    /**
+     * 代码
+     */
+    //
     private String comcode;
-
-    // vue使用 meta.title
+    /**
+     * vue使用 meta.title
+     */
     private String title;
-
-    // pid
+    /**
+     * pid
+     *
+     * @required
+     */
     private String pid;
-
-    // 描述
+    /**
+     * 描述
+     */
     private String remark;
-
-    // pageurl
+    /**
+     * pageurl
+     *
+     * @required
+     */
     private String pageurl;
-
-    // 0.功能按钮,1.导航菜单
+    /**
+     * 权限显示code,功能 ,用于按钮显示判断
+     *
+     * @required
+     */
+    private String code;
+    /**
+     * 0.功能按钮,1.导航菜单
+     *
+     * @required
+     */
     private Integer menuType;
-
-    // vue路由地址
+    /**
+     * vue路由地址
+     */
     private String path;
-
-    // vue组件使用
+    /**
+     * vue组件使用
+     */
     private Integer keepAlive;
-
-    // vue组件使用
+    /**
+     * vue组件使用
+     */
     private String component;
-
-    // vue组件使用
+    /**
+     * vue组件使用
+     */
     private String permission;
-
-    // vue组件使用
+    /**
+     * vue组件使用
+     */
     private String redirect;
-
-    // icon
+    /**
+     * icon
+     */
     private String icon;
-
-    // createTime
+    /**
+     * 站外路径
+     */
+    private String url;
+    /**
+     * 窗口标识
+     */
+    private String target;
+    /**
+     * 创建时间
+     */
     private java.util.Date createTime;
-
-    // createUserId
+    /**
+     * 创建者
+     */
     private String createUserId;
-
-    // updateTime
+    /**
+     * 更新时间
+     */
     private java.util.Date updateTime;
-
-    // updateUserId
+    /**
+     * 更新者
+     */
     private String updateUserId;
-
-    // 排序,查询时倒叙排列
+    /**
+     * 排序,查询时倒叙排列
+     *
+     * @required
+     */
     private Integer sortno;
-
-    // 是否有效(0否,1是)
+    /**
+     * 是否有效(0否,1是)
+     */
     private Integer active;
-
-    // bak1
+    /**
+     * bak1
+     */
     private String bak1;
-
-    // bak2
+    /**
+     * bak2
+     */
     private String bak2;
-
-    // bak3
+    /**
+     * bak3
+     */
     private String bak3;
-
-    // bak4
+    /**
+     * bak4
+     */
     private String bak4;
-
-    // bak5
+    /**
+     * bak5
+     */
     private String bak5;
     //columns END 数据库字段结束
 
-
-    //菜单是由哪个角色产生的,用于强制部门权限的判定
+    /**
+     * 菜单是由哪个角色产生的,用于强制部门权限的判定
+     */
     private String roleId;
-
-    // 菜单下的子菜单
+    /**
+     * 菜单下的子菜单
+     */
+    @Transient
     private List<Menu> children;
 
     //concstructor
@@ -171,7 +227,7 @@ public class Menu extends BaseEntity {
     /**
      * 菜单名称
      */
-    @WhereSQL(sql = "name=:Menu_name")
+    @WhereSQL(sql = "name like :%Menu_name%")
     public String getName() {
         return this.name;
     }
@@ -212,7 +268,7 @@ public class Menu extends BaseEntity {
     /**
      * vue使用 meta.title
      */
-    @WhereSQL(sql = "title=:Menu_title")
+    @WhereSQL(sql = "title like :%Menu_title%")
     public String getTitle() {
         return this.title;
     }
@@ -272,9 +328,28 @@ public class Menu extends BaseEntity {
     /**
      * pageurl
      */
-    @WhereSQL(sql = "pageurl=:Menu_pageurl")
+    @WhereSQL(sql = "pageurl like :%Menu_pageurl%")
     public String getPageurl() {
         return this.pageurl;
+    }
+
+    /**
+     * 权限显示code,功能，用于按钮显示判断
+     *
+     * @return
+     */
+    @WhereSQL(sql = "code like :%Menu_code%")
+    public String getCode() {
+        return code;
+    }
+
+    /**
+     * 权限显示code,功能，用于按钮显示判断
+     *
+     * @return
+     */
+    public void setCode(String code) {
+        this.code = code;
     }
 
     /**
@@ -422,7 +497,36 @@ public class Menu extends BaseEntity {
         }
         this.icon = value;
     }
-		/*
+
+    /**
+     * 站外地址
+     *
+     * @return
+     */
+    @WhereSQL(sql = "url=:Menu_url")
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    /**
+     * 窗口标识
+     *
+     * @return
+     */
+    @WhereSQL(sql = "target=:Menu_target")
+    public String getTarget() {
+        return target;
+    }
+
+    public void setTarget(String target) {
+        this.target = target;
+    }
+
+    /*
 	public String getcreateTimeString() {
 		return DateUtils.convertDate2String(FORMAT_CREATETIME, getcreateTime());
 	}

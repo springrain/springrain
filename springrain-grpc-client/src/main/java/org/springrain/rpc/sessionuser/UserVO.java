@@ -9,33 +9,72 @@ package org.springrain.rpc.sessionuser;
  * @see UserVO
  */
 
-
 public class UserVO {
-
+    /**
+     * 用户id
+     */
     private String userId;
+    /**
+     * 账号
+     *
+     * @required
+     */
     private String account;
-
-
+    /**
+     * 邮箱
+     */
     private String email;
-
+    /**
+     * 用户名
+     */
     private String userName;
+    /**
+     * 密码
+     *
+     * @required
+     */
     private String password;
+    /**
+     * 校验验证码的key
+     *
+     * @required
+     */
     private String captchaKey;
 
-
+    /**
+     * 图片验证码
+     */
     private String imgcaptcha;
+    /**
+     * 用户类型
+     */
     private Integer userType;
+    /**
+     * 头像
+     */
     private Integer active;
 
-
-    // 私有的部门权限,用于处理单独url的特殊权限,调用 IUserRoleOrgService.wrapOrgIdFinderByPrivateOrgRoleId(String userId) 获取权限的finder;
+    /**
+     * 私有的部门权限,用于处理单独url的特殊权限,调用 IUserRoleOrgService.wrapOrgIdFinderByPrivateOrgRoleId(String userId) 获取权限的finder;
+     */
     private String privateOrgRoleId;
+    /**
+     * 验证码
+     *
+     * @required
+     */
     private String captcha;
 
+    /**
+     * 用户id
+     */
     public String getUserId() {
         return userId;
     }
 
+    /**
+     * 用户id
+     */
     public void setUserId(String userId) {
         this.userId = userId;
     }
@@ -120,6 +159,5 @@ public class UserVO {
     public void setPrivateOrgRoleId(String privateOrgRoleId) {
         this.privateOrgRoleId = privateOrgRoleId;
     }
-
 
 }

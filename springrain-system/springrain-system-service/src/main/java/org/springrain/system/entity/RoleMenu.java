@@ -1,14 +1,15 @@
 package org.springrain.system.entity;
 
+import org.springrain.frame.annotation.WhereSQL;
+import org.springrain.frame.entity.BaseEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.springrain.frame.annotation.WhereSQL;
-import org.springrain.frame.entity.BaseEntity;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import java.util.Date;
 
 
 /**
@@ -45,49 +46,78 @@ public class RoleMenu extends BaseEntity {
     //columns START
 
 
-    // 编号
+    /**
+     * 编号
+     */
     private String id;
-
-    // 角色编号
+    /**
+     * 角色编号
+     *
+     * @required
+     */
     private String roleId;
-
-    // 菜单编号
+    /**
+     * 菜单编号
+     *
+     * @required
+     */
     private String menuId;
-
-    // bak1
+    /**
+     * bak1
+     */
     private String bak1;
-
-    // bak2
+    /**
+     * bak2
+     */
     private String bak2;
-
-    // bak3
+    /**
+     * bak3
+     */
     private String bak3;
-
-    // bak4
+    /**
+     * bak4
+     */
     private String bak4;
-
-    // bak5
+    /**
+     * bak5
+     */
     private String bak5;
-
-    // createTime
+    /**
+     * 创建时间
+     */
     private java.util.Date createTime;
-
-    // createUserId
+    /**
+     * 创建者
+     */
     private String createUserId;
-
-    // updateTime
+    /**
+     * 更新时间
+     */
     private java.util.Date updateTime;
-
-    // updateUserId
+    /**
+     * 更新者
+     */
     private String updateUserId;
     //columns END 数据库字段结束
 
 
-    // 复选框是否选中,选中是true,用于ajax操作数据
+    /**
+     * 复选框是否选中,选中是true,用于ajax操作数据
+     *
+     * @required
+     */
     private Boolean check;
 
     //concstructor
     public RoleMenu() {
+    }
+
+    @Transient
+    public void init() {
+        this.setCreateTime(new Date());
+        this.setUpdateTime(new Date());
+        this.setUpdateUserId("u_10001");
+        this.setCreateUserId("u_10001");
     }
 
 

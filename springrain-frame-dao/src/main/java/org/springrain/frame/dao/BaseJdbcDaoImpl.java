@@ -1,5 +1,10 @@
 package org.springrain.frame.dao;
 
+import org.springrain.frame.dao.dialect.IDialect;
+import org.springrain.frame.entity.AuditLog;
+import org.springrain.frame.entity.BaseMapEntity;
+import org.springrain.frame.entity.IBaseEntity;
+import org.springrain.frame.util.*;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -17,11 +22,6 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.transaction.NoTransactionException;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
-import org.springrain.frame.dao.dialect.IDialect;
-import org.springrain.frame.entity.AuditLog;
-import org.springrain.frame.entity.BaseMapEntity;
-import org.springrain.frame.entity.IBaseEntity;
-import org.springrain.frame.util.*;
 
 import java.util.*;
 
@@ -282,10 +282,16 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
     public Integer update(Finder finder) throws Exception {
         checkTransactionMethodName();
 
+        String sql = finder.getSql();
+
+        // 兼容多种数据库类型
+        sql = getDialect().reUpdateFinderSQL(sql);
+
         // 打印sql
-        logInfoSql(finder.getSql(), finder.getParams());
-        return getWriteJdbc().update(finder.getSql(), finder.getParams());
+        logInfoSql(sql, finder.getParams());
+        return getWriteJdbc().update(sql, finder.getParams());
     }
+
 
     @Override
     public <T> List<T> queryForList(Finder finder, Class<T> clazz, Page page) throws Exception {
@@ -421,7 +427,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
             return sql;
         }
         Map<String, Object> paramMap = finder.getParams();
-        if (StringUtils.isNotBlank(page.getOrder()) ) {// 如果page中包含排序属性
+        if (StringUtils.isNotBlank(page.getOrder())) {// 如果page中包含排序属性
             String _order = page.getOrder().trim();
             if (_order.contains(" ") || _order.contains(";") || _order.contains(",") || _order.contains("'")
                     || _order.contains("(") || _order.contains(")")) {// 认为是异常的,主要是防止注入
@@ -431,8 +437,8 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
                 if ((!"asc".equals(_sort)) && (!"desc".equals(_sort))) {// 如果不是asc 也不是desc
                     _sort = "";
                 }
-               int orderIndex= RegexValidateUtils.getOrderByIndex(sql);
-                if(orderIndex > 0){
+                int orderIndex = RegexValidateUtils.getOrderByIndex(sql);
+                if (orderIndex > 0) {
                     sql = sql.substring(0, orderIndex);
                 }
                 sql = sql + " order by " + _order + " " + _sort;
@@ -441,11 +447,9 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
         }
 
 
-
-
         // 如果不需要查询总条数
         if (!page.getSelectpagecount()) {
-            return getDialect().getPageSql(sql, null, page);
+            return getDialect().getPageSql(sql, page);
         }
 
         Integer count;
@@ -463,7 +467,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
                 countSql = "SELECT COUNT(*)  frame_row_count FROM (" + countSql
                         + ") temp_frame_noob_table_name WHERE 1=1 ";
             } else {
-                int fromIndex = RegexValidateUtils.getFromIndex(countSql);
+                int fromIndex = RegexValidateUtils.getSelectFromIndex(countSql);
                 if (fromIndex > -1) {
                     countSql = "SELECT COUNT(*) " + countSql.substring(fromIndex);
                 } else {
@@ -484,7 +488,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
         } else {
             page.setTotalCount(count);
         }
-        return getDialect().getPageSql(sql, null, page);
+        return getDialect().getPageSql(sql, page);
     }
 
     @Override
@@ -941,7 +945,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
         EntityInfo entityInfo = ClassUtils.getEntityInfoByClass(clazz);
         String tableName = entityInfo.getTableName();
         String idName = entityInfo.getPkName();
-        String sql = "DELETE FROM " + tableName + " WHERE " + idName + "=:id";
+        String sql = getDialect().deleteSQLByTableName(tableName) + " WHERE " + idName + "=:id";
         Finder finder = new Finder(sql);
         finder.setParam("id", id);
 
@@ -1005,7 +1009,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
         EntityInfo entityInfo = ClassUtils.getEntityInfoByClass(clazz);
         String tableName = entityInfo.getTableName();
         String idName = entityInfo.getPkName();
-        String sql = "Delete FROM " + tableName + " WHERE " + idName + " in (:ids)";
+        String sql = getDialect().deleteSQLByTableName(tableName) + " WHERE " + idName + " in (:ids)";
         Finder finder = new Finder(sql);
         finder.setParam("ids", ids);
         update(finder);
@@ -1328,7 +1332,12 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
 
         // 获取 分表的扩展
         String tableExt = entityInfo.getTableSuffix();
-        StringBuilder sql = new StringBuilder("UPDATE ").append(tableName).append(tableExt).append("  SET  ");
+
+        StringBuilder sql = new StringBuilder();
+
+        String updateTableSQL = getDialect().updateSQLByTableName(tableName + tableExt);
+        sql.append(updateTableSQL);
+
 
         StringBuilder whereSQL = new StringBuilder(" WHERE ").append(pkName).append("=:").append(pkName);
         for (int i = 0; i < fdNames.size(); i++) {
@@ -1408,7 +1417,9 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
         }
 
         StringBuffer sqlBuffer = new StringBuffer();
-        sqlBuffer.append("UPDATE ").append(mapEntity.getTableName()).append(" SET ");
+        String updateTableSQL = getDialect().updateSQLByTableName(mapEntity.getTableName());
+        sqlBuffer.append(updateTableSQL);
+
 
         Map<String, Object> dbField = mapEntity.getDbFieldValue();
         if (dbField.size() < 1) {
@@ -1434,7 +1445,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
      * @throws Exception
      */
     private void checkTransactionMethodName() throws NoTransactionException {
-        if (isCheckTransactionMethodName()) {// 方法是否具有事务
+        if (isCheckTransactionMethodName() && getDialect().supportTransaction()) {// 方法是否具有事务
             if (!TransactionSynchronizationManager.isActualTransactionActive()) {//如果没有事务
                 throw new NoTransactionException("save,update,delete方法,请按照事务拦截方法名书写规范!具体参见:applicationContext-tx.xml");
             }

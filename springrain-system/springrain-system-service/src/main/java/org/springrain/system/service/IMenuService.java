@@ -77,17 +77,32 @@ public interface IMenuService extends IBaseSpringrainService {
     String findMenuNewComcode(String id, String pid) throws Exception;
 
 
-	/**
-	* 根据查询条件查询所有可用菜单
-	*
-	* @param menu
-	* @param page
-	* @return
-	* @author 程相羽
-	* @version 2020年11月2日 下午2:50:23
-	 * @throws Exception 
-	*/
-	List<Menu> findAllMenuListByQueryBean(Menu menu, Page<Menu> page) throws Exception;
+    /**
+     * 根据查询条件查询所有可用菜单
+     *
+     * @param menu
+     * @param page
+     * @return
+     * @throws Exception
+     * @author 程相羽
+     * @version 2020年11月2日 下午2:50:23
+     */
+    List<Menu> findAllMenuListByQueryBean(Menu menu, Page<Menu> page) throws Exception;
 
+    /**
+     * 批量保存
+     *
+     * @param menuList 参数对象
+     * @return 保存失败的数据
+     */
+    List<Menu> saveBatch(List<Menu> menuList) throws Exception;
 
+    /**
+     * 将平行的List,变成树形结构
+     * 从UserRoleMenuService中抽出的方法
+     *
+     * @param menuList
+     * @return
+     */
+    List<Menu> menuList2Tree(List<Menu> menuList);
 }

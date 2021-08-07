@@ -10,7 +10,7 @@ import java.util.Map;
  *
  * @author springrain<Auto generate>
  * @version 2013-03-19 11:08:15
- * @see org.springrain.frame.util.Finder
+ * @see Finder
  */
 public final class Finder {
     private Map<String, Object> params = new HashMap<>();

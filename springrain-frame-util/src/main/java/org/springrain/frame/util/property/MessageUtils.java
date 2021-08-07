@@ -5,7 +5,7 @@ package org.springrain.frame.util.property;
  *
  * @author springrain<Auto generate>
  * @version 2013-03-19 11:08:15
- * @see org.springrain.frame.util.property.MessageUtils
+ * @see MessageUtils
  */
 public class MessageUtils {
 
@@ -24,5 +24,8 @@ public class MessageUtils {
 
     public static final String DELETE_ALL_SUCCESS = "批量删除成功";// 批量数据删除成功
     public static final String DELETE_ALL_ERROR = "批量删除失败";// 批量数据删除失败
+
+    public static final String FIND_SUCCESS = "查询成功";
+    public static final String FIND_ERROR = "查询数据异常";
 
 }

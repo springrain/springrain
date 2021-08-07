@@ -1,14 +1,16 @@
 package org.springrain.system.dao;
 
-import org.springframework.beans.factory.annotation.Lookup;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.simple.SimpleJdbcCall;
-import org.springframework.stereotype.Repository;
 import org.springrain.frame.dao.BaseJdbcDaoImpl;
 import org.springrain.frame.dao.IBaseJdbcDao;
 import org.springrain.frame.dao.dialect.IDialect;
 import org.springrain.frame.entity.AuditLog;
+import org.springrain.frame.util.SpringUtils;
 import org.springrain.rpc.sessionuser.SessionUser;
+import org.springframework.beans.factory.annotation.Lookup;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.simple.SimpleJdbcCall;
+import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
 
@@ -31,10 +33,19 @@ public class BaseSpringrainDaoImpl extends BaseJdbcDaoImpl implements IBaseJdbcD
     //@Resource
     public SimpleJdbcCall jdbcCall;
     /**
-     * mysqlDialect 是mysql的方言,springBean的name,可以参考 IDialect的实现
+     * mysqlDialect 是mysql的方言,springBean的name,可以参考 IDialect的实现.通过dbDialectBeanName 获取实际的bean
      */
-    @Resource
-    public IDialect mysqlDialect;
+    //@Resource
+    //public IDialect dbDialect;
+
+
+    /**
+     * 数据库方言,和IDialect接口的实现bean名称保持一致
+     */
+    @Value("${springrain.dbDialectBeanName:mysqlDialect}")
+    private String dbDialectBeanName;
+
+
     /**
      * demo 数据库的jdbc,对应 spring配置的 jdbc bean
      */
@@ -46,7 +57,10 @@ public class BaseSpringrainDaoImpl extends BaseJdbcDaoImpl implements IBaseJdbcD
 
     @Override
     public IDialect getDialect() {
-        return mysqlDialect;
+
+        IDialect dbDialect = (IDialect) SpringUtils.getBean(dbDialectBeanName);
+
+        return dbDialect;
     }
 
     /**
@@ -98,5 +112,15 @@ public class BaseSpringrainDaoImpl extends BaseJdbcDaoImpl implements IBaseJdbcD
     public String getUserName() {
         return SessionUser.getUserName();
     }
+
+
+    public String getDbDialectBeanName() {
+        return dbDialectBeanName;
+    }
+
+    public void setDbDialectBeanName(String dbDialectBeanName) {
+        this.dbDialectBeanName = dbDialectBeanName;
+    }
+
 
 }

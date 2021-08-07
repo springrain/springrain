@@ -63,6 +63,7 @@ public class ElasticSearchOperation {
     // private  Analyzer analyzer = new SmartChineseAnalyzer();
 
     private String DATETIME_FORMAT_ZONE = "yyyy-MM-dd HH:mm:ssZ";
+
     public ElasticSearchOperation() {
         mapper = new FrameObjectMapper();
         mapper.setDateFormat(new SimpleDateFormat(DATETIME_FORMAT_ZONE));
@@ -212,7 +213,7 @@ public class ElasticSearchOperation {
             if (finfo.getFieldType() == Date.class) {
                 date = (Date) ClassUtils.getPropertieValue(finfo.getFieldName(), entity);
                 if (date != null) {
-                    builder.field(finfo.getFieldName(), DateUtils.formatDate(DATETIME_FORMAT_ZONE,date));
+                    builder.field(finfo.getFieldName(), DateUtils.formatDate(DATETIME_FORMAT_ZONE, date));
                 }
             } else {
                 builder.field(finfo.getFieldName(), ClassUtils.getPropertieValue(finfo.getFieldName(), entity));

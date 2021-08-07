@@ -4,14 +4,24 @@ import java.util.Date;
 
 public class FileDto {
 
+    /**
+     * 文件名
+     */
     private String name;
-    // 相对路径
+    /**
+     * 相对路径
+     */
     private String path;
-    // 绝对路径
+    /**
+     * 绝对路径
+     */
     private String absolutePath;
 
-    // 0:File,1:dic
+    /**
+     * 0:File,1:dic
+     */
     private Integer type;
+
     private FileDto parentFile;
 
     private Date date;

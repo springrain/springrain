@@ -1,20 +1,23 @@
 package org.springrain.system.service.impl;
 
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.Page;
 import org.springrain.frame.util.SecUtils;
 import org.springrain.rpc.sessionuser.SessionUser;
+import org.springrain.system.entity.DicData;
 import org.springrain.system.entity.Org;
 import org.springrain.system.entity.User;
 import org.springrain.system.entity.UserOrg;
+import org.springrain.system.service.IDicDataService;
 import org.springrain.system.service.IOrgService;
+import org.springrain.system.service.IUserRoleOrgService;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  *
@@ -22,6 +25,11 @@ import java.util.stream.Collectors;
 @Service("orgService")
 public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgService {
 
+    @Resource
+    private IDicDataService dicDataService;
+
+    @Resource
+    private IUserRoleOrgService userRoleOrgService;
 
     @Override
     public Org findOrgById(String id) throws Exception {
@@ -60,15 +68,26 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
         String comcode = findOrgNewComcode(id, entity.getPid());
 
         entity.setComcode(comcode);
+        if (StringUtils.isBlank(entity.getPid())) {
+            entity.setPid("");
+        }
 
-        entity.setActive(1);
+        if (entity.getActive() == null) {
+            entity.setActive(1);
+        }
+
+        if (entity.getSortno() == null) {
+            entity.setSortno(1);
+        }
 
         Date now = new Date();
         entity.setCreateTime(now);
         entity.setUpdateTime(now);
         entity.setUpdateUserId(SessionUser.getUserId());
         entity.setCreateUserId(SessionUser.getUserId());
-        entity.setOrgType(100);
+        if (entity.getOrgType() == null) {
+            entity.setOrgType(100);
+        }
         if (entity.getPid() == null) {
             entity.setPid("");
         }
@@ -79,6 +98,17 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
 
 
         super.save(entity);
+        //部门归属用户
+        String userId = SessionUser.getUserId();
+        UserOrg userOrg = new UserOrg();
+        userOrg.setId(SecUtils.getTimeNO());
+        userOrg.setUserId(userId);
+        userOrg.setOrgId(entity.getId());
+        userOrg.setCreateUserId(userId);
+        userOrg.setCreateTime(new Date());
+        userOrg.setUpdateTime(new Date());
+        userOrg.setManagerType(2);
+        userRoleOrgService.save(userOrg);
 
         // updateOrgManager(id,entity.getManagerRoleId());
 
@@ -101,16 +131,24 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
             return null;
         }
 
+        if (id.equals(pid)) {
+            pid = old_org.getPid();
+            entity.setPid(pid);
+        }
         String old_c = old_org.getComcode();
 
         String new_c = findOrgNewComcode(id, pid);
 
         if (new_c.equalsIgnoreCase(old_c)) {// 编码没有改变
-            return super.update(entity, true);
+            Integer update = super.update(entity, true);
+            super.evictByKey(GlobalStatic.userOrgRoleMenuInfoCacheKey, "findOrgById_" + id);
+            return update;
         }
         // 编码改变
         entity.setComcode(new_c);
         Integer update = super.update(entity, true);
+        super.evictByKey(GlobalStatic.userOrgRoleMenuInfoCacheKey, "findOrgById_" + id);
+
         // 级联更新
         Finder f_s_list = Finder.getSelectFinder(Org.class, "id,comcode")
                 .append(" WHERE comcode like :comcode and id<>:id ").setParam("comcode", old_c + "%")
@@ -211,12 +249,13 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
         Finder f_update = Finder.getUpdateFinder(Org.class, " active=:active ").append(" WHERE comcode like :comcode ")
                 .setParam("active", 0).setParam("comcode", org.getComcode() + "%");
         super.update(f_update);
+        super.cleanCache(GlobalStatic.userOrgRoleMenuInfoCacheKey);
         return null;
     }
 
     @Override
     public List<Org> findTreeByPid(String pid) throws Exception {
-        Finder finder = Finder.getSelectFinder(Org.class).append(" WHERE active=:active ").setParam("active", 1);
+       /* Finder finder = Finder.getSelectFinder(Org.class).append(" WHERE active=:active ").setParam("active", 1);
 
         if (StringUtils.isNotBlank(pid)) {//不是根目录
             Org porg = findOrgById(pid);
@@ -226,13 +265,33 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
             finder.append(" and comcode like :comcode  ").setParam("comcode", porg.getComcode() + "%");
             //  .setParam("pid", pid);
         }
+        *//*Finder finder1 = userRoleOrgService.wrapOrgIdFinderByFinder(finder, "id", "createUserId");
+        if(finder1==null){
+            logger.error("当前登录用户不存在!--findTreeByPid({})",pid);
+            throw new RuntimeException("当前登录用户不存在!");
+        }
+*//*
 
-        finder.append(" order by sortno asc ");
+        finder.append(" order by sortno asc ");*/
 
-        List<Org> list = super.queryForList(finder, Org.class);
+        List<Org> list = new ArrayList<>();
+        Finder finder = userRoleOrgService.wrapOrgIdFinderByUserId(SessionUser.getUserId());
+
+        if (finder == null) {
+            return list;
+        }
+
+        List<String> orgIds = super.queryForList(finder, String.class);
+        //List<RoleOrg> managerOrgAndRoleOrgByUserId = userRoleOrgService.findManagerOrgAndRoleOrgByUserId(SessionUser.getUserId());
+        //Set<String> collect = managerOrgAndRoleOrgByUserId.stream().map(RoleOrg::getOrgId).collect(Collectors.toSet());
+        for (String orgId : orgIds) {
+            Org orgById = findOrgById(orgId);
+            list.add(orgById);
+        }
         if (CollectionUtils.isEmpty(list)) {
             return null;
         }
+        orgTypeName(list);
 
         return listOrg2Tree(list);
     }
@@ -244,7 +303,8 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
      * @param orgList
      * @return
      */
-    private List<Org> listOrg2Tree(List<Org> orgList) {
+    @Override
+    public List<Org> listOrg2Tree(List<Org> orgList) {
         if (CollectionUtils.isEmpty(orgList)) {
             return null;
         }
@@ -283,6 +343,44 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
     }
 
     @Override
+    public void orgTypeName(List<Org> orgList) throws Exception {
+        if (CollectionUtils.isEmpty(orgList)) {
+            return;
+        }
+        List<DicData> bumenleixing = dicDataService.findListDicData("bumenleixing", null, null);
+        if (CollectionUtils.isEmpty(bumenleixing)) {
+            return;
+        }
+        for (Org data : orgList) {
+            Integer orgType = data.getOrgType();
+            for (DicData dicData : bumenleixing) {
+                String val = dicData.getVal();
+                if (StringUtils.isNotBlank(val) && orgType == Integer.parseInt(val)) {
+                    data.setOrgTypeName(dicData.getName());
+                }
+            }
+        }
+    }
+
+    @Override
+    public List<Org> findOrgList(Org org, Page<Org> page) throws Exception {
+        List<Org> list = new ArrayList<>();
+        Finder finder = userRoleOrgService.wrapOrgIdFinderByUserId(SessionUser.getUserId());
+        if (finder == null) {
+            return list;
+        }
+        List<String> orgIds = super.queryForList(finder, String.class, page);
+        for (String orgId : orgIds) {
+            Org orgById = findOrgById(orgId);
+            list.add(orgById);
+        }
+        if (CollectionUtils.isEmpty(list)) {
+            return null;
+        }
+        return list;
+    }
+
+    @Override
     public String findOrgNewComcode(String id, String pid) throws Exception {
 
         if (StringUtils.isEmpty(id)) {
@@ -303,7 +401,7 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
     }
 
 
-    @SuppressWarnings("unchecked")
+    /*@SuppressWarnings("unchecked")
     @Override
     public List<Map<String, Object>> findOrgTreeVoList() throws Exception {
         Finder finder = Finder.getSelectFinder(Org.class).append(" WHERE active=:active");
@@ -347,5 +445,5 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
             return orgInfoList;
         }
         return null;
-    }
+    }*/
 }

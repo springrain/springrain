@@ -1,8 +1,5 @@
 package org.springrain.system.service.impl;
 
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
 import org.springrain.frame.util.CommonEnum.ACTIVE;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.Page;
@@ -10,6 +7,9 @@ import org.springrain.frame.util.SecUtils;
 import org.springrain.rpc.sessionuser.SessionUser;
 import org.springrain.system.entity.*;
 import org.springrain.system.service.*;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -89,10 +89,20 @@ public class UserRoleOrgServiceImpl extends BaseSpringrainServiceImpl implements
         if (StringUtils.isBlank(userId)) {
             return null;
         }
-
-        List<String> orgIdByUserId = findOrgIdByUserId(userId, page);
-
-        return listOrgId2ListOrg(orgIdByUserId);
+        List<Org> orgList = new ArrayList<>();
+        List<UserOrg> userOrgByUserId = findUserOrgByUserId(userId, page);
+        if (CollectionUtils.isEmpty(userOrgByUserId)) {
+            return orgList;
+        }
+        for (UserOrg userOrg : userOrgByUserId) {
+            Org org = orgService.findOrgById(userOrg.getOrgId());
+            //用户在部门中的角色
+            org.setManagerType(userOrg.getManagerType());
+            orgList.add(org);
+        }
+        return orgList;
+        //List<String> orgIdByUserId = findOrgIdByUserId(userId, page);
+        //return listOrgId2ListOrg(orgIdByUserId);
     }
 
     @Override
@@ -225,6 +235,31 @@ public class UserRoleOrgServiceImpl extends BaseSpringrainServiceImpl implements
 
         // 完善 前面的查询语句,构造完整的Finder 查询语句
         return wrapOrgIdFinder(f);
+    }
+
+    @Override
+    public Finder wrapOrgIdFinderByFinder(Finder finder, String orgIdColumn, String createUserIdColumn) throws Exception {
+        String userId = SessionUser.getUserId();
+        if (StringUtils.isBlank(userId)) {
+            return null;
+        }
+        //获取私有的权限部门 角色ID
+        String privateOrgRoleId = SessionUser.getPrivateOrgRoleId();
+        //需要拼接的部门权限的Finder对象,如果没有部门权限,为null
+        Finder wrapOrgIdFinder = null;
+
+        if (StringUtils.isNotBlank(privateOrgRoleId)) {//如果是私有部门权限的角色ID
+            wrapOrgIdFinder = wrapOrgIdFinderByPrivateOrgRoleId(privateOrgRoleId, userId);
+        } else {//如果是普通的部门权限
+            wrapOrgIdFinder = wrapOrgIdFinderByUserId(userId);
+        }
+
+        if (wrapOrgIdFinder != null) {//如果存在部门权限
+            finder.append(" AND " + orgIdColumn + " in ( ").appendFinder(wrapOrgIdFinder).append(")");
+        } else {//只查询当前登录人的数据
+            finder.append(" AND " + createUserIdColumn + "=:createUserId").setParam("createUserId", userId);
+        }
+        return finder;
     }
 
 
@@ -510,28 +545,17 @@ public class UserRoleOrgServiceImpl extends BaseSpringrainServiceImpl implements
 
     @Override
     public String updateUserOrg(UserOrg userOrg) throws Exception {
-        Integer managerType = userOrg.getManagerType();
-
-        if (userOrg == null || StringUtils.isBlank(userOrg.getOrgId()) || managerType == null) {
+        //Integer managerType = userOrg.getManagerType();
+        List<UserOrg> userOrgList = userOrg.getUserOrgList();
+        if (userOrg == null || CollectionUtils.isEmpty(userOrgList)) {
             return "数据不能为空";
         }
 
-        Finder finder = Finder.getDeleteFinder(UserOrg.class).append(" WHERE userId=:userId and orgId=:orgId ");
-        finder.setParam("userId", userOrg.getUserId()).setParam("orgId", userOrg.getOrgId());
+        Finder finder = Finder.getDeleteFinder(UserOrg.class).append(" WHERE userId=:userId ");
+        finder.setParam("userId", userOrg.getUserId());// and orgId=:orgId .setParam("orgId", userOrg.getOrgId());
         super.update(finder);
 
-        if (managerType < 0) {// 删除关系
-            return null;
-        }
-
-        Date now = new Date();
-        userOrg.setId(SecUtils.getUUID());
-        userOrg.setCreateTime(now);
-        userOrg.setUpdateTime(now);
-        userOrg.setCreateUserId(SessionUser.getUserId());
-        userOrg.setUpdateUserId(SessionUser.getUserId());
-
-        super.save(userOrg);
+        super.save(userOrgList);
 
         return null;
     }
@@ -578,15 +602,23 @@ public class UserRoleOrgServiceImpl extends BaseSpringrainServiceImpl implements
         return true;
     }
 
-	@Override
-	public List<String> findUserIdListByOrgId(String deptId) throws Exception {
-		Finder finder = Finder.getSelectFinder(UserOrg.class, "userId")
-				.append(" WHERE orgId IN (SELECT id from ")
-				.append(Finder.getTableName(Org.class))
-				.append(" WHERE active=:active AND comcode like :deptId) AND active=:active");
-		finder.setParam("deptId", "%" + deptId + "%").setParam("active", ACTIVE.未删除.getState());
-		return this.queryForList(finder, String.class);
-	}
+    @Override
+    public List<String> findUserIdListByOrgId(String deptId) throws Exception {
+        Finder finder = Finder.getSelectFinder(UserOrg.class, "userId")
+                .append(" WHERE orgId IN (SELECT id from ")
+                .append(Finder.getTableName(Org.class))
+                .append(" WHERE active=:active AND comcode like :deptId) ");
+        finder.setParam("deptId", "%" + deptId + "%").setParam("active", ACTIVE.未删除.getState());
+        return this.queryForList(finder, String.class);
+    }
+
+    @Override
+    public void deleteByRoleId(String roleId) throws Exception {
+        Finder deleteFinder = Finder.getDeleteFinder(RoleOrg.class)
+                .append(" where roleId=:roleId ")
+                .setParam("roleId", roleId);
+        super.update(deleteFinder);
+    }
 
 
 }

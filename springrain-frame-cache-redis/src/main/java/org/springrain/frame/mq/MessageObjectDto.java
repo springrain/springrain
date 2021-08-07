@@ -2,6 +2,7 @@ package org.springrain.frame.mq;
 
 /**
  * 消息对象的Dto,屏蔽不同MQ之间的差异.
+ *
  * @param <T>
  */
 public class MessageObjectDto<T> {
@@ -11,7 +12,7 @@ public class MessageObjectDto<T> {
     private String messageId;
 
     /**
-     *消息的时间戳
+     * 消息的时间戳
      */
     private Long messageTime;
     /**
@@ -25,21 +26,23 @@ public class MessageObjectDto<T> {
 
     /**
      * 构造函数
+     *
      * @param messageObject
      * @param queueName
      * @param messageId
      * @param messageTime
      */
-    protected MessageObjectDto(T messageObject, String queueName, String messageId, Long messageTime){
-        this.messageObject =messageObject;
-        this.queueName=queueName;
-        this.messageId=messageId;
-        this.messageTime=messageTime;
+    protected MessageObjectDto(T messageObject, String queueName, String messageId, Long messageTime) {
+        this.messageObject = messageObject;
+        this.queueName = queueName;
+        this.messageId = messageId;
+        this.messageTime = messageTime;
 
     }
 
     /**
      * 消息的ID
+     *
      * @return
      */
     public String getMessageId() {
@@ -49,6 +52,7 @@ public class MessageObjectDto<T> {
 
     /**
      * 消息的时间戳
+     *
      * @return
      */
 
@@ -65,14 +69,12 @@ public class MessageObjectDto<T> {
 
     /**
      * 队列中的对象值
+     *
      * @return
      */
     public T getMessageObject() {
         return messageObject;
     }
-
-
-
 
 
 }

@@ -1,17 +1,13 @@
 package org.springrain.system.api.miniapp;
 
 import com.google.common.collect.Maps;
-import org.apache.commons.collections.MapUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.JsonUtils;
 import org.springrain.frame.util.ReturnDatas;
 import org.springrain.frame.util.SecUtils;
 import org.springrain.rpc.sessionuser.SessionUser;
+import org.springrain.system.api.miniapp.vo.GetPhoneVO;
+import org.springrain.system.api.miniapp.vo.MiniAppVO;
 import org.springrain.system.base.BaseController;
 import org.springrain.system.entity.User;
 import org.springrain.system.service.IUserService;
@@ -22,6 +18,12 @@ import org.springrain.weixin.sdk.miniapp.MiniappAuthApi;
 import org.springrain.weixin.sdk.miniapp.MiniappQrcode;
 import org.springrain.weixin.sdk.miniapp.MiniappQrcodeApi;
 import org.springrain.weixin.service.IWxMiniappConfigService;
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.io.File;
@@ -30,6 +32,9 @@ import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 
+/**
+ * 小程序模块
+ */
 @RestController
 @RequestMapping(value = "/api/system/auth", method = RequestMethod.POST)
 public class AuthController extends BaseController {
@@ -40,13 +45,15 @@ public class AuthController extends BaseController {
     private IUserService userService;
 
     /**
-     * 查看的Json格式数据,为APP端提供数据
+     * 微信小程序登录
+     *
+     * @param miniAppVO 对象参数
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ReturnDatas<ConcurrentMap<String, Serializable>> login(@RequestBody Map<String, Object> map) throws Exception {
+    public ReturnDatas<ConcurrentMap<String, Serializable>> login(@RequestBody MiniAppVO miniAppVO) throws Exception {
         ReturnDatas<ConcurrentMap<String, Serializable>> returnObject = ReturnDatas.getSuccessReturnDatas();
-        String appId = (String) map.get("appId");
-        String jsCode = (String) map.get("jsCode");
+        String appId = miniAppVO.getAppId();
+        String jsCode = miniAppVO.getJsCode();
         IWxMiniappConfig config = wxMiniappConfigService.findWxMiniappConfigById(appId);
 
         if (config == null) {
@@ -76,15 +83,15 @@ public class AuthController extends BaseController {
             user.setUnionID(apiResult.getUnionid());
             user.setAccount(id);
             user.setPassword(SecUtils.encoderByMd5With32Bit(id + openId));
-            user.setSex(GlobalStatic.sexMap.get(map.get("gender")));
+            user.setSex(GlobalStatic.sexMap.get(miniAppVO.getGender()));
             // 小程序端 店长注册
             user.setUserType(2);
 
             user.setActive(1);
-            user.setUserName((String) map.get("nickName"));
-            user.setAvatar((String) map.get("avatarUrl"));
+            user.setUserName(miniAppVO.getNickName());
+            user.setAvatar(miniAppVO.getAvatarUrl());
 
-            user.setNickName((String) map.get("nickName"));
+            user.setNickName(miniAppVO.getNickName());
 
             user.setCreateTime(new Date());
             user.setUpdateTime(new Date());
@@ -92,7 +99,7 @@ public class AuthController extends BaseController {
             user.setUpdateUserId("0");
             user.setCreateUserId("0");
 
-            user.setBak1(map.get("country") + "," + map.get("province") + "," + map.get("city"));
+            user.setBak1(miniAppVO.getCountry() + "," + miniAppVO.getProvince() + "," + miniAppVO.getCity());
 
             userService.save(user);
         }
@@ -110,12 +117,17 @@ public class AuthController extends BaseController {
         return returnObject;
     }
 
+    /**
+     * 注册二维码
+     *
+     * @param mcode
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/getRegQrcode", method = RequestMethod.POST)
-    public ReturnDatas<String> getRegQrcode(@RequestBody Map<String, Object> map) throws Exception {
+    public ReturnDatas<String> getRegQrcode(@RequestBody String mcode) throws Exception {
 
         ReturnDatas<String> returnObject = ReturnDatas.getSuccessReturnDatas();
-
-        String mcode = map.get("mcode").toString();
 
         String appId = "123";
         IWxMiniappConfig config = wxMiniappConfigService.findWxMiniappConfigById(appId);
@@ -138,10 +150,17 @@ public class AuthController extends BaseController {
 
     }
 
+    /**
+     * 获取手机号
+     *
+     * @param getPhoneParam 对象参数
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/getPhone", method = RequestMethod.POST)
-    public ReturnDatas<String> getPhone(@RequestBody Map<String, String> map) throws Exception {
-        String encryptedData = map.get("encryptedData");
-        String iv = map.get("iv");
+    public ReturnDatas<String> getPhone(@RequestBody GetPhoneVO getPhoneParam) throws Exception {
+        String encryptedData = getPhoneParam.getEncryptedData();
+        String iv = getPhoneParam.getIv();
         String userId = SessionUser.getUserId();
         String sessionKey = userService.getByCache(GlobalStatic.wxConfigCacheKey,
                 "sessionKey_" + userId, String.class);

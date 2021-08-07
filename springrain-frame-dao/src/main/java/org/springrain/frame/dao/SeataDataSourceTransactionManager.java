@@ -4,6 +4,7 @@ import io.seata.core.context.RootContext;
 import io.seata.core.exception.TransactionException;
 import io.seata.tm.api.GlobalTransaction;
 import io.seata.tm.api.GlobalTransactionContext;
+import org.springrain.frame.util.GlobalStatic;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +12,6 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.lang.Nullable;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.support.DefaultTransactionStatus;
-import org.springrain.frame.util.GlobalStatic;
 
 /**
  * 分布式事务,一定要避免A服务update表t,RPC调用B服务,B服务也update表t.这样A等待B结果,B等待A释放锁,造成死锁.
@@ -41,11 +41,11 @@ public class SeataDataSourceTransactionManager extends DataSourceTransactionMana
         if (branch == null) {
             branch = false;
         }
-        if (GlobalStatic.seataEnable&&!branch && RootContext.inGlobalTransaction()) {
+        if (GlobalStatic.seataEnable && !branch && RootContext.inGlobalTransaction()) {
             try {
                 // 分支事务执行时把事务角色修改成了GlobalTransactionRole.Participant,reload重新设置成GlobalTransactionRole.Launcher
                 //GlobalTransaction tx = GlobalTransactionContext.reload(RootContext.getXID());
-                GlobalTransaction tx =GlobalTransactionContext.getCurrent();
+                GlobalTransaction tx = GlobalTransactionContext.getCurrent();
                 tx.commit();
 
             } catch (TransactionException txe) {
@@ -63,18 +63,18 @@ public class SeataDataSourceTransactionManager extends DataSourceTransactionMana
         super.doRollback(status);
 
         // 回滚seata事务.
-        if (GlobalStatic.seataEnable&&RootContext.inGlobalTransaction()) {
+        if (GlobalStatic.seataEnable && RootContext.inGlobalTransaction()) {
             try {
                 // 分支事务执行把,把事务角色修改成了GlobalTransactionRole.Participant,reload重新设置成GlobalTransactionRole.Launcher
                 Boolean branch = GlobalStatic.seataBranchTransaction.get();
-                GlobalTransaction tx =null;
+                GlobalTransaction tx = null;
                 if (branch == null) {
                     branch = false;
                 }
-                if (branch){
+                if (branch) {
                     tx = GlobalTransactionContext.reload(RootContext.getXID());
-                }else{
-                    tx=GlobalTransactionContext.getCurrent();
+                } else {
+                    tx = GlobalTransactionContext.getCurrent();
                 }
 
                 tx.rollback();
@@ -95,13 +95,13 @@ public class SeataDataSourceTransactionManager extends DataSourceTransactionMana
     @Override
     protected void doBegin(Object transaction, TransactionDefinition definition) {
         // 如果禁用了分布式事务或者已经在分布事务中
-        if ((!GlobalStatic.seataEnable)||RootContext.inGlobalTransaction()) {
+        if ((!GlobalStatic.seataEnable) || RootContext.inGlobalTransaction()) {
             //开启spring事务
             super.doBegin(transaction, definition);
             return;
         }
         //新建分布式事务
-        GlobalTransaction tx=  GlobalTransactionContext.createNew();
+        GlobalTransaction tx = GlobalTransactionContext.createNew();
         try {
             //开启分布式事务
             tx.begin();

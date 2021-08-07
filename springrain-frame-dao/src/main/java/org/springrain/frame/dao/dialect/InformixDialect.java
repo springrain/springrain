@@ -1,14 +1,13 @@
 package org.springrain.frame.dao.dialect;
 
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Component;
 import org.springrain.frame.util.Page;
+import org.springframework.stereotype.Component;
 
 @Component("informixDialect")
 public class InformixDialect implements IDialect {
 
     @Override
-    public String getPageSql(String sql, String orderby, Page page) {
+    public String getPageSql(String sql, Page page) {
         // 设置分页参数
         int pageSize = page.getPageSize();
         int pageNo = page.getPageNo();
@@ -34,7 +33,7 @@ public class InformixDialect implements IDialect {
     }
 
     @Override
-    public String getDataDaseType() {
+    public String getDataBaseType() {
         return "informix";
     }
 

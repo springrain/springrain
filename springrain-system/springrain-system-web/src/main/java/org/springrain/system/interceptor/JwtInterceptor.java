@@ -1,5 +1,13 @@
 package org.springrain.system.interceptor;
 
+import org.springrain.frame.util.*;
+import org.springrain.rpc.sessionuser.SessionUser;
+import org.springrain.rpc.sessionuser.UserVO;
+import org.springrain.system.entity.Menu;
+import org.springrain.system.entity.Role;
+import org.springrain.system.service.IRoleService;
+import org.springrain.system.service.IUserRoleMenuService;
+import org.springrain.system.service.IUserService;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Bean;
@@ -13,20 +21,11 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-import org.springrain.frame.util.GlobalStatic;
-import org.springrain.frame.util.JwtUtils;
-import org.springrain.frame.util.SecUtils;
-import org.springrain.rpc.sessionuser.SessionUser;
-import org.springrain.rpc.sessionuser.UserVO;
-import org.springrain.system.entity.Menu;
-import org.springrain.system.entity.Role;
-import org.springrain.system.service.IRoleService;
-import org.springrain.system.service.IUserRoleMenuService;
-import org.springrain.system.service.IUserService;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.PrintWriter;
 import java.util.Date;
 import java.util.List;
 
@@ -80,6 +79,9 @@ public class JwtInterceptor implements HandlerInterceptor {
         //超时判断
         Date expireTime = JwtUtils.getExpireDate(jwtToken);
         if (expireTime == null || expireTime.getTime() < System.currentTimeMillis()) {
+            response.setHeader("Content-Type", "application/json;charset=UTF-8");
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            response.getWriter().print(JsonUtils.writeValueAsString(new ReturnDatas(ReturnDatas.TOKEN_TIME_OUT, "用戶信息已过期！请重新登录！")));
             return false;
         }
 
@@ -87,6 +89,8 @@ public class JwtInterceptor implements HandlerInterceptor {
         String userId = JwtUtils.getUserId(jwtToken);
         Integer userType = JwtUtils.getUserType(jwtToken);
         if (StringUtils.isBlank(userId)) {
+            response.setHeader("Content-Type", "application/json;charset=UTF-8");
+            response.getWriter().print(JsonUtils.writeValueAsString(ReturnDatas.getErrorReturnDatas("用户ID过期！")));
             return false;
         }
 
@@ -97,7 +101,8 @@ public class JwtInterceptor implements HandlerInterceptor {
             uri = uri.substring(i + contextPath.length());
         }
         if (StringUtils.isBlank(uri)) {
-
+            response.setHeader("Content-Type", "application/json;charset=UTF-8");
+            response.getWriter().print(JsonUtils.writeValueAsString(ReturnDatas.getErrorReturnDatas("非法请求！")));
             return false;
         }
 
@@ -130,6 +135,8 @@ public class JwtInterceptor implements HandlerInterceptor {
 
 
         if (StringUtils.isBlank(jwtToken)) {
+            response.setHeader("Content-Type", "application/json;charset=UTF-8");
+            response.getWriter().print(JsonUtils.writeValueAsString(ReturnDatas.getErrorReturnDatas("请求头中请携带jwtToken！")));
             return false;
         }
 
@@ -148,6 +155,8 @@ public class JwtInterceptor implements HandlerInterceptor {
         */
 
 
+        // 业务数据表 必须要有 orgId 和 createUserId 这两个字段,用于标识归属部门和创建人,用于权限过滤!!!!
+
         // 角色关联部门实现数据权限,角色指定 roleOrgType <0自己的数据,1所在部门,2所在部门及子部门数据,3.自定义部门数据,4.全部数据>.
         // 0就是类似员工,1和2 是根据使用者自身数据进行数据授权,适合公用全局属性,例如专员只能查看他所在的部门的数据,虽然他不是部门主管.
 
@@ -158,7 +167,7 @@ public class JwtInterceptor implements HandlerInterceptor {
 
         // 角色关联人员,部门,菜单,作为整个权限设计的中心枢纽.
         // 角色都有归属部门,其部门主管或上级主管才可以修改角色属性,其他使用人员只能往角色里添加人员,
-        // 不能选择部门或则其他操作,只能添加人员,不然存在提权风险,例如 员工角色下有1000人, 如果给 角色 设置了部门,那这1000人都起效了.
+        // 不能选择部门或则其他操作,只能添加人员,不然存在提权风险,例如 员工 角色下有1000人, 如果给 员工 角色设置了部门权限,那这1000人都能看到部门权限了.
         // 角色 shareRole 设置共享的角色可以被下级部门直接查看到,并添加人员.同样 也是只能添加人员.
 
         // 1.根据访问的url,通过userRoleMenuService.findMenuByUserId(userId)查询对应的menuId和roleId.需要确保url地址唯一,多个菜单url相同可以使用软跳转,暂时不处理.
@@ -167,6 +176,7 @@ public class JwtInterceptor implements HandlerInterceptor {
         // 4.查看roleId如果是私有权限,UserVo 就设置 privateOrgRoleId,业务调用SessionUser.getPrivateOrgRoleId获取私有的roleId,
         // 然后再调用IUserRoleOrgService.wrapOrgIdFinderByPrivateOrgRoleId(String roleId,String userId) 获取权限的 Finder
         // 5.如果是公共权限,这里不做处理,业务方法调用 IUserRoleOrgService.wrapOrgIdFinderByUserId(String userId) 获取权限的Finder
+        // 6.建议直接使用IUserRoleOrgService.wrapOrgIdFinderByFinder(Finder finder,String orgIdColumn,String createUserIdColumn)方法,获取当前登陆人的权限Finder
 
         // 注意:在返回前端菜单权限时,要包含menuId和roleId,私有privateOrg的roleId优先,如果同一个menuId存在多个定制roleId冲突,按照role的排序,同一个menuId只保留一个roleId.
 
@@ -176,6 +186,8 @@ public class JwtInterceptor implements HandlerInterceptor {
         List<Menu> menus = userRoleMenuService.findMenuByUserId(userId);
 
         if (CollectionUtils.isEmpty(menus)) {
+            response.setHeader("Content-Type", "application/json;charset=UTF-8");
+            response.getWriter().print(JsonUtils.writeValueAsString(ReturnDatas.getErrorReturnDatas("该用户无操作权限！")));
             return false;
         }
 
@@ -194,10 +206,15 @@ public class JwtInterceptor implements HandlerInterceptor {
         }
 
         if (!qx) {
+            response.setHeader("Content-Type", "application/json;charset=UTF-8");
+            PrintWriter writer = response.getWriter();
+            writer.print(JsonUtils.writeValueAsString(ReturnDatas.getErrorReturnDatas("该用户无操作权限！")));
             return false;
         }
         Role role = roleService.findRoleById(roleId);
         if (role == null) {
+            response.setHeader("Content-Type", "application/json;charset=UTF-8");
+            response.getWriter().print(JsonUtils.writeValueAsString(ReturnDatas.getErrorReturnDatas("该用户无角色！")));
             return false;
         }
         //设置userVO

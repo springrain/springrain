@@ -1,5 +1,9 @@
 package org.springrain.lucene;
 
+import org.springrain.frame.util.*;
+import org.springrain.frame.util.FieldInfo;
+import org.springrain.lucene.IK.dic.Dictionary;
+import org.springrain.lucene.IK.lucene.IKAnalyzer;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
@@ -16,10 +20,7 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springrain.frame.util.FieldInfo;
 import org.springrain.frame.util.*;
-import org.springrain.lucene.IK.dic.Dictionary;
-import org.springrain.lucene.IK.lucene.IKAnalyzer;
 
 import java.io.File;
 import java.io.IOException;
@@ -622,7 +623,7 @@ public class LuceneUtils {
      * @param word
      */
     public static void addStopWord(String word) {
-        Dictionary.addStopWord(word);
+        org.springrain.lucene.IK.dic.Dictionary.addStopWord(word);
     }
 
     /**
@@ -631,7 +632,7 @@ public class LuceneUtils {
      * @param words Collection<String>词条列表
      */
     public static void addStopWord(Collection<String> words) {
-        Dictionary.addStopWord(words);
+        org.springrain.lucene.IK.dic.Dictionary.addStopWord(words);
     }
 
     /**
@@ -640,7 +641,7 @@ public class LuceneUtils {
      * @param word
      */
     public static void addQuantifier(String word) {
-        Dictionary.addQuantifier(word);
+        org.springrain.lucene.IK.dic.Dictionary.addQuantifier(word);
     }
 
     /**
@@ -649,7 +650,7 @@ public class LuceneUtils {
      * @param words
      */
     public static void addQuantifier(Collection<String> words) {
-        Dictionary.addQuantifier(words);
+        org.springrain.lucene.IK.dic.Dictionary.addQuantifier(words);
     }
 
     /**
@@ -658,7 +659,7 @@ public class LuceneUtils {
      * @param word
      */
     public static void disableDictWord(String word) {
-        Dictionary.disableDictWord(word);
+        org.springrain.lucene.IK.dic.Dictionary.disableDictWord(word);
     }
 
     /**
@@ -667,7 +668,7 @@ public class LuceneUtils {
      * @param words
      */
     public static void disableDictWord(Collection<String> words) {
-        Dictionary.disableDictWord(words);
+        org.springrain.lucene.IK.dic.Dictionary.disableDictWord(words);
     }
 
     /**
@@ -677,7 +678,7 @@ public class LuceneUtils {
      */
 
     public static void addDictWord(String word) {
-        Dictionary.addDictWord(word);
+        org.springrain.lucene.IK.dic.Dictionary.addDictWord(word);
     }
 
     /**

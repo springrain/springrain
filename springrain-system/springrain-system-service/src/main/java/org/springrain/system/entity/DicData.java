@@ -1,15 +1,16 @@
 package org.springrain.system.entity;
 
+import org.springrain.frame.annotation.WhereSQL;
+import org.springrain.frame.entity.BaseEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.springrain.frame.annotation.WhereSQL;
-import org.springrain.frame.entity.BaseEntity;
-
-import java.util.Date;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -38,6 +39,8 @@ public class DicData extends BaseEntity {
     // columns START
     /**
      * id
+     *
+     * @required
      */
     private java.lang.String id;
     /**
@@ -69,13 +72,13 @@ public class DicData extends BaseEntity {
     private java.lang.String remark;
 
     /**
-     * 是否有效
+     * 是否有效 1 是，0 否
      */
     private java.lang.Integer active;
     /**
      * 状态
      */
-    private java.lang.Integer status;
+//    private java.lang.Integer status;
     /**
      * 类型
      */
@@ -104,6 +107,19 @@ public class DicData extends BaseEntity {
     private java.lang.String bak5;
     // columns END 数据库字段结束
 
+    /**
+     * 子
+     */
+    private List<DicData> children;
+
+    @Transient
+    public List<DicData> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<DicData> children) {
+        this.children = children;
+    }
 
     // concstructor
 
@@ -127,18 +143,18 @@ public class DicData extends BaseEntity {
         }
         this.id = value;
     }
-    
-    
+
+
     @WhereSQL(sql = "createTime=:DicData_createTime")
     public Date getCreateTime() {
-		return createTime;
-	}
+        return createTime;
+    }
 
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
 
-	@WhereSQL(sql = "val=:DicData_val")
+    @WhereSQL(sql = "val=:DicData_val")
     public String getVal() {
         return val;
     }
@@ -147,7 +163,7 @@ public class DicData extends BaseEntity {
         this.val = val;
     }
 
-    @WhereSQL(sql = "name=:DicData_name")
+    @WhereSQL(sql = "name like :%DicData_name%")
     public java.lang.String getName() {
         return this.name;
     }
@@ -201,7 +217,7 @@ public class DicData extends BaseEntity {
         this.active = value;
     }
     
-    
+/*
     @WhereSQL(sql = "status=:DicData_status")
     public java.lang.Integer getStatus() {
 		return status;
@@ -209,9 +225,9 @@ public class DicData extends BaseEntity {
 
 	public void setStatus(java.lang.Integer status) {
 		this.status = status;
-	}
+	}*/
 
-	@WhereSQL(sql = "typekey=:DicData_typekey")
+    @WhereSQL(sql = "typekey like :%DicData_typekey%")
     public java.lang.String getTypekey() {
         return this.typekey;
     }

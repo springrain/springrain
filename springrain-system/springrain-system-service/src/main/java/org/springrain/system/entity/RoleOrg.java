@@ -1,10 +1,10 @@
 package org.springrain.system.entity;
 
+import org.springrain.frame.annotation.WhereSQL;
+import org.springrain.frame.entity.BaseEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.springrain.frame.annotation.WhereSQL;
-import org.springrain.frame.entity.BaseEntity;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -12,7 +12,7 @@ import javax.persistence.Transient;
 
 
 /**
- * TODO 在此加入类描述
+ * 角色部门
  *
  * @author springrain<Auto generate>
  * @version 2019-07-26 10:01:22
@@ -45,48 +45,73 @@ public class RoleOrg extends BaseEntity {
 
     //columns START
 
-    // 编号
+    /**
+     * 编号
+     */
     private String id;
-
-    // 部门编号
+    /**
+     * 部门编号
+     *
+     * @required
+     */
     private String orgId;
-
-    // 角色编号
+    /**
+     * 角色编号
+     */
     private String roleId;
-
-    // 0不包含子部门,1包含.用于表示角色和部门的权限关系.用于记录roleOrgType的结果,缓存值
+    /**
+     * 0不包含子部门,1包含.用于表示角色和部门的权限关系.用于记录roleOrgType的结果,缓存值
+     */
     private Integer children;
-
-    // createTime
+    /**
+     * 创建时间
+     */
     private java.util.Date createTime;
-
-    // createUserId
+    /**
+     * 创建者
+     */
     private String createUserId;
-
-    // updateTime
+    /**
+     * 更新时间
+     */
     private java.util.Date updateTime;
-
-    // updateUserId
+    /**
+     * 更新者
+     */
     private String updateUserId;
-
-    // bak1
+    /**
+     * bak1
+     */
     private String bak1;
-
-    // bak2
+    /**
+     * bak2
+     */
     private String bak2;
-
-    // bak3
+    /**
+     * bak3
+     */
     private String bak3;
-
-    // bak4
+    /**
+     * bak4
+     */
     private String bak4;
-
-    // bak5
+    /**
+     * bak5
+     */
     private String bak5;
     //columns END 数据库字段结束
 
-    // 是否选中,未选中就是删除
+    /**
+     * 是否选中,未选中就是删除
+     *
+     * @required
+     */
     private Boolean check;
+
+    /**
+     * isChildren
+     */
+    private Integer isChildren;
 
     //concstructor
     public RoleOrg() {
@@ -94,6 +119,18 @@ public class RoleOrg extends BaseEntity {
 
 
     //get and set
+
+
+    @Transient
+    public Integer getIsChildren() {
+        isChildren = this.children;
+        return isChildren;
+    }
+
+    public void setIsChildren(Integer isChildren) {
+        this.isChildren = isChildren;
+        this.children = isChildren;
+    }
 
     /**
      * 编号
@@ -171,6 +208,7 @@ public class RoleOrg extends BaseEntity {
      */
     public void setChildren(Integer value) {
         this.children = value;
+        this.isChildren = value;
     }
 		/*
 	public String getcreateTimeString() {

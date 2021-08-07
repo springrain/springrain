@@ -4,8 +4,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -159,6 +161,58 @@ public class DateUtils {
         targetDate = formatDate(DateUtils.DATE_FORMAT, targetDate);
         return targetDate;
     }
+    /**
+     * 当前日期加减天数
+     * @param day 要加减的天数，加为正数，减为负数
+     * @return
+     * @throws ParseException 例： DateUtils.formatDate(new Date()) "yyyy-MM-dd
+     *                        00:00:00"
+     */
+    public static Date addDay(int day) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        c.add(Calendar.DAY_OF_MONTH, 1);
+        return c.getTime();
+    }
+    /**
+     * 当前日期加减月数
+     * @param month 要加减的月数，加为正数，减为负数
+     * @return
+     * @throws ParseException 例： DateUtils.formatDate(new Date()) "yyyy-MM-dd
+     *                        00:00:00"
+     */
+    public static Date addMonth(Date date ,int month) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.add(Calendar.MONTH, 1);
+        return c.getTime();
+    }
+    /**
+     * 比较日期大小
+     *
+     * @param src
+     * @param src1
+     * @return int; 1:DATE1>DATE2;
+     */
+    public static int compare_date(Date src, Date src1) {
 
+        String date1 = convertDate2String(DATETIME_FORMAT, src);
+        String date2 = convertDate2String(DATETIME_FORMAT, src1);
+        DateFormat df = new SimpleDateFormat(DATETIME_FORMAT);
+        try {
+            Date dt1 = df.parse(date1);
+            Date dt2 = df.parse(date2);
+            if (dt1.getTime() > dt2.getTime()) {
+                return 1;
+            } else if (dt1.getTime() < dt2.getTime()) {
+                return -1;
+            } else {
+                return 0;
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage(),e);
+        }
+        return 0;
+    }
 
 }

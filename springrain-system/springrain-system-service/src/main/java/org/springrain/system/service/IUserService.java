@@ -1,11 +1,14 @@
 package org.springrain.system.service;
 
-import java.util.List;
-
 import org.springrain.frame.util.Page;
 import org.springrain.rpc.annotation.RpcServiceAnnotation;
 import org.springrain.rpc.sessionuser.UserVO;
+import org.springrain.system.dto.LVDTO;
+import org.springrain.system.dto.PhoneLoginDTO;
 import org.springrain.system.entity.User;
+import org.springrain.system.vo.LoginSuccessVO;
+
+import java.util.List;
 
 /**
  * 用户管理查询的基础Servcie
@@ -63,12 +66,135 @@ public interface IUserService extends IBaseSpringrainService {
      */
     User findLoginUser(String account, String password, Integer userType) throws Exception;
 
-	/**
-	 * 查询用户列表
-	 * @param page
-	 * @return
-	 * @throws Exception 
-	 */
-	List<User> findUserList(Page<User> page) throws Exception;
+    /**
+     * 查询用户列表
+     *
+     * @param page
+     * @return
+     * @throws Exception
+     */
+    List<User> findUserList(Page<User> page) throws Exception;
 
+    /**
+     * 根据用户账号更新密码
+     *
+     * @param account 用户账号
+     * @param oldPwd  旧密码
+     * @param newPwd  新密码
+     * @throws Exception 旧密码错误异常
+     */
+    void updatePwd(String account, String oldPwd, String newPwd) throws Exception;
+
+    /**
+     * 管理员强制重置密码
+     *
+     * @param account
+     * @param newPwd
+     * @throws Exception
+     */
+    void updatePwd(String account, String newPwd) throws Exception;
+
+    /**
+     * 新增用户
+     *
+     * @param user
+     * @return
+     * @throws Exception
+     */
+    User saveUser(User user) throws Exception;
+
+    /**
+     * 更新用户
+     *
+     * @param user
+     * @return
+     * @throws Exception
+     */
+    User updateUser(User user) throws Exception;
+
+    /**
+     * 删除用户
+     *
+     * @param id
+     * @throws Exception
+     */
+    void deleteUser(String id) throws Exception;
+
+    /**
+     * 批量删除用户
+     *
+     * @param ids
+     */
+    void deleteUserBatch(List<String> ids) throws Exception;
+
+    /**
+     * 根据用户账号查询用户
+     *
+     * @param account
+     * @return
+     */
+    User findUserByAccount(String account) throws Exception;
+
+    /**
+     * 退出登录
+     *
+     * @param userId
+     * @throws Exception
+     */
+    void logout(String userId) throws Exception;
+
+    /**
+     * 导入
+     * 保存用户，数据来源excel
+     */
+    void saveByImported(String path) throws Exception;
+
+    /**
+     * 用户列表，不包含用户角色和部门数据
+     *
+     * @return
+     */
+    List<User> findUsers() throws Exception;
+
+    /**
+     * 发送短信验证码
+     *
+     * @param dto
+     * @throws Exception
+     */
+    void sendCode(PhoneLoginDTO dto) throws Exception;
+
+    /**
+     * 手机号登录(不存在则注册一个用户,登录账号为手机号,密码为123)
+     *
+     * @param phoneLoginDTO
+     * @return
+     * @throws Exception
+     */
+    User savePhoneLogin(PhoneLoginDTO phoneLoginDTO) throws Exception;
+
+    /**
+     * 根据手机号查询用户id
+     *
+     * @param phone
+     * @return
+     * @throws Exception
+     */
+    String findUserIdByPhone(String phone) throws Exception;
+
+    /**
+     * 用户类型列表
+     *
+     * @return
+     * @throws Exception
+     */
+    List<LVDTO> userTypeList() throws Exception;
+
+    /**
+     * 权限接口信息
+     * @param user
+     * @return
+     * @throws Exception
+     */
+    LoginSuccessVO findUserCodeMap(User user) throws Exception;
 }

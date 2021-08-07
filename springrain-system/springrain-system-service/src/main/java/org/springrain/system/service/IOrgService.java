@@ -1,10 +1,10 @@
 package org.springrain.system.service;
 
+import org.springrain.frame.util.Page;
 import org.springrain.rpc.annotation.RpcServiceAnnotation;
 import org.springrain.system.entity.Org;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * TODO 在此加入类描述
@@ -88,7 +88,29 @@ public interface IOrgService extends IBaseSpringrainService {
      */
     String findOrgNewComcode(String id, String pid) throws Exception;
 
+    /**
+     * 把 部门列表 转换成树形结构(从impl中抽出接口)
+     *
+     * @param orgList
+     * @return
+     */
+    List<Org> listOrg2Tree(List<Org> orgList);
 
+    /**
+     * 封装部门类型名字，用于前端展示的属性
+     *
+     * @param orgList
+     */
+    void orgTypeName(List<Org> orgList) throws Exception;
+
+    /**
+     * 当前用户所管理的部门数据
+     *
+     * @param org
+     * @param page
+     * @return
+     */
+    List<Org> findOrgList(Org org, Page<Org> page) throws Exception;
     /**
      * 查询部门树形结构
      *
@@ -96,8 +118,8 @@ public interface IOrgService extends IBaseSpringrainService {
      * @throws Exception
      * @author 程相羽
      * @version 2020年10月29日 下午2:17:34
-     */
+     *//*
     List<Map<String, Object>> findOrgTreeVoList() throws Exception;
-
+*/
 
 }

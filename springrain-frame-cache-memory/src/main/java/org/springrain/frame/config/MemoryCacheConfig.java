@@ -15,7 +15,10 @@ public class MemoryCacheConfig {
 
     @Bean("cacheManager")
     public CacheManager cacheManager() {
-        CacheManager cacheManager = new ConcurrentMapCacheManager();
+        ConcurrentMapCacheManager concurrentMapCacheManager = new ConcurrentMapCacheManager();
+        //设置使用值的序列化器,也就是使用SerializationDelegate把get的结果重新序列化一次,否则所有程序操作的是一个内存对象,互相修改就会互相影响
+        concurrentMapCacheManager.setStoreByValue(true);
+        CacheManager cacheManager = concurrentMapCacheManager;
 
         return cacheManager;
     }

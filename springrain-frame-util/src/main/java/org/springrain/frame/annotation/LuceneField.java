@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
  * @copyright {@link jiagou.com}
  * @author springrain<9 iuorg @ gmail.com>
  * @version 2013-03-19 11:08:15
- * @see org.springrain.frame.annotation.LuceneField
+ * @see LuceneField
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)

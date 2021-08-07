@@ -1,11 +1,11 @@
 package org.springrain.system.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springrain.frame.annotation.WhereSQL;
+import org.springrain.frame.entity.BaseEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.springrain.frame.annotation.WhereSQL;
-import org.springrain.frame.entity.BaseEntity;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -55,78 +55,139 @@ public class User extends BaseEntity {
 
     //columns START
 
-    //
+    /**
+     * id
+     *
+     * @required
+     */
     private String id;
-
-    // 姓名
+    /**
+     * 姓名
+     *
+     * @required
+     */
     private String userName;
-
-    // 账号
+    /**
+     * 账号
+     *
+     * @required
+     */
     private String account;
-
-    // 密码
+    /**
+     * 密码
+     *
+     * @required
+     */
     @JsonIgnore
     private String password;
-
-    // 性别
+    /**
+     * 性别
+     */
     private String sex;
-
-    // 手机号码
+    /**
+     * 手机号码
+     */
     private String mobile;
-
-    // 邮箱
+    /**
+     * 邮箱
+     */
     private String email;
-
-    // 微信openId
+    /**
+     * 微信openId
+     */
     private String openId;
-
-    // 微信UnionID
+    /**
+     * 微信UnionID
+     */
     private String unionID;
-
-    // 头像地址
+    /**
+     * 头像地址
+     */
     private String avatar;
-
-    // 0会员,1员工,2店长收银,9系统管理员
+    /**
+     * 0会员,1员工,2店长收银,9系统管理员
+     *
+     * @required
+     */
     private Integer userType;
-
-    // createTime
+    /**
+     * 创建时间
+     */
     private java.util.Date createTime;
-
-    // createUserId
+    /**
+     * 创建者
+     */
     private String createUserId;
-
-    // updateTime
+    /**
+     * 更新时间
+     */
     private java.util.Date updateTime;
-
-    // updateUserId
+    /**
+     * 更新者
+     */
     private String updateUserId;
+    /**
+     * 昵称
+     */
     private String nickName;
-    // 是否有效(0否,1是)
+    /**
+     * 是否有效(0否,1是)
+     */
     private Integer active;
-    // 伪删除状态 0删除 1未删除   
+    /**
+     * 伪删除状态 0删除 1未删除
+     */
     private Integer status;
-    // bak1
+    /**
+     * bak1
+     */
     private String bak1;
-    // bak2
+    /**
+     * bak2
+     */
     private String bak2;
-    // bak3
+    /**
+     * bak3
+     */
     private String bak3;
-    // bak4
+    /**
+     * bak4
+     */
     private String bak4;
-    // bak5
+    /**
+     * bak5
+     */
     private String bak5;
     /**
      * 部门id 作为搜索关键字使用
+     *
+     * @required
      */
     private String deptId;
-    // 用户的所有角色
+    /**
+     * 用户的所有角色
+     */
     private List<Role> roles;
+    /**
+     * 部门集合
+     */
+    private List<Org> orgList;
+
+    @Transient
+    public List<Org> getOrgList() {
+        return orgList;
+    }
+
+    public void setOrgList(List<Org> orgList) {
+        this.orgList = orgList;
+    }
 
     //columns END 数据库字段结束
     //concstructor
     public User() {
     }
 
+    @Transient
     public String getNickName() {
         return nickName;
     }
@@ -138,8 +199,6 @@ public class User extends BaseEntity {
         }
         this.nickName = value;
     }
-
-
     //get and set
 
     /**
@@ -462,17 +521,18 @@ public class User extends BaseEntity {
     public void setActive(Integer value) {
         this.active = value;
     }
-    
+
     @WhereSQL(sql = "status=:User_status")
+    @Transient
     public Integer getStatus() {
-		return status;
-	}
+        return status;
+    }
 
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 
-	/**
+    /**
      * bak1
      */
     @WhereSQL(sql = "bak1=:User_bak1")

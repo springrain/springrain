@@ -35,6 +35,14 @@ public interface IUserRoleMenuService extends IBaseSpringrainService {
      */
     List<Menu> findMenuByRoleId(String roleId) throws Exception;
 
+    /**
+     * 根据角色id查询菜单Tree
+     *
+     * @param roleId 角色id
+     * @return
+     * @throws Exception
+     */
+    List<Menu> findMenuTreeByRoleId(String roleId) throws Exception;
 
     /**
      * 根据角色  查询角色下的所有人员.
@@ -89,6 +97,16 @@ public interface IUserRoleMenuService extends IBaseSpringrainService {
      * @throws Exception
      */
     String updateRoleMenu(RoleMenu roleMenu) throws Exception;
+
+    /**
+     * 更新角色菜单集合
+     *
+     * @param roleId  角色id
+     * @param menuIds 菜单集合id
+     * @return 状态
+     * @throws Exception sql异常
+     */
+    String updateRoleMenu(String roleId, List<String> menuIds) throws Exception;
 
     /**
      * 更新用户的角色信息

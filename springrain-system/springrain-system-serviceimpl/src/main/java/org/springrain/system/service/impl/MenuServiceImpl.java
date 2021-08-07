@@ -1,8 +1,5 @@
 package org.springrain.system.service.impl;
 
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.Page;
@@ -10,8 +7,13 @@ import org.springrain.frame.util.SecUtils;
 import org.springrain.system.entity.Menu;
 import org.springrain.system.entity.RoleMenu;
 import org.springrain.system.service.IMenuService;
+import org.springrain.system.service.IUserRoleMenuService;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
 
-import java.util.List;
+import javax.annotation.Resource;
+import java.util.*;
 
 
 /**
@@ -23,7 +25,8 @@ import java.util.List;
 
 @Service("menuService")
 public class MenuServiceImpl extends BaseSpringrainServiceImpl implements IMenuService {
-
+    @Resource
+    private IUserRoleMenuService userRoleMenuService;
 
     @Override
     public String saveMenu(Menu entity) throws Exception {
@@ -45,10 +48,18 @@ public class MenuServiceImpl extends BaseSpringrainServiceImpl implements IMenuS
 
         super.save(entity);
 
+        //新增菜单后，r_1001(超级管理员) 默认拥有所有权限，为其添加权限
+        RoleMenu roleMenu = new RoleMenu();
+        roleMenu.setRoleId("r_10001");
+        roleMenu.setId(SecUtils.getTimeNO());
+        roleMenu.setMenuId(id);
+        roleMenu.init();
+        userRoleMenuService.save(roleMenu);
+
         // updateMenuManager(id,entity.getManagerRoleId());
         // 清除缓存
-        super.evictByKey(GlobalStatic.qxCacheKey, "findAllMenuTree");
-
+        //super.evictByKey(GlobalStatic.qxCacheKey, "findAllMenuTree");
+        super.cleanCache(GlobalStatic.qxCacheKey);
         return id;
 
 
@@ -56,6 +67,7 @@ public class MenuServiceImpl extends BaseSpringrainServiceImpl implements IMenuS
 
 
     public Integer updateMenu(Menu entity) throws Exception {
+        entity.setUpdateTime(new Date());
         //清理缓存
         super.evictByKey(GlobalStatic.userOrgRoleMenuInfoCacheKey, "findMenuById_" + entity.getId());
 
@@ -73,10 +85,13 @@ public class MenuServiceImpl extends BaseSpringrainServiceImpl implements IMenuS
         if (old_menu == null) {
             return null;
         }
-
+        if (id.equals(pid)) {
+            pid = old_menu.getPid();
+            entity.setPid(old_menu.getPid());
+        }
         // 清除缓存
         super.evictByKey(GlobalStatic.userOrgRoleMenuInfoCacheKey, "findMenuById_" + id);
-        super.evictByKey(GlobalStatic.qxCacheKey, "findAllMenuTree");
+        super.cleanCache(GlobalStatic.qxCacheKey);
 
         String old_c = old_menu.getComcode();
 
@@ -204,12 +219,78 @@ public class MenuServiceImpl extends BaseSpringrainServiceImpl implements IMenuS
     }
 
 
-	@Override
-	public List<Menu> findAllMenuListByQueryBean(Menu menu, Page<Menu> page) throws Exception {
-		Finder finder = Finder.getSelectFinder(Menu.class)
+    @Override
+    public List<Menu> findAllMenuListByQueryBean(Menu menu, Page<Menu> page) throws Exception {
+		/*Finder finder = Finder.getSelectFinder(Menu.class)
 				.append(" WHERE active=:active");
-		finder.setParam("active", 1);
-		return this.queryForList(finder, Menu.class);
-	}
+		finder.setParam("active", 1);*/
+        if (menu == null) {
+            menu = new Menu();
+        }
+        if (page == null) {
+            page = new Page<>();
+            page.setPageNo(1);
+            page.setPageSize(99999);
+            page.setSort("desc");
+            page.setOrder("sortno");
+        }
+
+        List<Menu> menuList = this.queryForListByEntity(menu, page);
+        return menuList2Tree(menuList);
+    }
+
+    @Override
+    public List<Menu> saveBatch(List<Menu> menuList) throws Exception {
+        Iterator<Menu> iterator = menuList.iterator();
+        while (iterator.hasNext()) {
+            Menu menu = iterator.next();
+            menu.setUpdateTime(new Date());
+            menu.setCreateTime(new Date());
+            menu.setActive(1);
+            this.saveMenu(menu);
+        }
+        // 清除缓存
+        super.evictByKey(GlobalStatic.qxCacheKey, "findAllMenuTree");
+        return menuList;
+    }
+
+    //从UserRoleMenuService中抽出的方法
+    @Override
+    public List<Menu> menuList2Tree(List<Menu> menuList) {
+        if (CollectionUtils.isEmpty(menuList)) {
+            return null;
+        }
+        // 先把数据放到map里,方便取值,对象和orgList里的是同一个
+        Map<String, Menu> map = new HashMap<>();
+        for (Menu menu : menuList) {
+            map.put(menu.getId(), menu);
+        }
+        // 循环遍历orgList
+        List<Menu> list = new ArrayList<>();
+        for (Menu menu : menuList) {
+            String pid = menu.getPid();
+            Menu parent = map.get(pid);
+            // 没有父节点
+            if (parent == null) {
+                list.add(menu);
+                continue;
+            }
+
+            //如果有父节点
+            List<Menu> children = parent.getChildren();
+            if (children == null) {
+                children = new ArrayList<>();
+                parent.setChildren(children);
+            }
+            children.add(menu);
+        }
+
+
+        if (CollectionUtils.isEmpty(list)) {
+            return null;
+        }
+
+        return list;
+    }
 
 }

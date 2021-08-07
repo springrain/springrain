@@ -1,15 +1,17 @@
 package org.springrain.system.service.impl;
 
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
+import org.springrain.frame.util.CommonEnum;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.SecUtils;
 import org.springrain.rpc.sessionuser.SessionUser;
 import org.springrain.system.entity.*;
 import org.springrain.system.service.IMenuService;
+import org.springrain.system.service.IRoleService;
 import org.springrain.system.service.IUserRoleMenuService;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -27,6 +29,8 @@ public class UserRoleMenuServiceImpl extends BaseSpringrainServiceImpl implement
     @Resource
     private IMenuService menuService;
 
+    @Resource
+    private IRoleService roleService;
 
     @Override
     public List<Role> findRoleByUserId(String userId) throws Exception {
@@ -92,6 +96,37 @@ public class UserRoleMenuServiceImpl extends BaseSpringrainServiceImpl implement
         super.putByCache(GlobalStatic.qxCacheKey, cacheKey, list);
 
         return list;
+    }
+
+    @Override
+    public List<Menu> findMenuTreeByRoleId(String roleId) throws Exception {
+        if (StringUtils.isBlank(roleId)) {
+            return null;
+        }
+
+        String cacheKey = "findMenuTreeByRoleId_" + roleId;
+        List<Menu> list = super.getByCache(GlobalStatic.qxCacheKey, cacheKey, List.class);
+        if (list != null) {
+            if (list.size() == 0) {
+                return null;
+            }
+            return list;
+        }
+
+        Finder finder = new Finder("SELECT m.* from ").append(Finder.getTableName(Menu.class)).append(" m,")
+                .append(Finder.getTableName(RoleMenu.class))
+                .append("  re where re.roleId=:roleId and re.menuId=m.id and m.active=1 order by m.sortno desc ");
+        finder.setParam("roleId", roleId);
+        list = super.queryForList(finder, Menu.class);
+        List<Menu> menuListTree = menuService.menuList2Tree(list);
+        if (CollectionUtils.isEmpty(menuListTree)) {
+            menuListTree = new ArrayList<>();
+        }
+
+        // 加上缓存
+        super.putByCache(GlobalStatic.qxCacheKey, cacheKey, menuListTree);
+
+        return menuListTree;
     }
 
     @Override
@@ -162,7 +197,7 @@ public class UserRoleMenuServiceImpl extends BaseSpringrainServiceImpl implement
                 list.add(menu);
             }
         }
-        // 加上缓存
+        // 加上缓存11 = {Menu@10611} "id[t_menu_list],菜单名称[菜单管理],vue使用 meta.title[菜单管理],pid[system_manager],描述[],pageurl[/api/system/menu/list],0.功能按钮,1.导航菜单[1],vue路由地址[/menus],vue组件使用[null],vue组件使用[null],vue组件使用[null],vue组件使用[null],icon[/img/iconImg/icon11.png],createTime[2019-07-24 11:33:44.0],createUserId[],updateTime[2019-07-24 11:33:44.0],updateUserId[],排序,查询时倒叙排列[3],是否有效(0否,1是)[1],bak1[null],bak2[null],bak3[null],bak4[null],bak5[null],"
         super.putByCache(GlobalStatic.qxCacheKey, cacheKey, list);
         return list;
     }
@@ -174,7 +209,7 @@ public class UserRoleMenuServiceImpl extends BaseSpringrainServiceImpl implement
         }
 
         List<Menu> listMenu = findMenuByUserId(userId);
-        List<Menu> list = menuList2Tree(listMenu);
+        List<Menu> list = menuService.menuList2Tree(listMenu);
         return list;
     }
 
@@ -190,7 +225,10 @@ public class UserRoleMenuServiceImpl extends BaseSpringrainServiceImpl implement
         }
 
 
-        Finder finder = Finder.getSelectFinder(Menu.class).append(" WHERE active=1 order by sortno desc ");
+        Finder finder = Finder.getSelectFinder(Menu.class)
+                .append(" where active=:active")
+                .setParam("active", CommonEnum.ACTIVE.未删除.getState())
+                .append(" order by sortno desc ");
         List<Menu> listMenu = super.queryForList(finder, Menu.class);
         if (CollectionUtils.isEmpty(listMenu)) {
             list = new ArrayList<>();
@@ -199,55 +237,10 @@ public class UserRoleMenuServiceImpl extends BaseSpringrainServiceImpl implement
             return list;
         }
 
-        list = menuList2Tree(listMenu);
+        list = menuService.menuList2Tree(listMenu);
 
         // 加上缓存
         super.putByCache(GlobalStatic.qxCacheKey, cacheKey, list);
-        return list;
-    }
-
-
-    /**
-     * 将平行的List,变成树形结构
-     *
-     * @param menuList
-     * @return
-     */
-    private List<Menu> menuList2Tree(List<Menu> menuList) {
-
-        if (CollectionUtils.isEmpty(menuList)) {
-            return null;
-        }
-        // 先把数据放到map里,方便取值,对象和orgList里的是同一个
-        Map<String, Menu> map = new HashMap<>();
-        for (Menu menu : menuList) {
-            map.put(menu.getId(), menu);
-        }
-        // 循环遍历orgList
-        List<Menu> list = new ArrayList<>();
-        for (Menu menu : menuList) {
-            String pid = menu.getPid();
-            Menu parent = map.get(pid);
-            // 没有父节点
-            if (parent == null) {
-                list.add(menu);
-                continue;
-            }
-
-            //如果有父节点
-            List<Menu> children = parent.getChildren();
-            if (children == null) {
-                children = new ArrayList<>();
-                parent.setChildren(children);
-            }
-            children.add(menu);
-        }
-
-
-        if (CollectionUtils.isEmpty(list)) {
-            return null;
-        }
-
         return list;
     }
 
@@ -303,7 +296,7 @@ public class UserRoleMenuServiceImpl extends BaseSpringrainServiceImpl implement
         f_delete.setParam("roleId", roleMenu.getRoleId()).setParam("menuId", menuIds);
         super.update(f_delete);
 
-        String cacheKey = "findMenuByRoleId_" + roleMenu.getRoleId();
+        String cacheKey = "findMenuTreeByRoleId_" + roleMenu.getRoleId();
         super.evictByKey(GlobalStatic.qxCacheKey, cacheKey);
 
         if (!roleMenu.getCheck()) { //  清理关系
@@ -329,6 +322,44 @@ public class UserRoleMenuServiceImpl extends BaseSpringrainServiceImpl implement
             super.save(rmList);
         }
 
+        return null;
+    }
+
+    @Override
+    public String updateRoleMenu(String roleId, List<String> menuIds) throws Exception {
+        Optional<List<String>> optionalList = Optional.ofNullable(menuIds);
+        menuIds = optionalList.orElse(new ArrayList<>());
+        if (StringUtils.isBlank(roleId)) {
+            throw new RuntimeException("数据不完整！");
+        }
+        boolean supervisor = roleService.isSupervisor(roleId);
+        if (!supervisor) {
+            logger.error("该角色中的部门主管才可更新此角色信息!--updateRoleMenu({},{})", roleId, menuIds);
+            throw new RuntimeException("该角色中的部门主管才可更新此角色信息!");
+        }
+        Finder f_delete = Finder.getDeleteFinder(RoleMenu.class).append("where roleId=:roleId")
+                .setParam("roleId", roleId);
+        super.update(f_delete);
+        //String cacheKey = "findMenuByRoleId_" + roleId;
+        super.getCache(GlobalStatic.qxCacheKey).clear();
+
+        List<RoleMenu> saveList = new ArrayList<>();
+        Date now = new Date();
+        String userId = SessionUser.getUserId();
+        for (String menuId : menuIds) {
+            RoleMenu rm = new RoleMenu();
+            rm.setId(SecUtils.getTimeNO());
+            rm.setRoleId(roleId);
+            rm.setMenuId(menuId);
+            rm.setUpdateUserId(userId);
+            rm.setCreateTime(now);
+            rm.setUpdateTime(now);
+            rm.setCreateUserId(userId);
+            saveList.add(rm);
+        }
+        if (CollectionUtils.isNotEmpty(saveList)) {
+            super.save(saveList);
+        }
         return null;
     }
 

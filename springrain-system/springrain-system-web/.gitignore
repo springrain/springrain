@@ -136,3 +136,5 @@ xcuserdata
 *.moved-aside
 *.xcuserstate
 
+/pom.xml
+/.gitignore

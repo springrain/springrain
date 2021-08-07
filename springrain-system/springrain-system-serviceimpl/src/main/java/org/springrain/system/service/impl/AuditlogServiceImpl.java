@@ -1,8 +1,8 @@
 package org.springrain.system.service.impl;
 
-import org.springframework.stereotype.Service;
 import org.springrain.frame.entity.AuditLog;
 import org.springrain.system.service.IAuditlogService;
+import org.springframework.stereotype.Service;
 
 /**
  * TODO 在此加入类描述
@@ -10,7 +10,7 @@ import org.springrain.system.service.IAuditlogService;
  * @author springrain<Auto generate>
  * @version 2013-04-02 10:17:31
  * @copyright {@link jiagou.com}
- * @see org.springrain.system.service.impl.AuditlogServiceImpl
+ * @see AuditlogServiceImpl
  */
 @Service("auditlogService")
 public class AuditlogServiceImpl extends BaseSpringrainServiceImpl implements IAuditlogService {

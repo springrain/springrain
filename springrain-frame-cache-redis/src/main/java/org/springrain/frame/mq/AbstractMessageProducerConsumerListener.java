@@ -1,5 +1,7 @@
 package org.springrain.frame.mq;
 
+import org.springrain.frame.config.RedisCacheConfig;
+import org.springrain.frame.util.ClassUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -15,8 +17,6 @@ import org.springframework.data.redis.hash.ObjectHashMapper;
 import org.springframework.data.redis.stream.StreamListener;
 import org.springframework.data.redis.stream.StreamMessageListenerContainer;
 import org.springframework.util.Assert;
-import org.springrain.frame.config.RedisCacheConfig;
-import org.springrain.frame.util.ClassUtils;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -35,23 +35,22 @@ import java.util.concurrent.Executor;
  * 订阅发布模式,使用 $ 符号订阅最新的消息,目前监听器存在问题,不能正常消费,原因待查
  * 子类继承之后注入,需要使用IMessageProducerConsumerListener接口,例如
  * <code>
- * @Component("userMessageProducerConsumerListener")
- * public class UserMessageProducerConsumerListener extends AbstractMessageProducerConsumerListener<User>
+ *
+ * @param <T> 需要放入队列的对象
+ * @Component("userMessageProducerConsumerListener") public class UserMessageProducerConsumerListener extends AbstractMessageProducerConsumerListener<User>
  * </code>
  *
  * <code>
- * @Resource
- * IMessageProducerConsumerListener<User> userMessageProducerConsumerListener;
+ * @Resource IMessageProducerConsumerListener<User> userMessageProducerConsumerListener;
  * </code>
- * @param <T> 需要放入队列的对象
  */
-public abstract class AbstractMessageProducerConsumerListener<T> implements StreamListener<String, ObjectRecord<String, T>>, IMessageProducerConsumerListener<T>,Closeable {
+public abstract class AbstractMessageProducerConsumerListener<T> implements StreamListener<String, ObjectRecord<String, T>>, IMessageProducerConsumerListener<T>, Closeable {
     private Logger logger = LoggerFactory.getLogger(getClass());
     //默认的线程池
     //private final Executor defaultExecutor = new SimpleAsyncTaskExecutor();
 
     // 默认batchSize
-    private final int defaultBatchSize=100;
+    private final int defaultBatchSize = 100;
 
     //泛型的类型
     private final Class<T> genericClass = ClassUtils.getActualTypeGenericSuperclass(getClass());
@@ -173,7 +172,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
             // spring jdbc 把 datetime 类型解析成了 java.sql.timestamp,spring-data-redis并没用提供BytesToTimestampConverter,造成无法转换类型
             CustomConversions customConversions = new RedisCustomConversions(Arrays.asList(new BytesToTimestampConverter()));
             // 使用 ObjectHashMapper 构造函数 注册自定义的转换器
-            ObjectHashMapper objectHashMapper= new ObjectHashMapper(customConversions);
+            ObjectHashMapper objectHashMapper = new ObjectHashMapper(customConversions);
 
 
             //监听器的配置项

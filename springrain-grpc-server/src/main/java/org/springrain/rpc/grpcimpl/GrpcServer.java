@@ -3,12 +3,12 @@ package org.springrain.rpc.grpcimpl;
 import io.grpc.BindableService;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
+import org.springrain.frame.util.GlobalStatic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
-import org.springrain.frame.util.GlobalStatic;
 
 import java.util.Optional;
 

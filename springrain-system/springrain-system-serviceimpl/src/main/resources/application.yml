@@ -5,7 +5,7 @@ server:
 
   servlet:
     #访问根路径
-    context-path: /
+    context-path: /system-service
     #编码
     encoding:
       enabled: true
@@ -49,9 +49,13 @@ springrain:
 
   ###jwt 的默认配置,secret 在生产环境一定要配置正确!!!!!!###
   jwt:
-    secret: dev
+    secret: springrain
     timeout: 36000000
-    tokenkey: springraintoken
+    tokenkey: jwttoken
+
+
+  ### 数据库方言,和IDialect接口的实现bean名称保持一致
+  dbDialectBeanName: mysqlDialect
 
   #  redis:
   #    hostport: redis://127.0.0.1:6379    ###如果是redis集群,使用逗号隔开,例如 redis://127.0.0.1:6379,redis://127.0.0.1:6378 ###
@@ -84,13 +88,16 @@ springrain:
 
   ###静态文件默认放到 resources/static目录下,也可以指定磁盘路径 file:D:/static/,这样方便程序读取上传upload的目录###
 #staticdir: D:/static/
-staticdir: static/
-spring:
-  ###代码实现:org.springrain.config.SpringMVCConfig.addResourceHandlers(ResourceHandlerRegistry)###
-  resources:
-    ###静态文件默认放到 resources/static目录下,也可以指定磁盘路径 file:D:/static/###
-    static-locations: classpath:${staticdir}
+# E:/work/online/springrain/springrain-system/springrain-system-web/src/main/resources/static/
+# ./static/
+staticdir: D:/static/
 
+spring:
+  web:
+    resources:
+      static-locations: file:${staticdir}
+
+  ###代码实现:org.springrain.config.SpringMVCConfig.addResourceHandlers(ResourceHandlerRegistry)###
   mvc:
     ignore-default-model-on-redirect: false #在重定向时是否忽略默认model的内容，默认为true###
 
@@ -98,10 +105,8 @@ spring:
     proxy-target-class: false  #强制使用接口代理,不使用cglib,RPC一般是基于接口代理的###
 
 
-
-
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/springrain?characterEncoding=utf8&useUnicode=true&useSSL=false&serverTimezone=Hongkong
+    url: jdbc:mysql://127.0.0.1:3306/springrain?characterEncoding=utf8&useUnicode=true&useSSL=false&serverTimezone=Hongkong&allowPublicKeyRetrieval=true
     username: root
     password: root
     type: com.alibaba.druid.pool.DruidDataSource
@@ -130,3 +135,6 @@ spring:
 #    web:
 #      exposure:
 #        include: '*'
+
+
+

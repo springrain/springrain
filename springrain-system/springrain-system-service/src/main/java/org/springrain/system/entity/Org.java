@@ -1,10 +1,10 @@
 package org.springrain.system.entity;
 
+import org.springrain.frame.annotation.WhereSQL;
+import org.springrain.frame.entity.BaseEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.springrain.frame.annotation.WhereSQL;
-import org.springrain.frame.entity.BaseEntity;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -49,46 +49,135 @@ public class Org extends BaseEntity {
     //public static final String FORMAT_UPDATETIME = DateUtils.DATETIME_FORMAT;
 
     //columns START
-    //子部门
+    /**
+     * 子部门
+     */
     List<Org> children;
-    // 编号
+    /**
+     * 编号
+     */
     private String id;
-    // 名称
+    /**
+     * 名称
+     *
+     * @required
+     */
     private String name;
-    // 代码
+    /**
+     * 代码
+     */
     private String comcode;
-    // 上级部门ID
+    /**
+     * 上级部门ID
+     *
+     * @required
+     */
     private String pid;
-    // 0-99门店,100-199部门,200-299,分公司,300-399集团公司,900-999总平台
+    /**
+     * 0-99门店,100-199部门,200-299,分公司,300-399集团公司,900-999总平台
+     *
+     * @required
+     */
     private Integer orgType;
-    // 排序,查询时倒叙排列
+    /**
+     * 排序,查询时倒叙排列
+     *
+     * @required
+     */
     private Integer sortno;
-    // 备注
+    /**
+     * 备注
+     */
     private String remark;
-    // createTime
+    /**
+     * 创建时间
+     */
     private java.util.Date createTime;
-    // createUserId
+    /**
+     * 创建者
+     */
     private String createUserId;
-    // updateTime
+    /**
+     * 更新时间
+     */
     private java.util.Date updateTime;
-    // updateUserId
+    /**
+     * 更新者
+     */
     private String updateUserId;
-    // 是否有效(0否,1是)
+    /**
+     * 是否有效(0否,1是)
+     *
+     * @required
+     */
     private Integer active;
-    // bak1
+    /**
+     * bak1
+     */
     private String bak1;
-    // bak2
+    /**
+     * bak2
+     */
     private String bak2;
-    // bak3
+    /**
+     * bak3
+     */
     private String bak3;
-    // bak4
+    /**
+     * bak4
+     */
     private String bak4;
-    //columns END 数据库字段结束
-    // bak5
+    /**
+     * bak5
+     */
     private String bak5;
+    //columns END 数据库字段结束
+    /**
+     * 部门类型名字
+     */
+    private String orgTypeName;
 
+    @Transient
+    public String getOrgTypeName() {
+        return orgTypeName;
+    }
 
-    //concstructor
+    public void setOrgTypeName(String orgTypeName) {
+        this.orgTypeName = orgTypeName;
+    }
+
+    /**
+     * 用户对部门的管理类型(在部门中的地位-0会员,1员工,2主管)
+     *
+     * @required
+     */
+    private Integer managerType;
+
+    @Transient
+    public Integer getManagerType() {
+        return managerType;
+    }
+
+    public void setManagerType(Integer managerType) {
+        this.managerType = managerType;
+    }
+
+    private String[] comcodeList;
+
+    @Transient
+    public String[] getComcodeList() {
+        if (StringUtils.isBlank(this.comcode)) {
+            this.comcode = ",";
+        }
+        this.comcode = this.comcode.substring(1);
+        return this.comcode.split(",");
+    }
+
+    public void setComcodeList(String[] comcodeList) {
+        this.comcodeList = comcodeList;
+    }
+
+    //constructor
     public Org() {
     }
 
@@ -119,7 +208,7 @@ public class Org extends BaseEntity {
     /**
      * 名称
      */
-    @WhereSQL(sql = "name=:Org_name")
+    @WhereSQL(sql = "name like :%Org_name%")
     public String getName() {
         return this.name;
     }
@@ -139,7 +228,7 @@ public class Org extends BaseEntity {
     /**
      * 代码
      */
-    @WhereSQL(sql = "comcode=:Org_comcode")
+    @WhereSQL(sql = "comcode like :%Org_comcode%")
     public String getComcode() {
         return this.comcode;
     }

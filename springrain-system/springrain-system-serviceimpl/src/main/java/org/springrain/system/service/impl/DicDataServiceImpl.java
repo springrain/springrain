@@ -1,8 +1,5 @@
 package org.springrain.system.service.impl;
 
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
 import org.springrain.frame.entity.IBaseEntity;
 import org.springrain.frame.util.CommonEnum.ACTIVE;
 import org.springrain.frame.util.Finder;
@@ -10,9 +7,11 @@ import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.Page;
 import org.springrain.system.entity.DicData;
 import org.springrain.system.service.IDicDataService;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * TODO 在此加入类描述
@@ -28,7 +27,7 @@ public class DicDataServiceImpl extends BaseSpringrainServiceImpl implements IDi
      */
     private static final String ROOT_PID = "root";
 
-	@Override
+    @Override
     public String save(IBaseEntity entity) throws Exception {
         DicData dicData = (DicData) entity;
         return (String) super.save(dicData);
@@ -148,24 +147,25 @@ public class DicDataServiceImpl extends BaseSpringrainServiceImpl implements IDi
     }
 
 
-	@Override
-	public List<DicData> findTypeListByTypeName(Page<DicData> page, String typeName) throws Exception {
-		Finder finder = Finder.getSelectFinder(DicData.class)
-				.append(" WHERE pid=:typeName AND active=:active");
-		finder.setParam("active", ACTIVE.未删除.getState()).setParam("typeName", typeName);
-		return this.queryForList(finder, DicData.class, page);
-	}
+    @Override
+    public List<DicData> findTypeListByTypeName(Page<DicData> page, String typeName) throws Exception {
+        Finder finder = Finder.getSelectFinder(DicData.class)
+                .append(" WHERE pid=:typeName AND active=:active");
+        finder.setParam("active", ACTIVE.未删除.getState()).setParam("typeName", typeName);
+        return this.queryForList(finder, DicData.class, page);
+    }
 
 
-	@Override
-	public List<DicData> findAllRootList(Page<DicData> page) throws Exception {
-		Finder finder = Finder.getSelectFinder(DicData.class).append(" WHERE pid=:root AND active=:active");
-		finder.setParam("root", ROOT_PID).setParam("active", ACTIVE.未删除.getState());
-		
-		// 查询条件
-		DicData queryBean = page.getData();
-		if(queryBean != null) {
-			if(StringUtils.isNotBlank(queryBean.getName())) {
+    @Override
+    public List<DicData> findAllRootList(Page<DicData> page) throws Exception {
+        Finder finder = Finder.getSelectFinder(DicData.class).append(" WHERE pid=:root ");
+        finder.setParam("root", ROOT_PID);//.setParam("active", ACTIVE.未删除.getState());
+
+        // 查询条件
+        DicData queryBean = page.getData();
+        if (queryBean != null) {
+            super.getFinderWhereByQueryBean(finder, queryBean);
+			/*if(StringUtils.isNotBlank(queryBean.getName())) {
 				finder.append(" AND name like :name");
 				finder.setParam("name", "%" + queryBean.getName() + "%");
 			}
@@ -178,50 +178,124 @@ public class DicDataServiceImpl extends BaseSpringrainServiceImpl implements IDi
 			if(queryBean.getStatus() != null) {
 				finder.append(" AND status=:status");
 				finder.setParam("status", queryBean.getStatus());
-			}
-		}
-		
-		page.setOrder("sortno");
-		return this.queryForList(finder, DicData.class, page);
-	}
+			}*/
+        }
+
+        page.setOrder("sortno");
+        return this.queryForList(finder, DicData.class, page);
+    }
 
 
-	@Override
-	public String saveDicDataType(DicData dicData) throws Exception {
-		dicData.setActive(ACTIVE.未删除.getState());
-		dicData.setId(dicData.getTypekey());
-		dicData.setPid(ROOT_PID);
-		dicData.setCreateTime(new Date());
-		String id = this.save(dicData).toString();
-		return id;
-	}
+    @Override
+    public String saveDicDataType(DicData dicData) throws Exception {
+        dicData.setActive(ACTIVE.未删除.getState());
+        dicData.setId(dicData.getTypekey());
+        dicData.setPid(ROOT_PID);
+        dicData.setCreateTime(new Date());
+        String id = this.save(dicData).toString();
+        return id;
+    }
 
 
-	@Override
-	public List<DicData> findListByPid(String pid, Page<DicData> page) throws Exception {
-		Finder finder = Finder.getSelectFinder(DicData.class).append(" WHERE pid=:pid AND active=:active");
-		finder.setParam("pid", pid).setParam("active", ACTIVE.未删除.getState());
-		return this.queryForList(finder, DicData.class, page);
-	}
+    @Override
+    public List<DicData> findListByPid(String pid, Page<DicData> page) throws Exception {
+        Finder finder = Finder.getSelectFinder(DicData.class).append(" WHERE pid=:pid ");
+        finder.setParam("pid", pid);//.setParam("active", ACTIVE.未删除.getState());
+        DicData queryBean = page.getData();
+        if (queryBean != null) {
+            super.getFinderWhereByQueryBean(finder, queryBean);
+        }
+
+        return this.queryForList(finder, DicData.class, page);
+    }
 
 
-	@Override
-	public List<DicData> findDicDataListByPid(String typekey) throws Exception {
-		Finder finder = Finder.getSelectFinder(DicData.class).append(" WHERE pid=:pid AND active=:active");
-		finder.setParam("pid", typekey).setParam("active", ACTIVE.未删除.getState());
-		return this.queryForList(finder, DicData.class);
-	}
+    @Override
+    public List<DicData> findDicDataListByPid(String typekey) throws Exception {
+        Finder finder = Finder.getSelectFinder(DicData.class).append(" WHERE pid=:pid AND active=:active");
+        finder.setParam("pid", typekey).setParam("active", ACTIVE.未删除.getState());
+        return this.queryForList(finder, DicData.class);
+    }
 
 
-	@Override
-	public void deleteParentDicDataById(List<String> idList) throws Exception {
-		Finder finder = Finder.getSelectFinder(DicData.class).append(" WHERE pid in (:pidList)");
-		finder.setParam("pidList", idList);
-		List<DicData> subDicDataList = this.queryForList(finder, DicData.class);
-		if(CollectionUtils.isNotEmpty(subDicDataList)) {
-			throw new Exception("当前字典有子级元素，不能删除");
-		}
-		this.deleteByIds(idList, DicData.class);
-		
-	}
+    @Override
+    public void deleteParentDicDataById(List<String> idList) throws Exception {
+        Finder finder = Finder.getSelectFinder(DicData.class).append(" WHERE pid in (:pidList)");
+        finder.setParam("pidList", idList);
+        List<DicData> subDicDataList = this.queryForList(finder, DicData.class);
+        if (CollectionUtils.isNotEmpty(subDicDataList)) {
+            throw new Exception("当前字典有子级元素，不能删除");
+        }
+        this.deleteByIds(idList, DicData.class);
+
+    }
+
+    @Override
+    public void saveDic(DicData dicData) throws Exception {
+        if (dicData == null) {
+            return;
+        }
+        if (dicData.getCreateTime() == null) {
+            dicData.setCreateTime(new Date());
+        }
+        if (StringUtils.isBlank(dicData.getPid())) {
+            dicData.setPid(ROOT_PID);
+        }
+        super.save(dicData);
+    }
+
+    @Override
+    public void updateDic(DicData dicData) throws Exception {
+        String typekey = dicData.getTypekey();
+        String id = dicData.getId();
+        List<DicData> dicDataListByPid = this.findDicDataListByPid(id);
+        for (DicData data : dicDataListByPid) {
+            data.setTypekey(typekey);
+            update(data, true);
+        }
+        update(dicData, true);
+    }
+
+    @Override
+    public List<DicData> findTree(Page<DicData> page) throws Exception {
+        if (page == null || page.getData() == null) {
+            logger.error("请求数据不完整!--findList()");
+            throw new RuntimeException("请求数据不完整!");
+        }
+        Finder selectFinder = Finder.getSelectFinder(DicData.class)
+                .append(" where 1=1 ");
+        DicData data = page.getData();
+        getFinderWhereByQueryBean(selectFinder, data);
+        List<DicData> dicDataList = super.queryForList(selectFinder, DicData.class);
+        return this.listConvertTree(dicDataList);
+    }
+
+    @Override
+    public List<DicData> listConvertTree(List<DicData> list) throws Exception {
+        List<DicData> tree = new ArrayList<>();
+        if (CollectionUtils.isEmpty(list)) {
+            return tree;
+        }
+        Map<String, DicData> map = new HashMap<>();
+        for (DicData dicData : list) {
+            String id = dicData.getId();
+            map.put(id, dicData);
+        }
+        for (DicData dicData : list) {
+            String pid = dicData.getPid();
+            DicData parent = map.get(pid);
+            if (parent == null) {
+                tree.add(dicData);
+                continue;
+            }
+            List<DicData> children = parent.getChildren();
+            if (CollectionUtils.isEmpty(children)) {
+                children = new ArrayList<>();
+                parent.setChildren(children);
+            }
+            children.add(dicData);
+        }
+        return tree;
+    }
+
 }

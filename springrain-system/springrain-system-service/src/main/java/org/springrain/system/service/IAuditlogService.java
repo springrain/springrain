@@ -8,7 +8,7 @@ import org.springrain.rpc.annotation.RpcServiceAnnotation;
  *
  * @author springrain<Auto generate>
  * @version 2013-04-02 10:17:31
- * @see org.springrain.system.service.IAuditlogService
+ * @see IAuditlogService
  */
 @RpcServiceAnnotation
 public interface IAuditlogService extends IBaseSpringrainService {

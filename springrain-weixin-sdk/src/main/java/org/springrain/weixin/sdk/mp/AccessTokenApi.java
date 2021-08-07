@@ -1,8 +1,5 @@
 package org.springrain.weixin.sdk.mp;
 
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.frame.util.JsonUtils;
 import org.springrain.weixin.sdk.common.WxAccessToken;
@@ -10,6 +7,9 @@ import org.springrain.weixin.sdk.common.WxCardTicket;
 import org.springrain.weixin.sdk.common.WxConsts;
 import org.springrain.weixin.sdk.common.WxJsTicket;
 import org.springrain.weixin.sdk.common.wxconfig.IWxConfig;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 

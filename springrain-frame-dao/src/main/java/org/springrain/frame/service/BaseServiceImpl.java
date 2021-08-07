@@ -1,6 +1,10 @@
 package org.springrain.frame.service;
 
 import jxl.Cell;
+import org.springrain.frame.dao.IBaseJdbcDao;
+import org.springrain.frame.entity.BaseMapEntity;
+import org.springrain.frame.entity.IBaseEntity;
+import org.springrain.frame.util.*;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -9,14 +13,9 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.jdbc.core.CallableStatementCreator;
 import org.springframework.jdbc.core.SqlParameter;
-import org.springrain.frame.dao.IBaseJdbcDao;
-import org.springrain.frame.entity.BaseMapEntity;
-import org.springrain.frame.entity.IBaseEntity;
-import org.springrain.frame.util.*;
 
 import javax.annotation.Resource;
 import java.io.File;
-import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -27,7 +26,7 @@ import java.util.*;
  *
  * @author springrain<Auto generate>
  * @version 2013-03-19 11:08:15
- * @see org.springrain.frame.service.BaseServiceImpl
+ * @see BaseServiceImpl
  */
 public abstract class BaseServiceImpl implements IBaseService {
     public Logger logger = LoggerFactory.getLogger(getClass());
@@ -73,6 +72,7 @@ public abstract class BaseServiceImpl implements IBaseService {
             t = getCache(cacheName).get(GlobalStatic.projectKeyPrefix + key, clazz);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
+            //老版本的实体类无法转成新版本,新老版本的属性字段不同
             evictByKey(cacheName, key);
         }
 
@@ -335,7 +335,7 @@ public abstract class BaseServiceImpl implements IBaseService {
         }
         Map<Integer, String> map = new HashMap<Integer, String>();
         Cell[] title = excel.get(0);
-        title = excel.get(0);
+        //title = excel.get(0);
         if (title == null || title.length < 1) {
             return "表头没有数据!";
         }
@@ -346,7 +346,7 @@ public abstract class BaseServiceImpl implements IBaseService {
             listTitle.add(title[i].getContents());
         }
 
-        for (int j = 1; j < excel.size(); j++) {
+        for (int j = 2; j < excel.size(); j++) {
             Cell[] cells = excel.get(j);
             T rt = clazz.newInstance();
             IBaseEntity r = (IBaseEntity) rt;
@@ -489,13 +489,13 @@ public abstract class BaseServiceImpl implements IBaseService {
             }
         }
         if (excelFile.exists() && (istest == false)) {
-            excelFile.delete();
+            //excelFile.delete();
         }
         if (StringUtils.isBlank(message.toString())) {
             return null;
         }
         if (excelFile.exists() && istest && StringUtils.isNotBlank(message.toString())) {
-            excelFile.delete();
+            //excelFile.delete();
         }
 
         return message.toString();

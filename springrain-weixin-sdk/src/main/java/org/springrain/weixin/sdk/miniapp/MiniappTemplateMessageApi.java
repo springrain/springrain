@@ -1,12 +1,12 @@
 package org.springrain.weixin.sdk.miniapp;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springrain.frame.util.HttpClientUtils;
 import org.springrain.frame.util.JsonUtils;
 import org.springrain.weixin.sdk.common.ApiResult;
 import org.springrain.weixin.sdk.common.WxConsts;
 import org.springrain.weixin.sdk.common.wxconfig.IWxMiniappConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 发送模板消息

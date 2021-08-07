@@ -87,7 +87,7 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
         String seataXID = grpcRequest.getTxGroupId();
         try {
 
-            if (GlobalStatic.seataEnable&&StringUtils.isNotBlank(seataXID)) {
+            if (GlobalStatic.seataEnable && StringUtils.isNotBlank(seataXID)) {
                 RootContext.bind(seataXID);
                 //分支事务
                 GlobalStatic.seataBranchTransaction.set(true);
@@ -107,7 +107,6 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
              * isSpringTxMethod = false; } else { throw new
              * Exception("有@GlobalTransactional注解,却没有Spring本地事务,认为异常"); } }
              **/
-
 
 
             if (userVO != null) {
@@ -192,6 +191,4 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
     }
 
 
-
 }
-

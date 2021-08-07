@@ -49,10 +49,21 @@ springrain:
 
   ###jwt 的默认配置,secret 在生产环境一定要配置正确!!!!!!###
   jwt:
-    secret: dev
+    secret: springrain
     timeout: 36000000
-    tokenkey: springraintoken
+    tokenkey: jwttoken
 
+
+  ### 数据库方言,和IDialect接口的实现bean名称保持一致
+  dbDialectBeanName: mysqlDialect
+
+#  redis:
+#    hostport: redis://127.0.0.1:6379    ###如果是redis集群,使用逗号隔开,例如 redis://127.0.0.1:6379,redis://127.0.0.1:6378 ###
+#    password:   ###密码,可以不设置####
+#    timeout: 7200000
+#    pool:
+#      max-active: 1024
+#      min-idle: 200
 
   ####ES的配置###
   es:
@@ -77,11 +88,14 @@ springrain:
 
   ###静态文件默认放到 resources/static目录下,也可以指定磁盘路径 file:D:/static/,这样方便程序读取上传upload的目录###
 #staticdir: D:/static/
-staticdir: static/
+# E:/work/online/springrain/springrain-system/springrain-system-web/src/main/resources/static/
+# ./static/
+staticdir: D:/static/
+
 spring:
   web:
     resources:
-      static-locations: classpath:${staticdir}
+      static-locations: file:${staticdir}
 
   ###代码实现:org.springrain.config.SpringMVCConfig.addResourceHandlers(ResourceHandlerRegistry)###
   mvc:
@@ -92,7 +106,7 @@ spring:
 
 
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/springrain?characterEncoding=utf8&useUnicode=true&useSSL=false&serverTimezone=Hongkong
+    url: jdbc:mysql://127.0.0.1:3306/springrain?characterEncoding=utf8&useUnicode=true&useSSL=false&serverTimezone=Hongkong&allowPublicKeyRetrieval=true
     username: root
     password: root
     type: com.alibaba.druid.pool.DruidDataSource

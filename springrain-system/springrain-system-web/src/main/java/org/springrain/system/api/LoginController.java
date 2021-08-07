@@ -1,35 +1,40 @@
 package org.springrain.system.api;
 
-import com.google.common.collect.Maps;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.cache.Cache;
-import org.springframework.cache.Cache.ValueWrapper;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 import org.springrain.frame.util.CaptchaUtils;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.ReturnDatas;
 import org.springrain.frame.util.SecUtils;
 import org.springrain.rpc.sessionuser.SessionUser;
 import org.springrain.rpc.sessionuser.UserVO;
+import org.springrain.system.api.vo.CaptchaVO;
 import org.springrain.system.base.BaseController;
+import org.springrain.system.dto.PhoneLoginDTO;
+import org.springrain.system.entity.Menu;
+import org.springrain.system.entity.Role;
 import org.springrain.system.entity.User;
 import org.springrain.system.service.IUserRoleMenuService;
 import org.springrain.system.service.IUserService;
+import org.springrain.system.vo.LoginSuccessVO;
+import org.springrain.system.vo.LoginUserVO;
 import org.springrain.weixin.sdk.common.wxconfig.IWxMpConfig;
 import org.springrain.weixin.sdk.open.SnsApi;
 import org.springrain.weixin.service.IWxMpConfigService;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Map;
-import java.util.concurrent.ConcurrentMap;
+import java.util.*;
+import java.util.stream.Collectors;
 
+/**
+ * 登录模块
+ */
 @RestController
 @RequestMapping(value = "/api", method = RequestMethod.POST)
 public class LoginController extends BaseController {
@@ -42,10 +47,11 @@ public class LoginController extends BaseController {
     @Resource
     private IUserRoleMenuService userRoleMenuService;
 
+
     /**
      * 健康检查
      *
-     * @return
+     * @return 数据
      */
     @RequestMapping(value = "/checkHealth", method = RequestMethod.GET)
     public ReturnDatas<String> checkHealth() {
@@ -55,17 +61,17 @@ public class LoginController extends BaseController {
     /**
      * 生成验证码
      *
-     * @param captchaKey
-     * @return
-     * @throws Exception
+     * @param captchaKey 生成的验证码对应的key,不传会随机生成
+     * @return 返回base64验证码图片，和对应的验证码key
+     * @throws Exception 缓存异常
      */
     @RequestMapping(value = "/getCaptcha", method = RequestMethod.POST)
-    public ReturnDatas<ConcurrentMap<String, String>> getCaptcha(String captchaKey)
+    public ReturnDatas<CaptchaVO> getCaptcha(String captchaKey)
             throws Exception {
         // HttpHeaders headers = new HttpHeaders();
         // headers.setContentType(MediaType.IMAGE_JPEG);
 
-        ReturnDatas<ConcurrentMap<String, String>> returnDatas = ReturnDatas
+        ReturnDatas<CaptchaVO> returnDatas = ReturnDatas
                 .getSuccessReturnDatas();
 
         try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
@@ -79,15 +85,11 @@ public class LoginController extends BaseController {
             }
             userService.putByCache(GlobalStatic.springranloginCaptchaKey, captchaKey,
                     code.toString());
-
             ImageIO.write(image, "JPEG", os);
             String imageBase64 = String.format("data:image/jpeg;base64,%s",
                     SecUtils.encoderByBase64(os.toByteArray()));
 
-            ConcurrentMap<String, String> concurrentMap = Maps.newConcurrentMap();
-            concurrentMap.put("captchaKey", captchaKey);
-            concurrentMap.put("imageBase64", imageBase64);
-            returnDatas.setResult(concurrentMap);
+            returnDatas.setResult(new CaptchaVO(captchaKey, imageBase64));
 
         } catch (IOException e) {
             logger.error(e.getMessage(), e);
@@ -100,46 +102,46 @@ public class LoginController extends BaseController {
     /**
      * 退出后台登录用户
      *
-     * @return
-     * @throws Exception
+     * @return 退出成功
      */
     @RequestMapping(value = "/system/logout", method = RequestMethod.POST)
-    public ReturnDatas<?> systemLogout() throws Exception {
+    public ReturnDatas<String> systemLogout() {
 
         // 获取当前登录人
         String userId = SessionUser.getUserId();
         if (StringUtils.isBlank(userId)) {
             return ReturnDatas.getErrorReturnDatas("用户不存在");
         }
-
+        try {
+            userService.logout(userId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ReturnDatas<>(ReturnDatas.ERROR, e.getMessage());
+        }
         return ReturnDatas.getSuccessReturnDatas();
     }
 
     /**
      * 获取登陆二维码
      *
-     * @param map
-     * @return
+     * @param appId 公众号id
+     * @return 数据
      */
     @RequestMapping(value = "/system/qrcode", method = RequestMethod.POST)
-    public ReturnDatas<String> qrcode(@RequestBody Map<String, Object> map) {
+    public ReturnDatas<String> qrcode(@RequestBody String appId) {
         ReturnDatas<String> returnObject = ReturnDatas.getSuccessReturnDatas();
-        String appId = (String) map.get("appId");
         final IWxMpConfig config = wxMpConfigService.findWxMpConfigById(appId);
         String url = SnsApi.getQrConnectURL(config, redirect_uri);
         returnObject.setResult(url);
         return returnObject;
     }
 
-//    {
-//        "access_token":"ACCESS_TOKEN",
-//            "expires_in":7200,
-//            "refresh_token":"REFRESH_TOKEN",
-//            "openid":"OPENID",
-//            "scope":"SCOPE",
-//            "unionid": "o6_bmasdasdsad6_2sgVt7hMZOPfL"
-//    }
-
+    /**
+     * QR码
+     *
+     * @param map 请求实例
+     * @return 。
+     */
     @RequestMapping(value = "/system/qrcodeback", method = RequestMethod.POST)
     public ReturnDatas<?> qrcodeback(@RequestBody Map<String, Object> map) {
         ReturnDatas<?> returnObject = ReturnDatas.getSuccessReturnDatas();
@@ -151,11 +153,11 @@ public class LoginController extends BaseController {
      * 处理后台用户登录
      *
      * @param userVO 请求的参数
-     * @return
-     * @throws Exception
+     * @return 登陆成功后生成的全局参数中的token
+     * @throws Exception 缓存异常
      */
     @RequestMapping(value = "/system/login", method = RequestMethod.POST)
-    public ReturnDatas<ConcurrentMap<String, String>> systemLoginPost(@RequestBody UserVO userVO) throws Exception {
+    public ReturnDatas<LoginSuccessVO> systemLoginPost(@RequestBody UserVO userVO) throws Exception {
 
         if (StringUtils.isBlank(userVO.getAccount())) {
             return ReturnDatas.getErrorReturnDatas("用户不能为空");
@@ -164,23 +166,34 @@ public class LoginController extends BaseController {
         if (StringUtils.isBlank(userVO.getPassword())) {
             return ReturnDatas.getErrorReturnDatas("密码不能为空");
         }
-        
-        if(StringUtils.isBlank(userVO.getCaptchaKey())) {
-        	return ReturnDatas.getErrorReturnDatas("验证码不能为空");
-        }
-        
-        Cache captchaCache = userService.getCache(GlobalStatic.springranloginCaptchaKey);
-        ValueWrapper captchaKey = captchaCache.get(GlobalStatic.projectKeyPrefix + userVO.getCaptchaKey());
-        if(!StringUtils.equals(captchaKey.get().toString(), userVO.getCaptcha())) {
-        	return ReturnDatas.getErrorReturnDatas("验证码错误");
-        }
-        
-        
-        ConcurrentMap<String, String> resutltMap = Maps.newConcurrentMap();
+
         // 处理密码错误缓存
         String errorLogincountKey = userVO.getAccount() + "_errorlogincount";
         Integer errorLogincount = userService.getByCache(GlobalStatic.springrainloginCacheKey,
                 errorLogincountKey, Integer.class);
+
+        LoginSuccessVO loginSuccessVO = new LoginSuccessVO();
+        if (errorLogincount != null && errorLogincount > 2) {
+            ReturnDatas<LoginSuccessVO> returnDatas = ReturnDatas.getErrorReturnDatas();
+            if (StringUtils.isBlank(userVO.getCaptchaKey())) {
+                loginSuccessVO.setShowCaptcha(true);
+                returnDatas.setResult(loginSuccessVO);
+                returnDatas.setMessage("验证码不能为空");
+                return returnDatas;
+            }
+
+            String userCaptcha = userService.getByCache(GlobalStatic.springranloginCaptchaKey, userVO.getCaptchaKey(), String.class);
+            userService.evictByKey(GlobalStatic.springranloginCaptchaKey, userVO.getCaptchaKey());
+            // Cache captchaCache = userService.getCache(GlobalStatic.springranloginCaptchaKey);
+            // ValueWrapper captchaKey = captchaCache.get(GlobalStatic.projectKeyPrefix + userVO.getCaptchaKey());
+            // assert captchaKey != null;
+            if (!StringUtils.equalsIgnoreCase(userCaptcha, userVO.getCaptcha())) {
+                loginSuccessVO.setShowCaptcha(true);
+                returnDatas.setResult(loginSuccessVO);
+                returnDatas.setMessage("验证码错误");
+                return returnDatas;
+            }
+        }
 
         if (errorLogincount != null && errorLogincount >= GlobalStatic.ERROR_LOGIN_COUNT) {// 密码连续错误10次以上
 
@@ -188,7 +201,7 @@ public class LoginController extends BaseController {
                     + GlobalStatic.ERROR_LOGIN_LOCK_MINUTE + "分钟之后再尝试登录!";
             Long endDateLong = userService.getByCache(GlobalStatic.springrainloginCacheKey,
                     userVO.getAccount() + "_endDateLong", Long.class);
-            Long now = System.currentTimeMillis() / 1000;// 秒
+            long now = System.currentTimeMillis() / 1000;// 秒
 
             if (endDateLong == null) {
                 endDateLong = now + GlobalStatic.ERROR_LOGIN_LOCK_MINUTE * 60;// 秒
@@ -215,30 +228,21 @@ public class LoginController extends BaseController {
             errorLogincount = errorLogincount + 1;
             userService.putByCache(GlobalStatic.springrainloginCacheKey, errorLogincountKey,
                     errorLogincount);
-
-            return ReturnDatas.getErrorReturnDatas("账号或密码错误");
+            ReturnDatas<LoginSuccessVO> returnDatas = ReturnDatas.getErrorReturnDatas();
+            if (errorLogincount > 2) {
+                loginSuccessVO.setShowCaptcha(true);
+            } else {
+                loginSuccessVO.setShowCaptcha(false);
+            }
+            returnDatas.setResult(loginSuccessVO);
+            returnDatas.setMessage("账号或密码错误");
+            return returnDatas;
         }
+        loginSuccessVO = userService.findUserCodeMap(user);
+        //resutltMap.put("menus",menuVOList);
 
-        String jwtToken = userService.wrapJwtTokenByUser(user);
-        resutltMap.put(GlobalStatic.jwtTokenKey, jwtToken);
-
-        // 设置 权限菜单数据
-        // List<Menu> listMenu =
-        // userRoleMenuService.findMenuTreeByUsreId(user.getId());
-        // List<Map<String,Object>> listMap=new ArrayList<>();
-
-        // List<String> roles = new ArrayList<>();
-
-        // roles.add("admin");
-
-        // 包装成Vue使用的树形结构
-        // userRoleMenuService.wrapVueMenu(listMenu,listMap);
-
-        // resutltMap.put("menus",listMap);
-        // resutltMap.put("roles",roles);
-
-        ReturnDatas<ConcurrentMap<String, String>> returnDatas = ReturnDatas.getSuccessReturnDatas();
-        returnDatas.setResult(resutltMap);
+        ReturnDatas<LoginSuccessVO> returnDatas = ReturnDatas.getSuccessReturnDatas();
+        returnDatas.setResult(loginSuccessVO);
 
         // 登录成功,清空错误次数
         userService.evictByKey(GlobalStatic.springrainloginCacheKey, errorLogincountKey);
@@ -251,9 +255,9 @@ public class LoginController extends BaseController {
     /**
      * 处理前台用户登录
      *
-     * @param userVO
-     * @return
-     * @throws Exception
+     * @param userVO 请求的参数
+     * @return 登陆成功后生成的全局参数中的token
+     * @throws Exception 缓存异常
      */
     @RequestMapping(value = "/user/login", method = RequestMethod.POST)
     public ReturnDatas<?> userLoginPost(@RequestBody UserVO userVO) throws Exception {
@@ -263,13 +267,80 @@ public class LoginController extends BaseController {
     /**
      * 员工登录地址
      *
-     * @param userVO
-     * @return
-     * @throws Exception
+     * @param userVO 请求的参数
+     * @return 登陆成功后生成的全局参数中的token
+     * @throws Exception 缓存异常
      */
     @RequestMapping(value = "/work/login", method = RequestMethod.POST)
     public ReturnDatas<?> workLoginPost(@RequestBody UserVO userVO) throws Exception {
         return systemLoginPost(userVO);
     }
 
+    /**
+     * 发送短信验证码
+     *
+     * @param dto
+     * @return
+     */
+    @PostMapping("/sendCode")
+    public ReturnDatas<String> sendCode(@RequestBody PhoneLoginDTO dto) {
+        ReturnDatas<String> returnDatas = ReturnDatas.getSuccessReturnDatas();
+        try {
+            userService.sendCode(dto);
+            returnDatas.setMessage("发送成功!");
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            returnDatas.setStatus(ReturnDatas.ERROR);
+            returnDatas.setMessage(e.getMessage());
+        }
+        return returnDatas;
+    }
+
+    /**
+     * 手机号登录,返回jwttoken
+     *
+     * @return
+     */
+    @PostMapping("/phoneLogin")
+    public ReturnDatas<LoginSuccessVO> phoneLogin(@RequestBody PhoneLoginDTO phoneLoginDTO) {
+        ReturnDatas<LoginSuccessVO> returnDatas = ReturnDatas.getSuccessReturnDatas();
+        try {
+            User user = userService.savePhoneLogin(phoneLoginDTO);
+            LoginSuccessVO loginSuccessVO = userService.findUserCodeMap(user);
+            returnDatas.setResult(loginSuccessVO);
+            returnDatas.setMessage("登录成功!");
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            returnDatas.setStatus(ReturnDatas.ERROR);
+            returnDatas.setMessage(e.getMessage());
+        }
+        return returnDatas;
+    }
+
+
+    /**
+     * 查看所有缓存key的值
+     * @return
+     */
+    /*
+    @PostMapping("/cacheValue")
+    public ReturnDatas<Cache> cacheValue(String keyName) throws Exception {
+        if(StringUtils.isBlank(keyName)){
+            throw new RuntimeException("key的值为空!");
+        }
+        Cache value = userService.getCache(keyName);
+        return new ReturnDatas(ReturnDatas.SUCCESS,"",value);
+    }
+     */
+
+    /**
+     * 清除所有缓存
+     *
+     * @return
+     */
+    @PostMapping("/clearCache")
+    public ReturnDatas<String> clearCache(String keyName) throws Exception {
+        userService.getCache(keyName).clear();
+        return ReturnDatas.getSuccessReturnDatas();
+    }
 }

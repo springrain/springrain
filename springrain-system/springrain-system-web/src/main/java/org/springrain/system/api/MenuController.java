@@ -1,25 +1,23 @@
 package org.springrain.system.api;
 
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 import org.springrain.frame.util.Page;
 import org.springrain.frame.util.ReturnDatas;
 import org.springrain.frame.util.property.MessageUtils;
+import org.springrain.system.api.vo.MenuVO;
 import org.springrain.system.base.BaseController;
 import org.springrain.system.entity.Menu;
 import org.springrain.system.service.IMenuService;
 import org.springrain.system.service.IUserRoleMenuService;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
- * TODO 菜单列表
+ * 菜单模块
  *
  * @author springrain<Auto generate>
  * @version 2019-07-26 17:52:10
@@ -27,124 +25,170 @@ import java.util.Map;
 @RestController
 @RequestMapping(value = "/api/system/menu", method = RequestMethod.POST)
 public class MenuController extends BaseController {
-	@Resource
-	private IMenuService menuService;
+    @Resource
+    private IMenuService menuService;
 
-	@Resource
-	private IUserRoleMenuService userRoleMenuServiceImpl;
+    @Resource
+    private IUserRoleMenuService userRoleMenuServiceImpl;
 
-	/**
-	* 所有菜单数据
-	*
-	* @param menu
-	* @param page
-	* @return
-	* @throws Exception
-	* @author 程相羽
-	* @version 2020年11月2日 下午2:47:14
-	*/
-	@GetMapping("/all/list/json")
-	public ReturnDatas<List<Menu>> allListJson(Menu menu, Page<Menu> page) throws Exception {
-		ReturnDatas<List<Menu>> returnObject = ReturnDatas.getSuccessReturnDatas();
-		List<Menu> datas = menuService.findAllMenuListByQueryBean(menu, page);
-		returnObject.setPage(page);
-		returnObject.setResult(datas);
-		return returnObject;
-	}
+    /**
+     * 所有菜单数据，分页查询，page.data中可封装查询条件
+     *
+     * @param page 参数对象
+     * @return 分页数据
+     * @throws Exception 异常
+     */
+    @PostMapping("/all/list/json")
+    public ReturnDatas<List<MenuVO>> allListJson(@RequestBody Page<Menu> page) {
+        ReturnDatas<List<MenuVO>> returnObject = ReturnDatas.getSuccessReturnDatas();
+        try {
+            List<Menu> datas = menuService.findAllMenuListByQueryBean(page.getData(), null);
+            List<MenuVO> menuVOList = MenuVO.menuTreeConvertMenuVOTree(datas);
+            returnObject.setPage(page);
+            returnObject.setResult(menuVOList);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            returnObject.setStatus(ReturnDatas.ERROR);
+            returnObject.setMessage(e.getMessage());
+        }
 
-	@RequestMapping(value = "/lists", method = RequestMethod.POST)
-	public ReturnDatas<List<Menu>> lists() throws Exception {
-		ReturnDatas<List<Menu>> returnObject = ReturnDatas.getSuccessReturnDatas();
-		// ==构造分页请求
-		// Page page = newPage(request);
-		// ==执行分页查询
-		List<Menu> datas = userRoleMenuServiceImpl.findAllMenuTree();
-		returnObject.setResult(datas);
-		return returnObject;
-	}
+        return returnObject;
+    }
 
-	/**
-	 * 查看的Json格式数据
-	 */
-	@RequestMapping(value = "/look", method = RequestMethod.POST)
-	public ReturnDatas<Menu> look(String id) throws Exception {
-		ReturnDatas<Menu> returnObject = ReturnDatas.getSuccessReturnDatas();
+    /**
+     * 查询所有的菜单树，
+     *
+     * @return 全部数据，不分页
+     * @throws Exception 异常
+     */
+    @RequestMapping(value = "/list", method = RequestMethod.POST)
+    public ReturnDatas<List<MenuVO>> lists() throws Exception {
+        ReturnDatas<List<MenuVO>> returnObject = ReturnDatas.getSuccessReturnDatas();
+        // ==构造分页请求
+        // Page page = newPage(request);
+        // ==执行分页查询
+        List<Menu> datas = userRoleMenuServiceImpl.findAllMenuTree();//Menu_Tree
+        List<MenuVO> menuVOList = MenuVO.menuTreeConvertMenuVOTree(datas);//MenuVO_Tree
+        returnObject.setResult(menuVOList);
+        return returnObject;
+    }
 
-		if (StringUtils.isNotBlank(id)) {
-			Menu menu = menuService.findMenuById(id);
-			returnObject.setResult(menu);
-		} else {
-			returnObject.setStatus(ReturnDatas.ERROR);
-		}
-		return returnObject;
+    /**
+     * 查看菜单
+     *
+     * @param id 菜单id
+     */
+    @RequestMapping(value = "/look", method = RequestMethod.POST)
+    public ReturnDatas<MenuVO> look(String id) throws Exception {
+        ReturnDatas<MenuVO> returnObject = ReturnDatas.getSuccessReturnDatas();
 
-	}
+        if (StringUtils.isNotBlank(id)) {
+            Menu menu = menuService.findMenuById(id);
+            MenuVO menuVO = new MenuVO(menu);
+            returnObject.setResult(menuVO);
+        } else {
+            returnObject.setStatus(ReturnDatas.ERROR);
+        }
+        return returnObject;
 
-	/**
-	 * 保存 操作,返回json格式数据
-	 */
-	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public ReturnDatas<Menu> save(@RequestBody Menu menu) {
-		ReturnDatas<Menu> returnObject = ReturnDatas.getSuccessReturnDatas();
-		returnObject.setMessage(MessageUtils.SAVE_SUCCESS);
-		try {
+    }
 
-			String id = menu.getId();
-			if (StringUtils.isBlank(id)) {
-				menu.setId(null);
-			}
-			menuService.saveMenu(menu);
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			returnObject.setStatus(ReturnDatas.ERROR);
-			returnObject.setMessage(MessageUtils.SAVE_ERROR);
-		}
-		return returnObject;
+    /**
+     * 保存菜单
+     *
+     * @param menuVO 菜单对象
+     */
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public ReturnDatas<Menu> save(@RequestBody MenuVO menuVO) {
+        ReturnDatas<Menu> returnObject = ReturnDatas.getSuccessReturnDatas();
+        returnObject.setMessage(MessageUtils.SAVE_SUCCESS);
+        try {
+            Menu menu = menuVO.menuVoConvertMenu();
+            String id = menu.getId();
+            if (StringUtils.isBlank(id)) {
+                menu.setId(null);
+            }
+            menu.setUpdateTime(new Date());
+            menu.setCreateTime(new Date());
+            menu.setActive(1);
+            menuService.saveMenu(menu);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            returnObject.setStatus(ReturnDatas.ERROR);
+            returnObject.setMessage(MessageUtils.SAVE_ERROR);
+        }
+        return returnObject;
 
-	}
+    }
 
-	/**
-	 * 修改 操作,返回json格式数据
-	 */
-	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public ReturnDatas<Menu> update(@RequestBody Menu menu) {
-		ReturnDatas<Menu> returnObject = ReturnDatas.getSuccessReturnDatas();
-		returnObject.setMessage(MessageUtils.UPDATE_SUCCESS);
-		try {
+    /**
+     * 批量保存菜单
+     *
+     * @param menuVOList 参数对象
+     * @return 返回保存失败的数据
+     */
+    @PostMapping("/batchSave")
+    public ReturnDatas<List<MenuVO>> batchSave(@RequestBody List<MenuVO> menuVOList) {
+        if (CollectionUtils.isNotEmpty(menuVOList)) {
+            List<Menu> menuList = MenuVO.menvVOListConvertMentList(menuVOList);
+            try {
+                menuService.saveBatch(menuList);
+            } catch (Exception e) {
+                e.printStackTrace();
+                List<MenuVO> errMenuVOList = MenuVO.menuConvertMenuVO(menuList);
+                return new ReturnDatas<>(ReturnDatas.ERROR, e.getMessage(), errMenuVOList);
+            }
+            return new ReturnDatas<>(ReturnDatas.SUCCESS, MessageUtils.SAVE_SUCCESS);
+        }
+        return ReturnDatas.getSuccessReturnDatas();
+    }
 
-			String id = menu.getId();
-			if (StringUtils.isBlank(id)) {
-				return ReturnDatas.getErrorReturnDatas(MessageUtils.UPDATE_NULL_ERROR);
-			}
-			menuService.updateMenu(menu);
+    /**
+     * 修改菜单
+     *
+     * @param menuVO 修改的对象
+     */
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public ReturnDatas<Menu> update(@RequestBody MenuVO menuVO) {
+        ReturnDatas<Menu> returnObject = ReturnDatas.getSuccessReturnDatas();
+        returnObject.setMessage(MessageUtils.UPDATE_SUCCESS);
+        try {
+            Menu menu = menuVO.menuVoConvertMenu();
+            String id = menu.getId();
+            if (StringUtils.isBlank(id)) {
+                return ReturnDatas.getErrorReturnDatas(MessageUtils.UPDATE_NULL_ERROR);
+            }
 
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			returnObject.setStatus(ReturnDatas.ERROR);
-			returnObject.setMessage(MessageUtils.UPDATE_ERROR);
-		}
-		return returnObject;
+            menuService.updateMenu(menu);
 
-	}
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            returnObject.setStatus(ReturnDatas.ERROR);
+            returnObject.setMessage(MessageUtils.UPDATE_ERROR);
+        }
+        return returnObject;
 
-	/**
-	 * 删除操作
-	 */
-	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public ReturnDatas<Menu> delete(@RequestBody Map<String, Object> map) throws Exception {
-		// 执行删除
-		try {
-			String id = (String) map.get("id");
-			if (StringUtils.isNotBlank(id)) {
-				menuService.deleteMenuById(id);
-				return new ReturnDatas<Menu>(ReturnDatas.SUCCESS, MessageUtils.DELETE_SUCCESS);
-			} else {
-				return new ReturnDatas<Menu>(ReturnDatas.ERROR, MessageUtils.DELETE_NULL_ERROR);
-			}
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-		}
-		return new ReturnDatas<Menu>(ReturnDatas.ERROR, MessageUtils.DELETE_ERROR);
-	}
+    }
+
+    /**
+     * 删除操作
+     *
+     * @param id 删除的菜单id
+     */
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public ReturnDatas<Menu> delete(String id) throws Exception {
+        // 执行删除
+        try {
+            if (StringUtils.isNotBlank(id)) {
+                menuService.deleteMenuById(id);
+                return new ReturnDatas<>(ReturnDatas.SUCCESS, MessageUtils.DELETE_SUCCESS);
+            } else {
+                return new ReturnDatas<>(ReturnDatas.ERROR, MessageUtils.DELETE_NULL_ERROR);
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
+        return new ReturnDatas<>(ReturnDatas.ERROR, MessageUtils.DELETE_ERROR);
+    }
 
 }

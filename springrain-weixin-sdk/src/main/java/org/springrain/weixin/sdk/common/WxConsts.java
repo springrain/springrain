@@ -1,8 +1,8 @@
 package org.springrain.weixin.sdk.common;
 
+import org.springrain.frame.util.property.PropertyFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springrain.frame.util.property.PropertyFile;
 
 import java.util.HashMap;
 import java.util.Map;

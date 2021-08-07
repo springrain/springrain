@@ -3,6 +3,7 @@
  */
 package org.springrain.frame.util;
 
+import org.springrain.frame.annotation.*;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.*;
@@ -10,7 +11,6 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springrain.frame.annotation.*;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -27,7 +27,7 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author springrain<Auto generate>
  * @version 2013-03-19 11:08:15
- * @see org.springrain.frame.util.ClassUtils
+ * @see ClassUtils
  */
 
 public class
@@ -653,7 +653,7 @@ ClassUtils {
      * 获取类的泛型实际类型
      * @return
      */
-    public static Class getActualTypeGenericSuperclass(Class clazz){
+    public static Class getActualTypeGenericSuperclass(Class clazz) {
         //获取子类所属接口的参数化类型,cn.xxx.xxx.BasicAction<cn.xxx.xxx.Standard>
         Type type = clazz.getGenericSuperclass();
         //因为type是顶级接口没有定义任何方法，所以需要强转为子接口ParameterizedType
@@ -665,8 +665,7 @@ ClassUtils {
         //获取数组中的实际参数类型
         return (Class) types[0];
 
-}
-
+    }
 
 
 }

@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
  *
  * @author springrain<Auto generate>
  * @version 2013-03-19 11:08:15
- * @see org.springrain.frame.util.RegexValidateUtils
+ * @see RegexValidateUtils
  */
 
 public class RegexValidateUtils {
@@ -472,10 +472,12 @@ public class RegexValidateUtils {
      * @param value 某指定的字符串
      * @return 字符串符合数值格式时返回true, 否则返回false
      */
+    private static String floatRestring = "^-?(\\d)+((.\\d+)|(\\d)*)$";
+    private static Pattern flatPattern = Pattern.compile(floatRestring);
+
     public static boolean isFloat(String value) {
-        String restring = "^-?(\\d)+((.\\d+)|(\\d)*)$";
-        Pattern pattern = Pattern.compile(restring);
-        if (pattern.matcher(value).matches()) {
+
+        if (flatPattern.matcher(value).matches()) {
             return true;
         }
         return false;
@@ -487,14 +489,16 @@ public class RegexValidateUtils {
      * @param orderbysql
      * @return
      */
+    private static String orderByRegStr = "(?i)\\s(order)\\s+by\\s";
+    private static Pattern orderByPattern = Pattern.compile(orderByRegStr);
+
     public static int getOrderByIndex(String orderbysql) {
         int index = -1;
         if (StringUtils.isBlank(orderbysql)) {
             return index;
         }
-        String regStr = "\\s+(order)\\s+(by)";
-        Pattern pattern = Pattern.compile(regStr);
-        Matcher matcher = pattern.matcher(orderbysql.toLowerCase());
+
+        Matcher matcher = orderByPattern.matcher(orderbysql);
         if (matcher.find()) {
             index = matcher.start();
         }
@@ -507,14 +511,16 @@ public class RegexValidateUtils {
      * @param groupbysql
      * @return
      */
+    private static String groupByRegStr = "(?i)\\s(group)\\s+by\\s";
+    private static Pattern groupByPattern = Pattern.compile(groupByRegStr);
+
     public static int getGroupByIndex(String groupbysql) {
         int index = -1;
         if (StringUtils.isBlank(groupbysql)) {
             return index;
         }
-        String regStr = "\\s+(group)\\s+(by)";
-        Pattern pattern = Pattern.compile(regStr);
-        Matcher matcher = pattern.matcher(groupbysql.toLowerCase());
+
+        Matcher matcher = groupByPattern.matcher(groupbysql);
         if (matcher.find()) {
             index = matcher.start();
         }
@@ -522,11 +528,88 @@ public class RegexValidateUtils {
     }
 
     /**
-     * 获取 group by 开始位置
+     * 获取语句中表名
+     * 第一个是符合的整体数据,第二个是表名
+     *
+     * @param updatesql
+     * @return
+     */
+    private static String updateTableNameRegStr = "(?i)^\\s*update\\s+(\\w+)\\s+set\\s";
+    private static Pattern updateTableNamePattern = Pattern.compile(updateTableNameRegStr);
+
+    public static String[] getUpdateTableName(String updatesql) {
+        if (StringUtils.isBlank(updatesql)) {
+            return null;
+        }
+
+        Matcher matcher = updateTableNamePattern.matcher(updatesql);
+        if (!matcher.find()) {
+            return null;
+        }
+
+        String[] result = new String[2];
+        result[0] = matcher.group(0);
+        result[1] = matcher.group(1);
+
+        return result;
+    }
+
+    /**
+     * 获取语句中表名
+     * 第一个是符合的整体数据,第二个是表名
+     *
+     * @param updatesql
+     * @return
+     */
+    private static String deleteableNameRegStr = "(?i)^\\s*delete\\s+from\\s+(\\w+)\\s+where\\s";
+    private static Pattern deleteTableNamePattern = Pattern.compile(deleteableNameRegStr);
+
+    public static String[] getDeleteTableName(String deletesql) {
+        if (StringUtils.isBlank(deletesql)) {
+            return null;
+        }
+
+        Matcher matcher = deleteTableNamePattern.matcher(deletesql);
+        if (!matcher.find()) {
+            return null;
+        }
+
+        String[] result = new String[2];
+        result[0] = matcher.group(0);
+        result[1] = matcher.group(1);
+
+        return result;
+    }
+
+    /**
+     * 获取 Select 语句中 From 开始位置
      *
      * @param sql
      * @return
      */
+    private static String selectFromIndexRegStr = "(?i)(^\\s*select)(.+?\\(.+?\\))*.*?(from)";
+    private static Pattern selectFromIndexPattern = Pattern.compile(selectFromIndexRegStr);
+
+    public static int getSelectFromIndex(String sql) {
+        int index = -1;
+        if (StringUtils.isBlank(sql)) {
+            return index;
+        }
+
+        Matcher matcher = selectFromIndexPattern.matcher(sql);
+        if (matcher.find()) {
+            index = matcher.end() - 4;
+        }
+        return index;
+    }
+
+    /**
+     * 获取 Select 语句中 From 开始位置
+     *
+     * @param sql
+     * @return
+     */
+    @Deprecated
     public static int getFromIndex(String sql) {
         int index = -1;
         if (StringUtils.isBlank(sql)) {
@@ -550,6 +633,7 @@ public class RegexValidateUtils {
      * @param str
      * @return
      */
+    @Deprecated
     private static String replaceFrom(String str) {
         Pattern pt = Pattern.compile("\\(([\\s\\S]+?)\\)", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pt.matcher(str);
@@ -561,33 +645,20 @@ public class RegexValidateUtils {
         return str;
     }
 
-	/*
+
+/*
+
 	public static void main(String[] args) {
 		// System.out.println(RegexValidateUtils.isFloat("-012416545.000"));
-		String countSql = "select 1,(select id from ddddd) FROM abc1 where 1=1  and faa id in (select id from abc2)  distinct a order by   ";
+		String countSql = "select                     group    by    ";
+       // String countSql = "123456789";
 
-		int order_int = getOrderByIndex(countSql);
-		if (order_int > 1) {
-			countSql = countSql.substring(0, order_int);
-		}
 
-		// 特殊关键字过滤, distinct ,union ,group by
-		if (countSql.toLowerCase().indexOf(" distinct ") > -1 || countSql.toLowerCase().indexOf(" union ") > -1
-				|| RegexValidateUtils.getGroupByIndex(countSql) > -1) {
-			countSql = "SELECT count(*)  frame_row_count FROM (" + countSql + ") temp_frame_noob_table_name WHERE 1=1 ";
-		} else {
-			int fromIndex = RegexValidateUtils.getFromIndex(countSql);
-			if (fromIndex > -1) {
-				countSql = "SELECT COUNT(*) " + countSql.substring(fromIndex);
-			} else {
-				countSql = "SELECT count(*)  frame_row_count FROM (" + countSql
-						+ ") temp_frame_noob_table_name WHERE 1=1 ";
-			}
-
-		}
-
-		// System.out.println(countSql);
+        System.out.println(getGroupByIndex(countSql));
 
 	}
-	 */
+
+ */
+
+
 }

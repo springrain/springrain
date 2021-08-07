@@ -2,22 +2,43 @@ package org.springrain.system.api.dto;
 
 import java.util.List;
 
+/**
+ * 菜单dto
+ */
 public class MenuDto {
 
+    /**
+     * 菜单名
+     */
     private String name;
-
+    /**
+     * 路径
+     */
     private String path;
-
+    /**
+     * 是否隐藏
+     */
     private boolean hidden;
-
+    /**
+     * 始终显示
+     */
     private boolean alwaysShow;
-
+    /**
+     * 重定向
+     */
     private String redirect;
-
+    /**
+     * 组件
+     */
     private String component;
-
+    /**
+     * 菜单信息
+     */
     private MetaDto meta;
 
+    /**
+     * 菜单那子集
+     */
     private List<MenuDto> children;
 
     public String getName() {

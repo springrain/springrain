@@ -1,24 +1,25 @@
 package org.springrain.system.api;
 
-import com.google.common.collect.Maps;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 import org.springrain.frame.util.Page;
 import org.springrain.frame.util.ReturnDatas;
 import org.springrain.frame.util.property.MessageUtils;
-import org.springrain.rpc.sessionuser.SessionUser;
+import org.springrain.system.api.vo.MenuVO;
+import org.springrain.system.api.vo.RoleUpdateMenuVO;
 import org.springrain.system.base.BaseController;
-import org.springrain.system.entity.*;
+import org.springrain.system.dto.RoleDTO;
+import org.springrain.system.entity.Menu;
+import org.springrain.system.entity.Role;
+import org.springrain.system.entity.RoleMenu;
+import org.springrain.system.entity.RoleOrg;
 import org.springrain.system.service.IRoleService;
 import org.springrain.system.service.IUserRoleMenuService;
 import org.springrain.system.service.IUserRoleOrgService;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.*;
-import java.util.concurrent.ConcurrentMap;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * 角色模块
@@ -40,15 +41,15 @@ public class RoleController extends BaseController {
     private IUserRoleOrgService userRoleOrgService;
 
     /**
-     * 角色列表数据
+     * 角色列表数据，分页数据,包含（是否有效：否）
      *
      * @param page 分页对象 page.pageIndex 第几页
-     * @return
-     * @throws Exception
+     * @return 分页数据，
      */
-    @RequestMapping(value = "/lists", method = RequestMethod.POST)
-    public ReturnDatas<List<Role>> lists(@RequestBody Page<Role> page) throws Exception {
+    @RequestMapping(value = "/pageList", method = RequestMethod.POST)
+    public ReturnDatas<List<Role>> lists(@RequestBody Page<Role> page) {
         ReturnDatas<List<Role>> returnObject = ReturnDatas.getSuccessReturnDatas();
+
 
         List<Role> datas = null;
         try {
@@ -66,15 +67,20 @@ public class RoleController extends BaseController {
 
     /**
      * 查询所有角色列表
+     * 不包含（是否有效：是）
      *
-     * @return
-     * @throws Exception
+     * @return 不分页数据
+     * @throws Exception 异常
      */
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     public ReturnDatas<List<Role>> list() throws Exception {
         ReturnDatas<List<Role>> returnObject = ReturnDatas.getSuccessReturnDatas();
         // ==构造分页请求
-        List<Role> roleList = roleService.queryForListByEntity(null, null);
+        Role role = new Role();
+        role.setActive(1);
+        Page<Role> page = new Page<>();
+        page.setData(role);
+        List<Role> roleList = roleService.findRoleList(page);
         returnObject.setResult(roleList);
         return returnObject;
     }
@@ -83,18 +89,19 @@ public class RoleController extends BaseController {
      * 查看的角色信息
      *
      * @param id 角色id
-     * @return
-     * @throws Exception
+     * @return 角色信息
+     * @throws Exception 异常
      */
     @RequestMapping(value = "/look", method = RequestMethod.POST)
-    public ReturnDatas<Role> look(String id) throws Exception {
-        ReturnDatas<Role> returnObject = ReturnDatas.getSuccessReturnDatas();
+    public ReturnDatas<RoleDTO> look(String id) throws Exception {
+        ReturnDatas<RoleDTO> returnObject = ReturnDatas.getSuccessReturnDatas();
 
         if (StringUtils.isNotBlank(id)) {
-            Role role = roleService.findRoleById(id);
+            RoleDTO role = roleService.findRoleById(id);
             returnObject.setResult(role);
         } else {
             returnObject.setStatus(ReturnDatas.ERROR);
+            returnObject.setMessage("id不能为空!");
         }
         return returnObject;
     }
@@ -102,36 +109,21 @@ public class RoleController extends BaseController {
     /**
      * 保存新增角色操作
      *
-     * @param role 角色信息
-     * @return
+     * @param dto 角色信息
+     * @return 保存状态
      */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public ReturnDatas<Role> save(@RequestBody Role role) {
-        ReturnDatas<Role> returnObject = ReturnDatas.getSuccessReturnDatas();
+    public ReturnDatas<RoleDTO> save(@RequestBody RoleDTO dto) {
+        ReturnDatas<RoleDTO> returnObject = ReturnDatas.getSuccessReturnDatas();
         returnObject.setMessage(MessageUtils.SAVE_SUCCESS);
         try {
 
-            String id = role.getId();
-            if (StringUtils.isBlank(id)) {
-                role.setId(null);
-            }
-
-            role.setCreateUserId(SessionUser.getUserId());
-            role.setCreateTime(new Date());
-
-            role.setPrivateOrg(0);
-            role.setRoleOrgType(0);
-            role.setShareRole(0);
-            role.setOrgId("o_10001");
-            role.setUpdateTime(new Date());
-            role.setSortno(0);
-            roleService.save(role);
-
-            returnObject.setResult(role);
+            roleService.saveRole(dto);
+            returnObject.setResult(dto);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             returnObject.setStatus(ReturnDatas.ERROR);
-            returnObject.setMessage(MessageUtils.SAVE_ERROR);
+            returnObject.setMessage(e.getMessage());
         }
         return returnObject;
 
@@ -140,46 +132,45 @@ public class RoleController extends BaseController {
     /**
      * 根据角色id获取角色菜单
      *
-     * @param map
-     * @return
-     * @throws Exception
+     * @param roleId 角色id
+     * @return 角色菜单
+     * @throws Exception 异常
      */
     @RequestMapping(value = "/getMenusByRoleId", method = RequestMethod.POST)
-    public ReturnDatas<ConcurrentMap<String, List<Map<String, Object>>>> findMenuByRoleId(@RequestBody Map<String, Object> map) throws Exception {
-        String roleid = map.get("roleid").toString();
-        ReturnDatas<ConcurrentMap<String, List<Map<String, Object>>>> returnDatas = ReturnDatas.getSuccessReturnDatas();
-        List<Menu> menus = userRoleMenuService.findMenuByRoleId(roleid);
-        ConcurrentMap<String, List<Map<String, Object>>> resutltMap = Maps.newConcurrentMap();
+    public ReturnDatas<List<MenuVO>> findMenuByRoleId(String roleId) throws Exception {
+        ReturnDatas<List<MenuVO>> returnDatas = ReturnDatas.getSuccessReturnDatas();
+        List<Menu> menus = userRoleMenuService.findMenuByRoleId(roleId);
+        List<MenuVO> menuVOList = MenuVO.menuTreeConvertMenuVOTree(menus);
+        /*ConcurrentMap<String, List<Map<String, Object>>> resutltMap = Maps.newConcurrentMap();
         List<Map<String, Object>> listMap = new ArrayList<>();
         userRoleMenuService.wrapVueMenu(menus, listMap);
-        resutltMap.put("menus", listMap);
-        returnDatas.setResult(resutltMap);
+        resutltMap.put("menus", listMap);*/
+        returnDatas.setResult(menuVOList);
         return returnDatas;
     }
 
     /**
      * 修改更新角色
      *
-     * @param role 角色信息
-     * @return
+     * @param dto 角色信息
+     * @return 更新状态
      */
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public ReturnDatas<Role> update(@RequestBody Role role) {
-        ReturnDatas<Role> returnObject = ReturnDatas.getSuccessReturnDatas();
+    public ReturnDatas<RoleDTO> update(@RequestBody RoleDTO dto) {
+        ReturnDatas<RoleDTO> returnObject = ReturnDatas.getSuccessReturnDatas();
         returnObject.setMessage(MessageUtils.UPDATE_SUCCESS);
         try {
 
-            String id = role.getId();
+            String id = dto.getId();
             if (StringUtils.isBlank(id)) {
                 return ReturnDatas.getErrorReturnDatas(MessageUtils.UPDATE_NULL_ERROR);
             }
-            roleService.update(role);
-
-            returnObject.setResult(role);
+            roleService.updateRole(dto);
+            returnObject.setResult(dto);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             returnObject.setStatus(ReturnDatas.ERROR);
-            returnObject.setMessage(MessageUtils.UPDATE_ERROR);
+            returnObject.setMessage(e.getMessage());
         }
         return returnObject;
 
@@ -189,27 +180,24 @@ public class RoleController extends BaseController {
      * 删除操作
      *
      * @param id 角色id
-     * @return
-     * @throws Exception
+     * @return 删除状态
+     * @throws Exception 异常
      */
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public ReturnDatas<Role> delete(@RequestBody String id) throws Exception {
-        try {
-
-            if (StringUtils.isNotBlank(id)) {
-                roleService.deleteById(id, Role.class);
-                return new ReturnDatas<Role>(ReturnDatas.SUCCESS, MessageUtils.DELETE_SUCCESS);
-            } else {
-                return new ReturnDatas<Role>(ReturnDatas.ERROR, MessageUtils.DELETE_NULL_ERROR);
-            }
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
+    public ReturnDatas<Role> delete(String id) throws Exception {
+        if (StringUtils.isNotBlank(id)) {
+            roleService.deleteRoleById(id);
+            return new ReturnDatas<>(ReturnDatas.SUCCESS, MessageUtils.DELETE_SUCCESS);
+        } else {
+            return new ReturnDatas<>(ReturnDatas.ERROR, MessageUtils.DELETE_NULL_ERROR);
         }
-        return new ReturnDatas<Role>(ReturnDatas.ERROR, MessageUtils.DELETE_ERROR);
     }
 
     /**
      * 更新 角色 菜单
+     *
+     * @param roleMenu 角色菜单
+     * @return 更新状态
      */
     @RequestMapping(value = "/updaterolemenu", method = RequestMethod.POST)
     public ReturnDatas<String> updaterolemenu(@RequestBody RoleMenu roleMenu) throws Exception {
@@ -222,7 +210,28 @@ public class RoleController extends BaseController {
     }
 
     /**
+     * 更新 角色 菜单，传入菜单集合
+     *
+     * @param roleUpdateMenuVO 参数对象
+     * @return 更新状态
+     * @throws Exception sql异常
+     */
+    @PostMapping("/updateRoleMenus")
+    public ReturnDatas<String> updateRoleMens(@RequestBody RoleUpdateMenuVO roleUpdateMenuVO) {
+        try {
+            userRoleMenuService.updateRoleMenu(roleUpdateMenuVO.getRoleId(), roleUpdateMenuVO.getMenuIds());
+            return new ReturnDatas<>(ReturnDatas.SUCCESS, MessageUtils.SAVE_SUCCESS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ReturnDatas(ReturnDatas.ERROR, e.getMessage());
+        }
+    }
+
+    /**
      * 更新 角色 部门
+     *
+     * @param roleOrg 角色部门
+     * @return 更新状态
      */
     @RequestMapping(value = "/updateRoleOrg", method = RequestMethod.POST)
     public ReturnDatas<String> updateRoleOrg(@RequestBody RoleOrg roleOrg) throws Exception {
@@ -236,21 +245,24 @@ public class RoleController extends BaseController {
 
     /**
      * 删除多条记录
+     *
+     * @param ids 角色ids
+     * @return 删除状态
      */
     @RequestMapping(value = "/delete/more", method = RequestMethod.POST)
     public ReturnDatas<Object> deleteMore(@RequestBody String[] ids) {
 
         if (ids == null || ids.length < 1) {
-            return new ReturnDatas<Object>(ReturnDatas.ERROR, MessageUtils.DELETE_NULL_ERROR);
+            return new ReturnDatas<>(ReturnDatas.ERROR, MessageUtils.DELETE_NULL_ERROR);
         }
         try {
             List<String> listIds = Arrays.asList(ids);
             roleService.deleteByIds(listIds, Role.class);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            return new ReturnDatas<Object>(ReturnDatas.ERROR, MessageUtils.DELETE_ALL_ERROR);
+            return new ReturnDatas<>(ReturnDatas.ERROR, MessageUtils.DELETE_ALL_ERROR);
         }
-        return new ReturnDatas<Object>(ReturnDatas.SUCCESS, MessageUtils.DELETE_ALL_SUCCESS);
+        return new ReturnDatas<>(ReturnDatas.SUCCESS, MessageUtils.DELETE_ALL_SUCCESS);
 
     }
 

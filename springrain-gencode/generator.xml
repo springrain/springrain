@@ -7,7 +7,7 @@
 		2.可以引用环境变量: ${env.JAVA_HOME} or System.properties: ${user.home},property之间也可以相互引用
 	</comment>
 	<!-- 代码基本的包路径 -->
-	<entry key="basepackage">org.springrain.system</entry>
+	<entry key="basepackage">org.springrain.bigscreen</entry>
 	<!-- js 和 freemarker 包名称  -->
 	<entry key="targetpackage">system</entry>
 	<!-- jsp namespace: api/${namespace}/${className}/list.jsp -->
@@ -15,7 +15,7 @@
 	<!-- 输出的代码路径 -->
 	<entry key="outRoot">generator-output</entry>
 	<!-- 需要移除的表名前缀,使用逗号进行分隔多个前缀,示例值: t_,v_ -->
-	<entry key="tableRemovePrefixes">t_,tc_,pos_</entry>
+	<entry key="tableRemovePrefixes">t_,tc_,pos_,r_</entry>
 	<!-- oracle,MSSQL需要指定jdbc.schema,MySQL8.0.18也需要指定,其它数据库忽略此项配置  -->
 	<entry key="jdbc.schema"></entry>
 	<entry key="jdbc.catalog"></entry>
@@ -31,7 +31,7 @@
 	<entry key="jdbc.password">root</entry>
 
 	<!-- Mysql -->
-	<entry key="jdbc.url">jdbc:mysql://127.0.0.1:3306/springrain?characterEncoding=utf8&amp;useUnicode=true&amp;useSSL=false&amp;serverTimezone=Hongkong</entry>
+	<entry key="jdbc.url">jdbc:mysql://127.0.0.1:30306/springrain?characterEncoding=utf8&amp;useUnicode=true&amp;useSSL=false&amp;serverTimezone=Hongkong</entry>
 	<entry key="jdbc.driver">com.mysql.cj.jdbc.Driver</entry>
 	
 	<!-- H2

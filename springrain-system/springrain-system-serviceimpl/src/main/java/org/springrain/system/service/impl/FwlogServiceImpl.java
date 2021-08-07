@@ -1,17 +1,15 @@
 package org.springrain.system.service.impl;
 
-import org.springframework.stereotype.Service;
 import org.springrain.frame.entity.IBaseEntity;
 import org.springrain.system.entity.Fwlog;
 import org.springrain.system.service.IFwlogService;
+import org.springframework.stereotype.Service;
 
 /**
  * TODO 在此加入类描述
  *
  * @author jiagou.com<Auto generate>
  * @version 2013-07-29 11:36:44
- * @copyright {@link springrain}
- * @see org.springrain.springrain.service.impl.Fwlog
  */
 @Service("fwlogService")
 public class FwlogServiceImpl extends BaseSpringrainServiceImpl implements IFwlogService {

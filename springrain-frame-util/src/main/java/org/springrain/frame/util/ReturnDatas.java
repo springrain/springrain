@@ -12,15 +12,31 @@ import java.util.Map;
 public class ReturnDatas<T> implements Serializable {
     public static final String SUCCESS = "success";
     public static final String ERROR = "error";
+    public static final String TOKEN_TIME_OUT = "tokenTimeOut";
     /**
      *
      */
     private static final long serialVersionUID = 1L;
     //public static final String WARNING = "warning";
-    // 异常 1, 成功 0,默认成功0
-    private Integer statusCode = 0;
+    //
+
+    /**
+     * 成功       200
+     * 异常       500
+     * token过期  401
+     */
+    private Integer statusCode = 200;
+    /**
+     * 状态信息
+     */
     private String status;
+    /**
+     * 响应消息
+     */
     private String message;
+    /**
+     * 结果数据
+     */
     private T result;
 
     private Map<String, Object> map;
@@ -65,9 +81,11 @@ public class ReturnDatas<T> implements Serializable {
     public void setStatus(String status) {
         this.status = status;
         if (SUCCESS.equalsIgnoreCase(status)) {
-            setStatusCode(0);
+            setStatusCode(200);
+        } else if (TOKEN_TIME_OUT.equalsIgnoreCase(status)) {
+            setStatusCode(401);
         } else {
-            setStatusCode(1);
+            setStatusCode(500);
         }
     }
 
@@ -79,7 +97,7 @@ public class ReturnDatas<T> implements Serializable {
         this.message = message;
     }
 
-    public Object getResult() {
+    public T getResult() {
         return result;
     }
 

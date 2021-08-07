@@ -1,6 +1,8 @@
 package org.springrain.weixin.sdk.pay;
 
 
+import org.springrain.frame.util.GlobalStatic;
+import org.springrain.weixin.sdk.common.wxconfig.IWxPayConfig;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -19,8 +21,6 @@ import org.apache.http.impl.conn.BasicHttpClientConnectionManager;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springrain.frame.util.GlobalStatic;
-import org.springrain.weixin.sdk.common.wxconfig.IWxPayConfig;
 
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
@@ -31,8 +31,6 @@ import java.security.KeyStore;
 import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
-
-import static org.springrain.weixin.sdk.pay.WXPayConstants.USER_AGENT;
 
 /**
  * 微信支付的API,基于微信官方SDK改造
@@ -532,7 +530,7 @@ public class WXPayApi {
 
             StringEntity postEntity = new StringEntity(data, "UTF-8");
             httpPost.addHeader("Content-Type", "text/xml");
-            httpPost.addHeader("User-Agent", USER_AGENT + " " + config.getMchId());
+            httpPost.addHeader("User-Agent", WXPayConstants.USER_AGENT + " " + config.getMchId());
             httpPost.setEntity(postEntity);
 
             HttpResponse httpResponse = httpClient.execute(httpPost);
