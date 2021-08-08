@@ -202,10 +202,13 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
                         .setParam("status", queryBean.getStatus());
             }
 
-            if (page.getBeginTime() != null && page.getEndTime() != null) {
-                finder.append(" AND createTime>=:beginTime AND createTime<=:endTime ")
-                        .setParam("beginTime", page.getBeginTime())
-                        .setParam("endTime", org.apache.commons.lang3.time.DateUtils.addDays(page.getEndTime(), 1));
+            if (page.getBeginTime() != null) {
+                finder.append(" AND createTime>=:beginTime ")
+                        .setParam("beginTime", page.getBeginTime());
+            }
+            if(page.getEndTime() != null){
+                finder.append(" AND createTime<=:endTime ")
+                      .setParam("endTime", org.apache.commons.lang3.time.DateUtils.addDays(page.getEndTime(), 1));
             }
         }
         //封装用户的部门和角色信息
