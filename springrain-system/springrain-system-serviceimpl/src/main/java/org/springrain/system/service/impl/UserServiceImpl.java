@@ -348,7 +348,11 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
 
         List<Org> orgList = user.getOrgList();
         if (CollectionUtils.isEmpty(orgList)) {
-            throw new RuntimeException("请选择用户部门！");
+            logger.error("没有选择用户部门！--updateUser({})",user);
+            Org org = new Org();
+            org.setId("defaultOrgId");
+            orgList = new ArrayList<>();
+            orgList.add(org);
         }
         UserOrg saveUserOrg = new UserOrg();
         List<UserOrg> userOrgList = new ArrayList<>();
@@ -364,7 +368,7 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
             Integer managerType = org.getManagerType();
             userOrg.setUserId(id);
             userOrg.setOrgId(org.getId());
-            userOrg.setManagerType(managerType);
+            userOrg.setManagerType(managerType==null?1:managerType);
             userOrgList.add(userOrg);
         }
         saveUserOrg.setUserId(id);
@@ -374,8 +378,8 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
         List<Role> roles = user.getRoles();
         List<String> rolesString;
         if (CollectionUtils.isEmpty(roles)) {
-            //没有选择角色默认游客角色
-            rolesString = Arrays.asList("youke");
+            //没有选择角色,使用默认角色
+            rolesString = Arrays.asList("defaultRoleId");
         } else {
             rolesString = roles.stream().map(Role::getId).collect(Collectors.toList());
         }
@@ -470,7 +474,7 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
             if (DBrole == null) {
                 //用户角色不存在！附一个默认角色
                 DBrole = new Role();
-                DBrole.setId("youke");
+                DBrole.setId("defaultRoleId");
             }
             List<Role> roles = Arrays.asList(DBrole);
             user.setRoles(roles);
@@ -483,7 +487,7 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
             if (DBorg == null) {
                 //用户部门不存在!附一个默认部门
                 DBorg = new Org();
-                DBorg.setId("202105171503402497159");
+                DBorg.setId("defaultOrgId");
             }
             DBorg.setManagerType(1);
             List<Org> orgList = Arrays.asList(DBorg);
@@ -531,7 +535,7 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
         Map<String, String> templateParam = new HashMap<>();
         String randomCode = this.getRandomCode(6);
         //生成随机数
-        System.err.println(randomCode);
+        logger.error(randomCode);
         templateParam.put("code", randomCode);
        // smsToolService.send(phone, SmsTypeEnum.验证码, templateParam);
         //发送成功,设置缓存
@@ -580,12 +584,12 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
             user.setBak1("");
             this.save(user);
             //手机用户默认角色
-            String id = roleService.findRoleByCode("PHONE_USER");
+            String id = roleService.findRoleByCode("defaultRoleId");
             if (StringUtils.isNotBlank(id)) {
                 userRoleMenuService.updateUserRoles(user.getId(),Arrays.asList(id));
             }
             //手机用户默认部门
-            Org org = userRoleOrgService.findById("SHOUJIYONGHUBUMEN", Org.class);
+            Org org = userRoleOrgService.findById("defaultOrgId", Org.class);
             if (org!=null){
                 Date now = new Date();
                 UserOrg userOrg = new UserOrg();
