@@ -292,7 +292,11 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
 
         List<Org> orgList = user.getOrgList();
         if (CollectionUtils.isEmpty(orgList)) {
-            throw new RuntimeException("请选择用户部门！");
+            logger.error("没有选择用户部门--saveUser({})",user);
+            Org org = new Org();
+            org.setId("defaultOrgId");
+            orgList = new ArrayList<>();
+            orgList.add(org);
         }
         UserOrg saveUserOrg = new UserOrg();
         List<UserOrg> userOrgList = new ArrayList<>();
@@ -308,7 +312,7 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
             Integer managerType = org.getManagerType();
             userOrg.setUserId(id);
             userOrg.setOrgId(org.getId());
-            userOrg.setManagerType(managerType);
+            userOrg.setManagerType(managerType==null?1:managerType);
             userOrgList.add(userOrg);
         }
         saveUserOrg.setUserId(id);
@@ -319,7 +323,7 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
         List<String> rolesString;
         if (CollectionUtils.isEmpty(roles)) {
             //没有选择角色默认游客角色
-            rolesString = Arrays.asList("youke");
+            rolesString = Arrays.asList("defaultRoleId");
         } else {
             rolesString = roles.stream().map(Role::getId).collect(Collectors.toList());
         }
