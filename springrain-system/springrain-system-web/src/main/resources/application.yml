@@ -1,8 +1,8 @@
-#启动命令:java -server -Xms512m -Xmx2048m  -jar springboot-1.0.jar
+#启动命令: nohup java -server -Xms512m -Xmx2048m  -Dspring.config.location=/application.yml  -jar springboot-1.0.jar &
+#建议使用 WinSW 注册成windows服务
 server:
   #服务http端口
   port: 8080
-
   servlet:
     #访问根路径
     context-path: /system
@@ -88,9 +88,7 @@ springrain:
 
   ###静态文件默认放到 resources/static目录下,也可以指定磁盘路径 file:D:/static/,这样方便程序读取上传upload的目录###
 #staticdir: D:/static/
-# E:/work/online/springrain/springrain-system/springrain-system-web/src/main/resources/static/
-# ./static/
-staticdir: D:/static/
+staticdir: static/
 
 spring:
   web:
