@@ -43,8 +43,7 @@ public class SeataDataSourceTransactionManager extends DataSourceTransactionMana
         }
         if (GlobalStatic.seataEnable && !branch && RootContext.inGlobalTransaction()) {
             try {
-                // 分支事务执行时把事务角色修改成了GlobalTransactionRole.Participant,reload重新设置成GlobalTransactionRole.Launcher
-                //GlobalTransaction tx = GlobalTransactionContext.reload(RootContext.getXID());
+
                 GlobalTransaction tx = GlobalTransactionContext.getCurrent();
                 tx.commit();
 
