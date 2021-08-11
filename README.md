@@ -32,6 +32,7 @@ springrain是标准Maven项目,只依赖springboot,没有hibernate,struts,ibatis
 * 分布式无注解比较方便,理论上有不同步风险,个人感觉做好日志,风险不大
 * Service层不可以使用Servlet API,例如 HttpRequest
 * 建议每个前后端module/子项目,都有各自的前缀,方便nginx根据路径解析  
+* 如果module依赖的特定包版本(例如netty)和根项目版本冲突,modele不能无感知集成,只能独立运行  
 
 ## 体验单体到分层切换
 * 修改springrain-system-web依赖springrain-system-service,不再依赖springrain-system-serviceimpl.
