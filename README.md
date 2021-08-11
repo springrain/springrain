@@ -1,9 +1,7 @@
 ## 说明
-springrain是spring/springboot的开发范例.基于K8S + Istio 实现云原生微服务.  
-
-springrain自带代码生成器,能够生成对表的增删改查的逻辑代码. 
-
-springrain是标准Maven项目,只依赖springboot,没有hibernate,struts,ibatis,数据库调优可以使用druid输出慢sql,比分析xml中的语句更直观,springrain所有的sql语句都使用Finder封装管理,只要查看Finder的引用即可.
+* springrain是spring/springboot的开发范例.基于K8S + Istio 实现云原生微服务.
+* springrain自带代码生成器,能够生成对表的增删改查的逻辑代码.
+* springrain是标准Maven项目,只依赖springboot,没有hibernate,struts,ibatis,数据库调优可以使用druid输出慢sql,比分析xml中的语句更直观,springrain所有的sql语句都使用Finder封装管理,只要查看Finder的引用即可.
 
 ## 前后分离  
 前后端分离,使用jwt认证,前端项目是[front-springrain](https://gitee.com/chunanyong/front-springrain)  
@@ -32,7 +30,7 @@ springrain是标准Maven项目,只依赖springboot,没有hibernate,struts,ibatis
 * 分布式无注解比较方便,理论上有不同步风险,个人感觉做好日志,风险不大
 * Service层不可以使用Servlet API,例如 HttpRequest
 * 建议每个前后端module/子项目,都有各自的前缀,方便nginx根据路径解析  
-* 如果module依赖的特定包版本(例如netty)和根项目版本冲突,modele不能无感知集成,只能独立运行  
+* 如果module依赖包的特定版本(例如netty)和根项目版本冲突,modele不能无感知集成,只能独立运行  
 
 ## 体验单体到分层切换
 * 修改springrain-system-web依赖springrain-system-service,不再依赖springrain-system-serviceimpl.
