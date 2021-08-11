@@ -1,5 +1,13 @@
+## 说明
+springrain是spring/springboot的开发范例.  
+springrain是标准Maven项目,包含springboot,spring core,spring jdbc,spring mvc.  
+springrain自带代码生成器,能够生成对表的增删改查的逻辑代码,以及前台页面样式和js文件
+项目只依赖spring,没有hibernate,struts,ibatis.
+使用jwt认证.
+数据库调优可以使用druid输出慢sql,比分析xml中的语句更直观,springrain所有的sql语句都使用Finder封装管理,只要查看Finder的引用即可.
+
 ## 微服务
- 6.0.0 项目入口是springrain-system-web,基于Istio实现微服务,正在整理文档.
+ 6.0.0 入口项目是[springrain-system-web](https://gitee.com/chunanyong/springrain/tree/master/springrain-system/springrain-system-web),基于Istio实现微服务,正在整理文档.
 ## 前后分离
  6.0.0 基于VUE前后端分离,使用JWT认证.前端项目是[front-springrain](https://gitee.com/chunanyong/front-springrain)
 
@@ -7,6 +15,7 @@
 * 不增加学习成本,像单体一样开发分布式微服务.
 * 不修改业务代码,可以实现单体,分层,微服务多种部署模式切换.
 * 集成seata分布式事务实现. 
+* 子项目module的前后端,可以独立运行,也可以被无感知集成,实现前后端按需打包.  
 
 ## 实现思路
 * 启动加载springbean时,先检查本地是否有实现,如果没有就启动GRPC远程调用.开发人员无感知.
@@ -22,6 +31,7 @@
 * 分布式事务,一定要避免A服务update表t,RPC调用B服务,B服务也update表t.这样A等待B结果,B等待A释放锁,造成死锁.
 * 分布式无注解比较方便,理论上有不同步风险,个人感觉做好日志,风险不大
 * Service层不可以使用Servlet API,例如 HttpRequest
+* 建议每个前后端module/子项目,都有各自的前缀,方便nginx根据路径解析  
 
 ## 体验单体到分层切换
 * 修改springrain-system-web依赖springrain-system-service,不再依赖springrain-system-serviceimpl.
@@ -32,26 +42,15 @@
 * 访问http://127.0.0.1:8080/system/api/checkHealth
 
 ## 文档
-https://gitee.com/chunanyong/springrain/tree/master/springrain-system/springrain-system-web/doc  </br>
+https://gitee.com/chunanyong/springrain/tree/master/springrain-system/springrain-system-web/doc    
+
 ## 代码生成器
-https://gitee.com/chunanyong/springrain/tree/master/springrain-gencode  </br>
+https://gitee.com/chunanyong/springrain/tree/master/springrain-gencode      
+
 ## sql脚本
-https://gitee.com/chunanyong/springrain/tree/master/springrain-system/springrain-system-web/sql  </br>
+https://gitee.com/chunanyong/springrain/tree/master/springrain-system/springrain-system-web/sql
 
-
-springrain是spring/springboot的封装,springboot开发范例.
-
-springrain是一个Maven项目,包含spring core,spring jdbc,spring mvc.
-
-springrain自带代码生成器,能够生成对表的增删改查的逻辑代码,以及前台页面样式和js文件
-
-项目只依赖spring,没有hibernate,struts,ibatis.
-
-使用jwt认证.
-
-数据库调优可以使用druid输出慢sql,比分析xml中的语句更直观,springrain所有的sql语句都使用Finder封装管理,只要查看Finder的引用即可.
-
-## 案例
+## 测试用例
 
 ```java
 //就极简而言,一个数据库只需要一个Service,就可以管理这个数据库的任意一张表 
