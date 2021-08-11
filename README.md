@@ -1,20 +1,14 @@
 ## 说明
-springrain是spring/springboot的开发范例.  
+springrain是spring/springboot的开发范例.基于K8S + Istio 实现云原生微服务.  
 
-springrain是标准Maven项目,包含springboot,spring core,spring jdbc,spring mvc.  
+前后端分离,使用jwt认证,前端项目是[front-springrain](https://gitee.com/chunanyong/front-springrain)
 
-springrain自带代码生成器,能够生成对表的增删改查的逻辑代码,以及前台页面样式和js文件
+springrain自带代码生成器,能够生成对表的增删改查的逻辑代码. 
 
-项目只依赖spring,没有hibernate,struts,ibatis.
-
-使用jwt认证.
-
-数据库调优可以使用druid输出慢sql,比分析xml中的语句更直观,springrain所有的sql语句都使用Finder封装管理,只要查看Finder的引用即可.
+springrain是标准Maven项目,只依赖springboot,没有hibernate,struts,ibatis,数据库调优可以使用druid输出慢sql,比分析xml中的语句更直观,springrain所有的sql语句都使用Finder封装管理,只要查看Finder的引用即可.
 
 ## 微服务
- 6.0.0 入口项目是[springrain-system-web](https://gitee.com/chunanyong/springrain/tree/master/springrain-system/springrain-system-web),基于Istio实现微服务,正在整理文档.
-## 前后分离
- 6.0.0 基于VUE前后端分离,使用JWT认证.前端项目是[front-springrain](https://gitee.com/chunanyong/front-springrain)
+入口项目是[springrain-system-web](https://gitee.com/chunanyong/springrain/tree/master/springrain-system/springrain-system-web),基于Istio实现微服务,正在整理文档.
 
 ## 实现了什么?
 * 不增加学习成本,像单体一样开发分布式微服务.
