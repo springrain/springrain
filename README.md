@@ -1,9 +1,14 @@
 ## 说明
 springrain是spring/springboot的开发范例.  
+
 springrain是标准Maven项目,包含springboot,spring core,spring jdbc,spring mvc.  
+
 springrain自带代码生成器,能够生成对表的增删改查的逻辑代码,以及前台页面样式和js文件
+
 项目只依赖spring,没有hibernate,struts,ibatis.
+
 使用jwt认证.
+
 数据库调优可以使用druid输出慢sql,比分析xml中的语句更直观,springrain所有的sql语句都使用Finder封装管理,只要查看Finder的引用即可.
 
 ## 微服务
