@@ -51,7 +51,8 @@ public class DataSourceConfig {
     // private String filters="stat,wall,slf4j";
     // private String
     // connectionProperties="druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000";
-    private String filters = "stat";
+    // 有些数据库不支持wall,出现问题记得去掉
+    private String filters = "stat,wall";
     private String connectionProperties = "druid.stat.slowSqlMillis=1000;druid.stat.logSlowSql=true";
 
     /**
