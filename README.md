@@ -8,7 +8,7 @@ springrain自带代码生成器,能够生成对表的增删改查的逻辑代码
 springrain是标准Maven项目,只依赖springboot,没有hibernate,struts,ibatis,数据库调优可以使用druid输出慢sql,比分析xml中的语句更直观,springrain所有的sql语句都使用Finder封装管理,只要查看Finder的引用即可.
 
 ## 微服务
-入口项目是[springrain-system-web](https://gitee.com/chunanyong/springrain/tree/master/springrain-system/springrain-system-web),基于Istio实现微服务,正在整理文档.
+入口项目是[springrain-system-web](https://gitee.com/chunanyong/springrain/tree/master/springrain-system/springrain-system-web),基于K8S + Istio 实现云原生微服务,正在整理文档.
 
 ## 实现了什么?
 * 不增加学习成本,像单体一样开发分布式微服务.
