@@ -369,6 +369,9 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
         if (finder == null) {
             return list;
         }
+        if (org!=null) {
+            super.getFinderWhereByQueryBean(finder,org);
+        }
         List<String> orgIds = super.queryForList(finder, String.class, page);
         for (String orgId : orgIds) {
             Org orgById = findOrgById(orgId);
