@@ -8,8 +8,6 @@ import org.springrain.system.entity.Fwlog;
  *
  * @author jiagou.com<Auto generate>
  * @version 2013-07-29 11:36:44
- * @copyright {@link springrain}
- * @see org.springrain.springrain.service.Fwlog
  */
 @RpcServiceAnnotation
 public interface IFwlogService extends IBaseSpringrainService {

@@ -16,7 +16,7 @@ import java.util.Map;
 /**
  * 基础的Service接口,所有的Service都必须实现此接口,每个数据库都需要一个实现.</br>
  * 例如
- * demo数据的实现接口是org.springrain.springrain.service.IBasespringrainService,demo2数据的实现接口是org.springrain.demo2.service.IBasedemo2Service</br>
+ * demo数据的实现接口是org.springrain.system.service.IBasespringrainService,demo2数据的实现接口是org.springrain.demo2.service.IBasedemo2Service</br>
  *
  * @author springrain<Auto generate>
  * @version 2013-03-19 11:08:15

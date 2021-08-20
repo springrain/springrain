@@ -23,8 +23,6 @@ import java.util.List;
  *
  * @author jiagou.com<Auto generate>
  * @version 2013-07-29 11:36:44
- * @copyright {@link springrain}
- * @see org.springrain.springrain.web.Fwlog
  */
 @Controller
 @RequestMapping(value = "/system/fwlog")

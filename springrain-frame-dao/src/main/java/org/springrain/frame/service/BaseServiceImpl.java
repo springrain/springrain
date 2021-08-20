@@ -22,7 +22,7 @@ import java.util.*;
 /**
  * 基础的Service父类,所有的Service都必须继承此类,每个数据库都需要一个实现.</br>
  * 例如
- * demo数据的实现类是org.springrain.springrain.service.BasedemoServiceImpl,demo2数据的实现类是org.springrain.demo2.service.Basedemo2ServiceImpl</br>
+ * demo数据的实现类是org.springrain.system.service.BasedemoServiceImpl,demo2数据的实现类是org.springrain.demo2.service.Basedemo2ServiceImpl</br>
  *
  * @author springrain<Auto generate>
  * @version 2013-03-19 11:08:15

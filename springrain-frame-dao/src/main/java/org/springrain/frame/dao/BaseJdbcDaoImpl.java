@@ -30,7 +30,7 @@ import java.util.*;
 /**
  * 基础的Dao父类,所有的Dao都必须继承此类,每个数据库都需要一个实现.</br>
  * <p>
- * 例如 demo数据的实现类是org.springrain.springrain.dao.BasedemoDaoImpl,demo2数据的实现类是org.
+ * 例如 demo数据的实现类是org.springrain.system.dao.BasedemoDaoImpl,demo2数据的实现类是org.
  * springrain demo2.dao.Basedemo2DaoImpl</br>
  *
  * @author springrain<Auto generate>
