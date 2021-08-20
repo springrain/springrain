@@ -93,7 +93,7 @@ staticdir: static/
 spring:
   web:
     resources:
-      static-locations: file:${staticdir}
+      static-locations: classpath:${staticdir}
 
   ###代码实现:org.springrain.config.SpringMVCConfig.addResourceHandlers(ResourceHandlerRegistry)###
   mvc:
