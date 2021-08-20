@@ -57,14 +57,6 @@ springrain:
   ### 数据库方言,和IDialect接口的实现bean名称保持一致
   dbDialectBeanName: mysqlDialect
 
-#  redis:
-#    hostport: redis://127.0.0.1:6379    ###如果是redis集群,使用逗号隔开,例如 redis://127.0.0.1:6379,redis://127.0.0.1:6378 ###
-#    password:   ###密码,可以不设置####
-#    timeout: 7200000
-#    pool:
-#      max-active: 1024
-#      min-idle: 200
-
   ####ES的配置###
   es:
     hostport: 127.0.0.1:9200    ###es的IP和端口,如果是集群,使用逗号隔开,例如 192.168.0.2:9200,192.168.0.3:9200 ###
@@ -80,11 +72,6 @@ springrain:
     subscribe:
       - rest_topic_2:*
       - rest_topic_1:*
-
-
-  #logging:
-  #  level:
-  #    org: INFO ### 配置spring web日志级别###
 
   ###静态文件默认放到 resources/static目录下,也可以指定磁盘路径 file:D:/static/,这样方便程序读取上传upload的目录###
 #staticdir: D:/static/
@@ -126,6 +113,9 @@ spring:
         min-idle: 200
 
 
+  #logging:
+  #  level:
+  #    org: INFO ### 配置spring web日志级别###
 
 ###actuator的默认路径/actuator/ 开头,已经在shiro配置,只有system有权限###        
 #management:
