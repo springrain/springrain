@@ -52,11 +52,11 @@
         <elasticsearch.client.version>7.14.0</elasticsearch.client.version>
 
         <!-- 建议使用 redis stream实现MQ,比较简单 -->
-        <rocketmq.client.version>4.9.0</rocketmq.client.version>
+        <rocketmq.client.version>4.9.1</rocketmq.client.version>
         <jxl.version>2.6.12</jxl.version>
 
         <!-- GRPC -->
-        <io.grpc.version>1.39.0</io.grpc.version>
+        <io.grpc.version>1.40.1</io.grpc.version>
         <kr.motd.maven.version>1.7.0</kr.motd.maven.version>
         <io.protostuff.version>1.7.4</io.protostuff.version>
 
@@ -66,8 +66,8 @@
         -->
 
         <zxing.version>3.4.1</zxing.version>
-        <jsoup.version>1.14.1</jsoup.version>
-        <xstream.version>1.4.17</xstream.version>
+        <jsoup.version>1.14.2</jsoup.version>
+        <xstream.version>1.4.18</xstream.version>
         <druid-spring-boot-starter.version>1.2.6</druid-spring-boot-starter.version>
 
         <clickhouse-jdbc.version>0.3.1-patch</clickhouse-jdbc.version>
@@ -80,13 +80,13 @@
         <!--3.x版本依赖jdk 14 -->
         <fst.version>2.57</fst.version>
 
-        <bcprov.version>1.60</bcprov.version>
+        <bcprov.version>1.69</bcprov.version>
 
         <!-- seata分布式事务 -->
         <seata.version>1.4.2</seata.version>
 
         <!-- smart-doc 文档生成 -->
-        <smart-doc-maven-plugin.version>2.2.4</smart-doc-maven-plugin.version>
+        <smart-doc-maven-plugin.version>2.2.5</smart-doc-maven-plugin.version>
     </properties>
 
 
