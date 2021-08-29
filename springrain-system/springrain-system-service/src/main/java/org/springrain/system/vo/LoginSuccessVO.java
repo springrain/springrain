@@ -1,12 +1,14 @@
 package org.springrain.system.vo;
 
+import java.io.Serializable;
+
 /**
  * @descriptions: 登录成功VO类
  * @author: YSK
  * @date: 2021/5/17 18:23
  * @version: 1.0
  */
-public class LoginSuccessVO {
+public class LoginSuccessVO implements Serializable {
     private String jwttoken;
     private LoginUserVO user;
     private boolean showCaptcha;
