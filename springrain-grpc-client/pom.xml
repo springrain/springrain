@@ -67,6 +67,10 @@
         </dependency>
         <dependency>
             <groupId>io.seata</groupId>
+            <artifactId>seata-serializer-seata</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.seata</groupId>
             <artifactId>seata-serializer-fst</artifactId>
         </dependency>
 

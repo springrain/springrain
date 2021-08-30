@@ -374,6 +374,12 @@
                 <artifactId>seata-sqlparser-druid</artifactId>
                 <version>${seata.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>io.seata</groupId>
+                <artifactId>seata-serializer-seata</artifactId>
+                <version>${seata.version}</version>
+            </dependency>
             <dependency>
                 <groupId>io.seata</groupId>
                 <artifactId>seata-serializer-fst</artifactId>
@@ -455,7 +461,9 @@
         <module>springrain-grpc-client</module>
 
         <!-- grpc的服务端模块,serviceimpl单独做服务时,需要引用 -->
+        <!--
         <module>springrain-grpc-server</module>
+        -->
 
         <!-- lucene模块集成,springrain-es模块依赖springrain-lucene模块 -->
         <!--
