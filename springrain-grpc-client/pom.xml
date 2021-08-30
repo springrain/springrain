@@ -61,6 +61,15 @@
             <groupId>io.seata</groupId>
             <artifactId>seata-tm</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.seata</groupId>
+            <artifactId>seata-sqlparser-druid</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.seata</groupId>
+            <artifactId>seata-serializer-fst</artifactId>
+        </dependency>
+
 
 
     </dependencies>
