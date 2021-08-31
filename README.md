@@ -35,7 +35,7 @@
 ## 体验单体到分层切换
 * 修改springrain-system-web依赖springrain-system-service,不再依赖springrain-system-serviceimpl.
 * springrain-system-serviceimpl添加springrain-grpc-server依赖,启用org.springrain.SystemServiceImplApplication的@SpringBootApplication注解
-* 启动seata-server服务
+* 启动seata-server服务.seata客户端的配置在项目的resources/file.conf里,默认配置是 default.grouplist = "127.0.0.1:8091"
 * 启动springrain-system-serviceimpl
 * 启动springrain-system-web
 * 访问http://127.0.0.1:8080/system/api/checkHealth
