@@ -630,8 +630,8 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
     @Override
     public List<LVDTO> userTypeList() throws Exception {
         Finder finder = Finder.getSelectFinder(DicData.class, " name as label,val as value ")
-                .append(" where active=1 AND val is not null AND typeKey=:typeKey ")
-                .setParam("typeKey", "userType");
+                .append(" where active=1 AND val is not null AND typekey=:typekey ")
+                .setParam("typekey", "userType");
         return dicDataService.queryForList(finder, LVDTO.class);
     }
 
