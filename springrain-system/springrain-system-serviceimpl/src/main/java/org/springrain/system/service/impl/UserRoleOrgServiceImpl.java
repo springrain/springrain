@@ -96,6 +96,9 @@ public class UserRoleOrgServiceImpl extends BaseSpringrainServiceImpl implements
         }
         for (UserOrg userOrg : userOrgByUserId) {
             Org org = orgService.findOrgById(userOrg.getOrgId());
+            if(org==null){
+                continue;
+            }
             //用户在部门中的角色
             org.setManagerType(userOrg.getManagerType());
             orgList.add(org);
@@ -451,6 +454,9 @@ public class UserRoleOrgServiceImpl extends BaseSpringrainServiceImpl implements
                 noChildrenList.add(orgId);
             } else if (children == 1) {// 包含子部门
                 Org org = orgService.findOrgById(orgId);
+                if(org==null){
+                    continue;
+                }
                 String comcode = org.getComcode();
                 String indexsign = "_system_temp_comcode_" + re.getId();
                 hasChildrenFinder.append(" or _system_temp_org.comcode like :").append(indexsign).append(" ");
@@ -537,6 +543,9 @@ public class UserRoleOrgServiceImpl extends BaseSpringrainServiceImpl implements
         List<Org> list = new ArrayList<>();
         for (String orgId : listOrgId) {
             Org org = orgService.findOrgById(orgId);
+            if(org==null){
+                continue;
+            }
             list.add(org);
         }
         return list;

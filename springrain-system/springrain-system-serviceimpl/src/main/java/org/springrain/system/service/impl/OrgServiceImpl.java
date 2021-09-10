@@ -286,6 +286,9 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
         //Set<String> collect = managerOrgAndRoleOrgByUserId.stream().map(RoleOrg::getOrgId).collect(Collectors.toSet());
         for (String orgId : orgIds) {
             Org orgById = findOrgById(orgId);
+            if(orgById==null){
+                continue;
+            }
             list.add(orgById);
         }
         if (CollectionUtils.isEmpty(list)) {
@@ -375,6 +378,9 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
         List<String> orgIds = super.queryForList(finder, String.class, page);
         for (String orgId : orgIds) {
             Org orgById = findOrgById(orgId);
+            if(orgById==null){
+                continue;
+            }
             list.add(orgById);
         }
         if (CollectionUtils.isEmpty(list)) {
