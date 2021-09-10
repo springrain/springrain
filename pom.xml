@@ -86,7 +86,7 @@
         <seata.version>1.4.2</seata.version>
 
         <!-- smart-doc 文档生成 -->
-        <smart-doc-maven-plugin.version>2.2.5</smart-doc-maven-plugin.version>
+        <smart-doc-maven-plugin.version>2.2.6</smart-doc-maven-plugin.version>
     </properties>
 
 
