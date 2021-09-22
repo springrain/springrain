@@ -72,7 +72,7 @@
 
         <clickhouse-jdbc.version>0.3.1-patch</clickhouse-jdbc.version>
 
-        <jwt.version>3.18.1</jwt.version>
+        <jwt.version>3.18.2</jwt.version>
 
         <!--
         <redisson.version>3.15.3</redisson.version>
