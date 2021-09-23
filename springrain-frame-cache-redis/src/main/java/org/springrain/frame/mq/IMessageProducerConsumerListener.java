@@ -12,6 +12,9 @@ import java.util.List;
  *
  * @param <T> 需要放入队列的对象
  * @Component("userMessageProducerConsumerListener") public class UserMessageProducerConsumerListener extends AbstractMessageProducerConsumerListener<User>
+ *
+ * //sendProducerMessage 方法实现 return super.sendProducerMessage();
+ *
  * </code>
  *
  * <code>

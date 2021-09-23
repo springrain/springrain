@@ -38,6 +38,8 @@ import java.util.concurrent.Executor;
  *
  * @param <T> 需要放入队列的对象
  * @Component("userMessageProducerConsumerListener") public class UserMessageProducerConsumerListener extends AbstractMessageProducerConsumerListener<User>
+ *
+ *
  * </code>
  *
  * <code>
@@ -51,6 +53,10 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
 
     // 默认batchSize
     private final int defaultBatchSize = 100;
+
+
+    // 默认XTRIM的MAXLEN,如果是<0,则不限制
+    private  int defaultMaxLen = -1;
 
     //泛型的类型
     private final Class<T> genericClass = ClassUtils.getActualTypeGenericSuperclass(getClass());
@@ -79,6 +85,23 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
     public int getBatchSize() {
         return defaultBatchSize;
     }
+
+    /**
+     * 默认XTRIM的MAXLEN,如果是<0,则不限制
+     * @return
+     */
+    public int getDefaultMaxLen() {
+        return defaultMaxLen;
+    }
+
+    /**
+     * 默认XTRIM的MAXLEN,如果是<0,则不限制
+     * @param defaultMaxLen
+     */
+    public void setDefaultMaxLen(int defaultMaxLen) {
+        this.defaultMaxLen = defaultMaxLen;
+    }
+
 
     /**
      * 消费者的名称
@@ -191,7 +214,6 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
                             .targetType(genericClass) //目标类型(消息内容的类型),如果objectMapper为空,会设置默认的ObjectHashMapper
                             .build();
             container = StreamMessageListenerContainer.create(redisConnectionFactory, options);
-
             //检查创建group组
             prepareChannelAndGroup(redisTemplate.opsForStream(), getQueueName(), getGroupName());
 
@@ -295,13 +317,19 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
     private void prepareChannelAndGroup(StreamOperations<String, ?, ?> ops, String queueName, String group) {
         String status = "OK";
         try {
+            //如果group已经存在
             StreamInfo.XInfoGroups groups = ops.groups(queueName);
             if (groups.stream().noneMatch(xInfoGroup -> group.equals(xInfoGroup.groupName()))) {
                 //status = ops.createGroup(queueName, group);
                 status = ops.createGroup(queueName, ReadOffset.from("0-0"), group);
             }
         } catch (Exception exception) {
-            RecordId initialRecord = ops.add(ObjectRecord.create(queueName, "Initial Record"));
+            if (getDefaultMaxLen()>0){
+                ops.trim(queueName,getDefaultMaxLen(),true);
+            }
+            T t = null;
+            //初始化/创建队列
+            RecordId initialRecord = ops.add(ObjectRecord.create(queueName, t));
             Assert.notNull(initialRecord, "Cannot initialize stream with key '" + queueName + "'");
             status = ops.createGroup(queueName, ReadOffset.from(initialRecord), group);
         } finally {
