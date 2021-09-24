@@ -325,13 +325,14 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
                 status = ops.createGroup(queueName, ReadOffset.from("0-0"), group);
             }
         } catch (Exception exception) {
+            // 初始化/创建队列
+            RecordId initialRecord = ops.add(ObjectRecord.create(queueName, "init stream"));
+            Assert.notNull(initialRecord, "Cannot initialize stream with key '" + queueName + "'");
+            // 设置队列的长度
             if (getDefaultMaxLen()>0){
                 ops.trim(queueName,getDefaultMaxLen(),true);
             }
-            T t = null;
-            //初始化/创建队列
-            RecordId initialRecord = ops.add(ObjectRecord.create(queueName, t));
-            Assert.notNull(initialRecord, "Cannot initialize stream with key '" + queueName + "'");
+
             status = ops.createGroup(queueName, ReadOffset.from(initialRecord), group);
         } finally {
             Assert.isTrue("OK".equals(status), "Cannot create group with name '" + group + "'");
