@@ -328,11 +328,6 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
             // 初始化/创建队列
             RecordId initialRecord = ops.add(ObjectRecord.create(queueName, "init stream"));
             Assert.notNull(initialRecord, "Cannot initialize stream with key '" + queueName + "'");
-            // 设置队列的长度
-            if (getDefaultMaxLen()>0){
-                ops.trim(queueName,getDefaultMaxLen(),true);
-            }
-
             status = ops.createGroup(queueName, ReadOffset.from(initialRecord), group);
         } finally {
             Assert.isTrue("OK".equals(status), "Cannot create group with name '" + group + "'");
@@ -357,6 +352,12 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
             //StreamRecords.newRecord()
             //ObjectRecord record = Record.of(message).withStreamKey(queueName);
             RecordId recordId = redisTemplate.opsForStream().add(record);
+
+            // 裁剪队列长度,用新值覆盖老值,手动执行 XTRIM 命令才会裁剪,不会持久自动化裁剪
+            if (getDefaultMaxLen()>0){
+                redisTemplate.opsForStream().trim(getQueueName(),getDefaultMaxLen());
+            }
+
             // return recordId.getValue();
             return new MessageObjectDto<T>(message, getQueueName(), recordId.getValue(), recordId.getTimestamp());
         } catch (Exception e) {
