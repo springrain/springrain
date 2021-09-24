@@ -49,7 +49,7 @@
 
         <!-- lucene版本和es的依赖版本最好保持一致,避免冲突 -->
         <lucene.version>8.9.0</lucene.version>
-        <elasticsearch.client.version>7.14.1</elasticsearch.client.version>
+        <elasticsearch.client.version>7.15.0</elasticsearch.client.version>
 
         <!-- 建议使用 redis stream实现MQ,比较简单 -->
         <rocketmq.client.version>4.9.1</rocketmq.client.version>
