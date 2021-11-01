@@ -52,7 +52,7 @@
         <elasticsearch.client.version>7.15.1</elasticsearch.client.version>
 
         <!-- 建议使用 redis stream实现MQ,比较简单 -->
-        <rocketmq.client.version>4.9.1</rocketmq.client.version>
+        <rocketmq.client.version>4.9.2</rocketmq.client.version>
         <jxl.version>2.6.12</jxl.version>
 
         <!-- GRPC -->
@@ -86,7 +86,7 @@
         <seata.version>1.4.2</seata.version>
 
         <!-- smart-doc 文档生成 -->
-        <smart-doc-maven-plugin.version>2.2.8</smart-doc-maven-plugin.version>
+        <smart-doc-maven-plugin.version>2.2.9</smart-doc-maven-plugin.version>
     </properties>
 
 
