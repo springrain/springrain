@@ -37,8 +37,8 @@ public class DataSourceConfig {
     private Integer minIdle = 50;
     private Integer maxActive = 200;
     private Long maxWaitMillis = 60000L;
-    private Long minEvictableIdleTimeMillis = 300000L;
-    private Long timeBetweenEvictionRunsMillis = 60000L;
+    private Long minEvictableIdleTimeMillis = 25000L;
+    private Long timeBetweenEvictionRunsMillis = 10000L;
     private Integer removeAbandonedTimeout = 1800;
 
     private Boolean removeAbandoned = true;
