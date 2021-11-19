@@ -1,5 +1,6 @@
 package org.springrain.system.service.impl;
 
+import org.springframework.context.annotation.Lazy;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.Page;
@@ -29,6 +30,7 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
     private IDicDataService dicDataService;
 
     @Resource
+    @Lazy
     private IUserRoleOrgService userRoleOrgService;
 
     @Override

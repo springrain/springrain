@@ -1,5 +1,6 @@
 package org.springrain.system.service.impl;
 
+import org.springframework.context.annotation.Lazy;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.Page;
@@ -26,6 +27,7 @@ import java.util.*;
 @Service("menuService")
 public class MenuServiceImpl extends BaseSpringrainServiceImpl implements IMenuService {
     @Resource
+    @Lazy
     private IUserRoleMenuService userRoleMenuService;
 
     @Override

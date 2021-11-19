@@ -1,5 +1,6 @@
 package org.springrain.system.service.impl;
 
+import org.springframework.context.annotation.Lazy;
 import org.springrain.frame.entity.IBaseEntity;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
@@ -33,10 +34,9 @@ import java.util.List;
 public class RoleServiceImpl extends BaseSpringrainServiceImpl implements IRoleService {
 
     @Resource
+    @Lazy
     private IUserRoleOrgService userRoleOrgService;
 
-    @Resource
-    private IRoleService roleService;
 
     @Override
     public String save(IBaseEntity entity) throws Exception {
@@ -318,7 +318,7 @@ public class RoleServiceImpl extends BaseSpringrainServiceImpl implements IRoleS
         //更新角色信息之前的验证
         List<Org> userOrgList = userRoleOrgService.findOrgByUserId(userId, null);
         //角色的部门
-        Role roleDB = roleService.findById(roleId, Role.class);
+        Role roleDB = this.findById(roleId, Role.class);
         String roleOrgId = "";
         if (roleDB != null) {
             roleOrgId = roleDB.getOrgId();

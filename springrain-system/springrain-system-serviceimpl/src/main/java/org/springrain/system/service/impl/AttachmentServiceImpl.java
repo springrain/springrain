@@ -1,5 +1,6 @@
 package org.springrain.system.service.impl;
 
+import org.springframework.context.annotation.Lazy;
 import org.springrain.frame.entity.IBaseEntity;
 import org.springrain.frame.util.Finder;
 import org.springrain.system.entity.Attachment;
@@ -23,6 +24,7 @@ import java.util.List;
 public class AttachmentServiceImpl extends BaseSpringrainServiceImpl implements IAttachmentService {
 
     @Resource
+    @Lazy
     private IUserRoleOrgService userRoleOrgService;
 
     @Override

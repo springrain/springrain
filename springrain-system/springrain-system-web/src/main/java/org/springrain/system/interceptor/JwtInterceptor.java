@@ -1,5 +1,6 @@
 package org.springrain.system.interceptor;
 
+import org.springframework.context.annotation.Lazy;
 import org.springrain.frame.util.*;
 import org.springrain.rpc.sessionuser.SessionUser;
 import org.springrain.rpc.sessionuser.UserVO;
@@ -34,12 +35,15 @@ import java.util.List;
 public class JwtInterceptor implements HandlerInterceptor {
     PathMatcher matcher = new AntPathMatcher();
     @Resource
+    @Lazy
     private IUserRoleMenuService userRoleMenuService;
     @Resource
+    @Lazy
     private IUserService userService;
     // @Resource
     //private IMenuService menuService;
     @Resource
+    @Lazy
     private IRoleService roleService;
 
     //允许跨域,目前拦截 /*

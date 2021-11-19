@@ -1,5 +1,9 @@
 package org.springrain.system.service.impl;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Service;
 import org.springrain.frame.util.CommonEnum.ACTIVE;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.Page;
@@ -7,9 +11,6 @@ import org.springrain.frame.util.SecUtils;
 import org.springrain.rpc.sessionuser.SessionUser;
 import org.springrain.system.entity.*;
 import org.springrain.system.service.*;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -20,6 +21,7 @@ public class UserRoleOrgServiceImpl extends BaseSpringrainServiceImpl implements
     @Resource
     private IUserRoleMenuService userRoleMenuService;
     @Resource
+    @Lazy
     private IUserService userService;
     @Resource
     private IOrgService orgService;
