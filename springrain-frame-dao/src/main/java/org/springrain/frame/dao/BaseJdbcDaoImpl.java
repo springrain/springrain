@@ -467,7 +467,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
                 countSql = "SELECT COUNT(*)  frame_row_count FROM (" + countSql
                         + ") temp_frame_noob_table_name WHERE 1=1 ";
             } else {
-                int fromIndex = RegexValidateUtils.getFromIndex(countSql);
+                int fromIndex = RegexValidateUtils.getSelectFromIndex(countSql);
                 if (fromIndex > -1) {
                     countSql = "SELECT COUNT(*) " + countSql.substring(fromIndex);
                 } else {

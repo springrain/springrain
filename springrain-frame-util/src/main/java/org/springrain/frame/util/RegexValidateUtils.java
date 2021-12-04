@@ -588,7 +588,9 @@ public class RegexValidateUtils {
      * @param sql
      * @return
      */
-    private static String selectFromIndexRegStr = "(?i)(^\\s*select)(.+?\\(.+?\\))*.*?(from)";
+    //select id1,(select (id2) from t1 where id=2) _s FROM table select的子查询 _s中的 id2还有括号,才会出现问题,建议使用CountFinder处理分页语句
+    //private static String selectFromIndexRegStr = "(?i)(^\\s*select)(.+?\\(.+?\\))*.*?(from)";
+    private static String selectFromIndexRegStr = "(?i)(^\\s*select)(\\(.*?\\)|[^()]+)*?(from)";
     private static Pattern selectFromIndexPattern = Pattern.compile(selectFromIndexRegStr);
     @Deprecated
     public static int getSelectFromIndex(String sql) {
@@ -607,10 +609,10 @@ public class RegexValidateUtils {
     /**
      * 获取 Select 语句中 From 开始位置
      *
-     * @param sql
      * @return
      */
-    public static int getFromIndex(String sql) {
+    /*
+    public static int getSelectFromIndex(String sql) {
         int index = -1;
         if (StringUtils.isBlank(sql)) {
             return index;
@@ -627,12 +629,8 @@ public class RegexValidateUtils {
         return index;
     }
 
-    /**
-     * 去掉无用的 from
-     *
-     * @param str
-     * @return
-     */
+
+
     private static String replaceFrom(String str) {
         Pattern pt = Pattern.compile("\\(([\\s\\S]+?)\\)", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pt.matcher(str);
@@ -643,19 +641,19 @@ public class RegexValidateUtils {
         }
         return str;
     }
+ */
 
 
 
-/*
 	public static void main(String[] args) {
 		// System.out.println(RegexValidateUtils.isFloat("-012416545.000"));
-		String countSql = "select * From abc         group    by    ";
+		String countSql =  "Select id,(select 1 from t1 where id=1) id1,(select 2 from t2 WHERE id=2) id2,(id3) FROM table WHERE id=id and id in(SELECT id from t4 where name=4) and name in(select name from t5 where name=6) and name=c";
        // String countSql = "123456789";
 
-        System.out.println(getFromIndex(countSql));
+        System.out.println(countSql.substring(getSelectFromIndex(countSql)));
 
 	}
- */
+
 
 
 
