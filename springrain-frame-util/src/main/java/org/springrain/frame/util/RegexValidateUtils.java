@@ -633,7 +633,6 @@ public class RegexValidateUtils {
      * @param str
      * @return
      */
-    @Deprecated
     private static String replaceFrom(String str) {
         Pattern pt = Pattern.compile("\\(([\\s\\S]+?)\\)", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pt.matcher(str);
@@ -646,19 +645,19 @@ public class RegexValidateUtils {
     }
 
 
-/*
 
+/*
 	public static void main(String[] args) {
 		// System.out.println(RegexValidateUtils.isFloat("-012416545.000"));
-		String countSql = "select                     group    by    ";
+		String countSql = "select * From abc         group    by    ";
        // String countSql = "123456789";
 
-
-        System.out.println(getGroupByIndex(countSql));
+        System.out.println(getFromIndex(countSql));
 
 	}
-
  */
+
+
 
 
 }
