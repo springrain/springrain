@@ -588,10 +588,12 @@ public class RegexValidateUtils {
      * @param sql
      * @return
      */
+/*
     //select id1,(select (id2) from t1 where id=2) _s FROM table select的子查询 _s中的 id2还有括号,才会出现问题,建议使用CountFinder处理分页语句
-    //private static String selectFromIndexRegStr = "(?i)(^\\s*select)(.+?\\(.+?\\))*.*?(from)";
+    // 未知原因,java解析卡死
+    ////private static String selectFromIndexRegStr = "(?i)(^\\s*select)(.+?\\(.+?\\))*.*?(from)";
     private static String selectFromIndexRegStr = "(?i)(^\\s*select)(\\(.*?\\)|[^()]+)*?(from)";
-    private static Pattern selectFromIndexPattern = Pattern.compile(selectFromIndexRegStr);
+    private static Pattern selectFromIndexPattern = Pattern.compile(selectFromIndexRegStr, Pattern.CASE_INSENSITIVE);
     public static int getSelectFromIndex(String sql) {
         int index = -1;
         if (StringUtils.isBlank(sql)) {
@@ -604,20 +606,19 @@ public class RegexValidateUtils {
         }
         return index;
     }
-
+*/
     /**
      * 获取 Select 语句中 From 开始位置
      *
      * @return
      */
-    /*
     public static int getSelectFromIndex(String sql) {
         int index = -1;
         if (StringUtils.isBlank(sql)) {
             return index;
         }
 
-        String s = replaceFrom(sql).toLowerCase();
+        String s = replaceFrom(sql.toLowerCase());
 
         int startIndex = s.indexOf(" from ");
         int lastIndex = s.lastIndexOf(" from ");
@@ -629,24 +630,21 @@ public class RegexValidateUtils {
     }
 
 
-
+    private static  Pattern pt = Pattern.compile("\\(([\\s\\S]+?)\\)", Pattern.CASE_INSENSITIVE);
     private static String replaceFrom(String str) {
-        Pattern pt = Pattern.compile("\\(([\\s\\S]+?)\\)", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pt.matcher(str);
         while (matcher.find()) {
             String group = matcher.group(1);
-            String t1 = group.toLowerCase().replace(" from ", " abcd ");
+            String t1 = group.replace(" from ", " abcd ");
             str = str.replace(group, t1);
         }
         return str;
     }
- */
-
 
 /*
 	public static void main(String[] args) {
 		// System.out.println(RegexValidateUtils.isFloat("-012416545.000"));
-		String countSql =  "Select id,(select 1 from t1 where id=1) id1,(select 2 from t2 WHERE id=2) id2,(id3) FROM table WHERE id=id and id in(SELECT id from t4 where name=4) and name in(select name from t5 where name=6) and name=c";
+		String countSql =  "Select id,(select 1 From t1 where id=1) id1,(select 2 from t2 WHERE id=2) id2,(id3) FROM table WHERE id=id and id in(SELECT id from t4 where name=4) and name in(select name from t5 where name=6) and name=c";
        // String countSql = "123456789";
 
         System.out.println(countSql.substring(getSelectFromIndex(countSql)));
@@ -654,7 +652,6 @@ public class RegexValidateUtils {
 	}
 
 */
-
 
 
 }
