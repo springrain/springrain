@@ -583,13 +583,14 @@ public class RegexValidateUtils {
 
     /**
      * 获取 Select 语句中 From 开始位置
+     * 存在bug,如果where后有 id in (select id from table) 会解析失败.
      *
      * @param sql
      * @return
      */
     private static String selectFromIndexRegStr = "(?i)(^\\s*select)(.+?\\(.+?\\))*.*?(from)";
     private static Pattern selectFromIndexPattern = Pattern.compile(selectFromIndexRegStr);
-
+    @Deprecated
     public static int getSelectFromIndex(String sql) {
         int index = -1;
         if (StringUtils.isBlank(sql)) {
@@ -609,7 +610,6 @@ public class RegexValidateUtils {
      * @param sql
      * @return
      */
-    @Deprecated
     public static int getFromIndex(String sql) {
         int index = -1;
         if (StringUtils.isBlank(sql)) {
