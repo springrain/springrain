@@ -592,7 +592,6 @@ public class RegexValidateUtils {
     //private static String selectFromIndexRegStr = "(?i)(^\\s*select)(.+?\\(.+?\\))*.*?(from)";
     private static String selectFromIndexRegStr = "(?i)(^\\s*select)(\\(.*?\\)|[^()]+)*?(from)";
     private static Pattern selectFromIndexPattern = Pattern.compile(selectFromIndexRegStr);
-    @Deprecated
     public static int getSelectFromIndex(String sql) {
         int index = -1;
         if (StringUtils.isBlank(sql)) {
