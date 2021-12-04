@@ -644,7 +644,7 @@ public class RegexValidateUtils {
  */
 
 
-
+/*
 	public static void main(String[] args) {
 		// System.out.println(RegexValidateUtils.isFloat("-012416545.000"));
 		String countSql =  "Select id,(select 1 from t1 where id=1) id1,(select 2 from t2 WHERE id=2) id2,(id3) FROM table WHERE id=id and id in(SELECT id from t4 where name=4) and name in(select name from t5 where name=6) and name=c";
@@ -654,7 +654,7 @@ public class RegexValidateUtils {
 
 	}
 
-
+*/
 
 
 
