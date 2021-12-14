@@ -85,8 +85,8 @@ spring:
   ###代码实现:org.springrain.config.SpringMVCConfig.addResourceHandlers(ResourceHandlerRegistry)###
   mvc:
     ignore-default-model-on-redirect: false #在重定向时是否忽略默认model的内容，默认为true###
-    pathmatch:
-      matching-strategy: ant-path-matcher  ##默认策略已从 AntPathMatcher 更改为 PathPatternParser,继续使用 AntPathMatcher,保持兼容
+    #pathmatch:
+    #  matching-strategy: ant-path-matcher  ##默认策略已从 AntPathMatcher 更改为 PathPatternParser
   aop:
     proxy-target-class: false  #强制使用接口代理,不使用cglib,RPC一般是基于接口代理的###
   ### 允许循环引用 ###

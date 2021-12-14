@@ -28,7 +28,9 @@ public class RequestMappingHandlerMappingOrder extends RequestMappingHandlerMapp
     protected void registerHandlerMethod(Object handler, Method method, RequestMappingInfo mapping) {
 
         //普通mapping key
-        String key = mapping.getMethodsCondition().toString() + " " + mapping.getPatternsCondition();
+        //String key = mapping.getMethodsCondition().toString() + " " + mapping.getPatternsCondition();
+        // springboot 2.6.0 默认策略已从 AntPathMatcher 更改为 PathPatternParser
+        String key = mapping.getMethodsCondition().toString() + " " + mapping.getPathPatternsCondition();
         // order mapping key
         String orderKey = key + " order";
         if (method.getDeclaringClass().isAnnotationPresent(Order.class) || method.isAnnotationPresent(Order.class)) {//如果存在order,就删除掉已经注册的 普通mapping
