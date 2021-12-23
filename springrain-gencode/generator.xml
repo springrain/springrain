@@ -2,36 +2,36 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 	<comment>
-		‰ª£Á†ÅÁîüÊàêÂô®ÈÖçÁΩÆÊñá‰ª∂:
-		1.‰ºö‰∏∫ÊâÄÊúâÁöÑpropertyÁîüÊàêproperty_dirÂ±ûÊÄß,Â¶Çpkg=com.company => pkg_dir=com/company
-		2.ÂèØ‰ª•ÂºïÁî®ÁéØÂ¢ÉÂèòÈáè: ${env.JAVA_HOME} or System.properties: ${user.home},property‰πãÈó¥‰πüÂèØ‰ª•Áõ∏‰∫íÂºïÁî®
+		¥˙¬Î…˙≥…∆˜≈‰÷√Œƒº˛:
+		1.ª·Œ™À˘”–µƒproperty…˙≥…property_dir Ù–‘,»Ápkg=com.company => pkg_dir=com/company
+		2.ø…“‘“˝”√ª∑æ≥±‰¡ø: ${env.JAVA_HOME} or System.properties: ${user.home},property÷Æº‰“≤ø…“‘œ‡ª•“˝”√
 	</comment>
-	<!-- ‰ª£Á†ÅÂü∫Êú¨ÁöÑÂåÖË∑ØÂæÑ -->
+	<!-- ¥˙¬Îª˘±æµƒ∞¸¬∑æ∂ -->
 	<entry key="basepackage">org.springrain.bigscreen</entry>
-	<!-- js Âíå freemarker ÂåÖÂêçÁß∞  -->
+	<!-- js ∫Õ freemarker ∞¸√˚≥∆  -->
 	<entry key="targetpackage">system</entry>
 	<!-- jsp namespace: api/${namespace}/${className}/list.jsp -->
 	<entry key="namespace">ftl</entry>
-	<!-- ËæìÂá∫ÁöÑ‰ª£Á†ÅË∑ØÂæÑ -->
+	<!--  ‰≥ˆµƒ¥˙¬Î¬∑æ∂ -->
 	<entry key="outRoot">generator-output</entry>
-	<!-- ÈúÄË¶ÅÁßªÈô§ÁöÑË°®ÂêçÂâçÁºÄ,‰ΩøÁî®ÈÄóÂè∑ËøõË°åÂàÜÈöîÂ§ö‰∏™ÂâçÁºÄ,Á§∫‰æãÂÄº: t_,v_ -->
+	<!-- –Ë“™“∆≥˝µƒ±Ì√˚«∞◊∫, π”√∂∫∫≈Ω¯––∑÷∏Ù∂‡∏ˆ«∞◊∫, æ¿˝÷µ: t_,v_ -->
 	<entry key="tableRemovePrefixes">t_,tc_,pos_,r_</entry>
-	<!-- oracle,MSSQLÈúÄË¶ÅÊåáÂÆöjdbc.schema,MySQL8.0.18‰πüÈúÄË¶ÅÊåáÂÆö,ÂÖ∂ÂÆÉÊï∞ÊçÆÂ∫ìÂøΩÁï•Ê≠§È°πÈÖçÁΩÆ  -->
+	<!-- oracle,MSSQL–Ë“™÷∏∂®jdbc.schema,MySQL8.0.18“≤–Ë“™÷∏∂®,∆‰À¸ ˝æ›ø‚∫ˆ¬‘¥ÀœÓ≈‰÷√  -->
 	<entry key="jdbc.schema"></entry>
 	<entry key="jdbc.catalog"></entry>
-	<!-- Êï∞ÊçÆÂ∫ìÁ±ªÂûãÊò†Â∞Ñ  -->
+	<!--  ˝æ›ø‚¿‡–Õ”≥…‰  -->
 	<entry key="java_typemapping.java.sql.Timestamp">java.util.Date</entry>
 	<entry key="java_typemapping.java.sql.Date">java.util.Date</entry>
 	<entry key="java_typemapping.java.sql.Time">java.util.Date</entry>
 	<entry key="java_typemapping.java.lang.Byte">Integer</entry>
 	<entry key="java_typemapping.java.lang.Short">Integer</entry>
 	<entry key="java_typemapping.java.math.BigDecimal">java.math.BigDecimal</entry>
-		<!-- Êï∞ÊçÆÂ∫ì Ë¥¶Âè∑ÂØÜÁ†Å  -->
+		<!--  ˝æ›ø‚ ’À∫≈√‹¬Î  -->
 	<entry key="jdbc.username">root</entry>
 	<entry key="jdbc.password">root</entry>
 
 	<!-- Mysql -->
-	<entry key="jdbc.url">jdbc:mysql://127.0.0.1:30306/springrain?characterEncoding=utf8&amp;useUnicode=true&amp;useSSL=false&amp;serverTimezone=Hongkong</entry>
+	<entry key="jdbc.url">jdbc:mysql://127.0.0.1:3306/springrain?characterEncoding=utf8&amp;useUnicode=true&amp;useSSL=false&amp;serverTimezone=Hongkong</entry>
 	<entry key="jdbc.driver">com.mysql.cj.jdbc.Driver</entry>
 	
 	<!-- H2
