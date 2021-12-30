@@ -113,7 +113,7 @@ public class SnsApi {
      */
     public static ApiResult getAccessToken(IWxMpConfig wxmpconfig, String code) {
         //?appid={appid}&secret={secret}&code={code}&grant_type=authorization_code
-        final String accessTokenUrl = snsAccessTokenUrl + "?appid=" + wxmpconfig.getAppId() + "&secret=" + wxmpconfig.getSecret() + "&code=" + code + "&grant_type=authorization_code";
+        final String accessTokenUrl = snsAccessTokenUrl + "/access_token?appid=" + wxmpconfig.getAppId() + "&secret=" + wxmpconfig.getSecret() + "&code=" + code + "&grant_type=authorization_code";
         String json = HttpClientUtils.sendHttpGet(accessTokenUrl);
         ApiResult apiResult = new ApiResult(json);
         // 认证的accessToken 和API的不一样
