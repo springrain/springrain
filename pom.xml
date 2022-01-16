@@ -49,14 +49,14 @@
 
         <!-- lucene版本和es的依赖版本最好保持一致,避免冲突 -->
         <lucene.version>8.10.1</lucene.version>
-        <elasticsearch.client.version>7.16.1</elasticsearch.client.version>
+        <elasticsearch.client.version>7.16.3</elasticsearch.client.version>
 
         <!-- 建议使用 redis stream实现MQ,比较简单 -->
         <rocketmq.client.version>4.9.2</rocketmq.client.version>
         <jxl.version>2.6.12</jxl.version>
 
         <!-- GRPC -->
-        <io.grpc.version>1.42.1</io.grpc.version>
+        <io.grpc.version>1.43.2</io.grpc.version>
         <kr.motd.maven.version>1.7.0</kr.motd.maven.version>
         <io.protostuff.version>1.7.4</io.protostuff.version>
 
@@ -66,13 +66,14 @@
         -->
 
         <zxing.version>3.4.1</zxing.version>
+
         <jsoup.version>1.14.3</jsoup.version>
         <xstream.version>1.4.18</xstream.version>
         <druid-spring-boot-starter.version>1.2.8</druid-spring-boot-starter.version>
 
-        <clickhouse-jdbc.version>0.3.1-patch</clickhouse-jdbc.version>
+        <clickhouse-jdbc.version>0.3.2</clickhouse-jdbc.version>
 
-        <jwt.version>3.18.2</jwt.version>
+        <jwt.version>3.18.3</jwt.version>
 
         <!--
         <redisson.version>3.15.3</redisson.version>
@@ -86,7 +87,7 @@
         <seata.version>1.4.2</seata.version>
 
         <!-- smart-doc 文档生成 -->
-        <smart-doc-maven-plugin.version>2.3.4</smart-doc-maven-plugin.version>
+        <smart-doc-maven-plugin.version>2.3.6</smart-doc-maven-plugin.version>
     </properties>
 
 
