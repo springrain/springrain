@@ -96,7 +96,6 @@
 
         <dependencies>
 
-
             <!--
             <dependency>
                 <groupId>javax.servlet</groupId>
@@ -105,7 +104,6 @@
                 <scope>provided</scope>
             </dependency>
             -->
-
 
             <!-- 阿里巴巴的druid数据库连接池 -->
             <dependency>
@@ -128,8 +126,6 @@
                 <artifactId>fst</artifactId>
                 <version>${fst.version}</version>
             </dependency>
-
-
 
             <!--  jwt  -->
             <dependency>
@@ -170,7 +166,6 @@
                 <version>${commons-text.version}</version>
             </dependency>
 
-
             <!-- jpa规范的注解 -->
             <dependency>
                 <groupId>org.eclipse.persistence</groupId>
@@ -190,7 +185,6 @@
                     </exclusion>
                 </exclusions>
             </dependency>
-
 
             <!-- lucene -->
             <dependency>
@@ -223,17 +217,12 @@
                 <version>${elasticsearch.client.version}</version>
             </dependency>
 
-
             <!-- rocketmq -->
             <dependency>
                 <groupId>org.apache.rocketmq</groupId>
                 <artifactId>rocketmq-client</artifactId>
                 <version>${rocketmq.client.version}</version>
             </dependency>
-
-
-
-
 
             <!-- openoffice连接组件 -->
             <!--
@@ -243,7 +232,6 @@
                 <version>${jodconverter.version}</version>
             </dependency>
             -->
-
 
             <!-- HTML解析组件 -->
             <dependency>
@@ -264,17 +252,12 @@
                 <version>${zxing.version}</version>
             </dependency>
 
-
             <!-- xstream解析微信xml格式协议 -->
             <dependency>
                 <groupId>com.thoughtworks.xstream</groupId>
                 <artifactId>xstream</artifactId>
                 <version>${xstream.version}</version>
             </dependency>
-
-
-
-
 
             <!-- 兼容微信的加密协议 -->
             <dependency>
@@ -284,12 +267,7 @@
             </dependency>
 
             <!-- GRPC -->
-
             <dependency>
-
-
-
-
                 <groupId>io.grpc</groupId>
                 <artifactId>grpc-core</artifactId>
                 <version>${io.grpc.version}</version>
@@ -310,7 +288,6 @@
                 <version>${io.grpc.version}</version>
             </dependency>
 
-
             <!-- JDK11需要的jar包 -->
             <!--
              <dependency>
@@ -329,8 +306,6 @@
                 <version>2.3.1</version>
             </dependency>
 
-
-
             <dependency>
                 <groupId>javax.annotation</groupId>
                 <artifactId>javax.annotation-api</artifactId>
@@ -340,7 +315,6 @@
 
 
             <!-- seata组件 -->
-
             <dependency>
                 <groupId>io.seata</groupId>
                 <artifactId>seata-rm-datasource</artifactId>
@@ -387,16 +361,11 @@
                 <version>${seata.version}</version>
             </dependency>
 
-
-
             <dependency>
                 <groupId>ru.yandex.clickhouse</groupId>
                 <artifactId>clickhouse-jdbc</artifactId>
                 <version>${clickhouse-jdbc.version}</version>
             </dependency>
-
-
-
 
             <dependency>
                 <groupId>javax.servlet</groupId>
@@ -404,9 +373,6 @@
                 <version>${javax.servlet-api.version}</version>
                 <scope>provided</scope>
             </dependency>
-
-
-
 
             <!-- 加载本地的jar包 -->
             <!--
@@ -419,14 +385,9 @@
             </dependency>
             -->
 
-
-
-
         </dependencies>
 
-
     </dependencyManagement>
-
 
     <modules>
 
@@ -480,11 +441,6 @@
         <!--
         <module>springrain-rocketmq</module>
         -->
-
-
-
-
-
 
     </modules>
 
