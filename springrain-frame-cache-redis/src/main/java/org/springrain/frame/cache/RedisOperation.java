@@ -94,4 +94,34 @@ public class RedisOperation {
     }
 
 
+    /**
+     * Redis Sadd 命令将一个或多个成员元素加入到集合中,已经存在于集合的成员元素将被忽略.
+     * 假如集合 key 不存在,则创建一个只包含添加的元素作成员的集合.
+     *
+     * @param setName
+     * @param value
+     * @return 影响的行数,如果返回0 就说明已经存在,忽略了
+     */
+    public Long setsadd(String setName,Object value){
+        if (StringUtils.isBlank(setName)||value==null){
+            return null;
+        }
+        Long add = redisTemplate.opsForSet().add(setName, value);
+        return add;
+    }
+
+    /**
+     * Redis Spop 命令用于移除集合中的指定 key 的一个或多个随机元素,移除后会返回移除的元素.
+     *
+     * @param setName
+     * @return 所需的对象,已经完成了序列化,类型强制转换接收即可
+     */
+    public Object setspop(String setName){
+        if (StringUtils.isBlank(setName)){
+            return null;
+        }
+        return  redisTemplate.opsForSet().pop(setName);
+    }
+
+
 }
