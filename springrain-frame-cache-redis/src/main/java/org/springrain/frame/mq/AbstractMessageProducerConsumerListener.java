@@ -318,11 +318,11 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
     private void prepareChannelAndGroup(StreamOperations<String, ?, ?> ops, String queueName, String group) {
         String status = "OK";
         try {
-            //如果group已经存在
+
             StreamInfo.XInfoGroups groups = ops.groups(queueName);
-            if (groups.stream().noneMatch(xInfoGroup -> group.equals(xInfoGroup.groupName()))) {
-                //status = ops.createGroup(queueName, group);
-                status = ops.createGroup(queueName, ReadOffset.from("0-0"), group);
+            if (groups.stream().noneMatch(xInfoGroup -> group.equals(xInfoGroup.groupName()))) {   //如果group不存在
+                status = ops.createGroup(queueName, group);
+               // status = ops.createGroup(queueName, ReadOffset.from("0-0"), group);
             }
         } catch (Exception exception) {
             // 初始化/创建队列
