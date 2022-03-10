@@ -321,8 +321,8 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
 
             StreamInfo.XInfoGroups groups = ops.groups(queueName);
             if (groups.stream().noneMatch(xInfoGroup -> group.equals(xInfoGroup.groupName()))) {   //如果group不存在
-                status = ops.createGroup(queueName, group);
-               // status = ops.createGroup(queueName, ReadOffset.from("0-0"), group);
+                //status = ops.createGroup(queueName, group);
+                status = ops.createGroup(queueName, ReadOffset.from("0-0"), group);
             }
         } catch (Exception exception) {
             // 初始化/创建队列
