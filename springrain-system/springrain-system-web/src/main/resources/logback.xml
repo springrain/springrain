@@ -33,17 +33,10 @@
             <fileNamePattern>${catalina.home:-.}/logs/sql/${AppName}_%d{yyyy-MM-dd}</fileNamePattern>
         </rollingPolicy>
     </appender>
+    <!-- 自定义日志输出的 logger,业务日志类似这样的配置 -->
     <logger name="com.alibaba.druid.filter.stat.StatFilter" additivity="false">
         <appender-ref ref="sqlFile"/>
     </logger>
-
-    <!--
-    <logger name="org" level="ERROR" additivity="false"  >
-         <appender-ref ref="stdout" />
-         <appender-ref ref="errorFile" />
-    </logger>
-      -->
-
 
     <root level="ERROR">
         <appender-ref ref="stdout"/>
