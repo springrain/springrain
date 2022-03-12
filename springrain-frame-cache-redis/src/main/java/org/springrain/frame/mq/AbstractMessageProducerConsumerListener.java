@@ -271,8 +271,8 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
         //设置配置
         StreamReadOptions streamReadOptions = StreamReadOptions.empty().count(batchSize).block(Duration.ofSeconds(5));
         List<ObjectRecord<String, T>> retryFailMessageList = new ArrayList<>();
-        //避免死循环,最多1000次.如果单次返回的所有消息都是异常的,退出循环
-        for (int i = 0; i < 1000; i++) {
+        //避免死循环,最多3次.如果单次返回的所有消息都是异常的,退出循环
+        for (int i = 0; i < 3; i++) {
             List<ObjectRecord<String, T>> readList = redisTemplate.opsForStream().read(genericClass, consumer, streamReadOptions, StreamOffset.fromStart(getQueueName()));
             //如果已经没有异常的消息,退出循环
             if (CollectionUtils.isEmpty(readList)) {
@@ -321,8 +321,8 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
 
             StreamInfo.XInfoGroups groups = ops.groups(queueName);
             if (groups.stream().noneMatch(xInfoGroup -> group.equals(xInfoGroup.groupName()))) {   //如果group不存在
-                status = ops.createGroup(queueName, group);
-               // status = ops.createGroup(queueName, ReadOffset.from("0-0"), group);
+                //status = ops.createGroup(queueName, group);
+                status = ops.createGroup(queueName, ReadOffset.from("0-0"), group);
             }
         } catch (Exception exception) {
             // 初始化/创建队列
