@@ -38,7 +38,7 @@ import java.util.concurrent.Executor;
  *
  * @param <T> 需要放入队列的对象
  * @Component("userMessageProducerConsumerListener") public class UserMessageProducerConsumerListener extends AbstractMessageProducerConsumerListener<User>
- *
+ * <p>
  * //sendProducerMessage 方法实现 return super.sendProducerMessage();
  *
  * </code>
@@ -48,7 +48,7 @@ import java.util.concurrent.Executor;
  * </code>
  */
 public abstract class AbstractMessageProducerConsumerListener<T> implements StreamListener<String, ObjectRecord<String, T>>, IMessageProducerConsumerListener<T>, Closeable {
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
     //默认的线程池
     //private final Executor defaultExecutor = new SimpleAsyncTaskExecutor();
 
@@ -57,7 +57,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
 
 
     // 默认XTRIM的MAXLEN,如果是<0,则不限制
-    private  int defaultMaxLen = -1;
+    private int defaultMaxLen = -1;
 
     //泛型的类型
     private final Class<T> genericClass = ClassUtils.getActualTypeGenericSuperclass(getClass());
@@ -89,6 +89,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
 
     /**
      * 默认XTRIM的MAXLEN,如果是<0,则不限制
+     *
      * @return
      */
     public int getDefaultMaxLen() {
@@ -97,6 +98,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
 
     /**
      * 默认XTRIM的MAXLEN,如果是<0,则不限制
+     *
      * @param defaultMaxLen
      */
     public void setDefaultMaxLen(int defaultMaxLen) {
@@ -270,31 +272,31 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
         Consumer consumer = Consumer.from(getGroupName(), getConsumerName());
         //设置配置
         StreamReadOptions streamReadOptions = StreamReadOptions.empty().count(batchSize).block(Duration.ofSeconds(5));
-        List<ObjectRecord<String, T>> retryFailMessageList = new ArrayList<>();
-        //避免死循环,最多3次.如果单次返回的所有消息都是异常的,退出循环
-        for (int i = 0; i < 3; i++) {
-            List<ObjectRecord<String, T>> readList = redisTemplate.opsForStream().read(genericClass, consumer, streamReadOptions, StreamOffset.fromStart(getQueueName()));
-            //如果已经没有异常的消息,退出循环
-            if (CollectionUtils.isEmpty(readList)) {
-                break;
-            }
-            //如果返回的消息全部都是异常的,退出循环
-            if (retryFailMessageList.containsAll(readList)) {
-                break;
-            }
+        //List<ObjectRecord<String, T>> retryFailMessageList = new HashSet<>();
+        List<ObjectRecord<String, T>> readList = redisTemplate.opsForStream().read(genericClass, consumer, streamReadOptions, StreamOffset.fromStart(getQueueName()));
+        //如果已经没有异常的消息,退出循环
+        if (CollectionUtils.isEmpty(readList)) {
+            return null;
+        }
+        //如果返回的消息全部都是异常的,退出循环
+        //if (retryFailMessageList.containsAll(readList)) {
+        //    return null;
+        // }
 
-            // 遍历异常的消息
-            for (ObjectRecord<String, T> message : readList) {
-                RecordId recordId = messageSuccessRecordId(message);
-                //处理成功
-                if (recordId != null) {
-                    //消息确认ack
-                    redisTemplate.opsForStream().acknowledge(getQueueName(), getGroupName(), recordId);
-                } else {//处理失败,记录下来
-                    retryFailMessageList.add(message);
-                }
+        //返回处理异常的消息
+        List<MessageObjectDto<T>> retryFailMessageObjectList = new ArrayList<>();
+        // 遍历异常的消息
+        for (ObjectRecord<String, T> message : readList) {
+            RecordId recordId = messageSuccessRecordId(message);
+            //处理成功
+            if (recordId != null) {
+                //消息确认ack
+                redisTemplate.opsForStream().acknowledge(getQueueName(), getGroupName(), recordId);
+            } else {//处理失败,记录下来
+                retryFailMessageObjectList.add(objectRecord2MessageObject(message));
             }
         }
+        /*
         // 没有失败的消息记录
         if (CollectionUtils.isEmpty(retryFailMessageList)) {
             return null;
@@ -304,6 +306,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
         for (ObjectRecord<String, T> message : retryFailMessageList) {
             retryFailMessageObjectList.add(objectRecord2MessageObject(message));
         }
+        */
         return retryFailMessageObjectList;
     }
 
@@ -318,15 +321,19 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
     private void prepareChannelAndGroup(StreamOperations<String, ?, ?> ops, String queueName, String group) {
         String status = "OK";
         try {
-
+            //如果group已经存在
             StreamInfo.XInfoGroups groups = ops.groups(queueName);
-            if (groups.stream().noneMatch(xInfoGroup -> group.equals(xInfoGroup.groupName()))) {   //如果group不存在
+            if (groups.stream().noneMatch(xInfoGroup -> group.equals(xInfoGroup.groupName()))) {
                 //status = ops.createGroup(queueName, group);
                 status = ops.createGroup(queueName, ReadOffset.from("0-0"), group);
             }
         } catch (Exception exception) {
-            // 初始化/创建队列
-            RecordId initialRecord = ops.add(ObjectRecord.create(queueName, "init stream"));
+            if (getDefaultMaxLen() > 0) {
+                ops.trim(queueName, getDefaultMaxLen(), true);
+            }
+            //T t = ;
+            //初始化/创建队列
+            RecordId initialRecord = ops.add(ObjectRecord.create(queueName, ""));
             Assert.notNull(initialRecord, "Cannot initialize stream with key '" + queueName + "'");
             status = ops.createGroup(queueName, ReadOffset.from(initialRecord), group);
         } finally {
