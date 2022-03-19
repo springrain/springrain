@@ -49,7 +49,7 @@
 
         <!-- lucene版本和es的依赖版本最好保持一致,避免冲突 -->
         <lucene.version>9.0.0</lucene.version>
-        <elasticsearch.client.version>8.0.1</elasticsearch.client.version>
+        <elasticsearch.client.version>8.1.0</elasticsearch.client.version>
 
         <!-- 建议使用 redis stream实现MQ,比较简单 -->
         <rocketmq.client.version>4.9.2</rocketmq.client.version>
@@ -71,9 +71,9 @@
         <xstream.version>1.4.18</xstream.version>
         <druid-spring-boot-starter.version>1.2.8</druid-spring-boot-starter.version>
 
-        <clickhouse-jdbc.version>0.3.2</clickhouse-jdbc.version>
+        <clickhouse-jdbc.version>0.3.2-patch7</clickhouse-jdbc.version>
 
-        <jwt.version>3.18.3</jwt.version>
+        <jwt.version>3.19.0</jwt.version>
 
         <!--
         <redisson.version>3.15.3</redisson.version>
@@ -362,7 +362,7 @@
             </dependency>
 
             <dependency>
-                <groupId>ru.yandex.clickhouse</groupId>
+                <groupId>com.clickhouse</groupId>
                 <artifactId>clickhouse-jdbc</artifactId>
                 <version>${clickhouse-jdbc.version}</version>
             </dependency>
