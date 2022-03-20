@@ -117,9 +117,9 @@ spring:
         min-idle: 200
 
 
-  #logging:
-  #  level:
-  #    org: INFO ### 配置spring web日志级别###
+logging:
+  config: classpath:logback-springrain.xml
+
 
 ###actuator的默认路径/actuator/ 开头,已经在shiro配置,只有system有权限###        
 #management:
