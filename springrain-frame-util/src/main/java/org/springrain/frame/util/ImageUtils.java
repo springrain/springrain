@@ -39,7 +39,7 @@ public final class ImageUtils {
      * @param y         修正值 默认在中间
      * @param alpha     透明度
      */
-    public final static void pressImage(String pressImg, String targetImg, int x, int y, float alpha) {
+    public  static void pressImage(String pressImg, String targetImg, int x, int y, float alpha) {
         try {
             File img = new File(targetImg);
             Image src = ImageIO.read(img);
@@ -53,8 +53,10 @@ public final class ImageUtils {
             int wideth_biao = src_biao.getWidth(null);
             int height_biao = src_biao.getHeight(null);
             g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, alpha));
-            g.drawImage(src_biao, (wideth - wideth_biao) / 2, (height - height_biao) / 2, wideth_biao, height_biao,
-                    null);
+            //g.drawImage(src_biao, (wideth - wideth_biao) / 2, (height - height_biao) / 2, wideth_biao, height_biao, null);
+            g.drawImage(src_biao, x, y, wideth_biao, height_biao, null);
+
+
             // 水印文件结束
             g.dispose();
             ImageIO.write(image, "jpg", img);
@@ -89,7 +91,8 @@ public final class ImageUtils {
             g.setColor(color);
             g.setFont(new Font(fontName, fontStyle, fontSize));
             g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, alpha));
-            g.drawString(pressText, (width - (getLength(pressText) * fontSize)) / 2 + x, (height - fontSize) / 2 + y);
+           // g.drawString(pressText, (width - (getLength(pressText) * fontSize)) / 2 + x, (height - fontSize) / 2 + y);
+            g.drawString(pressText, x, y);
             g.dispose();
             ImageIO.write(image, "jpg", img);
         } catch (Exception e) {
@@ -139,7 +142,7 @@ public final class ImageUtils {
                 return;
             }
 
-            ImageUtils.resize(f, height, width, true);
+            ImageUtils.resize(f, height, width, bb);
         } catch (IOException e) {
             logger.error(e.getMessage(), e);
         }
@@ -149,7 +152,7 @@ public final class ImageUtils {
     /**
      * 缩放
      *
-     * @param filePath 图片路径
+     * @param f 图片路径
      * @param height   高度
      * @param width    宽度
      * @param bb       比例不对时是否需要补白
@@ -167,9 +170,9 @@ public final class ImageUtils {
             // 计算比例
             if ((bi.getHeight() > height) || (bi.getWidth() > width)) {
                 if (bi.getHeight() > bi.getWidth()) {
-                    ratio = (new Integer(height)).doubleValue() / bi.getHeight();
+                    ratio = Integer.valueOf(height).doubleValue() / bi.getHeight();
                 } else {
-                    ratio = (new Integer(width)).doubleValue() / bi.getWidth();
+                    ratio = Integer.valueOf(width).doubleValue() / bi.getWidth();
                 }
                 AffineTransformOp op = new AffineTransformOp(AffineTransform.getScaleInstance(ratio, ratio), null);
                 itemp = op.filter(bi, null);
@@ -179,12 +182,14 @@ public final class ImageUtils {
                 Graphics2D g = image.createGraphics();
                 g.setColor(Color.white);
                 g.fillRect(0, 0, width, height);
-                if (width == itemp.getWidth(null))
+                if (width == itemp.getWidth(null)) {
                     g.drawImage(itemp, 0, (height - itemp.getHeight(null)) / 2, itemp.getWidth(null),
                             itemp.getHeight(null), Color.white, null);
-                else
+                }
+                else {
                     g.drawImage(itemp, (width - itemp.getWidth(null)) / 2, 0, itemp.getWidth(null),
                             itemp.getHeight(null), Color.white, null);
+                }
                 g.dispose();
                 itemp = image;
             }
