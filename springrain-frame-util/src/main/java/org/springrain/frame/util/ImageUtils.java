@@ -90,6 +90,8 @@ public final class ImageUtils {
             g.drawImage(src, 0, 0, width, height, null);
             g.setColor(color);
             g.setFont(new Font(fontName, fontStyle, fontSize));
+            //消除锯齿
+            g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, alpha));
            // g.drawString(pressText, (width - (getLength(pressText) * fontSize)) / 2 + x, (height - fontSize) / 2 + y);
             g.drawString(pressText, x, y);
