@@ -54,18 +54,16 @@
         <!-- 建议使用 redis stream实现MQ,比较简单 -->
         <rocketmq.client.version>4.9.2</rocketmq.client.version>
         <jxl.version>2.6.12</jxl.version>
-
-        <!-- GRPC -->
-        <io.grpc.version>1.43.2</io.grpc.version>
-        <kr.motd.maven.version>1.7.0</kr.motd.maven.version>
-        <io.protostuff.version>1.7.4</io.protostuff.version>
-
+        <poi.version>5.2.2</poi.version>
         <!--
         <jodconverter.version>2.2.1</jodconverter.version>
         <gson.version>2.8.5</gson.version>
         -->
 
-        <poi.version>5.2.2</poi.version>
+        <!-- GRPC -->
+        <io.grpc.version>1.43.2</io.grpc.version>
+        <kr.motd.maven.version>1.7.0</kr.motd.maven.version>
+        <io.protostuff.version>1.7.4</io.protostuff.version>
 
         <zxing.version>3.4.1</zxing.version>
 
