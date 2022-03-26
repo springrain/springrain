@@ -14,12 +14,10 @@
 
     <dependencies>
 
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
-
         <dependency>
             <groupId>io.grpc</groupId>
             <artifactId>grpc-core</artifactId>
@@ -36,14 +34,10 @@
             <groupId>io.grpc</groupId>
             <artifactId>grpc-stub</artifactId>
         </dependency>
-
-
         <dependency>
             <groupId>de.ruedigermoeller</groupId>
             <artifactId>fst</artifactId>
         </dependency>
-
-
         <dependency>
             <groupId>org.springrain</groupId>
             <artifactId>springrain-frame-util</artifactId>
@@ -56,7 +50,6 @@
             <groupId>io.seata</groupId>
             <artifactId>seata-core</artifactId>
         </dependency>
-
         <dependency>
             <groupId>io.seata</groupId>
             <artifactId>seata-tm</artifactId>
@@ -74,12 +67,9 @@
             <artifactId>seata-serializer-fst</artifactId>
         </dependency>
 
-
-
     </dependencies>
 
     <build>
-
 
         <extensions>
             <extension>
@@ -89,9 +79,7 @@
             </extension>
         </extensions>
 
-
         <plugins>
-
 
             <!-- =================== -->
             <!-- springboot compile plugin,独立运行时需要使用springboot插件进行打包 -->
@@ -119,7 +107,7 @@
                 <artifactId>protobuf-maven-plugin</artifactId>
                 <version>0.6.1</version>
                 <configuration>
-                    <protocArtifact>com.google.protobuf:protoc:3.17.3:exe:${os.detected.classifier}</protocArtifact>
+                    <protocArtifact>com.google.protobuf:protoc:3.19.4:exe:${os.detected.classifier}</protocArtifact>
                     <pluginId>grpc-java</pluginId>
                     <pluginArtifact>io.grpc:protoc-gen-grpc-java:${io.grpc.version}:exe:${os.detected.classifier}</pluginArtifact>
                 </configuration>
