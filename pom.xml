@@ -49,7 +49,7 @@
 
         <!-- lucene版本和es的依赖版本最好保持一致,避免冲突 -->
         <lucene.version>9.0.0</lucene.version>
-        <elasticsearch.client.version>8.1.0</elasticsearch.client.version>
+        <elasticsearch.client.version>8.1.1</elasticsearch.client.version>
 
         <!-- 建议使用 redis stream实现MQ,比较简单 -->
         <rocketmq.client.version>4.9.2</rocketmq.client.version>
@@ -68,7 +68,7 @@
         <zxing.version>3.4.1</zxing.version>
 
         <jsoup.version>1.14.3</jsoup.version>
-        <xstream.version>1.4.18</xstream.version>
+        <xstream.version>1.4.19</xstream.version>
         <druid-spring-boot-starter.version>1.2.8</druid-spring-boot-starter.version>
 
         <clickhouse-jdbc.version>0.3.2-patch7</clickhouse-jdbc.version>
