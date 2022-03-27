@@ -1,4 +1,5 @@
 #启动命令: nohup java -server -Xms512m -Xmx2048m  -Dspring.config.location=/application.yml  -jar springboot-1.0.jar &
+#JDK17: nohup java --add-opens java.base/java.lang=ALL-UNNAMED -server -Xms512m -Xmx2048m  -Dspring.config.location=/application.yml  -jar springboot-1.0.jar &
 #建议使用 WinSW 注册成windows服务
 server:
   #服务http端口
@@ -42,7 +43,11 @@ server:
 springrain:
   ###基本的包路径,因为事务xml需要配置路径,程序中也需要使用,抽出来了,记得和包名一块修改###
   basepackagepath: org.springrain
-  ###RSA的公钥私钥pem字符串,生产环境一定要配置正确!!!###
+
+  ###RSA 1024位加密的公钥私钥pem字符串,生产环境一定要配置正确!!!###
+  #### openssl genrsa -out  rsa_private_key_1024.pem 1024
+  #### openssl pkcs8 -in rsa_private_key_1024.pem -out  rsa_private_key_1024_pkcs8.pem -nocrypt -topk8
+  #### openssl rsa -in  rsa_private_key_1024.pem -out  rsa_public_key_1024.pem -pubout
   rsa:
     privatekey: ''
     publickey: ''
