@@ -1,5 +1,6 @@
 package org.springrain.frame.mq;
 
+import org.springrain.frame.cache.RedisOperation;
 import org.springrain.frame.config.RedisCacheConfig;
 import org.springrain.frame.util.ClassUtils;
 import org.apache.commons.collections4.CollectionUtils;
@@ -246,6 +247,8 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
                 }
             });
 
+            // 注册队列,方便业务重试
+            RedisOperation.messageProducerConsumerListenerList.add(this);
 
         } catch (Exception e) {
             logger.error(e.getMessage(), e);

@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
 
+import org.springrain.frame.mq.IMessageProducerConsumerListener;
+
 /**
  * 基于 Redisson的 redis操作,包含lock和自增,基于stream的mq <br>
  * 要求:redis 5.0+ ,springBoot 2.3+
@@ -20,6 +22,8 @@ import java.util.concurrent.TimeUnit;
 public class RedisOperation {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+    // 注册所有的队列,方便业务重试
+    public static List<IMessageProducerConsumerListener> messageProducerConsumerListenerList = new ArrayList<>();
 
     @Resource
     private RedisTemplate redisTemplate;
