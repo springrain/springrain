@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springrain.frame.mq.IMessageProducerConsumerListener;
 
