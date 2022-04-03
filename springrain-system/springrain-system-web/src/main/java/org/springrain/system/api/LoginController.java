@@ -137,19 +137,6 @@ public class LoginController extends BaseController {
     }
 
     /**
-     * QR码
-     *
-     * @param map 请求实例
-     * @return 。
-     */
-    @RequestMapping(value = "/system/qrcodeback", method = RequestMethod.POST)
-    public ReturnDatas<?> qrcodeback(@RequestBody Map<String, Object> map) {
-        ReturnDatas<?> returnObject = ReturnDatas.getSuccessReturnDatas();
-
-        return returnObject;
-    }
-
-    /**
      * 处理后台用户登录
      *
      * @param userVO 请求的参数
