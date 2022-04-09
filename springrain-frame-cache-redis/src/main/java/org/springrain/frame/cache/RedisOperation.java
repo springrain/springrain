@@ -130,4 +130,19 @@ public class RedisOperation {
     }
 
 
+    /**
+     * 从set中删除指定的值,返回影响的记录数,值不存在返回0
+     * @param setName
+     * @param value
+     * @return
+     */
+    public Long setsrem(String setName,String value){
+        if (StringUtils.isBlank(setName)||StringUtils.isBlank(value)){
+            return null;
+        }
+        return redisTemplate.opsForSet().remove(setName,value);
+    }
+
+
+
 }
