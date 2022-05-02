@@ -15,9 +15,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class RedisSearchUtils {
 
+    private static final String SEARCH_INDEX = "searchIndex";
     private static String host;
     private static int port;
-    private static final String SEARCH_INDEX = "searchIndex";
+
+    public static Client getClient() {
+        return new Client(SEARCH_INDEX, host, port);
+    }
+
+    public static Client getClient(String indexName) {
+        return new Client(indexName, host, port);
+    }
 
     @Value("${spring.redis.host}")
     public void setHost(String host) {
@@ -27,13 +35,5 @@ public class RedisSearchUtils {
     @Value("${spring.redis.port}")
     public void setPort(int port) {
         RedisSearchUtils.port = port;
-    }
-
-    public static Client getClient() {
-        return new Client(SEARCH_INDEX, host, port);
-    }
-
-    public static Client getClient(String indexName) {
-        return new Client(indexName, host, port);
     }
 }

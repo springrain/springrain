@@ -1,6 +1,5 @@
 package org.springrain.system.base;
 
-import org.springrain.frame.util.ReturnDatas;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
@@ -10,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
+import org.springrain.frame.util.ReturnDatas;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
@@ -22,8 +22,8 @@ import javax.servlet.http.HttpServletRequest;
  */
 @RestController
 public class BaseErrorController implements ErrorController {
-    private Logger logger = LoggerFactory.getLogger(getClass());
     private final ErrorAttributes errorAttributes;
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     public BaseErrorController(ErrorAttributes errorAttributes) {
         this.errorAttributes = errorAttributes;

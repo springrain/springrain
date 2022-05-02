@@ -1,17 +1,9 @@
 package org.springrain.system.interceptor;
 
-import org.springframework.context.annotation.Lazy;
-import org.springrain.frame.util.*;
-import org.springrain.rpc.sessionuser.SessionUser;
-import org.springrain.rpc.sessionuser.UserVO;
-import org.springrain.system.entity.Menu;
-import org.springrain.system.entity.Role;
-import org.springrain.system.service.IRoleService;
-import org.springrain.system.service.IUserRoleMenuService;
-import org.springrain.system.service.IUserService;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
@@ -22,6 +14,14 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+import org.springrain.frame.util.*;
+import org.springrain.rpc.sessionuser.SessionUser;
+import org.springrain.rpc.sessionuser.UserVO;
+import org.springrain.system.entity.Menu;
+import org.springrain.system.entity.Role;
+import org.springrain.system.service.IRoleService;
+import org.springrain.system.service.IUserRoleMenuService;
+import org.springrain.system.service.IUserService;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;

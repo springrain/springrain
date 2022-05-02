@@ -20,7 +20,7 @@ import org.springrain.frame.util.GlobalStatic;
 public class SpringrainApplication {
     public static void main(String[] args) {
         //设置项目名前缀
-        GlobalStatic.projectKeyPrefix="springrain_";
+        GlobalStatic.projectKeyPrefix = "springrain_";
         ConfigurableApplicationContext applicationContext = SpringApplication.run(SpringrainApplication.class, args);
     }
 

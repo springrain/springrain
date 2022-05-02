@@ -1,10 +1,10 @@
 package org.springrain.system.entity;
 
-import org.springrain.frame.annotation.WhereSQL;
-import org.springrain.frame.entity.BaseEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.springrain.frame.annotation.WhereSQL;
+import org.springrain.frame.entity.BaseEntity;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -112,6 +112,15 @@ public class DicData extends BaseEntity {
      */
     private List<DicData> children;
 
+    public DicData() {
+    }
+
+    public DicData(java.lang.String id) {
+        this.id = id;
+    }
+
+    // concstructor
+
     @Transient
     public List<DicData> getChildren() {
         return children;
@@ -119,15 +128,6 @@ public class DicData extends BaseEntity {
 
     public void setChildren(List<DicData> children) {
         this.children = children;
-    }
-
-    // concstructor
-
-    public DicData() {
-    }
-
-    public DicData(java.lang.String id) {
-        this.id = id;
     }
 
     @Id

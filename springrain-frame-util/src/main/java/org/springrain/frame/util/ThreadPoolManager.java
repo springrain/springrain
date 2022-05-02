@@ -38,7 +38,17 @@ public class ThreadPoolManager {
             taskQueue.offer(task);
         }
     };
+    /*
+     * 线程池
+     */
+    final static ThreadPoolExecutor threadPool = new ThreadPoolExecutor(CORE_POOL_SIZE, MAX_POOL_SIZE, KEEP_ALIVE_TIME,
+            TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(WORK_QUEUE_SIZE), handler);
 
+    /*
+     * 创建一个调度线程池
+     */
+    // final ScheduledExecutorService scheduler =
+    // Executors.newScheduledThreadPool(1);
     /*
      * 将缓冲队列中的任务重新加载到线程池
      */
@@ -49,26 +59,12 @@ public class ThreadPoolManager {
             }
         }
     };
-
-    /*
-     * 创建一个调度线程池
-     */
-    // final ScheduledExecutorService scheduler =
-    // Executors.newScheduledThreadPool(1);
-
     final ScheduledExecutorService scheduler = new ScheduledThreadPoolExecutor(1000);
-
     /*
      * 通过调度线程周期性的执行缓冲队列中任务
      */
     final ScheduledFuture<?> taskHandler = scheduler.scheduleAtFixedRate(accessBufferThread, 0, TASK_QOS_PERIOD,
             TimeUnit.MILLISECONDS);
-
-    /*
-     * 线程池
-     */
-    final static ThreadPoolExecutor threadPool = new ThreadPoolExecutor(CORE_POOL_SIZE, MAX_POOL_SIZE, KEEP_ALIVE_TIME,
-            TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(WORK_QUEUE_SIZE), handler);
 
     /*
      * 将构造方法访问修饰符设为私有，禁止任意实例化。

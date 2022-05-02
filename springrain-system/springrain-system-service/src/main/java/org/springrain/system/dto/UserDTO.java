@@ -1,13 +1,13 @@
 package org.springrain.system.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.springrain.frame.annotation.WhereSQL;
 import org.springrain.system.entity.Org;
 import org.springrain.system.entity.Role;
 import org.springrain.system.entity.User;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.Id;
 import javax.persistence.Transient;
@@ -139,6 +139,11 @@ public class UserDTO implements Serializable {
      */
     private List<Org> orgList;
 
+    //columns END 数据库字段结束
+    //concstructor
+    public UserDTO() {
+    }
+
     @Transient
     public List<Org> getOrgList() {
         return orgList;
@@ -146,11 +151,6 @@ public class UserDTO implements Serializable {
 
     public void setOrgList(List<Org> orgList) {
         this.orgList = orgList;
-    }
-
-    //columns END 数据库字段结束
-    //concstructor
-    public UserDTO() {
     }
 
     @Transient

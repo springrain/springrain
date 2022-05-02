@@ -1,11 +1,11 @@
 package org.springrain.system.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springrain.frame.annotation.WhereSQL;
-import org.springrain.frame.entity.BaseEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.springrain.frame.annotation.WhereSQL;
+import org.springrain.frame.entity.BaseEntity;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -173,6 +173,11 @@ public class User extends BaseEntity {
      */
     private List<Org> orgList;
 
+    //columns END 数据库字段结束
+    //concstructor
+    public User() {
+    }
+
     @Transient
     public List<Org> getOrgList() {
         return orgList;
@@ -180,11 +185,6 @@ public class User extends BaseEntity {
 
     public void setOrgList(List<Org> orgList) {
         this.orgList = orgList;
-    }
-
-    //columns END 数据库字段结束
-    //concstructor
-    public User() {
     }
 
     @Transient

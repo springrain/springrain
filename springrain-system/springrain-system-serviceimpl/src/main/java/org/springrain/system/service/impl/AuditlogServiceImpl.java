@@ -1,8 +1,8 @@
 package org.springrain.system.service.impl;
 
+import org.springframework.stereotype.Service;
 import org.springrain.frame.entity.AuditLog;
 import org.springrain.system.service.IAuditlogService;
-import org.springframework.stereotype.Service;
 
 /**
  * TODO 在此加入类描述

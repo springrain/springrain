@@ -1,9 +1,5 @@
 package org.springrain.weixin.web;
 
-import org.springrain.weixin.sdk.common.ApiResult;
-import org.springrain.weixin.sdk.common.wxconfig.IWxMpConfig;
-import org.springrain.weixin.sdk.open.SnsApi;
-import org.springrain.weixin.service.IWxMpConfigService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springrain.weixin.sdk.common.ApiResult;
+import org.springrain.weixin.sdk.common.wxconfig.IWxMpConfig;
+import org.springrain.weixin.sdk.open.SnsApi;
+import org.springrain.weixin.service.IWxMpConfigService;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;

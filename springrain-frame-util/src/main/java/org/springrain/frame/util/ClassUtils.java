@@ -3,7 +3,6 @@
  */
 package org.springrain.frame.util;
 
-import org.springrain.frame.annotation.*;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.*;
@@ -11,6 +10,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springrain.frame.annotation.*;
 
 import javax.persistence.Id;
 import javax.persistence.Table;

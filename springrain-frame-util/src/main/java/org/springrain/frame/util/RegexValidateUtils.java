@@ -23,11 +23,72 @@ import java.util.regex.Pattern;
 
 public class RegexValidateUtils {
     private static final Logger logger = LoggerFactory.getLogger(RegexValidateUtils.class);
+    /**
+     * 验证指定的字符串是不是符点型数值
+     *
+     * @param value 某指定的字符串
+     * @return 字符串符合数值格式时返回true, 否则返回false
+     */
+    private static String floatRestring = "^-?(\\d)+((.\\d+)|(\\d)*)$";
+    private static Pattern flatPattern = Pattern.compile(floatRestring);
+    /**
+     * 获取 order by 开始位置
+     *
+     * @param orderbysql
+     * @return
+     */
+    private static String orderByRegStr = "(?i)\\s(order)\\s+by\\s";
+    private static Pattern orderByPattern = Pattern.compile(orderByRegStr);
+    /**
+     * 获取 group by 开始位置
+     *
+     * @param groupbysql
+     * @return
+     */
+    private static String groupByRegStr = "(?i)\\s(group)\\s+by\\s";
+
+    /***********************************
+     * 身份证验证开始
+     ****************************************/
+    /**
+     * 身份证号码验证 1、号码的结构 公民身份号码是特征组合码，由十七位数字本体码和一位校验码组成。排列顺序从左至右依次为：六位数字地址码，
+     * 八位数字出生日期码，三位数字顺序码和一位数字校验码。 2、地址码(前六位数）
+     * 表示编码对象常住户口所在县(市、旗、区)的行政区划代码，按GB/T2260的规定执行。 3、出生日期码（第七位至十四位）
+     * 表示编码对象出生的年、月、日，按GB/T7408的规定执行，年、月、日代码之间不用分隔符。 4、顺序码（第十五位至十七位）
+     * 表示在同一地址码所标识的区域范围内，对同年、同月、同日出生的人编定的顺序号， 顺序码的奇数分配给男性，偶数分配给女性。 5、校验码（第十八位数）
+     * （1）十七位数字本体码加权求和公式 S = Sum(Ai * Wi), i = 0, ... , 16 ，先对前17位数字的权求和
+     * Ai:表示第i位置上的身份证号码数字值 Wi:表示第i位置上的加权因子 Wi: 7 9 10 5 8 4 2 1 6 3 7 9 10 5 8 4 2
+     * （2）计算模 Y = mod(S, 11) （3）通过模得到对应的校验码 Y: 0 1 2 3 4 5 6 7 8 9 10 校验码: 1 0 X 9 8
+     * 7 6 5 4 3 2
+     */
+    private static Pattern groupByPattern = Pattern.compile(groupByRegStr);
+    /**
+     * 获取语句中表名
+     * 第一个是符合的整体数据,第二个是表名
+     *
+     * @param updatesql
+     * @return
+     */
+    private static String updateTableNameRegStr = "(?i)^\\s*update\\s+(\\w+)\\s+set\\s";
+    private static Pattern updateTableNamePattern = Pattern.compile(updateTableNameRegStr);
+    /**
+     * 获取语句中表名
+     * 第一个是符合的整体数据,第二个是表名
+     *
+     * @param updatesql
+     * @return
+     */
+    private static String deleteableNameRegStr = "(?i)^\\s*delete\\s+from\\s+(\\w+)\\s+where\\s";
+
+    /***********************************
+     * 身份证验证结束
+     ****************************************/
+    private static Pattern deleteTableNamePattern = Pattern.compile(deleteableNameRegStr);
+    private static Pattern pt = Pattern.compile("\\(([\\s\\S]+?)\\)", Pattern.CASE_INSENSITIVE);
 
     private RegexValidateUtils() {
         throw new IllegalAccessError("工具类不能实例化");
     }
-
 
     /**
      * 验证字符串是否含有非法字符 含有：返回false 否则：返回true
@@ -45,6 +106,12 @@ public class RegexValidateUtils {
         }
         return flag;
     }
+
+
+    // 验证文件后缀
+    // Pattern p =
+    // Pattern.compile(".+\\.js$",Pattern.CASE_INSENSITIVE);//不区分大小写的,默认只有一个参数时是区分大小写
+    // System.out.println(p.matcher("dads.jS").matches());
 
     /**
      * 检查手机号格式
@@ -97,20 +164,6 @@ public class RegexValidateUtils {
         return flag;
     }
 
-    /***********************************
-     * 身份证验证开始
-     ****************************************/
-    /**
-     * 身份证号码验证 1、号码的结构 公民身份号码是特征组合码，由十七位数字本体码和一位校验码组成。排列顺序从左至右依次为：六位数字地址码，
-     * 八位数字出生日期码，三位数字顺序码和一位数字校验码。 2、地址码(前六位数）
-     * 表示编码对象常住户口所在县(市、旗、区)的行政区划代码，按GB/T2260的规定执行。 3、出生日期码（第七位至十四位）
-     * 表示编码对象出生的年、月、日，按GB/T7408的规定执行，年、月、日代码之间不用分隔符。 4、顺序码（第十五位至十七位）
-     * 表示在同一地址码所标识的区域范围内，对同年、同月、同日出生的人编定的顺序号， 顺序码的奇数分配给男性，偶数分配给女性。 5、校验码（第十八位数）
-     * （1）十七位数字本体码加权求和公式 S = Sum(Ai * Wi), i = 0, ... , 16 ，先对前17位数字的权求和
-     * Ai:表示第i位置上的身份证号码数字值 Wi:表示第i位置上的加权因子 Wi: 7 9 10 5 8 4 2 1 6 3 7 9 10 5 8 4 2
-     * （2）计算模 Y = mod(S, 11) （3）通过模得到对应的校验码 Y: 0 1 2 3 4 5 6 7 8 9 10 校验码: 1 0 X 9 8
-     * 7 6 5 4 3 2
-     */
     /**
      * 功能：身份证的有效验证
      *
@@ -284,10 +337,6 @@ public class RegexValidateUtils {
         }
     }
 
-    /***********************************
-     * 身份证验证结束
-     ****************************************/
-
     /**
      * 判断昵称是否包含emoji表情。若包含则去掉。
      *
@@ -372,12 +421,6 @@ public class RegexValidateUtils {
         buffer.append(year);
         return buffer.toString();
     }
-
-
-    // 验证文件后缀
-    // Pattern p =
-    // Pattern.compile(".+\\.js$",Pattern.CASE_INSENSITIVE);//不区分大小写的,默认只有一个参数时是区分大小写
-    // System.out.println(p.matcher("dads.jS").matches());
 
     /**
      * 对一字符串进行正则验证 验证一个字符串中长度必须大于6位，同时必须包含至少一个字符和一个数值
@@ -466,15 +509,6 @@ public class RegexValidateUtils {
         return !p.matcher(url).matches();
     }
 
-    /**
-     * 验证指定的字符串是不是符点型数值
-     *
-     * @param value 某指定的字符串
-     * @return 字符串符合数值格式时返回true, 否则返回false
-     */
-    private static String floatRestring = "^-?(\\d)+((.\\d+)|(\\d)*)$";
-    private static Pattern flatPattern = Pattern.compile(floatRestring);
-
     public static boolean isFloat(String value) {
 
         if (flatPattern.matcher(value).matches()) {
@@ -482,15 +516,6 @@ public class RegexValidateUtils {
         }
         return false;
     }
-
-    /**
-     * 获取 order by 开始位置
-     *
-     * @param orderbysql
-     * @return
-     */
-    private static String orderByRegStr = "(?i)\\s(order)\\s+by\\s";
-    private static Pattern orderByPattern = Pattern.compile(orderByRegStr);
 
     public static int getOrderByIndex(String orderbysql) {
         int index = -1;
@@ -505,15 +530,6 @@ public class RegexValidateUtils {
         return index;
     }
 
-    /**
-     * 获取 group by 开始位置
-     *
-     * @param groupbysql
-     * @return
-     */
-    private static String groupByRegStr = "(?i)\\s(group)\\s+by\\s";
-    private static Pattern groupByPattern = Pattern.compile(groupByRegStr);
-
     public static int getGroupByIndex(String groupbysql) {
         int index = -1;
         if (StringUtils.isBlank(groupbysql)) {
@@ -527,49 +543,12 @@ public class RegexValidateUtils {
         return index;
     }
 
-    /**
-     * 获取语句中表名
-     * 第一个是符合的整体数据,第二个是表名
-     *
-     * @param updatesql
-     * @return
-     */
-    private static String updateTableNameRegStr = "(?i)^\\s*update\\s+(\\w+)\\s+set\\s";
-    private static Pattern updateTableNamePattern = Pattern.compile(updateTableNameRegStr);
-
     public static String[] getUpdateTableName(String updatesql) {
         if (StringUtils.isBlank(updatesql)) {
             return null;
         }
 
         Matcher matcher = updateTableNamePattern.matcher(updatesql);
-        if (!matcher.find()) {
-            return null;
-        }
-
-        String[] result = new String[2];
-        result[0] = matcher.group(0);
-        result[1] = matcher.group(1);
-
-        return result;
-    }
-
-    /**
-     * 获取语句中表名
-     * 第一个是符合的整体数据,第二个是表名
-     *
-     * @param updatesql
-     * @return
-     */
-    private static String deleteableNameRegStr = "(?i)^\\s*delete\\s+from\\s+(\\w+)\\s+where\\s";
-    private static Pattern deleteTableNamePattern = Pattern.compile(deleteableNameRegStr);
-
-    public static String[] getDeleteTableName(String deletesql) {
-        if (StringUtils.isBlank(deletesql)) {
-            return null;
-        }
-
-        Matcher matcher = deleteTableNamePattern.matcher(deletesql);
         if (!matcher.find()) {
             return null;
         }
@@ -607,6 +586,24 @@ public class RegexValidateUtils {
         return index;
     }
 */
+
+    public static String[] getDeleteTableName(String deletesql) {
+        if (StringUtils.isBlank(deletesql)) {
+            return null;
+        }
+
+        Matcher matcher = deleteTableNamePattern.matcher(deletesql);
+        if (!matcher.find()) {
+            return null;
+        }
+
+        String[] result = new String[2];
+        result[0] = matcher.group(0);
+        result[1] = matcher.group(1);
+
+        return result;
+    }
+
     /**
      * 获取 Select 语句中 From 开始位置
      *
@@ -629,8 +626,6 @@ public class RegexValidateUtils {
         return index;
     }
 
-
-    private static  Pattern pt = Pattern.compile("\\(([\\s\\S]+?)\\)", Pattern.CASE_INSENSITIVE);
     private static String replaceFrom(String str) {
         Matcher matcher = pt.matcher(str);
         while (matcher.find()) {

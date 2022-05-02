@@ -89,7 +89,8 @@ public interface IRoleService extends IBaseSpringrainService {
     boolean isSupervisor(String roleId) throws Exception;
 
     /**
-     *根据code查询角色id
+     * 根据code查询角色id
+     *
      * @param code
      * @return
      * @throws Exception

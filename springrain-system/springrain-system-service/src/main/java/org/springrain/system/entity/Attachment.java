@@ -1,10 +1,10 @@
 package org.springrain.system.entity;
 
-import org.springrain.frame.annotation.WhereSQL;
-import org.springrain.frame.entity.BaseEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.springrain.frame.annotation.WhereSQL;
+import org.springrain.frame.entity.BaseEntity;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -122,6 +122,15 @@ public class Attachment extends BaseEntity {
 
     /**
      * id主键
+     */
+    @Id
+    @WhereSQL(sql = "id=:Attachment_id")
+    public String getId() {
+        return this.id;
+    }
+
+    /**
+     * id主键
      *
      * @param value
      */
@@ -132,14 +141,12 @@ public class Attachment extends BaseEntity {
         this.id = value;
     }
 
-
     /**
-     * id主键
+     * 部门id
      */
-    @Id
-    @WhereSQL(sql = "id=:Attachment_id")
-    public String getId() {
-        return this.id;
+    @WhereSQL(sql = "orgId=:Attachment_orgId")
+    public String getOrgId() {
+        return this.orgId;
     }
 
     /**
@@ -154,13 +161,12 @@ public class Attachment extends BaseEntity {
         this.orgId = value;
     }
 
-
     /**
-     * 部门id
+     * URL路径中的部门类型,例如 URL路径中的 kjj
      */
-    @WhereSQL(sql = "orgId=:Attachment_orgId")
-    public String getOrgId() {
-        return this.orgId;
+    @WhereSQL(sql = "orgTypePathKey=:Attachment_orgTypePathKey")
+    public String getOrgTypePathKey() {
+        return this.orgTypePathKey;
     }
 
     /**
@@ -175,13 +181,12 @@ public class Attachment extends BaseEntity {
         this.orgTypePathKey = value;
     }
 
-
     /**
-     * URL路径中的部门类型,例如 URL路径中的 kjj
+     * 业务ID,用于业务关联查询
      */
-    @WhereSQL(sql = "orgTypePathKey=:Attachment_orgTypePathKey")
-    public String getOrgTypePathKey() {
-        return this.orgTypePathKey;
+    @WhereSQL(sql = "businessId=:Attachment_businessId")
+    public String getBusinessId() {
+        return this.businessId;
     }
 
     /**
@@ -196,13 +201,12 @@ public class Attachment extends BaseEntity {
         this.businessId = value;
     }
 
-
     /**
-     * 业务ID,用于业务关联查询
+     * 附件类型,1.政策附件.2.企业认证文件3.专家认证文件.4.企业个人认证文件.0.其他文件
      */
-    @WhereSQL(sql = "businessId=:Attachment_businessId")
-    public String getBusinessId() {
-        return this.businessId;
+    @WhereSQL(sql = "attachmentType=:Attachment_attachmentType")
+    public Integer getAttachmentType() {
+        return this.attachmentType;
     }
 
     /**
@@ -214,13 +218,12 @@ public class Attachment extends BaseEntity {
         this.attachmentType = value;
     }
 
-
     /**
-     * 附件类型,1.政策附件.2.企业认证文件3.专家认证文件.4.企业个人认证文件.0.其他文件
+     * 附件名称
      */
-    @WhereSQL(sql = "attachmentType=:Attachment_attachmentType")
-    public Integer getAttachmentType() {
-        return this.attachmentType;
+    @WhereSQL(sql = "fileName=:Attachment_fileName")
+    public String getFileName() {
+        return this.fileName;
     }
 
     /**
@@ -235,13 +238,12 @@ public class Attachment extends BaseEntity {
         this.fileName = value;
     }
 
-
     /**
-     * 附件名称
+     * 路径
      */
-    @WhereSQL(sql = "fileName=:Attachment_fileName")
-    public String getFileName() {
-        return this.fileName;
+    @WhereSQL(sql = "fileURL=:Attachment_fileURL")
+    public String getFileURL() {
+        return this.fileURL;
     }
 
     /**
@@ -256,13 +258,12 @@ public class Attachment extends BaseEntity {
         this.fileURL = value;
     }
 
-
     /**
-     * 路径
+     * 文件后缀
      */
-    @WhereSQL(sql = "fileURL=:Attachment_fileURL")
-    public String getFileURL() {
-        return this.fileURL;
+    @WhereSQL(sql = "suffix=:Attachment_suffix")
+    public String getSuffix() {
+        return this.suffix;
     }
 
     /**
@@ -277,13 +278,12 @@ public class Attachment extends BaseEntity {
         this.suffix = value;
     }
 
-
     /**
-     * 文件后缀
+     * 文件大小,单位K
      */
-    @WhereSQL(sql = "suffix=:Attachment_suffix")
-    public String getSuffix() {
-        return this.suffix;
+    @WhereSQL(sql = "fileSize=:Attachment_fileSize")
+    public Integer getFileSize() {
+        return this.fileSize;
     }
 
     /**
@@ -293,15 +293,6 @@ public class Attachment extends BaseEntity {
      */
     public void setFileSize(Integer value) {
         this.fileSize = value;
-    }
-
-
-    /**
-     * 文件大小,单位K
-     */
-    @WhereSQL(sql = "fileSize=:Attachment_fileSize")
-    public Integer getFileSize() {
-        return this.fileSize;
     }
 		/*
 	public String getlastDownTimeString() {
@@ -313,6 +304,14 @@ public class Attachment extends BaseEntity {
 
     /**
      * 最后下载时间
+     */
+    @WhereSQL(sql = "lastDownTime=:Attachment_lastDownTime")
+    public java.util.Date getLastDownTime() {
+        return this.lastDownTime;
+    }
+
+    /**
+     * 最后下载时间
      *
      * @param value
      */
@@ -320,13 +319,12 @@ public class Attachment extends BaseEntity {
         this.lastDownTime = value;
     }
 
-
     /**
-     * 最后下载时间
+     * 排序,查询时倒叙排列
      */
-    @WhereSQL(sql = "lastDownTime=:Attachment_lastDownTime")
-    public java.util.Date getLastDownTime() {
-        return this.lastDownTime;
+    @WhereSQL(sql = "sortno=:Attachment_sortno")
+    public Integer getSortno() {
+        return this.sortno;
     }
 
     /**
@@ -338,13 +336,12 @@ public class Attachment extends BaseEntity {
         this.sortno = value;
     }
 
-
     /**
-     * 排序,查询时倒叙排列
+     * 是否有效(0否,1是)
      */
-    @WhereSQL(sql = "sortno=:Attachment_sortno")
-    public Integer getSortno() {
-        return this.sortno;
+    @WhereSQL(sql = "active=:Attachment_active")
+    public Integer getActive() {
+        return this.active;
     }
 
     /**
@@ -356,13 +353,12 @@ public class Attachment extends BaseEntity {
         this.active = value;
     }
 
-
     /**
-     * 是否有效(0否,1是)
+     * 创建者
      */
-    @WhereSQL(sql = "active=:Attachment_active")
-    public Integer getActive() {
-        return this.active;
+    @WhereSQL(sql = "createUser=:Attachment_createUser")
+    public String getCreateUser() {
+        return this.createUser;
     }
 
     /**
@@ -376,15 +372,6 @@ public class Attachment extends BaseEntity {
         }
         this.createUser = value;
     }
-
-
-    /**
-     * 创建者
-     */
-    @WhereSQL(sql = "createUser=:Attachment_createUser")
-    public String getCreateUser() {
-        return this.createUser;
-    }
 		/*
 	public String getcreateTimeString() {
 		return DateUtils.convertDate2String(FORMAT_CREATETIME, getcreateTime());
@@ -395,6 +382,14 @@ public class Attachment extends BaseEntity {
 
     /**
      * 上传时间
+     */
+    @WhereSQL(sql = "createTime=:Attachment_createTime")
+    public java.util.Date getCreateTime() {
+        return this.createTime;
+    }
+
+    /**
+     * 上传时间
      *
      * @param value
      */
@@ -402,13 +397,12 @@ public class Attachment extends BaseEntity {
         this.createTime = value;
     }
 
-
     /**
-     * 上传时间
+     * 更新者
      */
-    @WhereSQL(sql = "createTime=:Attachment_createTime")
-    public java.util.Date getCreateTime() {
-        return this.createTime;
+    @WhereSQL(sql = "updateUser=:Attachment_updateUser")
+    public String getUpdateUser() {
+        return this.updateUser;
     }
 
     /**
@@ -422,15 +416,6 @@ public class Attachment extends BaseEntity {
         }
         this.updateUser = value;
     }
-
-
-    /**
-     * 更新者
-     */
-    @WhereSQL(sql = "updateUser=:Attachment_updateUser")
-    public String getUpdateUser() {
-        return this.updateUser;
-    }
 		/*
 	public String getupdateTimeString() {
 		return DateUtils.convertDate2String(FORMAT_UPDATETIME, getupdateTime());
@@ -441,20 +426,19 @@ public class Attachment extends BaseEntity {
 
     /**
      * 更新时间
+     */
+    @WhereSQL(sql = "updateTime=:Attachment_updateTime")
+    public java.util.Date getUpdateTime() {
+        return this.updateTime;
+    }
+
+    /**
+     * 更新时间
      *
      * @param value
      */
     public void setUpdateTime(java.util.Date value) {
         this.updateTime = value;
-    }
-
-
-    /**
-     * 更新时间
-     */
-    @WhereSQL(sql = "updateTime=:Attachment_updateTime")
-    public java.util.Date getUpdateTime() {
-        return this.updateTime;
     }
 
     @Override

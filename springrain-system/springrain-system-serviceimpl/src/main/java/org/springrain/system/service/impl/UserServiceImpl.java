@@ -1,5 +1,11 @@
 package org.springrain.system.service.impl;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
 import org.springrain.frame.entity.IBaseEntity;
 import org.springrain.frame.util.*;
 import org.springrain.rpc.sessionuser.SessionUser;
@@ -10,12 +16,6 @@ import org.springrain.system.entity.*;
 import org.springrain.system.service.*;
 import org.springrain.system.vo.LoginSuccessVO;
 import org.springrain.system.vo.LoginUserVO;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.springframework.beans.BeanUtils;
-import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -45,12 +45,37 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
     @Resource
     private IRoleService roleService;
 
+    private static int[] generateRandomNumber(int begin, int end, int size) {
+        if (begin > end) {
+            int temp = begin;
+            begin = end;
+            end = temp;
+        }
+        if (end - begin < size) {
+            throw new RuntimeException("Size is larger than range between begin and end!");
+        } else {
+            int[] seed = new int[end - begin];
+            {
+                int i = begin;
+                while (i < end) {
+                    seed[i - begin] = i++;
+                }
+            }
+            int[] ranArr = new int[size];
+            Random ran = new Random();
+            for (int i = 0; i < size; ++i) {
+                int j = ran.nextInt(seed.length - i);
+                ranArr[i] = seed[j];
+                seed[j] = seed[seed.length - 1 - i];
+            }
+            return ranArr;
+        }
+    }
 
     @Override
     public String save(IBaseEntity entity) throws Exception {
         return super.save(entity).toString();
     }
-
 
     @Override
     public Integer update(IBaseEntity entity) throws Exception {
@@ -67,7 +92,6 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
         super.evictByKey(GlobalStatic.userOrgRoleMenuInfoCacheKey, "findUserById_" + user.getId());
         return super.update(entity, onlyupdatenotnull);
     }
-
 
     @Override
     public User findUserById(String id) throws Exception {
@@ -92,7 +116,6 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
         super.putByCache(GlobalStatic.userOrgRoleMenuInfoCacheKey, key, user);
         return user;
     }
-
 
     @Override
     public UserVO findUserVOByUserId(String userId) throws Exception {
@@ -141,7 +164,6 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
         return jwtToken;
     }
 
-
     @Override
     public User findLoginUser(String account, String password, Integer userType) throws Exception {
         if (StringUtils.isBlank(account) || StringUtils.isBlank(password)) {
@@ -153,7 +175,6 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
 
         return super.queryForObject(finder, User.class);
     }
-
 
     @Override
     public List<User> findUserList(Page<User> page) throws Exception {
@@ -206,9 +227,9 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
                 finder.append(" AND createTime>=:beginTime ")
                         .setParam("beginTime", page.getBeginTime());
             }
-            if(page.getEndTime() != null){
+            if (page.getEndTime() != null) {
                 finder.append(" AND createTime<=:endTime ")
-                      .setParam("endTime", org.apache.commons.lang3.time.DateUtils.addDays(page.getEndTime(), 1));
+                        .setParam("endTime", org.apache.commons.lang3.time.DateUtils.addDays(page.getEndTime(), 1));
             }
         }
         //封装用户的部门和角色信息
@@ -292,7 +313,7 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
 
         List<Org> orgList = user.getOrgList();
         if (CollectionUtils.isEmpty(orgList)) {
-            logger.error("没有选择用户部门--saveUser({})",user);
+            logger.error("没有选择用户部门--saveUser({})", user);
             Org org = new Org();
             org.setId("defaultOrgId");
             orgList = new ArrayList<>();
@@ -312,7 +333,7 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
             Integer managerType = org.getManagerType();
             userOrg.setUserId(id);
             userOrg.setOrgId(org.getId());
-            userOrg.setManagerType(managerType==null?1:managerType);
+            userOrg.setManagerType(managerType == null ? 1 : managerType);
             userOrgList.add(userOrg);
         }
         saveUserOrg.setUserId(id);
@@ -352,7 +373,7 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
 
         List<Org> orgList = user.getOrgList();
         if (CollectionUtils.isEmpty(orgList)) {
-            logger.error("没有选择用户部门！--updateUser({})",user);
+            logger.error("没有选择用户部门！--updateUser({})", user);
             Org org = new Org();
             org.setId("defaultOrgId");
             orgList = new ArrayList<>();
@@ -372,7 +393,7 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
             Integer managerType = org.getManagerType();
             userOrg.setUserId(id);
             userOrg.setOrgId(org.getId());
-            userOrg.setManagerType(managerType==null?1:managerType);
+            userOrg.setManagerType(managerType == null ? 1 : managerType);
             userOrgList.add(userOrg);
         }
         saveUserOrg.setUserId(id);
@@ -541,7 +562,7 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
         //生成随机数
         logger.error(randomCode);
         templateParam.put("code", randomCode);
-       // smsToolService.send(phone, SmsTypeEnum.验证码, templateParam);
+        // smsToolService.send(phone, SmsTypeEnum.验证码, templateParam);
         //发送成功,设置缓存
         super.putByCache(GlobalStatic.springranloginCaptchaKey, phone, randomCode);
     }
@@ -590,11 +611,11 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
             //手机用户默认角色
             String id = roleService.findRoleByCode("defaultRoleId");
             if (StringUtils.isNotBlank(id)) {
-                userRoleMenuService.updateUserRoles(user.getId(),Arrays.asList(id));
+                userRoleMenuService.updateUserRoles(user.getId(), Arrays.asList(id));
             }
             //手机用户默认部门
             Org org = userRoleOrgService.findById("defaultOrgId", Org.class);
-            if (org!=null){
+            if (org != null) {
                 Date now = new Date();
                 UserOrg userOrg = new UserOrg();
                 userOrg.setId(SecUtils.getUUID());
@@ -606,7 +627,7 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
                 userOrg.setUpdateUserId(userId);
 
                 Integer managerType = org.getManagerType();
-                userOrg.setManagerType(managerType==null?1:managerType);
+                userOrg.setManagerType(managerType == null ? 1 : managerType);
                 userRoleOrgService.save(userOrg);
             }
         } else {
@@ -672,6 +693,7 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
         }
         return loginSuccessVO;
     }
+
     //6为随机数
     private String getRandomCode(int size) {
         String randomCode = "";
@@ -679,33 +701,6 @@ public class UserServiceImpl extends BaseSpringrainServiceImpl implements IUserS
             randomCode += i;
         }
         return randomCode;
-    }
-
-    private static int[] generateRandomNumber(int begin, int end, int size) {
-        if (begin > end) {
-            int temp = begin;
-            begin = end;
-            end = temp;
-        }
-        if (end - begin < size) {
-            throw new RuntimeException("Size is larger than range between begin and end!");
-        } else {
-            int[] seed = new int[end - begin];
-            {
-                int i = begin;
-                while (i < end) {
-                    seed[i - begin] = i++;
-                }
-            }
-            int[] ranArr = new int[size];
-            Random ran = new Random();
-            for (int i = 0; i < size; ++i) {
-                int j = ran.nextInt(seed.length - i);
-                ranArr[i] = seed[j];
-                seed[j] = seed[seed.length - 1 - i];
-            }
-            return ranArr;
-        }
     }
 
 

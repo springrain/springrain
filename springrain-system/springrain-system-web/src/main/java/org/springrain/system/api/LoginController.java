@@ -1,5 +1,7 @@
 package org.springrain.system.api;
 
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.bind.annotation.*;
 import org.springrain.frame.util.CaptchaUtils;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.ReturnDatas;
@@ -9,28 +11,19 @@ import org.springrain.rpc.sessionuser.UserVO;
 import org.springrain.system.api.vo.CaptchaVO;
 import org.springrain.system.base.BaseController;
 import org.springrain.system.dto.PhoneLoginDTO;
-import org.springrain.system.entity.Menu;
-import org.springrain.system.entity.Role;
 import org.springrain.system.entity.User;
 import org.springrain.system.service.IUserRoleMenuService;
 import org.springrain.system.service.IUserService;
 import org.springrain.system.vo.LoginSuccessVO;
-import org.springrain.system.vo.LoginUserVO;
 import org.springrain.weixin.sdk.common.wxconfig.IWxMpConfig;
 import org.springrain.weixin.sdk.open.SnsApi;
 import org.springrain.weixin.service.IWxMpConfigService;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
-import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * 登录模块

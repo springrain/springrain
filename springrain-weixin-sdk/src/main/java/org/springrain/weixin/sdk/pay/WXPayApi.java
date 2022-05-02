@@ -1,8 +1,6 @@
 package org.springrain.weixin.sdk.pay;
 
 
-import org.springrain.frame.util.GlobalStatic;
-import org.springrain.weixin.sdk.common.wxconfig.IWxPayConfig;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -21,6 +19,8 @@ import org.apache.http.impl.conn.BasicHttpClientConnectionManager;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springrain.frame.util.GlobalStatic;
+import org.springrain.weixin.sdk.common.wxconfig.IWxPayConfig;
 
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;

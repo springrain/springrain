@@ -1,10 +1,10 @@
 package org.springrain.system.service.impl;
 
+import org.springframework.stereotype.Service;
 import org.springrain.frame.entity.IBaseEntity;
 import org.springrain.frame.util.Finder;
 import org.springrain.system.entity.UserPlatformInfos;
 import org.springrain.system.service.IUserPlatformInfosService;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 

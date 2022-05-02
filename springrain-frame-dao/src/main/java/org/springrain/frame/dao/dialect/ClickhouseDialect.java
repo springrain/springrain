@@ -1,8 +1,8 @@
 package org.springrain.frame.dao.dialect;
 
+import org.springframework.stereotype.Component;
 import org.springrain.frame.util.Page;
 import org.springrain.frame.util.RegexValidateUtils;
-import org.springframework.stereotype.Component;
 
 @Component("clickhouseDialect")
 public class ClickhouseDialect implements IDialect {

@@ -192,6 +192,7 @@ public interface IUserService extends IBaseSpringrainService {
 
     /**
      * 权限接口信息
+     *
      * @param user
      * @return
      * @throws Exception

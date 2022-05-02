@@ -22,11 +22,9 @@ import org.springrain.frame.mq.IMessageProducerConsumerListener;
 
 @Component("redisOperation")
 public class RedisOperation {
-    private Logger logger = LoggerFactory.getLogger(getClass());
-
     // 注册所有的队列,方便业务重试
     public static List<IMessageProducerConsumerListener> messageProducerConsumerListenerList = new ArrayList<>();
-
+    private Logger logger = LoggerFactory.getLogger(getClass());
     @Resource
     private RedisTemplate redisTemplate;
 
@@ -106,10 +104,10 @@ public class RedisOperation {
      *
      * @param setName
      * @param value
-     * @return 影响的行数,如果返回0 就说明已经存在,忽略了
+     * @return 影响的行数, 如果返回0 就说明已经存在,忽略了
      */
-    public Long setsadd(String setName,Object value){
-        if (StringUtils.isBlank(setName)||value==null){
+    public Long setsadd(String setName, Object value) {
+        if (StringUtils.isBlank(setName) || value == null) {
             return null;
         }
         Long add = redisTemplate.opsForSet().add(setName, value);
@@ -120,29 +118,29 @@ public class RedisOperation {
      * Redis Spop 命令用于移除集合中的指定 key 的一个或多个随机元素,移除后会返回移除的元素.
      *
      * @param setName
-     * @return 所需的对象,已经完成了序列化,类型强制转换接收即可
+     * @return 所需的对象, 已经完成了序列化, 类型强制转换接收即可
      */
-    public Object setspop(String setName){
-        if (StringUtils.isBlank(setName)){
+    public Object setspop(String setName) {
+        if (StringUtils.isBlank(setName)) {
             return null;
         }
-        return  redisTemplate.opsForSet().pop(setName);
+        return redisTemplate.opsForSet().pop(setName);
     }
 
 
     /**
      * 从set中删除指定的值,返回影响的记录数,值不存在返回0
+     *
      * @param setName
      * @param value
      * @return
      */
-    public Long setsrem(String setName,String value){
-        if (StringUtils.isBlank(setName)||StringUtils.isBlank(value)){
+    public Long setsrem(String setName, String value) {
+        if (StringUtils.isBlank(setName) || StringUtils.isBlank(value)) {
             return null;
         }
-        return redisTemplate.opsForSet().remove(setName,value);
+        return redisTemplate.opsForSet().remove(setName, value);
     }
-
 
 
 }

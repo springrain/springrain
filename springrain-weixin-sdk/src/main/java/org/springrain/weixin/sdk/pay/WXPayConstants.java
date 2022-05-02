@@ -1,7 +1,7 @@
 package org.springrain.weixin.sdk.pay;
 
-import org.springrain.weixin.sdk.common.WxConsts;
 import org.apache.http.client.HttpClient;
+import org.springrain.weixin.sdk.common.WxConsts;
 
 /**
  * 常量

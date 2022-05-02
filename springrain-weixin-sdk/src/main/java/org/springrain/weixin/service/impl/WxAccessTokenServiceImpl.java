@@ -1,5 +1,7 @@
 package org.springrain.weixin.service.impl;
 
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.weixin.sdk.common.WxAccessToken;
 import org.springrain.weixin.sdk.common.WxCardTicket;
@@ -7,8 +9,6 @@ import org.springrain.weixin.sdk.common.WxJsTicket;
 import org.springrain.weixin.sdk.common.wxconfig.IWxConfig;
 import org.springrain.weixin.sdk.mp.AccessTokenApi;
 import org.springrain.weixin.service.IWxAccessTokenService;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
 
 @Service("wxAccessTokenService")
 public class WxAccessTokenServiceImpl extends BaseSpringrainWeiXinServiceImpl implements IWxAccessTokenService {

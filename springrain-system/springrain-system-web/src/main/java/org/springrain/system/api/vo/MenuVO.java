@@ -1,8 +1,8 @@
 package org.springrain.system.api.vo;
 
-import org.springrain.system.entity.Menu;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springrain.system.entity.Menu;
 
 import java.io.Serializable;
 import java.util.*;
@@ -125,24 +125,6 @@ public class MenuVO implements Serializable {
         return menuList;
     }
 
-    public Menu menuVoConvertMenu() {
-        Menu menu = new Menu();
-        menu.setId(this.key);
-        menu.setPid(this.parentKey == null ? "" : this.parentKey);
-        menu.setName(this.text);
-        menu.setPath(this.path);
-        menu.setTitle(this.text);
-        menu.setIcon(this.icon);
-        menu.setPageurl(this.pageUrl);
-        menu.setUrl(this.url);
-        menu.setTarget(this.target);
-        menu.setSortno(this.order);
-        menu.setMenuType(this.type);
-        menu.setCode(this.code);
-        menu.setActive(this.active);
-        return menu;
-    }
-
     public static List<MenuVO> menuConvertMenuVO(List<Menu> menuList) {
         List<MenuVO> menuVOList = new ArrayList<>();
         for (Menu menu : menuList) {
@@ -201,6 +183,24 @@ public class MenuVO implements Serializable {
             return null;
         }
         return menuVOTree;
+    }
+
+    public Menu menuVoConvertMenu() {
+        Menu menu = new Menu();
+        menu.setId(this.key);
+        menu.setPid(this.parentKey == null ? "" : this.parentKey);
+        menu.setName(this.text);
+        menu.setPath(this.path);
+        menu.setTitle(this.text);
+        menu.setIcon(this.icon);
+        menu.setPageurl(this.pageUrl);
+        menu.setUrl(this.url);
+        menu.setTarget(this.target);
+        menu.setSortno(this.order);
+        menu.setMenuType(this.type);
+        menu.setCode(this.code);
+        menu.setActive(this.active);
+        return menu;
     }
 
     public String[] getComcode() {

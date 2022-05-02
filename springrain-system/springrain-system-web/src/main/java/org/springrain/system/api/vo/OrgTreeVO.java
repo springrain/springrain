@@ -1,7 +1,7 @@
 package org.springrain.system.api.vo;
 
-import org.springrain.system.entity.Org;
 import org.apache.commons.collections.CollectionUtils;
+import org.springrain.system.entity.Org;
 
 import java.util.ArrayList;
 import java.util.List;

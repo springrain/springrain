@@ -39,7 +39,7 @@ public final class ImageUtils {
      * @param y         修正值 默认在中间
      * @param alpha     透明度
      */
-    public  static void pressImage(String pressImg, String targetImg, int x, int y, float alpha) {
+    public static void pressImage(String pressImg, String targetImg, int x, int y, float alpha) {
         try {
             File img = new File(targetImg);
             Image src = ImageIO.read(img);
@@ -93,7 +93,7 @@ public final class ImageUtils {
             //消除锯齿
             g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, alpha));
-           // g.drawString(pressText, (width - (getLength(pressText) * fontSize)) / 2 + x, (height - fontSize) / 2 + y);
+            // g.drawString(pressText, (width - (getLength(pressText) * fontSize)) / 2 + x, (height - fontSize) / 2 + y);
             g.drawString(pressText, x, y);
             g.dispose();
             ImageIO.write(image, "jpg", img);
@@ -154,10 +154,10 @@ public final class ImageUtils {
     /**
      * 缩放
      *
-     * @param f 图片路径
-     * @param height   高度
-     * @param width    宽度
-     * @param bb       比例不对时是否需要补白
+     * @param f      图片路径
+     * @param height 高度
+     * @param width  宽度
+     * @param bb     比例不对时是否需要补白
      */
     @SuppressWarnings("static-access")
     public static void resize(File f, int height, int width, boolean bb) {
@@ -187,8 +187,7 @@ public final class ImageUtils {
                 if (width == itemp.getWidth(null)) {
                     g.drawImage(itemp, 0, (height - itemp.getHeight(null)) / 2, itemp.getWidth(null),
                             itemp.getHeight(null), Color.white, null);
-                }
-                else {
+                } else {
                     g.drawImage(itemp, (width - itemp.getWidth(null)) / 2, 0, itemp.getWidth(null),
                             itemp.getHeight(null), Color.white, null);
                 }

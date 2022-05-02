@@ -1,9 +1,9 @@
 package org.springrain.test;
 
-import org.springrain.frame.util.SecUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
+import org.springrain.frame.util.SecUtils;
 
 public class StaticMethodTests {
 

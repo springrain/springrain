@@ -1,13 +1,13 @@
 package org.springrain.weixin.service.impl;
 
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.weixin.entity.WxCpConfig;
 import org.springrain.weixin.sdk.common.WxAccessToken;
 import org.springrain.weixin.sdk.common.wxconfig.IWxCpConfig;
 import org.springrain.weixin.service.IWxAccessTokenService;
 import org.springrain.weixin.service.IWxCpConfigService;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 

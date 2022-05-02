@@ -1,7 +1,5 @@
 package org.springrain.frame.util;
 
-import org.springrain.frame.annotation.LuceneSearch;
-import org.springrain.frame.annotation.NotLog;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +10,8 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Component;
+import org.springrain.frame.annotation.LuceneSearch;
+import org.springrain.frame.annotation.NotLog;
 
 import javax.persistence.Table;
 import java.net.URI;

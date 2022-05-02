@@ -1,7 +1,7 @@
 package org.springrain.frame.dao.dialect;
 
-import org.springrain.frame.util.Page;
 import org.springframework.stereotype.Component;
+import org.springrain.frame.util.Page;
 
 @Component("sqlite3Dialect")
 public class Sqlite3Dialect implements IDialect {

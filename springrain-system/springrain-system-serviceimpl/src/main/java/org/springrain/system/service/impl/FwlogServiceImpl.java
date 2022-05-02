@@ -1,9 +1,9 @@
 package org.springrain.system.service.impl;
 
+import org.springframework.stereotype.Service;
 import org.springrain.frame.entity.IBaseEntity;
 import org.springrain.system.entity.Fwlog;
 import org.springrain.system.service.IFwlogService;
-import org.springframework.stereotype.Service;
 
 /**
  * TODO 在此加入类描述

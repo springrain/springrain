@@ -1,6 +1,9 @@
 package org.springrain.system.service.impl;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Service;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.Page;
@@ -13,9 +16,6 @@ import org.springrain.system.entity.UserOrg;
 import org.springrain.system.service.IDicDataService;
 import org.springrain.system.service.IOrgService;
 import org.springrain.system.service.IUserRoleOrgService;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -288,7 +288,7 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
         //Set<String> collect = managerOrgAndRoleOrgByUserId.stream().map(RoleOrg::getOrgId).collect(Collectors.toSet());
         for (String orgId : orgIds) {
             Org orgById = findOrgById(orgId);
-            if(orgById==null){
+            if (orgById == null) {
                 continue;
             }
             list.add(orgById);
@@ -374,13 +374,13 @@ public class OrgServiceImpl extends BaseSpringrainServiceImpl implements IOrgSer
         if (finder == null) {
             return list;
         }
-        if (org!=null) {
-            super.getFinderWhereByQueryBean(finder,org);
+        if (org != null) {
+            super.getFinderWhereByQueryBean(finder, org);
         }
         List<String> orgIds = super.queryForList(finder, String.class, page);
         for (String orgId : orgIds) {
             Org orgById = findOrgById(orgId);
-            if(orgById==null){
+            if (orgById == null) {
                 continue;
             }
             list.add(orgById);

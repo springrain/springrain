@@ -1,13 +1,13 @@
 package org.springrain.system.service.impl;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Service;
 import org.springrain.frame.entity.IBaseEntity;
 import org.springrain.frame.util.Finder;
 import org.springrain.system.entity.Attachment;
 import org.springrain.system.service.IAttachmentService;
 import org.springrain.system.service.IUserRoleOrgService;
-import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;

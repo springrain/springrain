@@ -1,10 +1,10 @@
 package org.springrain.system.entity;
 
-import org.springrain.frame.annotation.WhereSQL;
-import org.springrain.frame.entity.BaseEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.springrain.frame.annotation.WhereSQL;
+import org.springrain.frame.entity.BaseEntity;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -136,6 +136,17 @@ public class Org extends BaseEntity {
      * 部门类型名字
      */
     private String orgTypeName;
+    /**
+     * 用户对部门的管理类型(在部门中的地位-0会员,1员工,2主管)
+     *
+     * @required
+     */
+    private Integer managerType;
+    private String[] comcodeList;
+
+    //constructor
+    public Org() {
+    }
 
     @Transient
     public String getOrgTypeName() {
@@ -146,13 +157,6 @@ public class Org extends BaseEntity {
         this.orgTypeName = orgTypeName;
     }
 
-    /**
-     * 用户对部门的管理类型(在部门中的地位-0会员,1员工,2主管)
-     *
-     * @required
-     */
-    private Integer managerType;
-
     @Transient
     public Integer getManagerType() {
         return managerType;
@@ -161,8 +165,6 @@ public class Org extends BaseEntity {
     public void setManagerType(Integer managerType) {
         this.managerType = managerType;
     }
-
-    private String[] comcodeList;
 
     @Transient
     public String[] getComcodeList() {
@@ -175,10 +177,6 @@ public class Org extends BaseEntity {
 
     public void setComcodeList(String[] comcodeList) {
         this.comcodeList = comcodeList;
-    }
-
-    //constructor
-    public Org() {
     }
 
 

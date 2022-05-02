@@ -1,6 +1,12 @@
 package org.springrain.system.api.miniapp;
 
 import com.google.common.collect.Maps;
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.frame.util.JsonUtils;
 import org.springrain.frame.util.ReturnDatas;
@@ -18,12 +24,6 @@ import org.springrain.weixin.sdk.miniapp.MiniappAuthApi;
 import org.springrain.weixin.sdk.miniapp.MiniappQrcode;
 import org.springrain.weixin.sdk.miniapp.MiniappQrcodeApi;
 import org.springrain.weixin.service.IWxMiniappConfigService;
-import org.apache.commons.collections.MapUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.io.File;

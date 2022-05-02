@@ -1,5 +1,12 @@
 package org.springrain.system.api;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springrain.frame.util.ExcelUtils;
 import org.springrain.frame.util.Page;
 import org.springrain.frame.util.ReturnDatas;
@@ -16,13 +23,6 @@ import org.springrain.system.entity.*;
 import org.springrain.system.service.IUserRoleMenuService;
 import org.springrain.system.service.IUserRoleOrgService;
 import org.springrain.system.service.IUserService;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -40,17 +40,14 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/api/system/user", method = RequestMethod.POST)
 public class UserController extends BaseController {
 
-    @Resource
-    private IUserRoleMenuService userRoleMenuService;
-
-    @Resource
-    private IUserRoleOrgService userRoleOrgService;
-
-    @Resource
-    private IUserService userService;
-
     @Value("${staticdir}")
     private final String path = null;
+    @Resource
+    private IUserRoleMenuService userRoleMenuService;
+    @Resource
+    private IUserRoleOrgService userRoleOrgService;
+    @Resource
+    private IUserService userService;
 
     /**
      * 后台用户列表（分页）

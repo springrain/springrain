@@ -1,10 +1,10 @@
 package org.springrain.system.entity;
 
-import org.springrain.frame.annotation.WhereSQL;
-import org.springrain.frame.entity.BaseEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.springrain.frame.annotation.WhereSQL;
+import org.springrain.frame.entity.BaseEntity;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -106,6 +106,10 @@ public class UserOrg extends BaseEntity {
 
     private List<UserOrg> userOrgList;
 
+    //concstructor
+    public UserOrg() {
+    }
+
     @Transient
     public List<UserOrg> getUserOrgList() {
         return userOrgList;
@@ -113,10 +117,6 @@ public class UserOrg extends BaseEntity {
 
     public void setUserOrgList(List<UserOrg> userOrgList) {
         this.userOrgList = userOrgList;
-    }
-
-    //concstructor
-    public UserOrg() {
     }
 
 

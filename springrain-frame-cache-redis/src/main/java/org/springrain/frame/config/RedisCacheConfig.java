@@ -22,13 +22,12 @@ import java.time.Duration;
 @Configuration("configuration-RedisCacheConfig")
 public class RedisCacheConfig {
 
-    @Resource
-    private RedisConnectionFactory redisConnectionFactory;
-
     // 序列化配置 解析任意对象
     public static FstSerializer fstSerializer = new FstSerializer();
     // 2.序列化String类型
     public static StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
+    @Resource
+    private RedisConnectionFactory redisConnectionFactory;
 
     /**
      * 实际使用的redisTemplate,可以注入到代码中,操作redis

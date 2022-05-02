@@ -1,10 +1,10 @@
 package org.springrain.system.entity;
 
-import org.springrain.frame.annotation.WhereSQL;
-import org.springrain.frame.entity.BaseEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.springrain.frame.annotation.WhereSQL;
+import org.springrain.frame.entity.BaseEntity;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -334,6 +334,18 @@ public class Menu extends BaseEntity {
     }
 
     /**
+     * pageurl
+     *
+     * @param value
+     */
+    public void setPageurl(String value) {
+        if (StringUtils.isNotBlank(value)) {
+            value = value.trim();
+        }
+        this.pageurl = value;
+    }
+
+    /**
      * 权限显示code,功能，用于按钮显示判断
      *
      * @return
@@ -350,18 +362,6 @@ public class Menu extends BaseEntity {
      */
     public void setCode(String code) {
         this.code = code;
-    }
-
-    /**
-     * pageurl
-     *
-     * @param value
-     */
-    public void setPageurl(String value) {
-        if (StringUtils.isNotBlank(value)) {
-            value = value.trim();
-        }
-        this.pageurl = value;
     }
 
     /**

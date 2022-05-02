@@ -1,7 +1,7 @@
 package org.springrain.frame.dao.dialect;
 
-import org.springrain.frame.util.Page;
 import org.springframework.stereotype.Component;
+import org.springrain.frame.util.Page;
 
 @Component("oracleDialect")
 public class OracleDialect implements IDialect {

@@ -2,11 +2,11 @@ package org.springrain.rpc.util;
 
 
 import com.google.protobuf.ByteString;
+import org.nustaq.serialization.FSTConfiguration;
 import org.springrain.rpc.grpcauto.CommonRequest;
 import org.springrain.rpc.grpcauto.CommonResponse;
 import org.springrain.rpc.grpcimpl.GrpcCommonRequest;
 import org.springrain.rpc.grpcimpl.GrpcCommonResponse;
-import org.nustaq.serialization.FSTConfiguration;
 
 
 /**

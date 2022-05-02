@@ -1,9 +1,9 @@
 package org.springrain.system.interceptor;
 
-import org.springrain.frame.util.GlobalStatic;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springrain.frame.util.GlobalStatic;
 
 import javax.annotation.Resource;
 

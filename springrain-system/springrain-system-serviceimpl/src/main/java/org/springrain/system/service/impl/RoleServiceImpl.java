@@ -1,6 +1,11 @@
 package org.springrain.system.service.impl;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang.time.DateUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Service;
 import org.springrain.frame.entity.IBaseEntity;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.GlobalStatic;
@@ -11,11 +16,6 @@ import org.springrain.system.dto.RoleDTO;
 import org.springrain.system.entity.*;
 import org.springrain.system.service.IRoleService;
 import org.springrain.system.service.IUserRoleOrgService;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang.time.DateUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
-import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -338,6 +338,6 @@ public class RoleServiceImpl extends BaseSpringrainServiceImpl implements IRoleS
     public String findRoleByCode(String code) throws Exception {
         Finder finder = Finder.getSelectFinder(Role.class, " id ").append(" where code=:code ")
                 .setParam("code", code);
-        return super.queryForObject(finder,String.class);
+        return super.queryForObject(finder, String.class);
     }
 }

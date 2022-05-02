@@ -161,8 +161,10 @@ public class DateUtils {
         targetDate = formatDate(DateUtils.DATE_FORMAT, targetDate);
         return targetDate;
     }
+
     /**
      * 当前日期加减天数
+     *
      * @param day 要加减的天数，加为正数，减为负数
      * @return
      * @throws ParseException 例： DateUtils.formatDate(new Date()) "yyyy-MM-dd
@@ -174,19 +176,22 @@ public class DateUtils {
         c.add(Calendar.DAY_OF_MONTH, 1);
         return c.getTime();
     }
+
     /**
      * 当前日期加减月数
+     *
      * @param month 要加减的月数，加为正数，减为负数
      * @return
      * @throws ParseException 例： DateUtils.formatDate(new Date()) "yyyy-MM-dd
      *                        00:00:00"
      */
-    public static Date addMonth(Date date ,int month) {
+    public static Date addMonth(Date date, int month) {
         Calendar c = Calendar.getInstance();
         c.setTime(date);
         c.add(Calendar.MONTH, 1);
         return c.getTime();
     }
+
     /**
      * 比较日期大小
      *
@@ -210,7 +215,7 @@ public class DateUtils {
                 return 0;
             }
         } catch (Exception e) {
-            logger.error(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
         }
         return 0;
     }

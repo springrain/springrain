@@ -1,5 +1,10 @@
 package org.springrain.test;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springrain.SpringrainApplication;
 import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.JsonUtils;
@@ -10,11 +15,6 @@ import org.springrain.system.service.IMenuService;
 import org.springrain.system.service.IOrgService;
 import org.springrain.system.service.IUserRoleMenuService;
 import org.springrain.system.service.IUserRoleOrgService;
-import org.apache.commons.collections4.CollectionUtils;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;

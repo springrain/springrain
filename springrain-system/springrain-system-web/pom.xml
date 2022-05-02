@@ -195,11 +195,11 @@
                     <!--指定项目名称-->
                     <projectName>${project.description}-API文档</projectName>
                     <!--smart-doc实现自动分析依赖树加载第三方依赖的源码，如果一些框架依赖库加载不到导致报错，这时请使用excludes排除掉-->
-                   <!--
-                    <excludes>
-                        <exclude>com.alibaba:fastjson</exclude>
-                    </excludes>
-                    -->
+                    <!--
+                     <excludes>
+                         <exclude>com.alibaba:fastjson</exclude>
+                     </excludes>
+                     -->
                     <!--自1.0.8版本开始，插件提供includes支持-->
                     <!--smart-doc能自动分析依赖树加载所有依赖源码，原则上会影响文档构建效率，因此你可以使用includes来让插件加载你配置的组件-->
                     <includes>
@@ -237,7 +237,6 @@
                     <includeSystemScope>true</includeSystemScope>
                 </configuration>
             </plugin>
-
 
 
         </plugins>

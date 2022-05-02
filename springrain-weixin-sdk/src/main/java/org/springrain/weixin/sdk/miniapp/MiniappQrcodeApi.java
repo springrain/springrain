@@ -1,11 +1,5 @@
 package org.springrain.weixin.sdk.miniapp;
 
-import org.springrain.frame.util.GlobalStatic;
-import org.springrain.frame.util.HttpClientUtils;
-import org.springrain.frame.util.JsonUtils;
-import org.springrain.weixin.sdk.common.ApiResult;
-import org.springrain.weixin.sdk.common.WxConsts;
-import org.springrain.weixin.sdk.common.wxconfig.IWxMiniappConfig;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -15,6 +9,12 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springrain.frame.util.GlobalStatic;
+import org.springrain.frame.util.HttpClientUtils;
+import org.springrain.frame.util.JsonUtils;
+import org.springrain.weixin.sdk.common.ApiResult;
+import org.springrain.weixin.sdk.common.WxConsts;
+import org.springrain.weixin.sdk.common.wxconfig.IWxMiniappConfig;
 
 import java.io.BufferedOutputStream;
 import java.io.File;

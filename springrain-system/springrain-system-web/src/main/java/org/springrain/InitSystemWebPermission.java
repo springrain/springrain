@@ -1,10 +1,10 @@
 package org.springrain;
 
-import org.springrain.frame.util.GlobalStatic;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.stereotype.Component;
+import org.springrain.frame.util.GlobalStatic;
 
 /**
  * 初始化System系统的权限菜单

@@ -55,14 +55,10 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
 
     // 默认batchSize
     private final int defaultBatchSize = 100;
-
-
-    // 默认XTRIM的MAXLEN,如果是<0,则不限制
-    private int defaultMaxLen = -1;
-
     //泛型的类型
     private final Class<T> genericClass = ClassUtils.getActualTypeGenericSuperclass(getClass());
-
+    // 默认XTRIM的MAXLEN,如果是<0,则不限制
+    private int defaultMaxLen = -1;
     //监听的容器
     private StreamMessageListenerContainer<String, ObjectRecord<String, T>> container = null;
 
@@ -364,8 +360,8 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
             RecordId recordId = redisTemplate.opsForStream().add(record);
 
             // 裁剪队列长度,用新值覆盖老值,手动执行 XTRIM 命令才会裁剪,不会持久自动化裁剪
-            if (getDefaultMaxLen()>0){
-                redisTemplate.opsForStream().trim(getQueueName(),getDefaultMaxLen());
+            if (getDefaultMaxLen() > 0) {
+                redisTemplate.opsForStream().trim(getQueueName(), getDefaultMaxLen());
             }
 
             // return recordId.getValue();
