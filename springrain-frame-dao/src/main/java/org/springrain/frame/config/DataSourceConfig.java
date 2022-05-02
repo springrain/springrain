@@ -35,7 +35,7 @@ public class DataSourceConfig {
 
     private Integer initialSize = 100;
     private Integer minIdle = 100;
-    private Integer maxActive = 500;
+    private Integer maxActive = 1000;
     private Long maxWaitMillis = 60000L;
     private Long minEvictableIdleTimeMillis = 35000L;
     private Long timeBetweenEvictionRunsMillis = 10000L;
