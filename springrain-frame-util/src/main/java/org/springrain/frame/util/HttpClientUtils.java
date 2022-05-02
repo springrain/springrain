@@ -96,8 +96,8 @@ public class HttpClientUtils {
         // connectionManager=new
         // BasicHttpClientConnectionManager(socketFactoryRegistry);
 
-        // connectionManager = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
-        connectionManager = new PoolingHttpClientConnectionManager();
+         connectionManager = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
+        //connectionManager = new PoolingHttpClientConnectionManager();
         connectionManager.setMaxTotal(2000);
         connectionManager.setDefaultMaxPerRoute(500);// 每个路由最大的请求数量
 
