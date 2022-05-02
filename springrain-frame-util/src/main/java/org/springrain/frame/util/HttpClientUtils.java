@@ -68,11 +68,11 @@ public class HttpClientUtils {
         SSLContext sslContext = null;
         try {
             sslContext = SSLContextBuilder.create().loadTrustMaterial(new TrustSelfSignedStrategy() {
-                @Override
-                public boolean isTrusted(X509Certificate[] x509Certificates, String s) throws CertificateException {
-                    return true;
-                }
-            })
+                        @Override
+                        public boolean isTrusted(X509Certificate[] x509Certificates, String s) throws CertificateException {
+                            return true;
+                        }
+                    })
                     .build();
         } catch (NoSuchAlgorithmException e) {
             logger.error(e.getMessage(), e);

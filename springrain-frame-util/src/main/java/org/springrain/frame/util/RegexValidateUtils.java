@@ -586,7 +586,6 @@ public class RegexValidateUtils {
         return index;
     }
 */
-
     public static String[] getDeleteTableName(String deletesql) {
         if (StringUtils.isBlank(deletesql)) {
             return null;
