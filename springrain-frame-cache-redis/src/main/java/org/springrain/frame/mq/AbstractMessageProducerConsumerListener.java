@@ -54,7 +54,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
     //private final Executor defaultExecutor = new SimpleAsyncTaskExecutor();
 
     // 默认batchSize
-    private final int defaultBatchSize = 100;
+    private final int defaultBatchSize = 200;
     //泛型的类型
     private final Class<T> genericClass = ClassUtils.getActualTypeGenericSuperclass(getClass());
     // 默认XTRIM的MAXLEN,如果是<0,则不限制

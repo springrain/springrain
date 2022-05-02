@@ -33,9 +33,9 @@ public class DataSourceConfig {
     @Value("${spring.datasource.password}")
     private String password;
 
-    private Integer initialSize = 50;
-    private Integer minIdle = 50;
-    private Integer maxActive = 200;
+    private Integer initialSize = 100;
+    private Integer minIdle = 100;
+    private Integer maxActive = 500;
     private Long maxWaitMillis = 60000L;
     private Long minEvictableIdleTimeMillis = 35000L;
     private Long timeBetweenEvictionRunsMillis = 10000L;
