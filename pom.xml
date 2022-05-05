@@ -48,8 +48,8 @@
         <javax.servlet-api.version>3.0.1</javax.servlet-api.version>
 
         <!-- lucene版本和es的依赖版本最好保持一致,避免冲突 -->
-        <lucene.version>9.0.0</lucene.version>
-        <elasticsearch.client.version>8.1.3</elasticsearch.client.version>
+        <lucene.version>9.1.0</lucene.version>
+        <elasticsearch.client.version>8.2.0</elasticsearch.client.version>
 
         <!-- 建议使用 redis stream实现MQ,比较简单 -->
         <rocketmq.client.version>4.9.3</rocketmq.client.version>
@@ -61,7 +61,7 @@
         -->
 
         <!-- GRPC -->
-        <io.grpc.version>1.45.1</io.grpc.version>
+        <io.grpc.version>1.46.0</io.grpc.version>
         <kr.motd.maven.version>1.7.0</kr.motd.maven.version>
         <io.protostuff.version>1.7.4</io.protostuff.version>
 
@@ -87,7 +87,7 @@
         <seata.version>1.4.2</seata.version>
 
         <!-- smart-doc 文档生成 -->
-        <smart-doc-maven-plugin.version>2.4.3</smart-doc-maven-plugin.version>
+        <smart-doc-maven-plugin.version>2.4.4</smart-doc-maven-plugin.version>
     </properties>
 
 
