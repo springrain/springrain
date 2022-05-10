@@ -9,7 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.data.convert.CustomConversions;
+import org.springframework.data.domain.Range;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.stream.Record;
 import org.springframework.data.redis.connection.stream.*;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StreamOperations;
@@ -54,11 +56,15 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
     //private final Executor defaultExecutor = new SimpleAsyncTaskExecutor();
 
     // 默认batchSize
-    private final int defaultBatchSize = 200;
-    //泛型的类型
-    private final Class<T> genericClass = ClassUtils.getActualTypeGenericSuperclass(getClass());
+    private final int defaultBatchSize = 500;
+
+
     // 默认XTRIM的MAXLEN,如果是<0,则不限制
     private int defaultMaxLen = -1;
+
+    //泛型的类型
+    private final Class<T> genericClass = ClassUtils.getActualTypeGenericSuperclass(getClass());
+
     //监听的容器
     private StreamMessageListenerContainer<String, ObjectRecord<String, T>> container = null;
 
@@ -73,6 +79,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
      *
      * @return
      */
+    @Override
     public abstract String getQueueName();
 
     /**
@@ -360,10 +367,9 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
             RecordId recordId = redisTemplate.opsForStream().add(record);
 
             // 裁剪队列长度,用新值覆盖老值,手动执行 XTRIM 命令才会裁剪,不会持久自动化裁剪
-            if (getDefaultMaxLen() > 0) {
-                redisTemplate.opsForStream().trim(getQueueName(), getDefaultMaxLen());
+            if (getDefaultMaxLen()>0){
+                redisTemplate.opsForStream().trim(getQueueName(),getDefaultMaxLen());
             }
-
             // return recordId.getValue();
             return new MessageObjectDto<T>(message, getQueueName(), recordId.getValue(), recordId.getTimestamp());
         } catch (Exception e) {
@@ -416,6 +422,26 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
 
     }
 
+    /**
+     * 获取 messageId 被重试获取的总次数
+     *
+     * @param messageId
+     * @return
+     */
+    public Long getTotalDeliveryCount(String messageId) {
+        if (StringUtils.isBlank(messageId)) {
+            return null;
+        }
+        //消费者
+        Consumer consumer = Consumer.from(getGroupName(), getConsumerName());
+        //设置配置
+        PendingMessages pendingMessages = redisTemplate.opsForStream().pending(getQueueName(), consumer, Range.just(messageId), 1);
+        if (pendingMessages == null || pendingMessages.size() < 1) {
+            return null;
+        }
+        Long totalDeliveryCount = pendingMessages.get(0).getTotalDeliveryCount();
+        return totalDeliveryCount;
+    }
 
     @Override
     public void close() throws IOException {
