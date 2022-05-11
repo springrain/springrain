@@ -52,6 +52,10 @@ import java.util.concurrent.Executor;
  */
 public abstract class AbstractMessageProducerConsumerListener<T> implements StreamListener<String, ObjectRecord<String, T>>, IMessageProducerConsumerListener<T>, Closeable {
     private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    //等待升级状态的缓存key,如果是值是yes,队列不再进入消费逻辑.
+    private final String waiting4upgradeCacheKey = "waiting4upgrade";
+
     //默认的线程池
     //private final Executor defaultExecutor = new SimpleAsyncTaskExecutor();
 
@@ -144,6 +148,10 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
     @Override
     public void onMessage(ObjectRecord<String, T> message) {
         try {
+            Object waiting4upgrade = redisTemplate.opsForValue().get(waiting4upgradeCacheKey);
+            if (waiting4upgrade != null && "yes".equalsIgnoreCase(waiting4upgrade.toString())) {
+                return;
+            }
             RecordId recordId = messageSuccessRecordId(message);
             if (recordId != null) {
                 //消息确认ack
