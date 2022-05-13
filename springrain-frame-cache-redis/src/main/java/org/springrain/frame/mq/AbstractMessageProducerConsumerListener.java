@@ -53,7 +53,7 @@ import java.util.concurrent.Executor;
 public abstract class AbstractMessageProducerConsumerListener<T> implements StreamListener<String, ObjectRecord<String, T>>, IMessageProducerConsumerListener<T>, Closeable {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    //等待升级状态的缓存key,如果是值是yes,队列不再进入消费逻辑.
+    //等待升级状态的缓存key,如果有值,队列不再进入消费逻辑,升级完成之后,记得从redis中 del waiting4upgrade
     private final String waiting4upgradeCacheKey = "waiting4upgrade";
 
     //默认的线程池
@@ -148,8 +148,9 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
     @Override
     public void onMessage(ObjectRecord<String, T> message) {
         try {
+            //如果有值,队列不再进入消费逻辑,升级完成之后,记得从redis中 del waiting4upgrade
             Object waiting4upgrade = redisTemplate.opsForValue().get(waiting4upgradeCacheKey);
-            if (waiting4upgrade != null && "yes".equalsIgnoreCase(waiting4upgrade.toString())) {
+            if (waiting4upgrade != null) {
                 return;
             }
             RecordId recordId = messageSuccessRecordId(message);
