@@ -65,15 +65,15 @@
         <kr.motd.maven.version>1.7.0</kr.motd.maven.version>
         <io.protostuff.version>1.7.4</io.protostuff.version>
 
-        <zxing.version>3.4.1</zxing.version>
+        <zxing.version>3.5.0</zxing.version>
 
         <jsoup.version>1.14.3</jsoup.version>
         <xstream.version>1.4.19</xstream.version>
         <druid-spring-boot-starter.version>1.2.9</druid-spring-boot-starter.version>
 
-        <clickhouse-jdbc.version>0.3.2-patch8</clickhouse-jdbc.version>
+        <clickhouse-jdbc.version>0.3.2-patch9</clickhouse-jdbc.version>
 
-        <jwt.version>3.19.1</jwt.version>
+        <jwt.version>3.19.2</jwt.version>
 
         <!--
         <redisson.version>3.15.3</redisson.version>
@@ -87,7 +87,7 @@
         <seata.version>1.4.2</seata.version>
 
         <!-- smart-doc 文档生成 -->
-        <smart-doc-maven-plugin.version>2.4.4</smart-doc-maven-plugin.version>
+        <smart-doc-maven-plugin.version>2.4.5</smart-doc-maven-plugin.version>
     </properties>
 
 
