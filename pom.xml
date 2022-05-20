@@ -16,7 +16,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.6.7</version>
+        <version>2.7.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -84,7 +84,7 @@
         <bcprov.version>1.69</bcprov.version>
 
         <!-- seata分布式事务 -->
-        <seata.version>1.4.2</seata.version>
+        <seata.version>1.5.0</seata.version>
 
         <!-- smart-doc 文档生成 -->
         <smart-doc-maven-plugin.version>2.4.5</smart-doc-maven-plugin.version>
