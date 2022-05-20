@@ -83,7 +83,6 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
      *
      * @return
      */
-    @Override
     public abstract String getQueueName();
 
     /**
