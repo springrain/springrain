@@ -111,7 +111,7 @@
                 <artifactId>druid-spring-boot-starter</artifactId>
                 <version>${druid-spring-boot-starter.version}</version>
             </dependency>
-            <!-- redis 客户端,强依赖,不可更换为其他redis客户端.使用默认的spring-boot-starter-data-redis,不再使用redisson -->
+            <!-- 使用默认的spring-boot-starter-data-redis,不再使用redisson -->
             <!--
             <dependency>
                 <groupId>org.redisson</groupId>
