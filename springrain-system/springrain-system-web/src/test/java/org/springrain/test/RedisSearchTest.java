@@ -3,28 +3,25 @@ package org.springrain.test;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+
 /**
- * redisearch Test
- *
- * @author AngeryFeather
- * @version 2021年4月14日 下午5:44:36
- * @copyright
- * @see RedisSearchTest
+ * 测试RedisSearch,使用RedisModulesClient
  */
 @SpringBootTest
 public class RedisSearchTest {
 
     @Test
-    public void createIndexTest() {
-		/*
-		Client client = RedisSearchUtils.getClient();
-		
-		Schema schema = new Schema().addTextField("first", 1.0).addTextField("last", 1.0).addNumericField("age");
-		IndexDefinition definition = new IndexDefinition()
-	          .setPrefixes(new String[] {"student:", "pupil:"});
-		System.out.println(client.createIndex(schema, Client.IndexOptions.defaultOptions().setDefinition(definition)));
+    public void rediSearchTest() {
 
-		 */
+        /*
+        RedisModulesClient client = RedisModulesClient.create("redis://127.0.0.1:6379"); // (1)
+        StatefulRedisModulesConnection<String, String> connection = client.connect(); // (2)
+        RedisModulesCommands<String, String> search = connection.sync(); // (3)
+        search.create("beers", Field.text("name").build(), Field.numeric("ibu").build()); // (4)
+        SearchResults<String, String> results = search.search("beers", "chou*"); // (5)
+        System.out.println(results);
+         */
+
     }
 
 }
