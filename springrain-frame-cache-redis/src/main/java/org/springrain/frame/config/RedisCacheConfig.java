@@ -1,6 +1,5 @@
 package org.springrain.frame.config;
 
-import org.springrain.frame.util.FstSerializer;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +9,7 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springrain.frame.util.FstSerializer;
 
 import javax.annotation.Resource;
 import java.time.Duration;
@@ -84,6 +84,7 @@ public class RedisCacheConfig {
         RedisCacheManager redisCacheManager =
                 RedisCacheManager.builder(redisConnectionFactory)
                         .cacheDefaults(defaultCacheConfig(-1))
+                        //支持事务,数据库事务提交后再提交.有时候也会造成麻烦.
                         .transactionAware()
                         .build();
         return redisCacheManager;
@@ -112,6 +113,7 @@ public class RedisCacheConfig {
         //设置序列化方式
         defaultCacheConfig.serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(stringRedisSerializer))
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(fstSerializer))
+                //禁用更新NULL值
                 .disableCachingNullValues();
         return defaultCacheConfig;
     }

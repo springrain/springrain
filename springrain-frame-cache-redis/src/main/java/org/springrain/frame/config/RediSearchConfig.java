@@ -26,7 +26,7 @@ public class RediSearchConfig {
      */
     @Bean("redisModulesCommands")
     public RedisModulesCommands<String, String> redisModulesCommands() {
-        String uri="redis://"+host+":"+port;
+        String uri = "redis://" + host + ":" + port;
         RedisModulesClient client = RedisModulesClient.create(uri); // (1)
         StatefulRedisModulesConnection<String, String> connection = client.connect(); // (2)
         RedisModulesCommands<String, String> commands = connection.sync(); // (3)
