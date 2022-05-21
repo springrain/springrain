@@ -1,11 +1,6 @@
 package org.springrain.lucene;
 
-import org.springrain.frame.util.*;
-import org.springrain.frame.util.FieldInfo;
-import org.springrain.lucene.IK.dic.Dictionary;
-import org.springrain.lucene.IK.lucene.IKAnalyzer;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.*;
@@ -20,7 +15,10 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springrain.frame.util.FieldInfo;
 import org.springrain.frame.util.*;
+import org.springrain.lucene.IK.dic.Dictionary;
+import org.springrain.lucene.IK.lucene.IKAnalyzer;
 
 import java.io.File;
 import java.io.IOException;
@@ -711,7 +709,7 @@ public class LuceneUtils {
             return null;
         }
 
-        Map<String, Object> map = new HashedMap<>();
+        Map<String, Object> map = new HashMap<>();
 
         for (FieldInfo finfo : luceneFields) {
             String fieldName = finfo.getFieldName();
