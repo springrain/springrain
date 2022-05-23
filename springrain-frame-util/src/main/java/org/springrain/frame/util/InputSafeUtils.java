@@ -3,7 +3,7 @@ package org.springrain.frame.util;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
 import org.jsoup.Jsoup;
-import org.jsoup.safety.Whitelist;
+import org.jsoup.safety.Safelist;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +17,7 @@ import java.net.URLEncoder;
  */
 public class InputSafeUtils {
     private static final Logger logger = LoggerFactory.getLogger(InputSafeUtils.class);
-    private final static Whitelist user_content_filter = Whitelist.relaxed();
+    private final static Safelist user_content_filter = Safelist.relaxed();
 
     static {
         user_content_filter.addTags("iframe", "article", "aside", "audio", "bdi", "canvas", "embed", "footer", "header",

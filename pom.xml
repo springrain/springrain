@@ -67,7 +67,7 @@
 
         <zxing.version>3.5.0</zxing.version>
 
-        <jsoup.version>1.14.3</jsoup.version>
+        <jsoup.version>1.15.1</jsoup.version>
         <xstream.version>1.4.19</xstream.version>
         <druid-spring-boot-starter.version>1.2.9</druid-spring-boot-starter.version>
 
@@ -84,7 +84,7 @@
         <bcprov.version>1.69</bcprov.version>
 
         <!-- seata分布式事务 -->
-        <seata.version>1.5.0</seata.version>
+        <seata.version>1.5.1</seata.version>
 
         <!-- smart-doc 文档生成 -->
         <smart-doc-maven-plugin.version>2.4.5</smart-doc-maven-plugin.version>
