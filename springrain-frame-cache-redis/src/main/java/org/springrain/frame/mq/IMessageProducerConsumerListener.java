@@ -51,4 +51,20 @@ public interface IMessageProducerConsumerListener<T> {
      */
     MessageObjectDto<T> sendProducerMessage(T message) throws Exception;
 
+    /**
+     * 消息队列的名称,redis里就是stream的名称
+     *
+     * @return
+     */
+    String getQueueName();
+
+
+    /**
+     * 是否可用,默认为true
+     * @return
+     */
+    default  boolean getEnable(){
+        return true;
+    }
+
 }

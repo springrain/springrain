@@ -78,12 +78,6 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
     @Resource
     private RedisTemplate redisTemplate;
 
-    /**
-     * 消息队列的名称,redis里就是stream的名称
-     *
-     * @return
-     */
-    public abstract String getQueueName();
 
     /**
      * 批量消费的数量
@@ -147,6 +141,10 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
     @Override
     public void onMessage(ObjectRecord<String, T> message) {
         try {
+            //如果不可用
+            if (!getEnable()) {
+                return;
+            }
             //如果有值,队列不再进入消费逻辑,升级完成之后,记得从redis中 del waiting4upgrade
             Object waiting4upgrade = redisTemplate.opsForValue().get(waiting4upgradeCacheKey);
             if (waiting4upgrade != null) {
@@ -180,7 +178,10 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
     @PostConstruct
     private void registerConsumerListener() {
         try {
-
+            //如果不可用
+            if (!getEnable()) {
+                return;
+            }
             String className = getClass().toString();
             if (StringUtils.isBlank(getQueueName())) {
                 logger.error(className + "的getQueueName()为空,registerConsumerListener()方法执行失败.");
@@ -277,7 +278,10 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
      */
     @Override
     public List<MessageObjectDto<T>> retryFailMessage() throws Exception {
-
+        //如果不可用
+        if (!getEnable()) {
+            return null;
+        }
         int batchSize = getBatchSize();
         if (batchSize < 1) {
             batchSize = defaultBatchSize;
@@ -364,6 +368,10 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
      */
     @Override
     public MessageObjectDto<T> sendProducerMessage(T message) throws Exception {
+        //如果不可用
+        if (!getEnable()) {
+            return null;
+        }
         if (message == null) {
             return null;
         }
