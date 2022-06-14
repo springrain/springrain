@@ -368,10 +368,10 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
      */
     @Override
     public MessageObjectDto<T> sendProducerMessage(T message) throws Exception {
-        //如果不可用
-        if (!getEnable()) {
-            return null;
-        }
+        // 即使禁用,也允许发送消息队列.
+        //if (!getEnable()) {
+        //    return null;
+        //}
         if (message == null) {
             return null;
         }
