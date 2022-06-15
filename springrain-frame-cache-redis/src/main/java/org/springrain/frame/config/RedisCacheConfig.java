@@ -85,7 +85,7 @@ public class RedisCacheConfig {
                 RedisCacheManager.builder(redisConnectionFactory)
                         .cacheDefaults(defaultCacheConfig(-1))
                         //支持事务,数据库事务提交后再提交.有时候也会造成麻烦.
-                        .transactionAware()
+                        //.transactionAware()
                         .build();
         return redisCacheManager;
     }
