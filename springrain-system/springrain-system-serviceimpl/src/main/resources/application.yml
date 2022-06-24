@@ -1,5 +1,5 @@
-#启动命令: nohup java -server -Xms512m -Xmx2048m  -Dspring.config.location=/application.yml  -jar springboot-1.0.jar &
-#JDK17: nohup java --add-opens java.base/java.text=ALL-UNNAMED --add-opens java.base/java.net=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.math=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.util.concurrent=ALL-UNNAMED --add-opens java.sql/java.sql=ALL-UNNAMED -server -Xms512m -Xmx2048m  -Dspring.config.location=/application.yml  -jar springboot-1.0.jar &
+#启动命令: nohup java  -server -Xms512m -Xmx2048m -Dfile.encoding=utf-8 -Dsun.jnu.encoding=utf-8 -Djava.security.egd=file:/dev/./urandom -Dspring.config.location=/application.yml  -jar springboot-1.0.jar &
+#JDK17: nohup java --add-opens java.base/java.text=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED --add-opens java.base/java.net=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.math=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.util.concurrent=ALL-UNNAMED --add-opens java.sql/java.sql=ALL-UNNAMED -server -Xms512m -Xmx2048m -Dfile.encoding=utf-8 -Dsun.jnu.encoding=utf-8 -Djava.security.egd=file:/dev/./urandom -Dspring.config.location=/application.yml  -jar springboot-1.0.jar &
 #建议使用 WinSW 注册成windows服务
 server:
   #服务http端口
