@@ -16,7 +16,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.0</version>
+        <version>2.7.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -71,9 +71,9 @@
         <xstream.version>1.4.19</xstream.version>
         <druid-spring-boot-starter.version>1.2.11</druid-spring-boot-starter.version>
 
-        <clickhouse-jdbc.version>0.3.2-patch9</clickhouse-jdbc.version>
+        <clickhouse-jdbc.version>0.3.2-patch10</clickhouse-jdbc.version>
 
-        <jwt.version>3.19.2</jwt.version>
+        <jwt.version>4.0.0</jwt.version>
 
         <!--
         <redisson.version>3.15.3</redisson.version>
@@ -84,12 +84,12 @@
         <bcprov.version>1.69</bcprov.version>
 
         <!-- seata分布式事务 -->
-        <seata.version>1.5.1</seata.version>
+        <seata.version>1.5.1.1</seata.version>
 
         <!-- smart-doc 文档生成 -->
-        <smart-doc-maven-plugin.version>2.4.6</smart-doc-maven-plugin.version>
+        <smart-doc-maven-plugin.version>2.4.7</smart-doc-maven-plugin.version>
 
-        <lettucemod.version>2.18.2</lettucemod.version>
+        <lettucemod.version>2.19.3</lettucemod.version>
 
     </properties>
 
