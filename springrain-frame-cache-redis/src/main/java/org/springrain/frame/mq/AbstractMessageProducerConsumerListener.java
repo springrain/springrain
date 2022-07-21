@@ -270,7 +270,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
 
 
     /**
-     * 重试消息,项目启动时会重试一次,业务代码自行实现根据调度重试
+     * 重试消息,项目启动时会重试一次,业务代码自行实现调度重试消息
      * 如果全部重试成功,返回null.如果还有部分失败,就返回失败的消息记录
      *
      * @return 返回重试失败的消息记录对象

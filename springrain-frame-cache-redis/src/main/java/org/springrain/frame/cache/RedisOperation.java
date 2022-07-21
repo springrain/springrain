@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springrain.frame.mq.IMessageProducerConsumerListener;
+import org.springrain.frame.util.GlobalStatic;
 
 /**
  * 基于 Redisson的 redis操作,包含lock和自增,基于stream的mq <br>
@@ -42,7 +43,7 @@ public class RedisOperation {
         }
 
         try {
-            Boolean lock = redisTemplate.opsForValue().setIfAbsent(key, System.currentTimeMillis() + expireMilli, expireMilli, TimeUnit.MILLISECONDS);
+            Boolean lock = redisTemplate.opsForValue().setIfAbsent(GlobalStatic.projectKeyPrefix+key, System.currentTimeMillis() + expireMilli, expireMilli, TimeUnit.MILLISECONDS);
             return lock;
         } catch (Exception e) {
             logger.error("locking error", e);
@@ -63,7 +64,7 @@ public class RedisOperation {
             return false;
         }
         try {
-            redisTemplate.delete(key);
+            redisTemplate.delete(GlobalStatic.projectKeyPrefix+key);
             return true;
 
         } catch (Throwable e) {
@@ -80,7 +81,7 @@ public class RedisOperation {
      * @return
      */
     public Long getAtomicLong(String name) {
-        Long increment = redisTemplate.opsForValue().increment(name);
+        Long increment = redisTemplate.opsForValue().increment(GlobalStatic.projectKeyPrefix+name);
         return increment;
     }
 
@@ -92,7 +93,7 @@ public class RedisOperation {
      * @return
      */
     public Long getAtomicLong(String name, Long initValue) {
-        Long increment = redisTemplate.opsForValue().increment(name, initValue);
+        Long increment = redisTemplate.opsForValue().increment(GlobalStatic.projectKeyPrefix+name, initValue);
         return increment;
 
     }
@@ -110,7 +111,7 @@ public class RedisOperation {
         if (StringUtils.isBlank(setName) || value == null) {
             return null;
         }
-        Long add = redisTemplate.opsForSet().add(setName, value);
+        Long add = redisTemplate.opsForSet().add(GlobalStatic.projectKeyPrefix+setName, value);
         return add;
     }
 
@@ -124,7 +125,7 @@ public class RedisOperation {
         if (StringUtils.isBlank(setName)) {
             return null;
         }
-        return redisTemplate.opsForSet().pop(setName);
+        return redisTemplate.opsForSet().pop(GlobalStatic.projectKeyPrefix+setName);
     }
 
 
@@ -139,7 +140,19 @@ public class RedisOperation {
         if (StringUtils.isBlank(setName) || StringUtils.isBlank(value)) {
             return null;
         }
-        return redisTemplate.opsForSet().remove(setName, value);
+        return redisTemplate.opsForSet().remove(GlobalStatic.projectKeyPrefix+setName, value);
+    }
+
+    /**
+     * 按照key删除
+     * @param key
+     * @return
+     */
+    public boolean deleteKey(String key){
+        if (StringUtils.isBlank(key)){
+            return false;
+        }
+        return redisTemplate.delete(GlobalStatic.projectKeyPrefix+key);
     }
 
 
