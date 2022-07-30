@@ -1,5 +1,6 @@
 package org.springrain.frame.mq;
 
+import org.springframework.data.redis.connection.RedisZSetCommands;
 import org.springrain.frame.cache.RedisOperation;
 import org.springrain.frame.config.RedisCacheConfig;
 import org.springrain.frame.util.ClassUtils;
@@ -20,6 +21,7 @@ import org.springframework.data.redis.hash.ObjectHashMapper;
 import org.springframework.data.redis.stream.StreamListener;
 import org.springframework.data.redis.stream.StreamMessageListenerContainer;
 import org.springframework.util.Assert;
+import org.springrain.frame.util.Page;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -466,4 +468,34 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
 
     }
 
+    @Override
+    public List<MessageObjectDto<T>> getUnAckMessage(Integer size) {
+        int batchSize = getBatchSize();
+        if(size!=null){
+            batchSize = size;
+        }
+        Consumer consumer = Consumer.from(getGroupName(), getConsumerName());
+        StreamReadOptions streamReadOptions = StreamReadOptions.empty().count(batchSize);//.block(Duration.ofSeconds(5));
+        return redisTemplate.opsForStream().read(genericClass, consumer, streamReadOptions, StreamOffset.fromStart(getQueueName()));
+    }
+
+    @Override
+    public Page<List<MessageObjectDto<T>>> getMessagePage(int pageNo, int pageSize) {
+        Page<List<MessageObjectDto<T>>> page = new Page<>(pageNo, pageSize);
+
+        StreamOperations streamOperations = redisTemplate.opsForStream();
+        Long totalCount = streamOperations.size(getQueueName());
+        page.setTotalCount(Integer.parseInt(totalCount.toString()));
+
+        int offset = (page.getPageNo() - 1) * page.getPageSize();
+        //分页效果有bug,offset不生效
+        List range = streamOperations.range(genericClass, getQueueName()
+                                                        , Range.unbounded()
+                                                        , RedisZSetCommands.Limit
+                                                                .limit()
+                                                                .offset(offset)
+                                                                .count(page.getPageSize()));
+        page.setData(range);
+        return page;
+    }
 }

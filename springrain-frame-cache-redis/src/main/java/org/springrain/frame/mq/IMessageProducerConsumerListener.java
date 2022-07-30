@@ -21,7 +21,7 @@ import java.util.List;
  * @Resource IMessageProducerConsumerListener<User> userMessageProducerConsumerListener;
  * </code>
  */
-public interface IMessageProducerConsumerListener<T> {
+public interface IMessageProducerConsumerListener<T> extends IMessageView<T> {
     /**
      * 不要手动调用这个方法!!!!!!!!!不要手动调用这个方法!!!!!!!!!不要手动调用这个方法!!!!!!!!!
      * <p>
