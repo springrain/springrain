@@ -283,7 +283,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
         if (!getEnable()) {
             return null;
         }
-        int batchSize = getBatchSize();
+        /*int batchSize = getBatchSize();
         if (batchSize < 1) {
             batchSize = defaultBatchSize;
         }
@@ -292,7 +292,8 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
         //设置配置
         StreamReadOptions streamReadOptions = StreamReadOptions.empty().count(batchSize).block(Duration.ofSeconds(5));
         //List<ObjectRecord<String, T>> retryFailMessageList = new HashSet<>();
-        List<ObjectRecord<String, T>> readList = redisTemplate.opsForStream().read(genericClass, consumer, streamReadOptions, StreamOffset.fromStart(getQueueName()));
+        List<ObjectRecord<String, T>> readList = redisTemplate.opsForStream().read(genericClass, consumer, streamReadOptions, StreamOffset.fromStart(getQueueName()));*/
+        List<ObjectRecord<String, T>> readList = getUnAckMessage(null);
         //如果已经没有异常的消息,退出循环
         if (CollectionUtils.isEmpty(readList)) {
             return null;
@@ -469,10 +470,13 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
     }
 
     @Override
-    public List<MessageObjectDto<T>> getUnAckMessage(Integer size) {
+    public List getUnAckMessage(Integer size) {
         int batchSize = getBatchSize();
         if(size!=null){
             batchSize = size;
+        }
+        if (batchSize < 1) {
+            batchSize = defaultBatchSize;
         }
         Consumer consumer = Consumer.from(getGroupName(), getConsumerName());
         StreamReadOptions streamReadOptions = StreamReadOptions.empty().count(batchSize);//.block(Duration.ofSeconds(5));
@@ -489,13 +493,19 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
 
         int offset = (page.getPageNo() - 1) * page.getPageSize();
         //分页效果有bug,offset不生效
-        List range = streamOperations.range(genericClass, getQueueName()
-                                                        , Range.unbounded()
-                                                        , RedisZSetCommands.Limit
-                                                                .limit()
-                                                                .offset(offset)
-                                                                .count(page.getPageSize()));
-        page.setData(range);
+        List<ObjectRecord<String, T>>  range = streamOperations.range(genericClass, getQueueName(), Range.unbounded()
+                                                                                                , RedisZSetCommands.Limit
+                                                                                                        .limit()
+                                                                                                        .offset(offset)
+                                                                                                        .count(page.getPageSize()));
+        if(CollectionUtils.isEmpty(range)){
+            return page;
+        }
+        List<MessageObjectDto<T>> dataList = new ArrayList<>();
+        for (ObjectRecord<String, T> item : range) {
+            dataList.add(objectRecord2MessageObject(item));
+        }
+        page.setData(dataList);
         return page;
     }
 }

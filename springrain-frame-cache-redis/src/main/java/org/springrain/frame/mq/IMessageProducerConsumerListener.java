@@ -1,5 +1,7 @@
 package org.springrain.frame.mq;
 
+import org.springrain.frame.util.Page;
+
 import java.util.List;
 
 /**
@@ -21,7 +23,7 @@ import java.util.List;
  * @Resource IMessageProducerConsumerListener<User> userMessageProducerConsumerListener;
  * </code>
  */
-public interface IMessageProducerConsumerListener<T> extends IMessageView<T> {
+public interface IMessageProducerConsumerListener<T> {
     /**
      * 不要手动调用这个方法!!!!!!!!!不要手动调用这个方法!!!!!!!!!不要手动调用这个方法!!!!!!!!!
      * <p>
@@ -66,5 +68,16 @@ public interface IMessageProducerConsumerListener<T> extends IMessageView<T> {
     default  boolean getEnable(){
         return true;
     }
+    /**
+     * 获取未确认的消息
+     * @param size 返回值List的大小
+     * @return 消息列表
+     */
+    List getUnAckMessage(Integer size);
+
+    /**
+     * 分页获取所有消息
+     */
+    Page<List<MessageObjectDto<T>>> getMessagePage(int pageNo, int pageSize);
 
 }
