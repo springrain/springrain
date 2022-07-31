@@ -80,4 +80,11 @@ public interface IMessageProducerConsumerListener<T> {
      */
     Page<List<MessageObjectDto<T>>> getMessagePage(int pageNo, int pageSize);
 
+    /**
+     * 强制应答指定消息,不考虑业务执行结果
+     * @param messageId 消息id
+     * @param isRetryBusiness 应答后是否重试一次业务逻辑
+     */
+    boolean forceAckMessage(String messageId, boolean isRetryBusiness);
+
 }

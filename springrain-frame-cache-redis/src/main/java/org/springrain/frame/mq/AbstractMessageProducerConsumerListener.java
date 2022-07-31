@@ -508,4 +508,27 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
         page.setData(dataList);
         return page;
     }
+    @Override
+    public boolean forceAckMessage(String messageId, boolean isRetryBusiness) {
+        if (StringUtils.isBlank(messageId)) {
+            return false;
+        }
+        StreamOperations streamOperations = redisTemplate.opsForStream();
+        //消息确认ack
+        Long ackFlag = streamOperations.acknowledge(getQueueName(), getGroupName(), RecordId.of(messageId));
+        //多次确认也仅重试一次业务逻辑
+        if(ackFlag!=null && ackFlag>0 && isRetryBusiness){
+            List<ObjectRecord<String, T>> range = streamOperations.range(genericClass,getQueueName(), Range.just(messageId));
+            if(org.springframework.util.CollectionUtils.isEmpty(range)){
+                return false;
+            }
+            MessageObjectDto<T> messageObjectRecord = objectRecord2MessageObject(range.get(0));
+            try {
+                onMessage(messageObjectRecord);
+            } catch (Exception e) {
+                logger.error(e.getMessage(),e);
+            }
+        }
+        return true;
+    }
 }
