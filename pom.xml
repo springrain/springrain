@@ -423,12 +423,12 @@
         <module>springrain-frame-dao</module>
 
         <!-- memory内存类型的缓存,和redis缓存互斥,只能使用一个 -->
-        <!-- 如果更换为redis需要注释这个module,解开springrain-frame-cache-redis的module,并在springrain-system-web的pom中依赖修改为 springrain-frame-cache-redis -->
+        <!-- 如果更换为redis需要注释这个module,解开springrain-frame-cache-redis的module,并在springrain-system-serviceimpl的pom中依赖修改为 springrain-frame-cache-redis -->
         <module>springrain-frame-cache-memory</module>
 
 
         <!-- redis类型的缓存,和memory内存缓存互斥,只能使用一个 -->
-        <!-- 如果更换为memory需要注释这个module,解开springrain-frame-cache-memory的module,并在springrain-system-web的pom中依赖修改为 springrain-frame-cache-memory -->
+        <!-- 如果更换为memory需要注释这个module,解开springrain-frame-cache-memory的module,并在springrain-system-serviceimpl的pom中依赖修改为 springrain-frame-cache-memory -->
         <!--
          <module>springrain-frame-cache-redis</module>
          -->
