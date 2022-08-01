@@ -83,7 +83,9 @@ public interface IMessageProducerConsumerListener<T> {
     /**
      * 强制应答指定消息,不考虑业务执行结果
      * @param messageId 消息id
-     * @param isRetryBusiness 应答后是否重试一次业务逻辑
+     * @param isRetryBusiness 已应答过得消息是否重试业务逻辑，
+     *                        true:须考虑消息消费者的幂等性处理，每次调用都会重试业务逻辑
+     *                        false:消息在调用此方法之前未应答成功的，最少执行一次业务逻辑
      */
     boolean forceAckMessage(String messageId, boolean isRetryBusiness);
 

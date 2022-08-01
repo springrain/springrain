@@ -516,10 +516,10 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
         StreamOperations streamOperations = redisTemplate.opsForStream();
         //消息确认ack
         Long ackFlag = streamOperations.acknowledge(getQueueName(), getGroupName(), RecordId.of(messageId));
-        //多次确认也仅重试一次业务逻辑
-        if(ackFlag!=null && ackFlag>0 && isRetryBusiness){
+        //由传入参数控制是否重试，消息在调用此方法之前未应答成功的，最少执行一次业务逻辑
+        if(isRetryBusiness || (ackFlag!=null && ackFlag>0)){
             List<ObjectRecord<String, T>> range = streamOperations.range(genericClass,getQueueName(), Range.just(messageId));
-            if(org.springframework.util.CollectionUtils.isEmpty(range)){
+            if(CollectionUtils.isEmpty(range)){
                 return false;
             }
             MessageObjectDto<T> messageObjectRecord = objectRecord2MessageObject(range.get(0));
