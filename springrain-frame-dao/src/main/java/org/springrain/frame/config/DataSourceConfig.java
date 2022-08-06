@@ -4,6 +4,7 @@ import com.alibaba.druid.pool.DruidDataSource;
 import io.seata.rm.RMClient;
 import io.seata.rm.datasource.DataSourceProxy;
 import io.seata.tm.TMClient;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,6 +33,8 @@ public class DataSourceConfig {
     private String username;
     @Value("${spring.datasource.password}")
     private String password;
+    @Value("${spring.datasource.driver-class-name:}")
+    private String driverClassName;
 
     private Integer initialSize = 100;
     private Integer minIdle = 100;
@@ -77,6 +80,9 @@ public class DataSourceConfig {
         dataSource.setUrl(url);
         dataSource.setUsername(username);// 用户名
         dataSource.setPassword(password);// 密码
+        if (StringUtils.isNotBlank(driverClassName)){
+            dataSource.setDriverClassName(driverClassName);
+        }
         // 设置属性
         setDataSourceProperties(dataSource);
 
