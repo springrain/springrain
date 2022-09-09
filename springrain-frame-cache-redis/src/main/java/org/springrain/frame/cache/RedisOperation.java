@@ -144,6 +144,19 @@ public class RedisOperation {
     }
 
     /**
+     * Redis Sismember 命令判断成员元素是否是集合的成员
+     * @param setName
+     * @param value
+     * @return
+     */
+    public Boolean setsisMember(String setName,String value){
+        if (StringUtils.isBlank(setName)||StringUtils.isBlank(value)){
+            return null;
+        }
+        return redisTemplate.opsForSet().isMember(setName,value);
+    }
+
+    /**
      * 按照key删除
      * @param key
      * @return
