@@ -2,6 +2,7 @@ package org.springrain.frame.dao.dialect;
 
 import org.springframework.stereotype.Component;
 import org.springrain.frame.util.Page;
+import org.springrain.frame.util.RegexValidateUtils;
 
 @Component("mssqlDialect")
 public class MssqlDialect implements IDialect {
@@ -33,7 +34,12 @@ public class MssqlDialect implements IDialect {
         return sb.toString();
          */
         StringBuilder sb = new StringBuilder();
-        sb.append(sql).append(" OFFSET ").append(pageSize * (pageNo - 1)).append(" ROWS FETCH NEXT ").append(pageSize).append(" ROWS ONLY ");
+        sb.append(sql);
+        int orderIndex= RegexValidateUtils.getOrderByIndex(sql);
+        if(orderIndex < 0){//不存在order by
+            sb.append(" ORDER BY (SELECT NULL) ");
+        }
+        sb.append(" OFFSET ").append(pageSize * (pageNo - 1)).append(" ROWS FETCH NEXT ").append(pageSize).append(" ROWS ONLY ");
         return sb.toString();
 
     }
