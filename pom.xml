@@ -45,14 +45,14 @@
         <commons-codec.version>1.15</commons-codec.version>
         <commons-beanutils.version>1.9.4</commons-beanutils.version>
         <commons-fileupload.version>1.4</commons-fileupload.version>
-        <commons-text.version>1.9</commons-text.version>
+        <commons-text.version>1.10.0</commons-text.version>
 
         <javax.persistence.version>2.2.1</javax.persistence.version>
         <javax.servlet-api.version>3.0.1</javax.servlet-api.version>
 
         <!-- lucene版本和es的依赖版本最好保持一致,避免冲突 -->
         <lucene.version>9.3.0</lucene.version>
-        <elasticsearch.client.version>8.4.2</elasticsearch.client.version>
+        <elasticsearch.client.version>8.4.3</elasticsearch.client.version>
 
         <!-- 建议使用 redis stream实现MQ,比较简单 -->
         <rocketmq.client.version>5.0.0</rocketmq.client.version>
@@ -64,7 +64,7 @@
         -->
 
         <!-- GRPC -->
-        <io.grpc.version>1.49.0</io.grpc.version>
+        <io.grpc.version>1.50.0</io.grpc.version>
         <kr.motd.maven.version>1.7.0</kr.motd.maven.version>
         <io.protostuff.version>1.7.4</io.protostuff.version>
 
@@ -72,11 +72,11 @@
 
         <jsoup.version>1.15.3</jsoup.version>
         <xstream.version>1.4.19</xstream.version>
-        <druid-spring-boot-starter.version>1.2.12</druid-spring-boot-starter.version>
+        <druid-spring-boot-starter.version>1.2.13</druid-spring-boot-starter.version>
 
         <clickhouse-jdbc.version>0.3.2-patch11</clickhouse-jdbc.version>
 
-        <jwt.version>4.0.0</jwt.version>
+        <jwt.version>4.1.0</jwt.version>
 
         <!--
         <redisson.version>3.15.3</redisson.version>
@@ -92,7 +92,7 @@
         <!-- smart-doc 文档生成 -->
         <smart-doc-maven-plugin.version>2.5.3</smart-doc-maven-plugin.version>
 
-        <lettucemod.version>3.1.5</lettucemod.version>
+        <lettucemod.version>3.1.6</lettucemod.version>
 
     </properties>
 
