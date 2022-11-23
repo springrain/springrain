@@ -24,9 +24,9 @@
     <!-- 声明引用组件的版本 -->
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>1.8</java.version>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <java.version>17</java.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
 
         <!-- 忽略测试 -->
         <skipTests>true</skipTests>
@@ -51,8 +51,8 @@
         <javax.servlet-api.version>3.0.1</javax.servlet-api.version>
 
         <!-- lucene版本和es的依赖版本最好保持一致,避免冲突 -->
-        <lucene.version>9.3.0</lucene.version>
-        <elasticsearch.client.version>8.4.3</elasticsearch.client.version>
+        <lucene.version>9.4.1</lucene.version>
+        <elasticsearch.client.version>8.5.1</elasticsearch.client.version>
 
         <!-- 建议使用 redis stream实现MQ,比较简单 -->
         <rocketmq.client.version>5.0.0</rocketmq.client.version>
@@ -64,11 +64,11 @@
         -->
 
         <!-- GRPC -->
-        <io.grpc.version>1.50.0</io.grpc.version>
-        <kr.motd.maven.version>1.7.0</kr.motd.maven.version>
-        <io.protostuff.version>1.7.4</io.protostuff.version>
+        <io.grpc.version>1.51.0</io.grpc.version>
+        <kr.motd.maven.version>1.7.1</kr.motd.maven.version>
+        <io.protostuff.version>1.8.0</io.protostuff.version>
 
-        <zxing.version>3.5.0</zxing.version>
+        <zxing.version>3.5.1</zxing.version>
 
         <jsoup.version>1.15.3</jsoup.version>
         <xstream.version>1.4.19</xstream.version>
@@ -76,21 +76,21 @@
 
         <clickhouse-jdbc.version>0.3.2-patch11</clickhouse-jdbc.version>
 
-        <jwt.version>4.1.0</jwt.version>
+        <jwt.version>4.2.1</jwt.version>
 
         <!--
         <redisson.version>3.15.3</redisson.version>
         -->
         <!--3.x版本依赖jdk 14 -->
-        <fst.version>2.57</fst.version>
+        <fst.version>3.0.4-jdk17</fst.version>
 
-        <bcprov.version>1.69</bcprov.version>
+        <bcprov.version>1.70</bcprov.version>
 
         <!-- seata分布式事务 -->
         <seata.version>1.5.2</seata.version>
 
         <!-- smart-doc 文档生成 -->
-        <smart-doc-maven-plugin.version>2.6.0</smart-doc-maven-plugin.version>
+        <smart-doc-maven-plugin.version>2.6.2</smart-doc-maven-plugin.version>
 
         <lettucemod.version>3.1.6</lettucemod.version>
 
