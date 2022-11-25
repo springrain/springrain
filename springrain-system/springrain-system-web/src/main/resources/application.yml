@@ -107,19 +107,17 @@ spring:
     #driver-class-name: com.mysql.cj.jdbc.Driver
     #default-transaction-isolation: ISOLATION_READ_UNCOMMITTED
 
-
-  redis:
-    host: 127.0.0.1
-    port: 6379
-    password:   ###密码,可以不设置####
-    timeout: 7200000
-    #pool:
-    #  max-active: 1024
-    #  min-idle: 200
-    lettuce:
-      pool:
-        max-active: 1024
-        min-idle: 200
+##SpringBoot3 调整为 spring.data.redis
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      password:   ###密码,可以不设置####
+      timeout: 7200000
+      lettuce:
+        pool:
+          max-active: 1024
+          min-idle: 200
 
 
 logging:
