@@ -72,7 +72,7 @@
 
         <jsoup.version>1.15.3</jsoup.version>
         <xstream.version>1.4.19</xstream.version>
-        <druid-spring-boot-starter.version>1.2.14</druid-spring-boot-starter.version>
+        <druid-spring-boot-starter.version>1.2.15</druid-spring-boot-starter.version>
 
         <clickhouse-jdbc.version>0.3.2-patch11</clickhouse-jdbc.version>
 
