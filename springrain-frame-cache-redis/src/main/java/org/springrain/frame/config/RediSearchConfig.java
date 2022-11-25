@@ -13,10 +13,10 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration("configuration-RediSearchConfig")
 public class RediSearchConfig {
-    @Value("${spring.redis.host}")
+    @Value("${spring.data.redis.host}")
     private String host;
 
-    @Value("${spring.redis.port}")
+    @Value("${spring.data.redis.port}")
     private String port;
 
     /**
