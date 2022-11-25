@@ -1,7 +1,7 @@
 <#assign myParentDir="entity">
 package ${basepackage}.entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;

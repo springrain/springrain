@@ -8,7 +8,7 @@ import org.springrain.frame.service.BaseServiceImpl;
 import org.springrain.frame.util.Finder;
 import org.springrain.system.service.IBaseSpringrainService;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.io.File;
 import java.util.List;
 

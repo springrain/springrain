@@ -7,9 +7,9 @@ import org.springrain.frame.annotation.WhereSQL;
 import org.springrain.frame.entity.BaseEntity;
 import org.springrain.weixin.sdk.common.wxconfig.IWxMiniappConfig;
 
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Table(name = "wx_miniappconfig")
 public class WxMiniappConfig extends BaseEntity implements IWxMiniappConfig {

@@ -25,7 +25,7 @@ import org.springrain.weixin.sdk.miniapp.MiniappQrcode;
 import org.springrain.weixin.sdk.miniapp.MiniappQrcodeApi;
 import org.springrain.weixin.service.IWxMiniappConfigService;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.io.File;
 import java.io.Serializable;
 import java.util.Date;

@@ -16,7 +16,7 @@ import org.springrain.system.entity.Attachment;
 import org.springrain.system.service.IAttachmentService;
 import org.springrain.system.service.IUserRoleOrgService;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;

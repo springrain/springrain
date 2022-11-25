@@ -12,7 +12,7 @@ import org.springrain.weixin.sdk.common.wxconfig.IWxMpConfig;
 import org.springrain.weixin.service.IWxAccessTokenService;
 import org.springrain.weixin.service.IWxMpConfigService;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 

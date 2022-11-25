@@ -3,8 +3,8 @@ package org.springrain.alipay.entity;
 import org.springrain.alipay.sdk.common.aliconfig.IAliPayConfig;
 import org.springrain.frame.entity.BaseEntity;
 
-import javax.persistence.Id;
-import javax.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 /**
  * 支付宝的配置,

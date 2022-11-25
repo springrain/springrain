@@ -17,7 +17,7 @@ import org.springrain.system.service.IDicDataService;
 import org.springrain.system.service.IOrgService;
 import org.springrain.system.service.IUserRoleOrgService;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.*;
 
 /**

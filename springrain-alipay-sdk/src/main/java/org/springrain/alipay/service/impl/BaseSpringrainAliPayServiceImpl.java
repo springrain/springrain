@@ -3,7 +3,7 @@ package org.springrain.alipay.service.impl;
 import org.springrain.frame.dao.IBaseJdbcDao;
 import org.springrain.frame.service.BaseServiceImpl;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 public class BaseSpringrainAliPayServiceImpl extends BaseServiceImpl {
 

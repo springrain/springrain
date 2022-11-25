@@ -7,9 +7,9 @@ import org.springrain.frame.annotation.TableSuffix;
 import org.springrain.frame.annotation.WhereSQL;
 import org.springrain.frame.util.GlobalStatic;
 
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import java.util.Calendar;
 
 /**

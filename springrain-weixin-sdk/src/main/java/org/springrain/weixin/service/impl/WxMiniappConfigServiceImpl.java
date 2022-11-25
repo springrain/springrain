@@ -9,7 +9,7 @@ import org.springrain.weixin.sdk.common.wxconfig.IWxMiniappConfig;
 import org.springrain.weixin.service.IWxAccessTokenService;
 import org.springrain.weixin.service.IWxMiniappConfigService;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 @Service("wxMiniappConfigService")
 public class WxMiniappConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl implements IWxMiniappConfigService {

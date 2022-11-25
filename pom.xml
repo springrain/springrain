@@ -16,7 +16,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.5</version>
+        <version>3.0.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -47,8 +47,8 @@
         <commons-fileupload.version>1.4</commons-fileupload.version>
         <commons-text.version>1.10.0</commons-text.version>
 
-        <javax.persistence.version>2.2.1</javax.persistence.version>
-        <javax.servlet-api.version>3.0.1</javax.servlet-api.version>
+        <jakarta.persistence.version>3.1.0</jakarta.persistence.version>
+        <jakarta.servlet-api.version>6.0.0</jakarta.servlet-api.version>
 
         <!-- lucene版本和es的依赖版本最好保持一致,避免冲突 -->
         <lucene.version>9.4.1</lucene.version>
@@ -104,7 +104,7 @@
 
             <!--
             <dependency>
-                <groupId>javax.servlet</groupId>
+                <groupId>jakarta.servlet</groupId>
                 <artifactId>servlet-api</artifactId>
                 <version>${servlet-api.version}</version>
                 <scope>provided</scope>
@@ -174,9 +174,9 @@
 
             <!-- jpa规范的注解 -->
             <dependency>
-                <groupId>org.eclipse.persistence</groupId>
-                <artifactId>javax.persistence</artifactId>
-                <version>${javax.persistence.version}</version>
+                <groupId>jakarta.persistence</groupId>
+                <artifactId>jakarta.persistence-api</artifactId>
+                <version>${jakarta.persistence.version}</version>
             </dependency>
 
             <!-- excle导入组件 -->
@@ -321,7 +321,7 @@
                 <version>2.3.0.1</version>
             </dependency>
             <dependency>
-                <groupId>javax.xml.bind</groupId>
+                <groupId>jakarta.xml.bind</groupId>
                 <artifactId>jaxb-api</artifactId>
                 <version>2.3.1</version>
             </dependency>
@@ -332,8 +332,8 @@
             </dependency>
 
             <dependency>
-                <groupId>javax.annotation</groupId>
-                <artifactId>javax.annotation-api</artifactId>
+                <groupId>jakarta.annotation</groupId>
+                <artifactId>jakarta.annotation-api</artifactId>
                 <version>1.3.2</version>
             </dependency>
              -->
@@ -392,12 +392,15 @@
                 <version>${clickhouse-jdbc.version}</version>
             </dependency>
 
+            <!--
             <dependency>
-                <groupId>javax.servlet</groupId>
-                <artifactId>javax.servlet-api</artifactId>
-                <version>${javax.servlet-api.version}</version>
+                <groupId>jakarta.servlet</groupId>
+                <artifactId>jakarta.servlet-api</artifactId>
+                <version>${jakarta.servlet-api.version}</version>
                 <scope>provided</scope>
             </dependency>
+            -->
+
 
             <!-- 加载本地的jar包 -->
             <!--

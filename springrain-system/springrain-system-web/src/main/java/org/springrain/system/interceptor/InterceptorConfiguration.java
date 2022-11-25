@@ -5,7 +5,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springrain.frame.util.GlobalStatic;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 @Configuration("interceptorConfiguration")
 public class InterceptorConfiguration implements WebMvcConfigurer {

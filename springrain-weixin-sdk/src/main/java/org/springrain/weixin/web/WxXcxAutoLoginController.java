@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springrain.frame.util.ReturnDatas;
 import org.springrain.weixin.service.IWxMiniappConfigService;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 @Controller
 @RequestMapping(value = "/f/xcx/autologin/{siteId}")

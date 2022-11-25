@@ -13,7 +13,7 @@ import org.springrain.system.entity.Org;
 import org.springrain.system.service.IDicDataService;
 import org.springrain.system.service.IOrgService;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

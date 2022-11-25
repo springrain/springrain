@@ -1,6 +1,6 @@
 package org.springrain.frame.entity;
 
-import javax.persistence.Transient;
+import jakarta.persistence.Transient;
 
 /**
  * Entity基类,所有的entity必须继承此类

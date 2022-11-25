@@ -17,7 +17,7 @@ import org.springrain.system.service.IRoleService;
 import org.springrain.system.service.IUserRoleMenuService;
 import org.springrain.system.service.IUserRoleOrgService;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.Arrays;
 import java.util.List;
 

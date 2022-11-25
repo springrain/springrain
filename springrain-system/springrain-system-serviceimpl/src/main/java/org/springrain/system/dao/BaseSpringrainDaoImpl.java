@@ -12,7 +12,7 @@ import org.springrain.frame.entity.AuditLog;
 import org.springrain.frame.util.SpringUtils;
 import org.springrain.rpc.sessionuser.SessionUser;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * springrain项目的基础Dao,代理demo数据库

@@ -13,7 +13,7 @@ import org.springrain.system.entity.RoleMenu;
 import org.springrain.system.service.IMenuService;
 import org.springrain.system.service.IUserRoleMenuService;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.*;
 
 

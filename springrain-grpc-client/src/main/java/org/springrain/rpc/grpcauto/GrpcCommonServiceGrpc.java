@@ -7,7 +7,7 @@ import static io.grpc.MethodDescriptor.generateFullMethodName;
  * 定义通用的 Grpc 服务
  * </pre>
  */
-@javax.annotation.Generated(
+@jakarta.annotation.Generated(
     value = "by gRPC proto compiler (version 1.51.0)",
     comments = "Source: grpcCommonService.proto")
 @io.grpc.stub.annotations.GrpcGenerated

@@ -12,8 +12,8 @@ import org.springrain.weixin.sdk.common.wxconfig.IWxMpConfig;
 import org.springrain.weixin.sdk.open.SnsApi;
 import org.springrain.weixin.service.IWxMpConfigService;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping(value = "/mp/mpautologin/{siteId}")

@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springrain.frame.dao.IBaseJdbcDao;
 import org.springrain.frame.service.BaseServiceImpl;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 public class BaseSpringrainWeiXinServiceImpl extends BaseServiceImpl {
 

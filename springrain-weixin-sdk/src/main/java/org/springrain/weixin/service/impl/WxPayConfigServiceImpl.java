@@ -9,7 +9,7 @@ import org.springrain.weixin.sdk.common.wxconfig.IWxPayConfig;
 import org.springrain.weixin.service.IWxAccessTokenService;
 import org.springrain.weixin.service.IWxPayConfigService;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 @Service("wxPayConfigService")
 public class WxPayConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl implements IWxPayConfigService {

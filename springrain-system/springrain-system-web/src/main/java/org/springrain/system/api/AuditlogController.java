@@ -12,9 +12,9 @@ import org.springrain.frame.util.ReturnDatas;
 import org.springrain.system.base.BaseController;
 import org.springrain.system.service.IAuditlogService;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.util.List;
 

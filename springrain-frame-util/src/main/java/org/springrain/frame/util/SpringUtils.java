@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springrain.frame.annotation.LuceneSearch;
 import org.springrain.frame.annotation.NotLog;
 
-import javax.persistence.Table;
+import jakarta.persistence.Table;
 import java.net.URI;
 
 /**

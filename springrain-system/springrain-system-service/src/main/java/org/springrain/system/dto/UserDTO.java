@@ -9,8 +9,8 @@ import org.springrain.system.entity.Org;
 import org.springrain.system.entity.Role;
 import org.springrain.system.entity.User;
 
-import javax.persistence.Id;
-import javax.persistence.Transient;
+import jakarta.persistence.Id;
+import jakarta.persistence.Transient;
 import java.io.Serializable;
 import java.util.List;
 

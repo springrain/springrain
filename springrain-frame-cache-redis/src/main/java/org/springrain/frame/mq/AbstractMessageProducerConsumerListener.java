@@ -23,8 +23,8 @@ import org.springframework.data.redis.stream.StreamMessageListenerContainer;
 import org.springframework.util.Assert;
 import org.springrain.frame.util.Page;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.Resource;
 import java.io.Closeable;
 import java.io.IOException;
 import java.time.Duration;

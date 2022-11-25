@@ -17,7 +17,7 @@ import org.springrain.system.service.*;
 import org.springrain.system.vo.LoginSuccessVO;
 import org.springrain.system.vo.LoginUserVO;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.*;
 import java.util.stream.Collectors;
 

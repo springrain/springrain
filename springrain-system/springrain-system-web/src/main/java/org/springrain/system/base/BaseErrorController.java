@@ -11,8 +11,8 @@ import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springrain.frame.util.ReturnDatas;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * 覆盖springboot默认的BasicErrorController,使用自定义的BaseErrorController拦截404等异常信息,返回JSON格式的数据.

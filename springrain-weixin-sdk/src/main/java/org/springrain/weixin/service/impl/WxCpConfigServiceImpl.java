@@ -9,7 +9,7 @@ import org.springrain.weixin.sdk.common.wxconfig.IWxCpConfig;
 import org.springrain.weixin.service.IWxAccessTokenService;
 import org.springrain.weixin.service.IWxCpConfigService;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 @Service("wxCpConfigService")
 public class WxCpConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl implements IWxCpConfigService {

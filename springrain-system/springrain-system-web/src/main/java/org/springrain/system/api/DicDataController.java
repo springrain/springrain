@@ -12,8 +12,8 @@ import org.springrain.system.base.BaseController;
 import org.springrain.system.entity.DicData;
 import org.springrain.system.service.IDicDataService;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;

@@ -12,7 +12,7 @@ import org.springrain.system.base.BaseController;
 import org.springrain.system.entity.UserPlatformInfos;
 import org.springrain.system.service.IUserPlatformInfosService;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.Arrays;
 import java.util.List;
 

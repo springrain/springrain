@@ -12,7 +12,7 @@ import org.springrain.rpc.sessionuser.SessionUser;
 import org.springrain.system.entity.*;
 import org.springrain.system.service.*;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.*;
 
 
