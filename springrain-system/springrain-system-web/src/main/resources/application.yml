@@ -60,7 +60,6 @@ springrain:
     timeout: 36000000
     tokenkey: jwttoken
 
-
   ### 数据库方言,和IDialect接口的实现bean名称保持一致
   dbDialectBeanName: mysqlDialect
 
@@ -68,17 +67,17 @@ springrain:
   es:
     hostport: 127.0.0.1:9200    ###es的IP和端口,如果是集群,使用逗号隔开,例如 192.168.0.2:9200,192.168.0.3:9200 ###
 
-  ###rocketmq配置
-  rocketmq:
-    namesrvAddr: 127.0.0.1:9876
-    producerGroupName: defaultMQProducer
-    producerInstanceName: defaultMQProducerInstance
-    transactionProducerGroupName: defaultTransactionMQProducer
-    producerTranInstanceName: defaultTransactionMQProducerInstance
-    consumerGroupName: defaultConsumerGroupName
-    subscribe:
-      - rest_topic_2:*
-      - rest_topic_1:*
+  ###rocketmq配置,建议使用redis stream实现队列
+  #rocketmq:
+  #  namesrvAddr: 127.0.0.1:9876
+  #  producerGroupName: defaultMQProducer
+  #  producerInstanceName: defaultMQProducerInstance
+  #  transactionProducerGroupName: defaultTransactionMQProducer
+  #  producerTranInstanceName: defaultTransactionMQProducerInstance
+  #  consumerGroupName: defaultConsumerGroupName
+  #  subscribe:
+  #    - rest_topic_2:*
+  #    - rest_topic_1:*
 
   ###静态文件默认放到 resources/static目录下,也可以指定磁盘路径 file:D:/static/,这样方便程序读取上传upload的目录###
 #staticdir: D:/static/
@@ -109,7 +108,7 @@ spring:
     #driver-class-name: com.mysql.cj.jdbc.Driver
     #default-transaction-isolation: ISOLATION_READ_UNCOMMITTED
 
-##SpringBoot3 调整为 spring.data.redis
+##SpringBoot3.0.0 调整为 spring.data.redis
   data:
     redis:
       host: 127.0.0.1
@@ -126,7 +125,7 @@ logging:
   config: classpath:logback-springrain.xml
 
 
-###actuator的默认路径/actuator/ 开头,已经在shiro配置,只有system有权限###        
+###actuator的默认路径/actuator/ 开头,已经权限配置,只有system有权限###
 #management:
 #  endpoints:
 #    web:
