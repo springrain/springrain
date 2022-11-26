@@ -48,11 +48,12 @@
         <commons-text.version>1.10.0</commons-text.version>
 
         <jakarta.persistence.version>3.1.0</jakarta.persistence.version>
+        <!--
         <jakarta.servlet-api.version>6.0.0</jakarta.servlet-api.version>
-
+        -->
         <!-- lucene版本和es的依赖版本最好保持一致,避免冲突 -->
         <lucene.version>9.4.1</lucene.version>
-        <elasticsearch.client.version>8.5.1</elasticsearch.client.version>
+        <elasticsearch.client.version>8.5.2</elasticsearch.client.version>
 
         <!-- 建议使用 redis stream实现MQ,比较简单 -->
         <rocketmq.client.version>5.0.0</rocketmq.client.version>
