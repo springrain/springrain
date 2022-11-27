@@ -22,6 +22,11 @@ server:
       max-file-size: 100MB
       max-request-size: 100MB
 
+  #请求头最大长度b 100k=1*1024*100
+  max-http-request-header-size: 102400
+  http2:
+    enabled: true
+
   #Tomcat优化配置
   tomcat:
     #请求编码
@@ -32,8 +37,6 @@ server:
     max-connections: 5000
     #最大等待队列长度
     accept-count: 1000
-    #请求头最大长度b 1M=1*1024*1024
-    max-http-header-size: 1048576
     #请求体最大长度b 2M=2*1024*1024
     max-http-form-post-size: 2097152
     threads:
