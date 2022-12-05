@@ -15,7 +15,7 @@ import org.springrain.frame.mq.IMessageProducerConsumerListener;
 import org.springrain.frame.util.GlobalStatic;
 
 /**
- * 基于 Redisson的 redis操作,包含lock和自增,基于stream的mq <br>
+ * redis操作,包含lock和自增,基于stream的mq <br>
  * 要求:redis 5.0+ ,springBoot 2.3+
  *
  * @author springrain
