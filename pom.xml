@@ -48,8 +48,8 @@
         <servlet-api.version>4.0.1</servlet-api.version>
         -->
         <!-- lucene版本和es的依赖版本最好保持一致,避免冲突 -->
-        <lucene.version>9.4.1</lucene.version>
-        <elasticsearch.client.version>8.5.2</elasticsearch.client.version>
+        <lucene.version>9.4.2</lucene.version>
+        <elasticsearch.client.version>8.5.3</elasticsearch.client.version>
 
         <!-- 建议使用 redis stream实现MQ,比较简单 -->
         <rocketmq.client.version>5.0.0</rocketmq.client.version>
