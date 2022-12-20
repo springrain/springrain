@@ -78,7 +78,7 @@
         <bcprov.version>1.70</bcprov.version>
 
         <!-- seata分布式事务 -->
-        <seata.version>1.5.2</seata.version>
+        <seata.version>1.6.0</seata.version>
 
         <!-- smart-doc 文档生成 -->
         <smart-doc-maven-plugin.version>2.6.3</smart-doc-maven-plugin.version>
