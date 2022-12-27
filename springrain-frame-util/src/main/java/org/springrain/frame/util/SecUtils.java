@@ -160,9 +160,9 @@ public class SecUtils {
                 initRSA();
             }
 
-            PKCS8EncodedKeySpec pkcs8EncodedKeySpec = new PKCS8EncodedKeySpec(privateKey.getEncoded());
-            KeyFactory keyFactory = KeyFactory.getInstance(GlobalStatic.provider);
-            PrivateKey privateKey = keyFactory.generatePrivate(pkcs8EncodedKeySpec);
+            //PKCS8EncodedKeySpec pkcs8EncodedKeySpec = new PKCS8EncodedKeySpec(privateKey.getEncoded());
+            //KeyFactory keyFactory = KeyFactory.getInstance(GlobalStatic.provider);
+            //PrivateKey privateKey = keyFactory.generatePrivate(pkcs8EncodedKeySpec);
             Cipher cipher = Cipher.getInstance(GlobalStatic.provider);
             cipher.init(Cipher.ENCRYPT_MODE, privateKey);
 
@@ -197,9 +197,9 @@ public class SecUtils {
                 initRSA();
             }
 
-            X509EncodedKeySpec x509EncodedKeySpec = new X509EncodedKeySpec(publicKey.getEncoded());
-            KeyFactory keyFactory = KeyFactory.getInstance(GlobalStatic.provider);
-            PublicKey publicKey = keyFactory.generatePublic(x509EncodedKeySpec);
+            //X509EncodedKeySpec x509EncodedKeySpec = new X509EncodedKeySpec(publicKey.getEncoded());
+            //KeyFactory keyFactory = KeyFactory.getInstance(GlobalStatic.provider);
+            //PublicKey publicKey = keyFactory.generatePublic(x509EncodedKeySpec);
             Cipher cipher = Cipher.getInstance(GlobalStatic.provider);
             cipher.init(Cipher.DECRYPT_MODE, publicKey);
 
@@ -232,17 +232,19 @@ public class SecUtils {
 
             int offSet = 0;
             byte[] cache;
-            int i = 0;
+            // int i = 0;
             // 对数据分段处理
             while (inputLen - offSet > 0) {
                 if (inputLen - offSet > block) {
                     cache = cipher.doFinal(data, offSet, block);
+                    offSet+=block;
                 } else {
                     cache = cipher.doFinal(data, offSet, inputLen - offSet);
+                    offSet=inputLen;
                 }
                 out.write(cache, 0, cache.length);
-                i++;
-                offSet = i * block;
+                // i++;
+                // offSet = i * block;
             }
             byte[] result = out.toByteArray();
             return result;
@@ -323,7 +325,7 @@ public class SecUtils {
 
 
     /**
-     * 产生 yyyyMMddHHmmssSSS+四位位随机数的字符串
+     * 产生 yyyyMMddHHmmssSSS+九位位随机数的字符串
      *
      * @return
      */
@@ -332,7 +334,6 @@ public class SecUtils {
         String result = format.format(new Date());
         return result + String.format("%09d", randomInteger(1000000000));
     }
-
 
     public static String String2Hash256(String s) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 
