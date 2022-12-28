@@ -249,33 +249,36 @@ public class HttpClientUtils {
      * 发送 post请求（带文件）,默认 files 名称数组.
      *
      * @param httpUrl   地址
+     * @param headers   header头信息
      * @param fileLists 附件
      * @param maps      参数
      */
-    public static String sendPostUploadFiles(String httpUrl, List<File> fileLists, Map<String, String> maps) {
-        return sendPostUploadFiles(httpUrl, fileLists, maps, null);
+    public static String sendPostUploadFiles(String httpUrl, Map<String, String> headers, List<File> fileLists, Map<String, String> maps) {
+        return sendPostUploadFiles(httpUrl, headers, fileLists, maps, null);
     }
 
     /**
      * 发送 post请求（带文件）
      *
      * @param httpUrl 地址
+     * @param headers   header头信息
      * @param fileMap 附件,名称和File对应
      * @param maps    参数
      */
-    public static String sendPostUploadFiles(String httpUrl, Map<String, File> fileMap, Map<String, String> maps) {
-        return sendPostUploadFiles(httpUrl, fileMap, maps, null);
+    public static String sendPostUploadFiles(String httpUrl,Map<String, String> headers, Map<String, File> fileMap, Map<String, String> maps) {
+        return sendPostUploadFiles(httpUrl, headers, fileMap, maps, null);
     }
 
     /**
      * 发送 post请求（带文件）,默认 files 名称数组.
      *
      * @param httpUrl    地址
+     * @param headers    header头信息
      * @param fileLists  附件
      * @param maps       参数
      * @param sslContext ssl证书信息
      */
-    public static String sendPostUploadFiles(String httpUrl, List<File> fileLists, Map<String, String> maps,
+    public static String sendPostUploadFiles(String httpUrl, Map<String, String> headers, List<File> fileLists, Map<String, String> maps,
                                              SSLContext sslContext) {
 
         Map<String, File> fileMap = new HashMap<>();
@@ -286,18 +289,19 @@ public class HttpClientUtils {
             }
         }
 
-        return sendPostUploadFiles(httpUrl, fileMap, maps, sslContext);
+        return sendPostUploadFiles(httpUrl,headers, fileMap, maps, sslContext);
     }
 
     /**
      * 发送 post请求（带文件）
      *
      * @param httpUrl    地址
+     * @param headers    header头信息
      * @param fileMap    附件,名称和File对应
      * @param maps       参数
      * @param sslContext ssl证书信息
      */
-    public static String sendPostUploadFiles(String httpUrl, Map<String, File> fileMap, Map<String, String> maps,
+    public static String sendPostUploadFiles(String httpUrl,Map<String, String> headers, Map<String, File> fileMap, Map<String, String> maps,
                                              SSLContext sslContext) {
         HttpPost httpPost = new HttpPost(httpUrl);// 创建httpPost
         MultipartEntityBuilder meBuilder = MultipartEntityBuilder.create();
@@ -310,6 +314,13 @@ public class HttpClientUtils {
             for (Map.Entry<String, File> m : fileMap.entrySet()) {
                 FileBody fileBody = new FileBody(m.getValue());
                 meBuilder.addPart(m.getKey(), fileBody);
+            }
+        }
+        if (fileMap != null) {
+            for (Map.Entry<String, String> entry : headers.entrySet()) {
+                String key = entry.getKey();
+                String value = entry.getValue();
+                httpPost.setHeader(key, value);
             }
         }
 
