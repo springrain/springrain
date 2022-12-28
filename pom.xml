@@ -61,7 +61,7 @@
         -->
 
         <!-- gRPC -->
-        <io.grpc.version>1.51.0</io.grpc.version>
+        <io.grpc.version>1.51.1</io.grpc.version>
         <kr.motd.maven.version>1.7.1</kr.motd.maven.version>
         <io.protostuff.version>1.8.0</io.protostuff.version>
 
@@ -78,7 +78,7 @@
         <bcprov.version>1.70</bcprov.version>
 
         <!-- seata分布式事务 -->
-        <seata.version>1.6.0</seata.version>
+        <seata.version>1.6.1</seata.version>
 
         <!-- smart-doc 文档生成 -->
         <smart-doc-maven-plugin.version>2.6.3</smart-doc-maven-plugin.version>

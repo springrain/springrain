@@ -316,7 +316,7 @@ public class HttpClientUtils {
                 meBuilder.addPart(m.getKey(), fileBody);
             }
         }
-        if (fileMap != null) {
+        if (headers != null) {
             for (Map.Entry<String, String> entry : headers.entrySet()) {
                 String key = entry.getKey();
                 String value = entry.getValue();
