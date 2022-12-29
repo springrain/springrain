@@ -49,7 +49,7 @@ public class MediaApi {
         String url = upload_url + wxmpconfig.getAccessToken() + "&type=" + mediaType.get();
         Map<String, File> fileMap = new HashMap<>();
         fileMap.put("media", file);
-        String jsonStr = HttpClientUtils.sendPostUploadFiles(url, fileMap, null);
+        String jsonStr = HttpClientUtils.sendPostUploadFiles(url,null, fileMap, null);
         return new ApiResult(jsonStr);
     }
 
@@ -145,7 +145,7 @@ public class MediaApi {
         Map<String, File> fileMap = new HashMap<>();
         fileMap.put("media", imgFile);
 
-        String jsonResult = HttpClientUtils.sendPostUploadFiles(url, fileMap, null);
+        String jsonResult = HttpClientUtils.sendPostUploadFiles(url, null,fileMap, null);
         return new ApiResult(jsonResult);
     }
 
@@ -161,7 +161,7 @@ public class MediaApi {
 
         Map<String, File> fileMap = new HashMap<>();
         fileMap.put("media", file);
-        String jsonResult = HttpClientUtils.sendPostUploadFiles(url, fileMap, null);
+        String jsonResult = HttpClientUtils.sendPostUploadFiles(url, null,fileMap, null);
 
         return new ApiResult(jsonResult);
     }
@@ -185,7 +185,7 @@ public class MediaApi {
 
         Map<String, File> fileMap = new HashMap<>();
         fileMap.put("media", file);
-        String jsonResult = HttpClientUtils.sendPostUploadFiles(url, fileMap, dataMap);
+        String jsonResult = HttpClientUtils.sendPostUploadFiles(url, null,fileMap, dataMap);
 
         return new ApiResult(jsonResult);
     }
