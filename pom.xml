@@ -16,7 +16,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.0.1</version>
+        <version>3.0.2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -49,7 +49,7 @@
         -->
         <!-- lucene版本和es的依赖版本最好保持一致,避免冲突 -->
         <lucene.version>9.4.2</lucene.version>
-        <elasticsearch.client.version>8.5.3</elasticsearch.client.version>
+        <elasticsearch.client.version>8.6.0</elasticsearch.client.version>
 
         <!-- 建议使用 redis stream实现MQ,比较简单 -->
         <rocketmq.client.version>5.0.0</rocketmq.client.version>
@@ -61,7 +61,7 @@
         -->
 
         <!-- gRPC -->
-        <io.grpc.version>1.51.1</io.grpc.version>
+        <io.grpc.version>1.52.1</io.grpc.version>
         <kr.motd.maven.version>1.7.1</kr.motd.maven.version>
         <io.protostuff.version>1.8.0</io.protostuff.version>
 
@@ -69,8 +69,8 @@
         <jsoup.version>1.15.3</jsoup.version>
         <xstream.version>1.4.19</xstream.version>
         <druid-spring-boot-starter.version>1.2.15</druid-spring-boot-starter.version>
-        <clickhouse-jdbc.version>0.3.2-patch11</clickhouse-jdbc.version>
-        <jwt.version>4.2.1</jwt.version>
+        <clickhouse-jdbc.version>0.4.0</clickhouse-jdbc.version>
+        <jwt.version>4.2.2</jwt.version>
 
         <!--3.x版本依赖jdk 14 -->
         <fst.version>3.0.4-jdk17</fst.version>
@@ -83,7 +83,7 @@
         <!-- smart-doc 文档生成 -->
         <smart-doc-maven-plugin.version>2.6.3</smart-doc-maven-plugin.version>
 
-        <lettucemod.version>3.1.6</lettucemod.version>
+        <lettucemod.version>3.2.1</lettucemod.version>
 
     </properties>
 
