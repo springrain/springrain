@@ -40,7 +40,7 @@
         <commons-io.version>2.11.0</commons-io.version>
         <commons-codec.version>1.15</commons-codec.version>
         <commons-beanutils.version>1.9.4</commons-beanutils.version>
-        <commons-fileupload.version>1.4</commons-fileupload.version>
+        <commons-fileupload.version>1.5</commons-fileupload.version>
         <commons-text.version>1.10.0</commons-text.version>
         <!--
         <jakarta.persistence.version>3.1.0</jakarta.persistence.version>
@@ -49,10 +49,10 @@
         -->
         <!-- lucene版本和es的依赖版本最好保持一致,避免冲突 -->
         <lucene.version>9.4.2</lucene.version>
-        <elasticsearch.client.version>8.6.0</elasticsearch.client.version>
+        <elasticsearch.client.version>8.6.2</elasticsearch.client.version>
 
         <!-- 建议使用 redis stream实现MQ,比较简单 -->
-        <rocketmq.client.version>5.0.0</rocketmq.client.version>
+        <rocketmq.client.version>5.1.0</rocketmq.client.version>
         <jxl.version>2.6.12</jxl.version>
         <poi.version>5.2.3</poi.version>
         <!--
@@ -68,9 +68,9 @@
         <zxing.version>3.5.1</zxing.version>
         <jsoup.version>1.15.3</jsoup.version>
         <xstream.version>1.4.19</xstream.version>
-        <druid-spring-boot-starter.version>1.2.15</druid-spring-boot-starter.version>
-        <clickhouse-jdbc.version>0.4.0</clickhouse-jdbc.version>
-        <jwt.version>4.2.2</jwt.version>
+        <druid-spring-boot-starter.version>1.2.16</druid-spring-boot-starter.version>
+        <clickhouse-jdbc.version>0.4.1</clickhouse-jdbc.version>
+        <jwt.version>4.3.0</jwt.version>
 
         <!--3.x版本依赖jdk 14 -->
         <fst.version>3.0.4-jdk17</fst.version>
@@ -81,9 +81,9 @@
         <seata.version>1.6.1</seata.version>
 
         <!-- smart-doc 文档生成 -->
-        <smart-doc-maven-plugin.version>2.6.3</smart-doc-maven-plugin.version>
+        <smart-doc-maven-plugin.version>2.6.4</smart-doc-maven-plugin.version>
 
-        <lettucemod.version>3.2.1</lettucemod.version>
+        <lettucemod.version>3.4.0</lettucemod.version>
 
     </properties>
 
