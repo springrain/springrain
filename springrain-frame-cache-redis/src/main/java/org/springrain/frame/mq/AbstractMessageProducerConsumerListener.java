@@ -208,9 +208,9 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
             if (executor == null) {
                 //executor = new SimpleAsyncTaskExecutor();
                 ThreadPoolTaskExecutor  threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
-                threadPoolTaskExecutor.setCorePoolSize(500); // 核心线程数(默认线程数)
-                threadPoolTaskExecutor.setMaxPoolSize(500); // 最大线程数
-                threadPoolTaskExecutor.setQueueCapacity(5000); //  缓冲队列大小
+                threadPoolTaskExecutor.setCorePoolSize(500); // 默认线程数量
+                threadPoolTaskExecutor.setQueueCapacity(5000); // 当线程大于corePoolSize个的时候,将线程放入queueCapacity大小的队列(队列只存在任务,不存在线)
+                threadPoolTaskExecutor.setMaxPoolSize(5000); // 最大线程数,当queueCapacity队列已满,将会继续创建线程,直到线程数超过maxPoolSize的大小,将抛出异常
                 threadPoolTaskExecutor.setKeepAliveSeconds(30); // 允许线程空闲时间(单位:默认为秒)
                 threadPoolTaskExecutor.setThreadNamePrefix("redis-stream->");
 
