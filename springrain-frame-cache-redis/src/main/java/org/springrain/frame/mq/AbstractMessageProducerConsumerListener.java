@@ -369,10 +369,11 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
             //T t = ;
             //初始化/创建队列
             RecordId initialRecord = ops.add(ObjectRecord.create(queueName, ""));
-            if (initialRecord != null){
+            if (initialRecord == null){
                 logger.error("Cannot initialize stream with key '" + queueName + "'");
+            }else{
+                status = ops.createGroup(queueName, ReadOffset.from(initialRecord), group);
             }
-            status = ops.createGroup(queueName, ReadOffset.from(initialRecord), group);
         } finally {
             if (!"OK".equals(status)){
                 logger.error("Cannot create group with name '" + group + "'");
