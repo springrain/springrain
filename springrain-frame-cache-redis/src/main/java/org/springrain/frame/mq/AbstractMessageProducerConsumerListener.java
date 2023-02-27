@@ -361,17 +361,22 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
                 //status = ops.createGroup(queueName, group);
                 status = ops.createGroup(queueName, ReadOffset.from("0-0"), group);
             }
-        } catch (Exception exception) {
+        } catch (Exception e) {
+            logger.error(e.getMessage(),e);
             if (getDefaultMaxLen() > 0) {
                 ops.trim(queueName, getDefaultMaxLen(), true);
             }
             //T t = ;
             //初始化/创建队列
             RecordId initialRecord = ops.add(ObjectRecord.create(queueName, ""));
-            logger.error(exception.getMessage(), exception);
+            if (initialRecord != null){
+                logger.error("Cannot initialize stream with key '" + queueName + "'");
+            }
             status = ops.createGroup(queueName, ReadOffset.from(initialRecord), group);
         } finally {
-            logger.error(exception.getMessage(), exception);
+            if (!"OK".equals(status)){
+                logger.error("Cannot create group with name '" + group + "'");
+            }
         }
     }
 
