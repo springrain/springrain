@@ -8,7 +8,6 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.data.convert.CustomConversions;
 import org.springframework.data.domain.Range;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -20,7 +19,7 @@ import org.springframework.data.redis.core.convert.RedisCustomConversions;
 import org.springframework.data.redis.hash.ObjectHashMapper;
 import org.springframework.data.redis.stream.StreamListener;
 import org.springframework.data.redis.stream.StreamMessageListenerContainer;
-import org.springframework.util.Assert;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springrain.frame.util.Page;
 
 import jakarta.annotation.PostConstruct;
@@ -32,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Executor;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * 因为接口不能注入springBean,使用抽象类实现,主要用于隔离了Redis Stream API,方便后期更换MQ的实现.
@@ -206,7 +206,21 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
 
             Executor executor = getExecutor();
             if (executor == null) {
-                executor = new SimpleAsyncTaskExecutor();
+                //executor = new SimpleAsyncTaskExecutor();
+                ThreadPoolTaskExecutor  threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
+                threadPoolTaskExecutor.setCorePoolSize(500); // 核心线程数(默认线程数)
+                threadPoolTaskExecutor.setMaxPoolSize(500); // 最大线程数
+                threadPoolTaskExecutor.setQueueCapacity(5000); //  缓冲队列大小
+                threadPoolTaskExecutor.setKeepAliveSeconds(30); // 允许线程空闲时间(单位:默认为秒)
+                threadPoolTaskExecutor.setThreadNamePrefix("redis-stream->");
+
+                // 线程池对拒绝任务的处理策略
+                // CallerRunsPolicy:由调用线程(提交任务的线程)处理该任务
+                threadPoolTaskExecutor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
+                // 初始化
+                threadPoolTaskExecutor.initialize();
+
+                executor=threadPoolTaskExecutor;
             }
 
             // 增加自定义的 BytesToTimestampConverter 类型转换器.
@@ -354,10 +368,10 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
             //T t = ;
             //初始化/创建队列
             RecordId initialRecord = ops.add(ObjectRecord.create(queueName, ""));
-            Assert.notNull(initialRecord, "Cannot initialize stream with key '" + queueName + "'");
+            logger.error(exception.getMessage(), exception);
             status = ops.createGroup(queueName, ReadOffset.from(initialRecord), group);
         } finally {
-            Assert.isTrue("OK".equals(status), "Cannot create group with name '" + group + "'");
+            logger.error(exception.getMessage(), exception);
         }
     }
 
