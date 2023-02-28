@@ -19,8 +19,8 @@ import org.springframework.data.redis.core.convert.RedisCustomConversions;
 import org.springframework.data.redis.hash.ObjectHashMapper;
 import org.springframework.data.redis.stream.StreamListener;
 import org.springframework.data.redis.stream.StreamMessageListenerContainer;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springrain.frame.util.Page;
+import org.springrain.frame.util.ThreadPoolManager;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Executor;
-import java.util.concurrent.ThreadPoolExecutor;
+
 
 /**
  * 因为接口不能注入springBean,使用抽象类实现,主要用于隔离了Redis Stream API,方便后期更换MQ的实现.
@@ -206,22 +206,9 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
 
             Executor executor = getExecutor();
             if (executor == null) {
-                //executor = new SimpleAsyncTaskExecutor();
-                ThreadPoolTaskExecutor  threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
-                threadPoolTaskExecutor.setCorePoolSize(100); // 默认线程数量
-                threadPoolTaskExecutor.setQueueCapacity(5000); // 当线程大于corePoolSize个的时候,将线程放入queueCapacity大小的队列(队列只存在任务,不存在线)
-                threadPoolTaskExecutor.setMaxPoolSize(5000); // 最大线程数,当queueCapacity队列已满,将会继续创建线程,直到线程数超过maxPoolSize的大小,将抛出异常
-                threadPoolTaskExecutor.setKeepAliveSeconds(60); // 允许线程空闲时间(单位:默认为秒)
-                threadPoolTaskExecutor.setThreadNamePrefix("redis-stream->");
-
-                // 线程池对拒绝任务的处理策略
-                // CallerRunsPolicy:由调用线程(提交任务的线程)处理该任务
-                threadPoolTaskExecutor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
-                // 初始化
-                threadPoolTaskExecutor.initialize();
-
-                executor=threadPoolTaskExecutor;
+                executor= ThreadPoolManager.createThreadPool("redis-stream->");
             }
+
 
             // 增加自定义的 BytesToTimestampConverter 类型转换器.
             // spring jdbc 把 datetime 类型解析成了 java.sql.timestamp,spring-data-redis并没用提供BytesToTimestampConverter,造成无法转换类型
