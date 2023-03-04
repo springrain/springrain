@@ -16,7 +16,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.0.3</version>
+        <version>3.0.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -25,8 +25,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>17</java.version>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
 
         <!-- 忽略测试 -->
         <skipTests>true</skipTests>
@@ -61,13 +61,13 @@
         -->
 
         <!-- gRPC -->
-        <io.grpc.version>1.52.1</io.grpc.version>
+        <io.grpc.version>1.53.0</io.grpc.version>
         <kr.motd.maven.version>1.7.1</kr.motd.maven.version>
         <io.protostuff.version>1.8.0</io.protostuff.version>
 
         <zxing.version>3.5.1</zxing.version>
-        <jsoup.version>1.15.3</jsoup.version>
-        <xstream.version>1.4.19</xstream.version>
+        <jsoup.version>1.15.4</jsoup.version>
+        <xstream.version>1.4.20</xstream.version>
         <druid-spring-boot-starter.version>1.2.16</druid-spring-boot-starter.version>
         <clickhouse-jdbc.version>0.4.1</clickhouse-jdbc.version>
         <jwt.version>4.3.0</jwt.version>
@@ -83,7 +83,7 @@
         <!-- smart-doc 文档生成 -->
         <smart-doc-maven-plugin.version>2.6.3</smart-doc-maven-plugin.version>
 
-        <lettucemod.version>3.4.0</lettucemod.version>
+        <lettucemod.version>3.4.1</lettucemod.version>
 
     </properties>
 

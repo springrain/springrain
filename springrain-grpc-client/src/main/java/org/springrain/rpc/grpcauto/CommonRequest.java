@@ -30,11 +30,6 @@ private static final long serialVersionUID = 0L;
     return new CommonRequest();
   }
 
-  @java.lang.Override
-  public final com.google.protobuf.UnknownFieldSet
-  getUnknownFields() {
-    return this.unknownFields;
-  }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
     return org.springrain.rpc.grpcauto.GrpcAutoCreateService.internal_static_CommonRequest_descriptor;
@@ -49,7 +44,7 @@ private static final long serialVersionUID = 0L;
   }
 
   public static final int SERIALIZE_FIELD_NUMBER = 1;
-  private int serialize_;
+  private int serialize_ = 0;
   /**
    * <code>int32 serialize = 1;</code>
    * @return The serialize.
@@ -60,7 +55,7 @@ private static final long serialVersionUID = 0L;
   }
 
   public static final int REQUEST_FIELD_NUMBER = 2;
-  private com.google.protobuf.ByteString request_;
+  private com.google.protobuf.ByteString request_ = com.google.protobuf.ByteString.EMPTY;
   /**
    * <code>bytes request = 2;</code>
    * @return The request.
@@ -273,10 +268,9 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public Builder clear() {
       super.clear();
+      bitField0_ = 0;
       serialize_ = 0;
-
       request_ = com.google.protobuf.ByteString.EMPTY;
-
       return this;
     }
 
@@ -303,44 +297,21 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public org.springrain.rpc.grpcauto.CommonRequest buildPartial() {
       org.springrain.rpc.grpcauto.CommonRequest result = new org.springrain.rpc.grpcauto.CommonRequest(this);
-      result.serialize_ = serialize_;
-      result.request_ = request_;
+      if (bitField0_ != 0) { buildPartial0(result); }
       onBuilt();
       return result;
     }
 
-    @java.lang.Override
-    public Builder clone() {
-      return super.clone();
+    private void buildPartial0(org.springrain.rpc.grpcauto.CommonRequest result) {
+      int from_bitField0_ = bitField0_;
+      if (((from_bitField0_ & 0x00000001) != 0)) {
+        result.serialize_ = serialize_;
+      }
+      if (((from_bitField0_ & 0x00000002) != 0)) {
+        result.request_ = request_;
+      }
     }
-    @java.lang.Override
-    public Builder setField(
-        com.google.protobuf.Descriptors.FieldDescriptor field,
-        java.lang.Object value) {
-      return super.setField(field, value);
-    }
-    @java.lang.Override
-    public Builder clearField(
-        com.google.protobuf.Descriptors.FieldDescriptor field) {
-      return super.clearField(field);
-    }
-    @java.lang.Override
-    public Builder clearOneof(
-        com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-      return super.clearOneof(oneof);
-    }
-    @java.lang.Override
-    public Builder setRepeatedField(
-        com.google.protobuf.Descriptors.FieldDescriptor field,
-        int index, java.lang.Object value) {
-      return super.setRepeatedField(field, index, value);
-    }
-    @java.lang.Override
-    public Builder addRepeatedField(
-        com.google.protobuf.Descriptors.FieldDescriptor field,
-        java.lang.Object value) {
-      return super.addRepeatedField(field, value);
-    }
+
     @java.lang.Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
       if (other instanceof org.springrain.rpc.grpcauto.CommonRequest) {
@@ -387,12 +358,12 @@ private static final long serialVersionUID = 0L;
               break;
             case 8: {
               serialize_ = input.readInt32();
-
+              bitField0_ |= 0x00000001;
               break;
             } // case 8
             case 18: {
               request_ = input.readBytes();
-
+              bitField0_ |= 0x00000002;
               break;
             } // case 18
             default: {
@@ -410,6 +381,7 @@ private static final long serialVersionUID = 0L;
       } // finally
       return this;
     }
+    private int bitField0_;
 
     private int serialize_ ;
     /**
@@ -426,8 +398,9 @@ private static final long serialVersionUID = 0L;
      * @return This builder for chaining.
      */
     public Builder setSerialize(int value) {
-      
+
       serialize_ = value;
+      bitField0_ |= 0x00000001;
       onChanged();
       return this;
     }
@@ -436,7 +409,7 @@ private static final long serialVersionUID = 0L;
      * @return This builder for chaining.
      */
     public Builder clearSerialize() {
-      
+      bitField0_ = (bitField0_ & ~0x00000001);
       serialize_ = 0;
       onChanged();
       return this;
@@ -457,11 +430,9 @@ private static final long serialVersionUID = 0L;
      * @return This builder for chaining.
      */
     public Builder setRequest(com.google.protobuf.ByteString value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  
+      if (value == null) { throw new NullPointerException(); }
       request_ = value;
+      bitField0_ |= 0x00000002;
       onChanged();
       return this;
     }
@@ -470,7 +441,7 @@ private static final long serialVersionUID = 0L;
      * @return This builder for chaining.
      */
     public Builder clearRequest() {
-      
+      bitField0_ = (bitField0_ & ~0x00000002);
       request_ = getDefaultInstance().getRequest();
       onChanged();
       return this;

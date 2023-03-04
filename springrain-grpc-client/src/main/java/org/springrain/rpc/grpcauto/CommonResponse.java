@@ -30,11 +30,6 @@ private static final long serialVersionUID = 0L;
     return new CommonResponse();
   }
 
-  @java.lang.Override
-  public final com.google.protobuf.UnknownFieldSet
-  getUnknownFields() {
-    return this.unknownFields;
-  }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
     return org.springrain.rpc.grpcauto.GrpcAutoCreateService.internal_static_CommonResponse_descriptor;
@@ -49,7 +44,7 @@ private static final long serialVersionUID = 0L;
   }
 
   public static final int RESPONSE_FIELD_NUMBER = 1;
-  private com.google.protobuf.ByteString response_;
+  private com.google.protobuf.ByteString response_ = com.google.protobuf.ByteString.EMPTY;
   /**
    * <code>bytes response = 1;</code>
    * @return The response.
@@ -251,8 +246,8 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public Builder clear() {
       super.clear();
+      bitField0_ = 0;
       response_ = com.google.protobuf.ByteString.EMPTY;
-
       return this;
     }
 
@@ -279,43 +274,18 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public org.springrain.rpc.grpcauto.CommonResponse buildPartial() {
       org.springrain.rpc.grpcauto.CommonResponse result = new org.springrain.rpc.grpcauto.CommonResponse(this);
-      result.response_ = response_;
+      if (bitField0_ != 0) { buildPartial0(result); }
       onBuilt();
       return result;
     }
 
-    @java.lang.Override
-    public Builder clone() {
-      return super.clone();
+    private void buildPartial0(org.springrain.rpc.grpcauto.CommonResponse result) {
+      int from_bitField0_ = bitField0_;
+      if (((from_bitField0_ & 0x00000001) != 0)) {
+        result.response_ = response_;
+      }
     }
-    @java.lang.Override
-    public Builder setField(
-        com.google.protobuf.Descriptors.FieldDescriptor field,
-        java.lang.Object value) {
-      return super.setField(field, value);
-    }
-    @java.lang.Override
-    public Builder clearField(
-        com.google.protobuf.Descriptors.FieldDescriptor field) {
-      return super.clearField(field);
-    }
-    @java.lang.Override
-    public Builder clearOneof(
-        com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-      return super.clearOneof(oneof);
-    }
-    @java.lang.Override
-    public Builder setRepeatedField(
-        com.google.protobuf.Descriptors.FieldDescriptor field,
-        int index, java.lang.Object value) {
-      return super.setRepeatedField(field, index, value);
-    }
-    @java.lang.Override
-    public Builder addRepeatedField(
-        com.google.protobuf.Descriptors.FieldDescriptor field,
-        java.lang.Object value) {
-      return super.addRepeatedField(field, value);
-    }
+
     @java.lang.Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
       if (other instanceof org.springrain.rpc.grpcauto.CommonResponse) {
@@ -359,7 +329,7 @@ private static final long serialVersionUID = 0L;
               break;
             case 10: {
               response_ = input.readBytes();
-
+              bitField0_ |= 0x00000001;
               break;
             } // case 10
             default: {
@@ -377,6 +347,7 @@ private static final long serialVersionUID = 0L;
       } // finally
       return this;
     }
+    private int bitField0_;
 
     private com.google.protobuf.ByteString response_ = com.google.protobuf.ByteString.EMPTY;
     /**
@@ -393,11 +364,9 @@ private static final long serialVersionUID = 0L;
      * @return This builder for chaining.
      */
     public Builder setResponse(com.google.protobuf.ByteString value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  
+      if (value == null) { throw new NullPointerException(); }
       response_ = value;
+      bitField0_ |= 0x00000001;
       onChanged();
       return this;
     }
@@ -406,7 +375,7 @@ private static final long serialVersionUID = 0L;
      * @return This builder for chaining.
      */
     public Builder clearResponse() {
-      
+      bitField0_ = (bitField0_ & ~0x00000001);
       response_ = getDefaultInstance().getResponse();
       onChanged();
       return this;
