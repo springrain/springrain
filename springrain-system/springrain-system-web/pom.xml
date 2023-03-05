@@ -202,8 +202,8 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <!--如果不需要在执行编译时启动smart-doc，则将phase注释掉-->
-                        <phase>prepare-package</phase>
+                        <!--如果不需要在打包时启动smart-doc，则将phase注释掉-->
+                        <phase>package</phase>
                         <goals>
                             <!--smart-doc提供了 html、openapi、markdown、torna-rest 等goal,可按需配置-->
                             <!-- 强烈推荐 smart-doc + torna 组合,配置参见 ./src/resources/smart-doc.json -->
