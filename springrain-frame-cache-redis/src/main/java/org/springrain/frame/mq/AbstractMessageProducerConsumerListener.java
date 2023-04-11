@@ -251,7 +251,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
             container.receive(consumer, StreamOffset.create(getQueueName(), ReadOffset.lastConsumed()), this);
             container.start();
 
-
+           /* ReadOffset.lastConsumed())  > 符号,已经可以正常读取未消费的信息,不需要启动时重试了.
             //开启线程,重试异常的消息
             executor.execute(() -> {
                 //重试失败的消息
@@ -261,8 +261,9 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
                     logger.error(e.getMessage(), e);
                 }
             });
+            */
 
-            // 注册队列,方便业务重试
+            // 注册队列,方便业务定时重试
             RedisOperation.messageProducerConsumerListenerList.add(this);
 
         } catch (Exception e) {

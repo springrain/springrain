@@ -23,7 +23,7 @@ import org.springrain.frame.util.GlobalStatic;
 
 @Component("redisOperation")
 public class RedisOperation {
-    // 注册所有的队列,方便业务重试
+    // 注册所有的队列,方便业务定时重试
     public static List<IMessageProducerConsumerListener> messageProducerConsumerListenerList = new ArrayList<>();
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Resource
