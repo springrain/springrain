@@ -16,7 +16,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.0.5</version>
+        <version>3.0.6</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -61,16 +61,16 @@
         -->
 
         <!-- gRPC -->
-        <io.grpc.version>1.53.0</io.grpc.version>
+        <io.grpc.version>1.54.1</io.grpc.version>
         <kr.motd.maven.version>1.7.1</kr.motd.maven.version>
         <io.protostuff.version>1.8.0</io.protostuff.version>
 
         <zxing.version>3.5.1</zxing.version>
         <jsoup.version>1.15.4</jsoup.version>
         <xstream.version>1.4.20</xstream.version>
-        <druid-spring-boot-starter.version>1.2.16</druid-spring-boot-starter.version>
-        <clickhouse-jdbc.version>0.4.2</clickhouse-jdbc.version>
-        <jwt.version>4.3.0</jwt.version>
+        <druid-spring-boot-starter.version>1.2.17</druid-spring-boot-starter.version>
+        <clickhouse-jdbc.version>0.4.4</clickhouse-jdbc.version>
+        <jwt.version>4.4.0</jwt.version>
 
         <!--3.x版本依赖jdk 14 -->
         <fst.version>3.0.4-jdk17</fst.version>
@@ -83,7 +83,7 @@
         <!-- smart-doc 文档生成 -->
         <smart-doc-maven-plugin.version>2.6.7</smart-doc-maven-plugin.version>
 
-        <lettucemod.version>3.4.1</lettucemod.version>
+        <lettucemod.version>3.5.0</lettucemod.version>
 
     </properties>
 
