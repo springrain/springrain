@@ -8,7 +8,7 @@ import static io.grpc.MethodDescriptor.generateFullMethodName;
  * </pre>
  */
 @javax.annotation.Generated(
-    value = "by gRPC proto compiler (version 1.53.0)",
+    value = "by gRPC proto compiler (version 1.54.1)",
     comments = "Source: grpcCommonService.proto")
 @io.grpc.stub.annotations.GrpcGenerated
 public final class GrpcCommonServiceGrpc {
@@ -98,37 +98,41 @@ public final class GrpcCommonServiceGrpc {
    * 定义通用的 Grpc 服务
    * </pre>
    */
-  public static abstract class GrpcCommonServiceImplBase implements io.grpc.BindableService {
+  public interface AsyncService {
 
     /**
      * <pre>
      * 处理请求
      * </pre>
      */
-    public void commonHandle(org.springrain.rpc.grpcauto.CommonRequest request,
+    default void commonHandle(org.springrain.rpc.grpcauto.CommonRequest request,
         io.grpc.stub.StreamObserver<org.springrain.rpc.grpcauto.CommonResponse> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getCommonHandleMethod(), responseObserver);
-    }
-
-    @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
-      return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
-          .addMethod(
-            getCommonHandleMethod(),
-            io.grpc.stub.ServerCalls.asyncUnaryCall(
-              new MethodHandlers<
-                org.springrain.rpc.grpcauto.CommonRequest,
-                org.springrain.rpc.grpcauto.CommonResponse>(
-                  this, METHODID_COMMON_HANDLE)))
-          .build();
     }
   }
 
   /**
+   * Base class for the server implementation of the service GrpcCommonService.
    * <pre>
    * 定义通用的 Grpc 服务
    * </pre>
    */
-  public static final class GrpcCommonServiceStub extends io.grpc.stub.AbstractAsyncStub<GrpcCommonServiceStub> {
+  public static abstract class GrpcCommonServiceImplBase
+      implements io.grpc.BindableService, AsyncService {
+
+    @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
+      return GrpcCommonServiceGrpc.bindService(this);
+    }
+  }
+
+  /**
+   * A stub to allow clients to do asynchronous rpc calls to service GrpcCommonService.
+   * <pre>
+   * 定义通用的 Grpc 服务
+   * </pre>
+   */
+  public static final class GrpcCommonServiceStub
+      extends io.grpc.stub.AbstractAsyncStub<GrpcCommonServiceStub> {
     private GrpcCommonServiceStub(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
@@ -153,11 +157,13 @@ public final class GrpcCommonServiceGrpc {
   }
 
   /**
+   * A stub to allow clients to do synchronous rpc calls to service GrpcCommonService.
    * <pre>
    * 定义通用的 Grpc 服务
    * </pre>
    */
-  public static final class GrpcCommonServiceBlockingStub extends io.grpc.stub.AbstractBlockingStub<GrpcCommonServiceBlockingStub> {
+  public static final class GrpcCommonServiceBlockingStub
+      extends io.grpc.stub.AbstractBlockingStub<GrpcCommonServiceBlockingStub> {
     private GrpcCommonServiceBlockingStub(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
@@ -181,11 +187,13 @@ public final class GrpcCommonServiceGrpc {
   }
 
   /**
+   * A stub to allow clients to do ListenableFuture-style rpc calls to service GrpcCommonService.
    * <pre>
    * 定义通用的 Grpc 服务
    * </pre>
    */
-  public static final class GrpcCommonServiceFutureStub extends io.grpc.stub.AbstractFutureStub<GrpcCommonServiceFutureStub> {
+  public static final class GrpcCommonServiceFutureStub
+      extends io.grpc.stub.AbstractFutureStub<GrpcCommonServiceFutureStub> {
     private GrpcCommonServiceFutureStub(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
@@ -216,10 +224,10 @@ public final class GrpcCommonServiceGrpc {
       io.grpc.stub.ServerCalls.ServerStreamingMethod<Req, Resp>,
       io.grpc.stub.ServerCalls.ClientStreamingMethod<Req, Resp>,
       io.grpc.stub.ServerCalls.BidiStreamingMethod<Req, Resp> {
-    private final GrpcCommonServiceImplBase serviceImpl;
+    private final AsyncService serviceImpl;
     private final int methodId;
 
-    MethodHandlers(GrpcCommonServiceImplBase serviceImpl, int methodId) {
+    MethodHandlers(AsyncService serviceImpl, int methodId) {
       this.serviceImpl = serviceImpl;
       this.methodId = methodId;
     }
@@ -246,6 +254,18 @@ public final class GrpcCommonServiceGrpc {
           throw new AssertionError();
       }
     }
+  }
+
+  public static final io.grpc.ServerServiceDefinition bindService(AsyncService service) {
+    return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
+        .addMethod(
+          getCommonHandleMethod(),
+          io.grpc.stub.ServerCalls.asyncUnaryCall(
+            new MethodHandlers<
+              org.springrain.rpc.grpcauto.CommonRequest,
+              org.springrain.rpc.grpcauto.CommonResponse>(
+                service, METHODID_COMMON_HANDLE)))
+        .build();
   }
 
   private static abstract class GrpcCommonServiceBaseDescriptorSupplier
