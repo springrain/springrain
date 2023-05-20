@@ -16,7 +16,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.0.6</version>
+        <version>3.1.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -37,7 +37,7 @@
 
         <commons-pool2.version>2.11.1</commons-pool2.version>
         <commons-collections4.version>4.4</commons-collections4.version>
-        <commons-io.version>2.11.0</commons-io.version>
+        <commons-io.version>2.12.0</commons-io.version>
         <commons-codec.version>1.15</commons-codec.version>
         <commons-beanutils.version>1.9.4</commons-beanutils.version>
         <commons-fileupload.version>1.5</commons-fileupload.version>
@@ -48,11 +48,11 @@
         <servlet-api.version>4.0.1</servlet-api.version>
         -->
         <!-- lucene版本和es的依赖版本最好保持一致,避免冲突 -->
-        <lucene.version>9.4.2</lucene.version>
-        <elasticsearch.client.version>8.6.2</elasticsearch.client.version>
+        <lucene.version>9.5.0</lucene.version>
+        <elasticsearch.client.version>8.7.1</elasticsearch.client.version>
 
         <!-- 建议使用 redis stream实现MQ,比较简单 -->
-        <rocketmq.client.version>5.1.0</rocketmq.client.version>
+        <rocketmq.client.version>5.1.1</rocketmq.client.version>
         <jxl.version>2.6.12</jxl.version>
         <poi.version>5.2.3</poi.version>
         <!--
@@ -61,15 +61,15 @@
         -->
 
         <!-- gRPC -->
-        <io.grpc.version>1.54.1</io.grpc.version>
+        <io.grpc.version>1.55.1</io.grpc.version>
         <kr.motd.maven.version>1.7.1</kr.motd.maven.version>
         <io.protostuff.version>1.8.0</io.protostuff.version>
 
         <zxing.version>3.5.1</zxing.version>
-        <jsoup.version>1.15.4</jsoup.version>
+        <jsoup.version>1.16.1</jsoup.version>
         <xstream.version>1.4.20</xstream.version>
-        <druid-spring-boot-starter.version>1.2.17</druid-spring-boot-starter.version>
-        <clickhouse-jdbc.version>0.4.4</clickhouse-jdbc.version>
+        <druid-spring-boot-starter.version>1.2.18</druid-spring-boot-starter.version>
+        <clickhouse-jdbc.version>0.4.6</clickhouse-jdbc.version>
         <jwt.version>4.4.0</jwt.version>
 
         <!--3.x版本依赖jdk 14 -->
@@ -81,7 +81,7 @@
         <seata.version>1.6.1</seata.version>
 
         <!-- smart-doc 文档生成 -->
-        <smart-doc-maven-plugin.version>2.6.7</smart-doc-maven-plugin.version>
+        <smart-doc-maven-plugin.version>2.6.9</smart-doc-maven-plugin.version>
 
         <lettucemod.version>3.5.0</lettucemod.version>
 

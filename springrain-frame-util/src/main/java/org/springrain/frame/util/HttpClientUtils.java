@@ -2,32 +2,33 @@ package org.springrain.frame.util;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpEntity;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.config.Registry;
-import org.apache.http.config.RegistryBuilder;
-import org.apache.http.conn.socket.ConnectionSocketFactory;
-import org.apache.http.conn.socket.PlainConnectionSocketFactory;
-import org.apache.http.conn.ssl.NoopHostnameVerifier;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.entity.mime.content.StringBody;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.ssl.SSLContextBuilder;
-import org.apache.http.util.EntityUtils;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.client5.http.config.RequestConfig;
+import org.apache.hc.client5.http.entity.UrlEncodedFormEntity;
+import org.apache.hc.client5.http.entity.mime.FileBody;
+import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
+import org.apache.hc.client5.http.entity.mime.StringBody;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
+import org.apache.hc.client5.http.io.HttpClientConnectionManager;
+import org.apache.hc.client5.http.socket.ConnectionSocketFactory;
+import org.apache.hc.client5.http.socket.PlainConnectionSocketFactory;
+import org.apache.hc.client5.http.ssl.NoopHostnameVerifier;
+import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory;
+import org.apache.hc.client5.http.ssl.TrustSelfSignedStrategy;
+import org.apache.hc.core5.http.ContentType;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.NameValuePair;
+import org.apache.hc.core5.http.config.Registry;
+import org.apache.hc.core5.http.config.RegistryBuilder;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
+import org.apache.hc.core5.http.io.entity.StringEntity;
+import org.apache.hc.core5.http.message.BasicNameValuePair;
+import org.apache.hc.core5.ssl.SSLContextBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,6 +37,7 @@ import javax.net.ssl.SSLContext;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -45,6 +47,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * HttpClient 工具类
@@ -54,16 +57,15 @@ import java.util.Map;
 public class HttpClientUtils {
 
     private static final Logger logger = LoggerFactory.getLogger(HttpClientUtils.class);
-    // private static BasicHttpClientConnectionManager connectionManager = null;
-    private static PoolingHttpClientConnectionManager connectionManager = null;
-
+    // 禁用主机验证.安全性较低,兼容性较好,自签证书需要用到.
+    static HostnameVerifier allowAllHosts = new NoopHostnameVerifier();
+    private static HttpClientConnectionManager connectionManager = null;
     // private static HttpClientBuilder httpClientBuilder=null;
-    private static RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(15000).setConnectTimeout(15000)
-            .setConnectionRequestTimeout(10000).build();
+    private static RequestConfig requestConfig = RequestConfig.custom()
+            .setConnectTimeout(15, TimeUnit.SECONDS)
+            .setConnectionRequestTimeout(10, TimeUnit.SECONDS).build();
 
     static {
-
-
         // 使用 TrustSelfSignedStrategy 允许自签名证书
         SSLContext sslContext = null;
         try {
@@ -81,10 +83,15 @@ public class HttpClientUtils {
         } catch (KeyStoreException e) {
             logger.error(e.getMessage(), e);
         }
+        connectionManager = getConnectionManager(sslContext);
+    }
 
-        // 禁用主机验证.安全性较低,兼容性较好,自签证书需要用到.
-        HostnameVerifier allowAllHosts = new NoopHostnameVerifier();
 
+    private HttpClientUtils() {
+        throw new IllegalAccessError("工具类不能实例化");
+    }
+
+    private static HttpClientConnectionManager getConnectionManager(SSLContext sslContext) {
 
         Registry<ConnectionSocketFactory> socketFactoryRegistry =
                 RegistryBuilder.<ConnectionSocketFactory>create().register("http",
@@ -95,8 +102,8 @@ public class HttpClientUtils {
         // 使用基本的Httpclient链接器
         // connectionManager=new
         // BasicHttpClientConnectionManager(socketFactoryRegistry);
-
-        connectionManager = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
+        // BasicHttpClientConnectionManager connectionManager = null;
+        PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
         //connectionManager = new PoolingHttpClientConnectionManager();
         connectionManager.setMaxTotal(2000);
         connectionManager.setDefaultMaxPerRoute(500);// 每个路由最大的请求数量
@@ -109,10 +116,7 @@ public class HttpClientUtils {
         // HttpHost localhost = new HttpHost("http://www.baidu.com",80);
         // connectionManager.setMaxPerRoute(new HttpRoute(localhost), 200);
 
-    }
-
-    private HttpClientUtils() {
-        throw new IllegalAccessError("工具类不能实例化");
+        return connectionManager;
     }
 
     public static CloseableHttpClient getHttpClient() {
@@ -130,7 +134,8 @@ public class HttpClientUtils {
 
     public static HttpClientBuilder getHttpClientBuilder(SSLContext sslContext) {
         if (sslContext != null) {
-            return getHttpClientBuilder().setSSLContext(sslContext);
+            //return getHttpClientBuilder().setSSLContext(sslContext);
+            return getHttpClientBuilder().setConnectionManager(getConnectionManager(sslContext));
         } else {
             return getHttpClientBuilder();
         }
@@ -181,7 +186,7 @@ public class HttpClientUtils {
         try {
             // 设置参数
             if (StringUtils.isNotBlank(params)) {
-                StringEntity stringEntity = new StringEntity(params, "UTF-8");
+                StringEntity stringEntity = new StringEntity(params, Charset.forName("UTF-8"));
                 // stringEntity.setContentType("application/x-www-form-urlencoded");
                 httpPost.setEntity(stringEntity);
             }
@@ -235,7 +240,7 @@ public class HttpClientUtils {
         }
         try {
             if (nameValuePairs.size() > 0) {
-                httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+                httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs, Charset.forName("UTF-8")));
             }
 
         } catch (Exception e) {
@@ -261,11 +266,11 @@ public class HttpClientUtils {
      * 发送 post请求（带文件）
      *
      * @param httpUrl 地址
-     * @param headers   header头信息
+     * @param headers header头信息
      * @param fileMap 附件,名称和File对应
      * @param maps    参数
      */
-    public static String sendPostUploadFiles(String httpUrl,Map<String, String> headers, Map<String, File> fileMap, Map<String, String> maps) {
+    public static String sendPostUploadFiles(String httpUrl, Map<String, String> headers, Map<String, File> fileMap, Map<String, String> maps) {
         return sendPostUploadFiles(httpUrl, headers, fileMap, maps, null);
     }
 
@@ -289,7 +294,7 @@ public class HttpClientUtils {
             }
         }
 
-        return sendPostUploadFiles(httpUrl,headers, fileMap, maps, sslContext);
+        return sendPostUploadFiles(httpUrl, headers, fileMap, maps, sslContext);
     }
 
     /**
@@ -301,7 +306,7 @@ public class HttpClientUtils {
      * @param maps       参数
      * @param sslContext ssl证书信息
      */
-    public static String sendPostUploadFiles(String httpUrl,Map<String, String> headers, Map<String, File> fileMap, Map<String, String> maps,
+    public static String sendPostUploadFiles(String httpUrl, Map<String, String> headers, Map<String, File> fileMap, Map<String, String> maps,
                                              SSLContext sslContext) {
         HttpPost httpPost = new HttpPost(httpUrl);// 创建httpPost
         MultipartEntityBuilder meBuilder = MultipartEntityBuilder.create();
@@ -503,7 +508,7 @@ public class HttpClientUtils {
         HttpPost httpPost = new HttpPost(httpUrl);// 创建httpPost
         try {
             // 设置参数
-            StringEntity stringEntity = new StringEntity(params, "UTF-8");
+            StringEntity stringEntity = new StringEntity(params, Charset.forName("UTF-8"));
             //stringEntity.setContentType("application/x-www-form-urlencoded");
             httpPost.setEntity(stringEntity);
         } catch (Exception e) {
