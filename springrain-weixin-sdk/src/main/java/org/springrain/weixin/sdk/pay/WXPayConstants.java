@@ -1,6 +1,6 @@
 package org.springrain.weixin.sdk.pay;
 
-import org.apache.http.client.HttpClient;
+import org.apache.hc.client5.http.classic.HttpClient;
 import org.springrain.weixin.sdk.common.WxConsts;
 
 /**
