@@ -48,8 +48,8 @@
         <servlet-api.version>4.0.1</servlet-api.version>
         -->
         <!-- lucene版本和es的依赖版本最好保持一致,避免冲突 -->
-        <lucene.version>9.5.0</lucene.version>
-        <elasticsearch.client.version>8.7.1</elasticsearch.client.version>
+        <lucene.version>9.6.0</lucene.version>
+        <elasticsearch.client.version>8.8.0</elasticsearch.client.version>
 
         <!-- 建议使用 redis stream实现MQ,比较简单 -->
         <rocketmq.client.version>5.1.1</rocketmq.client.version>
@@ -83,7 +83,7 @@
         <!-- smart-doc 文档生成 -->
         <smart-doc-maven-plugin.version>2.6.9</smart-doc-maven-plugin.version>
 
-        <lettucemod.version>3.5.0</lettucemod.version>
+        <lettucemod.version>3.5.1</lettucemod.version>
 
     </properties>
 
