@@ -24,7 +24,7 @@ import java.time.Duration;
 public class RedisCacheConfig {
 
     // 序列化配置 解析任意对象
-    public static FurySerializer fstSerializer = new FurySerializer();
+    public static FurySerializer furySerializer = new FurySerializer();
     // 2.序列化String类型
     public static StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
     @Resource
@@ -44,7 +44,7 @@ public class RedisCacheConfig {
 
 
         //设置默认的序列化器
-        redisTemplate.setDefaultSerializer(fstSerializer);
+        redisTemplate.setDefaultSerializer(furySerializer);
 
 
         // Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
@@ -57,9 +57,9 @@ public class RedisCacheConfig {
 
 
         // value序列化方式采用fstSerializer
-        redisTemplate.setValueSerializer(fstSerializer);
+        redisTemplate.setValueSerializer(furySerializer);
         // hash的value序列化方式采用fstSerializer
-        redisTemplate.setHashValueSerializer(fstSerializer);
+        redisTemplate.setHashValueSerializer(furySerializer);
 
 
         // key采用String的序列化方式
@@ -113,7 +113,7 @@ public class RedisCacheConfig {
         }
         //设置序列化方式
         defaultCacheConfig = defaultCacheConfig.serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(stringRedisSerializer));
-        defaultCacheConfig = defaultCacheConfig.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(fstSerializer));
+        defaultCacheConfig = defaultCacheConfig.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(furySerializer));
 
         //禁用更新NULL值
         defaultCacheConfig = defaultCacheConfig.disableCachingNullValues();

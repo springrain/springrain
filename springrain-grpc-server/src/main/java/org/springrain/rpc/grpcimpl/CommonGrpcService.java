@@ -8,7 +8,7 @@ import org.springrain.rpc.grpcauto.CommonResponse;
 import org.springrain.rpc.grpcauto.GrpcCommonServiceGrpc;
 import org.springrain.rpc.sessionuser.SessionUser;
 import org.springrain.rpc.sessionuser.UserVO;
-import org.springrain.rpc.util.FstSerializeUtils;
+import org.springrain.rpc.util.FurySerializeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,7 +51,7 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
                              io.grpc.stub.StreamObserver<CommonResponse> responseObserver) {
 
         // 把请求反序列化成正常对象,GrpcRequest
-        GrpcCommonRequest grpcRequest = FstSerializeUtils.deserialize(commonRequest);
+        GrpcCommonRequest grpcRequest = FurySerializeUtils.deserialize(commonRequest);
 
         // String beanName = grpcRequest.getBeanName();
         // 需要调用的类
@@ -118,7 +118,7 @@ public class CommonGrpcService extends GrpcCommonServiceGrpc.GrpcCommonServiceIm
 
 
             // 序列化需要返回的结果
-            ByteString bytes = FstSerializeUtils.serialize(grpcResponse);
+            ByteString bytes = FurySerializeUtils.serialize(grpcResponse);
             // 封装成grpc传递的对象
             CommonResponse commonResponse = CommonResponse.newBuilder().setResponse(bytes).build();
             // grpc下一步处理
