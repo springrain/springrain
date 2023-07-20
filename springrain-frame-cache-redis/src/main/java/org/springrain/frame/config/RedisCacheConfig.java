@@ -9,9 +9,10 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-import org.springrain.frame.util.FstSerializer;
+import org.springrain.frame.util.FurySerializer;
 
 import jakarta.annotation.Resource;
+
 import java.time.Duration;
 
 /**
@@ -23,7 +24,7 @@ import java.time.Duration;
 public class RedisCacheConfig {
 
     // 序列化配置 解析任意对象
-    public static FstSerializer fstSerializer = new FstSerializer();
+    public static FurySerializer fstSerializer = new FurySerializer();
     // 2.序列化String类型
     public static StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
     @Resource
@@ -103,18 +104,20 @@ public class RedisCacheConfig {
 
         // fst 序列化
         // FstSerializer fstSerializer =  new FstSerializer();
-        //默认配置
+        //默认配置,每次要使用defaultCacheConfig接收设置,一次设置一个属性.
         RedisCacheConfiguration defaultCacheConfig = RedisCacheConfiguration.defaultCacheConfig();
 
         //设置默认的失效时间,单位毫秒
         if (millis > 0) {
-            defaultCacheConfig.entryTtl(Duration.ofMillis(millis));
+            defaultCacheConfig = defaultCacheConfig.entryTtl(Duration.ofMillis(millis));
         }
         //设置序列化方式
-        defaultCacheConfig.serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(stringRedisSerializer))
-                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(fstSerializer))
-                //禁用更新NULL值
-                .disableCachingNullValues();
+        defaultCacheConfig = defaultCacheConfig.serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(stringRedisSerializer));
+        defaultCacheConfig = defaultCacheConfig.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(fstSerializer));
+
+        //禁用更新NULL值
+        defaultCacheConfig = defaultCacheConfig.disableCachingNullValues();
+
         return defaultCacheConfig;
     }
 

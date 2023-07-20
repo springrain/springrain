@@ -41,9 +41,19 @@
         </dependency>
 
         <!-- 使用fst序列化实现 -->
+        <!--
         <dependency>
             <groupId>de.ruedigermoeller</groupId>
             <artifactId>fst</artifactId>
+        </dependency>
+        -->
+        <dependency>
+            <groupId>org.furyio</groupId>
+            <artifactId>fury-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
         </dependency>
 
         <!-- 使用 lettucemod  实现 redisearch 和 redisjson -->

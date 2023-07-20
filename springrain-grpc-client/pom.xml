@@ -34,10 +34,17 @@
             <groupId>io.grpc</groupId>
             <artifactId>grpc-stub</artifactId>
         </dependency>
+        <!--
         <dependency>
             <groupId>de.ruedigermoeller</groupId>
             <artifactId>fst</artifactId>
         </dependency>
+        -->
+        <dependency>
+            <groupId>org.furyio</groupId>
+            <artifactId>fury-core</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.springrain</groupId>
             <artifactId>springrain-frame-util</artifactId>
@@ -62,9 +69,15 @@
             <groupId>io.seata</groupId>
             <artifactId>seata-serializer-seata</artifactId>
         </dependency>
+        <!--
         <dependency>
             <groupId>io.seata</groupId>
             <artifactId>seata-serializer-fst</artifactId>
+        </dependency>
+        -->
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
         </dependency>
 
     </dependencies>
