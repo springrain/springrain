@@ -16,7 +16,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.1</version>
+        <version>3.1.2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -37,8 +37,8 @@
 
         <commons-pool2.version>2.11.1</commons-pool2.version>
         <commons-collections4.version>4.4</commons-collections4.version>
-        <commons-io.version>2.12.0</commons-io.version>
-        <commons-codec.version>1.15</commons-codec.version>
+        <commons-io.version>2.13.0</commons-io.version>
+        <commons-codec.version>1.16.0</commons-codec.version>
         <commons-beanutils.version>1.9.4</commons-beanutils.version>
         <commons-fileupload.version>1.5</commons-fileupload.version>
         <commons-text.version>1.10.0</commons-text.version>
@@ -50,10 +50,10 @@
         <javax.annotation.version>1.3.2</javax.annotation.version>
         <!-- lucene版本和es的依赖版本最好保持一致,避免冲突 -->
         <lucene.version>9.6.0</lucene.version>
-        <elasticsearch.client.version>8.8.0</elasticsearch.client.version>
+        <elasticsearch.client.version>8.8.2</elasticsearch.client.version>
 
         <!-- 建议使用 redis stream实现MQ,比较简单 -->
-        <rocketmq.client.version>5.1.1</rocketmq.client.version>
+        <rocketmq.client.version>5.1.3</rocketmq.client.version>
         <jxl.version>2.6.12</jxl.version>
         <poi.version>5.2.3</poi.version>
         <!--
@@ -62,9 +62,11 @@
         -->
 
         <!-- gRPC -->
-        <io.grpc.version>1.56.0</io.grpc.version>
+        <io.grpc.version>1.56.1</io.grpc.version>
         <kr.motd.maven.version>1.7.1</kr.motd.maven.version>
+        <!--
         <io.protostuff.version>1.8.0</io.protostuff.version>
+        -->
 
         <zxing.version>3.5.1</zxing.version>
         <jsoup.version>1.16.1</jsoup.version>
@@ -86,9 +88,9 @@
         <seata.version>1.7.0</seata.version>
 
         <!-- smart-doc 文档生成 -->
-        <smart-doc-maven-plugin.version>2.6.9</smart-doc-maven-plugin.version>
+        <smart-doc-maven-plugin.version>2.7.2</smart-doc-maven-plugin.version>
 
-        <lettucemod.version>3.5.1</lettucemod.version>
+        <lettucemod.version>3.6.1</lettucemod.version>
 
     </properties>
 
