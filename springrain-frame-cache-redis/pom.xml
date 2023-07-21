@@ -51,10 +51,7 @@
             <groupId>org.furyio</groupId>
             <artifactId>fury-core</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-        </dependency>
+
 
         <!-- 使用 lettucemod  实现 redisearch 和 redisjson -->
         <dependency>
