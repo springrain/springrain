@@ -86,7 +86,7 @@ Finder finder=Finder.getSelectFinder(User.class).append(" WHERE id=:userId order
 public void testMsSql() throws Exception{
         //Finder finder=new Finder("select * from t_user order by id");
         Finder finder=Finder.getSelectFinder(User.class).append(" order by id desc ");
-        Listlist = baseDemoService.queryForList(finder, User.class, new Page(2));
+        List list = baseDemoService.queryForList(finder, User.class, new Page(2));
         System.out.println(list.size());
         for(User s:list){
          System.out.println(s.getName());
