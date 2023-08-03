@@ -2,6 +2,7 @@ package org.springrain.frame.util;
 
 import io.fury.Fury;
 import io.fury.Language;
+import io.fury.ThreadSafeFury;
 import io.fury.serializer.CompatibleMode;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
@@ -13,15 +14,17 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 public class FurySerializer implements RedisSerializer<Object> {
 
     // static FSTConfiguration conf = FSTConfiguration.createDefaultConfiguration();
-   private static Fury fury = Fury.builder().withLanguage(Language.JAVA)
+    private static ThreadSafeFury fury = Fury.builder().withLanguage(Language.JAVA)
             // Allow to deserialize objects unknown types,more flexible but less secure.
             .requireClassRegistration(false)
             .withDeserializeUnexistedClass(true)
             .withCompatibleMode(CompatibleMode.COMPATIBLE)
             // .withRefTracking(false)
             // .withAsyncCompilation(true)
-            // .buildThreadSafeFury()
-            .build();
+
+            // 全局变量使用线程安全的模式
+            .buildThreadSafeFury();
+    //.build();
 
     @Override
     public byte[] serialize(Object obj) {

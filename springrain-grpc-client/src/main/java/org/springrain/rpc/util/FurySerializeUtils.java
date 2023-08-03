@@ -4,6 +4,7 @@ package org.springrain.rpc.util;
 import com.google.protobuf.ByteString;
 import io.fury.Fury;
 import io.fury.Language;
+import io.fury.ThreadSafeFury;
 import io.fury.serializer.CompatibleMode;
 import org.springrain.rpc.grpcauto.CommonRequest;
 import org.springrain.rpc.grpcauto.CommonResponse;
@@ -17,15 +18,17 @@ import org.springrain.rpc.grpcimpl.GrpcCommonResponse;
 public class FurySerializeUtils {
 
    // static FSTConfiguration conf = FSTConfiguration.createDefaultConfiguration();
-   private static Fury fury = Fury.builder().withLanguage(Language.JAVA)
+   private static ThreadSafeFury fury = Fury.builder().withLanguage(Language.JAVA)
            // Allow to deserialize objects unknown types,more flexible but less secure.
            .requireClassRegistration(false)
            .withDeserializeUnexistedClass(true)
            .withCompatibleMode(CompatibleMode.COMPATIBLE)
            // .withRefTracking(false)
            // .withAsyncCompilation(true)
-           // .buildThreadSafeFury()
-           .build();
+
+           // 全局变量使用线程安全的模式
+            .buildThreadSafeFury();
+           //.build();
 
     public static GrpcCommonResponse deserialize(CommonResponse response) {
         GrpcCommonResponse grpcCommonResponse = (GrpcCommonResponse) fury.deserialize(response.getResponse().toByteArray());
