@@ -14,14 +14,13 @@ public class FurySerializer implements RedisSerializer<Object> {
 
     // static FSTConfiguration conf = FSTConfiguration.createDefaultConfiguration();
    private static Fury fury = Fury.builder().withLanguage(Language.JAVA)
-            .withRefTracking(false)
-            // Allow to deserialize objects unknown types,
-            // more flexible but less secure.
-            .withSecureMode(false)
-            .withDeserializeUnExistClassEnabled(true)
+            // Allow to deserialize objects unknown types,more flexible but less secure.
+            .requireClassRegistration(false)
+            .withDeserializeUnexistedClass(true)
             .withCompatibleMode(CompatibleMode.COMPATIBLE)
-           // .withAsyncCompilationEnabled(true)
-           // .buildThreadSafeFury()
+            // .withRefTracking(false)
+            // .withAsyncCompilation(true)
+            // .buildThreadSafeFury()
             .build();
 
     @Override
