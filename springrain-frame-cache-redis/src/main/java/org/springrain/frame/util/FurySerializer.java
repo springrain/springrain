@@ -19,7 +19,7 @@ public class FurySerializer implements RedisSerializer<Object> {
             .requireClassRegistration(false)
             .withDeserializeUnexistedClass(true)
             .withCompatibleMode(CompatibleMode.COMPATIBLE)
-            // .withRefTracking(false)
+            .withRefTracking(true)
             // .withAsyncCompilation(true)
 
             // 全局变量使用线程安全的模式
