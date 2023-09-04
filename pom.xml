@@ -79,8 +79,8 @@
         <!--
         <fst.version>3.0.4-jdk17</fst.version>
         -->
-        <fury.version>0.1.0</fury.version>
-        <guava.version>32.1.1-jre</guava.version>
+        <fury.version>0.1.1</fury.version>
+        <guava.version>32.1.2-jre</guava.version>
 
         <bcprov.version>1.70</bcprov.version>
 
@@ -88,7 +88,7 @@
         <seata.version>1.7.0</seata.version>
 
         <!-- smart-doc 文档生成 -->
-        <smart-doc-maven-plugin.version>2.7.5</smart-doc-maven-plugin.version>
+        <smart-doc-maven-plugin.version>2.7.6</smart-doc-maven-plugin.version>
 
         <lettucemod.version>3.6.3</lettucemod.version>
 
