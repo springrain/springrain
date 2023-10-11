@@ -3,9 +3,9 @@ package org.springrain.rpc.util;
 
 import com.google.protobuf.ByteString;
 import io.fury.Fury;
-import io.fury.Language;
 import io.fury.ThreadSafeFury;
-import io.fury.serializer.CompatibleMode;
+import io.fury.config.CompatibleMode;
+import io.fury.config.Language;
 import org.springrain.rpc.grpcauto.CommonRequest;
 import org.springrain.rpc.grpcauto.CommonResponse;
 import org.springrain.rpc.grpcimpl.GrpcCommonRequest;

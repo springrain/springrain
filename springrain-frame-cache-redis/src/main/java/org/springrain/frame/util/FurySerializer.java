@@ -1,9 +1,9 @@
 package org.springrain.frame.util;
 
 import io.fury.Fury;
-import io.fury.Language;
+import io.fury.config.CompatibleMode;
+import io.fury.config.Language;
 import io.fury.ThreadSafeFury;
-import io.fury.serializer.CompatibleMode;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
 /**
