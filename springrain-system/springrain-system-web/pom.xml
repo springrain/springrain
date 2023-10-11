@@ -56,6 +56,15 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- 服务分离,只依赖springrain-system-service时,需要依赖缓存-->
+        <!--
+        <dependency>
+            <groupId>org.springrain</groupId>
+            <artifactId>springrain-frame-cache-memory</artifactId>
+            <version>6.0.0-SNAPSHOT</version>
+        </dependency>
+        -->
+
         <!-- 开发工具包,自动编译发布,不需要重启了 -->
 
         <!-- devtools会造成两个类加载器,造成对象转化异常,具体参考: https://www.jianshu.com/p/e6d5a3969343 -->
