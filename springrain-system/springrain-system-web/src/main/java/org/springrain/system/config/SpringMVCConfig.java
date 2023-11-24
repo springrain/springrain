@@ -30,9 +30,8 @@ import java.util.List;
  */
 
 @Configuration("configuration-SpringMVCConfig")
-@ComponentScan(basePackages = {
-        "${springrain.basepackagepath}"}, nameGenerator = SpringMVCAnnotationBeanNameGenerator.class, useDefaultFilters = false, includeFilters = {
-        @Filter(type = FilterType.ANNOTATION, value = Controller.class)})
+@ComponentScan(basePackages = {"${springrain.basepackagepath}"}, useDefaultFilters = false, includeFilters = {@Filter(type = FilterType.ANNOTATION, value = Controller.class)})
+//@ComponentScan(basePackages = {"${springrain.basepackagepath}"}, nameGenerator = SpringMVCAnnotationBeanNameGenerator.class, useDefaultFilters = false, includeFilters = {@Filter(type = FilterType.ANNOTATION, value = Controller.class)})
 public class SpringMVCConfig implements WebMvcConfigurer {
 
     Charset charset = Charset.forName("UTF-8");
