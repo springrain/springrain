@@ -3,10 +3,7 @@ package org.springrain;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.FilterType;
-
-import org.springframework.stereotype.Controller;
+import org.springframework.context.annotation.FullyQualifiedAnnotationBeanNameGenerator;
 import org.springrain.frame.util.GlobalStatic;
 
 //import org.springframework.scheduling.annotation.EnableScheduling;
@@ -18,8 +15,8 @@ import org.springrain.frame.util.GlobalStatic;
  *
  */
 //@EnableScheduling  //启用调度
-@SpringBootApplication
-@ComponentScan(basePackages = {"${springrain.basepackagepath}"}, excludeFilters = {@ComponentScan.Filter(type = FilterType.ANNOTATION, value = Controller.class)})
+@SpringBootApplication(nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class)
+//@ComponentScan(basePackages = {"${springrain.basepackagepath}"}, excludeFilters = {@ComponentScan.Filter(type = FilterType.ANNOTATION, value = Controller.class)})
 public class SpringrainApplication {
     public static void main(String[] args) {
         //设置项目名前缀

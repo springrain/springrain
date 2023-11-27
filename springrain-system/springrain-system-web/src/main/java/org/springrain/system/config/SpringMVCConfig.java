@@ -5,20 +5,15 @@ import org.springframework.boot.autoconfigure.condition.SearchStrategy;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.FilterType;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.ResourceHttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springrain.frame.util.FrameObjectMapper;
 import org.springrain.system.base.BaseErrorController;
-import org.springrain.system.base.SpringMVCAnnotationBeanNameGenerator;
 
 import java.nio.charset.Charset;
 import java.util.List;
@@ -30,7 +25,6 @@ import java.util.List;
  */
 
 @Configuration("configuration-SpringMVCConfig")
-@ComponentScan(basePackages = {"${springrain.basepackagepath}"}, useDefaultFilters = false, includeFilters = {@Filter(type = FilterType.ANNOTATION, value = Controller.class)})
 //@ComponentScan(basePackages = {"${springrain.basepackagepath}"}, nameGenerator = SpringMVCAnnotationBeanNameGenerator.class, useDefaultFilters = false, includeFilters = {@Filter(type = FilterType.ANNOTATION, value = Controller.class)})
 public class SpringMVCConfig implements WebMvcConfigurer {
 
