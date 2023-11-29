@@ -15,7 +15,7 @@ import java.util.Optional;
 /**
  * gRPC Server管理,启动grpcServer
  */
-@Component
+@Component("grpcServer")
 public class GrpcServer implements DisposableBean {
     private static final Logger logger = LoggerFactory.getLogger(GrpcServer.class);
 

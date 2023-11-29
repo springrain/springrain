@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
  *
  * @author caomei
  */
-@Component
+@Component("grpcApplicationContextAware")
 public class GrpcApplicationContextAware implements ApplicationContextAware {
 
     private static final Logger logger = LoggerFactory.getLogger(GrpcApplicationContextAware.class);

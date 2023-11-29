@@ -10,7 +10,7 @@ import org.springrain.frame.util.GlobalStatic;
  * 初始化System系统的权限菜单
  * 每个系统的初始化类名称都要保持唯一
  */
-@Component
+@Component("initSystemWebPermission")
 public class InitSystemWebPermission implements BeanFactoryPostProcessor {
 
     @Override
