@@ -1,6 +1,8 @@
 package org.springrain.frame.util;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -137,7 +139,9 @@ public class GlobalStatic {
 
 
     static {
-        String path = Thread.currentThread().getContextClassLoader().getResource("").toString();
+        Path currentPath = Paths.get("");
+        String path = currentPath.toAbsolutePath().toString();
+        //String path = Thread.currentThread().getContextClassLoader().getResource("").toString();
         path = path.replace("\\", "/");
 
         if (path.startsWith("file:/")) {
