@@ -330,7 +330,7 @@ public class SecUtils {
      * @return
      */
     public static String getTimeNO() {
-        SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmssSSSSSSSSS");
         String result = format.format(new Date());
         return result + String.format("%09d", randomInteger(1000000000));
     }
