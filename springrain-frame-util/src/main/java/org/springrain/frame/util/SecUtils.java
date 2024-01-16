@@ -325,7 +325,7 @@ public class SecUtils {
 
 
     /**
-     * 产生 yyyyMMddHHmmssSSS+九位位随机数的字符串
+     * 产生 yyyyMMddHHmmssSSSSSSSSS+九位位随机数的字符串
      *
      * @return
      */
