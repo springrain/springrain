@@ -348,7 +348,7 @@ public abstract class BaseServiceImpl implements IBaseService {
 
         for (int j = 2; j < excel.size(); j++) {
             Cell[] cells = excel.get(j);
-            T rt = clazz.newInstance();
+            T rt = clazz.getDeclaredConstructor().newInstance();
             IBaseEntity r = (IBaseEntity) rt;
             for (int m = 0; m < cells.length; m++) {
                 Object o = r;

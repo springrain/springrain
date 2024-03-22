@@ -622,7 +622,7 @@ public class ElasticSearchOperation {
                     }
                     if (CollectionUtils.isNotEmpty(findFields)) {
                         for (String e : findFields) {
-                            o = clazz.newInstance();
+                            o = clazz.getDeclaredConstructor().newInstance();
                             ClassUtils.setPropertieValue(e, o, hit.getSourceAsMap().get(e));
                             list.add(o);
                         }

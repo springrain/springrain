@@ -15,8 +15,10 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springrain.frame.util.ClassUtils;
+import org.springrain.frame.util.EntityInfo;
 import org.springrain.frame.util.FieldInfo;
-import org.springrain.frame.util.*;
+import org.springrain.frame.util.Page;
 import org.springrain.lucene.IK.dic.Dictionary;
 import org.springrain.lucene.IK.lucene.IKAnalyzer;
 
@@ -26,7 +28,10 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
 /**
  * lucene 工具类
@@ -708,8 +713,10 @@ public class LuceneUtils {
         if (CollectionUtils.isEmpty(luceneFields)) {
             return null;
         }
+        //使用map进行json转换,如果json字段名和实体类属性名不一致,会有问题
+        //Map<String, Object> map = new HashMap<>();
 
-        Map<String, Object> map = new HashMap<>();
+        T t=clazz.getDeclaredConstructor().newInstance();
 
         for (FieldInfo finfo : luceneFields) {
             String fieldName = finfo.getFieldName();
@@ -722,38 +729,38 @@ public class LuceneUtils {
             Class fieldType = finfo.getFieldType();
             if (Integer.class == fieldType || int.class == fieldType) {// 数字
 
-                // ClassUtils.setPropertieValue(fieldName, t, Integer.valueOf(fieldValue));
-                map.put(fieldName, Integer.valueOf(fieldValue));
+                 ClassUtils.setPropertieValue(fieldName, t, Integer.valueOf(fieldValue));
+                //map.put(fieldName, Integer.valueOf(fieldValue));
 
             } else if (BigInteger.class == fieldType) {// 数字
-                // ClassUtils.setPropertieValue(fieldName, t, new BigInteger(fieldValue));
-                map.put(fieldName, new BigInteger(fieldValue));
+                 ClassUtils.setPropertieValue(fieldName, t, new BigInteger(fieldValue));
+                //map.put(fieldName, new BigInteger(fieldValue));
 
             } else if (Long.class == fieldType || long.class == fieldType) {// 数字
-                // ClassUtils.setPropertieValue(fieldName, t, Long.valueOf(fieldValue));
-                map.put(fieldName, Long.valueOf(fieldValue));
+                 ClassUtils.setPropertieValue(fieldName, t, Long.valueOf(fieldValue));
+                //map.put(fieldName, Long.valueOf(fieldValue));
 
             } else if (Float.class == fieldType || float.class == fieldType) {// 数字
-                // ClassUtils.setPropertieValue(fieldName, t, Float.valueOf(fieldValue));
-                map.put(fieldName, Float.valueOf(fieldValue));
+                 ClassUtils.setPropertieValue(fieldName, t, Float.valueOf(fieldValue));
+                //map.put(fieldName, Float.valueOf(fieldValue));
 
             } else if (Double.class == fieldType || double.class == fieldType) {// 数字
-                // ClassUtils.setPropertieValue(fieldName, t, Double.valueOf(fieldValue));
-                map.put(fieldName, Double.valueOf(fieldValue));
+                 ClassUtils.setPropertieValue(fieldName, t, Double.valueOf(fieldValue));
+                //map.put(fieldName, Double.valueOf(fieldValue));
             } else if (BigDecimal.class == fieldType) {// BigDecimal
-                // ClassUtils.setPropertieValue(fieldName, t, new BigDecimal(fieldValue));
-                map.put(fieldName, new BigDecimal(fieldValue));
+                 ClassUtils.setPropertieValue(fieldName, t, new BigDecimal(fieldValue));
+                //map.put(fieldName, new BigDecimal(fieldValue));
             } else if (Date.class == fieldType) {// 日期
-                // ClassUtils.setPropertieValue(fieldName, t, new
-                // Date(Long.valueOf(fieldValue)));
-                map.put(fieldName, Long.valueOf(fieldValue));
+                 ClassUtils.setPropertieValue(fieldName, t, new Date(Long.valueOf(fieldValue)));
+                //map.put(fieldName, Long.valueOf(fieldValue));
             } else {
-                // ClassUtils.setPropertieValue(fieldName, t, fieldValue);
-                map.put(fieldName, fieldValue);
+                 ClassUtils.setPropertieValue(fieldName, t, fieldValue);
+                //map.put(fieldName, fieldValue);
             }
         }
 
-        T t = JsonUtils.readValue(JsonUtils.writeValueAsString(map), clazz);
+        //使用map进行json转换,如果json字段名和实体类属性名不一致,会有问题
+        //T t = JsonUtils.readValue(JsonUtils.writeValueAsString(map), clazz);
 
         return t;
 
