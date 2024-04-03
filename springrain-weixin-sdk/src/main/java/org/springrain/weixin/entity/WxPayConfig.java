@@ -59,6 +59,9 @@ public class WxPayConfig extends BaseEntity implements IWxPayConfig {
     // 交易过程生成签名的密钥，仅保留在商户系统和微信支付后台，不会在网络中传播
     private java.lang.String key;
 
+    //v3秘钥
+    private java.lang.String apiV3Key;
+
     // 证书地址
     private java.lang.String certificateFile;
 
@@ -215,6 +218,15 @@ public class WxPayConfig extends BaseEntity implements IWxPayConfig {
             value = value.trim();
         }
         this.key = value;
+    }
+
+    @WhereSQL(sql = "apiV3Key=:WxPayconfig_apiV3Key")
+    public String getApiV3Key() {
+        return apiV3Key;
+    }
+
+    public void setApiV3Key(String apiV3Key) {
+        this.apiV3Key = apiV3Key;
     }
 
     /**

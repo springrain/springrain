@@ -32,5 +32,7 @@ public interface IWxPayConfig extends IWxConfig {
 
     String getSignType();
 
+    String getApiV3Key();
+
 
 }
