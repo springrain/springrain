@@ -48,7 +48,7 @@
         </dependency>
         -->
         <dependency>
-            <groupId>org.furyio</groupId>
+            <groupId>org.apache.fury</groupId>
             <artifactId>fury-core</artifactId>
         </dependency>
 
