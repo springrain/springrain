@@ -17,7 +17,7 @@ public class FurySerializer implements RedisSerializer<Object> {
     private static ThreadSafeFury fury = Fury.builder().withLanguage(Language.JAVA)
             // Allow to deserialize objects unknown types,more flexible but less secure.
             .requireClassRegistration(false)
-            .withDeserializeUnexistedClass(true)
+            .withDeserializeNonexistentClass(true)
             .withCompatibleMode(CompatibleMode.COMPATIBLE)
             .withRefTracking(true)
             // .withAsyncCompilation(true)
