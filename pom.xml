@@ -79,7 +79,7 @@
         <!--
         <fst.version>3.0.4-jdk17</fst.version>
         -->
-        <fury.version>0.7.0</fury.version>
+        <fury.version>0.7.1</fury.version>
         <guava.version>33.3.0-jre</guava.version>
 
         <bcprov.version>1.78.1</bcprov.version>
