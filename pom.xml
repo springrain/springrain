@@ -85,7 +85,7 @@
         <bcprov.version>1.79</bcprov.version>
 
         <!-- seata分布式事务 -->
-        <seata.version>2.0.0</seata.version>
+        <seata.version>2.2.0</seata.version>
 
         <!-- smart-doc 文档生成 -->
         <smart-doc-maven-plugin.version>3.0.9</smart-doc-maven-plugin.version>
@@ -314,48 +314,48 @@
 
             <!-- seata组件 -->
             <dependency>
-                <groupId>io.seata</groupId>
+                <groupId>org.apache.seata</groupId>
                 <artifactId>seata-rm-datasource</artifactId>
                 <version>${seata.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>io.seata</groupId>
+                <groupId>org.apache.seata</groupId>
                 <artifactId>seata-rm</artifactId>
                 <version>${seata.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>io.seata</groupId>
+                <groupId>org.apache.seata</groupId>
                 <artifactId>seata-tm</artifactId>
                 <version>${seata.version}</version>
             </dependency>
             <dependency>
-                <groupId>io.seata</groupId>
+                <groupId>org.apache.seata</groupId>
                 <artifactId>seata-core</artifactId>
                 <version>${seata.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>io.seata</groupId>
+                <groupId>org.apache.seata</groupId>
                 <artifactId>seata-spring</artifactId>
                 <version>${seata.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>io.seata</groupId>
+                <groupId>org.apache.seata</groupId>
                 <artifactId>seata-sqlparser-druid</artifactId>
                 <version>${seata.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>io.seata</groupId>
+                <groupId>org.apache.seata</groupId>
                 <artifactId>seata-serializer-seata</artifactId>
                 <version>${seata.version}</version>
             </dependency>
           <!--
             <dependency>
-                <groupId>io.seata</groupId>
+                <groupId>org.apache.seata</groupId>
                 <artifactId>seata-serializer-fst</artifactId>
                 <version>${seata.version}</version>
             </dependency>

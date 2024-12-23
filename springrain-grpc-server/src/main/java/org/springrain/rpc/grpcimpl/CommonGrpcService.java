@@ -1,7 +1,7 @@
 package org.springrain.rpc.grpcimpl;
 
 import com.google.protobuf.ByteString;
-import io.seata.core.context.RootContext;
+import org.apache.seata.core.context.RootContext;
 import org.springrain.frame.util.GlobalStatic;
 import org.springrain.rpc.grpcauto.CommonRequest;
 import org.springrain.rpc.grpcauto.CommonResponse;

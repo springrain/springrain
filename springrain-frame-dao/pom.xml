@@ -45,12 +45,12 @@
 
 
         <dependency>
-            <groupId>io.seata</groupId>
+            <groupId>org.apache.seata</groupId>
             <artifactId>seata-rm-datasource</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>io.seata</groupId>
+            <groupId>org.apache.seata</groupId>
             <artifactId>seata-tm</artifactId>
         </dependency>
 
@@ -58,7 +58,7 @@
         <!-- 如果引用jar,但是不使用GlobalTransactionScanner,可能会造成作为独立服务无法运行 -->
         <!--
         <dependency>
-            <groupId>io.seata</groupId>
+            <groupId>org.apache.seata</groupId>
             <artifactId>seata-spring</artifactId>
         </dependency>
           -->

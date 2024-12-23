@@ -1,6 +1,6 @@
 package org.springrain.rpc.springbind;
 
-import io.seata.core.context.RootContext;
+import org.apache.seata.core.context.RootContext;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cglib.proxy.InvocationHandler;
 import org.springrain.frame.util.GlobalStatic;

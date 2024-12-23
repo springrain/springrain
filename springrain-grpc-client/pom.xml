@@ -54,24 +54,24 @@
 
         <!-- seata依赖 -->
         <dependency>
-            <groupId>io.seata</groupId>
+            <groupId>org.apache.seata</groupId>
             <artifactId>seata-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.seata</groupId>
+            <groupId>org.apache.seata</groupId>
             <artifactId>seata-tm</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.seata</groupId>
+            <groupId>org.apache.seata</groupId>
             <artifactId>seata-sqlparser-druid</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.seata</groupId>
+            <groupId>org.apache.seata</groupId>
             <artifactId>seata-serializer-seata</artifactId>
         </dependency>
         <!--
         <dependency>
-            <groupId>io.seata</groupId>
+            <groupId>org.apache.seata</groupId>
             <artifactId>seata-serializer-fst</artifactId>
         </dependency>
         -->
