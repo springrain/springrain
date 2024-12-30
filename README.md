@@ -26,7 +26,7 @@
 * 基于K8S的Service实现服务注册和发现,ConfigMap实现配置中心.开发人员无感知.
 * 基于apisix/istio实现微服务的发现,监控,熔断,限流.开发人员无感知.
 
-架构设计详细思路:[https://www.jiagou.com/post/58-cloud-native-service-mesh](https://www.jiagou.com/post/58-cloud-native-service-mesh/)
+架构设计详细思路:[https://www.jiagou.com/web/58-cloud-native-service-mesh](https://www.jiagou.com/web/58-cloud-native-service-mesh/)
 
 ## 限制
 
