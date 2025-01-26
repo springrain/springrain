@@ -16,7 +16,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.4.1</version>
+        <version>3.4.2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -38,10 +38,10 @@
         <commons-pool2.version>2.12.0</commons-pool2.version>
         <commons-collections4.version>4.4</commons-collections4.version>
         <commons-io.version>2.18.0</commons-io.version>
-        <commons-codec.version>1.17.1</commons-codec.version>
-        <commons-beanutils.version>1.9.4</commons-beanutils.version>
+        <commons-codec.version>1.17.2</commons-codec.version>
+        <commons-beanutils.version>1.10.0</commons-beanutils.version>
         <commons-fileupload.version>1.5</commons-fileupload.version>
-        <commons-text.version>1.12.0</commons-text.version>
+        <commons-text.version>1.13.0</commons-text.version>
         <!--
         <jakarta.persistence.version>3.1.0</jakarta.persistence.version>
         <jakarta.servlet-api.version>6.0.0</jakarta.servlet-api.version>
@@ -50,29 +50,29 @@
         <javax.annotation.version>1.3.2</javax.annotation.version>
         <!-- lucene版本和es的依赖版本最好保持一致,避免冲突 -->
         <lucene.version>9.12.0</lucene.version>
-        <elasticsearch.client.version>8.17.0</elasticsearch.client.version>
+        <elasticsearch.client.version>8.17.1</elasticsearch.client.version>
 
         <!-- 建议使用 redis stream实现MQ,比较简单 -->
         <rocketmq.client.version>5.3.1</rocketmq.client.version>
         <jxl.version>2.6.12</jxl.version>
-        <poi.version>5.3.0</poi.version>
+        <poi.version>5.4.0</poi.version>
         <!--
         <jodconverter.version>2.2.1</jodconverter.version>
         <gson.version>2.8.5</gson.version>
         -->
 
         <!-- gRPC -->
-        <io.grpc.version>1.69.0</io.grpc.version>
+        <io.grpc.version>1.70.0</io.grpc.version>
         <kr.motd.maven.version>1.7.1</kr.motd.maven.version>
         <!--
         <io.protostuff.version>1.8.0</io.protostuff.version>
         -->
 
         <zxing.version>3.5.3</zxing.version>
-        <jsoup.version>1.18.1</jsoup.version>
+        <jsoup.version>1.18.3</jsoup.version>
         <xstream.version>1.4.21</xstream.version>
         <druid-spring-boot-starter.version>1.2.24</druid-spring-boot-starter.version>
-        <clickhouse-jdbc.version>0.7.1</clickhouse-jdbc.version>
+        <clickhouse-jdbc.version>0.8.0</clickhouse-jdbc.version>
         <jwt.version>4.4.0</jwt.version>
 
         <!--3.x版本依赖jdk 14 -->
@@ -82,7 +82,7 @@
         <fury.version>0.9.0</fury.version>
         <guava.version>33.3.1-jre</guava.version>
 
-        <bcprov.version>1.79</bcprov.version>
+        <bcprov.version>1.80</bcprov.version>
 
         <!-- seata分布式事务 -->
         <seata.version>2.2.0</seata.version>
@@ -90,7 +90,7 @@
         <!-- smart-doc 文档生成 -->
         <smart-doc-maven-plugin.version>3.0.9</smart-doc-maven-plugin.version>
 
-        <lettucemod.version>4.1.2</lettucemod.version>
+        <lettucemod.version>4.2.0</lettucemod.version>
 
     </properties>
 
