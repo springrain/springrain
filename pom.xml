@@ -16,7 +16,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.4.5</version>
+        <version>3.5.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -53,7 +53,7 @@
         <elasticsearch.client.version>9.0.1</elasticsearch.client.version>
 
         <!-- 建议使用 redis stream实现MQ,比较简单 -->
-        <rocketmq.client.version>5.3.2</rocketmq.client.version>
+        <rocketmq.client.version>5.3.3</rocketmq.client.version>
         <jxl.version>2.6.12</jxl.version>
         <poi.version>5.4.1</poi.version>
         <!--
@@ -72,7 +72,7 @@
         <jsoup.version>1.20.1</jsoup.version>
         <xstream.version>1.4.21</xstream.version>
         <druid-spring-boot-starter.version>1.2.24</druid-spring-boot-starter.version>
-        <clickhouse-jdbc.version>0.8.5</clickhouse-jdbc.version>
+        <clickhouse-jdbc.version>0.8.6</clickhouse-jdbc.version>
         <jwt.version>4.5.0</jwt.version>
 
         <!--3.x版本依赖jdk 14 -->
