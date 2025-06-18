@@ -9,7 +9,7 @@ import org.springrain.rpc.grpcauto.CommonRequest;
 import org.springrain.rpc.grpcauto.CommonResponse;
 import org.springrain.rpc.grpcauto.GrpcCommonServiceGrpc;
 import org.springrain.rpc.grpcauto.GrpcCommonServiceGrpc.GrpcCommonServiceBlockingStub;
-import org.springrain.rpc.util.FurySerializeUtils;
+import org.springrain.rpc.util.ForySerializeUtils;
 
 /**
  * Grpc的客户端
@@ -25,14 +25,14 @@ public class GrpcClient {
      */
     public static GrpcCommonResponse commonHandle(GrpcCommonServiceBlockingStub blockingStub, GrpcCommonRequest grpcRequest) {
 
-        ByteString bytes = FurySerializeUtils.serialize(grpcRequest);
+        ByteString bytes = ForySerializeUtils.serialize(grpcRequest);
 
         CommonRequest request = CommonRequest.newBuilder().setRequest(bytes).build();
         CommonResponse response = null;
         try {
             response = blockingStub.commonHandle(request);
 
-            GrpcCommonResponse grpcResponse = FurySerializeUtils.deserialize(response);
+            GrpcCommonResponse grpcResponse = ForySerializeUtils.deserialize(response);
             return grpcResponse;
         } catch (Exception e) {
             logger.error(e.getMessage(), e);

@@ -228,7 +228,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
                             .objectMapper(objectHashMapper)
                             .keySerializer(RedisCacheConfig.stringRedisSerializer)
                             .hashKeySerializer(RedisCacheConfig.stringRedisSerializer)
-                            .hashValueSerializer(RedisCacheConfig.furySerializer)
+                            .hashValueSerializer(RedisCacheConfig.forySerializer)
                             //.serializer(RedisCacheConfig.fstSerializer)
                             .targetType(genericClass) //目标类型(消息内容的类型),如果objectMapper为空,会设置默认的ObjectHashMapper
                             .build();

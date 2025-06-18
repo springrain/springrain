@@ -1,20 +1,20 @@
 package org.springrain.frame.util;
 
-import org.apache.fury.Fury;
-import org.apache.fury.config.CompatibleMode;
-import org.apache.fury.config.Language;
-import org.apache.fury.ThreadSafeFury;
+import org.apache.fory.Fory;
+import org.apache.fory.config.CompatibleMode;
+import org.apache.fory.config.Language;
+import org.apache.fory.ThreadSafeFory;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
 /**
- * Description: Fury 序列化.<br>
+ * Description: Fory 序列化.<br>
  *
  * @author springrain
  */
-public class FurySerializer implements RedisSerializer<Object> {
+public class ForySerializer implements RedisSerializer<Object> {
 
     // static FSTConfiguration conf = FSTConfiguration.createDefaultConfiguration();
-    private static ThreadSafeFury fury = Fury.builder().withLanguage(Language.JAVA)
+    private static ThreadSafeFory fory = Fory.builder().withLanguage(Language.JAVA)
             // Allow to deserialize objects unknown types,more flexible but less secure.
             .requireClassRegistration(false)
             .withDeserializeNonexistentClass(true)
@@ -23,7 +23,7 @@ public class FurySerializer implements RedisSerializer<Object> {
             // .withAsyncCompilation(true)
 
             // 全局变量使用线程安全的模式
-            .buildThreadSafeFury();
+            .buildThreadSafeFory();
     //.build();
 
     @Override
@@ -31,7 +31,7 @@ public class FurySerializer implements RedisSerializer<Object> {
         if (obj == null) {
             return null;
         }
-        return fury.serialize(obj);
+        return fory.serialize(obj);
     }
 
     @Override
@@ -39,6 +39,6 @@ public class FurySerializer implements RedisSerializer<Object> {
         if (bytes == null) {
             return null;
         }
-        return fury.deserialize(bytes);
+        return fory.deserialize(bytes);
     }
 }
