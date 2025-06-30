@@ -88,7 +88,7 @@
         <seata.version>2.3.0</seata.version>
 
         <!-- smart-doc 文档生成 -->
-        <smart-doc-maven-plugin.version>3.1.0</smart-doc-maven-plugin.version>
+        <smart-doc-maven-plugin.version>3.1.1</smart-doc-maven-plugin.version>
 
         <lettucemod.version>4.3.0</lettucemod.version>
 
