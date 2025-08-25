@@ -16,7 +16,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.4</version>
+        <version>3.5.5</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -50,7 +50,7 @@
         <javax.annotation.version>1.3.2</javax.annotation.version>
         <!-- lucene版本和es的依赖版本最好保持一致,避免冲突 -->
         <lucene.version>10.2.2</lucene.version>
-        <elasticsearch.client.version>9.1.0</elasticsearch.client.version>
+        <elasticsearch.client.version>9.1.2</elasticsearch.client.version>
 
         <!-- 建议使用 redis stream实现MQ,比较简单 -->
         <rocketmq.client.version>5.3.3</rocketmq.client.version>
@@ -62,7 +62,7 @@
         -->
 
         <!-- gRPC -->
-        <io.grpc.version>1.74.0</io.grpc.version>
+        <io.grpc.version>1.75.0</io.grpc.version>
         <kr.motd.maven.version>1.7.1</kr.motd.maven.version>
         <!--
         <io.protostuff.version>1.8.0</io.protostuff.version>
@@ -79,7 +79,7 @@
         <!--
         <fst.version>3.0.4-jdk17</fst.version>
         -->
-        <fory.version>0.11.2</fory.version>
+        <fory.version>0.12.0</fory.version>
         <guava.version>33.4.8-jre</guava.version>
 
         <bcprov.version>1.81</bcprov.version>
