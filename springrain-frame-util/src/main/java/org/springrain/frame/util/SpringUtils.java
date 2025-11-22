@@ -1,5 +1,6 @@
 package org.springrain.frame.util;
 
+import jakarta.persistence.Table;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Component;
 import org.springrain.frame.annotation.LuceneSearch;
 import org.springrain.frame.annotation.NotLog;
 
-import jakarta.persistence.Table;
 import java.net.URI;
 
 /**

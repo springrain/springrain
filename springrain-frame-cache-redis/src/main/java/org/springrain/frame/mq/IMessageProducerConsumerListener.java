@@ -63,13 +63,16 @@ public interface IMessageProducerConsumerListener<T> {
 
     /**
      * 是否可用,默认为true
+     *
      * @return
      */
-    default  boolean getEnable(){
+    default boolean getEnable() {
         return true;
     }
+
     /**
      * 获取未确认的消息
+     *
      * @param size 返回值List的大小
      * @return 消息列表
      */
@@ -82,7 +85,8 @@ public interface IMessageProducerConsumerListener<T> {
 
     /**
      * 强制应答指定消息,不考虑业务执行结果
-     * @param messageId 消息id
+     *
+     * @param messageId       消息id
      * @param isRetryBusiness 已应答过得消息是否重试业务逻辑，
      *                        true:须考虑消息消费者的幂等性处理，每次调用都会重试业务逻辑
      *                        false:消息在调用此方法之前未应答成功的，最少执行一次业务逻辑

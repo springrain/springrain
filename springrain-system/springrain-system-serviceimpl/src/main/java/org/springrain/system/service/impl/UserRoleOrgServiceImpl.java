@@ -1,5 +1,6 @@
 package org.springrain.system.service.impl;
 
+import jakarta.annotation.Resource;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Lazy;
@@ -12,7 +13,6 @@ import org.springrain.rpc.sessionuser.SessionUser;
 import org.springrain.system.entity.*;
 import org.springrain.system.service.*;
 
-import jakarta.annotation.Resource;
 import java.util.*;
 
 

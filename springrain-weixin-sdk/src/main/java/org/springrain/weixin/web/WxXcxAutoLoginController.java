@@ -1,13 +1,12 @@
 package org.springrain.weixin.web;
 
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springrain.frame.util.ReturnDatas;
 import org.springrain.weixin.service.IWxMiniappConfigService;
-
-import jakarta.annotation.Resource;
 
 @Controller
 @RequestMapping(value = "/f/xcx/autologin/{siteId}")

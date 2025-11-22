@@ -358,13 +358,13 @@
                 <artifactId>seata-serializer-seata</artifactId>
                 <version>${seata.version}</version>
             </dependency>
-          <!--
-            <dependency>
-                <groupId>org.apache.seata</groupId>
-                <artifactId>seata-serializer-fst</artifactId>
-                <version>${seata.version}</version>
-            </dependency>
-           -->
+            <!--
+              <dependency>
+                  <groupId>org.apache.seata</groupId>
+                  <artifactId>seata-serializer-fst</artifactId>
+                  <version>${seata.version}</version>
+              </dependency>
+             -->
 
             <dependency>
                 <groupId>com.clickhouse</groupId>
@@ -398,7 +398,6 @@
         <!-- memory内存类型的缓存,和redis缓存互斥,只能使用一个 -->
         <!-- 如果更换为redis需要注释这个module,解开springrain-frame-cache-redis的module,并在springrain-system-serviceimpl/web的pom中依赖修改为 springrain-frame-cache-redis -->
         <module>springrain-frame-cache-memory</module>
-
 
 
         <!-- redis类型的缓存,和memory内存缓存互斥,只能使用一个 -->

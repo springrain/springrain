@@ -1,10 +1,9 @@
 package org.springrain.weixin.service.impl;
 
+import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Lazy;
 import org.springrain.frame.dao.IBaseJdbcDao;
 import org.springrain.frame.service.BaseServiceImpl;
-
-import jakarta.annotation.Resource;
 
 public class BaseSpringrainWeiXinServiceImpl extends BaseServiceImpl {
 

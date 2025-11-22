@@ -2,7 +2,8 @@
 
 * springrain是spring/springboot的开发范例.基于K8S + apisix/istio 实现云原生微服务.
 * springrain自带代码生成器,能够生成对表的增删改查的逻辑代码.
-* springrain是标准Maven项目,只依赖springboot,没有hibernate,struts,ibatis,数据库调优可以使用druid输出慢sql,比分析xml中的语句更直观,springrain所有的sql语句都使用Finder封装管理,只要查看Finder的引用即可.
+*
+springrain是标准Maven项目,只依赖springboot,没有hibernate,struts,ibatis,数据库调优可以使用druid输出慢sql,比分析xml中的语句更直观,springrain所有的sql语句都使用Finder封装管理,只要查看Finder的引用即可.
 
 ## 前后分离
 
@@ -10,7 +11,8 @@
 
 ## 微服务
 
-入口项目是[springrain-system-web](https://gitee.com/chunanyong/springrain/tree/master/springrain-system/springrain-system-web),基于K8S + apisix/istio 实现云原生微服务.
+入口项目是[springrain-system-web](https://gitee.com/chunanyong/springrain/tree/master/springrain-system/springrain-system-web)
+,基于K8S + apisix/istio 实现云原生微服务.
 
 ## 实现了什么?
 
@@ -41,7 +43,8 @@
 ## 体验单体到分层切换
 
 * 修改springrain-system-web依赖springrain-system-service,不再依赖springrain-system-serviceimpl.
-* springrain-system-serviceimpl添加springrain-grpc-server依赖,启用org.springrain.SystemServiceImplApplication的@SpringBootApplication注解
+*
+springrain-system-serviceimpl添加springrain-grpc-server依赖,启用org.springrain.SystemServiceImplApplication的@SpringBootApplication注解
 * 启动seata-server服务端.seata客户端的配置在项目的resources/file.conf里,默认配置是 default.grouplist = "127.0.0.1:8091"
 * 启动springrain-system-serviceimpl
 * 启动springrain-system-web
@@ -118,6 +121,7 @@ public void testFunction() throws Exception{
 ```
 
 ## 版权软著说明
+
 * 本springrain软件著作权登记号2025SR1442456
 * 本springrain软件著作权归我们所有,禁止进行二次的软著申请,侵权必究
 * 开发者使用springrain开发的程序版权归开发者所有

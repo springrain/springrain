@@ -151,7 +151,7 @@ public class CustomServiceApi {
         // media
         Map<String, File> files = new HashMap<>();
         files.put("media", headImg);
-        String jsonResult = HttpClientUtils.sendPostUploadFiles(apiurl,null, files, null);
+        String jsonResult = HttpClientUtils.sendPostUploadFiles(apiurl, null, files, null);
         return new ApiResult(jsonResult);
     }
 

@@ -1,5 +1,6 @@
 package org.springrain.system.api;
 
+import jakarta.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springrain.frame.util.CaptchaUtils;
@@ -19,7 +20,6 @@ import org.springrain.weixin.sdk.common.wxconfig.IWxMpConfig;
 import org.springrain.weixin.sdk.open.SnsApi;
 import org.springrain.weixin.service.IWxMpConfigService;
 
-import jakarta.annotation.Resource;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;

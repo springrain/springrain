@@ -137,8 +137,6 @@ public class SpringMVCConfig implements WebMvcConfigurer {
     }
 
 
-
-
     /**
      * 覆盖springboot默认的BaseErrorController,使用自定义的BaseErrorController拦截404等异常信息,返回JSON格式的数据.
      * 需要和GlobalExceptionHandler配合,才能拦截所有的异常

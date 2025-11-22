@@ -1,11 +1,10 @@
 package org.springrain.system.interceptor;
 
+import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springrain.frame.util.GlobalStatic;
-
-import jakarta.annotation.Resource;
 
 @Configuration("interceptorConfiguration")
 public class InterceptorConfiguration implements WebMvcConfigurer {

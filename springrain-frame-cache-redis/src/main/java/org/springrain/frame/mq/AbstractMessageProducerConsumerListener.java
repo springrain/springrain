@@ -24,6 +24,7 @@ import org.springrain.frame.util.ThreadPoolManager;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
+
 import java.io.Closeable;
 import java.io.IOException;
 import java.time.Duration;
@@ -63,14 +64,10 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
 
     // 默认batchSize
     private final int defaultBatchSize = 500;
-
-
-    // 默认XTRIM的MAXLEN,如果是<0,则不限制
-    private int defaultMaxLen = -1;
-
     //泛型的类型
     private final Class<T> genericClass = ClassUtils.getActualTypeGenericSuperclass(getClass());
-
+    // 默认XTRIM的MAXLEN,如果是<0,则不限制
+    private int defaultMaxLen = -1;
     //监听的容器
     private StreamMessageListenerContainer<String, ObjectRecord<String, T>> container = null;
 
@@ -206,7 +203,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
 
             Executor executor = getExecutor();
             if (executor == null) {
-                executor= ThreadPoolManager.createThreadPool("redis-stream->");
+                executor = ThreadPoolManager.createThreadPool("redis-stream->");
             }
 
 
@@ -350,20 +347,20 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
                 status = ops.createGroup(queueName, ReadOffset.from("0-0"), group);
             }
         } catch (Exception e) {
-            logger.error(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
             if (getDefaultMaxLen() > 0) {
                 ops.trim(queueName, getDefaultMaxLen(), true);
             }
             //T t = ;
             //初始化/创建队列
             RecordId initialRecord = ops.add(ObjectRecord.create(queueName, ""));
-            if (initialRecord == null){
+            if (initialRecord == null) {
                 logger.error("Cannot initialize stream with key '" + queueName + "'");
-            }else{
+            } else {
                 status = ops.createGroup(queueName, ReadOffset.from(initialRecord), group);
             }
         } finally {
-            if (!"OK".equals(status)){
+            if (!"OK".equals(status)) {
                 logger.error("Cannot create group with name '" + group + "'");
             }
         }
@@ -393,8 +390,8 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
             RecordId recordId = redisTemplate.opsForStream().add(record);
 
             // 裁剪队列长度,用新值覆盖老值,手动执行 XTRIM 命令才会裁剪,不会持久自动化裁剪
-            if (getDefaultMaxLen()>0){
-                redisTemplate.opsForStream().trim(getQueueName(),getDefaultMaxLen());
+            if (getDefaultMaxLen() > 0) {
+                redisTemplate.opsForStream().trim(getQueueName(), getDefaultMaxLen());
             }
             // return recordId.getValue();
             return new MessageObjectDto<T>(message, getQueueName(), recordId.getValue(), recordId.getTimestamp());
@@ -480,7 +477,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
     @Override
     public List getUnAckMessage(Integer size) {
         int batchSize = getBatchSize();
-        if(size!=null){
+        if (size != null) {
             batchSize = size;
         }
         if (batchSize < 1) {
@@ -501,12 +498,12 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
 
         int offset = (page.getPageNo() - 1) * page.getPageSize();
         //分页效果有bug,offset不生效
-        List<ObjectRecord<String, T>>  range = streamOperations.range(genericClass, getQueueName(), Range.unbounded()
-                                                                                                , RedisZSetCommands.Limit
-                                                                                                        .limit()
-                                                                                                        .offset(offset)
-                                                                                                        .count(page.getPageSize()));
-        if(CollectionUtils.isEmpty(range)){
+        List<ObjectRecord<String, T>> range = streamOperations.range(genericClass, getQueueName(), Range.unbounded()
+                , RedisZSetCommands.Limit
+                        .limit()
+                        .offset(offset)
+                        .count(page.getPageSize()));
+        if (CollectionUtils.isEmpty(range)) {
             return page;
         }
         List<MessageObjectDto<T>> dataList = new ArrayList<>();
@@ -516,6 +513,7 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
         page.setData(dataList);
         return page;
     }
+
     @Override
     public boolean forceAckMessage(String messageId, boolean isRetryBusiness) {
         if (StringUtils.isBlank(messageId)) {
@@ -525,16 +523,16 @@ public abstract class AbstractMessageProducerConsumerListener<T> implements Stre
         //消息确认ack
         Long ackFlag = streamOperations.acknowledge(getQueueName(), getGroupName(), RecordId.of(messageId));
         //由传入参数控制是否重试，消息在调用此方法之前未应答成功的，最少执行一次业务逻辑
-        if(isRetryBusiness || (ackFlag!=null && ackFlag>0)){
-            List<ObjectRecord<String, T>> range = streamOperations.range(genericClass,getQueueName(), Range.just(messageId));
-            if(CollectionUtils.isEmpty(range)){
+        if (isRetryBusiness || (ackFlag != null && ackFlag > 0)) {
+            List<ObjectRecord<String, T>> range = streamOperations.range(genericClass, getQueueName(), Range.just(messageId));
+            if (CollectionUtils.isEmpty(range)) {
                 return false;
             }
             MessageObjectDto<T> messageObjectRecord = objectRecord2MessageObject(range.get(0));
             try {
                 onMessage(messageObjectRecord);
             } catch (Exception e) {
-                logger.error(e.getMessage(),e);
+                logger.error(e.getMessage(), e);
             }
         }
         return true;

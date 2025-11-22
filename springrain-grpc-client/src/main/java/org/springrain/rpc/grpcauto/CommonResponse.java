@@ -7,442 +7,471 @@ package org.springrain.rpc.grpcauto;
  * <pre>
  * 定义通用的 Grpc 响应体
  * </pre>
- *
+ * <p>
  * Protobuf type {@code CommonResponse}
  */
 public final class CommonResponse extends
-    com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:CommonResponse)
-    CommonResponseOrBuilder {
-private static final long serialVersionUID = 0L;
-  // Use CommonResponse.newBuilder() to construct.
-  private CommonResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-    super(builder);
-  }
-  private CommonResponse() {
-    response_ = com.google.protobuf.ByteString.EMPTY;
-  }
+        com.google.protobuf.GeneratedMessageV3 implements
+        // @@protoc_insertion_point(message_implements:CommonResponse)
+        CommonResponseOrBuilder {
+    public static final int RESPONSE_FIELD_NUMBER = 1;
+    private static final long serialVersionUID = 0L;
+    // @@protoc_insertion_point(class_scope:CommonResponse)
+    private static final org.springrain.rpc.grpcauto.CommonResponse DEFAULT_INSTANCE;
+    private static final com.google.protobuf.Parser<CommonResponse>
+            PARSER = new com.google.protobuf.AbstractParser<CommonResponse>() {
+        @java.lang.Override
+        public CommonResponse parsePartialFrom(
+                com.google.protobuf.CodedInputStream input,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws com.google.protobuf.InvalidProtocolBufferException {
+            Builder builder = newBuilder();
+            try {
+                builder.mergeFrom(input, extensionRegistry);
+            } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+                throw e.setUnfinishedMessage(builder.buildPartial());
+            } catch (com.google.protobuf.UninitializedMessageException e) {
+                throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+            } catch (java.io.IOException e) {
+                throw new com.google.protobuf.InvalidProtocolBufferException(e)
+                        .setUnfinishedMessage(builder.buildPartial());
+            }
+            return builder.buildPartial();
+        }
+    };
 
-  @java.lang.Override
-  @SuppressWarnings({"unused"})
-  protected java.lang.Object newInstance(
-      UnusedPrivateParameter unused) {
-    return new CommonResponse();
-  }
-
-  public static final com.google.protobuf.Descriptors.Descriptor
-      getDescriptor() {
-    return org.springrain.rpc.grpcauto.GrpcAutoCreateService.internal_static_CommonResponse_descriptor;
-  }
-
-  @java.lang.Override
-  protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internalGetFieldAccessorTable() {
-    return org.springrain.rpc.grpcauto.GrpcAutoCreateService.internal_static_CommonResponse_fieldAccessorTable
-        .ensureFieldAccessorsInitialized(
-            org.springrain.rpc.grpcauto.CommonResponse.class, org.springrain.rpc.grpcauto.CommonResponse.Builder.class);
-  }
-
-  public static final int RESPONSE_FIELD_NUMBER = 1;
-  private com.google.protobuf.ByteString response_ = com.google.protobuf.ByteString.EMPTY;
-  /**
-   * <code>bytes response = 1;</code>
-   * @return The response.
-   */
-  @java.lang.Override
-  public com.google.protobuf.ByteString getResponse() {
-    return response_;
-  }
-
-  private byte memoizedIsInitialized = -1;
-  @java.lang.Override
-  public final boolean isInitialized() {
-    byte isInitialized = memoizedIsInitialized;
-    if (isInitialized == 1) return true;
-    if (isInitialized == 0) return false;
-
-    memoizedIsInitialized = 1;
-    return true;
-  }
-
-  @java.lang.Override
-  public void writeTo(com.google.protobuf.CodedOutputStream output)
-                      throws java.io.IOException {
-    if (!response_.isEmpty()) {
-      output.writeBytes(1, response_);
+    static {
+        DEFAULT_INSTANCE = new org.springrain.rpc.grpcauto.CommonResponse();
     }
-    getUnknownFields().writeTo(output);
-  }
 
-  @java.lang.Override
-  public int getSerializedSize() {
-    int size = memoizedSize;
-    if (size != -1) return size;
-
-    size = 0;
-    if (!response_.isEmpty()) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeBytesSize(1, response_);
+    private com.google.protobuf.ByteString response_ = com.google.protobuf.ByteString.EMPTY;
+    private byte memoizedIsInitialized = -1;
+    // Use CommonResponse.newBuilder() to construct.
+    private CommonResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
     }
-    size += getUnknownFields().getSerializedSize();
-    memoizedSize = size;
-    return size;
-  }
 
-  @java.lang.Override
-  public boolean equals(final java.lang.Object obj) {
-    if (obj == this) {
-     return true;
+    private CommonResponse() {
+        response_ = com.google.protobuf.ByteString.EMPTY;
     }
-    if (!(obj instanceof org.springrain.rpc.grpcauto.CommonResponse)) {
-      return super.equals(obj);
-    }
-    org.springrain.rpc.grpcauto.CommonResponse other = (org.springrain.rpc.grpcauto.CommonResponse) obj;
 
-    if (!getResponse()
-        .equals(other.getResponse())) return false;
-    if (!getUnknownFields().equals(other.getUnknownFields())) return false;
-    return true;
-  }
-
-  @java.lang.Override
-  public int hashCode() {
-    if (memoizedHashCode != 0) {
-      return memoizedHashCode;
-    }
-    int hash = 41;
-    hash = (19 * hash) + getDescriptor().hashCode();
-    hash = (37 * hash) + RESPONSE_FIELD_NUMBER;
-    hash = (53 * hash) + getResponse().hashCode();
-    hash = (29 * hash) + getUnknownFields().hashCode();
-    memoizedHashCode = hash;
-    return hash;
-  }
-
-  public static org.springrain.rpc.grpcauto.CommonResponse parseFrom(
-      java.nio.ByteBuffer data)
-      throws com.google.protobuf.InvalidProtocolBufferException {
-    return PARSER.parseFrom(data);
-  }
-  public static org.springrain.rpc.grpcauto.CommonResponse parseFrom(
-      java.nio.ByteBuffer data,
-      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-      throws com.google.protobuf.InvalidProtocolBufferException {
-    return PARSER.parseFrom(data, extensionRegistry);
-  }
-  public static org.springrain.rpc.grpcauto.CommonResponse parseFrom(
-      com.google.protobuf.ByteString data)
-      throws com.google.protobuf.InvalidProtocolBufferException {
-    return PARSER.parseFrom(data);
-  }
-  public static org.springrain.rpc.grpcauto.CommonResponse parseFrom(
-      com.google.protobuf.ByteString data,
-      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-      throws com.google.protobuf.InvalidProtocolBufferException {
-    return PARSER.parseFrom(data, extensionRegistry);
-  }
-  public static org.springrain.rpc.grpcauto.CommonResponse parseFrom(byte[] data)
-      throws com.google.protobuf.InvalidProtocolBufferException {
-    return PARSER.parseFrom(data);
-  }
-  public static org.springrain.rpc.grpcauto.CommonResponse parseFrom(
-      byte[] data,
-      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-      throws com.google.protobuf.InvalidProtocolBufferException {
-    return PARSER.parseFrom(data, extensionRegistry);
-  }
-  public static org.springrain.rpc.grpcauto.CommonResponse parseFrom(java.io.InputStream input)
-      throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3
-        .parseWithIOException(PARSER, input);
-  }
-  public static org.springrain.rpc.grpcauto.CommonResponse parseFrom(
-      java.io.InputStream input,
-      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-      throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3
-        .parseWithIOException(PARSER, input, extensionRegistry);
-  }
-
-  public static org.springrain.rpc.grpcauto.CommonResponse parseDelimitedFrom(java.io.InputStream input)
-      throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3
-        .parseDelimitedWithIOException(PARSER, input);
-  }
-
-  public static org.springrain.rpc.grpcauto.CommonResponse parseDelimitedFrom(
-      java.io.InputStream input,
-      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-      throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3
-        .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-  }
-  public static org.springrain.rpc.grpcauto.CommonResponse parseFrom(
-      com.google.protobuf.CodedInputStream input)
-      throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3
-        .parseWithIOException(PARSER, input);
-  }
-  public static org.springrain.rpc.grpcauto.CommonResponse parseFrom(
-      com.google.protobuf.CodedInputStream input,
-      com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-      throws java.io.IOException {
-    return com.google.protobuf.GeneratedMessageV3
-        .parseWithIOException(PARSER, input, extensionRegistry);
-  }
-
-  @java.lang.Override
-  public Builder newBuilderForType() { return newBuilder(); }
-  public static Builder newBuilder() {
-    return DEFAULT_INSTANCE.toBuilder();
-  }
-  public static Builder newBuilder(org.springrain.rpc.grpcauto.CommonResponse prototype) {
-    return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-  }
-  @java.lang.Override
-  public Builder toBuilder() {
-    return this == DEFAULT_INSTANCE
-        ? new Builder() : new Builder().mergeFrom(this);
-  }
-
-  @java.lang.Override
-  protected Builder newBuilderForType(
-      com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-    Builder builder = new Builder(parent);
-    return builder;
-  }
-  /**
-   * <pre>
-   * 定义通用的 Grpc 响应体
-   * </pre>
-   *
-   * Protobuf type {@code CommonResponse}
-   */
-  public static final class Builder extends
-      com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:CommonResponse)
-      org.springrain.rpc.grpcauto.CommonResponseOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return org.springrain.rpc.grpcauto.GrpcAutoCreateService.internal_static_CommonResponse_descriptor;
+    getDescriptor() {
+        return org.springrain.rpc.grpcauto.GrpcAutoCreateService.internal_static_CommonResponse_descriptor;
+    }
+
+    public static org.springrain.rpc.grpcauto.CommonResponse parseFrom(
+            java.nio.ByteBuffer data)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+    }
+
+    public static org.springrain.rpc.grpcauto.CommonResponse parseFrom(
+            java.nio.ByteBuffer data,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+    }
+
+    public static org.springrain.rpc.grpcauto.CommonResponse parseFrom(
+            com.google.protobuf.ByteString data)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+    }
+
+    public static org.springrain.rpc.grpcauto.CommonResponse parseFrom(
+            com.google.protobuf.ByteString data,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+    }
+
+    public static org.springrain.rpc.grpcauto.CommonResponse parseFrom(byte[] data)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+    }
+
+    public static org.springrain.rpc.grpcauto.CommonResponse parseFrom(
+            byte[] data,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+    }
+
+    public static org.springrain.rpc.grpcauto.CommonResponse parseFrom(java.io.InputStream input)
+            throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+                .parseWithIOException(PARSER, input);
+    }
+
+    public static org.springrain.rpc.grpcauto.CommonResponse parseFrom(
+            java.io.InputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+                .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static org.springrain.rpc.grpcauto.CommonResponse parseDelimitedFrom(java.io.InputStream input)
+            throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+                .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static org.springrain.rpc.grpcauto.CommonResponse parseDelimitedFrom(
+            java.io.InputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+                .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static org.springrain.rpc.grpcauto.CommonResponse parseFrom(
+            com.google.protobuf.CodedInputStream input)
+            throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+                .parseWithIOException(PARSER, input);
+    }
+
+    public static org.springrain.rpc.grpcauto.CommonResponse parseFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+                .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.toBuilder();
+    }
+
+    public static Builder newBuilder(org.springrain.rpc.grpcauto.CommonResponse prototype) {
+        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+
+    public static org.springrain.rpc.grpcauto.CommonResponse getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static com.google.protobuf.Parser<CommonResponse> parser() {
+        return PARSER;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+            UnusedPrivateParameter unused) {
+        return new CommonResponse();
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return org.springrain.rpc.grpcauto.GrpcAutoCreateService.internal_static_CommonResponse_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              org.springrain.rpc.grpcauto.CommonResponse.class, org.springrain.rpc.grpcauto.CommonResponse.Builder.class);
+    internalGetFieldAccessorTable() {
+        return org.springrain.rpc.grpcauto.GrpcAutoCreateService.internal_static_CommonResponse_fieldAccessorTable
+                .ensureFieldAccessorsInitialized(
+                        org.springrain.rpc.grpcauto.CommonResponse.class, org.springrain.rpc.grpcauto.CommonResponse.Builder.class);
     }
 
-    // Construct using org.springrain.rpc.grpcauto.CommonResponse.newBuilder()
-    private Builder() {
-
-    }
-
-    private Builder(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      super(parent);
-
-    }
-    @java.lang.Override
-    public Builder clear() {
-      super.clear();
-      bitField0_ = 0;
-      response_ = com.google.protobuf.ByteString.EMPTY;
-      return this;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Descriptors.Descriptor
-        getDescriptorForType() {
-      return org.springrain.rpc.grpcauto.GrpcAutoCreateService.internal_static_CommonResponse_descriptor;
-    }
-
-    @java.lang.Override
-    public org.springrain.rpc.grpcauto.CommonResponse getDefaultInstanceForType() {
-      return org.springrain.rpc.grpcauto.CommonResponse.getDefaultInstance();
-    }
-
-    @java.lang.Override
-    public org.springrain.rpc.grpcauto.CommonResponse build() {
-      org.springrain.rpc.grpcauto.CommonResponse result = buildPartial();
-      if (!result.isInitialized()) {
-        throw newUninitializedMessageException(result);
-      }
-      return result;
-    }
-
-    @java.lang.Override
-    public org.springrain.rpc.grpcauto.CommonResponse buildPartial() {
-      org.springrain.rpc.grpcauto.CommonResponse result = new org.springrain.rpc.grpcauto.CommonResponse(this);
-      if (bitField0_ != 0) { buildPartial0(result); }
-      onBuilt();
-      return result;
-    }
-
-    private void buildPartial0(org.springrain.rpc.grpcauto.CommonResponse result) {
-      int from_bitField0_ = bitField0_;
-      if (((from_bitField0_ & 0x00000001) != 0)) {
-        result.response_ = response_;
-      }
-    }
-
-    @java.lang.Override
-    public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof org.springrain.rpc.grpcauto.CommonResponse) {
-        return mergeFrom((org.springrain.rpc.grpcauto.CommonResponse)other);
-      } else {
-        super.mergeFrom(other);
-        return this;
-      }
-    }
-
-    public Builder mergeFrom(org.springrain.rpc.grpcauto.CommonResponse other) {
-      if (other == org.springrain.rpc.grpcauto.CommonResponse.getDefaultInstance()) return this;
-      if (other.getResponse() != com.google.protobuf.ByteString.EMPTY) {
-        setResponse(other.getResponse());
-      }
-      this.mergeUnknownFields(other.getUnknownFields());
-      onChanged();
-      return this;
-    }
-
-    @java.lang.Override
-    public final boolean isInitialized() {
-      return true;
-    }
-
-    @java.lang.Override
-    public Builder mergeFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 10: {
-              response_ = input.readBytes();
-              bitField0_ |= 0x00000001;
-              break;
-            } // case 10
-            default: {
-              if (!super.parseUnknownField(input, extensionRegistry, tag)) {
-                done = true; // was an endgroup tag
-              }
-              break;
-            } // default:
-          } // switch (tag)
-        } // while (!done)
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.unwrapIOException();
-      } finally {
-        onChanged();
-      } // finally
-      return this;
-    }
-    private int bitField0_;
-
-    private com.google.protobuf.ByteString response_ = com.google.protobuf.ByteString.EMPTY;
     /**
      * <code>bytes response = 1;</code>
+     *
      * @return The response.
      */
     @java.lang.Override
     public com.google.protobuf.ByteString getResponse() {
-      return response_;
+        return response_;
     }
+
+    @java.lang.Override
+    public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        memoizedIsInitialized = 1;
+        return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+            throws java.io.IOException {
+        if (!response_.isEmpty()) {
+            output.writeBytes(1, response_);
+        }
+        getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+        int size = memoizedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        if (!response_.isEmpty()) {
+            size += com.google.protobuf.CodedOutputStream
+                    .computeBytesSize(1, response_);
+        }
+        size += getUnknownFields().getSerializedSize();
+        memoizedSize = size;
+        return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof org.springrain.rpc.grpcauto.CommonResponse)) {
+            return super.equals(obj);
+        }
+        org.springrain.rpc.grpcauto.CommonResponse other = (org.springrain.rpc.grpcauto.CommonResponse) obj;
+
+        if (!getResponse()
+                .equals(other.getResponse())) return false;
+        if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+        return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+        if (memoizedHashCode != 0) {
+            return memoizedHashCode;
+        }
+        int hash = 41;
+        hash = (19 * hash) + getDescriptor().hashCode();
+        hash = (37 * hash) + RESPONSE_FIELD_NUMBER;
+        hash = (53 * hash) + getResponse().hashCode();
+        hash = (29 * hash) + getUnknownFields().hashCode();
+        memoizedHashCode = hash;
+        return hash;
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() {
+        return newBuilder();
+    }
+
+    @java.lang.Override
+    public Builder toBuilder() {
+        return this == DEFAULT_INSTANCE
+                ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+            com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<CommonResponse> getParserForType() {
+        return PARSER;
+    }
+
+    @java.lang.Override
+    public org.springrain.rpc.grpcauto.CommonResponse getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
     /**
-     * <code>bytes response = 1;</code>
-     * @param value The response to set.
-     * @return This builder for chaining.
+     * <pre>
+     * 定义通用的 Grpc 响应体
+     * </pre>
+     * <p>
+     * Protobuf type {@code CommonResponse}
      */
-    public Builder setResponse(com.google.protobuf.ByteString value) {
-      if (value == null) { throw new NullPointerException(); }
-      response_ = value;
-      bitField0_ |= 0x00000001;
-      onChanged();
-      return this;
+    public static final class Builder extends
+            com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+            // @@protoc_insertion_point(builder_implements:CommonResponse)
+            org.springrain.rpc.grpcauto.CommonResponseOrBuilder {
+        private int bitField0_;
+        private com.google.protobuf.ByteString response_ = com.google.protobuf.ByteString.EMPTY;
+
+        // Construct using org.springrain.rpc.grpcauto.CommonResponse.newBuilder()
+        private Builder() {
+
+        }
+
+        private Builder(
+                com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+            super(parent);
+
+        }
+
+        public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+            return org.springrain.rpc.grpcauto.GrpcAutoCreateService.internal_static_CommonResponse_descriptor;
+        }
+
+        @java.lang.Override
+        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+            return org.springrain.rpc.grpcauto.GrpcAutoCreateService.internal_static_CommonResponse_fieldAccessorTable
+                    .ensureFieldAccessorsInitialized(
+                            org.springrain.rpc.grpcauto.CommonResponse.class, org.springrain.rpc.grpcauto.CommonResponse.Builder.class);
+        }
+
+        @java.lang.Override
+        public Builder clear() {
+            super.clear();
+            bitField0_ = 0;
+            response_ = com.google.protobuf.ByteString.EMPTY;
+            return this;
+        }
+
+        @java.lang.Override
+        public com.google.protobuf.Descriptors.Descriptor
+        getDescriptorForType() {
+            return org.springrain.rpc.grpcauto.GrpcAutoCreateService.internal_static_CommonResponse_descriptor;
+        }
+
+        @java.lang.Override
+        public org.springrain.rpc.grpcauto.CommonResponse getDefaultInstanceForType() {
+            return org.springrain.rpc.grpcauto.CommonResponse.getDefaultInstance();
+        }
+
+        @java.lang.Override
+        public org.springrain.rpc.grpcauto.CommonResponse build() {
+            org.springrain.rpc.grpcauto.CommonResponse result = buildPartial();
+            if (!result.isInitialized()) {
+                throw newUninitializedMessageException(result);
+            }
+            return result;
+        }
+
+        @java.lang.Override
+        public org.springrain.rpc.grpcauto.CommonResponse buildPartial() {
+            org.springrain.rpc.grpcauto.CommonResponse result = new org.springrain.rpc.grpcauto.CommonResponse(this);
+            if (bitField0_ != 0) {
+                buildPartial0(result);
+            }
+            onBuilt();
+            return result;
+        }
+
+        private void buildPartial0(org.springrain.rpc.grpcauto.CommonResponse result) {
+            int from_bitField0_ = bitField0_;
+            if (((from_bitField0_ & 0x00000001) != 0)) {
+                result.response_ = response_;
+            }
+        }
+
+        @java.lang.Override
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+            if (other instanceof org.springrain.rpc.grpcauto.CommonResponse) {
+                return mergeFrom((org.springrain.rpc.grpcauto.CommonResponse) other);
+            } else {
+                super.mergeFrom(other);
+                return this;
+            }
+        }
+
+        public Builder mergeFrom(org.springrain.rpc.grpcauto.CommonResponse other) {
+            if (other == org.springrain.rpc.grpcauto.CommonResponse.getDefaultInstance()) return this;
+            if (other.getResponse() != com.google.protobuf.ByteString.EMPTY) {
+                setResponse(other.getResponse());
+            }
+            this.mergeUnknownFields(other.getUnknownFields());
+            onChanged();
+            return this;
+        }
+
+        @java.lang.Override
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        @java.lang.Override
+        public Builder mergeFrom(
+                com.google.protobuf.CodedInputStream input,
+                com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+                throws java.io.IOException {
+            if (extensionRegistry == null) {
+                throw new java.lang.NullPointerException();
+            }
+            try {
+                boolean done = false;
+                while (!done) {
+                    int tag = input.readTag();
+                    switch (tag) {
+                        case 0:
+                            done = true;
+                            break;
+                        case 10: {
+                            response_ = input.readBytes();
+                            bitField0_ |= 0x00000001;
+                            break;
+                        } // case 10
+                        default: {
+                            if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                                done = true; // was an endgroup tag
+                            }
+                            break;
+                        } // default:
+                    } // switch (tag)
+                } // while (!done)
+            } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+                throw e.unwrapIOException();
+            } finally {
+                onChanged();
+            } // finally
+            return this;
+        }
+
+        /**
+         * <code>bytes response = 1;</code>
+         *
+         * @return The response.
+         */
+        @java.lang.Override
+        public com.google.protobuf.ByteString getResponse() {
+            return response_;
+        }
+
+        /**
+         * <code>bytes response = 1;</code>
+         *
+         * @param value The response to set.
+         * @return This builder for chaining.
+         */
+        public Builder setResponse(com.google.protobuf.ByteString value) {
+            if (value == null) {
+                throw new NullPointerException();
+            }
+            response_ = value;
+            bitField0_ |= 0x00000001;
+            onChanged();
+            return this;
+        }
+
+        /**
+         * <code>bytes response = 1;</code>
+         *
+         * @return This builder for chaining.
+         */
+        public Builder clearResponse() {
+            bitField0_ = (bitField0_ & ~0x00000001);
+            response_ = getDefaultInstance().getResponse();
+            onChanged();
+            return this;
+        }
+
+        @java.lang.Override
+        public final Builder setUnknownFields(
+                final com.google.protobuf.UnknownFieldSet unknownFields) {
+            return super.setUnknownFields(unknownFields);
+        }
+
+        @java.lang.Override
+        public final Builder mergeUnknownFields(
+                final com.google.protobuf.UnknownFieldSet unknownFields) {
+            return super.mergeUnknownFields(unknownFields);
+        }
+
+
+        // @@protoc_insertion_point(builder_scope:CommonResponse)
     }
-    /**
-     * <code>bytes response = 1;</code>
-     * @return This builder for chaining.
-     */
-    public Builder clearResponse() {
-      bitField0_ = (bitField0_ & ~0x00000001);
-      response_ = getDefaultInstance().getResponse();
-      onChanged();
-      return this;
-    }
-    @java.lang.Override
-    public final Builder setUnknownFields(
-        final com.google.protobuf.UnknownFieldSet unknownFields) {
-      return super.setUnknownFields(unknownFields);
-    }
-
-    @java.lang.Override
-    public final Builder mergeUnknownFields(
-        final com.google.protobuf.UnknownFieldSet unknownFields) {
-      return super.mergeUnknownFields(unknownFields);
-    }
-
-
-    // @@protoc_insertion_point(builder_scope:CommonResponse)
-  }
-
-  // @@protoc_insertion_point(class_scope:CommonResponse)
-  private static final org.springrain.rpc.grpcauto.CommonResponse DEFAULT_INSTANCE;
-  static {
-    DEFAULT_INSTANCE = new org.springrain.rpc.grpcauto.CommonResponse();
-  }
-
-  public static org.springrain.rpc.grpcauto.CommonResponse getDefaultInstance() {
-    return DEFAULT_INSTANCE;
-  }
-
-  private static final com.google.protobuf.Parser<CommonResponse>
-      PARSER = new com.google.protobuf.AbstractParser<CommonResponse>() {
-    @java.lang.Override
-    public CommonResponse parsePartialFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      Builder builder = newBuilder();
-      try {
-        builder.mergeFrom(input, extensionRegistry);
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(builder.buildPartial());
-      } catch (com.google.protobuf.UninitializedMessageException e) {
-        throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(e)
-            .setUnfinishedMessage(builder.buildPartial());
-      }
-      return builder.buildPartial();
-    }
-  };
-
-  public static com.google.protobuf.Parser<CommonResponse> parser() {
-    return PARSER;
-  }
-
-  @java.lang.Override
-  public com.google.protobuf.Parser<CommonResponse> getParserForType() {
-    return PARSER;
-  }
-
-  @java.lang.Override
-  public org.springrain.rpc.grpcauto.CommonResponse getDefaultInstanceForType() {
-    return DEFAULT_INSTANCE;
-  }
 
 }
 

@@ -1,5 +1,6 @@
 package org.springrain.weixin.service.impl;
 
+import jakarta.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springrain.frame.util.GlobalStatic;
@@ -8,8 +9,6 @@ import org.springrain.weixin.sdk.common.WxAccessToken;
 import org.springrain.weixin.sdk.common.wxconfig.IWxCpConfig;
 import org.springrain.weixin.service.IWxAccessTokenService;
 import org.springrain.weixin.service.IWxCpConfigService;
-
-import jakarta.annotation.Resource;
 
 @Service("wxCpConfigService")
 public class WxCpConfigServiceImpl extends BaseSpringrainWeiXinServiceImpl implements IWxCpConfigService {

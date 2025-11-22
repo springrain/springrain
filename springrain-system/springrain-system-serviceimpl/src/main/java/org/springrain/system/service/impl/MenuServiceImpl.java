@@ -1,5 +1,6 @@
 package org.springrain.system.service.impl;
 
+import jakarta.annotation.Resource;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Lazy;
@@ -13,7 +14,6 @@ import org.springrain.system.entity.RoleMenu;
 import org.springrain.system.service.IMenuService;
 import org.springrain.system.service.IUserRoleMenuService;
 
-import jakarta.annotation.Resource;
 import java.util.*;
 
 

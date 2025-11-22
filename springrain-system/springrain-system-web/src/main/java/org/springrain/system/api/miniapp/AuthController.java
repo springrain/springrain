@@ -1,6 +1,7 @@
 package org.springrain.system.api.miniapp;
 
 import com.google.common.collect.Maps;
+import jakarta.annotation.Resource;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,7 +26,6 @@ import org.springrain.weixin.sdk.miniapp.MiniappQrcode;
 import org.springrain.weixin.sdk.miniapp.MiniappQrcodeApi;
 import org.springrain.weixin.service.IWxMiniappConfigService;
 
-import jakarta.annotation.Resource;
 import java.io.File;
 import java.io.Serializable;
 import java.util.Date;

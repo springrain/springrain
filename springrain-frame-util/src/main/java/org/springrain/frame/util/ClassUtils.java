@@ -3,6 +3,9 @@
  */
 package org.springrain.frame.util;
 
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.*;
@@ -12,9 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springrain.frame.annotation.*;
 
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.*;
 import java.math.BigDecimal;
@@ -60,6 +60,7 @@ ClassUtils {
 
     /**
      * 根据ClassName获取 EntityInfo
+     *
      * @param clazz
      * @return
      * @throws Exception
@@ -246,6 +247,7 @@ ClassUtils {
 
     /**
      * 递归查询父类的所有属性,set 去掉重复的属性
+     *
      * @param clazz
      * @param info
      * @param fields
@@ -425,6 +427,7 @@ ClassUtils {
 
     /**
      * 获取字段的返回类型
+     *
      * @param p
      * @param clazz
      * @return
@@ -651,6 +654,7 @@ ClassUtils {
 
     /**
      * 获取类的泛型实际类型
+     *
      * @return
      */
     public static Class getActualTypeGenericSuperclass(Class clazz) {

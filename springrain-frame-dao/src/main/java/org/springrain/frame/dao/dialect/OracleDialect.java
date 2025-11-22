@@ -34,8 +34,8 @@ public class OracleDialect implements IDialect {
 
         StringBuilder sb = new StringBuilder();
         sb.append(sql);
-        int orderIndex= RegexValidateUtils.getOrderByIndex(sql);
-        if(orderIndex < 0){//不存在order by
+        int orderIndex = RegexValidateUtils.getOrderByIndex(sql);
+        if (orderIndex < 0) {//不存在order by
             sb.append(" ORDER BY NULL ");
         }
         sb.append(" OFFSET ").append(pageSize * (pageNo - 1)).append(" ROWS FETCH NEXT ").append(pageSize).append(" ROWS ONLY ");

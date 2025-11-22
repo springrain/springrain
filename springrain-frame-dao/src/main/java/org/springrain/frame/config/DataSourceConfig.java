@@ -1,10 +1,10 @@
 package org.springrain.frame.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.seata.rm.RMClient;
 import org.apache.seata.rm.datasource.DataSourceProxy;
 import org.apache.seata.tm.TMClient;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -80,7 +80,7 @@ public class DataSourceConfig {
         dataSource.setUrl(url);
         dataSource.setUsername(username);// 用户名
         dataSource.setPassword(password);// 密码
-        if (StringUtils.isNotBlank(driverClassName)){
+        if (StringUtils.isNotBlank(driverClassName)) {
             dataSource.setDriverClassName(driverClassName);
         }
         // 设置属性

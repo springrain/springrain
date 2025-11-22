@@ -111,7 +111,7 @@ spring:
     #driver-class-name: com.mysql.cj.jdbc.Driver
     #default-transaction-isolation: ISOLATION_READ_UNCOMMITTED
 
-##SpringBoot3.0.0 调整为 spring.data.redis
+  ##SpringBoot3.0.0 调整为 spring.data.redis
   data:
     redis:
       host: 127.0.0.1

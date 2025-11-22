@@ -1,5 +1,6 @@
 package org.springrain.system.api;
 
+import jakarta.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springrain.frame.util.Page;
@@ -17,7 +18,6 @@ import org.springrain.system.service.IRoleService;
 import org.springrain.system.service.IUserRoleMenuService;
 import org.springrain.system.service.IUserRoleOrgService;
 
-import jakarta.annotation.Resource;
 import java.util.Arrays;
 import java.util.List;
 

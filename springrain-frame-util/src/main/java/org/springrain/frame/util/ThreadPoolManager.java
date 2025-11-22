@@ -14,7 +14,9 @@ import java.util.concurrent.ThreadPoolExecutor;
  */
 public class ThreadPoolManager {
 
-    private final static Executor defaultExecutor=createThreadPool("springrain->");;
+    private final static Executor defaultExecutor = createThreadPool("springrain->");
+    ;
+
     /*
      * 将构造方法访问修饰符设为私有，禁止任意实例化。
      */
@@ -22,7 +24,7 @@ public class ThreadPoolManager {
         throw new IllegalAccessError("工具类不能实例化");
     }
 
-    public static Executor createThreadPool(String threadNamePrefix){
+    public static Executor createThreadPool(String threadNamePrefix) {
 
         //executor = new SimpleAsyncTaskExecutor();
         ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
@@ -31,7 +33,7 @@ public class ThreadPoolManager {
         threadPoolTaskExecutor.setMaxPoolSize(5000); // 最大线程数,当queueCapacity队列已满,将会继续创建线程,直到线程数超过maxPoolSize的大小,将抛出异常
         threadPoolTaskExecutor.setKeepAliveSeconds(60); // 允许线程空闲时间(单位:默认为秒)
 
-        if (StringUtils.isNotBlank(threadNamePrefix)){
+        if (StringUtils.isNotBlank(threadNamePrefix)) {
             threadPoolTaskExecutor.setThreadNamePrefix(threadNamePrefix);
         }
         // 线程池对拒绝任务的处理策略

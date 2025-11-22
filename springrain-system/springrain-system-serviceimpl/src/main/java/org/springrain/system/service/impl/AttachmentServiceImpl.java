@@ -1,5 +1,6 @@
 package org.springrain.system.service.impl;
 
+import jakarta.annotation.Resource;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -9,7 +10,6 @@ import org.springrain.system.entity.Attachment;
 import org.springrain.system.service.IAttachmentService;
 import org.springrain.system.service.IUserRoleOrgService;
 
-import jakarta.annotation.Resource;
 import java.util.List;
 
 

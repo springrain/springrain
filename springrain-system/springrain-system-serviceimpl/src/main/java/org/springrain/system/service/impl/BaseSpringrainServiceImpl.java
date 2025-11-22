@@ -1,5 +1,6 @@
 package org.springrain.system.service.impl;
 
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springrain.frame.dao.IBaseJdbcDao;
 import org.springrain.frame.entity.BaseMapEntity;
@@ -8,7 +9,6 @@ import org.springrain.frame.service.BaseServiceImpl;
 import org.springrain.frame.util.Finder;
 import org.springrain.system.service.IBaseSpringrainService;
 
-import jakarta.annotation.Resource;
 import java.io.File;
 import java.util.List;
 

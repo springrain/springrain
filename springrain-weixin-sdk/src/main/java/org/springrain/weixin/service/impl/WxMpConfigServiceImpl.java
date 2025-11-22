@@ -1,5 +1,6 @@
 package org.springrain.weixin.service.impl;
 
+import jakarta.annotation.Resource;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,6 @@ import org.springrain.weixin.sdk.common.wxconfig.IWxMpConfig;
 import org.springrain.weixin.service.IWxAccessTokenService;
 import org.springrain.weixin.service.IWxMpConfigService;
 
-import jakarta.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 

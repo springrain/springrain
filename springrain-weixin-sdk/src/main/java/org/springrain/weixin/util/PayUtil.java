@@ -9,7 +9,6 @@ import com.wechat.pay.contrib.apache.httpclient.cert.CertificatesManager;
 import com.wechat.pay.contrib.apache.httpclient.exception.HttpCodeException;
 import com.wechat.pay.contrib.apache.httpclient.exception.NotFoundException;
 import com.wechat.pay.contrib.apache.httpclient.util.PemUtil;
-import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -44,28 +43,25 @@ import java.util.UUID;
  */
 @Component("payUtil")
 public class PayUtil {
-    public Logger logger = LoggerFactory.getLogger(getClass());
-
     public static final String WX_JSAPI_URL = "https://api.mch.weixin.qq.com/v3/pay/transactions/jsapi";
     public static final String WX_APP_URL = "https://api.mch.weixin.qq.com/v3/pay/transactions/app";
     public static final String WX_NATIVE_URL = "https://api.mch.weixin.qq.com/v3/pay/transactions/native";
     public static final String WX_FIND_ORDER_URL = "https://api.mch.weixin.qq.com/v3/pay/transactions/out-trade-no/{out_trade_no}?mchid={mchid}";
     public static final String WX_CLOSE_ORDER_URL = "https://api.mch.weixin.qq.com/v3/pay/transactions/out-trade-no/{out_trade_no}/close";
-
     private static final String CHARSET = "utf-8";
     private static final String ALGORITHMS = "RSA";
     private static final String SIGNALGORITHMS = "SHA256withRSA";
     private static final String X509 = "X509";
+    private static PrivateKey H5PrivateKey;
+    private static PrivateKey AppPrivateKey;
+    public Logger logger = LoggerFactory.getLogger(getClass());
     @Resource
     private IWxPayConfigService wxPayConfigService;
 
-    private static PrivateKey H5PrivateKey;
-    private static PrivateKey AppPrivateKey;
-
-    private static PrivateKey getPrivateKey(String site){
-        if(WXCommonConst.APP_SITE.equals(site)){
+    private static PrivateKey getPrivateKey(String site) {
+        if (WXCommonConst.APP_SITE.equals(site)) {
             return AppPrivateKey;
-        }else if(WXCommonConst.H5_SITE.equals(site)){
+        } else if (WXCommonConst.H5_SITE.equals(site)) {
             return H5PrivateKey;
         }
         return H5PrivateKey;
@@ -73,10 +69,10 @@ public class PayUtil {
 
     private PayUtilInItRes init(String site) throws GeneralSecurityException, IOException, HttpCodeException, NotFoundException {
         IWxPayConfig wxPayConfig = wxPayConfigService.findWxPayConfigById(WXCommonConst.siteVerity(site));
-        if(wxPayConfig==null){
+        if (wxPayConfig == null) {
             throw new WXException("未找到微信支付配置! wxPayConfig is null!");
         }
-        String certPath = wxPayConfig.getCertificateFile()+ File.separator+"apiclient_cert.pem";
+        String certPath = wxPayConfig.getCertificateFile() + File.separator + "apiclient_cert.pem";
 
         //证书序列号
         X509Certificate certificate = this.getCertificate(certPath);
@@ -91,8 +87,8 @@ public class PayUtil {
                 new WechatPay2Credentials(mchId, new PrivateKeySigner(mchSerialNo, merchantPrivateKey)),
                 apiV3Key.getBytes(StandardCharsets.UTF_8));*/
         CertificatesManager certificatesManager = CertificatesManager.getInstance();
-                certificatesManager.putMerchant(mchId, new WechatPay2Credentials(mchId,
-                        new PrivateKeySigner(mchSerialNo, privateKey)), apiV3Key.getBytes(StandardCharsets.UTF_8));
+        certificatesManager.putMerchant(mchId, new WechatPay2Credentials(mchId,
+                new PrivateKeySigner(mchSerialNo, privateKey)), apiV3Key.getBytes(StandardCharsets.UTF_8));
         Verifier verifier = certificatesManager.getVerifier(mchId);
         CloseableHttpClient wxChatHttpClient = WechatPayHttpClientBuilder.create()
                 .withMerchant(mchId, mchSerialNo, privateKey)
@@ -106,39 +102,42 @@ public class PayUtil {
         r.setWxChatHttpClient(wxChatHttpClient);
         return r;
     }
+
     // 如果你想启动的时候就初始化微信支付配置,可以解开注释
     // @PostConstruct
-    public void initPrivateKey(){
+    public void initPrivateKey() {
         IWxPayConfig wxPayConfig = wxPayConfigService.findWxPayConfigById(WXCommonConst.H5_SITE);
-        if(wxPayConfig==null){
+        if (wxPayConfig == null) {
             throw new WXException("未找到微信支付配置! wxPayConfig is null!");
         }
-        if(H5PrivateKey==null){
+        if (H5PrivateKey == null) {
             String privateKeyPath = wxPayConfig.getCertificateFile() + File.separator + "apiclient_key.pem";
             String privateKeyStr = PathUtil.readPath(privateKeyPath);
-            H5PrivateKey= PemUtil.loadPrivateKey(privateKeyStr);
+            H5PrivateKey = PemUtil.loadPrivateKey(privateKeyStr);
         }
         try {
             IWxPayConfig appWxPayConfig = wxPayConfigService.findWxPayConfigById(WXCommonConst.H5_SITE);
-            if(AppPrivateKey==null){
+            if (AppPrivateKey == null) {
                 String privateKeyPath = appWxPayConfig.getCertificateFile() + File.separator + "apiclient_key.pem";
                 String privateKeyStr = PathUtil.readPath(privateKeyPath);
-                AppPrivateKey= PemUtil.loadPrivateKey(privateKeyStr);
+                AppPrivateKey = PemUtil.loadPrivateKey(privateKeyStr);
             }
-        }catch (Exception e){
-            logger.error(e.getMessage(),e);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
         }
     }
+
     /**
      * 微信支付下单 jsapi
+     *
      * @param amountTotal 金额 (分)
      * @param description 商品描述
-     * @param openid 用戶openid
-     * @param orderId 订单id
+     * @param openid      用戶openid
+     * @param orderId     订单id
      * @return 预支付id
      * @throws Exception 异常，保证每次请求的商品描述，金额一致，并且该订单未关闭，即可同一个为订单号重复生成预支付id，反之会提示订单号重复
      */
-    public String placeAnOrderByJsApi(String amountTotal,String description,String openid,String orderId,String site,String attach) throws Exception {
+    public String placeAnOrderByJsApi(String amountTotal, String description, String openid, String orderId, String site, String attach) throws Exception {
         PayUtilInItRes init = init(site);
 
         //请求URL
@@ -146,18 +145,18 @@ public class PayUtil {
         // 请求body参数
         String reqdata = "{"
                 + "\"amount\": {"
-                    + "\"total\": "+amountTotal+","
-                    + "\"currency\": \"CNY\""
+                + "\"total\": " + amountTotal + ","
+                + "\"currency\": \"CNY\""
                 + "},"
-                + "\"mchid\": \""+init.getMchId()+"\","
-                + "\"description\": \""+description+"\","
-                + "\"notify_url\": \""+init.getNotifyUrl()+"\","
+                + "\"mchid\": \"" + init.getMchId() + "\","
+                + "\"description\": \"" + description + "\","
+                + "\"notify_url\": \"" + init.getNotifyUrl() + "\","
                 + "\"payer\": {"
-                    + "\"openid\": \""+openid+"\"" + "},"
-                + "\"out_trade_no\": \""+orderId+"\","
-                + "\"attach\": \""+attach+"\","
-                + "\"appid\": \""+init.getAppId()+"\"}";
-        StringEntity entity = new StringEntity(reqdata,"utf-8");
+                + "\"openid\": \"" + openid + "\"" + "},"
+                + "\"out_trade_no\": \"" + orderId + "\","
+                + "\"attach\": \"" + attach + "\","
+                + "\"appid\": \"" + init.getAppId() + "\"}";
+        StringEntity entity = new StringEntity(reqdata, "utf-8");
         entity.setContentType("application/json");
         httpPost.setEntity(entity);
         httpPost.setHeader("Accept", "application/json");
@@ -172,19 +171,20 @@ public class PayUtil {
                 logger.error(JsonUtils.writeValueAsString(map));
                 throw WXException.ORDER_ERR;
             }
-        }finally {
+        } finally {
             wxChatHttpClient.close();
         }
     }
 
     /**
      * 微信支付下单 App
+     *
      * @param amountTotal 金额 (分)
      * @param description 商品描述
-     * @param orderId 订单id
+     * @param orderId     订单id
      * @return 预支付id
      */
-    public String placeAnOrderByApp(String amountTotal,String description,String orderId,String site,String attach) throws Exception {
+    public String placeAnOrderByApp(String amountTotal, String description, String orderId, String site, String attach) throws Exception {
         PayUtilInItRes init = init(site);
 
         //请求URL
@@ -192,16 +192,16 @@ public class PayUtil {
         // 请求body参数
         String reqdata = "{"
                 + "\"amount\": {"
-                    + "\"total\": "+amountTotal+","
-                    + "\"currency\": \"CNY\""
+                + "\"total\": " + amountTotal + ","
+                + "\"currency\": \"CNY\""
                 + "},"
-                + "\"mchid\": \""+init.getMchId()+"\","
-                + "\"description\": \""+description+"\","
-                + "\"notify_url\": \""+init.getNotifyUrl()+"\","
-                + "\"out_trade_no\": \""+orderId+"\","
-                +"\"attach\":\""+attach+"\","
-                + "\"appid\": \""+init.getAppId()+"\"}";
-        StringEntity entity = new StringEntity(reqdata,"utf-8");
+                + "\"mchid\": \"" + init.getMchId() + "\","
+                + "\"description\": \"" + description + "\","
+                + "\"notify_url\": \"" + init.getNotifyUrl() + "\","
+                + "\"out_trade_no\": \"" + orderId + "\","
+                + "\"attach\":\"" + attach + "\","
+                + "\"appid\": \"" + init.getAppId() + "\"}";
+        StringEntity entity = new StringEntity(reqdata, "utf-8");
         entity.setContentType("application/json");
         httpPost.setEntity(entity);
         httpPost.setHeader("Accept", "application/json");
@@ -216,23 +216,24 @@ public class PayUtil {
                 logger.error(JsonUtils.writeValueAsString(map));
                 throw WXException.ORDER_ERR;
             }
-        }finally {
+        } finally {
             wxChatHttpClient.close();
         }
     }
 
     /**
      * 获取微信支付二维码
+     *
      * @param productName 商品名称
-     * @param sysOrderId 商户订单号
-     * @param totalFee 支付金额
-     * @param attach 附加数据
+     * @param sysOrderId  商户订单号
+     * @param totalFee    支付金额
+     * @param attach      附加数据
      * @return 二维码链接
      * @throws Exception 异常
      */
-    public String getWeChatPayQRCode(String productName,String sysOrderId,String totalFee,String attach) throws Exception {
+    public String getWeChatPayQRCode(String productName, String sysOrderId, String totalFee, String attach) throws Exception {
         int attachLength = attach.getBytes(StandardCharsets.UTF_8).length;
-        if(attachLength>128){
+        if (attachLength > 128) {
             logger.error("附加数据大小超过128个字节！");
             throw WXException.OPERATION_FAIL;
         }
@@ -243,16 +244,16 @@ public class PayUtil {
         // 请求body参数
         String reqdata = "{"
                 + "\"amount\": {"
-                + "\"total\": "+totalFee+","
+                + "\"total\": " + totalFee + ","
                 + "\"currency\": \"CNY\""
                 + "},"
-                + "\"mchid\": \""+init.getMchId()+"\","
-                + "\"description\": \""+productName+"\","
-                + "\"notify_url\": \""+init.getNotifyUrl()+"\","
-                + "\"attach\": \""+attach+"\","
-                + "\"out_trade_no\": \""+sysOrderId+"\","
-                + "\"appid\": \""+init.getAppId()+"\"}";
-        StringEntity entity = new StringEntity(reqdata,"utf-8");
+                + "\"mchid\": \"" + init.getMchId() + "\","
+                + "\"description\": \"" + productName + "\","
+                + "\"notify_url\": \"" + init.getNotifyUrl() + "\","
+                + "\"attach\": \"" + attach + "\","
+                + "\"out_trade_no\": \"" + sysOrderId + "\","
+                + "\"appid\": \"" + init.getAppId() + "\"}";
+        StringEntity entity = new StringEntity(reqdata, "utf-8");
         entity.setContentType("application/json");
         httpPost.setEntity(entity);
         httpPost.setHeader("Accept", "application/json");
@@ -276,6 +277,7 @@ public class PayUtil {
 
     /**
      * 请求微信,关闭订单
+     *
      * @param orderId 订单id
      * @return 是否关闭成功
      * 官方文档描述
@@ -301,43 +303,45 @@ public class PayUtil {
      * 400	APPID_MCHID_NOT_MATCH	appid和mch_id不匹配	请确认appid和mch_id是否匹配
      * 403	ACCOUNTERROR	账号异常	用户账号异常，无需更多操作
      */
-    public Boolean closeOrder(String orderId) throws Exception{
+    public Boolean closeOrder(String orderId) throws Exception {
         PayUtilInItRes init = init(WXCommonConst.H5_SITE);
         //请求URL
-        HttpPost httpPost = new HttpPost(WX_CLOSE_ORDER_URL.replace("{out_trade_no}",orderId));
+        HttpPost httpPost = new HttpPost(WX_CLOSE_ORDER_URL.replace("{out_trade_no}", orderId));
         // 请求body参数
-        String reqdata = "{\"mchid\": \""+init.getMchId()+"\"}";
-        StringEntity entity = new StringEntity(reqdata,"utf-8");
+        String reqdata = "{\"mchid\": \"" + init.getMchId() + "\"}";
+        StringEntity entity = new StringEntity(reqdata, "utf-8");
         entity.setContentType("application/json");
         httpPost.setEntity(entity);
         httpPost.setHeader("Accept", "application/json");
         CloseableHttpClient wxChatHttpClient = init.getWxChatHttpClient();
         try (CloseableHttpResponse response = wxChatHttpClient.execute(httpPost)) {
             int statusCode = response.getStatusLine().getStatusCode();
-            if(statusCode==204){
+            if (statusCode == 204) {
                 return true;
             }
             Map map = JsonUtils.readValue(response.getEntity().getContent(), Map.class);
             String code = map.get("code").toString();
-            if("ORDER_CLOSED".equals(code) || "ORDERNOTEXIST".equals(code)){
+            if ("ORDER_CLOSED".equals(code) || "ORDERNOTEXIST".equals(code)) {
                 return true;
             }
-        }catch (Exception e){
-            logger.error(e.getMessage(),e);
-        }finally {
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        } finally {
             wxChatHttpClient.close();
         }
         return false;
     }
+
     /**
      * 调起微信收银台的js请求参数
+     *
      * @param prepay_id 预支付id
      * @return 源数据和签名后的数据
      * @throws Exception 异常
      */
     public PayRequestParamDTO getPayRequestParam(String prepay_id, String site) throws Exception {
         IWxPayConfig wxPayConfig = wxPayConfigService.findWxPayConfigById(WXCommonConst.siteVerity(site));
-        if(wxPayConfig==null){
+        if (wxPayConfig == null) {
             logger.error("未找到微信支付配置! wxPayConfig is null!");
             return null;
         }
@@ -345,13 +349,13 @@ public class PayUtil {
         dto.setAppId(wxPayConfig.getAppId());
         dto.setPartenrid(wxPayConfig.getMchId());
         dto.setPrepayid(prepay_id);
-        dto.setTimeStamp(System.currentTimeMillis()+"");
-        dto.setNonceStr(UUID.randomUUID().toString().replace("-",""));
+        dto.setTimeStamp(System.currentTimeMillis() + "");
+        dto.setNonceStr(UUID.randomUUID().toString().replace("-", ""));
         dto.setSignType(ALGORITHMS);
-        if (WXCommonConst.APP_SITE.equals(site)){
+        if (WXCommonConst.APP_SITE.equals(site)) {
             dto.setPackageStr(prepay_id);
-        }else {
-            dto.setPackageStr("prepay_id="+prepay_id);
+        } else {
+            dto.setPackageStr("prepay_id=" + prepay_id);
         }
 
         String builder = dto.getAppId() + "\n" +
@@ -366,16 +370,17 @@ public class PayUtil {
 
     /**
      * 查询订单
+     *
      * @param orderId 订单id
      * @return
      */
-    public Map<String,String> finOrder(String orderId) throws Exception {
+    public Map<String, String> finOrder(String orderId) throws Exception {
         PayUtilInItRes init = init(WXCommonConst.H5_SITE);
-        String url = WX_FIND_ORDER_URL.replace("{out_trade_no}",orderId).replace("{mchid}",init.getMchId());
+        String url = WX_FIND_ORDER_URL.replace("{out_trade_no}", orderId).replace("{mchid}", init.getMchId());
         HttpGet httpGet = new HttpGet(url);
         httpGet.setHeader("Accept", "application/json");
         CloseableHttpClient wxChatHttpClient = init.getWxChatHttpClient();
-        try (CloseableHttpResponse response = wxChatHttpClient.execute(httpGet)){
+        try (CloseableHttpResponse response = wxChatHttpClient.execute(httpGet)) {
             int statusCode = response.getStatusLine().getStatusCode();
             if (statusCode == 200) {
                 return JsonUtils.readValue(response.getEntity().getContent(), Map.class);
@@ -403,7 +408,7 @@ public class PayUtil {
         return null;
     }
 
-    private X509Certificate getCertificate(String certPath){
+    private X509Certificate getCertificate(String certPath) {
         try {
             InputStream is = new FileInputStream(certPath);
             CertificateFactory cf = CertificateFactory.getInstance(X509);
@@ -423,7 +428,7 @@ public class PayUtil {
 }
 
 //规避单例bean公用成员变量
-class PayUtilInItRes{
+class PayUtilInItRes {
     private CloseableHttpClient wxChatHttpClient;
     private String appId;
     private String mchId;

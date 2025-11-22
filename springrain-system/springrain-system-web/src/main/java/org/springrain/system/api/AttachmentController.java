@@ -1,5 +1,6 @@
 package org.springrain.system.api;
 
+import jakarta.annotation.Resource;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -16,7 +17,6 @@ import org.springrain.system.entity.Attachment;
 import org.springrain.system.service.IAttachmentService;
 import org.springrain.system.service.IUserRoleOrgService;
 
-import jakarta.annotation.Resource;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;

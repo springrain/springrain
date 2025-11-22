@@ -7,10 +7,10 @@ package org.springrain.weixin.exception;
  * @version: 1.0
  */
 public class WXException extends RuntimeException {
-    public WXException(String message) {
-        super(message);
-    }
     public static final Exception OPERATION_FAIL = new WXException("操作失败!");
     public static final Exception ORDER_NOT_EXIST = new WXException("订单不存在!");
     public static final Exception ORDER_ERR = new WXException("订单异常");
+    public WXException(String message) {
+        super(message);
+    }
 }

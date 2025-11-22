@@ -237,10 +237,10 @@ public class SecUtils {
             while (inputLen - offSet > 0) {
                 if (inputLen - offSet > block) {
                     cache = cipher.doFinal(data, offSet, block);
-                    offSet+=block;
+                    offSet += block;
                 } else {
                     cache = cipher.doFinal(data, offSet, inputLen - offSet);
-                    offSet=inputLen;
+                    offSet = inputLen;
                 }
                 out.write(cache, 0, cache.length);
                 // i++;

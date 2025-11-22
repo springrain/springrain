@@ -1,5 +1,7 @@
 package org.springrain.weixin.web;
 
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,9 +13,6 @@ import org.springrain.weixin.sdk.common.ApiResult;
 import org.springrain.weixin.sdk.common.wxconfig.IWxMpConfig;
 import org.springrain.weixin.sdk.open.SnsApi;
 import org.springrain.weixin.service.IWxMpConfigService;
-
-import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping(value = "/mp/mpautologin/{siteId}")

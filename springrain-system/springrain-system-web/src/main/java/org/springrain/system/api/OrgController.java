@@ -1,5 +1,6 @@
 package org.springrain.system.api;
 
+import jakarta.annotation.Resource;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +14,6 @@ import org.springrain.system.entity.Org;
 import org.springrain.system.service.IDicDataService;
 import org.springrain.system.service.IOrgService;
 
-import jakarta.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

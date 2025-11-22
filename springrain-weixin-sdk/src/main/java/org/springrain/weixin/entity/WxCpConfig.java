@@ -1,11 +1,10 @@
 package org.springrain.weixin.entity;
 
-import org.springrain.frame.entity.BaseEntity;
-import org.springrain.weixin.sdk.common.wxconfig.IWxCpConfig;
-
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
+import org.springrain.frame.entity.BaseEntity;
+import org.springrain.weixin.sdk.common.wxconfig.IWxCpConfig;
 
 @Table(name = "wx_cpconfig")
 public class WxCpConfig extends BaseEntity implements IWxCpConfig {

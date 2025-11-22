@@ -1,5 +1,6 @@
 package org.springrain.system.api;
 
+import jakarta.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,7 +13,6 @@ import org.springrain.system.base.BaseController;
 import org.springrain.system.entity.UserPlatformInfos;
 import org.springrain.system.service.IUserPlatformInfosService;
 
-import jakarta.annotation.Resource;
 import java.util.Arrays;
 import java.util.List;
 

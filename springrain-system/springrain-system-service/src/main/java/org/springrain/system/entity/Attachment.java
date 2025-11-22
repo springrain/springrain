@@ -1,13 +1,12 @@
 package org.springrain.system.entity;
 
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.springrain.frame.annotation.WhereSQL;
 import org.springrain.frame.entity.BaseEntity;
-
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 
 
 /**

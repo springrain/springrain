@@ -17,18 +17,18 @@ import org.springrain.rpc.grpcimpl.GrpcCommonResponse;
  */
 public class ForySerializeUtils {
 
-   // static FSTConfiguration conf = FSTConfiguration.createDefaultConfiguration();
-   private static ThreadSafeFory fory = Fory.builder().withLanguage(Language.JAVA)
-           // Allow to deserialize objects unknown types,more flexible but less secure.
-           .requireClassRegistration(false)
-           .withDeserializeNonexistentClass(true)
-           .withCompatibleMode(CompatibleMode.COMPATIBLE)
-           .withRefTracking(true)
-           // .withAsyncCompilation(true)
+    // static FSTConfiguration conf = FSTConfiguration.createDefaultConfiguration();
+    private static ThreadSafeFory fory = Fory.builder().withLanguage(Language.JAVA)
+            // Allow to deserialize objects unknown types,more flexible but less secure.
+            .requireClassRegistration(false)
+            .withDeserializeNonexistentClass(true)
+            .withCompatibleMode(CompatibleMode.COMPATIBLE)
+            .withRefTracking(true)
+            // .withAsyncCompilation(true)
 
-           // 全局变量使用线程安全的模式
+            // 全局变量使用线程安全的模式
             .buildThreadSafeFory();
-           //.build();
+    //.build();
 
     public static GrpcCommonResponse deserialize(CommonResponse response) {
         GrpcCommonResponse grpcCommonResponse = (GrpcCommonResponse) fory.deserialize(response.getResponse().toByteArray());

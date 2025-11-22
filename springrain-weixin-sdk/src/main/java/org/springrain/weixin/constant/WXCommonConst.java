@@ -2,8 +2,8 @@ package org.springrain.weixin.constant;
 
 
 /**
- * @descriptions: 微信配置类
  * @author xiaohua
+ * @descriptions: 微信配置类
  * @date 2022-12-23 17:46:21
  */
 public class WXCommonConst {
@@ -19,8 +19,8 @@ public class WXCommonConst {
     /**
      * 验证site参数
      */
-    public static String siteVerity(String site){
-        if(WXCommonConst.H5_SITE.equals(site) || WXCommonConst.APP_SITE.equals(site)){
+    public static String siteVerity(String site) {
+        if (WXCommonConst.H5_SITE.equals(site) || WXCommonConst.APP_SITE.equals(site)) {
             return site;
         }
         return H5_SITE;

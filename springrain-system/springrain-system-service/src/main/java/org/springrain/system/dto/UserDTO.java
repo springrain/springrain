@@ -1,6 +1,8 @@
 package org.springrain.system.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.Id;
+import jakarta.persistence.Transient;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -9,8 +11,6 @@ import org.springrain.system.entity.Org;
 import org.springrain.system.entity.Role;
 import org.springrain.system.entity.User;
 
-import jakarta.persistence.Id;
-import jakarta.persistence.Transient;
 import java.io.Serializable;
 import java.util.List;
 

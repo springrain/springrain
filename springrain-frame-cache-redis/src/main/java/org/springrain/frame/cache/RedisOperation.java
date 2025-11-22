@@ -7,6 +7,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import jakarta.annotation.Resource;
+
 import java.util.concurrent.TimeUnit;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +44,7 @@ public class RedisOperation {
         }
 
         try {
-            Boolean lock = redisTemplate.opsForValue().setIfAbsent(GlobalStatic.projectKeyPrefix+key, System.currentTimeMillis() + expireMilli, expireMilli, TimeUnit.MILLISECONDS);
+            Boolean lock = redisTemplate.opsForValue().setIfAbsent(GlobalStatic.projectKeyPrefix + key, System.currentTimeMillis() + expireMilli, expireMilli, TimeUnit.MILLISECONDS);
             return lock;
         } catch (Exception e) {
             logger.error("locking error", e);
@@ -64,7 +65,7 @@ public class RedisOperation {
             return false;
         }
         try {
-            redisTemplate.delete(GlobalStatic.projectKeyPrefix+key);
+            redisTemplate.delete(GlobalStatic.projectKeyPrefix + key);
             return true;
 
         } catch (Throwable e) {
@@ -81,7 +82,7 @@ public class RedisOperation {
      * @return
      */
     public Long getAtomicLong(String name) {
-        Long increment = redisTemplate.opsForValue().increment(GlobalStatic.projectKeyPrefix+name);
+        Long increment = redisTemplate.opsForValue().increment(GlobalStatic.projectKeyPrefix + name);
         return increment;
     }
 
@@ -93,7 +94,7 @@ public class RedisOperation {
      * @return
      */
     public Long getAtomicLong(String name, Long initValue) {
-        Long increment = redisTemplate.opsForValue().increment(GlobalStatic.projectKeyPrefix+name, initValue);
+        Long increment = redisTemplate.opsForValue().increment(GlobalStatic.projectKeyPrefix + name, initValue);
         return increment;
 
     }
@@ -111,7 +112,7 @@ public class RedisOperation {
         if (StringUtils.isBlank(setName) || value == null) {
             return null;
         }
-        Long add = redisTemplate.opsForSet().add(GlobalStatic.projectKeyPrefix+setName, value);
+        Long add = redisTemplate.opsForSet().add(GlobalStatic.projectKeyPrefix + setName, value);
         return add;
     }
 
@@ -125,7 +126,7 @@ public class RedisOperation {
         if (StringUtils.isBlank(setName)) {
             return null;
         }
-        return redisTemplate.opsForSet().pop(GlobalStatic.projectKeyPrefix+setName);
+        return redisTemplate.opsForSet().pop(GlobalStatic.projectKeyPrefix + setName);
     }
 
 
@@ -140,32 +141,34 @@ public class RedisOperation {
         if (StringUtils.isBlank(setName) || StringUtils.isBlank(value)) {
             return null;
         }
-        return redisTemplate.opsForSet().remove(GlobalStatic.projectKeyPrefix+setName, value);
+        return redisTemplate.opsForSet().remove(GlobalStatic.projectKeyPrefix + setName, value);
     }
 
     /**
      * Redis Sismember 命令判断成员元素是否是集合的成员
+     *
      * @param setName
      * @param value
      * @return
      */
-    public Boolean setsisMember(String setName,String value){
-        if (StringUtils.isBlank(setName)||StringUtils.isBlank(value)){
+    public Boolean setsisMember(String setName, String value) {
+        if (StringUtils.isBlank(setName) || StringUtils.isBlank(value)) {
             return null;
         }
-        return redisTemplate.opsForSet().isMember(setName,value);
+        return redisTemplate.opsForSet().isMember(setName, value);
     }
 
     /**
      * 按照key删除
+     *
      * @param key
      * @return
      */
-    public boolean deleteKey(String key){
-        if (StringUtils.isBlank(key)){
+    public boolean deleteKey(String key) {
+        if (StringUtils.isBlank(key)) {
             return false;
         }
-        return redisTemplate.delete(GlobalStatic.projectKeyPrefix+key);
+        return redisTemplate.delete(GlobalStatic.projectKeyPrefix + key);
     }
 
 

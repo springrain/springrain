@@ -233,7 +233,7 @@ public class WxConsts {
     }};
     ///////////////////////
     // oauth2网页授权的scope
-    ///////////////////////
+    /// ////////////////////
     //微信API的访问协议,为了以后方便处理特殊情况
     public static String mpapiurl = "https://api.weixin.qq.com";
     //微信API的访问协议,为了以后方便处理特殊情况

@@ -1,5 +1,6 @@
 package org.springrain.system.dao;
 
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Lookup;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -11,8 +12,6 @@ import org.springrain.frame.dao.dialect.IDialect;
 import org.springrain.frame.entity.AuditLog;
 import org.springrain.frame.util.SpringUtils;
 import org.springrain.rpc.sessionuser.SessionUser;
-
-import jakarta.annotation.Resource;
 
 /**
  * springrain项目的基础Dao,代理demo数据库

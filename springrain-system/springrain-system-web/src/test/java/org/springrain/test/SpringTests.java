@@ -1,5 +1,6 @@
 package org.springrain.test;
 
+import jakarta.annotation.Resource;
 import org.apache.commons.collections4.CollectionUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,7 +17,6 @@ import org.springrain.system.service.IOrgService;
 import org.springrain.system.service.IUserRoleMenuService;
 import org.springrain.system.service.IUserRoleOrgService;
 
-import jakarta.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

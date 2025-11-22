@@ -1,5 +1,6 @@
 package org.springrain.system.service.impl;
 
+import jakarta.annotation.Resource;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -17,7 +18,6 @@ import org.springrain.system.entity.*;
 import org.springrain.system.service.IRoleService;
 import org.springrain.system.service.IUserRoleOrgService;
 
-import jakarta.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

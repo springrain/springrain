@@ -1,5 +1,8 @@
 package org.springrain.system.interceptor;
 
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Bean;
@@ -23,9 +26,6 @@ import org.springrain.system.service.IRoleService;
 import org.springrain.system.service.IUserRoleMenuService;
 import org.springrain.system.service.IUserService;
 
-import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 import java.util.Date;
 import java.util.List;

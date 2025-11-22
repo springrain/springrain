@@ -25,7 +25,7 @@ public class BaseErrorController extends AbstractErrorController {
 
     public BaseErrorController(org.springframework.boot.webmvc.error.ErrorAttributes errorAttributes) {
         super(errorAttributes);
-        this.errorAttributes=errorAttributes;
+        this.errorAttributes = errorAttributes;
     }
 
 
@@ -53,7 +53,6 @@ public class BaseErrorController extends AbstractErrorController {
         }
         return returnDatas;
     }
-
 
 
 }

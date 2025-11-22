@@ -28,13 +28,7 @@ import java.util.List;
 public class JsonUtils {
 
     private static final Logger logger = LoggerFactory.getLogger(JsonUtils.class);
-
-    private JsonUtils() {
-        throw new IllegalAccessError("工具类不能实例化");
-    }
-
     private final static JsonFactory jsonFactory = JsonFactory.builder().characterEscapes(new HTMLCharacterEscapes()).build();
-
     private final static JsonMapper jsonMapper = JsonMapper.builder(jsonFactory)
             // 1. 序列化包含策略 (修正了方法名和参数)
             //.changeDefaultPropertyInclusion((UnaryOperator<JsonInclude.Value>) JsonInclude.Value.construct(JsonInclude.Include.NON_NULL, JsonInclude.Include.NON_NULL))
@@ -64,8 +58,11 @@ public class JsonUtils {
 
             .build();
 
+    private JsonUtils() {
+        throw new IllegalAccessError("工具类不能实例化");
+    }
 
-    public static JsonMapper getJsonMapper(){
+    public static JsonMapper getJsonMapper() {
         return jsonMapper;
     }
 
