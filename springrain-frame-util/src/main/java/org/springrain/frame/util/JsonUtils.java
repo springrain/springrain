@@ -5,16 +5,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.json.JsonParseException;
 import tools.jackson.core.JacksonException;
+import tools.jackson.core.json.JsonFactory;
 import tools.jackson.core.json.JsonReadFeature;
 import tools.jackson.databind.DeserializationFeature;
 import tools.jackson.databind.JavaType;
 import tools.jackson.databind.SerializationFeature;
 import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.module.SimpleModule;
 
 import java.io.InputStream;
 import java.io.Reader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,9 +33,9 @@ public class JsonUtils {
         throw new IllegalAccessError("工具类不能实例化");
     }
 
+    private final static JsonFactory jsonFactory = JsonFactory.builder().characterEscapes(new HTMLCharacterEscapes()).build();
 
-
-    private final static JsonMapper jsonMapper = JsonMapper.builder()
+    private final static JsonMapper jsonMapper = JsonMapper.builder(jsonFactory)
             // 1. 序列化包含策略 (修正了方法名和参数)
             //.changeDefaultPropertyInclusion((UnaryOperator<JsonInclude.Value>) JsonInclude.Value.construct(JsonInclude.Include.NON_NULL, JsonInclude.Include.NON_NULL))
 
@@ -52,11 +55,12 @@ public class JsonUtils {
             // 5. 日期格式
             .defaultDateFormat(new SimpleDateFormat(DateUtils.DATETIME_FORMAT))
 
+
             // 6. 工厂配置 (字符转义)
             // .jsonFactory(factoryBuilder -> {factoryBuilder.characterEscapes(new HTMLCharacterEscapes());})
 
             // 7. 注册模块
-            // .addModule(customDateDeserializerModule)
+            .addModule(new SimpleModule().addDeserializer(Date.class, new JacksonDateDeserializer()))
 
             .build();
 
