@@ -123,6 +123,11 @@ spring:
           max-active: 1024
           min-idle: 200
 
+  threads:
+    virtual:
+      enabled: true  ###开启虚拟线程
+
+
 
 logging:
   config: classpath:logback-springrain.xml
