@@ -1,9 +1,9 @@
 package org.springrain.frame.util;
 
 import org.apache.fory.Fory;
+import org.apache.fory.ThreadSafeFory;
 import org.apache.fory.config.CompatibleMode;
 import org.apache.fory.config.Language;
-import org.apache.fory.ThreadSafeFory;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
 /**
