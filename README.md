@@ -2,8 +2,7 @@
 
 * springrain是spring/springboot的开发范例.基于K8S + apisix/istio 实现云原生微服务.
 * springrain自带代码生成器,能够生成对表的增删改查的逻辑代码.
-*
-springrain是标准Maven项目,只依赖springboot,没有hibernate,struts,ibatis,数据库调优可以使用druid输出慢sql,比分析xml中的语句更直观,springrain所有的sql语句都使用Finder封装管理,只要查看Finder的引用即可.
+* springrain是标准Maven项目,只依赖springboot,没有hibernate,struts,ibatis,数据库调优可以使用druid输出慢sql,比分析xml中的语句更直观,springrain所有的sql语句都使用Finder封装管理,只要查看Finder的引用即可.
 
 ## 前后分离
 
@@ -43,8 +42,7 @@ springrain是标准Maven项目,只依赖springboot,没有hibernate,struts,ibatis
 ## 体验单体到分层切换
 
 * 修改springrain-system-web依赖springrain-system-service,不再依赖springrain-system-serviceimpl.
-*
-springrain-system-serviceimpl添加springrain-grpc-server依赖,启用org.springrain.SystemServiceImplApplication的@SpringBootApplication注解
+* springrain-system-serviceimpl添加springrain-grpc-server依赖,启用org.springrain.SystemServiceImplApplication的@SpringBootApplication注解
 * 启动seata-server服务端.seata客户端的配置在项目的resources/file.conf里,默认配置是 default.grouplist = "127.0.0.1:8091"
 * 启动springrain-system-serviceimpl
 * 启动springrain-system-web

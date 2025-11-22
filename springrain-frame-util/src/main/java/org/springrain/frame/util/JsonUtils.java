@@ -1,6 +1,7 @@
 package org.springrain.frame.util;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.json.JsonParseException;
@@ -28,18 +29,19 @@ import java.util.List;
 public class JsonUtils {
 
     private static final Logger logger = LoggerFactory.getLogger(JsonUtils.class);
+
+    // 自定义字符串转义
     private final static JsonFactory jsonFactory = JsonFactory.builder().characterEscapes(new HTMLCharacterEscapes()).build();
+
     private final static JsonMapper jsonMapper = JsonMapper.builder(jsonFactory)
-            // 1. 序列化包含策略 (修正了方法名和参数)
-            //.changeDefaultPropertyInclusion((UnaryOperator<JsonInclude.Value>) JsonInclude.Value.construct(JsonInclude.Include.NON_NULL, JsonInclude.Include.NON_NULL))
+            // 1. 不序列化null值
+            .changeDefaultPropertyInclusion(incl -> incl.withValueInclusion(JsonInclude.Include.NON_NULL))
 
             // 2. 反序列化配置 (确保 DeserializationFeature 导包正确)
             .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
 
             // 3. 序列化配置 (确保 SerializationFeature 导包正确)
             .disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
-
-
             .enable(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES)
 
             // 4. JSON 解析特性 (原 ALLOW_UNQUOTED_FIELD_NAMES 移到了 JsonReadFeature)
@@ -49,8 +51,7 @@ public class JsonUtils {
             // 5. 日期格式
             .defaultDateFormat(new SimpleDateFormat(DateUtils.DATETIME_FORMAT))
 
-
-            // 6. 工厂配置 (字符转义)
+            // 6. 自定义字符转义
             // .jsonFactory(factoryBuilder -> {factoryBuilder.characterEscapes(new HTMLCharacterEscapes());})
 
             // 7. 注册模块
