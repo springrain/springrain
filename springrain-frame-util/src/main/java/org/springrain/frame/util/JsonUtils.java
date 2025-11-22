@@ -1,16 +1,19 @@
 package org.springrain.frame.util;
 
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.json.JsonParseException;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.json.JsonReadFeature;
+import tools.jackson.databind.DeserializationFeature;
+import tools.jackson.databind.JavaType;
+import tools.jackson.databind.SerializationFeature;
+import tools.jackson.databind.json.JsonMapper;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,11 +23,46 @@ import java.util.List;
  * @author caomei
  */
 public class JsonUtils {
-    private final static ObjectMapper mapper = new FrameObjectMapper();
+
     private static final Logger logger = LoggerFactory.getLogger(JsonUtils.class);
 
     private JsonUtils() {
         throw new IllegalAccessError("工具类不能实例化");
+    }
+
+
+
+    private final static JsonMapper jsonMapper = JsonMapper.builder()
+            // 1. 序列化包含策略 (修正了方法名和参数)
+            //.changeDefaultPropertyInclusion((UnaryOperator<JsonInclude.Value>) JsonInclude.Value.construct(JsonInclude.Include.NON_NULL, JsonInclude.Include.NON_NULL))
+
+            // 2. 反序列化配置 (确保 DeserializationFeature 导包正确)
+            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+
+            // 3. 序列化配置 (确保 SerializationFeature 导包正确)
+            .disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
+
+
+            .enable(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES)
+
+            // 4. JSON 解析特性 (原 ALLOW_UNQUOTED_FIELD_NAMES 移到了 JsonReadFeature)
+            .enable(JsonReadFeature.ALLOW_UNQUOTED_PROPERTY_NAMES)
+            .enable(JsonReadFeature.ALLOW_SINGLE_QUOTES)
+
+            // 5. 日期格式
+            .defaultDateFormat(new SimpleDateFormat(DateUtils.DATETIME_FORMAT))
+
+            // 6. 工厂配置 (字符转义)
+            // .jsonFactory(factoryBuilder -> {factoryBuilder.characterEscapes(new HTMLCharacterEscapes());})
+
+            // 7. 注册模块
+            // .addModule(customDateDeserializerModule)
+
+            .build();
+
+
+    public static JsonMapper getJsonMapper(){
+        return jsonMapper;
     }
 
     /**
@@ -36,12 +74,8 @@ public class JsonUtils {
     public static String writeValueAsString(Object o) {
         String str = null;
         try {
-            str = mapper.writeValueAsString(o);
-        } catch (JsonGenerationException e) {
-            logger.error(e.getMessage(), e);
-        } catch (JsonMappingException e) {
-            logger.error(e.getMessage(), e);
-        } catch (IOException e) {
+            str = jsonMapper.writeValueAsString(o);
+        } catch (JacksonException e) {
             logger.error(e.getMessage(), e);
         }
         return str;
@@ -58,12 +92,8 @@ public class JsonUtils {
     public static <T> T readValue(String content, Class<T> clazz) {
         T t = null;
         try {
-            t = mapper.readValue(content, clazz);
+            t = jsonMapper.readValue(content, clazz);
         } catch (JsonParseException e) {
-            logger.error(e.getMessage(), e);
-        } catch (JsonMappingException e) {
-            logger.error(e.getMessage(), e);
-        } catch (IOException e) {
             logger.error(e.getMessage(), e);
         }
         return t;
@@ -81,12 +111,8 @@ public class JsonUtils {
     public static <T> T readValue(Reader reader, Class<T> clazz) {
         T t = null;
         try {
-            t = mapper.readValue(reader, clazz);
+            t = jsonMapper.readValue(reader, clazz);
         } catch (JsonParseException e) {
-            logger.error(e.getMessage(), e);
-        } catch (JsonMappingException e) {
-            logger.error(e.getMessage(), e);
-        } catch (IOException e) {
             logger.error(e.getMessage(), e);
         }
         return t;
@@ -103,12 +129,8 @@ public class JsonUtils {
     public static <T> T readValue(InputStream stream, Class<T> clazz) {
         T t = null;
         try {
-            t = mapper.readValue(stream, clazz);
+            t = jsonMapper.readValue(stream, clazz);
         } catch (JsonParseException e) {
-            logger.error(e.getMessage(), e);
-        } catch (JsonMappingException e) {
-            logger.error(e.getMessage(), e);
-        } catch (IOException e) {
             logger.error(e.getMessage(), e);
         }
         return t;
@@ -137,12 +159,8 @@ public class JsonUtils {
         Object o = null;
 
         try {
-            o = mapper.readValue(content, getCollectionType(collectionClass, clazz));
+            o = jsonMapper.readValue(content, getCollectionType(collectionClass, clazz));
         } catch (JsonParseException e) {
-            logger.error(e.getMessage(), e);
-        } catch (JsonMappingException e) {
-            logger.error(e.getMessage(), e);
-        } catch (IOException e) {
             logger.error(e.getMessage(), e);
         }
 
@@ -150,7 +168,7 @@ public class JsonUtils {
     }
 
     private static JavaType getCollectionType(Class<?> collectionClass, Class<?>... elementClasses) {
-        return mapper.getTypeFactory().constructParametricType(collectionClass, elementClasses);
+        return jsonMapper.getTypeFactory().constructParametricType(collectionClass, elementClasses);
     }
 
 }

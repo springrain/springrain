@@ -2,21 +2,19 @@ package org.springrain.system.config;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.SearchStrategy;
-import org.springframework.boot.web.servlet.error.ErrorAttributes;
-import org.springframework.boot.web.servlet.error.ErrorController;
+import org.springframework.boot.webmvc.error.ErrorAttributes;
+import org.springframework.boot.webmvc.error.ErrorController;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.converter.ByteArrayHttpMessageConverter;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.ResourceHttpMessageConverter;
+import org.springframework.http.converter.HttpMessageConverters;
 import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.json.JacksonJsonHttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springrain.frame.util.FrameObjectMapper;
+import org.springrain.frame.util.JsonUtils;
 import org.springrain.system.base.BaseErrorController;
 
 import java.nio.charset.Charset;
-import java.util.List;
+import java.nio.charset.StandardCharsets;
 
 /**
  * MVC的配置,只扫描@Controller注解,带包名命名,避免混淆同名问题.
@@ -28,7 +26,7 @@ import java.util.List;
 //@ComponentScan(basePackages = {"${springrain.basepackagepath}"}, nameGenerator = SpringMVCAnnotationBeanNameGenerator.class, useDefaultFilters = false, includeFilters = {@Filter(type = FilterType.ANNOTATION, value = Controller.class)})
 public class SpringMVCConfig implements WebMvcConfigurer {
 
-    Charset charset = Charset.forName("UTF-8");
+    Charset charset = StandardCharsets.UTF_8;
 
     /*
      * @Bean public RequestMappingHandlerMapping customMappingHandlerMapping() {
@@ -42,11 +40,9 @@ public class SpringMVCConfig implements WebMvcConfigurer {
      * 重新注册自定义的消息转化
      */
     @Override
-    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        converters.add(mappingJackson2HttpMessageConverter());
-        converters.add(stringHttpMessageConverter());
-        converters.add(resourceHttpMessageConverter());
-        converters.add(byteArrayHttpMessageConverter());
+    public void configureMessageConverters(HttpMessageConverters.ServerBuilder builder) {
+        builder.withJsonConverter(jacksonJsonHttpMessageConverter());
+        builder.withStringConverter(stringHttpMessageConverter());
 
     }
 
@@ -127,31 +123,20 @@ public class SpringMVCConfig implements WebMvcConfigurer {
      * @return
      */
 
-    @Bean("mappingJackson2HttpMessageConverter")
-    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
-        MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
-        mappingJackson2HttpMessageConverter.setDefaultCharset(charset);
-        mappingJackson2HttpMessageConverter.setObjectMapper(new FrameObjectMapper());
-        return mappingJackson2HttpMessageConverter;
+    @Bean("jacksonJsonHttpMessageConverter")
+    public JacksonJsonHttpMessageConverter jacksonJsonHttpMessageConverter() {
+        JacksonJsonHttpMessageConverter jacksonJsonHttpMessageConverter = new JacksonJsonHttpMessageConverter(JsonUtils.getJsonMapper());
+        jacksonJsonHttpMessageConverter.setDefaultCharset(charset);
+        //jacksonJsonHttpMessageConverter.setObjectMapper(new FrameObjectMapper());
+        return jacksonJsonHttpMessageConverter;
     }
 
     @Bean("stringHttpMessageConverter")
     public StringHttpMessageConverter stringHttpMessageConverter() {
-        StringHttpMessageConverter stringHttpMessageConverter = new StringHttpMessageConverter(charset);
-        return stringHttpMessageConverter;
+        return new StringHttpMessageConverter(charset);
     }
 
-    @Bean("resourceHttpMessageConverter")
-    public ResourceHttpMessageConverter resourceHttpMessageConverter() {
-        ResourceHttpMessageConverter resourceHttpMessageConverter = new ResourceHttpMessageConverter();
-        return resourceHttpMessageConverter;
-    }
 
-    @Bean("byteArrayHttpMessageConverter")
-    public ByteArrayHttpMessageConverter byteArrayHttpMessageConverter() {
-        ByteArrayHttpMessageConverter byteArrayHttpMessageConverter = new ByteArrayHttpMessageConverter();
-        return byteArrayHttpMessageConverter;
-    }
 
 
     /**
