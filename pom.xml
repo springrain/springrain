@@ -16,7 +16,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.0.0</version>
+        <version>4.0.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -41,7 +41,7 @@
         <commons-codec.version>1.20.0</commons-codec.version>
         <commons-beanutils.version>1.11.0</commons-beanutils.version>
         <commons-fileupload.version>1.6.0</commons-fileupload.version>
-        <commons-text.version>1.14.0</commons-text.version>
+        <commons-text.version>1.15.0</commons-text.version>
         <commons-lang3.version>3.20.0</commons-lang3.version>
         <!--
         <jakarta.persistence.version>3.1.0</jakarta.persistence.version>
@@ -50,13 +50,13 @@
         -->
         <javax.annotation.version>1.3.2</javax.annotation.version>
         <!-- lucene版本和es的依赖版本最好保持一致,避免冲突 -->
-        <lucene.version>10.3.1</lucene.version>
-        <elasticsearch.client.version>9.2.1</elasticsearch.client.version>
+        <lucene.version>10.3.2</lucene.version>
+        <elasticsearch.client.version>9.2.3</elasticsearch.client.version>
 
         <!-- 建议使用 redis stream实现MQ,比较简单 -->
-        <rocketmq.client.version>5.3.3</rocketmq.client.version>
+        <rocketmq.client.version>5.3.4</rocketmq.client.version>
         <jxl.version>2.6.12</jxl.version>
-        <poi.version>5.5.0</poi.version>
+        <poi.version>5.5.1</poi.version>
         <!--
         <jodconverter.version>2.2.1</jodconverter.version>
         <gson.version>2.8.5</gson.version>
@@ -69,21 +69,21 @@
         <io.protostuff.version>1.8.0</io.protostuff.version>
         -->
 
-        <zxing.version>3.5.3</zxing.version>
+        <zxing.version>3.5.4</zxing.version>
         <jsoup.version>1.21.2</jsoup.version>
         <xstream.version>1.4.21</xstream.version>
         <druid-spring-boot-starter.version>1.2.27</druid-spring-boot-starter.version>
-        <clickhouse-jdbc.version>0.9.4</clickhouse-jdbc.version>
+        <clickhouse-jdbc.version>0.9.5</clickhouse-jdbc.version>
         <jwt.version>4.5.0</jwt.version>
 
         <!--3.x版本依赖jdk 14 -->
         <!--
         <fst.version>3.0.4-jdk17</fst.version>
         -->
-        <fory.version>0.13.1</fory.version>
+        <fory.version>0.14.0</fory.version>
         <guava.version>33.5.0-jre</guava.version>
 
-        <bcprov.version>1.82</bcprov.version>
+        <bcprov.version>1.83</bcprov.version>
 
         <!-- seata分布式事务 -->
         <seata.version>2.5.0</seata.version>
