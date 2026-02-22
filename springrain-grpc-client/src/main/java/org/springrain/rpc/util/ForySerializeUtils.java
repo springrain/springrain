@@ -21,7 +21,7 @@ public class ForySerializeUtils {
     private static ThreadSafeFory fory = Fory.builder().withLanguage(Language.JAVA)
             // Allow to deserialize objects unknown types,more flexible but less secure.
             .requireClassRegistration(false)
-            .withDeserializeNonexistentClass(true)
+            .withDeserializeUnknownClass(true)
             .withCompatibleMode(CompatibleMode.COMPATIBLE)
             .withRefTracking(true)
             // .withAsyncCompilation(true)
