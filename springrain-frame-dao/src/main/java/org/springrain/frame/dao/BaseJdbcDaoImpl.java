@@ -22,6 +22,8 @@ import org.springrain.frame.entity.AuditLog;
 import org.springrain.frame.entity.BaseMapEntity;
 import org.springrain.frame.entity.IBaseEntity;
 import org.springrain.frame.util.*;
+import org.springrain.frame.util.sqlparser.SqlPart;
+import org.springrain.frame.util.sqlparser.SqlSpan;
 
 import java.util.*;
 
@@ -297,6 +299,9 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
     public <T> List<T> queryForList(Finder finder, Class<T> clazz, Page page) throws Exception {
         String pageSql = getPageSql(page, finder);
         if (pageSql == null) {
+            if (page != null && page.getSelectpagecount() && page.getTotalCount() != null && page.getTotalCount() == 0) {
+                return Collections.emptyList();
+            }
             return null;
         }
 
@@ -333,7 +338,7 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
             return null;
         }
 
-        if (RegexValidateUtils.getOrderByIndex(finder.getSql()) < 0) {
+        if (!finder.getSqlPartCache().getOrderBy().exists()) {
             finder.append(" order by ").append(order);
         }
         if (StringUtils.isBlank(sort)) {
@@ -437,11 +442,13 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
                 if ((!"asc".equals(_sort)) && (!"desc".equals(_sort))) {// 如果不是asc 也不是desc
                     _sort = "";
                 }
-                int orderIndex = RegexValidateUtils.getOrderByIndex(sql);
-                if (orderIndex > 0) {
-                    sql = sql.substring(0, orderIndex);
+                int orderByStart = finder.getSqlPartCache().getOrderBy().getStart();
+                if (orderByStart > 0 && orderByStart <= sql.length()) {
+                    sql = sql.substring(0, orderByStart);
                 }
                 sql = sql + " order by " + _order + " " + _sort;
+                finder.setSql(sql);
+                sql = finder.getSql();
             }
 
         }
@@ -449,36 +456,41 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
 
         // 如果不需要查询总条数
         if (!page.getSelectpagecount()) {
-            return getDialect().getPageSql(sql, page);
+            return getDialect().getPageSql(finder, page);
         }
 
         Integer count;
 
         if (finder.getCountFinder() == null) {
-            String countSql = sql;
-            int order_int = RegexValidateUtils.getOrderByIndex(countSql);
-            if (order_int > 1) {
-                countSql = countSql.substring(0, order_int);
+            String countsql = finder.getSql();
+            SqlPart sqlPart = finder.getSqlPartCache();
+
+            if (sqlPart.getOrderBy().exists()) {
+                countsql = countsql.substring(0, sqlPart.getOrderBy().getStart());
             }
 
-            // 特殊关键字过滤, distinct ,union ,group by
-            if (countSql.toLowerCase().indexOf(" distinct ") > -1 || countSql.toLowerCase().indexOf(" union ") > -1
-                    || RegexValidateUtils.getGroupByIndex(countSql) > -1) {
-                countSql = "SELECT COUNT(*)  frame_row_count FROM (" + countSql
-                        + ") temp_frame_noob_table_name WHERE 1=1 ";
+            boolean hasGroupBy = sqlPart.getGroupBy().exists();
+            boolean hasIntersect = sqlPart.getIntersect().exists();
+            boolean hasExcept = sqlPart.getExcept().exists();
+            boolean hasDistinct = sqlPart.getDistinct().exists();
+            boolean hasUnion = sqlPart.getUnion().exists();
+
+            StringBuilder sqlBuilder = new StringBuilder();
+            if (hasGroupBy || hasDistinct || hasUnion || hasIntersect || hasExcept) {
+                sqlBuilder.append("SELECT COUNT(*) AS frame_row_count FROM (");
+                sqlBuilder.append(countsql);
+                sqlBuilder.append(") temp_frame_noob_table_name WHERE 1=1 ");
             } else {
-                int fromIndex = RegexValidateUtils.getSelectFromIndex(countSql);
-                if (fromIndex > -1) {
-                    countSql = "SELECT COUNT(*) " + countSql.substring(fromIndex);
-                } else {
-                    countSql = "SELECT COUNT(*)  frame_row_count FROM (" + countSql
-                            + ") temp_frame_noob_table_name WHERE 1=1 ";
+                SqlSpan from = sqlPart.getFrom();
+                if (!from.exists()) {
+                    throw new Exception("->getPageSql-->没有 FROM 关键字, 语句错误");
                 }
-
+                sqlBuilder.append("SELECT COUNT(*) ");
+                sqlBuilder.append(countsql.substring(from.getStart()));
             }
-
+            countsql = sqlBuilder.toString();
             // count = getReadJdbc().queryForInt(countSql, paramMap);
-            count = getReadJdbc().queryForObject(countSql, paramMap, Integer.class);
+            count = getReadJdbc().queryForObject(countsql, paramMap, Integer.class);
         } else {
             count = queryForObject(finder.getCountFinder(), Integer.class);
         }
@@ -488,8 +500,9 @@ public abstract class BaseJdbcDaoImpl implements IBaseJdbcDao {
         } else {
             page.setTotalCount(count);
         }
-        return getDialect().getPageSql(sql, page);
+        return getDialect().getPageSql(finder, page);
     }
+
 
     @Override
     public <T> T queryForObject(Finder finder, Class<T> clazz) throws Exception {

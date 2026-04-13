@@ -1,14 +1,19 @@
 package org.springrain.frame.dao.dialect;
 
 import org.springframework.stereotype.Component;
+import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.Page;
-import org.springrain.frame.util.RegexValidateUtils;
 
 @Component("mssqlDialect")
 public class MssqlDialect implements IDialect {
 
     @Override
-    public String getPageSql(String sql, Page page) {
+    public String getPageSql(Finder finder, Page page) throws Exception {
+        return buildPageSql(finder.getSql(), page, finder.getSqlPartCache().getOrderBy().exists());
+    }
+
+
+    private String buildPageSql(String sql, Page page, boolean hasOrderBy) {
         // 设置分页参数
         int pageSize = page.getPageSize();
         int pageNo = page.getPageNo();
@@ -35,8 +40,7 @@ public class MssqlDialect implements IDialect {
          */
         StringBuilder sb = new StringBuilder();
         sb.append(sql);
-        int orderIndex = RegexValidateUtils.getOrderByIndex(sql);
-        if (orderIndex < 0) {//不存在order by
+        if (!hasOrderBy) {//不存在order by
             sb.append(" ORDER BY (SELECT NULL) ");
         }
         sb.append(" OFFSET ").append(pageSize * (pageNo - 1)).append(" ROWS FETCH NEXT ").append(pageSize).append(" ROWS ONLY ");
@@ -45,13 +49,13 @@ public class MssqlDialect implements IDialect {
     }
 
     @Override
-    public String getDataBaseType() {
+    public String getDialect() {
         return "mssql";
     }
 
     @Override
     public boolean isRowNumber() {
-        return true;
+        return false;
     }
 
 }

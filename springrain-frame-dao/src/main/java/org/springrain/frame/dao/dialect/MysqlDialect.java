@@ -1,17 +1,18 @@
 package org.springrain.frame.dao.dialect;
 
 import org.springframework.stereotype.Component;
+import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.Page;
 
 @Component("mysqlDialect")
 public class MysqlDialect implements IDialect {
 
     @Override
-    public String getPageSql(String sql, Page page) {
+    public String getPageSql(Finder finder, Page page) throws Exception {
         // 设置分页参数
         int pageSize = page.getPageSize();
         int pageNo = page.getPageNo();
-        StringBuilder sb = new StringBuilder(sql);
+        StringBuilder sb = new StringBuilder(finder.getSql());
         /*
         if (StringUtils.isNotBlank(orderby)) {
             sb.append(" ").append(orderby);
@@ -22,7 +23,7 @@ public class MysqlDialect implements IDialect {
     }
 
     @Override
-    public String getDataBaseType() {
+    public String getDialect() {
         return "mysql";
     }
 

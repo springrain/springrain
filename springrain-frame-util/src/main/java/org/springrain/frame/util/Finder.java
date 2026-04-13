@@ -1,6 +1,8 @@
 package org.springrain.frame.util;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springrain.frame.util.sqlparser.SqlPart;
+import org.springrain.frame.util.sqlparser.SqlScanner;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +17,7 @@ import java.util.Map;
 public final class Finder {
     private Map<String, Object> params = new HashMap<>();
     private StringBuilder sql = new StringBuilder();
+    private String sqlstr = null;
     // private String countSql=null;
     // 存储过程
     private String procName = null;
@@ -24,6 +27,8 @@ public final class Finder {
     private String pageSql = null;
     // 设置总条数查询的finder
     private Finder countFinder = null;
+    // SQL 解析结果缓存,避免重复解析
+    private SqlPart sqlPartCache = null;
 
     // 默认进行sql编码,处理字符串的拼接注入
     private Boolean escapeSql = true;
@@ -135,6 +140,8 @@ public final class Finder {
      */
     public Finder append(String s) {
         sql.append(s);
+        sqlstr = null;
+        sqlPartCache = null;
         return this;
     }
 
@@ -150,7 +157,8 @@ public final class Finder {
             return this;
         }
         sql.append(f.getSql());
-
+        sqlstr = null;
+        sqlPartCache = null;
         getParams().putAll(f.getParams());
 
         return this;
@@ -177,19 +185,26 @@ public final class Finder {
      */
 
     public String getSql() throws Exception {
-        if (sql == null)
+        if (sql == null) {
             return null;
+        }
+        if (sqlstr != null) {
+            return sqlstr;
+        }
 
-        String _sql = sql.toString();
-        if (isEscapeSql() && _sql.contains("'")) {
+        sqlstr = sql.toString();
+        if (isEscapeSql() && sqlstr.contains("'")) {
             throw new Exception(
                     "SQL语句请不要直接拼接字符串参数!!!使用标准的占位符实现,例如  finder.append(' and id=:id').setParam('id',_id);  ");
         }
-        return _sql;
+        sqlPartCache = new SqlScanner(sqlstr).parse();
+        return sqlstr;
     }
 
     public void setSql(String sql) {
         this.sql = new StringBuilder(sql);
+        this.sqlstr = null;
+        this.sqlPartCache = null;
     }
 
 
@@ -228,6 +243,11 @@ public final class Finder {
 
     public void setCountFinder(Finder countFinder) {
         this.countFinder = countFinder;
+    }
+
+    public SqlPart getSqlPartCache() throws Exception {
+        getSql();
+        return sqlPartCache;
     }
 
     public Boolean isEscapeSql() {

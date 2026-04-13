@@ -1,19 +1,20 @@
 package org.springrain.frame.dao.dialect;
 
 import org.springframework.stereotype.Component;
+import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.Page;
 
 @Component("informixDialect")
 public class InformixDialect implements IDialect {
 
     @Override
-    public String getPageSql(String sql, Page page) {
+    public String getPageSql(Finder finder, Page page) throws Exception {
         // 设置分页参数
         int pageSize = page.getPageSize();
         int pageNo = page.getPageNo();
 
         // 去掉无用的空格
-        sql = sql.trim();
+        String sql = finder.getSql().trim();
         // 去掉select
         if (sql.toLowerCase().startsWith("select")) {
             sql = sql.substring(6);
@@ -33,7 +34,7 @@ public class InformixDialect implements IDialect {
     }
 
     @Override
-    public String getDataBaseType() {
+    public String getDialect() {
         return "informix";
     }
 

@@ -4,24 +4,27 @@
 
 package org.springrain.frame.dao.dialect;
 
+import org.springrain.frame.util.Finder;
 import org.springrain.frame.util.Page;
 
 public interface IDialect {
     /**
      * 得到分页语句
      *
-     * @param sql  正常的select 语句,没有order by
+     * @param finder 查询的finder
      * @param page 分页对象
      * @return
      */
-    String getPageSql(String sql, Page page);
+    String getPageSql(Finder finder, Page page) throws Exception;
+
+
 
     /**
-     * 获取数据库类型
+     * 获取数据库方言
      *
      * @return
      */
-    String getDataBaseType();
+    String getDialect();
 
     /**
      * 是否包含 rownum 列
