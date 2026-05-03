@@ -16,7 +16,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.0.5</version>
+        <version>4.0.6</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -38,8 +38,8 @@
 
         <commons-pool2.version>2.13.1</commons-pool2.version>
         <commons-collections4.version>4.5.0</commons-collections4.version>
-        <commons-io.version>2.21.0</commons-io.version>
-        <commons-codec.version>1.21.0</commons-codec.version>
+        <commons-io.version>2.22.0</commons-io.version>
+        <commons-codec.version>1.22.0</commons-codec.version>
         <commons-beanutils.version>1.11.0</commons-beanutils.version>
         <commons-fileupload.version>1.6.0</commons-fileupload.version>
         <commons-text.version>1.15.0</commons-text.version>
@@ -52,10 +52,10 @@
         <javax.annotation.version>1.3.2</javax.annotation.version>
         <!-- lucene版本和es的依赖版本最好保持一致,避免冲突 -->
         <lucene.version>10.3.2</lucene.version>
-        <elasticsearch.client.version>9.3.2</elasticsearch.client.version>
+        <elasticsearch.client.version>9.3.4</elasticsearch.client.version>
 
         <!-- 建议使用 redis stream实现MQ,比较简单 -->
-        <rocketmq.client.version>5.4.0</rocketmq.client.version>
+        <rocketmq.client.version>5.5.0</rocketmq.client.version>
         <jxl.version>2.6.12</jxl.version>
         <poi.version>5.5.1</poi.version>
         <!--
@@ -64,27 +64,27 @@
         -->
 
         <!-- gRPC -->
-        <io.grpc.version>1.80.0</io.grpc.version>
+        <io.grpc.version>1.81.0</io.grpc.version>
         <kr.motd.maven.version>1.7.1</kr.motd.maven.version>
         <!--
         <io.protostuff.version>1.8.0</io.protostuff.version>
         -->
 
         <zxing.version>3.5.4</zxing.version>
-        <jsoup.version>1.22.1</jsoup.version>
+        <jsoup.version>1.22.2</jsoup.version>
         <xstream.version>1.4.21</xstream.version>
         <druid-spring-boot-starter.version>1.2.28</druid-spring-boot-starter.version>
         <clickhouse-jdbc.version>0.9.8</clickhouse-jdbc.version>
-        <jwt.version>4.5.1</jwt.version>
+        <jwt.version>4.5.2</jwt.version>
 
         <!--3.x版本依赖jdk 14 -->
         <!--
         <fst.version>3.0.4-jdk17</fst.version>
         -->
-        <fory.version>0.16.0</fory.version>
-        <guava.version>33.5.0-jre</guava.version>
+        <fory.version>0.17.0</fory.version>
+        <guava.version>33.6.0-jre</guava.version>
 
-        <bcprov.version>1.83</bcprov.version>
+        <bcprov.version>1.84</bcprov.version>
 
         <!-- seata分布式事务 -->
         <seata.version>2.6.0</seata.version>
